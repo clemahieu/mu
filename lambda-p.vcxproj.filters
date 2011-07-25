@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="lambda_p\core\function.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda_p\core\node.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda_p\core\statement.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda_p\core\body.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda_p\serialization\simple.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lambda_p\core\function.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\core\node.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\core\statement.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\core\body.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\serialization\simple.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{0fec4cae-08e7-47e9-9348-3f4441aea61a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization">
+      <UniqueIdentifier>{30e325db-0739-4add-8e93-6657e9cb9d13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

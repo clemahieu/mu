@@ -1,0 +1,12 @@
+/*.opensdf
+/*.suo
+/*.vsmdi
+/*.sdf
+obj/
+bin/
+TestResults/
+*.user
+.svn/
+Debug/
+Release/
+ipch/
