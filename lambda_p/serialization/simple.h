@@ -28,7 +28,7 @@ namespace lambda_p
 			{
 				*target << routine_a->name;
 				*target << "\n";
-				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> >::iterator i = routine_a->external_m.begin (); i != routine_a->external_m.end (); ++i)
+				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> >::iterator i = routine_a->surface.begin (); i != routine_a->surface.end (); ++i)
 				{
 					*target << " ";
 					node (*i);
@@ -36,6 +36,7 @@ namespace lambda_p
 				}
 				*target << ".\n";
 				body (routine_a->body);
+				*target << ".\n";
 			}
 			void body (::boost::shared_ptr < ::lambda_p::core::body> body_a)
 			{
@@ -47,9 +48,7 @@ namespace lambda_p
 			void statement (::boost::shared_ptr < ::lambda_p::core::statement> statement_a)
 			{
 				*target << " ";
-				node (statement_a->name);
-				*target << "\n  ";
-				*target << statement_a->target->name;
+				node (statement_a->target);
 				*target << "\n";
 				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> >::iterator i = statement_a->connections.begin (); i != statement_a->connections.end (); ++i)
 				{
@@ -57,7 +56,7 @@ namespace lambda_p
 					node (*i);
 					*target << "\n";
 				}
-				*target << ".\n";
+				*target << " .\n";
 			}
 			void node (::boost::shared_ptr < ::lambda_p::core::node> node_a)
 			{

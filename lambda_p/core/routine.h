@@ -19,8 +19,7 @@ namespace lambda_p
 			routine (::std::string name_a);
 			~routine (void);
 			::std::string name;
-			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > external_m;
-			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > internal_m;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > surface;
 			::boost::shared_ptr < ::lambda_p::core::body> body;
 		};
 	}

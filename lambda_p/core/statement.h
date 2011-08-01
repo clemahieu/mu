@@ -14,9 +14,8 @@ namespace lambda_p
 		class statement
 		{
 		public:
-			statement (::std::string name_a, ::boost::shared_ptr < ::lambda_p::core::node> target_a);
+			statement (::boost::shared_ptr < ::lambda_p::core::node> target_a);
 			~statement (void);
-			::boost::shared_ptr < ::lambda_p::core::node> name;
 			::boost::shared_ptr < ::lambda_p::core::node> target;
 			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > connections;
 		};
