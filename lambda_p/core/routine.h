@@ -13,16 +13,15 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class function
+		class routine
 		{
 		public:
-			function (void);
-			~function (void);
+			routine (::std::string name_a);
+			~routine (void);
 			::std::string name;
-			::std::vector <::lambda_p::core::node> input;
-			::std::vector <::lambda_p::core::node> output;
-			::std::vector <::lambda_p::core::node> internal_m;
-			::lambda_p::core::body body;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > external_m;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > internal_m;
+			::boost::shared_ptr < ::lambda_p::core::body> body;
 		};
 	}
 }

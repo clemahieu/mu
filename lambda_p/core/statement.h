@@ -14,12 +14,11 @@ namespace lambda_p
 		class statement
 		{
 		public:
-			statement (void);
+			statement (::std::string name_a, ::boost::shared_ptr < ::lambda_p::core::node> target_a);
 			~statement (void);
-			::std::string name;
-			::boost::shared_ptr <::lambda_p::core::node*> target;
-			::std::vector <::lambda_p::core::node*> input;
-			::std::vector <::lambda_p::core::node*> output;
+			::boost::shared_ptr < ::lambda_p::core::node> name;
+			::boost::shared_ptr < ::lambda_p::core::node> target;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > connections;
 		};
 	}
 }

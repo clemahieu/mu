@@ -9,7 +9,7 @@ namespace lambda_p
 		class node
 		{
 		public:
-			node (void);
+			node (::std::string name_a);
 			~node (void);
 			::std::string name;
 		};

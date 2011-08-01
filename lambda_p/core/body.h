@@ -13,7 +13,7 @@ namespace lambda_p
 		public:
 			body (void);
 			~body (void);
-			::std::vector <::lambda_p::core::statement> statements;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::core::statement> > statements;
 		};
 	}
 }
