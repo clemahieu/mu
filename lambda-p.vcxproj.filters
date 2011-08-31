@@ -7,27 +7,33 @@
     <ClInclude Include="lambda_p\core\statement.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="lambda_p\core\body.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="lambda_p\serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
     <ClInclude Include="lambda_p\core\routine.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="lambda_p\core\data.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda_p\core\identifier.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lambda_p\core\node.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="lambda_p\core\statement.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\body.cpp">
+    <ClCompile Include="lambda_p\core\routine.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\routine.cpp">
+    <ClCompile Include="lambda_p\core\data.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\core\node.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda_p\core\identifier.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

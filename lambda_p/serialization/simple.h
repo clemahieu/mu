@@ -5,9 +5,9 @@
 #include <boost/algorithm/string/replace.hpp>
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/core/body.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
+#include <lambda_p/core/data.h>
 
 namespace lambda_p
 {
@@ -17,53 +17,55 @@ namespace lambda_p
 		class simple
 		{
 		public:
-			simple (::boost::shared_ptr < stream_type> target_a)
+			simple (stream_type & target_a)
 				: target (target_a)
 			{
 			}
 			~simple (void)
 			{
 			}
-			void routine (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
+			void routine (::lambda_p::core::routine const * routine_a)
 			{
-				*target << routine_a->name;
-				*target << "\n";
-				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> >::iterator i = routine_a->surface.begin (); i != routine_a->surface.end (); ++i)
+				node (&routine_a->declaration);
+				target << "\n";
+				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = routine_a->parameters.begin (); i != routine_a->parameters.end (); ++i)
 				{
-					*target << " ";
+					target << " ";
 					node (*i);
-					*target << "\n";
+					target << "\n";
 				}
-				*target << ".\n";
-				body (routine_a->body);
-				*target << ".\n";
-			}
-			void body (::boost::shared_ptr < ::lambda_p::core::body> body_a)
-			{
-				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::statement> >::iterator i = body_a->statements.begin (); i != body_a->statements.end (); ++i)
+				target << ";;\n";
+				for (::std::vector < ::lambda_p::core::statement>::const_iterator i = routine_a->body.begin (); i != routine_a->body.end (); ++i)
 				{
-					statement (*i);
+					statement (&(*i));
 				}
+				target << ";.\n\n";
 			}
-			void statement (::boost::shared_ptr < ::lambda_p::core::statement> statement_a)
+			void statement (::lambda_p::core::statement const * statement_a)
 			{
-				*target << " ";
+				target << "  ";
+				node (statement_a->declaration);
+				target << "\n";
+				target << "  ";
 				node (statement_a->target);
-				*target << "\n";
-				for (::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> >::iterator i = statement_a->connections.begin (); i != statement_a->connections.end (); ++i)
+				target << "\n";
+				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->arguments.begin (); i != statement_a->arguments.end (); ++i)
 				{
-					*target << "  ";
+					target << "  ";
 					node (*i);
-					*target << "\n";
+					target << " ";
 				}
-				*target << " .\n";
+				target << ";;\n";
 			}
-			void node (::boost::shared_ptr < ::lambda_p::core::node> node_a)
+			void node (::lambda_p::core::node const * node_a)
 			{
-				::std::string escaped = ::boost::algorithm::replace_all_copy (node_a->name, ".", ".\\");
-				*target << escaped;
+				target << node_a;
 			}
-			::boost::shared_ptr < stream_type> target;
+			void data (::lambda_p::core::data const * data_a)
+			{
+				target << data_a->item;
+			}
+			stream_type & target;
 		};
 	}
 }

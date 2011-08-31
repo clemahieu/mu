@@ -9,9 +9,8 @@ namespace lambda_p
 		class node
 		{
 		public:
-			node (::std::string name_a);
+			node ();
 			~node (void);
-			::std::string name;
 		};
 	}
 }

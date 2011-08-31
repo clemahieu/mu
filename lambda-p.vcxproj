@@ -111,14 +111,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="lambda_p\core\body.h" />
+    <ClInclude Include="lambda_p\core\data.h" />
+    <ClInclude Include="lambda_p\core\identifier.h" />
     <ClInclude Include="lambda_p\core\routine.h" />
     <ClInclude Include="lambda_p\core\node.h" />
     <ClInclude Include="lambda_p\core\statement.h" />
     <ClInclude Include="lambda_p\serialization\simple.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lambda_p\core\body.cpp" />
+    <ClCompile Include="lambda_p\core\data.cpp" />
+    <ClCompile Include="lambda_p\core\identifier.cpp" />
     <ClCompile Include="lambda_p\core\routine.cpp" />
     <ClCompile Include="lambda_p\core\node.cpp" />
     <ClCompile Include="lambda_p\core\statement.cpp" />

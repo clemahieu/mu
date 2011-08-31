@@ -7,7 +7,6 @@
 
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/body.h>
 
 namespace lambda_p
 {
@@ -16,11 +15,12 @@ namespace lambda_p
 		class routine
 		{
 		public:
-			routine (::std::string name_a);
+			routine ();
 			~routine (void);
-			::std::string name;
-			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > surface;
-			::boost::shared_ptr < ::lambda_p::core::body> body;
+			::lambda_p::core::node declaration;
+			::std::vector < ::lambda_p::core::node *> parameters;
+			::std::vector < ::lambda_p::core::statement> body;
+			::std::vector < ::lambda_p::core::identifier> identifiers;
 		};
 	}
 }

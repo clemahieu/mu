@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <lambda_p/core/node.h>
+#include <lambda_p/core/identifier.h>
 
 namespace lambda_p
 {
@@ -14,10 +15,11 @@ namespace lambda_p
 		class statement
 		{
 		public:
-			statement (::boost::shared_ptr < ::lambda_p::core::node> target_a);
+			statement (::lambda_p::core::identifier * declaration_a, ::lambda_p::core::identifier * target_a);
 			~statement (void);
-			::boost::shared_ptr < ::lambda_p::core::node> target;
-			::std::vector < ::boost::shared_ptr < ::lambda_p::core::node> > connections;
+			::lambda_p::core::identifier * declaration;
+			::lambda_p::core::identifier * target;
+			::std::vector < ::lambda_p::core::node *> arguments;
 		};
 	}
 }
