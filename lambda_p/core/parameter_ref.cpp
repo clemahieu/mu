@@ -10,8 +10,9 @@
 
 #include <lambda_p/core/routine.h>
 
-lambda_p::core::parameter_ref::parameter_ref (::lambda_p::core::routine & routine_a)
-: routine (routine_a)
+lambda_p::core::parameter_ref::parameter_ref (::lambda_p::core::routine & routine_a, size_t index_a)
+: routine (routine_a),
+index (index_a)
 {
 }
 
@@ -19,8 +20,22 @@ lambda_p::core::parameter_ref::~parameter_ref ()
 {
 }
 
-bool lambda_p::core::parameter_ref::valid ()
+void lambda_p::core::parameter_ref::validate (::std::iostream & problems)
 {
-    bool result (routine.parameters > index);
-    return result;
+    bool valid (routine.parameters > index);
+	if (valid)
+	{
+	}
+	else
+	{
+		problems << "parameter_ref :";
+		problems << this;
+		problems << " referencing routine:";
+		problems << &routine;
+		problems << " references a parameter: ";
+		problems << index;
+		problems << " that is greater than the max: ";
+		problems << routine.parameters - 1;
+		problems << "\n";
+	}
 }

@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstring>
+#include <iostream>
 
 #include <lambda_p/core/node.h>
 
@@ -20,9 +21,10 @@ namespace lambda_p
         class result_ref : public node
         {
         public:
-            result_ref (::lambda_p::core::routine & routine_a);
+            result_ref (::lambda_p::core::routine & routine_a, size_t statement_a, size_t index_a);
             ~result_ref ();
-            bool valid ();
+            void validate (::std::iostream & problems);
+		private:
             ::lambda_p::core::routine & routine;
             size_t statement;
             size_t index;

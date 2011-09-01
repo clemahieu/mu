@@ -23,6 +23,9 @@ void lambda_p_test::simple_test_1::run ()
 
 void lambda_p_test::simple_test_1::run_1 ()
 {
+	::lambda_p::core::routine routine (0);
+	::std::stringstream target;
+	::lambda_p::serialization::simple < ::std::stringstream> serializer (target);	
 }
 
 void lambda_p_test::simple_test_1::run_2 ()

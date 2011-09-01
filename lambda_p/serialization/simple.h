@@ -10,6 +10,7 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/parameter_ref.h>
 #include <lambda_p/core/result_ref.h>
+#include <lambda_p/core/result.h>
 
 #include <vector>
 
@@ -75,15 +76,19 @@ namespace lambda_p
             void parameter_ref (::lambda_p::core::parameter_ref const * parameter_ref_a)
             {
                 target << &parameter_ref_a->routine;
-                target << " ";
+                target << " ;, ";
                 target << parameter_ref_a->index;
             }
             void result_ref (::lambda_p::core::result_ref const * result_ref_a)
             {
                 target << result_ref_a->statement;
-                target << " ";
+                target << " ;, ";
                 target << result_ref_a->index;
             }
+			void result (::lambda_p::core::result const * result_a)
+			{
+				
+			}
 			stream_type & target;
 		};
 	}

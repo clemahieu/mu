@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 namespace lambda_p
 {
 	namespace core
@@ -8,7 +10,8 @@ namespace lambda_p
 		{
 		public:
 			node ();
-			virtual ~node (void);
+			~node (void);
+            virtual void validate (::std::iostream & problems) = 0;
 		};
 	}
 }

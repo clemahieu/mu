@@ -133,7 +133,7 @@
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\statement.h" />
-    <ClInclude Include="lambda_p\serialization\simple.h" />
+    <ClInclude Include="serialization\simple.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp" />
