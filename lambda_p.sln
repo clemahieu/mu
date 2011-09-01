@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda-p", "lambda-p.vcxproj", "{BF0B29D9-E099-454D-A28C-3625309A182D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p", "lambda_p\lambda_p.vcxproj", "{BF0B29D9-E099-454D-A28C-3625309A182D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda-p_test", "lambda-p_test\lambda-p_test.vcxproj", "{92FA64F4-0618-4602-B59C-7B12016BDC03}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test", "lambda_p_test\lambda_p_test.vcxproj", "{92FA64F4-0618-4602-B59C-7B12016BDC03}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,7 +30,8 @@ Global
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Debug|x64.Build.0 = Debug|x64
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|Win32.ActiveCfg = Release|Win32
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|Win32.Build.0 = Release|Win32
-		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|x64.ActiveCfg = Release|Win32
+		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|x64.ActiveCfg = Release|x64
+		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

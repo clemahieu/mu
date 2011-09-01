@@ -1,11 +1,7 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
 #include <vector>
-#include <string>
 
-#include <lambda_p/core/node.h>
 #include <lambda_p/core/statement.h>
 
 namespace lambda_p
@@ -18,7 +14,7 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			size_t parameters;
-			size_t statements;
+			::std::vector < ::lambda_p::core::statement> statements;
 		};
 	}
 }

@@ -17,11 +17,11 @@ namespace lambda_p
     namespace core
     {
         class routine;
-        class results_ref : public node
+        class result_ref : public node
         {
         public:
-            results_ref (::lambda_p::core::routine & routine_a);
-            ~results_ref ();
+            result_ref (::lambda_p::core::routine & routine_a);
+            ~result_ref ();
             bool valid ();
             ::lambda_p::core::routine & routine;
             size_t statement;

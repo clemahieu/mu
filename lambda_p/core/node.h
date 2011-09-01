@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace lambda_p
 {
 	namespace core
@@ -10,7 +8,7 @@ namespace lambda_p
 		{
 		public:
 			node ();
-			~node (void);
+			virtual ~node (void);
 		};
 	}
 }

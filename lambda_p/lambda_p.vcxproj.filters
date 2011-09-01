@@ -1,39 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="lambda_p\core\node.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="lambda_p\core\statement.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="lambda_p\serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
-    <ClInclude Include="lambda_p\core\routine.h">
+    <ClInclude Include="core\parameter_ref.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="lambda_p\core\data.h">
+    <ClInclude Include="core\statement.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="lambda_p\core\identifier.h">
+    <ClInclude Include="core\routine.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\node.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\data.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\result.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\result_ref.h">
       <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lambda_p\core\statement.cpp">
+    <ClCompile Include="core\parameter_ref.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\routine.cpp">
+    <ClCompile Include="core\statement.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\data.cpp">
+    <ClCompile Include="core\routine.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\node.cpp">
+    <ClCompile Include="core\node.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lambda_p\core\identifier.cpp">
+    <ClCompile Include="core\data.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\result.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\result_ref.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

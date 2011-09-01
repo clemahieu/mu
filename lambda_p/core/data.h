@@ -4,6 +4,7 @@
 
 #include <lambda_p/core/node.h>
 
+#include <boost/cstdint.hpp>
 #include <boost/shared_array.hpp>
 
 namespace lambda_p

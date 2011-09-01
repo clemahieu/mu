@@ -9,7 +9,7 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/parameter_ref.h>
-#include <lambda_p/core/results_ref.h>
+#include <lambda_p/core/result_ref.h>
 
 #include <vector>
 
@@ -78,7 +78,7 @@ namespace lambda_p
                 target << " ";
                 target << parameter_ref_a->index;
             }
-            void results_ref (::lambda_p::core::results_ref const * results_ref_a)
+            void result_ref (::lambda_p::core::result_ref const * result_ref_a)
             {
                 target << result_ref_a->statement;
                 target << " ";
