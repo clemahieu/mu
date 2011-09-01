@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D473AC91410418100455A7E /* result_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D473AC51410418100455A7E /* result_ref.cpp */; };
+		4D473ACA1410418100455A7E /* result_ref.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D473AC61410418100455A7E /* result_ref.h */; };
+		4D473ACB1410418100455A7E /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D473AC71410418100455A7E /* result.cpp */; };
+		4D473ACC1410418100455A7E /* result.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D473AC81410418100455A7E /* result.h */; };
 		CF7596EA140F1BD0001EDBB9 /* data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E0140F1BD0001EDBB9 /* data.cpp */; };
 		CF7596EB140F1BD0001EDBB9 /* data.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596E1140F1BD0001EDBB9 /* data.h */; };
 		CF7596EE140F1BD0001EDBB9 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E4140F1BD0001EDBB9 /* node.cpp */; };
@@ -18,11 +22,13 @@
 		CF7596F6140F1BE2001EDBB9 /* simple.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596F5140F1BE2001EDBB9 /* simple.h */; };
 		CF7596FC140F2401001EDBB9 /* parameter_ref.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596FB140F2401001EDBB9 /* parameter_ref.h */; };
 		CF7596FE140F2413001EDBB9 /* parameter_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596FD140F2413001EDBB9 /* parameter_ref.cpp */; };
-		CF759700140F2C67001EDBB9 /* results_ref.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596FF140F2C67001EDBB9 /* results_ref.h */; };
-		CF759704140F2CB8001EDBB9 /* results_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF759703140F2CB7001EDBB9 /* results_ref.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D473AC51410418100455A7E /* result_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result_ref.cpp; path = core/result_ref.cpp; sourceTree = "<group>"; };
+		4D473AC61410418100455A7E /* result_ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result_ref.h; path = core/result_ref.h; sourceTree = "<group>"; };
+		4D473AC71410418100455A7E /* result.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result.cpp; path = core/result.cpp; sourceTree = "<group>"; };
+		4D473AC81410418100455A7E /* result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result.h; path = core/result.h; sourceTree = "<group>"; };
 		CF7596BB140F1AC6001EDBB9 /* liblambda_p.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7596E0140F1BD0001EDBB9 /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = data.cpp; path = core/data.cpp; sourceTree = "<group>"; };
 		CF7596E1140F1BD0001EDBB9 /* data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = data.h; path = core/data.h; sourceTree = "<group>"; };
@@ -35,8 +41,6 @@
 		CF7596F5140F1BE2001EDBB9 /* simple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple.h; path = serialization/simple.h; sourceTree = "<group>"; };
 		CF7596FB140F2401001EDBB9 /* parameter_ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parameter_ref.h; path = core/parameter_ref.h; sourceTree = "<group>"; };
 		CF7596FD140F2413001EDBB9 /* parameter_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parameter_ref.cpp; path = core/parameter_ref.cpp; sourceTree = "<group>"; };
-		CF7596FF140F2C67001EDBB9 /* results_ref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = results_ref.h; path = core/results_ref.h; sourceTree = "<group>"; };
-		CF759703140F2CB7001EDBB9 /* results_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = results_ref.cpp; path = core/results_ref.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,10 @@
 		CF7596DF140F1BBC001EDBB9 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				4D473AC51410418100455A7E /* result_ref.cpp */,
+				4D473AC61410418100455A7E /* result_ref.h */,
+				4D473AC71410418100455A7E /* result.cpp */,
+				4D473AC81410418100455A7E /* result.h */,
 				CF7596E0140F1BD0001EDBB9 /* data.cpp */,
 				CF7596E1140F1BD0001EDBB9 /* data.h */,
 				CF7596E4140F1BD0001EDBB9 /* node.cpp */,
@@ -80,8 +88,6 @@
 				CF7596E9140F1BD0001EDBB9 /* statement.h */,
 				CF7596FB140F2401001EDBB9 /* parameter_ref.h */,
 				CF7596FD140F2413001EDBB9 /* parameter_ref.cpp */,
-				CF7596FF140F2C67001EDBB9 /* results_ref.h */,
-				CF759703140F2CB7001EDBB9 /* results_ref.cpp */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -107,7 +113,8 @@
 				CF7596F3140F1BD0001EDBB9 /* statement.h in Headers */,
 				CF7596F6140F1BE2001EDBB9 /* simple.h in Headers */,
 				CF7596FC140F2401001EDBB9 /* parameter_ref.h in Headers */,
-				CF759700140F2C67001EDBB9 /* results_ref.h in Headers */,
+				4D473ACA1410418100455A7E /* result_ref.h in Headers */,
+				4D473ACC1410418100455A7E /* result.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +170,8 @@
 				CF7596F0140F1BD0001EDBB9 /* routine.cpp in Sources */,
 				CF7596F2140F1BD0001EDBB9 /* statement.cpp in Sources */,
 				CF7596FE140F2413001EDBB9 /* parameter_ref.cpp in Sources */,
-				CF759704140F2CB8001EDBB9 /* results_ref.cpp in Sources */,
+				4D473AC91410418100455A7E /* result_ref.cpp in Sources */,
+				4D473ACB1410418100455A7E /* result.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +199,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
 					..,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 				);
@@ -215,6 +224,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
 					..,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 				);
@@ -258,6 +268,7 @@
 				CF7596C1140F1AC6001EDBB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

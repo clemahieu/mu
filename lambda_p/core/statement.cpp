@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/routine.h>
 
-lambda_p::core::statement::statement (::lambda_p::core::routine & routine_a, size_t index_a)
+lambda_p::core::statement::statement (::lambda_p::core::routine * routine_a, size_t index_a)
 : routine (routine_a),
 index (index_a)
 {
@@ -14,11 +14,11 @@ lambda_p::core::statement::~statement (void)
 
 void lambda_p::core::statement::validate (::std::iostream & problems)
 {
-	size_t statement_size (routine.statements.size ());
+	size_t statement_size (routine->statements.size ());
 	bool valid (statement_size > index);
 	if (valid)
 	{
-		if (&routine.statements [index] != this)
+		if (&routine->statements [index] != this)
 		{
 			problems << "statement: ";
 			problems << this;

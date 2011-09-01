@@ -12,7 +12,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/result.h>
 
-lambda_p::core::result_ref::result_ref (::lambda_p::core::routine & routine_a, size_t statement_a, size_t index_a)
+lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t statement_a, size_t index_a)
 : routine (routine_a),
 statement (statement_a),
 index (index_a)
@@ -25,15 +25,15 @@ lambda_p::core::result_ref::~result_ref ()
 
 void lambda_p::core::result_ref::validate (::std::iostream & problems)
 {
-	size_t statements_size (routine.statements.size ());
+	size_t statements_size (routine->statements.size ());
     bool valid (statements_size > statement);
     if (valid)
     {
-		size_t arguments_size (routine.statements [statement].arguments.size ());
+		size_t arguments_size (routine->statements [statement].arguments.size ());
 		valid = arguments_size > index;
 		if (valid)
 		{
-			valid = dynamic_cast < ::lambda_p::core::result *> (routine.statements [statement].arguments [index]) != NULL;
+			valid = dynamic_cast < ::lambda_p::core::result *> (routine->statements [statement].arguments [index]) != NULL;
 			if (valid)
 			{
 			}
