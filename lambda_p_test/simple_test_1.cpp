@@ -43,8 +43,7 @@ void lambda_p_test::simple_test_1::run_3 ()
 	::std::stringstream target;
 	::lambda_p::serialization::simple < ::std::stringstream> serializer (target);	
 	::lambda_p::core::routine routine;
-	routine.identifiers.push_back (::lambda_p::core::identifier ());
-	routine.parameters.push_back (&(routine.identifiers [0]));
+	routine.parameters = 1;
 	serializer.routine (&routine);
 	::std::string str (target.str ());
 	assert (true);

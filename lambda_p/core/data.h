@@ -4,6 +4,8 @@
 
 #include <lambda_p/core/node.h>
 
+#include <boost/shared_array.hpp>
+
 namespace lambda_p
 {
 	namespace core
@@ -13,7 +15,8 @@ namespace lambda_p
 		public:
 			data(void);
 			~data(void);
-			::std::wstring item;
+			::boost::shared_array <uint8_t> item;
+            size_t size;
 		};
 	}
 }

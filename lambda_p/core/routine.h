@@ -17,10 +17,8 @@ namespace lambda_p
 		public:
 			routine ();
 			~routine (void);
-			::lambda_p::core::node declaration;
-			::std::vector < ::lambda_p::core::node *> parameters;
-			::std::vector < ::lambda_p::core::statement> body;
-			::std::vector < ::lambda_p::core::identifier> identifiers;
+			size_t parameters;
+			size_t statements;
 		};
 	}
 }

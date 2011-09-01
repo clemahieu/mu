@@ -1,4 +1,4 @@
-#include <lambda-p_test/simple_test_1.h>
+#include <lambda_p_test/simple_test_1.h>
 
 using namespace lambda_p_test;
 

@@ -13,10 +13,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4D473AB1140F116400455A7E"
-               BuildableName = "lambda_p_test"
-               BlueprintName = "lambda_p_test"
-               ReferencedContainer = "container:lambda_p_test.xcodeproj">
+               BlueprintIdentifier = "CF7596BA140F1AC6001EDBB9"
+               BuildableName = "liblambda_p.a"
+               BlueprintName = "lambda_p"
+               ReferencedContainer = "container:lambda_p.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,15 +35,6 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Debug">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4D473AB1140F116400455A7E"
-            BuildableName = "lambda_p_test"
-            BlueprintName = "lambda_p_test"
-            ReferencedContainer = "container:lambda_p_test.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -52,15 +43,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4D473AB1140F116400455A7E"
-            BuildableName = "lambda_p_test"
-            BlueprintName = "lambda_p_test"
-            ReferencedContainer = "container:lambda_p_test.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

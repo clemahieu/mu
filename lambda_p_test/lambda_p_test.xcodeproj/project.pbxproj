@@ -6,8 +6,14 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CF7596DD140F1BB7001EDBB9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DA140F1BB7001EDBB9 /* main.cpp */; };
+		CF7596DE140F1BB7001EDBB9 /* simple_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */; };
+		CF7596F8140F2229001EDBB9 /* liblambda_p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF7596F7140F2229001EDBB9 /* liblambda_p.a */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		4D473AB0140F116400455A7E /* CopyFiles */ = {
+		CF7596CB140F1AF0001EDBB9 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -19,37 +25,40 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4D473AA2140F113300455A7E /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		4D473AA3140F113300455A7E /* simple_test_1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = simple_test_1.cpp; sourceTree = "<group>"; };
-		4D473AA4140F113300455A7E /* simple_test_1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = simple_test_1.h; sourceTree = "<group>"; };
-		4D473AB2140F116400455A7E /* lambda_p_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF7596CD140F1AF0001EDBB9 /* lambda_p_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF7596DA140F1BB7001EDBB9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_test_1.cpp; sourceTree = "<group>"; };
+		CF7596DC140F1BB7001EDBB9 /* simple_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simple_test_1.h; sourceTree = "<group>"; };
+		CF7596F7140F2229001EDBB9 /* liblambda_p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p.a; path = "../../Library/Developer/Xcode/DerivedData/lambda_p-befovkmpqhuuqdcpjbueqtukhlpb/Build/Products/Debug/liblambda_p.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4D473AAF140F116400455A7E /* Frameworks */ = {
+		CF7596CA140F1AF0001EDBB9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF7596F8140F2229001EDBB9 /* liblambda_p.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4D473A8B140F10CB00455A7E = {
+		CF7596C2140F1AF0001EDBB9 = {
 			isa = PBXGroup;
 			children = (
-				4D473AA2140F113300455A7E /* main.cpp */,
-				4D473AA3140F113300455A7E /* simple_test_1.cpp */,
-				4D473AA4140F113300455A7E /* simple_test_1.h */,
-				4D473AB3140F116400455A7E /* Products */,
+				CF7596F7140F2229001EDBB9 /* liblambda_p.a */,
+				CF7596DA140F1BB7001EDBB9 /* main.cpp */,
+				CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */,
+				CF7596DC140F1BB7001EDBB9 /* simple_test_1.h */,
+				CF7596CE140F1AF0001EDBB9 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		4D473AB3140F116400455A7E /* Products */ = {
+		CF7596CE140F1AF0001EDBB9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D473AB2140F116400455A7E /* lambda_p_test */,
+				CF7596CD140F1AF0001EDBB9 /* lambda_p_test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,13 +66,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D473AB1140F116400455A7E /* lambda_p_test */ = {
+		CF7596CC140F1AF0001EDBB9 /* lambda_p_test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D473ABA140F116400455A7E /* Build configuration list for PBXNativeTarget "lambda_p_test" */;
+			buildConfigurationList = CF7596D7140F1AF0001EDBB9 /* Build configuration list for PBXNativeTarget "lambda_p_test" */;
 			buildPhases = (
-				4D473AAE140F116400455A7E /* Sources */,
-				4D473AAF140F116400455A7E /* Frameworks */,
-				4D473AB0140F116400455A7E /* CopyFiles */,
+				CF7596C9140F1AF0001EDBB9 /* Sources */,
+				CF7596CA140F1AF0001EDBB9 /* Frameworks */,
+				CF7596CB140F1AF0001EDBB9 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -71,55 +80,45 @@
 			);
 			name = lambda_p_test;
 			productName = lambda_p_test;
-			productReference = 4D473AB2140F116400455A7E /* lambda_p_test */;
+			productReference = CF7596CD140F1AF0001EDBB9 /* lambda_p_test */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4D473A8D140F10CB00455A7E /* Project object */ = {
+		CF7596C4140F1AF0001EDBB9 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 4D473A90140F10CB00455A7E /* Build configuration list for PBXProject "lambda_p_test" */;
+			buildConfigurationList = CF7596C7140F1AF0001EDBB9 /* Build configuration list for PBXProject "lambda_p_test" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 4D473A8B140F10CB00455A7E;
-			productRefGroup = 4D473AB3140F116400455A7E /* Products */;
+			mainGroup = CF7596C2140F1AF0001EDBB9;
+			productRefGroup = CF7596CE140F1AF0001EDBB9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4D473AB1140F116400455A7E /* lambda_p_test */,
+				CF7596CC140F1AF0001EDBB9 /* lambda_p_test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4D473AAE140F116400455A7E /* Sources */ = {
+		CF7596C9140F1AF0001EDBB9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF7596DD140F1BB7001EDBB9 /* main.cpp in Sources */,
+				CF7596DE140F1BB7001EDBB9 /* simple_test_1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4D473A92140F10CB00455A7E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		4D473A93140F10CB00455A7E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
-		4D473ABB140F116400455A7E /* Debug */ = {
+		CF7596D5140F1AF0001EDBB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -141,12 +140,11 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		4D473ABC140F116400455A7E /* Release */ = {
+		CF7596D6140F1AF0001EDBB9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -161,32 +159,61 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CF7596D8140F1AF0001EDBB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Users/colinlemahieu/Downloads/boost_1_47_0,
+					..,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/lambda_p-befovkmpqhuuqdcpjbueqtukhlpb/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CF7596D9140F1AF0001EDBB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Users/colinlemahieu/Downloads/boost_1_47_0,
+					..,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/lambda_p-befovkmpqhuuqdcpjbueqtukhlpb/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D473A90140F10CB00455A7E /* Build configuration list for PBXProject "lambda_p_test" */ = {
+		CF7596C7140F1AF0001EDBB9 /* Build configuration list for PBXProject "lambda_p_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D473A92140F10CB00455A7E /* Debug */,
-				4D473A93140F10CB00455A7E /* Release */,
+				CF7596D5140F1AF0001EDBB9 /* Debug */,
+				CF7596D6140F1AF0001EDBB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D473ABA140F116400455A7E /* Build configuration list for PBXNativeTarget "lambda_p_test" */ = {
+		CF7596D7140F1AF0001EDBB9 /* Build configuration list for PBXNativeTarget "lambda_p_test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D473ABB140F116400455A7E /* Debug */,
-				4D473ABC140F116400455A7E /* Release */,
+				CF7596D8140F1AF0001EDBB9 /* Debug */,
+				CF7596D9140F1AF0001EDBB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 4D473A8D140F10CB00455A7E /* Project object */;
+	rootObject = CF7596C4140F1AF0001EDBB9 /* Project object */;
 }

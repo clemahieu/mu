@@ -6,7 +6,7 @@
 #include <vector>
 
 #include <lambda_p/core/node.h>
-#include <lambda_p/core/identifier.h>
+#include <lambda_p/core/routine.h>
 
 namespace lambda_p
 {
@@ -15,11 +15,12 @@ namespace lambda_p
 		class statement
 		{
 		public:
-			statement (::lambda_p::core::identifier * declaration_a, ::lambda_p::core::identifier * target_a);
+			statement (::lambda_p::core::routine & routine_a);
 			~statement (void);
-			::lambda_p::core::identifier * declaration;
-			::lambda_p::core::identifier * target;
-			::std::vector < ::lambda_p::core::node *> arguments;
+            ::lambda_p::core::routine & routine;
+            size_t index;
+            ::std::vector < ::lambda_p::core::node *> arguments;
+            size_t results;
 		};
 	}
 }

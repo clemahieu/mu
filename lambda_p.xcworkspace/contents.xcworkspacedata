@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:lambda_p/lambda_p.xcodeproj">
+      location = "group:lambda_p_test/lambda_p_test.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:lambda_p_test/lambda_p_test.xcodeproj">
+      location = "group:lambda_p/lambda_p.xcodeproj">
    </FileRef>
 </Workspace>
