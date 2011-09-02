@@ -4,6 +4,10 @@
 
 namespace lambda_p
 {
+    namespace serialization
+    {
+        template <typename> class simple;
+    }
 	namespace core
 	{
 		class routine;
@@ -16,9 +20,11 @@ namespace lambda_p
 			friend class ::lambda_p::core::result_ref;
 			friend class ::lambda_p::core::data;
 			friend class ::lambda_p::core::result;
+            template <typename> friend class ::lambda_p::serialization::simple;
 		public:
 			statement (::lambda_p::core::routine * routine_a, size_t index_a);
 			~statement (void);
+            void add_argument (::lambda_p::core::node * node_a);
             void validate (::std::iostream & problems);
 		private:
             ::lambda_p::core::routine * routine;

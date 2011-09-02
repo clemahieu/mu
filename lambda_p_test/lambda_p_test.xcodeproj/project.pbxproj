@@ -167,6 +167,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					..,
 				);
@@ -182,6 +183,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					..,
 				);
@@ -212,6 +214,7 @@
 				CF7596D9140F1AF0001EDBB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -10,6 +10,10 @@
 
 namespace lambda_p
 {
+    namespace serialization
+    {
+        template <typename> class simple;
+    }
 	namespace core
 	{
 		class routine
@@ -19,6 +23,7 @@ namespace lambda_p
 			friend class ::lambda_p::core::result_ref;
 			friend class ::lambda_p::core::data;
 			friend class ::lambda_p::core::result;
+            template <typename> friend class ::lambda_p::serialization::simple;
 		public:
 			routine (size_t parameters_a);
 			~routine (void);
@@ -26,7 +31,7 @@ namespace lambda_p
 			::lambda_p::core::data * add_data (::boost::shared_array <uint8_t> item_a, size_t size_a, size_t statement_a, size_t index_a);
 			::lambda_p::core::parameter_ref * add_parameter_ref (size_t index_a);
 			::lambda_p::core::result * add_result (size_t statement_a, size_t index_a);
-			::lambda_p::core::result_ref * add_result_ref (size_t statement_a, size_t index_a);
+			::lambda_p::core::result_ref * add_result_ref (size_t self_statement_a, size_t self_argument_a, size_t target_statement_a, size_t target_argument_a);
 		private:
 			size_t parameters;
 			::std::vector < ::lambda_p::core::statement> statements;

@@ -12,10 +12,10 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/result.h>
 
-lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t statement_a, size_t index_a)
+lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a, size_t target_statement_a, size_t target_argument_a)
 : routine (routine_a),
-statement (statement_a),
-index (index_a)
+self_statement (self_statement_a),
+self_argument (self_argument_a)
 {
 }
 
@@ -26,15 +26,14 @@ lambda_p::core::result_ref::~result_ref ()
 void lambda_p::core::result_ref::validate (::std::iostream & problems)
 {
 	size_t statements_size (routine->statements.size ());
-    bool valid (statements_size > statement);
+    bool valid (statements_size > self_statement);
     if (valid)
     {
-		size_t arguments_size (routine->statements [statement].arguments.size ());
-		valid = arguments_size > index;
+		size_t arguments_size (routine->statements [self_statement].arguments.size ());
+		valid = arguments_size > self_argument;
 		if (valid)
 		{
-			valid = dynamic_cast < ::lambda_p::core::result *> (routine->statements [statement].arguments [index]) != NULL;
-			if (valid)
+            if (routine->statements [self_statement].arguments [self_argument] == this)
 			{
 			}
 			else
@@ -44,10 +43,10 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 				problems << " referencing routine: ";
 				problems << &routine;
 				problems << " referencing statement: ";
-				problems << statement;
+				problems << self_statement;
 				problems << " referencing argument: ";
-				problems << index;
-				problems << " references a node that is not actually a result object\n";
+				problems << self_argument;
+				problems << " references a node that is not this\n";
 			}
 		}
 		else
@@ -57,9 +56,9 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 			problems << " referencing routine: ";
 			problems << &routine;
 			problems << " referencing statement: ";
-			problems << statement;
+			problems << self_statement;
 			problems << " references an argument: ";
-			problems << index;
+			problems << self_argument;
 			problems << " that is greater than the max: ";
 			problems << arguments_size - 1;
 			problems << "\n";
@@ -72,7 +71,7 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 		problems << " referencing routine: ";
 		problems << &routine;
 		problems << " references a statement: ";
-		problems << statement;
+		problems << self_statement;
 		problems << " that is greater than the max: ";
 		problems << statements_size - 1;
 		problems << "\n";

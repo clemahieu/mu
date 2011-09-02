@@ -18,12 +18,13 @@ namespace lambda_p
 			data (::boost::shared_array <uint8_t> item_a, size_t size_a, ::lambda_p::core::routine * routine_a, size_t statement_a, size_t index_a);
 			~data (void);
             void validate (::std::iostream & problems);
+            ::boost::shared_array <uint8_t> item () const;
 		private:
-			::boost::shared_array <uint8_t> item;
+			::boost::shared_array <uint8_t> item_m;
             size_t size;
 			::lambda_p::core::routine * routine;
-			size_t statement;
-			size_t index;
+			size_t self_statement;
+			size_t self_argument;
 		};
 	}
 }

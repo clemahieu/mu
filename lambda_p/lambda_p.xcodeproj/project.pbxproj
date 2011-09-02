@@ -86,8 +86,8 @@
 				CF7596E7140F1BD0001EDBB9 /* routine.h */,
 				CF7596E8140F1BD0001EDBB9 /* statement.cpp */,
 				CF7596E9140F1BD0001EDBB9 /* statement.h */,
-				CF7596FB140F2401001EDBB9 /* parameter_ref.h */,
 				CF7596FD140F2413001EDBB9 /* parameter_ref.cpp */,
+				CF7596FB140F2401001EDBB9 /* parameter_ref.h */,
 			);
 			name = core;
 			sourceTree = "<group>";

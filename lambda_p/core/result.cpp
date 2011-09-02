@@ -23,7 +23,21 @@ void lambda_p::core::result::validate (::std::iostream & problems)
 		size_t arguments_size (routine->statements [statement].arguments.size ());
 		if (arguments_size > index)
 		{
-
+            if (routine->statements [statement].arguments [index] == this)
+            {
+            }
+            else
+            {
+                problems << "result: ";
+                problems << this;
+                problems << " referencing routine: ";
+                problems << &routine;
+                problems << " referencing statement: ";
+                problems << statement;
+                problems << " referencing argument: ";
+                problems << index;
+                problems << " is referencing an object that is not this\n";
+            }
 		}
 		else
 		{

@@ -8,14 +8,14 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "lambda_p_test/main.cpp"
-         timestampString = "336532220.958676"
+         filePath = "lambda_p_test/simple_test_1.cpp"
+         timestampString = "336629756.498416"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "7"
-         endingLineNumber = "7"
-         landmarkName = "main ()"
-         landmarkType = "7">
+         startingLineNumber = "85"
+         endingLineNumber = "85"
+         landmarkName = "lambda_p_test::simple_test_1::run_6 ()"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

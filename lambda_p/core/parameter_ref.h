@@ -15,17 +15,25 @@
 
 namespace lambda_p
 {
+    namespace serialization
+    {
+        template <typename> class simple;
+    }
     namespace core
     {
         class routine;
         class parameter_ref : public node
         {
+            template <typename> friend class ::lambda_p::serialization::simple;
         public:
             parameter_ref (::lambda_p::core::routine * routine_a, size_t index_a);
             ~parameter_ref ();
             void validate (::std::iostream & problems);
+        private:
             ::lambda_p::core::routine * routine;
             size_t index;
+            size_t statement;
+            size_t argument;
         };
     }
 }

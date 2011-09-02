@@ -33,8 +33,8 @@ lambda_p::core::routine::~routine(void)
 	return &results [results.size () - 1];
 }
 
-::lambda_p::core::result_ref * lambda_p::core::routine::add_result_ref (size_t statement_a, size_t index_a)
+::lambda_p::core::result_ref * lambda_p::core::routine::add_result_ref (size_t self_statement_a, size_t self_argument_a, size_t target_statement_a, size_t target_argument_a)
 {
-	result_refs.push_back (::lambda_p::core::result_ref (this, statement_a, index_a));
+	result_refs.push_back (::lambda_p::core::result_ref (this, self_statement_a, self_argument_a, target_statement_a, target_argument_a));
 	return &result_refs [result_refs.size () - 1];
 }

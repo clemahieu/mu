@@ -18,7 +18,7 @@ namespace lambda_p
 {
 	namespace serialization
 	{
-		template <class stream_type>
+		template <typename stream_type>
 		class simple
 		{
 		public:
@@ -31,14 +31,35 @@ namespace lambda_p
 			}
 			void routine (::lambda_p::core::routine const * routine_a)
 			{
-                
+                target << "routine";
+                target << routine_a;
+                target << "\n";
+                for (size_t i = 0; i != routine_a->parameters; ++i)
+                {
+                    target << " ";
+                    target << "parameter";
+                    target << i;
+                    target << "\n";
+                }
+                target << ";;\n";
+                for (::std::vector < ::lambda_p::core::statement>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
+                {
+                    target << " ";
+                    statement (&(*i));
+                    target << "\n";
+                }
+                target << ";.";
 			}
 			void statement (::lambda_p::core::statement const * statement_a)
 			{
-                for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->statement.begin (); i != statement_a->statement.end (); ++i)
+                target << "statement";
+                target << statement_a->index;
+                target << "\n";
+                for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->arguments.begin (); i != statement_a->arguments.end (); ++i)
                 {
-                    target << " ":
-                    statement (*i);
+                    target << "  ";
+                    node (*i);
+                    target << " ;;\n";
                 }
 			}
 			void node (::lambda_p::core::node const * node_a)
@@ -50,10 +71,10 @@ namespace lambda_p
                 }
                 else
                 {
-                    ::lambda_p::core::results_ref const * results_ref_l = dynamic_cast < ::lambda_p::core::results_ref const *> (node_a);
-                    if (results_ref_l != NULL)
+                    ::lambda_p::core::result_ref const * result_ref_l = dynamic_cast < ::lambda_p::core::result_ref const *> (node_a);
+                    if (result_ref_l != NULL)
                     {
-                        results_ref (results_ref_l);
+                        result_ref (result_ref_l);
                     }
                     else
                     {
@@ -64,30 +85,45 @@ namespace lambda_p
                         }
                         else
                         {
-                            assert (false);
+                            ::lambda_p::core::result const * result_l = dynamic_cast < ::lambda_p::core::result const *> (node_a);
+                            if (result_l != NULL)
+                            {
+                                result (result_l);
+                            }
+                            else
+                            {
+                                assert (false);
+                            }
                         }
                     }
                 }
 			}
 			void data (::lambda_p::core::data const * data_a)
 			{
-				target << data_a->item;
+                target << ";' ";
+                target << data_a->item ().get ();
 			}
             void parameter_ref (::lambda_p::core::parameter_ref const * parameter_ref_a)
             {
-                target << &parameter_ref_a->routine;
+                target << "routine";
+                target << parameter_ref_a->routine;
                 target << " ;, ";
+                target << "parameter";
                 target << parameter_ref_a->index;
             }
             void result_ref (::lambda_p::core::result_ref const * result_ref_a)
             {
-                target << result_ref_a->statement;
+                target << "statement";
+                target << result_ref_a->target_statement;
                 target << " ;, ";
-                target << result_ref_a->index;
+                target << "result";
+                target << result_ref_a->target_argument;
             }
 			void result (::lambda_p::core::result const * result_a)
 			{
-				
+				target << ";! ";
+                target << "result";
+                target << result_a->index;
 			}
 			stream_type & target;
 		};
