@@ -1,7 +1,7 @@
 #include "simple_parser_test_1.h"
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/serialization/simple_parser.h>
+#include <lambda_p/serialization/simple_lexer.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/serialization/simple.h>
 
@@ -38,6 +38,10 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 	::std::wstring str (stream.str ());
 	stream.seekg (0);
 	token_vector tokens;
-	::lambda_p::serialization::simple_parser < ::std::wstringstream, token_vector> parser (stream, tokens);
-	parser.parse ();
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 3);
+	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::control *> (tokens.tokens [1]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::control *> (tokens.tokens [2]) != NULL);
 }

@@ -25,12 +25,6 @@
     <ClInclude Include="serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\simple_parser.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\whitespace.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\token.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -39,6 +33,9 @@
     </ClInclude>
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\simple_lexer.h">
+      <Filter>serialization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +61,12 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="tokens\token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\identifier.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\control.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
   </ItemGroup>

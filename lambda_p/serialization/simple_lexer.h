@@ -1,5 +1,4 @@
 #include <lambda_p/core/routine.h>
-#include <lambda_p/tokens/whitespace.h>
 #include <lambda_p/tokens/control.h>
 #include <lambda_p/tokens/identifier.h>
 
@@ -8,24 +7,24 @@ namespace lambda_p
 	namespace serialization
 	{
 		template <typename stream_type, typename token_sink>
-		class simple_parser
+		class simple_lexer
 		{
 		public:
-			simple_parser (stream_type & source_a, token_sink & target_a)
+			simple_lexer (stream_type & source_a, token_sink & target_a)
 				: source (source_a),
 				target (target_a)
 			{
 
 			}
-			~simple_parser ()
+			~simple_lexer ()
 			{
 			}
-			void parse ()
+			void lex ()
 			{
-				parse_all ();
+				lex_all ();
 			}
 		private:
-			void parse_all ()
+			void lex_all ()
 			{
 				peek ();
 				while (next_char != L'\0')
@@ -36,20 +35,19 @@ namespace lambda_p
 					case L'\t':
 					case L'\n':
 					case L'\f':
-						parse_whitespace ();
+						lex_whitespace ();
 						break;
 					case L';':
-						parse_control ();
+						lex_control ();
 						break;
 					default:
-						parse_identifier ();
+						lex_identifier ();
 						break;
 					}
 				}
 			}
-			void parse_whitespace ()
+			void lex_whitespace ()
 			{
-				::std::streampos begin (source.tellg ());
 				bool done (false);
 				while (!done)
 				{
@@ -67,13 +65,30 @@ namespace lambda_p
 						break;
 					}
 				}				
-				::std::streampos end (source.tellg ());
-				::lambda_p::tokens::whitespace <stream_type> * whitespace = new ::lambda_p::tokens::whitespace <stream_type> (source, begin, end);
-				target (whitespace);
 			}
-			void parse_control ()
+			void lex_control ()
 			{
-				::std::streampos begin (source.tellg ());
+				consume ();
+				switch (next_char)
+				{
+				case L'*':
+					lex_multiline_comment ();
+					break;
+				case L'/':
+					lex_single_line_comment ();
+					break;
+				case L'"':
+					lex_manifest_data ();
+					break;
+				default:
+					lex_control_token ();
+					break;
+				}
+			}
+			void lex_control_token ()
+			{
+				::std::wstring string;
+				string.push_back (L';');
 				bool done (false);
 				while (!done)
 				{
@@ -87,17 +102,62 @@ namespace lambda_p
 						done = true;
 						break;
 					default:
+						string.push_back (next_char);
 						consume ();
 						break;
 					}
 				}
-				::std::streampos end (source.tellg ());
-				::lambda_p::tokens::control <stream_type> * control = new ::lambda_p::tokens::control <stream_type> (source, begin, end);
+				::lambda_p::tokens::control * control = new ::lambda_p::tokens::control (string);
 				target (control);
 			}
-			void parse_identifier ()
+			void lex_multiline_comment ()
+			{
+				bool done (false);
+				consume ();
+				while (!done)
+				{
+					switch (next_char)
+					{
+					case L';':
+						consume ();
+						switch (next_char)
+						{
+						case L'*':
+							done = true;
+							break;
+						default:
+							break;
+						}
+						break;
+					default:
+						break;
+					}
+					consume ();
+				}
+			}
+			void lex_single_line_comment ()
+			{
+				bool done (false);
+				consume ();
+				while (!done)
+				{
+					switch (next_char)
+					{
+					case L'\n':
+					case L'\f':
+						done = true;
+						break;
+					}
+					consume ();
+				}
+			}
+			void lex_manifest_data ()
+			{
+
+			}
+			void lex_identifier ()
 			{				
-				::std::streampos begin (source.tellg ());
+				::std::wstring string;
 				bool done (false);
 				while (!done)
 				{
@@ -112,12 +172,12 @@ namespace lambda_p
 						done = true;
 						break;
 					default:
+						string.push_back (next_char);
 						consume ();
 						break;
 					}
 				}
-				::std::streampos end (source.tellg ());
-				::lambda_p::tokens::identifier <stream_type> * identifier = new ::lambda_p::tokens::identifier <stream_type> (source, begin, end);
+				::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (string);
 				target (identifier);
 			}
 			void peek ()
