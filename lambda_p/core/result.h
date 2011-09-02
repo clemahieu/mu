@@ -17,13 +17,13 @@ namespace lambda_p
 		{
             template <typename> friend class ::lambda_p::serialization::simple;
 		public:
-			result (::lambda_p::core::routine * routine_a, size_t statement_a, size_t index_a);
+			result (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a);
 			~result (void);
-			void validate (::std::iostream & problems);
+			void validate (::std::iostream & problems) const;
 		private:
 			::lambda_p::core::routine * routine;
-			size_t statement;
-			size_t index;
+			size_t self_statement;
+			size_t self_argument;
 		};
 	}
 }

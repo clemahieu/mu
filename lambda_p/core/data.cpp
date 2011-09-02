@@ -15,7 +15,7 @@ lambda_p::core::data::~data(void)
 {
 }
 
-void lambda_p::core::data::validate (::std::iostream & problems)
+void lambda_p::core::data::validate (::std::iostream & problems) const
 {
 	size_t statement_size (routine->statements.size ());
 	if (statement_size > self_statement)
@@ -23,7 +23,7 @@ void lambda_p::core::data::validate (::std::iostream & problems)
 		size_t arguments_size (routine->statements.size ());
 		if (arguments_size > self_argument)
 		{
-			::lambda_p::core::data * data_l = dynamic_cast < ::lambda_p::core::data *> (routine->statements [self_statement].arguments [self_argument]);
+			::lambda_p::core::data * data_l = dynamic_cast < ::lambda_p::core::data *> (routine->statements [self_statement]->arguments [self_argument]);
 			if (data_l != NULL)
 			{
 				if (data_l == this)

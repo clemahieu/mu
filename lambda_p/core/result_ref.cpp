@@ -12,10 +12,12 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/result.h>
 
-lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a, size_t target_statement_a, size_t target_argument_a)
+lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a)
 : routine (routine_a),
 self_statement (self_statement_a),
-self_argument (self_argument_a)
+self_argument (self_argument_a),
+target_statement (target_statement_a),
+target_argument (target_argument_a)
 {
 }
 
@@ -23,18 +25,19 @@ lambda_p::core::result_ref::~result_ref ()
 {
 }
 
-void lambda_p::core::result_ref::validate (::std::iostream & problems)
+void lambda_p::core::result_ref::validate (::std::iostream & problems) const
 {
 	size_t statements_size (routine->statements.size ());
-    bool valid (statements_size > self_statement);
+    bool valid (statements_size > target_statement);
     if (valid)
     {
-		size_t arguments_size (routine->statements [self_statement].arguments.size ());
-		valid = arguments_size > self_argument;
+		size_t arguments_size (routine->statements [target_statement]->arguments.size ());
+		valid = arguments_size > target_argument;
 		if (valid)
 		{
-            if (routine->statements [self_statement].arguments [self_argument] == this)
+			if (dynamic_cast < ::lambda_p::core::result *> (routine->statements [target_statement]->arguments [target_argument]) != NULL)
 			{
+				validate_argument ("result_ref: ", routine, self_statement, self_argument, problems);
 			}
 			else
 			{				
@@ -43,10 +46,10 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 				problems << " referencing routine: ";
 				problems << &routine;
 				problems << " referencing statement: ";
-				problems << self_statement;
+				problems << target_statement;
 				problems << " referencing argument: ";
-				problems << self_argument;
-				problems << " references a node that is not this\n";
+				problems << target_argument;
+				problems << " references a node that is not a result\n";
 			}
 		}
 		else
@@ -56,9 +59,9 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 			problems << " referencing routine: ";
 			problems << &routine;
 			problems << " referencing statement: ";
-			problems << self_statement;
+			problems << target_statement;
 			problems << " references an argument: ";
-			problems << self_argument;
+			problems << target_argument;
 			problems << " that is greater than the max: ";
 			problems << arguments_size - 1;
 			problems << "\n";
@@ -71,7 +74,7 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems)
 		problems << " referencing routine: ";
 		problems << &routine;
 		problems << " references a statement: ";
-		problems << self_statement;
+		problems << target_statement;
 		problems << " that is greater than the max: ";
 		problems << statements_size - 1;
 		problems << "\n";

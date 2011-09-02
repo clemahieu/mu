@@ -26,9 +26,9 @@ namespace lambda_p
         {
             template <typename> friend class ::lambda_p::serialization::simple;
         public:
-            result_ref (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a, size_t target_statement_a, size_t target_argument_a);
+            result_ref (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_, size_t self_statement_a, size_t self_argument_aa);
             ~result_ref ();
-            void validate (::std::iostream & problems);
+            void validate (::std::iostream & problems) const;
 		private:
             ::lambda_p::core::routine * routine;
             size_t self_statement;

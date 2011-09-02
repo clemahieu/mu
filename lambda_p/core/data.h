@@ -15,9 +15,9 @@ namespace lambda_p
 		class data : public node
 		{
 		public:
-			data (::boost::shared_array <uint8_t> item_a, size_t size_a, ::lambda_p::core::routine * routine_a, size_t statement_a, size_t index_a);
+			data (::boost::shared_array <uint8_t> item_a, size_t size_a, ::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a);
 			~data (void);
-            void validate (::std::iostream & problems);
+            void validate (::std::iostream & problems) const;
             ::boost::shared_array <uint8_t> item () const;
 		private:
 			::boost::shared_array <uint8_t> item_m;

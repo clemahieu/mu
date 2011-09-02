@@ -41,26 +41,25 @@ namespace lambda_p
                     target << i;
                     target << "\n";
                 }
-                target << ";;\n";
-                for (::std::vector < ::lambda_p::core::statement>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
+                target << ";,\n";
+                for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
                 {
                     target << " ";
-                    statement (&(*i));
+                    statement (*i);
                     target << "\n";
                 }
-                target << ";.";
+                target << ";;";
 			}
 			void statement (::lambda_p::core::statement const * statement_a)
 			{
                 target << "statement";
                 target << statement_a->index;
-                target << "\n";
                 for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->arguments.begin (); i != statement_a->arguments.end (); ++i)
                 {
-                    target << "  ";
+                    target << "\n  ";
                     node (*i);
-                    target << " ;;\n";
                 }
+                target << "\n ;,";
 			}
 			void node (::lambda_p::core::node const * node_a)
 			{
@@ -107,15 +106,15 @@ namespace lambda_p
             {
                 target << "routine";
                 target << parameter_ref_a->routine;
-                target << " ;, ";
+                target << " ;. ";
                 target << "parameter";
-                target << parameter_ref_a->index;
+                target << parameter_ref_a->target_parameter;
             }
             void result_ref (::lambda_p::core::result_ref const * result_ref_a)
             {
                 target << "statement";
                 target << result_ref_a->target_statement;
-                target << " ;, ";
+                target << " ;. ";
                 target << "result";
                 target << result_ref_a->target_argument;
             }
@@ -123,7 +122,7 @@ namespace lambda_p
 			{
 				target << ";! ";
                 target << "result";
-                target << result_a->index;
+                target << result_a->self_argument;
 			}
 			stream_type & target;
 		};
