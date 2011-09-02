@@ -134,6 +134,11 @@
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="serialization\simple.h" />
+    <ClInclude Include="serialization\simple_parser.h" />
+    <ClInclude Include="tokens\control.h" />
+    <ClInclude Include="tokens\identifier.h" />
+    <ClInclude Include="tokens\token.h" />
+    <ClInclude Include="tokens\whitespace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp" />
@@ -143,6 +148,7 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\statement.cpp" />
+    <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

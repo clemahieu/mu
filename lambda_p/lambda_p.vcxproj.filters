@@ -25,6 +25,21 @@
     <ClInclude Include="serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
+    <ClInclude Include="serialization\simple_parser.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\whitespace.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\token.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\control.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\identifier.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -48,6 +63,9 @@
     <ClCompile Include="core\result_ref.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="tokens\token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -55,6 +73,9 @@
     </Filter>
     <Filter Include="serialization">
       <UniqueIdentifier>{30e325db-0739-4add-8e93-6657e9cb9d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tokens">
+      <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
