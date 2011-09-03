@@ -44,5 +44,5 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [2]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::routine_end *> (tokens.tokens [2]) != NULL);
 }

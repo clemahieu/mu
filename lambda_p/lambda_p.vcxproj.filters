@@ -28,14 +28,32 @@
     <ClInclude Include="tokens\token.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\control.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="serialization\simple_lexer.h">
       <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\declaration.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\dereference.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\error.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\hex_data_token.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\routine_end.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\simple_string_token.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\statement_end.h">
+      <Filter>tokens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +84,25 @@
     <ClCompile Include="tokens\identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\control.cpp">
+    <ClCompile Include="tokens\declaration.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\dereference.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\error.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\hex_data_token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\routine_end.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\simple_string_token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\statement_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
   </ItemGroup>

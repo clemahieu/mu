@@ -41,14 +41,14 @@ namespace lambda_p
                     target << i;
                     target << "\n";
                 }
-                target << ";,\n";
+                target << ";;\n";
                 for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
                 {
                     target << " ";
                     statement (*i);
                     target << "\n";
                 }
-                target << ";;";
+                target << ";.";
 			}
 			void statement (::lambda_p::core::statement const * statement_a)
 			{
@@ -59,7 +59,7 @@ namespace lambda_p
                     target << "\n  ";
                     node (*i);
                 }
-                target << "\n ;,";
+                target << "\n ;;";
 			}
 			void node (::lambda_p::core::node const * node_a)
 			{
@@ -106,7 +106,7 @@ namespace lambda_p
             {
                 target << "routine";
                 target << parameter_ref_a->routine;
-                target << " ;. ";
+                target << " ";
                 target << "parameter";
                 target << parameter_ref_a->target_parameter;
             }
@@ -114,7 +114,7 @@ namespace lambda_p
             {
                 target << "statement";
                 target << result_ref_a->target_statement;
-                target << " ;. ";
+                target << " ";
                 target << "result";
                 target << result_ref_a->target_argument;
             }

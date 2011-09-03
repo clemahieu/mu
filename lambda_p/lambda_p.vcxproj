@@ -81,7 +81,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -91,7 +91,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -103,7 +103,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -117,7 +117,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -135,8 +135,14 @@
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="serialization\simple_lexer.h" />
-    <ClInclude Include="tokens\control.h" />
+    <ClInclude Include="tokens\declaration.h" />
+    <ClInclude Include="tokens\dereference.h" />
+    <ClInclude Include="tokens\error.h" />
+    <ClInclude Include="tokens\hex_data_token.h" />
     <ClInclude Include="tokens\identifier.h" />
+    <ClInclude Include="tokens\routine_end.h" />
+    <ClInclude Include="tokens\simple_string_token.h" />
+    <ClInclude Include="tokens\statement_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
@@ -147,8 +153,14 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\statement.cpp" />
-    <ClCompile Include="tokens\control.cpp" />
+    <ClCompile Include="tokens\declaration.cpp" />
+    <ClCompile Include="tokens\dereference.cpp" />
+    <ClCompile Include="tokens\error.cpp" />
+    <ClCompile Include="tokens\hex_data_token.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
+    <ClCompile Include="tokens\routine_end.cpp" />
+    <ClCompile Include="tokens\simple_string_token.cpp" />
+    <ClCompile Include="tokens\statement_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
