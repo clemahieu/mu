@@ -44,9 +44,59 @@ namespace lambda_p
 			void parse_routine ()
 			{
 				parse_routine_declaration ();
-				if (!parse_error)
+				parse_routine_body ();
+			}
+			void parse_routine_declaration ()
+			{
+				size_t token_id (next_token->token_id ());
+				switch (token_id)
 				{
-					parse_routine_body ();
+				case ::lambda_p::tokens::token_ids::token_id_identifier:
+				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					{
+						::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
+						consume ();
+						size_t parameter_count (0);
+						bool done (false);
+						while (!done && !parse_error)
+						{
+							parse_parameter (routine_name, parameter_count);
+						}
+					}
+				default:
+					parse_error = true;
+					::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
+					message.append (token_type_name (next_token));
+					error (message);
+					break;
+				}
+			}
+			void parse_parameter (::lambda_p::tokens::identifier * routine_name, size_t & parameter_count)
+			{
+				size_t token_id (next_token->token_id ());
+				switch (token_id)
+				{
+				case ::lambda_p::tokens::token_ids::token_id_statement_end:
+					routine.reset (new ::lambda_p::core::routine (parameter_count));
+					consume ();
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+				case ::lambda_p::tokens::token_ids::token_id_identifier:
+					{
+						::lambda_p::tokens::identifier * parameter_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
+						::lambda_p::serialization::result_reference reference (routine_name->string, parameter_name->string);
+						::lambda_p::serialization::result_position position (0, parameter_count);
+						positions [reference] = position;
+						++parameter_count;
+						consume ();
+					}
+					break;
+				default:
+					parse_error = true;
+					::std::wstring message (L"Expecting identifier or statement_end, have: ");
+					message.append (token_type_name (next_token));
+					error (message);
+					break;
 				}
 			}
 			void parse_routine_body ()
@@ -54,145 +104,152 @@ namespace lambda_p
 				bool done (false);
 				while (!done && !parse_error)
 				{
-					::lambda_p::tokens::identifier * token = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (token != NULL)
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
-						consume ();
-						parse_statement (token);
+					case ::lambda_p::tokens::token_ids::token_id_identifier:
+					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+						parse_statement ();
 						++current_statement;
-					}
-					else
-					{
-						::lambda_p::tokens::routine_end * token = dynamic_cast < ::lambda_p::tokens::routine_end *> (next_token);
-						if (token != NULL)
+						break;
+					case ::lambda_p::tokens::token_ids::token_id_routine_end:
 						{
 							::lambda_p::serialization::parse_result parse_result;
 							parse_result.routine = routine;
 							routine.reset ();
 							target (parse_result);
 						}
-						else
-						{
-							parse_error = true;
-							::std::wstring message (L"Error while parsing routine body, expecting identifier or routine_end, have: ");
-							message.append (token_type_name (next_token));
-						}
+						break;
+					default:
+						parse_error = true;
+						::std::wstring message (L"Error while parsing routine body, expecting identifier or routine_end, have: ");
+						message.append (token_type_name (next_token));
+						break;
 					}
 				}
 			}
-			void parse_statement (::lambda_p::tokens::identifier * token)
+			void parse_statement ()
 			{
 				current_argument = 0;
+				::lambda_p::tokens::identifier * statement_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
+				consume ();
 				::lambda_p::core::statement * statement = routine->add_statement ();
-				parse_argument (statement);
-				++current_argument;
-				bool done (false);
-				while (!done && !parse_error)
-				{
-					::lambda_p::tokens::statement_end * statement_end = dynamic_cast < ::lambda_p::tokens::statement_end *> (next_token);
-					if (statement_end != NULL)
-					{
-						done = true;
-					}
-					else
-					{
-						parse_argument (statement);
-					}
-				}
-			}
-			void parse_argument (::lambda_p::core::statement * statement)
-			{
-				while (!parse_error)
-				{
-					::lambda_p::tokens::identifier * identifier = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (identifier != NULL)
-					{
-						consume ();
-						parse_result_ref (statement, identifier);
-					}
-					else
-					{
-						::lambda_p::tokens::hex_data_token * hex_data_token = dynamic_cast < ::lambda_p::tokens::hex_data_token *> (next_token);
-						if (hex_data_token != NULL)
-						{
-							consume ();
-							parse_hex_data_token (statement, hex_data_token);
-						}
-						else
-						{
-							::lambda_p::tokens::data_token * data_token = dynamic_cast < ::lambda_p::tokens::data_token *> (next_token);
-							if (data_token != NULL)
-							{
-								consume ();
-								parse_data_token (statement, data_token);
-							}
-							else
-							{
-								::lambda_p::tokens::declaration * declaration = dynamic_cast < ::lambda_p::tokens::declaration *> (next_token);
-								if (declaration != NULL)
-								{
-									consume ();
-									parse_declaration (statement, declaration);
-								}
-								else
-								{
-									parse_error = true;
-									::std::wstring message (L"Invalid statement argument: ");
-									message.append (token_type_name (next_token));
-									error (message);
-								}
-							}
-						}
-					}
-				}
-			}
-			void parse_result_ref (::lambda_p::core::statement * statement, ::lambda_p::tokens::identifier * identifier)
-			{
 				if (!parse_error)
 				{
-					::lambda_p::tokens::identifier * target = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (target != NULL)
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
-						::lambda_p::serialization::result_reference reference (identifier->string, target->string);
-						::std::map < ::lambda_p::serialization::result_reference, ::lambda_p::serialization::result_position>::iterator search = positions.find (reference);
-						if (search != positions.end ())
-						{
-							::lambda_p::core::result_ref * ref = routine->add_result_ref (search->second.statement, search->second.argument, 0, 0);
-						}
-						else
-						{
-
-						}
-					}
-					else
-					{
+					case ::lambda_p::tokens::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
+						parse_result_ref (statement);
+						break;
+					default:
 						parse_error = true;
-						::std::wstring message (L"Expecting identifier while parsing result_ref, have: ");
-						message.append (token_type_name (next_token));
-						error (message);
+						break;
+					}
+					++current_argument;
+					bool done (false);
+					while (!done && !parse_error)
+					{
+						size_t token_id (next_token->token_id ());
+						switch (token_id)
+						{
+						case ::lambda_p::tokens::token_ids::token_id_statement_end:
+							consume ();
+							done = true;
+							break;
+						case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+						case ::lambda_p::tokens::token_ids::token_id_identifier:
+							parse_result_ref (statement);
+							break;
+						case ::lambda_p::tokens::token_ids::token_id_hex_data_token:
+							parse_hex_data_token (statement);
+							break;
+						case ::lambda_p::tokens::token_ids::token_id_data_token:
+							parse_data_token (statement);
+							break;
+						case ::lambda_p::tokens::token_ids::token_id_declaration:
+							parse_declaration (statement);
+							break;
+						default:
+							parse_error = true;
+							::std::wstring message (L"Invalid statement argument: ");
+							message.append (token_type_name (next_token));
+							error (message);
+						break;
+						}
 					}
 				}
 				else
 				{
-					::std::wstring message (L"Unexpected end of file while parsing result_ref");
+					::std::wstring message (L"Unexpected end of file while parsing statement");
 					error (message);
 				}
 			}
-			void parse_hex_data_token (::lambda_p::core::statement * statement, ::lambda_p::tokens::hex_data_token * hex_data_token)
+			void parse_result_ref (::lambda_p::core::statement * statement)
 			{
+				::lambda_p::tokens::identifier * target (static_cast < ::lambda_p::tokens::identifier *> (next_token));
+				consume ();
 				if (!parse_error)
 				{
-					::lambda_p::tokens::identifier * target = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (target != NULL)
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
-
+					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_ids::token_id_identifier:
+						{
+							::lambda_p::tokens::identifier * identifier (static_cast < ::lambda_p::tokens::identifier *> (next_token));
+							consume ();
+							::lambda_p::serialization::result_reference reference (target->string, identifier->string);
+							::std::map < ::lambda_p::serialization::result_reference, ::lambda_p::serialization::result_position>::iterator search = positions.find (reference);
+							if (search != positions.end ())
+							{
+								::lambda_p::core::result_ref * ref = routine->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
+								statement->add_argument (ref);
+							}
+							else
+							{
+								::lambda_p::core::result_ref * ref = routine->add_result_ref (-1, -1, current_statement, current_argument);
+								statement->add_argument (ref);
+								unresolved_references [reference] = ref;
+							}
+						}
+						break;
+					default:
+						parse_error = true;
+						::std::wstring message (L"Expecting result_ref argument identifier, have: ");
+						message.append (token_type_name (next_token));
+						error (message);
+						break;
 					}
-					else
+				}
+				else
+				{
+					::std::wstring message (L"Unexpected end of file while parsing resulf_ref argument");
+					error (message);
+				}
+			}
+			void parse_hex_data_token (::lambda_p::core::statement * statement)
+			{
+				consume ();
+				if (!parse_error)
+				{
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
+					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_ids::token_id_identifier:
+						{
+							::lambda_p::core::data * data (routine->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
+							statement->add_argument (data);
+						}
+						break;
+					default:
 						parse_error = true;
 						::std::wstring message (L"Expecting identifier while parsing hex_data_token, have: ");
 						message.append (token_type_name (next_token));
 						error (message);
+						break;
 					}
 				}
 				else
@@ -201,21 +258,27 @@ namespace lambda_p
 					error (message);
 				}
 			}
-			void parse_data_token (::lambda_p::core::statement * statement, ::lambda_p::tokens::data_token * data_token)
+			void parse_data_token (::lambda_p::core::statement * statement)
 			{
+				consume ();
 				if (!parse_error)
 				{
-					::lambda_p::tokens::identifier * target = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (target != NULL)
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
-
-					}
-					else
-					{
+					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_ids::token_id_identifier:
+						{
+							::lambda_p::core::data * data (routine->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
+							statement->add_argument (data);
+						}
+						break;
+					default:
 						parse_error = true;
 						::std::wstring message (L"Expecting identifier while parsing data_token, have: ");
 						message.append (token_type_name (next_token));
 						error (message);
+						break;
 					}
 				}
 				else
@@ -224,21 +287,27 @@ namespace lambda_p
 					error (message);
 				}
 			}
-			void parse_declaration (::lambda_p::core::statement * statement, ::lambda_p::tokens::declaration * declaration)
+			void parse_declaration (::lambda_p::core::statement * statement)
 			{
+				consume ();
 				if (!parse_error)
 				{
-					::lambda_p::tokens::identifier * target = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-					if (target != NULL)
+					size_t token_id (next_token->token_id ());
+					switch (token_id)
 					{
-
-					}
-					else
-					{
+					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_ids::token_id_identifier:
+						{
+							::lambda_p::core::result * result (routine->add_result (current_statement, current_argument));
+							statement->add_argument (result);
+						}
+						break;
+					default:
 						parse_error = true;
 						::std::wstring message (L"Expecting identifier while parsing declaration, have: ");
 						message.append (token_type_name (next_token));
 						error (message);
+						break;
 					}
 				}
 				else
@@ -247,111 +316,36 @@ namespace lambda_p
 					error (message);
 				}
 			}
-			void parse_routine_declaration ()
-			{
-				::lambda_p::tokens::identifier * token = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-				if (token != NULL)
-				{
-					consume ();
-					size_t parameter_count (0);
-					bool done (false);
-					while (!done && !parse_error)
-					{
-						::lambda_p::tokens::statement_end * statement_end = dynamic_cast < ::lambda_p::tokens::statement_end *> (next_token);
-						if (statement_end != NULL)
-						{
-							routine.reset (new ::lambda_p::core::routine (parameter_count));
-							consume ();
-						}
-						else
-						{
-							::lambda_p::tokens::identifier * identifier = dynamic_cast < ::lambda_p::tokens::identifier *> (next_token);
-							if (identifier != NULL)
-							{
-								::lambda_p::serialization::result_reference reference (token->string, identifier->string);
-								::lambda_p::serialization::result_position position (0, parameter_count);
-								positions [reference] = position;
-								++parameter_count;
-								consume ();
-							}
-							else
-							{
-								parse_error = true;
-								::std::wstring message (L"Expecting identifier or statement_end, have: ");
-								message.append (token_type_name (next_token));
-								error (message);
-							}
-						}
-					}
-				}
-				else
-				{
-					parse_error = true;
-					::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
-					message.append (token_type_name (next_token));
-					error (message);
-				}
-			}
 			::std::wstring token_type_name (::lambda_p::tokens::token * token)
 			{
 				::std::wstring result;
-				::lambda_p::tokens::complex_identifier * complex_identifier = dynamic_cast < ::lambda_p::tokens::complex_identifier *> (token);
-				if (complex_identifier != NULL)
+				size_t token_id (token->token_id ());
+				switch (token_id)
 				{
+				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
 					result.append (L"complex_identifier");
-				}
-				else
-				{
-					::lambda_p::tokens::declaration * declaration = dynamic_cast < ::lambda_p::tokens::declaration *> (token);
-					if (declaration != NULL)
-					{
-						result.append (L"declaration");
-					}
-					else
-					{
-						::lambda_p::tokens::hex_data_token * hex_data_token = dynamic_cast < ::lambda_p::tokens::hex_data_token *> (token);
-						if (hex_data_token != NULL)
-						{
-							result.append (L"hex_data_token");
-						}
-						else
-						{
-							::lambda_p::tokens::identifier * identifier = dynamic_cast < ::lambda_p::tokens::identifier *> (token);
-							if (identifier != NULL)
-							{
-								result.append (L"identifier");
-							}
-							else
-							{
-								::lambda_p::tokens::routine_end * routine_end = dynamic_cast < ::lambda_p::tokens::routine_end *> (token);
-								if (routine_end != NULL)
-								{
-									result.append (L"routine_end");
-								}
-								else
-								{
-									::lambda_p::tokens::data_token * data_token = dynamic_cast < ::lambda_p::tokens::data_token *> (token);
-									if (data_token != NULL)
-									{
-										result.append (L"data_token");
-									}
-									else
-									{
-										::lambda_p::tokens::statement_end * statement_end = dynamic_cast < ::lambda_p::tokens::statement_end *> (token);
-										if (statement_end != NULL)
-										{
-											result.append (L"statement_end");
-										}
-										else
-										{
-											result.append (L"Unknown");
-											assert (false);
-										}
-									}
-								}
-							}
-						}
-					}
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_declaration:
+					result.append (L"declaration");
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_hex_data_token:
+					result.append (L"hex_data_token");
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_identifier:
+					result.append (L"identifier");
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_routine_end:
+					result.append (L"routine_end");
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_data_token:
+					result.append (L"data_token");
+					break;
+				case ::lambda_p::tokens::token_ids::token_id_statement_end:
+					result.append (L"statement_end");
+					break;
+				default:
+					result.append (L"Unknown");
+					assert (false);
 				}
 
 				return result;

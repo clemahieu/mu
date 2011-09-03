@@ -12,6 +12,7 @@ namespace lambda_p
 			complex_identifier (::std::wstring identifier_a, ::std::wstring terminator_a);
 			~complex_identifier (void);
 			::std::wstring terminator;
+			size_t token_id ();
 		};
 	}
 }

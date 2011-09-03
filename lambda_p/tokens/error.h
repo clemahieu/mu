@@ -20,6 +20,7 @@ namespace lambda_p
         {
         public:
             error (::std::wstring message_a);
+			size_t token_id ();
         private:
             ::std::wstring message;
         };

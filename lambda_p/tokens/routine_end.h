@@ -16,7 +16,7 @@ namespace lambda_p
     {
         class routine_end : public token
         {
-            
+			size_t token_id ();
         };
     }
 }

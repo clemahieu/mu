@@ -15,8 +15,8 @@ namespace lambda_p
     namespace tokens
     {
         class hex_data_token : public token
-        {
-            
+        {            
+			size_t token_id ();
         };
     }
 }
