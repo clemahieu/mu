@@ -135,6 +135,7 @@
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="serialization\simple_lexer.h" />
+    <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\declaration.h" />
     <ClInclude Include="tokens\dereference.h" />
     <ClInclude Include="tokens\error.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\statement.cpp" />
+    <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\declaration.cpp" />
     <ClCompile Include="tokens\dereference.cpp" />
     <ClCompile Include="tokens\error.cpp" />

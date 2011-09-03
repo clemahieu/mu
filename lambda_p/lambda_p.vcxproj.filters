@@ -55,6 +55,9 @@
     <ClInclude Include="tokens\data_token.h">
       <Filter>tokens</Filter>
     </ClInclude>
+    <ClInclude Include="tokens\complex_identifier.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -103,6 +106,9 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\data_token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\complex_identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
   </ItemGroup>

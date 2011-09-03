@@ -1,18 +1,19 @@
-#include "simple_parser_test_1.h"
+#include "simple_lexer_test_1.h"
 
 #include <lambda_p/core/routine.h>
 #include <lambda_p/serialization/simple_lexer.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/serialization/simple.h>
 #include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/complex_identifier.h>
 
 #include <sstream>
 
-lambda_p_test::simple_parser_test_1::simple_parser_test_1(void)
+lambda_p_test::simple_lexer_test_1::simple_lexer_test_1(void)
 {
 }
 
-lambda_p_test::simple_parser_test_1::~simple_parser_test_1(void)
+lambda_p_test::simple_lexer_test_1::~simple_lexer_test_1(void)
 {
 }
 
@@ -25,7 +26,7 @@ struct token_vector
 	::std::vector < ::lambda_p::tokens::token *> tokens;
 };
 
-void lambda_p_test::simple_parser_test_1::run ()
+void lambda_p_test::simple_lexer_test_1::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -33,9 +34,11 @@ void lambda_p_test::simple_parser_test_1::run ()
 	run_4 ();
 	run_5 ();
 	run_6 ();
+	run_7 ();
+	run_8 ();
 }
 
-void lambda_p_test::simple_parser_test_1::run_1 ()
+void lambda_p_test::simple_lexer_test_1::run_1 ()
 {
 	::std::wstringstream stream;
 	::lambda_p::core::routine routine (0);
@@ -52,7 +55,7 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 	assert (dynamic_cast < ::lambda_p::tokens::routine_end *> (tokens.tokens [2]) != NULL);
 }
 
-void lambda_p_test::simple_parser_test_1::run_2 ()
+void lambda_p_test::simple_lexer_test_1::run_2 ()
 {
 	::std::wstringstream stream;
 	::std::wstring str;
@@ -71,7 +74,7 @@ void lambda_p_test::simple_parser_test_1::run_2 ()
 	assert (dynamic_cast < ::lambda_p::tokens::routine_end *> (tokens.tokens [2]) != NULL);
 }
 
-void lambda_p_test::simple_parser_test_1::run_3 ()
+void lambda_p_test::simple_lexer_test_1::run_3 ()
 {
 	::std::wstringstream stream;
 	::std::wstring str;
@@ -84,7 +87,7 @@ void lambda_p_test::simple_parser_test_1::run_3 ()
 	assert (tokens.tokens.size () == 0);
 }
 
-void lambda_p_test::simple_parser_test_1::run_4 ()
+void lambda_p_test::simple_lexer_test_1::run_4 ()
 {
 	::std::wstringstream stream;
 	::std::wstring str;
@@ -97,7 +100,7 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 	assert (tokens.tokens.size () == 0);
 }
 
-void lambda_p_test::simple_parser_test_1::run_5 ()
+void lambda_p_test::simple_lexer_test_1::run_5 ()
 {
 	::std::wstringstream stream;
 	::std::wstring str;
@@ -111,7 +114,7 @@ void lambda_p_test::simple_parser_test_1::run_5 ()
 	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
 }
 
-void lambda_p_test::simple_parser_test_1::run_6 ()
+void lambda_p_test::simple_lexer_test_1::run_6 ()
 {
 	::std::wstringstream stream;
 	::std::wstring str;
@@ -123,4 +126,32 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 	parser.lex ();
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_7 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.append (L";\"");
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 1);
+	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_8 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.append (L";\";");
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 1);
+	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
 }

@@ -7,6 +7,7 @@
 #include <lambda_p/tokens/dereference.h>
 #include <lambda_p/tokens/hex_data_token.h>
 #include <lambda_p/tokens/data_token.h>
+#include <lambda_p/tokens/complex_identifier.h>
 
 #include <boost/circular_buffer.hpp>
 
@@ -21,7 +22,8 @@ namespace lambda_p
 			simple_lexer (stream_type & source_a, token_sink & target_a)
 				: source (source_a),
 				target (target_a),
-                next_char (L';')
+                next_char (L';'),
+				lex_error (false)
 			{
 
 			}
@@ -202,11 +204,14 @@ namespace lambda_p
                 consume ();
                 ::std::wstring end_token;
                 bool done (false);
+				bool has_end_token (false);
                 while (!done)
                 {
                     switch (next_char)
                     {
                         case ';':
+							consume ();
+							has_end_token = true;
                         case '\0':
                             done = true;
                             break;
@@ -216,27 +221,38 @@ namespace lambda_p
                             break;
                     }
                 }
-                ::std::wstring data;
-                ::boost::circular_buffer <wchar_t> last_characters;
-                while (!match (last_characters, end_token) && next_char != '\0')
-                {
-                    last_characters.push_back (next_char);
-                    data.push_back (next_char);
-                    consume ();
-                }
-                if (next_char != '\0')
-                {
-                    data.resize (data.size () - end_token.size ());
-                    ::lambda_p::tokens::identifier * token = new ::lambda_p::tokens::identifier (data);
-                    target (token);
-                }
-                else
-                {
-                    ::std::wstring message;
-                    message.append (L"Manifest data did not end before end of stream");
-                    ::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
-                    target (error);
-                }
+				if (has_end_token)
+				{
+					::std::wstring data;
+					::boost::circular_buffer <wchar_t> last_characters;
+					bool matched (match (last_characters, end_token));
+					while (!matched && next_char != '\0')
+					{
+						last_characters.push_back (next_char);
+						data.push_back (next_char);
+						consume ();
+					}
+					if (matched)
+					{
+						data.resize (data.size () - end_token.size ());
+						::lambda_p::tokens::complex_identifier * token = new ::lambda_p::tokens::complex_identifier (data, end_token);
+						target (token);
+					}
+					else
+					{
+						::std::wstring message;
+						message.append (L"Manifest data did not end before end of stream");
+						::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+						target (error);
+					}
+				}
+				else
+				{
+					::std::wstring message;
+					message.append (L"Manifest data end token not complete before end of file");
+					::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+					target (error);
+				}
 			}
             bool match (::boost::circular_buffer <wchar_t> & last_characters, ::std::wstring & end_token)
             {
@@ -288,6 +304,7 @@ namespace lambda_p
 				source.get ();
 				peek ();
 			}
+			bool lex_error;
 			wchar_t next_char;
 			token_sink & target;
 			stream_type & source;
