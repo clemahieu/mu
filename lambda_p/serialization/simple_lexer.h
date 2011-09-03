@@ -22,7 +22,7 @@ namespace lambda_p
 			simple_lexer (stream_type & source_a, token_sink & target_a)
 				: source (source_a),
 				target (target_a),
-                next_char (L';'),
+                next_char (L'\0'),
 				lex_error (false)
 			{
 
@@ -38,7 +38,7 @@ namespace lambda_p
 			void lex_all ()
 			{
 				peek ();
-				while (next_char != L'\0')
+				while (!lex_error)
 				{
 					switch (next_char)
 					{
@@ -46,6 +46,7 @@ namespace lambda_p
 					case L'\t':
 					case L'\n':
 					case L'\f':
+					case L'\0':
 						lex_whitespace ();
 						break;
 					case L';':
@@ -60,7 +61,7 @@ namespace lambda_p
 			void lex_whitespace ()
 			{
 				bool done (false);
-				while (!done)
+				while (!done && !lex_error)
 				{
 					switch (next_char)
 					{
@@ -68,9 +69,9 @@ namespace lambda_p
 					case L'\t':
 					case L'\n':
 					case L'\f':
+					case L'\0':
 						consume ();
 						break;
-					case L'\0':
 					default:
 						done = true;
 						break;
@@ -80,20 +81,29 @@ namespace lambda_p
 			void lex_control ()
 			{
 				consume ();
-				switch (next_char)
+				if (!lex_error)
 				{
-				case L'*':
-					lex_multiline_comment ();
-					break;
-				case L'/':
-					lex_single_line_comment ();
-					break;
-				case L'"':
-					lex_manifest_data ();
-					break;
-				default:
-					lex_control_token ();
-					break;
+					switch (next_char)
+					{
+					case L'*':
+						lex_multiline_comment ();
+						break;
+					case L'/':
+						lex_single_line_comment ();
+						break;
+					case L'"':
+						lex_manifest_data ();
+						break;
+					default:
+						lex_control_token ();
+						break;
+					}
+				}
+				else
+				{
+					::std::wstring message;
+					message.append (L"Stream ended in the middle of a control token");
+					error (message);
 				}
 			}
 			void lex_control_token ()
@@ -141,9 +151,8 @@ namespace lambda_p
                         message.append (L"Unknown token: ");
                         message.push_back (';');
                         message.push_back (next_char);
-                        ::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
-                        target (error);
-                        next_char = L'\0';
+						error (message);
+						lex_error = true;
                     }
                     break;
                 }
@@ -154,32 +163,33 @@ namespace lambda_p
 				consume ();
 				while (!done)
 				{
-					switch (next_char)
+					if (!lex_error)
 					{
-					case L';':
-						consume ();
 						switch (next_char)
 						{
-						case L'*':
-							done = true;
+						case L';':
+							consume ();
+							switch (next_char)
+							{
+							case L'*':
+								done = true;
+								break;
+							default:
+								break;
+							}
 							break;
 						default:
 							break;
 						}
-						break;
-					case L'\0':
-						{
-							::std::wstring message;
-							message.append (L"End of file in the middle of a multi-line comment");
-							::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
-							target (error);
-							done = true;
-						}
-						break;
-					default:
-						break;
+						consume ();
 					}
-					consume ();
+					else
+					{
+						::std::wstring message;
+						message.append (L"End of file in the middle of a multi-line comment");
+						error (message);
+						done = true;
+					}
 				}
 			}
 			void lex_single_line_comment ()
@@ -188,15 +198,21 @@ namespace lambda_p
 				consume ();
 				while (!done)
 				{
-					switch (next_char)
+					if (!lex_error)
 					{
-					case L'\n':
-					case L'\f':
-					case L'\0':
-						done = true;
-						break;
+						switch (next_char)
+						{
+						case L'\n':
+						case L'\f':
+							done = true;
+							break;
+						}
+						consume ();
 					}
-					consume ();
+					else
+					{
+						done = true;
+					}
 				}
 			}
 			void lex_manifest_data ()
@@ -207,26 +223,32 @@ namespace lambda_p
 				bool has_end_token (false);
                 while (!done)
                 {
-                    switch (next_char)
-                    {
-                        case ';':
-							consume ();
-							has_end_token = true;
-                        case '\0':
-                            done = true;
-                            break;
-                        default:
-                            end_token.push_back (next_char);
-                            consume ();
-                            break;
-                    }
+					if (!lex_error)
+					{
+						switch (next_char)
+						{
+							case ';':
+								consume ();
+								done = true;
+								has_end_token = true;
+								break;
+							default:
+								end_token.push_back (next_char);
+								consume ();
+								break;
+						}
+					}
+					else
+					{
+						done = true;
+					}
                 }
 				if (has_end_token)
 				{
 					::std::wstring data;
 					::boost::circular_buffer <wchar_t> last_characters;
 					bool matched (match (last_characters, end_token));
-					while (!matched && next_char != '\0')
+					while (!matched && !lex_error)
 					{
 						last_characters.push_back (next_char);
 						data.push_back (next_char);
@@ -242,16 +264,14 @@ namespace lambda_p
 					{
 						::std::wstring message;
 						message.append (L"Manifest data did not end before end of stream");
-						::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
-						target (error);
+						error (message);
 					}
 				}
 				else
 				{
 					::std::wstring message;
 					message.append (L"Manifest data end token not complete before end of file");
-					::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
-					target (error);
+					error (message);
 				}
 			}
             bool match (::boost::circular_buffer <wchar_t> & last_characters, ::std::wstring & end_token)
@@ -291,12 +311,17 @@ namespace lambda_p
 				::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (string);
 				target (identifier);
 			}
+			void error (::std::wstring & message)
+			{
+				::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+				target (error);
+			}
 			void peek ()
 			{
 				next_char = source.peek ();
 				if (source.eof ())
 				{
-					next_char = L'\0';
+					lex_error = true;
 				}
 			}
 			void consume ()
