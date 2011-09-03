@@ -7,6 +7,26 @@ lambda_p::core::routine::routine(size_t parameters_a)
 
 lambda_p::core::routine::~routine(void)
 {
+	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
+	{
+		delete *i;
+	}
+	for (::std::vector < ::lambda_p::core::parameter_ref *>::const_iterator i = parameter_refs.begin (); i != parameter_refs.end (); ++i)
+	{
+		delete *i;
+	}
+	for (::std::vector < ::lambda_p::core::result *>::const_iterator i = results.begin (); i != results.end (); ++i)
+	{
+		delete *i;
+	}
+	for (::std::vector < ::lambda_p::core::result_ref *>::const_iterator i = result_refs.begin (); i != result_refs.end (); ++i)
+	{
+		delete *i;
+	}
+	for (::std::vector < ::lambda_p::core::data *>::const_iterator i = data.begin (); i != data.end (); ++i)
+	{
+		delete *i;
+	}
 }
 
 ::lambda_p::core::statement * lambda_p::core::routine::add_statement ()

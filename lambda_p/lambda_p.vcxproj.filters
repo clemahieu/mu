@@ -37,9 +37,6 @@
     <ClInclude Include="tokens\declaration.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\dereference.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\error.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -57,6 +54,18 @@
     </ClInclude>
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\simple_parser.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parse_result.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\result_reference.h">
+      <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\result_position.h">
+      <Filter>serialization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +99,6 @@
     <ClCompile Include="tokens\declaration.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\dereference.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\error.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
@@ -110,6 +116,15 @@
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
       <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parse_result.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\result_reference.cpp">
+      <Filter>serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\result_position.cpp">
+      <Filter>serialization</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
