@@ -36,6 +36,10 @@ void lambda_p_test::simple_lexer_test_1::run ()
 	run_6 ();
 	run_7 ();
 	run_8 ();
+	run_9 ();
+	run_10 ();
+	run_11 ();
+	run_12 ();
 }
 
 void lambda_p_test::simple_lexer_test_1::run_1 ()
@@ -147,6 +151,70 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	::std::wstringstream stream;
 	::std::wstring str;
 	str.append (L";\";");
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 1);
+	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_9 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.push_back (L'a');
+	str.push_back (L'\0');
+	str.push_back (L'a');
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 2);
+	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [1]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_10 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.push_back (L'\0');
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 0);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_11 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.append (L";\"a;ba");
+	stream << str;
+	stream.seekg (0);
+	token_vector tokens;
+	::lambda_p::serialization::simple_lexer < ::std::wstringstream, token_vector> parser (stream, tokens);
+	parser.lex ();
+	assert (tokens.tokens.size () == 1);
+	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_12 ()
+{
+	::std::wstringstream stream;
+	::std::wstring str;
+	str.append (L";\"abc;");
+	str.push_back ('a');
+	str.push_back ('\t');
+	str.push_back ('b');
+	str.push_back ('\0');
+	str.push_back ('c');
+	str.append (L"abc");
 	stream << str;
 	stream.seekg (0);
 	token_vector tokens;

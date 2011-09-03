@@ -196,23 +196,16 @@ namespace lambda_p
 			{
 				bool done (false);
 				consume ();
-				while (!done)
+				while (!done && !lex_error)
 				{
-					if (!lex_error)
+					switch (next_char)
 					{
-						switch (next_char)
-						{
-						case L'\n':
-						case L'\f':
-							done = true;
-							break;
-						}
-						consume ();
-					}
-					else
-					{
+					case L'\n':
+					case L'\f':
 						done = true;
+						break;
 					}
+					consume ();
 				}
 			}
 			void lex_manifest_data ()
@@ -221,38 +214,32 @@ namespace lambda_p
                 ::std::wstring end_token;
                 bool done (false);
 				bool has_end_token (false);
-                while (!done)
+                while (!done && !lex_error)
                 {
-					if (!lex_error)
+					switch (next_char)
 					{
-						switch (next_char)
-						{
-							case ';':
-								consume ();
-								done = true;
-								has_end_token = true;
-								break;
-							default:
-								end_token.push_back (next_char);
-								consume ();
-								break;
-						}
-					}
-					else
-					{
-						done = true;
+						case ';':
+							consume ();
+							done = true;
+							has_end_token = true;
+							break;
+						default:
+							end_token.push_back (next_char);
+							consume ();
+							break;
 					}
                 }
 				if (has_end_token)
 				{
 					::std::wstring data;
-					::boost::circular_buffer <wchar_t> last_characters;
+					::boost::circular_buffer <wchar_t> last_characters (end_token.size ());
 					bool matched (match (last_characters, end_token));
 					while (!matched && !lex_error)
 					{
 						last_characters.push_back (next_char);
 						data.push_back (next_char);
 						consume ();
+						matched = match (last_characters, end_token);
 					}
 					if (matched)
 					{
@@ -276,21 +263,25 @@ namespace lambda_p
 			}
             bool match (::boost::circular_buffer <wchar_t> & last_characters, ::std::wstring & end_token)
             {
-                bool result (true);
-                ::boost::circular_buffer <wchar_t>::const_iterator i = last_characters.begin ();
-                ::std::wstring::const_iterator j = end_token.begin ();
-                while (result && i != last_characters.end () && j != end_token.end ())
-                {
-                    ++i;
-                    ++j;
-                }
+				bool result (last_characters.size () == end_token.size ());
+				if (result)
+				{
+					::boost::circular_buffer <wchar_t>::const_iterator i = last_characters.begin ();
+					::std::wstring::const_iterator j = end_token.begin ();
+					while (result && i != last_characters.end () && j != end_token.end ())
+					{
+						result = *i == *j;
+						++i;
+						++j;
+					}
+				}
                 return result;
             }
 			void lex_identifier ()
 			{				
 				::std::wstring string;
 				bool done (false);
-				while (!done)
+				while (!done && !lex_error)
 				{
 					switch (next_char)
 					{
