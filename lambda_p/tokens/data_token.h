@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class simple_string_token : public token
+        class data_token : public token
         {
             
         };

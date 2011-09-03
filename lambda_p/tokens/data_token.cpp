@@ -6,4 +6,4 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include <lambda_p/tokens/simple_string_token.h>
+#include <lambda_p/tokens/data_token.h>

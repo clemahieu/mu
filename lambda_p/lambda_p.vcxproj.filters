@@ -49,10 +49,10 @@
     <ClInclude Include="tokens\routine_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\simple_string_token.h">
+    <ClInclude Include="tokens\statement_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\statement_end.h">
+    <ClInclude Include="tokens\data_token.h">
       <Filter>tokens</Filter>
     </ClInclude>
   </ItemGroup>
@@ -99,10 +99,10 @@
     <ClCompile Include="tokens\routine_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\simple_string_token.cpp">
+    <ClCompile Include="tokens\statement_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\statement_end.cpp">
+    <ClCompile Include="tokens\data_token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
   </ItemGroup>

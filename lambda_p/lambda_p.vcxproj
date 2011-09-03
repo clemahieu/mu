@@ -141,7 +141,7 @@
     <ClInclude Include="tokens\hex_data_token.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
-    <ClInclude Include="tokens\simple_string_token.h" />
+    <ClInclude Include="tokens\data_token.h" />
     <ClInclude Include="tokens\statement_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
@@ -159,7 +159,7 @@
     <ClCompile Include="tokens\hex_data_token.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
-    <ClCompile Include="tokens\simple_string_token.cpp" />
+    <ClCompile Include="tokens\data_token.cpp" />
     <ClCompile Include="tokens\statement_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>

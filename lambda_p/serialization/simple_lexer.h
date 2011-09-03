@@ -6,7 +6,7 @@
 #include <lambda_p/tokens/declaration.h>
 #include <lambda_p/tokens/dereference.h>
 #include <lambda_p/tokens/hex_data_token.h>
-#include <lambda_p/tokens/simple_string_token.h>
+#include <lambda_p/tokens/data_token.h>
 
 #include <boost/circular_buffer.hpp>
 
@@ -108,7 +108,7 @@ namespace lambda_p
                 case L'\'':
                     {
                         consume ();
-                        ::lambda_p::tokens::simple_string_token * token = new ::lambda_p::tokens::simple_string_token;
+                        ::lambda_p::tokens::data_token * token = new ::lambda_p::tokens::data_token;
                         target (token);
                     }
                     break;
@@ -165,6 +165,15 @@ namespace lambda_p
 							break;
 						}
 						break;
+					case L'\0':
+						{
+							::std::wstring message;
+							message.append (L"End of file in the middle of a multi-line comment");
+							::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+							target (error);
+							done = true;
+						}
+						break;
 					default:
 						break;
 					}
@@ -181,6 +190,7 @@ namespace lambda_p
 					{
 					case L'\n':
 					case L'\f':
+					case L'\0':
 						done = true;
 						break;
 					}
