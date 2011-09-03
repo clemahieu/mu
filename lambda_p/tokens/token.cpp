@@ -1,4 +1,4 @@
-#include "token.h"
+#include <lambda_p/tokens/token.h>
 
 lambda_p::tokens::token::token(void)
 {

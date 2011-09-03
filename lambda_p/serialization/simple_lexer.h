@@ -1,6 +1,14 @@
 #include <lambda_p/core/routine.h>
-#include <lambda_p/tokens/control.h>
 #include <lambda_p/tokens/identifier.h>
+#include <lambda_p/tokens/error.h>
+#include <lambda_p/tokens/routine_end.h>
+#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/declaration.h>
+#include <lambda_p/tokens/dereference.h>
+#include <lambda_p/tokens/hex_data_token.h>
+#include <lambda_p/tokens/simple_string_token.h>
+
+#include <boost/circular_buffer.hpp>
 
 namespace lambda_p
 {
@@ -12,7 +20,8 @@ namespace lambda_p
 		public:
 			simple_lexer (stream_type & source_a, token_sink & target_a)
 				: source (source_a),
-				target (target_a)
+				target (target_a),
+                next_char (L';')
 			{
 
 			}
@@ -87,28 +96,55 @@ namespace lambda_p
 			}
 			void lex_control_token ()
 			{
-				::std::wstring string;
-				string.push_back (L';');
-				bool done (false);
-				while (!done)
-				{
-					switch (next_char)
-					{
-					case L' ':
-					case L'\t':
-					case L'\n':
-					case L'\f':
-					case L'\0':
-						done = true;
-						break;
-					default:
-						string.push_back (next_char);
-						consume ();
-						break;
-					}
-				}
-				::lambda_p::tokens::control * control = new ::lambda_p::tokens::control (string);
-				target (control);
+                switch (next_char)
+                {
+                case L'#':
+                    {
+                        consume ();
+                        ::lambda_p::tokens::hex_data_token * token = new ::lambda_p::tokens::hex_data_token;
+                        target (token);
+                    }
+                    break;
+                case L'\'':
+                    {
+                        consume ();
+                        ::lambda_p::tokens::simple_string_token * token = new ::lambda_p::tokens::simple_string_token;
+                        target (token);
+                    }
+                    break;
+                case L'.':
+                    {
+                        consume ();
+                        ::lambda_p::tokens::routine_end * token = new ::lambda_p::tokens::routine_end;
+                        target (token);
+                    }
+                    break;
+                case L'!':
+                    {
+                        consume ();
+                        ::lambda_p::tokens::declaration * token = new ::lambda_p::tokens::declaration;
+                        target (token);
+                    }
+                    break;
+                case L';':
+                    {
+                        consume ();
+                        ::lambda_p::tokens::statement_end * token = new ::lambda_p::tokens::statement_end;
+                        target (token);
+                    }
+                    break;
+                default:
+                    {
+                        ::std::wstring message;
+                        message.append (L"Unknown token: ");
+                        message.push_back (';');
+                        message.push_back (next_char);
+                        ::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+                        target (error);
+                        next_char = L'\0';
+                    }
+                    break;
+                }
 			}
 			void lex_multiline_comment ()
 			{
@@ -153,8 +189,57 @@ namespace lambda_p
 			}
 			void lex_manifest_data ()
 			{
-
+                consume ();
+                ::std::wstring end_token;
+                bool done (false);
+                while (!done)
+                {
+                    switch (next_char)
+                    {
+                        case ';':
+                        case '\0':
+                            done = true;
+                            break;
+                        default:
+                            end_token.push_back (next_char);
+                            consume ();
+                            break;
+                    }
+                }
+                ::std::wstring data;
+                ::boost::circular_buffer <wchar_t> last_characters;
+                while (!match (last_characters, end_token) && next_char != '\0')
+                {
+                    last_characters.push_back (next_char);
+                    data.push_back (next_char);
+                    consume ();
+                }
+                if (next_char != '\0')
+                {
+                    data.resize (data.size () - end_token.size ());
+                    ::lambda_p::tokens::identifier * token = new ::lambda_p::tokens::identifier (data);
+                    target (token);
+                }
+                else
+                {
+                    ::std::wstring message;
+                    message.append (L"Manifest data did not end before end of stream");
+                    ::lambda_p::tokens::error * error = new ::lambda_p::tokens::error (message);
+                    target (error);
+                }
 			}
+            bool match (::boost::circular_buffer <wchar_t> & last_characters, ::std::wstring & end_token)
+            {
+                bool result (true);
+                ::boost::circular_buffer <wchar_t>::const_iterator i = last_characters.begin ();
+                ::std::wstring::const_iterator j = end_token.begin ();
+                while (result && i != last_characters.end () && j != end_token.end ())
+                {
+                    ++i;
+                    ++j;
+                }
+                return result;
+            }
 			void lex_identifier ()
 			{				
 				::std::wstring string;

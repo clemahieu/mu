@@ -1,4 +1,4 @@
-#include "identifier.h"
+#include <lambda_p/tokens/identifier.h>
 
 lambda_p::tokens::identifier::identifier (::std::wstring string_a)
 	: string (string_a)

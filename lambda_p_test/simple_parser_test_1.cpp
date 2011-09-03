@@ -4,6 +4,7 @@
 #include <lambda_p/serialization/simple_lexer.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/serialization/simple.h>
+#include <lambda_p/tokens/statement_end.h>
 
 #include <sstream>
 
@@ -42,6 +43,6 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 	parser.lex ();
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::control *> (tokens.tokens [1]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::control *> (tokens.tokens [2]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [2]) != NULL);
 }
