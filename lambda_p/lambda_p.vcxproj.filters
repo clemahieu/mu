@@ -31,9 +31,6 @@
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\simple_lexer.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\declaration.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -66,6 +63,36 @@
     </ClInclude>
     <ClInclude Include="serialization\result_position.h">
       <Filter>serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\simple_lexer.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\state.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\error.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\begin.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\whitespace.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\control.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\identifier.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\multiline_comment.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\singleline_comment.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\manifest_data.h">
+      <Filter>serialization\lexer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +153,33 @@
     <ClCompile Include="serialization\result_position.cpp">
       <Filter>serialization</Filter>
     </ClCompile>
+    <ClCompile Include="serialization\lexer\state.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\error.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\begin.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\whitespace.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\control.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\identifier.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\multiline_comment.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\manifest_data.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\singleline_comment.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -136,6 +190,9 @@
     </Filter>
     <Filter Include="tokens">
       <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\lexer">
+      <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
