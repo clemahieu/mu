@@ -50,22 +50,22 @@ namespace lambda_p
 					state_id state_l (state.top ()->state_type ());
 					switch (state_l)
 					{
-					case ::lambda_p::serialization::lexer::state_id::state_error:
+					case ::lambda_p::serialization::lexer::state_error:
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_begin:
+					case ::lambda_p::serialization::lexer::state_begin:
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_whitespace:
+					case ::lambda_p::serialization::lexer::state_whitespace:
 						pop_state ();
 						end ();
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_control:
+					case ::lambda_p::serialization::lexer::state_control:
 						{
 							::std::wstring message (L"End of stream in the middle of control_token");
 							::lambda_p::serialization::lexer::error * error (new ::lambda_p::serialization::lexer::error (message));
 							state.push (error);
 						}
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_identifier:
+					case ::lambda_p::serialization::lexer::state_identifier:
 						{							
 							::lambda_p::serialization::lexer::identifier * state_l (static_cast < ::lambda_p::serialization::lexer::identifier *> (state.top ()));
 							::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (state_l->string);
@@ -74,18 +74,18 @@ namespace lambda_p
 							end ();
 						}
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_multiline_comment:
+					case ::lambda_p::serialization::lexer::state_multiline_comment:
 						{
 							::std::wstring message (L"End of stream in the middle of multiline comment");
 							::lambda_p::serialization::lexer::error * error (new ::lambda_p::serialization::lexer::error (message));
 							state.push (error);
 						}
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_singleline_comment:
+					case ::lambda_p::serialization::lexer::state_singleline_comment:
 						pop_state ();
 						end ();
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_manifest_data:
+					case ::lambda_p::serialization::lexer::state_manifest_data:
 						{
 							::std::wstring message (L"End of stream in the middle of manifest data");
 							::lambda_p::serialization::lexer::error * error (new ::lambda_p::serialization::lexer::error (message));
@@ -115,28 +115,28 @@ namespace lambda_p
 					state_id state_l (state.top ()->state_type ());
 					switch (state_l)
 					{
-					case ::lambda_p::serialization::lexer::state_id::state_error:
+					case ::lambda_p::serialization::lexer::state_error:
 						lex_error (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_begin:
+					case ::lambda_p::serialization::lexer::state_begin:
 						lex_begin (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_whitespace:
+					case ::lambda_p::serialization::lexer::state_whitespace:
 						lex_whitespace (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_control:
+					case ::lambda_p::serialization::lexer::state_control:
 						lex_control (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_identifier:
+					case ::lambda_p::serialization::lexer::state_identifier:
 						lex_identifier (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_multiline_comment:
+					case ::lambda_p::serialization::lexer::state_multiline_comment:
 						lex_multiline_comment (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_singleline_comment:
+					case ::lambda_p::serialization::lexer::state_singleline_comment:
 						lex_singleline_comment (character);
 						break;
-					case ::lambda_p::serialization::lexer::state_id::state_manifest_data:
+					case ::lambda_p::serialization::lexer::state_manifest_data:
 						lex_manifest_data (character);
 						break;
 					default:

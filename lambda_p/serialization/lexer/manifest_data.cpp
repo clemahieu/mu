@@ -11,7 +11,7 @@ lambda_p::serialization::lexer::manifest_data::~manifest_data(void)
 
 ::lambda_p::serialization::lexer::state_id lambda_p::serialization::lexer::manifest_data::state_type ()
 {
-	return ::lambda_p::serialization::lexer::state_id::state_manifest_data;
+	return ::lambda_p::serialization::lexer::state_manifest_data;
 }
 
 bool lambda_p::serialization::lexer::manifest_data::match ()

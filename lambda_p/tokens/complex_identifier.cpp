@@ -12,5 +12,5 @@ lambda_p::tokens::complex_identifier::~complex_identifier (void)
 
 size_t lambda_p::tokens::complex_identifier::token_id ()
 {
-	return ::lambda_p::tokens::token_ids::token_id_complex_identifier;
+	return ::lambda_p::tokens::token_id_complex_identifier;
 }

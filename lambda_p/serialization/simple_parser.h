@@ -11,6 +11,7 @@
 #include <lambda_p/serialization/result_position.h>
 #include <lambda_p/core/result_ref.h>
 #include <lambda_p/core/statement.h>
+#include <lambda_p/core/routine.h>
 
 #include <map>
 
@@ -51,8 +52,8 @@ namespace lambda_p
 				size_t token_id (next_token->token_id ());
 				switch (token_id)
 				{
-				case ::lambda_p::tokens::token_ids::token_id_identifier:
-				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+				case ::lambda_p::tokens::token_id_identifier:
+				case ::lambda_p::tokens::token_id_complex_identifier:
 					{
 						::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
 						consume ();
@@ -76,12 +77,12 @@ namespace lambda_p
 				size_t token_id (next_token->token_id ());
 				switch (token_id)
 				{
-				case ::lambda_p::tokens::token_ids::token_id_statement_end:
+				case ::lambda_p::tokens::token_id_statement_end:
 					routine.reset (new ::lambda_p::core::routine (parameter_count));
 					consume ();
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-				case ::lambda_p::tokens::token_ids::token_id_identifier:
+				case ::lambda_p::tokens::token_id_complex_identifier:
+				case ::lambda_p::tokens::token_id_identifier:
 					{
 						::lambda_p::tokens::identifier * parameter_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
 						::lambda_p::serialization::result_reference reference (routine_name->string, parameter_name->string);
@@ -107,12 +108,12 @@ namespace lambda_p
 					size_t token_id (next_token->token_id ());
 					switch (token_id)
 					{
-					case ::lambda_p::tokens::token_ids::token_id_identifier:
-					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
+					case ::lambda_p::tokens::token_id_complex_identifier:
 						parse_statement ();
 						++current_statement;
 						break;
-					case ::lambda_p::tokens::token_ids::token_id_routine_end:
+					case ::lambda_p::tokens::token_id_routine_end:
 						{
 							::lambda_p::serialization::parse_result parse_result;
 							parse_result.routine = routine;
@@ -131,7 +132,6 @@ namespace lambda_p
 			void parse_statement ()
 			{
 				current_argument = 0;
-				::lambda_p::tokens::identifier * statement_name (static_cast < ::lambda_p::tokens::identifier *> (next_token));
 				consume ();
 				::lambda_p::core::statement * statement = routine->add_statement ();
 				if (!parse_error)
@@ -154,21 +154,21 @@ namespace lambda_p
 						size_t token_id (next_token->token_id ());
 						switch (token_id)
 						{
-						case ::lambda_p::tokens::token_ids::token_id_statement_end:
+						case ::lambda_p::tokens::token_id_statement_end:
 							consume ();
 							done = true;
 							break;
-						case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-						case ::lambda_p::tokens::token_ids::token_id_identifier:
+						case ::lambda_p::tokens::token_id_complex_identifier:
+						case ::lambda_p::tokens::token_id_identifier:
 							parse_result_ref (statement);
 							break;
-						case ::lambda_p::tokens::token_ids::token_id_hex_data_token:
+						case ::lambda_p::tokens::token_id_hex_data_token:
 							parse_hex_data_token (statement);
 							break;
-						case ::lambda_p::tokens::token_ids::token_id_data_token:
+						case ::lambda_p::tokens::token_id_data_token:
 							parse_data_token (statement);
 							break;
-						case ::lambda_p::tokens::token_ids::token_id_declaration:
+						case ::lambda_p::tokens::token_id_declaration:
 							parse_declaration (statement);
 							break;
 						default:
@@ -195,8 +195,8 @@ namespace lambda_p
 					size_t token_id (next_token->token_id ());
 					switch (token_id)
 					{
-					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-					case ::lambda_p::tokens::token_ids::token_id_identifier:
+					case ::lambda_p::tokens::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
 						{
 							::lambda_p::tokens::identifier * identifier (static_cast < ::lambda_p::tokens::identifier *> (next_token));
 							consume ();
@@ -237,8 +237,8 @@ namespace lambda_p
 					size_t token_id (next_token->token_id ());
 					switch (token_id)
 					{
-					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-					case ::lambda_p::tokens::token_ids::token_id_identifier:
+					case ::lambda_p::tokens::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
 						{
 							::lambda_p::core::data * data (routine->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
 							statement->add_argument (data);
@@ -266,8 +266,8 @@ namespace lambda_p
 					size_t token_id (next_token->token_id ());
 					switch (token_id)
 					{
-					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-					case ::lambda_p::tokens::token_ids::token_id_identifier:
+					case ::lambda_p::tokens::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
 						{
 							::lambda_p::core::data * data (routine->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
 							statement->add_argument (data);
@@ -295,8 +295,8 @@ namespace lambda_p
 					size_t token_id (next_token->token_id ());
 					switch (token_id)
 					{
-					case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
-					case ::lambda_p::tokens::token_ids::token_id_identifier:
+					case ::lambda_p::tokens::token_id_complex_identifier:
+					case ::lambda_p::tokens::token_id_identifier:
 						{
 							::lambda_p::core::result * result (routine->add_result (current_statement, current_argument));
 							statement->add_argument (result);
@@ -322,25 +322,25 @@ namespace lambda_p
 				size_t token_id (token->token_id ());
 				switch (token_id)
 				{
-				case ::lambda_p::tokens::token_ids::token_id_complex_identifier:
+				case ::lambda_p::tokens::token_id_complex_identifier:
 					result.append (L"complex_identifier");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_declaration:
+				case ::lambda_p::tokens::token_id_declaration:
 					result.append (L"declaration");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_hex_data_token:
+				case ::lambda_p::tokens::token_id_hex_data_token:
 					result.append (L"hex_data_token");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_identifier:
+				case ::lambda_p::tokens::token_id_identifier:
 					result.append (L"identifier");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_routine_end:
+				case ::lambda_p::tokens::token_id_routine_end:
 					result.append (L"routine_end");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_data_token:
+				case ::lambda_p::tokens::token_id_data_token:
 					result.append (L"data_token");
 					break;
-				case ::lambda_p::tokens::token_ids::token_id_statement_end:
+				case ::lambda_p::tokens::token_id_statement_end:
 					result.append (L"statement_end");
 					break;
 				default:

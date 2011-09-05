@@ -15,5 +15,5 @@ lambda_p::tokens::error::error (::std::wstring message_a)
 
 size_t lambda_p::tokens::error::token_id ()
 {
-	return ::lambda_p::tokens::token_ids::token_id_error;
+	return ::lambda_p::tokens::token_id_error;
 }

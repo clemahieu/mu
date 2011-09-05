@@ -11,6 +11,7 @@
 		4D473AE1141186B500455A7E /* liblambda_p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D473AE0141186B500455A7E /* liblambda_p.a */; };
 		CF7596DD140F1BB7001EDBB9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DA140F1BB7001EDBB9 /* main.cpp */; };
 		CF7596DE140F1BB7001EDBB9 /* simple_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */; };
+		CF75979A1415751E001EDBB9 /* simple_lexer_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597981415751E001EDBB9 /* simple_lexer_test_1.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,8 @@
 		CF7596DA140F1BB7001EDBB9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_test_1.cpp; sourceTree = "<group>"; };
 		CF7596DC140F1BB7001EDBB9 /* simple_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simple_test_1.h; sourceTree = "<group>"; };
+		CF7597981415751E001EDBB9 /* simple_lexer_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_lexer_test_1.cpp; sourceTree = "<group>"; };
+		CF7597991415751E001EDBB9 /* simple_lexer_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simple_lexer_test_1.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +53,8 @@
 		CF7596C2140F1AF0001EDBB9 = {
 			isa = PBXGroup;
 			children = (
+				CF7597981415751E001EDBB9 /* simple_lexer_test_1.cpp */,
+				CF7597991415751E001EDBB9 /* simple_lexer_test_1.h */,
 				4D473AE0141186B500455A7E /* liblambda_p.a */,
 				4D473ACE141185C100455A7E /* simple_parser_test_1.cpp */,
 				4D473ACF141185C100455A7E /* simple_parser_test_1.h */,
@@ -118,6 +123,7 @@
 				CF7596DD140F1BB7001EDBB9 /* main.cpp in Sources */,
 				CF7596DE140F1BB7001EDBB9 /* simple_test_1.cpp in Sources */,
 				4D473AD0141185C100455A7E /* simple_parser_test_1.cpp in Sources */,
+				CF75979A1415751E001EDBB9 /* simple_lexer_test_1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

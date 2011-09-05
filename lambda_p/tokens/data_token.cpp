@@ -10,5 +10,5 @@
 
 size_t lambda_p::tokens::data_token::token_id ()
 {
-	return ::lambda_p::tokens::token_ids::token_id_data_token;
+	return ::lambda_p::tokens::token_id_data_token;
 }

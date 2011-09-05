@@ -10,5 +10,5 @@
 
 size_t lambda_p::tokens::routine_end::token_id ()
 {
-	return ::lambda_p::tokens::token_ids::token_id_routine_end;
+	return ::lambda_p::tokens::token_id_routine_end;
 }
