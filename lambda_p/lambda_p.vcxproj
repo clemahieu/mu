@@ -135,8 +135,8 @@
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="serialization\lexer\begin.h" />
     <ClInclude Include="serialization\lexer\control.h" />
-    <ClInclude Include="serialization\lexer\error.h" />
-    <ClInclude Include="serialization\lexer\identifier.h" />
+    <ClInclude Include="serialization\lexer\error_state.h" />
+    <ClInclude Include="serialization\lexer\identifier_state.h" />
     <ClInclude Include="serialization\lexer\manifest_data.h" />
     <ClInclude Include="serialization\lexer\multiline_comment.h" />
     <ClInclude Include="serialization\lexer\singleline_comment.h" />
@@ -168,8 +168,8 @@
     <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="serialization\lexer\begin.cpp" />
     <ClCompile Include="serialization\lexer\control.cpp" />
-    <ClCompile Include="serialization\lexer\error.cpp" />
-    <ClCompile Include="serialization\lexer\identifier.cpp" />
+    <ClCompile Include="serialization\lexer\error_state.cpp" />
+    <ClCompile Include="serialization\lexer\identifier_state.cpp" />
     <ClCompile Include="serialization\lexer\manifest_data.cpp" />
     <ClCompile Include="serialization\lexer\multiline_comment.cpp" />
     <ClCompile Include="serialization\lexer\singleline_comment.cpp" />

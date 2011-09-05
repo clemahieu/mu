@@ -70,9 +70,6 @@
     <ClInclude Include="serialization\lexer\state.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\error.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\lexer\begin.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
@@ -82,9 +79,6 @@
     <ClInclude Include="serialization\lexer\control.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\identifier.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\lexer\multiline_comment.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
@@ -92,6 +86,12 @@
       <Filter>serialization\lexer</Filter>
     </ClInclude>
     <ClInclude Include="serialization\lexer\manifest_data.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\identifier_state.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\error_state.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -156,9 +156,6 @@
     <ClCompile Include="serialization\lexer\state.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\error.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
     <ClCompile Include="serialization\lexer\begin.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
@@ -168,9 +165,6 @@
     <ClCompile Include="serialization\lexer\control.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\identifier.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
     <ClCompile Include="serialization\lexer\multiline_comment.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
@@ -178,6 +172,12 @@
       <Filter>serialization\lexer</Filter>
     </ClCompile>
     <ClCompile Include="serialization\lexer\singleline_comment.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\identifier_state.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\error_state.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
   </ItemGroup>

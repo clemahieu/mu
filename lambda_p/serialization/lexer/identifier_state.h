@@ -10,11 +10,11 @@ namespace lambda_p
 	{
 		namespace lexer
 		{
-			class identifier : public state
+			class identifier_state : public state
 			{
 			public:
-				identifier(void);
-				~identifier(void);
+				identifier_state(void);
+				~identifier_state(void);
 				state_id state_type ();
 				::std::wstring string;
 			};
