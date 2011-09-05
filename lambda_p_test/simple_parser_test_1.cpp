@@ -41,6 +41,8 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 {
 	token_vector tokens;
 	routine_vector routines;
-	::lambda_p::serialization::simple_parser < ::std::vector < ::lambda_p::tokens::token *>::iterator, routine_vector> parser (tokens.tokens.begin (), tokens.tokens.end (), routines);
+	::std::vector < ::lambda_p::tokens::token *>::iterator begin = tokens.tokens.begin ();
+	::std::vector < ::lambda_p::tokens::token *>::iterator end = tokens.tokens.end ();
+	::lambda_p::serialization::simple_parser < ::std::vector < ::lambda_p::tokens::token *>::iterator, routine_vector> parser (begin, end, routines);
 	parser.parse ();
 }
