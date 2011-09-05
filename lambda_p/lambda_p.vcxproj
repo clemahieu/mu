@@ -150,7 +150,6 @@
     <ClInclude Include="serialization\simple_parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\declaration.h" />
-    <ClInclude Include="tokens\error.h" />
     <ClInclude Include="tokens\hex_data_token.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
@@ -180,7 +179,6 @@
     <ClCompile Include="serialization\result_reference.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\declaration.cpp" />
-    <ClCompile Include="tokens\error.cpp" />
     <ClCompile Include="tokens\hex_data_token.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />

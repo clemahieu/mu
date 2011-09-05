@@ -1,6 +1,5 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/tokens/identifier.h>
-#include <lambda_p/tokens/error.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/declaration.h>
@@ -60,8 +59,17 @@ namespace lambda_p
 						break;
 					case ::lambda_p::serialization::lexer::state_control:
 						{
-							::std::wstring message (L"End of stream in the middle of control_token");
-							state.push (new ::lambda_p::serialization::lexer::error_state (message));
+							::lambda_p::serialization::lexer::control * state_l (static_cast < ::lambda_p::serialization::lexer::control *> (state.top ()));
+							if (state_l->complete)
+							{
+								pop_state ();
+								end ();
+							}
+							else
+							{
+								::std::wstring message (L"End of stream in the middle of control_token");
+								state.push (new ::lambda_p::serialization::lexer::error_state (message));
+							}
 						}
 						break;
 					case ::lambda_p::serialization::lexer::state_identifier:
@@ -236,13 +244,6 @@ namespace lambda_p
 								target (token);
 							}
 							break;
-						case L' ':
-						case L'\t':
-						case L'\n':
-						case L'\f':
-						case L'\0':						
-							pop_state ();
-							break;
 						default:
 							::std::wstring message (L"Unknown token: ;");
 							message.push_back (character);
@@ -252,8 +253,20 @@ namespace lambda_p
 					}
 					else
 					{
-						::std::wstring message (L"Expecting whitespace after control_token");
-						state.push (new ::lambda_p::serialization::lexer::error_state (message));	
+						switch (character)
+						{
+						case L' ':
+						case L'\t':
+						case L'\n':
+						case L'\f':
+						case L'\0':						
+							pop_state ();
+							break;
+						default:
+							::std::wstring message (L"Expecting whitespace after control_token");
+							state.push (new ::lambda_p::serialization::lexer::error_state (message));	
+							break;
+						}
 					}
 				}
 				void lex_multiline_comment (wchar_t character)
@@ -276,7 +289,12 @@ namespace lambda_p
 					}
 					else
 					{
-						// Eat comments
+						switch (character)
+						{
+						case L';':
+							state_l->have_semicolon = true;
+							break;
+						}
 					}
 				}
 				void lex_singleline_comment (wchar_t character)
@@ -299,6 +317,7 @@ namespace lambda_p
 						{
 						case L';':
 							state_l->have_end_token = true;
+							state_l->last_characters.resize (state_l->end_token.size ());
 							break;
 						default:
 							state_l->end_token.push_back (character);
@@ -306,16 +325,16 @@ namespace lambda_p
 						}
 					}
 					else
-					{
+					{						
 						state_l->last_characters.push_back (character);
 						state_l->data.push_back (character);
-						if (state_l->match ())
-						{
-							state_l->data.resize (state_l->data.size () - state_l->end_token.size ());
-							::lambda_p::tokens::complex_identifier * token (new ::lambda_p::tokens::complex_identifier (state_l->data, state_l->end_token));
-							target (token);
-							pop_state ();
-						}
+					}
+					if (state_l->have_end_token && state_l->match ())
+					{
+						state_l->data.resize (state_l->data.size () - state_l->end_token.size ());
+						::lambda_p::tokens::complex_identifier * token (new ::lambda_p::tokens::complex_identifier (state_l->data, state_l->end_token));
+						target (token);
+						pop_state ();
 					}
 				}
 				void lex_identifier (wchar_t character)

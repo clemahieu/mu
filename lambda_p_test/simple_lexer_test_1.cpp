@@ -56,6 +56,7 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
@@ -76,6 +77,7 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
@@ -107,6 +109,7 @@ void lambda_p_test::simple_lexer_test_1::run_4 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -121,8 +124,8 @@ void lambda_p_test::simple_lexer_test_1::run_5 ()
 		parser (*i);
 	}
 	parser.end ();
-	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
+	assert (parser.error ());
+	assert (tokens.tokens.size () == 0);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_6 ()
@@ -136,8 +139,8 @@ void lambda_p_test::simple_lexer_test_1::run_6 ()
 		parser (*i);
 	}
 	parser.end ();
-	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
+	assert (parser.error ());
+	assert (tokens.tokens.size () == 0);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_7 ()
@@ -151,8 +154,8 @@ void lambda_p_test::simple_lexer_test_1::run_7 ()
 		parser (*i);
 	}
 	parser.end ();
-	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::error *> (tokens.tokens [0]) != NULL);
+	assert (parser.error ());
+	assert (tokens.tokens.size () == 0);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_8 ()
@@ -166,8 +169,9 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_9 ()
@@ -199,6 +203,7 @@ void lambda_p_test::simple_lexer_test_1::run_10 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -213,6 +218,7 @@ void lambda_p_test::simple_lexer_test_1::run_11 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
 }
@@ -234,6 +240,7 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 		parser (*i);
 	}
 	parser.end ();
+	assert (!parser.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
 }

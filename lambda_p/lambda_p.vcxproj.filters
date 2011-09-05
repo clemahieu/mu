@@ -34,9 +34,6 @@
     <ClInclude Include="tokens\declaration.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\error.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\hex_data_token.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -124,9 +121,6 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\declaration.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\error.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\hex_data_token.cpp">
