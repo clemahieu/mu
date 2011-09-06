@@ -1,18 +1,18 @@
 #pragma once
 
-#include <lambda_p/serialization/lexer/state.h>
+#include <lambda_p/serialization/parser/state.h>
 
 namespace lambda_p
 {
 	namespace serialization
 	{
-		namespace lexer
+		namespace parser
 		{
-			class begin : public ::lambda_p::serialization::lexer::state
+			class begin : public state
 			{
 			public:
 				begin(void);
-				~begin(void);				
+				~begin(void);
 				state_id state_type ();
 			};
 		}

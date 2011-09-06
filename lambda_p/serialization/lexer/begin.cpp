@@ -1,4 +1,4 @@
-#include "begin.h"
+#include <lambda_p/serialization/lexer/begin.h>
 
 lambda_p::serialization::lexer::begin::begin(void)
 {

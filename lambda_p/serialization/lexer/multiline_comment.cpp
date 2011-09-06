@@ -1,4 +1,4 @@
-#include "multiline_comment.h"
+#include <lambda_p/serialization/lexer/multiline_comment.h>
 
 lambda_p::serialization::lexer::multiline_comment::multiline_comment(void)
 	: have_semicolon (false)

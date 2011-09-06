@@ -1,4 +1,4 @@
-#include "data.h"
+#include <lambda_p/core/data.h>
 
 #include <lambda_p/core/routine.h>
 

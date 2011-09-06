@@ -9,10 +9,10 @@
 
 #include <lambda_p/serialization/lexer/state.h>
 #include <lambda_p/serialization/lexer/begin.h>
-#include <lambda_p/serialization/lexer/error_state.h>
+#include <lambda_p/serialization/lexer/error.h>
 #include <lambda_p/serialization/lexer/whitespace.h>
 #include <lambda_p/serialization/lexer/control.h>
-#include <lambda_p/serialization/lexer/identifier_state.h>
+#include <lambda_p/serialization/lexer/identifier.h>
 #include <lambda_p/serialization/lexer/multiline_comment.h>
 #include <lambda_p/serialization/lexer/singleline_comment.h>
 #include <lambda_p/serialization/lexer/manifest_data.h>
@@ -68,13 +68,13 @@ namespace lambda_p
 							else
 							{
 								::std::wstring message (L"End of stream in the middle of control_token");
-								state.push (new ::lambda_p::serialization::lexer::error_state (message));
+								state.push (new ::lambda_p::serialization::lexer::error (message));
 							}
 						}
 						break;
 					case ::lambda_p::serialization::lexer::state_identifier:
 						{							
-							::lambda_p::serialization::lexer::identifier_state * state_l (static_cast < ::lambda_p::serialization::lexer::identifier_state *> (state.top ()));
+							::lambda_p::serialization::lexer::identifier * state_l (static_cast < ::lambda_p::serialization::lexer::identifier *> (state.top ()));
 							::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (state_l->string);
 							target (identifier);
 							pop_state ();
@@ -84,7 +84,7 @@ namespace lambda_p
 					case ::lambda_p::serialization::lexer::state_multiline_comment:
 						{
 							::std::wstring message (L"End of stream in the middle of multiline comment");
-							state.push (new ::lambda_p::serialization::lexer::error_state (message));
+							state.push (new ::lambda_p::serialization::lexer::error (message));
 						}
 						break;
 					case ::lambda_p::serialization::lexer::state_singleline_comment:
@@ -94,7 +94,7 @@ namespace lambda_p
 					case ::lambda_p::serialization::lexer::state_manifest_data:
 						{
 							::std::wstring message (L"End of stream in the middle of manifest data");
-							state.push (new ::lambda_p::serialization::lexer::error_state (message));
+							state.push (new ::lambda_p::serialization::lexer::error (message));
 						}
 						break;
 					default:
@@ -168,7 +168,7 @@ namespace lambda_p
 						state.push (new ::lambda_p::serialization::lexer::control);
 						break;
 					default:
-						state.push (new ::lambda_p::serialization::lexer::identifier_state);
+						state.push (new ::lambda_p::serialization::lexer::identifier);
 						lex_identifier (character);
 						break;
 					}
@@ -247,7 +247,7 @@ namespace lambda_p
 						default:
 							::std::wstring message (L"Unknown token: ;");
 							message.push_back (character);
-							state.push (new ::lambda_p::serialization::lexer::error_state (message));
+							state.push (new ::lambda_p::serialization::lexer::error (message));
 							break;
 						}
 					}
@@ -264,7 +264,7 @@ namespace lambda_p
 							break;
 						default:
 							::std::wstring message (L"Expecting whitespace after control_token");
-							state.push (new ::lambda_p::serialization::lexer::error_state (message));	
+							state.push (new ::lambda_p::serialization::lexer::error (message));	
 							break;
 						}
 					}
@@ -339,7 +339,7 @@ namespace lambda_p
 				}
 				void lex_identifier (wchar_t character)
 				{				
-					::lambda_p::serialization::lexer::identifier_state * state_l (static_cast < ::lambda_p::serialization::lexer::identifier_state *> (state.top ()));
+					::lambda_p::serialization::lexer::identifier * state_l (static_cast < ::lambda_p::serialization::lexer::identifier *> (state.top ()));
 					switch (character)
 					{
 					case L' ':

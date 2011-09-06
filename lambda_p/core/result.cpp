@@ -1,4 +1,4 @@
-#include "result.h"
+#include <lambda_p/core/result.h>
 
 #include <iostream>
 

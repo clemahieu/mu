@@ -1,4 +1,4 @@
-#include "state.h"
+#include <lambda_p/serialization/lexer/state.h>
 
 lambda_p::serialization::lexer::state::state(void)
 {

@@ -12,12 +12,15 @@ namespace lambda_p
 	}
 	namespace serialization
 	{
-		class parse_result
+		namespace parser
 		{
-		public:
-			::boost::shared_ptr < ::lambda_p::core::routine> routine;
-			::std::wstring message;
-		};
+			class parse_result
+			{
+			public:
+				::boost::shared_ptr < ::lambda_p::core::routine> routine;
+				::std::wstring message;
+			};
+		}
 	}
 }
 

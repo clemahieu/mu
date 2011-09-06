@@ -1,46 +1,53 @@
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/serialization/parse_result.h>
+#include <lambda_p/serialization/parser/parse_result.h>
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/declaration.h>
 #include <lambda_p/tokens/hex_data_token.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/data_token.h>
-#include <lambda_p/serialization/result_reference.h>
-#include <lambda_p/serialization/result_position.h>
+#include <lambda_p/serialization/parser/result_reference.h>
+#include <lambda_p/serialization/parser/result_position.h>
 #include <lambda_p/core/result_ref.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
+#include <lambda_p/serialization/parser/state.h>
 
 #include <map>
+#include <stack>
 
 namespace lambda_p
 {
 	namespace serialization
 	{
-		template <typename token_source, typename routine_sink>
+		template <typename routine_sink>
 		class simple_parser
 		{
 		public:
-			simple_parser (token_source & source_a, token_source & end_a, routine_sink & target_a)
-				: source (source_a),
-				end (end_a),
-				target (target_a)
+			simple_parser (routine_sink & target_a)
+				: target (target_a)
 			{
 			}
-			void parse ()
+			void operator () (::lambda_p::tokens::token * token)
 			{
-				parse_all ();
+				parse_internal (token);
+			}
+			void reset ()
+			{
+				while (!state.empty ())
+				{
+					pop_state ();
+				}
+			}
+			bool error ()
+			{
+				bool result (state.top ().state_type () == ::lambda_p::serialization::parser::state_error);
+				return result;
 			}
 		private:
-			void parse_all ()
+			void parse_internal (::lambda_p::tokens::token * token)
 			{
-				peek ();
-				while (!parse_error)
-				{
-					parse_routine ();
-				}
 			}
 			void parse_routine ()
 			{
@@ -350,38 +357,18 @@ namespace lambda_p
 
 				return result;
 			}
-			void error (::std::wstring & message)
+			void pop_state ()
 			{
-				::lambda_p::serialization::parse_result parse_result;
-				parse_result.message = message;
-				target (parse_result);
+				delete state.top ();
+				state.pop ();
 			}
-			void peek ()
-			{
-				if (source == end)
-				{
-					next_token = NULL;
-					parse_error = true;
-				}
-				else
-				{
-					next_token = *source;
-				}
-			}
-			void consume ()
-			{
-				++source;
-				peek ();
-			}
-			bool parse_error;
 			::lambda_p::tokens::token * next_token;
 			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 			size_t current_statement;
 			size_t current_argument;
-			::std::map < ::lambda_p::serialization::result_reference, ::lambda_p::serialization::result_position> positions;
-			::std::map < ::lambda_p::serialization::result_reference, ::lambda_p::core::result_ref *> unresolved_references;
-			token_source & source;
-			token_source & end;
+			::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
+			::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::result_ref *> unresolved_references;
+			::std::stack < ::lambda_p::serialization::parser::state *> state;
 			routine_sink & target;
 		};
 	}

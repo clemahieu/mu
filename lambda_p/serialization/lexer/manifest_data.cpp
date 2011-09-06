@@ -1,4 +1,4 @@
-#include "manifest_data.h"
+#include <lambda_p/serialization/lexer/manifest_data.h>
 
 lambda_p::serialization::lexer::manifest_data::manifest_data(void)
 	: have_end_token (false)

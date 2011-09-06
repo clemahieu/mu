@@ -8,7 +8,7 @@ namespace lambda_p
 	{
 		namespace lexer
 		{
-			class control : public state
+			class control : public ::lambda_p::serialization::lexer::state
 			{
 			public:
 				control(void);

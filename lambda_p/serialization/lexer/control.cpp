@@ -1,4 +1,4 @@
-#include "control.h"
+#include <lambda_p/serialization/lexer/control.h>
 
 lambda_p::serialization::lexer::control::control(void)
 	: complete (false)

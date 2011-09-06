@@ -1,4 +1,4 @@
-#include "whitespace.h"
+#include <lambda_p/serialization/lexer/whitespace.h>
 
 lambda_p::serialization::lexer::whitespace::whitespace(void)
 {

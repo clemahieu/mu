@@ -49,18 +49,6 @@
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\simple_parser.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parse_result.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\result_reference.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\result_position.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\lexer\simple_lexer.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
@@ -85,11 +73,32 @@
     <ClInclude Include="serialization\lexer\manifest_data.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\identifier_state.h">
+    <ClInclude Include="serialization\parser\parse_result.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\result_position.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\result_reference.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\simple_parser.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\state.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\lexer\identifier.h">
       <Filter>serialization\lexer</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\error_state.h">
+    <ClInclude Include="serialization\lexer\error.h">
       <Filter>serialization\lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\error.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\begin.h">
+      <Filter>serialization\parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,15 +147,6 @@
     <ClCompile Include="tokens\complex_identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\parse_result.cpp">
-      <Filter>serialization</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\result_reference.cpp">
-      <Filter>serialization</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\result_position.cpp">
-      <Filter>serialization</Filter>
-    </ClCompile>
     <ClCompile Include="serialization\lexer\state.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
@@ -168,11 +168,29 @@
     <ClCompile Include="serialization\lexer\singleline_comment.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\identifier_state.cpp">
+    <ClCompile Include="serialization\parser\parse_result.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\result_position.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\result_reference.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\state.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\identifier.cpp">
       <Filter>serialization\lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\error_state.cpp">
+    <ClCompile Include="serialization\lexer\error.cpp">
       <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\begin.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\error.cpp">
+      <Filter>serialization\parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +205,9 @@
     </Filter>
     <Filter Include="serialization\lexer">
       <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="serialization\parser">
+      <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,14 +10,15 @@ namespace lambda_p
 	{
 		namespace lexer
 		{
-			class error_state : public state
+			class identifier : public state
 			{
 			public:
-				error_state(::std::wstring message_a);
-				~error_state(void);
+				identifier(void);
+				~identifier(void);
 				state_id state_type ();
-				::std::wstring message;
+				::std::wstring string;
 			};
 		}
 	}
 }
+

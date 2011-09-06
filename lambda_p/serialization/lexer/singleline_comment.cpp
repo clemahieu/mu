@@ -1,4 +1,4 @@
-#include "singleline_comment.h"
+#include <lambda_p/serialization/lexer/singleline_comment.h>
 
 lambda_p::serialization::lexer::singleline_comment::singleline_comment(void)
 {
