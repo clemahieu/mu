@@ -16,7 +16,7 @@ namespace lambda_p
     {
         class statement_end : public token
         {
-			size_t token_id ();
+			::lambda_p::tokens::token_ids token_id ();
         };
     }
 }

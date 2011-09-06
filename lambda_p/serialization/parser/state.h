@@ -9,13 +9,18 @@ namespace lambda_p
 			enum state_id
 			{
 				state_error,
-				state_begin
+				state_begin,
+				state_routine,
+				state_routine_parameter,
+				state_body,
+				state_statement
 			};
 			class state
 			{
 			public:
 				state (void);
 				~state (void);
+				virtual state_id state_type () = 0;
 			};
 		}
 	}

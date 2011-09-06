@@ -2,22 +2,20 @@
 
 #include <lambda_p/serialization/parser/state.h>
 
-#include <string>
-
 namespace lambda_p
 {
 	namespace serialization
 	{
 		namespace parser
 		{
-			class error : public ::lambda_p::serialization::parser::state
+			class routine : public state
 			{
 			public:
-				error(::std::wstring message_a);
-				~error(void);
+				routine(void);
+				~routine(void);
 				state_id state_type ();
-				::std::wstring message;
 			};
 		}
 	}
 }
+

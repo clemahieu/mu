@@ -42,4 +42,5 @@ void lambda_p_test::simple_parser_test_1::run_1 ()
 	token_vector tokens;
 	routine_vector routines;
 	::lambda_p::serialization::simple_parser <routine_vector> parser (routines);
+	parser (NULL);
 }

@@ -1,6 +1,7 @@
 #include <lambda_p/serialization/parser/error.h>
 
-lambda_p::serialization::parser::error::error(void)
+lambda_p::serialization::parser::error::error(::std::wstring message_a)
+	: message (message_a)
 {
 }
 

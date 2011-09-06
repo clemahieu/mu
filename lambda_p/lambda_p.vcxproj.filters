@@ -100,6 +100,21 @@
     <ClInclude Include="serialization\parser\begin.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
+    <ClInclude Include="serialization\parser\routine_parameter.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\routine.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\body.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\statement.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\result_ref.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -190,6 +205,21 @@
       <Filter>serialization\parser</Filter>
     </ClCompile>
     <ClCompile Include="serialization\parser\error.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\routine_parameter.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\routine.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\body.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\statement.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\result_ref.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
   </ItemGroup>

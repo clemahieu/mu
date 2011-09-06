@@ -13,7 +13,7 @@ namespace lambda_p
 		public:
 			identifier (::std::wstring string_a);
 			~identifier (void);
-			size_t token_id ();
+			token_ids token_id ();
 			::std::wstring string;
 		};
 	}

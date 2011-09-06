@@ -10,7 +10,6 @@ namespace lambda_p
 		{
 			token_id_complex_identifier,
 			token_id_declaration,
-			token_id_error,
 			token_id_hex_data_token,
 			token_id_identifier,
 			token_id_routine_end,
@@ -22,7 +21,7 @@ namespace lambda_p
 		public:
 			token(void);
 			~token(void);
-			virtual size_t token_id () = 0;
+			virtual token_ids token_id () = 0;
 		};
 	}
 }

@@ -16,7 +16,7 @@ namespace lambda_p
     {
         class declaration : public token
         {
-			size_t token_id ();
+			token_ids token_id ();
         };
     }
 }
