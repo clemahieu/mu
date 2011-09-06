@@ -9,6 +9,10 @@
 
 namespace lambda_p
 {
+	namespace core
+	{
+		class routine;
+	}
 	namespace serialization
 	{
 		namespace parser
@@ -16,11 +20,13 @@ namespace lambda_p
 			class body : public state
 			{
 			public:
-				body (::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions_a);
+				body (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions_a);
 				~body (void);
 				state_id state_type ();
 				size_t statement_count;
-				::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions;
+				::boost::shared_ptr < ::lambda_p::core::routine> routine;
+				::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::result_ref *> unresolved_references;
+				::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
 			};
 		}
 	}

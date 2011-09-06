@@ -10,21 +10,26 @@
 
 namespace lambda_p
 {
+	namespace core
+	{
+		class statement;
+	}
 	namespace serialization
 	{
 		namespace parser
 		{
+			class body;
 			class statement : public state
 			{
 			public:
-				statement (size_t statement_number_a, ::std::wstring statement_name_a, ::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions_a);
+				statement (::lambda_p::serialization::parser::body * body_a, ::std::wstring statement_name_a);
 				~statement (void);
 				state_id state_type ();
 				::std::wstring statement_name;
-				size_t statement_number;
 				size_t argument_count;
 				bool have_target;
-				::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions;
+				::lambda_p::serialization::parser::body * body;
+				::lambda_p::core::statement * statement_m;
 			};
 		}
 	}

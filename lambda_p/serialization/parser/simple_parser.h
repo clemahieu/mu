@@ -77,6 +77,8 @@ namespace lambda_p
 				case ::lambda_p::serialization::parser::state_statement:
 					parse_statement (token);
 					break;
+				case ::lambda_p::serialization::parser::state_result_ref:
+					parse_routine_ref (token);
 				default:
 					assert (false);
 				}
@@ -122,13 +124,16 @@ namespace lambda_p
 						::lambda_p::tokens::identifier * parameter_name (static_cast < ::lambda_p::tokens::identifier *> (token));
 						::lambda_p::serialization::parser::result_position position (0, state_l->parameter_count);
 						::lambda_p::serialization::parser::result_reference reference (state_l->routine_name, parameter_name->string);
-						(*(state_l->positions)) [reference] = position;
+						state_l->positions [reference] = position;
 						++state_l->parameter_count;
 					}
 					break;
 				case ::lambda_p::tokens::token_id_statement_end:
-					pop_state ();
-					state.push (new ::lambda_p::serialization::parser::body (state_l->positions));
+					{
+						pop_state ();
+						::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine (state_l->parameter_count));
+						state.push (new ::lambda_p::serialization::parser::body (routine, state_l->positions));
+					}
 					break;
 				default:
 					::std::wstring message (L"Expecting an identifier or statement_end in routine parameters, have: ");
@@ -147,7 +152,8 @@ namespace lambda_p
 					{
 						::lambda_p::serialization::parser::body * state_l (static_cast < ::lambda_p::serialization::parser::body *> (state.top ()));
 						::lambda_p::tokens::identifier * statement_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-						state.push (new ::lambda_p::serialization::parser::statement (statement_name, state_l->positions));
+						++state_l->statement_count;
+						state.push (new ::lambda_p::serialization::parser::statement (state_l, statement_name->string));
 					}
 					break;
 				case ::lambda_p::tokens::token_id_routine_end:
@@ -162,17 +168,17 @@ namespace lambda_p
 			}
 			void parse_statement (::lambda_p::tokens::token * token)
 			{				
-				::lambda_p::serialization::parser::statement * state_l (static_cast < ::lambda_p::serialization::parser::statement *> (token));
+				::lambda_p::serialization::parser::statement * state_l (static_cast < ::lambda_p::serialization::parser::statement *> (state.top ()));
+				::lambda_p::tokens::token_ids token_id (token->token_id ());
 				if (!state_l->have_target)
 				{
-					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
 					case ::lambda_p::tokens::token_id_complex_identifier:
 					case ::lambda_p::tokens::token_id_identifier:
 						{
-							::lambda_p::tokens::identifier target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-							state.push (new ::lambda_p::serialization::parser::result_ref (target_statement, state_l));
+							::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
+							state.push (new ::lambda_p::serialization::parser::result_ref (target_statement->string, state_l));
 							break;
 						}
 						break;
@@ -190,8 +196,8 @@ namespace lambda_p
 					case ::lambda_p::tokens::token_id_complex_identifier:
 					case ::lambda_p::tokens::token_id_identifier:
 						{
-							::lambda_p::tokens::identifier target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-							state.push (new ::lambda_p::serialization::parser::result_ref (target_statement, state_l));
+							::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
+							state.push (new ::lambda_p::serialization::parser::result_ref (target_statement->string, state_l));
 							break;
 						}
 						break;
@@ -216,11 +222,43 @@ namespace lambda_p
 						}
 						break;
 					default:
-						::std::wstring message ("Invalid statement argument: ");
-						message.append (token_type_name (next_token));
+						::std::wstring message (L"Invalid statement argument: ");
+						message.append (token_type_name (token));
 						state.push (new ::lambda_p::serialization::parser::error (message));
 						break;
 					}
+				}
+			}
+			void parse_routine_ref (::lambda_p::tokens::token * token)
+			{
+				::lambda_p::serialization::parser::result_ref * state_l (static_cast < ::lambda_p::serialization::parser::result_ref *> (state.top ()));
+				::lambda_p::tokens::token_ids token_id (token->token_id ());
+				switch (token_id)
+				{
+				case ::lambda_p::tokens::token_id_complex_identifier:
+				case ::lambda_p::tokens::token_id_identifier:
+					{
+						::lambda_p::tokens::identifier * target_argument (static_cast < ::lambda_p::tokens::identifier *> (token));
+						::lambda_p::serialization::parser::result_reference reference (state_l->target_statement, target_argument->string);
+						::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position>::iterator search = state_l->statement->body->positions.find (reference);
+						if (search != state_l->statement->body->positions.end ())
+						{
+							::lambda_p::core::result_ref * ref = state_l->statement->body->routine->add_result_ref (search->second.statement, search->second.argument, state_l->statement->body->statement_count, state_l->statement->argument_count);
+							state_l->statement->statement_m->add_argument (ref);
+						}
+						else
+						{
+							::lambda_p::core::result_ref * ref = state_l->statement->body->routine->add_result_ref (-1, -1, state_l->statement->body->statement_count, state_l->statement->argument_count);
+							state_l->statement->statement_m->add_argument (ref);
+							state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::result_ref *>::value_type (reference, ref));
+						}
+					}
+					break;
+				default:
+					::std::wstring message (L"Trying to parse a result_ref, expecting an identifier, have: ");
+					message.append (token_type_name (token));
+					state.push (new ::lambda_p::serialization::parser::error (message));
+					break;
 				}
 			}
 			/*

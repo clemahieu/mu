@@ -1,11 +1,13 @@
 #include "statement.h"
 
-lambda_p::serialization::parser::statement::statement(size_t statement_number_a, ::std::wstring statement_name_a, ::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions_a)
+#include <lambda_p/serialization/parser/body.h>
+
+lambda_p::serialization::parser::statement::statement(::lambda_p::serialization::parser::body * body_a, ::std::wstring statement_name_a)
 	: statement_name (statement_name_a),
-	positions (positions_a),
-	statement_number (statement_number_a),
+	body (body_a),
 	argument_count (0),
-	have_target (false)
+	have_target (false),
+	statement_m (body_a->routine->add_statement ())
 {
 }
 

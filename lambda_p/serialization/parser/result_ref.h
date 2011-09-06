@@ -9,7 +9,7 @@ namespace lambda_p
 	{
 		namespace parser
 		{
-			class result_ref : state
+			class result_ref : public state
 			{
 			public:
 				result_ref (::std::wstring target_statement_a, ::lambda_p::serialization::parser::statement * statement_a);

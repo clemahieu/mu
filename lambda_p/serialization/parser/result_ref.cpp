@@ -10,7 +10,7 @@ lambda_p::serialization::parser::result_ref::~result_ref(void)
 {
 }
 
-::lambda_p::serialization::parser::state_id lambda_p::serialization::parser::statement::state_type ()
+::lambda_p::serialization::parser::state_id lambda_p::serialization::parser::result_ref::state_type ()
 {
-	return lambda_p::serialization::parser::state_statement;
+	return lambda_p::serialization::parser::state_result_ref;
 }

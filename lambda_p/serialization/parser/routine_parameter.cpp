@@ -2,8 +2,7 @@
 
 lambda_p::serialization::parser::routine_parameter::routine_parameter(::std::wstring routine_name_a)
 	: routine_name (routine_name_a),
-	parameter_count (0),
-	positions (new ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position>)
+	parameter_count (0)
 {
 }
 

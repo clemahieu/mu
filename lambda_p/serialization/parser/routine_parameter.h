@@ -18,12 +18,12 @@ namespace lambda_p
 			class routine_parameter : public state
 			{
 			public:
-				routine_parameter(::std::wstring routine_name_a);
-				~routine_parameter(void);
+				routine_parameter (::std::wstring routine_name_a);
+				~routine_parameter (void);
 				state_id state_type ();
 				::std::wstring routine_name;	
 				size_t parameter_count;
-				::boost::shared_ptr < ::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> > positions;
+				::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
 			};
 		}
 	}
