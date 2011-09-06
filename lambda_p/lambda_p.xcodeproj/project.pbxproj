@@ -32,8 +32,6 @@
 		CF75971F1411B891001EDBB9 /* statement_end.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75971E1411B891001EDBB9 /* statement_end.cpp */; };
 		CF7597211411B9A5001EDBB9 /* declaration.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597201411B9A5001EDBB9 /* declaration.h */; };
 		CF7597231411B9B9001EDBB9 /* declaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597221411B9B9001EDBB9 /* declaration.cpp */; };
-		CF7597291411BB12001EDBB9 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597281411BB12001EDBB9 /* error.cpp */; };
-		CF75972B1411BB22001EDBB9 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75972A1411BB22001EDBB9 /* error.h */; };
 		CF75972D1411BF37001EDBB9 /* hex_data_token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75972C1411BF37001EDBB9 /* hex_data_token.cpp */; };
 		CF75972F1411BF46001EDBB9 /* hex_data_token.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75972E1411BF46001EDBB9 /* hex_data_token.h */; };
 		CF759738141572FF001EDBB9 /* complex_identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF759734141572FC001EDBB9 /* complex_identifier.cpp */; };
@@ -59,13 +57,19 @@
 		CF7597871415732A001EDBB9 /* state.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597741415732A001EDBB9 /* state.h */; };
 		CF7597881415732A001EDBB9 /* whitespace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597751415732A001EDBB9 /* whitespace.cpp */; };
 		CF7597891415732A001EDBB9 /* whitespace.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597761415732A001EDBB9 /* whitespace.h */; };
-		CF75979114157334001EDBB9 /* parse_result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75978A14157334001EDBB9 /* parse_result.cpp */; };
-		CF75979214157334001EDBB9 /* parse_result.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75978B14157334001EDBB9 /* parse_result.h */; };
-		CF75979314157334001EDBB9 /* result_position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75978C14157334001EDBB9 /* result_position.cpp */; };
-		CF75979414157334001EDBB9 /* result_position.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75978D14157334001EDBB9 /* result_position.h */; };
-		CF75979514157334001EDBB9 /* result_reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75978E14157334001EDBB9 /* result_reference.cpp */; };
-		CF75979614157334001EDBB9 /* result_reference.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75978F14157334001EDBB9 /* result_reference.h */; };
-		CF75979714157334001EDBB9 /* simple_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75979014157334001EDBB9 /* simple_parser.h */; };
+		CF7597AA1415B288001EDBB9 /* begin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75979D1415B288001EDBB9 /* begin.cpp */; };
+		CF7597AB1415B288001EDBB9 /* begin.h in Headers */ = {isa = PBXBuildFile; fileRef = CF75979E1415B288001EDBB9 /* begin.h */; };
+		CF7597AC1415B288001EDBB9 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF75979F1415B288001EDBB9 /* error.cpp */; };
+		CF7597AD1415B288001EDBB9 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A01415B288001EDBB9 /* error.h */; };
+		CF7597AE1415B288001EDBB9 /* parse_result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597A11415B288001EDBB9 /* parse_result.cpp */; };
+		CF7597AF1415B288001EDBB9 /* parse_result.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A21415B288001EDBB9 /* parse_result.h */; };
+		CF7597B01415B288001EDBB9 /* result_position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597A31415B288001EDBB9 /* result_position.cpp */; };
+		CF7597B11415B288001EDBB9 /* result_position.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A41415B288001EDBB9 /* result_position.h */; };
+		CF7597B21415B288001EDBB9 /* result_reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597A51415B288001EDBB9 /* result_reference.cpp */; };
+		CF7597B31415B288001EDBB9 /* result_reference.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A61415B288001EDBB9 /* result_reference.h */; };
+		CF7597B41415B288001EDBB9 /* simple_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A71415B288001EDBB9 /* simple_parser.h */; };
+		CF7597B51415B288001EDBB9 /* state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7597A81415B288001EDBB9 /* state.cpp */; };
+		CF7597B61415B288001EDBB9 /* state.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7597A91415B288001EDBB9 /* state.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,8 +99,6 @@
 		CF75971E1411B891001EDBB9 /* statement_end.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = statement_end.cpp; path = tokens/statement_end.cpp; sourceTree = "<group>"; };
 		CF7597201411B9A5001EDBB9 /* declaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = declaration.h; path = tokens/declaration.h; sourceTree = "<group>"; };
 		CF7597221411B9B9001EDBB9 /* declaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = declaration.cpp; path = tokens/declaration.cpp; sourceTree = "<group>"; };
-		CF7597281411BB12001EDBB9 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = tokens/error.cpp; sourceTree = "<group>"; };
-		CF75972A1411BB22001EDBB9 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = tokens/error.h; sourceTree = "<group>"; };
 		CF75972C1411BF37001EDBB9 /* hex_data_token.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = hex_data_token.cpp; path = tokens/hex_data_token.cpp; sourceTree = "<group>"; };
 		CF75972E1411BF46001EDBB9 /* hex_data_token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = hex_data_token.h; path = tokens/hex_data_token.h; sourceTree = "<group>"; };
 		CF759734141572FC001EDBB9 /* complex_identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = complex_identifier.cpp; path = tokens/complex_identifier.cpp; sourceTree = "<group>"; };
@@ -122,13 +124,19 @@
 		CF7597741415732A001EDBB9 /* state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = state.h; path = serialization/lexer/state.h; sourceTree = "<group>"; };
 		CF7597751415732A001EDBB9 /* whitespace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = whitespace.cpp; path = serialization/lexer/whitespace.cpp; sourceTree = "<group>"; };
 		CF7597761415732A001EDBB9 /* whitespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = whitespace.h; path = serialization/lexer/whitespace.h; sourceTree = "<group>"; };
-		CF75978A14157334001EDBB9 /* parse_result.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parse_result.cpp; path = serialization/parse_result.cpp; sourceTree = "<group>"; };
-		CF75978B14157334001EDBB9 /* parse_result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parse_result.h; path = serialization/parse_result.h; sourceTree = "<group>"; };
-		CF75978C14157334001EDBB9 /* result_position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result_position.cpp; path = serialization/result_position.cpp; sourceTree = "<group>"; };
-		CF75978D14157334001EDBB9 /* result_position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result_position.h; path = serialization/result_position.h; sourceTree = "<group>"; };
-		CF75978E14157334001EDBB9 /* result_reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result_reference.cpp; path = serialization/result_reference.cpp; sourceTree = "<group>"; };
-		CF75978F14157334001EDBB9 /* result_reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result_reference.h; path = serialization/result_reference.h; sourceTree = "<group>"; };
-		CF75979014157334001EDBB9 /* simple_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple_parser.h; path = serialization/simple_parser.h; sourceTree = "<group>"; };
+		CF75979D1415B288001EDBB9 /* begin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = begin.cpp; path = serialization/parser/begin.cpp; sourceTree = "<group>"; };
+		CF75979E1415B288001EDBB9 /* begin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = begin.h; path = serialization/parser/begin.h; sourceTree = "<group>"; };
+		CF75979F1415B288001EDBB9 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = serialization/parser/error.cpp; sourceTree = "<group>"; };
+		CF7597A01415B288001EDBB9 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = serialization/parser/error.h; sourceTree = "<group>"; };
+		CF7597A11415B288001EDBB9 /* parse_result.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = parse_result.cpp; path = serialization/parser/parse_result.cpp; sourceTree = "<group>"; };
+		CF7597A21415B288001EDBB9 /* parse_result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = parse_result.h; path = serialization/parser/parse_result.h; sourceTree = "<group>"; };
+		CF7597A31415B288001EDBB9 /* result_position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result_position.cpp; path = serialization/parser/result_position.cpp; sourceTree = "<group>"; };
+		CF7597A41415B288001EDBB9 /* result_position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result_position.h; path = serialization/parser/result_position.h; sourceTree = "<group>"; };
+		CF7597A51415B288001EDBB9 /* result_reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = result_reference.cpp; path = serialization/parser/result_reference.cpp; sourceTree = "<group>"; };
+		CF7597A61415B288001EDBB9 /* result_reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = result_reference.h; path = serialization/parser/result_reference.h; sourceTree = "<group>"; };
+		CF7597A71415B288001EDBB9 /* simple_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple_parser.h; path = serialization/parser/simple_parser.h; sourceTree = "<group>"; };
+		CF7597A81415B288001EDBB9 /* state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = state.cpp; path = serialization/parser/state.cpp; sourceTree = "<group>"; };
+		CF7597A91415B288001EDBB9 /* state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = state.h; path = serialization/parser/state.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,8 +167,6 @@
 				CF75971C1411B880001EDBB9 /* statement_end.h */,
 				CF7597221411B9B9001EDBB9 /* declaration.cpp */,
 				CF7597201411B9A5001EDBB9 /* declaration.h */,
-				CF7597281411BB12001EDBB9 /* error.cpp */,
-				CF75972A1411BB22001EDBB9 /* error.h */,
 				CF75972C1411BF37001EDBB9 /* hex_data_token.cpp */,
 				CF75972E1411BF46001EDBB9 /* hex_data_token.h */,
 			);
@@ -209,13 +215,7 @@
 		CF7596F4140F1BD5001EDBB9 /* serialization */ = {
 			isa = PBXGroup;
 			children = (
-				CF75978A14157334001EDBB9 /* parse_result.cpp */,
-				CF75978B14157334001EDBB9 /* parse_result.h */,
-				CF75978C14157334001EDBB9 /* result_position.cpp */,
-				CF75978D14157334001EDBB9 /* result_position.h */,
-				CF75978E14157334001EDBB9 /* result_reference.cpp */,
-				CF75978F14157334001EDBB9 /* result_reference.h */,
-				CF75979014157334001EDBB9 /* simple_parser.h */,
+				CF75979C1415B274001EDBB9 /* parser */,
 				CF75973C14157307001EDBB9 /* lexer */,
 				CF7596F5140F1BE2001EDBB9 /* simple.h */,
 			);
@@ -248,6 +248,26 @@
 			name = lexer;
 			sourceTree = "<group>";
 		};
+		CF75979C1415B274001EDBB9 /* parser */ = {
+			isa = PBXGroup;
+			children = (
+				CF75979D1415B288001EDBB9 /* begin.cpp */,
+				CF75979E1415B288001EDBB9 /* begin.h */,
+				CF75979F1415B288001EDBB9 /* error.cpp */,
+				CF7597A01415B288001EDBB9 /* error.h */,
+				CF7597A11415B288001EDBB9 /* parse_result.cpp */,
+				CF7597A21415B288001EDBB9 /* parse_result.h */,
+				CF7597A31415B288001EDBB9 /* result_position.cpp */,
+				CF7597A41415B288001EDBB9 /* result_position.h */,
+				CF7597A51415B288001EDBB9 /* result_reference.cpp */,
+				CF7597A61415B288001EDBB9 /* result_reference.h */,
+				CF7597A71415B288001EDBB9 /* simple_parser.h */,
+				CF7597A81415B288001EDBB9 /* state.cpp */,
+				CF7597A91415B288001EDBB9 /* state.h */,
+			);
+			name = parser;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -268,7 +288,6 @@
 				CF75971B1411B843001EDBB9 /* routine_end.h in Headers */,
 				CF75971D1411B881001EDBB9 /* statement_end.h in Headers */,
 				CF7597211411B9A5001EDBB9 /* declaration.h in Headers */,
-				CF75972B1411BB22001EDBB9 /* error.h in Headers */,
 				CF75972F1411BF46001EDBB9 /* hex_data_token.h in Headers */,
 				CF759739141572FF001EDBB9 /* complex_identifier.h in Headers */,
 				CF75973B141572FF001EDBB9 /* data_token.h in Headers */,
@@ -282,10 +301,13 @@
 				CF7597851415732A001EDBB9 /* singleline_comment.h in Headers */,
 				CF7597871415732A001EDBB9 /* state.h in Headers */,
 				CF7597891415732A001EDBB9 /* whitespace.h in Headers */,
-				CF75979214157334001EDBB9 /* parse_result.h in Headers */,
-				CF75979414157334001EDBB9 /* result_position.h in Headers */,
-				CF75979614157334001EDBB9 /* result_reference.h in Headers */,
-				CF75979714157334001EDBB9 /* simple_parser.h in Headers */,
+				CF7597AB1415B288001EDBB9 /* begin.h in Headers */,
+				CF7597AD1415B288001EDBB9 /* error.h in Headers */,
+				CF7597AF1415B288001EDBB9 /* parse_result.h in Headers */,
+				CF7597B11415B288001EDBB9 /* result_position.h in Headers */,
+				CF7597B31415B288001EDBB9 /* result_reference.h in Headers */,
+				CF7597B41415B288001EDBB9 /* simple_parser.h in Headers */,
+				CF7597B61415B288001EDBB9 /* state.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,7 +370,6 @@
 				CF75971A1411B843001EDBB9 /* routine_end.cpp in Sources */,
 				CF75971F1411B891001EDBB9 /* statement_end.cpp in Sources */,
 				CF7597231411B9B9001EDBB9 /* declaration.cpp in Sources */,
-				CF7597291411BB12001EDBB9 /* error.cpp in Sources */,
 				CF75972D1411BF37001EDBB9 /* hex_data_token.cpp in Sources */,
 				CF759738141572FF001EDBB9 /* complex_identifier.cpp in Sources */,
 				CF75973A141572FF001EDBB9 /* data_token.cpp in Sources */,
@@ -361,9 +382,12 @@
 				CF7597841415732A001EDBB9 /* singleline_comment.cpp in Sources */,
 				CF7597861415732A001EDBB9 /* state.cpp in Sources */,
 				CF7597881415732A001EDBB9 /* whitespace.cpp in Sources */,
-				CF75979114157334001EDBB9 /* parse_result.cpp in Sources */,
-				CF75979314157334001EDBB9 /* result_position.cpp in Sources */,
-				CF75979514157334001EDBB9 /* result_reference.cpp in Sources */,
+				CF7597AA1415B288001EDBB9 /* begin.cpp in Sources */,
+				CF7597AC1415B288001EDBB9 /* error.cpp in Sources */,
+				CF7597AE1415B288001EDBB9 /* parse_result.cpp in Sources */,
+				CF7597B01415B288001EDBB9 /* result_position.cpp in Sources */,
+				CF7597B21415B288001EDBB9 /* result_reference.cpp in Sources */,
+				CF7597B51415B288001EDBB9 /* state.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
