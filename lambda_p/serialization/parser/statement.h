@@ -26,7 +26,6 @@ namespace lambda_p
 				~statement (void);
 				state_id state_type ();
 				::std::wstring statement_name;
-				size_t argument_count;
 				bool have_target;
 				::lambda_p::serialization::parser::body * body;
 				::lambda_p::core::statement * statement_m;
