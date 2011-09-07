@@ -312,7 +312,11 @@ namespace lambda_p
 						{
 							size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
 							size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
-							state_l->statement->statement_m->add_argument (state_l->statement->body->routine->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
+							::lambda_p::tokens::identifier * data_string (static_cast < ::lambda_p::tokens::identifier *> (token));
+							size_t size (data_string->string.size () * sizeof (wchar_t));
+							::boost::shared_array <uint8_t> data (new uint8_t [size]);
+							memcpy (data.get (), data_string->string.c_str (), size);
+							state_l->statement->statement_m->add_argument (state_l->statement->body->routine->add_data (data, size, current_statement, current_argument));
 							pop_state ();
 						}
 						break;
