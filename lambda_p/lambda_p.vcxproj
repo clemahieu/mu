@@ -148,7 +148,10 @@
     <ClInclude Include="serialization\lexer\whitespace.h" />
     <ClInclude Include="serialization\parser\begin.h" />
     <ClInclude Include="serialization\parser\body.h" />
+    <ClInclude Include="serialization\parser\data.h" />
+    <ClInclude Include="serialization\parser\declaration.h" />
     <ClInclude Include="serialization\parser\error.h" />
+    <ClInclude Include="serialization\parser\hex_data.h" />
     <ClInclude Include="serialization\parser\parse_result.h" />
     <ClInclude Include="serialization\parser\result_position.h" />
     <ClInclude Include="serialization\parser\result_ref.h" />
@@ -188,7 +191,10 @@
     <ClCompile Include="serialization\lexer\whitespace.cpp" />
     <ClCompile Include="serialization\parser\begin.cpp" />
     <ClCompile Include="serialization\parser\body.cpp" />
+    <ClCompile Include="serialization\parser\data.cpp" />
+    <ClCompile Include="serialization\parser\declaration.cpp" />
     <ClCompile Include="serialization\parser\error.cpp" />
+    <ClCompile Include="serialization\parser\hex_data.cpp" />
     <ClCompile Include="serialization\parser\parse_result.cpp" />
     <ClCompile Include="serialization\parser\result_position.cpp" />
     <ClCompile Include="serialization\parser\result_ref.cpp" />

@@ -1,8 +1,7 @@
 #include <lambda_p/serialization/parser/routine_parameter.h>
 
 lambda_p::serialization::parser::routine_parameter::routine_parameter(::std::wstring routine_name_a)
-	: routine_name (routine_name_a),
-	parameter_count (0)
+	: routine_name (routine_name_a)
 {
 }
 

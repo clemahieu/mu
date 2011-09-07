@@ -115,6 +115,15 @@
     <ClInclude Include="serialization\parser\result_ref.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
+    <ClInclude Include="serialization\parser\data.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\declaration.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\hex_data.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -220,6 +229,15 @@
       <Filter>serialization\parser</Filter>
     </ClCompile>
     <ClCompile Include="serialization\parser\result_ref.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\data.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\declaration.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\hex_data.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
   </ItemGroup>

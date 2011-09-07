@@ -14,7 +14,10 @@ namespace lambda_p
 				state_routine_parameter,
 				state_body,
 				state_statement,
-				state_result_ref
+				state_result_ref,
+				state_data,
+				state_declaration,
+				state_hex_data
 			};
 			class state
 			{

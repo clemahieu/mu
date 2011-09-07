@@ -21,9 +21,8 @@ namespace lambda_p
 				routine_parameter (::std::wstring routine_name_a);
 				~routine_parameter (void);
 				state_id state_type ();
-				::std::wstring routine_name;	
-				size_t parameter_count;
-				::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
+				::std::wstring routine_name;
+				::std::map < ::std::wstring, size_t> positions;
 			};
 		}
 	}
