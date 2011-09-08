@@ -18,3 +18,8 @@ lambda_p::serialization::parser::statement::~statement(void)
 {
 	return lambda_p::serialization::parser::state_statement;
 }
+
+::boost::shared_ptr < ::lambda_p::core::routine> & lambda_p::serialization::parser::statement::routine ()
+{
+	return body->routine ();
+}

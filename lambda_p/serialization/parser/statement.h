@@ -13,6 +13,7 @@ namespace lambda_p
 	namespace core
 	{
 		class statement;
+		class routine;
 	}
 	namespace serialization
 	{
@@ -27,6 +28,7 @@ namespace lambda_p
 				state_id state_type ();
 				::std::wstring statement_name;
 				bool have_target;
+				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 				::lambda_p::serialization::parser::body * body;
 				::lambda_p::core::statement * statement_m;
 			};
