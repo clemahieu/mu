@@ -9,6 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test", "lambda_p_t
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_repl", "lambda_p_repl\lambda_p_repl.vcxproj", "{CEB0251F-5844-4E27-B668-052435A452DC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

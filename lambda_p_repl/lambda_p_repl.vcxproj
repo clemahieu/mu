@@ -67,12 +67,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="quit_parameter.cpp" />
+    <ClCompile Include="repl_quit.cpp" />
     <ClCompile Include="repl.cpp" />
+    <ClCompile Include="repl_quit_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="quit_parameter.h" />
+    <ClInclude Include="repl_quit.h" />
     <ClInclude Include="repl.h" />
+    <ClInclude Include="repl_quit_binder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

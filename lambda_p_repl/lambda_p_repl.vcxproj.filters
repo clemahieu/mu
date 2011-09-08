@@ -3,10 +3,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repl.cpp" />
-    <ClCompile Include="quit_parameter.cpp" />
+    <ClCompile Include="repl_quit.cpp" />
+    <ClCompile Include="repl_quit_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
-    <ClInclude Include="quit_parameter.h" />
+    <ClInclude Include="repl_quit.h" />
+    <ClInclude Include="repl_quit_binder.h" />
   </ItemGroup>
 </Project>

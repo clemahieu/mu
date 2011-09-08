@@ -124,11 +124,19 @@
     <ClInclude Include="serialization\parser\hex_data.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\parser\routine_vector.h" />
     <ClInclude Include="binder\node_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\routine_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\routine_vector.h">
+      <Filter>serialization\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\node_instance.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\bound_routine.h">
       <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -247,11 +255,19 @@
     <ClCompile Include="serialization\parser\hex_data.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\parser\routine_vector.cpp" />
     <ClCompile Include="binder\node_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\routine_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\routine_vector.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\node_instance.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\bound_routine.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
