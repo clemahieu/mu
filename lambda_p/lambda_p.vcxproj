@@ -130,6 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="binder\node_binder.h" />
+    <ClInclude Include="binder\routine_binder.h" />
     <ClInclude Include="core\parameter_ref.h" />
     <ClInclude Include="core\result.h" />
     <ClInclude Include="core\result_ref.h" />
@@ -174,6 +176,8 @@
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="binder\node_binder.cpp" />
+    <ClCompile Include="binder\routine_binder.cpp" />
     <ClCompile Include="core\parameter_ref.cpp" />
     <ClCompile Include="core\result.cpp" />
     <ClCompile Include="core\result_ref.cpp" />

@@ -19,6 +19,7 @@ namespace lambda_p
 			~data (void);
             void validate (::std::iostream & problems) const;
             ::boost::shared_array <uint8_t> item () const;
+			node_id node_type () const;
 		private:
 			::boost::shared_array <uint8_t> item_m;
             size_t size;

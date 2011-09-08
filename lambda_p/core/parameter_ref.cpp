@@ -43,3 +43,8 @@ void lambda_p::core::parameter_ref::validate (::std::iostream & problems) const
 		problems << "\n";
 	}
 }
+
+::lambda_p::core::node_id lambda_p::core::parameter_ref::node_type () const
+{
+	return ::lambda_p::core::node_parameter_ref;
+}

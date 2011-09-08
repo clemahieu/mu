@@ -63,39 +63,25 @@ namespace lambda_p
 			}
 			void node (::lambda_p::core::node const * node_a)
 			{
-                ::lambda_p::core::parameter_ref const * parameter_ref_l = dynamic_cast < ::lambda_p::core::parameter_ref const *> (node_a);
-                if (parameter_ref_l != NULL)
-                {
-                    parameter_ref (parameter_ref_l);
-                }
-                else
-                {
-                    ::lambda_p::core::result_ref const * result_ref_l = dynamic_cast < ::lambda_p::core::result_ref const *> (node_a);
-                    if (result_ref_l != NULL)
-                    {
-                        result_ref (result_ref_l);
-                    }
-                    else
-                    {
-                        ::lambda_p::core::data const * data_l = dynamic_cast < ::lambda_p::core::data const *> (node_a);
-                        if (data_l != NULL)
-                        {
-                            data (data_l);
-                        }
-                        else
-                        {
-                            ::lambda_p::core::result const * result_l = dynamic_cast < ::lambda_p::core::result const *> (node_a);
-                            if (result_l != NULL)
-                            {
-                                result (result_l);
-                            }
-                            else
-                            {
-                                assert (false);
-                            }
-                        }
-                    }
-                }
+				::lambda_p::core::node_id node_id (node_a->node_type ());
+				switch (node_id)
+				{
+				case ::lambda_p::core::node_parameter_ref:
+					parameter_ref (static_cast < ::lambda_p::core::parameter_ref const *> (node_a));
+					break;
+				case ::lambda_p::core::node_result_ref:
+					result_ref (static_cast < ::lambda_p::core::result_ref const *> (node_a));
+					break;
+				case ::lambda_p::core::node_data:
+					data (static_cast < ::lambda_p::core::data const *> (node_a));
+					break;
+				case ::lambda_p::core::node_result:
+					result (static_cast < ::lambda_p::core::result const *> (node_a));
+					break;
+				default:
+					assert (false);
+					break;
+				}
 			}
 			void data (::lambda_p::core::data const * data_a)
 			{

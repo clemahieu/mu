@@ -24,3 +24,8 @@ void lambda_p::core::data::validate (::std::iostream & problems) const
 {
     return item_m;
 }
+
+::lambda_p::core::node_id lambda_p::core::data::node_type () const
+{
+	return ::lambda_p::core::node_data;
+}

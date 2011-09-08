@@ -35,7 +35,7 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems) const
 		valid = arguments_size > target_argument;
 		if (valid)
 		{
-			if (dynamic_cast < ::lambda_p::core::result *> (routine->statements [target_statement]->arguments [target_argument]) != NULL)
+			if (routine->statements [target_statement]->arguments [target_argument]->node_type () == ::lambda_p::core::node_result)
 			{
 				validate_argument ("result_ref: ", routine, self_statement, self_argument, problems);
 			}
@@ -79,4 +79,9 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems) const
 		problems << statements_size - 1;
 		problems << "\n";
 	}
+}
+
+::lambda_p::core::node_id lambda_p::core::result_ref::node_type () const
+{
+	return ::lambda_p::core::node_result_ref;
 }

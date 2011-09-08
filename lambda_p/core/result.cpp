@@ -19,3 +19,8 @@ void lambda_p::core::result::validate (::std::iostream & problems) const
 {
 	validate_argument ("result: ", routine, self_statement, self_argument, problems);
 }
+
+::lambda_p::core::node_id lambda_p::core::result::node_type () const
+{
+	return ::lambda_p::core::node_result;
+}

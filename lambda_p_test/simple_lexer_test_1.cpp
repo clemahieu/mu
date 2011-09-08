@@ -59,9 +59,9 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 3);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::routine_end *> (tokens.tokens [2]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
+	assert (tokens.tokens [1]->token_id () == ::lambda_p::tokens::token_id_statement_end);
+	assert (tokens.tokens [2]->token_id () == ::lambda_p::tokens::token_id_routine_end);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_2 ()
@@ -80,9 +80,9 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 3);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::routine_end *> (tokens.tokens [2]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
+	assert (tokens.tokens [1]->token_id () == ::lambda_p::tokens::token_id_statement_end);
+	assert (tokens.tokens [2]->token_id () == ::lambda_p::tokens::token_id_routine_end);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_3 ()
@@ -172,7 +172,7 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_9 ()
@@ -189,8 +189,8 @@ void lambda_p_test::simple_lexer_test_1::run_9 ()
 	}
 	lexer.end ();
 	assert (tokens.tokens.size () == 2);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [1]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
+	assert (tokens.tokens [1]->token_id () == ::lambda_p::tokens::token_id_identifier);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_10 ()
@@ -221,7 +221,7 @@ void lambda_p_test::simple_lexer_test_1::run_11 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_12 ()
@@ -243,7 +243,7 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
-	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_13 ()
@@ -259,6 +259,6 @@ void lambda_p_test::simple_lexer_test_1::run_13 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 2);
-	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
-	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
+	assert (tokens.tokens [1]->token_id () == ::lambda_p::tokens::token_id_statement_end);
 }

@@ -125,6 +125,12 @@
       <Filter>serialization\parser</Filter>
     </ClInclude>
     <ClInclude Include="serialization\parser\routine_vector.h" />
+    <ClInclude Include="binder\node_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\routine_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -242,6 +248,12 @@
       <Filter>serialization\parser</Filter>
     </ClCompile>
     <ClCompile Include="serialization\parser\routine_vector.cpp" />
+    <ClCompile Include="binder\node_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
@@ -258,6 +270,9 @@
     </Filter>
     <Filter Include="serialization\parser">
       <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="binder">
+      <UniqueIdentifier>{b1c16bab-1a35-4fef-89b6-b87b6877cecb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

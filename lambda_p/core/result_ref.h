@@ -29,6 +29,7 @@ namespace lambda_p
             result_ref (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_, size_t self_statement_a, size_t self_argument_aa);
             ~result_ref ();
             void validate (::std::iostream & problems) const;
+			node_id node_type () const;
 		private:
             ::lambda_p::core::routine * routine;
             size_t self_statement;
