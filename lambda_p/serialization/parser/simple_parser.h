@@ -130,7 +130,7 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::routine_parameter (routine_name->string));
+								state.push (new ::lambda_p::serialization::parser::routine_parameter (state_l, routine_name->string));
 							}
 							break;
 						default:
@@ -169,8 +169,8 @@ namespace lambda_p
 						break;
 					case ::lambda_p::tokens::token_id_statement_end:
 						{
-							::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine (state_l->positions.size ()));
-							::lambda_p::serialization::parser::body * body = new ::lambda_p::serialization::parser::body (routine, state_l->routine_name, state_l->positions);
+							state_l->routine->routine_m->parameters = state_l->positions.size ();
+							::lambda_p::serialization::parser::body * body = new ::lambda_p::serialization::parser::body (state_l->routine, state_l->routine_name, state_l->positions);
 							pop_state ();
 							state.push (body);
 						}

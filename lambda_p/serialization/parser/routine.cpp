@@ -1,7 +1,10 @@
 #include <lambda_p/serialization/parser/routine.h>
 
+#include <lambda_p/core/routine.h>
+
 lambda_p::serialization::parser::routine::routine(void)
-	: parsed_routine (false)
+	: parsed_routine (false),
+	routine_m (new ::lambda_p::core::routine (0))
 {
 }
 

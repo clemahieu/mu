@@ -17,18 +17,19 @@ namespace lambda_p
 	{
 		namespace parser
 		{
+			class routine;
 			class body : public state
 			{
 			public:
-				body (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::std::wstring routine_name_a, ::std::map < ::std::wstring, size_t> parameter_positions_a);
+				body (::lambda_p::serialization::parser::routine * routine_a, ::std::wstring routine_name_a, ::std::map < ::std::wstring, size_t> parameter_positions_a);
 				~body (void);
 				state_id state_type ();
 				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 				::std::wstring routine_name;
+				::lambda_p::serialization::parser::routine * routine_m;
 				::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::reference *> unresolved_references;
 				::std::map < ::std::wstring, size_t> parameter_positions;
 				::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
-				::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 			};
 		}
 	}

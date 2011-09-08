@@ -1,9 +1,15 @@
 #pragma once
 
+#include <boost/shared_ptr.hpp>
+
 #include <lambda_p/serialization/parser/state.h>
 
 namespace lambda_p
 {
+	namespace core
+	{
+		class routine;
+	}
 	namespace serialization
 	{
 		namespace parser
@@ -14,6 +20,7 @@ namespace lambda_p
 				routine(void);
 				~routine(void);
 				state_id state_type ();
+				::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 				bool parsed_routine;
 			};
 		}
