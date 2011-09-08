@@ -51,13 +51,13 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	serializer.routine (&routine);
 	::std::wstring str (stream.str ());
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
@@ -72,13 +72,13 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 	str.append (L";;\n");
 	str.append (L";.\n");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 3);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
@@ -90,12 +90,12 @@ void lambda_p_test::simple_lexer_test_1::run_3 ()
 	::std::wstring str;
 	str.append (L";/");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
+	lexer.end ();
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -104,13 +104,13 @@ void lambda_p_test::simple_lexer_test_1::run_4 ()
 	::std::wstring str;
 	str.append (L";*;*");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -119,13 +119,13 @@ void lambda_p_test::simple_lexer_test_1::run_5 ()
 	::std::wstring str;
 	str.append (L";*");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (parser.error ());
+	lexer.end ();
+	assert (lexer.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -134,13 +134,13 @@ void lambda_p_test::simple_lexer_test_1::run_6 ()
 	::std::wstring str;
 	str.append (L";*;");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (parser.error ());
+	lexer.end ();
+	assert (lexer.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -149,13 +149,13 @@ void lambda_p_test::simple_lexer_test_1::run_7 ()
 	::std::wstring str;
 	str.append (L";\"");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (parser.error ());
+	lexer.end ();
+	assert (lexer.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -164,13 +164,13 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	::std::wstring str;
 	str.append (L";\";");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 }
@@ -182,12 +182,12 @@ void lambda_p_test::simple_lexer_test_1::run_9 ()
 	str.push_back (L'\0');
 	str.push_back (L'a');
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
+	lexer.end ();
 	assert (tokens.tokens.size () == 2);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [1]) != NULL);
@@ -198,13 +198,13 @@ void lambda_p_test::simple_lexer_test_1::run_10 ()
 	::std::wstring str;
 	str.push_back (L'\0');
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 0);
 }
 
@@ -213,13 +213,13 @@ void lambda_p_test::simple_lexer_test_1::run_11 ()
 	::std::wstring str;
 	str.append (L";\"a;ba");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
 }
@@ -235,13 +235,13 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	str.push_back ('c');
 	str.append (L"abc");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
 }
@@ -249,15 +249,15 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 void lambda_p_test::simple_lexer_test_1::run_13 ()
 {
 	::std::wstring str;
-	str.append (L"routine1;;");
+	str.append (L"routine1;; ");
 	token_vector tokens;
-	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> lexer (tokens);
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
-		parser (*i);
+		lexer (*i);
 	}
-	parser.end ();
-	assert (!parser.error ());
+	lexer.end ();
+	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 2);
 	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
 	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);

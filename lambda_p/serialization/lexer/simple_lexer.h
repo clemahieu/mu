@@ -357,6 +357,7 @@ namespace lambda_p
 							::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (state_l->string);
 							target (identifier);
 							pop_state ();
+							lex_internal (character);
 						}
 						break;
 					default:
