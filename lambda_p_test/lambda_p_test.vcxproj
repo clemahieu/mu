@@ -143,11 +143,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="simple_lexer_test_1.cpp" />
     <ClCompile Include="simple_parser_test_1.cpp" />
     <ClCompile Include="simple_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="simple_lexer_test_1.h" />
     <ClInclude Include="simple_parser_test_1.h" />
     <ClInclude Include="simple_test_1.h" />
