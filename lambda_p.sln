@@ -8,6 +8,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test", "lambda_p_t
 		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_repl", "lambda_p_repl\lambda_p_repl.vcxproj", "{CEB0251F-5844-4E27-B668-052435A452DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -32,6 +34,12 @@ Global
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|Win32.Build.0 = Release|Win32
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|x64.ActiveCfg = Release|x64
 		{92FA64F4-0618-4602-B59C-7B12016BDC03}.Release|x64.Build.0 = Release|x64
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Debug|Win32.Build.0 = Debug|Win32
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Debug|x64.ActiveCfg = Debug|Win32
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Release|Win32.ActiveCfg = Release|Win32
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Release|Win32.Build.0 = Release|Win32
+		{CEB0251F-5844-4E27-B668-052435A452DC}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

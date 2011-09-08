@@ -40,6 +40,7 @@ void lambda_p_test::simple_lexer_test_1::run ()
 	run_10 ();
 	run_11 ();
 	run_12 ();
+	run_13 ();
 }
 
 void lambda_p_test::simple_lexer_test_1::run_1 ()
@@ -243,4 +244,21 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	assert (!parser.error ());
 	assert (tokens.tokens.size () == 1);
 	assert (dynamic_cast < ::lambda_p::tokens::complex_identifier *> (tokens.tokens [0]) != NULL);
+}
+
+void lambda_p_test::simple_lexer_test_1::run_13 ()
+{
+	::std::wstring str;
+	str.append (L"routine1;;");
+	token_vector tokens;
+	::lambda_p::serialization::lexer::simple_lexer <token_vector> parser (tokens);
+	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
+	{
+		parser (*i);
+	}
+	parser.end ();
+	assert (!parser.error ());
+	assert (tokens.tokens.size () == 2);
+	assert (dynamic_cast < ::lambda_p::tokens::identifier *> (tokens.tokens [0]) != NULL);
+	assert (dynamic_cast < ::lambda_p::tokens::statement_end *> (tokens.tokens [1]) != NULL);
 }

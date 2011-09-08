@@ -158,6 +158,7 @@
     <ClInclude Include="serialization\parser\result_reference.h" />
     <ClInclude Include="serialization\parser\routine.h" />
     <ClInclude Include="serialization\parser\routine_parameter.h" />
+    <ClInclude Include="serialization\parser\routine_vector.h" />
     <ClInclude Include="serialization\parser\state.h" />
     <ClInclude Include="serialization\parser\statement.h" />
     <ClInclude Include="serialization\simple.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="serialization\parser\result_reference.cpp" />
     <ClCompile Include="serialization\parser\routine.cpp" />
     <ClCompile Include="serialization\parser\routine_parameter.cpp" />
+    <ClCompile Include="serialization\parser\routine_vector.cpp" />
     <ClCompile Include="serialization\parser\state.cpp" />
     <ClCompile Include="serialization\parser\statement.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />

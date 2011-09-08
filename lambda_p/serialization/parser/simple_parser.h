@@ -63,6 +63,11 @@ namespace lambda_p
 				{
 					return state.top ()->state_type ();
 				}
+				void error_message (::std::wstring & target)
+				{
+					::lambda_p::serialization::parser::error * error_l = (static_cast < ::lambda_p::serialization::parser::error *> (state.top ()));
+					target = error_l->message;
+				}
 			private:
 				void parse_internal (::lambda_p::tokens::token * token)
 				{
@@ -414,8 +419,9 @@ namespace lambda_p
 					delete state.top ();
 					state.pop ();
 				}
-				::std::stack < ::lambda_p::serialization::parser::state *> state;
 				routine_sink & target;
+			public:
+				::std::stack < ::lambda_p::serialization::parser::state *> state;
 			};
 		}
 	}

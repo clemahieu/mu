@@ -124,6 +124,7 @@
     <ClInclude Include="serialization\parser\hex_data.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
+    <ClInclude Include="serialization\parser\routine_vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -240,6 +241,7 @@
     <ClCompile Include="serialization\parser\hex_data.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
+    <ClCompile Include="serialization\parser\routine_vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

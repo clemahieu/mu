@@ -114,6 +114,11 @@ namespace lambda_p
 					bool result (state.top ()->state_type () == ::lambda_p::serialization::lexer::state_error);
 					return result;
 				}
+				void error_message (::std::wstring & target)
+				{
+					::lambda_p::serialization::lexer::error * error_l = (static_cast < ::lambda_p::serialization::lexer::error *> (state.top ()));
+					target = error_l->message;
+				}
 			private:
 				void lex_internal (wchar_t character)
 				{
@@ -364,8 +369,9 @@ namespace lambda_p
 					delete state.top ();
 					state.pop ();
 				}
-				::std::stack < ::lambda_p::serialization::lexer::state *> state;
 				token_sink & target;
+			public:
+				::std::stack < ::lambda_p::serialization::lexer::state *> state;
 			};
 		}
 	}
