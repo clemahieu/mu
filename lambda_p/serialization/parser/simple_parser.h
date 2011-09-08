@@ -119,22 +119,38 @@ namespace lambda_p
 				}
 				void parse_routine (::lambda_p::tokens::token * token)
 				{
+					::lambda_p::serialization::parser::routine * state_l (static_cast < ::lambda_p::serialization::parser::routine *> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
-					switch (token_id)
+					if (!state_l->parsed_routine)
 					{
-					case ::lambda_p::tokens::token_id_complex_identifier:
-					case ::lambda_p::tokens::token_id_identifier:
+						state_l->parsed_routine = true;
+						switch (token_id)
 						{
-							::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-							pop_state ();
-							state.push (new ::lambda_p::serialization::parser::routine_parameter (routine_name->string));
+						case ::lambda_p::tokens::token_id_complex_identifier:
+						case ::lambda_p::tokens::token_id_identifier:
+							{
+								::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
+								state.push (new ::lambda_p::serialization::parser::routine_parameter (routine_name->string));
+							}
+							break;
+						default:
+							::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
+							message.append (token_type_name (token));
+							state.push (new ::lambda_p::serialization::parser::error (message));
+							break;
 						}
-						break;
-					default:
-						::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
-						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
-						break;
+					}
+					else
+					{
+						switch (token_id)
+						{
+						case ::lambda_p::tokens::token_id_routine_end:
+							pop_state ();
+							break;
+						default:
+							assert (false); // We shouldn't have any token except a routine_end after parsing a routine
+							break;
+						}
 					}
 				}
 				void parse_routine_parameters (::lambda_p::tokens::token * token)
@@ -182,6 +198,7 @@ namespace lambda_p
 					case ::lambda_p::tokens::token_id_routine_end:
 						target (state_l->routine);
 						pop_state ();
+						parse_internal (token);
 						break;
 					default:
 						::std::wstring message (L"Error while parsing routine body, expecting identifier or routine_end, have: ");

@@ -1,6 +1,7 @@
 #include <lambda_p/serialization/parser/routine.h>
 
 lambda_p::serialization::parser::routine::routine(void)
+	: parsed_routine (false)
 {
 }
 

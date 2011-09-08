@@ -14,6 +14,7 @@ namespace lambda_p
 				routine(void);
 				~routine(void);
 				state_id state_type ();
+				bool parsed_routine;
 			};
 		}
 	}
