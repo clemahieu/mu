@@ -9,7 +9,7 @@
 #include <lambda_p/tokens/data_token.h>
 #include <lambda_p/serialization/parser/result_reference.h>
 #include <lambda_p/serialization/parser/result_position.h>
-#include <lambda_p/core/result_ref.h>
+#include <lambda_p/core/reference.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/serialization/parser/state.h>
@@ -286,14 +286,14 @@ namespace lambda_p
 								::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position>::iterator search = state_l->statement->body->positions.find (reference);
 								if (search != state_l->statement->body->positions.end ())
 								{
-									::lambda_p::core::result_ref * ref = state_l->statement->body->routine->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
+									::lambda_p::core::reference * ref = state_l->statement->body->routine->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
 								}
 								else
 								{
-									::lambda_p::core::result_ref * ref = state_l->statement->body->routine->add_result_ref (-1, -1, current_statement, current_argument);
+									::lambda_p::core::reference * ref = state_l->statement->body->routine->add_result_ref (-1, -1, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
-									state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::result_ref *>::value_type (reference, ref));
+									state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::reference *>::value_type (reference, ref));
 								}
 								pop_state ();
 							}

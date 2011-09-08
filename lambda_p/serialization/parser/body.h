@@ -25,7 +25,7 @@ namespace lambda_p
 				state_id state_type ();
 				::boost::shared_ptr < ::lambda_p::core::routine> routine;
 				::std::wstring routine_name;
-				::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::result_ref *> unresolved_references;
+				::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::reference *> unresolved_references;
 				::std::map < ::std::wstring, size_t> parameter_positions;
 				::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position> positions;
 			};

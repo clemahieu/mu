@@ -172,7 +172,7 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	lexer.end ();
 	assert (!lexer.error ());
 	assert (tokens.tokens.size () == 1);
-	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
+	assert (tokens.tokens [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_9 ()

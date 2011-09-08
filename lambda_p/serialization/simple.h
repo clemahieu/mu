@@ -9,8 +9,8 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/parameter_ref.h>
-#include <lambda_p/core/result_ref.h>
-#include <lambda_p/core/result.h>
+#include <lambda_p/core/reference.h>
+#include <lambda_p/core/declaration.h>
 
 #include <vector>
 
@@ -70,13 +70,13 @@ namespace lambda_p
 					parameter_ref (static_cast < ::lambda_p::core::parameter_ref const *> (node_a));
 					break;
 				case ::lambda_p::core::node_result_ref:
-					result_ref (static_cast < ::lambda_p::core::result_ref const *> (node_a));
+					result_ref (static_cast < ::lambda_p::core::reference const *> (node_a));
 					break;
 				case ::lambda_p::core::node_data:
 					data (static_cast < ::lambda_p::core::data const *> (node_a));
 					break;
 				case ::lambda_p::core::node_result:
-					result (static_cast < ::lambda_p::core::result const *> (node_a));
+					result (static_cast < ::lambda_p::core::declaration const *> (node_a));
 					break;
 				default:
 					assert (false);
@@ -96,18 +96,18 @@ namespace lambda_p
                 target << "parameter";
                 target << parameter_ref_a->target_parameter;
             }
-            void result_ref (::lambda_p::core::result_ref const * result_ref_a)
+            void result_ref (::lambda_p::core::reference const * result_ref_a)
             {
                 target << "statement";
                 target << result_ref_a->target_statement;
                 target << " ";
-                target << "result";
+                target << "declaration";
                 target << result_ref_a->target_argument;
             }
-			void result (::lambda_p::core::result const * result_a)
+			void result (::lambda_p::core::declaration const * result_a)
 			{
 				target << ";! ";
-                target << "result";
+                target << "declaration";
                 target << result_a->self_argument;
 			}
 			stream_type & target;

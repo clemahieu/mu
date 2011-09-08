@@ -6,13 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#include <lambda_p/core/result_ref.h>
+#include <lambda_p/core/reference.h>
 
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/result.h>
+#include <lambda_p/core/declaration.h>
 
-lambda_p::core::result_ref::result_ref (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a)
+lambda_p::core::reference::reference (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a)
 : routine (routine_a),
 self_statement (self_statement_a),
 self_argument (self_argument_a),
@@ -21,11 +21,11 @@ target_argument (target_argument_a)
 {
 }
 
-lambda_p::core::result_ref::~result_ref ()
+lambda_p::core::reference::~reference ()
 {
 }
 
-void lambda_p::core::result_ref::validate (::std::iostream & problems) const
+void lambda_p::core::reference::validate (::std::iostream & problems) const
 {
 	size_t statements_size (routine->statements.size ());
     bool valid (statements_size > target_statement);
@@ -81,7 +81,7 @@ void lambda_p::core::result_ref::validate (::std::iostream & problems) const
 	}
 }
 
-::lambda_p::core::node_id lambda_p::core::result_ref::node_type () const
+::lambda_p::core::node_id lambda_p::core::reference::node_type () const
 {
 	return ::lambda_p::core::node_result_ref;
 }

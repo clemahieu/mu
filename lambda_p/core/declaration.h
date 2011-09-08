@@ -13,12 +13,12 @@ namespace lambda_p
 	namespace core
 	{
 		class routine;
-		class result : public node
+		class declaration : public node
 		{
             template <typename> friend class ::lambda_p::serialization::simple;
 		public:
-			result (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a);
-			~result (void);
+			declaration (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a);
+			~declaration (void);
 			void validate (::std::iostream & problems) const;
 			node_id node_type () const;
 		private:

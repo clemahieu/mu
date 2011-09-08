@@ -16,12 +16,6 @@
     <ClInclude Include="core\data.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\result.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\result_ref.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
@@ -139,6 +133,12 @@
     <ClInclude Include="binder\bound_routine.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="core\declaration.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\reference.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -154,12 +154,6 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\data.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\result.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\result_ref.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="tokens\token.cpp">
@@ -269,6 +263,12 @@
     </ClCompile>
     <ClCompile Include="binder\bound_routine.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="core\declaration.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\reference.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
