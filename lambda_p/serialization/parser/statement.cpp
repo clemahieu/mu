@@ -6,7 +6,7 @@ lambda_p::serialization::parser::statement::statement(::lambda_p::serialization:
 	: statement_name (statement_name_a),
 	body (body_a),
 	have_target (false),
-	statement_m (body_a->routine->add_statement ())
+	statement_m (body_a->routine ()->add_statement ())
 {
 }
 
