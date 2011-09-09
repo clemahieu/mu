@@ -15,6 +15,7 @@ namespace lambda_p
 				declaration (::lambda_p::serialization::parser::statement * statement_a);
 				~declaration (void);
 				state_id state_type ();
+				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 				::lambda_p::serialization::parser::statement * statement;
 			};
 		}

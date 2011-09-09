@@ -13,3 +13,8 @@ lambda_p::serialization::parser::data::~data (void)
 {
 	return lambda_p::serialization::parser::state_data;
 }
+
+::boost::shared_ptr < ::lambda_p::core::routine> & lambda_p::serialization::parser::data::routine ()
+{
+	return statement->routine ();
+}

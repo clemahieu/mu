@@ -106,9 +106,6 @@
     <ClInclude Include="serialization\parser\statement.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\parser\result_ref.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\parser\data.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
     </ClInclude>
     <ClInclude Include="core\reference.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="serialization\parser\reference.h">
+      <Filter>serialization\parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,9 +237,6 @@
     <ClCompile Include="serialization\parser\statement.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\parser\result_ref.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
     <ClCompile Include="serialization\parser\data.cpp">
       <Filter>serialization\parser</Filter>
     </ClCompile>
@@ -269,6 +266,9 @@
     </ClCompile>
     <ClCompile Include="core\reference.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\reference.cpp">
+      <Filter>serialization\parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

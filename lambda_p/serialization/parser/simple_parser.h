@@ -19,7 +19,7 @@
 #include <lambda_p/serialization/parser/routine_parameter.h>
 #include <lambda_p/serialization/parser/body.h>
 #include <lambda_p/serialization/parser/statement.h>
-#include <lambda_p/serialization/parser/result_ref.h>
+#include <lambda_p/serialization/parser/reference.h>
 #include <lambda_p/serialization/parser/data.h>
 #include <lambda_p/serialization/parser/declaration.h>
 #include <lambda_p/serialization/parser/hex_data.h>
@@ -93,7 +93,7 @@ namespace lambda_p
 						parse_statement (token);
 						break;
 					case ::lambda_p::serialization::parser::state_result_ref:
-						parse_routine_ref (token);
+						parse_reference (token);
 						break;
 					case ::lambda_p::serialization::parser::state_data:
 						parse_data (token);
@@ -219,7 +219,7 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::result_ref (target_statement->string, state_l));
+								state.push (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
 								state_l->have_target = true;
 								break;
 							}
@@ -239,7 +239,7 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::result_ref (target_statement->string, state_l));
+								state.push (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
 							}
 							break;
 						case ::lambda_p::tokens::token_id_data_token:
@@ -270,9 +270,9 @@ namespace lambda_p
 						}
 					}
 				}
-				void parse_routine_ref (::lambda_p::tokens::token * token)
+				void parse_reference (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::result_ref * state_l (static_cast < ::lambda_p::serialization::parser::result_ref *> (state.top ()));
+					::lambda_p::serialization::parser::reference * state_l (static_cast < ::lambda_p::serialization::parser::reference *> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -287,7 +287,7 @@ namespace lambda_p
 								::std::map < ::std::wstring, size_t>::iterator search = state_l->statement->body->parameter_positions.find (target_argument->string);
 								if (search != state_l->statement->body->parameter_positions.end ())
 								{
-									::lambda_p::core::parameter_ref * ref = state_l->statement->routine ()->add_parameter_ref (search->second, current_statement, current_argument);
+									::lambda_p::core::parameter_ref * ref = state_l->routine ()->add_parameter_ref (search->second, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
 									pop_state ();
 								}
@@ -303,12 +303,12 @@ namespace lambda_p
 								::std::map < ::lambda_p::serialization::parser::result_reference, ::lambda_p::serialization::parser::result_position>::iterator search = state_l->statement->body->positions.find (reference);
 								if (search != state_l->statement->body->positions.end ())
 								{
-									::lambda_p::core::reference * ref = state_l->statement->routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
+									::lambda_p::core::reference * ref = state_l->routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
 								}
 								else
 								{
-									::lambda_p::core::reference * ref = state_l->statement->routine ()->add_result_ref (-1, -1, current_statement, current_argument);
+									::lambda_p::core::reference * ref = state_l->routine ()->add_result_ref (-1, -1, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
 									state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::reference *>::value_type (reference, ref));
 								}
@@ -338,7 +338,7 @@ namespace lambda_p
 							size_t size (data_string->string.size () * sizeof (wchar_t));
 							::boost::shared_array <uint8_t> data (new uint8_t [size]);
 							memcpy (data.get (), data_string->string.c_str (), size);
-							state_l->statement->statement_m->add_argument (state_l->statement->routine ()->add_data (data, size, current_statement, current_argument));
+							state_l->statement->statement_m->add_argument (state_l->routine ()->add_data (data, size, current_statement, current_argument));
 							pop_state ();
 						}
 						break;
@@ -364,7 +364,7 @@ namespace lambda_p
 							::lambda_p::serialization::parser::result_reference reference (state_l->statement->statement_name, argument_name->string);
 							::lambda_p::serialization::parser::result_position position (current_statement, current_argument);
 							state_l->statement->body->positions [reference] = position;
-							state_l->statement->statement_m->add_argument (state_l->statement->routine ()->add_result (current_statement, current_argument));
+							state_l->statement->statement_m->add_argument (state_l->routine ()->add_result (current_statement, current_argument));
 							pop_state ();
 						}
 						break;
