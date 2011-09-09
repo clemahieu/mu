@@ -1,6 +1,6 @@
 #include "hex_data.h"
 
-lambda_p::serialization::parser::hex_data::hex_data (::lambda_p::serialization::parser::statement * statement_a)
+lambda_p::serialization::parser::hex_data::hex_data (::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a)
 	: statement (statement_a)
 {
 }

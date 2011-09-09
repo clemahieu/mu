@@ -12,11 +12,11 @@ namespace lambda_p
 			class data : public state
 			{
 			public:
-				data (::lambda_p::serialization::parser::statement * statement_a);
+				data (::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a);
 				~data (void);
 				state_id state_type ();
 				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
-				::lambda_p::serialization::parser::statement * statement;
+				::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement;
 			};
 		}
 	}

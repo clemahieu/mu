@@ -1,6 +1,6 @@
 #include "reference.h"
 
-lambda_p::serialization::parser::reference::reference(::std::wstring target_statement_a, ::lambda_p::serialization::parser::statement * statement_a)
+lambda_p::serialization::parser::reference::reference(::std::wstring target_statement_a, ::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a)
 	: statement (statement_a),
 	target_statement (target_statement_a)
 {

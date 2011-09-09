@@ -12,10 +12,10 @@ namespace lambda_p
 			class hex_data : public state
 			{
 			public:
-				hex_data (::lambda_p::serialization::parser::statement * statement_a);
+				hex_data (::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a);
 				~hex_data (void);
 				state_id state_type ();
-				::lambda_p::serialization::parser::statement * statement;
+				::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement;
 			};
 		}
 	}

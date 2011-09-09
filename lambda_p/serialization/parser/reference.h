@@ -12,12 +12,12 @@ namespace lambda_p
 			class reference : public state
 			{
 			public:
-				reference (::std::wstring target_statement_a, ::lambda_p::serialization::parser::statement * statement_a);
+				reference (::std::wstring target_statement_a, ::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a);
 				~reference (void);
 				state_id state_type ();
 				::std::wstring target_statement;
 				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
-				::lambda_p::serialization::parser::statement * statement;
+				::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement;
 			};
 		}
 	}

@@ -2,7 +2,7 @@
 
 #include <lambda_p/serialization/parser/body.h>
 
-lambda_p::serialization::parser::statement::statement(::lambda_p::serialization::parser::body * body_a, ::std::wstring statement_name_a)
+lambda_p::serialization::parser::statement::statement(::boost::shared_ptr < ::lambda_p::serialization::parser::body> body_a, ::std::wstring statement_name_a)
 	: statement_name (statement_name_a),
 	body (body_a),
 	have_target (false),

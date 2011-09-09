@@ -52,7 +52,7 @@ namespace lambda_p
 					{
 						pop_state ();
 					}
-					state.push (new ::lambda_p::serialization::parser::begin);
+					state.push (::boost::shared_ptr < ::lambda_p::serialization::parser::state> (new ::lambda_p::serialization::parser::begin));
 				}
 				bool error ()
 				{
@@ -65,7 +65,7 @@ namespace lambda_p
 				}
 				void error_message (::std::wstring & target)
 				{
-					::lambda_p::serialization::parser::error * error_l = (static_cast < ::lambda_p::serialization::parser::error *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::error> error_l = (::boost::static_pointer_cast < ::lambda_p::serialization::parser::error> (state.top ()));
 					target = error_l->message;
 				}
 			private:
@@ -114,12 +114,13 @@ namespace lambda_p
 				}
 				void parse_begin (::lambda_p::tokens::token * token)
 				{
-					state.push (new ::lambda_p::serialization::parser::routine);
+					::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::routine);
+					state.push (new_state);
 					parse_internal (token);
 				}
 				void parse_routine (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::routine * state_l (static_cast < ::lambda_p::serialization::parser::routine *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::routine> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::routine> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					if (!state_l->parsed_routine)
 					{
@@ -130,13 +131,15 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::routine_parameter (state_l, routine_name->string));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::routine_parameter (state_l, routine_name->string));
+								state.push (new_state);
 							}
 							break;
 						default:
 							::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
 							message.append (token_type_name (token));
-							state.push (new ::lambda_p::serialization::parser::error (message));
+							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+							state.push (new_state);
 							break;
 						}
 					}
@@ -155,7 +158,7 @@ namespace lambda_p
 				}
 				void parse_routine_parameters (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::routine_parameter * state_l (static_cast < ::lambda_p::serialization::parser::routine_parameter *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::routine_parameter> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::routine_parameter> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -170,21 +173,22 @@ namespace lambda_p
 					case ::lambda_p::tokens::token_id_statement_end:
 						{
 							state_l->routine->routine_m->parameters = state_l->positions.size ();
-							::lambda_p::serialization::parser::body * body = new ::lambda_p::serialization::parser::body (state_l->routine, state_l->routine_name, state_l->positions);
+							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::body (state_l->routine, state_l->routine_name, state_l->positions));
 							pop_state ();
-							state.push (body);
+							state.push (new_state);
 						}
 						break;
 					default:
 						::std::wstring message (L"Expecting an identifier or statement_end in routine parameters, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
 				void parse_routine_body (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::body * state_l (static_cast < ::lambda_p::serialization::parser::body *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::body> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::body> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -192,7 +196,8 @@ namespace lambda_p
 					case ::lambda_p::tokens::token_id_identifier:
 						{
 							::lambda_p::tokens::identifier * statement_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-							state.push (new ::lambda_p::serialization::parser::statement (state_l, statement_name->string));
+							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::statement (state_l, statement_name->string));
+							state.push (new_state);
 						}
 						break;
 					case ::lambda_p::tokens::token_id_routine_end:
@@ -203,13 +208,14 @@ namespace lambda_p
 					default:
 						::std::wstring message (L"Error while parsing routine body, expecting identifier or routine_end, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
 				void parse_statement (::lambda_p::tokens::token * token)
 				{				
-					::lambda_p::serialization::parser::statement * state_l (static_cast < ::lambda_p::serialization::parser::statement *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::statement> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::statement> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					if (!state_l->have_target)
 					{
@@ -219,7 +225,8 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
+								state.push (new_state);
 								state_l->have_target = true;
 								break;
 							}
@@ -227,7 +234,8 @@ namespace lambda_p
 						default:
 							::std::wstring message (L"Error while parsing statement, expecting identifier for target, have: ");
 							message.append (token_type_name (token));
-							state.push (new ::lambda_p::serialization::parser::error (message));
+							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+							state.push (new_state);
 							break;
 						}
 					}
@@ -239,22 +247,26 @@ namespace lambda_p
 						case ::lambda_p::tokens::token_id_identifier:
 							{
 								::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-								state.push (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::reference (target_statement->string, state_l));
+								state.push (new_state);
 							}
 							break;
 						case ::lambda_p::tokens::token_id_data_token:
 							{
-								state.push (new ::lambda_p::serialization::parser::data (state_l));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::data (state_l));
+								state.push (new_state);
 							}
 							break;
 						case ::lambda_p::tokens::token_id_declaration:
 							{
-								state.push (new ::lambda_p::serialization::parser::declaration (state_l));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::declaration (state_l));
+								state.push (new_state);
 							}
 							break;
 						case ::lambda_p::tokens::token_id_hex_data_token:
 							{
-								state.push (new ::lambda_p::serialization::parser::hex_data (state_l));
+								::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::hex_data (state_l));
+								state.push (new_state);
 							}
 							break;
 						case ::lambda_p::tokens::token_id_statement_end:
@@ -265,14 +277,15 @@ namespace lambda_p
 						default:
 							::std::wstring message (L"Invalid statement argument: ");
 							message.append (token_type_name (token));
-							state.push (new ::lambda_p::serialization::parser::error (message));
+							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+							state.push (new_state);
 							break;
 						}
 					}
 				}
 				void parse_reference (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::reference * state_l (static_cast < ::lambda_p::serialization::parser::reference *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::reference> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::reference> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -294,7 +307,8 @@ namespace lambda_p
 								else
 								{
 									::std::wstring message (L"Trying to parse a parameter_ref, identifier is not a parameter");
-									state.push (new ::lambda_p::serialization::parser::error (message));
+									::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+									state.push (new_state);
 								}
 							}
 							else
@@ -319,13 +333,14 @@ namespace lambda_p
 					default:
 						::std::wstring message (L"Trying to parse a result_ref, expecting an identifier, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
 				void parse_data (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::data * state_l (static_cast < ::lambda_p::serialization::parser::data *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::data> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::data> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -345,13 +360,14 @@ namespace lambda_p
 					default:
 						::std::wstring message (L"Expecting identifier while parsing data, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
 				void parse_declaration (::lambda_p::tokens::token * token)
 				{
-					::lambda_p::serialization::parser::declaration * state_l (static_cast < ::lambda_p::serialization::parser::declaration *> (state.top ()));
+					::boost::shared_ptr < ::lambda_p::serialization::parser::declaration> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::declaration> (state.top ()));
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -371,13 +387,14 @@ namespace lambda_p
 					default:
 						::std::wstring message (L"Expecting identifier while parsing declaration, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
 				void parse_hex_data (::lambda_p::tokens::token * token)
 				{		
-					::lambda_p::serialization::parser::hex_data * state_l (static_cast < ::lambda_p::serialization::parser::hex_data *> (state.top ()));		
+					::boost::shared_ptr < ::lambda_p::serialization::parser::hex_data> state_l (::boost::static_pointer_cast < ::lambda_p::serialization::parser::hex_data> (state.top ()));		
 					::lambda_p::tokens::token_ids token_id (token->token_id ());
 					switch (token_id)
 					{
@@ -393,7 +410,8 @@ namespace lambda_p
 					default:
 						::std::wstring message (L"Expecting identifier while parsing hex_data, have: ");
 						message.append (token_type_name (token));
-						state.push (new ::lambda_p::serialization::parser::error (message));
+						::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::error (message));
+						state.push (new_state);
 						break;
 					}
 				}
@@ -433,12 +451,11 @@ namespace lambda_p
 				}
 				void pop_state ()
 				{
-					delete state.top ();
 					state.pop ();
 				}
 				routine_sink & target;
 			public:
-				::std::stack < ::lambda_p::serialization::parser::state *> state;
+				::std::stack < ::boost::shared_ptr < ::lambda_p::serialization::parser::state> > state;
 			};
 		}
 	}

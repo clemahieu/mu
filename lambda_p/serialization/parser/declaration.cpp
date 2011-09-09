@@ -1,6 +1,6 @@
 #include "declaration.h"
 
-lambda_p::serialization::parser::declaration::declaration (::lambda_p::serialization::parser::statement * statement_a)
+lambda_p::serialization::parser::declaration::declaration (::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a)
 	: statement (statement_a)
 {
 }

@@ -2,7 +2,7 @@
 
 #include <lambda_p/serialization/parser/routine.h>
 
-lambda_p::serialization::parser::body::body(::lambda_p::serialization::parser::routine * routine_a, ::std::wstring routine_name_a, ::std::map < ::std::wstring, size_t> parameter_positions_a)
+lambda_p::serialization::parser::body::body(::boost::shared_ptr < ::lambda_p::serialization::parser::routine> routine_a, ::std::wstring routine_name_a, ::std::map < ::std::wstring, size_t> parameter_positions_a)
 	: parameter_positions (parameter_positions_a),
 	routine_name (routine_name_a),
 	routine_m (routine_a)

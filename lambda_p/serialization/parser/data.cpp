@@ -1,6 +1,6 @@
 #include "data.h"
 
-lambda_p::serialization::parser::data::data (::lambda_p::serialization::parser::statement * statement_a)
+lambda_p::serialization::parser::data::data (::boost::shared_ptr < ::lambda_p::serialization::parser::statement> statement_a)
 	: statement (statement_a)
 {
 }

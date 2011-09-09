@@ -19,11 +19,11 @@ namespace lambda_p
 			class routine_parameter : public state
 			{
 			public:
-				routine_parameter (::lambda_p::serialization::parser::routine * routine_a, ::std::wstring routine_name_a);
+				routine_parameter (::boost::shared_ptr < ::lambda_p::serialization::parser::routine> routine_a, ::std::wstring routine_name_a);
 				~routine_parameter (void);
 				state_id state_type ();
 				::std::wstring routine_name;
-				::lambda_p::serialization::parser::routine * routine;
+				::boost::shared_ptr < ::lambda_p::serialization::parser::routine> routine;
 				::std::map < ::std::wstring, size_t> positions;
 			};
 		}
