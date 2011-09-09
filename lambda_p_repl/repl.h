@@ -21,7 +21,7 @@ namespace lambda_p_repl
 		bool stop_m;
 		::lambda_p::serialization::parser::routine_vector routines;
 		::lambda_p::serialization::parser::simple_parser < ::lambda_p::serialization::parser::routine_vector> parser;
-		::lambda_p::serialization::lexer::simple_lexer < ::lambda_p::serialization::parser::simple_parser < ::lambda_p::serialization::parser::routine_vector> > lexer;
+		::lambda_p::serialization::lexer::simple_lexer lexer;
 	};
 }
 

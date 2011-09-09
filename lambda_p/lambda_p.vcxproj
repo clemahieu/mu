@@ -195,6 +195,7 @@
     <ClCompile Include="serialization\lexer\identifier.cpp" />
     <ClCompile Include="serialization\lexer\manifest_data.cpp" />
     <ClCompile Include="serialization\lexer\multiline_comment.cpp" />
+    <ClCompile Include="serialization\lexer\simple_lexer.cpp" />
     <ClCompile Include="serialization\lexer\singleline_comment.cpp" />
     <ClCompile Include="serialization\lexer\state.cpp" />
     <ClCompile Include="serialization\lexer\whitespace.cpp" />

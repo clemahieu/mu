@@ -30,14 +30,15 @@ void lambda_p_test::simple_compile_test_1::run_1 ()
 {
 	routine_vector routines;
 	::lambda_p::serialization::parser::simple_parser <routine_vector> parser (routines);
-	::lambda_p::serialization::lexer::simple_lexer < ::lambda_p::serialization::parser::simple_parser <routine_vector> > lexer (parser);
+	::lambda_p::serialization::lexer::simple_lexer lexer (::boost::function <void (::lambda_p::tokens::token *)> (parser));
 }
 
 void lambda_p_test::simple_compile_test_1::run_2 ()
 {
 	routine_vector routines;
 	::lambda_p::serialization::parser::simple_parser <routine_vector> parser (routines);
-	::lambda_p::serialization::lexer::simple_lexer < ::lambda_p::serialization::parser::simple_parser <routine_vector> > lexer (parser);
+	::boost::function <void (::lambda_p::tokens::token *)> target (parser);
+	::lambda_p::serialization::lexer::simple_lexer lexer (target);
 	::std::wstring routine1 (L"routine1 ;; ;. ");
 	::std::wstring routine2 (L"routine2 ;; ;. ");
 	for (::std::wstring::const_iterator i = routine1.begin (); i != routine1.end (); ++i)

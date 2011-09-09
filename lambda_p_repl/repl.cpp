@@ -7,7 +7,7 @@
 lambda_p_repl::repl::repl(void)
 	: stop_m (false),
 	parser (routines),
-	lexer (parser)
+	lexer (::boost::function <void (::lambda_p::tokens::token *)> (parser))
 {
 }
 
