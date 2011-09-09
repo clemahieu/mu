@@ -4,7 +4,6 @@
 #include <lambda_p/parser/parse_result.h>
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/declaration.h>
-#include <lambda_p/tokens/hex_data_token.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/data_token.h>
 #include <lambda_p/parser/result_reference.h>
@@ -22,7 +21,6 @@
 #include <lambda_p/parser/reference.h>
 #include <lambda_p/parser/data.h>
 #include <lambda_p/parser/declaration.h>
-#include <lambda_p/parser/hex_data.h>
 
 #include <boost/function.hpp>
 
@@ -53,7 +51,6 @@ namespace lambda_p
 			void parse_reference (::lambda_p::tokens::token * token);
 			void parse_data (::lambda_p::tokens::token * token);
 			void parse_declaration (::lambda_p::tokens::token * token);
-			void parse_hex_data (::lambda_p::tokens::token * token);
 			::std::wstring token_type_name (::lambda_p::tokens::token * token);
 			::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target;
 		public:

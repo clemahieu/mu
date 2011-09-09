@@ -3,7 +3,6 @@
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/declaration.h>
-#include <lambda_p/tokens/hex_data_token.h>
 #include <lambda_p/tokens/data_token.h>
 #include <lambda_p/tokens/complex_identifier.h>
 

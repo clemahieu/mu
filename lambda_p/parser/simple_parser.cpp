@@ -69,9 +69,6 @@ void lambda_p::parser::simple_parser::parse_internal (::lambda_p::tokens::token 
 	case ::lambda_p::parser::state_declaration:
 		parse_declaration (token);
 		break;
-	case ::lambda_p::parser::state_hex_data:
-		parse_hex_data (token);
-		break;
 	default:
 		assert (false);
 	}
@@ -237,12 +234,6 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 				state.push (new_state);
 			}
 			break;
-		case ::lambda_p::tokens::token_id_hex_data_token:
-			{
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::hex_data (state_l));
-				state.push (new_state);
-			}
-			break;
 		case ::lambda_p::tokens::token_id_statement_end:
 			{							
 				state.pop ();
@@ -370,30 +361,6 @@ void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::tok
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_hex_data (::lambda_p::tokens::token * token)
-{		
-	::boost::shared_ptr < ::lambda_p::parser::hex_data> state_l (::boost::static_pointer_cast < ::lambda_p::parser::hex_data> (state.top ()));		
-	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
-	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
-		{
-			size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
-			size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
-			state_l->statement->statement_m->add_argument (state_l->statement->routine ()->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
-			state.pop ();
-		}
-		break;
-	default:
-		::std::wstring message (L"Expecting identifier while parsing hex_data, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
-	}
-}
-
 ::std::wstring lambda_p::parser::simple_parser::token_type_name (::lambda_p::tokens::token * token)
 {
 	::std::wstring result;
@@ -405,9 +372,6 @@ void lambda_p::parser::simple_parser::parse_hex_data (::lambda_p::tokens::token 
 		break;
 	case ::lambda_p::tokens::token_id_declaration:
 		result.append (L"declaration");
-		break;
-	case ::lambda_p::tokens::token_id_hex_data_token:
-		result.append (L"hex_data_token");
 		break;
 	case ::lambda_p::tokens::token_id_identifier:
 		result.append (L"identifier");

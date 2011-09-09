@@ -10,7 +10,6 @@ namespace lambda_p
 		{
 			token_id_complex_identifier,
 			token_id_declaration,
-			token_id_hex_data_token,
 			token_id_identifier,
 			token_id_routine_end,
 			token_id_data_token,

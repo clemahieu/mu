@@ -28,9 +28,6 @@
     <ClInclude Include="tokens\declaration.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\hex_data_token.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\routine_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -109,9 +106,6 @@
     <ClInclude Include="parser\error.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\hex_data.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\parse_result.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -166,9 +160,6 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\declaration.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\hex_data_token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\routine_end.cpp">
@@ -247,9 +238,6 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\error.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\hex_data.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\parse_result.cpp">
