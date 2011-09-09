@@ -28,6 +28,7 @@ namespace lambda_p
 				state_id state_type ();
 				::std::wstring statement_name;
 				bool have_target;
+				bool have_argument;
 				::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 				::boost::shared_ptr < ::lambda_p::serialization::parser::body> body;
 				::lambda_p::core::statement * statement_m;

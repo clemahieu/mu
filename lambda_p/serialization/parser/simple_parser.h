@@ -50,7 +50,7 @@ namespace lambda_p
 				{
 					while (!state.empty ())
 					{
-						pop_state ();
+						state.pop ();
 					}
 					state.push (::boost::shared_ptr < ::lambda_p::serialization::parser::state> (new ::lambda_p::serialization::parser::begin));
 				}
@@ -148,7 +148,7 @@ namespace lambda_p
 						switch (token_id)
 						{
 						case ::lambda_p::tokens::token_id_routine_end:
-							pop_state ();
+							state.pop ();
 							break;
 						default:
 							assert (false); // We shouldn't have any token except a routine_end after parsing a routine
@@ -174,7 +174,7 @@ namespace lambda_p
 						{
 							state_l->routine->routine_m->parameters = state_l->positions.size ();
 							::boost::shared_ptr < ::lambda_p::serialization::parser::state> new_state (new ::lambda_p::serialization::parser::body (state_l->routine, state_l->routine_name, state_l->positions));
-							pop_state ();
+							state.pop ();
 							state.push (new_state);
 						}
 						break;
@@ -202,7 +202,7 @@ namespace lambda_p
 						break;
 					case ::lambda_p::tokens::token_id_routine_end:
 						target (state_l->routine ());
-						pop_state ();
+						state.pop ();
 						parse_internal (token);
 						break;
 					default:
@@ -271,7 +271,7 @@ namespace lambda_p
 							break;
 						case ::lambda_p::tokens::token_id_statement_end:
 							{							
-								pop_state ();
+								state.pop ();
 							}
 							break;
 						default:
@@ -302,7 +302,7 @@ namespace lambda_p
 								{
 									::lambda_p::core::parameter_ref * ref = state_l->routine ()->add_parameter_ref (search->second, current_statement, current_argument);
 									state_l->statement->statement_m->add_argument (ref);
-									pop_state ();
+									state.pop ();
 								}
 								else
 								{
@@ -326,7 +326,7 @@ namespace lambda_p
 									state_l->statement->statement_m->add_argument (ref);
 									state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::serialization::parser::result_reference, ::lambda_p::core::reference *>::value_type (reference, ref));
 								}
-								pop_state ();
+								state.pop ();
 							}
 						}
 						break;
@@ -354,7 +354,7 @@ namespace lambda_p
 							::boost::shared_array <uint8_t> data (new uint8_t [size]);
 							memcpy (data.get (), data_string->string.c_str (), size);
 							state_l->statement->statement_m->add_argument (state_l->routine ()->add_data (data, size, current_statement, current_argument));
-							pop_state ();
+							state.pop ();
 						}
 						break;
 					default:
@@ -381,7 +381,7 @@ namespace lambda_p
 							::lambda_p::serialization::parser::result_position position (current_statement, current_argument);
 							state_l->statement->body->positions [reference] = position;
 							state_l->statement->statement_m->add_argument (state_l->routine ()->add_result (current_statement, current_argument));
-							pop_state ();
+							state.pop ();
 						}
 						break;
 					default:
@@ -404,7 +404,7 @@ namespace lambda_p
 							size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
 							size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
 							state_l->statement->statement_m->add_argument (state_l->statement->routine ()->add_data (::boost::shared_array <uint8_t> (new uint8_t [0]), 0, current_statement, current_argument));
-							pop_state ();
+							state.pop ();
 						}
 						break;
 					default:
@@ -449,12 +449,9 @@ namespace lambda_p
 
 					return result;
 				}
-				void pop_state ()
-				{
-					state.pop ();
-				}
 				routine_sink & target;
 			public:
+				::boost::shared_ptr < ::lambda_p::serialization::parser::state> last_state;
 				::std::stack < ::boost::shared_ptr < ::lambda_p::serialization::parser::state> > state;
 			};
 		}

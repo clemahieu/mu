@@ -6,6 +6,7 @@ lambda_p::serialization::parser::statement::statement(::boost::shared_ptr < ::la
 	: statement_name (statement_name_a),
 	body (body_a),
 	have_target (false),
+	have_argument (false),
 	statement_m (body_a->routine ()->add_statement ())
 {
 }
