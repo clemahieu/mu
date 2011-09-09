@@ -149,6 +149,7 @@
     <ClInclude Include="serialization\lexer\multiline_comment.h" />
     <ClInclude Include="serialization\lexer\singleline_comment.h" />
     <ClInclude Include="serialization\lexer\state.h" />
+    <ClInclude Include="serialization\lexer\token_vector.h" />
     <ClInclude Include="serialization\lexer\whitespace.h" />
     <ClInclude Include="serialization\parser\begin.h" />
     <ClInclude Include="serialization\parser\body.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="serialization\lexer\simple_lexer.cpp" />
     <ClCompile Include="serialization\lexer\singleline_comment.cpp" />
     <ClCompile Include="serialization\lexer\state.cpp" />
+    <ClCompile Include="serialization\lexer\token_vector.cpp" />
     <ClCompile Include="serialization\lexer\whitespace.cpp" />
     <ClCompile Include="serialization\parser\begin.cpp" />
     <ClCompile Include="serialization\parser\body.cpp" />
@@ -212,6 +214,7 @@
     <ClCompile Include="serialization\parser\routine.cpp" />
     <ClCompile Include="serialization\parser\routine_parameter.cpp" />
     <ClCompile Include="serialization\parser\routine_vector.cpp" />
+    <ClCompile Include="serialization\parser\simple_parser.cpp" />
     <ClCompile Include="serialization\parser\state.cpp" />
     <ClCompile Include="serialization\parser\statement.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />

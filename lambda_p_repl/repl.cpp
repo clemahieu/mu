@@ -42,7 +42,7 @@ void lambda_p_repl::repl::stop ()
 void lambda_p_repl::repl::iteration ()
 {
 	::std::wstring input;
-	while (routines.routines.empty () && !lexer.error () && !parser.error ())
+	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
 		::std::wcout << L"lp> ";
 		::std::getline (::std::wcin, input);
@@ -73,9 +73,9 @@ void lambda_p_repl::repl::iteration ()
 	}
 	lexer.reset ();
 	parser.reset ();
-	while (!routines.routines.empty ())
+	while (!routines.routines->empty ())
 	{
-		routines.routines.pop_back ();
+		routines.routines->pop_back ();
 	}
 }
 

@@ -20,7 +20,7 @@ namespace lambda_p_repl
 		void use_routine ();
 		bool stop_m;
 		::lambda_p::serialization::parser::routine_vector routines;
-		::lambda_p::serialization::parser::simple_parser < ::lambda_p::serialization::parser::routine_vector> parser;
+		::lambda_p::serialization::parser::simple_parser parser;
 		::lambda_p::serialization::lexer::simple_lexer lexer;
 	};
 }

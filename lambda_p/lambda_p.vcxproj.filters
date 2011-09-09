@@ -139,6 +139,9 @@
     <ClInclude Include="serialization\parser\reference.h">
       <Filter>serialization\parser</Filter>
     </ClInclude>
+    <ClInclude Include="serialization\lexer\token_vector.h">
+      <Filter>serialization\lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -269,6 +272,15 @@
     </ClCompile>
     <ClCompile Include="serialization\parser\reference.cpp">
       <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\simple_lexer.cpp">
+      <Filter>serialization\lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\parser\simple_parser.cpp">
+      <Filter>serialization\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="serialization\lexer\token_vector.cpp">
+      <Filter>serialization\lexer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

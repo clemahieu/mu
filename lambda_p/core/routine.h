@@ -19,7 +19,7 @@ namespace lambda_p
         template <typename> class simple;
 		namespace parser
 		{
-			template <typename> class simple_parser;
+			class simple_parser;
 		}
     }
 	namespace core
@@ -33,7 +33,7 @@ namespace lambda_p
 			friend class ::lambda_p::core::declaration;
 			friend class ::lambda_p::core::node;
             template <typename> friend class ::lambda_p::serialization::simple;
-			template <typename> friend class ::lambda_p::serialization::parser::simple_parser;
+			friend class ::lambda_p::serialization::parser::simple_parser;
 			friend class ::lambda_p::binder::routine_binder;
 		public:
 			routine (size_t parameters_a);

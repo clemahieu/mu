@@ -20,7 +20,7 @@ namespace lambda_p
 				routine_vector (void);
 				~routine_vector (void);
 				void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine);
-				::std::vector < ::boost::shared_ptr < ::lambda_p::core::routine> > routines;
+				::boost::shared_ptr < ::std::vector < ::boost::shared_ptr < ::lambda_p::core::routine> > > routines;
 			};
 		}
 	}
