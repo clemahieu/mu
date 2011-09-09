@@ -279,20 +279,9 @@ void lambda_p::parser::simple_parser::parse_reference (::lambda_p::tokens::token
 			}
 			else
 			{
-				::lambda_p::parser::result_reference reference (state_l->target_statement, target_argument->string);
-				::std::map < ::lambda_p::parser::result_reference, ::lambda_p::parser::result_position>::iterator search = state_l->statement->body->positions.find (reference);
-				if (search != state_l->statement->body->positions.end ())
-				{
-					::lambda_p::core::reference * ref = state_l->routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
-					state_l->statement->statement_m->add_argument (ref);
-				}
-				else
-				{
-					::lambda_p::core::reference * ref = state_l->routine ()->add_result_ref (-1, -1, current_statement, current_argument);
-					state_l->statement->statement_m->add_argument (ref);
-					state_l->statement->body->unresolved_references.insert (::std::multimap < ::lambda_p::parser::result_reference, ::lambda_p::core::reference *>::value_type (reference, ref));
-				}
 				state.pop ();
+				::lambda_p::parser::reference_identifiers reference (state_l->target_statement, target_argument->string);
+				state.top ()->sink_reference (reference);
 			}
 		}
 		break;
@@ -345,8 +334,8 @@ void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::tok
 			size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
 			size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
 			::lambda_p::tokens::identifier * argument_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::lambda_p::parser::result_reference reference (state_l->statement->statement_name, argument_name->string);
-			::lambda_p::parser::result_position position (current_statement, current_argument);
+			::lambda_p::parser::reference_identifiers reference (state_l->statement->statement_name, argument_name->string);
+			::lambda_p::parser::reference_position position (current_statement, current_argument);
 			state_l->statement->body->positions [reference] = position;
 			state_l->statement->statement_m->add_argument (state_l->routine ()->add_result (current_statement, current_argument));
 			state.pop ();

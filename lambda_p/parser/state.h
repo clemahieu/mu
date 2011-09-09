@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/parser/production_target.h>
+
 namespace lambda_p
 {
 	namespace parser
@@ -17,7 +19,7 @@ namespace lambda_p
 			state_declaration,
 			state_hex_data
 		};
-		class state
+		class state : public production_target
 		{
 		public:
 			state (void);

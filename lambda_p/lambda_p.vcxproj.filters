@@ -109,15 +109,6 @@
     <ClInclude Include="parser\parse_result.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\reference.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\result_position.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\result_reference.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\routine.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -134,6 +125,18 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\statement.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference_identifiers.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference_position.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\production_target.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
@@ -246,12 +249,6 @@
     <ClCompile Include="parser\reference.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\result_position.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\result_reference.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\routine.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -268,6 +265,15 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\statement.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\reference_identifiers.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\reference_position.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\production_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

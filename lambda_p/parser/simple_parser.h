@@ -6,8 +6,8 @@
 #include <lambda_p/tokens/declaration.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/data_token.h>
-#include <lambda_p/parser/result_reference.h>
-#include <lambda_p/parser/result_position.h>
+#include <lambda_p/parser/reference_identifiers.h>
+#include <lambda_p/parser/reference_position.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>

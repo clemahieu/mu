@@ -1,8 +1,8 @@
 #pragma once
 
 #include <lambda_p/parser/state.h>
-#include <lambda_p/parser/result_position.h>
-#include <lambda_p/parser/result_reference.h>
+#include <lambda_p/parser/reference_position.h>
+#include <lambda_p/parser/reference_identifiers.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -14,6 +14,7 @@ namespace lambda_p
 	{
 		class statement;
 		class routine;
+		class reference;
 	}
 	namespace parser
 	{
@@ -27,6 +28,7 @@ namespace lambda_p
 			::std::wstring statement_name;
 			bool have_target;
 			bool have_argument;
+			void sink_reference (::lambda_p::parser::reference_identifiers reference);
 			::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 			::boost::shared_ptr < ::lambda_p::parser::body> body;
 			::lambda_p::core::statement * statement_m;

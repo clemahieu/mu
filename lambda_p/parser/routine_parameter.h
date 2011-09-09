@@ -3,9 +3,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include <lambda_p/parser/state.h>
-#include <lambda_p/core/routine.h>
-#include <lambda_p/parser/result_position.h>
-#include <lambda_p/parser/result_reference.h>
 
 #include <map>
 
