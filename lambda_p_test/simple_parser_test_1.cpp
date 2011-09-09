@@ -1,10 +1,10 @@
 #include "simple_parser_test_1.h"
 
-#include <lambda_p/serialization/parser/simple_parser.h>
+#include <lambda_p/parser/simple_parser.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/serialization/parser/parse_result.h>
-#include <lambda_p/serialization/parser/routine_vector.h>
-#include <lambda_p/serialization/lexer/token_vector.h>
+#include <lambda_p/parser/parse_result.h>
+#include <lambda_p/parser/routine_vector.h>
+#include <lambda_p/lexer/token_vector.h>
 
 #include <vector>
 #include <sstream>
@@ -32,17 +32,17 @@ void lambda_p_test::simple_parser_test_1::run ()
 
 void lambda_p_test::simple_parser_test_1::run_1 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	assert (!parser.error ());
 }
 
 void lambda_p_test::simple_parser_test_1::run_2 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::statement_end statement_end;
 	::lambda_p::tokens::routine_end routine_end;
@@ -50,7 +50,7 @@ void lambda_p_test::simple_parser_test_1::run_2 ()
 	parser (&statement_end);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -60,9 +60,9 @@ void lambda_p_test::simple_parser_test_1::run_2 ()
 
 void lambda_p_test::simple_parser_test_1::run_3 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end statement_end;
@@ -72,7 +72,7 @@ void lambda_p_test::simple_parser_test_1::run_3 ()
 	parser (&statement_end);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -82,9 +82,9 @@ void lambda_p_test::simple_parser_test_1::run_3 ()
 
 void lambda_p_test::simple_parser_test_1::run_4 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
@@ -102,7 +102,7 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -112,9 +112,9 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 
 void lambda_p_test::simple_parser_test_1::run_5 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
@@ -136,7 +136,7 @@ void lambda_p_test::simple_parser_test_1::run_5 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -146,9 +146,9 @@ void lambda_p_test::simple_parser_test_1::run_5 ()
 
 void lambda_p_test::simple_parser_test_1::run_6 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
@@ -178,7 +178,7 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 	parser (&se3);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -188,9 +188,9 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 
 void lambda_p_test::simple_parser_test_1::run_7 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::complex_identifier identifier (::std::wstring (L"routine \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::complex_identifier parameter1 (::std::wstring (L"parameter1 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::statement_end se1;
@@ -220,7 +220,7 @@ void lambda_p_test::simple_parser_test_1::run_7 ()
 	parser (&se3);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -230,9 +230,9 @@ void lambda_p_test::simple_parser_test_1::run_7 ()
 
 void lambda_p_test::simple_parser_test_1::run_8 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
@@ -254,7 +254,7 @@ void lambda_p_test::simple_parser_test_1::run_8 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -264,9 +264,9 @@ void lambda_p_test::simple_parser_test_1::run_8 ()
 
 void lambda_p_test::simple_parser_test_1::run_9 ()
 {
-	::lambda_p::serialization::lexer::token_vector tokens;
-	::lambda_p::serialization::parser::routine_vector routines;
-	::lambda_p::serialization::parser::simple_parser parser (routines);
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
@@ -288,7 +288,7 @@ void lambda_p_test::simple_parser_test_1::run_9 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == ::lambda_p::serialization::parser::state_begin);
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
 	::std::stringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);

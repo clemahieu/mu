@@ -43,86 +43,11 @@
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\simple_lexer.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\state.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\begin.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\whitespace.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\control.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\multiline_comment.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\singleline_comment.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\manifest_data.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\parse_result.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\result_position.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\result_reference.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\simple_parser.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\state.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\identifier.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\lexer\error.h">
-      <Filter>serialization\lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\error.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\begin.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\routine_parameter.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\routine.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\body.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\statement.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\data.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\declaration.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\hex_data.h">
-      <Filter>serialization\parser</Filter>
-    </ClInclude>
     <ClInclude Include="binder\node_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\routine_binder.h">
       <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\parser\routine_vector.h">
-      <Filter>serialization\parser</Filter>
     </ClInclude>
     <ClInclude Include="binder\node_instance.h">
       <Filter>binder</Filter>
@@ -136,11 +61,86 @@
     <ClInclude Include="core\reference.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\parser\reference.h">
-      <Filter>serialization\parser</Filter>
+    <ClInclude Include="lexer\begin.h">
+      <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="serialization\lexer\token_vector.h">
-      <Filter>serialization\lexer</Filter>
+    <ClInclude Include="lexer\control.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\error.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\identifier.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\manifest_data.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\multiline_comment.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\simple_lexer.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\singleline_comment.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\state.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\token_vector.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\whitespace.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\begin.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\body.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\data.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\declaration.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\error.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\hex_data.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\parse_result.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\result_position.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\result_reference.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\routine.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\routine_parameter.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\routine_vector.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\simple_parser.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\state.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\statement.h">
+      <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,80 +183,11 @@
     <ClCompile Include="tokens\complex_identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\state.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\begin.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\whitespace.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\control.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\multiline_comment.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\manifest_data.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\singleline_comment.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\parse_result.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\result_position.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\result_reference.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\state.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\identifier.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\lexer\error.cpp">
-      <Filter>serialization\lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\begin.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\error.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\routine_parameter.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\routine.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\body.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\statement.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\data.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\declaration.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\hex_data.cpp">
-      <Filter>serialization\parser</Filter>
-    </ClCompile>
     <ClCompile Include="binder\node_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\routine_binder.cpp">
       <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="serialization\parser\routine_vector.cpp">
-      <Filter>serialization\parser</Filter>
     </ClCompile>
     <ClCompile Include="binder\node_instance.cpp">
       <Filter>binder</Filter>
@@ -270,17 +201,86 @@
     <ClCompile Include="core\reference.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\parser\reference.cpp">
-      <Filter>serialization\parser</Filter>
+    <ClCompile Include="lexer\begin.cpp">
+      <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\simple_lexer.cpp">
-      <Filter>serialization\lexer</Filter>
+    <ClCompile Include="lexer\control.cpp">
+      <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\parser\simple_parser.cpp">
-      <Filter>serialization\parser</Filter>
+    <ClCompile Include="lexer\error.cpp">
+      <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="serialization\lexer\token_vector.cpp">
-      <Filter>serialization\lexer</Filter>
+    <ClCompile Include="lexer\identifier.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\manifest_data.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\multiline_comment.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\simple_lexer.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\singleline_comment.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\state.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\token_vector.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\whitespace.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\begin.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\body.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\data.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\declaration.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\error.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\hex_data.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\parse_result.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\reference.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\result_position.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\result_reference.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\routine.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\routine_parameter.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\routine_vector.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\simple_parser.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\state.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\statement.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,14 +293,14 @@
     <Filter Include="tokens">
       <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="serialization\lexer">
-      <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="serialization\parser">
-      <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="binder">
       <UniqueIdentifier>{b1c16bab-1a35-4fef-89b6-b87b6877cecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lexer">
+      <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parser">
+      <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

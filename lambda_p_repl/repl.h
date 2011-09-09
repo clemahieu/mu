@@ -1,8 +1,8 @@
 #pragma once
 
-#include <lambda_p/serialization/parser/routine_vector.h>
-#include <lambda_p/serialization/parser/simple_parser.h>
-#include <lambda_p/serialization/lexer/simple_lexer.h>
+#include <lambda_p/parser/routine_vector.h>
+#include <lambda_p/parser/simple_parser.h>
+#include <lambda_p/lexer/simple_lexer.h>
 
 namespace lambda_p_repl
 {
@@ -19,9 +19,9 @@ namespace lambda_p_repl
 		void iteration ();
 		void use_routine ();
 		bool stop_m;
-		::lambda_p::serialization::parser::routine_vector routines;
-		::lambda_p::serialization::parser::simple_parser parser;
-		::lambda_p::serialization::lexer::simple_lexer lexer;
+		::lambda_p::parser::routine_vector routines;
+		::lambda_p::parser::simple_parser parser;
+		::lambda_p::lexer::simple_lexer lexer;
 	};
 }
 
