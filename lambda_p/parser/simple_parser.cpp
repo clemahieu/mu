@@ -196,7 +196,7 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 		case ::lambda_p::tokens::token_id_identifier:
 			{
 				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string, state_l));
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
 				state.push (new_state);
 				state_l->have_target = true;
 				break;
@@ -218,7 +218,7 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 		case ::lambda_p::tokens::token_id_identifier:
 			{
 				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string, state_l));
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
 				state.push (new_state);
 			}
 			break;
@@ -258,31 +258,10 @@ void lambda_p::parser::simple_parser::parse_reference (::lambda_p::tokens::token
 	case ::lambda_p::tokens::token_id_complex_identifier:
 	case ::lambda_p::tokens::token_id_identifier:
 		{
+			state.pop ();
 			::lambda_p::tokens::identifier * target_argument (static_cast < ::lambda_p::tokens::identifier *> (token));
-			size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
-			size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
-			if (state_l->target_statement.compare (state_l->statement->body->routine_name) == 0)
-			{
-				::std::map < ::std::wstring, size_t>::iterator search = state_l->statement->body->parameter_positions.find (target_argument->string);
-				if (search != state_l->statement->body->parameter_positions.end ())
-				{
-					::lambda_p::core::parameter_ref * ref = state_l->routine ()->add_parameter_ref (search->second, current_statement, current_argument);
-					state_l->statement->statement_m->add_argument (ref);
-					state.pop ();
-				}
-				else
-				{
-					::std::wstring message (L"Trying to parse a parameter_ref, identifier is not a parameter");
-					::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-					state.push (new_state);
-				}
-			}
-			else
-			{
-				state.pop ();
-				::lambda_p::parser::reference_identifiers reference (state_l->target_statement, target_argument->string);
-				state.top ()->sink_reference (reference);
-			}
+			::lambda_p::parser::reference_identifiers reference (state_l->target_statement, target_argument->string);
+			state.top ()->sink_reference (*this, reference);
 		}
 		break;
 	default:
@@ -303,14 +282,9 @@ void lambda_p::parser::simple_parser::parse_data (::lambda_p::tokens::token * to
 	case ::lambda_p::tokens::token_id_complex_identifier:
 	case ::lambda_p::tokens::token_id_identifier:
 		{
-			size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
-			size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
 			::lambda_p::tokens::identifier * data_string (static_cast < ::lambda_p::tokens::identifier *> (token));
-			size_t size (data_string->string.size () * sizeof (wchar_t));
-			::boost::shared_array <uint8_t> data (new uint8_t [size]);
-			memcpy (data.get (), data_string->string.c_str (), size);
-			state_l->statement->statement_m->add_argument (state_l->routine ()->add_data (data, size, current_statement, current_argument));
 			state.pop ();
+			state.top ()->sink_data (*this, data_string);
 		}
 		break;
 	default:
@@ -331,14 +305,9 @@ void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::tok
 	case ::lambda_p::tokens::token_id_complex_identifier:
 	case ::lambda_p::tokens::token_id_identifier:
 		{
-			size_t current_statement (state_l->statement->statement_m->routine->statements.size () - 1);
-			size_t current_argument (state_l->statement->statement_m->routine->statements [current_statement]->arguments.size ());
 			::lambda_p::tokens::identifier * argument_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::lambda_p::parser::reference_identifiers reference (state_l->statement->statement_name, argument_name->string);
-			::lambda_p::parser::reference_position position (current_statement, current_argument);
-			state_l->statement->body->positions [reference] = position;
-			state_l->statement->statement_m->add_argument (state_l->routine ()->add_result (current_statement, current_argument));
 			state.pop ();
+			state.top () ->sink_declaration (*this, argument_name);
 		}
 		break;
 	default:
