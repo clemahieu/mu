@@ -4,9 +4,10 @@
 #include <lambda_p/binder/node_binder.h>
 #include <lambda_p/binder/bound_routine.h>
 
-lambda_p::binder::routine_binder::routine_binder(::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *> instances_a)
-	: instances (instances_a),
-	routine (new ::lambda_p::binder::bound_routine)
+#include <sstream>
+
+lambda_p::binder::routine_binder::routine_binder ()
+	: routine (new ::lambda_p::binder::bound_routine)
 {
 }
 
@@ -14,7 +15,7 @@ lambda_p::binder::routine_binder::~routine_binder(void)
 {
 }
 
-void lambda_p::binder::routine_binder::operator () (::lambda_p::core::routine * routine_a)
+void lambda_p::binder::routine_binder::operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
 {
 	for (::std::vector < ::lambda_p::core::statement *>::iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
 	{
@@ -25,12 +26,12 @@ void lambda_p::binder::routine_binder::operator () (::lambda_p::core::routine * 
 		{
 			::std::vector < ::lambda_p::core::node *>::iterator i = statement->arguments.begin ();
 			::lambda_p::core::node * node (*i);
-			::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *>::iterator search (instances.find (node));
-			::lambda_p::binder::node_binder * binder (dynamic_cast < ::lambda_p::binder::node_binder *> (search->second));
+			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (node));
+			::boost::shared_ptr < ::lambda_p::binder::node_binder> binder (::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (search->second));
 			if (binder != NULL)
 			{
 				::std::wstring problems;
-				binder->bind (statement, instances, *routine.get (), problems);
+				binder->bind (statement, instances, *routine.get (), ::std::wstringstream (problems));
 				error_message_m.append (problems);
 			}
 			else
@@ -68,7 +69,7 @@ void lambda_p::binder::routine_binder::populate_unresolved (::lambda_p::core::st
 		case ::lambda_p::core::node_result:
 			break;
 		case ::lambda_p::core::node_result_ref:
-			::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *>::iterator search (instances.find (node));
+			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (node));
 			bool node_resolved (search != instances.end ());
 			if (!node_resolved)
 			{
@@ -78,4 +79,15 @@ void lambda_p::binder::routine_binder::populate_unresolved (::lambda_p::core::st
 			break;
 		}
 	}
+}
+
+bool lambda_p::binder::routine_binder::error ()
+{
+	bool result (!error_message_m.empty ());
+	return result;
+}
+
+void lambda_p::binder::routine_binder::error_message (::std::wstring & target)
+{
+	target.append (error_message_m);
 }

@@ -20,13 +20,13 @@ namespace lambda_p
 		class routine_binder
 		{
 		public:
-			routine_binder (::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *> instances_a);
+			routine_binder ();
 			~routine_binder (void);
-			void operator () (::lambda_p::core::routine * routine_a);
+			void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
 			bool error ();
-			::std::wstring error_message ();
+			void error_message (::std::wstring & target);
 			void reset ();
-			::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *> instances;
+			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 			::std::map < ::lambda_p::core::node *, ::lambda_p::core::statement *> unbound_statements;
 			::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine;
 		private:

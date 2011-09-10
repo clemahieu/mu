@@ -6,6 +6,10 @@
 
 #include <boost/bind.hpp>
 
+#include <lambda_p/binder/routine_binder.h>
+#include <lambda_p_repl/repl_quit_binder.h>
+#include <lambda_p/binder/bound_routine.h>
+
 lambda_p_repl::repl::repl(void)
 	: stop_m (false),
 	parser (routines),
@@ -43,7 +47,18 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
+	lexer.reset ();
+	parser.reset ();
+	while (!routines.routines->empty ())
+	{
+		routines.routines->pop_back ();
+	}
 	::std::wstring input;
+	::std::wstring environment (L"main ;! quit ;;\n");
+	for (::std::wstring::const_iterator i = environment.begin (); i != environment.end (); ++i)
+	{
+		lexer (*i);
+	}
 	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
 		::std::wcout << L"lp> ";
@@ -75,16 +90,32 @@ void lambda_p_repl::repl::iteration ()
 		::std::wcout << L">>\n";
 		use_routine ();
 	}
-	lexer.reset ();
-	parser.reset ();
-	while (!routines.routines->empty ())
-	{
-		routines.routines->pop_back ();
-	}
 }
 
 void lambda_p_repl::repl::use_routine ()
 {
+	::lambda_p::binder::routine_binder routine_binder;
+	::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> quit_binder (new ::lambda_p_repl::repl_quit_binder (*this));
+	routine_binder.instances [quit_node ()] = quit_binder;
+	routine_binder ((*routines.routines) [0]);
+	if (routine_binder.error ())
+	{
+		::std::wcout << "Binding error:\n";
+		::std::wstring message;
+		routine_binder.error_message (message);
+		::std::wcout << message;
+		::std::wcout << '\n';
+	}
+	else
+	{
+		(*routine_binder.routine) ();
+	}
+}
+
+::lambda_p::core::node * lambda_p_repl::repl::quit_node ()
+{
+	::lambda_p::core::node * result ((*routines.routines) [0]->statements [0]->arguments [0]);
+	return result;
 }
 		
 void lambda_p_repl::repl::token_sink (::lambda_p::tokens::token * token)

@@ -15,6 +15,7 @@ namespace lambda_p_repl
 		void stop ();
 		void reset ();
 	private:
+		::lambda_p::core::node * quit_node ();
 		void run_loop ();
 		void iteration ();
 		void use_routine ();

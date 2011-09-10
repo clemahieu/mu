@@ -7,6 +7,11 @@
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/data.h>
 
+namespace lambda_p_repl
+{
+	class repl;
+}
+
 namespace lambda_p
 {
 	namespace binder
@@ -35,6 +40,7 @@ namespace lambda_p
 			friend class ::lambda_p::parser::simple_parser;
 			friend class ::lambda_p::binder::routine_binder;
 			friend class ::lambda_p::parser::statement;
+			friend class ::lambda_p_repl::repl;
 		public:
 			routine ();
 			~routine (void);

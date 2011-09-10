@@ -16,7 +16,7 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 {
 }
 
-void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *> & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
@@ -30,4 +30,8 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 		problems << argument_count - 1;
 		problems << '\n';
 	}
+}
+
+void lambda_p_repl::repl_quit_binder::operator () ()
+{
 }

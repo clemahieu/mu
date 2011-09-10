@@ -2,6 +2,8 @@
 
 #include <lambda_p/binder/node_instance.h>
 
+#include <boost/shared_ptr.hpp>
+
 #include <iostream>
 #include <map>
 
@@ -20,7 +22,7 @@ namespace lambda_p
 		public:
 			node_binder(void);
 			~node_binder(void);
-			virtual void bind (::lambda_p::core::statement *, ::std::map < ::lambda_p::core::node *, ::lambda_p::binder::node_instance *> & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstring & problems) = 0;
+			virtual void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems) = 0;
 		};
 	}
 }
