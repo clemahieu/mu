@@ -1,34 +1,17 @@
-#include <lambda_p/tokens/token.h>
-#include <lambda_p/tokens/identifier.h>
-#include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/parser/parse_result.h>
-#include <lambda_p/tokens/statement_end.h>
-#include <lambda_p/tokens/declaration.h>
-#include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/data_token.h>
-#include <lambda_p/parser/reference_identifiers.h>
-#include <lambda_p/parser/reference_position.h>
-#include <lambda_p/core/reference.h>
-#include <lambda_p/core/statement.h>
-#include <lambda_p/core/routine.h>
-#include <lambda_p/parser/state.h>
-#include <lambda_p/parser/begin.h>
-#include <lambda_p/parser/error.h>
-#include <lambda_p/parser/routine.h>
-#include <lambda_p/parser/routine_parameter.h>
-#include <lambda_p/parser/body.h>
-#include <lambda_p/parser/statement.h>
-#include <lambda_p/parser/reference.h>
-#include <lambda_p/parser/data.h>
-#include <lambda_p/parser/declaration.h>
-
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
-#include <map>
+#include <lambda_p/parser/state.h>
+#include <lambda_p/tokens/token.h>
+
 #include <stack>
 
 namespace lambda_p
 {
+	namespace core
+	{
+		class routine;
+	}
 	namespace parser
 	{
 		class simple_parser

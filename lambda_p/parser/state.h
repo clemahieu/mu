@@ -17,7 +17,7 @@ namespace lambda_p
 			state_result_ref,
 			state_data,
 			state_declaration,
-			state_hex_data
+			state_node_list
 		};
 		class state : public production_target
 		{

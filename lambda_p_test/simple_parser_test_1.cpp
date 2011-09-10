@@ -5,6 +5,12 @@
 #include <lambda_p/parser/parse_result.h>
 #include <lambda_p/parser/routine_vector.h>
 #include <lambda_p/lexer/token_vector.h>
+#include <lambda_p/tokens/identifier.h>
+#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/routine_end.h>
+#include <lambda_p/tokens/complex_identifier.h>
+#include <lambda_p/tokens/declaration.h>
+#include <lambda_p/tokens/data_token.h>
 
 #include <vector>
 #include <sstream>

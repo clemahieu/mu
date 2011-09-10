@@ -139,6 +139,7 @@
     <ClInclude Include="parser\production_target.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="parser\node_list.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\parameter_ref.cpp">
@@ -276,6 +277,7 @@
     <ClCompile Include="parser\production_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="parser\node_list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

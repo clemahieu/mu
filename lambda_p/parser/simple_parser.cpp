@@ -1,5 +1,29 @@
 #include <lambda_p/parser/simple_parser.h>
 
+#include <lambda_p/tokens/identifier.h>
+#include <lambda_p/tokens/complex_identifier.h>
+#include <lambda_p/parser/parse_result.h>
+#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/declaration.h>
+#include <lambda_p/tokens/routine_end.h>
+#include <lambda_p/tokens/data_token.h>
+#include <lambda_p/parser/reference_identifiers.h>
+#include <lambda_p/parser/reference_position.h>
+#include <lambda_p/core/reference.h>
+#include <lambda_p/core/statement.h>
+#include <lambda_p/core/routine.h>
+#include <lambda_p/parser/begin.h>
+#include <lambda_p/parser/error.h>
+#include <lambda_p/parser/routine.h>
+#include <lambda_p/parser/routine_parameter.h>
+#include <lambda_p/parser/body.h>
+#include <lambda_p/parser/statement.h>
+#include <lambda_p/parser/reference.h>
+#include <lambda_p/parser/data.h>
+#include <lambda_p/parser/declaration.h>
+
+#include <map>
+
 lambda_p::parser::simple_parser::simple_parser (::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target_a)
 	: target (target_a)
 {
@@ -195,6 +219,7 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 		case ::lambda_p::tokens::token_id_complex_identifier:
 		case ::lambda_p::tokens::token_id_identifier:
 			{
+				//::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::
 				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
 				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
 				state.push (new_state);
