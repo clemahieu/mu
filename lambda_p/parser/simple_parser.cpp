@@ -219,7 +219,6 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 		case ::lambda_p::tokens::token_id_complex_identifier:
 		case ::lambda_p::tokens::token_id_identifier:
 			{
-				//::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::
 				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
 				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
 				state.push (new_state);
