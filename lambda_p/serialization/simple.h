@@ -8,7 +8,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/core/parameter_ref.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/declaration.h>
 
@@ -31,17 +30,6 @@ namespace lambda_p
 			}
 			void routine (::lambda_p::core::routine const * routine_a)
 			{
-                target << "routine";
-                target << routine_a;
-                target << "\n";
-                for (size_t i = 0; i != routine_a->parameters; ++i)
-                {
-                    target << " ";
-                    target << "parameter";
-                    target << i;
-                    target << "\n";
-                }
-                target << ";;\n";
                 for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
                 {
                     target << " ";
@@ -66,9 +54,6 @@ namespace lambda_p
 				::lambda_p::core::node_id node_id (node_a->node_type ());
 				switch (node_id)
 				{
-				case ::lambda_p::core::node_parameter_ref:
-					parameter_ref (static_cast < ::lambda_p::core::parameter_ref const *> (node_a));
-					break;
 				case ::lambda_p::core::node_result_ref:
 					result_ref (static_cast < ::lambda_p::core::reference const *> (node_a));
 					break;
@@ -88,14 +73,6 @@ namespace lambda_p
                 target << ";' ";
                 target << data_a->item ().get ();
 			}
-            void parameter_ref (::lambda_p::core::parameter_ref const * parameter_ref_a)
-            {
-                target << "routine";
-                target << parameter_ref_a->routine;
-                target << " ";
-                target << "parameter";
-                target << parameter_ref_a->target_parameter;
-            }
             void result_ref (::lambda_p::core::reference const * result_ref_a)
             {
                 target << "statement";

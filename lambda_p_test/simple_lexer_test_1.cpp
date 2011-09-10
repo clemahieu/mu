@@ -38,7 +38,7 @@ void lambda_p_test::simple_lexer_test_1::run ()
 void lambda_p_test::simple_lexer_test_1::run_1 ()
 {
 	::std::wstringstream stream;
-	::lambda_p::core::routine routine (0);
+	::lambda_p::core::routine routine;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (stream);
 	serializer.routine (&routine);
 	::std::wstring str (stream.str ());
@@ -50,10 +50,8 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	}
 	lexer.end ();
 	assert (!lexer.error ());
-	assert (tokens.tokens->size () == 3);
-	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
-	assert ((*tokens.tokens) [1]->token_id () == ::lambda_p::tokens::token_id_statement_end);
-	assert ((*tokens.tokens) [2]->token_id () == ::lambda_p::tokens::token_id_routine_end);
+	assert (tokens.tokens->size () == 1);
+	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_routine_end);
 }
 
 void lambda_p_test::simple_lexer_test_1::run_2 ()

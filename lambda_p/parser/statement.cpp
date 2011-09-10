@@ -34,35 +34,17 @@ void lambda_p::parser::statement::sink_reference (::lambda_p::parser::simple_par
 {
 	size_t current_statement (statement_m->routine->statements.size () - 1);
 	size_t current_argument (statement_m->routine->statements [current_statement]->arguments.size ());
-	if (reference.statement.compare (body->routine_name) == 0)
+	::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::parser::reference_position>::iterator search = body->positions.find (reference);
+	if (search != body->positions.end ())
 	{
-		::std::map < ::std::wstring, size_t>::iterator search = body->parameter_positions.find (reference.argument);
-		if (search != body->parameter_positions.end ())
-		{
-			::lambda_p::core::parameter_ref * ref = routine ()->add_parameter_ref (search->second, current_statement, current_argument);
-			statement_m->add_argument (ref);
-		}
-		else
-		{
-			::std::wstring message (L"Trying to parse a parameter_ref, identifier is not a parameter");
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-			parser.state.push (new_state);
-		}
+		::lambda_p::core::reference * ref = routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
+		statement_m->add_argument (ref);
 	}
 	else
 	{
-		::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::parser::reference_position>::iterator search = body->positions.find (reference);
-		if (search != body->positions.end ())
-		{
-			::lambda_p::core::reference * ref = routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
-			statement_m->add_argument (ref);
-		}
-		else
-		{
-			::lambda_p::core::reference * ref = routine ()->add_result_ref (-1, -1, current_statement, current_argument);
-			statement_m->add_argument (ref);
-			body->unresolved_references.insert (::std::multimap < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::reference *>::value_type (reference, ref));
-		}
+		::lambda_p::core::reference * ref = routine ()->add_result_ref (-1, -1, current_statement, current_argument);
+		statement_m->add_argument (ref);
+		body->unresolved_references.insert (::std::multimap < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::reference *>::value_type (reference, ref));
 	}
 }
 

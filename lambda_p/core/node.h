@@ -9,7 +9,6 @@ namespace lambda_p
 		enum node_id
 		{
 			node_data,
-			node_parameter_ref,
 			node_result,
 			node_result_ref
 		};

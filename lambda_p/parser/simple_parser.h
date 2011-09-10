@@ -28,7 +28,6 @@ namespace lambda_p
 			void parse_error (::lambda_p::tokens::token * token);
 			void parse_begin (::lambda_p::tokens::token * token);
 			void parse_routine (::lambda_p::tokens::token * token);
-			void parse_routine_parameters (::lambda_p::tokens::token * token);
 			void parse_routine_body (::lambda_p::tokens::token * token);
 			void parse_statement (::lambda_p::tokens::token * token);
 			void parse_reference (::lambda_p::tokens::token * token);

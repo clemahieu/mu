@@ -4,7 +4,7 @@
 
 lambda_p::parser::routine::routine(void)
 	: parsed_routine (false),
-	routine_m (new ::lambda_p::core::routine (0))
+	routine_m (new ::lambda_p::core::routine)
 {
 }
 

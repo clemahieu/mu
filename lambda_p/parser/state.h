@@ -11,7 +11,6 @@ namespace lambda_p
 			state_error,
 			state_begin,
 			state_routine,
-			state_routine_parameter,
 			state_body,
 			state_statement,
 			state_result_ref,

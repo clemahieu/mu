@@ -1,17 +1,12 @@
 #include <lambda_p/core/routine.h>
 
-lambda_p::core::routine::routine(size_t parameters_a)
-	: parameters (parameters_a)
+lambda_p::core::routine::routine ()
 {
 }
 
 lambda_p::core::routine::~routine(void)
 {
 	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
-	{
-		delete *i;
-	}
-	for (::std::vector < ::lambda_p::core::parameter_ref *>::const_iterator i = parameter_refs.begin (); i != parameter_refs.end (); ++i)
 	{
 		delete *i;
 	}
@@ -41,12 +36,6 @@ lambda_p::core::routine::~routine(void)
 	return data [data.size () - 1];
 }
 
-::lambda_p::core::parameter_ref * lambda_p::core::routine::add_parameter_ref (size_t target_parameter_a, size_t self_statement_a, size_t self_argument_a)
-{
-	parameter_refs.push_back (new ::lambda_p::core::parameter_ref (this, target_parameter_a, self_statement_a, self_argument_a));
-	return parameter_refs [parameter_refs.size () - 1];
-}
-
 ::lambda_p::core::declaration * lambda_p::core::routine::add_result (size_t self_statement_a, size_t self_argument_a)
 {
 	results.push_back (new ::lambda_p::core::declaration (this, self_statement_a, self_argument_a));
@@ -62,10 +51,6 @@ lambda_p::core::routine::~routine(void)
 void lambda_p::core::routine::validate (::std::iostream & problems) const
 {	
 	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
-	{
-		(*i)->validate (problems);
-	}
-	for (::std::vector < ::lambda_p::core::parameter_ref *>::const_iterator i = parameter_refs.begin (); i != parameter_refs.end (); ++i)
 	{
 		(*i)->validate (problems);
 	}

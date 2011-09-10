@@ -65,8 +65,6 @@ void lambda_p::binder::routine_binder::populate_unresolved (::lambda_p::core::st
 		{
 		case ::lambda_p::core::node_data:
 			break;
-		case ::lambda_p::core::node_parameter_ref:
-			break;
 		case ::lambda_p::core::node_result:
 			break;
 		case ::lambda_p::core::node_result_ref:

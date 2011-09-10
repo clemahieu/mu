@@ -15,7 +15,6 @@
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
-#include <lambda_p/parser/routine_parameter.h>
 #include <lambda_p/parser/body.h>
 #include <lambda_p/parser/statement.h>
 #include <lambda_p/parser/reference.h>
@@ -75,9 +74,6 @@ void lambda_p::parser::simple_parser::parse_internal (::lambda_p::tokens::token 
 	case ::lambda_p::parser::state_routine:
 		parse_routine (token);
 		break;
-	case ::lambda_p::parser::state_routine_parameter:
-		parse_routine_parameters (token);
-		break;
 	case ::lambda_p::parser::state_body:
 		parse_routine_body (token);
 		break;
@@ -123,8 +119,9 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 		case ::lambda_p::tokens::token_id_identifier:
 			{
 				::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::routine_parameter (state_l, routine_name->string));
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::body (state_l));
 				state.push (new_state);
+				parse_internal (token);
 			}
 			break;
 		default:
@@ -146,37 +143,6 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 			assert (false); // We shouldn't have any token except a routine_end after parsing a routine
 			break;
 		}
-	}
-}
-
-void lambda_p::parser::simple_parser::parse_routine_parameters (::lambda_p::tokens::token * token)
-{
-	::boost::shared_ptr < ::lambda_p::parser::routine_parameter> state_l (::boost::static_pointer_cast < ::lambda_p::parser::routine_parameter> (state.top ()));
-	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
-	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
-		{
-			::lambda_p::tokens::identifier * parameter_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			size_t position (state_l->positions.size ());
-			state_l->positions [parameter_name->string] = position;
-		}
-		break;
-	case ::lambda_p::tokens::token_id_statement_end:
-		{
-			state_l->routine->routine_m->parameters = state_l->positions.size ();
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::body (state_l->routine, state_l->routine_name, state_l->positions));
-			state.pop ();
-			state.push (new_state);
-		}
-		break;
-	default:
-		::std::wstring message (L"Expecting an identifier or statement_end in routine parameters, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
 	}
 }
 
@@ -212,64 +178,39 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 {				
 	::boost::shared_ptr < ::lambda_p::parser::statement> state_l (::boost::static_pointer_cast < ::lambda_p::parser::statement> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	if (!state_l->have_target)
+	switch (token_id)
 	{
-		switch (token_id)
+	case ::lambda_p::tokens::token_id_complex_identifier:
+	case ::lambda_p::tokens::token_id_identifier:
 		{
-		case ::lambda_p::tokens::token_id_complex_identifier:
-		case ::lambda_p::tokens::token_id_identifier:
-			{
-				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
-				state.push (new_state);
-				state_l->have_target = true;
-				break;
-			}
-			break;
-		default:
-			::std::wstring message (L"Error while parsing statement, expecting identifier for target, have: ");
-			message.append (token_type_name (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+			::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
 			state.push (new_state);
-			break;
 		}
-	}
-	else
-	{
-		switch (token_id)
+		break;
+	case ::lambda_p::tokens::token_id_data_token:
 		{
-		case ::lambda_p::tokens::token_id_complex_identifier:
-		case ::lambda_p::tokens::token_id_identifier:
-			{
-				::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
-				state.push (new_state);
-			}
-			break;
-		case ::lambda_p::tokens::token_id_data_token:
-			{
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l));
-				state.push (new_state);
-			}
-			break;
-		case ::lambda_p::tokens::token_id_declaration:
-			{
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::declaration (state_l));
-				state.push (new_state);
-			}
-			break;
-		case ::lambda_p::tokens::token_id_statement_end:
-			{							
-				state.pop ();
-			}
-			break;
-		default:
-			::std::wstring message (L"Invalid statement argument: ");
-			message.append (token_type_name (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l));
 			state.push (new_state);
-			break;
 		}
+		break;
+	case ::lambda_p::tokens::token_id_declaration:
+		{
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::declaration (state_l));
+			state.push (new_state);
+		}
+		break;
+	case ::lambda_p::tokens::token_id_statement_end:
+		{							
+			state.pop ();
+		}
+		break;
+	default:
+		::std::wstring message (L"Invalid statement argument: ");
+		message.append (token_type_name (token));
+		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+		state.push (new_state);
+		break;
 	}
 }
 
