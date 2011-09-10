@@ -19,6 +19,7 @@ namespace lambda_p_repl
 		void iteration ();
 		void use_routine ();
 		bool stop_m;
+		void token_sink (::lambda_p::tokens::token *);
 		::lambda_p::parser::routine_vector routines;
 		::lambda_p::parser::simple_parser parser;
 		::lambda_p::lexer::simple_lexer lexer;

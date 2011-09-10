@@ -10,11 +10,11 @@ lambda_p::core::routine::~routine(void)
 	{
 		delete *i;
 	}
-	for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = results.begin (); i != results.end (); ++i)
+	for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = declarations.begin (); i != declarations.end (); ++i)
 	{
 		delete *i;
 	}
-	for (::std::vector < ::lambda_p::core::reference *>::const_iterator i = result_refs.begin (); i != result_refs.end (); ++i)
+	for (::std::vector < ::lambda_p::core::reference *>::const_iterator i = references.begin (); i != references.end (); ++i)
 	{
 		delete *i;
 	}
@@ -36,16 +36,16 @@ lambda_p::core::routine::~routine(void)
 	return data [data.size () - 1];
 }
 
-::lambda_p::core::declaration * lambda_p::core::routine::add_result (size_t self_statement_a, size_t self_argument_a)
+::lambda_p::core::declaration * lambda_p::core::routine::add_declaration (size_t self_statement_a, size_t self_argument_a)
 {
-	results.push_back (new ::lambda_p::core::declaration (this, self_statement_a, self_argument_a));
-	return results [results.size () - 1];
+	declarations.push_back (new ::lambda_p::core::declaration (this, self_statement_a, self_argument_a));
+	return declarations [declarations.size () - 1];
 }
 
-::lambda_p::core::reference * lambda_p::core::routine::add_result_ref (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a)
+::lambda_p::core::reference * lambda_p::core::routine::add_reference (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a)
 {
-	result_refs.push_back (new ::lambda_p::core::reference (this, target_statement_a, target_argument_a, self_statement_a, self_argument_a));
-	return result_refs [result_refs.size () - 1];
+	references.push_back (new ::lambda_p::core::reference (this, target_statement_a, target_argument_a, self_statement_a, self_argument_a));
+	return references [references.size () - 1];
 }
 
 void lambda_p::core::routine::validate (::std::iostream & problems) const
@@ -54,11 +54,11 @@ void lambda_p::core::routine::validate (::std::iostream & problems) const
 	{
 		(*i)->validate (problems);
 	}
-	for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = results.begin (); i != results.end (); ++i)
+	for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = declarations.begin (); i != declarations.end (); ++i)
 	{
 		(*i)->validate (problems);
 	}
-	for (::std::vector < ::lambda_p::core::reference *>::const_iterator i = result_refs.begin (); i != result_refs.end (); ++i)
+	for (::std::vector < ::lambda_p::core::reference *>::const_iterator i = references.begin (); i != references.end (); ++i)
 	{
 		(*i)->validate (problems);
 	}

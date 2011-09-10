@@ -4,10 +4,12 @@
 #include <string>
 #include <sstream>
 
+#include <boost/bind.hpp>
+
 lambda_p_repl::repl::repl(void)
 	: stop_m (false),
 	parser (routines),
-	lexer (::boost::function <void (::lambda_p::tokens::token *)> (parser))
+	lexer (::boost::bind (&::lambda_p_repl::repl::token_sink, this, _1))
 {
 }
 
@@ -58,6 +60,7 @@ void lambda_p_repl::repl::iteration ()
 		::std::wstring message;
 		lexer.error_message (message);
 		::std::wcout << message;
+		::std::wcout << '\n';
 	}
 	else if (parser.error ())
 	{
@@ -65,6 +68,7 @@ void lambda_p_repl::repl::iteration ()
 		::std::wstring message;
 		parser.error_message (message);
 		::std::wcout << message;
+		::std::wcout << '\n';
 	}
 	else
 	{
@@ -81,4 +85,9 @@ void lambda_p_repl::repl::iteration ()
 
 void lambda_p_repl::repl::use_routine ()
 {
+}
+		
+void lambda_p_repl::repl::token_sink (::lambda_p::tokens::token * token)
+{
+	parser (token);
 }

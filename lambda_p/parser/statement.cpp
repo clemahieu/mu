@@ -37,12 +37,12 @@ void lambda_p::parser::statement::sink_reference (::lambda_p::parser::simple_par
 	::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::parser::reference_position>::iterator search = body->positions.find (reference);
 	if (search != body->positions.end ())
 	{
-		::lambda_p::core::reference * ref = routine ()->add_result_ref (search->second.statement, search->second.argument, current_statement, current_argument);
+		::lambda_p::core::reference * ref = routine ()->add_reference (search->second.statement, search->second.argument, current_statement, current_argument);
 		statement_m->add_argument (ref);
 	}
 	else
 	{
-		::lambda_p::core::reference * ref = routine ()->add_result_ref (-1, -1, current_statement, current_argument);
+		::lambda_p::core::reference * ref = routine ()->add_reference (-1, -1, current_statement, current_argument);
 		statement_m->add_argument (ref);
 		body->unresolved_references.insert (::std::multimap < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::reference *>::value_type (reference, ref));
 	}
@@ -65,5 +65,5 @@ void lambda_p::parser::statement::sink_declaration (::lambda_p::parser::simple_p
 	::lambda_p::parser::reference_identifiers reference (statement_name, identifier->string);
 	::lambda_p::parser::reference_position position (current_statement, current_argument);
 	body->positions [reference] = position;
-	statement_m->add_argument (routine ()->add_result (current_statement, current_argument));
+	statement_m->add_argument (routine ()->add_declaration (current_statement, current_argument));
 }

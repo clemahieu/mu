@@ -110,39 +110,27 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 {
 	::boost::shared_ptr < ::lambda_p::parser::routine> state_l (::boost::static_pointer_cast < ::lambda_p::parser::routine> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	if (!state_l->parsed_routine)
+	switch (token_id)
 	{
-		state_l->parsed_routine = true;
-		switch (token_id)
+	case ::lambda_p::tokens::token_id_complex_identifier:
+	case ::lambda_p::tokens::token_id_identifier:
 		{
-		case ::lambda_p::tokens::token_id_complex_identifier:
-		case ::lambda_p::tokens::token_id_identifier:
-			{
-				::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::body (state_l));
-				state.push (new_state);
-				parse_internal (token);
-			}
-			break;
-		default:
-			::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
-			message.append (token_type_name (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+			::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::body (state_l));
 			state.push (new_state);
-			break;
+			parse_internal (token);
 		}
-	}
-	else
-	{
-		switch (token_id)
-		{
-		case ::lambda_p::tokens::token_id_routine_end:
-			state.pop ();
-			break;
-		default:
-			assert (false); // We shouldn't have any token except a routine_end after parsing a routine
-			break;
-		}
+		break;
+	case ::lambda_p::tokens::token_id_routine_end:
+		state.pop ();
+		target (state_l->routine_m);
+		break;
+	default:
+		::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
+		message.append (token_type_name (token));
+		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+		state.push (new_state);
+		break;
 	}
 }
 
@@ -161,7 +149,6 @@ void lambda_p::parser::simple_parser::parse_routine_body (::lambda_p::tokens::to
 		}
 		break;
 	case ::lambda_p::tokens::token_id_routine_end:
-		target (state_l->routine ());
 		state.pop ();
 		parse_internal (token);
 		break;

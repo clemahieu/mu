@@ -27,7 +27,6 @@ namespace lambda_p
 		class routine
 		{
 			friend class ::lambda_p::core::statement;
-			friend class ::lambda_p::core::parameter_ref;
 			friend class ::lambda_p::core::reference;
 			friend class ::lambda_p::core::data;
 			friend class ::lambda_p::core::declaration;
@@ -41,13 +40,13 @@ namespace lambda_p
 			~routine (void);
 			::lambda_p::core::statement * add_statement ();
 			::lambda_p::core::data * add_data (::boost::shared_array <uint8_t> item_a, size_t size_a, size_t statement_a, size_t index_a);
-			::lambda_p::core::declaration * add_result (size_t self_statement_a, size_t self_argument_a);
-			::lambda_p::core::reference * add_result_ref (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a);
+			::lambda_p::core::declaration * add_declaration (size_t self_statement_a, size_t self_argument_a);
+			::lambda_p::core::reference * add_reference (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a);
 			void validate (::std::iostream & problems) const;
 		private:
 			::std::vector < ::lambda_p::core::statement *> statements;
-			::std::vector < ::lambda_p::core::declaration *> results;
-			::std::vector < ::lambda_p::core::reference *> result_refs;
+			::std::vector < ::lambda_p::core::declaration *> declarations;
+			::std::vector < ::lambda_p::core::reference *> references;
 			::std::vector < ::lambda_p::core::data *> data;
 		};
 	}

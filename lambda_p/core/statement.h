@@ -26,10 +26,7 @@ namespace lambda_p
 		class parameter_ref;
 		class statement
 		{
-			friend class ::lambda_p::core::result_ref;
 			friend class ::lambda_p::core::data;
-			friend class ::lambda_p::core::result;
-			friend class ::lambda_p::core::parameter_ref;
 			friend class ::lambda_p::core::node;
 			friend class ::lambda_p::binder::routine_binder;
             template <typename> friend class ::lambda_p::serialization::simple;

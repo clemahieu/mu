@@ -1,6 +1,6 @@
 #include <lambda_p/lexer/simple_lexer.h>
 
-lambda_p::lexer::simple_lexer::simple_lexer (::boost::function < void (::lambda_p::tokens::token *)> & target_a)
+lambda_p::lexer::simple_lexer::simple_lexer (::boost::function < void (::lambda_p::tokens::token *)> target_a)
 	: target (target_a)
 {
 	state.push (new ::lambda_p::lexer::begin);

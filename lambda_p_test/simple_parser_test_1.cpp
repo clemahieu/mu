@@ -34,6 +34,7 @@ void lambda_p_test::simple_parser_test_1::run ()
 	run_7 ();
 	run_8 ();
 	run_9 ();
+	run_10 ();
 }
 
 void lambda_p_test::simple_parser_test_1::run_1 ()
@@ -306,6 +307,23 @@ void lambda_p_test::simple_parser_test_1::run_9 ()
 	parser (&dt1);
 	parser (&d1);
 	parser (&se2);
+	parser (&routine_end);
+	assert (!parser.error ());
+	assert (parser.current_state () == ::lambda_p::parser::state_begin);
+	::std::stringstream problems;
+	assert (routines.routines->size () == 1);
+	(*routines.routines) [0]->validate (problems);
+	::std::string str (problems.str ());
+	assert (str.size () == 0);
+}
+
+
+void lambda_p_test::simple_parser_test_1::run_10 ()
+{
+	::lambda_p::lexer::token_vector tokens;
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
+	::lambda_p::tokens::routine_end routine_end;
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);

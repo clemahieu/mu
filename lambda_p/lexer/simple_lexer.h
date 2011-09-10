@@ -29,7 +29,7 @@ namespace lambda_p
 		class simple_lexer
 		{
 		public:
-			simple_lexer (::boost::function <void (::lambda_p::tokens::token *)> & target_a);
+			simple_lexer (::boost::function <void (::lambda_p::tokens::token *)> target_a);
 			~simple_lexer ();
 			void operator () (wchar_t character);
 			void end ();
