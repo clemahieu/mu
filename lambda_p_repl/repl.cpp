@@ -56,12 +56,11 @@ void lambda_p_repl::repl::iteration ()
 		routines.routines->pop_back ();
 	}
 	::std::wstring input;
-	::std::wstring environment (L"main ;! quit ;! hello ;! echo ;;\n");
+	::std::wstring environment (L"main\n ;! quit\n ;! hello\n ;! echo\n;;\n");
 	for (::std::wstring::const_iterator i = environment.begin (); i != environment.end (); ++i)
 	{
 		lexer (*i);
 	}
-	::std::wcout << L"  ";
 	::std::wcout << environment;
 	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
