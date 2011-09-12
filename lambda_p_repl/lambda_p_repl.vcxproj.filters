@@ -9,6 +9,8 @@
     <ClCompile Include="hello_world.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="echo.cpp" />
+    <ClCompile Include="dereference_binder.cpp" />
+    <ClCompile Include="dereference.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -18,5 +20,7 @@
     <ClInclude Include="hello_world.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="echo.h" />
+    <ClInclude Include="dereference_binder.h" />
+    <ClInclude Include="dereference.h" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
     <ClCompile Include="simple_parser_test_1.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="routine_binder_test_1.cpp" />
+    <ClCompile Include="dereference_binder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -14,5 +15,6 @@
     <ClInclude Include="simple_parser_test_1.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="routine_binder_test_1.h" />
+    <ClInclude Include="dereference_binder_test.h" />
   </ItemGroup>
 </Project>

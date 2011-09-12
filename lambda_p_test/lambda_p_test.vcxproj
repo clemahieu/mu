@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dereference_binder_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="routine_binder_test_1.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="simple_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dereference_binder_test.h" />
     <ClInclude Include="routine_binder_test_1.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="simple_lexer_test_1.h" />
