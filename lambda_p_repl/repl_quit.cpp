@@ -12,7 +12,7 @@ lambda_p_repl::repl_quit::~repl_quit (void)
 {
 }
 
-void ::lambda_p_repl::repl_quit::operator () ()
+void lambda_p_repl::repl_quit::operator () ()
 {
 	repl.stop ();
 }

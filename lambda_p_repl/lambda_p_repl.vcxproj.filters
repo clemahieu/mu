@@ -5,10 +5,14 @@
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
+    <ClCompile Include="hello_world_binder.cpp" />
+    <ClCompile Include="hello_world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit.h" />
     <ClInclude Include="repl_quit_binder.h" />
+    <ClInclude Include="hello_world_binder.h" />
+    <ClInclude Include="hello_world.h" />
   </ItemGroup>
 </Project>

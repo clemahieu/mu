@@ -81,6 +81,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 		assert (false); // Target is not a reference
 		break;
 	}
+	++i;
 	while (binder.get () != NULL && i != statement->arguments.end ())
 	{
 		::lambda_p::core::node * node (*i);
