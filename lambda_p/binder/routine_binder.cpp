@@ -101,7 +101,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 			}
 			break;
 		default:
-			assert (false); // Target is not a reference
+			// Data and declarations don't need to be resolved
 			break;
 		}
 		++i;

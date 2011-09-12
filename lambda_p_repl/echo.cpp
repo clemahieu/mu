@@ -13,5 +13,5 @@ lambda_p_repl::echo::~echo(void)
 
 void lambda_p_repl::echo::operator () ()
 {
-	::std::wcout << string;
+	::std::wcout << string << '\n';
 }

@@ -5,6 +5,7 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p_repl/echo.h>
 #include <lambda_p/core/data.h>
+#include <lambda_p/binder/bound_routine.h>
 
 #include <sstream>
 
@@ -27,8 +28,8 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 		case ::lambda_p::core::node_data:
 			{
 				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [1]));
-				//::lambda_p_repl::echo * echo (new ::lambda_p_repl::echo (data->string));
-				//routine.add_instance (echo);
+				::lambda_p_repl::echo * echo (new ::lambda_p_repl::echo (data->string ()));
+				routine.add_instance (echo);
 			}
 			break;
 		default:

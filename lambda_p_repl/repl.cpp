@@ -10,6 +10,7 @@
 #include <lambda_p_repl/repl_quit_binder.h>
 #include <lambda_p/binder/bound_routine.h>
 #include <lambda_p_repl/hello_world_binder.h>
+#include <lambda_p_repl/echo_binder.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false),
@@ -55,7 +56,7 @@ void lambda_p_repl::repl::iteration ()
 		routines.routines->pop_back ();
 	}
 	::std::wstring input;
-	::std::wstring environment (L"main ;! quit ;! hello ;;\n");
+	::std::wstring environment (L"main ;! quit ;! hello ;! echo ;;\n");
 	for (::std::wstring::const_iterator i = environment.begin (); i != environment.end (); ++i)
 	{
 		lexer (*i);
@@ -102,6 +103,8 @@ void lambda_p_repl::repl::use_routine ()
 	routine_binder.instances [quit_node ()] = quit_binder;
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder);
 	routine_binder.instances [hello_node ()] = hello_binder;
+	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder);
+	routine_binder.instances [echo_node ()] = echo_binder;
 	routine_binder ((*routines.routines) [0]);
 	if (routine_binder.error ())
 	{
@@ -126,6 +129,12 @@ void lambda_p_repl::repl::use_routine ()
 ::lambda_p::core::node * lambda_p_repl::repl::hello_node ()
 {
 	::lambda_p::core::node * result ((*routines.routines) [0]->statements [0]->arguments [1]);
+	return result;
+}
+
+::lambda_p::core::node * lambda_p_repl::repl::echo_node ()
+{
+	::lambda_p::core::node * result ((*routines.routines) [0]->statements [0]->arguments [2]);
 	return result;
 }
 		
