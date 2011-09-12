@@ -31,7 +31,8 @@ namespace lambda_p
 			::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine;
 		private:
 			::std::wstring error_message_m;
-			void populate_unresolved (::lambda_p::core::statement * statement, bool & resolved);
+			void bind_statement (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement);
+			void populate_unbound (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
 		};
 	}
 }

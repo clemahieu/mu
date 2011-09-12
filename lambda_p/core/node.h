@@ -9,8 +9,8 @@ namespace lambda_p
 		enum node_id
 		{
 			node_data,
-			node_result,
-			node_result_ref
+			node_declaration,
+			node_reference
 		};
 		class routine;
 		class node

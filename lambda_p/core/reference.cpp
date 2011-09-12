@@ -35,7 +35,7 @@ void lambda_p::core::reference::validate (::std::iostream & problems) const
 		valid = arguments_size > target_argument;
 		if (valid)
 		{
-			if (routine->statements [target_statement]->arguments [target_argument]->node_type () == ::lambda_p::core::node_result)
+			if (routine->statements [target_statement]->arguments [target_argument]->node_type () == ::lambda_p::core::node_declaration)
 			{
 				validate_argument ("result_ref: ", routine, self_statement, self_argument, problems);
 			}
@@ -83,5 +83,5 @@ void lambda_p::core::reference::validate (::std::iostream & problems) const
 
 ::lambda_p::core::node_id lambda_p::core::reference::node_type () const
 {
-	return ::lambda_p::core::node_result_ref;
+	return ::lambda_p::core::node_reference;
 }

@@ -22,5 +22,5 @@ void lambda_p::core::declaration::validate (::std::iostream & problems) const
 
 ::lambda_p::core::node_id lambda_p::core::declaration::node_type () const
 {
-	return ::lambda_p::core::node_result;
+	return ::lambda_p::core::node_declaration;
 }

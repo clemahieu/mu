@@ -43,9 +43,6 @@
     <ClInclude Include="binder\routine_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\node_instance.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="binder\bound_routine.h">
       <Filter>binder</Filter>
     </ClInclude>
@@ -133,6 +130,12 @@
     <ClInclude Include="parser\production_target.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="binder\null_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\node_instance.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -172,9 +175,6 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\routine_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\node_instance.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\bound_routine.cpp">
@@ -263,6 +263,12 @@
     </ClCompile>
     <ClCompile Include="parser\production_target.cpp">
       <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\null_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\node_instance.cpp">
+      <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

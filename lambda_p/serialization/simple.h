@@ -54,13 +54,13 @@ namespace lambda_p
 				::lambda_p::core::node_id node_id (node_a->node_type ());
 				switch (node_id)
 				{
-				case ::lambda_p::core::node_result_ref:
+				case ::lambda_p::core::node_reference:
 					result_ref (static_cast < ::lambda_p::core::reference const *> (node_a));
 					break;
 				case ::lambda_p::core::node_data:
 					data (static_cast < ::lambda_p::core::data const *> (node_a));
 					break;
-				case ::lambda_p::core::node_result:
+				case ::lambda_p::core::node_declaration:
 					result (static_cast < ::lambda_p::core::declaration const *> (node_a));
 					break;
 				default:

@@ -133,6 +133,7 @@
     <ClInclude Include="binder\bound_routine.h" />
     <ClInclude Include="binder\node_binder.h" />
     <ClInclude Include="binder\node_instance.h" />
+    <ClInclude Include="binder\null_binder.h" />
     <ClInclude Include="binder\routine_binder.h" />
     <ClInclude Include="core\declaration.h" />
     <ClInclude Include="core\reference.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="binder\bound_routine.cpp" />
     <ClCompile Include="binder\node_binder.cpp" />
     <ClCompile Include="binder\node_instance.cpp" />
+    <ClCompile Include="binder\null_binder.cpp" />
     <ClCompile Include="binder\routine_binder.cpp" />
     <ClCompile Include="core\declaration.cpp" />
     <ClCompile Include="core\reference.cpp" />

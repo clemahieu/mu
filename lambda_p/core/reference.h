@@ -19,12 +19,17 @@ namespace lambda_p
     {
         template <typename> class simple;
     }
+	namespace binder
+	{
+		class routine_binder;
+	}
     namespace core
     {
         class routine;
         class reference : public node
         {
             template <typename> friend class ::lambda_p::serialization::simple;
+			friend class ::lambda_p::binder::routine_binder;
         public:
             reference (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_, size_t self_statement_a, size_t self_argument_aa);
             ~reference ();
