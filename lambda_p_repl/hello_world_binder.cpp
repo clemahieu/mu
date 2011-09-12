@@ -23,7 +23,7 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
 	}
 	else
 	{
-		problems << L"quit is expecting no arguments, have: ";
+		problems << L"hello_world is expecting no arguments, have: ";
 		problems << argument_count - 1;
 		problems << '\n';
 	}

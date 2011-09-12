@@ -20,6 +20,7 @@ namespace lambda_p
             void validate (::std::iostream & problems) const;
             ::boost::shared_array <uint8_t> item () const;
 			node_id node_type () const;
+			::std::wstring node_type_name () const;
 		private:
 			::boost::shared_array <uint8_t> item_m;
             size_t size;

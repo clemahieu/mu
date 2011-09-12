@@ -21,6 +21,7 @@ namespace lambda_p
 			~declaration (void);
 			void validate (::std::iostream & problems) const;
 			node_id node_type () const;
+			::std::wstring node_type_name () const;
 		private:
 			::lambda_p::core::routine * routine;
 			size_t self_statement;

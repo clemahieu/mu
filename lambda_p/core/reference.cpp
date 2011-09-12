@@ -85,3 +85,8 @@ void lambda_p::core::reference::validate (::std::iostream & problems) const
 {
 	return ::lambda_p::core::node_reference;
 }
+
+::std::wstring lambda_p::core::reference::node_type_name () const
+{
+	return ::std::wstring (L"reference");
+}
