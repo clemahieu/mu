@@ -60,6 +60,8 @@ void lambda_p_repl::repl::iteration ()
 	{
 		lexer (*i);
 	}
+	::std::wcout << L"  ";
+	::std::wcout << environment;
 	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
 		::std::wcout << L"lp> ";
