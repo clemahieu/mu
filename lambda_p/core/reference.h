@@ -33,7 +33,7 @@ namespace lambda_p
         public:
             reference (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_, size_t self_statement_a, size_t self_argument_aa);
             ~reference ();
-            void validate (::std::iostream & problems) const;
+            void validate (::std::wostream & problems) const;
 			node_id node_type () const;
 			::std::wstring node_type_name () const;
 		private:

@@ -71,7 +71,7 @@ namespace lambda_p
 			void data (::lambda_p::core::data const * data_a)
 			{
                 target << ";' ";
-                target << data_a->item ().get ();
+                target << data_a->string ();
 			}
             void result_ref (::lambda_p::core::reference const * result_ref_a)
             {

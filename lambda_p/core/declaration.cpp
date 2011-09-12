@@ -15,9 +15,9 @@ lambda_p::core::declaration::~declaration(void)
 {
 }
 
-void lambda_p::core::declaration::validate (::std::iostream & problems) const
+void lambda_p::core::declaration::validate (::std::wostream & problems) const
 {
-	validate_argument ("declaration: ", routine, self_statement, self_argument, problems);
+	validate_argument (L"declaration: ", routine, self_statement, self_argument, problems);
 }
 
 ::lambda_p::core::node_id lambda_p::core::declaration::node_type () const

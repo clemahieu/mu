@@ -52,10 +52,7 @@ void lambda_p::parser::statement::sink_data (::lambda_p::parser::simple_parser &
 {
 	size_t current_statement (statement_m->routine->statements.size () - 1);
 	size_t current_argument (statement_m->routine->statements [current_statement]->arguments.size ());
-	size_t size (identifier->string.size () * sizeof (wchar_t));
-	::boost::shared_array <uint8_t> data (new uint8_t [size]);
-	memcpy (data.get (), identifier->string.c_str (), size);
-	statement_m->add_argument (routine ()->add_data (data, size, current_statement, current_argument));
+	statement_m->add_argument (routine ()->add_data (identifier->string, current_statement, current_argument));
 }
 
 void lambda_p::parser::statement::sink_declaration (::lambda_p::parser::simple_parser & parser, ::lambda_p::tokens::identifier * identifier)

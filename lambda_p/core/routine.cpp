@@ -30,9 +30,9 @@ lambda_p::core::routine::~routine(void)
 	return statements [statements.size () - 1];
 }
 
-::lambda_p::core::data * lambda_p::core::routine::add_data (::boost::shared_array <uint8_t> item_a, size_t size_a, size_t self_statement_a, size_t self_argument_a)
+::lambda_p::core::data * lambda_p::core::routine::add_data (::std::wstring string, size_t self_statement_a, size_t self_argument_a)
 {
-	data.push_back (new ::lambda_p::core::data (item_a, size_a, this, self_statement_a, self_argument_a));
+	data.push_back (new ::lambda_p::core::data (string, this, self_statement_a, self_argument_a));
 	return data [data.size () - 1];
 }
 
@@ -48,7 +48,7 @@ lambda_p::core::routine::~routine(void)
 	return references [references.size () - 1];
 }
 
-void lambda_p::core::routine::validate (::std::iostream & problems) const
+void lambda_p::core::routine::validate (::std::wostream & problems) const
 {	
 	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
 	{

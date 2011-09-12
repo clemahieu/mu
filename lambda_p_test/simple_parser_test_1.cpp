@@ -58,10 +58,10 @@ void lambda_p_test::simple_parser_test_1::run_2 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -82,10 +82,10 @@ void lambda_p_test::simple_parser_test_1::run_3 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -114,10 +114,10 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -150,10 +150,10 @@ void lambda_p_test::simple_parser_test_1::run_5 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -194,10 +194,10 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -238,10 +238,10 @@ void lambda_p_test::simple_parser_test_1::run_7 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -274,10 +274,10 @@ void lambda_p_test::simple_parser_test_1::run_8 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -310,10 +310,10 @@ void lambda_p_test::simple_parser_test_1::run_9 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }
 
@@ -327,9 +327,9 @@ void lambda_p_test::simple_parser_test_1::run_10 ()
 	parser (&routine_end);
 	assert (!parser.error ());
 	assert (parser.current_state () == ::lambda_p::parser::state_begin);
-	::std::stringstream problems;
+	::std::wstringstream problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
-	::std::string str (problems.str ());
+	::std::wstring str (problems.str ());
 	assert (str.size () == 0);
 }

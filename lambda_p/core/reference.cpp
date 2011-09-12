@@ -25,7 +25,7 @@ lambda_p::core::reference::~reference ()
 {
 }
 
-void lambda_p::core::reference::validate (::std::iostream & problems) const
+void lambda_p::core::reference::validate (::std::wostream & problems) const
 {
 	size_t statements_size (routine->statements.size ());
     bool valid (statements_size > target_statement);
@@ -37,47 +37,47 @@ void lambda_p::core::reference::validate (::std::iostream & problems) const
 		{
 			if (routine->statements [target_statement]->arguments [target_argument]->node_type () == ::lambda_p::core::node_declaration)
 			{
-				validate_argument ("result_ref: ", routine, self_statement, self_argument, problems);
+				validate_argument (L"result_ref: ", routine, self_statement, self_argument, problems);
 			}
 			else
 			{				
-				problems << "result_ref: ";
+				problems << L"result_ref: ";
 				problems << this;
-				problems << " referencing routine: ";
+				problems << L" referencing routine: ";
 				problems << &routine;
-				problems << " referencing statement: ";
+				problems << L" referencing statement: ";
 				problems << target_statement;
-				problems << " referencing argument: ";
+				problems << L" referencing argument: ";
 				problems << target_argument;
-				problems << " references a node that is not a result\n";
+				problems << L" references a node that is not a result\n";
 			}
 		}
 		else
 		{
-			problems << "result_ref: ";
+			problems << L"result_ref: ";
 			problems << this;
-			problems << " referencing routine: ";
+			problems << L" referencing routine: ";
 			problems << &routine;
-			problems << " referencing statement: ";
+			problems << L" referencing statement: ";
 			problems << target_statement;
-			problems << " references an argument: ";
+			problems << L" references an argument: ";
 			problems << target_argument;
-			problems << " that is greater than the max: ";
+			problems << L" that is greater than the max: ";
 			problems << arguments_size - 1;
-			problems << "\n";
+			problems << L"\n";
 		}
     }
 	else
 	{
-		problems << "result_ref: ";
+		problems << L"result_ref: ";
 		problems << this;
-		problems << " referencing routine: ";
+		problems << L" referencing routine: ";
 		problems << &routine;
-		problems << " references a statement: ";
+		problems << L" references a statement: ";
 		problems << target_statement;
-		problems << " that is greater than the max: ";
+		problems << L" that is greater than the max: ";
 		problems << statements_size - 1;
-		problems << "\n";
+		problems << L"\n";
 	}
 }
 

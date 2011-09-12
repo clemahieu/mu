@@ -45,10 +45,10 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			::lambda_p::core::statement * add_statement ();
-			::lambda_p::core::data * add_data (::boost::shared_array <uint8_t> item_a, size_t size_a, size_t statement_a, size_t index_a);
+			::lambda_p::core::data * add_data (::std::wstring string, size_t statement_a, size_t index_a);
 			::lambda_p::core::declaration * add_declaration (size_t self_statement_a, size_t self_argument_a);
 			::lambda_p::core::reference * add_reference (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a);
-			void validate (::std::iostream & problems) const;
+			void validate (::std::wostream & problems) const;
 		private:
 			::std::vector < ::lambda_p::core::statement *> statements;
 			::std::vector < ::lambda_p::core::declaration *> declarations;

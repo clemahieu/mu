@@ -35,7 +35,7 @@ namespace lambda_p
 			statement (::lambda_p::core::routine * routine_a, size_t index_a);
 			~statement (void);
             void add_argument (::lambda_p::core::node * node_a);
-            void validate (::std::iostream & problems) const;
+            void validate (::std::wostream & problems) const;
             ::lambda_p::core::routine * routine;
             size_t index;
             ::std::vector < ::lambda_p::core::node *> arguments;

@@ -17,7 +17,7 @@ void lambda_p::core::statement::add_argument (::lambda_p::core::node * node_a)
     arguments.push_back (node_a);
 }
 
-void lambda_p::core::statement::validate (::std::iostream & problems) const
+void lambda_p::core::statement::validate (::std::wostream & problems) const
 {
 	size_t statement_size (routine->statements.size ());
 	bool valid (statement_size > index);
