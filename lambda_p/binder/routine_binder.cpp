@@ -39,7 +39,8 @@ void lambda_p::binder::routine_binder::bind_statement (::boost::shared_ptr < ::l
 	if (binder.get () != NULL)
 	{
 		::std::wstring problems;
-		binder->bind (statement, instances, *routine.get (), ::std::wstringstream (problems));
+        ::std::wstringstream problem_stream (problems);
+		binder->bind (statement, instances, *routine.get (), problem_stream);
 		error_message_m.append (problems);
 	}
 	else
