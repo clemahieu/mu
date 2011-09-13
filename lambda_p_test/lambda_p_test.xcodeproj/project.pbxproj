@@ -62,6 +62,7 @@
 		CF7596C2140F1AF0001EDBB9 = {
 			isa = PBXGroup;
 			children = (
+				4D473AE0141186B500455A7E /* liblambda_p.a */,
 				4DDD592D141EC53500C481E6 /* dereference_binder_test.cpp */,
 				4DDD592E141EC53500C481E6 /* dereference_binder_test.h */,
 				4DDD592F141EC53500C481E6 /* routine_binder_test_1.cpp */,
@@ -70,7 +71,6 @@
 				4DDD5932141EC53500C481E6 /* simple_compile_test_1.h */,
 				CF7597981415751E001EDBB9 /* simple_lexer_test_1.cpp */,
 				CF7597991415751E001EDBB9 /* simple_lexer_test_1.h */,
-				4D473AE0141186B500455A7E /* liblambda_p.a */,
 				4D473ACE141185C100455A7E /* simple_parser_test_1.cpp */,
 				4D473ACF141185C100455A7E /* simple_parser_test_1.h */,
 				CF7596DA140F1BB7001EDBB9 /* main.cpp */,

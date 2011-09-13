@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4DDD5962141EC5A300C481E6 /* dereference_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD594F141EC5A300C481E6 /* dereference_binder.cpp */; };
-		4DDD5963141EC5A300C481E6 /* dereference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5951141EC5A300C481E6 /* dereference.cpp */; };
 		4DDD5964141EC5A300C481E6 /* echo_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5953141EC5A300C481E6 /* echo_binder.cpp */; };
 		4DDD5965141EC5A300C481E6 /* echo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5955141EC5A300C481E6 /* echo.cpp */; };
 		4DDD5966141EC5A300C481E6 /* hello_world_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5957141EC5A300C481E6 /* hello_world_binder.cpp */; };
@@ -34,10 +32,6 @@
 
 /* Begin PBXFileReference section */
 		4DDD5942141EC56000C481E6 /* lambda_p_repl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_repl; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DDD594F141EC5A300C481E6 /* dereference_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dereference_binder.cpp; sourceTree = "<group>"; };
-		4DDD5950141EC5A300C481E6 /* dereference_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dereference_binder.h; sourceTree = "<group>"; };
-		4DDD5951141EC5A300C481E6 /* dereference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dereference.cpp; sourceTree = "<group>"; };
-		4DDD5952141EC5A300C481E6 /* dereference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dereference.h; sourceTree = "<group>"; };
 		4DDD5953141EC5A300C481E6 /* echo_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = echo_binder.cpp; sourceTree = "<group>"; };
 		4DDD5954141EC5A300C481E6 /* echo_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = echo_binder.h; sourceTree = "<group>"; };
 		4DDD5955141EC5A300C481E6 /* echo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = echo.cpp; sourceTree = "<group>"; };
@@ -72,10 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				4DDD596C141EC5B600C481E6 /* liblambda_p.a */,
-				4DDD594F141EC5A300C481E6 /* dereference_binder.cpp */,
-				4DDD5950141EC5A300C481E6 /* dereference_binder.h */,
-				4DDD5951141EC5A300C481E6 /* dereference.cpp */,
-				4DDD5952141EC5A300C481E6 /* dereference.h */,
 				4DDD5953141EC5A300C481E6 /* echo_binder.cpp */,
 				4DDD5954141EC5A300C481E6 /* echo_binder.h */,
 				4DDD5955141EC5A300C481E6 /* echo.cpp */,
@@ -150,8 +140,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DDD5962141EC5A300C481E6 /* dereference_binder.cpp in Sources */,
-				4DDD5963141EC5A300C481E6 /* dereference.cpp in Sources */,
 				4DDD5964141EC5A300C481E6 /* echo_binder.cpp in Sources */,
 				4DDD5965141EC5A300C481E6 /* echo.cpp in Sources */,
 				4DDD5966141EC5A300C481E6 /* hello_world_binder.cpp in Sources */,
@@ -224,6 +212,7 @@
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -240,6 +229,7 @@
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

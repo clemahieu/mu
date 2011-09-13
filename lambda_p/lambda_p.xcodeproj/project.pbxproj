@@ -77,6 +77,10 @@
 		4DDD5980141EC5E300C481E6 /* null_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5976141EC5E300C481E6 /* null_binder.h */; };
 		4DDD5981141EC5E300C481E6 /* routine_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5977141EC5E300C481E6 /* routine_binder.cpp */; };
 		4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5978141EC5E300C481E6 /* routine_binder.h */; };
+		4DDD598F141F019C00C481E6 /* dereference_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD598B141F019C00C481E6 /* dereference_binder.cpp */; };
+		4DDD5990141F019C00C481E6 /* dereference_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD598C141F019C00C481E6 /* dereference_binder.h */; };
+		4DDD5991141F019C00C481E6 /* dereference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD598D141F019C00C481E6 /* dereference.cpp */; };
+		4DDD5992141F019C00C481E6 /* dereference.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD598E141F019C00C481E6 /* dereference.h */; };
 		CF7596EA140F1BD0001EDBB9 /* data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E0140F1BD0001EDBB9 /* data.cpp */; };
 		CF7596EB140F1BD0001EDBB9 /* data.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596E1140F1BD0001EDBB9 /* data.h */; };
 		CF7596EE140F1BD0001EDBB9 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E4140F1BD0001EDBB9 /* node.cpp */; };
@@ -169,6 +173,10 @@
 		4DDD5976141EC5E300C481E6 /* null_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = null_binder.h; path = binder/null_binder.h; sourceTree = "<group>"; };
 		4DDD5977141EC5E300C481E6 /* routine_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = routine_binder.cpp; path = binder/routine_binder.cpp; sourceTree = "<group>"; };
 		4DDD5978141EC5E300C481E6 /* routine_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = routine_binder.h; path = binder/routine_binder.h; sourceTree = "<group>"; };
+		4DDD598B141F019C00C481E6 /* dereference_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dereference_binder.cpp; path = binder/dereference_binder.cpp; sourceTree = "<group>"; };
+		4DDD598C141F019C00C481E6 /* dereference_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dereference_binder.h; path = binder/dereference_binder.h; sourceTree = "<group>"; };
+		4DDD598D141F019C00C481E6 /* dereference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dereference.cpp; path = binder/dereference.cpp; sourceTree = "<group>"; };
+		4DDD598E141F019C00C481E6 /* dereference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dereference.h; path = binder/dereference.h; sourceTree = "<group>"; };
 		CF7596BB140F1AC6001EDBB9 /* liblambda_p.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7596E0140F1BD0001EDBB9 /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = data.cpp; path = core/data.cpp; sourceTree = "<group>"; };
 		CF7596E1140F1BD0001EDBB9 /* data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = data.h; path = core/data.h; sourceTree = "<group>"; };
@@ -292,6 +300,10 @@
 		4DDD596E141EC5D300C481E6 /* binder */ = {
 			isa = PBXGroup;
 			children = (
+				4DDD598B141F019C00C481E6 /* dereference_binder.cpp */,
+				4DDD598C141F019C00C481E6 /* dereference_binder.h */,
+				4DDD598D141F019C00C481E6 /* dereference.cpp */,
+				4DDD598E141F019C00C481E6 /* dereference.h */,
 				4DDD596F141EC5E300C481E6 /* bound_routine.cpp */,
 				4DDD5970141EC5E300C481E6 /* bound_routine.h */,
 				4DDD5971141EC5E300C481E6 /* node_binder.cpp */,
@@ -406,6 +418,8 @@
 				4DDD597E141EC5E300C481E6 /* node_instance.h in Headers */,
 				4DDD5980141EC5E300C481E6 /* null_binder.h in Headers */,
 				4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */,
+				4DDD5990141F019C00C481E6 /* dereference_binder.h in Headers */,
+				4DDD5992141F019C00C481E6 /* dereference.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +514,8 @@
 				4DDD597D141EC5E300C481E6 /* node_instance.cpp in Sources */,
 				4DDD597F141EC5E300C481E6 /* null_binder.cpp in Sources */,
 				4DDD5981141EC5E300C481E6 /* routine_binder.cpp in Sources */,
+				4DDD598F141F019C00C481E6 /* dereference_binder.cpp in Sources */,
+				4DDD5991141F019C00C481E6 /* dereference.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
