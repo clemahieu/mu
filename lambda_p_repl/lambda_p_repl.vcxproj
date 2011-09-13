@@ -66,8 +66,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dereference.cpp" />
-    <ClCompile Include="dereference_binder.cpp" />
     <ClCompile Include="echo.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="hello_world.cpp" />
@@ -78,8 +76,6 @@
     <ClCompile Include="repl_quit_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dereference.h" />
-    <ClInclude Include="dereference_binder.h" />
     <ClInclude Include="echo.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="hello_world.h" />

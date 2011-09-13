@@ -18,6 +18,7 @@ namespace lambda_p_repl
 		::lambda_p::core::node * quit_node ();
 		::lambda_p::core::node * hello_node ();
 		::lambda_p::core::node * echo_node ();
+		::lambda_p::core::node * environment_node ();
 		void run_loop ();
 		void iteration ();
 		void use_routine ();

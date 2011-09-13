@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="binder\bound_routine.h" />
+    <ClInclude Include="binder\dereference.h" />
     <ClInclude Include="binder\node_binder.h" />
     <ClInclude Include="binder\node_instance.h" />
     <ClInclude Include="binder\null_binder.h" />
@@ -178,6 +179,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="binder\bound_routine.cpp" />
+    <ClCompile Include="binder\dereference.cpp" />
     <ClCompile Include="binder\node_binder.cpp" />
     <ClCompile Include="binder\node_instance.cpp" />
     <ClCompile Include="binder\null_binder.cpp" />
