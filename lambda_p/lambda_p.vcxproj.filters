@@ -136,7 +136,7 @@
     <ClInclude Include="binder\node_instance.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\dereference.h">
+    <ClInclude Include="binder\structure.h">
       <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -273,7 +273,7 @@
     <ClCompile Include="binder\node_instance.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="binder\dereference.cpp">
+    <ClCompile Include="binder\structure.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

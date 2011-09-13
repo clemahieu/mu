@@ -11,7 +11,7 @@
 #include <lambda_p/binder/bound_routine.h>
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
-#include <lambda_p/binder/dereference.h>
+#include <lambda_p/binder/structure.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false),
@@ -102,7 +102,7 @@ void lambda_p_repl::repl::use_routine ()
 	::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> quit_binder (new ::lambda_p_repl::repl_quit_binder (*this));
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder);
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder);
-	::boost::shared_ptr < ::lambda_p::binder::dereference> dereference_binder (new ::lambda_p::binder::dereference);
+	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
 	::std::wstring quit_name (L"quit");
