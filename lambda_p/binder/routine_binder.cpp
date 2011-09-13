@@ -28,7 +28,7 @@ void lambda_p::binder::routine_binder::operator () (::boost::shared_ptr < ::lamb
 	}
 	for (::std::map < ::lambda_p::core::node *, ::lambda_p::core::statement *>::iterator i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
 	{
-		error_message_m.append (L"Unresolved node\n");
+		error_message_m << L"Unresolved node\n";
 	}
 }
 
@@ -38,14 +38,11 @@ void lambda_p::binder::routine_binder::bind_statement (::boost::shared_ptr < ::l
 	populate_unbound (routine_a, statement, binder);
 	if (binder.get () != NULL)
 	{
-		::std::wstring problems;
-        ::std::wstringstream problem_stream (problems);
-		binder->bind (statement, instances, *routine.get (), problem_stream);
-		error_message_m.append (problems);
+		binder->bind (statement, instances, *routine.get (), error_message_m);
 	}
 	else
 	{
-		error_message_m.append (L"Target of statement is not bindable\n");		
+		error_message_m << L"Target of statement is not bindable\n";		
 	}
 }
 
@@ -116,11 +113,11 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 
 bool lambda_p::binder::routine_binder::error ()
 {
-	bool result (!error_message_m.empty ());
+	bool result (!error_message_m.str ().empty ());
 	return result;
 }
 
 void lambda_p::binder::routine_binder::error_message (::std::wstring & target)
 {
-	target.append (error_message_m);
+	target.append (error_message_m.str ());
 }

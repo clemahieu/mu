@@ -3,6 +3,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
+#include <sstream>
 
 namespace lambda_p
 {
@@ -30,7 +31,7 @@ namespace lambda_p
 			::std::map < ::lambda_p::core::node *, ::lambda_p::core::statement *> unbound_statements;
 			::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine;
 		private:
-			::std::wstring error_message_m;
+			::std::wstringstream error_message_m;
 			void bind_statement (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement);
 			void populate_unbound (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
 		};

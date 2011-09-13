@@ -74,7 +74,7 @@ void lambda_p::binder::dereference::bind_good (::lambda_p::core::statement * sta
 	assert (search != instances.end ());
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> intermediate_node (search->second);
 	::boost::shared_ptr < ::lambda_p::binder::dereference> intermediate (::boost::dynamic_pointer_cast < ::lambda_p::binder::dereference> (intermediate_node));
-	for (size_t i = 2; i < argument_count && intermediate_node.get () != NULL; ++i)
+	for (size_t i = 2; i < argument_count; ++i)
 	{		
 		if (intermediate.get () == NULL)
 		{
@@ -100,6 +100,7 @@ void lambda_p::binder::dereference::bind_good (::lambda_p::core::statement * sta
 				problems << L" has no member named: ";
 				problems << string;
 				problems << '\n';
+				i = argument_count;
 			}
 		}
 	}
