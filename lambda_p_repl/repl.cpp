@@ -92,7 +92,19 @@ void lambda_p_repl::repl::iteration ()
 	else
 	{
 		::std::wcout << L">>\n";
-		use_routine ();
+        ::std::wstringstream stream;
+        (*routines.routines)[0]->validate (stream);
+        ::std::wstring errors (stream.str ());
+        if (errors.empty ())
+        {
+            use_routine ();
+        }
+        else
+        {
+            ::std::wcout << "Validation error:\n";
+            ::std::wcout << errors;
+            ::std::wcout << '\n';
+        }
 	}
 }
 

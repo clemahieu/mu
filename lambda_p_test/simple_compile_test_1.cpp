@@ -18,7 +18,6 @@ void lambda_p_test::simple_compile_test_1::run ()
 {
 	run_1 ();
 	run_2 ();
-	//run_3 ();
 }
 
 void lambda_p_test::simple_compile_test_1::run_1 ()
@@ -45,17 +44,4 @@ void lambda_p_test::simple_compile_test_1::run_2 ()
 	}
 	assert (!parser.error ());
 	assert (!lexer.error ());
-}
-
-void lambda_p_test::simple_compile_test_1::run_3 ()
-{
-	::lambda_p::parser::routine_vector routines;
-	::lambda_p::parser::simple_parser parser (routines);
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (parser, _1));
-	::std::wstring routine1 (L"u t thing ;; ;. ");
-	for (::std::wstring::const_iterator i = routine1.begin (); i != routine1.end (); ++i)
-	{
-		lexer (*i);
-	}
-	assert (parser.error ());
 }
