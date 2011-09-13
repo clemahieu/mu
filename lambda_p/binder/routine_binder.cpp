@@ -69,6 +69,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
 			if (search != instances.end ())
 			{
+				instances [node] = search->second;
 				::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l (search->second);
 				binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
 			}

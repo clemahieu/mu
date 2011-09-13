@@ -21,6 +21,7 @@ void lambda_p_test::routine_binder_test_1::run ()
 	run_3 ();
 	run_4 ();
 	run_5 ();
+	run_6 ();
 }
 
 void lambda_p_test::routine_binder_test_1::run_1 ()
@@ -88,4 +89,20 @@ void lambda_p_test::routine_binder_test_1::run_5 ()
 	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder (routine);
 	assert (!routine_binder.error ());
+}
+
+void lambda_p_test::routine_binder_test_1::run_6 ()
+{
+	::lambda_p::binder::routine_binder routine_binder;
+	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
+	::lambda_p::core::statement * signature (routine->add_statement ());
+	::lambda_p::core::node * declaration (routine->add_declaration (0, 0));
+	signature->add_argument (declaration);
+	::lambda_p::core::statement * statement (routine->add_statement ());
+	::lambda_p::core::reference * reference (routine->add_reference (0, 0, 1, 0));
+	statement->add_argument (reference);
+	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder (routine);
+	assert (!routine_binder.error ());
+	assert (routine_binder.instances.find (reference) != routine_binder.instances.end ());
 }

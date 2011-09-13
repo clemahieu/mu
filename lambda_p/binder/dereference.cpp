@@ -69,17 +69,39 @@ void lambda_p::binder::dereference::operator () ()
 
 void lambda_p::binder::dereference::bind_good (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
 {
-    ::lambda_p::core::data * data (dynamic_cast < ::lambda_p::core::data *> (statement->arguments [2]));
-    ::std::wstring string (data->string ());
-    ::std::map < ::std::wstring, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (nodes.find (string));
-    if (search != nodes.end ())
-    {
-        instances [statement->arguments [1]] = search->second;
-    }
-    else
-    {
-        problems << L"Node has no member named: ";
-        problems << string;
-        problems << '\n';
-    }
+	size_t argument_count (statement->arguments.size ());
+	::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [0]));
+	assert (search != instances.end ());
+	::boost::shared_ptr < ::lambda_p::binder::node_instance> intermediate_node (search->second);
+	::boost::shared_ptr < ::lambda_p::binder::dereference> intermediate (::boost::dynamic_pointer_cast < ::lambda_p::binder::dereference> (intermediate_node));
+	for (size_t i = 2; i < argument_count && intermediate_node.get () != NULL; ++i)
+	{		
+		if (intermediate.get () == NULL)
+		{
+			problems << L"Node at argument: ";
+			problems << i;
+			problems << L" is not dereferencable";
+			problems << '\n';
+		}
+		else
+		{
+			::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [i]));
+			::std::wstring string (data->string ());
+			::std::map < ::std::wstring, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (intermediate->nodes.find (string));
+			if (search != intermediate->nodes.end ())
+			{
+				intermediate_node = search->second;
+				intermediate = ::boost::dynamic_pointer_cast < ::lambda_p::binder::dereference> (intermediate_node);
+			}
+			else
+			{
+				problems << L"Node at argument: ";
+				problems << i;
+				problems << L" has no member named: ";
+				problems << string;
+				problems << '\n';
+			}
+		}
+	}
+	instances [statement->arguments [1]] = intermediate_node;
 }
