@@ -29,7 +29,6 @@ namespace lambda_p
 			void reset ();
 			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 			::std::map < ::lambda_p::core::node *, ::lambda_p::core::statement *> unbound_statements;
-			::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine;
 		private:
 			::std::wstringstream error_message_m;
 			void bind_statement (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement);

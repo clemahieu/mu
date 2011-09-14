@@ -7,7 +7,6 @@
 #include <sstream>
 
 lambda_p::binder::routine_binder::routine_binder ()
-	: routine (new ::lambda_p::binder::bound_routine)
 {
 }
 
@@ -38,7 +37,7 @@ void lambda_p::binder::routine_binder::bind_statement (::boost::shared_ptr < ::l
 	populate_unbound (routine_a, statement, binder);
 	if (binder.get () != NULL)
 	{
-		binder->bind (statement, instances, *routine.get (), error_message_m);
+		binder->bind (statement, instances, error_message_m);
 	}
 	else
 	{

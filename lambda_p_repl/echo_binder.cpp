@@ -9,7 +9,8 @@
 
 #include <sstream>
 
-lambda_p_repl::echo_binder::echo_binder(void)
+lambda_p_repl::echo_binder::echo_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a)
+	: routine (routine_a)
 {
 }
 
@@ -17,7 +18,7 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 {
 }
 
-void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 2)
@@ -29,7 +30,7 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 			{
 				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [1]));
 				::lambda_p_repl::echo * echo (new ::lambda_p_repl::echo (data->string ()));
-				routine.add_instance (echo);
+				routine->add_instance (echo);
 			}
 			break;
 		default:

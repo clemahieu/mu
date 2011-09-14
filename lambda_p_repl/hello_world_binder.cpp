@@ -5,21 +5,22 @@
 #include <lambda_p/binder/bound_routine.h>
 #include <sstream>
 
-lambda_p_repl::hello_world_binder::hello_world_binder(void)
+lambda_p_repl::hello_world_binder::hello_world_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a)
+	: routine (routine_a)
 {
 }
 
-lambda_p_repl::hello_world_binder::~hello_world_binder(void)
+lambda_p_repl::hello_world_binder::~hello_world_binder (void)
 {
 }
 
-void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
 		::lambda_p_repl::hello_world * hello (new ::lambda_p_repl::hello_world);
-		routine.add_instance (hello);
+		routine->add_instance (hello);
 	}
 	else
 	{

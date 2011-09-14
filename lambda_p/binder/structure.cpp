@@ -14,7 +14,7 @@ lambda_p::binder::structure::~structure(void)
 {
 }
 
-void lambda_p::binder::structure::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p::binder::structure::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count >= 3)
@@ -44,7 +44,7 @@ void lambda_p::binder::structure::bind (::lambda_p::core::statement * statement,
 				}
                 if (good_arguments)
                 {
-                    bind_good (statement, instances, routine, problems);
+                    bind_good (statement, instances, problems);
                 }
 			}
 			break;
@@ -67,7 +67,7 @@ void lambda_p::binder::structure::operator () ()
 {
 }
 
-void lambda_p::binder::structure::bind_good (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p::binder::structure::bind_good (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> node (instances [statement->arguments [0]]);

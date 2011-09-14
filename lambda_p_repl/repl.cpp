@@ -111,9 +111,10 @@ void lambda_p_repl::repl::iteration ()
 void lambda_p_repl::repl::use_routine ()
 {
 	::lambda_p::binder::routine_binder routine_binder;
-	::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> quit_binder (new ::lambda_p_repl::repl_quit_binder (*this));
-	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder);
-	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder);
+	::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine (new ::lambda_p::binder::bound_routine);
+	::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> quit_binder (new ::lambda_p_repl::repl_quit_binder (routine, *this));
+	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (routine));
+	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (routine));
 	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -133,7 +134,7 @@ void lambda_p_repl::repl::use_routine ()
 	}
 	else
 	{
-		(*routine_binder.routine) ();
+		routine->operator() ();
 	}
 }
 

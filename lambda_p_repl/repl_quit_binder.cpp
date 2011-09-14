@@ -7,8 +7,9 @@
 #include <string>
 #include <sstream>
 
-lambda_p_repl::repl_quit_binder::repl_quit_binder (::lambda_p_repl::repl & repl_a)
-	: repl (repl_a)
+lambda_p_repl::repl_quit_binder::repl_quit_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a, ::lambda_p_repl::repl & repl_a)
+	: routine (routine_a),
+	repl (repl_a)
 {
 }
 
@@ -16,13 +17,13 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 {
 }
 
-void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::binder::bound_routine & routine, ::std::wstringstream & problems)
+void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
 		::lambda_p_repl::repl_quit * quit = new ::lambda_p_repl::repl_quit (repl);
-		routine.add_instance (quit);
+		routine->add_instance (quit);
 	}
 	else
 	{
