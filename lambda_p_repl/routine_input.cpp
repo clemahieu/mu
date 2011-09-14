@@ -14,10 +14,6 @@ lambda_p_repl::routine_input::~routine_input (void)
 
 void lambda_p_repl::routine_input::operator () (::std::wistream & stream)
 {	
-	while (!routines.routines->empty ())
-	{
-		routines.routines->pop_back ();
-	}
 	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
 		::std::wstring input;
