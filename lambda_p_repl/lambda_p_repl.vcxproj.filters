@@ -9,6 +9,8 @@
     <ClCompile Include="hello_world.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="echo.cpp" />
+    <ClCompile Include="routine_input.cpp" />
+    <ClCompile Include="routine_input_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -18,5 +20,7 @@
     <ClInclude Include="hello_world.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="echo.h" />
+    <ClInclude Include="routine_input.h" />
+    <ClInclude Include="routine_input_binder.h" />
   </ItemGroup>
 </Project>

@@ -74,6 +74,8 @@
     <ClCompile Include="repl_quit.cpp" />
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
+    <ClCompile Include="routine_input.cpp" />
+    <ClCompile Include="routine_input_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="echo.h" />
@@ -83,6 +85,8 @@
     <ClInclude Include="repl_quit.h" />
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
+    <ClInclude Include="routine_input.h" />
+    <ClInclude Include="routine_input_binder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
