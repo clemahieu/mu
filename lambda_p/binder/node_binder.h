@@ -16,7 +16,6 @@ namespace lambda_p
 	}
 	namespace binder
 	{
-		class bound_routine;
 		class node_binder : public node_instance
 		{
 		public:

@@ -130,7 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="binder\bound_routine.h" />
+    <ClInclude Include="binder\command_list.h" />
     <ClInclude Include="binder\structure.h" />
     <ClInclude Include="binder\node_binder.h" />
     <ClInclude Include="binder\node_instance.h" />
@@ -178,7 +178,7 @@
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="binder\bound_routine.cpp" />
+    <ClCompile Include="binder\command_list.cpp" />
     <ClCompile Include="binder\structure.cpp" />
     <ClCompile Include="binder\node_binder.cpp" />
     <ClCompile Include="binder\node_instance.cpp" />

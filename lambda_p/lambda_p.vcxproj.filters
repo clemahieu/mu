@@ -43,9 +43,6 @@
     <ClInclude Include="binder\routine_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\bound_routine.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="core\declaration.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
     <ClInclude Include="binder\structure.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\command_list.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -178,9 +178,6 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\routine_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\bound_routine.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="core\declaration.cpp">
@@ -274,6 +271,9 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\structure.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\command_list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

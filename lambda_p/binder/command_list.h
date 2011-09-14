@@ -7,11 +7,11 @@ namespace lambda_p
 	namespace binder
 	{
 		class node_instance;
-		class bound_routine
+		class command_list
 		{
 		public:
-			bound_routine (void);
-			~bound_routine (void);
+			command_list (void);
+			~command_list (void);
 			void operator () ();
 			void add_instance (::lambda_p::binder::node_instance * instance);
 		private:

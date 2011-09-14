@@ -2,11 +2,11 @@
 
 #include <lambda_p_repl/hello_world.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/bound_routine.h>
+#include <lambda_p/binder/command_list.h>
 #include <sstream>
 
-lambda_p_repl::hello_world_binder::hello_world_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a)
-	: routine (routine_a)
+lambda_p_repl::hello_world_binder::hello_world_binder (::boost::shared_ptr < ::lambda_p::binder::command_list> commands_a)
+	: commands (commands_a)
 {
 }
 
@@ -20,7 +20,7 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
 	if (argument_count == 1)
 	{
 		::lambda_p_repl::hello_world * hello (new ::lambda_p_repl::hello_world);
-		routine->add_instance (hello);
+		commands->add_instance (hello);
 	}
 	else
 	{

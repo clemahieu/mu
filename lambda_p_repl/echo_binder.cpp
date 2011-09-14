@@ -5,12 +5,12 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p_repl/echo.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/binder/bound_routine.h>
+#include <lambda_p/binder/command_list.h>
 
 #include <sstream>
 
-lambda_p_repl::echo_binder::echo_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a)
-	: routine (routine_a)
+lambda_p_repl::echo_binder::echo_binder (::boost::shared_ptr < ::lambda_p::binder::command_list> commands_a)
+	: commands (commands_a)
 {
 }
 
@@ -30,7 +30,7 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 			{
 				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [1]));
 				::lambda_p_repl::echo * echo (new ::lambda_p_repl::echo (data->string ()));
-				routine->add_instance (echo);
+				commands->add_instance (echo);
 			}
 			break;
 		default:

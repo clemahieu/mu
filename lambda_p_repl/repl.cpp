@@ -8,7 +8,7 @@
 
 #include <lambda_p/binder/routine_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
-#include <lambda_p/binder/bound_routine.h>
+#include <lambda_p/binder/command_list.h>
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/binder/structure.h>
@@ -111,7 +111,7 @@ void lambda_p_repl::repl::iteration ()
 void lambda_p_repl::repl::use_routine ()
 {
 	::lambda_p::binder::routine_binder routine_binder;
-	::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine (new ::lambda_p::binder::bound_routine);
+	::boost::shared_ptr < ::lambda_p::binder::command_list> routine (new ::lambda_p::binder::command_list);
 	::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> quit_binder (new ::lambda_p_repl::repl_quit_binder (routine, *this));
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (routine));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (routine));

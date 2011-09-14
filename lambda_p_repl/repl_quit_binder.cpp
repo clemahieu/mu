@@ -2,13 +2,13 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p_repl/repl_quit.h>
-#include <lambda_p/binder/bound_routine.h>
+#include <lambda_p/binder/command_list.h>
 
 #include <string>
 #include <sstream>
 
-lambda_p_repl::repl_quit_binder::repl_quit_binder (::boost::shared_ptr < ::lambda_p::binder::bound_routine> routine_a, ::lambda_p_repl::repl & repl_a)
-	: routine (routine_a),
+lambda_p_repl::repl_quit_binder::repl_quit_binder (::boost::shared_ptr < ::lambda_p::binder::command_list> commands_a, ::lambda_p_repl::repl & repl_a)
+	: commands (commands_a),
 	repl (repl_a)
 {
 }
@@ -23,7 +23,7 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 	if (argument_count == 1)
 	{
 		::lambda_p_repl::repl_quit * quit = new ::lambda_p_repl::repl_quit (repl);
-		routine->add_instance (quit);
+		commands->add_instance (quit);
 	}
 	else
 	{
