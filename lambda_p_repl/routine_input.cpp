@@ -12,13 +12,13 @@ lambda_p_repl::routine_input::~routine_input (void)
 {
 }
 
-void lambda_p_repl::routine_input::operator () (::std::wistream & stream)
+void lambda_p_repl::routine_input::operator () (::std::wistream & input_stream, ::std::wostream & output_stream)
 {	
 	while (routines.routines->empty () && !lexer.error () && !parser.error ())
 	{
 		::std::wstring input;
-		::std::wcout << L"lp> ";
-		::std::getline (stream, input);
+		output_stream << L"lp> ";
+		::std::getline (input_stream, input);
 		input.push_back ('\n');
 		operator () (input);
 	}

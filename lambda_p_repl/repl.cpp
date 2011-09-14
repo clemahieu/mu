@@ -53,7 +53,7 @@ void lambda_p_repl::repl::iteration ()
 	::std::wstring environment (L"main\n ;! environment\n;;\n");
 	input (environment);
 	::std::wcout << environment;
-	input (::std::wcin);
+	input (::std::wcin, ::std::wcout);
 	if (input.error ())
 	{
 		::std::wcout << "Lexing error:\n";

@@ -13,7 +13,7 @@ namespace lambda_p_repl
 	public:
 		routine_input (void);
 		~routine_input (void);
-		void operator () (::std::wistream & input);
+		void operator () (::std::wistream & input_stream, ::std::wostream & output_stream);
 		void operator () (wchar_t character);
 		void operator () (::std::wstring & string);
 		bool error ();
