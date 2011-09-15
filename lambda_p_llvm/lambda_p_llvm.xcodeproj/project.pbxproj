@@ -1,0 +1,207 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4DDD5A1C1421C15F00C481E6 /* llvmcontext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */; };
+		4DDD5A1E1421C17000C481E6 /* llvmcontext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4DDD5A141421AFC500C481E6 /* liblambda_p_llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p_llvm.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llvmcontext.h; sourceTree = "<group>"; };
+		4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llvmcontext.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4DDD5A111421AFC500C481E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4DDD5A091421AFC500C481E6 = {
+			isa = PBXGroup;
+			children = (
+				4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */,
+				4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */,
+				4DDD5A151421AFC500C481E6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4DDD5A151421AFC500C481E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD5A141421AFC500C481E6 /* liblambda_p_llvm.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		4DDD5A121421AFC500C481E6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DDD5A1C1421C15F00C481E6 /* llvmcontext.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		4DDD5A131421AFC500C481E6 /* lambda_p_llvm */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DDD5A181421AFC500C481E6 /* Build configuration list for PBXNativeTarget "lambda_p_llvm" */;
+			buildPhases = (
+				4DDD5A101421AFC500C481E6 /* Sources */,
+				4DDD5A111421AFC500C481E6 /* Frameworks */,
+				4DDD5A121421AFC500C481E6 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lambda_p_llvm;
+			productName = lambda_p_llvm;
+			productReference = 4DDD5A141421AFC500C481E6 /* liblambda_p_llvm.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4DDD5A0B1421AFC500C481E6 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4DDD5A0E1421AFC500C481E6 /* Build configuration list for PBXProject "lambda_p_llvm" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4DDD5A091421AFC500C481E6;
+			productRefGroup = 4DDD5A151421AFC500C481E6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4DDD5A131421AFC500C481E6 /* lambda_p_llvm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4DDD5A101421AFC500C481E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DDD5A1E1421C17000C481E6 /* llvmcontext.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4DDD5A161421AFC500C481E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4DDD5A171421AFC500C481E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4DDD5A191421AFC500C481E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
+					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4DDD5A1A1421AFC500C481E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
+					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4DDD5A0E1421AFC500C481E6 /* Build configuration list for PBXProject "lambda_p_llvm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DDD5A161421AFC500C481E6 /* Debug */,
+				4DDD5A171421AFC500C481E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DDD5A181421AFC500C481E6 /* Build configuration list for PBXNativeTarget "lambda_p_llvm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DDD5A191421AFC500C481E6 /* Debug */,
+				4DDD5A1A1421AFC500C481E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4DDD5A0B1421AFC500C481E6 /* Project object */;
+}
