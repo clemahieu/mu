@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p
 {
 	namespace binder
@@ -13,9 +15,9 @@ namespace lambda_p
 			command_list (void);
 			~command_list (void);
 			void operator () ();
-			void add_instance (::lambda_p::binder::node_instance * instance);
+			void add_instance (::boost::shared_ptr < ::lambda_p::binder::node_instance> instance);
 		private:
-			::std::vector < ::lambda_p::binder::node_instance *> instances;
+			::std::vector < ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 		};
 	}
 }

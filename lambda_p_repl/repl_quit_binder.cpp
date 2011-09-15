@@ -22,7 +22,7 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
-		::lambda_p_repl::repl_quit * quit = new ::lambda_p_repl::repl_quit (repl);
+		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit (new ::lambda_p_repl::repl_quit (repl));
 		commands->add_instance (quit);
 	}
 	else

@@ -19,7 +19,7 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
-		::lambda_p_repl::hello_world * hello (new ::lambda_p_repl::hello_world);
+		::boost::shared_ptr < ::lambda_p_repl::hello_world> hello (new ::lambda_p_repl::hello_world);
 		commands->add_instance (hello);
 	}
 	else

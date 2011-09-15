@@ -29,7 +29,7 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 		case ::lambda_p::core::node_data:
 			{
 				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [1]));
-				::lambda_p_repl::echo * echo (new ::lambda_p_repl::echo (data->string ()));
+				::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (data->string ()));
 				commands->add_instance (echo);
 			}
 			break;
