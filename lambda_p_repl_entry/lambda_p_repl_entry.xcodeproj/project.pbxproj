@@ -1,0 +1,209 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4DDD59C41421A01C00C481E6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59C31421A01C00C481E6 /* main.cpp */; };
+		4DDD59CF1421A24400C481E6 /* liblambda_p_repl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDD59CD1421A24400C481E6 /* liblambda_p_repl.a */; };
+		4DDD59D01421A24400C481E6 /* liblambda_p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDD59CE1421A24400C481E6 /* liblambda_p.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4DDD59B414219FD400C481E6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4DDD59B614219FD400C481E6 /* lambda_p_repl_entry */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_repl_entry; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DDD59C31421A01C00C481E6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		4DDD59CD1421A24400C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = liblambda_p_repl.a; path = ../lambda_p_repl/build/Release/liblambda_p_repl.a; sourceTree = "<group>"; };
+		4DDD59CE1421A24400C481E6 /* liblambda_p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4DDD59B314219FD400C481E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DDD59CF1421A24400C481E6 /* liblambda_p_repl.a in Frameworks */,
+				4DDD59D01421A24400C481E6 /* liblambda_p.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4DDD59AB14219FD400C481E6 = {
+			isa = PBXGroup;
+			children = (
+				4DDD59CD1421A24400C481E6 /* liblambda_p_repl.a */,
+				4DDD59CE1421A24400C481E6 /* liblambda_p.a */,
+				4DDD59C31421A01C00C481E6 /* main.cpp */,
+				4DDD59B714219FD400C481E6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4DDD59B714219FD400C481E6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4DDD59B614219FD400C481E6 /* lambda_p_repl_entry */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4DDD59B514219FD400C481E6 /* lambda_p_repl_entry */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DDD59C014219FD400C481E6 /* Build configuration list for PBXNativeTarget "lambda_p_repl_entry" */;
+			buildPhases = (
+				4DDD59B214219FD400C481E6 /* Sources */,
+				4DDD59B314219FD400C481E6 /* Frameworks */,
+				4DDD59B414219FD400C481E6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lambda_p_repl_entry;
+			productName = lambda_p_repl_entry;
+			productReference = 4DDD59B614219FD400C481E6 /* lambda_p_repl_entry */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4DDD59AD14219FD400C481E6 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 4DDD59B014219FD400C481E6 /* Build configuration list for PBXProject "lambda_p_repl_entry" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4DDD59AB14219FD400C481E6;
+			productRefGroup = 4DDD59B714219FD400C481E6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4DDD59B514219FD400C481E6 /* lambda_p_repl_entry */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4DDD59B214219FD400C481E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DDD59C41421A01C00C481E6 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4DDD59BE14219FD400C481E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4DDD59BF14219FD400C481E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4DDD59C114219FD400C481E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		4DDD59C214219FD400C481E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4DDD59B014219FD400C481E6 /* Build configuration list for PBXProject "lambda_p_repl_entry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DDD59BE14219FD400C481E6 /* Debug */,
+				4DDD59BF14219FD400C481E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4DDD59C014219FD400C481E6 /* Build configuration list for PBXNativeTarget "lambda_p_repl_entry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DDD59C114219FD400C481E6 /* Debug */,
+				4DDD59C214219FD400C481E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4DDD59AD14219FD400C481E6 /* Project object */;
+}

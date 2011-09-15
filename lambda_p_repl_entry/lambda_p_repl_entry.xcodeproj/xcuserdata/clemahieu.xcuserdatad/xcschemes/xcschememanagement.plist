@@ -4,15 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>lambda_p_repl.xcscheme</key>
+		<key>lambda_p_repl_entry.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4DDD59DD1421A62100C481E6</key>
+		<key>4DDD59B514219FD400C481E6</key>
 		<dict>
 			<key>primary</key>
 			<true/>

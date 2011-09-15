@@ -5,6 +5,9 @@
       location = "group:lambda_p_repl/lambda_p_repl.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:lambda_p_repl_entry/lambda_p_repl_entry.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:lambda_p_test/lambda_p_test.xcodeproj">
    </FileRef>
    <FileRef
