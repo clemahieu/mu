@@ -5,6 +5,7 @@
 #include <lambda_p/binder/string_instance.h>
 #include <lambda_p_repl/entry_routine.h>
 
+#include <fstream>
 #include <sstream>
 
 lambda_p_repl::stream_read_entry_routine_binder::stream_read_entry_routine_binder(void)
@@ -30,7 +31,19 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast < ::lambda_p::binder::string_instance> (search->second));
 				if (string.get () != NULL)
 				{
-					//::lambda_p_repl::entry_routine routine 
+					::std::wfstream file;
+					file.open (string->string);
+					if (file.is_open ())
+					{
+						::lambda_p_repl::entry_routine routine (file, ::std::wcout);
+						routine ();
+					}
+					else
+					{
+						problems << L"Unable to open file: ";
+						problems << string->string;
+						problems << '\n';
+					}
 				}
 				else
 				{
@@ -51,4 +64,8 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 		problems << argument_count - 1;
 		problems << '\n';
 	}
+}
+
+void lambda_p_repl::stream_read_entry_routine_binder::operator () ()
+{
 }

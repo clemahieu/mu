@@ -9,6 +9,7 @@
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_repl/routine_input.h>
+#include <lambda_p_repl/stream_read_entry_routine_binder.h>
 
 lambda_p_repl::entry_routine::entry_routine (::std::wistream & in_a, ::std::wostream & out_a)
 	: in (in_a),
@@ -42,6 +43,10 @@ void lambda_p_repl::entry_routine::operator () ()
 		out << message;
 		out << '\n';
 	}
+	else if (input.routines.routines->size () < 1)
+	{
+		out << L"Input reached end of stream\n";
+	}
 	else
 	{
 		out << L">>\n";
@@ -70,12 +75,15 @@ void lambda_p_repl::entry_routine::use_routine (::boost::shared_ptr < ::lambda_p
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (commands));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (commands));
 	::boost::shared_ptr < ::lambda_p::binder::data_to_string_binder> d2s_binder (new ::lambda_p::binder::data_to_string_binder);
+	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
 	::std::wstring d2s_name (L"d2s");
+	::std::wstring read_name (L"read");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
+	dereference_binder->nodes [read_name] = read_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (quit.get () != NULL)
 	{

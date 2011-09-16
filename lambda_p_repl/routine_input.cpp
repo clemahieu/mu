@@ -14,7 +14,7 @@ lambda_p_repl::routine_input::~routine_input (void)
 
 void lambda_p_repl::routine_input::operator () (::std::wistream & input_stream, ::std::wostream & output_stream)
 {	
-	while (routines.routines->empty () && !lexer.error () && !parser.error ())
+	while (routines.routines->empty () && !input_stream.eof () && !lexer.error () && !parser.error ())
 	{
 		::std::wstring input;
 		output_stream << L"lp> ";
@@ -39,8 +39,14 @@ void lambda_p_repl::routine_input::operator() (::std::wstring & string)
 
 void lambda_p_repl::routine_input::error_message (::std::wstring & message)
 {
-	lexer.error_message (message);
-	parser.error_message (message);
+	if (lexer.error ())
+	{
+		lexer.error_message (message);
+	}
+	if (parser.error ())
+	{
+		parser.error_message (message);
+	}
 }
 
 bool lambda_p_repl::routine_input::error ()
