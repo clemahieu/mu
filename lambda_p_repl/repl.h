@@ -16,6 +16,7 @@ namespace lambda_p
 }
 namespace lambda_p_repl
 {
+	class repl_quit;
 	class repl
 	{
 	public:
@@ -27,8 +28,8 @@ namespace lambda_p_repl
 	private:
 		void run_loop ();
 		void iteration ();
-		void use_routine (::boost::shared_ptr < ::lambda_p::core::routine> routine);
 		bool stop_m;
+		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
 	};
 }
 

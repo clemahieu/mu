@@ -30,7 +30,7 @@ void lambda_p::binder::data_to_string_binder::bind (::lambda_p::core::statement 
 				{
 				case ::lambda_p::core::node_data:
 					{
-						::lambda_p::core::data * data (dynamic_cast < ::lambda_p::core::data *> (statement->arguments [2]));
+						::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [2]));
 						::boost::shared_ptr < ::lambda_p::binder::string_instance> instance (new ::lambda_p::binder::string_instance (data->string ()));
 						instances [statement->arguments [1]] = instance;
 					}

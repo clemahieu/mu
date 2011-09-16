@@ -33,8 +33,15 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 				assert (search != instances.end ());
 				::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
 				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast <::lambda_p::binder::string_instance> (instance));
-				::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (string->string));
-				commands->add_instance (echo);
+				if (string.get () != NULL)
+				{
+					::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (string->string));
+					commands->add_instance (echo);
+				}
+				else
+				{
+					problems << L"Argument 1 is not a string_instance\n";
+				}
 			}
 			break;
 		default:

@@ -7,9 +7,9 @@
 #include <string>
 #include <sstream>
 
-lambda_p_repl::repl_quit_binder::repl_quit_binder (::boost::shared_ptr < ::lambda_p::binder::command_list> commands_a, ::lambda_p_repl::repl & repl_a)
+lambda_p_repl::repl_quit_binder::repl_quit_binder (::boost::shared_ptr < ::lambda_p::binder::command_list> commands_a, ::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit_a)
 	: commands (commands_a),
-	repl (repl_a)
+	quit (quit_a)
 {
 }
 
@@ -22,7 +22,6 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit (new ::lambda_p_repl::repl_quit (repl));
 		commands->add_instance (quit);
 	}
 	else
