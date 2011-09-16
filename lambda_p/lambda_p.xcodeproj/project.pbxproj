@@ -11,6 +11,10 @@
 		4D473ADB1411867500455A7E /* identifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D473AD51411867500455A7E /* identifier.h */; };
 		4D473ADC1411867500455A7E /* token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D473AD61411867500455A7E /* token.cpp */; };
 		4D473ADD1411867500455A7E /* token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D473AD71411867500455A7E /* token.h */; };
+		4DB644471423FC7A00DE59C8 /* data_to_string_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB644431423FC7A00DE59C8 /* data_to_string_binder.cpp */; };
+		4DB644481423FC7A00DE59C8 /* data_to_string_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644441423FC7A00DE59C8 /* data_to_string_binder.h */; };
+		4DB644491423FC7A00DE59C8 /* string_instance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB644451423FC7A00DE59C8 /* string_instance.cpp */; };
+		4DB6444A1423FC7A00DE59C8 /* string_instance.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644461423FC7A00DE59C8 /* string_instance.h */; };
 		4DDD58BF141EC4E900C481E6 /* declaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD58BB141EC4E900C481E6 /* declaration.cpp */; };
 		4DDD58C0141EC4E900C481E6 /* declaration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD58BC141EC4E900C481E6 /* declaration.h */; };
 		4DDD58C1141EC4E900C481E6 /* reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD58BD141EC4E900C481E6 /* reference.cpp */; };
@@ -105,6 +109,10 @@
 		4D473AD51411867500455A7E /* identifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = identifier.h; path = tokens/identifier.h; sourceTree = "<group>"; };
 		4D473AD61411867500455A7E /* token.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = token.cpp; path = tokens/token.cpp; sourceTree = "<group>"; };
 		4D473AD71411867500455A7E /* token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = token.h; path = tokens/token.h; sourceTree = "<group>"; };
+		4DB644431423FC7A00DE59C8 /* data_to_string_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = data_to_string_binder.cpp; path = binder/data_to_string_binder.cpp; sourceTree = "<group>"; };
+		4DB644441423FC7A00DE59C8 /* data_to_string_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = data_to_string_binder.h; path = binder/data_to_string_binder.h; sourceTree = "<group>"; };
+		4DB644451423FC7A00DE59C8 /* string_instance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = string_instance.cpp; path = binder/string_instance.cpp; sourceTree = "<group>"; };
+		4DB644461423FC7A00DE59C8 /* string_instance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = string_instance.h; path = binder/string_instance.h; sourceTree = "<group>"; };
 		4DDD58BB141EC4E900C481E6 /* declaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = declaration.cpp; path = core/declaration.cpp; sourceTree = "<group>"; };
 		4DDD58BC141EC4E900C481E6 /* declaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = declaration.h; path = core/declaration.h; sourceTree = "<group>"; };
 		4DDD58BD141EC4E900C481E6 /* reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = reference.cpp; path = core/reference.cpp; sourceTree = "<group>"; };
@@ -296,6 +304,10 @@
 		4DDD596E141EC5D300C481E6 /* binder */ = {
 			isa = PBXGroup;
 			children = (
+				4DB644431423FC7A00DE59C8 /* data_to_string_binder.cpp */,
+				4DB644441423FC7A00DE59C8 /* data_to_string_binder.h */,
+				4DB644451423FC7A00DE59C8 /* string_instance.cpp */,
+				4DB644461423FC7A00DE59C8 /* string_instance.h */,
 				4DDD599E142168E100C481E6 /* command_list.cpp */,
 				4DDD599F142168E100C481E6 /* command_list.h */,
 				4DDD599314200B6D00C481E6 /* structure.cpp */,
@@ -413,6 +425,8 @@
 				4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */,
 				4DDD599614200B6D00C481E6 /* structure.h in Headers */,
 				4DDD59A1142168E100C481E6 /* command_list.h in Headers */,
+				4DB644481423FC7A00DE59C8 /* data_to_string_binder.h in Headers */,
+				4DB6444A1423FC7A00DE59C8 /* string_instance.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +522,8 @@
 				4DDD5981141EC5E300C481E6 /* routine_binder.cpp in Sources */,
 				4DDD599514200B6D00C481E6 /* structure.cpp in Sources */,
 				4DDD59A0142168E100C481E6 /* command_list.cpp in Sources */,
+				4DB644471423FC7A00DE59C8 /* data_to_string_binder.cpp in Sources */,
+				4DB644491423FC7A00DE59C8 /* string_instance.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

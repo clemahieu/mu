@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DB6443E1423FAA100DE59C8 /* entry_routine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */; };
+		4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443B1423FAA100DE59C8 /* entry_routine.h */; };
+		4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */; };
+		4DB644411423FAA100DE59C8 /* stream_read_entry_routine_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */; };
 		4DDD59ED1421A65E00C481E6 /* echo_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E51421A65E00C481E6 /* echo_binder.cpp */; };
 		4DDD59EE1421A65E00C481E6 /* echo_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59E61421A65E00C481E6 /* echo_binder.h */; };
 		4DDD59EF1421A65E00C481E6 /* echo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E71421A65E00C481E6 /* echo.cpp */; };
@@ -28,6 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_routine.cpp; sourceTree = "<group>"; };
+		4DB6443B1423FAA100DE59C8 /* entry_routine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_routine.h; sourceTree = "<group>"; };
+		4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stream_read_entry_routine_binder.cpp; sourceTree = "<group>"; };
+		4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream_read_entry_routine_binder.h; sourceTree = "<group>"; };
 		4DDD59DE1421A62100C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p_repl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDD59E51421A65E00C481E6 /* echo_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = echo_binder.cpp; sourceTree = "<group>"; };
 		4DDD59E61421A65E00C481E6 /* echo_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = echo_binder.h; sourceTree = "<group>"; };
@@ -63,6 +71,10 @@
 		4DDD59D31421A62100C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */,
+				4DB6443B1423FAA100DE59C8 /* entry_routine.h */,
+				4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */,
+				4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */,
 				4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */,
 				4DDD59F61421A67000C481E6 /* repl_quit_binder.h */,
 				4DDD59F71421A67000C481E6 /* repl_quit.cpp */,
@@ -109,6 +121,8 @@
 				4DDD5A041421A67000C481E6 /* repl.h in Headers */,
 				4DDD5A061421A67000C481E6 /* routine_input_binder.h in Headers */,
 				4DDD5A081421A67000C481E6 /* routine_input.h in Headers */,
+				4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */,
+				4DB644411423FAA100DE59C8 /* stream_read_entry_routine_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +182,8 @@
 				4DDD5A031421A67000C481E6 /* repl.cpp in Sources */,
 				4DDD5A051421A67000C481E6 /* routine_input_binder.cpp in Sources */,
 				4DDD5A071421A67000C481E6 /* routine_input.cpp in Sources */,
+				4DB6443E1423FAA100DE59C8 /* entry_routine.cpp in Sources */,
+				4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +280,7 @@
 				4DDD59E41421A62100C481E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

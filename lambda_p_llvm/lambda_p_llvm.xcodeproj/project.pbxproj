@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4DDD5A1C1421C15F00C481E6 /* llvmcontext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */; };
-		4DDD5A1E1421C17000C481E6 /* llvmcontext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */; };
+		4DDD5A251422B0F100C481E6 /* alloca_inst_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5A211422B0F100C481E6 /* alloca_inst_binder.cpp */; };
+		4DDD5A261422B0F100C481E6 /* alloca_inst_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5A221422B0F100C481E6 /* alloca_inst_binder.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4DDD5A141421AFC500C481E6 /* liblambda_p_llvm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p_llvm.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llvmcontext.h; sourceTree = "<group>"; };
-		4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = llvmcontext.cpp; sourceTree = "<group>"; };
+		4DDD5A211422B0F100C481E6 /* alloca_inst_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alloca_inst_binder.cpp; sourceTree = "<group>"; };
+		4DDD5A221422B0F100C481E6 /* alloca_inst_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloca_inst_binder.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,8 +31,8 @@
 		4DDD5A091421AFC500C481E6 = {
 			isa = PBXGroup;
 			children = (
-				4DDD5A1D1421C17000C481E6 /* llvmcontext.cpp */,
-				4DDD5A1B1421C15F00C481E6 /* llvmcontext.h */,
+				4DDD5A211422B0F100C481E6 /* alloca_inst_binder.cpp */,
+				4DDD5A221422B0F100C481E6 /* alloca_inst_binder.h */,
 				4DDD5A151421AFC500C481E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,7 +52,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DDD5A1C1421C15F00C481E6 /* llvmcontext.h in Headers */,
+				4DDD5A261422B0F100C481E6 /* alloca_inst_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DDD5A1E1421C17000C481E6 /* llvmcontext.cpp in Sources */,
+				4DDD5A251422B0F100C481E6 /* alloca_inst_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +200,7 @@
 				4DDD5A1A1421AFC500C481E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

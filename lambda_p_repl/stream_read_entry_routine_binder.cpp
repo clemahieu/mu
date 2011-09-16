@@ -32,7 +32,8 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 				if (string.get () != NULL)
 				{
 					::std::wfstream file;
-					file.open (string->string);
+                    ::std::string astring (string->string.begin (), string->string.end ());
+					file.open (astring.c_str ());
 					if (file.is_open ())
 					{
 						::lambda_p_repl::entry_routine routine (file, ::std::wcout);

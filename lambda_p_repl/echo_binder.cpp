@@ -32,7 +32,7 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
 				assert (search != instances.end ());
 				::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
-				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast <::lambda_p::binder::string_instance> (instance));
+				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast < ::lambda_p::binder::string_instance> (instance));
 				if (string.get () != NULL)
 				{
 					::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (string->string));

@@ -27,7 +27,7 @@
 /* Begin PBXFileReference section */
 		4DDD59B614219FD400C481E6 /* lambda_p_repl_entry */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_repl_entry; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDD59C31421A01C00C481E6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		4DDD59CD1421A24400C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = liblambda_p_repl.a; path = ../lambda_p_repl/build/Release/liblambda_p_repl.a; sourceTree = "<group>"; };
+		4DDD59CD1421A24400C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p_repl.a; path = ../lambda_p_repl/build/Release/liblambda_p_repl.a; sourceTree = "<group>"; };
 		4DDD59CE1421A24400C481E6 /* liblambda_p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,6 +164,11 @@
 		4DDD59C114219FD400C481E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
+					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
@@ -175,6 +180,11 @@
 		4DDD59C214219FD400C481E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/Users/clemahieu/Downloads/boost_1_47_0,
+					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
@@ -202,6 +212,7 @@
 				4DDD59C214219FD400C481E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
