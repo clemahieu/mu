@@ -12,11 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="alloca_inst_binder.h" />
-    <ClInclude Include="alloca_inst_generator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
-    <ClCompile Include="alloca_inst_generator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6E7EC1DF-205B-4A75-B3F2-7364E315FABB}</ProjectGuid>

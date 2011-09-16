@@ -10,6 +10,7 @@
     <ClCompile Include="echo.cpp" />
     <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_input_binder.cpp" />
+    <ClCompile Include="entry_routine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -21,5 +22,6 @@
     <ClInclude Include="echo.h" />
     <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_input_binder.h" />
+    <ClInclude Include="entry_routine.h" />
   </ItemGroup>
 </Project>

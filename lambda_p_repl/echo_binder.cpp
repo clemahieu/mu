@@ -6,6 +6,7 @@
 #include <lambda_p_repl/echo.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p/binder/command_list.h>
+#include <lambda_p/binder/string_instance.h>
 
 #include <sstream>
 
@@ -26,10 +27,13 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 		::lambda_p::core::node_id node_id (statement->arguments [1]->node_type ());
 		switch (node_id)
 		{
-		case ::lambda_p::core::node_data:
+		case ::lambda_p::core::node_reference:
 			{
-				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [1]));
-				::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (data->string ()));
+				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
+				assert (search != instances.end ());
+				::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
+				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast <::lambda_p::binder::string_instance> (instance));
+				::boost::shared_ptr < ::lambda_p_repl::echo> echo (new ::lambda_p_repl::echo (string->string));
 				commands->add_instance (echo);
 			}
 			break;
