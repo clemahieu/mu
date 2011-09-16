@@ -206,7 +206,7 @@ void lambda_p::lexer::simple_lexer::lex_control (wchar_t character)
 				target (token);
 			}
 			break;
-		case L'!':
+		case L'=':
 			{
 				state_l->complete = true;
 				::lambda_p::tokens::declaration * token = new ::lambda_p::tokens::declaration;

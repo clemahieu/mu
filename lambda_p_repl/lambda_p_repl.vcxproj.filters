@@ -11,6 +11,7 @@
     <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
+    <ClCompile Include="stream_read_entry_routine_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -23,5 +24,6 @@
     <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
+    <ClInclude Include="stream_read_entry_routine_binder.h" />
   </ItemGroup>
 </Project>
