@@ -15,6 +15,8 @@
 		4DB6444F14240DD700DE59C8 /* entry_environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6444E14240DD700DE59C8 /* entry_environment.cpp */; };
 		4DB64451142412B600DE59C8 /* entry_input.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB64450142412B600DE59C8 /* entry_input.h */; };
 		4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB64452142412C400DE59C8 /* entry_input.cpp */; };
+		4DB644551424205400DE59C8 /* entry_input_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644541424205400DE59C8 /* entry_input_binder.h */; };
+		4DB64457142420B600DE59C8 /* entry_input_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB64456142420B600DE59C8 /* entry_input_binder.cpp */; };
 		4DDD59ED1421A65E00C481E6 /* echo_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E51421A65E00C481E6 /* echo_binder.cpp */; };
 		4DDD59EE1421A65E00C481E6 /* echo_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59E61421A65E00C481E6 /* echo_binder.h */; };
 		4DDD59EF1421A65E00C481E6 /* echo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E71421A65E00C481E6 /* echo.cpp */; };
@@ -44,6 +46,8 @@
 		4DB6444E14240DD700DE59C8 /* entry_environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_environment.cpp; sourceTree = "<group>"; };
 		4DB64450142412B600DE59C8 /* entry_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_input.h; sourceTree = "<group>"; };
 		4DB64452142412C400DE59C8 /* entry_input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_input.cpp; sourceTree = "<group>"; };
+		4DB644541424205400DE59C8 /* entry_input_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_input_binder.h; sourceTree = "<group>"; };
+		4DB64456142420B600DE59C8 /* entry_input_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_input_binder.cpp; sourceTree = "<group>"; };
 		4DDD59DE1421A62100C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p_repl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDD59E51421A65E00C481E6 /* echo_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = echo_binder.cpp; sourceTree = "<group>"; };
 		4DDD59E61421A65E00C481E6 /* echo_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = echo_binder.h; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		4DDD59D31421A62100C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DB64456142420B600DE59C8 /* entry_input_binder.cpp */,
+				4DB644541424205400DE59C8 /* entry_input_binder.h */,
 				4DB64452142412C400DE59C8 /* entry_input.cpp */,
 				4DB64450142412B600DE59C8 /* entry_input.h */,
 				4DB6444E14240DD700DE59C8 /* entry_environment.cpp */,
@@ -137,6 +143,7 @@
 				4DB644411423FAA100DE59C8 /* stream_read_entry_routine_binder.h in Headers */,
 				4DB6444D14240DCA00DE59C8 /* entry_environment.h in Headers */,
 				4DB64451142412B600DE59C8 /* entry_input.h in Headers */,
+				4DB644551424205400DE59C8 /* entry_input_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +207,7 @@
 				4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */,
 				4DB6444F14240DD700DE59C8 /* entry_environment.cpp in Sources */,
 				4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */,
+				4DB64457142420B600DE59C8 /* entry_input_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +267,7 @@
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					/Users/clemahieu/Downloads/boost_1_47_0,
 					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -272,6 +281,7 @@
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					/Users/clemahieu/Downloads/boost_1_47_0,
 					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

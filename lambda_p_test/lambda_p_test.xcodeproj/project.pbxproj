@@ -9,6 +9,22 @@
 /* Begin PBXBuildFile section */
 		4D473AD0141185C100455A7E /* simple_parser_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D473ACE141185C100455A7E /* simple_parser_test_1.cpp */; };
 		4D473AE1141186B500455A7E /* liblambda_p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D473AE0141186B500455A7E /* liblambda_p.a */; };
+		4DB6446B14250A1F00DE59C8 /* abort_binder_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6446A14250A1F00DE59C8 /* abort_binder_test_1.cpp */; };
+		4DB6446D1425126500DE59C8 /* libLLVMCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6446C1425126500DE59C8 /* libLLVMCore.a */; };
+		4DB6446F142512D400DE59C8 /* libLLVMSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6446E142512D400DE59C8 /* libLLVMSupport.a */; };
+		4DB6447114252AF200DE59C8 /* libLLVMExecutionEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447014252AF200DE59C8 /* libLLVMExecutionEngine.a */; };
+		4DB6447314252B0C00DE59C8 /* libLLVMTarget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447214252B0C00DE59C8 /* libLLVMTarget.a */; };
+		4DB6447914252EF400DE59C8 /* libLLVMJIT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447814252EF400DE59C8 /* libLLVMJIT.a */; };
+		4DB6447B14252F0E00DE59C8 /* libLLVMMC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447A14252F0D00DE59C8 /* libLLVMMC.a */; };
+		4DB6447D14252F6F00DE59C8 /* libLLVMCodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447C14252F6F00DE59C8 /* libLLVMCodeGen.a */; };
+		4DB6447F14252F9200DE59C8 /* libLLVMAnalysis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6447E14252F9200DE59C8 /* libLLVMAnalysis.a */; };
+		4DB644831425313600DE59C8 /* libLLVMX86Info.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB644821425313600DE59C8 /* libLLVMX86Info.a */; };
+		4DB64487142531A600DE59C8 /* libLLVMTransformUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB64486142531A600DE59C8 /* libLLVMTransformUtils.a */; };
+		4DB6448A1425365A00DE59C8 /* libLLVMX86CodeGen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB644891425365A00DE59C8 /* libLLVMX86CodeGen.a */; };
+		4DB644961425384C00DE59C8 /* libLLVMSelectionDAG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB644951425384C00DE59C8 /* libLLVMSelectionDAG.a */; };
+		4DB64498142538A000DE59C8 /* libLLVMX86Utils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB64497142538A000DE59C8 /* libLLVMX86Utils.a */; };
+		4DB6449A142538E100DE59C8 /* libLLVMScalarOpts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB64499142538E100DE59C8 /* libLLVMScalarOpts.a */; };
+		4DB6449D142544ED00DE59C8 /* jit_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6449C142544ED00DE59C8 /* jit_test_1.cpp */; };
 		4DDD5934141EC53500C481E6 /* routine_binder_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD592F141EC53500C481E6 /* routine_binder_test_1.cpp */; };
 		4DDD5935141EC53500C481E6 /* simple_compile_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5931141EC53500C481E6 /* simple_compile_test_1.cpp */; };
 		4DDD599914200B7D00C481E6 /* structure_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD599714200B7D00C481E6 /* structure_test_1.cpp */; };
@@ -36,6 +52,33 @@
 		4D473ACE141185C100455A7E /* simple_parser_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_parser_test_1.cpp; sourceTree = "<group>"; };
 		4D473ACF141185C100455A7E /* simple_parser_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simple_parser_test_1.h; sourceTree = "<group>"; };
 		4D473AE0141186B500455A7E /* liblambda_p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p.a"; sourceTree = "<group>"; };
+		4DB6446814250A1200DE59C8 /* abort_binder_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abort_binder_test_1.h; sourceTree = "<group>"; };
+		4DB6446A14250A1F00DE59C8 /* abort_binder_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abort_binder_test_1.cpp; sourceTree = "<group>"; };
+		4DB6446C1425126500DE59C8 /* libLLVMCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCore.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMCore.a"; sourceTree = "<group>"; };
+		4DB6446E142512D400DE59C8 /* libLLVMSupport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSupport.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMSupport.a"; sourceTree = "<group>"; };
+		4DB6447014252AF200DE59C8 /* libLLVMExecutionEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMExecutionEngine.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMExecutionEngine.a"; sourceTree = "<group>"; };
+		4DB6447214252B0C00DE59C8 /* libLLVMTarget.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTarget.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMTarget.a"; sourceTree = "<group>"; };
+		4DB6447414252D6B00DE59C8 /* libLLVMInterpreter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMInterpreter.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMInterpreter.a"; sourceTree = "<group>"; };
+		4DB6447614252DD600DE59C8 /* libLLVMCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMCodeGen.a"; sourceTree = "<group>"; };
+		4DB6447814252EF400DE59C8 /* libLLVMJIT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMJIT.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMJIT.a"; sourceTree = "<group>"; };
+		4DB6447A14252F0D00DE59C8 /* libLLVMMC.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMC.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMMC.a"; sourceTree = "<group>"; };
+		4DB6447C14252F6F00DE59C8 /* libLLVMCodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMCodeGen.a"; sourceTree = "<group>"; };
+		4DB6447E14252F9200DE59C8 /* libLLVMAnalysis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMAnalysis.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMAnalysis.a"; sourceTree = "<group>"; };
+		4DB64480142530E400DE59C8 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86CodeGen.a"; sourceTree = "<group>"; };
+		4DB644821425313600DE59C8 /* libLLVMX86Info.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Info.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86Info.a"; sourceTree = "<group>"; };
+		4DB644841425315300DE59C8 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86CodeGen.a"; sourceTree = "<group>"; };
+		4DB64486142531A600DE59C8 /* libLLVMTransformUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMTransformUtils.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMTransformUtils.a"; sourceTree = "<group>"; };
+		4DB644881425359A00DE59C8 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86CodeGen.a"; sourceTree = "<group>"; };
+		4DB644891425365A00DE59C8 /* libLLVMX86CodeGen.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86CodeGen.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86CodeGen.a"; sourceTree = "<group>"; };
+		4DB6448B142536E200DE59C8 /* libLLVMX86AsmPrinter.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86AsmPrinter.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86AsmPrinter.a"; sourceTree = "<group>"; };
+		4DB6448D1425370300DE59C8 /* libLLVMX86Utils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Utils.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86Utils.a"; sourceTree = "<group>"; };
+		4DB6448F1425374000DE59C8 /* libLLVMMCJIT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMMCJIT.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMMCJIT.a"; sourceTree = "<group>"; };
+		4DB644911425379300DE59C8 /* libLLVMX86Utils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Utils.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86Utils.a"; sourceTree = "<group>"; };
+		4DB644951425384C00DE59C8 /* libLLVMSelectionDAG.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMSelectionDAG.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMSelectionDAG.a"; sourceTree = "<group>"; };
+		4DB64497142538A000DE59C8 /* libLLVMX86Utils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMX86Utils.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMX86Utils.a"; sourceTree = "<group>"; };
+		4DB64499142538E100DE59C8 /* libLLVMScalarOpts.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMScalarOpts.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMScalarOpts.a"; sourceTree = "<group>"; };
+		4DB6449B142544E200DE59C8 /* jit_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jit_test_1.h; sourceTree = "<group>"; };
+		4DB6449C142544ED00DE59C8 /* jit_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jit_test_1.cpp; sourceTree = "<group>"; };
 		4DDD592F141EC53500C481E6 /* routine_binder_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = routine_binder_test_1.cpp; sourceTree = "<group>"; };
 		4DDD5930141EC53500C481E6 /* routine_binder_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = routine_binder_test_1.h; sourceTree = "<group>"; };
 		4DDD5931141EC53500C481E6 /* simple_compile_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_compile_test_1.cpp; sourceTree = "<group>"; };
@@ -44,8 +87,8 @@
 		4DDD599814200B7D00C481E6 /* structure_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = structure_test_1.h; sourceTree = "<group>"; };
 		4DDD59A214216C7700C481E6 /* routine_input_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = routine_input_test_1.cpp; sourceTree = "<group>"; };
 		4DDD59A314216C7700C481E6 /* routine_input_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = routine_input_test_1.h; sourceTree = "<group>"; };
-		4DDD59D11421A24C00C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = liblambda_p_repl.a; path = ../lambda_p_repl/build/Release/liblambda_p_repl.a; sourceTree = "<group>"; };
-		4DDD5A1F1421C1CB00C481E6 /* liblambda_p_llvm.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = liblambda_p_llvm.a; path = ../lambda_p_llvm/build/Release/liblambda_p_llvm.a; sourceTree = "<group>"; };
+		4DDD59D11421A24C00C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p_repl.a; path = ../lambda_p_repl/build/Release/liblambda_p_repl.a; sourceTree = "<group>"; };
+		4DDD5A1F1421C1CB00C481E6 /* liblambda_p_llvm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p_llvm.a; path = ../lambda_p_llvm/build/Release/liblambda_p_llvm.a; sourceTree = "<group>"; };
 		CF7596CD140F1AF0001EDBB9 /* lambda_p_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_test; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7596DA140F1BB7001EDBB9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_test_1.cpp; sourceTree = "<group>"; };
@@ -59,6 +102,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DB6449A142538E100DE59C8 /* libLLVMScalarOpts.a in Frameworks */,
+				4DB64498142538A000DE59C8 /* libLLVMX86Utils.a in Frameworks */,
+				4DB644961425384C00DE59C8 /* libLLVMSelectionDAG.a in Frameworks */,
+				4DB6448A1425365A00DE59C8 /* libLLVMX86CodeGen.a in Frameworks */,
+				4DB64487142531A600DE59C8 /* libLLVMTransformUtils.a in Frameworks */,
+				4DB644831425313600DE59C8 /* libLLVMX86Info.a in Frameworks */,
+				4DB6447F14252F9200DE59C8 /* libLLVMAnalysis.a in Frameworks */,
+				4DB6447D14252F6F00DE59C8 /* libLLVMCodeGen.a in Frameworks */,
+				4DB6447B14252F0E00DE59C8 /* libLLVMMC.a in Frameworks */,
+				4DB6447914252EF400DE59C8 /* libLLVMJIT.a in Frameworks */,
+				4DB6447314252B0C00DE59C8 /* libLLVMTarget.a in Frameworks */,
+				4DB6447114252AF200DE59C8 /* libLLVMExecutionEngine.a in Frameworks */,
+				4DB6446F142512D400DE59C8 /* libLLVMSupport.a in Frameworks */,
+				4DB6446D1425126500DE59C8 /* libLLVMCore.a in Frameworks */,
 				4DDD5A201421C1CB00C481E6 /* liblambda_p_llvm.a in Frameworks */,
 				4DDD59D21421A24C00C481E6 /* liblambda_p_repl.a in Frameworks */,
 				4D473AE1141186B500455A7E /* liblambda_p.a in Frameworks */,
@@ -71,6 +128,33 @@
 		CF7596C2140F1AF0001EDBB9 = {
 			isa = PBXGroup;
 			children = (
+				4DB6449C142544ED00DE59C8 /* jit_test_1.cpp */,
+				4DB6449B142544E200DE59C8 /* jit_test_1.h */,
+				4DB64499142538E100DE59C8 /* libLLVMScalarOpts.a */,
+				4DB64497142538A000DE59C8 /* libLLVMX86Utils.a */,
+				4DB644951425384C00DE59C8 /* libLLVMSelectionDAG.a */,
+				4DB644911425379300DE59C8 /* libLLVMX86Utils.a */,
+				4DB6448F1425374000DE59C8 /* libLLVMMCJIT.a */,
+				4DB6448D1425370300DE59C8 /* libLLVMX86Utils.a */,
+				4DB6448B142536E200DE59C8 /* libLLVMX86AsmPrinter.a */,
+				4DB644891425365A00DE59C8 /* libLLVMX86CodeGen.a */,
+				4DB644881425359A00DE59C8 /* libLLVMX86CodeGen.a */,
+				4DB64486142531A600DE59C8 /* libLLVMTransformUtils.a */,
+				4DB644841425315300DE59C8 /* libLLVMX86CodeGen.a */,
+				4DB644821425313600DE59C8 /* libLLVMX86Info.a */,
+				4DB64480142530E400DE59C8 /* libLLVMX86CodeGen.a */,
+				4DB6447E14252F9200DE59C8 /* libLLVMAnalysis.a */,
+				4DB6447C14252F6F00DE59C8 /* libLLVMCodeGen.a */,
+				4DB6447A14252F0D00DE59C8 /* libLLVMMC.a */,
+				4DB6447814252EF400DE59C8 /* libLLVMJIT.a */,
+				4DB6447614252DD600DE59C8 /* libLLVMCodeGen.a */,
+				4DB6447414252D6B00DE59C8 /* libLLVMInterpreter.a */,
+				4DB6447214252B0C00DE59C8 /* libLLVMTarget.a */,
+				4DB6447014252AF200DE59C8 /* libLLVMExecutionEngine.a */,
+				4DB6446E142512D400DE59C8 /* libLLVMSupport.a */,
+				4DB6446C1425126500DE59C8 /* libLLVMCore.a */,
+				4DB6446A14250A1F00DE59C8 /* abort_binder_test_1.cpp */,
+				4DB6446814250A1200DE59C8 /* abort_binder_test_1.h */,
 				4DDD5A1F1421C1CB00C481E6 /* liblambda_p_llvm.a */,
 				4DDD59D11421A24C00C481E6 /* liblambda_p_repl.a */,
 				4D473AE0141186B500455A7E /* liblambda_p.a */,
@@ -156,6 +240,8 @@
 				4DDD5935141EC53500C481E6 /* simple_compile_test_1.cpp in Sources */,
 				4DDD599914200B7D00C481E6 /* structure_test_1.cpp in Sources */,
 				4DDD59A414216C7700C481E6 /* routine_input_test_1.cpp in Sources */,
+				4DB6446B14250A1F00DE59C8 /* abort_binder_test_1.cpp in Sources */,
+				4DB6449D142544ED00DE59C8 /* jit_test_1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,11 +300,13 @@
 					/Users/clemahieu/Downloads/boost_1_47_0,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/lambda_p-befovkmpqhuuqdcpjbueqtukhlpb/Build/Products/Debug\"",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
+					"/Users/clemahieu/Downloads/llvm-2.9/Debug/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -231,11 +319,13 @@
 					/Users/clemahieu/Downloads/boost_1_47_0,
 					/Users/colinlemahieu/Downloads/boost_1_47_0,
 					..,
+					"/Users/clemahieu/Downloads/llvm-2.9/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../Library/Developer/Xcode/DerivedData/lambda_p-befovkmpqhuuqdcpjbueqtukhlpb/Build/Products/Debug\"",
 					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug\"",
+					"/Users/clemahieu/Downloads/llvm-2.9/Debug/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
