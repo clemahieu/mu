@@ -9,7 +9,7 @@
 
 namespace lambda_p_repl
 {
-	class entry_routine;
+	class entry_environment;
 }
 namespace lambda_p
 {
@@ -39,7 +39,7 @@ namespace lambda_p
 			friend class ::lambda_p::parser::simple_parser;
 			friend class ::lambda_p::binder::routine_binder;
 			friend class ::lambda_p::parser::statement;
-			friend class ::lambda_p_repl::entry_routine;
+			friend class ::lambda_p_repl::entry_environment;
 		public:
 			routine ();
 			~routine (void);

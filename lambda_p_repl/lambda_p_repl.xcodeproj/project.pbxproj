@@ -11,6 +11,10 @@
 		4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443B1423FAA100DE59C8 /* entry_routine.h */; };
 		4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */; };
 		4DB644411423FAA100DE59C8 /* stream_read_entry_routine_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */; };
+		4DB6444D14240DCA00DE59C8 /* entry_environment.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6444C14240DCA00DE59C8 /* entry_environment.h */; };
+		4DB6444F14240DD700DE59C8 /* entry_environment.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6444E14240DD700DE59C8 /* entry_environment.cpp */; };
+		4DB64451142412B600DE59C8 /* entry_input.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB64450142412B600DE59C8 /* entry_input.h */; };
+		4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB64452142412C400DE59C8 /* entry_input.cpp */; };
 		4DDD59ED1421A65E00C481E6 /* echo_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E51421A65E00C481E6 /* echo_binder.cpp */; };
 		4DDD59EE1421A65E00C481E6 /* echo_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59E61421A65E00C481E6 /* echo_binder.h */; };
 		4DDD59EF1421A65E00C481E6 /* echo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E71421A65E00C481E6 /* echo.cpp */; };
@@ -36,6 +40,10 @@
 		4DB6443B1423FAA100DE59C8 /* entry_routine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_routine.h; sourceTree = "<group>"; };
 		4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stream_read_entry_routine_binder.cpp; sourceTree = "<group>"; };
 		4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stream_read_entry_routine_binder.h; sourceTree = "<group>"; };
+		4DB6444C14240DCA00DE59C8 /* entry_environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_environment.h; sourceTree = "<group>"; };
+		4DB6444E14240DD700DE59C8 /* entry_environment.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_environment.cpp; sourceTree = "<group>"; };
+		4DB64450142412B600DE59C8 /* entry_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_input.h; sourceTree = "<group>"; };
+		4DB64452142412C400DE59C8 /* entry_input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_input.cpp; sourceTree = "<group>"; };
 		4DDD59DE1421A62100C481E6 /* liblambda_p_repl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p_repl.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DDD59E51421A65E00C481E6 /* echo_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = echo_binder.cpp; sourceTree = "<group>"; };
 		4DDD59E61421A65E00C481E6 /* echo_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = echo_binder.h; sourceTree = "<group>"; };
@@ -71,6 +79,10 @@
 		4DDD59D31421A62100C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DB64452142412C400DE59C8 /* entry_input.cpp */,
+				4DB64450142412B600DE59C8 /* entry_input.h */,
+				4DB6444E14240DD700DE59C8 /* entry_environment.cpp */,
+				4DB6444C14240DCA00DE59C8 /* entry_environment.h */,
 				4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */,
 				4DB6443B1423FAA100DE59C8 /* entry_routine.h */,
 				4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */,
@@ -123,6 +135,8 @@
 				4DDD5A081421A67000C481E6 /* routine_input.h in Headers */,
 				4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */,
 				4DB644411423FAA100DE59C8 /* stream_read_entry_routine_binder.h in Headers */,
+				4DB6444D14240DCA00DE59C8 /* entry_environment.h in Headers */,
+				4DB64451142412B600DE59C8 /* entry_input.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,6 +198,8 @@
 				4DDD5A071421A67000C481E6 /* routine_input.cpp in Sources */,
 				4DB6443E1423FAA100DE59C8 /* entry_routine.cpp in Sources */,
 				4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */,
+				4DB6444F14240DD700DE59C8 /* entry_environment.cpp in Sources */,
+				4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

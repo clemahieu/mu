@@ -25,16 +25,14 @@ namespace lambda_p_repl
 	class entry_routine
 	{
 	public:
-		entry_routine (::std::wistream & in_a, ::std::wostream & out_a);
 		entry_routine (::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit_binder_a, ::std::wistream & in_a, ::std::wostream & out_a);
+        entry_routine (::std::wistream & in_a, ::std::wostream & out_a);
 		~entry_routine (void);
 		void operator () ();
 	private:
-		void use_routine (::boost::shared_ptr < ::lambda_p::core::routine> routine);
-		::lambda_p::core::node * environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
 		::std::wistream & in;
 		::std::wostream & out;
+        ::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
 	};
 }
 
