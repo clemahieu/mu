@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DA329971426E83E009A610D /* data_to_string_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DA329951426E83E009A610D /* data_to_string_binder.cpp */; };
+		4DA329981426E83E009A610D /* data_to_string_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA329961426E83E009A610D /* data_to_string_binder.h */; };
 		4DB644621425025600DE59C8 /* abort_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB644601425025600DE59C8 /* abort_binder.cpp */; };
 		4DB644631425025600DE59C8 /* abort_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644611425025600DE59C8 /* abort_binder.h */; };
 		4DB644651425026E00DE59C8 /* llvm_generation_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644641425026E00DE59C8 /* llvm_generation_context.h */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4DA329951426E83E009A610D /* data_to_string_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = data_to_string_binder.cpp; sourceTree = "<group>"; };
+		4DA329961426E83E009A610D /* data_to_string_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_to_string_binder.h; sourceTree = "<group>"; };
 		4DB644601425025600DE59C8 /* abort_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abort_binder.cpp; sourceTree = "<group>"; };
 		4DB644611425025600DE59C8 /* abort_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abort_binder.h; sourceTree = "<group>"; };
 		4DB644641425026E00DE59C8 /* llvm_generation_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = llvm_generation_context.h; sourceTree = "<group>"; };
@@ -43,6 +47,8 @@
 		4DDD5A091421AFC500C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DA329951426E83E009A610D /* data_to_string_binder.cpp */,
+				4DA329961426E83E009A610D /* data_to_string_binder.h */,
 				4DE72AC8142693CD000DA55E /* llvm_value.cpp */,
 				4DE72AC5142693C2000DA55E /* llvm_value.h */,
 				4DB644661425027A00DE59C8 /* llvm_generation_context.cpp */,
@@ -74,6 +80,7 @@
 				4DB644631425025600DE59C8 /* abort_binder.h in Headers */,
 				4DB644651425026E00DE59C8 /* llvm_generation_context.h in Headers */,
 				4DE72AC6142693C2000DA55E /* llvm_value.h in Headers */,
+				4DA329981426E83E009A610D /* data_to_string_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +135,7 @@
 				4DB644621425025600DE59C8 /* abort_binder.cpp in Sources */,
 				4DB644671425027A00DE59C8 /* llvm_generation_context.cpp in Sources */,
 				4DE72AC9142693CD000DA55E /* llvm_value.cpp in Sources */,
+				4DA329971426E83E009A610D /* data_to_string_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

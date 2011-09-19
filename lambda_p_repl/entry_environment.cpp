@@ -14,7 +14,7 @@
 #include <lambda_p/binder/routine_binder.h>
 #include <lambda_p/binder/command_list.h>
 #include <lambda_p/binder/structure.h>
-#include <lambda_p/binder/data_to_string_binder.h>
+#include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
@@ -70,8 +70,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
 	::boost::shared_ptr < ::lambda_p::binder::command_list> commands (new ::lambda_p::binder::command_list);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf, context));
-	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (commands));
-	::boost::shared_ptr < ::lambda_p::binder::data_to_string_binder> d2s_binder (new ::lambda_p::binder::data_to_string_binder);
+	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf, context));
+	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");

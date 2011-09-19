@@ -28,8 +28,8 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
 	size_t argument_count (statement->arguments.size ());
 	if (argument_count == 1)
 	{
-        ::llvm::ArrayType * type (::llvm::ArrayType::get (context.wchar_t_type, 14));
         ::std::wstring string (L"Hello world in llvm!\n");
+        ::llvm::ArrayType * type (::llvm::ArrayType::get (context.wchar_t_type, string.size () + 1));
         ::std::vector < ::llvm::Constant *> initializer;
         for (::std::wstring::iterator i = string.begin (); i != string.end (); ++i)
         {

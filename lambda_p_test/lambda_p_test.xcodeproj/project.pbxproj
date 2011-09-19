@@ -11,6 +11,7 @@
 		4D473AE1141186B500455A7E /* liblambda_p.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D473AE0141186B500455A7E /* liblambda_p.a */; };
 		4DA3298B1426D6C7009A610D /* liblambda_p_llvm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA3298A1426D6C7009A610D /* liblambda_p_llvm.a */; };
 		4DA3298D1426D6CA009A610D /* liblambda_p_repl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DA3298C1426D6CA009A610D /* liblambda_p_repl.a */; };
+		4DA3299B14270BF9009A610D /* data_to_string_binder_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DA3299A14270BF9009A610D /* data_to_string_binder_test_1.cpp */; };
 		4DB6446B14250A1F00DE59C8 /* abort_binder_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6446A14250A1F00DE59C8 /* abort_binder_test_1.cpp */; };
 		4DB6446D1425126500DE59C8 /* libLLVMCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6446C1425126500DE59C8 /* libLLVMCore.a */; };
 		4DB6446F142512D400DE59C8 /* libLLVMSupport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB6446E142512D400DE59C8 /* libLLVMSupport.a */; };
@@ -54,6 +55,8 @@
 		4D473AE0141186B500455A7E /* liblambda_p.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p.a"; sourceTree = "<group>"; };
 		4DA3298A1426D6C7009A610D /* liblambda_p_llvm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p_llvm.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p_llvm.a"; sourceTree = "<group>"; };
 		4DA3298C1426D6CA009A610D /* liblambda_p_repl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblambda_p_repl.a; path = "../../../Library/Developer/Xcode/DerivedData/lambda_p-cmiqzoiycvkoftbuvvzdkjiymbij/Build/Products/Debug/liblambda_p_repl.a"; sourceTree = "<group>"; };
+		4DA3299914270BEC009A610D /* data_to_string_binder_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data_to_string_binder_test_1.h; sourceTree = "<group>"; };
+		4DA3299A14270BF9009A610D /* data_to_string_binder_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = data_to_string_binder_test_1.cpp; sourceTree = "<group>"; };
 		4DB6446814250A1200DE59C8 /* abort_binder_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abort_binder_test_1.h; sourceTree = "<group>"; };
 		4DB6446A14250A1F00DE59C8 /* abort_binder_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abort_binder_test_1.cpp; sourceTree = "<group>"; };
 		4DB6446C1425126500DE59C8 /* libLLVMCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libLLVMCore.a; path = "../../../Downloads/llvm-2.9/Debug/lib/libLLVMCore.a"; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 		CF7596C2140F1AF0001EDBB9 = {
 			isa = PBXGroup;
 			children = (
+				4DA3299A14270BF9009A610D /* data_to_string_binder_test_1.cpp */,
+				4DA3299914270BEC009A610D /* data_to_string_binder_test_1.h */,
 				4DA3298C1426D6CA009A610D /* liblambda_p_repl.a */,
 				4DA3298A1426D6C7009A610D /* liblambda_p_llvm.a */,
 				4DB6449C142544ED00DE59C8 /* jit_test_1.cpp */,
@@ -242,6 +247,7 @@
 				4DDD59A414216C7700C481E6 /* routine_input_test_1.cpp in Sources */,
 				4DB6446B14250A1F00DE59C8 /* abort_binder_test_1.cpp in Sources */,
 				4DB6449D142544ED00DE59C8 /* jit_test_1.cpp in Sources */,
+				4DA3299B14270BF9009A610D /* data_to_string_binder_test_1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

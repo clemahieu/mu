@@ -2,7 +2,6 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
-#include <lambda_p/binder/string_instance.h>
 #include <lambda_p_repl/entry_routine.h>
 
 #include <fstream>
@@ -26,30 +25,30 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 		{
 		case ::lambda_p::core::node_reference:
 			{
-				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
-				assert (search != instances.end ());
-				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast < ::lambda_p::binder::string_instance> (search->second));
-				if (string.get () != NULL)
-				{
-					::std::wfstream file;
-                    ::std::string astring (string->string.begin (), string->string.end ());
-					file.open (astring.c_str ());
-					if (file.is_open ())
-					{
-						::lambda_p_repl::entry_routine routine (file, ::std::wcout);
-						routine ();
-					}
-					else
-					{
-						problems << L"Unable to open file: ";
-						problems << string->string;
-						problems << '\n';
-					}
-				}
-				else
-				{
+//				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
+//				assert (search != instances.end ());
+//				::boost::shared_ptr < ::lambda_p::binder::string_instance> string (::boost::dynamic_pointer_cast < ::lambda_p::binder::string_instance> (search->second));
+//				if (string.get () != NULL)
+//				{
+//					::std::wfstream file;
+//                    ::std::string astring (string->string.begin (), string->string.end ());
+//					file.open (astring.c_str ());
+//					if (file.is_open ())
+//					{
+//						::lambda_p_repl::entry_routine routine (file, ::std::wcout);
+//						routine ();
+//					}
+//					else
+//					{
+//						problems << L"Unable to open file: ";
+//						problems << string->string;
+//						problems << '\n';
+//					}
+//				}
+//				else
+//				{
 					problems << L"argument 1 is not a string_instance\n";
-				}
+//				}
 			}
 			break;
 		default:
