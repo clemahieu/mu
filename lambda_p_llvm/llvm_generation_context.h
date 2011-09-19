@@ -8,15 +8,23 @@
 
 #pragma once
 
+#include <llvm/LLVMContext.h>
+
 namespace llvm
 {
     class BasicBlock;
+    class Module;
+    class Type;
 }
 namespace lambda_p_llvm
 {
     class llvm_generation_context
     {
     public:
+        llvm_generation_context (::llvm::LLVMContext & context_a);
+        ::llvm::LLVMContext & context;
+        ::llvm::Type const * wchar_t_type;
+        ::llvm::Module * module;
         ::llvm::BasicBlock * block;
     };
 }

@@ -30,8 +30,8 @@
 
 void lambda_p_test::abort_binder_test_1::run ()
 {
-    ::lambda_p_llvm::llvm_generation_context current;
     ::llvm::LLVMContext context;
+    ::lambda_p_llvm::llvm_generation_context current (context);
     ::llvm::StringRef name ("test");
     ::llvm::Module module (name, context);
     ::llvm::FunctionType * type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context), false));

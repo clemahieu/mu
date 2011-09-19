@@ -47,13 +47,13 @@ void lambda_p_test::jit_test_1::run_2 ()
     ::llvm::GlobalVariable * stderrptr = new ::llvm::GlobalVariable (::llvm::PointerType::get (::llvm::Type::getVoidTy (context), 0), false, ::llvm::GlobalValue::ExternalLinkage);
     ::llvm::BasicBlock * block = ::llvm::BasicBlock::Create (context);
     generation->getBasicBlockList ().push_back (block);
+    ::std::vector < ::llvm::Value *> arguments;
     ::llvm::GetElementPtrInst * gep = ::llvm::GetElementPtrInst::Create (strptr, ::llvm::ConstantInt::get (::llvm::Type::getInt32Ty (context), 0));
     block->getInstList ().push_back (gep);
-    ::std::vector < ::llvm::Value *> arguments;
+    arguments.push_back (gep);
     ::llvm::GetElementPtrInst * gep2 = ::llvm::GetElementPtrInst::Create (stderrptr, ::llvm::ConstantInt::get (::llvm::Type::getInt32Ty (context), 0));
     block->getInstList ().push_back (gep2);
     arguments.push_back (gep2);
-    arguments.push_back (gep);
     ::llvm::CallInst * call (::llvm::CallInst::Create (print, arguments.begin (), arguments.end ()));
     block->getInstList ().push_back (call);
     ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context));
