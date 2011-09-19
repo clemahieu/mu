@@ -3,7 +3,6 @@
 #define __STDC_LIMIT_MACROS
 #define __STDC_CONSTANT_MACROS
 
-#include <lambda_p_repl/hello_world.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/command_list.h>
 

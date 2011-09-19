@@ -23,8 +23,6 @@
 		4DDD59F01421A65E00C481E6 /* echo.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59E81421A65E00C481E6 /* echo.h */; };
 		4DDD59F11421A65E00C481E6 /* hello_world_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59E91421A65E00C481E6 /* hello_world_binder.cpp */; };
 		4DDD59F21421A65E00C481E6 /* hello_world_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59EA1421A65E00C481E6 /* hello_world_binder.h */; };
-		4DDD59F31421A65E00C481E6 /* hello_world.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59EB1421A65E00C481E6 /* hello_world.cpp */; };
-		4DDD59F41421A65E00C481E6 /* hello_world.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59EC1421A65E00C481E6 /* hello_world.h */; };
 		4DDD59FF1421A67000C481E6 /* repl_quit_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */; };
 		4DDD5A001421A67000C481E6 /* repl_quit_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59F61421A67000C481E6 /* repl_quit_binder.h */; };
 		4DDD5A011421A67000C481E6 /* repl_quit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59F71421A67000C481E6 /* repl_quit.cpp */; };
@@ -55,8 +53,6 @@
 		4DDD59E81421A65E00C481E6 /* echo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = echo.h; sourceTree = "<group>"; };
 		4DDD59E91421A65E00C481E6 /* hello_world_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hello_world_binder.cpp; sourceTree = "<group>"; };
 		4DDD59EA1421A65E00C481E6 /* hello_world_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_world_binder.h; sourceTree = "<group>"; };
-		4DDD59EB1421A65E00C481E6 /* hello_world.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hello_world.cpp; sourceTree = "<group>"; };
-		4DDD59EC1421A65E00C481E6 /* hello_world.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_world.h; sourceTree = "<group>"; };
 		4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = repl_quit_binder.cpp; sourceTree = "<group>"; };
 		4DDD59F61421A67000C481E6 /* repl_quit_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repl_quit_binder.h; sourceTree = "<group>"; };
 		4DDD59F71421A67000C481E6 /* repl_quit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = repl_quit.cpp; sourceTree = "<group>"; };
@@ -109,8 +105,6 @@
 				4DDD59E81421A65E00C481E6 /* echo.h */,
 				4DDD59E91421A65E00C481E6 /* hello_world_binder.cpp */,
 				4DDD59EA1421A65E00C481E6 /* hello_world_binder.h */,
-				4DDD59EB1421A65E00C481E6 /* hello_world.cpp */,
-				4DDD59EC1421A65E00C481E6 /* hello_world.h */,
 				4DDD59DF1421A62100C481E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,7 +127,6 @@
 				4DDD59EE1421A65E00C481E6 /* echo_binder.h in Headers */,
 				4DDD59F01421A65E00C481E6 /* echo.h in Headers */,
 				4DDD59F21421A65E00C481E6 /* hello_world_binder.h in Headers */,
-				4DDD59F41421A65E00C481E6 /* hello_world.h in Headers */,
 				4DDD5A001421A67000C481E6 /* repl_quit_binder.h in Headers */,
 				4DDD5A021421A67000C481E6 /* repl_quit.h in Headers */,
 				4DDD5A041421A67000C481E6 /* repl.h in Headers */,
@@ -197,7 +190,6 @@
 				4DDD59ED1421A65E00C481E6 /* echo_binder.cpp in Sources */,
 				4DDD59EF1421A65E00C481E6 /* echo.cpp in Sources */,
 				4DDD59F11421A65E00C481E6 /* hello_world_binder.cpp in Sources */,
-				4DDD59F31421A65E00C481E6 /* hello_world.cpp in Sources */,
 				4DDD59FF1421A67000C481E6 /* repl_quit_binder.cpp in Sources */,
 				4DDD5A011421A67000C481E6 /* repl_quit.cpp in Sources */,
 				4DDD5A031421A67000C481E6 /* repl.cpp in Sources */,

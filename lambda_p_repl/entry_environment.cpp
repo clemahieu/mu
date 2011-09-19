@@ -49,11 +49,17 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::llvm::StringRef module_name (module_name_string);
     ::llvm::Module * module (new ::llvm::Module (module_name, llvm_context));
     context.module = module;
+    ::llvm::EngineBuilder builder (module);
+    builder.setEngineKind (::llvm::EngineKind::JIT);
+    ::std::string error;
+    builder.setErrorStr (&error);
+    ::llvm::ExecutionEngine * engine = builder.create ();
     ::std::vector < ::llvm::Type const *> wprintf_parameters;
     wprintf_parameters.push_back (::llvm::PointerType::get (context.wchar_t_type, 0));
-    ::llvm::FunctionType * wprintf_type (::llvm::FunctionType::get (::llvm::Type::getInt32Ty (llvm_context), wprintf_parameters, false));
+    ::llvm::FunctionType * wprintf_type (::llvm::FunctionType::get (::llvm::Type::getInt32Ty (llvm_context), wprintf_parameters, true));
     ::llvm::Function * wprintf (::llvm::Function::Create (wprintf_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (wprintf);
+    engine->addGlobalMapping (wprintf, (void *)::wprintf);
     ::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
@@ -96,12 +102,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
         ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (llvm_context));
         block->getInstList ().push_back (ret);
         commands->operator() ();
-        ::llvm::EngineBuilder builder (module);
-        builder.setEngineKind (::llvm::EngineKind::JIT);
-        ::std::string error;
-        builder.setErrorStr (&error);
-        ::llvm::ExecutionEngine * engine = builder.create ();
-        engine->addGlobalMapping (wprintf, (void *)::wprintf);
         ::std::vector < ::llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
 	}
