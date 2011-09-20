@@ -5,25 +5,27 @@
     <ClCompile Include="repl_quit.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
     <ClCompile Include="hello_world_binder.cpp" />
-    <ClCompile Include="hello_world.cpp" />
     <ClCompile Include="echo_binder.cpp" />
-    <ClCompile Include="echo.cpp" />
     <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="stream_read_entry_routine_binder.cpp" />
+    <ClCompile Include="entry_environment.cpp" />
+    <ClCompile Include="entry_input.cpp" />
+    <ClCompile Include="entry_input_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit.h" />
     <ClInclude Include="repl_quit_binder.h" />
     <ClInclude Include="hello_world_binder.h" />
-    <ClInclude Include="hello_world.h" />
     <ClInclude Include="echo_binder.h" />
-    <ClInclude Include="echo.h" />
     <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
     <ClInclude Include="stream_read_entry_routine_binder.h" />
+    <ClInclude Include="entry_environment.h" />
+    <ClInclude Include="entry_input.h" />
+    <ClInclude Include="entry_input_binder.h" />
   </ItemGroup>
 </Project>

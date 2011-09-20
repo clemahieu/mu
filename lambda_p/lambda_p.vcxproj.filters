@@ -139,12 +139,6 @@
     <ClInclude Include="binder\command_list.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\data_to_string_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\string_instance.h">
-      <Filter>binder</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -280,12 +274,6 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\command_list.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\data_to_string_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\string_instance.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
