@@ -1,5 +1,5 @@
 //
-//  data_to_string_binder_test_1.h
+//  echo_binder_test.h
 //  lambda_p_test
 //
 //  Created by Colin LeMahieu on 9/19/11.
@@ -10,7 +10,7 @@
 
 namespace lambda_p_test
 {
-    class data_to_string_binder_test_1
+    class echo_binder_test
     {
     public:
         void run ();

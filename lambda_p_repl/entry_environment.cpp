@@ -21,6 +21,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p_repl/stream_read_entry_routine_binder.h>
 #include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/wprintf_function.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -54,12 +55,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::std::string error;
     builder.setErrorStr (&error);
     ::llvm::ExecutionEngine * engine = builder.create ();
-    ::std::vector < ::llvm::Type const *> wprintf_parameters;
-    wprintf_parameters.push_back (::llvm::PointerType::get (context.wchar_t_type, 0));
-    ::llvm::FunctionType * wprintf_type (::llvm::FunctionType::get (::llvm::Type::getInt32Ty (llvm_context), wprintf_parameters, true));
-    ::llvm::Function * wprintf (::llvm::Function::Create (wprintf_type, ::llvm::GlobalValue::ExternalLinkage));
-    module->getFunctionList ().push_back (wprintf);
-    engine->addGlobalMapping (wprintf, (void *)::wprintf);
+    ::lambda_p_llvm::wprintf_function wprintf (context);
+    module->getFunctionList ().push_back (wprintf.wprintf);
+    engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
     ::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
@@ -69,8 +67,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::lambda_p::binder::routine_binder routine_binder;
 	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
 	::boost::shared_ptr < ::lambda_p::binder::command_list> commands (new ::lambda_p::binder::command_list);
-	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf, context));
-	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf, context));
+	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
+	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::std::wstring echo_name (L"echo");

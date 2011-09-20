@@ -6,6 +6,7 @@
 #include <lambda_p_test/structure_test_1.h>
 #include <lambda_p_test/abort_binder_test_1.h>
 #include <lambda_p_test/jit_test_1.h>
+#include <lambda_p_test/data_to_string_binder_test_1.h>
 
 using namespace lambda_p_test;
 
@@ -41,6 +42,10 @@ int main ()
     }
     {
         jit_test_1 test;
+        test.run ();
+    }
+    {
+        data_to_string_binder_test_1 test;
         test.run ();
     }
 	return 0;
