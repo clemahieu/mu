@@ -52,7 +52,8 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
                         ::llvm::Constant * string_array (::llvm::ConstantArray::get (string_type, string_initializer));
                         ::llvm::GlobalVariable * string_global (new ::llvm::GlobalVariable (string_type, true, ::llvm::GlobalValue::ExternalLinkage, string_array));
                         context.module->getGlobalList ().push_back (string_global);
-                        ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (string_global));
+						::llvm::Constant * constant (::llvm::ConstantExpr::getPointerCast (string_global, context.wchar_t_type));
+                        ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (constant));
 						instances [statement->arguments [1]] = value;
 					}
 					break;

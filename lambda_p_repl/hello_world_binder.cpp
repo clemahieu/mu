@@ -39,8 +39,7 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
         ::llvm::Constant * array (::llvm::ConstantArray::get (type, initializer));
         ::llvm::GlobalVariable * string_global (new ::llvm::GlobalVariable (type, true, ::llvm::GlobalValue::ExternalLinkage, array));
         context.module->getGlobalList ().push_back (string_global);
-		::llvm::CastInst * cast (::llvm::CastInst::CreatePointerCast (string_global, ::llvm::PointerType::get (context.wchar_t_type, 0)));
-		context.block->getInstList ().push_back (cast);
+		::llvm::Constant * cast (::llvm::ConstantExpr::getPointerCast (string_global, ::llvm::PointerType::get (context.wchar_t_type, 0)));
         ::std::vector < ::llvm::Value *> arguments;
         arguments.push_back (cast);
         ::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
