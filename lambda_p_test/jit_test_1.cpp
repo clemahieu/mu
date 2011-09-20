@@ -56,11 +56,9 @@ void lambda_p_test::jit_test_1::run_2 ()
     ::llvm::LoadInst * load = new ::llvm::LoadInst (stderrptr);
     block->getInstList ().push_back (load);
     arguments.push_back (load);
-	//arguments.push_back (stderrptr);
     ::llvm::LoadInst * load2 = new ::llvm::LoadInst (strptr);
     block->getInstList ().push_back (load2);
     arguments.push_back (load2);
-	//arguments.push_back (strptr);
     ::llvm::CallInst * call (::llvm::CallInst::Create (print, arguments.begin (), arguments.end ()));
     block->getInstList ().push_back (call);
     ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context));
