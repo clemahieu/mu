@@ -24,6 +24,8 @@
 #include <vector>
 #include <iostream>
 
+#include <boost/array.hpp>
+
 void lambda_p_test::jit_test_1::run ()
 {
     run_1 ();
@@ -37,23 +39,28 @@ void lambda_p_test::jit_test_1::run_2 ()
     ::llvm::Module module (name, context);
     ::llvm::FunctionType * generation_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context), false));
     ::llvm::Function * generation = ::llvm::Function::Create (generation_type, ::llvm::GlobalValue::ExternalLinkage);   
+	module.getFunctionList ().push_back (generation);
     ::std::vector < ::llvm::Type const *> parameters;
+    parameters.push_back (::llvm::PointerType::get (::llvm::Type::getInt8Ty (context), 0));
     parameters.push_back (::llvm::PointerType::get (::llvm::Type::getInt32Ty (context), 0));
     ::llvm::FunctionType * print_type (::llvm::FunctionType::get (::llvm::Type::getInt32Ty (context), parameters, false)); 
     ::llvm::Function * print = ::llvm::Function::Create (print_type, ::llvm::GlobalValue::ExternalLinkage);
-    module.getFunctionList ().push_back (generation);
-    module.getFunctionList ().push_back (print);
+	module.getFunctionList ().push_back (print);
     ::llvm::GlobalVariable * strptr = new ::llvm::GlobalVariable (::llvm::PointerType::get (::llvm::Type::getInt32Ty (context), 0), false, ::llvm::GlobalValue::ExternalLinkage);
-    ::llvm::GlobalVariable * stderrptr = new ::llvm::GlobalVariable (::llvm::PointerType::get (::llvm::Type::getVoidTy (context), 0), false, ::llvm::GlobalValue::ExternalLinkage);
+	module.getGlobalList ().push_back (strptr);
+    ::llvm::GlobalVariable * stderrptr = new ::llvm::GlobalVariable (::llvm::PointerType::get (::llvm::Type::getInt8Ty (context), 0), false, ::llvm::GlobalValue::ExternalLinkage);
+	module.getGlobalList ().push_back (stderrptr);
     ::llvm::BasicBlock * block = ::llvm::BasicBlock::Create (context);
     generation->getBasicBlockList ().push_back (block);
     ::std::vector < ::llvm::Value *> arguments;
-    ::llvm::GetElementPtrInst * gep2 = ::llvm::GetElementPtrInst::Create (stderrptr, ::llvm::ConstantInt::get (::llvm::Type::getInt32Ty (context), 0));
-    block->getInstList ().push_back (gep2);
-    arguments.push_back (gep2);
-    ::llvm::GetElementPtrInst * gep = ::llvm::GetElementPtrInst::Create (strptr, ::llvm::ConstantInt::get (::llvm::Type::getInt32Ty (context), 0));
-    block->getInstList ().push_back (gep);
-    arguments.push_back (gep);
+    ::llvm::LoadInst * load = new ::llvm::LoadInst (stderrptr);
+    block->getInstList ().push_back (load);
+    arguments.push_back (load);
+	//arguments.push_back (stderrptr);
+    ::llvm::LoadInst * load2 = new ::llvm::LoadInst (strptr);
+    block->getInstList ().push_back (load2);
+    arguments.push_back (load2);
+	//arguments.push_back (strptr);
     ::llvm::CallInst * call (::llvm::CallInst::Create (print, arguments.begin (), arguments.end ()));
     block->getInstList ().push_back (call);
     ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context));
@@ -68,9 +75,10 @@ void lambda_p_test::jit_test_1::run_2 ()
     ::llvm::ExecutionEngine * engine = builder.create ();
     ::std::vector < ::llvm::GenericValue> arg_values;
     wchar_t const * str = L"test";
-    engine->addGlobalMapping (strptr, (void *)str);
+    engine->addGlobalMapping (strptr, &str);
     engine->addGlobalMapping (print, (void *)::fwprintf);
-    engine->addGlobalMapping (stderrptr, (void *)stderr);
+	FILE * err = stderr;
+    engine->addGlobalMapping (stderrptr, &err);
     engine->runFunction (generation, arg_values);   
 }
 
