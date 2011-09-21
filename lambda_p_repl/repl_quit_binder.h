@@ -7,13 +7,6 @@ namespace llvm
     class Function;
     class Value;
 }
-namespace lambda_p
-{
-	namespace binder
-	{
-		class command_list;
-	}
-}
 namespace lambda_p_llvm
 {
     class generation_context;

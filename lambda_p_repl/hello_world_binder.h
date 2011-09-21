@@ -8,13 +8,6 @@ namespace llvm
 {
     class Value;
 }
-namespace lambda_p
-{
-	namespace binder
-	{
-		class command_list;
-	}
-}
 namespace lambda_p_repl
 {
 	class hello_world_binder : public ::lambda_p::binder::node_binder

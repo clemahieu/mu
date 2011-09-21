@@ -15,7 +15,6 @@ namespace lambda_p
 	}
 	namespace binder
 	{
-		class command_list;
 		class structure;
 	}
 }
