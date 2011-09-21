@@ -16,6 +16,7 @@
 #include <lambda_p/binder/structure.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
+#include <lambda_p_repl/repl_quit.h>
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/core/routine.h>
@@ -81,7 +82,15 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (quit.get () != NULL)
 	{
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (commands, quit));
+        ::std::vector < ::llvm::Type const *> parameters;
+        parameters.push_back (::llvm::Type::getInt8PtrTy (context.context, 0));
+        ::llvm::Function * quit_function (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), parameters, false), ::llvm::GlobalValue::ExternalLinkage));
+        context.module->getFunctionList ().push_back (quit_function);
+        engine->addGlobalMapping (quit_function, (void *)&quit_invoke);
+        ::llvm::GlobalVariable * quit_object (new ::llvm::GlobalVariable (::llvm::Type::getInt8PtrTy (context.context), true, ::llvm::GlobalValue::ExternalLinkage));
+        context.module->getGlobalList ().push_back (quit_object);
+        engine->addGlobalMapping (quit_object, quit.get ());
+		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 		::std::wstring quit_name (L"quit");
 		dereference_binder->nodes [quit_name] = binder;
 	}
@@ -108,4 +117,10 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 {
 	::lambda_p::core::node * result (routine->statements [0]->arguments [0]);
 	return result;
+}
+
+void ::lambda_p_repl::entry_environment::quit_invoke (void * object)
+{
+    ::lambda_p_repl::repl_quit * quit (reinterpret_cast < ::lambda_p_repl::repl_quit *> (object));
+    quit->operator () ();
 }

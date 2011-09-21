@@ -29,6 +29,7 @@ namespace lambda_p_repl
         void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
 		::lambda_p::core::node * environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
     private:
+        static void quit_invoke (void * object);
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
     };
 }
