@@ -4,7 +4,6 @@
 #define __STDC_CONSTANT_MACROS
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/command_list.h>
 
 #include <llvm/Instructions.h>
 #include <llvm/GlobalValue.h>
@@ -51,8 +50,4 @@ void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * stat
 		problems << argument_count - 1;
 		problems << '\n';
 	}
-}
-
-void lambda_p_repl::hello_world_binder::operator () ()
-{
 }

@@ -40,8 +40,3 @@ void lambda_p_llvm::abort_binder::bind (::lambda_p::core::statement * statement,
         problems << '\n';
     }
 }
-
-void lambda_p_llvm::abort_binder::operator () ()
-{
-    
-}

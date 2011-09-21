@@ -63,10 +63,6 @@ void lambda_p::binder::structure::bind (::lambda_p::core::statement * statement,
 	}
 }
 
-void lambda_p::binder::structure::operator () ()
-{
-}
-
 void lambda_p::binder::structure::bind_good (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
 	size_t argument_count (statement->arguments.size ());

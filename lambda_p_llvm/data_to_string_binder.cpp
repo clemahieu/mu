@@ -69,7 +69,3 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 		problems << '\n';
 	}
 }
-
-void lambda_p_llvm::data_to_string_binder::operator () ()
-{
-}

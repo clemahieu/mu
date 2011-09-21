@@ -1,7 +1,6 @@
 #include "structure_test_1.h"
 
 #include <lambda_p/binder/structure.h>
-#include <lambda_p/binder/command_list.h>
 #include <lambda_p/binder/null_binder.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/routine_binder.h>

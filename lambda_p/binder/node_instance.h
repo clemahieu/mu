@@ -8,8 +8,7 @@ namespace lambda_p
 		{
 		public:
 			node_instance(void);
-			~node_instance(void);
-			virtual void operator () () = 0;
+			virtual ~node_instance(void);
 		};
 	}
 }

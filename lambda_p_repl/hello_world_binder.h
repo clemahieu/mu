@@ -16,8 +16,7 @@ namespace lambda_p_repl
 		hello_world_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a);
 		~hello_world_binder (void);
 		void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems);
-		void operator () ();
-        ::llvm::Value * wprintf;
+		::llvm::Value * wprintf;
         ::lambda_p_llvm::generation_context context;
 	};
 }

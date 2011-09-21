@@ -20,8 +20,7 @@ namespace lambda_p_repl
 		echo_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a);
 		~echo_binder (void);
 		void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems);
-		void operator () ();
-        ::lambda_p_llvm::generation_context context;
+		::lambda_p_llvm::generation_context context;
         ::llvm::Value * echo_string_global;
         ::llvm::Value * wprintf;
 	};

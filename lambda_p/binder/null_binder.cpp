@@ -12,7 +12,3 @@ void lambda_p::binder::null_binder::bind (::lambda_p::core::statement * statemen
 {
 
 }
-
-void lambda_p::binder::null_binder::operator () ()
-{
-}

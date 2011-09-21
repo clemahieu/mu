@@ -5,7 +5,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/binder/command_list.h>
 #include <lambda_p_llvm/llvm_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/constant_wstring.h>
@@ -73,8 +72,4 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 		problems << argument_count - 1;
 		problems << '\n';
 	}
-}
-
-void lambda_p_repl::echo_binder::operator () ()
-{
 }

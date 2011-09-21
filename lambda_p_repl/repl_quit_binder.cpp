@@ -4,7 +4,6 @@
 #include "repl_quit_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/command_list.h>
 #include <lambda_p_llvm/generation_context.h>
 
 #include <llvm/Instructions.h>
@@ -41,8 +40,4 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 		problems << argument_count - 1;
 		problems << '\n';
 	}
-}
-
-void lambda_p_repl::repl_quit_binder::operator () ()
-{
 }

@@ -12,7 +12,6 @@
 #include <lambda_p_repl/entry_environment.h>
 
 #include <lambda_p/binder/routine_binder.h>
-#include <lambda_p/binder/command_list.h>
 #include <lambda_p/binder/structure.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
@@ -67,7 +66,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     context.block = block;
 	::lambda_p::binder::routine_binder routine_binder;
 	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
-	::boost::shared_ptr < ::lambda_p::binder::command_list> commands (new ::lambda_p::binder::command_list);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
@@ -108,7 +106,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	{	
         ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (llvm_context));
         block->getInstList ().push_back (ret);
-        commands->operator() ();
         ::std::vector < ::llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
 	}

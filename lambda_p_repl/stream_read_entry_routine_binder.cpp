@@ -65,7 +65,3 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 		problems << '\n';
 	}
 }
-
-void lambda_p_repl::stream_read_entry_routine_binder::operator () ()
-{
-}
