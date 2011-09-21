@@ -13,7 +13,7 @@
 
 #include <sstream>
 
-lambda_p_repl::hello_world_binder::hello_world_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::llvm_generation_context context_a)
+lambda_p_repl::hello_world_binder::hello_world_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a)
 	: wprintf (wprintf_a),
     context (context_a)
 {

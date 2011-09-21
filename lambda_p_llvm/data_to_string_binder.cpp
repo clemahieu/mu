@@ -5,8 +5,9 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/constant_wstring.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>
@@ -16,7 +17,7 @@
 
 #include <sstream>
 
-lambda_p_llvm::data_to_string_binder::data_to_string_binder (::lambda_p_llvm::llvm_generation_context context_a)
+lambda_p_llvm::data_to_string_binder::data_to_string_binder (::lambda_p_llvm::generation_context context_a)
 : context (context_a)
 {
 }
@@ -41,19 +42,8 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 				case ::lambda_p::core::node_data:
 					{
 						::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [2]));
-                        ::std::wstring string (data->string ());
-                        ::llvm::ArrayType * string_type (::llvm::ArrayType::get (context.wchar_t_type, string.size () + 1));
-                        ::std::vector < ::llvm::Constant *> string_initializer;
-                        for (::std::wstring::iterator i = string.begin (); i != string.end (); ++i)
-                        {
-                            string_initializer.push_back (::llvm::ConstantInt::get (context.wchar_t_type, *i));
-                        }
-                        string_initializer.push_back (::llvm::ConstantInt::get (context.wchar_t_type, 0));
-                        ::llvm::Constant * string_array (::llvm::ConstantArray::get (string_type, string_initializer));
-                        ::llvm::GlobalVariable * string_global (new ::llvm::GlobalVariable (string_type, true, ::llvm::GlobalValue::ExternalLinkage, string_array));
-                        context.module->getGlobalList ().push_back (string_global);
-						::llvm::Constant * constant (::llvm::ConstantExpr::getPointerCast (string_global, context.wchar_t_type));
-                        ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (constant));
+                        ::lambda_p_llvm::constant_wstring string (context, data->string ());                        
+                        ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (string.value));
 						instances [statement->arguments [1]] = value;
 					}
 					break;

@@ -11,7 +11,7 @@
 
 #include <lambda_p_test/abort_binder_test_1.h>
 #include <lambda_p_llvm/abort_binder.h>
-#include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 
@@ -31,14 +31,14 @@
 void lambda_p_test::abort_binder_test_1::run ()
 {
     ::llvm::LLVMContext context;
-    ::lambda_p_llvm::llvm_generation_context current (context);
     ::llvm::StringRef name ("test");
-    ::llvm::Module module (name, context);
+    ::llvm::Module * module (new ::llvm::Module (name, context));
+    ::lambda_p_llvm::generation_context current (context, module, NULL);
     ::llvm::FunctionType * type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context), false));
     ::llvm::Function * function = ::llvm::Function::Create (type, ::llvm::GlobalValue::ExternalLinkage);
     ::llvm::Function * generation = ::llvm::Function::Create (type, ::llvm::GlobalValue::ExternalLinkage);   
-    module.getFunctionList ().push_back (function);
-    module.getFunctionList ().push_back (generation);
+    module->getFunctionList ().push_back (function);
+    module->getFunctionList ().push_back (generation);
     ::llvm::BasicBlock * block = ::llvm::BasicBlock::Create (context);
     generation->getBasicBlockList ().push_back (block);
     current.block = block;

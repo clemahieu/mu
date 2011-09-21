@@ -20,7 +20,7 @@
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_repl/stream_read_entry_routine_binder.h>
-#include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/wprintf_function.h>
 
 #include <llvm/LLVMContext.h>
@@ -45,11 +45,10 @@ lambda_p_repl::entry_environment::entry_environment ()
 void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
 {	
     ::llvm::LLVMContext llvm_context;
-    ::lambda_p_llvm::llvm_generation_context context (llvm_context);
     ::std::string module_name_string ("llvm_repl");
     ::llvm::StringRef module_name (module_name_string);
     ::llvm::Module * module (new ::llvm::Module (module_name, llvm_context));
-    context.module = module;
+    ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
     ::llvm::EngineBuilder builder (module);
     builder.setEngineKind (::llvm::EngineKind::JIT);
     ::std::string error;

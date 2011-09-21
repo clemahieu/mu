@@ -18,10 +18,10 @@ namespace llvm
 }
 namespace lambda_p_llvm
 {
-    class llvm_generation_context
+    class generation_context
     {
     public:
-        llvm_generation_context (::llvm::LLVMContext & context_a);
+        generation_context (::llvm::LLVMContext & context_a, ::llvm::Module * module_a, ::llvm::BasicBlock * block_a);
         ::llvm::LLVMContext & context;
         ::llvm::Type const * wchar_t_type;
         ::llvm::Module * module;

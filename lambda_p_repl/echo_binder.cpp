@@ -7,7 +7,8 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p/binder/command_list.h>
 #include <lambda_p_llvm/llvm_value.h>
-#include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/generation_context.h>
+#include <lambda_p_llvm/constant_wstring.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -18,18 +19,13 @@
 
 #include <sstream>
 
-lambda_p_repl::echo_binder::echo_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::llvm_generation_context context_a)
+lambda_p_repl::echo_binder::echo_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a)
 	: context (context_a),
 wprintf (wprintf_a)
 {
-    ::std::vector < ::llvm::Constant *> echo_string_initializer;
-    echo_string_initializer.push_back (::llvm::ConstantInt::get (context.wchar_t_type, '%'));
-    echo_string_initializer.push_back (::llvm::ConstantInt::get (context.wchar_t_type, 's'));
-    echo_string_initializer.push_back (::llvm::ConstantInt::get (context.wchar_t_type, '\0'));
-    ::llvm::ArrayType * echo_string_type (::llvm::ArrayType::get (context.wchar_t_type, 3));
-    ::llvm::Constant * echo_string (::llvm::ConstantArray::get (echo_string_type, echo_string_initializer));
-    echo_string_global = new ::llvm::GlobalVariable (echo_string_type, true, ::llvm::GlobalValue::ExternalLinkage, echo_string);
-    context.module->getGlobalList ().push_back (echo_string_global);
+    ::std::wstring str (L"%ls");
+    ::lambda_p_llvm::constant_wstring string (context_a, str);
+    echo_string_global = string.value;
 }
 
 lambda_p_repl::echo_binder::~echo_binder(void)

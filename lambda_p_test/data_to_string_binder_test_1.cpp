@@ -11,7 +11,7 @@
 #include <lambda_p_test/data_to_string_binder_test_1.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p_llvm/llvm_generation_context.h>
+#include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/llvm_value.h>
 
 #include <llvm/LLVMContext.h>
@@ -35,11 +35,10 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     ::lambda_p::core::data * data = routine.add_data (::std::wstring (L"Test string"), 1, 2);
     statement->add_argument (data);
     ::llvm::LLVMContext llvm_context;
-    ::lambda_p_llvm::llvm_generation_context context (llvm_context);
     ::std::string module_string ("test");
     ::llvm::StringRef module_name (module_string);
     ::llvm::Module * module = new ::llvm::Module (module_name, llvm_context);
-    context.module = module;
+    ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
     ::lambda_p_llvm::data_to_string_binder binder (context);
     ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
     ::std::wstringstream problems;

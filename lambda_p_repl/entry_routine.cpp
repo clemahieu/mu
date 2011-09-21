@@ -27,7 +27,7 @@ void lambda_p_repl::entry_routine::operator () ()
     input (in, out);
     if (input.routine.get () != NULL)
     {
-        ::lambda_p_repl::entry_environment environment;
+        ::lambda_p_repl::entry_environment environment (quit);
         environment (input.routine);
     }
 }

@@ -46,6 +46,6 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
-	::lambda_p_repl::entry_routine routine (::std::wcin, ::std::wcout);
+	::lambda_p_repl::entry_routine routine (quit, ::std::wcin, ::std::wcout);
 	routine ();
 }
