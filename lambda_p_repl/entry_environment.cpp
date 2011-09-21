@@ -22,6 +22,8 @@
 #include <lambda_p_repl/stream_read_entry_routine_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/wprintf_function.h>
+#include <lambda_p_llvm/api.h>
+#include <lambda_p_llvm/context.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -45,11 +47,11 @@ lambda_p_repl::entry_environment::entry_environment ()
 
 void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
 {	
-    ::llvm::LLVMContext llvm_context;
+	::boost::shared_ptr < ::lambda_p_llvm::context> context_instance (new ::lambda_p_llvm::context);
     ::std::string module_name_string ("llvm_repl");
     ::llvm::StringRef module_name (module_name_string);
-    ::llvm::Module * module (new ::llvm::Module (module_name, llvm_context));
-    ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
+	::llvm::Module * module (new ::llvm::Module (module_name, context_instance->context_m));
+    ::lambda_p_llvm::generation_context context (context_instance->context_m, module, NULL);
     ::llvm::EngineBuilder builder (module);
     builder.setEngineKind (::llvm::EngineKind::JIT);
     ::std::string error;
@@ -58,10 +60,10 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::lambda_p_llvm::wprintf_function wprintf (context);
     module->getFunctionList ().push_back (wprintf.wprintf);
     engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
-    ::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false));
+	::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
-    ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
+    ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
 	::lambda_p::binder::routine_binder routine_binder;
@@ -70,14 +72,19 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
+	::lambda_p_llvm::api llvm_binder;
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
 	::std::wstring d2s_name (L"d2s");
 	::std::wstring read_name (L"read");
+	::std::wstring llvm_name (L"llvm");
+	::std::wstring context_name (L"context");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
 	dereference_binder->nodes [read_name] = read_binder;
+	dereference_binder->nodes [llvm_name] = llvm_binder.structure;
+	dereference_binder->nodes [context_name] = context_instance;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (repl != NULL)
 	{
@@ -104,7 +111,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	}
 	else
 	{	
-        ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (llvm_context));
+        ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context.context));
         block->getInstList ().push_back (ret);
         ::std::vector < ::llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
