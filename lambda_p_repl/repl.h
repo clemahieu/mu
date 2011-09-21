@@ -29,7 +29,6 @@ namespace lambda_p_repl
 		void run_loop ();
 		void iteration ();
 		bool stop_m;
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
 	};
 }
 

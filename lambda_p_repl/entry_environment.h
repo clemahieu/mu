@@ -20,16 +20,16 @@ namespace lambda_p
 }
 namespace lambda_p_repl
 {
-    class repl_quit;
+    class repl;
     class entry_environment
     {
     public:
-        entry_environment (::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit_binder_a);
+		entry_environment (::lambda_p_repl::repl * repl_a);
         entry_environment ();
         void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
 		::lambda_p::core::node * environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
     private:
         static void quit_invoke (void * object);
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
+		::lambda_p_repl::repl * repl;
     };
 }

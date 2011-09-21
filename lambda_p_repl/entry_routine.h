@@ -21,18 +21,18 @@ namespace lambda_p
 }
 namespace lambda_p_repl
 {
-	class repl_quit;
+	class repl;
 	class entry_routine
 	{
 	public:
-		entry_routine (::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit_binder_a, ::std::wistream & in_a, ::std::wostream & out_a);
+		entry_routine (::lambda_p_repl::repl * repl_a, ::std::wistream & in_a, ::std::wostream & out_a);
         entry_routine (::std::wistream & in_a, ::std::wostream & out_a);
 		~entry_routine (void);
 		void operator () ();
 	private:
 		::std::wistream & in;
 		::std::wostream & out;
-        ::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
+        ::lambda_p_repl::repl * repl;
 	};
 }
 

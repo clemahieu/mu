@@ -140,7 +140,6 @@
     <ClCompile Include="entry_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="hello_world_binder.cpp" />
-    <ClCompile Include="repl_quit.cpp" />
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
     <ClCompile Include="routine_input.cpp" />
@@ -154,7 +153,6 @@
     <ClInclude Include="entry_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
     <ClInclude Include="hello_world_binder.h" />
-    <ClInclude Include="repl_quit.h" />
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
     <ClInclude Include="routine_input.h" />

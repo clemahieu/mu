@@ -16,7 +16,7 @@
 #include <lambda_p/binder/structure.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
-#include <lambda_p_repl/repl_quit.h>
+#include <lambda_p_repl/repl.h>
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/core/routine.h>
@@ -34,12 +34,13 @@
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Instructions.h>
 
-lambda_p_repl::entry_environment::entry_environment (::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit_binder_a)
-: quit (quit_binder_a)
+lambda_p_repl::entry_environment::entry_environment (::lambda_p_repl::repl * repl_a)
+: repl (repl_a)
 {    
 }
 
 lambda_p_repl::entry_environment::entry_environment ()
+	: repl (NULL)
 {
 }
 
@@ -80,7 +81,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	dereference_binder->nodes [d2s_name] = d2s_binder;
 	dereference_binder->nodes [read_name] = read_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
-	if (quit.get () != NULL)
+	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
         parameters.push_back (::llvm::Type::getInt8PtrTy (context.context, 0));
@@ -89,7 +90,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
         engine->addGlobalMapping (quit_function, (void *)&quit_invoke);
         ::llvm::GlobalVariable * quit_object (new ::llvm::GlobalVariable (::llvm::Type::getInt8Ty (context.context), true, ::llvm::GlobalValue::ExternalLinkage));
         context.module->getGlobalList ().push_back (quit_object);
-        engine->addGlobalMapping (quit_object, quit.get ());
+        engine->addGlobalMapping (quit_object, repl);
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 		::std::wstring quit_name (L"quit");
 		dereference_binder->nodes [quit_name] = binder;
@@ -121,6 +122,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 
 void ::lambda_p_repl::entry_environment::quit_invoke (void * object)
 {
-    ::lambda_p_repl::repl_quit * quit (reinterpret_cast < ::lambda_p_repl::repl_quit *> (object));
-    quit->operator () ();
+    ::lambda_p_repl::repl * repl (reinterpret_cast < ::lambda_p_repl::repl *> (object));
+    repl->stop ();
 }

@@ -7,12 +7,10 @@
 #include <boost/bind.hpp>
 
 #include <lambda_p_repl/entry_routine.h>
-#include <lambda_p_repl/repl_quit.h>
 #include <lambda_p_repl/entry_environment.h>
 
 lambda_p_repl::repl::repl(void)
-	: stop_m (false),
-	quit (new ::lambda_p_repl::repl_quit (*this))
+	: stop_m (false)
 {
 }
 
@@ -46,6 +44,6 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
-	::lambda_p_repl::entry_routine routine (quit, ::std::wcin, ::std::wcout);
+	::lambda_p_repl::entry_routine routine (this, ::std::wcin, ::std::wcout);
 	routine ();
 }
