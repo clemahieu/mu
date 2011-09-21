@@ -87,7 +87,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
         ::llvm::Function * quit_function (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), parameters, false), ::llvm::GlobalValue::ExternalLinkage));
         context.module->getFunctionList ().push_back (quit_function);
         engine->addGlobalMapping (quit_function, (void *)&quit_invoke);
-        ::llvm::GlobalVariable * quit_object (new ::llvm::GlobalVariable (::llvm::Type::getInt8PtrTy (context.context), true, ::llvm::GlobalValue::ExternalLinkage));
+        ::llvm::GlobalVariable * quit_object (new ::llvm::GlobalVariable (::llvm::Type::getInt8Ty (context.context), true, ::llvm::GlobalValue::ExternalLinkage));
         context.module->getGlobalList ().push_back (quit_object);
         engine->addGlobalMapping (quit_object, quit.get ());
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));

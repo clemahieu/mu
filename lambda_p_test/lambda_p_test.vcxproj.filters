@@ -12,6 +12,7 @@
     <ClCompile Include="abort_binder_test_1.cpp" />
     <ClCompile Include="data_to_string_binder_test_1.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
+    <ClCompile Include="echo_binder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -24,5 +25,6 @@
     <ClInclude Include="abort_binder_test_1.h" />
     <ClInclude Include="data_to_string_binder_test_1.h" />
     <ClInclude Include="jit_test_1.h" />
+    <ClInclude Include="echo_binder_test.h" />
   </ItemGroup>
 </Project>
