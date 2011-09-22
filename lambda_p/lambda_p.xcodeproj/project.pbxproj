@@ -77,8 +77,6 @@
 		4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD5978141EC5E300C481E6 /* routine_binder.h */; };
 		4DDD599514200B6D00C481E6 /* structure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD599314200B6D00C481E6 /* structure.cpp */; };
 		4DDD599614200B6D00C481E6 /* structure.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD599414200B6D00C481E6 /* structure.h */; };
-		4DDD59A0142168E100C481E6 /* command_list.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD599E142168E100C481E6 /* command_list.cpp */; };
-		4DDD59A1142168E100C481E6 /* command_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD599F142168E100C481E6 /* command_list.h */; };
 		CF7596EA140F1BD0001EDBB9 /* data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E0140F1BD0001EDBB9 /* data.cpp */; };
 		CF7596EB140F1BD0001EDBB9 /* data.h in Headers */ = {isa = PBXBuildFile; fileRef = CF7596E1140F1BD0001EDBB9 /* data.h */; };
 		CF7596EE140F1BD0001EDBB9 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596E4140F1BD0001EDBB9 /* node.cpp */; };
@@ -171,8 +169,6 @@
 		4DDD5978141EC5E300C481E6 /* routine_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = routine_binder.h; path = binder/routine_binder.h; sourceTree = "<group>"; };
 		4DDD599314200B6D00C481E6 /* structure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = structure.cpp; path = binder/structure.cpp; sourceTree = "<group>"; };
 		4DDD599414200B6D00C481E6 /* structure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = structure.h; path = binder/structure.h; sourceTree = "<group>"; };
-		4DDD599E142168E100C481E6 /* command_list.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = command_list.cpp; path = binder/command_list.cpp; sourceTree = "<group>"; };
-		4DDD599F142168E100C481E6 /* command_list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = command_list.h; path = binder/command_list.h; sourceTree = "<group>"; };
 		CF7596BB140F1AC6001EDBB9 /* liblambda_p.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblambda_p.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7596E0140F1BD0001EDBB9 /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = data.cpp; path = core/data.cpp; sourceTree = "<group>"; };
 		CF7596E1140F1BD0001EDBB9 /* data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = data.h; path = core/data.h; sourceTree = "<group>"; };
@@ -296,8 +292,6 @@
 		4DDD596E141EC5D300C481E6 /* binder */ = {
 			isa = PBXGroup;
 			children = (
-				4DDD599E142168E100C481E6 /* command_list.cpp */,
-				4DDD599F142168E100C481E6 /* command_list.h */,
 				4DDD599314200B6D00C481E6 /* structure.cpp */,
 				4DDD599414200B6D00C481E6 /* structure.h */,
 				4DDD5971141EC5E300C481E6 /* node_binder.cpp */,
@@ -412,7 +406,6 @@
 				4DDD5980141EC5E300C481E6 /* null_binder.h in Headers */,
 				4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */,
 				4DDD599614200B6D00C481E6 /* structure.h in Headers */,
-				4DDD59A1142168E100C481E6 /* command_list.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,7 +500,6 @@
 				4DDD597F141EC5E300C481E6 /* null_binder.cpp in Sources */,
 				4DDD5981141EC5E300C481E6 /* routine_binder.cpp in Sources */,
 				4DDD599514200B6D00C481E6 /* structure.cpp in Sources */,
-				4DDD59A0142168E100C481E6 /* command_list.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

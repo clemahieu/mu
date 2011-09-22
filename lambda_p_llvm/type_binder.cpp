@@ -1,3 +1,5 @@
+#define __STDC_LIMIT_MACROS
+
 #include "type_binder.h"
 
 #include <lambda_p/core/statement.h>

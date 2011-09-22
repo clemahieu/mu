@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D94DE99142BFAA500ABCBE8 /* dynamic_wprintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */; };
+		4D94DE9A142BFAA500ABCBE8 /* dynamic_wprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */; };
 		4DB6443E1423FAA100DE59C8 /* entry_routine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */; };
 		4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443B1423FAA100DE59C8 /* entry_routine.h */; };
 		4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */; };
@@ -23,8 +25,6 @@
 		4DDD59F21421A65E00C481E6 /* hello_world_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59EA1421A65E00C481E6 /* hello_world_binder.h */; };
 		4DDD59FF1421A67000C481E6 /* repl_quit_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */; };
 		4DDD5A001421A67000C481E6 /* repl_quit_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59F61421A67000C481E6 /* repl_quit_binder.h */; };
-		4DDD5A011421A67000C481E6 /* repl_quit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59F71421A67000C481E6 /* repl_quit.cpp */; };
-		4DDD5A021421A67000C481E6 /* repl_quit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59F81421A67000C481E6 /* repl_quit.h */; };
 		4DDD5A031421A67000C481E6 /* repl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59F91421A67000C481E6 /* repl.cpp */; };
 		4DDD5A041421A67000C481E6 /* repl.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD59FA1421A67000C481E6 /* repl.h */; };
 		4DDD5A051421A67000C481E6 /* routine_input_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59FB1421A67000C481E6 /* routine_input_binder.cpp */; };
@@ -34,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dynamic_wprintf.cpp; sourceTree = "<group>"; };
+		4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dynamic_wprintf.h; sourceTree = "<group>"; };
 		4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_routine.cpp; sourceTree = "<group>"; };
 		4DB6443B1423FAA100DE59C8 /* entry_routine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_routine.h; sourceTree = "<group>"; };
 		4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stream_read_entry_routine_binder.cpp; sourceTree = "<group>"; };
@@ -51,8 +53,6 @@
 		4DDD59EA1421A65E00C481E6 /* hello_world_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_world_binder.h; sourceTree = "<group>"; };
 		4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = repl_quit_binder.cpp; sourceTree = "<group>"; };
 		4DDD59F61421A67000C481E6 /* repl_quit_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repl_quit_binder.h; sourceTree = "<group>"; };
-		4DDD59F71421A67000C481E6 /* repl_quit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = repl_quit.cpp; sourceTree = "<group>"; };
-		4DDD59F81421A67000C481E6 /* repl_quit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repl_quit.h; sourceTree = "<group>"; };
 		4DDD59F91421A67000C481E6 /* repl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = repl.cpp; sourceTree = "<group>"; };
 		4DDD59FA1421A67000C481E6 /* repl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = repl.h; sourceTree = "<group>"; };
 		4DDD59FB1421A67000C481E6 /* routine_input_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = routine_input_binder.cpp; sourceTree = "<group>"; };
@@ -75,6 +75,8 @@
 		4DDD59D31421A62100C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */,
+				4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */,
 				4DB64456142420B600DE59C8 /* entry_input_binder.cpp */,
 				4DB644541424205400DE59C8 /* entry_input_binder.h */,
 				4DB64452142412C400DE59C8 /* entry_input.cpp */,
@@ -87,8 +89,6 @@
 				4DB6443D1423FAA100DE59C8 /* stream_read_entry_routine_binder.h */,
 				4DDD59F51421A67000C481E6 /* repl_quit_binder.cpp */,
 				4DDD59F61421A67000C481E6 /* repl_quit_binder.h */,
-				4DDD59F71421A67000C481E6 /* repl_quit.cpp */,
-				4DDD59F81421A67000C481E6 /* repl_quit.h */,
 				4DDD59F91421A67000C481E6 /* repl.cpp */,
 				4DDD59FA1421A67000C481E6 /* repl.h */,
 				4DDD59FB1421A67000C481E6 /* routine_input_binder.cpp */,
@@ -121,7 +121,6 @@
 				4DDD59EE1421A65E00C481E6 /* echo_binder.h in Headers */,
 				4DDD59F21421A65E00C481E6 /* hello_world_binder.h in Headers */,
 				4DDD5A001421A67000C481E6 /* repl_quit_binder.h in Headers */,
-				4DDD5A021421A67000C481E6 /* repl_quit.h in Headers */,
 				4DDD5A041421A67000C481E6 /* repl.h in Headers */,
 				4DDD5A061421A67000C481E6 /* routine_input_binder.h in Headers */,
 				4DDD5A081421A67000C481E6 /* routine_input.h in Headers */,
@@ -130,6 +129,7 @@
 				4DB6444D14240DCA00DE59C8 /* entry_environment.h in Headers */,
 				4DB64451142412B600DE59C8 /* entry_input.h in Headers */,
 				4DB644551424205400DE59C8 /* entry_input_binder.h in Headers */,
+				4D94DE9A142BFAA500ABCBE8 /* dynamic_wprintf.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +183,6 @@
 				4DDD59ED1421A65E00C481E6 /* echo_binder.cpp in Sources */,
 				4DDD59F11421A65E00C481E6 /* hello_world_binder.cpp in Sources */,
 				4DDD59FF1421A67000C481E6 /* repl_quit_binder.cpp in Sources */,
-				4DDD5A011421A67000C481E6 /* repl_quit.cpp in Sources */,
 				4DDD5A031421A67000C481E6 /* repl.cpp in Sources */,
 				4DDD5A051421A67000C481E6 /* routine_input_binder.cpp in Sources */,
 				4DDD5A071421A67000C481E6 /* routine_input.cpp in Sources */,
@@ -192,6 +191,7 @@
 				4DB6444F14240DD700DE59C8 /* entry_environment.cpp in Sources */,
 				4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */,
 				4DB64457142420B600DE59C8 /* entry_input_binder.cpp in Sources */,
+				4D94DE99142BFAA500ABCBE8 /* dynamic_wprintf.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,3 +1,6 @@
+#define __STDC_LIMIT_MACROS
+#define __STDC_CONSTANT_MACROS
+
 #include "dynamic_wprintf.h"
 
 #include <lambda_p/core/statement.h>
