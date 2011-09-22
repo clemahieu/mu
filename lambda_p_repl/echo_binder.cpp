@@ -5,7 +5,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/constant_wstring.h>
 
@@ -44,12 +44,12 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
 				assert (search != instances.end ());
 				::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
-				::boost::shared_ptr < ::lambda_p_llvm::llvm_value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::llvm_value> (instance));
+				::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
 				if (string.get () != NULL)
 				{
                     ::std::vector < ::llvm::Value *> arguments;
                     arguments.push_back (echo_string_global);
-                    arguments.push_back (string->value);
+                    arguments.push_back (string->value_m);
                     ::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
                     context.block->getInstList ().push_back (call);
 				}

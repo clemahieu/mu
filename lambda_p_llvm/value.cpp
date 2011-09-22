@@ -9,13 +9,13 @@
 #define __STDC_LIMIT_MACROS
 #define __STDC_CONSTANT_MACROS
 
-#include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/value.h>
 
-lambda_p_llvm::llvm_value::llvm_value (::llvm::Value * value_a)
-: value (value_a)
+lambda_p_llvm::value::value (::llvm::Value * value_a)
+: value_m (value_a)
 {
 }
 
-void lambda_p_llvm::llvm_value::operator () ()
+void lambda_p_llvm::value::operator () ()
 {
 }

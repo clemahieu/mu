@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dynamic_wprintf.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="stream_read_entry_routine_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dynamic_wprintf.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />

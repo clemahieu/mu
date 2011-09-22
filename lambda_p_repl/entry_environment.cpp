@@ -24,6 +24,7 @@
 #include <lambda_p_llvm/wprintf_function.h>
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_llvm/context.h>
+#include <lambda_p_repl/dynamic_wprintf.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -72,6 +73,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
+	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
 	::lambda_p_llvm::api llvm_binder;
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -79,12 +81,14 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring read_name (L"read");
 	::std::wstring llvm_name (L"llvm");
 	::std::wstring context_name (L"context");
+	::std::wstring wprintf_name (L"wprintf");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
 	dereference_binder->nodes [read_name] = read_binder;
 	dereference_binder->nodes [llvm_name] = llvm_binder.structure;
 	dereference_binder->nodes [context_name] = context_instance;
+	dereference_binder->nodes [wprintf_name] = wprintf_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (repl != NULL)
 	{

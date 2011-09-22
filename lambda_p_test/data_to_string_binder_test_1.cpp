@@ -12,7 +12,7 @@
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -47,5 +47,5 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     assert (module->getGlobalList ().size () == 1);
     assert (instances.size () == 1);
     assert (instances [declaration].get () != NULL);
-    assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::llvm_value> (instances [declaration]).get () != NULL);
+    assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instances [declaration]).get () != NULL);
 }

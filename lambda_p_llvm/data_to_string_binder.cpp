@@ -6,7 +6,7 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/constant_wstring.h>
 
 #include <llvm/DerivedTypes.h>
@@ -43,7 +43,7 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 					{
 						::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->arguments [2]));
                         ::lambda_p_llvm::constant_wstring string (context, data->string ());                        
-                        ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (string.value));
+                        ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
 						instances [statement->arguments [1]] = value;
 					}
 					break;

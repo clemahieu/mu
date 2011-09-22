@@ -12,6 +12,7 @@
     <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="entry_input_binder.cpp" />
+    <ClCompile Include="dynamic_wprintf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -25,5 +26,6 @@
     <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="entry_input_binder.h" />
+    <ClInclude Include="dynamic_wprintf.h" />
   </ItemGroup>
 </Project>

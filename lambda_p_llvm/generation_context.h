@@ -14,7 +14,7 @@ namespace llvm
 {
     class BasicBlock;
     class Module;
-    class Type;
+    class IntegerType;
 }
 namespace lambda_p_llvm
 {
@@ -23,7 +23,7 @@ namespace lambda_p_llvm
     public:
         generation_context (::llvm::LLVMContext & context_a, ::llvm::Module * module_a, ::llvm::BasicBlock * block_a);
         ::llvm::LLVMContext & context;
-        ::llvm::Type const * wchar_t_type;
+        ::llvm::IntegerType const * wchar_t_type;
         ::llvm::Module * module;
         ::llvm::BasicBlock * block;
     };

@@ -4,7 +4,6 @@
     <ClInclude Include="alloca_inst_binder.h" />
     <ClInclude Include="abort_binder.h" />
     <ClInclude Include="data_to_string_binder.h" />
-    <ClInclude Include="llvm_value.h" />
     <ClInclude Include="wprintf_function.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="constant_wstring.h" />
@@ -13,12 +12,12 @@
     <ClInclude Include="context_binder.h" />
     <ClInclude Include="type_binder.h" />
     <ClInclude Include="api.h" />
+    <ClInclude Include="value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
     <ClCompile Include="abort_binder.cpp" />
     <ClCompile Include="data_to_string_binder.cpp" />
-    <ClCompile Include="llvm_value.cpp" />
     <ClCompile Include="wprintf_function.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="constant_wstring.cpp" />
@@ -27,5 +26,6 @@
     <ClCompile Include="context_binder.cpp" />
     <ClCompile Include="type_binder.cpp" />
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="value.cpp" />
   </ItemGroup>
 </Project>

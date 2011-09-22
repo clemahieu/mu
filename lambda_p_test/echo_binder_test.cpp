@@ -17,7 +17,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p_llvm/constant_wstring.h>
-#include <lambda_p_llvm/llvm_value.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Function.h>
@@ -54,7 +54,7 @@ void lambda_p_test::echo_binder_test::run ()
     ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
     ::std::wstring raw_string (L"test_echo");
     ::lambda_p_llvm::constant_wstring string (context, raw_string);
-    ::boost::shared_ptr < ::lambda_p_llvm::llvm_value> value (new ::lambda_p_llvm::llvm_value (string.value));
+    ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
     instances [str] = value;
     ::std::wstringstream problems;
     binder.bind (statement, instances, problems);
