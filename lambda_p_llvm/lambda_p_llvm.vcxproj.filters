@@ -13,6 +13,7 @@
     <ClInclude Include="type_binder.h" />
     <ClInclude Include="api.h" />
     <ClInclude Include="value.h" />
+    <ClInclude Include="constant_int_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -27,5 +28,6 @@
     <ClCompile Include="type_binder.cpp" />
     <ClCompile Include="api.cpp" />
     <ClCompile Include="value.cpp" />
+    <ClCompile Include="constant_int_binder.cpp" />
   </ItemGroup>
 </Project>
