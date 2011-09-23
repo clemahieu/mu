@@ -65,9 +65,9 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 				::llvm::IntegerType const * integer (::llvm::dyn_cast < ::llvm::IntegerType> (type));
 				if (integer != NULL)
 				{
-					if (integer->getBitWidth () == 32)
+					if (integer->getBitWidth () == 64)
 					{
-						format.append (L"%d");
+						format.append (L"%lu");
 						arguments.push_back (argument_value->value_m);
 					}
 					else

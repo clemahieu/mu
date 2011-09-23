@@ -28,6 +28,7 @@
     <ClInclude Include="context_binder.h" />
     <ClInclude Include="data_to_string_binder.h" />
     <ClInclude Include="generation_context.h" />
+    <ClInclude Include="malloc_function.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="type.h" />
     <ClInclude Include="type_binder.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="context_binder.cpp" />
     <ClCompile Include="data_to_string_binder.cpp" />
     <ClCompile Include="generation_context.cpp" />
+    <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="value.cpp" />
     <ClCompile Include="type.cpp" />
     <ClCompile Include="type_binder.cpp" />

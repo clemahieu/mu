@@ -21,16 +21,8 @@ lambda_p_llvm::generation_context::generation_context (::llvm::LLVMContext & con
 module (module_a),
 block (block_a)
 {
-    if (sizeof (wchar_t) == 2)
-    {
-        wchar_t_type = ::llvm::Type::getInt16Ty (context_a);
-    }
-    else if (sizeof (wchar_t) == 4)
-    {
-        wchar_t_type = ::llvm::Type::getInt32Ty (context_a);
-    }
-    else
-    {
-        assert (false);
-    }
+	size_t wchar_t_size (sizeof (wchar_t) * 8);
+	wchar_t_type = ::llvm::IntegerType::get (context_a, wchar_t_size);
+	size_t size_t_size (sizeof (size_t) * 8);
+	size_t_type = ::llvm::IntegerType::get (context_a, size_t_size);	
 }

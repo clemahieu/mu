@@ -24,6 +24,7 @@ namespace lambda_p_llvm
         generation_context (::llvm::LLVMContext & context_a, ::llvm::Module * module_a, ::llvm::BasicBlock * block_a);
         ::llvm::LLVMContext & context;
         ::llvm::IntegerType const * wchar_t_type;
+		::llvm::IntegerType const * size_t_type;
         ::llvm::Module * module;
         ::llvm::BasicBlock * block;
     };
