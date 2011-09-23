@@ -87,7 +87,7 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, ::std
 	wchar_t * next;
 	wchar_t const * string (number_wstring.c_str ());
 	errno = 0;
-	unsigned long number = ::std::wcstol (string, &next, base);
+	unsigned long number = ::std::wcstol (string, &next, (int)base);
 	if (base == 0 && string == next)
 	{
 		problems << L"constant_int_binder was unable to parse number: ";
