@@ -8,6 +8,7 @@
 #include <lambda_p_test/jit_test_1.h>
 #include <lambda_p_test/data_to_string_binder_test_1.h>
 #include <lambda_p_test/echo_binder_test.h>
+#include <lambda_p_test/constant_int_binder_test_1.h>
 
 using namespace lambda_p_test;
 
@@ -53,5 +54,9 @@ int main ()
         echo_binder_test test;
         test.run ();
     }
+	{
+		constant_int_binder_test_1 test;
+		test.run ();
+	}
 	return 0;
 }

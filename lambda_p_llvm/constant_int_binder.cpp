@@ -76,7 +76,7 @@ void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * sta
 	}
 	else
 	{
-		problems << L"constant_int_binder is expecting 2 arguments, have: ";
+		problems << L"constant_int_binder is expecting 3 arguments, have: ";
 		problems << argument_count;
 		problems << '\n';
 	}
