@@ -54,6 +54,11 @@ void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, 
 										::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt32Ty (context->context_m)));
 										instances [declaration] = type;
 									}
+                                    else if (command_data->string ().compare (::std::wstring (L"getInt64PtrTy")) == 0)
+                                    {
+                                        ::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt64PtrTy (context->context_m)));
+                                        instances [declaration] = type;
+                                    }
 									else
 									{
 										problems << L"Unknown type_binder command: ";

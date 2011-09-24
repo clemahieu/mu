@@ -30,6 +30,12 @@
 		4DA329A8142989B8009A610D /* generation_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DA329A7142989B8009A610D /* generation_context.cpp */; };
 		4DAD4F02142E4C1B004AC5B1 /* malloc_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */; };
 		4DAD4F03142E4C1B004AC5B1 /* malloc_function.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */; };
+		4DAD4F0B142E6977004AC5B1 /* store_inst_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F0A142E6977004AC5B1 /* store_inst_binder.h */; };
+		4DAD4F0D142E6982004AC5B1 /* store_inst_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F0C142E6982004AC5B1 /* store_inst_binder.cpp */; };
+		4DAD4F0F142E698F004AC5B1 /* load_inst_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F0E142E698F004AC5B1 /* load_inst_binder.h */; };
+		4DAD4F11142E699D004AC5B1 /* load_inst_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F10142E699D004AC5B1 /* load_inst_binder.cpp */; };
+		4DAD4F13142E7B1E004AC5B1 /* cast_inst_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F12142E7B1E004AC5B1 /* cast_inst_binder.h */; };
+		4DAD4F15142E7B26004AC5B1 /* cast_inst_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F14142E7B26004AC5B1 /* cast_inst_binder.cpp */; };
 		4DB644621425025600DE59C8 /* abort_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB644601425025600DE59C8 /* abort_binder.cpp */; };
 		4DB644631425025600DE59C8 /* abort_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644611425025600DE59C8 /* abort_binder.h */; };
 		4DB644651425026E00DE59C8 /* generation_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644641425026E00DE59C8 /* generation_context.h */; };
@@ -61,6 +67,12 @@
 		4DA329A7142989B8009A610D /* generation_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generation_context.cpp; sourceTree = "<group>"; };
 		4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = malloc_function.cpp; sourceTree = "<group>"; };
 		4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = malloc_function.h; sourceTree = "<group>"; };
+		4DAD4F0A142E6977004AC5B1 /* store_inst_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = store_inst_binder.h; sourceTree = "<group>"; };
+		4DAD4F0C142E6982004AC5B1 /* store_inst_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = store_inst_binder.cpp; sourceTree = "<group>"; };
+		4DAD4F0E142E698F004AC5B1 /* load_inst_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = load_inst_binder.h; sourceTree = "<group>"; };
+		4DAD4F10142E699D004AC5B1 /* load_inst_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = load_inst_binder.cpp; sourceTree = "<group>"; };
+		4DAD4F12142E7B1E004AC5B1 /* cast_inst_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cast_inst_binder.h; sourceTree = "<group>"; };
+		4DAD4F14142E7B26004AC5B1 /* cast_inst_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cast_inst_binder.cpp; sourceTree = "<group>"; };
 		4DB644601425025600DE59C8 /* abort_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abort_binder.cpp; sourceTree = "<group>"; };
 		4DB644611425025600DE59C8 /* abort_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abort_binder.h; sourceTree = "<group>"; };
 		4DB644641425026E00DE59C8 /* generation_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = generation_context.h; sourceTree = "<group>"; };
@@ -83,6 +95,12 @@
 		4DDD5A091421AFC500C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DAD4F14142E7B26004AC5B1 /* cast_inst_binder.cpp */,
+				4DAD4F12142E7B1E004AC5B1 /* cast_inst_binder.h */,
+				4DAD4F10142E699D004AC5B1 /* load_inst_binder.cpp */,
+				4DAD4F0E142E698F004AC5B1 /* load_inst_binder.h */,
+				4DAD4F0C142E6982004AC5B1 /* store_inst_binder.cpp */,
+				4DAD4F0A142E6977004AC5B1 /* store_inst_binder.h */,
 				4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */,
 				4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */,
 				4D94DE7A142BFA8E00ABCBE8 /* api.cpp */,
@@ -144,6 +162,9 @@
 				4D94DE93142BFA8E00ABCBE8 /* type.h in Headers */,
 				4D94DE95142BFA8E00ABCBE8 /* value.h in Headers */,
 				4DAD4F03142E4C1B004AC5B1 /* malloc_function.h in Headers */,
+				4DAD4F0B142E6977004AC5B1 /* store_inst_binder.h in Headers */,
+				4DAD4F0F142E698F004AC5B1 /* load_inst_binder.h in Headers */,
+				4DAD4F13142E7B1E004AC5B1 /* cast_inst_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +229,9 @@
 				4D94DE92142BFA8E00ABCBE8 /* type.cpp in Sources */,
 				4D94DE94142BFA8E00ABCBE8 /* value.cpp in Sources */,
 				4DAD4F02142E4C1B004AC5B1 /* malloc_function.cpp in Sources */,
+				4DAD4F0D142E6982004AC5B1 /* store_inst_binder.cpp in Sources */,
+				4DAD4F11142E699D004AC5B1 /* load_inst_binder.cpp in Sources */,
+				4DAD4F15142E7B26004AC5B1 /* cast_inst_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

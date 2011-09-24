@@ -27,6 +27,9 @@
 #include <lambda_p_repl/dynamic_wprintf.h>
 #include <lambda_p_repl/malloc_binder.h>
 #include <lambda_p_llvm/malloc_function.h>
+#include <lambda_p_llvm/load_inst_binder.h>
+#include <lambda_p_llvm/store_inst_binder.h>
+#include <lambda_p_llvm/cast_inst_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -80,6 +83,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
     ::boost::shared_ptr < ::lambda_p_repl::malloc_binder> malloc_binder (new ::lambda_p_repl::malloc_binder (context, malloc.malloc));
+    ::boost::shared_ptr < ::lambda_p_llvm::load_inst_binder> load_inst_binder (new ::lambda_p_llvm::load_inst_binder (context));
+    ::boost::shared_ptr < ::lambda_p_llvm::store_inst_binder> store_inst_binder (new ::lambda_p_llvm::store_inst_binder (context));
+    ::boost::shared_ptr < ::lambda_p_llvm::cast_inst_binder> cast_inst_binder (new ::lambda_p_llvm::cast_inst_binder (context));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -89,6 +95,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring context_name (L"context");
 	::std::wstring wprintf_name (L"wprintf");
     ::std::wstring malloc_name (L"malloc");
+    ::std::wstring load_inst_name (L"load_inst");
+    ::std::wstring store_inst_name (L"store_inst");
+    ::std::wstring cast_inst_name (L"cast_inst");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
@@ -97,6 +106,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	dereference_binder->nodes [context_name] = context_instance;
 	dereference_binder->nodes [wprintf_name] = wprintf_binder;
     dereference_binder->nodes [malloc_name] = malloc_binder;
+    dereference_binder->nodes [load_inst_name] = load_inst_binder;
+    dereference_binder->nodes [store_inst_name] = store_inst_binder;
+    dereference_binder->nodes [cast_inst_name] = cast_inst_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (repl != NULL)
 	{
