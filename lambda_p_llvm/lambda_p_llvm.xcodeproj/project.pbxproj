@@ -28,6 +28,8 @@
 		4DA329A4142982E4009A610D /* constant_wstring.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DA329A3142982E4009A610D /* constant_wstring.h */; };
 		4DA329A6142982EF009A610D /* constant_wstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DA329A5142982EF009A610D /* constant_wstring.cpp */; };
 		4DA329A8142989B8009A610D /* generation_context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DA329A7142989B8009A610D /* generation_context.cpp */; };
+		4DAD4F02142E4C1B004AC5B1 /* malloc_function.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */; };
+		4DAD4F03142E4C1B004AC5B1 /* malloc_function.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */; };
 		4DB644621425025600DE59C8 /* abort_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB644601425025600DE59C8 /* abort_binder.cpp */; };
 		4DB644631425025600DE59C8 /* abort_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644611425025600DE59C8 /* abort_binder.h */; };
 		4DB644651425026E00DE59C8 /* generation_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB644641425026E00DE59C8 /* generation_context.h */; };
@@ -57,6 +59,8 @@
 		4DA329A3142982E4009A610D /* constant_wstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant_wstring.h; sourceTree = "<group>"; };
 		4DA329A5142982EF009A610D /* constant_wstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = constant_wstring.cpp; sourceTree = "<group>"; };
 		4DA329A7142989B8009A610D /* generation_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = generation_context.cpp; sourceTree = "<group>"; };
+		4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = malloc_function.cpp; sourceTree = "<group>"; };
+		4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = malloc_function.h; sourceTree = "<group>"; };
 		4DB644601425025600DE59C8 /* abort_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = abort_binder.cpp; sourceTree = "<group>"; };
 		4DB644611425025600DE59C8 /* abort_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = abort_binder.h; sourceTree = "<group>"; };
 		4DB644641425026E00DE59C8 /* generation_context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = generation_context.h; sourceTree = "<group>"; };
@@ -79,6 +83,8 @@
 		4DDD5A091421AFC500C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DAD4F00142E4C1A004AC5B1 /* malloc_function.cpp */,
+				4DAD4F01142E4C1A004AC5B1 /* malloc_function.h */,
 				4D94DE7A142BFA8E00ABCBE8 /* api.cpp */,
 				4D94DE7B142BFA8E00ABCBE8 /* api.h */,
 				4D94DE7C142BFA8E00ABCBE8 /* constant_int_binder.cpp */,
@@ -137,6 +143,7 @@
 				4D94DE91142BFA8E00ABCBE8 /* type_binder.h in Headers */,
 				4D94DE93142BFA8E00ABCBE8 /* type.h in Headers */,
 				4D94DE95142BFA8E00ABCBE8 /* value.h in Headers */,
+				4DAD4F03142E4C1B004AC5B1 /* malloc_function.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +207,7 @@
 				4D94DE90142BFA8E00ABCBE8 /* type_binder.cpp in Sources */,
 				4D94DE92142BFA8E00ABCBE8 /* type.cpp in Sources */,
 				4D94DE94142BFA8E00ABCBE8 /* value.cpp in Sources */,
+				4DAD4F02142E4C1B004AC5B1 /* malloc_function.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4D94DE99142BFAA500ABCBE8 /* dynamic_wprintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */; };
 		4D94DE9A142BFAA500ABCBE8 /* dynamic_wprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */; };
+		4DAD4F06142E5EA3004AC5B1 /* malloc_binder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F05142E5EA3004AC5B1 /* malloc_binder.h */; };
+		4DAD4F09142E5EAD004AC5B1 /* malloc_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F08142E5EAD004AC5B1 /* malloc_binder.cpp */; };
 		4DB6443E1423FAA100DE59C8 /* entry_routine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */; };
 		4DB6443F1423FAA100DE59C8 /* entry_routine.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DB6443B1423FAA100DE59C8 /* entry_routine.h */; };
 		4DB644401423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dynamic_wprintf.cpp; sourceTree = "<group>"; };
 		4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dynamic_wprintf.h; sourceTree = "<group>"; };
+		4DAD4F05142E5EA3004AC5B1 /* malloc_binder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = malloc_binder.h; sourceTree = "<group>"; };
+		4DAD4F08142E5EAD004AC5B1 /* malloc_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = malloc_binder.cpp; sourceTree = "<group>"; };
 		4DB6443A1423FAA100DE59C8 /* entry_routine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = entry_routine.cpp; sourceTree = "<group>"; };
 		4DB6443B1423FAA100DE59C8 /* entry_routine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entry_routine.h; sourceTree = "<group>"; };
 		4DB6443C1423FAA100DE59C8 /* stream_read_entry_routine_binder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stream_read_entry_routine_binder.cpp; sourceTree = "<group>"; };
@@ -75,6 +79,8 @@
 		4DDD59D31421A62100C481E6 = {
 			isa = PBXGroup;
 			children = (
+				4DAD4F08142E5EAD004AC5B1 /* malloc_binder.cpp */,
+				4DAD4F05142E5EA3004AC5B1 /* malloc_binder.h */,
 				4D94DE97142BFAA500ABCBE8 /* dynamic_wprintf.cpp */,
 				4D94DE98142BFAA500ABCBE8 /* dynamic_wprintf.h */,
 				4DB64456142420B600DE59C8 /* entry_input_binder.cpp */,
@@ -130,6 +136,7 @@
 				4DB64451142412B600DE59C8 /* entry_input.h in Headers */,
 				4DB644551424205400DE59C8 /* entry_input_binder.h in Headers */,
 				4D94DE9A142BFAA500ABCBE8 /* dynamic_wprintf.h in Headers */,
+				4DAD4F06142E5EA3004AC5B1 /* malloc_binder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +199,7 @@
 				4DB64453142412C400DE59C8 /* entry_input.cpp in Sources */,
 				4DB64457142420B600DE59C8 /* entry_input_binder.cpp in Sources */,
 				4D94DE99142BFAA500ABCBE8 /* dynamic_wprintf.cpp in Sources */,
+				4DAD4F09142E5EAD004AC5B1 /* malloc_binder.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

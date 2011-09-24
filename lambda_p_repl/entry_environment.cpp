@@ -25,6 +25,8 @@
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_repl/dynamic_wprintf.h>
+#include <lambda_p_repl/malloc_binder.h>
+#include <lambda_p_llvm/malloc_function.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -61,6 +63,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::lambda_p_llvm::wprintf_function wprintf (context);
     module->getFunctionList ().push_back (wprintf.wprintf);
     engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
+    ::lambda_p_llvm::malloc_function malloc (context);
+    module->getFunctionList ().push_back (malloc.malloc);
+    engine->addGlobalMapping (malloc.malloc, (void *)::malloc);
 	::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
@@ -74,6 +79,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
+    ::boost::shared_ptr < ::lambda_p_repl::malloc_binder> malloc_binder (new ::lambda_p_repl::malloc_binder (context, malloc.malloc));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -82,6 +88,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring llvm_name (L"llvm");
 	::std::wstring context_name (L"context");
 	::std::wstring wprintf_name (L"wprintf");
+    ::std::wstring malloc_name (L"malloc");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
@@ -89,6 +96,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	dereference_binder->nodes [llvm_name] = llvm_binder.structure;
 	dereference_binder->nodes [context_name] = context_instance;
 	dereference_binder->nodes [wprintf_name] = wprintf_binder;
+    dereference_binder->nodes [malloc_name] = malloc_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (repl != NULL)
 	{
