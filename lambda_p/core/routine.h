@@ -8,6 +8,7 @@
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/position.h>
+#include <lambda_p/errors/error.h>
 
 namespace lambda_p_repl
 {
@@ -50,7 +51,7 @@ namespace lambda_p
 			::lambda_p::core::declaration * add_declaration ();
 			::lambda_p::core::reference * add_reference (::lambda_p::core::declaration *);
             void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
-			void validate (::std::wostream & problems) const;
+			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 		private:
 			::std::vector < ::lambda_p::core::statement *> statements;
 			::std::vector < ::lambda_p::core::declaration *> declarations;

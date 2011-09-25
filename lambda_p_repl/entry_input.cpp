@@ -7,8 +7,8 @@
 //
 
 #include <lambda_p_repl/entry_input.h>
-
 #include <lambda_p_repl/routine_input.h>
+#include <lambda_p/errors/error.h>
 
 #include <sstream>
 #include <iostream>
@@ -35,16 +35,19 @@ void lambda_p_repl::entry_input::operator () (::std::wistream & in, ::std::wostr
 	else
 	{
 		out << L">>\n";
-        ::std::wstringstream stream;
 		routine = (*input.routines.routines)[0];
-        routine->validate (stream);
-        ::std::wstring errors (stream.str ());
+        ::std::vector < ::lambda_p::errors::error *> errors;
+        routine->validate (errors);
         if (!errors.empty ())
         {
-            routine.reset ();
             out << "Validation error:\n";
-            out << errors;
-            out << '\n';
+            for (::std::vector < ::lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
+            {
+                ::lambda_p::errors::error * error (*i);
+                error->string (out);
+                out << '\n';
+            }
+            routine.reset ();
         }
 	}
 }

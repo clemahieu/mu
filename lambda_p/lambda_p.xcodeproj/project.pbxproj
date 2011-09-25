@@ -13,6 +13,14 @@
 		4D473ADD1411867500455A7E /* token.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D473AD71411867500455A7E /* token.h */; };
 		4DAD4F1E142EC491004AC5B1 /* position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F1C142EC490004AC5B1 /* position.cpp */; };
 		4DAD4F1F142EC491004AC5B1 /* position.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F1D142EC490004AC5B1 /* position.h */; };
+		4DAD4F25142ECFEE004AC5B1 /* orphan_node.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F24142ECFEE004AC5B1 /* orphan_node.h */; };
+		4DAD4F27142ED04C004AC5B1 /* error.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F26142ED04C004AC5B1 /* error.h */; };
+		4DAD4F29142ED05E004AC5B1 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F28142ED05E004AC5B1 /* error.cpp */; };
+		4DAD4F2B142ED0A4004AC5B1 /* orphan_node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F2A142ED0A4004AC5B1 /* orphan_node.cpp */; };
+		4DAD4F2D142ED37C004AC5B1 /* orphan_reference.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F2C142ED37C004AC5B1 /* orphan_reference.h */; };
+		4DAD4F2F142ED3F4004AC5B1 /* undefined_reference.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DAD4F2E142ED3F4004AC5B1 /* undefined_reference.h */; };
+		4DAD4F31142ED409004AC5B1 /* orphan_reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F30142ED409004AC5B1 /* orphan_reference.cpp */; };
+		4DAD4F33142ED41E004AC5B1 /* undefined_reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DAD4F32142ED41E004AC5B1 /* undefined_reference.cpp */; };
 		4DDD58BF141EC4E900C481E6 /* declaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD58BB141EC4E900C481E6 /* declaration.cpp */; };
 		4DDD58C0141EC4E900C481E6 /* declaration.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DDD58BC141EC4E900C481E6 /* declaration.h */; };
 		4DDD58C1141EC4E900C481E6 /* reference.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD58BD141EC4E900C481E6 /* reference.cpp */; };
@@ -105,6 +113,14 @@
 		4D473AD71411867500455A7E /* token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = token.h; path = tokens/token.h; sourceTree = "<group>"; };
 		4DAD4F1C142EC490004AC5B1 /* position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = position.cpp; path = core/position.cpp; sourceTree = "<group>"; };
 		4DAD4F1D142EC490004AC5B1 /* position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = position.h; path = core/position.h; sourceTree = "<group>"; };
+		4DAD4F24142ECFEE004AC5B1 /* orphan_node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = orphan_node.h; path = errors/orphan_node.h; sourceTree = "<group>"; };
+		4DAD4F26142ED04C004AC5B1 /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error.h; path = errors/error.h; sourceTree = "<group>"; };
+		4DAD4F28142ED05E004AC5B1 /* error.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error.cpp; path = errors/error.cpp; sourceTree = "<group>"; };
+		4DAD4F2A142ED0A4004AC5B1 /* orphan_node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = orphan_node.cpp; path = errors/orphan_node.cpp; sourceTree = "<group>"; };
+		4DAD4F2C142ED37C004AC5B1 /* orphan_reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = orphan_reference.h; path = errors/orphan_reference.h; sourceTree = "<group>"; };
+		4DAD4F2E142ED3F4004AC5B1 /* undefined_reference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = undefined_reference.h; path = errors/undefined_reference.h; sourceTree = "<group>"; };
+		4DAD4F30142ED409004AC5B1 /* orphan_reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = orphan_reference.cpp; path = errors/orphan_reference.cpp; sourceTree = "<group>"; };
+		4DAD4F32142ED41E004AC5B1 /* undefined_reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = undefined_reference.cpp; path = errors/undefined_reference.cpp; sourceTree = "<group>"; };
 		4DDD58BB141EC4E900C481E6 /* declaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = declaration.cpp; path = core/declaration.cpp; sourceTree = "<group>"; };
 		4DDD58BC141EC4E900C481E6 /* declaration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = declaration.h; path = core/declaration.h; sourceTree = "<group>"; };
 		4DDD58BD141EC4E900C481E6 /* reference.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = reference.cpp; path = core/reference.cpp; sourceTree = "<group>"; };
@@ -226,6 +242,14 @@
 		4DAD4F16142E8424004AC5B1 /* errors */ = {
 			isa = PBXGroup;
 			children = (
+				4DAD4F24142ECFEE004AC5B1 /* orphan_node.h */,
+				4DAD4F2A142ED0A4004AC5B1 /* orphan_node.cpp */,
+				4DAD4F26142ED04C004AC5B1 /* error.h */,
+				4DAD4F28142ED05E004AC5B1 /* error.cpp */,
+				4DAD4F2C142ED37C004AC5B1 /* orphan_reference.h */,
+				4DAD4F30142ED409004AC5B1 /* orphan_reference.cpp */,
+				4DAD4F2E142ED3F4004AC5B1 /* undefined_reference.h */,
+				4DAD4F32142ED41E004AC5B1 /* undefined_reference.cpp */,
 			);
 			name = errors;
 			sourceTree = "<group>";
@@ -414,6 +438,10 @@
 				4DDD5982141EC5E300C481E6 /* routine_binder.h in Headers */,
 				4DDD599614200B6D00C481E6 /* structure.h in Headers */,
 				4DAD4F1F142EC491004AC5B1 /* position.h in Headers */,
+				4DAD4F25142ECFEE004AC5B1 /* orphan_node.h in Headers */,
+				4DAD4F27142ED04C004AC5B1 /* error.h in Headers */,
+				4DAD4F2D142ED37C004AC5B1 /* orphan_reference.h in Headers */,
+				4DAD4F2F142ED3F4004AC5B1 /* undefined_reference.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +536,10 @@
 				4DDD5981141EC5E300C481E6 /* routine_binder.cpp in Sources */,
 				4DDD599514200B6D00C481E6 /* structure.cpp in Sources */,
 				4DAD4F1E142EC491004AC5B1 /* position.cpp in Sources */,
+				4DAD4F29142ED05E004AC5B1 /* error.cpp in Sources */,
+				4DAD4F2B142ED0A4004AC5B1 /* orphan_node.cpp in Sources */,
+				4DAD4F31142ED409004AC5B1 /* orphan_reference.cpp in Sources */,
+				4DAD4F33142ED41E004AC5B1 /* undefined_reference.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

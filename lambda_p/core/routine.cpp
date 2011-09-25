@@ -1,5 +1,9 @@
 #include <lambda_p/core/routine.h>
 
+#include <lambda_p/errors/orphan_node.h>
+#include <lambda_p/errors/orphan_reference.h>
+#include <lambda_p/errors/undefined_reference.h>
+
 lambda_p::core::routine::routine ()
 {
 }
@@ -52,12 +56,14 @@ lambda_p::core::routine::~routine(void)
 	return reference;
 }
 
-void lambda_p::core::routine::validate (::std::wostream & problems) const
+void lambda_p::core::routine::validate (::std::vector < ::lambda_p::errors::error *> & problems) const
 {
-    for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
+    size_t current_statement (0);
+    for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++current_statement)
     {
+        size_t current_argument (0);
         ::lambda_p::core::statement * statement (*i);
-        for (::std::vector < ::lambda_p::core::node *>::const_iterator j = statement->arguments.begin (); j != statement->arguments.end (); ++j)
+        for (::std::vector < ::lambda_p::core::node *>::const_iterator j = statement->arguments.begin (); j != statement->arguments.end (); ++j, ++current_argument)
         {
             ::lambda_p::core::node * node (*j);
             ::lambda_p::core::node_id node_id (node->node_type ());
@@ -68,7 +74,8 @@ void lambda_p::core::routine::validate (::std::wostream & problems) const
                     ::lambda_p::core::declaration * declaration (static_cast < ::lambda_p::core::declaration *> (node));
                     if (::std::find (declarations.begin (), declarations.end (), declaration) == declarations.end ())
                     {
-                        problems << L"Declaration does not belong to routine";
+                        ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
+                        problems.push_back (error);
                     }
                 }
                     break;
@@ -77,13 +84,15 @@ void lambda_p::core::routine::validate (::std::wostream & problems) const
                     ::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
                     if (::std::find (references.begin (), references.end (), reference) == references.end ())
                     {
-                        problems << L"Reference does not belong to routine";
+                        ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
+                        problems.push_back (error);
                     }
                     else
                     {
                         if (::std::find (declarations.begin (), declarations.end (), reference->declaration) == declarations.end ())
                         {
-                            problems << L"Referenced declaration does not belong to routine";
+                            ::lambda_p::errors::orphan_reference * error (new ::lambda_p::errors::orphan_reference (::lambda_p::core::position (current_statement, current_argument)));
+                            problems.push_back (error);
                         }
                     }
                 }
@@ -93,7 +102,8 @@ void lambda_p::core::routine::validate (::std::wostream & problems) const
                     ::lambda_p::core::data * data_l (static_cast < ::lambda_p::core::data *> (node));
                     if (::std::find (data.begin (), data.end (), data_l) == data.end ())
                     {
-                        problems << L"Referenced data does not belong to routine";
+                        ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
+                        problems.push_back (error);
                     }
                 }
                     break;
