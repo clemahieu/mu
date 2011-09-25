@@ -30,6 +30,8 @@
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p_llvm/store_inst_binder.h>
 #include <lambda_p_llvm/cast_inst_binder.h>
+#include <lambda_p_llvm/memcpy_binder.h>
+#include <lambda_p_llvm/memcpy_function.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -69,6 +71,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::lambda_p_llvm::malloc_function malloc (context);
     module->getFunctionList ().push_back (malloc.malloc);
     engine->addGlobalMapping (malloc.malloc, (void *)::malloc);
+    ::lambda_p_llvm::memcpy_function memcpy (context);
+    module->getFunctionList ().push_back (memcpy.memcpy);
 	::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
@@ -86,6 +90,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::boost::shared_ptr < ::lambda_p_llvm::load_inst_binder> load_inst_binder (new ::lambda_p_llvm::load_inst_binder (context));
     ::boost::shared_ptr < ::lambda_p_llvm::store_inst_binder> store_inst_binder (new ::lambda_p_llvm::store_inst_binder (context));
     ::boost::shared_ptr < ::lambda_p_llvm::cast_inst_binder> cast_inst_binder (new ::lambda_p_llvm::cast_inst_binder (context));
+    ::boost::shared_ptr < ::lambda_p_llvm::memcpy_binder> memcpy_binder (new ::lambda_p_llvm::memcpy_binder (context, memcpy.memcpy));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -98,6 +103,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::std::wstring load_inst_name (L"load_inst");
     ::std::wstring store_inst_name (L"store_inst");
     ::std::wstring cast_inst_name (L"cast_inst");
+    ::std::wstring memcpy_name (L"memcpy");
 	dereference_binder->nodes [echo_name] = echo_binder;
 	dereference_binder->nodes [hello_name] = hello_binder;
 	dereference_binder->nodes [d2s_name] = d2s_binder;
@@ -109,6 +115,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     dereference_binder->nodes [load_inst_name] = load_inst_binder;
     dereference_binder->nodes [store_inst_name] = store_inst_binder;
     dereference_binder->nodes [cast_inst_name] = cast_inst_binder;
+    dereference_binder->nodes [memcpy_name] = memcpy_binder;
 	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
 	if (repl != NULL)
 	{

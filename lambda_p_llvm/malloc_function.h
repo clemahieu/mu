@@ -2,8 +2,10 @@
 
 #include <lambda_p_llvm/generation_context.h>
 
-#include <llvm/Function.h>
-
+namespace llvm
+{
+    class Function;
+}
 namespace lambda_p_llvm
 {
 	class malloc_function

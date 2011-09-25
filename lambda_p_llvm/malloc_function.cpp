@@ -4,6 +4,7 @@
 #include "malloc_function.h"
 
 #include <llvm/DerivedTypes.h>
+#include <llvm/Function.h>
 
 lambda_p_llvm::malloc_function::malloc_function (::lambda_p_llvm::generation_context context_a)
 {
