@@ -26,22 +26,20 @@ namespace lambda_p
     namespace core
     {
         class routine;
+        class declaration;
         class reference : public node
         {
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::binder::routine_binder;
+            friend class ::lambda_p::core::routine;
         public:
-            reference (::lambda_p::core::routine * routine_a, size_t target_statement_a, size_t target_argument_, size_t self_statement_a, size_t self_argument_aa);
+            reference ();
+            reference (::lambda_p::core::declaration * declaration_a);
             ~reference ();
-            void validate (::std::wostream & problems) const;
 			node_id node_type () const;
 			::std::wstring node_type_name () const;
 		private:
-            ::lambda_p::core::routine * routine;
-            size_t self_statement;
-            size_t self_argument;
-            size_t target_statement;
-            size_t target_argument;
+            ::lambda_p::core::declaration * declaration;
         };
     }
 }

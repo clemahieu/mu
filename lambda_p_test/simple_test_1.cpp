@@ -41,7 +41,7 @@ void lambda_p_test::simple_test_1::run_2 ()
 {
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
-	signature->add_argument (routine.add_declaration (0, 0));
+	signature->add_argument (routine.add_declaration ());
 	::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
@@ -55,8 +55,8 @@ void lambda_p_test::simple_test_1::run_3 ()
 {
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
-	signature->add_argument (routine.add_declaration (0, 0));
-	signature->add_argument (routine.add_declaration (0, 1));
+	signature->add_argument (routine.add_declaration ());
+	signature->add_argument (routine.add_declaration ());
 	::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
@@ -70,10 +70,11 @@ void lambda_p_test::simple_test_1::run_4 ()
 {
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
-	signature->add_argument (routine.add_declaration (0, 0));
-	signature->add_argument (routine.add_declaration (0, 1));
+    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+	signature->add_argument (declaration);
+	signature->add_argument (routine.add_declaration ());
     ::lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->add_argument (routine.add_reference (0, 0, 1, 0));
+	statement1->add_argument (routine.add_reference (declaration));
 	::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
@@ -88,7 +89,7 @@ void lambda_p_test::simple_test_1::run_5 ()
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
     ::lambda_p::core::statement * statement1 = routine.add_statement ();
-    statement1->add_argument (routine.add_declaration (1, 0));
+    statement1->add_argument (routine.add_declaration ());
 	::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
@@ -103,10 +104,11 @@ void lambda_p_test::simple_test_1::run_6 ()
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
     ::lambda_p::core::statement * statement1 = routine.add_statement ();
-    statement1->add_argument (routine.add_declaration (1, 0));
+    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+    statement1->add_argument (declaration);
 	::std::wstringstream target;
     ::lambda_p::core::statement * statement2 = routine.add_statement ();
-    statement2->add_argument (routine.add_reference (1, 0, 2, 0));
+    statement2->add_argument (routine.add_reference (declaration));
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
     ::std::wstring str1 (target.str ());
@@ -119,18 +121,22 @@ void lambda_p_test::simple_test_1::run_7 ()
 {
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
-	signature->add_argument (routine.add_declaration (0, 0));
-	signature->add_argument (routine.add_declaration (0, 1));
-	signature->add_argument (routine.add_declaration (0, 2));
+    ::lambda_p::core::declaration * declaration1 (routine.add_declaration ());
+	signature->add_argument (declaration1);
+    ::lambda_p::core::declaration * declaration2 (routine.add_declaration ());
+	signature->add_argument (declaration2);
+    ::lambda_p::core::declaration * declaration3 (routine.add_declaration ());
+	signature->add_argument (declaration3);
     ::lambda_p::core::statement * statement1 = routine.add_statement ();
-    statement1->add_argument (routine.add_declaration (1, 0));
-	statement1->add_argument (routine.add_reference (0, 2, 1, 1));
-	statement1->add_argument (routine.add_reference (0, 1, 1, 2));
+    ::lambda_p::core::declaration * declaration4 (routine.add_declaration ());
+    statement1->add_argument (declaration4);
+	statement1->add_argument (routine.add_reference (declaration3));
+	statement1->add_argument (routine.add_reference (declaration2));
 	::std::wstringstream target;
     ::lambda_p::core::statement * statement2 = routine.add_statement ();
-	statement2->add_argument (routine.add_reference (0, 0, 2, 0));
-    statement2->add_argument (routine.add_reference (1, 0, 2, 1));
-	statement2->add_argument (routine.add_reference (0, 1, 2, 2));
+	statement2->add_argument (routine.add_reference (declaration1));
+    statement2->add_argument (routine.add_reference (declaration4));
+	statement2->add_argument (routine.add_reference (declaration2));
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);
     ::std::wstring str1 (target.str ());
@@ -143,10 +149,11 @@ void lambda_p_test::simple_test_1::run_8 ()
 {
 	::lambda_p::core::routine routine;
 	::lambda_p::core::statement * signature = routine.add_statement ();
-	signature->add_argument (routine.add_declaration (0, 0));
+    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+	signature->add_argument (declaration);
 	::lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->add_argument (routine.add_reference (0, 0, 1, 0));
-	statement1->add_argument (routine.add_data (::std::wstring (), 1, 1));
+	statement1->add_argument (routine.add_reference (declaration));
+	statement1->add_argument (routine.add_data (::std::wstring ()));
 	::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (target);

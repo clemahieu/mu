@@ -32,12 +32,9 @@ namespace lambda_p
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::serialization::parser::simple_parser;
 		public:
-			statement (::lambda_p::core::routine * routine_a, size_t index_a);
+			statement ();
 			~statement (void);
             void add_argument (::lambda_p::core::node * node_a);
-            void validate (::std::wostream & problems) const;
-            ::lambda_p::core::routine * routine;
-            size_t index;
             ::std::vector < ::lambda_p::core::node *> arguments;
 		};
 	}

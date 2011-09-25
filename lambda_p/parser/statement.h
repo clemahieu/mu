@@ -1,7 +1,6 @@
 #pragma once
 
 #include <lambda_p/parser/state.h>
-#include <lambda_p/parser/reference_position.h>
 #include <lambda_p/parser/reference_identifiers.h>
 
 #include <boost/shared_ptr.hpp>

@@ -2,7 +2,6 @@
 
 #include <lambda_p/parser/state.h>
 #include <lambda_p/parser/reference_identifiers.h>
-#include <lambda_p/parser/reference_position.h>
 
 #include <boost/scoped_ptr.hpp>
 
@@ -14,6 +13,7 @@ namespace lambda_p
 	{
 		class routine;
 		class reference;
+        class declaration;
 	}
 	namespace parser
 	{
@@ -27,7 +27,7 @@ namespace lambda_p
 			::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 			::boost::shared_ptr < ::lambda_p::parser::routine> routine_m;
 			::std::multimap < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::reference *> unresolved_references;
-			::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::parser::reference_position> positions;
+			::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::declaration *> positions;
 		};
 	}
 }

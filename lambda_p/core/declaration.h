@@ -17,15 +17,10 @@ namespace lambda_p
 		{
             template <typename> friend class ::lambda_p::serialization::simple;
 		public:
-			declaration (::lambda_p::core::routine * routine_a, size_t self_statement_a, size_t self_argument_a);
+			declaration ();
 			~declaration (void);
-			void validate (::std::wostream & problems) const;
 			node_id node_type () const;
 			::std::wstring node_type_name () const;
-		private:
-			::lambda_p::core::routine * routine;
-			size_t self_statement;
-			size_t self_argument;
 		};
 	}
 }

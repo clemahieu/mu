@@ -45,10 +45,10 @@ void lambda_p_test::abort_binder_test_1::run ()
     ::lambda_p_llvm::abort_binder binder (function, &current);
     ::lambda_p::core::routine routine;
     ::lambda_p::core::statement * statement (routine.add_statement ());
-    ::lambda_p::core::declaration * parameter (routine.add_declaration (0, 0));
+    ::lambda_p::core::declaration * parameter (routine.add_declaration ());
     statement->add_argument (parameter);
     ::lambda_p::core::statement * call (routine.add_statement ());
-    ::lambda_p::core::reference * target (routine.add_reference (0, 0, 1, 0));
+    ::lambda_p::core::reference * target (routine.add_reference (parameter));
     call->add_argument (target);
     ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
     ::std::wstringstream problems;

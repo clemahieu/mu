@@ -1,11 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/data.h>
+#include <lambda_p/core/position.h>
 
 namespace lambda_p_repl
 {
@@ -44,9 +46,10 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			::lambda_p::core::statement * add_statement ();
-			::lambda_p::core::data * add_data (::std::wstring string, size_t statement_a, size_t index_a);
-			::lambda_p::core::declaration * add_declaration (size_t self_statement_a, size_t self_argument_a);
-			::lambda_p::core::reference * add_reference (size_t target_statement_a, size_t target_argument_a, size_t self_statement_a, size_t self_argument_a);
+			::lambda_p::core::data * add_data (::std::wstring string);
+			::lambda_p::core::declaration * add_declaration ();
+			::lambda_p::core::reference * add_reference (::lambda_p::core::declaration *);
+            void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::wostream & problems) const;
 		private:
 			::std::vector < ::lambda_p::core::statement *> statements;

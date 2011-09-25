@@ -32,17 +32,15 @@ lambda_p::parser::statement::~statement(void)
 
 void lambda_p::parser::statement::sink_reference (::lambda_p::parser::simple_parser & parser, ::lambda_p::parser::reference_identifiers reference)
 {
-	size_t current_statement (statement_m->routine->statements.size () - 1);
-	size_t current_argument (statement_m->routine->statements [current_statement]->arguments.size ());
-	::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::parser::reference_position>::iterator search = body->positions.find (reference);
+	::std::map < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::declaration *>::iterator search = body->positions.find (reference);
 	if (search != body->positions.end ())
 	{
-		::lambda_p::core::reference * ref = routine ()->add_reference (search->second.statement, search->second.argument, current_statement, current_argument);
+		::lambda_p::core::reference * ref = routine ()->add_reference (search->second);
 		statement_m->add_argument (ref);
 	}
 	else
 	{
-		::lambda_p::core::reference * ref = routine ()->add_reference (-1, -1, current_statement, current_argument);
+		::lambda_p::core::reference * ref = routine ()->add_reference (NULL);
 		statement_m->add_argument (ref);
 		body->unresolved_references.insert (::std::multimap < ::lambda_p::parser::reference_identifiers, ::lambda_p::core::reference *>::value_type (reference, ref));
 	}
@@ -50,17 +48,13 @@ void lambda_p::parser::statement::sink_reference (::lambda_p::parser::simple_par
 
 void lambda_p::parser::statement::sink_data (::lambda_p::parser::simple_parser & parser, ::lambda_p::tokens::identifier * identifier)
 {
-	size_t current_statement (statement_m->routine->statements.size () - 1);
-	size_t current_argument (statement_m->routine->statements [current_statement]->arguments.size ());
-	statement_m->add_argument (routine ()->add_data (identifier->string, current_statement, current_argument));
+	statement_m->add_argument (routine ()->add_data (identifier->string));
 }
 
 void lambda_p::parser::statement::sink_declaration (::lambda_p::parser::simple_parser & parser, ::lambda_p::tokens::identifier * identifier)
 {
-	size_t current_statement (statement_m->routine->statements.size () - 1);
-	size_t current_argument (statement_m->routine->statements [current_statement]->arguments.size ());
 	::lambda_p::parser::reference_identifiers reference (statement_name, identifier->string);
-	::lambda_p::parser::reference_position position (current_statement, current_argument);
-	body->positions [reference] = position;
-	statement_m->add_argument (routine ()->add_declaration (current_statement, current_argument));
+    ::lambda_p::core::declaration * declaration (routine ()->add_declaration ());
+	body->positions [reference] = declaration;
+	statement_m->add_argument (declaration);
 }

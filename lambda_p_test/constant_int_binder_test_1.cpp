@@ -1,3 +1,6 @@
+#define __STDC_LIMIT_MACROS
+#define __STDC_CONSTANT_MACROS
+
 #include "constant_int_binder_test_1.h"
 
 #include <lambda_p_llvm/constant_int_binder.h>
@@ -25,16 +28,16 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 {
 	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
 	::lambda_p::core::statement * parameters = routine->add_statement ();
-	::lambda_p::core::declaration * binder = routine->add_declaration (0, 0);
+	::lambda_p::core::declaration * binder = routine->add_declaration ();
 	parameters->add_argument (binder);
 	::lambda_p::core::statement * statement = routine->add_statement ();
-	::lambda_p::core::reference * reference = routine->add_reference (0, 0, 1, 0);
+	::lambda_p::core::reference * reference = routine->add_reference (binder);
 	statement->add_argument (reference);
-	::lambda_p::core::declaration * declaration = routine->add_declaration (1, 1);
+	::lambda_p::core::declaration * declaration = routine->add_declaration ();
 	statement->add_argument (declaration);
-	::lambda_p::core::data * base = routine->add_data (::std::wstring (L"16"), 1, 2);
+	::lambda_p::core::data * base = routine->add_data (::std::wstring (L"16"));
 	statement->add_argument (base);
-	::lambda_p::core::data * number = routine->add_data (::std::wstring (L"10"), 1, 3);
+	::lambda_p::core::data * number = routine->add_data (::std::wstring (L"10"));
 	statement->add_argument (number);
 	::lambda_p::binder::routine_binder routine_binder;
 	::llvm::LLVMContext llvm_context;

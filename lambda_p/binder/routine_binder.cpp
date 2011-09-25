@@ -60,7 +60,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 	case ::lambda_p::core::node_reference:
 		{
 			::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
-			::lambda_p::core::node * target (routine_a->statements [reference->target_statement]->arguments [reference->target_argument]);
+			::lambda_p::core::node * target (reference->declaration);
 			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
 			if (search != instances.end ())
 			{
@@ -88,7 +88,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 		case ::lambda_p::core::node_reference:
 			{
 				::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
-				::lambda_p::core::node * target (routine_a->statements [reference->target_statement]->arguments [reference->target_argument]);
+				::lambda_p::core::node * target (reference->declaration);
 				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
 				if (search != instances.end ())
 				{
