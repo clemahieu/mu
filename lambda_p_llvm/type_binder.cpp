@@ -95,7 +95,7 @@ void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, 
 	else
 	{
 		problems << L"type_binder is expecting at least three arguments, have: ";
-		problems << argument_count;
+		problems << argument_count - 1;
 		problems << '\n';
 	}
 }
