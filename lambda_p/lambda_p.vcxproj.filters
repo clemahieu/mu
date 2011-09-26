@@ -121,9 +121,6 @@
     <ClInclude Include="parser\reference_identifiers.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\reference_position.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\production_target.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -135,6 +132,21 @@
     </ClInclude>
     <ClInclude Include="binder\structure.h">
       <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\error.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\orphan_node.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\orphan_reference.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\undefined_reference.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="core\position.h">
+      <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +267,6 @@
     <ClCompile Include="parser\reference_identifiers.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\reference_position.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\production_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -269,6 +278,21 @@
     </ClCompile>
     <ClCompile Include="binder\structure.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\error.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\orphan_node.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\orphan_reference.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\undefined_reference.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="core\position.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +313,9 @@
     </Filter>
     <Filter Include="parser">
       <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="errors">
+      <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

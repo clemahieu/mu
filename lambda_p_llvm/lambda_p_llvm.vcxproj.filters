@@ -15,6 +15,11 @@
     <ClInclude Include="value.h" />
     <ClInclude Include="constant_int_binder.h" />
     <ClInclude Include="malloc_function.h" />
+    <ClInclude Include="cast_inst_binder.h" />
+    <ClInclude Include="load_inst_binder.h" />
+    <ClInclude Include="memcpy_binder.h" />
+    <ClInclude Include="memcpy_function.h" />
+    <ClInclude Include="store_inst_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -31,5 +36,10 @@
     <ClCompile Include="value.cpp" />
     <ClCompile Include="constant_int_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
+    <ClCompile Include="cast_inst_binder.cpp" />
+    <ClCompile Include="load_inst_binder.cpp" />
+    <ClCompile Include="memcpy_binder.cpp" />
+    <ClCompile Include="memcpy_function.cpp" />
+    <ClCompile Include="store_inst_binder.cpp" />
   </ItemGroup>
 </Project>
