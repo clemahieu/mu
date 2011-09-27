@@ -1,7 +1,7 @@
 #include <lambda_p/lexer/multiline_comment.h>
 
 lambda_p::lexer::multiline_comment::multiline_comment(void)
-	: have_semicolon (false)
+	: have_pound (false)
 {
 }
 

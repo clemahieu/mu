@@ -9,6 +9,7 @@
 #include <lambda_p_repl/entry_input.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p/errors/error.h>
+#include <lambda_p/core/routine.h>
 
 #include <sstream>
 #include <iostream>

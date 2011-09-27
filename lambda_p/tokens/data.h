@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class data_token : public token
+        class data : public token
         {
 			token_ids token_id ();
         };
