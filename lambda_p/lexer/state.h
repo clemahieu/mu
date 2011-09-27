@@ -8,11 +8,12 @@ namespace lambda_p
 		{
 			state_error,
 			state_begin,
+			state_whitespace,
 			state_control,
 			state_identifier,
 			state_multiline_comment,
 			state_singleline_comment,
-			state_complex_identifier
+			state_manifest_data
 		};
 		class state
 		{

@@ -6,7 +6,7 @@
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/declaration.h>
 #include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/data.h>
+#include <lambda_p/tokens/data_token.h>
 #include <lambda_p/parser/reference_identifiers.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/statement.h>
@@ -174,7 +174,7 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 			state.push (new_state);
 		}
 		break;
-	case ::lambda_p::tokens::token_id_data:
+	case ::lambda_p::tokens::token_id_data_token:
 		{
 			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l));
 			state.push (new_state);
@@ -288,14 +288,11 @@ void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::tok
 	case ::lambda_p::tokens::token_id_routine_end:
 		result.append (L"routine_end");
 		break;
-	case ::lambda_p::tokens::token_id_data:
-		result.append (L"data");
+	case ::lambda_p::tokens::token_id_data_token:
+		result.append (L"data_token");
 		break;
 	case ::lambda_p::tokens::token_id_statement_end:
 		result.append (L"statement_end");
-		break;
-	case ::lambda_p::tokens::token_id_connector:
-		result.append (L"connector");
 		break;
 	default:
 		result.append (L"Unknown");

@@ -31,6 +31,9 @@
     <ClInclude Include="tokens\statement_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
+    <ClInclude Include="tokens\data_token.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -74,6 +77,9 @@
       <Filter>lexer</Filter>
     </ClInclude>
     <ClInclude Include="lexer\token_vector.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\whitespace.h">
       <Filter>lexer</Filter>
     </ClInclude>
     <ClInclude Include="parser\begin.h">
@@ -142,12 +148,6 @@
     <ClInclude Include="core\position.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\connector.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\data.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -175,6 +175,9 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\statement_end.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\data_token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
@@ -220,6 +223,9 @@
       <Filter>lexer</Filter>
     </ClCompile>
     <ClCompile Include="lexer\token_vector.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\whitespace.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
     <ClCompile Include="parser\begin.cpp">
@@ -287,12 +293,6 @@
     </ClCompile>
     <ClCompile Include="core\position.cpp">
       <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\connector.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\data.cpp">
-      <Filter>tokens</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,9 +12,8 @@ namespace lambda_p
 			token_id_declaration,
 			token_id_identifier,
 			token_id_routine_end,
-			token_id_data,
-			token_id_statement_end,
-			token_id_connector
+			token_id_data_token,
+			token_id_statement_end
 		};
 		class token
 		{

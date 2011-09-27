@@ -1,23 +1,38 @@
+#include <lambda_p/core/routine.h>
+#include <lambda_p/tokens/identifier.h>
+#include <lambda_p/tokens/routine_end.h>
+#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/declaration.h>
+#include <lambda_p/tokens/data_token.h>
+#include <lambda_p/tokens/complex_identifier.h>
+
+#include <lambda_p/lexer/state.h>
+#include <lambda_p/lexer/begin.h>
+#include <lambda_p/lexer/error.h>
+#include <lambda_p/lexer/whitespace.h>
+#include <lambda_p/lexer/control.h>
+#include <lambda_p/lexer/identifier.h>
+#include <lambda_p/lexer/multiline_comment.h>
+#include <lambda_p/lexer/singleline_comment.h>
+#include <lambda_p/lexer/manifest_data.h>
+
+#include <boost/circular_buffer.hpp>
+#include <boost/scoped_ptr.hpp>
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <stack>
 
 namespace lambda_p
 {
-	namespace tokens
-	{
-		class token;
-	}
 	namespace lexer
 	{
-		class state;
 		class simple_lexer
 		{
 		public:
 			simple_lexer (::boost::function <void (::lambda_p::tokens::token *)> target_a);
 			~simple_lexer ();
 			void operator () (wchar_t character);
+			void end ();
 			void reset ();
 			bool error ();
 			void error_message (::std::wstring & target);
@@ -25,6 +40,7 @@ namespace lambda_p
 			void lex_internal (wchar_t character);
 			void lex_error (wchar_t character);
 			void lex_begin (wchar_t character);
+			void lex_whitespace (wchar_t character);
 			void lex_control (wchar_t character);
 			void lex_multiline_comment (wchar_t character);
 			void lex_singleline_comment (wchar_t character);

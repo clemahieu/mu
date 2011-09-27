@@ -39,7 +39,7 @@ namespace lambda_p
                     statement (argument_positions, statement_positions, *i);
                     target << "\n";
                 }
-				target << "#;";
+                target << ";.";
 			}
 			void statement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions, ::lambda_p::core::statement const * statement_a)
 			{
@@ -50,7 +50,7 @@ namespace lambda_p
                     target << "\n  ";
                     node (argument_positions, *i);
                 }
-                target << "\n ;";
+                target << "\n ;;";
 			}
 			void node (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::node const * node_a)
 			{
@@ -73,7 +73,7 @@ namespace lambda_p
 			}
 			void data (::lambda_p::core::data const * data_a)
 			{
-                target << "' ";
+                target << ";' ";
                 target << data_a->string ();
 			}
             void reference (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::reference const * result_ref_a)
