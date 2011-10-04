@@ -7,6 +7,7 @@
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unresolved_statement.h>
+#include <lambda_p/errors/binder_string_error.h>
 
 #include <sstream>
 
@@ -39,7 +40,17 @@ void lambda_p::binder::routine_binder::bind_statement (size_t statement)
 	populate_unbound (statement, binder);
 	if (binder.get () != NULL)
 	{
+		size_t previous_size (errors.size ());
 		binder->bind (routine->statements [statement], instances, errors);
+		if (errors.size () != previous_size)
+		{
+			::std::wstring message (L"Bind error for statement: ");
+			::std::wstringstream stream;
+			stream << statement;
+			message.append (stream.str ());
+			errors.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (::std::wstring (L"routine_binder"), message)));
+
+		}
 		retry_bind (statement); // We might have resolved what was needed for a previously unresolved bind
 	}
 	else

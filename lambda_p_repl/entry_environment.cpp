@@ -90,11 +90,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
-    ::boost::shared_ptr < ::lambda_p_repl::malloc_binder> malloc_binder (new ::lambda_p_repl::malloc_binder (context, malloc.malloc));
-    ::boost::shared_ptr < ::lambda_p_llvm::load_inst_binder> load_inst_binder (new ::lambda_p_llvm::load_inst_binder (context));
-    ::boost::shared_ptr < ::lambda_p_llvm::store_inst_binder> store_inst_binder (new ::lambda_p_llvm::store_inst_binder (context));
-    ::boost::shared_ptr < ::lambda_p_llvm::cast_inst_binder> cast_inst_binder (new ::lambda_p_llvm::cast_inst_binder (context));
-    ::boost::shared_ptr < ::lambda_p_llvm::memcpy_binder> memcpy_binder (new ::lambda_p_llvm::memcpy_binder (context, memcpy.memcpy));
+    ::boost::shared_ptr < ::lambda_p_llvm::function_binder> memcpy_function (new ::lambda_p_llvm::function_binder (memcpy.memcpy));
 	::boost::shared_ptr < ::lambda_p_llvm::function_binder> malloc_function (new ::lambda_p_llvm::function_binder (malloc.malloc));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
@@ -104,12 +100,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring llvm_name (L"llvm");
 	::std::wstring context_name (L"context");
 	::std::wstring wprintf_name (L"wprintf");
-    ::std::wstring malloc_name (L"malloc");
-    ::std::wstring load_inst_name (L"load_inst");
-    ::std::wstring store_inst_name (L"store_inst");
-    ::std::wstring cast_inst_name (L"cast_inst");
     ::std::wstring memcpy_name (L"memcpy");
-	::std::wstring malloc_function_name (L"malloc_function");
+	::std::wstring malloc_name (L"malloc");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -117,12 +109,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [llvm_name] = llvm_binder.package;
 	package->nodes [context_name] = context_instance;
 	package->nodes [wprintf_name] = wprintf_binder;
-    package->nodes [malloc_name] = malloc_binder;
-    package->nodes [load_inst_name] = load_inst_binder;
-    package->nodes [store_inst_name] = store_inst_binder;
-    package->nodes [cast_inst_name] = cast_inst_binder;
-    package->nodes [memcpy_name] = memcpy_binder;
-	package->nodes [malloc_function_name] = malloc_function;
+    package->nodes [malloc_name] = malloc_function;
+    package->nodes [memcpy_name] = memcpy_function;
 	routine_binder.instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{
@@ -146,6 +134,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = routine_binder.errors.begin (); i != routine_binder.errors.end (); ++i)
 		{
 			(*i)->string (stream);
+			stream << L'\n';
 		}
 		stream.seekg (0);
 		::std::wstring error (stream.str ());

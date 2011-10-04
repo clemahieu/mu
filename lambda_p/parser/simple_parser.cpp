@@ -160,7 +160,13 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 			}
 			else
 			{
-				::std::wstring message (L"Unresolved references");
+				::std::wstring message;
+				for (::std::multimap < ::std::wstring, ::lambda_p::core::reference *>::iterator i = state_l->unresolved_references.begin (); i != state_l->unresolved_references.end (); ++i)
+				{
+					message.append (L"Unresolved reference: ");
+					message.append (i->first);
+					message.push_back (L'\n');
+				}
 				state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::error (message)));
 			}
 			break;
