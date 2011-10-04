@@ -3,6 +3,9 @@
 #include <boost/shared_ptr.hpp>
 
 #include <lambda_p/parser/state.h>
+#include <lambda_p/core/declaration.h>
+
+#include <map>
 
 namespace lambda_p
 {

@@ -1,4 +1,22 @@
 #include <lambda_p/lexer/simple_lexer.h>
+#include <lambda_p/core/routine.h>
+#include <lambda_p/tokens/identifier.h>
+#include <lambda_p/tokens/routine_end.h>
+#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/data.h>
+#include <lambda_p/tokens/complex_identifier.h>
+#include <lambda_p/tokens/connector.h>
+
+#include <lambda_p/lexer/state.h>
+#include <lambda_p/lexer/begin.h>
+#include <lambda_p/lexer/error.h>
+#include <lambda_p/lexer/control.h>
+#include <lambda_p/lexer/identifier.h>
+#include <lambda_p/lexer/multiline_comment.h>
+#include <lambda_p/lexer/singleline_comment.h>
+#include <lambda_p/lexer/manifest_data.h>
+
+#include <boost/circular_buffer.hpp>
 
 lambda_p::lexer::simple_lexer::simple_lexer (::boost::function < void (::lambda_p::tokens::token *)> target_a)
 	: target (target_a)
