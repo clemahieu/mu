@@ -34,6 +34,8 @@
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/declaration.h>
+#include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/function_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -93,6 +95,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::boost::shared_ptr < ::lambda_p_llvm::store_inst_binder> store_inst_binder (new ::lambda_p_llvm::store_inst_binder (context));
     ::boost::shared_ptr < ::lambda_p_llvm::cast_inst_binder> cast_inst_binder (new ::lambda_p_llvm::cast_inst_binder (context));
     ::boost::shared_ptr < ::lambda_p_llvm::memcpy_binder> memcpy_binder (new ::lambda_p_llvm::memcpy_binder (context, memcpy.memcpy));
+	::boost::shared_ptr < ::lambda_p_llvm::function_binder> malloc_function (new ::lambda_p_llvm::function_binder (malloc.malloc));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -106,6 +109,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::std::wstring store_inst_name (L"store_inst");
     ::std::wstring cast_inst_name (L"cast_inst");
     ::std::wstring memcpy_name (L"memcpy");
+	::std::wstring malloc_function_name (L"malloc_function");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -118,6 +122,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     package->nodes [store_inst_name] = store_inst_binder;
     package->nodes [cast_inst_name] = cast_inst_binder;
     package->nodes [memcpy_name] = memcpy_binder;
+	package->nodes [malloc_function_name] = malloc_function;
 	routine_binder.instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{

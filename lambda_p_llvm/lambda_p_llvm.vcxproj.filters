@@ -20,6 +20,8 @@
     <ClInclude Include="memcpy_binder.h" />
     <ClInclude Include="memcpy_function.h" />
     <ClInclude Include="store_inst_binder.h" />
+    <ClInclude Include="call_inst_binder.h" />
+    <ClInclude Include="function_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -41,5 +43,7 @@
     <ClCompile Include="memcpy_binder.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
+    <ClCompile Include="call_inst_binder.cpp" />
+    <ClCompile Include="function_binder.cpp" />
   </ItemGroup>
 </Project>
