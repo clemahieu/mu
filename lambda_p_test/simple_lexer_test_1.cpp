@@ -50,7 +50,7 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 3);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_connector);
@@ -71,7 +71,7 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 3);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
@@ -89,7 +89,7 @@ void lambda_p_test::simple_lexer_test_1::run_3 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (tokens.tokens->size () == 0);
 }
 
@@ -103,7 +103,7 @@ void lambda_p_test::simple_lexer_test_1::run_4 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 0);
 }
@@ -118,7 +118,7 @@ void lambda_p_test::simple_lexer_test_1::run_5 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (lexer.error ());
 	assert (tokens.tokens->size () == 0);
 }
@@ -133,7 +133,7 @@ void lambda_p_test::simple_lexer_test_1::run_6 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (lexer.error ());
 	assert (tokens.tokens->size () == 0);
 }
@@ -148,7 +148,7 @@ void lambda_p_test::simple_lexer_test_1::run_7 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (lexer.error ());
 	assert (tokens.tokens->size () == 0);
 }
@@ -163,7 +163,7 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 1);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
@@ -181,7 +181,7 @@ void lambda_p_test::simple_lexer_test_1::run_9 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (tokens.tokens->size () == 2);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_identifier);
 	assert ((*tokens.tokens) [1]->token_id () == ::lambda_p::tokens::token_id_identifier);
@@ -197,7 +197,7 @@ void lambda_p_test::simple_lexer_test_1::run_10 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 0);
 }
@@ -212,7 +212,7 @@ void lambda_p_test::simple_lexer_test_1::run_11 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 1);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
@@ -234,7 +234,7 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 1);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
@@ -250,7 +250,7 @@ void lambda_p_test::simple_lexer_test_1::run_13 ()
 	{
 		lexer (*i);
 	}
-	lexer (L'\uee0f');
+	lexer (L'\uffff');
 	assert (!lexer.error ());
 	assert (tokens.tokens->size () == 2);
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_identifier);

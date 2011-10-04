@@ -133,7 +133,7 @@ void lambda_p::lexer::simple_lexer::lex_begin (wchar_t character)
 	case L'#':
 		state.push (new ::lambda_p::lexer::control);
 		break;
-	case L'\uee0f':
+	case L'\uffff':
 		pop_state ();
 		break;
 	default:
@@ -146,7 +146,7 @@ void lambda_p::lexer::simple_lexer::lex_begin (wchar_t character)
 void lambda_p::lexer::simple_lexer::lex_control (wchar_t character)
 {
 	::lambda_p::lexer::control * state_l (static_cast < ::lambda_p::lexer::control *> (state.top ()));
-	if (character != '\uee0f')
+	if (character != '\uffff')
 	{
 		switch (character)
 		{
@@ -183,7 +183,7 @@ void lambda_p::lexer::simple_lexer::lex_control (wchar_t character)
 void lambda_p::lexer::simple_lexer::lex_multiline_comment (wchar_t character)
 {
 	::lambda_p::lexer::multiline_comment * state_l (static_cast < ::lambda_p::lexer::multiline_comment *> (state.top ()));
-	if (character != L'\uee0f')
+	if (character != L'\uffff')
 	{
 		if (state_l->have_pound)
 		{
@@ -226,7 +226,7 @@ void lambda_p::lexer::simple_lexer::lex_singleline_comment (wchar_t character)
 	case L'\f':
 		pop_state ();
 		break;
-	case L'\uee0f':
+	case L'\uffff':
 		pop_state ();
 		lex_internal (character);
 		break;
@@ -239,7 +239,7 @@ void lambda_p::lexer::simple_lexer::lex_singleline_comment (wchar_t character)
 void lambda_p::lexer::simple_lexer::lex_manifest_data (wchar_t character)
 {
 	::lambda_p::lexer::manifest_data * state_l (static_cast < ::lambda_p::lexer::manifest_data *> (state.top ()));
-	if (character != L'\uee0f')
+	if (character != L'\uffff')
 	{
 		if (!state_l->have_end_token)
 		{
@@ -290,7 +290,7 @@ void lambda_p::lexer::simple_lexer::lex_identifier (wchar_t character)
 	case L'=':
 	case L'#':
 	case L'\0':
-	case L'\uee0f':
+	case L'\uffff':
 		{
 			::lambda_p::tokens::identifier * identifier = new ::lambda_p::tokens::identifier (state_l->string);
 			target (identifier);
