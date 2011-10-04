@@ -13,7 +13,6 @@ namespace lambda_p
 			data (::boost::shared_ptr < ::lambda_p::parser::statement> statement_a);
 			~data (void);
 			state_id state_type ();
-			::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
 			::boost::shared_ptr < ::lambda_p::parser::statement> statement;
 		};
 	}

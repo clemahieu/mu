@@ -7,6 +7,7 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/core/declaration.h>
 
 #include <llvm/Constants.h>
 #include <llvm/Type.h>
@@ -27,58 +28,39 @@ lambda_p_llvm::constant_int_binder::~constant_int_binder(void)
 
 void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)	
 {
-	size_t argument_count (statement->arguments.size ());
-	if (argument_count == 4)
+	bool problem (false);
+	check_count (problem, 1, 2, L"constant_int_binder", statement, problems);
+	if (!problem)
 	{
-		::lambda_p::core::node * declaration_node (statement->arguments [1]);
-		::lambda_p::core::node_id declaration_id (declaration_node->node_type ());
-		switch (declaration_id)
+		::lambda_p::core::node * base_node (statement->parameters [0]);
+		::lambda_p::core::node_id base_id (base_node->node_type ());
+		switch (base_id)
 		{
-		case ::lambda_p::core::node_declaration:
+		case ::lambda_p::core::node_data:
 			{
-				::lambda_p::core::node * base_node (statement->arguments [2]);
-				::lambda_p::core::node_id base_id (base_node->node_type ());
-				switch (base_id)
+				::lambda_p::core::node * number_node (statement->parameters [1]);
+				::lambda_p::core::node_id number_id (number_node->node_type ());
+				switch (number_id)
 				{
 				case ::lambda_p::core::node_data:
 					{
-						::lambda_p::core::node * number_node (statement->arguments [3]);
-						::lambda_p::core::node_id number_id (number_node->node_type ());
-						switch (number_id)
-						{
-						case ::lambda_p::core::node_data:
-							{
-								parse_nodes (base_node, number_node, declaration_node, instances, problems);
-							}
-							break;
-						default:
-							problems << L"constant_int_binder expects argument 3 to be data, have: ";
-							problems << number_node->node_type_name ();
-							problems << '\n';
-							break;
-						}
+						parse_nodes (base_node, number_node, statement->results [0], instances, problems);
 					}
 					break;
 				default:
 					problems << L"constant_int_binder expects argument 2 to be data, have: ";
-					problems << base_node->node_type_name ();
+					problems << number_node->node_type_name ();
 					problems << '\n';
 					break;
 				}
 			}
 			break;
 		default:
-			problems << L"constant_int_binder expects argument 1 to be a declaration, have: ";
-			problems << declaration_node->node_type_name ();
+			problems << L"constant_int_binder expects argument 1 to be data, have: ";
+			problems << base_node->node_type_name ();
 			problems << '\n';
 			break;
 		}
-	}
-	else
-	{
-		problems << L"constant_int_binder is expecting 3 arguments, have: ";
-		problems << argument_count;
-		problems << '\n';
 	}
 }
 

@@ -37,14 +37,14 @@ void lambda_p_test::echo_binder_test::run ()
     ::lambda_p::core::routine routine;
     ::lambda_p::core::statement * parameters = routine.add_statement ();
     ::lambda_p::core::declaration * p1 = routine.add_declaration ();
-    parameters->add_argument (p1);
+	parameters->results.push_back (p1);
     ::lambda_p::core::declaration * p2 = routine.add_declaration ();
-    parameters->add_argument (p2);
+    parameters->results.push_back (p2);
     ::lambda_p::core::statement * statement = routine.add_statement ();
     ::lambda_p::core::reference * reference = routine.add_reference (p1);
-    statement->add_argument (reference);
+    statement->parameters.push_back (reference);
     ::lambda_p::core::reference * str = routine.add_reference (p2);
-    statement->add_argument (str);
+    statement->parameters.push_back (str);
     ::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));

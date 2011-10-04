@@ -22,9 +22,6 @@
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\declaration.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\routine_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -85,13 +82,7 @@
     <ClInclude Include="parser\begin.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\body.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\data.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\declaration.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\error.h">
@@ -168,9 +159,6 @@
     <ClCompile Include="tokens\identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\declaration.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\routine_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
@@ -231,13 +219,7 @@
     <ClCompile Include="parser\begin.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\body.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\data.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\declaration.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\error.cpp">

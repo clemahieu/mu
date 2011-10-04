@@ -26,24 +26,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -155,11 +155,8 @@
     <ClInclude Include="lexer\singleline_comment.h" />
     <ClInclude Include="lexer\state.h" />
     <ClInclude Include="lexer\token_vector.h" />
-    <ClInclude Include="lexer\whitespace.h" />
     <ClInclude Include="parser\begin.h" />
-    <ClInclude Include="parser\body.h" />
     <ClInclude Include="parser\data.h" />
-    <ClInclude Include="parser\declaration.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\parse_result.h" />
     <ClInclude Include="parser\production_target.h" />
@@ -173,10 +170,10 @@
     <ClInclude Include="lexer\simple_lexer.h" />
     <ClInclude Include="parser\simple_parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
-    <ClInclude Include="tokens\declaration.h" />
+    <ClInclude Include="tokens\connector.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
-    <ClInclude Include="tokens\data_token.h" />
+    <ClInclude Include="tokens\data.h" />
     <ClInclude Include="tokens\statement_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
@@ -207,11 +204,8 @@
     <ClCompile Include="lexer\singleline_comment.cpp" />
     <ClCompile Include="lexer\state.cpp" />
     <ClCompile Include="lexer\token_vector.cpp" />
-    <ClCompile Include="lexer\whitespace.cpp" />
     <ClCompile Include="parser\begin.cpp" />
-    <ClCompile Include="parser\body.cpp" />
     <ClCompile Include="parser\data.cpp" />
-    <ClCompile Include="parser\declaration.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\parse_result.cpp" />
     <ClCompile Include="parser\production_target.cpp" />
@@ -223,10 +217,10 @@
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
-    <ClCompile Include="tokens\declaration.cpp" />
+    <ClCompile Include="tokens\connector.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
-    <ClCompile Include="tokens\data_token.cpp" />
+    <ClCompile Include="tokens\data.cpp" />
     <ClCompile Include="tokens\statement_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>

@@ -19,6 +19,8 @@ namespace lambda_p
 			~routine(void);
 			state_id state_type ();
 			::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
+			::std::multimap < ::std::wstring, ::lambda_p::core::reference *> unresolved_references;
+			::std::map < ::std::wstring, ::lambda_p::core::declaration *> positions;
 			bool parsed_routine;
 		};
 	}

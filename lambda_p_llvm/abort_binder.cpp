@@ -27,16 +27,11 @@ context (context_a)
 
 void lambda_p_llvm::abort_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
-    size_t argument_count (statement->arguments.size ());
-    if (argument_count == 1)
-    {
+	bool problem (false);
+	check_count (problem, 0, 0, L"abort_binder", statement, problems);
+	if (!problem)
+	{
         ::llvm::CallInst * call = ::llvm::CallInst::Create (abort_function);
         context->block->getInstList ().push_back (call);
-    }
-    else
-    {
-        problems << L"Abort binder is expecting no arguments, have: ";
-        problems << argument_count - 1;
-        problems << '\n';
     }
 }
