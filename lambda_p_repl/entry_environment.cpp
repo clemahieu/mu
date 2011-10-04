@@ -143,7 +143,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 			(*i)->string (stream);
 		}
 		stream.seekg (0);
-		::std::wcout << stream;
+		::std::wstring error (stream.str ());
+		::std::wcout << error;
 		::std::wcout << '\n';
 	}
 	else

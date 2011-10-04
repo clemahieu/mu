@@ -153,8 +153,16 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 			}
 			break;
 		case ::lambda_p::tokens::token_id_routine_end:
-			target (state_l->routine_m);
-			state.pop ();
+			if (state_l->unresolved_references.empty ())
+			{
+				target (state_l->routine_m);
+				state.pop ();
+			}
+			else
+			{
+				::std::wstring message (L"Unresolved references");
+				state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::error (message)));
+			}
 			break;
 		default:
 			::std::wstring message (L"Expecting an identifier as target of statement, have: ");
