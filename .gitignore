@@ -12,3 +12,6 @@ Release/
 ipch/
 .DS_Store
 xcuserdata/
+.metadata/
+llvm/
+boost/

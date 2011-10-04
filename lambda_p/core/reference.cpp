@@ -29,8 +29,3 @@ lambda_p::core::reference::~reference ()
 {
 	return ::lambda_p::core::node_reference;
 }
-
-::std::wstring lambda_p::core::reference::node_type_name () const
-{
-	return ::std::wstring (L"reference");
-}

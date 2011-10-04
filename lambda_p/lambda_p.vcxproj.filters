@@ -22,16 +22,10 @@
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\declaration.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\routine_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="tokens\statement_end.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\data_token.h">
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="tokens\complex_identifier.h">
@@ -79,19 +73,10 @@
     <ClInclude Include="lexer\token_vector.h">
       <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\whitespace.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
     <ClInclude Include="parser\begin.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\body.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\data.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\declaration.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\error.h">
@@ -115,9 +100,6 @@
     <ClInclude Include="parser\statement.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\reference.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\reference_identifiers.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -128,9 +110,6 @@
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\node_instance.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\structure.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="errors\error.h">
@@ -147,6 +126,51 @@
     </ClInclude>
     <ClInclude Include="core\position.h">
       <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\connector.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\data.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\finished.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\stream_end.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="core\association.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\association.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\association_target.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\data_target.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\package.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\unresolved_statement.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\unexpected_argument_count.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\unexpected_result_count.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\binder_error.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\unexpected_node_type.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\binder_string_error.h">
+      <Filter>errors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -168,16 +192,10 @@
     <ClCompile Include="tokens\identifier.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\declaration.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\routine_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\statement_end.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\data_token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
@@ -225,28 +243,16 @@
     <ClCompile Include="lexer\token_vector.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\whitespace.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
     <ClCompile Include="parser\begin.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\body.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\data.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\declaration.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\error.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\parse_result.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\reference.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\routine.cpp">
@@ -276,9 +282,6 @@
     <ClCompile Include="binder\node_instance.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="binder\structure.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -293,6 +296,51 @@
     </ClCompile>
     <ClCompile Include="core\position.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\connector.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\data.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\finished.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\stream_end.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="core\association.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\association.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\association_target.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\data_target.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\package.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\unresolved_statement.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\unexpected_argument_count.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\unexpected_result_count.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\binder_error.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\unexpected_node_type.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\binder_string_error.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

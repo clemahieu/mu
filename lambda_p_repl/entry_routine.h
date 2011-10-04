@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 #include <lambda_p/binder/routine_binder.h>
 
@@ -13,10 +14,6 @@ namespace lambda_p
 		class routine;
 		class node;
 	}
-	namespace binder
-	{
-		class structure;
-	}
 }
 namespace lambda_p_repl
 {
@@ -24,12 +21,12 @@ namespace lambda_p_repl
 	class entry_routine
 	{
 	public:
-		entry_routine (::lambda_p_repl::repl * repl_a, ::std::wistream & in_a, ::std::wostream & out_a);
-        entry_routine (::std::wistream & in_a, ::std::wostream & out_a);
+		entry_routine (::lambda_p_repl::repl * repl_a, ::boost::function <wchar_t ()> in_a, ::std::wostream & out_a);
+        entry_routine (::boost::function <wchar_t ()> in_a, ::std::wostream & out_a);
 		~entry_routine (void);
 		void operator () ();
 	private:
-		::std::wistream & in;
+		::boost::function <wchar_t ()> in;
 		::std::wostream & out;
         ::lambda_p_repl::repl * repl;
 	};

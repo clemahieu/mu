@@ -13,13 +13,13 @@ namespace lambda_p
 			node_reference
 		};
 		class routine;
+		::std::wstring node_name (node_id);
 		class node
 		{
 		public:
 			node ();
 			~node (void);
 			virtual node_id node_type () const = 0;
-			virtual ::std::wstring node_type_name () const = 0;
 		};
 	}
 }

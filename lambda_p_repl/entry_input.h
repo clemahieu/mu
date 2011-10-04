@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 namespace lambda_p
 {
@@ -24,7 +25,7 @@ namespace lambda_p_repl
     class entry_input
     {
     public:  
-		void operator () (::std::wistream & in_a, ::std::wostream & out_a);
+		void operator () (::boost::function <wchar_t ()> in_a, ::std::wostream & out_a);
         ::boost::shared_ptr < ::lambda_p::core::routine> routine;
     };
 }

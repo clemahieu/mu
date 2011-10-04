@@ -20,10 +20,10 @@ namespace lambda_p
 	{
 		class routine;
 		class node;
-		class result_ref;
-		class result;
 		class data;
-		class parameter_ref;
+		class reference;
+		class declaration;
+		class association;
 		class statement
 		{
 			friend class ::lambda_p::core::data;
@@ -32,10 +32,10 @@ namespace lambda_p
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::serialization::parser::simple_parser;
 		public:
-			statement ();
+			statement (::lambda_p::core::reference * target_a);
 			~statement (void);
-            void add_argument (::lambda_p::core::node * node_a);
-            ::std::vector < ::lambda_p::core::node *> arguments;
+			::lambda_p::core::reference * target;
+			::lambda_p::core::association * association;
 		};
 	}
 }

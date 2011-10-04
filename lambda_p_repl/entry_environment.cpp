@@ -12,7 +12,7 @@
 #include <lambda_p_repl/entry_environment.h>
 
 #include <lambda_p/binder/routine_binder.h>
-#include <lambda_p/binder/structure.h>
+#include <lambda_p/binder/package.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
 #include <lambda_p_repl/repl.h>
@@ -32,6 +32,8 @@
 #include <lambda_p_llvm/cast_inst_binder.h>
 #include <lambda_p_llvm/memcpy_binder.h>
 #include <lambda_p_llvm/memcpy_function.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/core/declaration.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -79,8 +81,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
-	::lambda_p::binder::routine_binder routine_binder;
-	::boost::shared_ptr < ::lambda_p::binder::structure> dereference_binder (new ::lambda_p::binder::structure);
+	::lambda_p::binder::routine_binder routine_binder (routine_a);
+	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
@@ -104,19 +106,19 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::std::wstring store_inst_name (L"store_inst");
     ::std::wstring cast_inst_name (L"cast_inst");
     ::std::wstring memcpy_name (L"memcpy");
-	dereference_binder->nodes [echo_name] = echo_binder;
-	dereference_binder->nodes [hello_name] = hello_binder;
-	dereference_binder->nodes [d2s_name] = d2s_binder;
-	dereference_binder->nodes [read_name] = read_binder;
-	dereference_binder->nodes [llvm_name] = llvm_binder.structure;
-	dereference_binder->nodes [context_name] = context_instance;
-	dereference_binder->nodes [wprintf_name] = wprintf_binder;
-    dereference_binder->nodes [malloc_name] = malloc_binder;
-    dereference_binder->nodes [load_inst_name] = load_inst_binder;
-    dereference_binder->nodes [store_inst_name] = store_inst_binder;
-    dereference_binder->nodes [cast_inst_name] = cast_inst_binder;
-    dereference_binder->nodes [memcpy_name] = memcpy_binder;
-	routine_binder.instances [environment_node (routine_a)] = dereference_binder;
+	package->nodes [echo_name] = echo_binder;
+	package->nodes [hello_name] = hello_binder;
+	package->nodes [d2s_name] = d2s_binder;
+	package->nodes [read_name] = read_binder;
+	package->nodes [llvm_name] = llvm_binder.package;
+	package->nodes [context_name] = context_instance;
+	package->nodes [wprintf_name] = wprintf_binder;
+    package->nodes [malloc_name] = malloc_binder;
+    package->nodes [load_inst_name] = load_inst_binder;
+    package->nodes [store_inst_name] = store_inst_binder;
+    package->nodes [cast_inst_name] = cast_inst_binder;
+    package->nodes [memcpy_name] = memcpy_binder;
+	routine_binder.instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
@@ -129,15 +131,19 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
         engine->addGlobalMapping (quit_object, repl);
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 		::std::wstring quit_name (L"quit");
-		dereference_binder->nodes [quit_name] = binder;
+		package->nodes [quit_name] = binder;
 	}
-	routine_binder (routine_a);
+	routine_binder ();
 	if (routine_binder.error ())
 	{
 		::std::wcout << "Binding error:\n";
-		::std::wstring message;
-		routine_binder.error_message (message);
-		::std::wcout << message;
+		::std::wstringstream stream;
+		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = routine_binder.errors.begin (); i != routine_binder.errors.end (); ++i)
+		{
+			(*i)->string (stream);
+		}
+		stream.seekg (0);
+		::std::wcout << stream;
 		::std::wcout << '\n';
 	}
 	else
@@ -151,7 +157,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 
 ::lambda_p::core::node * lambda_p_repl::entry_environment::environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine)
 {
-	::lambda_p::core::node * result (routine->statements [0]->arguments [0]);
+	::lambda_p::core::node * result (routine->surface->results [0]);
 	return result;
 }
 

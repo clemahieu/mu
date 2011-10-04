@@ -2,10 +2,16 @@
 
 #include <lambda_p/core/routine.h>
 #include <lambda_p/binder/node_binder.h>
+#include <lambda_p/core/statement.h>
+#include <lambda_p/core/reference.h>
+#include <lambda_p/core/declaration.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/errors/unresolved_statement.h>
 
 #include <sstream>
 
-lambda_p::binder::routine_binder::routine_binder ()
+lambda_p::binder::routine_binder::routine_binder (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
+	: routine (routine_a)
 {
 }
 
@@ -13,109 +19,114 @@ lambda_p::binder::routine_binder::~routine_binder(void)
 {
 }
 
-void lambda_p::binder::routine_binder::operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
+void lambda_p::binder::routine_binder::operator () ()
 {
-	::std::vector < ::lambda_p::core::statement *>::iterator i = routine_a->statements.begin ();
-	assert (i != routine_a->statements.end ()); // No first statement means a routine with no parameters
-	++i; // Skip first statement, the parameters
-	while (i != routine_a->statements.end ())
-	{
-		::lambda_p::core::statement * statement (*i);	
-		bind_statement (routine_a, statement);
-		++i;
+	::std::vector < ::lambda_p::core::statement *>::iterator i = routine->statements.begin ();
+	size_t statement_count (routine->statements.size ());
+	for (size_t i = 0; i < statement_count; ++i)
+	{	
+		bind_statement (i);
 	}
-	for (::std::map < ::lambda_p::core::node *, ::lambda_p::core::statement *>::iterator i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
+	for (::std::map < ::lambda_p::core::declaration *, size_t>::iterator i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
 	{
-		error_message_m << L"Unresolved node\n";
+		errors.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unresolved_statement (i->second)));
 	}
 }
 
-void lambda_p::binder::routine_binder::bind_statement (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement)
+void lambda_p::binder::routine_binder::bind_statement (size_t statement)
 {	
 	::boost::shared_ptr < ::lambda_p::binder::node_binder> binder;
-	populate_unbound (routine_a, statement, binder);
+	populate_unbound (statement, binder);
 	if (binder.get () != NULL)
 	{
-		binder->bind (statement, instances, error_message_m);
+		binder->bind (routine->statements [statement], instances, errors);
+		retry_bind (statement); // We might have resolved what was needed for a previously unresolved bind
 	}
 	else
 	{
-		error_message_m << L"Target of statement is not bindable\n";		
+		// Could be resolved out of order, wait until end
 	}
+}
+
+void error_message (::std::wostream & stream)
+{
 }
 
 void lambda_p::binder::routine_binder::reset ()
 {
-	error_message_m.clear ();
+	errors.clear ();
 }
 
-void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder)
+void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder)
 {
-	::std::vector < ::lambda_p::core::node *>::iterator i = statement->arguments.begin ();
-	assert (i != statement->arguments.end ()); // Statement must have target argument	
-	::lambda_p::core::node * node (*i);
-	::lambda_p::core::node_id node_id (node->node_type ());
-	switch (node_id)
+	::lambda_p::core::statement * statement_l (routine->statements [statement]);
+	assert (statement_l->target != NULL);
+	::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l;
+	copy_declaration_binder (binder_l, statement_l->target);
+	if (binder_l.get () != NULL)
 	{
-	case ::lambda_p::core::node_reference:
+		binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
+		for (::std::vector < ::lambda_p::core::node *>::iterator i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
 		{
-			::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
-			::lambda_p::core::node * target (reference->declaration);
-			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
-			if (search != instances.end ())
+			::lambda_p::core::node * node (*i);
+			::lambda_p::core::node_id node_id (node->node_type ());
+			switch (node_id)
 			{
-				instances [node] = search->second;
-				::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l (search->second);
-				binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
-			}
-			else
-			{
-				unbound_statements [target] = statement;
+			case ::lambda_p::core::node_reference:
+				{
+					::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
+					copy_declaration_binder (binder_l, reference);
+					if (binder_l.get () == NULL)
+					{
+						binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
+						unbound_statements [reference->declaration] = statement;
+					}
+				}
+				break;
+			default:
+				// Data doesn't need to be resolved
+				break;
 			}
 		}
-		break;
-	default:
-		assert (false); // Target is not a reference
-		break;
 	}
-	++i;
-	while (binder.get () != NULL && i != statement->arguments.end ())
+	else
 	{
-		::lambda_p::core::node * node (*i);
-		::lambda_p::core::node_id node_id (node->node_type ());
-		switch (node_id)
+		unbound_statements [statement_l->target->declaration] = statement;
+	}
+}
+
+void lambda_p::binder::routine_binder::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::reference * reference)
+{
+	::lambda_p::core::node * declaration (reference->declaration);
+	::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (declaration));
+	if (search != instances.end ())
+	{
+		binder = search->second;
+		instances [reference] = search->second;
+	}
+	else 
+	{
+		binder.reset ();
+	}
+}
+
+void lambda_p::binder::routine_binder::retry_bind (size_t statement)
+{
+	::lambda_p::core::statement * statement_l (routine->statements [statement]);
+	for (::std::vector < ::lambda_p::core::declaration *>::iterator i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)
+	{
+		::std::map < ::lambda_p::core::declaration *, size_t>::iterator search (unbound_statements.find (*i));
+		if (search != unbound_statements.end ())
 		{
-		case ::lambda_p::core::node_reference:
-			{
-				::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
-				::lambda_p::core::node * target (reference->declaration);
-				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
-				if (search != instances.end ())
-				{
-					instances [node] = search->second;
-				}
-				else
-				{
-					binder.reset ();
-					unbound_statements [target] = statement;
-				}
-			}
-			break;
-		default:
-			// Data and declarations don't need to be resolved
-			break;
+			size_t retry_statement (search->second);
+			unbound_statements.erase (search);
+			bind_statement (retry_statement);
 		}
-		++i;
 	}
 }
 
 bool lambda_p::binder::routine_binder::error ()
 {
-	bool result (!error_message_m.str ().empty ());
+	bool result (!errors.empty ());
 	return result;
-}
-
-void lambda_p::binder::routine_binder::error_message (::std::wstring & target)
-{
-	target.append (error_message_m.str ());
 }

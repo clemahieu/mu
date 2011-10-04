@@ -8,12 +8,14 @@
     <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
-    <ClCompile Include="stream_read_entry_routine_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="entry_input_binder.cpp" />
     <ClCompile Include="dynamic_wprintf.cpp" />
     <ClCompile Include="malloc_binder.cpp" />
+    <ClCompile Include="stream_read_entry_routine_binder.cpp" />
+    <ClCompile Include="wistream_input.cpp" />
+    <ClCompile Include="istream_input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -23,11 +25,13 @@
     <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
-    <ClInclude Include="stream_read_entry_routine_binder.h" />
     <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="entry_input_binder.h" />
     <ClInclude Include="dynamic_wprintf.h" />
     <ClInclude Include="malloc_binder.h" />
+    <ClInclude Include="stream_read_entry_routine_binder.h" />
+    <ClInclude Include="wistream_input.h" />
+    <ClInclude Include="istream_input.h" />
   </ItemGroup>
 </Project>

@@ -37,8 +37,6 @@ namespace lambda_p
             reference (::lambda_p::core::declaration * declaration_a);
             ~reference ();
 			node_id node_type () const;
-			::std::wstring node_type_name () const;
-		private:
             ::lambda_p::core::declaration * declaration;
         };
     }

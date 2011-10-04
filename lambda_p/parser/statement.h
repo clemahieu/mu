@@ -2,6 +2,8 @@
 
 #include <lambda_p/parser/state.h>
 #include <lambda_p/parser/reference_identifiers.h>
+#include <lambda_p/parser/routine.h>
+#include <lambda_p/parser/association_target.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -18,20 +20,17 @@ namespace lambda_p
 	namespace parser
 	{
 		class body;
-		class statement : public state
+		class statement : public state, public ::lambda_p::parser::association_target
 		{
 		public:
-			statement (::boost::shared_ptr < ::lambda_p::parser::body> body_a, ::std::wstring statement_name_a);
+			statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a);
 			~statement (void);
 			state_id state_type ();
-			::std::wstring statement_name;
+			void sink_result (::lambda_p::core::declaration * declaration);
+			void sink_argument (::lambda_p::core::node * argument);
 			bool have_target;
-			bool have_argument;
-			void sink_reference (::lambda_p::parser::simple_parser & parser, ::lambda_p::parser::reference_identifiers reference);
-			void sink_data (::lambda_p::parser::simple_parser & parser, ::lambda_p::tokens::identifier * identifier);
-			void sink_declaration (::lambda_p::parser::simple_parser & parser, ::lambda_p::tokens::identifier * identifier);
-			::boost::shared_ptr < ::lambda_p::core::routine> & routine ();
-			::boost::shared_ptr < ::lambda_p::parser::body> body;
+			bool on_results;
+			::boost::shared_ptr < ::lambda_p::parser::routine> routine;
 			::lambda_p::core::statement * statement_m;
 		};
 	}

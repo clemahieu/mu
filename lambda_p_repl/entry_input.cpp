@@ -9,17 +9,19 @@
 #include <lambda_p_repl/entry_input.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p/errors/error.h>
+#include <lambda_p/core/routine.h>
 
 #include <sstream>
 #include <iostream>
 
-void lambda_p_repl::entry_input::operator () (::std::wistream & in, ::std::wostream & out)
+void lambda_p_repl::entry_input::operator () (::boost::function <wchar_t ()> in, ::std::wostream & out)
 {
 	::lambda_p_repl::routine_input input;
-	::std::wstring environment (L"main\n ;= environment\n;;\n");
+	out << L"lp> \n";
+	::std::wstring environment (L"environment = ;\n");
 	input (environment);
 	out << environment;
-	input (in, out);
+	input (in);
 	if (input.error ())
 	{
 		out << "Lexing error:\n";

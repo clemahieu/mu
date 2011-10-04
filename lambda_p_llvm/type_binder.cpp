@@ -7,6 +7,9 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/type.h>
+#include <lambda_p/core/declaration.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/errors/binder_string_error.h>
 
 #include <llvm/DerivedTypes.h>
 
@@ -20,82 +23,72 @@ lambda_p_llvm::type_binder::~type_binder(void)
 {
 }
 
-void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	size_t argument_count (statement->arguments.size ());
-	if (argument_count >= 4)
+	check_count (1, 2, statement, problems);
+	if (problems.empty ())
 	{
-		::lambda_p::core::node * declaration (statement->arguments [1]);
-		::lambda_p::core::node_id declaration_type (declaration->node_type ());
-		switch (declaration_type)
+		::lambda_p::core::declaration * declaration (statement->association->results [0]);
+		::lambda_p::core::node * context_node (statement->association->parameters [0]);
+		::lambda_p::core::node_id context_type (context_node->node_type ());
+		switch (context_type)
 		{
-		case ::lambda_p::core::node_declaration:
+		case ::lambda_p::core::node_reference:
 			{
-				::lambda_p::core::node * context_node (statement->arguments [2]);
-				::lambda_p::core::node_id context_type (context_node->node_type ());
-				switch (context_type)
+				::boost::shared_ptr < ::lambda_p::binder::node_instance> context_instance (instances [context_node]);
+				::boost::shared_ptr < ::lambda_p_llvm::context> context (::boost::dynamic_pointer_cast < ::lambda_p_llvm::context> (context_instance));
+				if (context.get () != NULL)
 				{
-				case ::lambda_p::core::node_reference:
+					::lambda_p::core::node * command (statement->association->parameters [1]);
+					::lambda_p::core::node_id command_type (command->node_type ());
+					switch (command_type)
 					{
-						assert (instances.find (context_node) != instances.end ());
-						::boost::shared_ptr < ::lambda_p::binder::node_instance> context_instance (instances [context_node]);
-						::boost::shared_ptr < ::lambda_p_llvm::context> context (::boost::dynamic_pointer_cast < ::lambda_p_llvm::context> (context_instance));
-						if (context.get () != NULL)
+					case ::lambda_p::core::node_data:
 						{
-							::lambda_p::core::node * command (statement->arguments [3]);
-							::lambda_p::core::node_id command_type (command->node_type ());
-							switch (command_type)
+							::lambda_p::core::data * command_data (static_cast < ::lambda_p::core::data *> (command));
+							if (command_data->string ().compare (::std::wstring (L"getInt32Ty")) == 0)
 							{
-							case ::lambda_p::core::node_data:
-								{
-									::lambda_p::core::data * command_data (static_cast < ::lambda_p::core::data *> (command));
-									if (command_data->string ().compare (::std::wstring (L"getInt32Ty")) == 0)
-									{
-										::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt32Ty (context->context_m)));
-										instances [declaration] = type;
-									}
-                                    else if (command_data->string ().compare (::std::wstring (L"getInt64PtrTy")) == 0)
-                                    {
-                                        ::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt64PtrTy (context->context_m)));
-                                        instances [declaration] = type;
-                                    }
-									else
-									{
-										problems << L"Unknown type_binder command: ";
-										problems << command_data->string ();
-										problems << '\n';
-									}
-								}
-								break;
-							default:
-								problems << L"type_binder expects argument 3 to be data, have: ";
-								problems << declaration->node_type_name ();
-								problems << '\n';
+								::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt32Ty (context->context_m)));
+								instances [declaration] = type;
+							}
+                            else if (command_data->string ().compare (::std::wstring (L"getInt64PtrTy")) == 0)
+                            {
+                                ::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt64PtrTy (context->context_m)));
+                                instances [declaration] = type;
+                            }
+							else
+							{
+								::std::wstring message;
+								message.append (L"Unknown type_binder command: ");
+								message.append (command_data->string ());
+								add_error (message, problems);
 							}
 						}
-						else
-						{
-							problems << L"type_binder does not reference a context\n";
-						}
+						break;
+					default:
+						::std::wstring message;
+						message.append (L"type_binder expects argument 3 to be data, have: ");
+						message.append (::lambda_p::core::node_name (command_type));
+						add_error (message, problems);
 					}
-					break;
-				default:
-					problems << L"type_binder expects argument 2 to be a reference to the context, have: ";
-					problems << declaration->node_type_name ();
-					problems << '\n';
+				}
+				else
+				{
+					problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (::std::wstring (L"type_binder"), ::std::wstring (L"type_binder does not reference a context"))));
 				}
 			}
 			break;
 		default:
-			problems << L"type_binder expects argument 1 to be a declaration, have: ";
-			problems << declaration->node_type_name ();
-			problems << '\n';
+			::std::wstring message;
+			message.append (L"type_binder expects argument 1 to be a reference to the context, have: ");
+			message.append (::lambda_p::core::node_name (context_type));
+			add_error (message, problems);
+			break;
 		}
 	}
-	else
-	{
-		problems << L"type_binder is expecting at least three arguments, have: ";
-		problems << argument_count - 1;
-		problems << '\n';
-	}
+}
+
+::std::wstring lambda_p_llvm::type_binder::binder_name ()
+{
+	return ::std::wstring (L"type_binder");
 }

@@ -1,5 +1,5 @@
 //
-//  declaration.h
+//  simple_string_token.h
 //  lambda_p
 //
 //  Created by Colin LeMahieu on 9/2/11.
@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class declaration : public token
+        class data : public token
         {
 			token_ids token_id ();
         };

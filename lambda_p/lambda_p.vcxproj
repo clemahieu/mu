@@ -26,24 +26,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -81,7 +81,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
@@ -92,7 +92,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
@@ -105,7 +105,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
@@ -120,7 +120,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Users\colin\Downloads\boost_1_47_0;C:\Users\colin_lemahieu\Downloads\boost_1_47_0;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
@@ -130,11 +130,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="binder\structure.h" />
     <ClInclude Include="binder\node_binder.h" />
     <ClInclude Include="binder\node_instance.h" />
     <ClInclude Include="binder\null_binder.h" />
+    <ClInclude Include="binder\package.h" />
     <ClInclude Include="binder\routine_binder.h" />
+    <ClInclude Include="core\association.h" />
     <ClInclude Include="core\declaration.h" />
     <ClInclude Include="core\position.h" />
     <ClInclude Include="core\reference.h" />
@@ -142,10 +143,16 @@
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\statement.h" />
+    <ClInclude Include="errors\binder_error.h" />
+    <ClInclude Include="errors\binder_string_error.h" />
     <ClInclude Include="errors\error.h" />
     <ClInclude Include="errors\orphan_node.h" />
     <ClInclude Include="errors\orphan_reference.h" />
     <ClInclude Include="errors\undefined_reference.h" />
+    <ClInclude Include="errors\unexpected_argument_count.h" />
+    <ClInclude Include="errors\unexpected_node_type.h" />
+    <ClInclude Include="errors\unexpected_result_count.h" />
+    <ClInclude Include="errors\unresolved_statement.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\control.h" />
     <ClInclude Include="lexer\error.h" />
@@ -155,16 +162,16 @@
     <ClInclude Include="lexer\singleline_comment.h" />
     <ClInclude Include="lexer\state.h" />
     <ClInclude Include="lexer\token_vector.h" />
-    <ClInclude Include="lexer\whitespace.h" />
+    <ClInclude Include="parser\association.h" />
+    <ClInclude Include="parser\association_target.h" />
     <ClInclude Include="parser\begin.h" />
-    <ClInclude Include="parser\body.h" />
     <ClInclude Include="parser\data.h" />
-    <ClInclude Include="parser\declaration.h" />
+    <ClInclude Include="parser\data_target.h" />
     <ClInclude Include="parser\error.h" />
+    <ClInclude Include="parser\finished.h" />
     <ClInclude Include="parser\parse_result.h" />
     <ClInclude Include="parser\production_target.h" />
     <ClInclude Include="parser\reference_identifiers.h" />
-    <ClInclude Include="parser\reference.h" />
     <ClInclude Include="parser\routine.h" />
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
@@ -173,19 +180,21 @@
     <ClInclude Include="lexer\simple_lexer.h" />
     <ClInclude Include="parser\simple_parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
-    <ClInclude Include="tokens\declaration.h" />
+    <ClInclude Include="tokens\connector.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
-    <ClInclude Include="tokens\data_token.h" />
+    <ClInclude Include="tokens\data.h" />
     <ClInclude Include="tokens\statement_end.h" />
+    <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="binder\structure.cpp" />
     <ClCompile Include="binder\node_binder.cpp" />
     <ClCompile Include="binder\node_instance.cpp" />
     <ClCompile Include="binder\null_binder.cpp" />
+    <ClCompile Include="binder\package.cpp" />
     <ClCompile Include="binder\routine_binder.cpp" />
+    <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\declaration.cpp" />
     <ClCompile Include="core\position.cpp" />
     <ClCompile Include="core\reference.cpp" />
@@ -193,10 +202,16 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\statement.cpp" />
+    <ClCompile Include="errors\binder_error.cpp" />
+    <ClCompile Include="errors\binder_string_error.cpp" />
     <ClCompile Include="errors\error.cpp" />
     <ClCompile Include="errors\orphan_node.cpp" />
     <ClCompile Include="errors\orphan_reference.cpp" />
     <ClCompile Include="errors\undefined_reference.cpp" />
+    <ClCompile Include="errors\unexpected_argument_count.cpp" />
+    <ClCompile Include="errors\unexpected_node_type.cpp" />
+    <ClCompile Include="errors\unexpected_result_count.cpp" />
+    <ClCompile Include="errors\unresolved_statement.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\control.cpp" />
     <ClCompile Include="lexer\error.cpp" />
@@ -207,15 +222,15 @@
     <ClCompile Include="lexer\singleline_comment.cpp" />
     <ClCompile Include="lexer\state.cpp" />
     <ClCompile Include="lexer\token_vector.cpp" />
-    <ClCompile Include="lexer\whitespace.cpp" />
+    <ClCompile Include="parser\association.cpp" />
+    <ClCompile Include="parser\association_target.cpp" />
     <ClCompile Include="parser\begin.cpp" />
-    <ClCompile Include="parser\body.cpp" />
     <ClCompile Include="parser\data.cpp" />
-    <ClCompile Include="parser\declaration.cpp" />
+    <ClCompile Include="parser\data_target.cpp" />
     <ClCompile Include="parser\error.cpp" />
+    <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\parse_result.cpp" />
     <ClCompile Include="parser\production_target.cpp" />
-    <ClCompile Include="parser\reference.cpp" />
     <ClCompile Include="parser\reference_identifiers.cpp" />
     <ClCompile Include="parser\routine.cpp" />
     <ClCompile Include="parser\routine_vector.cpp" />
@@ -223,11 +238,12 @@
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
-    <ClCompile Include="tokens\declaration.cpp" />
+    <ClCompile Include="tokens\connector.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
-    <ClCompile Include="tokens\data_token.cpp" />
+    <ClCompile Include="tokens\data.cpp" />
     <ClCompile Include="tokens\statement_end.cpp" />
+    <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

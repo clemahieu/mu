@@ -10,6 +10,7 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/declaration.h>
+#include <lambda_p/core/association.h>
 
 #include <vector>
 
@@ -33,24 +34,37 @@ namespace lambda_p
                 ::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> argument_positions;
                 ::std::map < ::lambda_p::core::statement const *, size_t> statement_positions;
                 routine_a->placement (argument_positions, statement_positions);
+				association (argument_positions, routine_a->surface);
                 for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = routine_a->statements.begin (); i != routine_a->statements.end (); ++i)
                 {
                     target << " ";
                     statement (argument_positions, statement_positions, *i);
                     target << "\n";
                 }
-                target << ";.";
+				target << "#;";
 			}
 			void statement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions, ::lambda_p::core::statement const * statement_a)
 			{
                 target << "statement";
                 target << statement_positions [statement_a];
-                for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->arguments.begin (); i != statement_a->arguments.end (); ++i)
+				reference (argument_positions, statement_a->target);
+				target << " ";
+				association (argument_positions, statement_a->association);
+			}
+			void association (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::association const * association_a)
+			{
+				for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = association_a->results.begin (); i != association_a->results.end (); ++i)
+				{
+					target << "\n ";
+					declaration (argument_positions, *i);
+				}
+				target << " = ";
+				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = association_a->parameters.begin (); i != association_a->parameters.end (); ++i)
                 {
                     target << "\n  ";
                     node (argument_positions, *i);
                 }
-                target << "\n ;;";
+				target << "\n ;";
 			}
 			void node (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::node const * node_a)
 			{
@@ -73,22 +87,18 @@ namespace lambda_p
 			}
 			void data (::lambda_p::core::data const * data_a)
 			{
-                target << ";' ";
+                target << "' ";
                 target << data_a->string ();
 			}
             void reference (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::reference const * result_ref_a)
             {
                 ::lambda_p::core::position position (argument_positions [result_ref_a->declaration]);
-                target << "statement";
-                target << position.statement;
-                target << " ";
                 target << "declaration";
                 target << position.argument;
             }
 			void declaration (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::declaration const * result_a)
 			{
                 ::lambda_p::core::position position (argument_positions [result_a]);
-				target << ";! ";
                 target << "declaration";
                 target << position.argument;
 			}

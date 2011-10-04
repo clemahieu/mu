@@ -7,6 +7,9 @@
 #include <lambda_p/core/data.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/core/declaration.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/errors/unexpected_node_type.h>
 
 #include <llvm/Constants.h>
 #include <llvm/Type.h>
@@ -25,64 +28,40 @@ lambda_p_llvm::constant_int_binder::~constant_int_binder(void)
 {
 }
 
-void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)	
+void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)	
 {
-	size_t argument_count (statement->arguments.size ());
-	if (argument_count == 4)
+	check_count (1, 2, statement, problems);
+	if (problems.empty ())
 	{
-		::lambda_p::core::node * declaration_node (statement->arguments [1]);
-		::lambda_p::core::node_id declaration_id (declaration_node->node_type ());
-		switch (declaration_id)
+		::lambda_p::core::node * base_node (statement->association->parameters [0]);
+		::lambda_p::core::node_id base_id (base_node->node_type ());
+		switch (base_id)
 		{
-		case ::lambda_p::core::node_declaration:
+		case ::lambda_p::core::node_data:
 			{
-				::lambda_p::core::node * base_node (statement->arguments [2]);
-				::lambda_p::core::node_id base_id (base_node->node_type ());
-				switch (base_id)
+				::lambda_p::core::node * number_node (statement->association->parameters [1]);
+				::lambda_p::core::node_id number_id (number_node->node_type ());
+				switch (number_id)
 				{
 				case ::lambda_p::core::node_data:
 					{
-						::lambda_p::core::node * number_node (statement->arguments [3]);
-						::lambda_p::core::node_id number_id (number_node->node_type ());
-						switch (number_id)
-						{
-						case ::lambda_p::core::node_data:
-							{
-								parse_nodes (base_node, number_node, declaration_node, instances, problems);
-							}
-							break;
-						default:
-							problems << L"constant_int_binder expects argument 3 to be data, have: ";
-							problems << number_node->node_type_name ();
-							problems << '\n';
-							break;
-						}
+						parse_nodes (base_node, number_node, statement->association->results [0], instances, problems);
 					}
 					break;
 				default:
-					problems << L"constant_int_binder expects argument 2 to be data, have: ";
-					problems << base_node->node_type_name ();
-					problems << '\n';
+					problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, number_id)));
 					break;
 				}
 			}
 			break;
 		default:
-			problems << L"constant_int_binder expects argument 1 to be a declaration, have: ";
-			problems << declaration_node->node_type_name ();
-			problems << '\n';
+			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, base_id)));
 			break;
 		}
 	}
-	else
-	{
-		problems << L"constant_int_binder is expecting 3 arguments, have: ";
-		problems << argument_count;
-		problems << '\n';
-	}
 }
 
-void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, ::std::wstring & number_wstring, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, ::std::wstring & number_wstring, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	wchar_t * next;
 	wchar_t const * string (number_wstring.c_str ());
@@ -90,13 +69,14 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, ::std
 	unsigned long number = ::std::wcstol (string, &next, (int)base);
 	if (base == 0 && string == next)
 	{
-		problems << L"constant_int_binder was unable to parse number: ";
-		problems << number_wstring;
-		problems << '\n';
+		::std::wstring message;
+		message.append (L"constant_int_binder was unable to parse number: ");
+		message.append (number_wstring);
+		add_error (message, problems);
 	}
 	else if (errno == ERANGE)
 	{
-		problems << L"constant_int_binder number overflowed\n";
+		add_error (::std::wstring (L"constant_int_binder number overflowed"), problems);
 	}
 	else
 	{
@@ -105,7 +85,7 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, ::std
 	}
 }
 
-void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * base_node, ::lambda_p::core::node * number_node, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * base_node, ::lambda_p::core::node * number_node, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::lambda_p::core::data * base_data (static_cast < ::lambda_p::core::data *> (base_node));
 	::lambda_p::core::data * number_data (static_cast < ::lambda_p::core::data *> (number_node));
@@ -116,9 +96,10 @@ void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * b
 	unsigned long base = ::std::wcstol (string, &next, 10);
 	if (base == 0 && string == next)
 	{
-		problems << L"constant_int_binder was unable to parse base: ";
-		problems << base_wstring;
-		problems << '\n';
+		::std::wstring message;
+		message.append (L"constant_int_binder was unable to parse base: ");
+		message.append (base_wstring);
+		add_error (message, problems);
 	}
 	else
 	{
@@ -128,7 +109,12 @@ void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * b
 		}
 		else
 		{
-			problems << L"constant_int_binder has a base that's not between 2 and 36, inclusive\n";
+			add_error (::std::wstring (L"constant_int_binder has a base that's not between 2 and 36, inclusive"), problems);
 		}
 	}
+}
+
+::std::wstring lambda_p_llvm::constant_int_binder::binder_name ()
+{
+	return ::std::wstring (L"constant_int_binder");
 }

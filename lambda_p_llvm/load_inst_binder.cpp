@@ -14,6 +14,9 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/core/reference.h>
+#include <lambda_p/core/declaration.h>
+#include <lambda_p/core/association.h>
 
 #include <llvm/Type.h>
 #include <llvm/Instructions.h>
@@ -26,64 +29,36 @@ lambda_p_llvm::load_inst_binder::load_inst_binder (::lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-    size_t argument_count (statement->arguments.size ());
-    if (argument_count == 3)
-    {
-        ::lambda_p::core::node * declaration_node (statement->arguments [1]);
-        ::lambda_p::core::node_id declaration_id (declaration_node->node_type ());
-        switch (declaration_id)
+	check_count_only_references (1, 1, statement, problems);
+	if (problems.empty ())
+	{
+		::lambda_p::core::reference * pointer_node (static_cast < ::lambda_p::core::reference *> (statement->association->parameters [0]));
+        ::boost::shared_ptr < ::lambda_p::binder::node_instance> pointer_instance (instances [pointer_node]);
+        ::boost::shared_ptr < ::lambda_p_llvm::value> pointer (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (pointer_instance));
+        if (pointer.get () != NULL)
         {
-            case ::lambda_p::core::node_declaration:
+            if (pointer->value_m->getType ()->isPointerTy ())
             {
-                ::lambda_p::core::node * pointer_node (statement->arguments [2]);
-                ::lambda_p::core::node_id pointer_id (pointer_node->node_type ());
-                switch (pointer_id)
-                {
-                    case ::lambda_p::core::node_reference:
-                    {
-                        ::boost::shared_ptr < ::lambda_p::binder::node_instance> pointer_instance (instances [pointer_node]);
-                        ::boost::shared_ptr < ::lambda_p_llvm::value> pointer (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (pointer_instance));
-                        if (pointer.get () != NULL)
-                        {
-                            if (pointer->value_m->getType ()->isPointerTy ())
-                            {
-                                ::llvm::LoadInst * load (new ::llvm::LoadInst (pointer->value_m));
-                                context.block->getInstList ().push_back (load);
-                                ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (load));
-                                instances [declaration_node] = value;
-                            }
-                            else
-                            {
-                                problems << L"load_inst_binder expects argument 2 to be a pointer\n";
-                            }
-                        }
-                        else
-                        {
-                            problems << L"load_inst_binder expects argument 2 to be an llvm value\n";
-                        }
-                    }
-                        break;
-                    default:
-                        problems << L"load_inst_binder expects argument 2 to be a reference, have: ";
-                        problems << pointer_node->node_type_name ();
-                        problems << '\n';
-                        break;
-                }
+                ::llvm::LoadInst * load (new ::llvm::LoadInst (pointer->value_m));
+                context.block->getInstList ().push_back (load);
+                ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (load));
+				instances [statement->association->results [0]] = value;
             }
-                break;
-            default:
-                problems << L"load_inst_binder expects argument 1 to be a declaration, have: ";
-                problems << declaration_node->node_type_name ();
-                problems << '\n';
-                break;
+            else
+            {
+                add_error (::std::wstring (L"load_inst_binder expects argument 1 to be a pointer"), problems);
+            }
+        }
+        else
+        {
+            add_error (::std::wstring (L"load_inst_binder expects argument 1 to be an llvm value"), problems);
         }
     }
-    else
-    {
-        problems << L"load_inst_binder is expecting 2 arguments, have: ";
-        problems << argument_count - 1;
-        problems << '\n';
-    }
+}
+
+::std::wstring lambda_p_llvm::load_inst_binder::binder_name ()
+{
+	return ::std::wstring (L"load_inst_binder");
 }

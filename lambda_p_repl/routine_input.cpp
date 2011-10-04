@@ -12,15 +12,22 @@ lambda_p_repl::routine_input::~routine_input (void)
 {
 }
 
-void lambda_p_repl::routine_input::operator () (::std::wistream & input_stream, ::std::wostream & output_stream)
+void lambda_p_repl::routine_input::operator () (::boost::function <wchar_t ()> input_stream)
 {	
-	while (routines.routines->empty () && !input_stream.eof () && !lexer.error () && !parser.error ())
+	wchar_t last_char (L' ');
+	while (routines.routines->empty () && last_char != '\uffff' && !lexer.error () && !parser.error ())
 	{
-		::std::wstring input;
-		output_stream << L"lp> ";
-		::std::getline (input_stream, input);
-		input.push_back ('\n');
-		operator () (input);
+		::std::wstring line;
+		while (last_char != '\uffff' && last_char != L'\n')
+		{
+			last_char = input_stream ();
+			line.push_back (last_char);
+		}
+		operator () (line);
+		if (last_char == L'\n')
+		{
+			last_char = L' ';
+		}
 	}
 }
 

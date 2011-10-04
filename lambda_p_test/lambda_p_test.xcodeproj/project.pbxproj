@@ -32,7 +32,7 @@
 		4DB6449D142544ED00DE59C8 /* jit_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6449C142544ED00DE59C8 /* jit_test_1.cpp */; };
 		4DDD5934141EC53500C481E6 /* routine_binder_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD592F141EC53500C481E6 /* routine_binder_test_1.cpp */; };
 		4DDD5935141EC53500C481E6 /* simple_compile_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD5931141EC53500C481E6 /* simple_compile_test_1.cpp */; };
-		4DDD599914200B7D00C481E6 /* structure_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD599714200B7D00C481E6 /* structure_test_1.cpp */; };
+		4DDD599914200B7D00C481E6 /* package_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD599714200B7D00C481E6 /* package_test_1.cpp */; };
 		4DDD59A414216C7700C481E6 /* routine_input_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DDD59A214216C7700C481E6 /* routine_input_test_1.cpp */; };
 		CF7596DD140F1BB7001EDBB9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DA140F1BB7001EDBB9 /* main.cpp */; };
 		CF7596DE140F1BB7001EDBB9 /* simple_test_1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CF7596DB140F1BB7001EDBB9 /* simple_test_1.cpp */; };
@@ -94,8 +94,8 @@
 		4DDD5930141EC53500C481E6 /* routine_binder_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = routine_binder_test_1.h; sourceTree = "<group>"; };
 		4DDD5931141EC53500C481E6 /* simple_compile_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simple_compile_test_1.cpp; sourceTree = "<group>"; };
 		4DDD5932141EC53500C481E6 /* simple_compile_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simple_compile_test_1.h; sourceTree = "<group>"; };
-		4DDD599714200B7D00C481E6 /* structure_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = structure_test_1.cpp; sourceTree = "<group>"; };
-		4DDD599814200B7D00C481E6 /* structure_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = structure_test_1.h; sourceTree = "<group>"; };
+		4DDD599714200B7D00C481E6 /* package_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = package_test_1.cpp; sourceTree = "<group>"; };
+		4DDD599814200B7D00C481E6 /* package_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; path = package_test_1.h; sourceTree = "<group>"; };
 		4DDD59A214216C7700C481E6 /* routine_input_test_1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = routine_input_test_1.cpp; sourceTree = "<group>"; };
 		4DDD59A314216C7700C481E6 /* routine_input_test_1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = routine_input_test_1.h; sourceTree = "<group>"; };
 		CF7596CD140F1AF0001EDBB9 /* lambda_p_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lambda_p_test; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,8 +175,8 @@
 				4D473AE0141186B500455A7E /* liblambda_p.a */,
 				4DDD59A214216C7700C481E6 /* routine_input_test_1.cpp */,
 				4DDD59A314216C7700C481E6 /* routine_input_test_1.h */,
-				4DDD599714200B7D00C481E6 /* structure_test_1.cpp */,
-				4DDD599814200B7D00C481E6 /* structure_test_1.h */,
+				4DDD599714200B7D00C481E6 /* package_test_1.cpp */,
+				4DDD599814200B7D00C481E6 /* package_test_1.h */,
 				4DDD592F141EC53500C481E6 /* routine_binder_test_1.cpp */,
 				4DDD5930141EC53500C481E6 /* routine_binder_test_1.h */,
 				4DDD5931141EC53500C481E6 /* simple_compile_test_1.cpp */,
@@ -253,7 +253,7 @@
 				CF75979A1415751E001EDBB9 /* simple_lexer_test_1.cpp in Sources */,
 				4DDD5934141EC53500C481E6 /* routine_binder_test_1.cpp in Sources */,
 				4DDD5935141EC53500C481E6 /* simple_compile_test_1.cpp in Sources */,
-				4DDD599914200B7D00C481E6 /* structure_test_1.cpp in Sources */,
+				4DDD599914200B7D00C481E6 /* package_test_1.cpp in Sources */,
 				4DDD59A414216C7700C481E6 /* routine_input_test_1.cpp in Sources */,
 				4DB6446B14250A1F00DE59C8 /* abort_binder_test_1.cpp in Sources */,
 				4DB6449D142544ED00DE59C8 /* jit_test_1.cpp in Sources */,

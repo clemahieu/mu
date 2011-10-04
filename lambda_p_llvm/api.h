@@ -6,7 +6,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class structure;
+		class package;
 	}
 }
 namespace lambda_p_llvm
@@ -17,7 +17,7 @@ namespace lambda_p_llvm
 	public:
 		api (::lambda_p_llvm::generation_context & context_a);
 		~api (void);
-		::boost::shared_ptr < ::lambda_p::binder::structure> structure;
+		::boost::shared_ptr < ::lambda_p::binder::package> package;
         ::lambda_p_llvm::generation_context & context;
 	};
 }

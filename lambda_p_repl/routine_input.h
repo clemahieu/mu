@@ -4,6 +4,8 @@
 #include <lambda_p/parser/simple_parser.h>
 #include <lambda_p/lexer/simple_lexer.h>
 
+#include <boost/function.hpp>
+
 #include <string>
 
 namespace lambda_p_repl
@@ -13,7 +15,7 @@ namespace lambda_p_repl
 	public:
 		routine_input (void);
 		~routine_input (void);
-		void operator () (::std::wistream & input_stream, ::std::wostream & output_stream);
+		void operator () (::boost::function <wchar_t ()> input_stream);
 		void operator () (wchar_t character);
 		void operator () (::std::wstring & string);
 		bool error ();

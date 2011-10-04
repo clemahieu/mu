@@ -1,8 +1,8 @@
 //
-//  simple_string_token.h
+//  stream_end.h
 //  lambda_p
 //
-//  Created by Colin LeMahieu on 9/2/11.
+//  Created by Colin LeMahieu on 9/28/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -14,9 +14,10 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class data_token : public token
+        class stream_end : public ::lambda_p::tokens::token
         {
-			token_ids token_id ();
+        public:
+            token_ids token_id ();
         };
     }
 }

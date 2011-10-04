@@ -20,8 +20,3 @@ lambda_p::core::data::~data(void)
 {
 	return ::lambda_p::core::node_data;
 }
-
-::std::wstring lambda_p::core::data::node_type_name () const
-{
-	return ::std::wstring (L"data");
-}

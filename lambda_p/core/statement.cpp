@@ -1,16 +1,14 @@
 #include <lambda_p/core/statement.h>
 
 #include <lambda_p/core/routine.h>
+#include <lambda_p/core/association.h>
 
-lambda_p::core::statement::statement ()
+lambda_p::core::statement::statement (::lambda_p::core::reference * target_a)
+	: target (target_a),
+	association (new ::lambda_p::core::association)
 {
 }
 
 lambda_p::core::statement::~statement (void)
 {
-}
-
-void lambda_p::core::statement::add_argument (::lambda_p::core::node * node_a)
-{
-    arguments.push_back (node_a);
 }

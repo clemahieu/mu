@@ -11,12 +11,10 @@ namespace lambda_p
 			state_error,
 			state_begin,
 			state_routine,
-			state_body,
 			state_statement,
-			state_result_ref,
 			state_data,
-			state_declaration,
-			state_node_list
+			state_association,
+            state_finished
 		};
 		class state : public production_target
 		{

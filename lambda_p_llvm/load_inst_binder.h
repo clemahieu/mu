@@ -17,7 +17,8 @@ namespace lambda_p_llvm
     {
     public:  
         load_inst_binder (::lambda_p_llvm::generation_context & context_a);
-        void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems);
+        void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+		::std::wstring binder_name ();
     private:
         ::lambda_p_llvm::generation_context & context;
     };

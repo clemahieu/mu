@@ -9,7 +9,8 @@ namespace lambda_p_repl
 	public:
 		stream_read_entry_routine_binder (void);
 		~stream_read_entry_routine_binder (void);
-		void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems);
+		void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+		::std::wstring binder_name ();
 	};
 }
 

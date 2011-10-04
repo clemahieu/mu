@@ -5,6 +5,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/core/association.h>
 
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
@@ -24,20 +25,19 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 {
 }
 
-void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	size_t argument_count (statement->arguments.size ());
-	if (argument_count == 1)
-	{
+    check_count (0, 0, statement, problems);
+    if (problems.empty ())
+    {
         ::std::vector < ::llvm::Value *> arguments;
         arguments.push_back (quit_object);
         ::llvm::CallInst * call (::llvm::CallInst::Create (quit_function, arguments.begin (), arguments.end ()));
         context.block->getInstList ().push_back (call);
 	}
-	else
-	{
-		problems << L"quit is expecting no arguments, have: ";
-		problems << argument_count - 1;
-		problems << '\n';
-	}
+}
+
+::std::wstring lambda_p_repl::repl_quit_binder::binder_name ()
+{
+	return ::std::wstring (L"repl_quit_binder");
 }

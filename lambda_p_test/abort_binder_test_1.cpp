@@ -14,6 +14,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
+#include <lambda_p/core/association.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -44,18 +45,15 @@ void lambda_p_test::abort_binder_test_1::run ()
     current.block = block;
     ::lambda_p_llvm::abort_binder binder (function, &current);
     ::lambda_p::core::routine routine;
-    ::lambda_p::core::statement * statement (routine.add_statement ());
     ::lambda_p::core::declaration * parameter (routine.add_declaration ());
-    statement->add_argument (parameter);
-    ::lambda_p::core::statement * call (routine.add_statement ());
-    ::lambda_p::core::reference * target (routine.add_reference (parameter));
-    call->add_argument (target);
+	routine.surface->results.push_back (parameter);
+    ::lambda_p::core::statement * call (routine.add_statement (parameter));
     ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
-    ::std::wstringstream problems;
+	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
     binder.bind (call, instances, problems);
     ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context));
     block->getInstList ().push_back (ret);
-    assert (problems.str ().size () == 0);
+    assert (problems.size () == 0);
     assert (generation->getBasicBlockList ().size () == 1);
     assert (generation->getBasicBlockList ().begin ()->getInstList ().size () == 2);
 }

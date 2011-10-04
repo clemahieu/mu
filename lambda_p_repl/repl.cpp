@@ -8,6 +8,7 @@
 
 #include <lambda_p_repl/entry_routine.h>
 #include <lambda_p_repl/entry_environment.h>
+#include <lambda_p_repl/wistream_input.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false)
@@ -44,6 +45,7 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
-	::lambda_p_repl::entry_routine routine (this, ::std::wcin, ::std::wcout);
+	::lambda_p_repl::wistream_input input (::std::wcin);
+	::lambda_p_repl::entry_routine routine (this, input, ::std::wcout);
 	routine ();
 }

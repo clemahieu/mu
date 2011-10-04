@@ -18,7 +18,12 @@ namespace lambda_p
         {
             error_orphan_node,
             error_orphan_reference,
-            error_undefined_reference
+            error_undefined_reference,
+			error_unresolved_statement,
+			error_unexpected_result_count,
+			error_unexpected_argument_count,
+			error_unexpected_node_type,
+			error_binder_string
         };
         class error
         {

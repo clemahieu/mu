@@ -12,7 +12,7 @@ namespace lambda_p
 			multiline_comment(void);
 			~multiline_comment(void);
 			state_id state_type ();
-			bool have_semicolon;
+			bool have_pound;
 		};
 	}
 }

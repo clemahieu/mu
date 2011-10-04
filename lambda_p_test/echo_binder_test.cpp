@@ -18,6 +18,8 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p_llvm/value.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/core/reference.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Function.h>
@@ -35,16 +37,13 @@ void lambda_p_test::echo_binder_test::run ()
     ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
     ::lambda_p_llvm::wprintf_function wprintf (context);
     ::lambda_p::core::routine routine;
-    ::lambda_p::core::statement * parameters = routine.add_statement ();
     ::lambda_p::core::declaration * p1 = routine.add_declaration ();
-    parameters->add_argument (p1);
+	routine.surface->results.push_back (p1);
     ::lambda_p::core::declaration * p2 = routine.add_declaration ();
-    parameters->add_argument (p2);
-    ::lambda_p::core::statement * statement = routine.add_statement ();
-    ::lambda_p::core::reference * reference = routine.add_reference (p1);
-    statement->add_argument (reference);
+	routine.surface->results.push_back (p2);
+    ::lambda_p::core::statement * statement = routine.add_statement (p1);
     ::lambda_p::core::reference * str = routine.add_reference (p2);
-    statement->add_argument (str);
+    statement->association->parameters.push_back (str);
     ::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
@@ -56,8 +55,8 @@ void lambda_p_test::echo_binder_test::run ()
     ::lambda_p_llvm::constant_wstring string (context, raw_string);
     ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
     instances [str] = value;
-    ::std::wstringstream problems;
+	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
     binder.bind (statement, instances, problems);
-    assert (problems.str ().size () == 0);
+    assert (problems.size () == 0);
     assert (block->getInstList ().size () == 1);
 }

@@ -16,8 +16,3 @@ lambda_p::core::declaration::~declaration (void)
 {
 	return ::lambda_p::core::node_declaration;
 }
-
-::std::wstring lambda_p::core::declaration::node_type_name () const
-{
-	return ::std::wstring (L"declaration");
-}

@@ -20,7 +20,6 @@ namespace lambda_p
 			declaration ();
 			~declaration (void);
 			node_id node_type () const;
-			::std::wstring node_type_name () const;
 		};
 	}
 }

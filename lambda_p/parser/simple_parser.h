@@ -33,6 +33,8 @@ namespace lambda_p
 			void parse_reference (::lambda_p::tokens::token * token);
 			void parse_data (::lambda_p::tokens::token * token);
 			void parse_declaration (::lambda_p::tokens::token * token);
+            void parse_finished (::lambda_p::tokens::token * token);
+			void parse_association (::lambda_p::tokens::token * token);
 			::std::wstring token_type_name (::lambda_p::tokens::token * token);
 			::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target;
 		public:

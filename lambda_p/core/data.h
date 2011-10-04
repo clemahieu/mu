@@ -19,7 +19,6 @@ namespace lambda_p
 			~data (void);
             ::std::wstring string () const;
 			node_id node_type () const;
-			::std::wstring node_type_name () const;
 		private:
 			::std::wstring string_m;
 		};

@@ -4,21 +4,21 @@
 #include <lambda_p/tokens/complex_identifier.h>
 #include <lambda_p/parser/parse_result.h>
 #include <lambda_p/tokens/statement_end.h>
-#include <lambda_p/tokens/declaration.h>
 #include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/data_token.h>
+#include <lambda_p/tokens/data.h>
 #include <lambda_p/parser/reference_identifiers.h>
 #include <lambda_p/core/reference.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
+#include <lambda_p/core/association.h>
+#include <lambda_p/core/data.h>
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
-#include <lambda_p/parser/body.h>
 #include <lambda_p/parser/statement.h>
-#include <lambda_p/parser/reference.h>
 #include <lambda_p/parser/data.h>
-#include <lambda_p/parser/declaration.h>
+#include <lambda_p/parser/finished.h>
+#include <lambda_p/parser/association.h>
 
 #include <map>
 
@@ -39,12 +39,21 @@ void lambda_p::parser::simple_parser::reset ()
 	{
 		state.pop ();
 	}
+    state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::finished));
 	state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::begin));
 }
 
 bool lambda_p::parser::simple_parser::error ()
 {
-	bool result (state.top ()->state_type () == ::lambda_p::parser::state_error);
+	bool result;
+	if (state.empty ())
+	{
+		result = true;
+	}
+	else
+	{
+		result = state.top ()->state_type () == ::lambda_p::parser::state_error;
+	}
 	return result;
 }
 
@@ -73,24 +82,27 @@ void lambda_p::parser::simple_parser::parse_internal (::lambda_p::tokens::token 
 	case ::lambda_p::parser::state_routine:
 		parse_routine (token);
 		break;
-	case ::lambda_p::parser::state_body:
-		parse_routine_body (token);
-		break;
 	case ::lambda_p::parser::state_statement:
 		parse_statement (token);
-		break;
-	case ::lambda_p::parser::state_result_ref:
-		parse_reference (token);
 		break;
 	case ::lambda_p::parser::state_data:
 		parse_data (token);
 		break;
-	case ::lambda_p::parser::state_declaration:
-		parse_declaration (token);
+    case ::lambda_p::parser::state_finished:
+        parse_finished (token);
+        break;
+	case ::lambda_p::parser::state_association:
+		parse_association (token);
 		break;
 	default:
 		assert (false);
 	}
+}
+
+void lambda_p::parser::simple_parser::parse_finished (::lambda_p::tokens::token * token)
+{
+    ::std::wstring message (L"Token received after parser is finished");
+    state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::error (message)));
 }
 
 void lambda_p::parser::simple_parser::parse_error (::lambda_p::tokens::token * token)
@@ -100,127 +112,199 @@ void lambda_p::parser::simple_parser::parse_error (::lambda_p::tokens::token * t
 
 void lambda_p::parser::simple_parser::parse_begin (::lambda_p::tokens::token * token)
 {
-	::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::routine);
-	state.push (new_state);
-	parse_internal (token);
+	::lambda_p::tokens::token_ids token_id (token->token_id ());
+	switch (token_id)
+	{
+        case ::lambda_p::tokens::token_id_identifier:
+        case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_connector:
+        {
+            ::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::routine);
+            state.push (new_state);
+            parse_internal (token);
+        }
+        break;
+	case ::lambda_p::tokens::token_id_stream_end:
+		state.pop ();
+		break;
+	default:
+        {
+            ::std::wstring message (L"At top level, expecting identifier or end of stream");
+            state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::error (message)));
+        }
+		break;
+	}
 }
 
 void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token * token)
 {
 	::boost::shared_ptr < ::lambda_p::parser::routine> state_l (::boost::static_pointer_cast < ::lambda_p::parser::routine> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
+	if (state_l->have_surface)
 	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
+		switch (token_id)
 		{
-			::lambda_p::tokens::identifier * routine_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::body (state_l));
+		case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_identifier:
+			{
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::statement (state_l));
+				state.push (new_state);
+				parse_internal (token);
+			}
+			break;
+		case ::lambda_p::tokens::token_id_routine_end:
+			target (state_l->routine_m);
+			state.pop ();
+			break;
+		default:
+			::std::wstring message (L"Expecting an identifier as target of statement, have: ");
+			message.append (token_type_name (token));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
 			state.push (new_state);
-			parse_internal (token);
+			break;
 		}
-		break;
-	case ::lambda_p::tokens::token_id_routine_end:
-		state.pop ();
-		target (state_l->routine_m);
-		break;
-	default:
-		::std::wstring message (L"Expecting an identifier at the beginning of a routine, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
 	}
-}
-
-void lambda_p::parser::simple_parser::parse_routine_body (::lambda_p::tokens::token * token)
-{
-	::boost::shared_ptr < ::lambda_p::parser::body> state_l (::boost::static_pointer_cast < ::lambda_p::parser::body> (state.top ()));
-	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
+	else
 	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
+		switch (token_id)
 		{
-			::lambda_p::tokens::identifier * statement_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::statement (state_l, statement_name->string));
+		case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_identifier:
+		case ::lambda_p::tokens::token_id_connector:
+			{
+				state_l->have_surface = true;
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::association (state_l, state_l));
+				state.push (new_state);
+				parse_internal (token);
+			}
+			break;
+		case ::lambda_p::tokens::token_id_routine_end:
+			target (state_l->routine_m);
+			state.pop ();
+			break;
+		default:
+			::std::wstring message (L"Expecting an identifier or connector at the beginning of a routine, have: ");
+			message.append (token_type_name (token));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
 			state.push (new_state);
+			break;
 		}
-		break;
-	case ::lambda_p::tokens::token_id_routine_end:
-		state.pop ();
-		parse_internal (token);
-		break;
-	default:
-		::std::wstring message (L"Error while parsing routine body, expecting identifier or routine_end, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
 	}
 }
 
 void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token * token)
 {				
 	::boost::shared_ptr < ::lambda_p::parser::statement> state_l (::boost::static_pointer_cast < ::lambda_p::parser::statement> (state.top ()));
-	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
+	if (state_l->have_target)
 	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
+		state.pop ();
+		parse_internal (token);
+	} 
+	else
+	{
+		::lambda_p::tokens::token_ids token_id (token->token_id ());
+		switch (token_id)
 		{
-			::lambda_p::tokens::identifier * target_statement (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::reference (target_statement->string));
+		case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_identifier:
+			{
+                state_l->have_target = true;
+				::lambda_p::tokens::identifier * identifier (static_cast < ::lambda_p::tokens::identifier *> (token));
+				::std::map < ::std::wstring, ::lambda_p::core::declaration *>::iterator i = state_l->routine->positions.find (identifier->string);
+				if (i != state_l->routine->positions.end ())
+				{
+					state_l->statement_m->target = state_l->routine->routine_m->add_reference (i->second);
+				}
+				else
+				{
+					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, ::lambda_p::core::reference *>::value_type (identifier->string, state_l->routine->routine_m->add_reference (NULL)));
+				}
+				state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::association (state_l->routine, state_l)));
+			}
+			break;
+		default:
+			::std::wstring message (L"Looking for identifier while parsing target of statement");
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
 			state.push (new_state);
+			break;
 		}
-		break;
-	case ::lambda_p::tokens::token_id_data_token:
-		{
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l));
-			state.push (new_state);
-		}
-		break;
-	case ::lambda_p::tokens::token_id_declaration:
-		{
-			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::declaration (state_l));
-			state.push (new_state);
-		}
-		break;
-	case ::lambda_p::tokens::token_id_statement_end:
-		{							
-			state.pop ();
-		}
-		break;
-	default:
-		::std::wstring message (L"Invalid statement argument: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_reference (::lambda_p::tokens::token * token)
-{
-	::boost::shared_ptr < ::lambda_p::parser::reference> state_l (::boost::static_pointer_cast < ::lambda_p::parser::reference> (state.top ()));
+void lambda_p::parser::simple_parser::parse_association (::lambda_p::tokens::token * token)
+{	
+	::boost::shared_ptr < ::lambda_p::parser::association> state_l (::boost::static_pointer_cast < ::lambda_p::parser::association> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
+	if (state_l->on_results)
 	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
+		switch (token_id)
 		{
-			state.pop ();
-			::lambda_p::tokens::identifier * target_argument (static_cast < ::lambda_p::tokens::identifier *> (token));
-			::lambda_p::parser::reference_identifiers reference (state_l->target_statement, target_argument->string);
-			state.top ()->sink_reference (*this, reference);
+		case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_identifier:
+			{
+				::lambda_p::tokens::identifier * identifier (static_cast < ::lambda_p::tokens::identifier *> (token));
+				::std::map < ::std::wstring, ::lambda_p::core::declaration *>::iterator i = state_l->routine->positions.find (identifier->string);
+				if (i == state_l->routine->positions.end ())
+				{
+					::lambda_p::core::declaration * declaration (state_l->routine->routine_m->add_declaration ());
+					state_l->routine->positions [identifier->string] = declaration;
+					state_l->target->sink_result (declaration);
+				}
+				else
+				{
+					::std::wstring message (L"Identifier already used: ");
+					message.append (identifier->string);
+					::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+					state.push (new_state);
+				}
+			}
+			break;
+		case ::lambda_p::tokens::token_id_connector:
+			state_l->on_results = false;
+			break;
+		default:
+			::std::wstring message (L"Looking for identifiers while parsing statement results");
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+			state.push (new_state);
+			break;
 		}
-		break;
-	default:
-		::std::wstring message (L"Trying to parse a result_ref, expecting an identifier, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
+	}
+	else
+	{
+		switch (token_id)
+		{
+		case ::lambda_p::tokens::token_id_complex_identifier:
+		case ::lambda_p::tokens::token_id_identifier:
+			{
+				::lambda_p::tokens::identifier * identifier (static_cast < ::lambda_p::tokens::identifier *> (token));
+				::std::map < ::std::wstring, ::lambda_p::core::declaration *>::iterator i = state_l->routine->positions.find (identifier->string);
+				if (i != state_l->routine->positions.end ())
+				{
+					::lambda_p::core::reference * argument (state_l->routine->routine_m->add_reference (i->second));
+					state_l->target->sink_argument (argument);
+				}
+				else
+				{
+					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, ::lambda_p::core::reference *>::value_type (identifier->string, state_l->routine->routine_m->add_reference (NULL)));
+				}
+			}
+			break;
+		case ::lambda_p::tokens::token_id_data:
+			{
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l->routine->routine_m, state_l));
+				state.push (new_state);
+			}
+			break;
+		case ::lambda_p::tokens::token_id_statement_end:			
+            state.pop ();
+			break;
+		default:
+			::std::wstring message (L"Invalid statement argument: ");
+			message.append (token_type_name (token));
+			::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
+			state.push (new_state);
+			break;
+		}
 	}
 }
 
@@ -234,35 +318,12 @@ void lambda_p::parser::simple_parser::parse_data (::lambda_p::tokens::token * to
 	case ::lambda_p::tokens::token_id_identifier:
 		{
 			::lambda_p::tokens::identifier * data_string (static_cast < ::lambda_p::tokens::identifier *> (token));
+			state_l->target->sink_data (state_l->routine->add_data (data_string->string));
 			state.pop ();
-			state.top ()->sink_data (*this, data_string);
 		}
 		break;
 	default:
 		::std::wstring message (L"Expecting identifier while parsing data, have: ");
-		message.append (token_type_name (token));
-		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
-		state.push (new_state);
-		break;
-	}
-}
-
-void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::token * token)
-{
-	::boost::shared_ptr < ::lambda_p::parser::declaration> state_l (::boost::static_pointer_cast < ::lambda_p::parser::declaration> (state.top ()));
-	::lambda_p::tokens::token_ids token_id (token->token_id ());
-	switch (token_id)
-	{
-	case ::lambda_p::tokens::token_id_complex_identifier:
-	case ::lambda_p::tokens::token_id_identifier:
-		{
-			::lambda_p::tokens::identifier * argument_name (static_cast < ::lambda_p::tokens::identifier *> (token));
-			state.pop ();
-			state.top () ->sink_declaration (*this, argument_name);
-		}
-		break;
-	default:
-		::std::wstring message (L"Expecting identifier while parsing declaration, have: ");
 		message.append (token_type_name (token));
 		::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::error (message));
 		state.push (new_state);
@@ -279,20 +340,20 @@ void lambda_p::parser::simple_parser::parse_declaration (::lambda_p::tokens::tok
 	case ::lambda_p::tokens::token_id_complex_identifier:
 		result.append (L"complex_identifier");
 		break;
-	case ::lambda_p::tokens::token_id_declaration:
-		result.append (L"declaration");
-		break;
 	case ::lambda_p::tokens::token_id_identifier:
 		result.append (L"identifier");
 		break;
 	case ::lambda_p::tokens::token_id_routine_end:
 		result.append (L"routine_end");
 		break;
-	case ::lambda_p::tokens::token_id_data_token:
-		result.append (L"data_token");
+	case ::lambda_p::tokens::token_id_data:
+		result.append (L"data");
 		break;
 	case ::lambda_p::tokens::token_id_statement_end:
 		result.append (L"statement_end");
+		break;
+	case ::lambda_p::tokens::token_id_connector:
+		result.append (L"connector");
 		break;
 	default:
 		result.append (L"Unknown");
