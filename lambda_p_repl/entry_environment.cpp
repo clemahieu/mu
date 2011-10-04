@@ -25,12 +25,10 @@
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_repl/dynamic_wprintf.h>
-#include <lambda_p_repl/malloc_binder.h>
 #include <lambda_p_llvm/malloc_function.h>
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p_llvm/store_inst_binder.h>
 #include <lambda_p_llvm/cast_inst_binder.h>
-#include <lambda_p_llvm/memcpy_binder.h>
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/declaration.h>

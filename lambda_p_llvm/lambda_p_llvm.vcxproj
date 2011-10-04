@@ -33,12 +33,12 @@
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="malloc_function.h" />
-    <ClInclude Include="memcpy_binder.h" />
     <ClInclude Include="memcpy_function.h" />
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="type.h" />
     <ClInclude Include="type_binder.h" />
+    <ClInclude Include="while_call_binder.h" />
     <ClInclude Include="wprintf_function.h" />
   </ItemGroup>
   <ItemGroup>
@@ -56,12 +56,12 @@
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
-    <ClCompile Include="memcpy_binder.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="value.cpp" />
     <ClCompile Include="type.cpp" />
     <ClCompile Include="type_binder.cpp" />
+    <ClCompile Include="while_call_binder.cpp" />
     <ClCompile Include="wprintf_function.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

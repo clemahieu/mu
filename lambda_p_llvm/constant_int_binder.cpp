@@ -133,7 +133,7 @@ void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * b
 			}
 			else
 			{
-				add_error (::std::wstring (L"constant_int_binder has a base that's not between 2 and 36, inclusive"), problems);
+				add_error (::std::wstring (L"base is not between 2 and 36, inclusive"), problems);
 			}
 		}
 	}
