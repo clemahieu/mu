@@ -20,9 +20,10 @@ namespace lambda_p
 	{
 		class routine;
 		class node;
+		class result_ref;
+		class result;
 		class data;
-		class reference;
-		class declaration;
+		class parameter_ref;
 		class statement
 		{
 			friend class ::lambda_p::core::data;
@@ -33,9 +34,8 @@ namespace lambda_p
 		public:
 			statement ();
 			~statement (void);
-			::lambda_p::core::reference * target;
-            ::std::vector < ::lambda_p::core::declaration *> results;
-			::std::vector < ::lambda_p::core::node *> parameters;
+            void add_argument (::lambda_p::core::node * node_a);
+            ::std::vector < ::lambda_p::core::node *> arguments;
 		};
 	}
 }

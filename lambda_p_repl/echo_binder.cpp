@@ -33,25 +33,43 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 
 void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
-	bool problem (false);
-	check_count_only_references (problem, 0, 1, L"echo_binder", statement, problems);
-	if (!problem)
+	size_t argument_count (statement->arguments.size ());
+	if (argument_count == 2)
 	{
-		::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->parameters [0]));
-		assert (search != instances.end ());
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
-		::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
-		if (string.get () != NULL)
+		::lambda_p::core::node_id node_id (statement->arguments [1]->node_type ());
+		switch (node_id)
 		{
-			::std::vector < ::llvm::Value *> arguments;
-			arguments.push_back (echo_string_global);
-			arguments.push_back (string->value_m);
-			::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
-			context.block->getInstList ().push_back (call);
+		case ::lambda_p::core::node_reference:
+			{
+				::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->arguments [1]));
+				assert (search != instances.end ());
+				::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
+				::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
+				if (string.get () != NULL)
+				{
+                    ::std::vector < ::llvm::Value *> arguments;
+                    arguments.push_back (echo_string_global);
+                    arguments.push_back (string->value_m);
+                    ::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
+                    context.block->getInstList ().push_back (call);
+				}
+				else
+				{
+					problems << L"Argument 1 is not an llvm_value\n";
+				}
+			}
+			break;
+		default:
+			problems << L"echo is expecting argument 1 to be data, have: ";
+			problems << statement->arguments [1]->node_type_name ();
+			problems << '\n';
+			break;
 		}
-		else
-		{
-			problems << L"Argument 1 is not an llvm_value\n";
-		}
+	}
+	else
+	{
+		problems << L"echo is expecting one argument, have: ";
+		problems << argument_count - 1;
+		problems << '\n';
 	}
 }

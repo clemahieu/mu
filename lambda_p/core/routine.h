@@ -53,7 +53,6 @@ namespace lambda_p
             void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 		private:
-			void validate_node (::lambda_p::core::node * node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;
 			::std::vector < ::lambda_p::core::declaration *> declarations;
 			::std::vector < ::lambda_p::core::reference *> references;

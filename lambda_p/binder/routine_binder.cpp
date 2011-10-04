@@ -51,20 +51,35 @@ void lambda_p::binder::routine_binder::reset ()
 
 void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::lambda_p::core::statement * statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder)
 {
-	assert (statement->target != NULL);
-	::lambda_p::core::node * target (statement->target->declaration);
-	::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
-	if (search != instances.end ())
+	::std::vector < ::lambda_p::core::node *>::iterator i = statement->arguments.begin ();
+	assert (i != statement->arguments.end ()); // Statement must have target argument	
+	::lambda_p::core::node * node (*i);
+	::lambda_p::core::node_id node_id (node->node_type ());
+	switch (node_id)
 	{
-		instances [target] = search->second;
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l (search->second);
-		binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
+	case ::lambda_p::core::node_reference:
+		{
+			::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
+			::lambda_p::core::node * target (reference->declaration);
+			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (target));
+			if (search != instances.end ())
+			{
+				instances [node] = search->second;
+				::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l (search->second);
+				binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
+			}
+			else
+			{
+				unbound_statements [target] = statement;
+			}
+		}
+		break;
+	default:
+		assert (false); // Target is not a reference
+		break;
 	}
-	else
-	{
-		unbound_statements [target] = statement;
-	}
-	for (::std::vector < ::lambda_p::core::node *>::iterator i = statement->parameters.begin (); binder.get () != NULL && i != statement->parameters.end (); ++i)
+	++i;
+	while (binder.get () != NULL && i != statement->arguments.end ())
 	{
 		::lambda_p::core::node * node (*i);
 		::lambda_p::core::node_id node_id (node->node_type ());
@@ -90,6 +105,7 @@ void lambda_p::binder::routine_binder::populate_unbound (::boost::shared_ptr < :
 			// Data and declarations don't need to be resolved
 			break;
 		}
+		++i;
 	}
 }
 

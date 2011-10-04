@@ -26,8 +26,8 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 
 void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
 {
-	size_t parameter_count (statement->parameters.size ());
-	if (parameter_count == 1)
+	size_t argument_count (statement->arguments.size ());
+	if (argument_count == 1)
 	{
         ::std::vector < ::llvm::Value *> arguments;
         arguments.push_back (quit_object);
@@ -37,7 +37,7 @@ void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statem
 	else
 	{
 		problems << L"quit is expecting no arguments, have: ";
-		problems << parameter_count;
+		problems << argument_count - 1;
 		problems << '\n';
 	}
 }

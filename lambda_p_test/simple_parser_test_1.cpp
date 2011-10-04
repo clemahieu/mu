@@ -9,7 +9,8 @@
 #include <lambda_p/tokens/statement_end.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/tokens/data.h>
+#include <lambda_p/tokens/declaration.h>
+#include <lambda_p/tokens/data_token.h>
 
 #include <vector>
 #include <sstream>
@@ -69,12 +70,12 @@ void lambda_p_test::simple_parser_test_1::run_3 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end statement_end;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&statement_end);
 	parser (&routine_end);
@@ -92,7 +93,7 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::identifier s1 (::std::wstring (L"statement1"));
@@ -101,7 +102,7 @@ void lambda_p_test::simple_parser_test_1::run_4 ()
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);
@@ -123,24 +124,24 @@ void lambda_p_test::simple_parser_test_1::run_5 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::identifier s1 (::std::wstring (L"statement1"));
 	::lambda_p::tokens::identifier targets1 (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier targeta1 (::std::wstring (L"parameter1"));
-	//::lambda_p::tokens::declaration decs1;
+	::lambda_p::tokens::declaration decs1;
 	::lambda_p::tokens::identifier deca1 (::std::wstring (L"declaration2"));
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);
 	parser (&targets1);
 	parser (&targeta1);
-	//parser (&decs1);
+	parser (&decs1);
 	parser (&deca1);
 	parser (&se2);
 	parser (&routine_end);
@@ -158,13 +159,13 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::identifier s1 (::std::wstring (L"statement1"));
 	::lambda_p::tokens::identifier targets1 (::std::wstring (L"routine"));
 	::lambda_p::tokens::identifier targeta1 (::std::wstring (L"parameter1"));
-	//::lambda_p::tokens::declaration decs1;
+	::lambda_p::tokens::declaration decs1;
 	::lambda_p::tokens::identifier deca1 (::std::wstring (L"declaration2"));
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::identifier s2 (::std::wstring (L"statement2"));
@@ -173,13 +174,13 @@ void lambda_p_test::simple_parser_test_1::run_6 ()
 	::lambda_p::tokens::statement_end se3;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);
 	parser (&targets1);
 	parser (&targeta1);
-	//parser (&decs1);
+	parser (&decs1);
 	parser (&deca1);
 	parser (&se2);
 	parser (&s2);
@@ -201,13 +202,13 @@ void lambda_p_test::simple_parser_test_1::run_7 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::complex_identifier identifier (::std::wstring (L"routine \0\t\n\fhello"), ::std::wstring (L"abcdef"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::complex_identifier parameter1 (::std::wstring (L"parameter1 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::complex_identifier s1 (::std::wstring (L"statement1 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::complex_identifier targets1 (::std::wstring (L"routine \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::complex_identifier targeta1 (::std::wstring (L"parameter1 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
-	//::lambda_p::tokens::declaration decs1;
+	::lambda_p::tokens::declaration decs1;
 	::lambda_p::tokens::complex_identifier deca1 (::std::wstring (L"declaration2 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::complex_identifier s2 (::std::wstring (L"statement2 \0\t\n\fhello"), ::std::wstring (L"abcdef"));
@@ -216,13 +217,13 @@ void lambda_p_test::simple_parser_test_1::run_7 ()
 	::lambda_p::tokens::statement_end se3;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);
 	parser (&targets1);
 	parser (&targeta1);
-	//parser (&decs1);
+	parser (&decs1);
 	parser (&deca1);
 	parser (&se2);
 	parser (&s2);
@@ -244,7 +245,7 @@ void lambda_p_test::simple_parser_test_1::run_8 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::identifier s1 (::std::wstring (L"statement1"));
@@ -255,7 +256,7 @@ void lambda_p_test::simple_parser_test_1::run_8 ()
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);
@@ -279,7 +280,7 @@ void lambda_p_test::simple_parser_test_1::run_9 ()
 	::lambda_p::parser::routine_vector routines;
 	::lambda_p::parser::simple_parser parser (routines);
 	::lambda_p::tokens::identifier identifier (::std::wstring (L"routine"));
-	//::lambda_p::tokens::declaration decl;
+	::lambda_p::tokens::declaration decl;
 	::lambda_p::tokens::identifier parameter1 (::std::wstring (L"parameter1"));
 	::lambda_p::tokens::statement_end se1;
 	::lambda_p::tokens::identifier s1 (::std::wstring (L"statement1"));
@@ -290,7 +291,7 @@ void lambda_p_test::simple_parser_test_1::run_9 ()
 	::lambda_p::tokens::statement_end se2;
 	::lambda_p::tokens::routine_end routine_end;
 	parser (&identifier);
-	//parser (&decl);
+	parser (&decl);
 	parser (&parameter1);
 	parser (&se1);
 	parser (&s1);

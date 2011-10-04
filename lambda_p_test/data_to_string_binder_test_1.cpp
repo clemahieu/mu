@@ -26,14 +26,14 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     ::lambda_p::core::routine routine;
     ::lambda_p::core::statement * parameters = routine.add_statement ();
     ::lambda_p::core::declaration * p1 = routine.add_declaration ();
-    parameters->results.push_back (p1);
+    parameters->add_argument (p1);
     ::lambda_p::core::statement * statement = routine.add_statement ();
     ::lambda_p::core::reference * reference = routine.add_reference (p1);
-    statement->parameters.push_back (reference);
+    statement->add_argument (reference);
     ::lambda_p::core::declaration * declaration = routine.add_declaration ();
-    statement->results.push_back (declaration);
+    statement->add_argument (declaration);
     ::lambda_p::core::data * data = routine.add_data (::std::wstring (L"Test string"));
-    statement->parameters.push_back (data);
+    statement->add_argument (data);
     ::llvm::LLVMContext llvm_context;
     ::std::string module_string ("test");
     ::llvm::StringRef module_name (module_string);

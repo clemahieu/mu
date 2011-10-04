@@ -45,12 +45,7 @@ namespace lambda_p
 			{
                 target << "statement";
                 target << statement_positions [statement_a];
-				for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = statement_a->results.begin (); i != statement_a->results.end (); ++i)
-				{
-					target << "\n ";
-					declaration (argument_positions, *i);
-				}
-				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->parameters.begin (); i != statement_a->parameters.end (); ++i)
+                for (::std::vector < ::lambda_p::core::node *>::const_iterator i = statement_a->arguments.begin (); i != statement_a->arguments.end (); ++i)
                 {
                     target << "\n  ";
                     node (argument_positions, *i);
