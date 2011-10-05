@@ -24,12 +24,12 @@ lambda_p::parser::statement::~statement(void)
 	return lambda_p::parser::state_statement;
 }
 
-void lambda_p::parser::statement::sink_result (::lambda_p::core::node * declaration)
+void lambda_p::parser::statement::sink_result (size_t declaration)
 {
 	statement_m->association->results.push_back (declaration);
 }
 
-void lambda_p::parser::statement::sink_argument (::lambda_p::core::node * argument)
+void lambda_p::parser::statement::sink_argument (size_t argument)
 {
 	statement_m->association->parameters.push_back (argument);
 }

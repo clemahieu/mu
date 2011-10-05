@@ -17,14 +17,14 @@ lambda_p_llvm::while_call_binder::while_call_binder (::lambda_p_llvm::generation
 {
 }
 
-void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_only_references (statement, problems);
 	if (statement->association->parameters.size () >= 2)
 	{
 		if (statement->association->results.size () == 1)
 		{
-			::std::vector < ::lambda_p::core::node *>::iterator argument (statement->association->parameters.begin ());
+			::std::vector < size_t>::iterator argument (statement->association->parameters.begin ());
 			::boost::shared_ptr < ::lambda_p::binder::node_instance> function_instance (instances [*argument]);
 			++argument;
 			::boost::shared_ptr < ::lambda_p_llvm::function_binder> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::function_binder> (function_instance));

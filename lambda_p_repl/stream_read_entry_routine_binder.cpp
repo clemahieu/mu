@@ -1,7 +1,6 @@
 #include "stream_read_entry_routine_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p_repl/entry_routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
@@ -20,7 +19,7 @@ lambda_p_repl::stream_read_entry_routine_binder::~stream_read_entry_routine_bind
 {
 }
 
-void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())

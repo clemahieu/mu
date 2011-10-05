@@ -19,7 +19,7 @@ namespace lambda_p_repl
 	public:
 		repl_quit_binder (::lambda_p_llvm::generation_context & context_a, ::llvm::Function * quit_function_a, ::llvm::Value * quit_object_a);
 		~repl_quit_binder (void);
-		void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+		void bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		::std::wstring binder_name ();
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit> quit;
         ::lambda_p_llvm::generation_context & context;

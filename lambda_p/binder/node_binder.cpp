@@ -1,7 +1,6 @@
 #include "node_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_result_count.h>
 #include <lambda_p/errors/unexpected_argument_count.h>
@@ -27,9 +26,9 @@ void lambda_p::binder::node_binder::check_count_only_references (size_t result_c
 void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	size_t position (1);
-	for (::std::vector < ::lambda_p::core::node *>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
+	for (::std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
 	{
-        ::lambda_p::core::node * node (*i);
+        size_t node (*i);
 	}
 }
 

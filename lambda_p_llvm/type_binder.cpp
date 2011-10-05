@@ -3,7 +3,6 @@
 #include "type_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/type.h>
@@ -21,13 +20,13 @@ lambda_p_llvm::type_binder::type_binder (::lambda_p_llvm::generation_context & c
 {
 }
 
-void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node * declaration (statement->association->results [0]);
-		::lambda_p::core::node * command (statement->association->parameters [0]);
+		size_t declaration (statement->association->results [0]);
+		size_t command (statement->association->parameters [0]);
 		::boost::shared_ptr < ::lambda_p::binder::node_instance> command_instance (instances [command]);
 		::boost::shared_ptr < ::lambda_p::binder::data> command_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (command_instance));
 		if (command_data.get () != NULL)

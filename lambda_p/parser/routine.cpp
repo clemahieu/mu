@@ -19,12 +19,12 @@ lambda_p::parser::routine::~routine(void)
 	return ::lambda_p::parser::state_routine;
 }
 
-void lambda_p::parser::routine::sink_result (::lambda_p::core::node * declaration)
+void lambda_p::parser::routine::sink_result (size_t declaration)
 {
 	routine_m->surface->results.push_back (declaration);
 }
 
-void lambda_p::parser::routine::sink_argument (::lambda_p::core::node * argument)
+void lambda_p::parser::routine::sink_argument (size_t argument)
 {
 	routine_m->surface->parameters.push_back (argument);
 }

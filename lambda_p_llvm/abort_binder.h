@@ -21,7 +21,7 @@ namespace lambda_p_llvm
     {
     public:  
         abort_binder (::llvm::Function * abort_function_a, ::lambda_p_llvm::generation_context * context_a);
-        void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+        void bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		::std::wstring binder_name ();
     private:
         ::llvm::Function * abort_function;

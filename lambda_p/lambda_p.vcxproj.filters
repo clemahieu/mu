@@ -7,9 +7,6 @@
     <ClInclude Include="core\routine.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\node.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
@@ -172,9 +169,6 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\routine.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\node.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="tokens\token.cpp">

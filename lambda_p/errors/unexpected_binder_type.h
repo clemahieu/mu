@@ -1,7 +1,6 @@
 #pragma once
 
 #include <lambda_p/errors/binder_error.h>
-#include <lambda_p/core/node.h>
 
 namespace lambda_p
 {

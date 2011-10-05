@@ -11,7 +11,7 @@ namespace lambda_p_llvm
     public:
         data_to_string_binder (::lambda_p_llvm::generation_context context_a);
         ~data_to_string_binder (void);
-        void bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);		
+        void bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);		
 		::std::wstring binder_name ();
         ::lambda_p_llvm::generation_context context;
     };

@@ -28,12 +28,12 @@
 void lambda_p_test::data_to_string_binder_test_1::run ()
 {
     ::lambda_p::core::routine routine;
-    ::lambda_p::core::node * p1 = routine.add_declaration ();
+    size_t p1 = routine.add_declaration ();
 	routine.surface->results.push_back (p1);
     ::lambda_p::core::statement * statement = routine.add_statement (p1);
-    ::lambda_p::core::node * declaration = routine.add_declaration ();
+    size_t declaration = routine.add_declaration ();
     statement->association->results.push_back (declaration);
-    ::lambda_p::core::node * data = routine.add_data (::std::wstring (L"Test string"));
+    size_t data = routine.add_data (::std::wstring (L"Test string"));
     statement->association->parameters.push_back (data);
     ::llvm::LLVMContext llvm_context;
     ::std::string module_string ("test");
@@ -41,7 +41,7 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     ::llvm::Module * module = new ::llvm::Module (module_name, llvm_context);
     ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
     ::lambda_p_llvm::data_to_string_binder binder (context);
-	::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances (routine.instances);
+	::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances (routine.instances);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
     binder.bind (statement, instances, problems);
     assert (problems.size () == 0);
