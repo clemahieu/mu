@@ -70,7 +70,7 @@ void lambda_p::binder::routine_binder::reset ()
 void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder)
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
-	assert (statement_l->target != NULL);
+	assert (statement_l->target < routine->nodes);
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l;
 	copy_declaration_binder (binder_l, statement_l->target);
 	if (binder_l.get () != NULL)
