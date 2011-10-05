@@ -15,8 +15,3 @@ lambda_p::binder::data::~data(void)
 {
     return string_m;
 }
-
-::lambda_p::core::node_id lambda_p::binder::data::node_type () const
-{
-	return ::lambda_p::core::node_data;
-}

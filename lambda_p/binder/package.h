@@ -23,7 +23,7 @@ namespace lambda_p
 			::std::map < ::std::wstring, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > nodes;
 			::std::wstring binder_name ();
 		private:
-			void parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::core::node * node, ::lambda_p::core::declaration * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+			void parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, ::lambda_p::core::declaration * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
         };
     }
 }

@@ -9,7 +9,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/errors/unexpected_node_type.h>
+#include <lambda_p/errors/unexpected_binder_type.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -33,40 +33,30 @@ void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * sta
 	check_count (1, 3, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node * base_node (statement->association->parameters [0]);
-		::lambda_p::core::node_id base_id (base_node->node_type ());
-		switch (base_id)
+		::boost::shared_ptr < ::lambda_p::binder::data> base_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		if (base_data.get () != NULL)
 		{
-		case ::lambda_p::core::node_data:
+			::boost::shared_ptr < ::lambda_p::binder::data> number_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [1]]));
+			if (number_data.get () != NULL)
 			{
-				::lambda_p::core::node * number_node (statement->association->parameters [1]);
-				::lambda_p::core::node_id number_id (number_node->node_type ());
-				switch (number_id)
+				::boost::shared_ptr < ::lambda_p::binder::data> bits_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [2]]));
+				if (bits_data.get () != NULL)
 				{
-				case ::lambda_p::core::node_data:
-					{
-						::lambda_p::core::node * bits_node (statement->association->parameters [2]);
-						::lambda_p::core::node_id bits_id (bits_node->node_type ());
-						switch (bits_id)
-						{
-						case ::lambda_p::core::node_data:
-							parse_nodes (base_node, number_node, bits_node, statement->association->results [0], instances, problems);
-							break;
-						default:
-							problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, bits_id)));
-							break;
-						}
-					}
-					break;
-				default:
-					problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, number_id)));
-					break;
+					parse_nodes (base_data, number_data, bits_data, statement->association->results [0], instances, problems);
+				}
+				else
+				{
+					problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
 				}
 			}
-			break;
-		default:
-			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, base_id)));
-			break;
+			else
+			{
+				problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
+			}
+		}
+		else
+		{
+			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
 		}
 	}
 }
@@ -95,11 +85,8 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsig
 	}
 }
 
-void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * base_node, ::lambda_p::core::node * number_node, ::lambda_p::core::node * bits_node, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::constant_int_binder::parse_nodes (::boost::shared_ptr < ::lambda_p::binder::data> base_data, ::boost::shared_ptr < ::lambda_p::binder::data> number_data, ::boost::shared_ptr < ::lambda_p::binder::data> bits_data, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	::lambda_p::binder::data * base_data (static_cast < ::lambda_p::binder::data *> (base_node));
-	::lambda_p::binder::data * number_data (static_cast < ::lambda_p::binder::data *> (number_node));
-	::lambda_p::binder::data * bits_data (static_cast < ::lambda_p::binder::data *> (bits_node));
 	::std::wstring base_wstring (base_data->string ());
 	::std::wstring number_wstring (number_data->string ());
 	::std::wstring bits_wstring (bits_data->string ());

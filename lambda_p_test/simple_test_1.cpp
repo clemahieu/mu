@@ -146,7 +146,7 @@ void lambda_p_test::simple_test_1::run_8 ()
     ::lambda_p::core::declaration * declaration (routine.add_declaration ());
 	routine.surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement1 = routine.add_statement (declaration);
-	statement1->association->parameters.push_back (routine.add_data (::std::wstring ()));
+	statement1->association->parameters.push_back (routine.add_declaration ());
 	::std::vector < ::lambda_p::errors::error *> problems;
     ::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);

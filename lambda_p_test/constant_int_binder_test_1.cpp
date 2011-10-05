@@ -32,11 +32,11 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	::lambda_p::core::statement * statement = routine->add_statement (binder);
 	::lambda_p::core::declaration * declaration = routine->add_declaration ();
 	statement->association->results.push_back (declaration);
-	::lambda_p::binder::data * base = routine->add_data (::std::wstring (L"16"));
+	::lambda_p::core::declaration * base = routine->add_data (::std::wstring (L"16"));
 	statement->association->parameters.push_back (base);
-	::lambda_p::binder::data * number = routine->add_data (::std::wstring (L"10"));
+	::lambda_p::core::declaration * number = routine->add_data (::std::wstring (L"10"));
 	statement->association->parameters.push_back (number);
-	::lambda_p::binder::data * bits = routine->add_data (::std::wstring (L"64"));
+	::lambda_p::core::declaration * bits = routine->add_data (::std::wstring (L"64"));
 	statement->association->parameters.push_back (bits);
 	::lambda_p::binder::routine_binder routine_binder (routine);
 	::llvm::LLVMContext llvm_context;

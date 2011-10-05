@@ -5,6 +5,8 @@
 
 #include <lambda_p/core/position.h>
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p_test
 {
 	class simple_parser_test_1;
@@ -17,6 +19,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
+		class node_instance;
 		class routine_binder;
 		class data;
 	}
@@ -58,16 +61,16 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			::lambda_p::core::statement * add_statement (::lambda_p::core::declaration * target_a);
-			::lambda_p::binder::data * add_data (::std::wstring string);
+			::lambda_p::core::declaration * add_data (::std::wstring string);
 			::lambda_p::core::declaration * add_declaration ();
             void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
+			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 		private:
 			void validate_node (::lambda_p::core::node * node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;
 			::std::vector < ::lambda_p::core::declaration *> declarations;
-			::std::vector < ::lambda_p::binder::data *> data;
 		};
 	}
 }

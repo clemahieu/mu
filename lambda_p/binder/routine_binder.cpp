@@ -11,7 +11,8 @@
 #include <sstream>
 
 lambda_p::binder::routine_binder::routine_binder (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
-	: routine (routine_a)
+	: routine (routine_a),
+	instances (routine_a->instances)
 {
 }
 

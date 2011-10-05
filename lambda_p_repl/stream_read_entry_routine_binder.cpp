@@ -6,7 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p_repl/istream_input.h>
-#include <lambda_p/errors/unexpected_node_type.h>
+#include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
 
 #include <fstream>
@@ -25,33 +25,28 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node * node (statement->association->parameters [0]);
-		::lambda_p::core::node_id node_type (node->node_type ());
-		switch (node_type)
+		::boost::shared_ptr < ::lambda_p::binder::data> data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		if (data.get () != NULL)
 		{
-		case ::lambda_p::core::node_data:
+			::std::fstream file;
+			file.open (data->string ());
+			if (file.is_open ())
 			{
-				::lambda_p::binder::data * data (static_cast < ::lambda_p::binder::data *> (node));
-				::std::fstream file;
-				file.open (data->string ());
-				if (file.is_open ())
-				{
-					::lambda_p_repl::istream_input input (file);
-					::lambda_p_repl::entry_routine routine (input, ::std::wcout);
-					routine ();
-				}
-				else
-				{
-					::std::wstring message;
-					message.append (L"Unable to open file: ");
-					message.append (data->string ());
-					problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (::std::wstring (L"stream_read_entry_routine_binder"), message)));
-				}
+				::lambda_p_repl::istream_input input (file);
+				::lambda_p_repl::entry_routine routine (input, ::std::wcout);
+				routine ();
 			}
-			break;
-		default:
-			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (::std::wstring (L"stream_read_entry_routine_binder"), 0, node_type)));
-			break;
+			else
+			{
+				::std::wstring message;
+				message.append (L"Unable to open file: ");
+				message.append (data->string ());
+				problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (binder_name (), message)));
+			}
+		}
+		else
+		{
+			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
 		}
 	}
 }

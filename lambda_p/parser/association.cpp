@@ -15,7 +15,7 @@ lambda_p::parser::association::association (::boost::shared_ptr < ::lambda_p::pa
 	return ::lambda_p::parser::state_association;
 }
 
-void lambda_p::parser::association::sink_data (::lambda_p::binder::data * data)
+void lambda_p::parser::association::sink_data (::lambda_p::core::node * data)
 {
 	target->sink_argument (data);
 }

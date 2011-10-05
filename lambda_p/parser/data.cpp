@@ -1,6 +1,6 @@
 #include "data.h"
 
-lambda_p::parser::data::data (::boost::shared_ptr < ::lambda_p::core::routine> routine_a, ::boost::shared_ptr < ::lambda_p::parser::data_target> target_a)
+lambda_p::parser::data::data (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a, ::boost::shared_ptr < ::lambda_p::parser::data_target> target_a)
 	: target (target_a),
 	routine (routine_a)
 {

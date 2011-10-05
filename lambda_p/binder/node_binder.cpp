@@ -5,7 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_result_count.h>
 #include <lambda_p/errors/unexpected_argument_count.h>
-#include <lambda_p/errors/unexpected_node_type.h>
+#include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
 
 #include <sstream>
@@ -36,19 +36,8 @@ void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::sta
 		case ::lambda_p::core::node_declaration:
 				// Declaration is what we're looking for
 			break;
-		case ::lambda_p::core::node_data:
-			{
-				::boost::shared_ptr < ::lambda_p::errors::error> problem (new ::lambda_p::errors::unexpected_node_type (binder_name (), position, type));
-				problems.push_back (problem);
-			}
-			break;
 		default:
-			{
-				// Should only have declarations or data at this point
-				::boost::shared_ptr < ::lambda_p::errors::error> problem (new ::lambda_p::errors::unexpected_node_type (binder_name (), position, type));
-				problems.push_back (problem);
-				assert (false);
-			}
+			assert (false);
 			break;
 		}
 	}

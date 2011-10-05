@@ -304,7 +304,7 @@ void lambda_p::parser::simple_parser::parse_association (::lambda_p::tokens::tok
 			break;
 		case ::lambda_p::tokens::token_id_data:
 			{
-				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l->routine->routine_m, state_l));
+				::boost::shared_ptr < ::lambda_p::parser::state> new_state (new ::lambda_p::parser::data (state_l->routine, state_l));
 				state.push (new_state);
 			}
 			break;
@@ -331,7 +331,8 @@ void lambda_p::parser::simple_parser::parse_data (::lambda_p::tokens::token * to
 	case ::lambda_p::tokens::token_id_identifier:
 		{
 			::lambda_p::tokens::identifier * data_string (static_cast < ::lambda_p::tokens::identifier *> (token));
-			state_l->target->sink_data (state_l->routine->add_data (data_string->string));
+			::lambda_p::core::declaration * declaration (state_l->routine->routine_m->add_data (data_string->string));
+			state_l->target->sink_data (declaration);
 			state.pop ();
 		}
 		break;

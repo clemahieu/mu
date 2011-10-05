@@ -5,12 +5,18 @@
 #include <lambda_p/tokens/token.h>
 
 #include <stack>
+#include <map>
 
 namespace lambda_p
 {
+	namespace binder
+	{
+		class node_instance;
+	}
 	namespace core
 	{
 		class routine;
+		class node;
 	}
 	namespace parser
 	{

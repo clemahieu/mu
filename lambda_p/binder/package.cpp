@@ -4,7 +4,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/errors/unexpected_node_type.h>
+#include <lambda_p/errors/unexpected_binder_type.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/array.hpp>
@@ -30,16 +30,15 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 		for (::std::vector < ::lambda_p::core::node *>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
 		{
 			::lambda_p::core::node * parameter (*i);
-			::lambda_p::core::node_id argument_1_id (parameter->node_type ());
-			switch (argument_1_id)
+			::boost::shared_ptr < ::lambda_p::binder::node_instance> node_instance (instances [parameter]);
+			::boost::shared_ptr < ::lambda_p::binder::data> node_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (node_instance));
+			if (node_data.get () != NULL)
 			{
-			case ::lambda_p::core::node_data:
-				{
-					parse_one (instances, parameter, statement->association->results [current_argument], problems);
-				}
-				break;
-			default:
-				problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, argument_1_id)));
+				parse_one (instances, node_data, statement->association->results [current_argument], problems);
+			}
+			else
+			{
+				problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
 				break;
 			}
 		}
@@ -60,12 +59,11 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	}
 }
 
-void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::lambda_p::core::node * node, ::lambda_p::core::declaration * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, ::lambda_p::core::declaration * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());
-	::lambda_p::binder::data * name (static_cast < ::lambda_p::binder::data *> (node));
-	::std::wstring string (name->string ());
+	::std::wstring string (node->string ());
 	::boost::char_separator <wchar_t> separator (L".");
 	::boost::tokenizer < ::boost::char_separator <wchar_t>, ::std::wstring::const_iterator, ::std::wstring> tokenizer (string, separator);
 	::std::wstring current_string;

@@ -8,6 +8,8 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/declaration.h>
 
+#include <algorithm>
+
 lambda_p::core::routine::routine ()
 	: surface (new ::lambda_p::core::association)
 {
@@ -23,10 +25,6 @@ lambda_p::core::routine::~routine(void)
 	{
 		delete *i;
 	}
-	for (::std::vector < ::lambda_p::binder::data *>::const_iterator i = data.begin (); i != data.end (); ++i)
-	{
-		delete *i;
-	}
 }
 
 ::lambda_p::core::statement * lambda_p::core::routine::add_statement (::lambda_p::core::declaration * target_a)
@@ -36,11 +34,12 @@ lambda_p::core::routine::~routine(void)
 	return statement;
 }
 
-::lambda_p::binder::data * lambda_p::core::routine::add_data (::std::wstring string)
+::lambda_p::core::declaration * lambda_p::core::routine::add_data (::std::wstring string)
 {
-    ::lambda_p::binder::data * data_l (new ::lambda_p::binder::data (string));
-	data.push_back (data_l);
-	return data_l;
+    ::boost::shared_ptr < ::lambda_p::binder::data> data_l (new ::lambda_p::binder::data (string));
+	::lambda_p::core::declaration * result (add_declaration ());
+	instances [result] = data_l;
+	return result;
 }
 
 ::lambda_p::core::declaration * lambda_p::core::routine::add_declaration ()
@@ -81,16 +80,6 @@ void lambda_p::core::routine::validate_node (::lambda_p::core::node * node, size
         {
             ::lambda_p::core::declaration * declaration (static_cast < ::lambda_p::core::declaration *> (node));
             if (::std::find (declarations.begin (), declarations.end (), declaration) == declarations.end ())
-            {
-                ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
-                problems.push_back (error);
-            }
-        }
-            break;
-        case ::lambda_p::core::node_data:
-        {
-            ::lambda_p::binder::data * data_l (static_cast < ::lambda_p::binder::data *> (node));
-            if (::std::find (data.begin (), data.end (), data_l) == data.end ())
             {
                 ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
                 problems.push_back (error);

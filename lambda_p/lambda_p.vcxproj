@@ -149,7 +149,7 @@
     <ClInclude Include="errors\orphan_reference.h" />
     <ClInclude Include="errors\undefined_reference.h" />
     <ClInclude Include="errors\unexpected_argument_count.h" />
-    <ClInclude Include="errors\unexpected_node_type.h" />
+    <ClInclude Include="errors\unexpected_binder_type.h" />
     <ClInclude Include="errors\unexpected_result_count.h" />
     <ClInclude Include="errors\unresolved_statement.h" />
     <ClInclude Include="lexer\begin.h" />
@@ -207,7 +207,7 @@
     <ClCompile Include="errors\orphan_reference.cpp" />
     <ClCompile Include="errors\undefined_reference.cpp" />
     <ClCompile Include="errors\unexpected_argument_count.cpp" />
-    <ClCompile Include="errors\unexpected_node_type.cpp" />
+    <ClCompile Include="errors\unexpected_binder_type.cpp" />
     <ClCompile Include="errors\unexpected_result_count.cpp" />
     <ClCompile Include="errors\unresolved_statement.cpp" />
     <ClCompile Include="lexer\begin.cpp" />

@@ -10,7 +10,7 @@
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/errors/unexpected_node_type.h>
+#include <lambda_p/errors/unexpected_binder_type.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>
@@ -34,20 +34,16 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node_id arg2_type (statement->association->parameters [0]->node_type ());
-		switch (arg2_type)
+		::boost::shared_ptr < ::lambda_p::binder::data> data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		if (data.get () != NULL)
 		{
-		case ::lambda_p::core::node_data:
-			{
-				::lambda_p::binder::data * data (static_cast < ::lambda_p::binder::data *> (statement->association->parameters [0]));
-				::lambda_p_llvm::constant_wstring string (context, data->string ());                        
-				::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
-				instances [statement->association->results [0]] = value;
-			}
-			break;
-		default:
-			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_node_type (binder_name (), 0, arg2_type)));
-			break;
+			::lambda_p_llvm::constant_wstring string (context, data->string ());                        
+			::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
+			instances [statement->association->results [0]] = value;
+		}
+		else
+		{
+			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), 0, ::std::wstring (L"data"))));
 		}
 	}
 }

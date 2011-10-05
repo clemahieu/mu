@@ -46,7 +46,7 @@ namespace lambda_p
 			{
                 target << "statement";
                 target << statement_positions [statement_a];
-				declaration (argument_positions, statement_a->target);
+				node (argument_positions, statement_a->target);
 				target << " ";
 				association (argument_positions, statement_a->association);
 			}
@@ -55,7 +55,7 @@ namespace lambda_p
 				for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = association_a->results.begin (); i != association_a->results.end (); ++i)
 				{
 					target << "\n ";
-					declaration (argument_positions, *i);
+					node (argument_positions, *i);
 				}
 				target << " = ";
 				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = association_a->parameters.begin (); i != association_a->parameters.end (); ++i)
@@ -67,28 +67,7 @@ namespace lambda_p
 			}
 			void node (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::node const * node_a)
 			{
-				::lambda_p::core::node_id node_id (node_a->node_type ());
-				switch (node_id)
-				{
-				case ::lambda_p::core::node_data:
-					data (static_cast < ::lambda_p::binder::data const *> (node_a));
-					break;
-				case ::lambda_p::core::node_declaration:
-					declaration (argument_positions, static_cast < ::lambda_p::core::declaration const *> (node_a));
-					break;
-				default:
-					assert (false);
-					break;
-				}
-			}
-			void data (::lambda_p::binder::data const * data_a)
-			{
-                target << "' ";
-                target << data_a->string ();
-			}
-			void declaration (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::declaration const * result_a)
-			{
-                ::lambda_p::core::position position (argument_positions [result_a]);
+                ::lambda_p::core::position position (argument_positions [node_a]);
                 target << "declaration";
                 target << position.argument;
 			}
