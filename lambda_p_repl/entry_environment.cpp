@@ -80,11 +80,12 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), false));
     ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
+	::lambda_p_repl::abort_function abort (context);
+	engine->addGlobalMapping (abort.abort, (void *)::abort);
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
 	::lambda_p::binder::routine_binder routine_binder (routine_a);
-	::lambda_p_repl::abort_function abort (context);
 	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
@@ -151,7 +152,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	else
 	{	
         ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context.context));
-        block->getInstList ().push_back (ret);
+		context.block->getInstList ().push_back (ret);
         ::std::vector < ::llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
 	}
