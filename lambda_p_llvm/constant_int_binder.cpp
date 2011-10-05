@@ -4,7 +4,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/declaration.h>
@@ -97,9 +97,9 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsig
 
 void lambda_p_llvm::constant_int_binder::parse_nodes (::lambda_p::core::node * base_node, ::lambda_p::core::node * number_node, ::lambda_p::core::node * bits_node, ::lambda_p::core::node * declaration_node, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	::lambda_p::core::data * base_data (static_cast < ::lambda_p::core::data *> (base_node));
-	::lambda_p::core::data * number_data (static_cast < ::lambda_p::core::data *> (number_node));
-	::lambda_p::core::data * bits_data (static_cast < ::lambda_p::core::data *> (bits_node));
+	::lambda_p::binder::data * base_data (static_cast < ::lambda_p::binder::data *> (base_node));
+	::lambda_p::binder::data * number_data (static_cast < ::lambda_p::binder::data *> (number_node));
+	::lambda_p::binder::data * bits_data (static_cast < ::lambda_p::binder::data *> (bits_node));
 	::std::wstring base_wstring (base_data->string ());
 	::std::wstring number_wstring (number_data->string ());
 	::std::wstring bits_wstring (bits_data->string ());

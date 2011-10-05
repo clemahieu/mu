@@ -8,12 +8,12 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class data;
 		class node;
 		class declaration;
 	}
     namespace binder
     {        
+		class data;
         class package : public ::lambda_p::binder::node_binder, public ::boost::enable_shared_from_this < ::lambda_p::binder::package>
         {
         public:

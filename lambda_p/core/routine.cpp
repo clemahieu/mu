@@ -5,7 +5,7 @@
 #include <lambda_p/errors/undefined_reference.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p/core/declaration.h>
 
 lambda_p::core::routine::routine ()
@@ -23,7 +23,7 @@ lambda_p::core::routine::~routine(void)
 	{
 		delete *i;
 	}
-	for (::std::vector < ::lambda_p::core::data *>::const_iterator i = data.begin (); i != data.end (); ++i)
+	for (::std::vector < ::lambda_p::binder::data *>::const_iterator i = data.begin (); i != data.end (); ++i)
 	{
 		delete *i;
 	}
@@ -36,9 +36,9 @@ lambda_p::core::routine::~routine(void)
 	return statement;
 }
 
-::lambda_p::core::data * lambda_p::core::routine::add_data (::std::wstring string)
+::lambda_p::binder::data * lambda_p::core::routine::add_data (::std::wstring string)
 {
-    ::lambda_p::core::data * data_l (new ::lambda_p::core::data (string));
+    ::lambda_p::binder::data * data_l (new ::lambda_p::binder::data (string));
 	data.push_back (data_l);
 	return data_l;
 }
@@ -89,7 +89,7 @@ void lambda_p::core::routine::validate_node (::lambda_p::core::node * node, size
             break;
         case ::lambda_p::core::node_data:
         {
-            ::lambda_p::core::data * data_l (static_cast < ::lambda_p::core::data *> (node));
+            ::lambda_p::binder::data * data_l (static_cast < ::lambda_p::binder::data *> (node));
             if (::std::find (data.begin (), data.end (), data_l) == data.end ())
             {
                 ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));

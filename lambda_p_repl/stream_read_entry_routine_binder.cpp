@@ -4,7 +4,7 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p_repl/entry_routine.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p_repl/istream_input.h>
 #include <lambda_p/errors/unexpected_node_type.h>
 #include <lambda_p/errors/binder_string_error.h>
@@ -31,7 +31,7 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 		{
 		case ::lambda_p::core::node_data:
 			{
-				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (node));
+				::lambda_p::binder::data * data (static_cast < ::lambda_p::binder::data *> (node));
 				::std::fstream file;
 				file.open (data->string ());
 				if (file.is_open ())

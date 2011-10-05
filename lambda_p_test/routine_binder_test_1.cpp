@@ -6,7 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/declaration.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 
 #include <boost/shared_ptr.hpp>
 

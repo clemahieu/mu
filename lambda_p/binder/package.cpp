@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_node_type.h>
 
@@ -64,7 +64,7 @@ void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *
 {
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());
-	::lambda_p::core::data * name (static_cast < ::lambda_p::core::data *> (node));
+	::lambda_p::binder::data * name (static_cast < ::lambda_p::binder::data *> (node));
 	::std::wstring string (name->string ());
 	::boost::char_separator <wchar_t> separator (L".");
 	::boost::tokenizer < ::boost::char_separator <wchar_t>, ::std::wstring::const_iterator, ::std::wstring> tokenizer (string, separator);

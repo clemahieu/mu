@@ -4,7 +4,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/constant_wstring.h>
@@ -39,7 +39,7 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 		{
 		case ::lambda_p::core::node_data:
 			{
-				::lambda_p::core::data * data (static_cast < ::lambda_p::core::data *> (statement->association->parameters [0]));
+				::lambda_p::binder::data * data (static_cast < ::lambda_p::binder::data *> (statement->association->parameters [0]));
 				::lambda_p_llvm::constant_wstring string (context, data->string ());                        
 				::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
 				instances [statement->association->results [0]] = value;

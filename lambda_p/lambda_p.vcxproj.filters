@@ -10,9 +10,6 @@
     <ClInclude Include="core\node.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\data.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="serialization\simple.h">
       <Filter>serialization</Filter>
     </ClInclude>
@@ -169,6 +166,9 @@
     <ClInclude Include="errors\binder_string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
+    <ClInclude Include="binder\data.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -178,9 +178,6 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\node.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\data.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="tokens\token.cpp">
@@ -335,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="errors\binder_string_error.cpp">
       <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\data.cpp">
+      <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

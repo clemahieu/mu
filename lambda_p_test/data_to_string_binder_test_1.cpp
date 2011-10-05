@@ -16,7 +16,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p/core/declaration.h>
 
 #include <llvm/LLVMContext.h>
@@ -34,7 +34,7 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     ::lambda_p::core::statement * statement = routine.add_statement (p1);
     ::lambda_p::core::declaration * declaration = routine.add_declaration ();
     statement->association->results.push_back (declaration);
-    ::lambda_p::core::data * data = routine.add_data (::std::wstring (L"Test string"));
+    ::lambda_p::binder::data * data = routine.add_data (::std::wstring (L"Test string"));
     statement->association->parameters.push_back (data);
     ::llvm::LLVMContext llvm_context;
     ::std::string module_string ("test");

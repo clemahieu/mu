@@ -138,7 +138,7 @@
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\declaration.h" />
     <ClInclude Include="core\position.h" />
-    <ClInclude Include="core\data.h" />
+    <ClInclude Include="binder\data.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\statement.h" />
@@ -196,7 +196,7 @@
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\declaration.cpp" />
     <ClCompile Include="core\position.cpp" />
-    <ClCompile Include="core\data.cpp" />
+    <ClCompile Include="binder\data.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\statement.cpp" />

@@ -7,7 +7,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 
@@ -71,7 +71,7 @@ namespace lambda_p
 				switch (node_id)
 				{
 				case ::lambda_p::core::node_data:
-					data (static_cast < ::lambda_p::core::data const *> (node_a));
+					data (static_cast < ::lambda_p::binder::data const *> (node_a));
 					break;
 				case ::lambda_p::core::node_declaration:
 					declaration (argument_positions, static_cast < ::lambda_p::core::declaration const *> (node_a));
@@ -81,7 +81,7 @@ namespace lambda_p
 					break;
 				}
 			}
-			void data (::lambda_p::core::data const * data_a)
+			void data (::lambda_p::binder::data const * data_a)
 			{
                 target << "' ";
                 target << data_a->string ();

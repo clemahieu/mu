@@ -4,7 +4,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p/core/declaration.h>
@@ -33,7 +33,7 @@ void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, 
 		{
 		case ::lambda_p::core::node_data:
 			{
-				::lambda_p::core::data * command_data (static_cast < ::lambda_p::core::data *> (command));
+				::lambda_p::binder::data * command_data (static_cast < ::lambda_p::binder::data *> (command));
 				if (command_data->string ().compare (::std::wstring (L"getInt32Ty")) == 0)
 				{
 					::boost::shared_ptr < ::lambda_p_llvm::type> type (new ::lambda_p_llvm::type (::llvm::Type::getInt32Ty (context.context)));

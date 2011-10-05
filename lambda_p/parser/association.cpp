@@ -1,7 +1,7 @@
 #include <lambda_p/parser/association.h>
 
 #include <lambda_p/parser/association_target.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/binder/data.h>
 
 lambda_p::parser::association::association (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a, ::boost::shared_ptr < ::lambda_p::parser::association_target> target_a)
 	: on_results (true),
@@ -15,7 +15,7 @@ lambda_p::parser::association::association (::boost::shared_ptr < ::lambda_p::pa
 	return ::lambda_p::parser::state_association;
 }
 
-void lambda_p::parser::association::sink_data (::lambda_p::core::data * data)
+void lambda_p::parser::association::sink_data (::lambda_p::binder::data * data)
 {
 	target->sink_argument (data);
 }

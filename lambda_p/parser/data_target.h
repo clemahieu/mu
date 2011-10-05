@@ -2,7 +2,7 @@
 
 namespace lambda_p
 {
-	namespace core
+	namespace binder
 	{
 		class data;
 	}
@@ -11,7 +11,7 @@ namespace lambda_p
 		class data_target
 		{
 		public:
-			virtual void sink_data (::lambda_p::core::data * data) = 0;
+			virtual void sink_data (::lambda_p::binder::data * data) = 0;
 		};
 	}
 }
