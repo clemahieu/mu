@@ -2,18 +2,6 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
-{
-	namespace tokens
-	{
-		class token;
-	}
-	namespace core
-	{
-		class node;
-		class routine;
-	}
-}
 namespace lambda_p_repl
 {
 	class repl_quit;

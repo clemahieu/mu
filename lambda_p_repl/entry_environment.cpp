@@ -157,9 +157,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	}
 }
 
-::lambda_p::core::node * lambda_p_repl::entry_environment::environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine)
+size_t lambda_p_repl::entry_environment::environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine)
 {
-	::lambda_p::core::node * result (routine->surface->results [0]);
+	size_t result (routine->surface->results [0]);
 	return result;
 }
 

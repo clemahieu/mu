@@ -41,12 +41,10 @@ namespace lambda_p
 	{
 		class association;
 		class statement;
-		class node;
 		class routine
 		{
 			friend class ::lambda_p::core::statement;
 			friend class ::lambda_p::binder::data;
-			friend class ::lambda_p::core::node;
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::parser::simple_parser;
 			friend class ::lambda_p::binder::routine_binder;
@@ -58,17 +56,17 @@ namespace lambda_p
 		public:
 			routine ();
 			~routine (void);
-			::lambda_p::core::statement * add_statement (::lambda_p::core::node * target_a);
-			::lambda_p::core::node * add_data (::std::wstring string);
-			::lambda_p::core::node * add_declaration ();
-            void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
+			::lambda_p::core::statement * add_statement (size_t target_a);
+			size_t add_data (::std::wstring string);
+			size_t add_declaration ();
+            void placement (::std::map < size_t, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
-			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
+			::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 		private:
-			void validate_node (::lambda_p::core::node * node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
+			void validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;
-			::std::vector < ::lambda_p::core::node *> declarations;
+			size_t nodes;
 		};
 	}
 }

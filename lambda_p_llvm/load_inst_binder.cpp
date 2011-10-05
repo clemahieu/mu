@@ -11,7 +11,6 @@
 
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
@@ -27,12 +26,12 @@ lambda_p_llvm::load_inst_binder::load_inst_binder (::lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count_only_references (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node * pointer_node (statement->association->parameters [0]);
+		size_t pointer_node (statement->association->parameters [0]);
         ::boost::shared_ptr < ::lambda_p::binder::node_instance> pointer_instance (instances [pointer_node]);
         ::boost::shared_ptr < ::lambda_p_llvm::value> pointer (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (pointer_instance));
         if (pointer.get () != NULL)

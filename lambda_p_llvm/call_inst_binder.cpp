@@ -16,11 +16,11 @@ lambda_p_llvm::call_inst_binder::call_inst_binder (::lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_only_references (statement, problems);
 	::std::vector < ::llvm::Value *> arguments;
-	::std::vector < ::lambda_p::core::node *>::iterator i = statement->association->parameters.begin ();
+	::std::vector < size_t>::iterator i = statement->association->parameters.begin ();
 	if (statement->association->results.size () == 1)
 	{
 		if (i != statement->association->parameters.end ())
@@ -63,6 +63,6 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 	return ::std::wstring (L"call_inst_binder");
 }
 
-void lambda_p_llvm::call_inst_binder::validate_argument_types (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::call_inst_binder::validate_argument_types (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 }

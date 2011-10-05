@@ -25,12 +25,12 @@ namespace lambda_p
 			routine(void);
 			~routine(void);
 			state_id state_type ();
-			void sink_result (::lambda_p::core::node * declaration);
-			void sink_argument (::lambda_p::core::node * argument);
+			void sink_result (size_t declaration);
+			void sink_argument (size_t argument);
 			::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 			bool have_surface;
-			::std::multimap < ::std::wstring, ::lambda_p::core::node *> unresolved_references;
-			::std::map < ::std::wstring, ::lambda_p::core::node *> positions;
+			::std::multimap < ::std::wstring, size_t> unresolved_references;
+			::std::map < ::std::wstring, size_t> positions;
 			bool parsed_routine;
 		};
 	}

@@ -15,7 +15,6 @@ namespace lambda_p
     namespace core
     {
         class routine;
-        class node;
     }
 }
 namespace lambda_p_repl
@@ -27,7 +26,7 @@ namespace lambda_p_repl
 		entry_environment (::lambda_p_repl::repl * repl_a);
         entry_environment ();
         void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
-		::lambda_p::core::node * environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
+		size_t environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
     private:
         static void quit_invoke (void * object);
 		::lambda_p_repl::repl * repl;

@@ -26,7 +26,7 @@ lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
 {
 }
 
-void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_only_references (statement, problems);
 	if (problems.empty ())

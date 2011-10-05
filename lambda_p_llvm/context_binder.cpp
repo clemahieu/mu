@@ -1,7 +1,6 @@
 #include "context_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p/core/association.h>
 
@@ -15,7 +14,7 @@ lambda_p_llvm::context_binder::~context_binder(void)
 {
 }
 
-void lambda_p_llvm::context_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::context_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 0, statement, problems);
 	if (problems.empty ())

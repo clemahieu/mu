@@ -45,10 +45,10 @@ void lambda_p_test::abort_binder_test_1::run ()
     current.block = block;
 	::lambda_p_llvm::abort_binder binder (abort_function.abort, &current);
     ::lambda_p::core::routine routine;
-    ::lambda_p::core::node * parameter (routine.add_declaration ());
+    size_t parameter (routine.add_declaration ());
 	routine.surface->results.push_back (parameter);
     ::lambda_p::core::statement * call (routine.add_statement (parameter));
-    ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
+    ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
     binder.bind (call, instances, problems);
     ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context));

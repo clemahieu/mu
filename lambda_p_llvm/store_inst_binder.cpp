@@ -12,7 +12,6 @@
 #include <lambda_p_llvm/store_inst_binder.h>
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/node.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
@@ -28,13 +27,13 @@ lambda_p_llvm::store_inst_binder::store_inst_binder (::lambda_p_llvm::generation
 {
 }
 
-void lambda_p_llvm::store_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::store_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count_only_references (0, 2, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::node * destination_node (statement->association->parameters [0]);
-		::lambda_p::core::node * source_node (statement->association->parameters [1]);
+		size_t destination_node (statement->association->parameters [0]);
+		size_t source_node (statement->association->parameters [1]);
 		::boost::shared_ptr < ::lambda_p::binder::node_instance> source_instance (instances [source_node]);
 		::boost::shared_ptr < ::lambda_p_llvm::value> source (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (source_instance));
 		if (source.get () != NULL)

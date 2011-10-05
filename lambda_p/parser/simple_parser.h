@@ -16,7 +16,6 @@ namespace lambda_p
 	namespace core
 	{
 		class routine;
-		class node;
 	}
 	namespace parser
 	{

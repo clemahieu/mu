@@ -18,7 +18,7 @@ lambda_p::binder::package::~package(void)
 {
 }
 
-void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, ::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->parameters.size ());
@@ -26,9 +26,9 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	if (argument_count == result_count)
 	{
 		size_t current_argument (0);
-		for (::std::vector < ::lambda_p::core::node *>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
+		for (::std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
 		{
-			::lambda_p::core::node * parameter (*i);
+			size_t parameter (*i);
 			::boost::shared_ptr < ::lambda_p::binder::node_instance> node_instance (instances [parameter]);
 			::boost::shared_ptr < ::lambda_p::binder::data> node_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (node_instance));
 			if (node_data.get () != NULL)
@@ -58,7 +58,7 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	}
 }
 
-void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, ::lambda_p::core::node * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::parse_one (::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());
