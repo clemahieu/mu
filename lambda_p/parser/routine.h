@@ -16,7 +16,6 @@ namespace lambda_p
 	namespace core
 	{
 		class routine;
-		class declaration;
 	}
 	namespace parser
 	{
@@ -26,12 +25,12 @@ namespace lambda_p
 			routine(void);
 			~routine(void);
 			state_id state_type ();
-			void sink_result (::lambda_p::core::declaration * declaration);
+			void sink_result (::lambda_p::core::node * declaration);
 			void sink_argument (::lambda_p::core::node * argument);
 			::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 			bool have_surface;
-			::std::multimap < ::std::wstring, ::lambda_p::core::declaration *> unresolved_references;
-			::std::map < ::std::wstring, ::lambda_p::core::declaration *> positions;
+			::std::multimap < ::std::wstring, ::lambda_p::core::node *> unresolved_references;
+			::std::map < ::std::wstring, ::lambda_p::core::node *> positions;
 			bool parsed_routine;
 		};
 	}

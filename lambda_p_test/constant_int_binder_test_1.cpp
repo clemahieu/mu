@@ -6,7 +6,6 @@
 #include <lambda_p_llvm/constant_int_binder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p/binder/routine_binder.h>
 #include <lambda_p_llvm/generation_context.h>
@@ -27,16 +26,16 @@ lambda_p_test::constant_int_binder_test_1::~constant_int_binder_test_1(void)
 void lambda_p_test::constant_int_binder_test_1::run ()
 {
 	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
-	::lambda_p::core::declaration * binder = routine->add_declaration ();
+	::lambda_p::core::node * binder = routine->add_declaration ();
 	routine->surface->results.push_back (binder);
 	::lambda_p::core::statement * statement = routine->add_statement (binder);
-	::lambda_p::core::declaration * declaration = routine->add_declaration ();
+	::lambda_p::core::node * declaration = routine->add_declaration ();
 	statement->association->results.push_back (declaration);
-	::lambda_p::core::declaration * base = routine->add_data (::std::wstring (L"16"));
+	::lambda_p::core::node * base = routine->add_data (::std::wstring (L"16"));
 	statement->association->parameters.push_back (base);
-	::lambda_p::core::declaration * number = routine->add_data (::std::wstring (L"10"));
+	::lambda_p::core::node * number = routine->add_data (::std::wstring (L"10"));
 	statement->association->parameters.push_back (number);
-	::lambda_p::core::declaration * bits = routine->add_data (::std::wstring (L"64"));
+	::lambda_p::core::node * bits = routine->add_data (::std::wstring (L"64"));
 	statement->association->parameters.push_back (bits);
 	::lambda_p::binder::routine_binder routine_binder (routine);
 	::llvm::LLVMContext llvm_context;

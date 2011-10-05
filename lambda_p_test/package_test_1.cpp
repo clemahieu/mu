@@ -7,7 +7,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p/core/declaration.h>
 
 #include <sstream>
 
@@ -34,10 +33,10 @@ void lambda_p_test::package_test_1::run_1 ()
     ::std::wstring name (L"null_binder");
     package->nodes [name] = null_binder;
     ::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine); 
-    ::lambda_p::core::declaration * declaration (routine->add_declaration ());
+    ::lambda_p::core::node * declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     ::lambda_p::core::statement * statement1 (routine->add_statement (declaration));
-	::lambda_p::core::declaration * declaration2 (routine->add_declaration ());
+	::lambda_p::core::node * declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (name));
     ::lambda_p::binder::routine_binder routine_binder (routine);
@@ -58,10 +57,10 @@ void lambda_p_test::package_test_1::run_2 ()
 	::std::wstring name2 (L"package");
 	outer->nodes [name2] = inner;
     ::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine); 
-    ::lambda_p::core::declaration * declaration (routine->add_declaration ());
+    ::lambda_p::core::node * declaration (routine->add_declaration ());
     routine->surface->results.push_back (declaration);
     ::lambda_p::core::statement * statement1 (routine->add_statement (declaration));
-	::lambda_p::core::declaration * declaration2 (routine->add_declaration ());
+	::lambda_p::core::node * declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	::std::wstring dname (L"package.null_binder");
 	statement1->association->parameters.push_back (routine->add_data (dname));
@@ -80,11 +79,11 @@ void lambda_p_test::package_test_1::run_3 ()
 	::std::wstring junk (L"junk");
     package->nodes [name] = null_binder;
     ::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine); 
-    ::lambda_p::core::declaration * declaration (routine->add_declaration ());
+    ::lambda_p::core::node * declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     ::lambda_p::core::statement * statement1 (routine->add_statement (declaration));
 	statement1->association->parameters.push_back (declaration);
-	::lambda_p::core::declaration * declaration2 (routine->add_declaration ());
+	::lambda_p::core::node * declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (junk));
 	statement1->association->parameters.push_back (routine->add_data (name));
@@ -101,12 +100,12 @@ void lambda_p_test::package_test_1::run_4 ()
     ::std::wstring name (L"null_binder");
     package->nodes [name] = null_binder;
     ::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine); 
-    ::lambda_p::core::declaration * declaration (routine->add_declaration ());
+    ::lambda_p::core::node * declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     ::lambda_p::core::statement * statement1 (routine->add_statement (declaration));
-    ::lambda_p::core::declaration * d1 (routine->add_declaration ());
+    ::lambda_p::core::node * d1 (routine->add_declaration ());
 	statement1->association->results.push_back (d1);
-    ::lambda_p::core::declaration * d2 (routine->add_declaration ());
+    ::lambda_p::core::node * d2 (routine->add_declaration ());
 	statement1->association->results.push_back (d2);
 	statement1->association->parameters.push_back (routine->add_data (name));
     statement1->association->parameters.push_back (routine->add_data (name));

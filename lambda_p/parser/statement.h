@@ -25,7 +25,7 @@ namespace lambda_p
 			statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a);
 			~statement (void);
 			state_id state_type ();
-			void sink_result (::lambda_p::core::declaration * declaration);
+			void sink_result (::lambda_p::core::node * declaration);
 			void sink_argument (::lambda_p::core::node * argument);
 			bool have_target;
 			bool on_results;

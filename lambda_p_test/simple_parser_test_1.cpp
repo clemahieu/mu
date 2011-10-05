@@ -14,7 +14,6 @@
 #include <lambda_p/tokens/stream_end.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/core/declaration.h>
 
 #include <vector>
 #include <sstream>
@@ -320,7 +319,7 @@ void lambda_p_test::simple_parser_test_1::run_11 ()
 	assert (routines.routines->size () == 1);
 	assert ((*routines.routines)[0]->statements.size () == 1);
 	assert ((*routines.routines)[0]->statements [0]->association->parameters.size () == 1);
-	assert (dynamic_cast < ::lambda_p::core::declaration *> ((*routines.routines)[0]->statements [0]->association->parameters [0]) != NULL);
+	assert ((*routines.routines)[0]->statements [0]->association->parameters [0] != NULL);
 }
 
 void lambda_p_test::simple_parser_test_1::run_12 ()

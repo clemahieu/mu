@@ -21,7 +21,6 @@ namespace lambda_p
 	{
 		class routine;
 		class node;
-		class declaration;
 		class association;
 		class statement
 		{
@@ -31,9 +30,9 @@ namespace lambda_p
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::serialization::parser::simple_parser;
 		public:
-			statement (::lambda_p::core::declaration * target_a);
+			statement (::lambda_p::core::node * target_a);
 			~statement (void);
-			::lambda_p::core::declaration * target;
+			::lambda_p::core::node * target;
 			::lambda_p::core::association * association;
 		};
 	}

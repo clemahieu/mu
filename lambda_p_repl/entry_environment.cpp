@@ -31,7 +31,6 @@
 #include <lambda_p_llvm/cast_inst_binder.h>
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/while_call_binder.h>

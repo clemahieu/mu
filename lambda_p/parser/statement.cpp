@@ -24,7 +24,7 @@ lambda_p::parser::statement::~statement(void)
 	return lambda_p::parser::state_statement;
 }
 
-void lambda_p::parser::statement::sink_result (::lambda_p::core::declaration * declaration)
+void lambda_p::parser::statement::sink_result (::lambda_p::core::node * declaration)
 {
 	statement_m->association->results.push_back (declaration);
 }

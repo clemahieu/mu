@@ -3,7 +3,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p_llvm/context.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 
 #include <sstream>

@@ -3,7 +3,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 
-lambda_p::core::statement::statement (::lambda_p::core::declaration * target_a)
+lambda_p::core::statement::statement (::lambda_p::core::node * target_a)
 	: target (target_a),
 	association (new ::lambda_p::core::association)
 {

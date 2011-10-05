@@ -8,7 +8,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 
 #include <vector>
@@ -52,7 +51,7 @@ namespace lambda_p
 			}
 			void association (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::association const * association_a)
 			{
-				for (::std::vector < ::lambda_p::core::declaration *>::const_iterator i = association_a->results.begin (); i != association_a->results.end (); ++i)
+				for (::std::vector < ::lambda_p::core::node *>::const_iterator i = association_a->results.begin (); i != association_a->results.end (); ++i)
 				{
 					target << "\n ";
 					node (argument_positions, *i);

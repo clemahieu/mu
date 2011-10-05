@@ -30,16 +30,6 @@ void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::sta
 	for (::std::vector < ::lambda_p::core::node *>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
 	{
         ::lambda_p::core::node * node (*i);
-		::lambda_p::core::node_id type (node->node_type ());
-		switch (type)
-		{
-		case ::lambda_p::core::node_declaration:
-				// Declaration is what we're looking for
-			break;
-		default:
-			assert (false);
-			break;
-		}
 	}
 }
 

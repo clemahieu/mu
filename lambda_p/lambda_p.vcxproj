@@ -136,7 +136,6 @@
     <ClInclude Include="binder\package.h" />
     <ClInclude Include="binder\routine_binder.h" />
     <ClInclude Include="core\association.h" />
-    <ClInclude Include="core\declaration.h" />
     <ClInclude Include="core\position.h" />
     <ClInclude Include="binder\data.h" />
     <ClInclude Include="core\routine.h" />
@@ -194,7 +193,6 @@
     <ClCompile Include="binder\package.cpp" />
     <ClCompile Include="binder\routine_binder.cpp" />
     <ClCompile Include="core\association.cpp" />
-    <ClCompile Include="core\declaration.cpp" />
     <ClCompile Include="core\position.cpp" />
     <ClCompile Include="binder\data.cpp" />
     <ClCompile Include="core\routine.cpp" />

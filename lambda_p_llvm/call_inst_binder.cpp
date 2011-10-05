@@ -5,7 +5,6 @@
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p_llvm/argument_binder.h>
 
 #include <llvm/Function.h>

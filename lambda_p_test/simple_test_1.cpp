@@ -68,7 +68,7 @@ void lambda_p_test::simple_test_1::run_3 ()
 void lambda_p_test::simple_test_1::run_4 ()
 {
 	::lambda_p::core::routine routine;
-    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+    ::lambda_p::core::node * declaration (routine.add_declaration ());
 	routine.surface->results.push_back (declaration);
 	routine.surface->results.push_back (routine.add_declaration ());
     ::lambda_p::core::statement * statement1 = routine.add_statement (declaration);
@@ -84,7 +84,7 @@ void lambda_p_test::simple_test_1::run_4 ()
 void lambda_p_test::simple_test_1::run_5 ()
 {
 	::lambda_p::core::routine routine;
-	::lambda_p::core::declaration * declaration (routine.add_declaration ());
+	::lambda_p::core::node * declaration (routine.add_declaration ());
 	routine.surface->parameters.push_back (declaration);
     ::lambda_p::core::statement * statement1 = routine.add_statement (declaration);
     routine.surface->results.push_back (routine.add_declaration ());
@@ -100,10 +100,10 @@ void lambda_p_test::simple_test_1::run_5 ()
 void lambda_p_test::simple_test_1::run_6 ()
 {
 	::lambda_p::core::routine routine;
-	::lambda_p::core::declaration * main_declaration (routine.add_declaration ());
+	::lambda_p::core::node * main_declaration (routine.add_declaration ());
 	routine.surface->results.push_back (main_declaration);
     ::lambda_p::core::statement * statement1 = routine.add_statement (main_declaration);
-    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+    ::lambda_p::core::node * declaration (routine.add_declaration ());
     statement1->association->results.push_back (declaration);
 	::std::vector < ::lambda_p::errors::error *> problems;
     ::lambda_p::core::statement * statement2 = routine.add_statement (declaration);
@@ -118,14 +118,14 @@ void lambda_p_test::simple_test_1::run_6 ()
 void lambda_p_test::simple_test_1::run_7 ()
 {
 	::lambda_p::core::routine routine;
-    ::lambda_p::core::declaration * declaration1 (routine.add_declaration ());
+    ::lambda_p::core::node * declaration1 (routine.add_declaration ());
 	routine.surface->results.push_back (declaration1);
-    ::lambda_p::core::declaration * declaration2 (routine.add_declaration ());
+    ::lambda_p::core::node * declaration2 (routine.add_declaration ());
 	routine.surface->results.push_back (declaration2);
-    ::lambda_p::core::declaration * declaration3 (routine.add_declaration ());
+    ::lambda_p::core::node * declaration3 (routine.add_declaration ());
 	routine.surface->results.push_back (declaration3);
     ::lambda_p::core::statement * statement1 = routine.add_statement (declaration3);
-    ::lambda_p::core::declaration * declaration4 (routine.add_declaration ());
+    ::lambda_p::core::node * declaration4 (routine.add_declaration ());
     statement1->association->results.push_back (declaration4);
 	statement1->association->parameters.push_back (declaration2);
 	::std::vector < ::lambda_p::errors::error *> problems;
@@ -143,7 +143,7 @@ void lambda_p_test::simple_test_1::run_7 ()
 void lambda_p_test::simple_test_1::run_8 ()
 {
 	::lambda_p::core::routine routine;
-    ::lambda_p::core::declaration * declaration (routine.add_declaration ());
+    ::lambda_p::core::node * declaration (routine.add_declaration ());
 	routine.surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement1 = routine.add_statement (declaration);
 	statement1->association->parameters.push_back (routine.add_declaration ());

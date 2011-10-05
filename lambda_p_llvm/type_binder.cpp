@@ -7,7 +7,6 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/type.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p_llvm/generation_context.h>
@@ -27,7 +26,7 @@ void lambda_p_llvm::type_binder::bind (::lambda_p::core::statement * statement, 
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::declaration * declaration (statement->association->results [0]);
+		::lambda_p::core::node * declaration (statement->association->results [0]);
 		::lambda_p::core::node * command (statement->association->parameters [0]);
 		::boost::shared_ptr < ::lambda_p::binder::node_instance> command_instance (instances [command]);
 		::boost::shared_ptr < ::lambda_p::binder::data> command_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (command_instance));

@@ -1,6 +1,5 @@
 #include "package.h"
 
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/association.h>
@@ -59,7 +58,7 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	}
 }
 
-void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, ::lambda_p::core::declaration * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::parse_one (::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, ::lambda_p::core::node * result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());

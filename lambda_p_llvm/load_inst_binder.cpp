@@ -14,7 +14,6 @@
 #include <lambda_p/core/node.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 
 #include <llvm/Type.h>
@@ -33,7 +32,7 @@ void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statem
 	check_count_only_references (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::lambda_p::core::declaration * pointer_node (static_cast < ::lambda_p::core::declaration *> (statement->association->parameters [0]));
+		::lambda_p::core::node * pointer_node (statement->association->parameters [0]);
         ::boost::shared_ptr < ::lambda_p::binder::node_instance> pointer_instance (instances [pointer_node]);
         ::boost::shared_ptr < ::lambda_p_llvm::value> pointer (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (pointer_instance));
         if (pointer.get () != NULL)

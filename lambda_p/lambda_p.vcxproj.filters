@@ -34,9 +34,6 @@
     <ClInclude Include="binder\routine_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="core\declaration.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\begin.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -200,9 +197,6 @@
     </ClCompile>
     <ClCompile Include="binder\routine_binder.cpp">
       <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="core\declaration.cpp">
-      <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="lexer\begin.cpp">
       <Filter>lexer</Filter>

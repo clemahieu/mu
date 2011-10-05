@@ -19,7 +19,7 @@ lambda_p::parser::routine::~routine(void)
 	return ::lambda_p::parser::state_routine;
 }
 
-void lambda_p::parser::routine::sink_result (::lambda_p::core::declaration * declaration)
+void lambda_p::parser::routine::sink_result (::lambda_p::core::node * declaration)
 {
 	routine_m->surface->results.push_back (declaration);
 }

@@ -8,7 +8,6 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/constant_wstring.h>
-#include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 

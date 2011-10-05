@@ -41,13 +41,11 @@ namespace lambda_p
 	{
 		class association;
 		class statement;
-		class declaration;
 		class node;
 		class routine
 		{
 			friend class ::lambda_p::core::statement;
 			friend class ::lambda_p::binder::data;
-			friend class ::lambda_p::core::declaration;
 			friend class ::lambda_p::core::node;
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::parser::simple_parser;
@@ -60,9 +58,9 @@ namespace lambda_p
 		public:
 			routine ();
 			~routine (void);
-			::lambda_p::core::statement * add_statement (::lambda_p::core::declaration * target_a);
-			::lambda_p::core::declaration * add_data (::std::wstring string);
-			::lambda_p::core::declaration * add_declaration ();
+			::lambda_p::core::statement * add_statement (::lambda_p::core::node * target_a);
+			::lambda_p::core::node * add_data (::std::wstring string);
+			::lambda_p::core::node * add_declaration ();
             void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
@@ -70,7 +68,7 @@ namespace lambda_p
 		private:
 			void validate_node (::lambda_p::core::node * node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;
-			::std::vector < ::lambda_p::core::declaration *> declarations;
+			::std::vector < ::lambda_p::core::node *> declarations;
 		};
 	}
 }

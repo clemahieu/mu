@@ -13,7 +13,6 @@ namespace lambda_p
 		class node;
 		class routine;
 		class statement;
-		class declaration;
 	}
 	namespace errors
 	{
@@ -34,13 +33,13 @@ namespace lambda_p
 			void error_message (::std::wostream & stream);
 			void reset ();
 			::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
-			::std::map < ::lambda_p::core::declaration *, size_t> unbound_statements;
+			::std::map < ::lambda_p::core::node *, size_t> unbound_statements;
 			::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > errors;
 		private:
 			void bind_statement (size_t statement);
 			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
 			void retry_bind (size_t statement);
-			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::declaration * reference);
+			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::node * node);
 			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		};
 	}
