@@ -6,6 +6,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/declaration.h>
+#include <lambda_p_llvm/argument_binder.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -32,32 +33,8 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 			{
 				::llvm::FunctionType const * type (function->function->getFunctionType ());
 				::llvm::FunctionType::param_iterator j = type->param_begin ();
-				while (i != statement->association->parameters.end () && j != type->param_end ())
-				{
-					::boost::shared_ptr < ::lambda_p::binder::node_instance> value_instance (instances [*i]);
-					::boost::shared_ptr < ::lambda_p_llvm::value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (value_instance));
-					if (value.get () != NULL)
-					{
-						if (value->value_m->getType () == *j)
-						{
-							arguments.push_back (value->value_m);
-						}
-						else
-						{
-							add_error (::std::wstring (L"Argument type does not match parameter type"), problems);
-						}
-					}
-					else
-					{
-						add_error (::std::wstring (L"Argument is not a value"), problems);
-					}
-					++i;
-					++j;
-				}
-				if ((i == statement->association->parameters.end ()) != (j == type->param_end ()))
-				{
-					add_error (::std::wstring (L"Incorrect number of arguments"), problems);
-				}
+				::lambda_p_llvm::argument_binder argument_binder;
+				argument_binder.apply (arguments, i, statement->association->parameters.end (), j, type->param_end (), instances, problems);
 				if (problems.empty ())
 				{
 					::llvm::CallInst * call (::llvm::CallInst::Create (function->function, arguments.begin (), arguments.end ()));

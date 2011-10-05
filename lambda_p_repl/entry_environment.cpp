@@ -34,6 +34,8 @@
 #include <lambda_p/core/declaration.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/function_binder.h>
+#include <lambda_p_llvm/while_call_binder.h>
+#include <lambda_p_repl/abort_function.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -82,6 +84,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     start->getBasicBlockList ().push_back (block);
     context.block = block;
 	::lambda_p::binder::routine_binder routine_binder (routine_a);
+	::lambda_p_repl::abort_function abort (context);
 	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
@@ -90,6 +93,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
     ::boost::shared_ptr < ::lambda_p_llvm::function_binder> memcpy_function (new ::lambda_p_llvm::function_binder (memcpy.memcpy));
 	::boost::shared_ptr < ::lambda_p_llvm::function_binder> malloc_function (new ::lambda_p_llvm::function_binder (malloc.malloc));
+	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
+	::boost::shared_ptr < ::lambda_p_llvm::function_binder> abort_function (new ::lambda_p_llvm::function_binder (abort.abort));
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -100,6 +105,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring wprintf_name (L"wprintf");
     ::std::wstring memcpy_name (L"memcpy");
 	::std::wstring malloc_name (L"malloc");
+	::std::wstring while_name (L"while");
+	::std::wstring abort_name (L"abort");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -109,6 +116,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [wprintf_name] = wprintf_binder;
     package->nodes [malloc_name] = malloc_function;
     package->nodes [memcpy_name] = memcpy_function;
+	package->nodes [while_name] = while_binder;
+	package->nodes [abort_name] = abort_function;
 	routine_binder.instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{

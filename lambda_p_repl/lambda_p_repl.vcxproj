@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="abort_function.cpp" />
     <ClCompile Include="dynamic_wprintf.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="wistream_input.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="abort_function.h" />
     <ClInclude Include="dynamic_wprintf.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="entry_environment.h" />

@@ -22,6 +22,7 @@
     <ClInclude Include="abort_binder.h" />
     <ClInclude Include="alloca_inst_binder.h" />
     <ClInclude Include="api.h" />
+    <ClInclude Include="argument_binder.h" />
     <ClInclude Include="cast_inst_binder.h" />
     <ClInclude Include="constant_int_binder.h" />
     <ClInclude Include="constant_wstring.h" />
@@ -45,6 +46,7 @@
     <ClCompile Include="abort_binder.cpp" />
     <ClCompile Include="alloca_inst_binder.cpp" />
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="cast_inst_binder.cpp" />
     <ClCompile Include="constant_int_binder.cpp" />
     <ClCompile Include="constant_wstring.cpp" />

@@ -8,6 +8,7 @@
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p_llvm/store_inst_binder.h>
 #include <lambda_p_llvm/cast_inst_binder.h>
+#include <lambda_p_llvm/alloca_inst_binder.h>
 
 #include <string>
 
@@ -19,7 +20,7 @@ lambda_p_llvm::api::api (::lambda_p_llvm::generation_context & context_a)
 	::boost::shared_ptr < ::lambda_p_llvm::context_binder> context_binder (new ::lambda_p_llvm::context_binder);
 	package->nodes [context_name] = context_binder;
 	::std::wstring type_name (L"type");
-	::boost::shared_ptr < ::lambda_p_llvm::type_binder> type_binder (new ::lambda_p_llvm::type_binder);
+	::boost::shared_ptr < ::lambda_p_llvm::type_binder> type_binder (new ::lambda_p_llvm::type_binder (context));
 	package->nodes [type_name] = type_binder;
     ::std::wstring constant_int_name (L"constant_int");
     ::boost::shared_ptr < ::lambda_p_llvm::constant_int_binder> constant_int_binder (new ::lambda_p_llvm::constant_int_binder (context));
@@ -36,6 +37,9 @@ lambda_p_llvm::api::api (::lambda_p_llvm::generation_context & context_a)
     ::std::wstring cast_inst_name (L"cast_inst");
     ::boost::shared_ptr < ::lambda_p_llvm::cast_inst_binder> cast_inst_binder (new ::lambda_p_llvm::cast_inst_binder (context));
     package->nodes [cast_inst_name] = cast_inst_binder;
+	::std::wstring alloca_inst_name (L"alloca_inst");
+	::boost::shared_ptr < ::lambda_p_llvm::alloca_inst_binder> alloca_inst_binder (new ::lambda_p_llvm::alloca_inst_binder (context));
+	package->nodes [alloca_inst_name] = alloca_inst_binder;
 }
 
 lambda_p_llvm::api::~api (void)

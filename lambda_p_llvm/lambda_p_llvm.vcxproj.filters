@@ -22,6 +22,7 @@
     <ClInclude Include="function_binder.h" />
     <ClInclude Include="while_call_binder.h" />
     <ClInclude Include="call_inst_binder.h" />
+    <ClInclude Include="argument_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -45,5 +46,6 @@
     <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="while_call_binder.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
+    <ClCompile Include="argument_binder.cpp" />
   </ItemGroup>
 </Project>
