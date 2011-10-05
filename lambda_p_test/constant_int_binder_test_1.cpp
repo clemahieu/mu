@@ -8,7 +8,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/core/reference.h>
 #include <lambda_p/binder/routine_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
@@ -37,6 +36,8 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	statement->association->parameters.push_back (base);
 	::lambda_p::core::data * number = routine->add_data (::std::wstring (L"10"));
 	statement->association->parameters.push_back (number);
+	::lambda_p::core::data * bits = routine->add_data (::std::wstring (L"64"));
+	statement->association->parameters.push_back (bits);
 	::lambda_p::binder::routine_binder routine_binder (routine);
 	::llvm::LLVMContext llvm_context;
 	::lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);

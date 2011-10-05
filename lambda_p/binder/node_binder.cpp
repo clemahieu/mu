@@ -33,8 +33,8 @@ void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::sta
 		::lambda_p::core::node_id type (node->node_type ());
 		switch (type)
 		{
-		case ::lambda_p::core::node_reference:
-				// Reference is what we're looking for
+		case ::lambda_p::core::node_declaration:
+				// Declaration is what we're looking for
 			break;
 		case ::lambda_p::core::node_data:
 			{
@@ -44,7 +44,7 @@ void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::sta
 			break;
 		default:
 			{
-				// Should only have references or data at this point
+				// Should only have declarations or data at this point
 				::boost::shared_ptr < ::lambda_p::errors::error> problem (new ::lambda_p::errors::unexpected_node_type (binder_name (), position, type));
 				problems.push_back (problem);
 				assert (false);

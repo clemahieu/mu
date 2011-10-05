@@ -13,7 +13,6 @@ namespace lambda_p
 		class node;
 		class routine;
 		class statement;
-		class reference;
 		class declaration;
 	}
 	namespace errors
@@ -41,7 +40,7 @@ namespace lambda_p
 			void bind_statement (size_t statement);
 			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
 			void retry_bind (size_t statement);
-			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::reference * reference);
+			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::declaration * reference);
 			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		};
 	}

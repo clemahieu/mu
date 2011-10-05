@@ -7,7 +7,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/data.h>
 #include <lambda_p/core/declaration.h>
-#include <lambda_p/core/reference.h>
 
 lambda_p::core::routine::routine ()
 	: surface (new ::lambda_p::core::association)
@@ -24,10 +23,6 @@ lambda_p::core::routine::~routine(void)
 	{
 		delete *i;
 	}
-	for (::std::vector < ::lambda_p::core::reference *>::const_iterator i = references.begin (); i != references.end (); ++i)
-	{
-		delete *i;
-	}
 	for (::std::vector < ::lambda_p::core::data *>::const_iterator i = data.begin (); i != data.end (); ++i)
 	{
 		delete *i;
@@ -36,7 +31,7 @@ lambda_p::core::routine::~routine(void)
 
 ::lambda_p::core::statement * lambda_p::core::routine::add_statement (::lambda_p::core::declaration * target_a)
 {
-    ::lambda_p::core::statement * statement (new ::lambda_p::core::statement (add_reference (target_a)));
+    ::lambda_p::core::statement * statement (new ::lambda_p::core::statement (target_a));
 	statements.push_back (statement);
 	return statement;
 }
@@ -53,13 +48,6 @@ lambda_p::core::routine::~routine(void)
     ::lambda_p::core::declaration * declaration (new ::lambda_p::core::declaration);
 	declarations.push_back (declaration);
 	return declaration;
-}
-
-::lambda_p::core::reference * lambda_p::core::routine::add_reference (::lambda_p::core::declaration * declaration_a)
-{
-    ::lambda_p::core::reference * reference (new ::lambda_p::core::reference (declaration_a));
-	references.push_back (reference);
-	return reference;
 }
 
 void lambda_p::core::routine::validate (::std::vector < ::lambda_p::errors::error *> & problems) const
@@ -96,24 +84,6 @@ void lambda_p::core::routine::validate_node (::lambda_p::core::node * node, size
             {
                 ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
                 problems.push_back (error);
-            }
-        }
-            break;
-        case ::lambda_p::core::node_reference:
-        {
-            ::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
-            if (::std::find (references.begin (), references.end (), reference) == references.end ())
-            {
-                ::lambda_p::errors::orphan_node * error (new ::lambda_p::errors::orphan_node (::lambda_p::core::position (current_statement, current_argument)));
-                problems.push_back (error);
-            }
-            else
-            {
-                if (::std::find (declarations.begin (), declarations.end (), reference->declaration) == declarations.end ())
-                {
-                    ::lambda_p::errors::orphan_reference * error (new ::lambda_p::errors::orphan_reference (::lambda_p::core::position (current_statement, current_argument)));
-                    problems.push_back (error);
-                }
             }
         }
             break;

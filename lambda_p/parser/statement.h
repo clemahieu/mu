@@ -15,7 +15,6 @@ namespace lambda_p
 	{
 		class statement;
 		class routine;
-		class reference;
 	}
 	namespace parser
 	{

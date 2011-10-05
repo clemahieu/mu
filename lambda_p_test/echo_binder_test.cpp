@@ -19,7 +19,7 @@
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/core/reference.h>
+#include <lambda_p/core/declaration.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Function.h>
@@ -42,7 +42,7 @@ void lambda_p_test::echo_binder_test::run ()
     ::lambda_p::core::declaration * p2 = routine.add_declaration ();
 	routine.surface->results.push_back (p2);
     ::lambda_p::core::statement * statement = routine.add_statement (p1);
-    ::lambda_p::core::reference * str = routine.add_reference (p2);
+    ::lambda_p::core::declaration * str = p2;
     statement->association->parameters.push_back (str);
     ::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);

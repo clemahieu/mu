@@ -8,7 +8,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/node.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/core/reference.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 
@@ -47,7 +46,7 @@ namespace lambda_p
 			{
                 target << "statement";
                 target << statement_positions [statement_a];
-				reference (argument_positions, statement_a->target);
+				declaration (argument_positions, statement_a->target);
 				target << " ";
 				association (argument_positions, statement_a->association);
 			}
@@ -71,9 +70,6 @@ namespace lambda_p
 				::lambda_p::core::node_id node_id (node_a->node_type ());
 				switch (node_id)
 				{
-				case ::lambda_p::core::node_reference:
-					reference (argument_positions, static_cast < ::lambda_p::core::reference const *> (node_a));
-					break;
 				case ::lambda_p::core::node_data:
 					data (static_cast < ::lambda_p::core::data const *> (node_a));
 					break;
@@ -90,12 +86,6 @@ namespace lambda_p
                 target << "' ";
                 target << data_a->string ();
 			}
-            void reference (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::reference const * result_ref_a)
-            {
-                ::lambda_p::core::position position (argument_positions [result_ref_a->declaration]);
-                target << "declaration";
-                target << position.argument;
-            }
 			void declaration (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::lambda_p::core::declaration const * result_a)
 			{
                 ::lambda_p::core::position position (argument_positions [result_a]);

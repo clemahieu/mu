@@ -38,13 +38,11 @@ namespace lambda_p
 		class association;
 		class data;
 		class statement;
-		class reference;
 		class declaration;
 		class node;
 		class routine
 		{
 			friend class ::lambda_p::core::statement;
-			friend class ::lambda_p::core::reference;
 			friend class ::lambda_p::core::data;
 			friend class ::lambda_p::core::declaration;
 			friend class ::lambda_p::core::node;
@@ -62,7 +60,6 @@ namespace lambda_p
 			::lambda_p::core::statement * add_statement (::lambda_p::core::declaration * target_a);
 			::lambda_p::core::data * add_data (::std::wstring string);
 			::lambda_p::core::declaration * add_declaration ();
-			::lambda_p::core::reference * add_reference (::lambda_p::core::declaration *);
             void placement (::std::map < ::lambda_p::core::node const *, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
@@ -70,7 +67,6 @@ namespace lambda_p
 			void validate_node (::lambda_p::core::node * node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;
 			::std::vector < ::lambda_p::core::declaration *> declarations;
-			::std::vector < ::lambda_p::core::reference *> references;
 			::std::vector < ::lambda_p::core::data *> data;
 		};
 	}

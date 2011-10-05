@@ -3,7 +3,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/binder/node_binder.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/core/reference.h>
 #include <lambda_p/core/declaration.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unresolved_statement.h>
@@ -83,14 +82,14 @@ void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boo
 			::lambda_p::core::node_id node_id (node->node_type ());
 			switch (node_id)
 			{
-			case ::lambda_p::core::node_reference:
+			case ::lambda_p::core::node_declaration:
 				{
-					::lambda_p::core::reference * reference (static_cast < ::lambda_p::core::reference *> (node));
+					::lambda_p::core::declaration * reference (static_cast < ::lambda_p::core::declaration *> (node));
 					copy_declaration_binder (binder_l, reference);
 					if (binder_l.get () == NULL)
 					{
 						binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
-						unbound_statements [reference->declaration] = statement;
+						unbound_statements [reference] = statement;
 					}
 				}
 				break;
@@ -102,13 +101,13 @@ void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boo
 	}
 	else
 	{
-		unbound_statements [statement_l->target->declaration] = statement;
+		unbound_statements [statement_l->target] = statement;
 	}
 }
 
-void lambda_p::binder::routine_binder::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::reference * reference)
+void lambda_p::binder::routine_binder::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, ::lambda_p::core::declaration * reference)
 {
-	::lambda_p::core::node * declaration (reference->declaration);
+	::lambda_p::core::node * declaration (reference);
 	::std::map < ::lambda_p::core::node *, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (declaration));
 	if (search != instances.end ())
 	{

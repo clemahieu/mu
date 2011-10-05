@@ -127,11 +127,11 @@ void lambda_p_test::simple_test_1::run_7 ()
     ::lambda_p::core::statement * statement1 = routine.add_statement (declaration3);
     ::lambda_p::core::declaration * declaration4 (routine.add_declaration ());
     statement1->association->results.push_back (declaration4);
-	statement1->association->parameters.push_back (routine.add_reference (declaration2));
+	statement1->association->parameters.push_back (declaration2);
 	::std::vector < ::lambda_p::errors::error *> problems;
     ::lambda_p::core::statement * statement2 = routine.add_statement (declaration1);
-    statement2->association->parameters.push_back (routine.add_reference (declaration4));
-	statement2->association->parameters.push_back (routine.add_reference (declaration2));
+    statement2->association->parameters.push_back (declaration4);
+	statement2->association->parameters.push_back (declaration2);
     ::std::wstringstream target;
 	::lambda_p::serialization::simple < ::std::wstringstream> serializer (target);
 	routine.validate (problems);

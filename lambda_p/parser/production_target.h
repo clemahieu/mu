@@ -6,10 +6,6 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class reference;
-	}
 	namespace tokens
 	{
 		class identifier;

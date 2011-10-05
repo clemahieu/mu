@@ -27,11 +27,6 @@
 			result.append (L"declaration");
 		}
 		break;
-	case ::lambda_p::core::node_reference:
-		{
-			result.append (L"reference");
-		}
-		break;
 	default:
 		assert (false);
 		break;

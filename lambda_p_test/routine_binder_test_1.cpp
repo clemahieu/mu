@@ -6,7 +6,6 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/declaration.h>
-#include <lambda_p/core/reference.h>
 #include <lambda_p/core/data.h>
 
 #include <boost/shared_ptr.hpp>
@@ -70,7 +69,7 @@ void lambda_p_test::routine_binder_test_1::run_4 ()
     ::lambda_p::core::declaration * declaration2 (routine->add_declaration ());
 	routine->surface->results.push_back (declaration2);
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
-	statement->association->parameters.push_back (routine->add_reference (declaration2));
+	statement->association->parameters.push_back (declaration2);
 	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (routine_binder.error ());
@@ -113,7 +112,7 @@ void lambda_p_test::routine_binder_test_1::run_7 ()
 	::lambda_p::core::statement * s2 (routine->add_statement (declaration));
 	::lambda_p::core::declaration * d2 (routine->add_declaration ());
 	s2->association->results.push_back (d2);
-	::lambda_p::core::reference * r (routine->add_reference (d2));
+	::lambda_p::core::declaration * r (d2);
 	statement->association->parameters.push_back (r);
 	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();

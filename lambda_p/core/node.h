@@ -9,8 +9,7 @@ namespace lambda_p
 		enum node_id
 		{
 			node_data,
-			node_declaration,
-			node_reference
+			node_declaration
 		};
 		class routine;
 		::std::wstring node_name (node_id);

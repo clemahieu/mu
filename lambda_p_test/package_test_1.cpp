@@ -7,7 +7,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/data.h>
-#include <lambda_p/core/reference.h>
 #include <lambda_p/core/declaration.h>
 
 #include <sstream>
@@ -84,7 +83,7 @@ void lambda_p_test::package_test_1::run_3 ()
     ::lambda_p::core::declaration * declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     ::lambda_p::core::statement * statement1 (routine->add_statement (declaration));
-	statement1->association->parameters.push_back (routine->add_reference (declaration));
+	statement1->association->parameters.push_back (declaration);
 	::lambda_p::core::declaration * declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (junk));
