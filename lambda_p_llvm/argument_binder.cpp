@@ -2,12 +2,13 @@
 
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/errors/binder_string_error.h>
+#include <lambda_p/binder/routine_instances.h>
 
 lambda_p_llvm::argument_binder::argument_binder(void)
 {
 }
 
-void lambda_p_llvm::argument_binder::apply (::std::vector < ::llvm::Value *> & arguments, ::std::vector < size_t>::iterator argument, ::std::vector < size_t>::iterator argument_end, ::llvm::FunctionType::param_iterator parameter, ::llvm::FunctionType::param_iterator parameter_end, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::argument_binder::apply (::std::vector < ::llvm::Value *> & arguments, ::std::vector < size_t>::iterator argument, ::std::vector < size_t>::iterator argument_end, ::llvm::FunctionType::param_iterator parameter, ::llvm::FunctionType::param_iterator parameter_end, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	while (argument != argument_end && parameter != parameter_end)
 	{

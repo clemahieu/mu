@@ -40,13 +40,14 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     ::llvm::StringRef module_name (module_string);
     ::llvm::Module * module = new ::llvm::Module (module_name, llvm_context);
     ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
-    ::lambda_p_llvm::data_to_string_binder binder (context);
-	::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances (routine.instances);
+	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> binder (new ::lambda_p_llvm::data_to_string_binder (context));
+	::lambda_p::binder::routine_instances instances (routine.instances);
+	instances [0] = binder;
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
-    binder.bind (statement, instances, problems);
+    binder->bind (statement, instances, problems);
     assert (problems.size () == 0);
     assert (module->getGlobalList ().size () == 1);
-    assert (instances.size () == 2);
+	assert (instances.instances.size () == 3);
     assert (instances [declaration].get () != NULL);
     assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instances [declaration]).get () != NULL);
 }

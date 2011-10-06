@@ -98,7 +98,7 @@ void lambda_p_test::routine_binder_test_1::run_6 ()
 	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances.find (statement->target) != routine_binder.instances.end ());
+	assert (routine_binder.instances [statement->target].get () != NULL);
 }
 
 void lambda_p_test::routine_binder_test_1::run_7 ()
@@ -116,7 +116,7 @@ void lambda_p_test::routine_binder_test_1::run_7 ()
 	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances.find (statement->target) != routine_binder.instances.end ());
-	assert (routine_binder.instances.find (declaration) != routine_binder.instances.end ());
-	assert (routine_binder.instances.find (r) != routine_binder.instances.end ());
+	assert (routine_binder.instances [statement->target].get () != NULL);
+	assert (routine_binder.instances [declaration].get () != NULL);
+	assert (routine_binder.instances [r].get () != NULL);
 }

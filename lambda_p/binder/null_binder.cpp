@@ -2,6 +2,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/binder/routine_instances.h>
 
 lambda_p::binder::null_binder::null_binder(void)
 {
@@ -11,7 +12,7 @@ lambda_p::binder::null_binder::~null_binder(void)
 {
 }
 
-void lambda_p::binder::null_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::null_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	for (::std::vector < size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i)
 	{

@@ -14,6 +14,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Type.h>
 #include <llvm/Instructions.h>
@@ -26,7 +27,7 @@ lambda_p_llvm::load_inst_binder::load_inst_binder (::lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count_only_references (1, 1, statement, problems);
 	if (problems.empty ())

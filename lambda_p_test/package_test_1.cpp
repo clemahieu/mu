@@ -43,8 +43,8 @@ void lambda_p_test::package_test_1::run_1 ()
     routine_binder.instances [declaration] = package;
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances.find (declaration2) != routine_binder.instances.end ());
-	assert (routine_binder.instances.find (declaration2)->second == null_binder);
+	assert (routine_binder.instances [declaration2].get () != NULL);
+	assert (routine_binder.instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_2 ()
@@ -67,8 +67,8 @@ void lambda_p_test::package_test_1::run_2 ()
     ::lambda_p::binder::routine_binder routine_binder (routine);
     routine_binder.instances [declaration] = outer;
 	routine_binder ();
-	assert (routine_binder.instances.find (declaration2) != routine_binder.instances.end ());
-	assert (routine_binder.instances.find (declaration2)->second == null_binder);
+	assert (routine_binder.instances [declaration2].get () != NULL);
+	assert (routine_binder.instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_3 ()
@@ -113,6 +113,6 @@ void lambda_p_test::package_test_1::run_4 ()
     routine_binder.instances [declaration] = package;
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances.find (d1) != routine_binder.instances.end ());
-	assert (routine_binder.instances.find (d2) != routine_binder.instances.end ());
+	assert (routine_binder.instances [d1].get () != NULL);
+	assert (routine_binder.instances [d2].get () != NULL);
 }
