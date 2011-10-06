@@ -166,6 +166,12 @@
     <ClInclude Include="binder\routine_instances.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\routine.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\node_out_of_order.h">
+      <Filter>errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -329,6 +335,12 @@
     </ClCompile>
     <ClCompile Include="binder\routine_instances.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\node_out_of_order.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

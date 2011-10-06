@@ -23,7 +23,8 @@ namespace lambda_p
 			error_unexpected_result_count,
 			error_unexpected_argument_count,
 			error_unexpected_node_type,
-			error_binder_string
+			error_binder_string,
+			error_node_out_of_order
         };
         class error
         {

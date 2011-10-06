@@ -6,6 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
+#include <lambda_p/errors/node_out_of_order.h>
 
 #include <algorithm>
 
@@ -65,6 +66,34 @@ void lambda_p::core::routine::validate (::std::vector < ::lambda_p::errors::erro
 			validate_node (node, current_statement, current_argument, problems);
         }
     }
+	size_t previous (0 - 1);
+	size_t statement_number (0 - 1);
+	{
+		size_t result_number (0);
+		for (::std::vector < size_t>::const_iterator i = surface->results.begin (); i != surface->results.end (); ++i, ++previous, ++result_number)
+		{
+			if (*i != previous + 1)
+			{
+				::lambda_p::errors::node_out_of_order * error (new ::lambda_p::errors::node_out_of_order (statement_number, result_number));
+				problems.push_back (error);
+			}
+		}
+	}
+	++statement_number;
+	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++statement_number)
+	{
+		{
+			size_t result_number (0);
+			for (::std::vector < size_t>::const_iterator j = (*i)->association->results.begin (); j != (*i)->association->results.end (); ++j, ++previous, ++result_number)
+			{
+				if (*j != previous + 1)
+				{
+					::lambda_p::errors::node_out_of_order * error (new ::lambda_p::errors::node_out_of_order (statement_number, result_number));
+					problems.push_back (error);
+				}
+			}
+		}
+	}
 }
 
 void lambda_p::core::routine::validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const
