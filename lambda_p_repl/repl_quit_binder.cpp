@@ -6,6 +6,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
@@ -25,7 +26,7 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 {
 }
 
-void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
     check_count (0, 0, statement, problems);
     if (problems.empty ())

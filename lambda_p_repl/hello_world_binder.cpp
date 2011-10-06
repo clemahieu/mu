@@ -4,6 +4,7 @@
 #define __STDC_CONSTANT_MACROS
 
 #include <lambda_p/core/statement.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Instructions.h>
 #include <llvm/GlobalValue.h>
@@ -22,7 +23,7 @@ lambda_p_repl::hello_world_binder::~hello_world_binder (void)
 {
 }
 
-void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::hello_world_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count_only_references (0, 0, statement, problems);
 	if (problems.empty ())

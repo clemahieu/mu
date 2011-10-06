@@ -9,6 +9,7 @@
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
+#include <lambda_p/binder/routine_binder.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>
@@ -27,7 +28,7 @@ lambda_p_llvm::data_to_string_binder::~data_to_string_binder (void)
 {
 }
 
-void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())

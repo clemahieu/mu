@@ -4,6 +4,7 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/array.hpp>
@@ -18,7 +19,7 @@ lambda_p::binder::package::~package(void)
 {
 }
 
-void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->parameters.size ());
@@ -58,7 +59,7 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	}
 }
 
-void lambda_p::binder::package::parse_one (::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());

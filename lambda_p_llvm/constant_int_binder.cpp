@@ -8,6 +8,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -26,7 +27,7 @@ lambda_p_llvm::constant_int_binder::~constant_int_binder(void)
 {
 }
 
-void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)	
+void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)	
 {
 	check_count (1, 3, statement, problems);
 	if (problems.empty ())
@@ -59,7 +60,7 @@ void lambda_p_llvm::constant_int_binder::bind (::lambda_p::core::statement * sta
 	}
 }
 
-void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsigned long bits, ::std::wstring & number_wstring, size_t declaration_node, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsigned long bits, ::std::wstring & number_wstring, size_t declaration_node, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	wchar_t * next;
 	wchar_t const * string (number_wstring.c_str ());
@@ -83,7 +84,7 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsig
 	}
 }
 
-void lambda_p_llvm::constant_int_binder::parse_nodes (::boost::shared_ptr < ::lambda_p::binder::data> base_data, ::boost::shared_ptr < ::lambda_p::binder::data> number_data, ::boost::shared_ptr < ::lambda_p::binder::data> bits_data, size_t declaration_node, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::constant_int_binder::parse_nodes (::boost::shared_ptr < ::lambda_p::binder::data> base_data, ::boost::shared_ptr < ::lambda_p::binder::data> number_data, ::boost::shared_ptr < ::lambda_p::binder::data> bits_data, size_t declaration_node, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::std::wstring base_wstring (base_data->string ());
 	::std::wstring number_wstring (number_data->string ());

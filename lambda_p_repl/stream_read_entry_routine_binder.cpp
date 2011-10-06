@@ -7,6 +7,7 @@
 #include <lambda_p_repl/istream_input.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <fstream>
 #include <sstream>
@@ -19,7 +20,7 @@ lambda_p_repl::stream_read_entry_routine_binder::~stream_read_entry_routine_bind
 {
 }
 
-void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())

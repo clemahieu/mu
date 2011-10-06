@@ -17,12 +17,13 @@ namespace lambda_p
 	}
 	namespace binder
 	{
+		class routine_instances;
 		class node_binder : public node_instance
 		{
 		public:
 			node_binder(void);
 			~node_binder(void);
-			virtual void bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems) = 0;
+			virtual void bind (::lambda_p::core::statement * statement, routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems) = 0;
 			virtual ::std::wstring binder_name () = 0;
 			void add_error (::std::wstring message, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		protected:

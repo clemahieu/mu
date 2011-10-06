@@ -7,6 +7,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/argument_binder.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
@@ -17,7 +18,7 @@ lambda_p_llvm::while_call_binder::while_call_binder (::lambda_p_llvm::generation
 {
 }
 
-void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_only_references (statement, problems);
 	if (statement->association->parameters.size () >= 2)

@@ -8,6 +8,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/binder/routine_binder.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -26,7 +27,7 @@ lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
 {
 }
 
-void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_only_references (statement, problems);
 	if (problems.empty ())

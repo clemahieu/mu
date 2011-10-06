@@ -4,6 +4,7 @@
 #include <map>
 
 #include <lambda_p/core/position.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -62,7 +63,7 @@ namespace lambda_p
             void placement (::std::map < size_t, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
-			::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
+			::lambda_p::binder::routine_instances instances;
 		private:
 			void validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::std::vector < ::lambda_p::core::statement *> statements;

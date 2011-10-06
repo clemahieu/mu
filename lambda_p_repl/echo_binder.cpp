@@ -8,6 +8,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -31,15 +32,12 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 {
 }
 
-void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count_only_references (0, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (statement->association->parameters [0]));
-		assert (search != instances.end ());
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (search->second);
-		::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
+		::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instances [statement->association->parameters [0]]));
 		if (string.get () != NULL)
 		{
 			::std::vector < ::llvm::Value *> arguments;

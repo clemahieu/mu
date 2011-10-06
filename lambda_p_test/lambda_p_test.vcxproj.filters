@@ -14,6 +14,7 @@
     <ClCompile Include="echo_binder_test.cpp" />
     <ClCompile Include="constant_int_binder_test_1.cpp" />
     <ClCompile Include="package_test_1.cpp" />
+    <ClCompile Include="node_instances_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -28,5 +29,6 @@
     <ClInclude Include="echo_binder_test.h" />
     <ClInclude Include="constant_int_binder_test_1.h" />
     <ClInclude Include="package_test_1.h" />
+    <ClInclude Include="node_instances_test_1.h" />
   </ItemGroup>
 </Project>

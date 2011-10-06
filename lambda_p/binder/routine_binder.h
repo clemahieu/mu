@@ -6,6 +6,8 @@
 #include <sstream>
 #include <vector>
 
+#include <lambda_p/binder/routine_instances.h>
+
 namespace lambda_p
 {
 	namespace core
@@ -31,7 +33,7 @@ namespace lambda_p
 			bool error ();
 			void error_message (::std::wostream & stream);
 			void reset ();
-			::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > instances;
+			routine_instances instances;
 			::std::map < size_t, size_t> unbound_statements;
 			::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > errors;
 		private:

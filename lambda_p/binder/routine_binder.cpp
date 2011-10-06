@@ -96,12 +96,11 @@ void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boo
 void lambda_p::binder::routine_binder::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node)
 {
 	size_t declaration (node);
-	::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator search (instances.find (declaration));
-	if (search != instances.end ())
+	if (declaration < instances.instances.size ())
 	{
-		binder = search->second;
+		binder = instances [declaration];
 	}
-	else 
+	else
 	{
 		binder.reset ();
 	}
