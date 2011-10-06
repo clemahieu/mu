@@ -11,6 +11,7 @@
 #include <lambda_p_test/constant_int_binder_test_1.h>
 #include <lambda_p_test/routine_input_test_1.h>
 #include <lambda_p_test/node_instances_test_1.h>
+#include <lambda_p_test/routine_binder_test.h>
 
 using namespace lambda_p_test;
 
@@ -66,6 +67,10 @@ int main ()
 	}
 	{
 		node_instances_test_1 test;
+		test.run ();
+	}
+	{
+		routine_binder_test test;
 		test.run ();
 	}
 	return 0;

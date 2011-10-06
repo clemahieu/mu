@@ -172,6 +172,9 @@
     <ClInclude Include="binder\bind_procedure.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\routine_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -340,6 +343,9 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="binder\bind_procedure.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

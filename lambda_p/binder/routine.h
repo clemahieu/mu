@@ -2,6 +2,8 @@
 
 #include <lambda_p/binder/node_instance.h>
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p
 {
 	namespace core
@@ -13,8 +15,8 @@ namespace lambda_p
 		class routine : public ::lambda_p::binder::node_instance
 		{
 		public:
-			routine (::lambda_p::core::routine * routine_a);
-			::lambda_p::core::routine * routine_m;
+			routine (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
+			::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 		};
 	}
 }

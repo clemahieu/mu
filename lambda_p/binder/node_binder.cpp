@@ -51,3 +51,8 @@ void lambda_p::binder::node_binder::add_error (::std::wstring message, ::std::ve
 	problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (binder_name (), message)));
 }
 
+void lambda_p::binder::node_binder::unexpected_binder_type_error (size_t position, ::std::wstring expected, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+{
+	problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::unexpected_binder_type (binder_name (), position, expected)));
+}
+

@@ -15,6 +15,7 @@
     <ClCompile Include="package_test_1.cpp" />
     <ClCompile Include="node_instances_test_1.cpp" />
     <ClCompile Include="bind_procedure_test_1.cpp" />
+    <ClCompile Include="routine_binder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -30,5 +31,6 @@
     <ClInclude Include="package_test_1.h" />
     <ClInclude Include="node_instances_test_1.h" />
     <ClInclude Include="bind_procedure_test_1.h" />
+    <ClInclude Include="routine_binder_test.h" />
   </ItemGroup>
 </Project>

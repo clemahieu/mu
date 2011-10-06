@@ -23,10 +23,11 @@ namespace lambda_p
 		public:
 			node_binder(void);
 			~node_binder(void);
-			virtual void bind (::lambda_p::core::statement * statement, routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems) = 0;
+			virtual void bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems) = 0;
 			virtual ::std::wstring binder_name () = 0;
-			void add_error (::std::wstring message, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		protected:
+			void add_error (::std::wstring message, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
+			void unexpected_binder_type_error (size_t position, ::std::wstring expected, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			// Checks for the specified number of results and arguments and also checks to make sure all arguments are references
 			void check_count_only_references (size_t result_count, size_t argument_count, ::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			// Checks to make sure all arguments are references
