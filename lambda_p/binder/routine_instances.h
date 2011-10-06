@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/binder/node_instance.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <vector>
@@ -9,7 +11,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class node_instance;
-		class routine_instances
+		class routine_instances : public ::lambda_p::binder::node_instance
 		{
 		public:
 			routine_instances(void);

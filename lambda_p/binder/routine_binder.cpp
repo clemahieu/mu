@@ -10,8 +10,7 @@
 #include <sstream>
 
 lambda_p::binder::routine_binder::routine_binder (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
-	: routine (routine_a),
-	instances (routine_a->instances)
+	: routine (routine_a)
 {
 }
 
@@ -40,7 +39,7 @@ void lambda_p::binder::routine_binder::bind_statement (size_t statement)
 	if (binder.get () != NULL)
 	{
 		size_t previous_size (errors.size ());
-		binder->bind (routine->statements [statement], instances, errors);
+		binder->bind (routine->statements [statement], routine->instances, errors);
 		if (errors.size () != previous_size)
 		{
 			::std::wstring message (L"Bind error for statement: ");
@@ -96,9 +95,9 @@ void lambda_p::binder::routine_binder::populate_unbound (size_t statement, ::boo
 void lambda_p::binder::routine_binder::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node)
 {
 	size_t declaration (node);
-	if (declaration < instances.instances.size ())
+	if (declaration < routine->instances.instances.size ())
 	{
-		binder = instances [declaration];
+		binder = routine->instances [declaration];
 	}
 	else
 	{

@@ -40,11 +40,11 @@ void lambda_p_test::package_test_1::run_1 ()
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (name));
     ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.instances [declaration] = package;
+    routine_binder.routine->instances [declaration] = package;
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances [declaration2].get () != NULL);
-	assert (routine_binder.instances [declaration2] == null_binder);
+	assert (routine_binder.routine->instances [declaration2].get () != NULL);
+	assert (routine_binder.routine->instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_2 ()
@@ -65,10 +65,10 @@ void lambda_p_test::package_test_1::run_2 ()
 	::std::wstring dname (L"package.null_binder");
 	statement1->association->parameters.push_back (routine->add_data (dname));
     ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.instances [declaration] = outer;
+    routine_binder.routine->instances [declaration] = outer;
 	routine_binder ();
-	assert (routine_binder.instances [declaration2].get () != NULL);
-	assert (routine_binder.instances [declaration2] == null_binder);
+	assert (routine_binder.routine->instances [declaration2].get () != NULL);
+	assert (routine_binder.routine->instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_3 ()
@@ -88,7 +88,7 @@ void lambda_p_test::package_test_1::run_3 ()
 	statement1->association->parameters.push_back (routine->add_data (junk));
 	statement1->association->parameters.push_back (routine->add_data (name));
     ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.instances [declaration] = package;
+    routine_binder.routine->instances [declaration] = package;
 	routine_binder ();
 	assert (routine_binder.error ());
 }
@@ -110,9 +110,9 @@ void lambda_p_test::package_test_1::run_4 ()
 	statement1->association->parameters.push_back (routine->add_data (name));
     statement1->association->parameters.push_back (routine->add_data (name));
     ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.instances [declaration] = package;
+    routine_binder.routine->instances [declaration] = package;
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances [d1].get () != NULL);
-	assert (routine_binder.instances [d2].get () != NULL);
+	assert (routine_binder.routine->instances [d1].get () != NULL);
+	assert (routine_binder.routine->instances [d2].get () != NULL);
 }

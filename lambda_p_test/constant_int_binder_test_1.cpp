@@ -41,13 +41,13 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	::llvm::LLVMContext llvm_context;
 	::lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
 	::boost::shared_ptr < ::lambda_p_llvm::constant_int_binder> constant_int_binder (new ::lambda_p_llvm::constant_int_binder (context));
-	routine_binder.instances [binder] = constant_int_binder;
+	routine_binder.routine->instances [binder] = constant_int_binder;
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances [declaration].get () != NULL);
-	assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (routine_binder.instances [declaration]).get () != NULL);
-	assert (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.instances [declaration])->value_m != NULL);
-	assert (::llvm::isa < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.instances [declaration])->value_m));
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.instances [declaration])->value_m)->getBitWidth () == 64);
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.instances [declaration])->value_m)->getValue () == 16);
+	assert (routine_binder.routine->instances [declaration].get () != NULL);
+	assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (routine_binder.routine->instances [declaration]).get () != NULL);
+	assert (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.routine->instances [declaration])->value_m != NULL);
+	assert (::llvm::isa < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.routine->instances [declaration])->value_m));
+	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.routine->instances [declaration])->value_m)->getBitWidth () == 64);
+	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (routine_binder.routine->instances [declaration])->value_m)->getValue () == 16);
 }

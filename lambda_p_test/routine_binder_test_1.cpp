@@ -54,7 +54,7 @@ void lambda_p_test::routine_binder_test_1::run_3 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
-	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
 }
@@ -69,7 +69,7 @@ void lambda_p_test::routine_binder_test_1::run_4 ()
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	statement->association->parameters.push_back (declaration2);
 	::lambda_p::binder::routine_binder routine_binder (routine);
-	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (routine_binder.error ());
 }
@@ -83,7 +83,7 @@ void lambda_p_test::routine_binder_test_1::run_5 ()
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	statement->association->parameters.push_back (routine->add_data (::std::wstring ()));
 	::lambda_p::binder::routine_binder routine_binder (routine);
-	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
 }
@@ -95,10 +95,10 @@ void lambda_p_test::routine_binder_test_1::run_6 ()
 	routine->surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	::lambda_p::binder::routine_binder routine_binder (routine);
-	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances [statement->target].get () != NULL);
+	assert (routine_binder.routine->instances [statement->target].get () != NULL);
 }
 
 void lambda_p_test::routine_binder_test_1::run_7 ()
@@ -113,10 +113,10 @@ void lambda_p_test::routine_binder_test_1::run_7 ()
 	size_t r (d2);
 	statement->association->parameters.push_back (r);
 	::lambda_p::binder::routine_binder routine_binder (routine);
-	routine_binder.instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	routine_binder.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
 	routine_binder ();
 	assert (!routine_binder.error ());
-	assert (routine_binder.instances [statement->target].get () != NULL);
-	assert (routine_binder.instances [declaration].get () != NULL);
-	assert (routine_binder.instances [r].get () != NULL);
+	assert (routine_binder.routine->instances [statement->target].get () != NULL);
+	assert (routine_binder.routine->instances [declaration].get () != NULL);
+	assert (routine_binder.routine->instances [r].get () != NULL);
 }

@@ -118,7 +118,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     package->nodes [memcpy_name] = memcpy_function;
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
-	routine_binder.instances [environment_node (routine_a)] = package;
+	routine_binder.routine->instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;

@@ -33,15 +33,14 @@ namespace lambda_p
 			bool error ();
 			void error_message (::std::wostream & stream);
 			void reset ();
-			routine_instances instances;
 			::std::map < size_t, size_t> unbound_statements;
 			::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > errors;
+			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		private:
 			void bind_statement (size_t statement);
 			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
 			void retry_bind (size_t statement);
 			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node);
-			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		};
 	}
 }
