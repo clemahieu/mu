@@ -11,7 +11,7 @@
 
 #include <lambda_p_repl/entry_environment.h>
 
-#include <lambda_p/binder/routine_binder.h>
+#include <lambda_p/binder/bind_procedure.h>
 #include <lambda_p/binder/package.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
@@ -84,7 +84,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
-	::lambda_p::binder::routine_binder routine_binder (routine_a);
+	::lambda_p::binder::bind_procedure bind_procedure (routine_a);
 	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
@@ -118,7 +118,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     package->nodes [memcpy_name] = memcpy_function;
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
-	routine_binder.routine->instances [environment_node (routine_a)] = package;
+	bind_procedure.routine->instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
@@ -133,12 +133,12 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 		::std::wstring quit_name (L"quit");
 		package->nodes [quit_name] = binder;
 	}
-	routine_binder ();
-	if (routine_binder.error ())
+	bind_procedure ();
+	if (bind_procedure.error ())
 	{
 		::std::wcout << "Binding error:\n";
 		::std::wstringstream stream;
-		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = routine_binder.errors.begin (); i != routine_binder.errors.end (); ++i)
+		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = bind_procedure.errors.begin (); i != bind_procedure.errors.end (); ++i)
 		{
 			(*i)->string (stream);
 			stream << L'\n';

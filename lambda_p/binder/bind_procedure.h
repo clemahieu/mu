@@ -24,11 +24,11 @@ namespace lambda_p
 		class node_binder;
 		class node_instance;
 		class bound_routine;
-		class routine_binder
+		class bind_procedure
 		{
 		public:
-			routine_binder (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
-			~routine_binder (void);
+			bind_procedure (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
+			~bind_procedure (void);
 			void operator () ();
 			bool error ();
 			void error_message (::std::wostream & stream);

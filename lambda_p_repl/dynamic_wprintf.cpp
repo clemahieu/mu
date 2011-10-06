@@ -8,7 +8,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_binder.h>
+#include <lambda_p/binder/bind_procedure.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>

@@ -21,7 +21,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class node_instance;
-		class routine_binder;
+		class bind_procedure;
 		class data;
 	}
 	namespace serialization
@@ -48,7 +48,7 @@ namespace lambda_p
 			friend class ::lambda_p::binder::data;
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::parser::simple_parser;
-			friend class ::lambda_p::binder::routine_binder;
+			friend class ::lambda_p::binder::bind_procedure;
 			friend class ::lambda_p::parser::statement;
 			friend class ::lambda_p_repl::entry_environment;
 			friend class ::lambda_p::parser::routine;

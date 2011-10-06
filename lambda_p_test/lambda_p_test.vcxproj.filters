@@ -6,7 +6,6 @@
     <ClCompile Include="simple_lexer_test_1.cpp" />
     <ClCompile Include="simple_parser_test_1.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
-    <ClCompile Include="routine_binder_test_1.cpp" />
     <ClCompile Include="routine_input_test_1.cpp" />
     <ClCompile Include="abort_binder_test_1.cpp" />
     <ClCompile Include="data_to_string_binder_test_1.cpp" />
@@ -15,13 +14,13 @@
     <ClCompile Include="constant_int_binder_test_1.cpp" />
     <ClCompile Include="package_test_1.cpp" />
     <ClCompile Include="node_instances_test_1.cpp" />
+    <ClCompile Include="bind_procedure_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
     <ClInclude Include="simple_lexer_test_1.h" />
     <ClInclude Include="simple_parser_test_1.h" />
     <ClInclude Include="simple_compile_test_1.h" />
-    <ClInclude Include="routine_binder_test_1.h" />
     <ClInclude Include="routine_input_test_1.h" />
     <ClInclude Include="abort_binder_test_1.h" />
     <ClInclude Include="data_to_string_binder_test_1.h" />
@@ -30,5 +29,6 @@
     <ClInclude Include="constant_int_binder_test_1.h" />
     <ClInclude Include="package_test_1.h" />
     <ClInclude Include="node_instances_test_1.h" />
+    <ClInclude Include="bind_procedure_test_1.h" />
   </ItemGroup>
 </Project>

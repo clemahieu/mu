@@ -28,9 +28,6 @@
     <ClInclude Include="binder\node_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\routine_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\begin.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
     <ClInclude Include="errors\node_out_of_order.h">
       <Filter>errors</Filter>
     </ClInclude>
+    <ClInclude Include="binder\bind_procedure.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -196,9 +196,6 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="binder\node_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="lexer\begin.cpp">
@@ -341,6 +338,9 @@
     </ClCompile>
     <ClCompile Include="errors\node_out_of_order.cpp">
       <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\bind_procedure.cpp">
+      <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

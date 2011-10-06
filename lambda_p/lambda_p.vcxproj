@@ -135,7 +135,7 @@
     <ClInclude Include="binder\null_binder.h" />
     <ClInclude Include="binder\package.h" />
     <ClInclude Include="binder\routine.h" />
-    <ClInclude Include="binder\routine_binder.h" />
+    <ClInclude Include="binder\bind_procedure.h" />
     <ClInclude Include="binder\routine_instances.h" />
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\position.h" />
@@ -194,7 +194,7 @@
     <ClCompile Include="binder\null_binder.cpp" />
     <ClCompile Include="binder\package.cpp" />
     <ClCompile Include="binder\routine.cpp" />
-    <ClCompile Include="binder\routine_binder.cpp" />
+    <ClCompile Include="binder\bind_procedure.cpp" />
     <ClCompile Include="binder\routine_instances.cpp" />
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\position.cpp" />

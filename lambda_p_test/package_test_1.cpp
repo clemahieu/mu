@@ -3,7 +3,7 @@
 #include <lambda_p/binder/package.h>
 #include <lambda_p/binder/null_binder.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/routine_binder.h>
+#include <lambda_p/binder/bind_procedure.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
@@ -39,12 +39,12 @@ void lambda_p_test::package_test_1::run_1 ()
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (name));
-    ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.routine->instances [declaration] = package;
-	routine_binder ();
-	assert (!routine_binder.error ());
-	assert (routine_binder.routine->instances [declaration2].get () != NULL);
-	assert (routine_binder.routine->instances [declaration2] == null_binder);
+    ::lambda_p::binder::bind_procedure bind_procedure (routine);
+    bind_procedure.routine->instances [declaration] = package;
+	bind_procedure ();
+	assert (!bind_procedure.error ());
+	assert (bind_procedure.routine->instances [declaration2].get () != NULL);
+	assert (bind_procedure.routine->instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_2 ()
@@ -64,11 +64,11 @@ void lambda_p_test::package_test_1::run_2 ()
 	statement1->association->results.push_back (declaration2);
 	::std::wstring dname (L"package.null_binder");
 	statement1->association->parameters.push_back (routine->add_data (dname));
-    ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.routine->instances [declaration] = outer;
-	routine_binder ();
-	assert (routine_binder.routine->instances [declaration2].get () != NULL);
-	assert (routine_binder.routine->instances [declaration2] == null_binder);
+    ::lambda_p::binder::bind_procedure bind_procedure (routine);
+    bind_procedure.routine->instances [declaration] = outer;
+	bind_procedure ();
+	assert (bind_procedure.routine->instances [declaration2].get () != NULL);
+	assert (bind_procedure.routine->instances [declaration2] == null_binder);
 }
 
 void lambda_p_test::package_test_1::run_3 ()
@@ -87,10 +87,10 @@ void lambda_p_test::package_test_1::run_3 ()
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (junk));
 	statement1->association->parameters.push_back (routine->add_data (name));
-    ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.routine->instances [declaration] = package;
-	routine_binder ();
-	assert (routine_binder.error ());
+    ::lambda_p::binder::bind_procedure bind_procedure (routine);
+    bind_procedure.routine->instances [declaration] = package;
+	bind_procedure ();
+	assert (bind_procedure.error ());
 }
 
 void lambda_p_test::package_test_1::run_4 ()
@@ -109,10 +109,10 @@ void lambda_p_test::package_test_1::run_4 ()
 	statement1->association->results.push_back (d2);
 	statement1->association->parameters.push_back (routine->add_data (name));
     statement1->association->parameters.push_back (routine->add_data (name));
-    ::lambda_p::binder::routine_binder routine_binder (routine);
-    routine_binder.routine->instances [declaration] = package;
-	routine_binder ();
-	assert (!routine_binder.error ());
-	assert (routine_binder.routine->instances [d1].get () != NULL);
-	assert (routine_binder.routine->instances [d2].get () != NULL);
+    ::lambda_p::binder::bind_procedure bind_procedure (routine);
+    bind_procedure.routine->instances [declaration] = package;
+	bind_procedure ();
+	assert (!bind_procedure.error ());
+	assert (bind_procedure.routine->instances [d1].get () != NULL);
+	assert (bind_procedure.routine->instances [d2].get () != NULL);
 }

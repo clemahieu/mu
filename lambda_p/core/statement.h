@@ -6,7 +6,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class routine_binder;
+		class bind_procedure;
 		class data;
 	}
     namespace serialization
@@ -24,7 +24,7 @@ namespace lambda_p
 		class statement
 		{
 			friend class ::lambda_p::binder::data;
-			friend class ::lambda_p::binder::routine_binder;
+			friend class ::lambda_p::binder::bind_procedure;
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::serialization::parser::simple_parser;
 		public:

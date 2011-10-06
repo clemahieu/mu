@@ -3,7 +3,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
-#include <lambda_p/binder/routine_binder.h>
+#include <lambda_p/binder/bind_procedure.h>
 
 #include <iostream>
 
