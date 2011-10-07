@@ -79,6 +79,7 @@ void lambda_p::core::routine::validate (::std::vector < ::lambda_p::errors::erro
 			}
 		}
 	}
+	/* Was supposed to make sure nodes on left side are ordered but data creates new nodes on the right side.  Need for this depends on if we want to keep it that way.
 	++statement_number;
 	for (::std::vector < ::lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++statement_number)
 	{
@@ -93,7 +94,7 @@ void lambda_p::core::routine::validate (::std::vector < ::lambda_p::errors::erro
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void lambda_p::core::routine::validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const
