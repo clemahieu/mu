@@ -138,6 +138,7 @@
     <ClInclude Include="binder\bind_procedure.h" />
     <ClInclude Include="binder\routine_binder.h" />
     <ClInclude Include="binder\routine_instances.h" />
+    <ClInclude Include="binder\routine_instances_binder.h" />
     <ClInclude Include="binder\single_bind_routine.h" />
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\position.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="binder\bind_procedure.cpp" />
     <ClCompile Include="binder\routine_binder.cpp" />
     <ClCompile Include="binder\routine_instances.cpp" />
+    <ClCompile Include="binder\routine_instances_binder.cpp" />
     <ClCompile Include="binder\single_bind_routine.cpp" />
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\position.cpp" />

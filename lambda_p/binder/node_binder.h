@@ -28,10 +28,6 @@ namespace lambda_p
 		protected:
 			void add_error (::std::wstring message, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			void unexpected_binder_type_error (size_t position, ::std::wstring expected, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
-			// Checks for the specified number of results and arguments and also checks to make sure all arguments are references
-			void check_count_only_references (size_t result_count, size_t argument_count, ::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
-			// Checks to make sure all arguments are references
-			void check_only_references (::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			// Checks for the specified number of results and arguments
 			void check_count (size_t result_count, size_t argument_count, ::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		};

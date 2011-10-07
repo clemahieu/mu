@@ -141,6 +141,7 @@
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="entry_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
+    <ClCompile Include="file_routine.cpp" />
     <ClCompile Include="hello_world_binder.cpp" />
     <ClCompile Include="istream_input.cpp" />
     <ClCompile Include="repl.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="entry_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
+    <ClInclude Include="file_routine.h" />
     <ClInclude Include="hello_world_binder.h" />
     <ClInclude Include="istream_input.h" />
     <ClInclude Include="repl.h" />

@@ -178,6 +178,9 @@
     <ClInclude Include="binder\single_bind_routine.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\routine_instances_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -352,6 +355,9 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\single_bind_routine.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_instances_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

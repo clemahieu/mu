@@ -29,36 +29,28 @@ lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
 
 void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	check_only_references (statement, problems);
-	if (problems.empty ())
+	size_t parameter_count (statement->association->parameters.size ());
+	::std::wstring format;
+	::std::vector < ::llvm::Value *> arguments;
+	arguments.push_back (NULL); // Filled with format string after other arguments are computed
+	for (size_t i = 0; i < parameter_count; ++i)
 	{
-		size_t parameter_count (statement->association->parameters.size ());
-		::std::wstring format;
-		::std::vector < ::llvm::Value *> arguments;
-		arguments.push_back (NULL); // Filled with format string after other arguments are computed
-		for (size_t i = 0; i < parameter_count; ++i)
+		::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (instances [statement->association->parameters [i]]);
+		::boost::shared_ptr < ::lambda_p_llvm::value> argument_value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
+		if (argument_value.get () != NULL)
 		{
-			::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (instances [statement->association->parameters [i]]);
-			::boost::shared_ptr < ::lambda_p_llvm::value> argument_value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
-			if (argument_value.get () != NULL)
+			::llvm::Type const * type (argument_value->value_m->getType ());
+			::llvm::PointerType const * pointer (::llvm::dyn_cast < ::llvm::PointerType> (type));
+			if (pointer != NULL)
 			{
-				::llvm::Type const * type (argument_value->value_m->getType ());
-				::llvm::PointerType const * pointer (::llvm::dyn_cast < ::llvm::PointerType> (type));
-				if (pointer != NULL)
+				::llvm::Type const * element_type (pointer->getElementType ());
+				::llvm::IntegerType const * element_integer (::llvm::dyn_cast < ::llvm::IntegerType> (element_type));
+				if (element_integer != NULL)
 				{
-					::llvm::Type const * element_type (pointer->getElementType ());
-					::llvm::IntegerType const * element_integer (::llvm::dyn_cast < ::llvm::IntegerType> (element_type));
-					if (element_integer != NULL)
+					if (element_integer->getBitWidth () == context.wchar_t_type->getBitWidth ())
 					{
-						if (element_integer->getBitWidth () == context.wchar_t_type->getBitWidth ())
-						{
-							format.append (L"%ls");
-							arguments.push_back (argument_value->value_m);
-						}
-						else
-						{
-							problem (i, problems);
-						}
+						format.append (L"%ls");
+						arguments.push_back (argument_value->value_m);
 					}
 					else
 					{
@@ -67,35 +59,39 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 				}
 				else
 				{
-					::llvm::IntegerType const * integer (::llvm::dyn_cast < ::llvm::IntegerType> (type));
-					if (integer != NULL)
-					{
-						if (integer->getBitWidth () == 64)
-						{
-							format.append (L"%lu");
-							arguments.push_back (argument_value->value_m);
-						}
-						else
-						{
-							problem (i, problems);
-						}
-					}
-					else
-					{					
-						problem (i, problems);
-					}
+					problem (i, problems);
 				}
 			}
 			else
 			{
-				problem (i, problems);
+				::llvm::IntegerType const * integer (::llvm::dyn_cast < ::llvm::IntegerType> (type));
+				if (integer != NULL)
+				{
+					if (integer->getBitWidth () == 64)
+					{
+						format.append (L"%lu");
+						arguments.push_back (argument_value->value_m);
+					}
+					else
+					{
+						problem (i, problems);
+					}
+				}
+				else
+				{					
+					problem (i, problems);
+				}
 			}
 		}
-		::lambda_p_llvm::constant_wstring format_string (context, format);
-		arguments [0] = format_string.value;
-		::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
-		context.block->getInstList ().push_back (call);
+		else
+		{
+			problem (i, problems);
+		}
 	}
+	::lambda_p_llvm::constant_wstring format_string (context, format);
+	arguments [0] = format_string.value;
+	::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
+	context.block->getInstList ().push_back (call);
 }
 
 void lambda_p_repl::dynamic_wprintf::problem (size_t argument_position, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)

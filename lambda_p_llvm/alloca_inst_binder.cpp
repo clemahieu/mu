@@ -17,7 +17,7 @@ lambda_p_llvm::alloca_inst_binder::alloca_inst_binder (::lambda_p_llvm::generati
 
 void lambda_p_llvm::alloca_inst_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	check_count_only_references (1, 1, statement, problems);
+	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
 		::boost::shared_ptr < ::lambda_p::binder::node_instance> type_instance (instances [statement->association->parameters [0]]);

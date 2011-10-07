@@ -30,7 +30,7 @@ lambda_p_llvm::store_inst_binder::store_inst_binder (::lambda_p_llvm::generation
 
 void lambda_p_llvm::store_inst_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	check_count_only_references (0, 2, statement, problems);
+	check_count (0, 2, statement, problems);
 	if (problems.empty ())
 	{
 		size_t destination_node (statement->association->parameters [0]);

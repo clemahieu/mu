@@ -16,6 +16,7 @@
     <ClCompile Include="wistream_input.cpp" />
     <ClCompile Include="istream_input.cpp" />
     <ClCompile Include="abort_function.cpp" />
+    <ClCompile Include="file_routine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -33,5 +34,6 @@
     <ClInclude Include="wistream_input.h" />
     <ClInclude Include="istream_input.h" />
     <ClInclude Include="abort_function.h" />
+    <ClInclude Include="file_routine.h" />
   </ItemGroup>
 </Project>

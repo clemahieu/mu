@@ -34,7 +34,7 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 
 void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	check_count_only_references (0, 1, statement, problems);
+	check_count (0, 1, statement, problems);
 	if (problems.empty ())
 	{
 		::boost::shared_ptr < ::lambda_p_llvm::value> string (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instances [statement->association->parameters [0]]));

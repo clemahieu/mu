@@ -17,21 +17,6 @@ lambda_p::binder::node_binder::~node_binder(void)
 {
 }
 
-void lambda_p::binder::node_binder::check_count_only_references (size_t result_count, size_t argument_count, ::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
-{
-	check_count (result_count, argument_count, statement, problems);
-	check_only_references (statement, problems);
-}
-
-void lambda_p::binder::node_binder::check_only_references (::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
-{
-	size_t position (1);
-	for (::std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
-	{
-        size_t node (*i);
-	}
-}
-
 void lambda_p::binder::node_binder::check_count (size_t result_count, size_t argument_count, ::lambda_p::core::statement * statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	if (statement->association->results.size () != result_count)
