@@ -39,6 +39,8 @@
 #include <lambda_p/binder/routine.h>
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p/binder/routine_binder.h>
+#include <lambda_p/binder/routine_instances_binder.h>
+#include <lambda_p_repl/file_routine.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -99,6 +101,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::function_binder> abort_function (new ::lambda_p_llvm::function_binder (abort.abort));
 	::boost::shared_ptr < ::lambda_p::binder::routine_binder> binder_function (new ::lambda_p::binder::routine_binder);
+	::boost::shared_ptr < ::lambda_p::binder::routine_instances_binder> instances_binder (new ::lambda_p::binder::routine_instances_binder);
+	::boost::shared_ptr < ::lambda_p_repl::file_routine> file_binder (new ::lambda_p_repl::file_routine);
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -112,6 +116,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring while_name (L"while");
 	::std::wstring abort_name (L"abort");
 	::std::wstring binder_name (L"bind");
+	::std::wstring instances_name (L"instances");
+	::std::wstring file_name (L"file");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -124,6 +130,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
 	package->nodes [binder_name] = binder_function;
+	package->nodes [instances_name] = instances_binder;
+	package->nodes [file_name] = file_binder;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
