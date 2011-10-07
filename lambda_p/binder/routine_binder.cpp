@@ -49,7 +49,7 @@ void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * state
 					if (problems.empty ())
 					{
 						::lambda_p::binder::bind_procedure procedure (routine->routine_m);
-						procedure ();
+						procedure (problems);
 					}
 				}
 				else

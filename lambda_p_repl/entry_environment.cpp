@@ -133,12 +133,13 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 		::std::wstring quit_name (L"quit");
 		package->nodes [quit_name] = binder;
 	}
-	bind_procedure ();
-	if (bind_procedure.error ())
+	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	bind_procedure (problems);
+	if (problems.empty ())
 	{
 		::std::wcout << "Binding error:\n";
 		::std::wstringstream stream;
-		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = bind_procedure.errors.begin (); i != bind_procedure.errors.end (); ++i)
+		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = problems.begin (); i != problems.end (); ++i)
 		{
 			(*i)->string (stream);
 			stream << L'\n';

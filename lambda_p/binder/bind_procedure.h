@@ -29,17 +29,13 @@ namespace lambda_p
 		public:
 			bind_procedure (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
 			~bind_procedure (void);
-			void operator () ();
-			bool error ();
-			void error_message (::std::wostream & stream);
-			void reset ();
+			void operator () (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			::std::map < size_t, size_t> unbound_statements;
-			::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > errors;
 			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		private:
-			void bind_statement (size_t statement);
+			void bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
-			void retry_bind (size_t statement);
+			void retry_bind (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node);
 		};
 	}
