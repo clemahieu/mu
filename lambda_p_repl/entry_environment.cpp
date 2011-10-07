@@ -35,6 +35,9 @@
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/while_call_binder.h>
 #include <lambda_p_repl/abort_function.h>
+#include <lambda_p/binder/single_bind_routine.h>
+#include <lambda_p/binder/routine.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -84,7 +87,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
-	::lambda_p::binder::bind_procedure bind_procedure (routine_a);
 	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
@@ -118,7 +120,6 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     package->nodes [memcpy_name] = memcpy_function;
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
-	bind_procedure.routine->instances [environment_node (routine_a)] = package;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
@@ -133,9 +134,13 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 		::std::wstring quit_name (L"quit");
 		package->nodes [quit_name] = binder;
 	}
+	::boost::shared_ptr < ::lambda_p::binder::routine > routine (new ::lambda_p::binder::routine (routine_a));
+	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
+	(*instances) [0] = package;
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
-	bind_procedure (problems);
-	if (problems.empty ())
+	::lambda_p::binder::single_bind_routine bind (routine, instances);
+	bind (problems);
+	if (!problems.empty ())
 	{
 		::std::wcout << "Binding error:\n";
 		::std::wstringstream stream;
