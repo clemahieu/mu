@@ -1,21 +1,21 @@
-#include "simple_closure_binder.h"
+#include "noop_closure_binder.h"
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/argument_binder.h>
-#include <lambda_p_llvm/simple_closure.h>
+#include <lambda_p_llvm/noop_closure.h>
 #include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Function.h>
 #include <llvm/Value.h>
 
-lambda_p_llvm::simple_closure_binder::simple_closure_binder (::lambda_p_llvm::generation_context & context_a)
+lambda_p_llvm::noop_closure_binder::noop_closure_binder (::lambda_p_llvm::generation_context & context_a)
 	: context (context_a)
 {
 }
 
-void lambda_p_llvm::simple_closure_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::noop_closure_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	if (statement->association->results.size () == 1)
 	{
@@ -34,7 +34,7 @@ void lambda_p_llvm::simple_closure_binder::bind (::lambda_p::core::statement * s
 					argument_binder.apply (arguments, i, statement->association->parameters.end (), function->getFunctionType ()->param_begin (), function->getFunctionType ()->param_end (), instances, problems);
 					if (problems.empty ())
 					{
-						::boost::shared_ptr < ::lambda_p_llvm::simple_closure> closure (new ::lambda_p_llvm::simple_closure (context, function, arguments));
+						::boost::shared_ptr < ::lambda_p_llvm::noop_closure> closure (new ::lambda_p_llvm::noop_closure (context, function, arguments));
 						instances [statement->association->results [0]] = closure;
 					}
 				}
@@ -59,8 +59,8 @@ void lambda_p_llvm::simple_closure_binder::bind (::lambda_p::core::statement * s
 	}
 }
 
-::std::wstring lambda_p_llvm::simple_closure_binder::binder_name ()
+::std::wstring lambda_p_llvm::noop_closure_binder::binder_name ()
 {
-	return ::std::wstring (L"simple_closure_binder");
+	return ::std::wstring (L"noop_closure_binder");
 }
 
