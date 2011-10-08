@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_llvm/function_binder.h>
+#include <lambda_p_llvm/function.h>
 #include <lambda_p_llvm/literal_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/argument_binder.h>
@@ -26,17 +26,17 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 		if (i != statement->association->parameters.end ())
 		{
 			::boost::shared_ptr < ::lambda_p::binder::node_instance> function_instance (instances [*i]);
-			::boost::shared_ptr < ::lambda_p_llvm::function_binder> function (::boost::dynamic_pointer_cast < ::lambda_p_llvm::function_binder> (function_instance));
+			::boost::shared_ptr < ::lambda_p_llvm::function> function (::boost::dynamic_pointer_cast < ::lambda_p_llvm::function> (function_instance));
 			++i;
 			if (function.get () != NULL)
 			{
-				::llvm::FunctionType const * type (function->function->getFunctionType ());
+				::llvm::FunctionType const * type (function->function_type ());
 				::llvm::FunctionType::param_iterator j = type->param_begin ();
 				::lambda_p_llvm::argument_binder argument_binder;
 				argument_binder.apply (arguments, i, statement->association->parameters.end (), j, type->param_end (), instances, problems);
 				if (problems.empty ())
 				{
-					::llvm::CallInst * call (::llvm::CallInst::Create (function->function, arguments.begin (), arguments.end ()));
+					::llvm::CallInst * call (::llvm::CallInst::Create (function->operator() (), arguments.begin (), arguments.end ()));
 					context.block->getInstList ().push_back (call);
 					::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (call));
 					instances [statement->association->results [0]] = value;

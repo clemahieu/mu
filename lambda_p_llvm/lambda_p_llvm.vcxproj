@@ -29,7 +29,7 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="context_binder.h" />
     <ClInclude Include="data_to_string_binder.h" />
-    <ClInclude Include="function_binder.h" />
+    <ClInclude Include="function.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="literal_value.h" />
@@ -56,7 +56,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="context_binder.cpp" />
     <ClCompile Include="data_to_string_binder.cpp" />
-    <ClCompile Include="function_binder.cpp" />
+    <ClCompile Include="function.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="literal_value.cpp" />

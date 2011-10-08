@@ -18,7 +18,7 @@ lambda_p_llvm::noop_closure::noop_closure (::lambda_p_llvm::generation_context &
 
 ::llvm::Type const * lambda_p_llvm::noop_closure::type ()
 {
-	return function->getType ();
+	return function->getFunctionType ()->getReturnType ();
 }
 
 ::llvm::Value * lambda_p_llvm::noop_closure::operator () ()

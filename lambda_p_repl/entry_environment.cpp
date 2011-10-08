@@ -32,7 +32,7 @@
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/value.h>
-#include <lambda_p_llvm/function_binder.h>
+#include <lambda_p_llvm/function.h>
 #include <lambda_p_llvm/while_call_binder.h>
 #include <lambda_p_repl/abort_function.h>
 #include <lambda_p/binder/single_bind_routine.h>
@@ -96,10 +96,10 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
-    ::boost::shared_ptr < ::lambda_p_llvm::function_binder> memcpy_function (new ::lambda_p_llvm::function_binder (memcpy.memcpy));
-	::boost::shared_ptr < ::lambda_p_llvm::function_binder> malloc_function (new ::lambda_p_llvm::function_binder (malloc.malloc));
+    ::boost::shared_ptr < ::lambda_p_llvm::function> memcpy_function (new ::lambda_p_llvm::function (memcpy.memcpy));
+	::boost::shared_ptr < ::lambda_p_llvm::function> malloc_function (new ::lambda_p_llvm::function (malloc.malloc));
 	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::function_binder> abort_function (new ::lambda_p_llvm::function_binder (abort.abort));
+	::boost::shared_ptr < ::lambda_p_llvm::function> abort_function (new ::lambda_p_llvm::function (abort.abort));
 	::boost::shared_ptr < ::lambda_p::binder::routine_binder> binder_function (new ::lambda_p::binder::routine_binder);
 	::boost::shared_ptr < ::lambda_p::binder::routine_instances_binder> instances_binder (new ::lambda_p::binder::routine_instances_binder);
 	::boost::shared_ptr < ::lambda_p_repl::file_routine> file_binder (new ::lambda_p_repl::file_routine);

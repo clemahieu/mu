@@ -3,7 +3,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_llvm/function_binder.h>
+#include <lambda_p_llvm/function.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/argument_binder.h>
@@ -27,7 +27,7 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 			::std::vector < size_t>::iterator argument (statement->association->parameters.begin ());
 			::boost::shared_ptr < ::lambda_p::binder::node_instance> function_instance (instances [*argument]);
 			++argument;
-			::boost::shared_ptr < ::lambda_p_llvm::function_binder> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::function_binder> (function_instance));
+			::boost::shared_ptr < ::lambda_p_llvm::function> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::function> (function_instance));
 			if (function_l.get () != NULL)
 			{
 				::boost::shared_ptr < ::lambda_p::binder::node_instance> condition_instance (instances [*argument]);
@@ -54,11 +54,11 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 						::lambda_p_llvm::call_inst_binder * call (new ::lambda_p_llvm::call_inst_binder (context));
 						::std::vector < ::llvm::Value *> arguments;
 						::lambda_p_llvm::argument_binder argument_binder;
-						::llvm::FunctionType::param_iterator parameter (function_l->function->getFunctionType ()->param_begin ());
-						argument_binder.apply (arguments, argument, statement->association->parameters.end (), parameter, function_l->function->getFunctionType ()->param_end (), instances, problems);
+						::llvm::FunctionType::param_iterator parameter (function_l->function_type ()->param_begin ());
+						argument_binder.apply (arguments, argument, statement->association->parameters.end (), parameter, function_l->function_type ()->param_end (), instances, problems);
 						if (problems.empty ())
 						{
-							::llvm::CallInst * call (::llvm::CallInst::Create (function_l->function, arguments.begin (), arguments.end ()));
+							::llvm::CallInst * call (::llvm::CallInst::Create (function_l->operator() (), arguments.begin (), arguments.end ()));
 							body_block->getInstList ().push_back (call);
 							::llvm::BranchInst * loop (::llvm::BranchInst::Create (check_block));
 							body_block->getInstList ().push_back (loop);
