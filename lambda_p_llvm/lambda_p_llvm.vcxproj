@@ -24,6 +24,7 @@
     <ClInclude Include="api.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="cast_inst_binder.h" />
+    <ClInclude Include="closed_function.h" />
     <ClInclude Include="constant_int_binder.h" />
     <ClInclude Include="constant_wstring.h" />
     <ClInclude Include="context.h" />
@@ -51,6 +52,7 @@
     <ClCompile Include="api.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="cast_inst_binder.cpp" />
+    <ClCompile Include="closed_function.cpp" />
     <ClCompile Include="constant_int_binder.cpp" />
     <ClCompile Include="constant_wstring.cpp" />
     <ClCompile Include="context.cpp" />

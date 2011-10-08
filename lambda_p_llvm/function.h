@@ -14,7 +14,6 @@ namespace lambda_p_llvm
 	public:
 		function (::llvm::Function * function_a);
 		::llvm::FunctionType const * function_type ();
-        ::llvm::Value * operator () ();
 		::llvm::Type const * type ();
 		::llvm::Function * function_m;
 	};
