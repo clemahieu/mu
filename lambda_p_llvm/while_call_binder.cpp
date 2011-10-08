@@ -35,7 +35,7 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 				::boost::shared_ptr < ::lambda_p_llvm::value> condition (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (condition_instance));
 				if (condition.get () != NULL)
 				{
-					if (condition->value_m->getType () == ::llvm::Type::getInt1PtrTy (context.context))
+					if (condition->type () == ::llvm::Type::getInt1Ty (context.context))
 					{
 						::llvm::Function * function (context.block->getParent ());
 						::llvm::BasicBlock * check_block (::llvm::BasicBlock::Create (context.context)); // Performs boolean check
@@ -46,7 +46,7 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 						function->getBasicBlockList ().push_back (exit_block);
 						::llvm::BranchInst * entry (::llvm::BranchInst::Create (check_block));
 						context.block->getInstList ().push_back (entry);
-						::llvm::LoadInst * check_load (new ::llvm::LoadInst (condition->value_m));
+						::llvm::LoadInst * check_load (new ::llvm::LoadInst (condition->operator() ()));
 						check_block->getInstList ().push_back (check_load);
 						::llvm::BranchInst * done (::llvm::BranchInst::Create (body_block, exit_block, check_load));
 						check_block->getInstList ().push_back (done);

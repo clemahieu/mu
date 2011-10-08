@@ -4,7 +4,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/literal_value.h>
 #include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/Instructions.h>
@@ -26,7 +26,7 @@ void lambda_p_llvm::alloca_inst_binder::bind (::lambda_p::core::statement * stat
 		{
 			::llvm::AllocaInst * alloc (new ::llvm::AllocaInst (type->type_m));
 			context.block->getInstList ().push_back (alloc);
-			::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (alloc));
+			::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (alloc));
 			instances [statement->association->results [0]] = value;
 		}
 		else

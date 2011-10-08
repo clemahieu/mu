@@ -16,9 +16,9 @@ void lambda_p_llvm::argument_binder::apply (::std::vector < ::llvm::Value *> & a
 		::boost::shared_ptr < ::lambda_p_llvm::value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (value_instance));
 		if (value.get () != NULL)
 		{
-			if (value->value_m->getType () == *parameter)
+			if (value->type () == *parameter)
 			{
-				arguments.push_back (value->value_m);
+				arguments.push_back (value->operator() ());
 			}
 			else
 			{

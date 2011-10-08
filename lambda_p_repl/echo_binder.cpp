@@ -42,7 +42,7 @@ void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, 
 		{
 			::std::vector < ::llvm::Value *> arguments;
 			arguments.push_back (echo_string_global);
-			arguments.push_back (string->value_m);
+			arguments.push_back (string->operator() ());
 			::llvm::CallInst * call (::llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));
 			context.block->getInstList ().push_back (call);
 		}

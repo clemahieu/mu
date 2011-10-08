@@ -11,7 +11,7 @@
 
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/literal_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
@@ -37,11 +37,11 @@ void lambda_p_llvm::load_inst_binder::bind (::lambda_p::core::statement * statem
         ::boost::shared_ptr < ::lambda_p_llvm::value> pointer (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (pointer_instance));
         if (pointer.get () != NULL)
         {
-            if (pointer->value_m->getType ()->isPointerTy ())
+			if (pointer->type ()->isPointerTy ())
             {
-                ::llvm::LoadInst * load (new ::llvm::LoadInst (pointer->value_m));
+				::llvm::LoadInst * load (new ::llvm::LoadInst (pointer->operator() ()));
                 context.block->getInstList ().push_back (load);
-                ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (load));
+                ::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (load));
 				instances [statement->association->results [0]] = value;
             }
             else

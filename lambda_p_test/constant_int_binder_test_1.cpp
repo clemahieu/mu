@@ -47,8 +47,8 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	assert (problems.empty ());
 	assert (bind_procedure.routine->instances [declaration].get () != NULL);
 	assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration]).get () != NULL);
-	assert (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->value_m != NULL);
-	assert (::llvm::isa < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->value_m));
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->value_m)->getBitWidth () == 64);
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->value_m)->getValue () == 16);
+	assert (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() () != NULL);
+	assert (::llvm::isa < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ()));
+	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getBitWidth () == 64);
+	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getValue () == 16);
 }

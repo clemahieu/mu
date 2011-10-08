@@ -17,8 +17,7 @@ namespace lambda_p_llvm
     class value : public ::lambda_p::binder::node_instance
     {
     public:  
-        value (::llvm::Value * value_a);
-        ::llvm::Value * value_m;
-        void operator () ();
+        virtual ::llvm::Value * operator () () = 0;
+		virtual ::llvm::Type const * type () = 0;
     };
 }

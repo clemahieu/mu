@@ -32,9 +32,12 @@
     <ClInclude Include="function_binder.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="call_inst_binder.h" />
+    <ClInclude Include="literal_value.h" />
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="malloc_function.h" />
     <ClInclude Include="memcpy_function.h" />
+    <ClInclude Include="simple_closure.h" />
+    <ClInclude Include="simple_closure_binder.h" />
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="type.h" />
@@ -56,9 +59,12 @@
     <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
+    <ClCompile Include="literal_value.cpp" />
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
+    <ClCompile Include="simple_closure.cpp" />
+    <ClCompile Include="simple_closure_binder.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="value.cpp" />
     <ClCompile Include="type.cpp" />

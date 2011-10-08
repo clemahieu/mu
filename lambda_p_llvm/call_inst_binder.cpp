@@ -3,7 +3,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/function_binder.h>
-#include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/literal_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p/binder/routine_instances.h>
@@ -38,7 +38,7 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 				{
 					::llvm::CallInst * call (::llvm::CallInst::Create (function->function, arguments.begin (), arguments.end ()));
 					context.block->getInstList ().push_back (call);
-					::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (call));
+					::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (call));
 					instances [statement->association->results [0]] = value;
 				}
 			}

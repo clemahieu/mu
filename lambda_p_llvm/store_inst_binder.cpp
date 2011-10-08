@@ -43,12 +43,12 @@ void lambda_p_llvm::store_inst_binder::bind (::lambda_p::core::statement * state
 			::boost::shared_ptr < ::lambda_p_llvm::value> destination (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (destination_instance));
 			if (destination.get () != NULL)
 			{
-				::llvm::PointerType const * destination_pointer (::llvm::dyn_cast < ::llvm::PointerType const> (destination->value_m->getType ()));
+				::llvm::PointerType const * destination_pointer (::llvm::dyn_cast < ::llvm::PointerType const> (destination->type ()));
 				if (destination_pointer != NULL)
 				{
-					if (destination_pointer->getElementType () == source->value_m->getType ())
+					if (destination_pointer->getElementType () == source->type ())
 					{
-						::llvm::StoreInst * store (new ::llvm::StoreInst (source->value_m, destination->value_m));
+						::llvm::StoreInst * store (new ::llvm::StoreInst (source->operator () (), destination->operator () ()));
 						context.block->getInstList ().push_back (store);
 					}
 					else

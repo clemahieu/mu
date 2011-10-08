@@ -17,7 +17,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p_llvm/constant_wstring.h>
-#include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/literal_value.h>
 #include <lambda_p/core/association.h>
 
 #include <llvm/LLVMContext.h>
@@ -52,7 +52,7 @@ void lambda_p_test::echo_binder_test::run ()
     ::lambda_p::binder::routine_instances instances;
     ::std::wstring raw_string (L"test_echo");
     ::lambda_p_llvm::constant_wstring string (context, raw_string);
-    ::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::value (string.value));
+    ::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (string.value));
     instances [str] = value;
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
     binder.bind (statement, instances, problems);

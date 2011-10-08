@@ -23,6 +23,9 @@
     <ClInclude Include="while_call_binder.h" />
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
+    <ClInclude Include="simple_closure.h" />
+    <ClInclude Include="simple_closure_binder.h" />
+    <ClInclude Include="literal_value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -47,5 +50,8 @@
     <ClCompile Include="while_call_binder.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
+    <ClCompile Include="simple_closure.cpp" />
+    <ClCompile Include="simple_closure_binder.cpp" />
+    <ClCompile Include="literal_value.cpp" />
   </ItemGroup>
 </Project>

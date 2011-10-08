@@ -383,5 +383,8 @@
     <Filter Include="errors">
       <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{771543db-89d8-4a03-92a8-764d617bdabb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

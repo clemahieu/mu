@@ -39,7 +39,7 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 		::boost::shared_ptr < ::lambda_p_llvm::value> argument_value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
 		if (argument_value.get () != NULL)
 		{
-			::llvm::Type const * type (argument_value->value_m->getType ());
+			::llvm::Type const * type (argument_value->type ());
 			::llvm::PointerType const * pointer (::llvm::dyn_cast < ::llvm::PointerType> (type));
 			if (pointer != NULL)
 			{
@@ -50,7 +50,7 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 					if (element_integer->getBitWidth () == context.wchar_t_type->getBitWidth ())
 					{
 						format.append (L"%ls");
-						arguments.push_back (argument_value->value_m);
+						arguments.push_back (argument_value->operator() ());
 					}
 					else
 					{
@@ -70,7 +70,7 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 					if (integer->getBitWidth () == 64)
 					{
 						format.append (L"%lu");
-						arguments.push_back (argument_value->value_m);
+						arguments.push_back (argument_value->operator() ());
 					}
 					else
 					{
