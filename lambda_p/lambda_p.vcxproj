@@ -151,6 +151,7 @@
     <ClInclude Include="errors\node_out_of_order.h" />
     <ClInclude Include="errors\orphan_node.h" />
     <ClInclude Include="errors\orphan_reference.h" />
+    <ClInclude Include="errors\target_not_bindable.h" />
     <ClInclude Include="errors\undefined_reference.h" />
     <ClInclude Include="errors\unexpected_argument_count.h" />
     <ClInclude Include="errors\unexpected_binder_type.h" />
@@ -213,6 +214,7 @@
     <ClCompile Include="errors\node_out_of_order.cpp" />
     <ClCompile Include="errors\orphan_node.cpp" />
     <ClCompile Include="errors\orphan_reference.cpp" />
+    <ClCompile Include="errors\target_not_bindable.cpp" />
     <ClCompile Include="errors\undefined_reference.cpp" />
     <ClCompile Include="errors\unexpected_argument_count.cpp" />
     <ClCompile Include="errors\unexpected_binder_type.cpp" />

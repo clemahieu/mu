@@ -27,6 +27,7 @@
     <ClInclude Include="noop_closure.h" />
     <ClInclude Include="function.h" />
     <ClInclude Include="closed_function.h" />
+    <ClInclude Include="call_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -55,5 +56,6 @@
     <ClCompile Include="noop_closure.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="closed_function.cpp" />
+    <ClCompile Include="call_binder.cpp" />
   </ItemGroup>
 </Project>

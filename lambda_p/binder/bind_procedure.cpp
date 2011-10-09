@@ -6,6 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unresolved_statement.h>
 #include <lambda_p/errors/binder_string_error.h>
+#include <lambda_p/errors/target_not_bindable.h>
 
 #include <sstream>
 
@@ -35,7 +36,7 @@ void lambda_p::binder::bind_procedure::operator () (::std::vector < ::boost::sha
 void lambda_p::binder::bind_procedure::bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {	
 	::boost::shared_ptr < ::lambda_p::binder::node_binder> binder;
-	populate_unbound (statement, binder);
+	populate_unbound (statement, binder, problems);
 	if (binder.get () != NULL)
 	{
 		size_t previous_size (problems.size ());
@@ -61,7 +62,7 @@ void error_message (::std::wostream & stream)
 {
 }
 
-void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder)
+void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
 	assert (statement_l->target < routine->nodes);
@@ -70,15 +71,22 @@ void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boo
 	if (binder_l.get () != NULL)
 	{
 		binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
-		for (::std::vector < size_t>::iterator i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
+		if (binder.get () != NULL)
 		{
-			size_t node (*i);
-			copy_declaration_binder (binder_l, node);
-			if (binder_l.get () == NULL)
+			for (::std::vector < size_t>::iterator i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
 			{
-				binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
-				unbound_statements [node] = statement;
+				size_t node (*i);
+				copy_declaration_binder (binder_l, node);
+				if (binder_l.get () == NULL)
+				{
+					binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
+					unbound_statements [node] = statement;
+				}
 			}
+		}
+		else
+		{
+			problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::target_not_bindable));
 		}
 	}
 	else

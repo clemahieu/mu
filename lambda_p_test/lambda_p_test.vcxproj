@@ -148,6 +148,7 @@
     <ClCompile Include="echo_binder_test.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
     <ClCompile Include="node_instances_test_1.cpp" />
+    <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="package_test_1.cpp" />
     <ClCompile Include="routine_binder_test.cpp" />
     <ClCompile Include="routine_input_test_1.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="simple_lexer_test_1.cpp" />
     <ClCompile Include="simple_parser_test_1.cpp" />
     <ClCompile Include="simple_test_1.cpp" />
+    <ClCompile Include="unbindable_statement_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_binder_test_1.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="echo_binder_test.h" />
     <ClInclude Include="jit_test_1.h" />
     <ClInclude Include="node_instances_test_1.h" />
+    <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="package_test_1.h" />
     <ClInclude Include="routine_binder_test.h" />
     <ClInclude Include="routine_input_test_1.h" />
@@ -173,6 +176,7 @@
     <ClInclude Include="simple_lexer_test_1.h" />
     <ClInclude Include="simple_parser_test_1.h" />
     <ClInclude Include="simple_test_1.h" />
+    <ClInclude Include="unbindable_statement_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

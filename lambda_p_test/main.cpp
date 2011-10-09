@@ -12,6 +12,8 @@
 #include <lambda_p_test/routine_input_test_1.h>
 #include <lambda_p_test/node_instances_test_1.h>
 #include <lambda_p_test/routine_binder_test.h>
+#include <lambda_p_test/noop_closure_test.h>
+#include <lambda_p_test/unbindable_statement_test.h>
 
 using namespace lambda_p_test;
 
@@ -71,6 +73,14 @@ int main ()
 	}
 	{
 		routine_binder_test test;
+		test.run ();
+	}
+	{
+		unbindable_statement_test test;
+		test.run ();
+	}
+	{
+		noop_closure_test test;
 		test.run ();
 	}
 	return 0;

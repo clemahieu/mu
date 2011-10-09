@@ -181,6 +181,9 @@
     <ClInclude Include="binder\routine_instances_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="errors\target_not_bindable.h">
+      <Filter>errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -359,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="binder\routine_instances_binder.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\target_not_bindable.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

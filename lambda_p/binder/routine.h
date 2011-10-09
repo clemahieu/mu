@@ -12,6 +12,7 @@ namespace lambda_p
 	}
 	namespace binder
 	{
+		// Represents a routine that can be used as a node_instace
 		class routine : public ::lambda_p::binder::node_instance
 		{
 		public:

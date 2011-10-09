@@ -3,6 +3,7 @@
 #include <vector>
 
 #include <lambda_p_llvm/closed_function.h>
+#include <lambda_p/binder/node_binder.h>
 
 namespace llvm
 {
@@ -17,7 +18,6 @@ namespace lambda_p_llvm
 	public:
 		noop_closure (::lambda_p_llvm::generation_context & context_a, ::llvm::Function * function_a, ::std::vector < ::llvm::Value *> arguments_a);
         ::llvm::Value * operator () ();
-		::llvm::Type const * type ();
 		::lambda_p_llvm::generation_context & context;
 		::std::vector < ::llvm::Value *> arguments;
 	};

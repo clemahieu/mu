@@ -34,7 +34,7 @@ namespace lambda_p
 			::boost::shared_ptr < ::lambda_p::core::routine> routine;
 		private:
 			void bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
-			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder);
+			void populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			void retry_bind (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 			void copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node);
 		};
