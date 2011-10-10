@@ -64,9 +64,9 @@ namespace lambda_p
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
 			::lambda_p::binder::routine_instances instances;
+			::std::vector < ::lambda_p::core::statement *> statements;
 		private:
 			void validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
-			::std::vector < ::lambda_p::core::statement *> statements;
 			size_t nodes;
 		};
 	}

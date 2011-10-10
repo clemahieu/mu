@@ -14,6 +14,7 @@
 #include <lambda_p_test/routine_binder_test.h>
 #include <lambda_p_test/noop_closure_test.h>
 #include <lambda_p_test/unbindable_statement_test.h>
+#include <lambda_p_test/routine_application_test.h>
 
 using namespace lambda_p_test;
 
@@ -81,6 +82,10 @@ int main ()
 	}
 	{
 		noop_closure_test test;
+		test.run ();
+	}
+	{
+		routine_application_test test;
 		test.run ();
 	}
 	return 0;
