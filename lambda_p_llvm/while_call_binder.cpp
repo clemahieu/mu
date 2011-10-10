@@ -23,14 +23,14 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 	check_count (0, 2, statement, problems);
 	if (problems.empty ())
 	{
-		::std::vector < size_t>::iterator argument (statement->association->parameters.begin ());
-		::boost::shared_ptr < ::lambda_p_llvm::closed_function> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
+		::std::vector < size_t>::iterator argument (statement->association->parameters.begin ());		
+		::boost::shared_ptr < ::lambda_p_llvm::closed_function> condition (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
 		++argument;
-		if (function_l.get () != NULL)
+		if (condition.get () != NULL)
 		{
-			::boost::shared_ptr < ::lambda_p_llvm::closed_function> condition (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
+			::boost::shared_ptr < ::lambda_p_llvm::closed_function> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
 			++argument;
-			if (condition.get () != NULL)
+			if (function_l.get () != NULL)
 			{
 				if (condition->type () == ::llvm::Type::getInt1Ty (context.context))
 				{
@@ -54,17 +54,17 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 				}
 				else
 				{
-					add_error (::std::wstring (L"argument 2 is not a pointer to a bool"), problems);
+					add_error (::std::wstring (L"argument 1 is not a bool"), problems);
 				}
 			}
 			else
 			{
-				add_error (::std::wstring (L"argument 2 is not a value"), problems);
+				add_error (::std::wstring (L"argument 2 function is not a noop_closure"), problems);
 			}
 		}
 		else
 		{
-			add_error (::std::wstring (L"argument 1 is not a function_binder"), problems);
+			add_error (::std::wstring (L"argument 1 condition is not a noop_closure"), problems);
 		}
 	}
 }

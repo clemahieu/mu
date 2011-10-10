@@ -42,6 +42,8 @@
 #include <lambda_p/binder/routine_instances_binder.h>
 #include <lambda_p_repl/file_routine.h>
 #include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/noop_closure_binder.h>
+#include <lambda_p_llvm/call_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -104,6 +106,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p::binder::routine_binder> binder_function (new ::lambda_p::binder::routine_binder);
 	::boost::shared_ptr < ::lambda_p::binder::routine_instances_binder> instances_binder (new ::lambda_p::binder::routine_instances_binder);
 	::boost::shared_ptr < ::lambda_p_repl::file_routine> file_binder (new ::lambda_p_repl::file_routine);
+	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> noop_closure_binder (new ::lambda_p_llvm::noop_closure_binder (context));
+	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call_binder (new ::lambda_p_llvm::call_binder);
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -119,6 +123,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring binder_name (L"bind");
 	::std::wstring instances_name (L"instances");
 	::std::wstring file_name (L"file");
+	::std::wstring noop_closure_name (L"closen");
+	::std::wstring call_binder_name (L"call");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -133,6 +139,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [binder_name] = binder_function;
 	package->nodes [instances_name] = instances_binder;
 	package->nodes [file_name] = file_binder;
+	package->nodes [noop_closure_name] = noop_closure_binder;
+	package->nodes [call_binder_name] = call_binder;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
