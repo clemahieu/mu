@@ -49,6 +49,7 @@ void lambda_p_test::routine_application_test::run_2 ()
 	routine.surface->results.push_back (add);
 	routine.surface->results.push_back (a);
 	routine.surface->results.push_back (b);
+	routine.surface->results.push_back (c);
 	::llvm::LLVMContext llvm_context;
 	::llvm::StringRef name ("test");
 	::llvm::Module * module (new ::llvm::Module (name, llvm_context));
@@ -75,9 +76,10 @@ void lambda_p_test::routine_application_test::run_2 ()
 	::std::vector < ::lambda_p_llvm::value *> arguments;
 	arguments.push_back (new ::lambda_p_llvm::literal_value (add_function));
 	application.apply (arguments);
-	assert (application.indirection.size () == 2);
+	assert (application.indirection.size () == 3);
 	assert (application.indirection [0] == 1);
 	assert (application.indirection [1] == 2);
+	assert (application.indirection [2] == 3);
 	::std::vector < ::lambda_p::errors::error *> problems;
 	::std::vector < ::llvm::Type const *> function_parameters;
 	function_parameters.push_back (::llvm::Type::getInt64Ty (llvm_context));

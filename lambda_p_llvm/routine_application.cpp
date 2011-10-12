@@ -22,13 +22,13 @@ lambda_p_llvm::routine_application::routine_application (::lambda_p::core::routi
 	}
 }
 
-void lambda_p_llvm::routine_application::apply (::std::vector < ::lambda_p_llvm::value *> arguments)
+void lambda_p_llvm::routine_application::apply (::std::vector < ::lambda_p_llvm::value *> arguments_a)
 {
-	size_t argument_count (arguments.size ());
+	size_t argument_count (arguments_a.size ());
 	assert (argument_count <= indirection.size ());
 	for (size_t i = argument_count - 1; i < argument_count; --i)
 	{
-		::lambda_p_llvm::value * value (arguments [i]);
+		::lambda_p_llvm::value * value (arguments_a [i]);
 		if (value != NULL)
 		{
 			arguments [indirection [i]] = value;
@@ -52,7 +52,7 @@ void lambda_p_llvm::routine_application::erase (size_t i_a)
 	::llvm::Type const * result_type;
 	if (results.size () == 0)
 	{
-		result_type == ::llvm::Type::getVoidTy (context.context);
+		result_type = ::llvm::Type::getVoidTy (context.context);
 	}
 	else if (results.size () == 1)
 	{
