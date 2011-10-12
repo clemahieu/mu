@@ -160,7 +160,7 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 			else
 			{
 				::std::wstring message;
-				for (::std::multimap < ::std::wstring, size_t>::iterator i = state_l->unresolved_references.begin (); i != state_l->unresolved_references.end (); ++i)
+				for (::std::multimap < ::std::wstring, size_t *>::iterator i = state_l->unresolved_references.begin (); i != state_l->unresolved_references.end (); ++i)
 				{
 					message.append (L"Unresolved reference: ");
 					message.append (i->first);
@@ -230,7 +230,8 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 				}
 				else
 				{
-					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, size_t>::value_type (identifier->string, ~0));
+					state_l->statement_m->target = ~0;
+					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, size_t *>::value_type (identifier->string, &state_l->statement_m->target));
 				}
 				state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::association (state_l->routine, state_l)));
 			}
@@ -297,7 +298,8 @@ void lambda_p::parser::simple_parser::parse_association (::lambda_p::tokens::tok
 				}
 				else
 				{
-					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, size_t>::value_type (identifier->string, ~0));
+					size_t * location (state_l->target->sink_argument (~0));
+					state_l->routine->unresolved_references.insert (::std::multimap < ::std::wstring, size_t *>::value_type (identifier->string, location));
 				}
 			}
 			break;

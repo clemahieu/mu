@@ -25,8 +25,8 @@ namespace lambda_p
 			statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a);
 			~statement (void);
 			state_id state_type ();
-			void sink_result (size_t declaration);
-			void sink_argument (size_t argument);
+			size_t * sink_result (size_t declaration);
+			size_t * sink_argument (size_t argument);
 			bool have_target;
 			bool on_results;
 			::boost::shared_ptr < ::lambda_p::parser::routine> routine;

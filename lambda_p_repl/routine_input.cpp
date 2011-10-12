@@ -4,7 +4,7 @@
 
 lambda_p_repl::routine_input::routine_input (void)
 	: parser (routines),
-	lexer (::boost::bind (&::lambda_p_repl::routine_input::token_sink, this, _1))
+	lexer (::boost::bind (&::lambda_p::parser::simple_parser::operator(), &parser, _1))
 {
 }
 
@@ -60,9 +60,4 @@ bool lambda_p_repl::routine_input::error ()
 {
 	bool result (lexer.error () || parser.error ());
 	return result;
-}
-
-void lambda_p_repl::routine_input::token_sink (::lambda_p::tokens::token * token)
-{
-	parser (token);
 }

@@ -180,6 +180,7 @@
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\statement.h" />
+    <ClInclude Include="routine_from_stream.h" />
     <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="lexer\simple_lexer.h" />
     <ClInclude Include="parser\simple_parser.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="parser\simple_parser.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
+    <ClCompile Include="routine_from_stream.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\connector.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />

@@ -68,7 +68,7 @@ void lambda_p_llvm::routine_application::erase (size_t i_a)
 	while (parameters != result->arg_end ())
 	{
 		::lambda_p_llvm::literal_value * value (new ::lambda_p_llvm::literal_value (&(*parameters)));
-		arguments [indirection [*open_parameters]] = value;
+		arguments [*open_parameters] = value;
 		++parameters;
 		++open_parameters;
 	}
