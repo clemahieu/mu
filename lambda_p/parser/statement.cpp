@@ -24,14 +24,14 @@ lambda_p::parser::statement::~statement(void)
 	return lambda_p::parser::state_statement;
 }
 
-size_t * lambda_p::parser::statement::sink_result (size_t declaration)
+void lambda_p::parser::statement::sink_result (size_t * & declaration)
 {
-	statement_m->association->results.push_back (declaration);
-	return & (statement_m->association->results [statement_m->association->results.size () - 1]);
+	statement_m->association->results.push_back (~0);
+	declaration = & (statement_m->association->results [statement_m->association->results.size () - 1]);
 }
 
-size_t * lambda_p::parser::statement::sink_argument (size_t argument)
+void lambda_p::parser::statement::sink_argument (size_t * & argument)
 {
-	statement_m->association->parameters.push_back (argument);
-	return & (statement_m->association->parameters [statement_m->association->parameters.size () - 1]);
+	statement_m->association->parameters.push_back (~0);
+	argument = & (statement_m->association->parameters [statement_m->association->parameters.size () - 1]);
 }

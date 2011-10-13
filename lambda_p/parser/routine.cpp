@@ -19,14 +19,14 @@ lambda_p::parser::routine::~routine(void)
 	return ::lambda_p::parser::state_routine;
 }
 
-size_t * lambda_p::parser::routine::sink_result (size_t declaration)
+void lambda_p::parser::routine::sink_result (size_t * & declaration)
 {
-	routine_m->surface->results.push_back (declaration);
-	return & (routine_m->surface->results [routine_m->surface->results.size () - 1]);
+	routine_m->surface->results.push_back (~0);
+	declaration = &routine_m->surface->results [routine_m->surface->results.size () - 1];
 }
 
-size_t * lambda_p::parser::routine::sink_argument (size_t argument)
+void lambda_p::parser::routine::sink_argument (size_t * & argument)
 {
-	routine_m->surface->parameters.push_back (argument);
-	return & (routine_m->surface->parameters [routine_m->surface->parameters.size () - 1]);
+	routine_m->surface->parameters.push_back (~0);
+	argument = & (routine_m->surface->parameters [routine_m->surface->parameters.size () - 1]);
 }

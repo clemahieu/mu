@@ -25,8 +25,8 @@ namespace lambda_p
 			routine(void);
 			~routine(void);
 			state_id state_type ();
-			size_t * sink_result (size_t declaration);
-			size_t * sink_argument (size_t argument);
+			void sink_result (size_t * & declaration);
+			void sink_argument (size_t * & argument);
 			::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
 			bool have_surface;
 			::std::multimap < ::std::wstring, size_t *> unresolved_references;
