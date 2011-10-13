@@ -25,6 +25,8 @@
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="call_binder.h" />
     <ClInclude Include="cast_inst_binder.h" />
+    <ClInclude Include="function_binder.h" />
+    <ClInclude Include="generator.h" />
     <ClInclude Include="so_value.h" />
     <ClInclude Include="constant_int_binder.h" />
     <ClInclude Include="constant_wstring.h" />
@@ -54,6 +56,8 @@
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="call_binder.cpp" />
     <ClCompile Include="cast_inst_binder.cpp" />
+    <ClCompile Include="function_binder.cpp" />
+    <ClCompile Include="generator.cpp" />
     <ClCompile Include="so_value.cpp" />
     <ClCompile Include="constant_int_binder.cpp" />
     <ClCompile Include="constant_wstring.cpp" />

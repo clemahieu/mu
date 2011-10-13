@@ -1,6 +1,7 @@
 #pragma once
 
 #include <lambda_p_llvm/value.h>
+#include <lambda_p/binder/node_binder.h>
 
 namespace lambda_p_llvm
 {

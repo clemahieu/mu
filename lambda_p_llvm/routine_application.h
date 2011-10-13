@@ -9,6 +9,10 @@ namespace llvm
 }
 namespace lambda_p
 {
+	namespace binder
+	{
+		class node_instance;
+	}
 	namespace errors
 	{
 		class error;
@@ -30,7 +34,7 @@ namespace lambda_p_llvm
 		::llvm::Function * generate (::lambda_p_llvm::generation_context & context, ::std::vector < ::llvm::Type const *> open_arguments, ::std::vector < ::llvm::Type const *> results, ::std::vector < ::lambda_p::errors::error *> & problems);
 		::lambda_p::core::routine * routine;
 		::std::vector < size_t> indirection;
-		::std::vector < ::lambda_p_llvm::value *> arguments;
+		::std::vector < ::lambda_p::binder::node_instance *> arguments;
 		void erase (size_t i);
 	};
 }
