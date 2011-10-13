@@ -7,6 +7,10 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/literal_value.h>
 #include <lambda_p/routine_from_stream.h>
+#include <lambda_p_llvm/generator.h>
+#include <lambda_p/binder/routine.h>
+#include <lambda_p_llvm/type.h>
+#include <lambda_p/binder/bind_procedure.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -66,20 +70,22 @@ void lambda_p_test::routine_application_test::run_2 ()
 	::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
 	start->getBasicBlockList ().push_back (block);
 	::lambda_p_llvm::generation_context context (llvm_context, module, block);
-	//::lambda_p_llvm::routine_application application (&routine);
-	::std::vector < ::lambda_p_llvm::value *> arguments;
-	arguments.push_back (new ::lambda_p_llvm::literal_value (add_function));
-	//application.apply (arguments);
-	//assert (application.indirection.size () == 3);
-	//assert (application.indirection [0] == 1);
-	//assert (application.indirection [1] == 2);
-	//assert (application.indirection [2] == 3);
-	::std::vector < ::lambda_p::errors::error *> problems;
-	::std::vector < ::llvm::Type const *> function_parameters;
-	function_parameters.push_back (::llvm::Type::getInt64Ty (llvm_context));
-	function_parameters.push_back (::llvm::Type::getInt64Ty (llvm_context));
-	function_parameters.push_back (::llvm::Type::getInt64Ty (llvm_context));
-	//::llvm::Function * function (application.generate (context, function_parameters, ::std::vector < ::llvm::Type const *> (), problems));
+	::lambda_p::routine_from_stream enclosing;
+	enclosing (L"generator routine add result_type p1_type p2_type p3_type = func; generator func = routine result_type add p1_type p2_type p3_type; #;");
+	::lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
+	::boost::shared_ptr < ::lambda_p_llvm::generator> generator (new ::lambda_p_llvm::generator (context));
+	instances [0] = generator;
+	::boost::shared_ptr < ::lambda_p::binder::routine> routine_value (new ::lambda_p::binder::routine (::boost::shared_ptr < ::lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
+	instances [1] = routine_value;
+	::boost::shared_ptr < ::lambda_p_llvm::literal_value> add_value (new ::lambda_p_llvm::literal_value (add_function));
+	instances [2] = add_value;
+	::boost::shared_ptr < ::lambda_p_llvm::type> type_value (new ::lambda_p_llvm::type (::llvm::Type::getInt64Ty (llvm_context)));
+	instances [3] = type_value;
+	instances [4] = type_value;
+	instances [5] = type_value;
+	instances [6] = type_value;
+	::lambda_p::binder::bind_procedure procedure (::boost::shared_ptr < ::lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
+	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	procedure (problems);
 	assert (problems.size () == 0);
-	//assert (function != NULL);
 }
