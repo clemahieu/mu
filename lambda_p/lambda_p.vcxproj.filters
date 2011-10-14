@@ -169,13 +169,13 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="routine_from_stream.h" />
     <ClInclude Include="binder\instance.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\binder.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="routine_builder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -343,13 +343,13 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="routine_from_stream.cpp" />
     <ClCompile Include="binder\instance.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
+    <ClCompile Include="routine_builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

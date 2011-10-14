@@ -6,10 +6,10 @@
 
 namespace lambda_p
 {
-	class routine_from_stream
+	class routine_builder
 	{
 	public:
-		routine_from_stream ();
+		routine_builder ();
 		void operator () (::std::wstring & string);
 		void operator () (wchar_t const * string);
 		void operator << (::std::wistream & source);

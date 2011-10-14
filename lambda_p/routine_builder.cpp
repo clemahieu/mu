@@ -1,16 +1,16 @@
-#include "routine_from_stream.h"
+#include "routine_builder.h"
 
 #include <sstream>
 
 #include <boost/bind.hpp>
 
-lambda_p::routine_from_stream::routine_from_stream ()
+lambda_p::routine_builder::routine_builder ()
 	: parser (::boost::bind (&(::lambda_p::parser::routine_vector::operator()), &routines, _1)),
 	lexer (::boost::bind (&(::lambda_p::parser::simple_parser::operator()), &parser, _1))
 {
 }
 
-void lambda_p::routine_from_stream::operator << (::std::wistream & source)
+void lambda_p::routine_builder::operator << (::std::wistream & source)
 {
 	while (!source.eof ())
 	{
@@ -18,13 +18,13 @@ void lambda_p::routine_from_stream::operator << (::std::wistream & source)
 	}
 }
 
-void lambda_p::routine_from_stream::operator () (::std::wstring & string)
+void lambda_p::routine_builder::operator () (::std::wstring & string)
 {
 	::std::wstringstream stream (string);
 	operator << (stream);
 }
 
-void lambda_p::routine_from_stream::operator () (wchar_t const * string)
+void lambda_p::routine_builder::operator () (wchar_t const * string)
 {
 	::std::wstring str (string);
 	operator () (str);

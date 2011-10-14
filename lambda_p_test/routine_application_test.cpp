@@ -6,7 +6,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p/routine_from_stream.h>
+#include <lambda_p/routine_builder.h>
 #include <lambda_p_llvm/generator.h>
 #include <lambda_p/binder/routine.h>
 #include <lambda_p_llvm/type.h>
@@ -46,7 +46,7 @@ void lambda_p_test::routine_application_test::run_1 ()
 
 void lambda_p_test::routine_application_test::run_2 ()
 {
-	::lambda_p::routine_from_stream routine;
+	::lambda_p::routine_builder routine;
 	routine (L"fma a b c d e = result; fma res = a b c; fma result = res d e; #;");
 	::llvm::LLVMContext llvm_context;
 	::llvm::StringRef name ("test");
@@ -62,7 +62,7 @@ void lambda_p_test::routine_application_test::run_2 ()
 	::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
 	start->getBasicBlockList ().push_back (block);
 	::lambda_p_llvm::generation_context context (llvm_context, module, block);
-	::lambda_p::routine_from_stream enclosing;
+	::lambda_p::routine_builder enclosing;
 	enclosing (L"generator routine fma result_type p1_type p2_type p3_type p4_type p5_type = func; generator func = routine result_type fma p1_type p2_type p3_type p4_type p5_type; #;");
 	::lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
 	::boost::shared_ptr < ::lambda_p_llvm::generator> generator (new ::lambda_p_llvm::generator (context));
