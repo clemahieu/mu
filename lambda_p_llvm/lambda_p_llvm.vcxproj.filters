@@ -22,7 +22,6 @@
     <ClInclude Include="while_call_binder.h" />
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
-    <ClInclude Include="literal_value.h" />
     <ClInclude Include="noop_closure_binder.h" />
     <ClInclude Include="noop_closure.h" />
     <ClInclude Include="call_binder.h" />
@@ -30,6 +29,7 @@
     <ClInclude Include="so_value.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="function_binder.h" />
+    <ClInclude Include="fo_value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -53,7 +53,6 @@
     <ClCompile Include="while_call_binder.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
-    <ClCompile Include="literal_value.cpp" />
     <ClCompile Include="noop_closure_binder.cpp" />
     <ClCompile Include="noop_closure.cpp" />
     <ClCompile Include="call_binder.cpp" />
@@ -61,5 +60,6 @@
     <ClCompile Include="so_value.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="function_binder.cpp" />
+    <ClCompile Include="fo_value.cpp" />
   </ItemGroup>
 </Project>

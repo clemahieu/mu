@@ -12,7 +12,7 @@
 #include <lambda_p_llvm/cast_inst_binder.h>
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
@@ -45,7 +45,7 @@ void lambda_p_llvm::cast_inst_binder::bind (::lambda_p::core::statement * statem
             {
 				::llvm::CastInst * cast (::llvm::CastInst::CreatePointerCast (value->operator() (), type->type_m));
                 context.block->getInstList ().push_back (cast);
-                ::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (cast));
+                ::boost::shared_ptr < ::lambda_p_llvm::fo_value> value (new ::lambda_p_llvm::fo_value (cast));
 				instances [statement->association->results [0]] = value;
             }
             else 

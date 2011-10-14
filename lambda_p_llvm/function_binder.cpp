@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p_llvm/generation_context.h>
 
@@ -27,21 +27,21 @@ void lambda_p_llvm::function_binder::bind (::lambda_p::core::statement * stateme
 			size_t position (0);
 			for (::std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
 			{
-				::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::literal_value> (instances [*i]));
+				::boost::shared_ptr < ::lambda_p_llvm::fo_value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::fo_value> (instances [*i]));
 				if (value.get () != NULL)
 				{
 					arguments.push_back (value->value);
 				}
 				else
 				{
-					unexpected_binder_type_error (position, ::std::wstring (L"literal_value"), problems);
+					unexpected_binder_type_error (position, ::std::wstring (L"fo_value"), problems);
 				}
 			}
 			if (problems.empty ())
 			{				
 				::llvm::CallInst * call (::llvm::CallInst::Create (function, arguments.begin (), arguments.end ()));
 				context.block->getInstList ().push_back (call);
-				::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (call));
+				::boost::shared_ptr < ::lambda_p_llvm::fo_value> value (new ::lambda_p_llvm::fo_value (call));
 				instances [statement->association->results [0]] = value;
 			}
 		}

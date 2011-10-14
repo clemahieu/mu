@@ -4,7 +4,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -67,7 +67,7 @@ void lambda_p_llvm::routine_application::erase (size_t i_a)
 	::std::vector < size_t>::iterator open_parameters (indirection.begin ());
 	while (parameters != result->arg_end ())
 	{
-		::lambda_p_llvm::literal_value * value (new ::lambda_p_llvm::literal_value (&(*parameters)));
+		::lambda_p_llvm::fo_value * value (new ::lambda_p_llvm::fo_value (&(*parameters)));
 		arguments [*open_parameters] = value;
 		++parameters;
 		++open_parameters;

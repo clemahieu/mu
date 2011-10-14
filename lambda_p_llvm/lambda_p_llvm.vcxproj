@@ -35,7 +35,7 @@
     <ClInclude Include="data_to_string_binder.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="call_inst_binder.h" />
-    <ClInclude Include="literal_value.h" />
+    <ClInclude Include="fo_value.h" />
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="malloc_function.h" />
     <ClInclude Include="memcpy_function.h" />
@@ -66,7 +66,7 @@
     <ClCompile Include="data_to_string_binder.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
-    <ClCompile Include="literal_value.cpp" />
+    <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="memcpy_function.cpp" />

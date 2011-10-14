@@ -7,7 +7,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/binder/single_bind_routine.h>
 #include <lambda_p/binder/routine.h>
 #include <lambda_p_llvm/call_binder.h>
@@ -57,7 +57,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	module->getFunctionList ().push_back (target);
 	::std::vector < ::llvm::Value *> arguments;
 	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> binder (new ::lambda_p_llvm::noop_closure_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::literal_value> function (new ::lambda_p_llvm::literal_value (target));
+	::boost::shared_ptr < ::lambda_p_llvm::fo_value> function (new ::lambda_p_llvm::fo_value (target));
 	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call (new ::lambda_p_llvm::call_binder);
 	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
 	size_t binder_declaration (routine->add_declaration ());

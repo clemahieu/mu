@@ -40,7 +40,7 @@
 #include <lambda_p/binder/routine_binder.h>
 #include <lambda_p/binder/routine_instances_binder.h>
 #include <lambda_p_repl/file_routine.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
 
@@ -98,10 +98,10 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
 	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
-    ::boost::shared_ptr < ::lambda_p_llvm::literal_value> memcpy_function (new ::lambda_p_llvm::literal_value (memcpy.memcpy));
-	::boost::shared_ptr < ::lambda_p_llvm::literal_value> malloc_function (new ::lambda_p_llvm::literal_value (malloc.malloc));
+    ::boost::shared_ptr < ::lambda_p_llvm::fo_value> memcpy_function (new ::lambda_p_llvm::fo_value (memcpy.memcpy));
+	::boost::shared_ptr < ::lambda_p_llvm::fo_value> malloc_function (new ::lambda_p_llvm::fo_value (malloc.malloc));
 	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::literal_value> abort_function (new ::lambda_p_llvm::literal_value (abort.abort));
+	::boost::shared_ptr < ::lambda_p_llvm::fo_value> abort_function (new ::lambda_p_llvm::fo_value (abort.abort));
 	::boost::shared_ptr < ::lambda_p::binder::routine_binder> binder_function (new ::lambda_p::binder::routine_binder);
 	::boost::shared_ptr < ::lambda_p::binder::routine_instances_binder> instances_binder (new ::lambda_p::binder::routine_instances_binder);
 	::boost::shared_ptr < ::lambda_p_repl::file_routine> file_binder (new ::lambda_p_repl::file_routine);

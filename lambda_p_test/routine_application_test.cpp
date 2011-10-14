@@ -5,7 +5,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/routine_from_stream.h>
 #include <lambda_p_llvm/generator.h>
 #include <lambda_p/binder/routine.h>
@@ -69,7 +69,7 @@ void lambda_p_test::routine_application_test::run_2 ()
 	instances [0] = generator;
 	::boost::shared_ptr < ::lambda_p::binder::routine> routine_value (new ::lambda_p::binder::routine (::boost::shared_ptr < ::lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
 	instances [1] = routine_value;
-	::boost::shared_ptr < ::lambda_p_llvm::literal_value> fma_value (new ::lambda_p_llvm::literal_value (fma));
+	::boost::shared_ptr < ::lambda_p_llvm::fo_value> fma_value (new ::lambda_p_llvm::fo_value (fma));
 	instances [2] = fma_value;
 	::boost::shared_ptr < ::lambda_p_llvm::type> type_value (new ::lambda_p_llvm::type (::llvm::Type::getDoubleTy (llvm_context)));
 	instances [3] = type_value;

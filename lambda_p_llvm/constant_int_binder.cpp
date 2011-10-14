@@ -4,7 +4,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
@@ -79,7 +79,7 @@ void lambda_p_llvm::constant_int_binder::parse_number (unsigned long base, unsig
 	}
 	else
 	{
-		::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::literal_value (::llvm::ConstantInt::get (::llvm::IntegerType::get (context.context, bits), number)));
+		::boost::shared_ptr < ::lambda_p_llvm::value> value (new ::lambda_p_llvm::fo_value (::llvm::ConstantInt::get (::llvm::IntegerType::get (context.context, bits), number)));
 		instances [declaration_node] = value;
 	}
 }

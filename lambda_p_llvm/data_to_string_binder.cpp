@@ -5,7 +5,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_llvm/literal_value.h>
+#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
@@ -37,7 +37,7 @@ void lambda_p_llvm::data_to_string_binder::bind (::lambda_p::core::statement * s
 		if (data.get () != NULL)
 		{
 			::lambda_p_llvm::constant_wstring string (context, data->string ());                        
-			::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (string.value));
+			::boost::shared_ptr < ::lambda_p_llvm::fo_value> value (new ::lambda_p_llvm::fo_value (string.value));
 			instances [statement->association->results [0]] = value;
 		}
 		else
