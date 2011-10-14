@@ -12,7 +12,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class routine_instances;
-		class node_instance;
+		class instance;
 	}
 	namespace errors
 	{

@@ -82,6 +82,6 @@ void lambda_p_test::routine_application_test::run_2 ()
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	procedure (problems);
 	assert (problems.size () == 0);
-	::boost::shared_ptr < ::lambda_p::binder::node_instance> final (instances [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
+	::boost::shared_ptr < ::lambda_p::binder::instance> final (instances [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
 	assert (final.get () != NULL);
 }

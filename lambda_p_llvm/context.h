@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p/binder/node_instance.h>
+#include <lambda_p/binder/instance.h>
 
 #include <llvm/LLVMContext.h>
 
 namespace lambda_p_llvm
 {
-	class context : public ::lambda_p::binder::node_instance
+	class context : public ::lambda_p::binder::instance
 	{
 	public:
 		context (void);

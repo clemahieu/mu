@@ -14,7 +14,7 @@ lambda_p_repl::routine_input_binder::~routine_input_binder(void)
 {
 }
 
-void lambda_p_repl::routine_input_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::node_instance> > & instances, ::std::wstringstream & problems)
+void lambda_p_repl::routine_input_binder::bind (::lambda_p::core::statement * statement, ::std::map < size_t, ::boost::shared_ptr < ::lambda_p::binder::instance> > & instances, ::std::wstringstream & problems)
 {
 	//size_t argument_count (statement->arguments.size ());
 	//if (argument_count == 2)

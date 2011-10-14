@@ -16,7 +16,7 @@ void lambda_p::binder::null_binder::bind (::lambda_p::core::statement * statemen
 {
 	for (::std::vector < size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i)
 	{
-		instances [*i] = ::boost::shared_ptr < ::lambda_p::binder::node_instance> (new ::lambda_p::binder::null_binder);
+		instances [*i] = ::boost::shared_ptr < ::lambda_p::binder::instance> (new ::lambda_p::binder::null_binder);
 	}
 }
 

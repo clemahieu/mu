@@ -66,7 +66,7 @@ void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boo
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
 	assert (statement_l->target < routine->nodes);
-	::boost::shared_ptr < ::lambda_p::binder::node_instance> binder_l;
+	::boost::shared_ptr < ::lambda_p::binder::instance> binder_l;
 	copy_declaration_binder (binder_l, statement_l->target);
 	if (binder_l.get () != NULL)
 	{
@@ -95,7 +95,7 @@ void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boo
 	}
 }
 
-void lambda_p::binder::bind_procedure::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::node_instance> & binder, size_t node)
+void lambda_p::binder::bind_procedure::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::instance> & binder, size_t node)
 {
 	size_t declaration (node);
 	if (declaration < routine->instances.instances.size ())

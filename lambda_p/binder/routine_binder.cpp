@@ -31,7 +31,7 @@ void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * state
 				if (parameters == binders)
 				{
 					size_t position (0);
-					for (::std::vector < ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator i = instances_l->instances.begin (); i != instances_l->instances.end (); ++i, ++position)
+					for (::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator i = instances_l->instances.begin (); i != instances_l->instances.end (); ++i, ++position)
 					{
 						if (i->get () != NULL)
 						{

@@ -8,13 +8,13 @@
 
 #pragma once
 
-#include <lambda_p/binder/node_instance.h>
+#include <lambda_p/binder/instance.h>
 
 #include <llvm/Value.h>
 
 namespace lambda_p_llvm
 {
-    class value : public ::lambda_p::binder::node_instance
+    class value : public ::lambda_p::binder::instance
     {
     public:  
         virtual ::llvm::Value * operator () () = 0;

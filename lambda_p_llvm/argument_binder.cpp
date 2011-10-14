@@ -12,7 +12,7 @@ void lambda_p_llvm::argument_binder::apply (::std::vector < ::llvm::Value *> & a
 {
 	while (argument != argument_end && parameter != parameter_end)
 	{
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> value_instance (instances [*argument]);
+		::boost::shared_ptr < ::lambda_p::binder::instance> value_instance (instances [*argument]);
 		::boost::shared_ptr < ::lambda_p_llvm::value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (value_instance));
 		if (value.get () != NULL)
 		{

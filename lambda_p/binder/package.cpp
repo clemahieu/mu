@@ -30,8 +30,8 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 		for (::std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
 		{
 			size_t parameter (*i);
-			::boost::shared_ptr < ::lambda_p::binder::node_instance> node_instance (instances [parameter]);
-			::boost::shared_ptr < ::lambda_p::binder::data> node_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (node_instance));
+			::boost::shared_ptr < ::lambda_p::binder::instance> instance (instances [parameter]);
+			::boost::shared_ptr < ::lambda_p::binder::data> node_data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instance));
 			if (node_data.get () != NULL)
 			{
 				parse_one (instances, node_data, statement->association->results [current_argument], problems);
@@ -61,7 +61,7 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 
 void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	::boost::shared_ptr < ::lambda_p::binder::node_instance> current_node (shared_from_this ());
+	::boost::shared_ptr < ::lambda_p::binder::instance> current_node (shared_from_this ());
 	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());
 	::std::wstring string (node->string ());
 	::boost::char_separator <wchar_t> separator (L".");
@@ -72,7 +72,7 @@ void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances
 		if (current_package.get () != NULL)
 		{
 			current_string = *i;
-			::std::map < ::std::wstring, ::boost::shared_ptr < ::lambda_p::binder::node_instance> >::iterator target = current_package->nodes.find (current_string);
+			::std::map < ::std::wstring, ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator target = current_package->nodes.find (current_string);
 			if (target != current_package->nodes.end ())
 			{
 				current_node = target->second;

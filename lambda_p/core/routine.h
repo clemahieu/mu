@@ -20,7 +20,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class node_instance;
+		class instance;
 		class bind_procedure;
 		class data;
 	}

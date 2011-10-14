@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_instance.h>
+#include <lambda_p/binder/instance.h>
 #include <lambda_p/errors/error.h>
 
 #include <boost/shared_ptr.hpp>
@@ -18,7 +18,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class routine_instances;
-		class node_binder : virtual public node_instance
+		class node_binder : virtual public instance
 		{
 		public:
 			node_binder(void);

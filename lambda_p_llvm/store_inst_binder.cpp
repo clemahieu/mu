@@ -35,11 +35,11 @@ void lambda_p_llvm::store_inst_binder::bind (::lambda_p::core::statement * state
 	{
 		size_t destination_node (statement->association->parameters [0]);
 		size_t source_node (statement->association->parameters [1]);
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> source_instance (instances [source_node]);
+		::boost::shared_ptr < ::lambda_p::binder::instance> source_instance (instances [source_node]);
 		::boost::shared_ptr < ::lambda_p_llvm::value> source (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (source_instance));
 		if (source.get () != NULL)
 		{
-			::boost::shared_ptr < ::lambda_p::binder::node_instance> destination_instance (instances [destination_node]);
+			::boost::shared_ptr < ::lambda_p::binder::instance> destination_instance (instances [destination_node]);
 			::boost::shared_ptr < ::lambda_p_llvm::value> destination (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (destination_instance));
 			if (destination.get () != NULL)
 			{

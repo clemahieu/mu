@@ -49,7 +49,7 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 						::lambda_p_llvm::generation_context context_l (context.context, context.module, block);
 						for (; i != statement->association->parameters.end (); ++i, ++position)
 						{
-							::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (instances [*i]);
+							::boost::shared_ptr < ::lambda_p::binder::instance> instance (instances [*i]);
 							::boost::shared_ptr < ::lambda_p_llvm::type> type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instance));
 							if (type.get () != NULL)
 							{

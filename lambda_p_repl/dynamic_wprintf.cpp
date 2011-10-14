@@ -35,7 +35,7 @@ void lambda_p_repl::dynamic_wprintf::bind (::lambda_p::core::statement * stateme
 	arguments.push_back (NULL); // Filled with format string after other arguments are computed
 	for (size_t i = 0; i < parameter_count; ++i)
 	{
-		::boost::shared_ptr < ::lambda_p::binder::node_instance> instance (instances [statement->association->parameters [i]]);
+		::boost::shared_ptr < ::lambda_p::binder::instance> instance (instances [statement->association->parameters [i]]);
 		::boost::shared_ptr < ::lambda_p_llvm::value> argument_value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instance));
 		if (argument_value.get () != NULL)
 		{

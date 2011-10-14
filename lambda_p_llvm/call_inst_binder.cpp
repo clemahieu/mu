@@ -24,7 +24,7 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 	{
 		if (i != statement->association->parameters.end ())
 		{
-			::boost::shared_ptr < ::lambda_p::binder::node_instance> function_instance (instances [*i]);
+			::boost::shared_ptr < ::lambda_p::binder::instance> function_instance (instances [*i]);
 			::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::literal_value> (function_instance));
 			++i;
 			if (value.get () != NULL)
