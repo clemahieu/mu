@@ -1,13 +1,13 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace lambda_p
 {
 	namespace binder
 	{
 		class routine_instances;
-		class null_binder : public node_binder
+		class null_binder : public binder
 		{
 		public:
 			null_binder(void);

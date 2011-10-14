@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace llvm
 {
@@ -14,7 +14,7 @@ namespace lambda_p_llvm
 namespace lambda_p_repl
 {
 	class repl_quit;
-	class repl_quit_binder : public ::lambda_p::binder::node_binder
+	class repl_quit_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		repl_quit_binder (::lambda_p_llvm::generation_context & context_a, ::llvm::Function * quit_function_a, ::llvm::Value * quit_object_a);

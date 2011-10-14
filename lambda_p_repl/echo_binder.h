@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 #include <lambda_p_llvm/generation_context.h>
 
 namespace llvm
@@ -14,7 +14,7 @@ namespace lambda_p_llvm
 }
 namespace lambda_p_repl
 {
-	class echo_binder : public ::lambda_p::binder::node_binder
+	class echo_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		echo_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a);

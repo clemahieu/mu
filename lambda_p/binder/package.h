@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 #include <boost/enable_shared_from_this.hpp>
 
@@ -10,7 +10,7 @@ namespace lambda_p
     {        
 		class data;
 		class routine_instances;
-        class package : public ::lambda_p::binder::node_binder, public ::boost::enable_shared_from_this < ::lambda_p::binder::package>
+        class package : public ::lambda_p::binder::binder, public ::boost::enable_shared_from_this < ::lambda_p::binder::package>
         {
         public:
             package (void);

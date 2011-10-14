@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace llvm
 {
@@ -9,7 +9,7 @@ namespace llvm
 namespace lambda_p_llvm
 {
 	class generation_context;
-	class function_binder : public ::lambda_p::binder::node_binder
+	class function_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		function_binder (::lambda_p_llvm::generation_context & context_a, ::llvm::Function * function_a);

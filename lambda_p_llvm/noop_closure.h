@@ -3,7 +3,7 @@
 #include <vector>
 
 #include <lambda_p_llvm/so_value.h>
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace llvm
 {

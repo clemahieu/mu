@@ -1,11 +1,11 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace lambda_p_llvm
 {
 	class generation_context;
-	class noop_closure_binder : public ::lambda_p::binder::node_binder
+	class noop_closure_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		noop_closure_binder (::lambda_p_llvm::generation_context & context_a);

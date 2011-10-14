@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace lambda_p
 {
@@ -13,7 +13,7 @@ namespace lambda_p_llvm
 {
 	class generation_context;
 	class routine_instance;
-	class call_inst_binder : public ::lambda_p::binder::node_binder
+	class call_inst_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		call_inst_binder (::lambda_p_llvm::generation_context & context_a);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace llvm
 {
@@ -12,7 +12,7 @@ namespace lambda_p_llvm
 }
 namespace lambda_p_repl
 {
-	class dynamic_wprintf : public ::lambda_p::binder::node_binder
+	class dynamic_wprintf : public ::lambda_p::binder::binder
 	{
 	public:
 		dynamic_wprintf (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context & context_a);

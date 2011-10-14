@@ -1,7 +1,7 @@
 #include "bind_procedure.h"
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unresolved_statement.h>
@@ -35,7 +35,7 @@ void lambda_p::binder::bind_procedure::operator () (::std::vector < ::boost::sha
 
 void lambda_p::binder::bind_procedure::bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {	
-	::boost::shared_ptr < ::lambda_p::binder::node_binder> binder;
+	::boost::shared_ptr < ::lambda_p::binder::binder> binder;
 	populate_unbound (statement, binder, problems);
 	if (binder.get () != NULL)
 	{
@@ -62,7 +62,7 @@ void error_message (::std::wostream & stream)
 {
 }
 
-void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::node_binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
 	assert (statement_l->target < routine->nodes);
@@ -70,7 +70,7 @@ void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boo
 	copy_declaration_binder (binder_l, statement_l->target);
 	if (binder_l.get () != NULL)
 	{
-		binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::node_binder> (binder_l);
+		binder = ::boost::dynamic_pointer_cast < ::lambda_p::binder::binder> (binder_l);
 		if (binder.get () != NULL)
 		{
 			for (::std::vector < size_t>::iterator i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)

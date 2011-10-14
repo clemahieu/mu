@@ -25,9 +25,6 @@
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="binder\node_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\begin.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -185,6 +182,9 @@
     <ClInclude Include="binder\instance.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -207,9 +207,6 @@
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
       <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\node_binder.cpp">
-      <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="lexer\begin.cpp">
       <Filter>lexer</Filter>
@@ -366,6 +363,9 @@
     </ClCompile>
     <ClCompile Include="routine_from_stream.cpp" />
     <ClCompile Include="binder\instance.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

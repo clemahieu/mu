@@ -56,7 +56,7 @@ void lambda_p_test::bind_procedure_test_1::run_3 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
-	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::binder> (new ::lambda_p::binder::null_binder);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (problems.empty ());
@@ -72,7 +72,7 @@ void lambda_p_test::bind_procedure_test_1::run_4 ()
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	statement->association->parameters.push_back (declaration2);
 	::lambda_p::binder::bind_procedure bind_procedure (routine);
-	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::binder> (new ::lambda_p::binder::null_binder);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (!problems.empty ());
@@ -87,7 +87,7 @@ void lambda_p_test::bind_procedure_test_1::run_5 ()
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	statement->association->parameters.push_back (routine->add_data (::std::wstring ()));
 	::lambda_p::binder::bind_procedure bind_procedure (routine);
-	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::binder> (new ::lambda_p::binder::null_binder);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (problems.empty ());
@@ -100,7 +100,7 @@ void lambda_p_test::bind_procedure_test_1::run_6 ()
 	routine->surface->results.push_back (declaration);
 	::lambda_p::core::statement * statement (routine->add_statement (declaration));
 	::lambda_p::binder::bind_procedure bind_procedure (routine);
-	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::binder> (new ::lambda_p::binder::null_binder);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (problems.empty ());
@@ -119,7 +119,7 @@ void lambda_p_test::bind_procedure_test_1::run_7 ()
 	size_t r (d2);
 	statement->association->parameters.push_back (r);
 	::lambda_p::binder::bind_procedure bind_procedure (routine);
-	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::node_binder> (new ::lambda_p::binder::null_binder);
+	bind_procedure.routine->instances [declaration] = ::boost::shared_ptr < ::lambda_p::binder::binder> (new ::lambda_p::binder::null_binder);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (problems.empty ());

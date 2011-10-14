@@ -1,10 +1,10 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace lambda_p_repl
 {
-	class routine_input_binder : public ::lambda_p::binder::node_binder
+	class routine_input_binder : public ::lambda_p::binder::binder
 	{
 	public:
 		routine_input_binder (void);

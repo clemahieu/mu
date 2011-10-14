@@ -1,11 +1,11 @@
 #pragma once
 
-#include <lambda_p/binder/node_binder.h>
+#include <lambda_p/binder/binder.h>
 
 namespace lambda_p_llvm
 {
 	class generation_context;
-	class generator : public ::lambda_p::binder::node_binder
+	class generator : public ::lambda_p::binder::binder
 	{
 	public:
 		generator (::lambda_p_llvm::generation_context & context_a);

@@ -18,11 +18,11 @@ namespace lambda_p
 	namespace binder
 	{
 		class routine_instances;
-		class node_binder : virtual public instance
+		class binder : virtual public instance
 		{
 		public:
-			node_binder(void);
-			~node_binder(void);
+			binder(void);
+			~binder(void);
 			virtual void bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems) = 0;
 			virtual ::std::wstring binder_name () = 0;
 		protected:
