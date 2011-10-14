@@ -184,6 +184,7 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
+    <ClInclude Include="routine_from_stream.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -366,6 +367,7 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
+    <ClCompile Include="routine_from_stream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

@@ -25,9 +25,11 @@
     <ClInclude Include="literal_value.h" />
     <ClInclude Include="noop_closure_binder.h" />
     <ClInclude Include="noop_closure.h" />
-    <ClInclude Include="function.h" />
-    <ClInclude Include="closed_function.h" />
     <ClInclude Include="call_binder.h" />
+    <ClInclude Include="routine_application.h" />
+    <ClInclude Include="so_value.h" />
+    <ClInclude Include="generator.h" />
+    <ClInclude Include="function_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -54,8 +56,10 @@
     <ClCompile Include="literal_value.cpp" />
     <ClCompile Include="noop_closure_binder.cpp" />
     <ClCompile Include="noop_closure.cpp" />
-    <ClCompile Include="function.cpp" />
-    <ClCompile Include="closed_function.cpp" />
     <ClCompile Include="call_binder.cpp" />
+    <ClCompile Include="routine_application.cpp" />
+    <ClCompile Include="so_value.cpp" />
+    <ClCompile Include="generator.cpp" />
+    <ClCompile Include="function_binder.cpp" />
   </ItemGroup>
 </Project>

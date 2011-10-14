@@ -32,7 +32,6 @@
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/value.h>
-#include <lambda_p_llvm/function.h>
 #include <lambda_p_llvm/while_call_binder.h>
 #include <lambda_p_repl/abort_function.h>
 #include <lambda_p/binder/single_bind_routine.h>

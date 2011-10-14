@@ -3,7 +3,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_llvm/closed_function.h>
+#include <lambda_p_llvm/so_value.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/argument_binder.h>
@@ -24,11 +24,11 @@ void lambda_p_llvm::while_call_binder::bind (::lambda_p::core::statement * state
 	if (problems.empty ())
 	{
 		::std::vector < size_t>::iterator argument (statement->association->parameters.begin ());		
-		::boost::shared_ptr < ::lambda_p_llvm::closed_function> condition (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
+		::boost::shared_ptr < ::lambda_p_llvm::so_value> condition (::boost::dynamic_pointer_cast < ::lambda_p_llvm::so_value> (instances [*argument]));
 		++argument;
 		if (condition.get () != NULL)
 		{
-			::boost::shared_ptr < ::lambda_p_llvm::closed_function> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::closed_function> (instances [*argument]));
+			::boost::shared_ptr < ::lambda_p_llvm::so_value> function_l (::boost::dynamic_pointer_cast < ::lambda_p_llvm::so_value> (instances [*argument]));
 			++argument;
 			if (function_l.get () != NULL)
 			{

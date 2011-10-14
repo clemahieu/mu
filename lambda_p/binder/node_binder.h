@@ -18,7 +18,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class routine_instances;
-		class node_binder : public node_instance
+		class node_binder : virtual public node_instance
 		{
 		public:
 			node_binder(void);

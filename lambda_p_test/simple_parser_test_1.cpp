@@ -40,6 +40,7 @@ void lambda_p_test::simple_parser_test_1::run ()
 	run_10 ();
 	run_11 ();
 	run_12 ();
+	run_13 ();
 }
 
 void lambda_p_test::simple_parser_test_1::run_1 ()
@@ -343,4 +344,29 @@ void lambda_p_test::simple_parser_test_1::run_12 ()
 	parser (&t7);
 	parser (&t8);
 	assert (parser.error ());
+}
+
+void lambda_p_test::simple_parser_test_1::run_13 ()
+{
+	::lambda_p::parser::routine_vector routines;
+	::lambda_p::parser::simple_parser parser (routines);
+	::lambda_p::tokens::identifier t1 (::std::wstring (L"e"));
+	::lambda_p::tokens::connector t2;
+	::lambda_p::tokens::identifier t3 (::std::wstring (L"c"));
+	::lambda_p::tokens::statement_end t4;
+	::lambda_p::tokens::identifier t5 (::std::wstring (L"e"));
+	::lambda_p::tokens::identifier t6 (::std::wstring (L"c"));
+	::lambda_p::tokens::connector t7;
+	::lambda_p::tokens::statement_end t8;
+	::lambda_p::tokens::routine_end t9;
+	parser (&t1);
+	parser (&t2);
+	parser (&t3);
+	parser (&t4);
+	parser (&t5);
+	parser (&t6);
+	parser (&t7);
+	parser (&t8);
+	parser (&t9);
+	assert (!parser.error ());
 }

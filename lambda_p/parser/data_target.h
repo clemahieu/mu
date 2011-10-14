@@ -7,7 +7,7 @@ namespace lambda_p
 		class data_target
 		{
 		public:
-			virtual void sink_data (size_t data) = 0;
+			virtual void sink_data (size_t * & data) = 0;
 		};
 	}
 }
