@@ -38,7 +38,7 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 				::boost::shared_ptr < ::lambda_p_llvm::type> return_type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instances [*i]));
 				if (return_type.get () != NULL)
 				{
-					if (routine->routine_m->surface->parameters.size () == statement->association->parameters.size () - 2)
+					if (routine->routine_m->surface->results.size () == statement->association->parameters.size () - 2)
 					{
 						++i;
 						::std::vector < size_t> open_positions;
@@ -63,11 +63,11 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 									::llvm::Function * function (::llvm::dyn_cast < ::llvm::Function> (value->value));
 									if (function != NULL)
 									{
-										routine->routine_m->instances [position - 2] = value;
+										routine->routine_m->instances [position - 2] = ::boost::shared_ptr < ::lambda_p_llvm::function_binder> (new ::lambda_p_llvm::function_binder (context_l, function));
 									}
 									else
 									{
-										routine->routine_m->instances [position - 2] = ::boost::shared_ptr < ::lambda_p_llvm::function_binder> (new ::lambda_p_llvm::function_binder (context_l, function));
+										routine->routine_m->instances [position - 2] = value;
 									}
 								}
 								else
