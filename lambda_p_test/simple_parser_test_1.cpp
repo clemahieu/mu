@@ -2,7 +2,6 @@
 
 #include <lambda_p/parser/simple_parser.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/parser/parse_result.h>
 #include <lambda_p/parser/routine_vector.h>
 #include <lambda_p/lexer/token_vector.h>
 #include <lambda_p/tokens/identifier.h>

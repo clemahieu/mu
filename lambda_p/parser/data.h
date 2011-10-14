@@ -2,6 +2,8 @@
 
 #include <lambda_p/parser/state.h>
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p
 {
 	namespace parser

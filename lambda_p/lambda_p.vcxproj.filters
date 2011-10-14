@@ -64,9 +64,6 @@
     <ClInclude Include="parser\error.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\parse_result.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\routine.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -80,12 +77,6 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\statement.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\reference_identifiers.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\production_target.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="binder\null_binder.h">
@@ -247,9 +238,6 @@
     <ClCompile Include="parser\error.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\parse_result.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\routine.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -263,12 +251,6 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\statement.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\reference_identifiers.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\production_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="binder\null_binder.cpp">

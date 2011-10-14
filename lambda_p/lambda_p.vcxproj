@@ -173,9 +173,6 @@
     <ClInclude Include="parser\data_target.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\finished.h" />
-    <ClInclude Include="parser\parse_result.h" />
-    <ClInclude Include="parser\production_target.h" />
-    <ClInclude Include="parser\reference_identifiers.h" />
     <ClInclude Include="parser\routine.h" />
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
@@ -238,9 +235,6 @@
     <ClCompile Include="parser\data_target.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\finished.cpp" />
-    <ClCompile Include="parser\parse_result.cpp" />
-    <ClCompile Include="parser\production_target.cpp" />
-    <ClCompile Include="parser\reference_identifiers.cpp" />
     <ClCompile Include="parser\routine.cpp" />
     <ClCompile Include="parser\routine_vector.cpp" />
     <ClCompile Include="parser\simple_parser.cpp" />
