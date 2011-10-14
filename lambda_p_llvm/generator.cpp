@@ -15,6 +15,7 @@
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
 #include <llvm/Module.h>
+#include <llvm/Instructions.h>
 
 #include <sstream>
 
@@ -90,9 +91,19 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 							procedure (problems);
 							if (problems.empty ())
 							{
-								context.module->getFunctionList ().push_back (function);
-								::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (function));
-								instances [statement->association->results [0]] = value;
+								::boost::shared_ptr < ::lambda_p_llvm::literal_value> return_value (::boost::dynamic_pointer_cast < ::lambda_p_llvm::literal_value> (routine->routine_m->instances [routine->routine_m->surface->parameters [0]]));
+								if (return_value.get () != NULL)
+								{
+									::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context_l.context, return_value->value));
+									context_l.block->getInstList ().push_back (ret);
+									context.module->getFunctionList ().push_back (function);
+									::boost::shared_ptr < ::lambda_p_llvm::literal_value> value (new ::lambda_p_llvm::literal_value (function));
+									instances [statement->association->results [0]] = value;
+								}
+								else
+								{
+									add_error (::std::wstring (L"result value is not an llvm value"), problems);
+								}
 							}
 						}
 					}
