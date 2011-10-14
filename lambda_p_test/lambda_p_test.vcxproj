@@ -146,6 +146,7 @@
     <ClCompile Include="constant_int_binder_test_1.cpp" />
     <ClCompile Include="data_to_string_binder_test_1.cpp" />
     <ClCompile Include="echo_binder_test.cpp" />
+    <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
     <ClCompile Include="node_instances_test_1.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="constant_int_binder_test_1.h" />
     <ClInclude Include="data_to_string_binder_test_1.h" />
     <ClInclude Include="echo_binder_test.h" />
+    <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="jit_test_1.h" />
     <ClInclude Include="node_instances_test_1.h" />
     <ClInclude Include="noop_closure_test.h" />
