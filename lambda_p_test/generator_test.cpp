@@ -1,7 +1,6 @@
-#include "routine_application_test.h"
+#include "generator_test.h"
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p_llvm/routine_application.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
@@ -21,31 +20,12 @@
 #include <llvm/Instructions.h>
 #include <llvm/Operator.h>
 
-void lambda_p_test::routine_application_test::run ()
+void lambda_p_test::generator_test::run ()
 {
 	run_1 ();
-	run_2 ();
 }
 
-void lambda_p_test::routine_application_test::run_1 ()
-{
-	::lambda_p::core::routine routine;
-	::lambda_p_llvm::routine_application application (&routine);
-	::llvm::LLVMContext llvm_context;
-	::llvm::StringRef name ("test");
-	::llvm::Module * module (new ::llvm::Module (name, llvm_context));
-	::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
-	module->getFunctionList ().push_back (start);
-	::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
-	start->getBasicBlockList ().push_back (block);
-	::lambda_p_llvm::generation_context context (llvm_context, module, block);
-	::std::vector < ::lambda_p::errors::error *> problems;
-	::llvm::Function * function (application.generate (context, ::std::vector < ::llvm::Type const *> (), ::std::vector < ::llvm::Type const *> (), problems));
-	assert (problems.size () == 0);
-	assert (function != NULL);
-}
-
-void lambda_p_test::routine_application_test::run_2 ()
+void lambda_p_test::generator_test::run_1 ()
 {
 	::lambda_p::routine_builder routine;
 	routine (L"fma a b c d e = result; fma res = a b c; fma result = res d e; #;");

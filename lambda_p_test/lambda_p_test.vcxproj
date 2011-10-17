@@ -151,7 +151,7 @@
     <ClCompile Include="node_instances_test_1.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="package_test_1.cpp" />
-    <ClCompile Include="routine_application_test.cpp" />
+    <ClCompile Include="generator_test.cpp" />
     <ClCompile Include="routine_binder_test.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
     <ClCompile Include="routine_input_test_1.cpp" />
@@ -174,7 +174,7 @@
     <ClInclude Include="node_instances_test_1.h" />
     <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="package_test_1.h" />
-    <ClInclude Include="routine_application_test.h" />
+    <ClInclude Include="generator_test.h" />
     <ClInclude Include="routine_binder_test.h" />
     <ClInclude Include="routine_builder_test.h" />
     <ClInclude Include="routine_input_test_1.h" />

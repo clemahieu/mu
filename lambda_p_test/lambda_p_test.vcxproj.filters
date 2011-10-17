@@ -18,10 +18,10 @@
     <ClCompile Include="routine_binder_test.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
-    <ClCompile Include="routine_application_test.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
     <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="list_test.cpp" />
+    <ClCompile Include="generator_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -40,9 +40,9 @@
     <ClInclude Include="routine_binder_test.h" />
     <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="unbindable_statement_test.h" />
-    <ClInclude Include="routine_application_test.h" />
     <ClInclude Include="routine_builder_test.h" />
     <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="list_test.h" />
+    <ClInclude Include="generator_test.h" />
   </ItemGroup>
 </Project>
