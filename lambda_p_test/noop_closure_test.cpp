@@ -11,6 +11,8 @@
 #include <lambda_p/binder/single_bind_routine.h>
 #include <lambda_p/binder/routine.h>
 #include <lambda_p_llvm/call_binder.h>
+#include <lambda_p/binder/list_binder.h>
+#include <lambda_p/routine_builder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -59,23 +61,15 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> binder (new ::lambda_p_llvm::noop_closure_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> function (new ::lambda_p_llvm::fo_value (target));
 	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call (new ::lambda_p_llvm::call_binder);
-	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
-	size_t binder_declaration (routine->add_declaration ());
-	size_t function_declaration (routine->add_declaration ());
-	size_t call_declaration (routine->add_declaration ());
-	routine->surface->results.push_back (binder_declaration);
-	routine->surface->results.push_back (function_declaration);
-	routine->surface->results.push_back (call_declaration);
-	::lambda_p::core::statement * statement (routine->add_statement (binder_declaration));
-	size_t closure (routine->add_declaration ());
-	statement->association->results.push_back (closure);
-	statement->association->parameters.push_back (function_declaration);
-	::lambda_p::core::statement * execution (routine->add_statement (call_declaration));
-	execution->association->parameters.push_back (closure);
+	::boost::shared_ptr < ::lambda_p::binder::list_binder> list (new ::lambda_p::binder::list_binder);
+	::lambda_p::routine_builder builder;
+	builder (L"binder function call list = ; list args = ; binder closure = function args; call = closure; #;");
+	::boost::shared_ptr < ::lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
 	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
-	instances->operator[] (binder_declaration) = binder;
-	instances->operator[] (function_declaration) = function;
-	instances->operator[] (call_declaration) = call;
+	instances->operator[] (routine->surface->results [0]) = binder;
+	instances->operator[] (routine->surface->results [1]) = function;
+	instances->operator[] (routine->surface->results [2]) = call;
+	instances->operator[] (routine->surface->results [3]) = list;
 	::boost::shared_ptr < ::lambda_p::binder::routine> routine_instance (new ::lambda_p::binder::routine (routine));
 	::lambda_p::binder::single_bind_routine bind_action (routine_instance, instances);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
