@@ -157,6 +157,7 @@
     <ClCompile Include="routine_input_test_1.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="bind_procedure_test_1.cpp" />
+    <ClCompile Include="list_test.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="simple_lexer_test_1.cpp" />
     <ClCompile Include="simple_parser_test_1.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="routine_builder_test.h" />
     <ClInclude Include="routine_input_test_1.h" />
     <ClInclude Include="bind_procedure_test_1.h" />
+    <ClInclude Include="list_test.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="simple_lexer_test_1.h" />
     <ClInclude Include="simple_parser_test_1.h" />

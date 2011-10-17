@@ -17,6 +17,7 @@
 #include <lambda_p_test/routine_application_test.h>
 #include <lambda_p_test/routine_builder_test.h>
 #include <lambda_p_test/function_binder_test.h>
+#include <lambda_p_test/list_test.h>
 
 using namespace lambda_p_test;
 
@@ -92,6 +93,10 @@ int main ()
 	}
 	{
 		routine_builder_test test;
+		test.run ();
+	}
+	{
+		list_test test;
 		test.run ();
 	}
 	{

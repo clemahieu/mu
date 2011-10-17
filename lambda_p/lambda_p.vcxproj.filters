@@ -176,7 +176,10 @@
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="routine_builder.h" />
-    <ClInclude Include="binder\group.h">
+    <ClInclude Include="binder\list.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\list_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -353,7 +356,10 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="routine_builder.cpp" />
-    <ClCompile Include="binder\group.cpp">
+    <ClCompile Include="binder\list.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\list_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

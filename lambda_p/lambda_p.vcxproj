@@ -131,7 +131,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="binder\binder.h" />
-    <ClInclude Include="binder\group.h" />
+    <ClInclude Include="binder\list.h" />
+    <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\instance.h" />
     <ClInclude Include="binder\null_binder.h" />
     <ClInclude Include="binder\package.h" />
@@ -193,7 +194,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="binder\binder.cpp" />
-    <ClCompile Include="binder\group.cpp" />
+    <ClCompile Include="binder\list.cpp" />
+    <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\instance.cpp" />
     <ClCompile Include="binder\null_binder.cpp" />
     <ClCompile Include="binder\package.cpp" />

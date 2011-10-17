@@ -11,6 +11,7 @@
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/binder/bind_procedure.h>
+#include <lambda_p/binder/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -27,34 +28,33 @@ lambda_p_llvm::generator::generator (::lambda_p_llvm::generation_context & conte
 void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	size_t position;
-	if (statement->association->results.size () == 1)
+	check_count (1, 3, statement, problems);
+	if (problems.empty ())
 	{
-		if (statement->association->parameters.size () >= 2)
+		::boost::shared_ptr < ::lambda_p::binder::routine> routine (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine> (instances [statement->association->parameters [0]]));
+		if (routine.get () != NULL)
 		{
-			::std::vector < size_t>::iterator i = statement->association->parameters.begin ();
-			::boost::shared_ptr < ::lambda_p::binder::routine> routine (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine> (instances [*i]));
-			if (routine.get () != NULL)
+			::boost::shared_ptr < ::lambda_p_llvm::type> return_type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instances [statement->association->parameters [1]]));
+			if (return_type.get () != NULL)
 			{
-				++i;
-				::boost::shared_ptr < ::lambda_p_llvm::type> return_type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instances [*i]));
-				if (return_type.get () != NULL)
+				::boost::shared_ptr < ::lambda_p::binder::list> argument_list (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [2]]));
+				if (argument_list.get () != NULL)
 				{
-					if (routine->routine_m->surface->results.size () == statement->association->parameters.size () - 2)
+					if (argument_list->instances.size () == routine->routine_m->surface->results.size ())
 					{
-						++i;
 						::std::vector < size_t> open_positions;
 						::std::vector < ::llvm::Type const *> parameters;
-						position = 2;
+						position = 0;
 						::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
 						::lambda_p_llvm::generation_context context_l (context.context, context.module, block);
-						for (; i != statement->association->parameters.end (); ++i, ++position)
+						for (::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator i = argument_list->instances.begin (); i != argument_list->instances.end (); ++i, ++position)
 						{
-							::boost::shared_ptr < ::lambda_p::binder::instance> instance (instances [*i]);
+							::boost::shared_ptr < ::lambda_p::binder::instance> instance (*i);
 							::boost::shared_ptr < ::lambda_p_llvm::type> type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instance));
 							if (type.get () != NULL)
 							{
 								parameters.push_back (type->type_m);
-								open_positions.push_back (position - 2);
+								open_positions.push_back (position);
 							}
 							else
 							{
@@ -64,11 +64,11 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 									::llvm::Function * function (::llvm::dyn_cast < ::llvm::Function> (value->value));
 									if (function != NULL)
 									{
-										routine->routine_m->instances [position - 2] = ::boost::shared_ptr < ::lambda_p_llvm::function_binder> (new ::lambda_p_llvm::function_binder (context_l, function));
+										routine->routine_m->instances [position] = ::boost::shared_ptr < ::lambda_p_llvm::function_binder> (new ::lambda_p_llvm::function_binder (context_l, function));
 									}
 									else
 									{
-										routine->routine_m->instances [position - 2] = value;
+										routine->routine_m->instances [position] = value;
 									}
 								}
 								else
@@ -111,7 +111,7 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 					{
 						::std::wstringstream message;
 						message << L"Unexpected number of arguments, have: ";
-						message << statement->association->parameters.size () - 1;
+						message << argument_list->instances.size ();
 						message << L" expect: ";
 						message << routine->routine_m->surface->parameters.size ();
 						add_error (message.str (), problems);
@@ -119,22 +119,18 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 				}
 				else
 				{
-					unexpected_binder_type_error (2, ::std::wstring (L"type"), problems);
+					unexpected_binder_type_error (2, ::std::wstring (L"group"), problems);
 				}
 			}
 			else
 			{
-				unexpected_binder_type_error (0, ::std::wstring (L"routine"), problems);
+				unexpected_binder_type_error (1, ::std::wstring (L"type"), problems);
 			}
 		}
 		else
 		{
-			add_error (::std::wstring (L"expected 2 or more arguments"), problems);
+			unexpected_binder_type_error (0, ::std::wstring (L"routine"), problems);
 		}
-	}
-	else
-	{
-		add_error (::std::wstring (L"expecting 1 result"), problems);
 	}
 }
 
