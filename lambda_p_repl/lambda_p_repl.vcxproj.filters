@@ -20,6 +20,7 @@
     <ClCompile Include="data_stream_binder.cpp" />
     <ClCompile Include="file_stream_binder.cpp" />
     <ClCompile Include="file_stream.cpp" />
+    <ClCompile Include="exec_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -41,5 +42,6 @@
     <ClInclude Include="data_stream_binder.h" />
     <ClInclude Include="file_stream_binder.h" />
     <ClInclude Include="file_stream.h" />
+    <ClInclude Include="exec_binder.h" />
   </ItemGroup>
 </Project>

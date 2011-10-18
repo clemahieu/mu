@@ -26,42 +26,7 @@ void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * state
 			::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances_l (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine_instances> (instances [statement->association->parameters [1]]));
 			if (instances_l.get () != NULL)
 			{
-				size_t parameters (routine->routine_m->surface->results.size ());
-				size_t binders (instances_l->instances.size ());
-				if (parameters == binders)
-				{
-					size_t position (0);
-					for (::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator i = instances_l->instances.begin (); i != instances_l->instances.end (); ++i, ++position)
-					{
-						if (i->get () != NULL)
-						{
-							routine->routine_m->instances [position] = *i;
-						}
-						else
-						{
-							::std::wstringstream message;
-							message << L"argument for position: ";
-							message << position;
-							message << L" is not set";
-							add_error (message.str (), problems);
-						}
-					}
-					if (problems.empty ())
-					{
-						::lambda_p::binder::bind_procedure procedure (routine->routine_m);
-						procedure (problems);
-					}
-				}
-				else
-				{
-					::std::wstringstream message;
-					message << L"number of parameters in routine surface: ";
-					message << parameters;
-					message << L" doesn't match number of arguments: ";
-					message << binders;
-					add_error (message.str (), problems);
-
-				}
+				core (*routine.get (), *instances_l.get (), problems);
 			}
 			else
 			{
@@ -72,6 +37,46 @@ void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * state
 		{
 			unexpected_binder_type_error (0, ::std::wstring (L"routine"), problems);
 		}
+	}
+}
+
+void lambda_p::binder::routine_binder::core (::lambda_p::binder::routine & routine, ::lambda_p::binder::routine_instances & instances_l, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+{
+	size_t parameters (routine.routine_m->surface->results.size ());
+	size_t binders (instances_l.instances.size ());
+	if (parameters == binders)
+	{
+		size_t position (0);
+		for (::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator i = instances_l.instances.begin (); i != instances_l.instances.end (); ++i, ++position)
+		{
+			if (i->get () != NULL)
+			{
+				routine.routine_m->instances [position] = *i;
+			}
+			else
+			{
+				::std::wstringstream message;
+				message << L"argument for position: ";
+				message << position;
+				message << L" is not set";
+				add_error (message.str (), problems);
+			}
+		}
+		if (problems.empty ())
+		{
+			::lambda_p::binder::bind_procedure procedure (routine.routine_m);
+			procedure (problems);
+		}
+	}
+	else
+	{
+		::std::wstringstream message;
+		message << L"number of parameters in routine surface: ";
+		message << parameters;
+		message << L" doesn't match number of arguments: ";
+		message << binders;
+		add_error (message.str (), problems);
+
 	}
 }
 

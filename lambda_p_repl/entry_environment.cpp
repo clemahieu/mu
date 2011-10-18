@@ -48,6 +48,7 @@
 #include <lambda_p/binder/package_create.h>
 #include <lambda_p_repl/data_stream_binder.h>
 #include <lambda_p_repl/file_stream_binder.h>
+#include <lambda_p_repl/exec_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -182,7 +183,12 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	}
 	::boost::shared_ptr < ::lambda_p::binder::routine > routine (new ::lambda_p::binder::routine (routine_a));
 	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
-	(*instances) [0] = package;
+	instances->operator[] (0) = package;	
+	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*instances.get ()));
+	instances->operator[] (1) = exec_binder;
+	exec_binder->instances.operator[] (1) = exec_binder;
+	std::wstring exec_name (L"exec");
+	
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	::lambda_p::binder::single_bind_routine bind (routine, instances);
 	bind (problems);
