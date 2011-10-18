@@ -79,9 +79,6 @@
     <ClInclude Include="parser\statement.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="binder\null_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -121,9 +118,6 @@
     <ClInclude Include="parser\data_target.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="binder\package.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -139,25 +133,13 @@
     <ClInclude Include="errors\binder_string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\data.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="errors\unexpected_binder_type.h">
       <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine_instances.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine.h">
-      <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="errors\node_out_of_order.h">
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="binder\bind_procedure.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\single_bind_routine.h">
@@ -169,17 +151,44 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\instance.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="binder\binder.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="routine_builder.h" />
+    <ClInclude Include="binder\instance.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\routine_instances.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\data.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\identity.h">
+      <Filter>binder</Filter>
+    </ClInclude>
     <ClInclude Include="binder\list.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="binder\list_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\null_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\package.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\routine.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\routine_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\package_create.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\package_add.h">
       <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -259,9 +268,6 @@
     <ClCompile Include="parser\statement.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="binder\null_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -301,9 +307,6 @@
     <ClCompile Include="parser\data_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="binder\package.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -319,25 +322,13 @@
     <ClCompile Include="errors\binder_string_error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\data.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\unexpected_binder_type.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_instances.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine.cpp">
-      <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="errors\node_out_of_order.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="binder\bind_procedure.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\single_bind_routine.cpp">
@@ -349,17 +340,44 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\instance.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="binder\binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="routine_builder.cpp" />
+    <ClCompile Include="binder\instance.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\data.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\identity.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
     <ClCompile Include="binder\list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\list_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\null_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\package.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_binder.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_instances.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\package_create.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\package_add.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
@@ -382,11 +400,11 @@
     <Filter Include="parser">
       <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="errors">
-      <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
-    </Filter>
     <Filter Include="kernel">
       <UniqueIdentifier>{771543db-89d8-4a03-92a8-764d617bdabb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="errors">
+      <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

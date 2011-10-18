@@ -44,6 +44,9 @@
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
 #include <lambda_p/binder/list_binder.h>
+#include <lambda_p_llvm/struct_binder.h>
+#include <lambda_p/binder/package_add.h>
+#include <lambda_p/binder/package_create.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>
@@ -109,6 +112,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> noop_closure_binder (new ::lambda_p_llvm::noop_closure_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call_binder (new ::lambda_p_llvm::call_binder);
 	::boost::shared_ptr < ::lambda_p::binder::list_binder> list_binder (new ::lambda_p::binder::list_binder);
+	::boost::shared_ptr < ::lambda_p_llvm::struct_binder> struct_binder (new ::lambda_p_llvm::struct_binder (context));
+	::boost::shared_ptr < ::lambda_p::binder::package_add> package_add_binder (new ::lambda_p::binder::package_add);
+	::boost::shared_ptr < ::lambda_p::binder::package_create> package_create_binder (new ::lambda_p::binder::package_create);
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -127,6 +133,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring noop_closure_name (L"closen");
 	::std::wstring call_binder_name (L"call");
 	::std::wstring list_name (L"list");
+	::std::wstring struct_name (L"struct");
+	::std::wstring package_create_name (L"package_create");
+	::std::wstring package_add_name (L"package_add");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -144,6 +153,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [noop_closure_name] = noop_closure_binder;
 	package->nodes [call_binder_name] = call_binder;
 	package->nodes [list_name] = list_binder;
+	package->nodes [struct_name] = struct_binder;
+	package->nodes [package_create_name] = package_create_binder;
+	package->nodes [package_add_name] = package_add_binder;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;

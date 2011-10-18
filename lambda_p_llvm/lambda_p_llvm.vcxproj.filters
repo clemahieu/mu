@@ -29,6 +29,7 @@
     <ClInclude Include="generator.h" />
     <ClInclude Include="function_binder.h" />
     <ClInclude Include="fo_value.h" />
+    <ClInclude Include="struct_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -59,5 +60,6 @@
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="fo_value.cpp" />
+    <ClCompile Include="struct_binder.cpp" />
   </ItemGroup>
 </Project>
