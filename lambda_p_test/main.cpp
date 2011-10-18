@@ -18,6 +18,7 @@
 #include <lambda_p_test/routine_builder_test.h>
 #include <lambda_p_test/function_binder_test.h>
 #include <lambda_p_test/list_test.h>
+#include <lambda_p_test/wistream_input_test.h>
 
 using namespace lambda_p_test;
 
@@ -65,6 +66,10 @@ int main ()
     }
 	{
 		constant_int_binder_test_1 test;
+		test.run ();
+	}
+	{
+		wistream_input_test test;
 		test.run ();
 	}
 	{

@@ -116,6 +116,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p::binder::package_create> package_create_binder (new ::lambda_p::binder::package_create);
 	::boost::shared_ptr < ::lambda_p_repl::data_stream_binder> data_stream_binder (new ::lambda_p_repl::data_stream_binder);
 	::boost::shared_ptr < ::lambda_p_repl::routine_builder_binder> routine_builder_binder (new ::lambda_p_repl::routine_builder_binder);
+	::boost::shared_ptr < ::lambda_p::binder::routine_binder> routine_binder (new ::lambda_p::binder::routine_binder);
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
 	::std::wstring hello_name (L"hello");
@@ -138,6 +139,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::std::wstring package_add_name (L"package_add");
 	::std::wstring data_stream_name (L"data_stream");
 	::std::wstring routine_builder_binder_name (L"routine_builder");
+	::std::wstring routine_binder_name (L"routine_binder");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [d2s_name] = d2s_binder;
@@ -159,6 +161,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [package_add_name] = package_add_binder;
 	package->nodes [data_stream_name] = data_stream_binder;
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
+	package->nodes [routine_binder_name] = routine_binder;
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;

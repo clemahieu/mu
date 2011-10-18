@@ -22,6 +22,7 @@
     <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="list_test.cpp" />
     <ClCompile Include="generator_test.cpp" />
+    <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -44,5 +45,6 @@
     <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="list_test.h" />
     <ClInclude Include="generator_test.h" />
+    <ClInclude Include="wistream_input_test.h" />
   </ItemGroup>
 </Project>

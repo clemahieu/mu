@@ -17,10 +17,10 @@ lambda_p_repl::routine_input::~routine_input (void)
 void lambda_p_repl::routine_input::operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> input_stream)
 {	
 	wchar_t last_char (L' ');
-	while (routines.routines->empty () && last_char != '\uffff' && !lexer.error () && !parser.error ())
+	while (routines.routines->empty () && last_char != L'\uffff' && !lexer.error () && !parser.error ())
 	{
 		::std::wstring line;
-		while (last_char != '\uffff' && last_char != L'\n')
+		while (last_char != L'\uffff' && last_char != L'\n')
 		{
 			last_char = input_stream->operator() ();
 			line.push_back (last_char);
