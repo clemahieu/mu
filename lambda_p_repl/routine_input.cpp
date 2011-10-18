@@ -1,5 +1,7 @@
 #include "routine_input.h"
 
+#include <lambda_p_repl/character_stream.h>
+
 #include <boost/bind.hpp>
 
 lambda_p_repl::routine_input::routine_input (void)
@@ -12,7 +14,7 @@ lambda_p_repl::routine_input::~routine_input (void)
 {
 }
 
-void lambda_p_repl::routine_input::operator () (::boost::function <wchar_t ()> input_stream)
+void lambda_p_repl::routine_input::operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> input_stream)
 {	
 	wchar_t last_char (L' ');
 	while (routines.routines->empty () && last_char != '\uffff' && !lexer.error () && !parser.error ())
@@ -20,7 +22,7 @@ void lambda_p_repl::routine_input::operator () (::boost::function <wchar_t ()> i
 		::std::wstring line;
 		while (last_char != '\uffff' && last_char != L'\n')
 		{
-			last_char = input_stream ();
+			last_char = input_stream->operator() ();
 			line.push_back (last_char);
 		}
 		operator () (line);

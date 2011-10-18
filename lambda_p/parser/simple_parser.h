@@ -1,3 +1,5 @@
+#pragma once
+
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 

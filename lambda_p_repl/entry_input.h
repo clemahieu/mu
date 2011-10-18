@@ -22,10 +22,11 @@ namespace lambda_p
 }
 namespace lambda_p_repl
 {
+	class character_stream;
     class entry_input
     {
     public:  
-		void operator () (::boost::function <wchar_t ()> in_a, ::std::wostream & out_a);
+		void operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> in_a, ::std::wostream & out_a);
         ::boost::shared_ptr < ::lambda_p::core::routine> routine;
     };
 }

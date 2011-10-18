@@ -46,6 +46,7 @@ void lambda_p_repl::repl::stop ()
 void lambda_p_repl::repl::iteration ()
 {
 	::lambda_p_repl::wistream_input input (::std::wcin);
-	::lambda_p_repl::entry_routine routine (this, input, ::std::wcout);
+	::boost::shared_ptr < ::lambda_p_repl::character_stream> stream (new ::lambda_p_repl::wistream_input (input));
+	::lambda_p_repl::entry_routine routine (this, stream, ::std::wcout);
 	routine ();
 }

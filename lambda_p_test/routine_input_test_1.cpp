@@ -22,7 +22,7 @@ void lambda_p_test::routine_input_test_1::run_1 ()
 {
 	::std::wstringstream input;
 	input << "environment = ; environment constant_int = number; #;";
-	::lambda_p_repl::wistream_input input2 (input);
+	::boost::shared_ptr < ::lambda_p_repl::wistream_input> input2 (new ::lambda_p_repl::wistream_input (input));
 	::lambda_p_repl::routine_input routine;
 	routine (input2);
 }

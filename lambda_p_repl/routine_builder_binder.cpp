@@ -8,31 +8,31 @@
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/routine_builder.h>
+#include <lambda_p_repl/routine_input.h>
+#include <lambda_p/binder/routine.h>
 
 #include <fstream>
 #include <sstream>
 
 void lambda_p_repl::routine_builder_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
-	check_count (0, 1, statement, problems);
+	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::boost::shared_ptr < ::lambda_p::binder::data> data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [0]]));
-		if (data.get () != NULL)
+		::boost::shared_ptr < ::lambda_p_repl::character_stream> stream (::boost::dynamic_pointer_cast < ::lambda_p_repl::character_stream> (instances [statement->association->parameters [0]]));
+		if (stream.get () != NULL)
 		{
-			::std::fstream file;
-			file.open (data->string ());
-			if (file.is_open ())
+			::lambda_p_repl::routine_input input;
+			input (stream);
+			if (!input.error ())
 			{
-				::lambda_p_repl::istream_input input (file);
-				::lambda_p_repl::entry_routine routine (input, ::std::wcout);
-				routine ();
+				instances [statement->association->results [0]] = ::boost::shared_ptr < ::lambda_p::binder::routine> (new ::lambda_p::binder::routine (input.routines.routines->operator[] (0)));
 			}
 			else
 			{
 				::std::wstring message;
-				message.append (L"Unable to open file: ");
-				message.append (data->string ());
+				message.append (L"Unable to parse stream");
 				problems.push_back (::boost::shared_ptr < ::lambda_p::errors::error> (new ::lambda_p::errors::binder_string_error (binder_name (), message)));
 			}
 		}

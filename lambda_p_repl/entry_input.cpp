@@ -14,7 +14,7 @@
 #include <sstream>
 #include <iostream>
 
-void lambda_p_repl::entry_input::operator () (::boost::function <wchar_t ()> in, ::std::wostream & out)
+void lambda_p_repl::entry_input::operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> in, ::std::wostream & out)
 {
 	::lambda_p_repl::routine_input input;
 	out << L"lp> \n";
