@@ -19,6 +19,7 @@
 #include <lambda_p_test/function_binder_test.h>
 #include <lambda_p_test/list_test.h>
 #include <lambda_p_test/wistream_input_test.h>
+#include <lambda_p_test/filesystem_test.h>
 
 using namespace lambda_p_test;
 
@@ -106,6 +107,10 @@ int main ()
 	}
 	{
 		generator_test test;
+		test.run ();
+	}
+	{
+		filesystem_test test;
 		test.run ();
 	}
 	return 0;
