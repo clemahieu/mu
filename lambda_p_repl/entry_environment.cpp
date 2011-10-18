@@ -167,6 +167,9 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
 	package->nodes [routine_binder_name] = routine_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
+	::boost::shared_ptr < ::lambda_p::binder::routine > routine (new ::lambda_p::binder::routine (routine_a));
+	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
+	instances->operator[] (0) = package;	
 	if (repl != NULL)
 	{
         ::std::vector < ::llvm::Type const *> parameters;
@@ -178,15 +181,11 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
         context.module->getGlobalList ().push_back (quit_object);
         engine->addGlobalMapping (quit_object, repl);
 		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
-		::std::wstring quit_name (L"quit");
-		package->nodes [quit_name] = binder;
+		instances->operator[] (1) = binder;
 	}
-	::boost::shared_ptr < ::lambda_p::binder::routine > routine (new ::lambda_p::binder::routine (routine_a));
-	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
-	instances->operator[] (0) = package;	
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*instances.get ()));
-	instances->operator[] (1) = exec_binder;
-	exec_binder->instances.operator[] (1) = exec_binder;
+	instances->operator[] (2) = exec_binder;
+	exec_binder->instances.operator[] (2) = exec_binder;
 	std::wstring exec_name (L"exec");
 	
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;

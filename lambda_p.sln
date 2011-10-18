@@ -27,6 +27,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}"
 	ProjectSection(SolutionItems) = preProject
 		examples\hello.lp = examples\hello.lp
+		examples\malloc.lp = examples\malloc.lp
+		examples\quit.lp = examples\quit.lp
 		examples\test.lp = examples\test.lp
 	EndProjectSection
 EndProject
