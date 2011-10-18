@@ -12,6 +12,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <sstream>
+
 lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::routine_instances instances_a)
 	: instances (instances_a)
 {
@@ -32,8 +34,19 @@ void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, 
 			input (stream);
 			if (!input.error ())
 			{
-				lambda_p::binder::routine_binder binder;
-				binder.core (lambda_p::binder::routine (input.routines.routines->operator[] (0)), instances, problems);
+				if (input.routines.routines->size () > 0)
+				{
+					lambda_p::binder::routine_binder binder;
+					binder.core (lambda_p::binder::routine (input.routines.routines->operator[] (0)), instances, problems);
+				}
+				else
+				{
+					std::wstringstream message;
+					message << L"File: ";
+					message << data->string ();
+					message << L" doesn't contain a routine";
+					add_error (message.str (), problems);
+				}
 			}
 			else
 			{

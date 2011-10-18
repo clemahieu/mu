@@ -1,0 +1,2 @@
+exec = ' examples/hello.lp;
+#;
