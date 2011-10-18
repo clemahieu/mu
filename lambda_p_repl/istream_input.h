@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p_repl/character_stream.h>
+
 #include <iostream>
 
 namespace lambda_p_repl

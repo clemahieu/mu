@@ -135,7 +135,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="abort_function.cpp" />
+    <ClCompile Include="character_stream.cpp" />
     <ClCompile Include="data_stream.cpp" />
+    <ClCompile Include="data_stream_binder.cpp" />
     <ClCompile Include="dynamic_wprintf.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
@@ -153,7 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_function.h" />
+    <ClInclude Include="character_stream.h" />
     <ClInclude Include="data_stream.h" />
+    <ClInclude Include="data_stream_binder.h" />
     <ClInclude Include="dynamic_wprintf.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="entry_environment.h" />
