@@ -10,7 +10,7 @@
 
 namespace lambda_p_test
 {
-	class simple_parser_test_1;
+	class parser_test_1;
 }
 namespace lambda_p_repl
 {
@@ -30,7 +30,7 @@ namespace lambda_p
 	}
 	namespace parser
 	{
-		class simple_parser;
+		class parser;
 		class statement;
 		class routine;
 	}
@@ -47,12 +47,12 @@ namespace lambda_p
 			friend class ::lambda_p::core::statement;
 			friend class ::lambda_p::binder::data;
             template <typename> friend class ::lambda_p::serialization::simple;
-			friend class ::lambda_p::parser::simple_parser;
+			friend class ::lambda_p::parser::parser;
 			friend class ::lambda_p::binder::bind_procedure;
 			friend class ::lambda_p::parser::statement;
 			friend class ::lambda_p_repl::entry_environment;
 			friend class ::lambda_p::parser::routine;
-			friend class ::lambda_p_test::simple_parser_test_1;
+			friend class ::lambda_p_test::parser_test_1;
 		private:
 		public:
 			routine ();

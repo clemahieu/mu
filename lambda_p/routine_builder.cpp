@@ -6,7 +6,7 @@
 
 lambda_p::routine_builder::routine_builder ()
 	: parser (::boost::bind (&(::lambda_p::parser::routine_vector::operator()), &routines, _1)),
-	lexer (::boost::bind (&(::lambda_p::parser::simple_parser::operator()), &parser, _1))
+	lexer (::boost::bind (&(::lambda_p::parser::parser::operator()), &parser, _1))
 {
 }
 

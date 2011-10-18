@@ -10,11 +10,11 @@ namespace lambda_p
 {
 	namespace lexer
 	{
-		class manifest_data : public state
+		class complex_identifier : public state
 		{
 		public:
-			manifest_data(void);
-			~manifest_data(void);
+			complex_identifier(void);
+			~complex_identifier(void);
 			state_id state_type ();
 			::std::wstring end_token;
 			::std::wstring data;

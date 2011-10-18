@@ -21,10 +21,10 @@ namespace lambda_p
 	}
 	namespace parser
 	{
-		class simple_parser
+		class parser
 		{
 		public:
-			simple_parser (::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target_a);
+			parser (::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target_a);
 			void operator () (::lambda_p::tokens::token * token);
 			void reset ();
 			bool error ();

@@ -1,7 +1,7 @@
 #include "simple_compile_test_1.h"
 
-#include <lambda_p/lexer/simple_lexer.h>
-#include <lambda_p/parser/simple_parser.h>
+#include <lambda_p/lexer/lexer.h>
+#include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/routine_vector.h>
 
 #include <boost/bind.hpp>
@@ -23,15 +23,15 @@ void lambda_p_test::simple_compile_test_1::run ()
 void lambda_p_test::simple_compile_test_1::run_1 ()
 {
 	::lambda_p::parser::routine_vector routines;
-	::lambda_p::parser::simple_parser parser (routines);
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (parser, _1));
+	::lambda_p::parser::parser parser (routines);
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (parser, _1));
 }
 
 void lambda_p_test::simple_compile_test_1::run_2 ()
 {
 	::lambda_p::parser::routine_vector routines;
-	::lambda_p::parser::simple_parser parser (routines);
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (parser, _1));
+	::lambda_p::parser::parser parser (routines);
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (parser, _1));
 	::std::wstring routine1 (L"routine1 ;; ;. ");
 	::std::wstring routine2 (L"routine2 ;; ;. ");
 	for (::std::wstring::const_iterator i = routine1.begin (); i != routine1.end (); ++i)

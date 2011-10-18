@@ -6,7 +6,7 @@
 
 lambda_p_repl::routine_input::routine_input (void)
 	: parser (routines),
-	lexer (::boost::bind (&::lambda_p::parser::simple_parser::operator(), &parser, _1))
+	lexer (::boost::bind (&::lambda_p::parser::parser::operator(), &parser, _1))
 {
 }
 

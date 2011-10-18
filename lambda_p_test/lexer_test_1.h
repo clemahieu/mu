@@ -2,11 +2,11 @@
 
 namespace lambda_p_test
 {
-	class simple_parser_test_1
+	class lexer_test_1
 	{
 	public:
-		simple_parser_test_1(void);
-		~simple_parser_test_1(void);
+		lexer_test_1 (void);
+		~lexer_test_1 (void);
 		void run ();
 		void run_1 ();
 		void run_2 ();
@@ -23,4 +23,3 @@ namespace lambda_p_test
 		void run_13 ();
 	};
 }
-

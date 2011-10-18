@@ -1,4 +1,4 @@
-#include <lambda_p/lexer/simple_lexer.h>
+#include <lambda_p/lexer/lexer.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/routine_end.h>
@@ -14,26 +14,26 @@
 #include <lambda_p/lexer/identifier.h>
 #include <lambda_p/lexer/multiline_comment.h>
 #include <lambda_p/lexer/singleline_comment.h>
-#include <lambda_p/lexer/manifest_data.h>
+#include <lambda_p/lexer/complex_identifier.h>
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p::lexer::simple_lexer::simple_lexer (::boost::function < void (::lambda_p::tokens::token *)> target_a)
+lambda_p::lexer::lexer::lexer (::boost::function < void (::lambda_p::tokens::token *)> target_a)
 	: target (target_a)
 {
 	state.push (new ::lambda_p::lexer::begin);
 }
 
-lambda_p::lexer::simple_lexer::~simple_lexer ()
+lambda_p::lexer::lexer::~lexer ()
 {
 }
 
-void lambda_p::lexer::simple_lexer::operator () (wchar_t character)
+void lambda_p::lexer::lexer::operator () (wchar_t character)
 {
 	lex_internal (character);
 }
 
-void lambda_p::lexer::simple_lexer::reset ()
+void lambda_p::lexer::lexer::reset ()
 {
 	while (!state.empty ())
 	{
@@ -42,7 +42,7 @@ void lambda_p::lexer::simple_lexer::reset ()
 	state.push (new ::lambda_p::lexer::begin);
 }
 
-bool lambda_p::lexer::simple_lexer::error ()
+bool lambda_p::lexer::lexer::error ()
 {
 	bool result;
 	if (state.empty ())
@@ -56,13 +56,13 @@ bool lambda_p::lexer::simple_lexer::error ()
 	return result;
 }
 	
-void lambda_p::lexer::simple_lexer::error_message (::std::wstring & target)
+void lambda_p::lexer::lexer::error_message (::std::wstring & target)
 {
 	::lambda_p::lexer::error * error_l = (static_cast < ::lambda_p::lexer::error *> (state.top ()));
 	target = error_l->message;
 }
 
-void lambda_p::lexer::simple_lexer::lex_internal (wchar_t character)
+void lambda_p::lexer::lexer::lex_internal (wchar_t character)
 {
 	state_id state_l (state.top ()->state_type ());
 	switch (state_l)
@@ -86,19 +86,19 @@ void lambda_p::lexer::simple_lexer::lex_internal (wchar_t character)
 		lex_singleline_comment (character);
 		break;
 	case ::lambda_p::lexer::state_complex_identifier:
-		lex_manifest_data (character);
+		lex_complex_identifier (character);
 		break;
 	default:
 		assert (false);
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_error (wchar_t character)
+void lambda_p::lexer::lexer::lex_error (wchar_t character)
 {
 	// Do nothing, remain in error state
 }
 
-void lambda_p::lexer::simple_lexer::lex_begin (wchar_t character)
+void lambda_p::lexer::lexer::lex_begin (wchar_t character)
 {
 	switch (character)
 	{
@@ -116,7 +116,7 @@ void lambda_p::lexer::simple_lexer::lex_begin (wchar_t character)
 		}
 		break;
 	case L'"':
-		state.push (new ::lambda_p::lexer::manifest_data);
+		state.push (new ::lambda_p::lexer::complex_identifier);
 		break;
 	case L'=':
 		{
@@ -143,7 +143,7 @@ void lambda_p::lexer::simple_lexer::lex_begin (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_control (wchar_t character)
+void lambda_p::lexer::lexer::lex_control (wchar_t character)
 {
 	::lambda_p::lexer::control * state_l (static_cast < ::lambda_p::lexer::control *> (state.top ()));
 	if (character != '\uffff')
@@ -180,7 +180,7 @@ void lambda_p::lexer::simple_lexer::lex_control (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_multiline_comment (wchar_t character)
+void lambda_p::lexer::lexer::lex_multiline_comment (wchar_t character)
 {
 	::lambda_p::lexer::multiline_comment * state_l (static_cast < ::lambda_p::lexer::multiline_comment *> (state.top ()));
 	if (character != L'\uffff')
@@ -217,7 +217,7 @@ void lambda_p::lexer::simple_lexer::lex_multiline_comment (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_singleline_comment (wchar_t character)
+void lambda_p::lexer::lexer::lex_singleline_comment (wchar_t character)
 {
 	::lambda_p::lexer::singleline_comment * state_l (static_cast < ::lambda_p::lexer::singleline_comment *> (state.top ()));
 	switch (character)
@@ -236,9 +236,9 @@ void lambda_p::lexer::simple_lexer::lex_singleline_comment (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_manifest_data (wchar_t character)
+void lambda_p::lexer::lexer::lex_complex_identifier (wchar_t character)
 {
-	::lambda_p::lexer::manifest_data * state_l (static_cast < ::lambda_p::lexer::manifest_data *> (state.top ()));
+	::lambda_p::lexer::complex_identifier * state_l (static_cast < ::lambda_p::lexer::complex_identifier *> (state.top ()));
 	if (character != L'\uffff')
 	{
 		if (!state_l->have_end_token)
@@ -275,7 +275,7 @@ void lambda_p::lexer::simple_lexer::lex_manifest_data (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::lex_identifier (wchar_t character)
+void lambda_p::lexer::lexer::lex_identifier (wchar_t character)
 {				
 	::lambda_p::lexer::identifier * state_l (static_cast < ::lambda_p::lexer::identifier *> (state.top ()));
 	switch (character)
@@ -304,7 +304,7 @@ void lambda_p::lexer::simple_lexer::lex_identifier (wchar_t character)
 	}
 }
 
-void lambda_p::lexer::simple_lexer::pop_state ()
+void lambda_p::lexer::lexer::pop_state ()
 {
 	delete state.top ();
 	state.pop ();

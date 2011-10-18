@@ -3,8 +3,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="simple_test_1.cpp" />
-    <ClCompile Include="simple_lexer_test_1.cpp" />
-    <ClCompile Include="simple_parser_test_1.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="routine_input_test_1.cpp" />
     <ClCompile Include="abort_binder_test_1.cpp" />
@@ -24,11 +22,11 @@
     <ClCompile Include="generator_test.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
+    <ClCompile Include="parser_test_1.cpp" />
+    <ClCompile Include="lexer_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
-    <ClInclude Include="simple_lexer_test_1.h" />
-    <ClInclude Include="simple_parser_test_1.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="routine_input_test_1.h" />
     <ClInclude Include="abort_binder_test_1.h" />
@@ -48,5 +46,7 @@
     <ClInclude Include="generator_test.h" />
     <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="filesystem_test.h" />
+    <ClInclude Include="parser_test_1.h" />
+    <ClInclude Include="lexer_test_1.h" />
   </ItemGroup>
 </Project>

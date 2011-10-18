@@ -14,11 +14,11 @@ namespace lambda_p
 	namespace lexer
 	{
 		class state;
-		class simple_lexer
+		class lexer
 		{
 		public:
-			simple_lexer (::boost::function <void (::lambda_p::tokens::token *)> target_a);
-			~simple_lexer ();
+			lexer (::boost::function <void (::lambda_p::tokens::token *)> target_a);
+			~lexer ();
 			void operator () (wchar_t character);
 			void reset ();
 			bool error ();
@@ -30,7 +30,7 @@ namespace lambda_p
 			void lex_control (wchar_t character);
 			void lex_multiline_comment (wchar_t character);
 			void lex_singleline_comment (wchar_t character);
-			void lex_manifest_data (wchar_t character);
+			void lex_complex_identifier (wchar_t character);
 			void lex_identifier (wchar_t character);
 			void pop_state ();
 			::boost::function <void (::lambda_p::tokens::token *)> target;

@@ -4,7 +4,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/parser/error.h>
-#include <lambda_p/parser/simple_parser.h>
+#include <lambda_p/parser/parser.h>
 #include <lambda_p/core/association.h>
 
 lambda_p::parser::statement::statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a)

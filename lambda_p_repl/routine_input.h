@@ -1,8 +1,8 @@
 #pragma once
 
 #include <lambda_p/parser/routine_vector.h>
-#include <lambda_p/parser/simple_parser.h>
-#include <lambda_p/lexer/simple_lexer.h>
+#include <lambda_p/parser/parser.h>
+#include <lambda_p/lexer/lexer.h>
 
 #include <string>
 
@@ -20,8 +20,8 @@ namespace lambda_p_repl
 		bool error ();
 		void error_message (::std::wstring & message);
 		::lambda_p::parser::routine_vector routines;
-		::lambda_p::parser::simple_parser parser;
-		::lambda_p::lexer::simple_lexer lexer;
+		::lambda_p::parser::parser parser;
+		::lambda_p::lexer::lexer lexer;
 	};
 }
 

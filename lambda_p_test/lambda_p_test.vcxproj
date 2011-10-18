@@ -160,8 +160,8 @@
     <ClCompile Include="bind_procedure_test_1.cpp" />
     <ClCompile Include="list_test.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
-    <ClCompile Include="simple_lexer_test_1.cpp" />
-    <ClCompile Include="simple_parser_test_1.cpp" />
+    <ClCompile Include="lexer_test_1.cpp" />
+    <ClCompile Include="parser_test_1.cpp" />
     <ClCompile Include="simple_test_1.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
@@ -184,8 +184,8 @@
     <ClInclude Include="bind_procedure_test_1.h" />
     <ClInclude Include="list_test.h" />
     <ClInclude Include="simple_compile_test_1.h" />
-    <ClInclude Include="simple_lexer_test_1.h" />
-    <ClInclude Include="simple_parser_test_1.h" />
+    <ClInclude Include="lexer_test_1.h" />
+    <ClInclude Include="parser_test_1.h" />
     <ClInclude Include="simple_test_1.h" />
     <ClInclude Include="unbindable_statement_test.h" />
     <ClInclude Include="wistream_input_test.h" />

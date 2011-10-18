@@ -1,6 +1,6 @@
 #include <lambda_p_test/simple_test_1.h>
-#include <lambda_p_test/simple_lexer_test_1.h>
-#include <lambda_p_test/simple_parser_test_1.h>
+#include <lambda_p_test/lexer_test_1.h>
+#include <lambda_p_test/parser_test_1.h>
 #include <lambda_p_test/simple_compile_test_1.h>
 #include <lambda_p_test/bind_procedure_test_1.h>
 #include <lambda_p_test/package_test_1.h>
@@ -30,11 +30,11 @@ int main ()
 		test.run ();
 	}
 	{
-		simple_lexer_test_1 test;
+		lexer_test_1 test;
 		test.run ();
 	}
 	{
-		simple_parser_test_1 test;
+		parser_test_1 test;
 		test.run ();
 	}
 	{

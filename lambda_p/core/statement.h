@@ -14,7 +14,7 @@ namespace lambda_p
 		template <typename> class simple;
 		namespace parser
 		{
-			class simple_parser;
+			class parser;
 		}
 	}
 	namespace core
@@ -26,7 +26,7 @@ namespace lambda_p
 			friend class ::lambda_p::binder::data;
 			friend class ::lambda_p::binder::bind_procedure;
 			template <typename> friend class ::lambda_p::serialization::simple;
-			friend class ::lambda_p::serialization::parser::simple_parser;
+			friend class ::lambda_p::serialization::parser::parser;
 		public:
 			statement (size_t target_a);
 			~statement (void);

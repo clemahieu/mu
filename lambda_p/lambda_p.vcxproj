@@ -166,7 +166,7 @@
     <ClInclude Include="lexer\control.h" />
     <ClInclude Include="lexer\error.h" />
     <ClInclude Include="lexer\identifier.h" />
-    <ClInclude Include="lexer\manifest_data.h" />
+    <ClInclude Include="lexer\complex_identifier.h" />
     <ClInclude Include="lexer\multiline_comment.h" />
     <ClInclude Include="lexer\singleline_comment.h" />
     <ClInclude Include="lexer\state.h" />
@@ -184,8 +184,8 @@
     <ClInclude Include="parser\statement.h" />
     <ClInclude Include="routine_builder.h" />
     <ClInclude Include="serialization\simple.h" />
-    <ClInclude Include="lexer\simple_lexer.h" />
-    <ClInclude Include="parser\simple_parser.h" />
+    <ClInclude Include="lexer\lexer.h" />
+    <ClInclude Include="parser\parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\connector.h" />
     <ClInclude Include="tokens\identifier.h" />
@@ -232,9 +232,9 @@
     <ClCompile Include="lexer\control.cpp" />
     <ClCompile Include="lexer\error.cpp" />
     <ClCompile Include="lexer\identifier.cpp" />
-    <ClCompile Include="lexer\manifest_data.cpp" />
+    <ClCompile Include="lexer\complex_identifier.cpp" />
     <ClCompile Include="lexer\multiline_comment.cpp" />
-    <ClCompile Include="lexer\simple_lexer.cpp" />
+    <ClCompile Include="lexer\lexer.cpp" />
     <ClCompile Include="lexer\singleline_comment.cpp" />
     <ClCompile Include="lexer\state.cpp" />
     <ClCompile Include="lexer\token_vector.cpp" />
@@ -247,7 +247,7 @@
     <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\routine.cpp" />
     <ClCompile Include="parser\routine_vector.cpp" />
-    <ClCompile Include="parser\simple_parser.cpp" />
+    <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
     <ClCompile Include="routine_builder.cpp" />

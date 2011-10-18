@@ -1,7 +1,7 @@
-#include "simple_lexer_test_1.h"
+#include "lexer_test_1.h"
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/lexer/simple_lexer.h>
+#include <lambda_p/lexer/lexer.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/serialization/simple.h>
 #include <lambda_p/tokens/statement_end.h>
@@ -12,15 +12,15 @@
 
 #include <sstream>
 
-lambda_p_test::simple_lexer_test_1::simple_lexer_test_1(void)
+lambda_p_test::lexer_test_1::lexer_test_1(void)
 {
 }
 
-lambda_p_test::simple_lexer_test_1::~simple_lexer_test_1(void)
+lambda_p_test::lexer_test_1::~lexer_test_1(void)
 {
 }
 
-void lambda_p_test::simple_lexer_test_1::run ()
+void lambda_p_test::lexer_test_1::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -37,7 +37,7 @@ void lambda_p_test::simple_lexer_test_1::run ()
 	run_13 ();
 }
 
-void lambda_p_test::simple_lexer_test_1::run_1 ()
+void lambda_p_test::lexer_test_1::run_1 ()
 {
 	::std::wstringstream stream;
 	::lambda_p::core::routine routine;
@@ -45,7 +45,7 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	serializer.routine (&routine);
 	::std::wstring str (stream.str ());
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -58,7 +58,7 @@ void lambda_p_test::simple_lexer_test_1::run_1 ()
 	assert ((*tokens.tokens) [2]->token_id () == ::lambda_p::tokens::token_id_routine_end);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_2 ()
+void lambda_p_test::lexer_test_1::run_2 ()
 {
 	::std::wstring str;
 	str.append (L"routine0033F838\n");
@@ -66,7 +66,7 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 	str.append (L";\n");
 	str.append (L"#;\n");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -79,12 +79,12 @@ void lambda_p_test::simple_lexer_test_1::run_2 ()
 	assert ((*tokens.tokens) [2]->token_id () == ::lambda_p::tokens::token_id_routine_end);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_3 ()
+void lambda_p_test::lexer_test_1::run_3 ()
 {
 	::std::wstring str;
 	str.append (L"#/");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -93,12 +93,12 @@ void lambda_p_test::simple_lexer_test_1::run_3 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_4 ()
+void lambda_p_test::lexer_test_1::run_4 ()
 {
 	::std::wstring str;
 	str.append (L"#*#*");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -108,12 +108,12 @@ void lambda_p_test::simple_lexer_test_1::run_4 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_5 ()
+void lambda_p_test::lexer_test_1::run_5 ()
 {
 	::std::wstring str;
 	str.append (L"#*");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -123,12 +123,12 @@ void lambda_p_test::simple_lexer_test_1::run_5 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_6 ()
+void lambda_p_test::lexer_test_1::run_6 ()
 {
 	::std::wstring str;
 	str.append (L"#*");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -138,12 +138,12 @@ void lambda_p_test::simple_lexer_test_1::run_6 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_7 ()
+void lambda_p_test::lexer_test_1::run_7 ()
 {
 	::std::wstring str;
 	str.append (L"\"");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -153,12 +153,12 @@ void lambda_p_test::simple_lexer_test_1::run_7 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_8 ()
+void lambda_p_test::lexer_test_1::run_8 ()
 {	::std::wstringstream stream;
 	::std::wstring str;
 	str.append (L"\"\"");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -169,14 +169,14 @@ void lambda_p_test::simple_lexer_test_1::run_8 ()
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_9 ()
+void lambda_p_test::lexer_test_1::run_9 ()
 {
 	::std::wstring str;
 	str.push_back (L'a');
 	str.push_back (L'\0');
 	str.push_back (L'a');
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -187,12 +187,12 @@ void lambda_p_test::simple_lexer_test_1::run_9 ()
 	assert ((*tokens.tokens) [1]->token_id () == ::lambda_p::tokens::token_id_identifier);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_10 ()
+void lambda_p_test::lexer_test_1::run_10 ()
 {
 	::std::wstring str;
 	str.push_back (L'\0');
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -202,12 +202,12 @@ void lambda_p_test::simple_lexer_test_1::run_10 ()
 	assert (tokens.tokens->size () == 0);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_11 ()
+void lambda_p_test::lexer_test_1::run_11 ()
 {
 	::std::wstring str;
 	str.append (L"\"a\"ba");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -218,7 +218,7 @@ void lambda_p_test::simple_lexer_test_1::run_11 ()
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_12 ()
+void lambda_p_test::lexer_test_1::run_12 ()
 {
 	::std::wstring str;
 	str.append (L"\"abc\"");
@@ -229,7 +229,7 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	str.push_back ('c');
 	str.append (L"abc");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);
@@ -240,12 +240,12 @@ void lambda_p_test::simple_lexer_test_1::run_12 ()
 	assert ((*tokens.tokens) [0]->token_id () == ::lambda_p::tokens::token_id_complex_identifier);
 }
 
-void lambda_p_test::simple_lexer_test_1::run_13 ()
+void lambda_p_test::lexer_test_1::run_13 ()
 {
 	::std::wstring str;
 	str.append (L"routine1; ");
 	::lambda_p::lexer::token_vector tokens;
-	::lambda_p::lexer::simple_lexer lexer (::boost::bind <void> (tokens, _1));
+	::lambda_p::lexer::lexer lexer (::boost::bind <void> (tokens, _1));
 	for (::std::wstring::iterator i = str.begin (); i != str.end (); ++i)
 	{
 		lexer (*i);

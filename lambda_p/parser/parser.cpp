@@ -1,4 +1,4 @@
-#include <lambda_p/parser/simple_parser.h>
+#include <lambda_p/parser/parser.h>
 
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/complex_identifier.h>
@@ -19,18 +19,18 @@
 
 #include <map>
 
-lambda_p::parser::simple_parser::simple_parser (::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target_a)
+lambda_p::parser::parser::parser (::boost::function <void (::boost::shared_ptr < ::lambda_p::core::routine>)> target_a)
 	: target (target_a)
 {
 	reset ();
 }
 
-void lambda_p::parser::simple_parser::operator () (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::operator () (::lambda_p::tokens::token * token)
 {
 	parse_internal (token);
 }
 
-void lambda_p::parser::simple_parser::reset ()
+void lambda_p::parser::parser::reset ()
 {
 	while (!state.empty ())
 	{
@@ -40,7 +40,7 @@ void lambda_p::parser::simple_parser::reset ()
 	state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::begin));
 }
 
-bool lambda_p::parser::simple_parser::error ()
+bool lambda_p::parser::parser::error ()
 {
 	bool result;
 	if (state.empty ())
@@ -54,18 +54,18 @@ bool lambda_p::parser::simple_parser::error ()
 	return result;
 }
 
-::lambda_p::parser::state_id lambda_p::parser::simple_parser::current_state ()
+::lambda_p::parser::state_id lambda_p::parser::parser::current_state ()
 {
 	return state.top ()->state_type ();
 }
 
-void lambda_p::parser::simple_parser::error_message (::std::wstring & target)
+void lambda_p::parser::parser::error_message (::std::wstring & target)
 {
 	::boost::shared_ptr < ::lambda_p::parser::error> error_l = (::boost::static_pointer_cast < ::lambda_p::parser::error> (state.top ()));
 	target = error_l->message;
 }
 
-void lambda_p::parser::simple_parser::parse_internal (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_internal (::lambda_p::tokens::token * token)
 {
 	::lambda_p::parser::state_id state_l (state.top ()->state_type ());
 	switch (state_l)
@@ -96,18 +96,18 @@ void lambda_p::parser::simple_parser::parse_internal (::lambda_p::tokens::token 
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_finished (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_finished (::lambda_p::tokens::token * token)
 {
     ::std::wstring message (L"Token received after parser is finished");
     state.push (::boost::shared_ptr < ::lambda_p::parser::state> (new ::lambda_p::parser::error (message)));
 }
 
-void lambda_p::parser::simple_parser::parse_error (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_error (::lambda_p::tokens::token * token)
 {
 	// Do nothing in error state, remain in this state
 }
 
-void lambda_p::parser::simple_parser::parse_begin (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_begin (::lambda_p::tokens::token * token)
 {
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
 	switch (token_id)
@@ -133,7 +133,7 @@ void lambda_p::parser::simple_parser::parse_begin (::lambda_p::tokens::token * t
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_routine (::lambda_p::tokens::token * token)
 {
 	::boost::shared_ptr < ::lambda_p::parser::routine> state_l (::boost::static_pointer_cast < ::lambda_p::parser::routine> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
@@ -203,7 +203,7 @@ void lambda_p::parser::simple_parser::parse_routine (::lambda_p::tokens::token *
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_statement (::lambda_p::tokens::token * token)
 {				
 	::boost::shared_ptr < ::lambda_p::parser::statement> state_l (::boost::static_pointer_cast < ::lambda_p::parser::statement> (state.top ()));
 	if (state_l->have_target)
@@ -243,7 +243,7 @@ void lambda_p::parser::simple_parser::parse_statement (::lambda_p::tokens::token
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_association (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_association (::lambda_p::tokens::token * token)
 {	
 	::boost::shared_ptr < ::lambda_p::parser::association> state_l (::boost::static_pointer_cast < ::lambda_p::parser::association> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
@@ -328,7 +328,7 @@ void lambda_p::parser::simple_parser::parse_association (::lambda_p::tokens::tok
 	}
 }
 
-void lambda_p::parser::simple_parser::parse_data (::lambda_p::tokens::token * token)
+void lambda_p::parser::parser::parse_data (::lambda_p::tokens::token * token)
 {
 	::boost::shared_ptr < ::lambda_p::parser::data> state_l (::boost::static_pointer_cast < ::lambda_p::parser::data> (state.top ()));
 	::lambda_p::tokens::token_ids token_id (token->token_id ());
@@ -354,7 +354,7 @@ void lambda_p::parser::simple_parser::parse_data (::lambda_p::tokens::token * to
 	}
 }
 
-::std::wstring lambda_p::parser::simple_parser::token_type_name (::lambda_p::tokens::token * token)
+::std::wstring lambda_p::parser::parser::token_type_name (::lambda_p::tokens::token * token)
 {
 	::std::wstring result;
 	size_t token_id (token->token_id ());
