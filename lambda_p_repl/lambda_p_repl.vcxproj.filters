@@ -6,17 +6,17 @@
     <ClCompile Include="hello_world_binder.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="routine_input.cpp" />
-    <ClCompile Include="routine_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="entry_input_binder.cpp" />
     <ClCompile Include="dynamic_wprintf.cpp" />
-    <ClCompile Include="stream_read_entry_routine_binder.cpp" />
     <ClCompile Include="wistream_input.cpp" />
     <ClCompile Include="istream_input.cpp" />
     <ClCompile Include="abort_function.cpp" />
     <ClCompile Include="file_routine.cpp" />
+    <ClCompile Include="data_stream.cpp" />
+    <ClCompile Include="routine_builder_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -24,16 +24,16 @@
     <ClInclude Include="hello_world_binder.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="routine_input.h" />
-    <ClInclude Include="routine_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
     <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="entry_input_binder.h" />
     <ClInclude Include="dynamic_wprintf.h" />
-    <ClInclude Include="stream_read_entry_routine_binder.h" />
     <ClInclude Include="wistream_input.h" />
     <ClInclude Include="istream_input.h" />
     <ClInclude Include="abort_function.h" />
     <ClInclude Include="file_routine.h" />
+    <ClInclude Include="data_stream.h" />
+    <ClInclude Include="routine_builder_binder.h" />
   </ItemGroup>
 </Project>

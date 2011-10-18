@@ -19,7 +19,7 @@
 #include <lambda_p_repl/hello_world_binder.h>
 #include <lambda_p_repl/echo_binder.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p_repl/stream_read_entry_routine_binder.h>
+#include <lambda_p_repl/routine_builder_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/wprintf_function.h>
 #include <lambda_p_llvm/api.h>
@@ -100,7 +100,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
-	::boost::shared_ptr < ::lambda_p_repl::stream_read_entry_routine_binder> read_binder (new ::lambda_p_repl::stream_read_entry_routine_binder);
+	::boost::shared_ptr < ::lambda_p_repl::routine_builder_binder> read_binder (new ::lambda_p_repl::routine_builder_binder);
 	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
     ::boost::shared_ptr < ::lambda_p_llvm::fo_value> memcpy_function (new ::lambda_p_llvm::fo_value (memcpy.memcpy));
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> malloc_function (new ::lambda_p_llvm::fo_value (malloc.malloc));

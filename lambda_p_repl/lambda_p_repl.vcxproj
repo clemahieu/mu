@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="abort_function.cpp" />
+    <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="dynamic_wprintf.cpp" />
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
@@ -147,12 +148,12 @@
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
     <ClCompile Include="routine_input.cpp" />
-    <ClCompile Include="routine_input_binder.cpp" />
-    <ClCompile Include="stream_read_entry_routine_binder.cpp" />
+    <ClCompile Include="routine_builder_binder.cpp" />
     <ClCompile Include="wistream_input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_function.h" />
+    <ClInclude Include="data_stream.h" />
     <ClInclude Include="dynamic_wprintf.h" />
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="entry_environment.h" />
@@ -165,8 +166,7 @@
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
     <ClInclude Include="routine_input.h" />
-    <ClInclude Include="routine_input_binder.h" />
-    <ClInclude Include="stream_read_entry_routine_binder.h" />
+    <ClInclude Include="routine_builder_binder.h" />
     <ClInclude Include="wistream_input.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -4,11 +4,9 @@
 
 namespace lambda_p_repl
 {
-	class stream_read_entry_routine_binder : public ::lambda_p::binder::binder
+	class routine_builder_binder : public ::lambda_p::binder::binder
 	{
 	public:
-		stream_read_entry_routine_binder (void);
-		~stream_read_entry_routine_binder (void);
 		void bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
 		::std::wstring binder_name ();
 	};

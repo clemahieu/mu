@@ -1,4 +1,4 @@
-#include "stream_read_entry_routine_binder.h"
+#include "routine_builder_binder.h"
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p_repl/entry_routine.h>
@@ -12,15 +12,7 @@
 #include <fstream>
 #include <sstream>
 
-lambda_p_repl::stream_read_entry_routine_binder::stream_read_entry_routine_binder(void)
-{
-}
-
-lambda_p_repl::stream_read_entry_routine_binder::~stream_read_entry_routine_binder(void)
-{
-}
-
-void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::routine_builder_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())
@@ -51,7 +43,7 @@ void lambda_p_repl::stream_read_entry_routine_binder::bind (::lambda_p::core::st
 	}
 }
 
-::std::wstring lambda_p_repl::stream_read_entry_routine_binder::binder_name ()
+::std::wstring lambda_p_repl::routine_builder_binder::binder_name ()
 {
-	return ::std::wstring (L"stream_read_entry_routine_binder");
+	return ::std::wstring (L"routine_builder_binder");
 }
