@@ -14,27 +14,12 @@ void lambda_p_repl::file_stream_binder::bind (::lambda_p::core::statement * stat
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::boost::shared_ptr < ::lambda_p::binder::list> list (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [0]]));
-		if (list.get () != NULL)
+		::boost::shared_ptr < ::lambda_p::binder::data> data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		if (data.get () != NULL)
 		{
-			auto path (boost::filesystem::initial_path ());
-			for (auto i = list->instances.begin (); i != list->instances.end (); ++i)
-			{
-				::boost::shared_ptr < ::lambda_p::binder::data> data (::boost::dynamic_pointer_cast < ::lambda_p::binder::data> (*i));
-				if (data.get () != nullptr)
-				{
-					path /= data->string ();
-				}
-				else
-				{
-					add_error (::std::wstring (L"Expecting all list element to be data"), problems);
-				}
-			}
-			if (problems.empty ())
-			{
-				::boost::shared_ptr < ::lambda_p_repl::file_stream> stream (new ::lambda_p_repl::file_stream (path.wstring ()));
-				instances [statement->association->results [0]] = stream;
-			}
+			auto path (boost::filesystem::initial_path () /= data->string ());
+			::boost::shared_ptr < ::lambda_p_repl::file_stream> stream (new ::lambda_p_repl::file_stream (path.wstring ()));
+			instances [statement->association->results [0]] = stream;
 		}
 		else
 		{
