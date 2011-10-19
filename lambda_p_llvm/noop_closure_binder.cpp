@@ -6,7 +6,7 @@
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p_llvm/noop_closure.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p/binder/list.h>
+#include <lambda_p_kernel/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/Value.h>
@@ -16,7 +16,7 @@ lambda_p_llvm::noop_closure_binder::noop_closure_binder (::lambda_p_llvm::genera
 {
 }
 
-void lambda_p_llvm::noop_closure_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::noop_closure_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 2, statement, problems);
 	if (problems.empty ())
@@ -27,7 +27,7 @@ void lambda_p_llvm::noop_closure_binder::bind (::lambda_p::core::statement * sta
 			::llvm::Function * function (::llvm::dyn_cast < ::llvm::Function> (function_value->operator() ()));
 			if (function != NULL)
 			{
-				::boost::shared_ptr < ::lambda_p::binder::list> arguments (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [1]]));
+				::boost::shared_ptr < lambda_p_kernel::list> arguments (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [1]]));
 				if (arguments.get () != NULL)
 				{
 					::std::vector < ::llvm::Value *> argument_values;

@@ -130,15 +130,6 @@
     <ClInclude Include="errors\node_out_of_order.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\bind_procedure.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\single_bind_routine.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine_instances_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -149,37 +140,7 @@
     <ClInclude Include="binder\instance.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\routine_instances.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="binder\data.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\identity.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\list.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\list_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\null_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\package.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\routine_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\package_create.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\package_add.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="lexer\complex_identifier.h">
@@ -190,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="lexer\lexer.h">
       <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\routine_instances.h">
+      <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -319,15 +283,6 @@
     <ClCompile Include="errors\node_out_of_order.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\bind_procedure.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\single_bind_routine.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_instances_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -341,36 +296,6 @@
     <ClCompile Include="binder\data.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="binder\identity.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\list.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\list_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\null_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\package.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\routine_instances.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\package_create.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\package_add.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="lexer\complex_identifier.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
@@ -379,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="lexer\lexer.cpp">
       <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\routine_instances.cpp">
+      <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

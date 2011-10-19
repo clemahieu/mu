@@ -8,10 +8,10 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p/binder/single_bind_routine.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/single_bind_routine.h>
+#include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/call_binder.h>
-#include <lambda_p/binder/list_binder.h>
+#include <lambda_p_kernel/list_binder.h>
 #include <lambda_p/routine_builder.h>
 
 #include <llvm/LLVMContext.h>
@@ -61,17 +61,17 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> binder (new ::lambda_p_llvm::noop_closure_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> function (new ::lambda_p_llvm::fo_value (target));
 	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call (new ::lambda_p_llvm::call_binder);
-	::boost::shared_ptr < ::lambda_p::binder::list_binder> list (new ::lambda_p::binder::list_binder);
+	::boost::shared_ptr < lambda_p_kernel::list_binder> list (new lambda_p_kernel::list_binder);
 	::lambda_p::routine_builder builder;
 	builder (L"binder function call list = ; list args = ; binder closure = function args; call = closure; #;");
 	::boost::shared_ptr < ::lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
-	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
+	::boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
 	instances->operator[] (routine->surface->results [0]) = binder;
 	instances->operator[] (routine->surface->results [1]) = function;
 	instances->operator[] (routine->surface->results [2]) = call;
 	instances->operator[] (routine->surface->results [3]) = list;
-	::boost::shared_ptr < ::lambda_p::binder::routine> routine_instance (new ::lambda_p::binder::routine (routine));
-	::lambda_p::binder::single_bind_routine bind_action (routine_instance, instances);
+	::boost::shared_ptr < lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
+	lambda_p_kernel::single_bind_routine bind_action (routine_instance, instances);
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	bind_action (problems);
 	assert (problems.size () == 0);

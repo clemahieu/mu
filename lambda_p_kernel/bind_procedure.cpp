@@ -10,16 +10,16 @@
 
 #include <sstream>
 
-lambda_p::binder::bind_procedure::bind_procedure (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
+lambda_p_kernel::bind_procedure::bind_procedure (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
 	: routine (routine_a)
 {
 }
 
-lambda_p::binder::bind_procedure::~bind_procedure(void)
+lambda_p_kernel::bind_procedure::~bind_procedure(void)
 {
 }
 
-void lambda_p::binder::bind_procedure::operator () (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::operator () (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::std::vector < ::lambda_p::core::statement *>::iterator i = routine->statements.begin ();
 	size_t statement_count (routine->statements.size ());
@@ -33,7 +33,7 @@ void lambda_p::binder::bind_procedure::operator () (::std::vector < ::boost::sha
 	}
 }
 
-void lambda_p::binder::bind_procedure::bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {	
 	::boost::shared_ptr < ::lambda_p::binder::binder> binder;
 	populate_unbound (statement, binder, problems);
@@ -62,7 +62,7 @@ void error_message (::std::wostream & stream)
 {
 }
 
-void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, ::boost::shared_ptr < ::lambda_p::binder::binder> & binder, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
 	assert (statement_l->target < routine->nodes);
@@ -95,7 +95,7 @@ void lambda_p::binder::bind_procedure::populate_unbound (size_t statement, ::boo
 	}
 }
 
-void lambda_p::binder::bind_procedure::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::instance> & binder, size_t node)
+void lambda_p_kernel::bind_procedure::copy_declaration_binder (::boost::shared_ptr < ::lambda_p::binder::instance> & binder, size_t node)
 {
 	size_t declaration (node);
 	if (declaration < routine->instances.instances.size ())
@@ -108,7 +108,7 @@ void lambda_p::binder::bind_procedure::copy_declaration_binder (::boost::shared_
 	}
 }
 
-void lambda_p::binder::bind_procedure::retry_bind (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::retry_bind (size_t statement, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::lambda_p::core::statement * statement_l (routine->statements [statement]);
 	for (::std::vector < size_t>::iterator i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)

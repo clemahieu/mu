@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/fo_value.h>
@@ -10,8 +10,8 @@
 #include <lambda_p_llvm/so_value.h>
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p/binder/bind_procedure.h>
-#include <lambda_p/binder/list.h>
+#include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p_kernel/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -25,19 +25,19 @@ lambda_p_llvm::generator::generator (::lambda_p_llvm::generation_context & conte
 {
 }
 
-void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	size_t position;
 	check_count (1, 3, statement, problems);
 	if (problems.empty ())
 	{
-		::boost::shared_ptr < ::lambda_p::binder::routine> routine (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine> (instances [statement->association->parameters [0]]));
+		::boost::shared_ptr < lambda_p_kernel::routine> routine (::boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
 		{
 			::boost::shared_ptr < ::lambda_p_llvm::type> return_type (::boost::dynamic_pointer_cast < ::lambda_p_llvm::type> (instances [statement->association->parameters [1]]));
 			if (return_type.get () != NULL)
 			{
-				::boost::shared_ptr < ::lambda_p::binder::list> argument_list (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [2]]));
+				::boost::shared_ptr < lambda_p_kernel::list> argument_list (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [2]]));
 				if (argument_list.get () != NULL)
 				{
 					if (argument_list->instances.size () == routine->routine_m->surface->results.size ())
@@ -87,7 +87,7 @@ void lambda_p_llvm::generator::bind (::lambda_p::core::statement * statement, ::
 							{
 								routine->routine_m->instances [*j] = ::boost::shared_ptr < ::lambda_p_llvm::fo_value> (new ::lambda_p_llvm::fo_value (&(*i)));
 							}
-							::lambda_p::binder::bind_procedure procedure (routine->routine_m);
+							lambda_p_kernel::bind_procedure procedure (routine->routine_m);
 							procedure (problems);
 							if (problems.empty ())
 							{

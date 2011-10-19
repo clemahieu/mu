@@ -1,6 +1,6 @@
 #include "api.h"
 
-#include <lambda_p/binder/package.h>
+#include <lambda_p_kernel/package.h>
 #include <lambda_p_llvm/context_binder.h>
 #include <lambda_p_llvm/type_binder.h>
 #include <lambda_p_llvm/constant_int_binder.h>
@@ -13,7 +13,7 @@
 #include <string>
 
 lambda_p_llvm::api::api (::lambda_p_llvm::generation_context & context_a)
-	: package (new ::lambda_p::binder::package),
+	: package (new lambda_p_kernel::package),
     context (context_a)
 {
 	::std::wstring context_name (L"context");

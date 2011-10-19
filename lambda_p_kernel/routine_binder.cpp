@@ -1,29 +1,29 @@
 #include "routine_binder.h"
 
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p/binder/routine.h>
-#include <lambda_p/binder/bind_procedure.h>
+#include <lambda_p_kernel/routine.h>
+#include <lambda_p_kernel/bind_procedure.h>
 
 #include <sstream>
 
-lambda_p::binder::routine_binder::routine_binder(void)
+lambda_p_kernel::routine_binder::routine_binder(void)
 {
 }
 
 
-void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * statement, routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::routine_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.empty ())
 	{
-		::boost::shared_ptr < ::lambda_p::binder::routine> routine (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine> (instances [statement->association->parameters [0]]));
+		::boost::shared_ptr < lambda_p_kernel::routine> routine (::boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
 		{
-			::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances_l (::boost::dynamic_pointer_cast < ::lambda_p::binder::routine_instances> (instances [statement->association->parameters [1]]));
+			::boost::shared_ptr < lambda_p::binder::routine_instances> instances_l (::boost::dynamic_pointer_cast < lambda_p::binder::routine_instances> (instances [statement->association->parameters [1]]));
 			if (instances_l.get () != NULL)
 			{
 				core (*routine.get (), *instances_l.get (), problems);
@@ -40,7 +40,7 @@ void lambda_p::binder::routine_binder::bind (::lambda_p::core::statement * state
 	}
 }
 
-void lambda_p::binder::routine_binder::core (::lambda_p::binder::routine & routine, ::lambda_p::binder::routine_instances & instances_l, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::routine_binder::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	size_t parameters (routine.routine_m->surface->results.size ());
 	size_t binders (instances_l.instances.size ());
@@ -64,7 +64,7 @@ void lambda_p::binder::routine_binder::core (::lambda_p::binder::routine & routi
 		}
 		if (problems.empty ())
 		{
-			::lambda_p::binder::bind_procedure procedure (routine.routine_m);
+			lambda_p_kernel::bind_procedure procedure (routine.routine_m);
 			procedure (problems);
 		}
 	}
@@ -80,7 +80,7 @@ void lambda_p::binder::routine_binder::core (::lambda_p::binder::routine & routi
 	}
 }
 
-::std::wstring lambda_p::binder::routine_binder::binder_name ()
+::std::wstring lambda_p_kernel::routine_binder::binder_name ()
 {
 	return ::std::wstring (L"routine_binder");
 }

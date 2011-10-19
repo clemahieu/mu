@@ -2,11 +2,14 @@
 
 #include <vector>
 
+namespace lambda_p_kernel
+{
+	class bind_procedure;
+}
 namespace lambda_p
 {
 	namespace binder
 	{
-		class bind_procedure;
 		class data;
 	}
 	namespace serialization
@@ -24,7 +27,7 @@ namespace lambda_p
 		class statement
 		{
 			friend class ::lambda_p::binder::data;
-			friend class ::lambda_p::binder::bind_procedure;
+			friend class lambda_p_kernel::bind_procedure;
 			template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::serialization::parser::parser;
 		public:

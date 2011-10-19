@@ -2,7 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <lambda_p/binder/bind_procedure.h>
+#include <lambda_p_kernel/bind_procedure.h>
 
 #include <iostream>
 

@@ -7,7 +7,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p/binder/bind_procedure.h>
+#include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
@@ -37,7 +37,7 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	statement->association->parameters.push_back (number);
 	size_t bits = routine->add_data (::std::wstring (L"64"));
 	statement->association->parameters.push_back (bits);
-	::lambda_p::binder::bind_procedure bind_procedure (routine);
+	lambda_p_kernel::bind_procedure bind_procedure (routine);
 	::llvm::LLVMContext llvm_context;
 	::lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
 	::boost::shared_ptr < ::lambda_p_llvm::constant_int_binder> constant_int_binder (new ::lambda_p_llvm::constant_int_binder (context));

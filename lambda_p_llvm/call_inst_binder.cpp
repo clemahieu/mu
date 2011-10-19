@@ -6,7 +6,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p/binder/list.h>
+#include <lambda_p_kernel/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -17,7 +17,7 @@ lambda_p_llvm::call_inst_binder::call_inst_binder (::lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 2, statement, problems);
 	if (problems.empty ())
@@ -29,7 +29,7 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 			::llvm::Function * function (::llvm::dyn_cast < ::llvm::Function> (value->value));
 			if (function != NULL)
 			{
-				::boost::shared_ptr < ::lambda_p::binder::list> arguments (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [1]]));
+				::boost::shared_ptr < lambda_p_kernel::list> arguments (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [1]]));
 				if (arguments.get () != NULL)
 				{
 					::llvm::FunctionType const * type (function->getFunctionType ());
@@ -66,6 +66,6 @@ void lambda_p_llvm::call_inst_binder::bind (::lambda_p::core::statement * statem
 	return ::std::wstring (L"call_inst_binder");
 }
 
-void lambda_p_llvm::call_inst_binder::validate_argument_types (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::call_inst_binder::validate_argument_types (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 }

@@ -10,12 +10,12 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/routine.h>
 
 #include <fstream>
 #include <sstream>
 
-void lambda_p_repl::routine_builder_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::routine_builder_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
@@ -27,7 +27,7 @@ void lambda_p_repl::routine_builder_binder::bind (::lambda_p::core::statement * 
 			input (stream);
 			if (!input.error ())
 			{
-				instances [statement->association->results [0]] = ::boost::shared_ptr < ::lambda_p::binder::routine> (new ::lambda_p::binder::routine (input.routines.routines->operator[] (0)));
+				instances [statement->association->results [0]] = ::boost::shared_ptr < lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
 			}
 			else
 			{

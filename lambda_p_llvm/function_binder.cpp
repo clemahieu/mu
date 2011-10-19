@@ -17,7 +17,7 @@ lambda_p_llvm::function_binder::function_binder (::lambda_p_llvm::generation_con
 {
 }
 
-void lambda_p_llvm::function_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::function_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	if (statement->association->results.size () == 1)
 	{

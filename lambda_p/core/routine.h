@@ -16,6 +16,10 @@ namespace lambda_p_repl
 {
 	class entry_environment;
 }
+namespace lambda_p_kernel
+{
+	class bind_procedure;
+}
 namespace lambda_p
 {
 	namespace binder
@@ -48,7 +52,7 @@ namespace lambda_p
 			friend class ::lambda_p::binder::data;
             template <typename> friend class ::lambda_p::serialization::simple;
 			friend class ::lambda_p::parser::parser;
-			friend class ::lambda_p::binder::bind_procedure;
+			friend class lambda_p_kernel::bind_procedure;
 			friend class ::lambda_p::parser::statement;
 			friend class ::lambda_p_repl::entry_environment;
 			friend class ::lambda_p::parser::routine;
@@ -63,7 +67,7 @@ namespace lambda_p
             void placement (::std::map < size_t, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
 			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
 			::lambda_p::core::association * surface;
-			::lambda_p::binder::routine_instances instances;
+			lambda_p::binder::routine_instances instances;
 			::std::vector < ::lambda_p::core::statement *> statements;
 		private:
 			void validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;

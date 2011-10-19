@@ -11,8 +11,8 @@
 
 #include <lambda_p_repl/entry_environment.h>
 
-#include <lambda_p/binder/bind_procedure.h>
-#include <lambda_p/binder/package.h>
+#include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p_kernel/package.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_repl/repl_quit_binder.h>
 #include <lambda_p_repl/repl.h>
@@ -34,18 +34,18 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/while_call_binder.h>
 #include <lambda_p_repl/abort_function.h>
-#include <lambda_p/binder/single_bind_routine.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/single_bind_routine.h>
+#include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p/binder/routine_binder.h>
-#include <lambda_p/binder/routine_instances_binder.h>
+#include <lambda_p_kernel/routine_binder.h>
+#include <lambda_p_kernel/routine_instances_binder.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
-#include <lambda_p/binder/list_binder.h>
+#include <lambda_p_kernel/list_binder.h>
 #include <lambda_p_llvm/struct_binder.h>
-#include <lambda_p/binder/package_add.h>
-#include <lambda_p/binder/package_create.h>
+#include <lambda_p_kernel/package_add.h>
+#include <lambda_p_kernel/package_create.h>
 #include <lambda_p_repl/data_stream_binder.h>
 #include <lambda_p_repl/file_stream_binder.h>
 #include <lambda_p_repl/exec_binder.h>
@@ -98,7 +98,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
     ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
-	::boost::shared_ptr < ::lambda_p::binder::package> package (new ::lambda_p::binder::package);
+	::boost::shared_ptr < lambda_p_kernel::package> package (new lambda_p_kernel::package);
 	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
@@ -108,17 +108,17 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> malloc_function (new ::lambda_p_llvm::fo_value (malloc.malloc));
 	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> abort_function (new ::lambda_p_llvm::fo_value (abort.abort));
-	::boost::shared_ptr < ::lambda_p::binder::routine_binder> binder_function (new ::lambda_p::binder::routine_binder);
-	::boost::shared_ptr < ::lambda_p::binder::routine_instances_binder> instances_binder (new ::lambda_p::binder::routine_instances_binder);
+	::boost::shared_ptr < lambda_p_kernel::routine_binder> binder_function (new lambda_p_kernel::routine_binder);
+	::boost::shared_ptr < lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
 	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> noop_closure_binder (new ::lambda_p_llvm::noop_closure_binder (context));
 	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call_binder (new ::lambda_p_llvm::call_binder);
-	::boost::shared_ptr < ::lambda_p::binder::list_binder> list_binder (new ::lambda_p::binder::list_binder);
+	::boost::shared_ptr < lambda_p_kernel::list_binder> list_binder (new lambda_p_kernel::list_binder);
 	::boost::shared_ptr < ::lambda_p_llvm::struct_binder> struct_binder (new ::lambda_p_llvm::struct_binder (context));
-	::boost::shared_ptr < ::lambda_p::binder::package_add> package_add_binder (new ::lambda_p::binder::package_add);
-	::boost::shared_ptr < ::lambda_p::binder::package_create> package_create_binder (new ::lambda_p::binder::package_create);
+	::boost::shared_ptr < lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
+	::boost::shared_ptr < lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);
 	::boost::shared_ptr < ::lambda_p_repl::data_stream_binder> data_stream_binder (new ::lambda_p_repl::data_stream_binder);
 	::boost::shared_ptr < ::lambda_p_repl::routine_builder_binder> routine_builder_binder (new ::lambda_p_repl::routine_builder_binder);
-	::boost::shared_ptr < ::lambda_p::binder::routine_binder> routine_binder (new ::lambda_p::binder::routine_binder);
+	::boost::shared_ptr < lambda_p_kernel::routine_binder> routine_binder (new lambda_p_kernel::routine_binder);
 	boost::shared_ptr <lambda_p_repl::file_stream_binder> file_stream_binder (new lambda_p_repl::file_stream_binder);
 	::lambda_p_llvm::api llvm_binder (context);
 	::std::wstring echo_name (L"echo");
@@ -167,8 +167,8 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
 	package->nodes [routine_binder_name] = routine_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
-	::boost::shared_ptr < ::lambda_p::binder::routine > routine (new ::lambda_p::binder::routine (routine_a));
-	::boost::shared_ptr < ::lambda_p::binder::routine_instances> instances (new ::lambda_p::binder::routine_instances);
+	::boost::shared_ptr < lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
+	::boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
 	instances->operator[] (0) = package;	
 	if (repl != NULL)
 	{
@@ -189,7 +189,7 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	std::wstring exec_name (L"exec");
 	
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
-	::lambda_p::binder::single_bind_routine bind (routine, instances);
+	lambda_p_kernel::single_bind_routine bind (routine, instances);
 	bind (problems);
 	if (!problems.empty ())
 	{

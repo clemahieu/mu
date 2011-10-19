@@ -1,6 +1,6 @@
 #include "struct_binder.h"
 
-#include <lambda_p/binder/list.h>
+#include <lambda_p_kernel/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
@@ -14,12 +14,12 @@ lambda_p_llvm::struct_binder::struct_binder (::lambda_p_llvm::generation_context
 {
 }
 
-void lambda_p_llvm::struct_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_llvm::struct_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		::boost::shared_ptr < ::lambda_p::binder::list> list (::boost::dynamic_pointer_cast < ::lambda_p::binder::list> (instances [statement->association->parameters [0]]));
+		::boost::shared_ptr < lambda_p_kernel::list> list (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [0]]));
 		if (list.get () != NULL)
 		{
 			::std::vector < ::llvm::Type const *> types;

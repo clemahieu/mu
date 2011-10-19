@@ -11,15 +11,15 @@
 
 #include <sstream>
 
-lambda_p::binder::package::package(void)
+lambda_p_kernel::package::package(void)
 {
 }
 
-lambda_p::binder::package::~package(void)
+lambda_p_kernel::package::~package(void)
 {
 }
 
-void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->parameters.size ());
@@ -59,10 +59,10 @@ void lambda_p::binder::package::bind (::lambda_p::core::statement * statement, :
 	}
 }
 
-void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package::parse_one (lambda_p::binder::routine_instances & instances, ::boost::shared_ptr < ::lambda_p::binder::data> node, size_t result, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	::boost::shared_ptr < ::lambda_p::binder::instance> current_node (shared_from_this ());
-	::boost::shared_ptr < ::lambda_p::binder::package> current_package (shared_from_this ());
+	::boost::shared_ptr < lambda_p_kernel::package> current_package (shared_from_this ());
 	::std::wstring string (node->string ());
 	::boost::char_separator <wchar_t> separator (L".");
 	::boost::tokenizer < ::boost::char_separator <wchar_t>, ::std::wstring::const_iterator, ::std::wstring> tokenizer (string, separator);
@@ -76,7 +76,7 @@ void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances
 			if (target != current_package->nodes.end ())
 			{
 				current_node = target->second;
-				current_package = ::boost::dynamic_pointer_cast < ::lambda_p::binder::package> (current_node);
+				current_package = ::boost::dynamic_pointer_cast < lambda_p_kernel::package> (current_node);
 			}
 			else
 			{
@@ -102,7 +102,7 @@ void lambda_p::binder::package::parse_one (::lambda_p::binder::routine_instances
 	}
 }
 
-::std::wstring lambda_p::binder::package::binder_name ()
+::std::wstring lambda_p_kernel::package::binder_name ()
 {
 	return ::std::wstring (L"package_binder");
 }

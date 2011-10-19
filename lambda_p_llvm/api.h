@@ -2,12 +2,9 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace lambda_p_kernel
 {
-	namespace binder
-	{
-		class package;
-	}
+	class package;
 }
 namespace lambda_p_llvm
 {
@@ -17,7 +14,7 @@ namespace lambda_p_llvm
 	public:
 		api (::lambda_p_llvm::generation_context & context_a);
 		~api (void);
-		::boost::shared_ptr < ::lambda_p::binder::package> package;
+		::boost::shared_ptr < lambda_p_kernel::package> package;
         ::lambda_p_llvm::generation_context & context;
 	};
 }

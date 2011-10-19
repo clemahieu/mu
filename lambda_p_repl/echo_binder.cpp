@@ -32,7 +32,7 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 {
 }
 
-void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::echo_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())

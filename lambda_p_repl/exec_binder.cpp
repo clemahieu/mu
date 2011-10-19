@@ -7,8 +7,8 @@
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
-#include <lambda_p/binder/routine_binder.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/routine_binder.h>
+#include <lambda_p_kernel/routine.h>
 
 #include <boost/filesystem.hpp>
 
@@ -19,7 +19,7 @@ lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::routine_instances ins
 {
 }
 
-void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, ::lambda_p::binder::routine_instances & instances_a, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())
@@ -36,8 +36,8 @@ void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, 
 			{
 				if (input.routines.routines->size () > 0)
 				{
-					lambda_p::binder::routine_binder binder;
-					binder.core (lambda_p::binder::routine (input.routines.routines->operator[] (0)), instances, problems);
+					lambda_p_kernel::routine_binder binder;
+					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), instances, problems);
 				}
 				else
 				{

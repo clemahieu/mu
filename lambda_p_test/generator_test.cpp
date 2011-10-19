@@ -7,10 +7,10 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_llvm/generator.h>
-#include <lambda_p/binder/routine.h>
+#include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/type.h>
-#include <lambda_p/binder/bind_procedure.h>
-#include <lambda_p/binder/list_binder.h>
+#include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p_kernel/list_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -45,10 +45,10 @@ void lambda_p_test::generator_test::run_1 ()
 	::lambda_p_llvm::generation_context context (llvm_context, module, block);
 	::lambda_p::routine_builder enclosing;
 	enclosing (L"generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group = func; group arguments = fma p1_type p2_type p3_type p4_type p5_type; generator func = routine result_type arguments; #;");
-	::lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
+	lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
 	::boost::shared_ptr < ::lambda_p_llvm::generator> generator (new ::lambda_p_llvm::generator (context));
 	instances [0] = generator;
-	::boost::shared_ptr < ::lambda_p::binder::routine> routine_value (new ::lambda_p::binder::routine (::boost::shared_ptr < ::lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
+	::boost::shared_ptr < lambda_p_kernel::routine> routine_value (new lambda_p_kernel::routine (::boost::shared_ptr < ::lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
 	instances [1] = routine_value;
 	::boost::shared_ptr < ::lambda_p_llvm::fo_value> fma_value (new ::lambda_p_llvm::fo_value (fma));
 	instances [2] = fma_value;
@@ -59,9 +59,9 @@ void lambda_p_test::generator_test::run_1 ()
 	instances [6] = type_value;
 	instances [7] = type_value;
 	instances [8] = type_value;
-	::boost::shared_ptr < ::lambda_p::binder::list_binder> group (new ::lambda_p::binder::list_binder);
+	::boost::shared_ptr < lambda_p_kernel::list_binder> group (new lambda_p_kernel::list_binder);
 	instances [9] = group;
-	::lambda_p::binder::bind_procedure procedure (::boost::shared_ptr < ::lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
+	lambda_p_kernel::bind_procedure procedure (::boost::shared_ptr < ::lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
 	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
 	procedure (problems);
 	assert (problems.size () == 0);
