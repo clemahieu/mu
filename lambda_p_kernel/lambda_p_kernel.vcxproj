@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="number.cpp" />
+    <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="bind_procedure.cpp" />
     <ClCompile Include="identity.cpp" />
@@ -145,6 +147,8 @@
     <ClInclude Include="list.h" />
     <ClInclude Include="list_binder.h" />
     <ClInclude Include="null_binder.h" />
+    <ClInclude Include="number.h" />
+    <ClInclude Include="number_binder.h" />
     <ClInclude Include="package.h" />
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
