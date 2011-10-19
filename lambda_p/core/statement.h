@@ -26,15 +26,15 @@ namespace lambda_p
 		class association;
 		class statement
 		{
-			friend class ::lambda_p::binder::data;
+			friend class lambda_p::binder::data;
 			friend class lambda_p_kernel::bind_procedure;
-			template <typename> friend class ::lambda_p::serialization::simple;
-			friend class ::lambda_p::serialization::parser::parser;
+			template <typename> friend class lambda_p::serialization::simple;
+			friend class lambda_p::serialization::parser::parser;
 		public:
 			statement (size_t target_a);
 			~statement (void);
 			size_t target;
-			::lambda_p::core::association * association;
+			lambda_p::core::association * association;
 		};
 	}
 }

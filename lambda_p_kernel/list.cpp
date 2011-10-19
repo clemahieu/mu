@@ -5,21 +5,21 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <sstream>
 
-void lambda_p_kernel::list::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	if (statement->association->parameters.empty ())
 	{
 		if (statement->association->results.size () == instances.size ())
 		{
-			::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> >::iterator j = instances.begin ();
-			for (::std::vector < size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i, ++j)
+			std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator j = instances.begin ();
+			for (std::vector < size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i, ++j)
 			{
 				instances_a [*i] = *j;
 			}
 		}
 		else
 		{
-			::std::wstringstream message;
+			std::wstringstream message;
 			message << L"Unexpected number of results, have: ";
 			message << statement->association->results.size ();
 			message < L" expecting: ";
@@ -29,11 +29,11 @@ void lambda_p_kernel::list::bind (::lambda_p::core::statement * statement, lambd
 	}
 	else
 	{
-		add_error (::std::wstring (L"Not expecting parameters"), problems);
+		add_error (std::wstring (L"Not expecting parameters"), problems);
 	}
 }
 
-::std::wstring lambda_p_kernel::list::binder_name ()
+std::wstring lambda_p_kernel::list::binder_name ()
 {
-	return ::std::wstring (L"list");
+	return std::wstring (L"list");
 }

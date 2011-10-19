@@ -21,11 +21,11 @@ namespace lambda_p_llvm
     class generation_context
     {
     public:
-        generation_context (::llvm::LLVMContext & context_a, ::llvm::Module * module_a, ::llvm::BasicBlock * block_a);
-        ::llvm::LLVMContext & context;
-        ::llvm::Module * module;
-        ::llvm::BasicBlock * block;
-        ::llvm::IntegerType const * wchar_t_type;
-		::llvm::IntegerType const * size_t_type;
+        generation_context (llvm::LLVMContext & context_a, llvm::Module * module_a, llvm::BasicBlock * block_a);
+        llvm::LLVMContext & context;
+        llvm::Module * module;
+        llvm::BasicBlock * block;
+        llvm::IntegerType const * wchar_t_type;
+		llvm::IntegerType const * size_t_type;
     };
 }

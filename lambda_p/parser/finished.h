@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace parser
     {
-        class finished : public ::lambda_p::parser::state
+        class finished : public lambda_p::parser::state
         {
         public:
             state_id state_type ();

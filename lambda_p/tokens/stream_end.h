@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class stream_end : public ::lambda_p::tokens::token
+        class stream_end : public lambda_p::tokens::token
         {
         public:
             token_ids token_id ();

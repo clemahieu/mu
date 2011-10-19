@@ -8,10 +8,10 @@
 
 namespace lambda_p_repl
 {
-	class file_stream : public ::lambda_p_repl::character_stream
+	class file_stream : public lambda_p_repl::character_stream
 	{
 	public:
-		file_stream (::std::wstring name_a);
+		file_stream (std::wstring name_a);
 		wchar_t operator () ();
 		::std::fstream file;
 		::lambda_p_repl::istream_input input;

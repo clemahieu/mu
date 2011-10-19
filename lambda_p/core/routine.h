@@ -48,29 +48,29 @@ namespace lambda_p
 		class statement;
 		class routine
 		{
-			friend class ::lambda_p::core::statement;
-			friend class ::lambda_p::binder::data;
-            template <typename> friend class ::lambda_p::serialization::simple;
-			friend class ::lambda_p::parser::parser;
+			friend class lambda_p::core::statement;
+			friend class lambda_p::binder::data;
+            template <typename> friend class lambda_p::serialization::simple;
+			friend class lambda_p::parser::parser;
 			friend class lambda_p_kernel::bind_procedure;
-			friend class ::lambda_p::parser::statement;
-			friend class ::lambda_p_repl::entry_environment;
-			friend class ::lambda_p::parser::routine;
-			friend class ::lambda_p_test::parser_test_1;
+			friend class lambda_p::parser::statement;
+			friend class lambda_p_repl::entry_environment;
+			friend class lambda_p::parser::routine;
+			friend class lambda_p_test::parser_test_1;
 		private:
 		public:
 			routine ();
 			~routine (void);
-			::lambda_p::core::statement * add_statement (size_t target_a);
-			size_t add_data (::std::wstring string);
+			lambda_p::core::statement * add_statement (size_t target_a);
+			size_t add_data (std::wstring string);
 			size_t add_declaration ();
-            void placement (::std::map < size_t, ::lambda_p::core::position> & argument_positions, ::std::map < ::lambda_p::core::statement const *, size_t> & statement_positions) const;
-			void validate (::std::vector < ::lambda_p::errors::error *> & problems) const;
-			::lambda_p::core::association * surface;
+            void placement (std::map < size_t, lambda_p::core::position> & argument_positions, std::map < lambda_p::core::statement const *, size_t> & statement_positions) const;
+			void validate (std::vector < lambda_p::errors::error *> & problems) const;
+			lambda_p::core::association * surface;
 			lambda_p::binder::routine_instances instances;
-			::std::vector < ::lambda_p::core::statement *> statements;
+			std::vector < lambda_p::core::statement *> statements;
 		private:
-			void validate_node (size_t node, size_t current_statement, size_t current_argument, ::std::vector < ::lambda_p::errors::error *> & problems) const;
+			void validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector < lambda_p::errors::error *> & problems) const;
 			size_t nodes;
 		};
 	}

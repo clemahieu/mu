@@ -17,8 +17,8 @@ namespace lambda_p
 		public:
 			routine_vector (void);
 			~routine_vector (void);
-			void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine);
-			::boost::shared_ptr < ::std::vector < ::boost::shared_ptr < ::lambda_p::core::routine> > > routines;
+			void operator () (boost::shared_ptr < lambda_p::core::routine> routine);
+			boost::shared_ptr < std::vector < boost::shared_ptr < lambda_p::core::routine> > > routines;
 		};
 	}
 }

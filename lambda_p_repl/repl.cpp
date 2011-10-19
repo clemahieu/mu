@@ -27,7 +27,7 @@ void lambda_p_repl::repl::reset ()
 void lambda_p_repl::repl::run ()
 {
 	run_loop ();
-	::std::cout << "Exiting";
+	std::cout << "Exiting";
 }
 
 void lambda_p_repl::repl::run_loop ()
@@ -45,8 +45,8 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
-	::lambda_p_repl::wistream_input input (::std::wcin);
-	::boost::shared_ptr < ::lambda_p_repl::character_stream> stream (new ::lambda_p_repl::wistream_input (input));
-	::lambda_p_repl::entry_routine routine (this, stream, ::std::wcout);
+	lambda_p_repl::wistream_input input (std::wcin);
+	boost::shared_ptr < lambda_p_repl::character_stream> stream (new lambda_p_repl::wistream_input (input));
+	lambda_p_repl::entry_routine routine (this, stream, std::wcout);
 	routine ();
 }

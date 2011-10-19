@@ -5,7 +5,7 @@
 
 lambda_p::core::statement::statement (size_t target_a)
 	: target (target_a),
-	association (new ::lambda_p::core::association)
+	association (new lambda_p::core::association)
 {
 }
 

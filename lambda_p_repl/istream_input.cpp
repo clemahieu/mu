@@ -1,6 +1,6 @@
 #include "istream_input.h"
 
-lambda_p_repl::istream_input::istream_input (::std::istream & source_a)
+lambda_p_repl::istream_input::istream_input (std::istream & source_a)
 	: source (source_a)
 {
 }

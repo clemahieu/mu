@@ -28,54 +28,54 @@ void lambda_p_test::noop_closure_test::run ()
 
 void lambda_p_test::noop_closure_test::run_1 ()
 {
-	::llvm::LLVMContext llvm_context;
-	::llvm::StringRef name ("test");
-	::llvm::Module * module (new ::llvm::Module (name, llvm_context));
-	::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
+	llvm::LLVMContext llvm_context;
+	llvm::StringRef name ("test");
+	llvm::Module * module (new llvm::Module (name, llvm_context));
+	llvm::Function * start (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (start);
-	::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
+	llvm::BasicBlock * block (llvm::BasicBlock::Create (llvm_context));
 	start->getBasicBlockList ().push_back (block);
-	::lambda_p_llvm::generation_context context (llvm_context, module, block);
-	::llvm::Function * target (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
+	lambda_p_llvm::generation_context context (llvm_context, module, block);
+	llvm::Function * target (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (target);
-	::std::vector < ::llvm::Value *> arguments;
-	::lambda_p_llvm::noop_closure closure (context, target, arguments);
+	std::vector < llvm::Value *> arguments;
+	lambda_p_llvm::noop_closure closure (context, target, arguments);
 	closure.operator() ();
 	assert (block->getInstList ().size () == 1);
-	assert (::llvm::isa < ::llvm::CallInst> (*block->getInstList ().begin ()));
+	assert (llvm::isa < llvm::CallInst> (*block->getInstList ().begin ()));
 }
 
 void lambda_p_test::noop_closure_test::run_2 ()
 {
-	::llvm::LLVMContext llvm_context;
-	::llvm::StringRef name ("test");
-	::llvm::Module * module (new ::llvm::Module (name, llvm_context));
-	::llvm::Function * start (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
+	llvm::LLVMContext llvm_context;
+	llvm::StringRef name ("test");
+	llvm::Module * module (new llvm::Module (name, llvm_context));
+	llvm::Function * start (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (start);
-	::llvm::BasicBlock * block (::llvm::BasicBlock::Create (llvm_context));
+	llvm::BasicBlock * block (llvm::BasicBlock::Create (llvm_context));
 	start->getBasicBlockList ().push_back (block);
-	::lambda_p_llvm::generation_context context (llvm_context, module, block);
-	::llvm::Function * target (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (llvm_context), false), ::llvm::GlobalValue::ExternalLinkage));
+	lambda_p_llvm::generation_context context (llvm_context, module, block);
+	llvm::Function * target (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (target);
-	::std::vector < ::llvm::Value *> arguments;
-	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> binder (new ::lambda_p_llvm::noop_closure_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::fo_value> function (new ::lambda_p_llvm::fo_value (target));
-	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call (new ::lambda_p_llvm::call_binder);
-	::boost::shared_ptr < lambda_p_kernel::list_binder> list (new lambda_p_kernel::list_binder);
-	::lambda_p::routine_builder builder;
+	std::vector < llvm::Value *> arguments;
+	boost::shared_ptr < lambda_p_llvm::noop_closure_binder> binder (new lambda_p_llvm::noop_closure_binder (context));
+	boost::shared_ptr < lambda_p_llvm::fo_value> function (new lambda_p_llvm::fo_value (target));
+	boost::shared_ptr < lambda_p_llvm::call_binder> call (new lambda_p_llvm::call_binder);
+	boost::shared_ptr < lambda_p_kernel::list_binder> list (new lambda_p_kernel::list_binder);
+	lambda_p::routine_builder builder;
 	builder (L"binder function call list = ; list args = ; binder closure = function args; call = closure; #;");
-	::boost::shared_ptr < ::lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
-	::boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
+	boost::shared_ptr < lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
+	boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
 	instances->operator[] (routine->surface->results [0]) = binder;
 	instances->operator[] (routine->surface->results [1]) = function;
 	instances->operator[] (routine->surface->results [2]) = call;
 	instances->operator[] (routine->surface->results [3]) = list;
-	::boost::shared_ptr < lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
+	boost::shared_ptr < lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
 	lambda_p_kernel::single_bind_routine bind_action (routine_instance, instances);
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	bind_action (problems);
 	assert (problems.size () == 0);
 	size_t count (block->getInstList ().size ());
 	assert (count == 1);
-	assert (::llvm::isa < ::llvm::CallInst> (*block->getInstList ().begin ()));
+	assert (llvm::isa < llvm::CallInst> (*block->getInstList ().begin ()));
 }

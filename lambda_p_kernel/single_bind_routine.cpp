@@ -6,9 +6,9 @@
 #include <lambda_p_kernel/routine_binder.h>
 #include <lambda_p_kernel/routine.h>
 
-lambda_p_kernel::single_bind_routine::single_bind_routine (::boost::shared_ptr < lambda_p_kernel::routine> inner_routine_a, ::boost::shared_ptr < lambda_p::binder::routine_instances> inner_instances_a)
+lambda_p_kernel::single_bind_routine::single_bind_routine (boost::shared_ptr < lambda_p_kernel::routine> inner_routine_a, boost::shared_ptr < lambda_p::binder::routine_instances> inner_instances_a)
 	: binder_m (new lambda_p_kernel::routine_binder),
-	outer_routine (new ::lambda_p::core::routine),
+	outer_routine (new lambda_p::core::routine),
 	outer_instances (new lambda_p::binder::routine_instances)
 {
 	size_t binder_parameter (outer_routine->add_declaration ());
@@ -26,7 +26,7 @@ lambda_p_kernel::single_bind_routine::single_bind_routine (::boost::shared_ptr <
 }
 
 
-void lambda_p_kernel::single_bind_routine::operator () (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::single_bind_routine::operator () (std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	binder_m->bind (statement, *outer_instances, problems);
 }

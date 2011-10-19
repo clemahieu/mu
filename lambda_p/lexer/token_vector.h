@@ -17,8 +17,8 @@ namespace lambda_p
 		public:
 			token_vector(void);
 			~token_vector(void);
-			void operator () (::lambda_p::tokens::token * token);
-			::boost::shared_ptr < ::std::vector < ::lambda_p::tokens::token *> > tokens;
+			void operator () (lambda_p::tokens::token * token);
+			boost::shared_ptr < std::vector < lambda_p::tokens::token *> > tokens;
 		};
 	}
 }

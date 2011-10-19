@@ -27,27 +27,27 @@
 
 void lambda_p_test::data_to_string_binder_test_1::run ()
 {
-    ::lambda_p::core::routine routine;
+    lambda_p::core::routine routine;
     size_t p1 = routine.add_declaration ();
 	routine.surface->results.push_back (p1);
-    ::lambda_p::core::statement * statement = routine.add_statement (p1);
+    lambda_p::core::statement * statement = routine.add_statement (p1);
     size_t declaration = routine.add_declaration ();
     statement->association->results.push_back (declaration);
-    size_t data = routine.add_data (::std::wstring (L"Test string"));
+    size_t data = routine.add_data (std::wstring (L"Test string"));
     statement->association->parameters.push_back (data);
-    ::llvm::LLVMContext llvm_context;
-    ::std::string module_string ("test");
-    ::llvm::StringRef module_name (module_string);
-    ::llvm::Module * module = new ::llvm::Module (module_name, llvm_context);
-    ::lambda_p_llvm::generation_context context (llvm_context, module, NULL);
-	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> binder (new ::lambda_p_llvm::data_to_string_binder (context));
+    llvm::LLVMContext llvm_context;
+    std::string module_string ("test");
+    llvm::StringRef module_name (module_string);
+    llvm::Module * module = new llvm::Module (module_name, llvm_context);
+    lambda_p_llvm::generation_context context (llvm_context, module, NULL);
+	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> binder (new lambda_p_llvm::data_to_string_binder (context));
 	lambda_p::binder::routine_instances instances (routine.instances);
 	instances [0] = binder;
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
     binder->bind (statement, instances, problems);
     assert (problems.size () == 0);
     assert (module->getGlobalList ().size () == 1);
 	assert (instances.instances.size () == 3);
     assert (instances [declaration].get () != NULL);
-    assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (instances [declaration]).get () != NULL);
+    assert (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instances [declaration]).get () != NULL);
 }

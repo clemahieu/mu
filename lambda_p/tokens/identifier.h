@@ -8,13 +8,13 @@ namespace lambda_p
 {
 	namespace tokens
 	{
-		class identifier : public ::lambda_p::tokens::token
+		class identifier : public lambda_p::tokens::token
 		{	
 		public:
-			identifier (::std::wstring string_a);
+			identifier (std::wstring string_a);
 			~identifier (void);
 			token_ids token_id ();
-			::std::wstring string;
+			std::wstring string;
 		};
 	}
 }

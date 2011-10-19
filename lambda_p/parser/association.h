@@ -11,15 +11,15 @@ namespace lambda_p
 	{
 		class routine;
 		class association_target;
-		class association : public ::lambda_p::parser::state, public data_target
+		class association : public lambda_p::parser::state, public data_target
 		{
 		public:
-			association (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a, ::boost::shared_ptr < ::lambda_p::parser::association_target> target_a);
+			association (boost::shared_ptr < lambda_p::parser::routine> routine_a, boost::shared_ptr < lambda_p::parser::association_target> target_a);
 			state_id state_type ();
 			void sink_data (size_t * & data);
 			bool on_results;
-			::boost::shared_ptr < ::lambda_p::parser::routine> routine;
-			::boost::shared_ptr < ::lambda_p::parser::association_target> target;
+			boost::shared_ptr < lambda_p::parser::routine> routine;
+			boost::shared_ptr < lambda_p::parser::association_target> target;
 		private:
 		};
 	}

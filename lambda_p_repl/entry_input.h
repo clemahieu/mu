@@ -26,7 +26,7 @@ namespace lambda_p_repl
     class entry_input
     {
     public:  
-		void operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> in_a, ::std::wostream & out_a);
-        ::boost::shared_ptr < ::lambda_p::core::routine> routine;
+		void operator () (boost::shared_ptr < lambda_p_repl::character_stream> in_a, std::wostream & out_a);
+        boost::shared_ptr < lambda_p::core::routine> routine;
     };
 }

@@ -14,15 +14,15 @@ namespace lambda_p_llvm
 }
 namespace lambda_p_repl
 {
-	class echo_binder : public ::lambda_p::binder::binder
+	class echo_binder : public lambda_p::binder::binder
 	{
 	public:
-		echo_binder (::llvm::Value * wprintf_a, ::lambda_p_llvm::generation_context context_a);
+		echo_binder (llvm::Value * wprintf_a, lambda_p_llvm::generation_context context_a);
 		~echo_binder (void);
-		void bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems);
-		::std::wstring binder_name ();
-		::lambda_p_llvm::generation_context context;
-        ::llvm::Value * echo_string_global;
-        ::llvm::Value * wprintf;
+		void bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems);
+		std::wstring binder_name ();
+		lambda_p_llvm::generation_context context;
+        llvm::Value * echo_string_global;
+        llvm::Value * wprintf;
 	};
 }

@@ -7,7 +7,7 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/core/association.h>
 
-lambda_p::parser::statement::statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a)
+lambda_p::parser::statement::statement (boost::shared_ptr < lambda_p::parser::routine> routine_a)
 	: have_target (false),
 	on_results (true),
 	routine (routine_a),
@@ -19,7 +19,7 @@ lambda_p::parser::statement::~statement(void)
 {
 }
 
-::lambda_p::parser::state_id lambda_p::parser::statement::state_type ()
+lambda_p::parser::state_id lambda_p::parser::statement::state_type ()
 {
 	return lambda_p::parser::state_statement;
 }

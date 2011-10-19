@@ -6,12 +6,12 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
 
-void lambda_p_kernel::list_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_kernel::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	if (statement->association->results.size () == 1)
 	{
-		::boost::shared_ptr < lambda_p_kernel::list> set (new lambda_p_kernel::list);
-		for (::std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i)
+		boost::shared_ptr < lambda_p_kernel::list> set (new lambda_p_kernel::list);
+		for (std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i)
 		{
 			set->instances.push_back (instances_a [*i]);
 		}
@@ -19,11 +19,11 @@ void lambda_p_kernel::list_binder::bind (::lambda_p::core::statement * statement
 	}
 	else
 	{
-		add_error (::std::wstring (L"expecting 1 result"), problems);
+		add_error (std::wstring (L"expecting 1 result"), problems);
 	}
 }
 
-::std::wstring lambda_p_kernel::list_binder::binder_name ()
+std::wstring lambda_p_kernel::list_binder::binder_name ()
 {
-	return ::std::wstring (L"group_binder");
+	return std::wstring (L"group_binder");
 }

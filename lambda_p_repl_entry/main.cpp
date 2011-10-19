@@ -4,8 +4,8 @@
 
 int main ()
 {
-    ::llvm::InitializeNativeTarget ();
-	::lambda_p_repl::repl repl;
+    llvm::InitializeNativeTarget ();
+	lambda_p_repl::repl repl;
 	repl.run ();
 	return 0;
 }

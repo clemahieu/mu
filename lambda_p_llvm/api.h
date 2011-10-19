@@ -12,10 +12,10 @@ namespace lambda_p_llvm
 	class api
 	{
 	public:
-		api (::lambda_p_llvm::generation_context & context_a);
+		api (lambda_p_llvm::generation_context & context_a);
 		~api (void);
-		::boost::shared_ptr < lambda_p_kernel::package> package;
-        ::lambda_p_llvm::generation_context & context;
+		boost::shared_ptr < lambda_p_kernel::package> package;
+        lambda_p_llvm::generation_context & context;
 	};
 }
 

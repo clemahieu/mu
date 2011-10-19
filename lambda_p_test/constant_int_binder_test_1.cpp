@@ -25,30 +25,30 @@ lambda_p_test::constant_int_binder_test_1::~constant_int_binder_test_1(void)
 
 void lambda_p_test::constant_int_binder_test_1::run ()
 {
-	::boost::shared_ptr < ::lambda_p::core::routine> routine (new ::lambda_p::core::routine);
+	boost::shared_ptr < lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t binder = routine->add_declaration ();
 	routine->surface->results.push_back (binder);
-	::lambda_p::core::statement * statement = routine->add_statement (binder);
+	lambda_p::core::statement * statement = routine->add_statement (binder);
 	size_t declaration = routine->add_declaration ();
 	statement->association->results.push_back (declaration);
-	size_t base = routine->add_data (::std::wstring (L"16"));
+	size_t base = routine->add_data (std::wstring (L"16"));
 	statement->association->parameters.push_back (base);
-	size_t number = routine->add_data (::std::wstring (L"10"));
+	size_t number = routine->add_data (std::wstring (L"10"));
 	statement->association->parameters.push_back (number);
-	size_t bits = routine->add_data (::std::wstring (L"64"));
+	size_t bits = routine->add_data (std::wstring (L"64"));
 	statement->association->parameters.push_back (bits);
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
-	::llvm::LLVMContext llvm_context;
-	::lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
-	::boost::shared_ptr < ::lambda_p_llvm::constant_int_binder> constant_int_binder (new ::lambda_p_llvm::constant_int_binder (context));
+	llvm::LLVMContext llvm_context;
+	lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
+	boost::shared_ptr < lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder (context));
 	bind_procedure.routine->instances [binder] = constant_int_binder;
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	bind_procedure (problems);
 	assert (problems.empty ());
 	assert (bind_procedure.routine->instances [declaration].get () != NULL);
-	assert (::boost::dynamic_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration]).get () != NULL);
-	assert (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() () != NULL);
-	assert (::llvm::isa < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ()));
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getBitWidth () == 64);
-	assert (::llvm::cast < ::llvm::ConstantInt> (::boost::static_pointer_cast < ::lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getValue () == 16);
+	assert (boost::dynamic_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration]).get () != NULL);
+	assert (boost::static_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() () != NULL);
+	assert (llvm::isa < llvm::ConstantInt> (boost::static_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ()));
+	assert (llvm::cast < llvm::ConstantInt> (boost::static_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getBitWidth () == 64);
+	assert (llvm::cast < llvm::ConstantInt> (boost::static_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() ())->getValue () == 16);
 }

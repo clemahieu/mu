@@ -19,7 +19,7 @@ lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::routine_instances ins
 {
 }
 
-void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.empty ())
@@ -28,7 +28,7 @@ void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, 
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
-			auto stream (::boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
+			auto stream (boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
 			lambda_p_repl::routine_input input;
 			input (std::wstring (L"environment quit exec = ;\n"));
 			input (stream);
@@ -60,7 +60,7 @@ void lambda_p_repl::exec_binder::bind (::lambda_p::core::statement * statement, 
 	}
 }
 
-::std::wstring lambda_p_repl::exec_binder::binder_name ()
+std::wstring lambda_p_repl::exec_binder::binder_name ()
 {
 	return std::wstring (L"exec_binder");
 }

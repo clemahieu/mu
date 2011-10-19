@@ -8,7 +8,7 @@
 
 #include <lambda_p/parser/finished.h>
 
-::lambda_p::parser::state_id lambda_p::parser::finished::state_type ()
+lambda_p::parser::state_id lambda_p::parser::finished::state_type ()
 {
-    return ::lambda_p::parser::state_finished;
+    return lambda_p::parser::state_finished;
 }

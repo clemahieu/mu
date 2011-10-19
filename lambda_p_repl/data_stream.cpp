@@ -1,6 +1,6 @@
 #include "data_stream.h"
 
-lambda_p_repl::data_stream::data_stream (::std::wstring string_a)
+lambda_p_repl::data_stream::data_stream (std::wstring string_a)
 	: string (string_a)
 {
 }

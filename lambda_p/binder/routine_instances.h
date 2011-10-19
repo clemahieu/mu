@@ -11,12 +11,12 @@ namespace lambda_p
 	namespace binder
 	{
 		class instance;
-		class routine_instances : public ::lambda_p::binder::instance
+		class routine_instances : public lambda_p::binder::instance
 		{
 		public:
 			routine_instances(void);
-			::boost::shared_ptr < ::lambda_p::binder::instance> & operator [] (size_t node);
-			::std::vector < ::boost::shared_ptr < ::lambda_p::binder::instance> > instances;
+			boost::shared_ptr < lambda_p::binder::instance> & operator [] (size_t node);
+			std::vector < boost::shared_ptr < lambda_p::binder::instance> > instances;
 		};
 	}
 }

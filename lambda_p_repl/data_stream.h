@@ -7,12 +7,12 @@
 
 namespace lambda_p_repl
 {
-	class data_stream : public ::lambda_p_repl::character_stream
+	class data_stream : public lambda_p_repl::character_stream
 	{
 	public:
-		data_stream (::std::wstring string_a);
+		data_stream (std::wstring string_a);
 		wchar_t operator () ();
-		::std::wstringstream string;
+		std::wstringstream string;
 	};
 }
 

@@ -14,18 +14,18 @@
 #include <sstream>
 #include <iostream>
 
-void lambda_p_repl::entry_input::operator () (::boost::shared_ptr < ::lambda_p_repl::character_stream> in, ::std::wostream & out)
+void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl::character_stream> in, std::wostream & out)
 {
 	::lambda_p_repl::routine_input input;
 	out << L"lp> \n";
-	::std::wstring environment (L"environment quit exec = ;\n");
+	std::wstring environment (L"environment quit exec = ;\n");
 	input (environment);
 	out << environment;
 	input (in);
 	if (input.error ())
 	{
 		out << "Lexing error:\n";
-		::std::wstring message;
+		std::wstring message;
 		input.error_message (message);
 		out << message;
 		out << '\n';
@@ -38,14 +38,14 @@ void lambda_p_repl::entry_input::operator () (::boost::shared_ptr < ::lambda_p_r
 	{
 		out << L">>\n";
 		routine = (*input.routines.routines)[0];
-        ::std::vector < ::lambda_p::errors::error *> errors;
+        std::vector < lambda_p::errors::error *> errors;
         routine->validate (errors);
         if (!errors.empty ())
         {
             out << "Validation error:\n";
-            for (::std::vector < ::lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
+            for (std::vector < lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
             {
-                ::lambda_p::errors::error * error (*i);
+                lambda_p::errors::error * error (*i);
                 error->string (out);
                 out << '\n';
             }

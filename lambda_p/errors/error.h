@@ -31,7 +31,7 @@ namespace lambda_p
         {
         public:
             virtual error_id error_type () = 0;
-            virtual void string (::std::wostream & stream) = 0;
+            virtual void string (std::wostream & stream) = 0;
         };
     }
 }

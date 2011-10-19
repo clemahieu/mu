@@ -6,7 +6,7 @@ namespace lambda_p
 {
 	namespace lexer
 	{
-		class begin : public ::lambda_p::lexer::state
+		class begin : public lambda_p::lexer::state
 		{
 		public:
 			begin(void);

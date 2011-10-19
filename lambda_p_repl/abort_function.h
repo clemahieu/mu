@@ -13,8 +13,8 @@ namespace lambda_p_repl
 	class abort_function
 	{
 	public:
-		abort_function (::lambda_p_llvm::generation_context & context_a);
-		::llvm::Function * abort;
+		abort_function (lambda_p_llvm::generation_context & context_a);
+		llvm::Function * abort;
 	};
 }
 

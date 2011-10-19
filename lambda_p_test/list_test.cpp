@@ -16,37 +16,37 @@ void lambda_p_test::list_test::run ()
 
 void lambda_p_test::list_test::run_1 ()
 {
-	::lambda_p::core::routine routine;
+	lambda_p::core::routine routine;
 	size_t group (routine.add_declaration ());
 	routine.surface->results.push_back (group);
-	::lambda_p::core::statement * statement (routine.add_statement (group));
+	lambda_p::core::statement * statement (routine.add_statement (group));
 	size_t result (routine.add_declaration ());
 	statement->association->results.push_back (result);
-	::boost::shared_ptr < lambda_p_kernel::list_binder> binder (new lambda_p_kernel::list_binder);
+	boost::shared_ptr < lambda_p_kernel::list_binder> binder (new lambda_p_kernel::list_binder);
 	routine.instances [group] = binder;
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	binder->bind (statement, routine.instances, problems);
 	assert (problems.empty ());
 	assert (routine.instances [result].get () != NULL);
-	assert (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (routine.instances [result]).get () != NULL);
-	assert (::boost::dynamic_pointer_cast < lambda_p_kernel::list> (routine.instances [result])->instances.size () == 0);
+	assert (boost::dynamic_pointer_cast < lambda_p_kernel::list> (routine.instances [result]).get () != NULL);
+	assert (boost::dynamic_pointer_cast < lambda_p_kernel::list> (routine.instances [result])->instances.size () == 0);
 }
 
 void lambda_p_test::list_test::run_2 ()
 {
-	::lambda_p::core::routine routine;
+	lambda_p::core::routine routine;
 	size_t list (routine.add_declaration ());
 	routine.surface->results.push_back (list);
-	::lambda_p::core::statement * statement (routine.add_statement (list));
+	lambda_p::core::statement * statement (routine.add_statement (list));
 	size_t result1 (routine.add_declaration ());
 	size_t result2 (routine.add_declaration ());
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
-	::boost::shared_ptr < lambda_p_kernel::list> binder (new lambda_p_kernel::list);
-	binder->instances.push_back (::boost::shared_ptr < ::lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
-	binder->instances.push_back (::boost::shared_ptr < ::lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
+	boost::shared_ptr < lambda_p_kernel::list> binder (new lambda_p_kernel::list);
+	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
+	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
 	routine.instances [list] = binder;
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	binder->bind (statement, routine.instances, problems);
 	assert (problems.empty ());
 	assert (routine.instances [result1].get () != NULL);
@@ -55,18 +55,18 @@ void lambda_p_test::list_test::run_2 ()
 
 void lambda_p_test::list_test::run_3 ()
 {
-	::lambda_p::core::routine routine;
+	lambda_p::core::routine routine;
 	size_t list (routine.add_declaration ());
 	routine.surface->results.push_back (list);
-	::lambda_p::core::statement * statement (routine.add_statement (list));
+	lambda_p::core::statement * statement (routine.add_statement (list));
 	size_t result1 (routine.add_declaration ());
 	size_t result2 (routine.add_declaration ());
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
-	::boost::shared_ptr < lambda_p_kernel::list> binder (new lambda_p_kernel::list);
-	binder->instances.push_back (::boost::shared_ptr < ::lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
+	boost::shared_ptr < lambda_p_kernel::list> binder (new lambda_p_kernel::list);
+	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
 	routine.instances [list] = binder;
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	binder->bind (statement, routine.instances, problems);
 	assert (!problems.empty ());
 }

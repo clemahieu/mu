@@ -1,6 +1,6 @@
 #include "file_stream.h"
 
-lambda_p_repl::file_stream::file_stream (::std::wstring name_a)
+lambda_p_repl::file_stream::file_stream (std::wstring name_a)
 	: input (file)
 {
 	file.open (name_a);

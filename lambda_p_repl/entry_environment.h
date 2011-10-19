@@ -23,12 +23,12 @@ namespace lambda_p_repl
     class entry_environment
     {
     public:
-		entry_environment (::lambda_p_repl::repl * repl_a);
+		entry_environment (lambda_p_repl::repl * repl_a);
         entry_environment ();
-        void operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
-		size_t environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine);
+        void operator () (boost::shared_ptr < lambda_p::core::routine> routine_a);
+		size_t environment_node (boost::shared_ptr < lambda_p::core::routine> routine);
     private:
         static void quit_invoke (void * object);
-		::lambda_p_repl::repl * repl;
+		lambda_p_repl::repl * repl;
     };
 }

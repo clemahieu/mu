@@ -6,7 +6,7 @@ namespace lambda_p
 {
 	namespace lexer
 	{
-		class control : public ::lambda_p::lexer::state
+		class control : public lambda_p::lexer::state
 		{
 		public:
 			control(void);

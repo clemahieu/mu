@@ -60,7 +60,7 @@
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Instructions.h>
 
-lambda_p_repl::entry_environment::entry_environment (::lambda_p_repl::repl * repl_a)
+lambda_p_repl::entry_environment::entry_environment (lambda_p_repl::repl * repl_a)
 : repl (repl_a)
 {    
 }
@@ -70,79 +70,79 @@ lambda_p_repl::entry_environment::entry_environment ()
 {
 }
 
-void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lambda_p::core::routine> routine_a)
+void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p::core::routine> routine_a)
 {	
-	::boost::shared_ptr < ::lambda_p_llvm::context> context_instance (new ::lambda_p_llvm::context);
-    ::std::string module_name_string ("llvm_repl");
-    ::llvm::StringRef module_name (module_name_string);
-	::llvm::Module * module (new ::llvm::Module (module_name, context_instance->context_m));
-    ::lambda_p_llvm::generation_context context (context_instance->context_m, module, NULL);
-    ::llvm::EngineBuilder builder (module);
-    builder.setEngineKind (::llvm::EngineKind::JIT);
-    ::std::string error;
+	boost::shared_ptr < lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);
+    std::string module_name_string ("llvm_repl");
+    llvm::StringRef module_name (module_name_string);
+	llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
+    lambda_p_llvm::generation_context context (context_instance->context_m, module, NULL);
+    llvm::EngineBuilder builder (module);
+    builder.setEngineKind (llvm::EngineKind::JIT);
+    std::string error;
     builder.setErrorStr (&error);
-    ::llvm::ExecutionEngine * engine = builder.create ();
-    ::lambda_p_llvm::wprintf_function wprintf (context);
+    llvm::ExecutionEngine * engine = builder.create ();
+    lambda_p_llvm::wprintf_function wprintf (context);
     module->getFunctionList ().push_back (wprintf.wprintf);
     engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
-    ::lambda_p_llvm::malloc_function malloc (context);
+    lambda_p_llvm::malloc_function malloc (context);
     module->getFunctionList ().push_back (malloc.malloc);
     engine->addGlobalMapping (malloc.malloc, (void *)::malloc);
-    ::lambda_p_llvm::memcpy_function memcpy (context);
+    lambda_p_llvm::memcpy_function memcpy (context);
     module->getFunctionList ().push_back (memcpy.memcpy);
-	::llvm::FunctionType * start_type (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), false));
-    ::llvm::Function * start (::llvm::Function::Create (start_type, ::llvm::GlobalValue::ExternalLinkage));
+	llvm::FunctionType * start_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context.context), false));
+    llvm::Function * start (llvm::Function::Create (start_type, llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
-	::lambda_p_repl::abort_function abort (context);
+	lambda_p_repl::abort_function abort (context);
 	engine->addGlobalMapping (abort.abort, (void *)::abort);
-    ::llvm::BasicBlock * block (::llvm::BasicBlock::Create (context.context));
+    llvm::BasicBlock * block (llvm::BasicBlock::Create (context.context));
     start->getBasicBlockList ().push_back (block);
     context.block = block;
-	::boost::shared_ptr < lambda_p_kernel::package> package (new lambda_p_kernel::package);
-	::boost::shared_ptr < ::lambda_p_repl::hello_world_binder> hello_binder (new ::lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
-	::boost::shared_ptr < ::lambda_p_repl::echo_binder> echo_binder (new ::lambda_p_repl::echo_binder (wprintf.wprintf, context));
-	::boost::shared_ptr < ::lambda_p_llvm::data_to_string_binder> d2s_binder (new ::lambda_p_llvm::data_to_string_binder (context));
-	::boost::shared_ptr < ::lambda_p_repl::routine_builder_binder> read_binder (new ::lambda_p_repl::routine_builder_binder);
-	::boost::shared_ptr < ::lambda_p_repl::dynamic_wprintf> wprintf_binder (new ::lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
-    ::boost::shared_ptr < ::lambda_p_llvm::fo_value> memcpy_function (new ::lambda_p_llvm::fo_value (memcpy.memcpy));
-	::boost::shared_ptr < ::lambda_p_llvm::fo_value> malloc_function (new ::lambda_p_llvm::fo_value (malloc.malloc));
-	::boost::shared_ptr < ::lambda_p_llvm::while_call_binder> while_binder (new ::lambda_p_llvm::while_call_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::fo_value> abort_function (new ::lambda_p_llvm::fo_value (abort.abort));
-	::boost::shared_ptr < lambda_p_kernel::routine_binder> binder_function (new lambda_p_kernel::routine_binder);
-	::boost::shared_ptr < lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
-	::boost::shared_ptr < ::lambda_p_llvm::noop_closure_binder> noop_closure_binder (new ::lambda_p_llvm::noop_closure_binder (context));
-	::boost::shared_ptr < ::lambda_p_llvm::call_binder> call_binder (new ::lambda_p_llvm::call_binder);
-	::boost::shared_ptr < lambda_p_kernel::list_binder> list_binder (new lambda_p_kernel::list_binder);
-	::boost::shared_ptr < ::lambda_p_llvm::struct_binder> struct_binder (new ::lambda_p_llvm::struct_binder (context));
-	::boost::shared_ptr < lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
-	::boost::shared_ptr < lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);
-	::boost::shared_ptr < ::lambda_p_repl::data_stream_binder> data_stream_binder (new ::lambda_p_repl::data_stream_binder);
-	::boost::shared_ptr < ::lambda_p_repl::routine_builder_binder> routine_builder_binder (new ::lambda_p_repl::routine_builder_binder);
-	::boost::shared_ptr < lambda_p_kernel::routine_binder> routine_binder (new lambda_p_kernel::routine_binder);
+	boost::shared_ptr < lambda_p_kernel::package> package (new lambda_p_kernel::package);
+	boost::shared_ptr < lambda_p_repl::hello_world_binder> hello_binder (new lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
+	boost::shared_ptr < lambda_p_repl::echo_binder> echo_binder (new lambda_p_repl::echo_binder (wprintf.wprintf, context));
+	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> d2s_binder (new lambda_p_llvm::data_to_string_binder (context));
+	boost::shared_ptr < lambda_p_repl::routine_builder_binder> read_binder (new lambda_p_repl::routine_builder_binder);
+	boost::shared_ptr < lambda_p_repl::dynamic_wprintf> wprintf_binder (new lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
+    boost::shared_ptr < lambda_p_llvm::fo_value> memcpy_function (new lambda_p_llvm::fo_value (memcpy.memcpy));
+	boost::shared_ptr < lambda_p_llvm::fo_value> malloc_function (new lambda_p_llvm::fo_value (malloc.malloc));
+	boost::shared_ptr < lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
+	boost::shared_ptr < lambda_p_llvm::fo_value> abort_function (new lambda_p_llvm::fo_value (abort.abort));
+	boost::shared_ptr < lambda_p_kernel::routine_binder> binder_function (new lambda_p_kernel::routine_binder);
+	boost::shared_ptr < lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
+	boost::shared_ptr < lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
+	boost::shared_ptr < lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
+	boost::shared_ptr < lambda_p_kernel::list_binder> list_binder (new lambda_p_kernel::list_binder);
+	boost::shared_ptr < lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));
+	boost::shared_ptr < lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
+	boost::shared_ptr < lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);
+	boost::shared_ptr < lambda_p_repl::data_stream_binder> data_stream_binder (new lambda_p_repl::data_stream_binder);
+	boost::shared_ptr < lambda_p_repl::routine_builder_binder> routine_builder_binder (new lambda_p_repl::routine_builder_binder);
+	boost::shared_ptr < lambda_p_kernel::routine_binder> routine_binder (new lambda_p_kernel::routine_binder);
 	boost::shared_ptr <lambda_p_repl::file_stream_binder> file_stream_binder (new lambda_p_repl::file_stream_binder);
-	::lambda_p_llvm::api llvm_binder (context);
-	::std::wstring echo_name (L"echo");
-	::std::wstring hello_name (L"hello");
-	::std::wstring d2s_name (L"d2s");
-	::std::wstring read_name (L"read");
-	::std::wstring llvm_name (L"llvm");
-	::std::wstring context_name (L"context");
-	::std::wstring wprintf_name (L"wprintf");
-    ::std::wstring memcpy_name (L"memcpy");
-	::std::wstring malloc_name (L"malloc");
-	::std::wstring while_name (L"while");
-	::std::wstring abort_name (L"abort");
-	::std::wstring binder_name (L"bind");
-	::std::wstring instances_name (L"instances");
-	::std::wstring noop_closure_name (L"closen");
-	::std::wstring call_binder_name (L"call");
-	::std::wstring list_name (L"list");
-	::std::wstring struct_name (L"struct");
-	::std::wstring package_create_name (L"package_create");
-	::std::wstring package_add_name (L"package_add");
-	::std::wstring data_stream_name (L"data_stream");
-	::std::wstring routine_builder_binder_name (L"routine_builder");
-	::std::wstring routine_binder_name (L"routine_binder");
+	lambda_p_llvm::api llvm_binder (context);
+	std::wstring echo_name (L"echo");
+	std::wstring hello_name (L"hello");
+	std::wstring d2s_name (L"d2s");
+	std::wstring read_name (L"read");
+	std::wstring llvm_name (L"llvm");
+	std::wstring context_name (L"context");
+	std::wstring wprintf_name (L"wprintf");
+    std::wstring memcpy_name (L"memcpy");
+	std::wstring malloc_name (L"malloc");
+	std::wstring while_name (L"while");
+	std::wstring abort_name (L"abort");
+	std::wstring binder_name (L"bind");
+	std::wstring instances_name (L"instances");
+	std::wstring noop_closure_name (L"closen");
+	std::wstring call_binder_name (L"call");
+	std::wstring list_name (L"list");
+	std::wstring struct_name (L"struct");
+	std::wstring package_create_name (L"package_create");
+	std::wstring package_add_name (L"package_add");
+	std::wstring data_stream_name (L"data_stream");
+	std::wstring routine_builder_binder_name (L"routine_builder");
+	std::wstring routine_binder_name (L"routine_binder");
 	std::wstring file_stream_name (L"file_stream");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
@@ -167,20 +167,20 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
 	package->nodes [routine_binder_name] = routine_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
-	::boost::shared_ptr < lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
-	::boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
+	boost::shared_ptr < lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
+	boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
 	instances->operator[] (0) = package;	
 	if (repl != NULL)
 	{
-        ::std::vector < ::llvm::Type const *> parameters;
-        parameters.push_back (::llvm::Type::getInt8PtrTy (context.context, 0));
-        ::llvm::Function * quit_function (::llvm::Function::Create (::llvm::FunctionType::get (::llvm::Type::getVoidTy (context.context), parameters, false), ::llvm::GlobalValue::ExternalLinkage));
+        std::vector < llvm::Type const *> parameters;
+        parameters.push_back (llvm::Type::getInt8PtrTy (context.context, 0));
+        llvm::Function * quit_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context.context), parameters, false), llvm::GlobalValue::ExternalLinkage));
         context.module->getFunctionList ().push_back (quit_function);
         engine->addGlobalMapping (quit_function, (void *)&quit_invoke);
-        ::llvm::GlobalVariable * quit_object (new ::llvm::GlobalVariable (::llvm::Type::getInt8Ty (context.context), true, ::llvm::GlobalValue::ExternalLinkage));
+        llvm::GlobalVariable * quit_object (new llvm::GlobalVariable (llvm::Type::getInt8Ty (context.context), true, llvm::GlobalValue::ExternalLinkage));
         context.module->getGlobalList ().push_back (quit_object);
         engine->addGlobalMapping (quit_object, repl);
-		::boost::shared_ptr < ::lambda_p_repl::repl_quit_binder> binder (new ::lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
+		boost::shared_ptr < lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 		instances->operator[] (1) = binder;
 	}
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*instances.get ()));
@@ -188,40 +188,40 @@ void lambda_p_repl::entry_environment::operator () (::boost::shared_ptr < ::lamb
 	exec_binder->instances.operator[] (2) = exec_binder;
 	std::wstring exec_name (L"exec");
 	
-	::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > problems;
+	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
 	lambda_p_kernel::single_bind_routine bind (routine, instances);
 	bind (problems);
 	if (!problems.empty ())
 	{
-		::std::wcout << "Binding error:\n";
-		::std::wstringstream stream;
-		for (::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> >::iterator i = problems.begin (); i != problems.end (); ++i)
+		std::wcout << "Binding error:\n";
+		std::wstringstream stream;
+		for (std::vector < boost::shared_ptr < lambda_p::errors::error> >::iterator i = problems.begin (); i != problems.end (); ++i)
 		{
 			(*i)->string (stream);
 			stream << L'\n';
 		}
 		stream.seekg (0);
-		::std::wstring error (stream.str ());
-		::std::wcout << error;
-		::std::wcout << '\n';
+		std::wstring error (stream.str ());
+		std::wcout << error;
+		std::wcout << '\n';
 	}
 	else
 	{	
-        ::llvm::ReturnInst * ret (::llvm::ReturnInst::Create (context.context));
+        llvm::ReturnInst * ret (llvm::ReturnInst::Create (context.context));
 		context.block->getInstList ().push_back (ret);
-        ::std::vector < ::llvm::GenericValue> start_arguments;
+        std::vector < llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
 	}
 }
 
-size_t lambda_p_repl::entry_environment::environment_node (::boost::shared_ptr < ::lambda_p::core::routine> routine)
+size_t lambda_p_repl::entry_environment::environment_node (boost::shared_ptr < lambda_p::core::routine> routine)
 {
 	size_t result (routine->surface->results [0]);
 	return result;
 }
 
-void ::lambda_p_repl::entry_environment::quit_invoke (void * object)
+void lambda_p_repl::entry_environment::quit_invoke (void * object)
 {
-    ::lambda_p_repl::repl * repl (reinterpret_cast < ::lambda_p_repl::repl *> (object));
+    lambda_p_repl::repl * repl (reinterpret_cast < lambda_p_repl::repl *> (object));
     repl->stop ();
 }

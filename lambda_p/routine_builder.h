@@ -10,12 +10,12 @@ namespace lambda_p
 	{
 	public:
 		routine_builder ();
-		void operator () (::std::wstring & string);
+		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
-		void operator << (::std::wistream & source);
-		::lambda_p::parser::routine_vector routines;
-		::lambda_p::parser::parser parser;
-		::lambda_p::lexer::lexer lexer;
+		void operator << (std::wistream & source);
+		lambda_p::parser::routine_vector routines;
+		lambda_p::parser::parser parser;
+		lambda_p::lexer::lexer lexer;
 	};
 }
 

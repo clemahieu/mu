@@ -8,7 +8,7 @@ lambda_p::lexer::identifier::~identifier(void)
 {
 }
 
-::lambda_p::lexer::state_id lambda_p::lexer::identifier::state_type ()
+lambda_p::lexer::state_id lambda_p::lexer::identifier::state_type ()
 {
-	return ::lambda_p::lexer::state_identifier;
+	return lambda_p::lexer::state_identifier;
 }

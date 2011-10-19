@@ -17,12 +17,12 @@ namespace lambda_p
 		class lexer
 		{
 		public:
-			lexer (::boost::function <void (::lambda_p::tokens::token *)> target_a);
+			lexer (boost::function <void (lambda_p::tokens::token *)> target_a);
 			~lexer ();
 			void operator () (wchar_t character);
 			void reset ();
 			bool error ();
-			void error_message (::std::wstring & target);
+			void error_message (std::wstring & target);
 		private:
 			void lex_internal (wchar_t character);
 			void lex_error (wchar_t character);
@@ -33,9 +33,9 @@ namespace lambda_p
 			void lex_complex_identifier (wchar_t character);
 			void lex_identifier (wchar_t character);
 			void pop_state ();
-			::boost::function <void (::lambda_p::tokens::token *)> target;
+			boost::function <void (lambda_p::tokens::token *)> target;
 		public:
-			::std::stack < ::lambda_p::lexer::state *> state;
+			std::stack < lambda_p::lexer::state *> state;
 		};
 	}
 }

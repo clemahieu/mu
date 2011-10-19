@@ -13,11 +13,11 @@ namespace lambda_p
 		class data : public state
 		{
 		public:
-			data (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a, ::boost::shared_ptr < ::lambda_p::parser::data_target> target_a);
+			data (boost::shared_ptr < lambda_p::parser::routine> routine_a, boost::shared_ptr < lambda_p::parser::data_target> target_a);
 			~data (void);
 			state_id state_type ();
-			::boost::shared_ptr < ::lambda_p::parser::routine> routine;
-			::boost::shared_ptr < ::lambda_p::parser::data_target> target;
+			boost::shared_ptr < lambda_p::parser::routine> routine;
+			boost::shared_ptr < lambda_p::parser::data_target> target;
 		};
 	}
 }

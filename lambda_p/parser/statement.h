@@ -18,18 +18,18 @@ namespace lambda_p
 	namespace parser
 	{
 		class body;
-		class statement : public state, public ::lambda_p::parser::association_target
+		class statement : public state, public lambda_p::parser::association_target
 		{
 		public:
-			statement (::boost::shared_ptr < ::lambda_p::parser::routine> routine_a);
+			statement (boost::shared_ptr < lambda_p::parser::routine> routine_a);
 			~statement (void);
 			state_id state_type ();
 			void sink_result (size_t * & declaration);
 			void sink_argument (size_t * & argument);
 			bool have_target;
 			bool on_results;
-			::boost::shared_ptr < ::lambda_p::parser::routine> routine;
-			::lambda_p::core::statement * statement_m;
+			boost::shared_ptr < lambda_p::parser::routine> routine;
+			lambda_p::core::statement * statement_m;
 		};
 	}
 }

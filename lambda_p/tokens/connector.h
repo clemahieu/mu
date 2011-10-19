@@ -6,7 +6,7 @@ namespace lambda_p
 {
 	namespace tokens
 	{
-		class connector : public ::lambda_p::tokens::token
+		class connector : public lambda_p::tokens::token
 		{
 		public:
 			connector(void);

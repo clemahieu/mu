@@ -11,14 +11,14 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class data : public ::lambda_p::binder::instance
+		class data : public lambda_p::binder::instance
 		{
 		public:
-			data (::std::wstring string_a);
+			data (std::wstring string_a);
 			~data (void);
-            ::std::wstring string () const;
+            std::wstring string () const;
 		private:
-			::std::wstring string_m;
+			std::wstring string_m;
 		};
 	}
 }

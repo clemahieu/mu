@@ -14,7 +14,7 @@ namespace lambda_p
 			identifier(void);
 			~identifier(void);
 			state_id state_type ();
-			::std::wstring string;
+			std::wstring string;
 		};
 	}
 }

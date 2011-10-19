@@ -14,10 +14,10 @@
 
 namespace lambda_p_llvm
 {
-    class value : public ::lambda_p::binder::instance
+    class value : public lambda_p::binder::instance
     {
     public:  
-        virtual ::llvm::Value * operator () () = 0;
-		virtual ::llvm::Type const * type () = 0;
+        virtual llvm::Value * operator () () = 0;
+		virtual llvm::Type const * type () = 0;
     };
 }

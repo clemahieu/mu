@@ -15,13 +15,13 @@ namespace lambda_p
 {
     namespace errors
     {
-        class orphan_reference : public ::lambda_p::errors::error
+        class orphan_reference : public lambda_p::errors::error
         {
         public:
-            orphan_reference (::lambda_p::core::position position_a);
+            orphan_reference (lambda_p::core::position position_a);
             error_id error_type ();
-            void string (::std::wostream & stream);
-            ::lambda_p::core::position position;
+            void string (std::wostream & stream);
+            lambda_p::core::position position;
         };
     }
 }

@@ -18,7 +18,7 @@ namespace lambda_p_llvm
     class memcpy_function
     {
     public:
-        memcpy_function (::lambda_p_llvm::generation_context & context_a);
-        ::llvm::Function * memcpy;
+        memcpy_function (lambda_p_llvm::generation_context & context_a);
+        llvm::Function * memcpy;
     };
 }

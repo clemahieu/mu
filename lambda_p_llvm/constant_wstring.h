@@ -21,7 +21,7 @@ namespace lambda_p_llvm
     class constant_wstring
     {
     public:
-        constant_wstring (::lambda_p_llvm::generation_context context, ::std::wstring const & string);
-        ::llvm::Constant * value;
+        constant_wstring (lambda_p_llvm::generation_context context, std::wstring const & string);
+        llvm::Constant * value;
     };
 }

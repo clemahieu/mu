@@ -15,7 +15,7 @@
 #include <string>
 #include <sstream>
 
-lambda_p_repl::repl_quit_binder::repl_quit_binder (::lambda_p_llvm::generation_context & context_a, ::llvm::Function * quit_function_a, ::llvm::Value * quit_object_a)
+lambda_p_repl::repl_quit_binder::repl_quit_binder (lambda_p_llvm::generation_context & context_a, llvm::Function * quit_function_a, llvm::Value * quit_object_a)
 	: context (context_a),
 	quit_function (quit_function_a),
     quit_object (quit_object_a)
@@ -26,19 +26,19 @@ lambda_p_repl::repl_quit_binder::~repl_quit_binder (void)
 {
 }
 
-void lambda_p_repl::repl_quit_binder::bind (::lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, ::std::vector < ::boost::shared_ptr < ::lambda_p::errors::error> > & problems)
+void lambda_p_repl::repl_quit_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
     check_count (0, 0, statement, problems);
     if (problems.empty ())
     {
-        ::std::vector < ::llvm::Value *> arguments;
+        std::vector < llvm::Value *> arguments;
         arguments.push_back (quit_object);
-        ::llvm::CallInst * call (::llvm::CallInst::Create (quit_function, arguments.begin (), arguments.end ()));
+        llvm::CallInst * call (llvm::CallInst::Create (quit_function, arguments.begin (), arguments.end ()));
         context.block->getInstList ().push_back (call);
 	}
 }
 
-::std::wstring lambda_p_repl::repl_quit_binder::binder_name ()
+std::wstring lambda_p_repl::repl_quit_binder::binder_name ()
 {
-	return ::std::wstring (L"repl_quit_binder");
+	return std::wstring (L"repl_quit_binder");
 }

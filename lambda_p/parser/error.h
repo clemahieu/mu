@@ -8,13 +8,13 @@ namespace lambda_p
 {
 	namespace parser
 	{
-		class error : public ::lambda_p::parser::state
+		class error : public lambda_p::parser::state
 		{
 		public:
-			error(::std::wstring message_a);
+			error(std::wstring message_a);
 			~error(void);
-			::lambda_p::parser::state_id state_type ();
-			::std::wstring message;
+			lambda_p::parser::state_id state_type ();
+			std::wstring message;
 		};
 	}
 }

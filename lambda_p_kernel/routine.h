@@ -14,10 +14,10 @@ namespace lambda_p
 namespace lambda_p_kernel
 {
 	// Represents a routine that can be used as a node_instace
-	class routine : public ::lambda_p::binder::instance
+	class routine : public lambda_p::binder::instance
 	{
 	public:
-		routine (::boost::shared_ptr < ::lambda_p::core::routine> routine_a);
-		::boost::shared_ptr < ::lambda_p::core::routine> routine_m;
+		routine (boost::shared_ptr < lambda_p::core::routine> routine_a);
+		boost::shared_ptr < lambda_p::core::routine> routine_m;
 	};
 }

@@ -1,6 +1,6 @@
 #include "wistream_input.h"
 
-lambda_p_repl::wistream_input::wistream_input(::std::wistream & source_a)
+lambda_p_repl::wistream_input::wistream_input(std::wistream & source_a)
 	: source (source_a)
 {
 }
