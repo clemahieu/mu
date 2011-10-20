@@ -24,6 +24,7 @@
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="parser_test_1.cpp" />
     <ClCompile Include="lexer_test_1.cpp" />
+    <ClCompile Include="istream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -48,5 +49,6 @@
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="parser_test_1.h" />
     <ClInclude Include="lexer_test_1.h" />
+    <ClInclude Include="istream_input_test.h" />
   </ItemGroup>
 </Project>

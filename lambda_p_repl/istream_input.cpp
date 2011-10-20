@@ -10,7 +10,7 @@ wchar_t lambda_p_repl::istream_input::operator() ()
 	wchar_t result (source.get ());
 	if (source.eof ())
 	{
-		result = '\uffff';
+		result = L'\uffff';
 	}
 	return result;
 }

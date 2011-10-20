@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F
 		examples\hello.lp = examples\hello.lp
 		examples\malloc.lp = examples\malloc.lp
 		examples\quit.lp = examples\quit.lp
+		examples\store_routine.lp = examples\store_routine.lp
 		examples\swap.lp = examples\swap.lp
 		examples\test.lp = examples\test.lp
 	EndProjectSection

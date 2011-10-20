@@ -20,6 +20,7 @@
 #include <lambda_p_test/list_test.h>
 #include <lambda_p_test/wistream_input_test.h>
 #include <lambda_p_test/filesystem_test.h>
+#include <lambda_p_test/istream_input_test.h>
 
 using namespace lambda_p_test;
 
@@ -111,6 +112,10 @@ int main ()
 	}
 	{
 		filesystem_test test;
+		test.run ();
+	}
+	{
+		istream_input_test test;
 		test.run ();
 	}
 	return 0;

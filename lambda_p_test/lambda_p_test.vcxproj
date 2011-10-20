@@ -148,6 +148,7 @@
     <ClCompile Include="echo_binder_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="function_binder_test.cpp" />
+    <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
     <ClCompile Include="node_instances_test_1.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="echo_binder_test.h" />
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="function_binder_test.h" />
+    <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="jit_test_1.h" />
     <ClInclude Include="node_instances_test_1.h" />
     <ClInclude Include="noop_closure_test.h" />
