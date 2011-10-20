@@ -48,6 +48,16 @@ void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, la
 				boost::shared_ptr < lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt1Ty (context.context)));
 				instances [declaration] = type;
 			}
+			else if (command_data->string ().compare (std::wstring (L"getInt8PtrTy")) == 0)
+			{
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt8PtrTy (context.context)));
+				instances [declaration] = type;
+			}
+			else if (command_data->string ().compare (std::wstring (L"getInt64Ty")) == 0)
+			{
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64Ty (context.context)));
+				instances [declaration] = type;
+			}
 			else
 			{
 				std::wstring message;

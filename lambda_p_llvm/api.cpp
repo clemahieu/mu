@@ -9,6 +9,7 @@
 #include <lambda_p_llvm/store_inst_binder.h>
 #include <lambda_p_llvm/cast_inst_binder.h>
 #include <lambda_p_llvm/alloca_inst_binder.h>
+#include <lambda_p_llvm/generator.h>
 
 #include <string>
 
@@ -40,6 +41,9 @@ lambda_p_llvm::api::api (lambda_p_llvm::generation_context & context_a)
 	std::wstring alloca_inst_name (L"alloca_inst");
 	boost::shared_ptr < lambda_p_llvm::alloca_inst_binder> alloca_inst_binder (new lambda_p_llvm::alloca_inst_binder (context));
 	package->nodes [alloca_inst_name] = alloca_inst_binder;
+	std::wstring generator_name (L"generator");
+	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
+	package->nodes [generator_name] = generator;
 }
 
 lambda_p_llvm::api::~api (void)
