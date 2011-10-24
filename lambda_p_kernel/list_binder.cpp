@@ -1,7 +1,7 @@
 #include "list_binder.h"
 
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p_kernel/list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
@@ -10,7 +10,7 @@ void lambda_p_kernel::list_binder::bind (lambda_p::core::statement * statement, 
 {
 	if (statement->association->results.size () == 1)
 	{
-		boost::shared_ptr < lambda_p_kernel::list> set (new lambda_p_kernel::list);
+		boost::shared_ptr <lambda_p::binder::list> set (new lambda_p::binder::list);
 		for (std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i)
 		{
 			set->instances.push_back (instances_a [*i]);

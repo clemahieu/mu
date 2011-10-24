@@ -5,7 +5,7 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <sstream>
 
-void lambda_p_kernel::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	if (statement->association->parameters.empty ())
 	{
@@ -33,7 +33,7 @@ void lambda_p_kernel::list::bind (lambda_p::core::statement * statement, lambda_
 	}
 }
 
-std::wstring lambda_p_kernel::list::binder_name ()
+std::wstring lambda_p::binder::list::binder_name ()
 {
 	return std::wstring (L"list");
 }

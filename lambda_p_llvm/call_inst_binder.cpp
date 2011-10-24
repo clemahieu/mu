@@ -6,7 +6,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p_kernel/list.h>
+#include <lambda_p/binder/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -29,7 +29,7 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 			llvm::Function * function (llvm::dyn_cast < llvm::Function> (value->value));
 			if (function != NULL)
 			{
-				boost::shared_ptr < lambda_p_kernel::list> arguments (boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [1]]));
+				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [1]]));
 				if (arguments.get () != NULL)
 				{
 					llvm::FunctionType const * type (function->getFunctionType ());

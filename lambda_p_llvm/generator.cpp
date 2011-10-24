@@ -11,7 +11,7 @@
 #include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_kernel/bind_procedure.h>
-#include <lambda_p_kernel/list.h>
+#include <lambda_p/binder/list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -37,7 +37,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 			boost::shared_ptr < lambda_p_llvm::type> return_type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (instances [statement->association->parameters [1]]));
 			if (return_type.get () != NULL)
 			{
-				boost::shared_ptr < lambda_p_kernel::list> argument_list (boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [2]]));
+				boost::shared_ptr <lambda_p::binder::list> argument_list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [2]]));
 				if (argument_list.get () != NULL)
 				{
 					if (argument_list->instances.size () == routine->routine_m->surface->results.size ())

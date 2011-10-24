@@ -1,6 +1,6 @@
 #include "struct_binder.h"
 
-#include <lambda_p_kernel/list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
@@ -19,7 +19,7 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 	check_count (1, 1, statement, problems);
 	if (problems.empty ())
 	{
-		boost::shared_ptr < lambda_p_kernel::list> list (boost::dynamic_pointer_cast < lambda_p_kernel::list> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [0]]));
 		if (list.get () != NULL)
 		{
 			std::vector < llvm::Type const *> types;

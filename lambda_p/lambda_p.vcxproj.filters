@@ -155,6 +155,9 @@
     <ClInclude Include="binder\routine_instances.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="binder\list.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -306,6 +309,9 @@
       <Filter>lexer</Filter>
     </ClCompile>
     <ClCompile Include="binder\routine_instances.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

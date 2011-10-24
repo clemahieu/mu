@@ -61,7 +61,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	boost::shared_ptr < lambda_p_llvm::noop_closure_binder> binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr < lambda_p_llvm::fo_value> function (new lambda_p_llvm::fo_value (target));
 	boost::shared_ptr < lambda_p_llvm::call_binder> call (new lambda_p_llvm::call_binder);
-	boost::shared_ptr < lambda_p_kernel::list_binder> list (new lambda_p_kernel::list_binder);
+	boost::shared_ptr <lambda_p_kernel::list_binder> list (new lambda_p_kernel::list_binder);
 	lambda_p::routine_builder builder;
 	builder (L"binder function call list = ; list args = ; binder closure = function args; call = closure; #;");
 	boost::shared_ptr < lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));

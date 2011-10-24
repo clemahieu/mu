@@ -5,7 +5,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p_kernel/list.h>
+#include <lambda_p/binder/list.h>
 
 #include <boost/filesystem.hpp>
 
