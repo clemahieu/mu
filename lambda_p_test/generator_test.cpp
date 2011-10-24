@@ -10,7 +10,7 @@
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_kernel/bind_procedure.h>
-#include <lambda_p_kernel/list_binder.h>
+#include <lambda_p/binder/list_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -59,7 +59,7 @@ void lambda_p_test::generator_test::run_1 ()
 	instances [6] = type_value;
 	instances [7] = type_value;
 	instances [8] = type_value;
-	boost::shared_ptr <lambda_p_kernel::list_binder> group (new lambda_p_kernel::list_binder);
+	boost::shared_ptr <lambda_p::binder::list_binder> group (new lambda_p::binder::list_binder);
 	instances [9] = group;
 	lambda_p_kernel::bind_procedure procedure (boost::shared_ptr < lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
 	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;

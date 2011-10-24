@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\list.h" />
     <ClInclude Include="binder\routine_instances.h" />
     <ClInclude Include="binder\binder.h" />
@@ -176,15 +177,15 @@
     <ClInclude Include="lexer\lexer.h" />
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
-    <ClInclude Include="tokens\connector.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
     <ClInclude Include="tokens\data.h" />
-    <ClInclude Include="tokens\statement_end.h" />
+    <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\list.cpp" />
     <ClCompile Include="binder\routine_instances.cpp" />
     <ClCompile Include="binder\binder.cpp" />
@@ -230,11 +231,10 @@
     <ClCompile Include="parser\statement.cpp" />
     <ClCompile Include="routine_builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
-    <ClCompile Include="tokens\connector.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
     <ClCompile Include="tokens\data.cpp" />
-    <ClCompile Include="tokens\statement_end.cpp" />
+    <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>

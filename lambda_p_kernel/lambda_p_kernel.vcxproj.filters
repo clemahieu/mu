@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="bind_procedure.cpp" />
     <ClCompile Include="identity.cpp" />
-    <ClCompile Include="list_binder.cpp" />
     <ClCompile Include="null_binder.cpp" />
     <ClCompile Include="package.cpp" />
     <ClCompile Include="package_add.cpp" />
@@ -18,7 +17,6 @@
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
     <ClInclude Include="identity.h" />
-    <ClInclude Include="list_binder.h" />
     <ClInclude Include="null_binder.h" />
     <ClInclude Include="package.h" />
     <ClInclude Include="package_add.h" />

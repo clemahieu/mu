@@ -2,7 +2,7 @@
 
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/data.h>
 #include <lambda_p/core/statement.h>
@@ -114,7 +114,7 @@ void lambda_p::parser::parser::parse_begin (lambda_p::tokens::token * token)
 	{
         case lambda_p::tokens::token_id_identifier:
         case lambda_p::tokens::token_id_complex_identifier:
-		case lambda_p::tokens::token_id_connector:
+		case lambda_p::tokens::token_id_divider:
         {
             boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::routine);
             state.push (new_state);
@@ -181,7 +181,7 @@ void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 		{
 		case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_identifier:
-		case lambda_p::tokens::token_id_connector:
+		case lambda_p::tokens::token_id_divider:
 			{
 				state_l->have_surface = true;
 				boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::association (state_l, state_l));
@@ -278,8 +278,8 @@ void lambda_p::parser::parser::parse_association (lambda_p::tokens::token * toke
 				}
 			}
 			break;
-		case lambda_p::tokens::token_id_connector:
-			state_l->on_results = false;
+		case lambda_p::tokens::token_id_divider:
+            state.pop ();
 			break;
 		default:
 			std::wstring message (L"Looking for identifiers while parsing statement results");
@@ -315,8 +315,8 @@ void lambda_p::parser::parser::parse_association (lambda_p::tokens::token * toke
 				state.push (new_state);
 			}
 			break;
-		case lambda_p::tokens::token_id_statement_end:			
-            state.pop ();
+		case lambda_p::tokens::token_id_divider:			
+			state_l->on_results = true;
 			break;
 		default:
 			std::wstring message (L"Invalid statement argument: ");
@@ -372,11 +372,11 @@ std::wstring lambda_p::parser::parser::token_type_name (lambda_p::tokens::token 
 	case lambda_p::tokens::token_id_data:
 		result.append (L"data");
 		break;
-	case lambda_p::tokens::token_id_statement_end:
-		result.append (L"statement_end");
+	case lambda_p::tokens::token_id_divider:
+		result.append (L"divider");
 		break;
-	case lambda_p::tokens::token_id_connector:
-		result.append (L"connector");
+	case lambda_p::tokens::token_id_stream_end:
+		result.append (L"stream_end");
 		break;
 	default:
 		result.append (L"Unknown");

@@ -6,6 +6,7 @@
 #include <lambda_p/parser/association_target.h>
 
 #include <map>
+#include <string>
 
 namespace lambda_p
 {
@@ -27,10 +28,10 @@ namespace lambda_p
 			state_id state_type ();
 			void sink_result (size_t * & declaration);
 			void sink_argument (size_t * & argument);
-			boost::shared_ptr < lambda_p::core::routine> routine_m;
+			boost::shared_ptr <lambda_p::core::routine> routine_m;
 			bool have_surface;
-			std::multimap < std::wstring, size_t *> unresolved_references;
-			std::map < std::wstring, size_t> positions;
+			std::multimap <std::wstring, size_t *> unresolved_references;
+			std::map <std::wstring, size_t> positions;
 			bool parsed_routine;
 		};
 	}

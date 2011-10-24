@@ -42,7 +42,7 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
-#include <lambda_p_kernel/list_binder.h>
+#include <lambda_p/binder/list_binder.h>
 #include <lambda_p_llvm/struct_binder.h>
 #include <lambda_p_kernel/package_add.h>
 #include <lambda_p_kernel/package_create.h>
@@ -112,7 +112,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr <lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
 	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr <lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
-	boost::shared_ptr <lambda_p_kernel::list_binder> list_binder (new lambda_p_kernel::list_binder);
+	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));
 	boost::shared_ptr <lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
 	boost::shared_ptr <lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);

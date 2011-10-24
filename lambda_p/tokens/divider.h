@@ -14,7 +14,7 @@ namespace lambda_p
 {
     namespace tokens
     {
-        class statement_end : public token
+        class divider : public token
         {
 			lambda_p::tokens::token_ids token_id ();
         };

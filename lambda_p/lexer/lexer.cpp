@@ -2,10 +2,9 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/statement_end.h>
+#include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/data.h>
 #include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/tokens/connector.h>
 
 #include <lambda_p/lexer/state.h>
 #include <lambda_p/lexer/begin.h>
@@ -109,28 +108,22 @@ void lambda_p::lexer::lexer::lex_begin (wchar_t character)
 	case L'\0':
 		// Eat whitespace
 		break;
-	case L'\'':
+	case L'`':
 		{
 			lambda_p::tokens::data * token = new lambda_p::tokens::data;
 			target (token);
 		}
 		break;
-	case L'"':
+	case L'|':
 		state.push (new lambda_p::lexer::complex_identifier);
-		break;
-	case L'=':
-		{
-			lambda_p::tokens::connector * token = new lambda_p::tokens::connector;
-			target (token);
-		}
 		break;
 	case L';':
 		{
-			lambda_p::tokens::statement_end * token = new lambda_p::tokens::statement_end;
+			lambda_p::tokens::divider * token = new lambda_p::tokens::divider;
 			target (token);
 		}
 		break;
-	case L'#':
+	case L':':
 		state.push (new lambda_p::lexer::control);
 		break;
 	case L'\uffff':
@@ -185,18 +178,18 @@ void lambda_p::lexer::lexer::lex_multiline_comment (wchar_t character)
 	lambda_p::lexer::multiline_comment * state_l (static_cast < lambda_p::lexer::multiline_comment *> (state.top ()));
 	if (character != L'\uffff')
 	{
-		if (state_l->have_pound)
+		if (state_l->have_colon)
 		{
 			switch (character)
 			{
 			case L'*':
 				pop_state ();
 				break;
-			case L'#':
-				// Remain in have_pound state
+			case L':':
+				// Remain in have_colon state
 				break;
 			default:
-				state_l->have_pound = false;
+				state_l->have_colon = false;
 				break;
 			}
 		}
@@ -204,8 +197,8 @@ void lambda_p::lexer::lexer::lex_multiline_comment (wchar_t character)
 		{
 			switch (character)
 			{
-			case L'#':
-				state_l->have_pound = true;
+			case L':':
+				state_l->have_colon = true;
 				break;
 			}
 		}
@@ -245,7 +238,7 @@ void lambda_p::lexer::lexer::lex_complex_identifier (wchar_t character)
 		{
 			switch (character)
 			{
-			case L'"':
+			case L'|':
 				state_l->have_end_token = true;
 				state_l->last_characters.resize (state_l->end_token.size ());
 				break;
@@ -285,10 +278,9 @@ void lambda_p::lexer::lexer::lex_identifier (wchar_t character)
 	case L'\n':
 	case L'\f':
 	case L';':
-	case L'\'':
-	case L'"':
-	case L'=':
-	case L'#':
+	case L'`':
+	case L'|':
+	case L':':
 	case L'\0':
 	case L'\uffff':
 		{
