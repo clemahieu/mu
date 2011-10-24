@@ -1,4 +1,4 @@
-#include "routine_binder.h"
+#include "apply.h"
 
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/core/statement.h>
@@ -10,12 +10,12 @@
 
 #include <sstream>
 
-lambda_p_kernel::routine_binder::routine_binder(void)
+lambda_p_kernel::apply::apply(void)
 {
 }
 
 
-void lambda_p_kernel::routine_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.empty ())
@@ -40,7 +40,7 @@ void lambda_p_kernel::routine_binder::bind (lambda_p::core::statement * statemen
 	}
 }
 
-void lambda_p_kernel::routine_binder::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
 {
 	size_t parameters (routine.routine_m->surface->results.size ());
 	size_t binders (instances_l.instances.size ());
@@ -80,7 +80,7 @@ void lambda_p_kernel::routine_binder::core (lambda_p_kernel::routine & routine, 
 	}
 }
 
-std::wstring lambda_p_kernel::routine_binder::binder_name ()
+std::wstring lambda_p_kernel::apply::binder_name ()
 {
-	return std::wstring (L"routine_binder");
+	return std::wstring (L"apply");
 }

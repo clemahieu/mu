@@ -10,11 +10,11 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="routine_binder.cpp" />
     <ClCompile Include="routine_instances_binder.cpp" />
     <ClCompile Include="single_bind_routine.cpp" />
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="number.cpp" />
+    <ClCompile Include="apply.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -26,10 +26,10 @@
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="routine_binder.h" />
     <ClInclude Include="routine_instances_binder.h" />
     <ClInclude Include="single_bind_routine.h" />
     <ClInclude Include="number_binder.h" />
     <ClInclude Include="number.h" />
+    <ClInclude Include="apply.h" />
   </ItemGroup>
 </Project>

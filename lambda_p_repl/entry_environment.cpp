@@ -37,7 +37,7 @@
 #include <lambda_p_kernel/single_bind_routine.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/routine_instances.h>
-#include <lambda_p_kernel/routine_binder.h>
+#include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine_instances_binder.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
@@ -108,7 +108,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr < lambda_p_llvm::fo_value> malloc_function (new lambda_p_llvm::fo_value (malloc.malloc));
 	boost::shared_ptr < lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
 	boost::shared_ptr < lambda_p_llvm::fo_value> abort_function (new lambda_p_llvm::fo_value (abort.abort));
-	boost::shared_ptr < lambda_p_kernel::routine_binder> binder_function (new lambda_p_kernel::routine_binder);
+	boost::shared_ptr < lambda_p_kernel::apply> apply_binder (new lambda_p_kernel::apply);
 	boost::shared_ptr < lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
 	boost::shared_ptr < lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr < lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
@@ -118,7 +118,6 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr < lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);
 	boost::shared_ptr < lambda_p_repl::data_stream_binder> data_stream_binder (new lambda_p_repl::data_stream_binder);
 	boost::shared_ptr < lambda_p_repl::routine_builder_binder> routine_builder_binder (new lambda_p_repl::routine_builder_binder);
-	boost::shared_ptr < lambda_p_kernel::routine_binder> routine_binder (new lambda_p_kernel::routine_binder);
 	boost::shared_ptr <lambda_p_repl::file_stream_binder> file_stream_binder (new lambda_p_repl::file_stream_binder);
 	lambda_p_llvm::api llvm_binder (context);
 	std::wstring echo_name (L"echo");
@@ -132,7 +131,6 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	std::wstring malloc_name (L"malloc");
 	std::wstring while_name (L"while");
 	std::wstring abort_name (L"abort");
-	std::wstring binder_name (L"bind");
 	std::wstring instances_name (L"instances");
 	std::wstring noop_closure_name (L"closen");
 	std::wstring call_binder_name (L"call");
@@ -142,7 +140,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	std::wstring package_add_name (L"package_add");
 	std::wstring data_stream_name (L"data_stream");
 	std::wstring routine_builder_binder_name (L"routine_builder");
-	std::wstring routine_binder_name (L"routine_binder");
+	std::wstring apply_name (L"apply");
 	std::wstring file_stream_name (L"file_stream");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
@@ -155,7 +153,6 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
     package->nodes [memcpy_name] = memcpy_function;
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
-	package->nodes [binder_name] = binder_function;
 	package->nodes [instances_name] = instances_binder;
 	package->nodes [noop_closure_name] = noop_closure_binder;
 	package->nodes [call_binder_name] = call_binder;
@@ -165,7 +162,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	package->nodes [package_add_name] = package_add_binder;
 	package->nodes [data_stream_name] = data_stream_binder;
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
-	package->nodes [routine_binder_name] = routine_binder;
+	package->nodes [apply_name] = apply_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
 	boost::shared_ptr < lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
 	boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);

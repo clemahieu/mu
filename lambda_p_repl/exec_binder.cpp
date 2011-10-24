@@ -7,7 +7,7 @@
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
-#include <lambda_p_kernel/routine_binder.h>
+#include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
 
 #include <boost/filesystem.hpp>
@@ -36,7 +36,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 			{
 				if (input.routines.routines->size () > 0)
 				{
-					lambda_p_kernel::routine_binder binder;
+					lambda_p_kernel::apply binder;
 					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), instances, problems);
 				}
 				else

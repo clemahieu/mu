@@ -1,6 +1,5 @@
 #include "routine_binder_test.h"
 
-#include <lambda_p_kernel/routine_binder.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p/core/routine.h>
