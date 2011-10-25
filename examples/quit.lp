@@ -1,3 +1,2 @@
-environment `quit; quit;
 quit ; ;
 :;

@@ -30,7 +30,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			auto stream (boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
 			lambda_p_repl::routine_input input;
-			input (std::wstring (L"environment quit exec = ;\n"));
+			input (std::wstring (L";environment quit exec;\n"));
 			input (stream);
 			if (!input.error ())
 			{
