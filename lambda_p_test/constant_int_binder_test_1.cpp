@@ -30,7 +30,8 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	boost::shared_ptr < lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t binder = routine->add_declaration ();
 	routine->surface->results.push_back (binder);
-	lambda_p::core::statement * statement = routine->add_statement (binder);
+	lambda_p::core::statement * statement = routine->add_statement ();
+	statement->target.push_back (binder);
 	size_t declaration = routine->add_declaration ();
 	statement->association->results.push_back (declaration);
 	size_t number = routine->add_declaration ();

@@ -158,6 +158,9 @@
     <ClInclude Include="binder\list_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="parser\declaration_location.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="binder\list_binder.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\declaration_location.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

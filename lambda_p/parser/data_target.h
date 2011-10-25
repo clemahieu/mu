@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/parser/declaration_location.h>
+
 namespace lambda_p
 {
 	namespace parser
@@ -7,7 +9,7 @@ namespace lambda_p
 		class data_target
 		{
 		public:
-			virtual void sink_data (size_t * & data) = 0;
+			virtual declaration_location sink_data () = 0;
 		};
 	}
 }

@@ -31,9 +31,9 @@ namespace lambda_p
 			template <typename> friend class lambda_p::serialization::simple;
 			friend class lambda_p::serialization::parser::parser;
 		public:
-			statement (size_t target_a);
+			statement ();
 			~statement (void);
-			size_t target;
+			std::vector <size_t> target; // {TODO} Parser wants to have a place to put out of order declarations.  Uses vector reference + index for associations and this doesn't fit the abstraction.  Pointer doesn't work because vectors resize.
 			lambda_p::core::association * association;
 		};
 	}

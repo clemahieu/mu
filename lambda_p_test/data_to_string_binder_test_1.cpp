@@ -30,7 +30,8 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     lambda_p::core::routine routine;
     size_t p1 = routine.add_declaration ();
 	routine.surface->results.push_back (p1);
-    lambda_p::core::statement * statement = routine.add_statement (p1);
+    lambda_p::core::statement * statement = routine.add_statement ();
+	statement->target.push_back (p1);
     size_t declaration = routine.add_declaration ();
     statement->association->results.push_back (declaration);
     size_t data = routine.add_data (std::wstring (L"Test string"));

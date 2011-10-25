@@ -39,7 +39,7 @@ void lambda_p_test::parser_test_1::run ()
 	run_11 ();
 	run_12 ();
 	run_13 ();
-	//run_14 ();
+	run_14 ();
 }
 
 void lambda_p_test::parser_test_1::run_1 ()
@@ -379,28 +379,18 @@ void lambda_p_test::parser_test_1::run_14 ()
 	lambda_p::tokens::identifier t3 (std::wstring (L"d2"));
 	lambda_p::tokens::identifier t4 (std::wstring (L"d3"));
 	lambda_p::tokens::identifier t5 (std::wstring (L"d4"));
-	lambda_p::tokens::identifier t6 (std::wstring (L"d5"));
-	lambda_p::tokens::identifier t7 (std::wstring (L"d6"));
-	lambda_p::tokens::identifier t8 (std::wstring (L"d7"));
-	lambda_p::tokens::identifier t9 (std::wstring (L"d8"));
-	lambda_p::tokens::identifier t10 (std::wstring (L"d9"));
-	lambda_p::tokens::identifier t11 (std::wstring (L"d10"));
-	lambda_p::tokens::identifier t12 (std::wstring (L"d11"));
-	lambda_p::tokens::identifier t13 (std::wstring (L"d12"));
-	lambda_p::tokens::divider t14;
-	lambda_p::tokens::identifier t15 (std::wstring (L"e"));
+	lambda_p::tokens::divider t6;
+	lambda_p::tokens::identifier t7 (std::wstring (L"e"));
+	lambda_p::tokens::divider t8;
+	lambda_p::tokens::identifier t9 (std::wstring (L"e"));
+	lambda_p::tokens::divider t10;
+	lambda_p::tokens::identifier t11 (std::wstring (L"c"));
+	lambda_p::tokens::identifier t12 (std::wstring (L"d1"));
+	lambda_p::tokens::identifier t13 (std::wstring (L"d2"));
+	lambda_p::tokens::identifier t14 (std::wstring (L"d3"));
+	lambda_p::tokens::identifier t15 (std::wstring (L"d4"));
 	lambda_p::tokens::divider t16;
-	lambda_p::tokens::identifier t17 (std::wstring (L"e"));
-	lambda_p::tokens::identifier t18 (std::wstring (L"e"));
-	lambda_p::tokens::identifier t19 (std::wstring (L"d1"));
-	lambda_p::tokens::identifier t20 (std::wstring (L"d2"));
-	lambda_p::tokens::identifier t21 (std::wstring (L"d3"));
-	lambda_p::tokens::identifier t22 (std::wstring (L"d4"));
-	lambda_p::tokens::identifier t23 (std::wstring (L"d5"));
-	lambda_p::tokens::divider t24;
-	lambda_p::tokens::identifier t25 (std::wstring (L"c"));
-	lambda_p::tokens::divider t26;
-	lambda_p::tokens::routine_end t27;
+	lambda_p::tokens::routine_end t17;
 	parser (&t1);
 	parser (&t2);
 	parser (&t3);
@@ -418,15 +408,5 @@ void lambda_p_test::parser_test_1::run_14 ()
 	parser (&t15);
 	parser (&t16);
 	parser (&t17);
-	parser (&t18);
-	parser (&t19);
-	parser (&t20);
-	parser (&t21);
-	parser (&t22);
-	parser (&t23);
-	parser (&t24);
-	parser (&t25);
-	parser (&t26);
-	parser (&t27);
 	assert (!parser.error ());
 }

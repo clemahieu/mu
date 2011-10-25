@@ -47,7 +47,8 @@ void lambda_p_test::abort_binder_test_1::run ()
     lambda_p::core::routine routine;
     size_t parameter (routine.add_declaration ());
 	routine.surface->results.push_back (parameter);
-    lambda_p::core::statement * call (routine.add_statement (parameter));
+    lambda_p::core::statement * call (routine.add_statement ());
+	call->target.push_back (parameter);
     lambda_p::binder::routine_instances instances;
 	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
     binder.bind (call, instances, problems);

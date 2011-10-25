@@ -9,8 +9,8 @@ namespace lambda_p
 		class association
 		{
 		public:
-            std::vector < size_t> results;
-			std::vector < size_t> parameters;
+            std::vector <size_t> results;
+			std::vector <size_t> parameters;
 		};
 	}
 }

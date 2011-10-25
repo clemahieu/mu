@@ -24,9 +24,9 @@ lambda_p::core::routine::~routine(void)
 	}
 }
 
-lambda_p::core::statement * lambda_p::core::routine::add_statement (size_t target_a)
+lambda_p::core::statement * lambda_p::core::routine::add_statement ()
 {
-    lambda_p::core::statement * statement (new lambda_p::core::statement (target_a));
+    lambda_p::core::statement * statement (new lambda_p::core::statement);
 	statements.push_back (statement);
 	return statement;
 }
@@ -53,7 +53,7 @@ void lambda_p::core::routine::validate (std::vector < lambda_p::errors::error *>
     {
         size_t current_argument (0);
         lambda_p::core::statement * statement (*i);
-		validate_node (statement->target, current_statement, current_argument, problems);
+		validate_node (statement->target [0], current_statement, current_argument, problems);
 		++current_argument;		
 		for (std::vector < size_t>::const_iterator j = statement->association->results.begin (); j != statement->association->results.end (); ++j, ++current_argument)
 		{
@@ -114,7 +114,7 @@ void lambda_p::core::routine::placement (std::map < size_t, lambda_p::core::posi
         size_t current_argument (0);
         lambda_p::core::statement * statement (*i);
         statement_positions [statement] = current_statement;
-		argument_positions [statement->target] = lambda_p::core::position (current_statement, current_argument);
+		argument_positions [statement->target [0]] = lambda_p::core::position (current_statement, current_argument);
 		++current_argument;
 		for (std::vector < size_t>::const_iterator j = statement->association->results.begin (); j != statement->association->results.end (); ++j, ++current_argument)
 		{

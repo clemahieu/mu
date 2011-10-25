@@ -24,14 +24,16 @@ lambda_p::parser::state_id lambda_p::parser::routine::state_type ()
 	return lambda_p::parser::state_routine;
 }
 
-void lambda_p::parser::routine::sink_result (size_t * & declaration)
+lambda_p::parser::declaration_location lambda_p::parser::routine::sink_declaration ()
 {
 	routine_m->surface->results.push_back (~0);
-	declaration = &routine_m->surface->results [routine_m->surface->results.size () - 1];
+	lambda_p::parser::declaration_location result (routine_m->surface->results, routine_m->surface->results.size () - 1);
+	return result;
 }
 
-void lambda_p::parser::routine::sink_argument (size_t * & argument)
+lambda_p::parser::declaration_location lambda_p::parser::routine::sink_argument ()
 {
 	routine_m->surface->parameters.push_back (~0);
-	argument = & (routine_m->surface->parameters [routine_m->surface->parameters.size () - 1]);
+	lambda_p::parser::declaration_location result (routine_m->surface->parameters, routine_m->surface->parameters.size () - 1);
+	return result;
 }
