@@ -28,7 +28,7 @@ void lambda_p_test::generator_test::run ()
 void lambda_p_test::generator_test::run_1 ()
 {
 	lambda_p::routine_builder routine;
-	routine (L"fma a b c d e = result; fma res = a b c; fma result = res d e; #;");
+	routine (L"result; fma a b c d e; fma a b c; res; fma res d e; result; :;");
 	llvm::LLVMContext llvm_context;
 	llvm::StringRef name ("test");
 	llvm::Module * module (new llvm::Module (name, llvm_context));
@@ -44,7 +44,7 @@ void lambda_p_test::generator_test::run_1 ()
 	start->getBasicBlockList ().push_back (block);
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	lambda_p::routine_builder enclosing;
-	enclosing (L"generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group = func; group arguments = fma p1_type p2_type p3_type p4_type p5_type; generator func = routine result_type arguments; #;");
+	enclosing (L"func; generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group; group fma p1_type p2_type p3_type p4_type p5_type; arguments; generator routine result_type arguments; func; :;");
 	lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
 	boost::shared_ptr < lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
 	instances [0] = generator;

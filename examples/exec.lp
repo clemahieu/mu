@@ -1,2 +1,2 @@
-exec = ' examples/hello.lp;
-#;
+exec `examples/hello.lp;;
+:;

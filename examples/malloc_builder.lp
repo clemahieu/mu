@@ -1,15 +1,15 @@
 environment
+ `file_stream
+ `routine_builder
+ `malloc
+ `llvm
+ `list
+;
  file_stream
  routine_builder
  malloc
  llvm
  list
-=
- 'file_stream
- 'routine_builder
- 'malloc
- 'llvm
- 'list
 ;
 llvm
  type
@@ -18,10 +18,10 @@ llvm
  'type
  'generator
 ;
-file_stream file = 'examples/malloc_function.lp;
-routine_builder routine = file;
-type return_type = 'getInt8PtrTy;
-type argument_type = 'getInt64Ty;
-list arguments = malloc argument_type;
-generator function = routine return_type arguments;
+file_stream file `examples/malloc_function.lp; ;
+routine_builder file; routine;
+type `getInt8PtrTy; return_type;
+type `getInt64Ty; argument_type;
+list malloc argument_type; arguments;
+generator routine return_type arguments; function;
 #;

@@ -1,11 +1,4 @@
 environment
- hello 
- file_stream
- routine_builder
- list
- instances
- apply
- =
  'hello
  'file_stream
  'routine_builder
@@ -13,9 +6,16 @@ environment
  'instances
  'apply
 ;
-file_stream file = 'examples/execute.lp;
-routine_builder routine = file;
-list argument_list = hello;
-instances arguments = argument_list;
-apply = routine arguments;
-#;
+ hello 
+ file_stream
+ routine_builder
+ list
+ instances
+ apply
+;
+file_stream 'examples/execute.lp; file;
+routine_builder file; routine;
+list hello; argument_list;
+instances argument_list; arguments;
+apply routine arguments; ;
+:;

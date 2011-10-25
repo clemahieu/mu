@@ -1,3 +1,3 @@
-environment hello = ' hello;
-hello = ;
-#;
+environment `hello; hello;
+hello ;;
+:;

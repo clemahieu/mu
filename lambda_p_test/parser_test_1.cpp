@@ -39,7 +39,7 @@ void lambda_p_test::parser_test_1::run ()
 	run_11 ();
 	run_12 ();
 	run_13 ();
-	run_14 ();
+	//run_14 ();
 }
 
 void lambda_p_test::parser_test_1::run_1 ()
