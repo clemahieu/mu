@@ -18,7 +18,7 @@ void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl:
 {
 	::lambda_p_repl::routine_input input;
 	out << L"lp> \n";
-	std::wstring environment (L"environment quit exec = ;\n");
+	std::wstring environment (L";environment quit exec;\n");
 	input (environment);
 	out << environment;
 	input (in);

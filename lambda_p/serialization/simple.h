@@ -38,7 +38,7 @@ namespace lambda_p
                     statement (argument_positions, statement_positions, *i);
                     target << "\n";
                 }
-				target << "#;";
+				target << ":;";
 			}
 			void statement (std::map < size_t, lambda_p::core::position> & argument_positions, std::map < lambda_p::core::statement const *, size_t> & statement_positions, lambda_p::core::statement const * statement_a)
 			{
@@ -55,7 +55,7 @@ namespace lambda_p
 					target << "\n ";
 					node (argument_positions, *i);
 				}
-				target << " = ";
+				target << " ; ";
 				for (std::vector < size_t>::const_iterator i = association_a->parameters.begin (); i != association_a->parameters.end (); ++i)
                 {
                     target << "\n  ";

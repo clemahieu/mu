@@ -10,7 +10,7 @@
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_kernel/bind_procedure.h>
-#include <lambda_p_kernel/list_binder.h>
+#include <lambda_p/binder/list_binder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -28,7 +28,7 @@ void lambda_p_test::generator_test::run ()
 void lambda_p_test::generator_test::run_1 ()
 {
 	lambda_p::routine_builder routine;
-	routine (L"fma a b c d e = result; fma res = a b c; fma result = res d e; #;");
+	routine (L"result; fma a b c d e; fma a b c; res; fma res d e; result; :;");
 	llvm::LLVMContext llvm_context;
 	llvm::StringRef name ("test");
 	llvm::Module * module (new llvm::Module (name, llvm_context));
@@ -44,7 +44,7 @@ void lambda_p_test::generator_test::run_1 ()
 	start->getBasicBlockList ().push_back (block);
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	lambda_p::routine_builder enclosing;
-	enclosing (L"generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group = func; group arguments = fma p1_type p2_type p3_type p4_type p5_type; generator func = routine result_type arguments; #;");
+	enclosing (L"func; generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group; group fma p1_type p2_type p3_type p4_type p5_type; arguments; generator routine result_type arguments; func; :;");
 	lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
 	boost::shared_ptr < lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
 	instances [0] = generator;
@@ -59,7 +59,7 @@ void lambda_p_test::generator_test::run_1 ()
 	instances [6] = type_value;
 	instances [7] = type_value;
 	instances [8] = type_value;
-	boost::shared_ptr <lambda_p_kernel::list_binder> group (new lambda_p_kernel::list_binder);
+	boost::shared_ptr <lambda_p::binder::list_binder> group (new lambda_p::binder::list_binder);
 	instances [9] = group;
 	lambda_p_kernel::bind_procedure procedure (boost::shared_ptr < lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
 	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;

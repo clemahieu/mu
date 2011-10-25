@@ -4,7 +4,7 @@
 #include <lambda_p/binder/data.h>
 
 lambda_p::parser::association::association (boost::shared_ptr < lambda_p::parser::routine> routine_a, boost::shared_ptr < lambda_p::parser::association_target> target_a)
-	: on_results (true),
+	: on_results (false),
 	target (target_a),
 	routine (routine_a)
 {

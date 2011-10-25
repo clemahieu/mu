@@ -19,9 +19,6 @@
     <ClInclude Include="tokens\routine_end.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\statement_end.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -84,9 +81,6 @@
     </ClInclude>
     <ClInclude Include="core\position.h">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\connector.h">
-      <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="tokens\data.h">
       <Filter>tokens</Filter>
@@ -158,6 +152,12 @@
     <ClInclude Include="binder\list.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="tokens\divider.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\list_binder.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -173,9 +173,6 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\routine_end.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\statement_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
@@ -240,9 +237,6 @@
     </ClCompile>
     <ClCompile Include="core\position.cpp">
       <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\connector.cpp">
-      <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\data.cpp">
       <Filter>tokens</Filter>
@@ -312,6 +306,12 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="binder\list.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\divider.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\list_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

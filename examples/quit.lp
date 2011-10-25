@@ -1,3 +1,3 @@
-environment quit = ' quit;
-quit = ;
-#;
+environment `quit; quit;
+quit ; ;
+:;

@@ -18,7 +18,8 @@
 void lambda_p_test::function_binder_test::run ()
 {
 	lambda_p::routine_builder builder;
-	builder (L"op one = result; op result = one; #;");
+	builder (L"result; op one; op one; result; :;");
+	assert (builder.routines.routines->size () == 1);
 	lambda_p::core::statement * statement (builder.routines.routines->operator[] (0)->statements [0]);
 	llvm::LLVMContext llvm_context;
 	llvm::Module * module (new llvm::Module (llvm::StringRef ("test"), llvm_context));
