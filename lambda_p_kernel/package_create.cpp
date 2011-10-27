@@ -5,10 +5,10 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p_kernel/package.h>
 
-void lambda_p_kernel::package_create::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package_create::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 0, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		instances [statement->association->results [0]] = boost::shared_ptr < lambda_p_kernel::package> (new lambda_p_kernel::package);
 	}

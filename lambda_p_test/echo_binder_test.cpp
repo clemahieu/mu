@@ -55,8 +55,8 @@ void lambda_p_test::echo_binder_test::run ()
     lambda_p_llvm::constant_wstring string (context, raw_string);
     boost::shared_ptr < lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
     instances [str] = value;
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
     binder.bind (statement, instances, problems);
-    assert (problems.size () == 0);
+	assert (problems.errors.size () == 0);
     assert (block->getInstList ().size () == 1);
 }

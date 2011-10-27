@@ -28,19 +28,19 @@ lambda_p_llvm::store_inst_binder::store_inst_binder (lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		size_t destination_node (statement->association->parameters [0]);
 		size_t source_node (statement->association->parameters [1]);
-		boost::shared_ptr < lambda_p::binder::instance> source_instance (instances [source_node]);
-		boost::shared_ptr < lambda_p_llvm::value> source (boost::dynamic_pointer_cast < lambda_p_llvm::value> (source_instance));
+		boost::shared_ptr <lambda_p::binder::instance> source_instance (instances [source_node]);
+		boost::shared_ptr <lambda_p_llvm::value> source (boost::dynamic_pointer_cast <lambda_p_llvm::value> (source_instance));
 		if (source.get () != NULL)
 		{
-			boost::shared_ptr < lambda_p::binder::instance> destination_instance (instances [destination_node]);
-			boost::shared_ptr < lambda_p_llvm::value> destination (boost::dynamic_pointer_cast < lambda_p_llvm::value> (destination_instance));
+			boost::shared_ptr <lambda_p::binder::instance> destination_instance (instances [destination_node]);
+			boost::shared_ptr <lambda_p_llvm::value> destination (boost::dynamic_pointer_cast <lambda_p_llvm::value> (destination_instance));
 			if (destination.get () != NULL)
 			{
 				llvm::PointerType const * destination_pointer (llvm::dyn_cast < llvm::PointerType const> (destination->type ()));

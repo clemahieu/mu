@@ -32,15 +32,15 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 {
 }
 
-void lambda_p_repl::echo_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::echo_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_llvm::value> string (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_llvm::value> string (boost::dynamic_pointer_cast <lambda_p_llvm::value> (instances [statement->association->parameters [0]]));
 		if (string.get () != NULL)
 		{
-			std::vector < llvm::Value *> arguments;
+			std::vector <llvm::Value *> arguments;
 			arguments.push_back (echo_string_global);
 			arguments.push_back (string->operator() ());
 			llvm::CallInst * call (llvm::CallInst::Create (wprintf, arguments.begin (), arguments.end ()));

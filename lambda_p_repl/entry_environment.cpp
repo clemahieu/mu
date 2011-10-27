@@ -164,12 +164,12 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	package->nodes [routine_builder_binder_name] = routine_builder_binder;
 	package->nodes [apply_name] = apply_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
-	boost::shared_ptr < lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
-	boost::shared_ptr < lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
+	boost::shared_ptr <lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
+	boost::shared_ptr <lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
 	instances->operator[] (0) = package;	
 	if (repl != NULL)
 	{
-        std::vector < llvm::Type const *> parameters;
+        std::vector <llvm::Type const *> parameters;
         parameters.push_back (llvm::Type::getInt8PtrTy (context.context, 0));
         llvm::Function * quit_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context.context), parameters, false), llvm::GlobalValue::ExternalLinkage));
         context.module->getFunctionList ().push_back (quit_function);
@@ -177,22 +177,21 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
         llvm::GlobalVariable * quit_object (new llvm::GlobalVariable (llvm::Type::getInt8Ty (context.context), true, llvm::GlobalValue::ExternalLinkage));
         context.module->getGlobalList ().push_back (quit_object);
         engine->addGlobalMapping (quit_object, repl);
-		boost::shared_ptr < lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
+		boost::shared_ptr <lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 		instances->operator[] (1) = binder;
 	}
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*instances.get ()));
 	instances->operator[] (2) = exec_binder;
 	exec_binder->instances.operator[] (2) = exec_binder;
 	std::wstring exec_name (L"exec");
-	
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	lambda_p_kernel::single_bind_routine bind (routine, instances);
 	bind (problems);
-	if (!problems.empty ())
+	if (!problems.errors.empty ())
 	{
 		std::wcout << "Binding error:\n";
 		std::wstringstream stream;
-		for (std::vector < boost::shared_ptr < lambda_p::errors::error> >::iterator i = problems.begin (); i != problems.end (); ++i)
+		for (auto i = problems.errors.begin (); i != problems.errors.end (); ++i)
 		{
 			(*i)->string (stream);
 			stream << L'\n';
@@ -206,7 +205,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	{	
         llvm::ReturnInst * ret (llvm::ReturnInst::Create (context.context));
 		context.block->getInstList ().push_back (ret);
-        std::vector < llvm::GenericValue> start_arguments;
+        std::vector <llvm::GenericValue> start_arguments;
         engine->runFunction (start, start_arguments);
 	}
 }

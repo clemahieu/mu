@@ -9,16 +9,16 @@
 
 #include <boost/filesystem.hpp>
 
-void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p::binder::data> data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instances [statement->association->parameters [0]]));
 		if (data.get () != NULL)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
-			boost::shared_ptr < lambda_p_repl::file_stream> stream (new lambda_p_repl::file_stream (path.wstring ()));
+			boost::shared_ptr <lambda_p_repl::file_stream> stream (new lambda_p_repl::file_stream (path.wstring ()));
 			instances [statement->association->results [0]] = stream;
 		}
 		else

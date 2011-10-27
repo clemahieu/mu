@@ -25,7 +25,8 @@ namespace lambda_p
 			error_unexpected_node_type,
 			error_binder_string,
 			error_node_out_of_order,
-			error_target_not_bindable
+			error_target_not_bindable,
+			error_string_error
         };
         class error
         {

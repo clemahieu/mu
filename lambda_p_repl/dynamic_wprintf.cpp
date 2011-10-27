@@ -27,16 +27,16 @@ lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
 {
 }
 
-void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	size_t parameter_count (statement->association->parameters.size ());
 	std::wstring format;
-	std::vector < llvm::Value *> arguments;
+	std::vector <llvm::Value *> arguments;
 	arguments.push_back (NULL); // Filled with format string after other arguments are computed
 	for (size_t i = 0; i < parameter_count; ++i)
 	{
-		boost::shared_ptr < lambda_p::binder::instance> instance (instances [statement->association->parameters [i]]);
-		boost::shared_ptr < lambda_p_llvm::value> argument_value (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instance));
+		boost::shared_ptr <lambda_p::binder::instance> instance (instances [statement->association->parameters [i]]);
+		boost::shared_ptr <lambda_p_llvm::value> argument_value (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instance));
 		if (argument_value.get () != NULL)
 		{
 			llvm::Type const * type (argument_value->type ());
@@ -94,7 +94,7 @@ void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement
 	context.block->getInstList ().push_back (call);
 }
 
-void lambda_p_repl::dynamic_wprintf::problem (size_t argument_position, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::dynamic_wprintf::problem (size_t argument_position, lambda_p::errors::error_list & problems)
 {
 	std::wstring message;
 	message.append (L"Unknown argument type being passed to wprintf in position: ");

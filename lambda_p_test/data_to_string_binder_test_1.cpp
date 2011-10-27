@@ -44,9 +44,9 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
 	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> binder (new lambda_p_llvm::data_to_string_binder (context));
 	lambda_p::binder::routine_instances instances (routine.instances);
 	instances [0] = binder;
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
     binder->bind (statement, instances, problems);
-    assert (problems.size () == 0);
+	assert (problems.errors.size () == 0);
     assert (module->getGlobalList ().size () == 1);
 	assert (instances.instances.size () == 3);
     assert (instances [declaration].get () != NULL);

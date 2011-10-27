@@ -6,14 +6,10 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <lambda_p/binder/list.h>
 
-lambda_p::binder::routine_instances_binder::routine_instances_binder(void)
-{
-}
-
-void lambda_p::binder::routine_instances_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p::binder::routine_instances_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [0]]));
 		if (list.get () != NULL)

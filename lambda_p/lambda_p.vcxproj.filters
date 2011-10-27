@@ -161,6 +161,12 @@
     <ClInclude Include="parser\declaration_location.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="errors\error_list.h">
+      <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\string_error.h">
+      <Filter>errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -319,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="parser\declaration_location.cpp">
       <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\error_list.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\string_error.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

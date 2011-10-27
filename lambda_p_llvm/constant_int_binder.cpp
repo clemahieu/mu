@@ -27,18 +27,18 @@ lambda_p_llvm::constant_int_binder::~constant_int_binder(void)
 {
 }
 
-void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)	
+void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)	
 {
 	check_count (1, 2, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (instances [statement->association->parameters [0]]));
 		if (number.get () != nullptr)
 		{
-			boost::shared_ptr < lambda_p_kernel::number> bits (boost::dynamic_pointer_cast < lambda_p_kernel::number> (instances [statement->association->parameters [1]]));
+			boost::shared_ptr <lambda_p_kernel::number> bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (instances [statement->association->parameters [1]]));
 			if (bits.get () != nullptr)
 			{
-				boost::shared_ptr < lambda_p_llvm::value> value (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
+				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
 				instances [statement->association->results [0]] = value;
 			}
 			else

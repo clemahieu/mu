@@ -28,21 +28,21 @@ lambda_p_llvm::data_to_string_binder::~data_to_string_binder (void)
 {
 }
 
-void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p::binder::data> data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances [statement->association->parameters [0]]));
 		if (data.get () != NULL)
 		{
 			lambda_p_llvm::constant_wstring string (context, data->string ());                        
-			boost::shared_ptr < lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
+			boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
 			instances [statement->association->results [0]] = value;
 		}
 		else
 		{
-			problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data"))));
+			problems (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data")));
 		}
 	}
 }
