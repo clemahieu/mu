@@ -8,10 +8,10 @@
 
 #include <sstream>
 
-void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances [statement->association->parameters [0]]));
 		if (data.get () != nullptr)
@@ -36,7 +36,7 @@ std::wstring lambda_p_kernel::number_binder::binder_name ()
 	return std::wstring (L"number");
 }
 
-void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_ptr <lambda_p_kernel::number> & target, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_ptr <lambda_p_kernel::number> & target, lambda_p::errors::error_list & problems)
 {
 	int base;
 	wchar_t base_char (string [0]);
@@ -63,7 +63,7 @@ void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_
 		add_error (message.str (), problems);
 		break;
 	}
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{						
 		wchar_t * next;
 		wchar_t const * string_l (string.c_str ());
@@ -78,7 +78,7 @@ void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_
 		}
 		else
 		{
-			target = (boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (number)));
+			target = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (number));
 		}
 	}
 }

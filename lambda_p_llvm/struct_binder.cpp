@@ -14,18 +14,18 @@ lambda_p_llvm::struct_binder::struct_binder (lambda_p_llvm::generation_context &
 {
 }
 
-void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [0]]));
 		if (list.get () != NULL)
 		{
-			std::vector < llvm::Type const *> types;
-			for (std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator i = list->instances.begin (); i != list->instances.end (); ++i)
+			std::vector <llvm::Type const *> types;
+			for (auto i = list->instances.begin (); i != list->instances.end (); ++i)
 			{
-				boost::shared_ptr < lambda_p_llvm::type> type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (*i));
+				boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (*i));
 				if (type.get () != NULL)
 				{
 					types.push_back (type->type_m);
@@ -35,10 +35,10 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 					add_error (std::wstring (L"Expecting type"), problems);
 				}
 			}
-			if (problems.empty ())
+			if (problems.errors.empty ())
 			{
 				llvm::StructType * type (llvm::StructType::get (context.context, types, false));
-				boost::shared_ptr < lambda_p_llvm::type> new_type (new lambda_p_llvm::type (type));
+				boost::shared_ptr <lambda_p_llvm::type> new_type (new lambda_p_llvm::type (type));
 				instances [statement->association->results [0]] = new_type;
 			}
 		}

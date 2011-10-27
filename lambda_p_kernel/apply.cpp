@@ -15,10 +15,10 @@ lambda_p_kernel::apply::apply(void)
 }
 
 
-void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
@@ -40,7 +40,7 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	}
 }
 
-void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, lambda_p::errors::error_list & problems)
 {
 	size_t parameters (routine.routine_m->surface->results.size ());
 	size_t binders (instances_l.instances.size ());
@@ -62,7 +62,7 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 				add_error (message.str (), problems);
 			}
 		}
-		if (problems.empty ())
+		if (problems.errors.empty ())
 		{
 			lambda_p_kernel::bind_procedure procedure (routine.routine_m);
 			procedure (problems);

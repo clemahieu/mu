@@ -9,9 +9,9 @@ lambda_p_llvm::argument_binder::argument_binder(void)
 {
 }
 
-void lambda_p_llvm::argument_binder::apply (std::vector < llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_llvm::argument_binder::apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
-	std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator argument (arguments->instances.begin ());
+	auto argument (arguments->instances.begin ());
 	while (argument != arguments->instances.end () && parameter != parameter_end)
 	{
 		boost::shared_ptr < lambda_p::binder::instance> value_instance (*argument);
@@ -24,18 +24,18 @@ void lambda_p_llvm::argument_binder::apply (std::vector < llvm::Value *> & argum
 			}
 			else
 			{
-				problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Argument type does not match parameter type"))));
+				problems (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Argument type does not match parameter type")));
 			}
 		}
 		else
 		{
-			problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Argument is not a value"))));
+			problems (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Argument is not a value")));
 		}
 		++argument;
 		++parameter;
 	}
 	if ((argument == arguments->instances.end ()) != (parameter == parameter_end))
 	{
-		problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Incorrect number of arguments"))));
+		problems (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Incorrect number of arguments")));
 	}
 }

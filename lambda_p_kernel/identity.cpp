@@ -4,7 +4,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/routine_instances.h>
 
-void lambda_p_kernel::identity::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::identity::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->parameters.size () == statement->association->results.size ())
 	{

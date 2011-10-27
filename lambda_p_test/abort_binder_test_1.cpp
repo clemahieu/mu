@@ -50,11 +50,11 @@ void lambda_p_test::abort_binder_test_1::run ()
     lambda_p::core::statement * call (routine.add_statement ());
 	call->target.push_back (parameter);
     lambda_p::binder::routine_instances instances;
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
     binder.bind (call, instances, problems);
     llvm::ReturnInst * ret (llvm::ReturnInst::Create (context));
     block->getInstList ().push_back (ret);
-    assert (problems.size () == 0);
+	assert (problems.errors.size () == 0);
     assert (generation->getBasicBlockList ().size () == 1);
     assert (generation->getBasicBlockList ().begin ()->getInstList ().size () == 2);
 }

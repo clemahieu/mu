@@ -19,7 +19,7 @@ lambda_p_kernel::package::~package(void)
 {
 }
 
-void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->parameters.size ());
@@ -38,7 +38,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 			}
 			else
 			{
-				problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data"))));
+				problems (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data")));
 				break;
 			}
 		}
@@ -59,7 +59,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 	}
 }
 
-void lambda_p_kernel::package::parse_one (lambda_p::binder::routine_instances & instances, boost::shared_ptr < lambda_p::binder::data> node, size_t result, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package::parse_one (lambda_p::binder::routine_instances & instances, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
 {
 	boost::shared_ptr < lambda_p::binder::instance> current_node (shared_from_this ());
 	boost::shared_ptr < lambda_p_kernel::package> current_package (shared_from_this ());

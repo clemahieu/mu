@@ -15,30 +15,30 @@
 #include <fstream>
 #include <sstream>
 
-void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast < lambda_p_repl::character_stream> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr < lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (instances [statement->association->parameters [0]]));
 		if (stream.get () != NULL)
 		{
 			::lambda_p_repl::routine_input input;
 			input (stream);
 			if (!input.error ())
 			{
-				instances [statement->association->results [0]] = boost::shared_ptr < lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
+				instances [statement->association->results [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
 			}
 			else
 			{
 				std::wstring message;
 				message.append (L"Unable to parse stream");
-				problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::binder_string_error (binder_name (), message)));
+				problems (new lambda_p::errors::binder_string_error (binder_name (), message));
 			}
 		}
 		else
 		{
-			problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data"))));
+			problems (new lambda_p::errors::unexpected_binder_type (binder_name (), 0, std::wstring (L"data")));
 		}
 	}
 }

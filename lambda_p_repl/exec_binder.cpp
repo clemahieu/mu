@@ -19,10 +19,10 @@ lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::routine_instances ins
 {
 }
 
-void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances_a [statement->association->parameters [0]]));
 		if (data.get () != nullptr)

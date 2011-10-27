@@ -5,7 +5,7 @@
 #include <lambda_p/binder/routine_instances.h>
 #include <sstream>
 
-void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->parameters.empty ())
 	{

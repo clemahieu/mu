@@ -25,11 +25,11 @@ lambda_p_llvm::generator::generator (lambda_p_llvm::generation_context & context
 {
 }
 
-void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector <boost::shared_ptr <lambda_p::errors::error>> & problems)
+void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	size_t position;
 	check_count (1, 3, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
@@ -77,7 +77,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 								}
 							}
 						}
-						if (problems.empty ())
+						if (problems.errors.empty ())
 						{
 							llvm::Function * function (llvm::Function::Create (llvm::FunctionType::get (return_type->type_m, parameters, false), llvm::GlobalValue::ExternalLinkage));
 							function->getBasicBlockList ().push_back (block);
@@ -89,7 +89,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							}
 							lambda_p_kernel::bind_procedure procedure (routine->routine_m);
 							procedure (problems);
-							if (problems.empty ())
+							if (problems.errors.empty ())
 							{
 								boost::shared_ptr < lambda_p_llvm::fo_value> return_value (boost::dynamic_pointer_cast < lambda_p_llvm::fo_value> (routine->routine_m->instances [routine->routine_m->surface->parameters [0]]));
 								if (return_value.get () != NULL)

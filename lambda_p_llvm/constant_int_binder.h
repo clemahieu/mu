@@ -18,8 +18,8 @@ namespace lambda_p_llvm
 	public:
 		constant_int_binder (lambda_p_llvm::generation_context & context_a);
 		~constant_int_binder (void);
-		void bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems);
-		std::wstring binder_name ();
+		void bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems) override;
+		std::wstring binder_name () override;
 	private:
 		lambda_p_llvm::generation_context & context;
 	};

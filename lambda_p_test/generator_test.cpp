@@ -62,9 +62,9 @@ void lambda_p_test::generator_test::run_1 ()
 	boost::shared_ptr <lambda_p::binder::list_binder> group (new lambda_p::binder::list_binder);
 	instances [9] = group;
 	lambda_p_kernel::bind_procedure procedure (boost::shared_ptr < lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	procedure (problems);
-	assert (problems.size () == 0);
+	assert (problems.errors.size () == 0);
 	boost::shared_ptr < lambda_p::binder::instance> final (instances [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
 	assert (final.get () != NULL);
 }

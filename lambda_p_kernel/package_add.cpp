@@ -6,15 +6,15 @@
 #include <lambda_p_kernel/package.h>
 #include <lambda_p/binder/data.h>
 
-void lambda_p_kernel::package_add::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::package_add::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 3, statement, problems);
-	if (problems.empty ())
+	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_kernel::package> package (boost::dynamic_pointer_cast < lambda_p_kernel::package> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_kernel::package> package (boost::dynamic_pointer_cast <lambda_p_kernel::package> (instances [statement->association->parameters [0]]));
 		if (package.get () != NULL)
 		{
-			boost::shared_ptr < lambda_p::binder::data> data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instances [statement->association->parameters [2]]));
+			boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances [statement->association->parameters [2]]));
 			if (data.get () != NULL)
 			{
 				package->nodes [data->string ()] = instances [statement->association->parameters [1]];

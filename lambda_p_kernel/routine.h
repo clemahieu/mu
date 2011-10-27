@@ -17,7 +17,7 @@ namespace lambda_p_kernel
 	class routine : public lambda_p::binder::instance
 	{
 	public:
-		routine (boost::shared_ptr < lambda_p::core::routine> routine_a);
-		boost::shared_ptr < lambda_p::core::routine> routine_m;
+		routine (boost::shared_ptr <lambda_p::core::routine> routine_a);
+		boost::shared_ptr <lambda_p::core::routine> routine_m;
 	};
 }

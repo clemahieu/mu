@@ -45,9 +45,9 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	bind_procedure.routine->instances [binder] = constant_int_binder;
 	bind_procedure.routine->instances [number] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (16));
 	bind_procedure.routine->instances [bits] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (64));
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 	assert (bind_procedure.routine->instances [declaration].get () != NULL);
 	assert (boost::dynamic_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration]).get () != NULL);
 	assert (boost::static_pointer_cast < lambda_p_llvm::value> (bind_procedure.routine->instances [declaration])->operator() () != NULL);

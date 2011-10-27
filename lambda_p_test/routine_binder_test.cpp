@@ -19,7 +19,7 @@ void lambda_p_test::routine_binder_test::run_1 ()
 	boost::shared_ptr < lambda_p_kernel::routine> rout (new lambda_p_kernel::routine (inner_routine));
 	boost::shared_ptr < lambda_p::binder::routine_instances> inner_instances (new lambda_p::binder::routine_instances);
 	lambda_p_kernel::single_bind_routine single_bind_routine (rout, inner_instances);
-	std::vector < boost::shared_ptr < lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	single_bind_routine (problems);
-	assert (problems.size () == 0);
+	assert (problems.errors.size () == 0);
 }

@@ -32,9 +32,9 @@ void lambda_p_test::bind_procedure_test_1::run_1 ()
 {
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
-	std::vector <boost::shared_ptr <lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 }
 
 void lambda_p_test::bind_procedure_test_1::run_2 ()
@@ -45,9 +45,9 @@ void lambda_p_test::bind_procedure_test_1::run_2 ()
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target.push_back (declaration);
-	std::vector <boost::shared_ptr <lambda_p::errors::error>> problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (!problems.empty ());
+	assert (!problems.errors.empty ());
 }
 
 void lambda_p_test::bind_procedure_test_1::run_3 ()
@@ -59,9 +59,9 @@ void lambda_p_test::bind_procedure_test_1::run_3 ()
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target.push_back (declaration);
 	bind_procedure.routine->instances [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
-	std::vector <boost::shared_ptr <lambda_p::errors::error>> problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 }
 
 void lambda_p_test::bind_procedure_test_1::run_4 ()
@@ -76,9 +76,9 @@ void lambda_p_test::bind_procedure_test_1::run_4 ()
 	statement->association->parameters.push_back (declaration2);
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
 	bind_procedure.routine->instances [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
-	std::vector <boost::shared_ptr <lambda_p::errors::error>> problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (!problems.empty ());
+	assert (!problems.errors.empty ());
 }
 
 void lambda_p_test::bind_procedure_test_1::run_5 ()
@@ -92,9 +92,9 @@ void lambda_p_test::bind_procedure_test_1::run_5 ()
 	statement->association->parameters.push_back (routine->add_data (std::wstring ()));
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
 	bind_procedure.routine->instances [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
-	std::vector <boost::shared_ptr <lambda_p::errors::error>> problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 }
 
 void lambda_p_test::bind_procedure_test_1::run_6 ()
@@ -106,9 +106,9 @@ void lambda_p_test::bind_procedure_test_1::run_6 ()
 	statement->target.push_back (declaration);
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
 	bind_procedure.routine->instances [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
-	std::vector <boost::shared_ptr <lambda_p::errors::error>> problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 	assert (bind_procedure.routine->instances [statement->target [0]].get () != NULL);
 }
 
@@ -127,9 +127,9 @@ void lambda_p_test::bind_procedure_test_1::run_7 ()
 	statement->association->parameters.push_back (r);
 	lambda_p_kernel::bind_procedure bind_procedure (routine);
 	bind_procedure.routine->instances [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
-	std::vector <boost::shared_ptr <lambda_p::errors::error> > problems;
+	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
-	assert (problems.empty ());
+	assert (problems.errors.empty ());
 	assert (bind_procedure.routine->instances [statement->target [0]].get () != NULL);
 	assert (bind_procedure.routine->instances [declaration].get () != NULL);
 	assert (bind_procedure.routine->instances [r].get () != NULL);

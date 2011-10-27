@@ -19,9 +19,9 @@ lambda_p_kernel::bind_procedure::~bind_procedure(void)
 {
 }
 
-void lambda_p_kernel::bind_procedure::operator () (std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::operator () (lambda_p::errors::error_list & problems)
 {
-	std::vector < lambda_p::core::statement *>::iterator i = routine->statements.begin ();
+	std::vector <lambda_p::core::statement *>::iterator i = routine->statements.begin ();
 	size_t statement_count (routine->statements.size ());
 	for (size_t i = 0; i < statement_count; ++i)
 	{	
@@ -29,25 +29,25 @@ void lambda_p_kernel::bind_procedure::operator () (std::vector < boost::shared_p
 	}
 	for (std::map < size_t, size_t>::iterator i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
 	{
-		problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::unresolved_statement (i->second)));
+		problems (new lambda_p::errors::unresolved_statement (i->second));
 	}
 }
 
-void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p::errors::error_list & problems)
 {	
 	boost::shared_ptr < lambda_p::binder::binder> binder;
 	populate_unbound (statement, binder, problems);
 	if (binder.get () != NULL)
 	{
-		size_t previous_size (problems.size ());
+		size_t previous_size (problems.errors.size ());
 		binder->bind (routine->statements [statement], routine->instances, problems);
-		if (problems.size () != previous_size)
+		if (problems.errors.size () != previous_size)
 		{
 			std::wstring message (L"Bind error for statement: ");
 			std::wstringstream stream;
 			stream << statement;
 			message.append (stream.str ());
-			problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::binder_string_error (std::wstring (L"bind_procedure"), message)));
+			problems (new lambda_p::errors::binder_string_error (std::wstring (L"bind_procedure"), message));
 
 		}
 		retry_bind (statement, problems); // We might have resolved what was needed for a previously unresolved bind
@@ -62,7 +62,7 @@ void error_message (std::wostream & stream)
 {
 }
 
-void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost::shared_ptr < lambda_p::binder::binder> & binder, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost::shared_ptr < lambda_p::binder::binder> & binder, lambda_p::errors::error_list & problems)
 {
 	lambda_p::core::statement * statement_l (routine->statements [statement]);
 	assert (statement_l->target [0] < routine->nodes);
@@ -86,7 +86,7 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 		}
 		else
 		{
-			problems.push_back (boost::shared_ptr < lambda_p::errors::error> (new lambda_p::errors::target_not_bindable));
+			problems (new lambda_p::errors::target_not_bindable);
 		}
 	}
 	else
@@ -108,7 +108,7 @@ void lambda_p_kernel::bind_procedure::copy_declaration_binder (boost::shared_ptr
 	}
 }
 
-void lambda_p_kernel::bind_procedure::retry_bind (size_t statement, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_kernel::bind_procedure::retry_bind (size_t statement, lambda_p::errors::error_list & problems)
 {
 	lambda_p::core::statement * statement_l (routine->statements [statement]);
 	for (std::vector < size_t>::iterator i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)
