@@ -140,6 +140,8 @@
     <ClInclude Include="binder\data.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\statement.h" />
+    <ClInclude Include="errors\error_list.h" />
+    <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="parser\declaration_location.h" />
     <ClInclude Include="errors\binder_error.h" />
     <ClInclude Include="errors\binder_string_error.h" />
@@ -196,6 +198,8 @@
     <ClCompile Include="binder\data.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\statement.cpp" />
+    <ClCompile Include="errors\error_list.cpp" />
+    <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="parser\declaration_location.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
     <ClCompile Include="errors\binder_string_error.cpp" />

@@ -25,7 +25,7 @@ lambda_p_llvm::generator::generator (lambda_p_llvm::generation_context & context
 {
 }
 
-void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector < boost::shared_ptr < lambda_p::errors::error> > & problems)
+void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, std::vector <boost::shared_ptr <lambda_p::errors::error>> & problems)
 {
 	size_t position;
 	check_count (1, 3, statement, problems);
