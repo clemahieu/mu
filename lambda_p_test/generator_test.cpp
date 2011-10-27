@@ -32,7 +32,7 @@ void lambda_p_test::generator_test::run_1 ()
 	llvm::LLVMContext llvm_context;
 	llvm::StringRef name ("test");
 	llvm::Module * module (new llvm::Module (name, llvm_context));
-	std::vector < llvm::Type const *> fma_parameters;
+	std::vector <llvm::Type const *> fma_parameters;
 	fma_parameters.push_back (llvm::Type::getDoubleTy (llvm_context));
 	fma_parameters.push_back (llvm::Type::getDoubleTy (llvm_context));
 	fma_parameters.push_back (llvm::Type::getDoubleTy (llvm_context));
@@ -45,14 +45,14 @@ void lambda_p_test::generator_test::run_1 ()
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	lambda_p::routine_builder enclosing;
 	enclosing (L"func; generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group; group fma p1_type p2_type p3_type p4_type p5_type; arguments; generator routine result_type arguments; func; :;");
-	lambda_p::binder::routine_instances & instances (enclosing.routines.routines->operator[] (0)->instances);
-	boost::shared_ptr < lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
+	lambda_p::binder::routine_instances instances;
+	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
 	instances [0] = generator;
-	boost::shared_ptr < lambda_p_kernel::routine> routine_value (new lambda_p_kernel::routine (boost::shared_ptr < lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
+	boost::shared_ptr <lambda_p_kernel::routine> routine_value (new lambda_p_kernel::routine (boost::shared_ptr < lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
 	instances [1] = routine_value;
-	boost::shared_ptr < lambda_p_llvm::fo_value> fma_value (new lambda_p_llvm::fo_value (fma));
+	boost::shared_ptr <lambda_p_llvm::fo_value> fma_value (new lambda_p_llvm::fo_value (fma));
 	instances [2] = fma_value;
-	boost::shared_ptr < lambda_p_llvm::type> type_value (new lambda_p_llvm::type (llvm::Type::getDoubleTy (llvm_context)));
+	boost::shared_ptr <lambda_p_llvm::type> type_value (new lambda_p_llvm::type (llvm::Type::getDoubleTy (llvm_context)));
 	instances [3] = type_value;
 	instances [4] = type_value;
 	instances [5] = type_value;
@@ -61,10 +61,10 @@ void lambda_p_test::generator_test::run_1 ()
 	instances [8] = type_value;
 	boost::shared_ptr <lambda_p::binder::list_binder> group (new lambda_p::binder::list_binder);
 	instances [9] = group;
-	lambda_p_kernel::bind_procedure procedure (boost::shared_ptr < lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)));
+	lambda_p_kernel::bind_procedure procedure (boost::shared_ptr <lambda_p::core::routine> (enclosing.routines.routines->operator[] (0)), instances);
 	lambda_p::errors::error_list problems;
 	procedure (problems);
 	assert (problems.errors.size () == 0);
-	boost::shared_ptr < lambda_p::binder::instance> final (instances [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
+	boost::shared_ptr <lambda_p::binder::instance> final (instances [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
 	assert (final.get () != NULL);
 }

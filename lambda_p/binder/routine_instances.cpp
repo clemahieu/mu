@@ -28,14 +28,20 @@ void lambda_p::binder::routine_instances::merge (routine_instances & other_a, la
 	while (other != other_a.instances.end ())
 	{
 		auto val (*other);
-		if (val.get () != nullptr && self->get () != nullptr)
+		if (val.get () != nullptr)
 		{
-			std::wstringstream message;
-			message << L"Both instance containers have an instance at index: ";
-			message << position;
-			problems (new lambda_p::errors::string_error (message.str ()));
+			if (self->get () != nullptr)
+			{
+				std::wstringstream message;
+				message << L"Both instance containers have an instance at index: ";
+				message << position;
+				problems (new lambda_p::errors::string_error (message.str ()));
+			}
+			else
+			{
+				*self = val;
+			}
 		}
-		*self = val;
 		++self;
 		++other;
 		++position;

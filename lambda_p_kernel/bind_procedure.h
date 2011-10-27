@@ -6,8 +6,6 @@
 #include <sstream>
 #include <vector>
 
-#include <lambda_p/binder/routine_instances.h>
-
 namespace lambda_p
 {
 	namespace core
@@ -18,11 +16,13 @@ namespace lambda_p
 	namespace errors
 	{
 		class error;
+		class error_list;
 	}
 	namespace binder
 	{
 		class binder;
 		class instance;
+		class routine_instances;
 	}
 }
 namespace lambda_p_kernel
@@ -30,11 +30,12 @@ namespace lambda_p_kernel
 	class bind_procedure
 	{
 	public:
-		bind_procedure (boost::shared_ptr <lambda_p::core::routine> routine_a);
+		bind_procedure (boost::shared_ptr <lambda_p::core::routine> routine_a, lambda_p::binder::routine_instances & instances_a);
 		~bind_procedure (void);
 		void operator () (lambda_p::errors::error_list & problems);
 		std::map <size_t, size_t> unbound_statements;
 		boost::shared_ptr <lambda_p::core::routine> routine;
+		lambda_p::binder::routine_instances & instances;
 	private:
 		void bind_statement (size_t statement, lambda_p::errors::error_list & problems);
 		void populate_unbound (size_t statement, boost::shared_ptr <lambda_p::binder::binder> & binder, lambda_p::errors::error_list & problems);

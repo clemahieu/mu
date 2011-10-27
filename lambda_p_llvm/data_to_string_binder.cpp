@@ -10,6 +10,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p/binder/routine_instances.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>

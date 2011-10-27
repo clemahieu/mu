@@ -17,6 +17,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/bind_procedure.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -27,14 +28,14 @@
 
 void lambda_p_test::data_to_string_binder_test_1::run ()
 {
-    lambda_p::core::routine routine;
-    size_t p1 = routine.add_declaration ();
-	routine.surface->results.push_back (p1);
-    lambda_p::core::statement * statement = routine.add_statement ();
+	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
+    size_t p1 = routine->add_declaration ();
+	routine->surface->results.push_back (p1);
+    lambda_p::core::statement * statement = routine->add_statement ();
 	statement->target.push_back (p1);
-    size_t declaration = routine.add_declaration ();
+    size_t declaration = routine->add_declaration ();
     statement->association->results.push_back (declaration);
-    size_t data = routine.add_data (std::wstring (L"Test string"));
+    size_t data = routine->add_data (std::wstring (L"Test string"));
     statement->association->parameters.push_back (data);
     llvm::LLVMContext llvm_context;
     std::string module_string ("test");
@@ -42,10 +43,12 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     llvm::Module * module = new llvm::Module (module_name, llvm_context);
     lambda_p_llvm::generation_context context (llvm_context, module, NULL);
 	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> binder (new lambda_p_llvm::data_to_string_binder (context));
-	lambda_p::binder::routine_instances instances (routine.instances);
+	lambda_p::binder::routine_instances instances;
 	instances [0] = binder;
 	lambda_p::errors::error_list problems;
-    binder->bind (statement, instances, problems);
+	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
+	bind_procedure (problems);
+    //binder->bind (statement, instances, problems);
 	assert (problems.errors.size () == 0);
     assert (module->getGlobalList ().size () == 1);
 	assert (instances.instances.size () == 3);

@@ -10,8 +10,9 @@
 
 #include <sstream>
 
-lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a)
-	: routine (routine_a)
+lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::routine_instances & instances_a)
+	: routine (routine_a),
+	instances (instances_a)
 {
 }
 
@@ -21,15 +22,18 @@ lambda_p_kernel::bind_procedure::~bind_procedure(void)
 
 void lambda_p_kernel::bind_procedure::operator () (lambda_p::errors::error_list & problems)
 {
-	std::vector <lambda_p::core::statement *>::iterator i = routine->statements.begin ();
-	size_t statement_count (routine->statements.size ());
-	for (size_t i = 0; i < statement_count; ++i)
-	{	
-		bind_statement (i, problems);
-	}
-	for (std::map < size_t, size_t>::iterator i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
+	instances.merge (routine->instances, problems);
+	if (problems.errors.empty ())
 	{
-		problems (new lambda_p::errors::unresolved_statement (i->second));
+		size_t statement_count (routine->statements.size ());
+		for (size_t i = 0; i < statement_count; ++i)
+		{	
+			bind_statement (i, problems);
+		}
+		for (auto i = unbound_statements.begin (); i != unbound_statements.end (); ++i)
+		{
+			problems (new lambda_p::errors::unresolved_statement (i->second));
+		}
 	}
 }
 
@@ -40,7 +44,7 @@ void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p
 	if (binder.get () != NULL)
 	{
 		size_t previous_size (problems.errors.size ());
-		binder->bind (routine->statements [statement], routine->instances, problems);
+		binder->bind (routine->statements [statement], instances, problems);
 		if (problems.errors.size () != previous_size)
 		{
 			std::wstring message (L"Bind error for statement: ");
@@ -73,14 +77,14 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 		binder = boost::dynamic_pointer_cast < lambda_p::binder::binder> (binder_l);
 		if (binder.get () != NULL)
 		{
-			for (std::vector < size_t>::iterator i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
+			for (auto i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
 			{
 				size_t node (*i);
 				copy_declaration_binder (binder_l, node);
 				if (binder_l.get () == NULL)
 				{
 					binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
-					unbound_statements [node] = statement;
+					unbound_statements [node] = statement; // Record this unbound statement and the needed node to be retried in case an argument is later bound or for issuing a problem once all statements have been attempted
 				}
 			}
 		}
@@ -98,9 +102,9 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 void lambda_p_kernel::bind_procedure::copy_declaration_binder (boost::shared_ptr < lambda_p::binder::instance> & binder, size_t node)
 {
 	size_t declaration (node);
-	if (declaration < routine->instances.instances.size ())
+	if (declaration < instances.instances.size ())
 	{
-		binder = routine->instances [declaration];
+		binder = instances [declaration];
 	}
 	else
 	{
@@ -111,9 +115,9 @@ void lambda_p_kernel::bind_procedure::copy_declaration_binder (boost::shared_ptr
 void lambda_p_kernel::bind_procedure::retry_bind (size_t statement, lambda_p::errors::error_list & problems)
 {
 	lambda_p::core::statement * statement_l (routine->statements [statement]);
-	for (std::vector < size_t>::iterator i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)
+	for (auto i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)
 	{
-		std::map < size_t, size_t>::iterator search (unbound_statements.find (*i));
+		auto search (unbound_statements.find (*i));
 		if (search != unbound_statements.end ())
 		{
 			size_t retry_statement (search->second);

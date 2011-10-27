@@ -47,11 +47,12 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 	if (parameters == binders)
 	{
 		size_t position (0);
-		for (std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator i = instances_l.instances.begin (); i != instances_l.instances.end (); ++i, ++position)
+		lambda_p::binder::routine_instances instances;
+		for (auto i = instances_l.instances.begin (); i != instances_l.instances.end (); ++i, ++position)
 		{
 			if (i->get () != NULL)
 			{
-				routine.routine_m->instances [position] = *i;
+				instances [position] = *i;
 			}
 			else
 			{
@@ -64,7 +65,7 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 		}
 		if (problems.errors.empty ())
 		{
-			lambda_p_kernel::bind_procedure procedure (routine.routine_m);
+			lambda_p_kernel::bind_procedure procedure (routine.routine_m, instances);
 			procedure (problems);
 		}
 	}

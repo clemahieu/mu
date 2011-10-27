@@ -44,6 +44,10 @@ int main ()
 		test.run ();
 	}
 	{
+		routine_instances_test test;
+		test.run ();
+	}
+	{
 		bind_procedure_test_1 test;
 		test.run ();
 	}
@@ -117,10 +121,6 @@ int main ()
 	}
 	{
 		istream_input_test test;
-		test.run ();
-	}
-	{
-		routine_instances_test test;
 		test.run ();
 	}
 	return 0;

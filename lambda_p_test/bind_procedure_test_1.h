@@ -15,6 +15,7 @@ namespace lambda_p_test
 		void run_5 ();
 		void run_6 ();
 		void run_7 ();
+		void run_8 ();
 	};
 }
 

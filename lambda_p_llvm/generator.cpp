@@ -31,26 +31,27 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 	check_count (1, 3, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
+		auto routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
 		{
-			boost::shared_ptr < lambda_p_llvm::type> return_type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (instances [statement->association->parameters [1]]));
+			auto return_type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (instances [statement->association->parameters [1]]));
 			if (return_type.get () != NULL)
 			{
-				boost::shared_ptr <lambda_p::binder::list> argument_list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [2]]));
+				auto argument_list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [2]]));
 				if (argument_list.get () != NULL)
 				{
 					if (argument_list->instances.size () == routine->routine_m->surface->results.size ())
 					{
-						std::vector < size_t> open_positions;
-						std::vector < llvm::Type const *> parameters;
+						lambda_p::binder::routine_instances instances_l;
+						std::vector <size_t> open_positions;
+						std::vector <llvm::Type const *> parameters;
 						position = 0;
 						llvm::BasicBlock * block (llvm::BasicBlock::Create (context.context));
 						lambda_p_llvm::generation_context context_l (context.context, context.module, block);
-						for (std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator i = argument_list->instances.begin (); i != argument_list->instances.end (); ++i, ++position)
+						for (auto i = argument_list->instances.begin (); i != argument_list->instances.end (); ++i, ++position)
 						{
-							boost::shared_ptr < lambda_p::binder::instance> instance (*i);
-							boost::shared_ptr < lambda_p_llvm::type> type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (instance));
+							auto instance (*i);
+							auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (instance));
 							if (type.get () != NULL)
 							{
 								parameters.push_back (type->type_m);
@@ -58,17 +59,17 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							}
 							else
 							{
-								boost::shared_ptr < lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast < lambda_p_llvm::fo_value> (instance));
+								auto value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (instance));
 								if (value.get () != NULL)
 								{
-									llvm::Function * function (llvm::dyn_cast < llvm::Function> (value->value));
+									llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value));
 									if (function != NULL)
 									{
-										routine->routine_m->instances [position] = boost::shared_ptr < lambda_p_llvm::function_binder> (new lambda_p_llvm::function_binder (context_l, function));
+										instances_l [position] = boost::shared_ptr <lambda_p_llvm::function_binder> (new lambda_p_llvm::function_binder (context_l, function));
 									}
 									else
 									{
-										routine->routine_m->instances [position] = value;
+										instances_l [position] = value;
 									}
 								}
 								else
@@ -82,22 +83,22 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							llvm::Function * function (llvm::Function::Create (llvm::FunctionType::get (return_type->type_m, parameters, false), llvm::GlobalValue::ExternalLinkage));
 							function->getBasicBlockList ().push_back (block);
 							llvm::Function::arg_iterator i (function->arg_begin ());
-							std::vector < size_t >::iterator j (open_positions.begin ());
+							std::vector <size_t >::iterator j (open_positions.begin ());
 							for (; i != function->arg_end (); ++i, ++j)
 							{
-								routine->routine_m->instances [*j] = boost::shared_ptr < lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (&(*i)));
+								instances_l [*j] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (&(*i)));
 							}
-							lambda_p_kernel::bind_procedure procedure (routine->routine_m);
+							lambda_p_kernel::bind_procedure procedure (routine->routine_m, instances_l);
 							procedure (problems);
 							if (problems.errors.empty ())
 							{
-								boost::shared_ptr < lambda_p_llvm::fo_value> return_value (boost::dynamic_pointer_cast < lambda_p_llvm::fo_value> (routine->routine_m->instances [routine->routine_m->surface->parameters [0]]));
+								auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (instances_l [routine->routine_m->surface->parameters [0]]));
 								if (return_value.get () != NULL)
 								{
 									llvm::ReturnInst * ret (llvm::ReturnInst::Create (context_l.context, return_value->value));
 									context_l.block->getInstList ().push_back (ret);
 									context.module->getFunctionList ().push_back (function);
-									boost::shared_ptr < lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (function));
+									boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (function));
 									instances [statement->association->results [0]] = value;
 								}
 								else
