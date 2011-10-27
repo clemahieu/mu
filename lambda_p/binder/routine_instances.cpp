@@ -21,6 +21,7 @@ boost::shared_ptr < lambda_p::binder::instance> & lambda_p::binder::routine_inst
 
 void lambda_p::binder::routine_instances::merge (routine_instances & other_a, lambda_p::errors::error_list & problems)
 {
+	instances.resize (std::max (instances.size (), other_a.instances.size ()));
 	size_t position (0);
 	auto self (instances.begin ());
 	auto other (other_a.instances.begin ());
