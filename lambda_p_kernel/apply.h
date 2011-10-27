@@ -5,6 +5,8 @@
 namespace lambda_p_kernel
 {
 	class routine;
+	// Applies instances to the routine's surface and does all the work of mapping surface index to the corresponding routine declarations
+	// This is a one-shot apply and doesn't do partial application
 	class apply : public lambda_p::binder::binder
 	{
 	public:
