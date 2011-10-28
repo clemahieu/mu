@@ -21,7 +21,7 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (nodes [statement->association->parameters [0]]));
-		if (stream.get () != NULL)
+		if (stream.get () != nullptr)
 		{
 			::lambda_p_repl::routine_input input;
 			input (stream);

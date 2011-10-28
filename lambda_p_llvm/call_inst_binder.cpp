@@ -24,13 +24,13 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 	{
 		std::vector <llvm::Value *> argument_values;
 		boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [statement->association->parameters [0]]));
-		if (value.get () != NULL)
+		if (value.get () != nullptr)
 		{
 			llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value));
-			if (function != NULL)
+			if (function != nullptr)
 			{
 				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [1]]));
-				if (arguments.get () != NULL)
+				if (arguments.get () != nullptr)
 				{
 					llvm::FunctionType const * type (function->getFunctionType ());
 					llvm::FunctionType::param_iterator j = type->param_begin ();

@@ -15,7 +15,7 @@ void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statem
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p::binder::data> data (boost::dynamic_pointer_cast < lambda_p::binder::data> (nodes [statement->association->parameters [0]]));
-		if (data.get () != NULL)
+		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			boost::shared_ptr <lambda_p_repl::file_stream> stream (new lambda_p_repl::file_stream (path.wstring ()));

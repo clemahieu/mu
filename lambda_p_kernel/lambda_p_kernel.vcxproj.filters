@@ -13,6 +13,7 @@
     <ClCompile Include="number.cpp" />
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="node_list_binder.cpp" />
+    <ClCompile Include="directory_compile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -27,5 +28,6 @@
     <ClInclude Include="number.h" />
     <ClInclude Include="apply.h" />
     <ClInclude Include="node_list_binder.h" />
+    <ClInclude Include="directory_compile.h" />
   </ItemGroup>
 </Project>

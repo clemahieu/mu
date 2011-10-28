@@ -32,7 +32,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 			size_t parameter (*i);
 			boost::shared_ptr <lambda_p::binder::node> instance (nodes [parameter]);
 			boost::shared_ptr <lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
-			if (node_data.get () != NULL)
+			if (node_data.get () != nullptr)
 			{
 				parse_one (nodes, node_data, statement->association->results [current_argument], problems);
 			}
@@ -67,9 +67,9 @@ void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & nodes, b
 	boost::char_separator <wchar_t> separator (L".");
 	boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring> tokenizer (string, separator);
 	std::wstring current_string;
-	for (boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring>::iterator i = tokenizer.begin (); current_node.get () != NULL && i != tokenizer.end (); ++i)
+	for (boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring>::iterator i = tokenizer.begin (); current_node.get () != nullptr && i != tokenizer.end (); ++i)
 	{
-		if (current_package.get () != NULL)
+		if (current_package.get () != nullptr)
 		{
 			current_string = *i;
 			std::map <std::wstring, boost::shared_ptr <lambda_p::binder::node>>::iterator target = current_package->nodes.find (current_string);
@@ -96,7 +96,7 @@ void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & nodes, b
 			add_error (message, problems);
 		}
 	}
-	if (current_node.get () != NULL)
+	if (current_node.get () != nullptr)
 	{
 		nodes [result] = current_node;
 	}

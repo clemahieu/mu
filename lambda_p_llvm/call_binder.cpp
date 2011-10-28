@@ -16,7 +16,7 @@ void lambda_p_llvm::call_binder::bind (lambda_p::core::statement * statement, la
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_llvm::noop_closure> target (boost::dynamic_pointer_cast <lambda_p_llvm::noop_closure> (nodes [statement->association->parameters [0]]));
-		if (target.get () != NULL)
+		if (target.get () != nullptr)
 		{
 			llvm::CallInst * call (llvm::CallInst::Create (target->function, target->arguments.begin (), target->arguments.end ()));
 			target->context.block->getInstList ().push_back (call);

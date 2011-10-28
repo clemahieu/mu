@@ -31,7 +31,7 @@ void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, la
 		size_t command (statement->association->parameters [0]);
 		boost::shared_ptr <lambda_p::binder::node> command_instance (nodes [command]);
 		boost::shared_ptr <lambda_p::binder::data> command_data (boost::dynamic_pointer_cast <lambda_p::binder::data> (command_instance));
-		if (command_data.get () != NULL)
+		if (command_data.get () != nullptr)
 		{
 			if (command_data->string ().compare (std::wstring (L"getInt32Ty")) == 0)
 			{

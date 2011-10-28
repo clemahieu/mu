@@ -22,7 +22,7 @@ void lambda_p_llvm::alloca_inst_binder::bind (lambda_p::core::statement * statem
 	{
 		boost::shared_ptr <lambda_p::binder::node> type_instance (nodes [statement->association->parameters [0]]);
 		boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (type_instance));
-		if (type.get () != NULL)
+		if (type.get () != nullptr)
 		{
 			llvm::AllocaInst * alloc (new llvm::AllocaInst (type->type_m));
 			context.block->getInstList ().push_back (alloc);

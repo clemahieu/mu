@@ -116,7 +116,7 @@ void lambda_p_test::bind_procedure_test_1::run_6 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target].get () != NULL);
+	assert (nodes [statement->target].get () != nullptr);
 }
 
 // Tests to make sure dependent statement targets can be resolved by a previous statement's result
@@ -137,7 +137,7 @@ void lambda_p_test::bind_procedure_test_1::run_7 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target].get () != NULL);
+	assert (nodes [statement->target].get () != nullptr);
 }
 
 // Tests to make sure binding works when a non-cyclic binding dependency exists that's not in written statement order i.e. out of order statements
@@ -160,7 +160,7 @@ void lambda_p_test::bind_procedure_test_1::run_8 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target].get () != NULL);
-	assert (nodes [declaration].get () != NULL);
-	assert (nodes [r].get () != NULL);
+	assert (nodes [statement->target].get () != nullptr);
+	assert (nodes [declaration].get () != nullptr);
+	assert (nodes [r].get () != nullptr);
 }

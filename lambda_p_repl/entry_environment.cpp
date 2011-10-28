@@ -66,7 +66,7 @@ lambda_p_repl::entry_environment::entry_environment (lambda_p_repl::repl * repl_
 }
 
 lambda_p_repl::entry_environment::entry_environment ()
-	: repl (NULL)
+	: repl (nullptr)
 {
 }
 
@@ -76,7 +76,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
     std::string module_name_string ("llvm_repl");
     llvm::StringRef module_name (module_name_string);
 	llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
-    lambda_p_llvm::generation_context context (context_instance->context_m, module, NULL);
+    lambda_p_llvm::generation_context context (context_instance->context_m, module, nullptr);
     llvm::EngineBuilder builder (module);
     builder.setEngineKind (llvm::EngineKind::JIT);
     std::string error;
@@ -167,7 +167,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr <lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
 	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
 	nodes->operator[] (0) = package;	
-	if (repl != NULL)
+	if (repl != nullptr)
 	{
         std::vector <llvm::Type const *> parameters;
         parameters.push_back (llvm::Type::getInt8PtrTy (context.context, 0));

@@ -17,6 +17,6 @@ void lambda_p_test::node_list_test_1::run ()
 	boost::shared_ptr <lambda_p::binder::data> data (new lambda_p::binder::data (std::wstring (L"test")));
 	nodes [7] = data;
 	assert (nodes.nodes.size () == 8);
-	assert (nodes [7].get () != NULL);
-	assert (nodes [6].get () == NULL);
+	assert (nodes [7].get () != nullptr);
+	assert (nodes [6].get () == nullptr);
 }

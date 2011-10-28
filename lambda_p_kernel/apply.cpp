@@ -21,10 +21,10 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (nodes [statement->association->parameters [0]]));
-		if (routine.get () != NULL)
+		if (routine.get () != nullptr)
 		{
 			boost::shared_ptr < lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast < lambda_p::binder::node_list> (nodes [statement->association->parameters [1]]));
-			if (nodes_l.get () != NULL)
+			if (nodes_l.get () != nullptr)
 			{
 				core (*routine.get (), *nodes_l.get (), problems);
 			}
@@ -50,7 +50,7 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 		lambda_p::binder::node_list nodes;
 		for (auto i = nodes_l.nodes.begin (); i != nodes_l.nodes.end (); ++i, ++position)
 		{
-			if (i->get () != NULL)
+			if (i->get () != nullptr)
 			{
 				nodes [position] = *i;
 			}

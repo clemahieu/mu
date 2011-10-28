@@ -39,7 +39,7 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	size_t bits = routine->add_declaration ();
 	statement->association->parameters.push_back (bits);
 	llvm::LLVMContext llvm_context;
-	lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
+	lambda_p_llvm::generation_context context (llvm_context, nullptr, nullptr);
 	boost::shared_ptr < lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder (context));
 	lambda_p::binder::node_list nodes;
 	nodes [binder] = constant_int_binder;
@@ -49,9 +49,9 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [declaration].get () != NULL);
-	assert (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [declaration]).get () != NULL);
-	assert (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() () != NULL);
+	assert (nodes [declaration].get () != nullptr);
+	assert (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [declaration]).get () != nullptr);
+	assert (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() () != nullptr);
 	assert (llvm::isa <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ()));
 	assert (llvm::cast <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ())->getBitWidth () == 64);
 	assert (llvm::cast <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ())->getValue () == 16);

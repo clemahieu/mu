@@ -33,8 +33,8 @@ void lambda_p_test::list_test::run_1 ()
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [result].get () != NULL);
-	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [result]).get () != NULL);
+	assert (nodes [result].get () != nullptr);
+	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [result]).get () != nullptr);
 	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [result])->nodes.size () == 0);
 }
 
@@ -58,8 +58,8 @@ void lambda_p_test::list_test::run_2 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [result1].get () != NULL);
-	assert (nodes [result2].get () != NULL);
+	assert (nodes [result1].get () != nullptr);
+	assert (nodes [result2].get () != nullptr);
 }
 
 void lambda_p_test::list_test::run_3 ()

@@ -38,7 +38,7 @@ void lambda_p_repl::echo_binder::bind (lambda_p::core::statement * statement, la
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_llvm::value> string (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [statement->association->parameters [0]]));
-		if (string.get () != NULL)
+		if (string.get () != nullptr)
 		{
 			std::vector <llvm::Value *> arguments;
 			arguments.push_back (echo_string_global);

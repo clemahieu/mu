@@ -33,20 +33,20 @@ void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement
 	size_t parameter_count (statement->association->parameters.size ());
 	std::wstring format;
 	std::vector <llvm::Value *> arguments;
-	arguments.push_back (NULL); // Filled with format string after other arguments are computed
+	arguments.push_back (nullptr); // Filled with format string after other arguments are computed
 	for (size_t i = 0; i < parameter_count; ++i)
 	{
 		boost::shared_ptr <lambda_p::binder::node> instance (nodes [statement->association->parameters [i]]);
 		boost::shared_ptr <lambda_p_llvm::value> argument_value (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instance));
-		if (argument_value.get () != NULL)
+		if (argument_value.get () != nullptr)
 		{
 			llvm::Type const * type (argument_value->type ());
 			llvm::PointerType const * pointer (llvm::dyn_cast < llvm::PointerType> (type));
-			if (pointer != NULL)
+			if (pointer != nullptr)
 			{
 				llvm::Type const * element_type (pointer->getElementType ());
 				llvm::IntegerType const * element_integer (llvm::dyn_cast < llvm::IntegerType> (element_type));
-				if (element_integer != NULL)
+				if (element_integer != nullptr)
 				{
 					if (element_integer->getBitWidth () == context.wchar_t_type->getBitWidth ())
 					{
@@ -66,7 +66,7 @@ void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement
 			else
 			{
 				llvm::IntegerType const * integer (llvm::dyn_cast < llvm::IntegerType> (type));
-				if (integer != NULL)
+				if (integer != nullptr)
 				{
 					if (integer->getBitWidth () == 64)
 					{

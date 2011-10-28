@@ -12,10 +12,10 @@ void lambda_p_kernel::package_add::bind (lambda_p::core::statement * statement, 
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_kernel::package> package (boost::dynamic_pointer_cast <lambda_p_kernel::package> (nodes [statement->association->parameters [0]]));
-		if (package.get () != NULL)
+		if (package.get () != nullptr)
 		{
 			boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->parameters [2]]));
-			if (data.get () != NULL)
+			if (data.get () != nullptr)
 			{
 				package->nodes [data->string ()] = nodes [statement->association->parameters [1]];
 			}

@@ -20,13 +20,13 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [0]]));
-		if (list.get () != NULL)
+		if (list.get () != nullptr)
 		{
 			std::vector <llvm::Type const *> types;
 			for (auto i = list->nodes.begin (); i != list->nodes.end (); ++i)
 			{
 				boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (*i));
-				if (type.get () != NULL)
+				if (type.get () != nullptr)
 				{
 					types.push_back (type->type_m);
 				}

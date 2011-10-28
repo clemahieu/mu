@@ -28,7 +28,7 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 			for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
 			{
 				boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [*i]));
-				if (value.get () != NULL)
+				if (value.get () != nullptr)
 				{
 					arguments.push_back (value->value);
 				}

@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="routine.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
+    <ClInclude Include="directory_compile.h" />
     <ClInclude Include="identity.h" />
     <ClInclude Include="null_binder.h" />
     <ClInclude Include="number.h" />

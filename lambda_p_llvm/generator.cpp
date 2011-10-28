@@ -32,13 +32,13 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 	if (problems.errors.empty ())
 	{
 		auto routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->parameters [0]]));
-		if (routine.get () != NULL)
+		if (routine.get () != nullptr)
 		{
 			auto return_type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (nodes [statement->association->parameters [1]]));
-			if (return_type.get () != NULL)
+			if (return_type.get () != nullptr)
 			{
 				auto argument_list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [2]]));
-				if (argument_list.get () != NULL)
+				if (argument_list.get () != nullptr)
 				{
 					if (argument_list->nodes.size () == routine->routine_m->surface->results.size ())
 					{
@@ -52,7 +52,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 						{
 							auto instance (*i);
 							auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (instance));
-							if (type.get () != NULL)
+							if (type.get () != nullptr)
 							{
 								parameters.push_back (type->type_m);
 								open_positions.push_back (position);
@@ -60,10 +60,10 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							else
 							{
 								auto value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (instance));
-								if (value.get () != NULL)
+								if (value.get () != nullptr)
 								{
 									llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value));
-									if (function != NULL)
+									if (function != nullptr)
 									{
 										nodes_l [position] = boost::shared_ptr <lambda_p_llvm::function_binder> (new lambda_p_llvm::function_binder (context_l, function));
 									}
@@ -93,7 +93,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							if (problems.errors.empty ())
 							{
 								auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes_l [routine->routine_m->surface->parameters [0]]));
-								if (return_value.get () != NULL)
+								if (return_value.get () != nullptr)
 								{
 									llvm::ReturnInst * ret (llvm::ReturnInst::Create (context_l.context, return_value->value));
 									context_l.block->getInstList ().push_back (ret);

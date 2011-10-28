@@ -46,7 +46,7 @@ void lambda_p_test::package_test_1::run_1 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [declaration2].get () != NULL);
+	assert (nodes [declaration2].get () != nullptr);
 	assert (nodes [declaration2] == null_binder);
 }
 
@@ -74,7 +74,7 @@ void lambda_p_test::package_test_1::run_2 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [declaration2].get () != NULL);
+	assert (nodes [declaration2].get () != nullptr);
 	assert (nodes [declaration2] == null_binder);
 }
 
@@ -126,6 +126,6 @@ void lambda_p_test::package_test_1::run_4 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [d1].get () != NULL);
-	assert (nodes [d2].get () != NULL);
+	assert (nodes [d1].get () != nullptr);
+	assert (nodes [d2].get () != nullptr);
 }

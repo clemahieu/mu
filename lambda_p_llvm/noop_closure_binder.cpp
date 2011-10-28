@@ -22,13 +22,13 @@ void lambda_p_llvm::noop_closure_binder::bind (lambda_p::core::statement * state
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_llvm::value> function_value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [statement->association->parameters [0]]));
-		if (function_value.get () != NULL)
+		if (function_value.get () != nullptr)
 		{
 			llvm::Function * function (llvm::dyn_cast < llvm::Function> (function_value->operator() ()));
-			if (function != NULL)
+			if (function != nullptr)
 			{
 				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [1]]));
-				if (arguments.get () != NULL)
+				if (arguments.get () != nullptr)
 				{
 					std::vector < llvm::Value *> argument_values;
 					::lambda_p_llvm::argument_binder argument_binder;

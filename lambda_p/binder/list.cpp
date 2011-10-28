@@ -11,7 +11,7 @@ void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda
 	{
 		if (statement->association->results.size () == nodes.size ())
 		{
-			std::vector <boost::shared_ptr < lambda_p::binder::node>>::iterator j = nodes.begin ();
+			std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
 			for (std::vector <size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i, ++j)
 			{
 				nodes_a [*i] = *j;

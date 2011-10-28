@@ -14,7 +14,7 @@ out (out_a)
 lambda_p_repl::entry_routine::entry_routine (boost::shared_ptr < lambda_p_repl::character_stream> in_a, std::wostream & out_a)
 : in (in_a),
 out (out_a),
-repl (NULL)
+repl (nullptr)
 {
 }
 
@@ -26,7 +26,7 @@ void lambda_p_repl::entry_routine::operator () ()
 {
     lambda_p_repl::entry_input input;
     input (in, out);
-    if (input.routine.get () != NULL)
+    if (input.routine.get () != nullptr)
     {
         lambda_p_repl::entry_environment environment (repl);
         environment (input.routine);

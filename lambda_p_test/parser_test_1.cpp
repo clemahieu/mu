@@ -319,7 +319,7 @@ void lambda_p_test::parser_test_1::run_11 ()
 	assert (routines.routines->size () == 1);
 	assert ((*routines.routines)[0]->statements.size () == 1);
 	assert ((*routines.routines)[0]->statements [0]->association->parameters.size () == 1);
-	assert ((*routines.routines)[0]->statements [0]->association->parameters [0] != NULL);
+	assert ((*routines.routines)[0]->statements [0]->association->parameters [0] != 0);
 }
 
 void lambda_p_test::parser_test_1::run_12 ()

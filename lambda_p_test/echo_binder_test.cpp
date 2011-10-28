@@ -33,7 +33,7 @@ void lambda_p_test::echo_binder_test::run ()
     std::string module_string ("test");
     llvm::StringRef module_name (module_string);
     llvm::Module * module = new llvm::Module (module_name, llvm_context);
-    lambda_p_llvm::generation_context context (llvm_context, module, NULL);
+    lambda_p_llvm::generation_context context (llvm_context, module, nullptr);
     lambda_p_llvm::wprintf_function wprintf (context);
     lambda_p::core::routine routine;
     size_t p1 = routine.add_declaration ();

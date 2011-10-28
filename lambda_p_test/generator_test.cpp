@@ -66,5 +66,5 @@ void lambda_p_test::generator_test::run_1 ()
 	procedure (problems);
 	assert (problems.errors.size () == 0);
 	boost::shared_ptr <lambda_p::binder::node> final (nodes [enclosing.routines.routines->operator[] (0)->surface->parameters [0]]);
-	assert (final.get () != NULL);
+	assert (final.get () != nullptr);
 }

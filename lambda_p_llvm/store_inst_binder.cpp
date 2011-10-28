@@ -37,14 +37,14 @@ void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * stateme
 		size_t source_node (statement->association->parameters [1]);
 		boost::shared_ptr <lambda_p::binder::node> source_instance (nodes [source_node]);
 		boost::shared_ptr <lambda_p_llvm::value> source (boost::dynamic_pointer_cast <lambda_p_llvm::value> (source_instance));
-		if (source.get () != NULL)
+		if (source.get () != nullptr)
 		{
 			boost::shared_ptr <lambda_p::binder::node> destination_instance (nodes [destination_node]);
 			boost::shared_ptr <lambda_p_llvm::value> destination (boost::dynamic_pointer_cast <lambda_p_llvm::value> (destination_instance));
-			if (destination.get () != NULL)
+			if (destination.get () != nullptr)
 			{
 				llvm::PointerType const * destination_pointer (llvm::dyn_cast < llvm::PointerType const> (destination->type ()));
-				if (destination_pointer != NULL)
+				if (destination_pointer != nullptr)
 				{
 					if (destination_pointer->getElementType () == source->type ())
 					{

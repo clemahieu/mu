@@ -12,7 +12,7 @@ void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * state
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [0]]));
-		if (list.get () != NULL)
+		if (list.get () != nullptr)
 		{
 			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (new lambda_p::binder::node_list);
 			for (auto i = list->nodes.begin (); i != list->nodes.end (); ++i)

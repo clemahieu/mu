@@ -41,7 +41,7 @@ void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p
 {	
 	boost::shared_ptr < lambda_p::binder::binder> binder;
 	populate_unbound (statement, binder, problems);
-	if (binder.get () != NULL)
+	if (binder.get () != nullptr)
 	{
 		size_t previous_size (problems.errors.size ());
 		binder->bind (routine->statements [statement], nodes, problems);
@@ -72,16 +72,16 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 	assert (statement_l->target < routine->nodes);
 	boost::shared_ptr <lambda_p::binder::node> binder_l;
 	copy_declaration_binder (binder_l, statement_l->target);
-	if (binder_l.get () != NULL)
+	if (binder_l.get () != nullptr)
 	{
 		binder = boost::dynamic_pointer_cast < lambda_p::binder::binder> (binder_l);
-		if (binder.get () != NULL)
+		if (binder.get () != nullptr)
 		{
-			for (auto i = statement_l->association->parameters.begin (); binder.get () != NULL && i != statement_l->association->parameters.end (); ++i)
+			for (auto i = statement_l->association->parameters.begin (); binder.get () != nullptr && i != statement_l->association->parameters.end (); ++i)
 			{
 				size_t node (*i);
 				copy_declaration_binder (binder_l, node);
-				if (binder_l.get () == NULL)
+				if (binder_l.get () == nullptr)
 				{
 					binder.reset (); // Target and all arguments must be bound, if we can't find the binder for an argument, we can't bind the statement
 					unbound_statements [node] = statement; // Record this unbound statement and the needed node to be retried in case an argument is later bound or for issuing a problem once all statements have been attempted

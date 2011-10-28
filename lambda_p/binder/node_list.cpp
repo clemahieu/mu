@@ -15,7 +15,7 @@ boost::shared_ptr <lambda_p::binder::node> & lambda_p::binder::node_list::operat
 	{
 		nodes.resize (node + 1);
 	}
-	boost::shared_ptr < lambda_p::binder::node> & result (nodes [node]);
+	boost::shared_ptr <lambda_p::binder::node> & result (nodes [node]);
 	return result;
 }
 
