@@ -69,9 +69,9 @@ void error_message (std::wostream & stream)
 void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost::shared_ptr <lambda_p::binder::binder> & binder, lambda_p::errors::error_list & problems)
 {
 	lambda_p::core::statement * statement_l (routine->statements [statement]);
-	assert (statement_l->target [0] < routine->nodes);
+	assert (statement_l->target < routine->nodes);
 	boost::shared_ptr <lambda_p::binder::node> binder_l;
-	copy_declaration_binder (binder_l, statement_l->target [0]);
+	copy_declaration_binder (binder_l, statement_l->target);
 	if (binder_l.get () != NULL)
 	{
 		binder = boost::dynamic_pointer_cast < lambda_p::binder::binder> (binder_l);
@@ -95,7 +95,7 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 	}
 	else
 	{
-		unbound_statements [statement_l->target [0]] = statement;
+		unbound_statements [statement_l->target] = statement;
 	}
 }
 

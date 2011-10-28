@@ -23,7 +23,7 @@ void lambda_p_test::list_test::run_1 ()
 	size_t group (routine->add_declaration ());
 	routine->surface->results.push_back (group);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (group);
+	statement->target = group;
 	size_t result (routine->add_declaration ());
 	statement->association->results.push_back (result);
 	boost::shared_ptr <lambda_p::binder::list_binder> binder (new lambda_p::binder::list_binder);
@@ -44,7 +44,7 @@ void lambda_p_test::list_test::run_2 ()
 	size_t list (routine->add_declaration ());
 	routine->surface->results.push_back (list);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (list);
+	statement->target = list;
 	size_t result1 (routine->add_declaration ());
 	size_t result2 (routine->add_declaration ());
 	statement->association->results.push_back (result1);
@@ -68,7 +68,7 @@ void lambda_p_test::list_test::run_3 ()
 	size_t list (routine->add_declaration ());
 	routine->surface->results.push_back (list);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (list);
+	statement->target = list;
 	size_t result1 (routine->add_declaration ());
 	size_t result2 (routine->add_declaration ());
 	statement->association->results.push_back (result1);

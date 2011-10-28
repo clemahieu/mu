@@ -44,7 +44,7 @@ namespace lambda_p
 			{
                 target << "statement";
                 target << statement_positions [statement_a];
-				node (argument_positions, statement_a->target [0]);
+				node (argument_positions, statement_a->target);
 				target << " ";
 				association (argument_positions, statement_a->association);
 			}

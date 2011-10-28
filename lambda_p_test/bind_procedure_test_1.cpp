@@ -47,7 +47,7 @@ void lambda_p_test::bind_procedure_test_1::run_2 ()
     size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (!problems.errors.empty ());
@@ -59,7 +59,7 @@ void lambda_p_test::bind_procedure_test_1::run_3 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::node_list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -76,7 +76,7 @@ void lambda_p_test::bind_procedure_test_1::run_4 ()
     size_t declaration2 (routine->add_declaration ());
 	routine->surface->results.push_back (declaration2);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	statement->association->parameters.push_back (declaration2);
 	lambda_p::binder::node_list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -93,7 +93,7 @@ void lambda_p_test::bind_procedure_test_1::run_5 ()
 	routine->surface->results.push_back (declaration);
 	routine->surface->results.push_back (routine->add_declaration ());
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	statement->association->parameters.push_back (routine->add_data (std::wstring ()));
 	lambda_p::binder::node_list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -109,14 +109,14 @@ void lambda_p_test::bind_procedure_test_1::run_6 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	lambda_p::binder::node_list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	nodes [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target [0]].get () != NULL);
+	assert (nodes [statement->target].get () != NULL);
 }
 
 // Tests to make sure dependent statement targets can be resolved by a previous statement's result
@@ -126,18 +126,18 @@ void lambda_p_test::bind_procedure_test_1::run_7 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	size_t declaration1 (routine->add_declaration ());
 	statement->association->results.push_back (declaration1);
 	lambda_p::core::statement * statement1 (routine->add_statement ());
-	statement1->target.push_back (declaration1);
+	statement1->target = declaration1;
 	lambda_p::binder::node_list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	nodes [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target [0]].get () != NULL);
+	assert (nodes [statement->target].get () != NULL);
 }
 
 // Tests to make sure binding works when a non-cyclic binding dependency exists that's not in written statement order i.e. out of order statements
@@ -147,9 +147,9 @@ void lambda_p_test::bind_procedure_test_1::run_8 ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	lambda_p::core::statement * s2 (routine->add_statement ());
-	s2->target.push_back (declaration);
+	s2->target = declaration;
 	size_t d2 (routine->add_declaration ());
 	s2->association->results.push_back (d2);
 	size_t r (d2);
@@ -160,7 +160,7 @@ void lambda_p_test::bind_procedure_test_1::run_8 ()
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (nodes [statement->target [0]].get () != NULL);
+	assert (nodes [statement->target].get () != NULL);
 	assert (nodes [declaration].get () != NULL);
 	assert (nodes [r].get () != NULL);
 }

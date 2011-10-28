@@ -16,7 +16,10 @@
 #include <lambda_p/parser/data.h>
 #include <lambda_p/parser/finished.h>
 #include <lambda_p/parser/association.h>
-#include <lambda_p/parser/declaration_location.h>
+#include <lambda_p/parser/position_set.h>
+#include <lambda_p/parser/target_set.h>
+
+#include <boost/bind.hpp>
 
 #include <map>
 
@@ -136,7 +139,7 @@ void lambda_p::parser::parser::parse_begin (lambda_p::tokens::token * token)
 
 void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 {
-	boost::shared_ptr < lambda_p::parser::routine> state_l (boost::static_pointer_cast < lambda_p::parser::routine> (state.top ()));
+	boost::shared_ptr <lambda_p::parser::routine> state_l (boost::static_pointer_cast <lambda_p::parser::routine> (state.top ()));
 	lambda_p::tokens::token_ids token_id (token->token_id ());
 	if (state_l->have_surface)
 	{
@@ -145,7 +148,7 @@ void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 		case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_identifier:
 			{
-				boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::statement (state_l));
+				boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::statement (state_l));
 				state.push (new_state);
 				parse_internal (token);
 			}
@@ -159,13 +162,13 @@ void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 			else
 			{
 				std::wstring message;
-				for (std::multimap < std::wstring, declaration_location>::iterator i = state_l->unresolved_references.begin (); i != state_l->unresolved_references.end (); ++i)
+				for (auto i = state_l->unresolved_references.begin (); i != state_l->unresolved_references.end (); ++i)
 				{
 					message.append (L"Unresolved reference: ");
 					message.append (i->first);
 					message.push_back (L'\n');
 				}
-				state.push (boost::shared_ptr < lambda_p::parser::state> (new lambda_p::parser::error (message)));
+				state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message)));
 			}
 			break;
 		default:
@@ -185,7 +188,7 @@ void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 		case lambda_p::tokens::token_id_divider:
 			{
 				state_l->have_surface = true;
-				boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::association (state_l, state_l));
+				boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::association (state_l, state_l));
 				state.push (new_state);
 				parse_internal (token);
 			}
@@ -206,7 +209,7 @@ void lambda_p::parser::parser::parse_routine (lambda_p::tokens::token * token)
 
 void lambda_p::parser::parser::parse_statement (lambda_p::tokens::token * token)
 {				
-	boost::shared_ptr < lambda_p::parser::statement> state_l (boost::static_pointer_cast < lambda_p::parser::statement> (state.top ()));
+	boost::shared_ptr <lambda_p::parser::statement> state_l (boost::static_pointer_cast <lambda_p::parser::statement> (state.top ()));
 	if (state_l->have_target)
 	{
 		state.pop ();
@@ -222,16 +225,14 @@ void lambda_p::parser::parser::parse_statement (lambda_p::tokens::token * token)
 			{
                 state_l->have_target = true;
 				lambda_p::tokens::identifier * identifier (static_cast < lambda_p::tokens::identifier *> (token));
-				std::map < std::wstring, size_t>::iterator i = state_l->routine->positions.find (identifier->string);
+				auto i = state_l->routine->positions.find (identifier->string);
 				if (i != state_l->routine->positions.end ())
 				{
-					assert (state_l->statement_m->target.size () == 0);
-					state_l->statement_m->target.push_back (i->second);
+					state_l->statement_m->target = i->second;
 				}
 				else
 				{
-					state_l->statement_m->target.push_back (~0);
-					state_l->routine->unresolved_references.insert (std::multimap < std::wstring, declaration_location>::value_type (identifier->string, lambda_p::parser::declaration_location (state_l->statement_m->target, 0)));
+					state_l->routine->unresolved_references.insert (std::multimap <std::wstring, boost::function <void (size_t)>>::value_type (identifier->string, boost::bind <void> (lambda_p::parser::target_set (*state_l->statement_m), _1)));
 				}
 				state.push (boost::shared_ptr < lambda_p::parser::state> (new lambda_p::parser::association (state_l->routine, state_l)));
 			}
@@ -247,7 +248,7 @@ void lambda_p::parser::parser::parse_statement (lambda_p::tokens::token * token)
 
 void lambda_p::parser::parser::parse_association (lambda_p::tokens::token * token)
 {	
-	boost::shared_ptr <lambda_p::parser::association> state_l (boost::static_pointer_cast < lambda_p::parser::association> (state.top ()));
+	boost::shared_ptr <lambda_p::parser::association> state_l (boost::static_pointer_cast <lambda_p::parser::association> (state.top ()));
 	lambda_p::tokens::token_ids token_id (token->token_id ());
 	if (state_l->on_results)
 	{
@@ -256,17 +257,17 @@ void lambda_p::parser::parser::parse_association (lambda_p::tokens::token * toke
 		case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_identifier:
 			{
-				lambda_p::tokens::identifier * identifier (static_cast < lambda_p::tokens::identifier *> (token));
-				std::map < std::wstring, size_t>::iterator i = state_l->routine->positions.find (identifier->string);
+				auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
+				auto i = state_l->routine->positions.find (identifier->string);
 				if (i == state_l->routine->positions.end ())
 				{
-					declaration_location location (state_l->target->sink_declaration ());
+					auto location (state_l->target->sink_declaration ());
 					size_t declaration (state_l->routine->routine_m->add_declaration ());
-					location.vector [location.index] = declaration;
+					location (declaration);
 					state_l->routine->positions [identifier->string] = declaration;
-					for (std::multimap <std::wstring, declaration_location>::iterator i = state_l->routine->unresolved_references.find (identifier->string); i != state_l->routine->unresolved_references.end (); ++i)
+					for (auto i = state_l->routine->unresolved_references.find (identifier->string); i != state_l->routine->unresolved_references.end (); ++i)
 					{
-						i->second.vector [i->second.index] = declaration;
+						i->second (declaration);
 					}
 					state_l->routine->unresolved_references.erase (identifier->string);
 				}
@@ -296,22 +297,22 @@ void lambda_p::parser::parser::parse_association (lambda_p::tokens::token * toke
 		case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_identifier:
 			{
-				lambda_p::tokens::identifier * identifier (static_cast <lambda_p::tokens::identifier *> (token));
-				std::map < std::wstring, size_t>::iterator i = state_l->routine->positions.find (identifier->string);
-				declaration_location location (state_l->target->sink_argument ());
+				auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
+				auto i = state_l->routine->positions.find (identifier->string);
+				auto location (state_l->target->sink_argument ());
 				if (i != state_l->routine->positions.end ())
 				{
-					location.vector [location.index] = i->second;
+					location (i->second);
 				}
 				else
 				{
-					state_l->routine->unresolved_references.insert (std::multimap <std::wstring, declaration_location>::value_type (identifier->string, location));
+					state_l->routine->unresolved_references.insert (std::multimap <std::wstring, boost::function <void (size_t)>>::value_type (identifier->string, location));
 				}
 			}
 			break;
 		case lambda_p::tokens::token_id_data:
 			{
-				boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::data (state_l->routine, state_l));
+				boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::data (state_l->routine, state_l));
 				state.push (new_state);
 			}
 			break;
@@ -338,9 +339,9 @@ void lambda_p::parser::parser::parse_data (lambda_p::tokens::token * token)
 	case lambda_p::tokens::token_id_identifier:
 		{
 			lambda_p::tokens::identifier * data_string (static_cast <lambda_p::tokens::identifier *> (token));
-			declaration_location location (state_l->target->sink_data ());
+			auto location (state_l->target->sink_data ());
 			size_t declaration (state_l->routine->routine_m->add_data (data_string->string));
-			location.vector [location.index] = declaration;
+			location (declaration);
 			state.pop ();
 		}
 		break;

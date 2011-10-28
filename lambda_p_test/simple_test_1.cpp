@@ -72,7 +72,7 @@ void lambda_p_test::simple_test_1::run_4 ()
 	routine.surface->results.push_back (declaration);
 	routine.surface->results.push_back (routine.add_declaration ());
     lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	std::vector < lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
@@ -88,7 +88,7 @@ void lambda_p_test::simple_test_1::run_5 ()
 	size_t declaration (routine.add_declaration ());
 	routine.surface->results.push_back (declaration);
     lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	std::vector < lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
@@ -104,12 +104,12 @@ void lambda_p_test::simple_test_1::run_6 ()
 	size_t main_declaration (routine.add_declaration ());
 	routine.surface->results.push_back (main_declaration);
     lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->target.push_back (main_declaration);
+	statement1->target = main_declaration;
     size_t declaration (routine.add_declaration ());
     statement1->association->results.push_back (declaration);
 	std::vector < lambda_p::errors::error *> problems;
     lambda_p::core::statement * statement2 = routine.add_statement ();
-	statement2->target.push_back (declaration);
+	statement2->target = declaration;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -128,13 +128,13 @@ void lambda_p_test::simple_test_1::run_7 ()
     size_t declaration3 (routine.add_declaration ());
 	routine.surface->results.push_back (declaration3);
     lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->target.push_back (declaration3);
+	statement1->target = declaration3;
     size_t declaration4 (routine.add_declaration ());
     statement1->association->results.push_back (declaration4);
 	statement1->association->parameters.push_back (declaration2);
 	std::vector < lambda_p::errors::error *> problems;
     lambda_p::core::statement * statement2 = routine.add_statement ();
-	statement2->target.push_back (declaration1);
+	statement2->target = declaration1;
     statement2->association->parameters.push_back (declaration4);
 	statement2->association->parameters.push_back (declaration2);
     std::wstringstream target;
@@ -151,7 +151,7 @@ void lambda_p_test::simple_test_1::run_8 ()
     size_t declaration (routine.add_declaration ());
 	routine.surface->results.push_back (declaration);
 	lambda_p::core::statement * statement1 = routine.add_statement ();
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	statement1->association->parameters.push_back (routine.add_declaration ());
 	std::vector < lambda_p::errors::error *> problems;
     std::wstringstream target;

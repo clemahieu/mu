@@ -17,7 +17,7 @@ void lambda_p_test::unbindable_statement_test::run ()
 	size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
-	statement->target.push_back (declaration);
+	statement->target = declaration;
 	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
 	(*nodes) [declaration] = data;
 	boost::shared_ptr <lambda_p_kernel::routine> target (new lambda_p_kernel::routine (routine));

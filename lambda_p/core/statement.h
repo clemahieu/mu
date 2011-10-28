@@ -33,7 +33,7 @@ namespace lambda_p
 		public:
 			statement ();
 			~statement (void);
-			std::vector <size_t> target; // {TODO} Parser wants to have a place to put out of order declarations.  Uses vector reference + index for associations and this doesn't fit the abstraction.  Pointer doesn't work because vectors resize.
+			size_t target;
 			lambda_p::core::association * association;
 		};
 	}

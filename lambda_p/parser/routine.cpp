@@ -3,6 +3,9 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list_binder.h>
+#include <lambda_p/parser/position_set.h>
+
+#include <boost/bind.hpp>
 
 lambda_p::parser::routine::routine(void)
 	: parsed_routine (false),
@@ -24,16 +27,16 @@ lambda_p::parser::state_id lambda_p::parser::routine::state_type ()
 	return lambda_p::parser::state_routine;
 }
 
-lambda_p::parser::declaration_location lambda_p::parser::routine::sink_declaration ()
+boost::function <void (size_t)> lambda_p::parser::routine::sink_declaration ()
 {
 	routine_m->surface->results.push_back (~0);
-	lambda_p::parser::declaration_location result (routine_m->surface->results, routine_m->surface->results.size () - 1);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->results, routine_m->surface->results.size () - 1), _1));
 	return result;
 }
 
-lambda_p::parser::declaration_location lambda_p::parser::routine::sink_argument ()
+boost::function <void (size_t)> lambda_p::parser::routine::sink_argument ()
 {
 	routine_m->surface->parameters.push_back (~0);
-	lambda_p::parser::declaration_location result (routine_m->surface->parameters, routine_m->surface->parameters.size () - 1);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->parameters, routine_m->surface->parameters.size () - 1), _1));
 	return result;
 }

@@ -142,7 +142,7 @@
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
-    <ClInclude Include="parser\declaration_location.h" />
+    <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
     <ClInclude Include="errors\binder_string_error.h" />
     <ClInclude Include="errors\error.h" />
@@ -175,6 +175,7 @@
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\statement.h" />
+    <ClInclude Include="parser\target_set.h" />
     <ClInclude Include="routine_builder.h" />
     <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="lexer\lexer.h" />
@@ -200,7 +201,7 @@
     <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
-    <ClCompile Include="parser\declaration_location.cpp" />
+    <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
     <ClCompile Include="errors\binder_string_error.cpp" />
     <ClCompile Include="errors\error.cpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
+    <ClCompile Include="parser\target_set.cpp" />
     <ClCompile Include="routine_builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />

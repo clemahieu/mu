@@ -41,7 +41,7 @@ void lambda_p_test::echo_binder_test::run ()
     size_t p2 = routine.add_declaration ();
 	routine.surface->results.push_back (p2);
     lambda_p::core::statement * statement = routine.add_statement ();
-	statement->target.push_back (p1);
+	statement->target = p1;
     size_t str = p2;
     statement->association->parameters.push_back (str);
     llvm::Function * start (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));

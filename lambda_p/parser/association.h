@@ -16,7 +16,7 @@ namespace lambda_p
 		public:
 			association (boost::shared_ptr <lambda_p::parser::routine> routine_a, boost::shared_ptr <lambda_p::parser::association_target> target_a);
 			state_id state_type ();
-			declaration_location sink_data () override;
+			boost::function <void (size_t)> sink_data () override;
 			bool on_results;
 			boost::shared_ptr <lambda_p::parser::routine> routine;
 			boost::shared_ptr <lambda_p::parser::association_target> target;

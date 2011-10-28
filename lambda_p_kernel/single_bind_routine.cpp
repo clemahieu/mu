@@ -18,7 +18,7 @@ lambda_p_kernel::single_bind_routine::single_bind_routine (boost::shared_ptr <la
 	size_t nodes_parameter (outer_routine->add_declaration ());
 	outer_routine->surface->results.push_back (nodes_parameter);
 	statement = outer_routine->add_statement ();
-	statement->target.push_back (binder_parameter);
+	statement->target = binder_parameter;
 	statement->association->parameters.push_back (routine_parameter);
 	statement->association->parameters.push_back (nodes_parameter);
 	(*outer_nodes) [0] = binder_m;

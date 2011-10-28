@@ -36,7 +36,7 @@ void lambda_p_test::package_test_1::run_1 ()
     size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     lambda_p::core::statement * statement1 (routine->add_statement ());
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	statement1->association->parameters.push_back (routine->add_data (name));
@@ -63,7 +63,7 @@ void lambda_p_test::package_test_1::run_2 ()
     size_t declaration (routine->add_declaration ());
     routine->surface->results.push_back (declaration);
     lambda_p::core::statement * statement1 (routine->add_statement ());
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
 	std::wstring dname (L"package.null_binder");
@@ -89,7 +89,7 @@ void lambda_p_test::package_test_1::run_3 ()
     size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     lambda_p::core::statement * statement1 (routine->add_statement ());
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
 	statement1->association->parameters.push_back (declaration);
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->results.push_back (declaration2);
@@ -113,7 +113,7 @@ void lambda_p_test::package_test_1::run_4 ()
     size_t declaration (routine->add_declaration ());
 	routine->surface->results.push_back (declaration);
     lambda_p::core::statement * statement1 (routine->add_statement ());
-	statement1->target.push_back (declaration);
+	statement1->target = declaration;
     size_t d1 (routine->add_declaration ());
 	statement1->association->results.push_back (d1);
     size_t d2 (routine->add_declaration ());

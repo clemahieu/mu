@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/parser/declaration_location.h>
+#include <boost/function.hpp>
 
 namespace lambda_p
 {
@@ -9,8 +9,8 @@ namespace lambda_p
 		class association_target
 		{
 		public:
-			virtual declaration_location sink_declaration () = 0;
-			virtual declaration_location sink_argument () = 0;
+			virtual boost::function <void (size_t)> sink_declaration () = 0;
+			virtual boost::function <void (size_t)> sink_argument () = 0;
 		};
 	}
 }

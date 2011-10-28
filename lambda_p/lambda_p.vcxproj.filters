@@ -152,9 +152,6 @@
     <ClInclude Include="binder\list_binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="parser\declaration_location.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error_list.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -166,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="binder\node_list.h">
       <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\target_set.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\position_set.h">
+      <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,9 +320,6 @@
     <ClCompile Include="binder\list_binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="parser\declaration_location.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error_list.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -331,6 +331,12 @@
     </ClCompile>
     <ClCompile Include="binder\node_list.cpp">
       <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\target_set.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\position_set.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,8 +15,8 @@ lambda_p::parser::state_id lambda_p::parser::association::state_type ()
 	return lambda_p::parser::state_association;
 }
 
-lambda_p::parser::declaration_location lambda_p::parser::association::sink_data ()
+boost::function <void (size_t)> lambda_p::parser::association::sink_data ()
 {
-	lambda_p::parser::declaration_location result (target->sink_argument ());
+	boost::function <void (size_t)> result (target->sink_argument ());
 	return result;
 }
