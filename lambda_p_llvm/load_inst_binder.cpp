@@ -14,7 +14,7 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 
 #include <llvm/Type.h>
 #include <llvm/Instructions.h>
@@ -27,7 +27,7 @@ lambda_p_llvm::load_inst_binder::load_inst_binder (lambda_p_llvm::generation_con
 {
 }
 
-void lambda_p_llvm::load_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::load_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

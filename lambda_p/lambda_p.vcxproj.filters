@@ -143,9 +143,6 @@
     <ClInclude Include="lexer\lexer.h">
       <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="binder\routine_instances.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="binder\list.h">
       <Filter>binder</Filter>
     </ClInclude>
@@ -165,6 +162,9 @@
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="binder\node.h">
+      <Filter>binder</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\node_list.h">
       <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -308,9 +308,6 @@
     <ClCompile Include="lexer\lexer.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="binder\routine_instances.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="binder\list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
@@ -330,6 +327,9 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="binder\node.cpp">
+      <Filter>binder</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\node_list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>

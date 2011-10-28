@@ -36,7 +36,7 @@
 #include <lambda_p_repl/abort_function.h>
 #include <lambda_p_kernel/single_bind_routine.h>
 #include <lambda_p_kernel/routine.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine_instances_binder.h>
 #include <lambda_p_llvm/fo_value.h>
@@ -109,7 +109,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr <lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
 	boost::shared_ptr <lambda_p_llvm::fo_value> abort_function (new lambda_p_llvm::fo_value (abort.abort));
 	boost::shared_ptr <lambda_p_kernel::apply> apply_binder (new lambda_p_kernel::apply);
-	boost::shared_ptr <lambda_p::binder::routine_instances_binder> instances_binder (new lambda_p::binder::routine_instances_binder);
+	boost::shared_ptr <lambda_p::binder::node_list_binder> instances_binder (new lambda_p::binder::node_list_binder);
 	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr <lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
 	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
@@ -165,7 +165,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	package->nodes [apply_name] = apply_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
 	boost::shared_ptr <lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
-	boost::shared_ptr <lambda_p::binder::routine_instances> instances (new lambda_p::binder::routine_instances);
+	boost::shared_ptr <lambda_p::binder::node_list> instances (new lambda_p::binder::node_list);
 	instances->operator[] (0) = package;	
 	if (repl != NULL)
 	{

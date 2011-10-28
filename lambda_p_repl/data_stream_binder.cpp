@@ -1,12 +1,12 @@
 #include "data_stream_binder.h"
 
 #include <lambda_p/binder/data.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_repl/data_stream.h>
 
-void lambda_p_repl::data_stream_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_repl::data_stream_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

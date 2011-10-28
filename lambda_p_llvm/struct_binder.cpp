@@ -3,7 +3,7 @@
 #include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/generation_context.h>
 
@@ -14,7 +14,7 @@ lambda_p_llvm::struct_binder::struct_binder (lambda_p_llvm::generation_context &
 {
 }
 
-void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

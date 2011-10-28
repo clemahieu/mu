@@ -7,7 +7,7 @@
 #include <lambda_p_repl/istream_input.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/routine.h>
@@ -15,7 +15,7 @@
 #include <fstream>
 #include <sstream>
 
-void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

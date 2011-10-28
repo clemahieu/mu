@@ -132,7 +132,7 @@
   <ItemGroup>
     <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\list.h" />
-    <ClInclude Include="binder\routine_instances.h" />
+    <ClInclude Include="binder\node_list.h" />
     <ClInclude Include="binder\binder.h" />
     <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\association.h" />
@@ -190,7 +190,7 @@
   <ItemGroup>
     <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\list.cpp" />
-    <ClCompile Include="binder\routine_instances.cpp" />
+    <ClCompile Include="binder\node_list.cpp" />
     <ClCompile Include="binder\binder.cpp" />
     <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\association.cpp" />

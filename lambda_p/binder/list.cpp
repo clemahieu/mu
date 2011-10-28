@@ -2,10 +2,10 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <sstream>
 
-void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->parameters.empty ())
 	{

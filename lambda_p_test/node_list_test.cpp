@@ -1,10 +1,10 @@
-#include "routine_instances_test.h"
+#include "node_list_test.h"
 
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/binder/data.h>
 
-void lambda_p_test::routine_instances_test::run ()
+void lambda_p_test::node_list_test::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -14,19 +14,19 @@ void lambda_p_test::routine_instances_test::run ()
 	run_6 ();
 }
 
-void lambda_p_test::routine_instances_test::run_1 ()
+void lambda_p_test::node_list_test::run_1 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	one.merge (two, problems);
 	assert (problems.errors.empty ());
 }
 
-void lambda_p_test::routine_instances_test::run_2 ()
+void lambda_p_test::node_list_test::run_2 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	one [0] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
@@ -36,10 +36,10 @@ void lambda_p_test::routine_instances_test::run_2 ()
 	assert (one [0].get () != nullptr);
 }
 
-void lambda_p_test::routine_instances_test::run_3 ()
+void lambda_p_test::node_list_test::run_3 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	two [0] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
@@ -49,10 +49,10 @@ void lambda_p_test::routine_instances_test::run_3 ()
 	assert (one [0].get () != nullptr);
 }
 
-void lambda_p_test::routine_instances_test::run_4 ()
+void lambda_p_test::node_list_test::run_4 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	two [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
@@ -63,10 +63,10 @@ void lambda_p_test::routine_instances_test::run_4 ()
 	assert (one [1].get () != nullptr);
 }
 
-void lambda_p_test::routine_instances_test::run_5 ()
+void lambda_p_test::node_list_test::run_5 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	one [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	two [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
@@ -74,10 +74,10 @@ void lambda_p_test::routine_instances_test::run_5 ()
 	assert (!problems.errors.empty ());
 }
 
-void lambda_p_test::routine_instances_test::run_6 ()
+void lambda_p_test::node_list_test::run_6 ()
 {
-	lambda_p::binder::routine_instances one;
-	lambda_p::binder::routine_instances two;
+	lambda_p::binder::node_list one;
+	lambda_p::binder::node_list two;
 	lambda_p::errors::error_list problems;
 	one [0] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	two [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));

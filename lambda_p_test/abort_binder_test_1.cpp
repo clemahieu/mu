@@ -49,7 +49,7 @@ void lambda_p_test::abort_binder_test_1::run ()
 	routine.surface->results.push_back (parameter);
     lambda_p::core::statement * call (routine.add_statement ());
 	call->target.push_back (parameter);
-    lambda_p::binder::routine_instances instances;
+    lambda_p::binder::node_list instances;
 	lambda_p::errors::error_list problems;
     binder.bind (call, instances, problems);
     llvm::ReturnInst * ret (llvm::ReturnInst::Create (context));

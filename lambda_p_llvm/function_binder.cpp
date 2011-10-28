@@ -3,7 +3,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p_llvm/generation_context.h>
 
 #include <llvm/Function.h>
@@ -17,7 +17,7 @@ lambda_p_llvm::function_binder::function_binder (lambda_p_llvm::generation_conte
 {
 }
 
-void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->results.size () == 1)
 	{

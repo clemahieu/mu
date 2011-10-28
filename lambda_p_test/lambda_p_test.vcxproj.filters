@@ -25,7 +25,7 @@
     <ClCompile Include="parser_test_1.cpp" />
     <ClCompile Include="lexer_test_1.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
-    <ClCompile Include="routine_instances_test.cpp" />
+    <ClCompile Include="node_list_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -51,6 +51,6 @@
     <ClInclude Include="parser_test_1.h" />
     <ClInclude Include="lexer_test_1.h" />
     <ClInclude Include="istream_input_test.h" />
-    <ClInclude Include="routine_instances_test.h" />
+    <ClInclude Include="node_list_test.h" />
   </ItemGroup>
 </Project>

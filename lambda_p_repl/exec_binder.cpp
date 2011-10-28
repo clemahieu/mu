@@ -3,7 +3,7 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
@@ -14,12 +14,12 @@
 
 #include <sstream>
 
-lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::routine_instances instances_a)
+lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::node_list instances_a)
 	: instances (instances_a)
 {
 }
 
-void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())

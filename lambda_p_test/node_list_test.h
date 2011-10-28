@@ -2,7 +2,7 @@
 
 namespace lambda_p_test
 {
-	class routine_instances_test
+	class node_list_test
 	{
 	public:
 		void run ();

@@ -12,7 +12,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class list;
-		class routine_instances;
+		class node_list;
 		class node;
 	}
 	namespace errors
@@ -27,7 +27,7 @@ namespace lambda_p_llvm
 	{
 	public:
 		argument_binder(void);
-		void apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems);
+		void apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems);
 	};
 }
 

@@ -4,7 +4,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/bind_procedure.h>
 
@@ -15,7 +15,7 @@ lambda_p_kernel::apply::apply(void)
 }
 
 
-void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
@@ -23,7 +23,7 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (instances [statement->association->parameters [0]]));
 		if (routine.get () != NULL)
 		{
-			boost::shared_ptr < lambda_p::binder::routine_instances> instances_l (boost::dynamic_pointer_cast < lambda_p::binder::routine_instances> (instances [statement->association->parameters [1]]));
+			boost::shared_ptr < lambda_p::binder::node_list> instances_l (boost::dynamic_pointer_cast < lambda_p::binder::node_list> (instances [statement->association->parameters [1]]));
 			if (instances_l.get () != NULL)
 			{
 				core (*routine.get (), *instances_l.get (), problems);
@@ -40,14 +40,14 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	}
 }
 
-void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::routine_instances & instances_l, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & instances_l, lambda_p::errors::error_list & problems)
 {
 	size_t parameters (routine.routine_m->surface->results.size ());
 	size_t binders (instances_l.instances.size ());
 	if (parameters == binders)
 	{
 		size_t position (0);
-		lambda_p::binder::routine_instances instances;
+		lambda_p::binder::node_list instances;
 		for (auto i = instances_l.instances.begin (); i != instances_l.instances.end (); ++i, ++position)
 		{
 			if (i->get () != NULL)

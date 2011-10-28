@@ -6,10 +6,10 @@
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
 
-lambda_p_kernel::single_bind_routine::single_bind_routine (boost::shared_ptr <lambda_p_kernel::routine> inner_routine_a, boost::shared_ptr <lambda_p::binder::routine_instances> inner_instances_a)
+lambda_p_kernel::single_bind_routine::single_bind_routine (boost::shared_ptr <lambda_p_kernel::routine> inner_routine_a, boost::shared_ptr <lambda_p::binder::node_list> inner_instances_a)
 	: binder_m (new lambda_p_kernel::apply),
 	outer_routine (new lambda_p::core::routine),
-	outer_instances (new lambda_p::binder::routine_instances)
+	outer_instances (new lambda_p::binder::node_list)
 {
 	size_t binder_parameter (outer_routine->add_declaration ());
 	outer_routine->surface->results.push_back (binder_parameter);

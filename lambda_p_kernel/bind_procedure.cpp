@@ -10,7 +10,7 @@
 
 #include <sstream>
 
-lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::routine_instances & instances_a)
+lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::node_list & instances_a)
 	: routine (routine_a),
 	instances (instances_a)
 {

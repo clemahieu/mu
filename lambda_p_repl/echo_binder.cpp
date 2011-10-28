@@ -8,7 +8,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -32,7 +32,7 @@ lambda_p_repl::echo_binder::~echo_binder(void)
 {
 }
 
-void lambda_p_repl::echo_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems)
+void lambda_p_repl::echo_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())

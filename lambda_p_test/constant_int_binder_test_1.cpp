@@ -41,7 +41,7 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	llvm::LLVMContext llvm_context;
 	lambda_p_llvm::generation_context context (llvm_context, NULL, NULL);
 	boost::shared_ptr < lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder (context));
-	lambda_p::binder::routine_instances instances;
+	lambda_p::binder::node_list instances;
 	instances [binder] = constant_int_binder;
 	instances [number] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (16));
 	instances [bits] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (64));

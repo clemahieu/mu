@@ -1,15 +1,15 @@
-#include "routine_instances.h"
+#include "node_list.h"
 
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <sstream>
 
-lambda_p::binder::routine_instances::routine_instances(void)
+lambda_p::binder::node_list::node_list(void)
 {
 }
 
-boost::shared_ptr <lambda_p::binder::node> & lambda_p::binder::routine_instances::operator [] (size_t node)
+boost::shared_ptr <lambda_p::binder::node> & lambda_p::binder::node_list::operator [] (size_t node)
 {
 	if (node >= instances.size ())
 	{
@@ -19,7 +19,7 @@ boost::shared_ptr <lambda_p::binder::node> & lambda_p::binder::routine_instances
 	return result;
 }
 
-void lambda_p::binder::routine_instances::merge (routine_instances & other_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::node_list::merge (node_list & other_a, lambda_p::errors::error_list & problems)
 {
 	instances.resize (std::max (instances.size (), other_a.instances.size ()));
 	size_t position (0);

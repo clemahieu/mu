@@ -1,12 +1,12 @@
 #include "list_binder.h"
 
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/routine_instances.h>
+#include <lambda_p/binder/node_list.h>
 
-void lambda_p::binder::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->results.size () == 1)
 	{
