@@ -28,18 +28,18 @@ lambda_p_llvm::store_inst_binder::store_inst_binder (lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		size_t destination_node (statement->association->parameters [0]);
 		size_t source_node (statement->association->parameters [1]);
-		boost::shared_ptr <lambda_p::binder::node> source_instance (instances [source_node]);
+		boost::shared_ptr <lambda_p::binder::node> source_instance (nodes [source_node]);
 		boost::shared_ptr <lambda_p_llvm::value> source (boost::dynamic_pointer_cast <lambda_p_llvm::value> (source_instance));
 		if (source.get () != NULL)
 		{
-			boost::shared_ptr <lambda_p::binder::node> destination_instance (instances [destination_node]);
+			boost::shared_ptr <lambda_p::binder::node> destination_instance (nodes [destination_node]);
 			boost::shared_ptr <lambda_p_llvm::value> destination (boost::dynamic_pointer_cast <lambda_p_llvm::value> (destination_instance));
 			if (destination.get () != NULL)
 			{

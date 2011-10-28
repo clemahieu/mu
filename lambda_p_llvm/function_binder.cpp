@@ -17,7 +17,7 @@ lambda_p_llvm::function_binder::function_binder (lambda_p_llvm::generation_conte
 {
 }
 
-void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->results.size () == 1)
 	{
@@ -27,7 +27,7 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 			size_t position (0);
 			for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
 			{
-				boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (instances [*i]));
+				boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [*i]));
 				if (value.get () != NULL)
 				{
 					arguments.push_back (value->value);
@@ -42,7 +42,7 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 				llvm::CallInst * call (llvm::CallInst::Create (function, arguments.begin (), arguments.end ()));
 				context.block->getInstList ().push_back (call);
 				boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (call));
-				instances [statement->association->results [0]] = value;
+				nodes [statement->association->results [0]] = value;
 			}
 		}
 		else

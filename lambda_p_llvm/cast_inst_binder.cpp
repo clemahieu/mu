@@ -28,25 +28,25 @@ lambda_p_llvm::cast_inst_binder::cast_inst_binder (lambda_p_llvm::generation_con
 {
 }
 
-void lambda_p_llvm::cast_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::cast_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		size_t value_node (statement->association->parameters [0]);
 		size_t type_node (statement->association->parameters [1]);
-        boost::shared_ptr <lambda_p::binder::node> value_instance (instances [value_node]);
+        boost::shared_ptr <lambda_p::binder::node> value_instance (nodes [value_node]);
         boost::shared_ptr <lambda_p_llvm::value> value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (value_instance));
         if (value.get () != NULL)
         {
-            boost::shared_ptr <lambda_p::binder::node> type_instance (instances [type_node]);
+            boost::shared_ptr <lambda_p::binder::node> type_instance (nodes [type_node]);
             boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (type_instance));
             if (type.get () != NULL)
             {
 				llvm::CastInst * cast (llvm::CastInst::CreatePointerCast (value->operator() (), type->type_m));
                 context.block->getInstList ().push_back (cast);
                 boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (cast));
-				instances [statement->association->results [0]] = value;
+				nodes [statement->association->results [0]] = value;
             }
             else 
             {

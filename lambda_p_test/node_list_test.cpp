@@ -31,8 +31,8 @@ void lambda_p_test::node_list_test::run_2 ()
 	one [0] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
 	assert (problems.errors.empty ());
-	assert (one.instances.size () == 1);
-	assert (two.instances.empty ());
+	assert (one.nodes.size () == 1);
+	assert (two.nodes.empty ());
 	assert (one [0].get () != nullptr);
 }
 
@@ -44,8 +44,8 @@ void lambda_p_test::node_list_test::run_3 ()
 	two [0] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
 	assert (problems.errors.empty ());
-	assert (one.instances.size () == 1);
-	assert (two.instances.size () == 1);
+	assert (one.nodes.size () == 1);
+	assert (two.nodes.size () == 1);
 	assert (one [0].get () != nullptr);
 }
 
@@ -57,8 +57,8 @@ void lambda_p_test::node_list_test::run_4 ()
 	two [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
 	assert (problems.errors.empty ());
-	assert (one.instances.size () == 2);
-	assert (two.instances.size () == 2);
+	assert (one.nodes.size () == 2);
+	assert (two.nodes.size () == 2);
 	assert (one [0].get () == nullptr);
 	assert (one [1].get () != nullptr);
 }
@@ -83,8 +83,8 @@ void lambda_p_test::node_list_test::run_6 ()
 	two [1] = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring ()));
 	one.merge (two, problems);
 	assert (problems.errors.empty ());
-	assert (one.instances.size () == 2);
-	assert (two.instances.size () == 2);
+	assert (one.nodes.size () == 2);
+	assert (two.nodes.size () == 2);
 	assert (one [0].get () != nullptr);
 	assert (one [1].get () != nullptr);
 	assert (two [0].get () == nullptr);

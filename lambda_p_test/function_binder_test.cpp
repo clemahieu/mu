@@ -34,9 +34,9 @@ void lambda_p_test::function_binder_test::run ()
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	lambda_p_llvm::function_binder binder (context, target);
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list instances;
-	instances [statement->association->parameters [0]] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::Type::getInt16Ty (llvm_context), 0xffcc)));
-	binder.bind (statement, instances, problems);
-	assert (instances [statement->association->results [0]].get () != NULL);
+	lambda_p::binder::node_list nodes;
+	nodes [statement->association->parameters [0]] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::Type::getInt16Ty (llvm_context), 0xffcc)));
+	binder.bind (statement, nodes, problems);
+	assert (nodes [statement->association->results [0]].get () != NULL);
 	assert (block->getInstList ().size () == 1);
 }

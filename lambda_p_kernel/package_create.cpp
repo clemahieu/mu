@@ -5,12 +5,12 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/package.h>
 
-void lambda_p_kernel::package_create::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package_create::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 0, statement, problems);
 	if (problems.errors.empty ())
 	{
-		instances [statement->association->results [0]] = boost::shared_ptr < lambda_p_kernel::package> (new lambda_p_kernel::package);
+		nodes [statement->association->results [0]] = boost::shared_ptr < lambda_p_kernel::package> (new lambda_p_kernel::package);
 	}
 }
 

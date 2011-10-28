@@ -27,7 +27,7 @@ namespace lambda_p_llvm
 	{
 	public:
 		argument_binder(void);
-		void apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems);
+		void apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems);
 	};
 }
 

@@ -6,19 +6,19 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
 
-void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [0]]));
 		if (list.get () != NULL)
 		{
-			boost::shared_ptr <lambda_p::binder::node_list> instances_l (new lambda_p::binder::node_list);
-			for (auto i = list->instances.begin (); i != list->instances.end (); ++i)
+			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (new lambda_p::binder::node_list);
+			for (auto i = list->nodes.begin (); i != list->nodes.end (); ++i)
 			{
-				instances_l->instances.push_back (*i);
-				instances [statement->association->results [0]] = instances_l;
+				nodes_l->nodes.push_back (*i);
+				nodes [statement->association->results [0]] = nodes_l;
 			}
 		}
 		else
@@ -30,5 +30,5 @@ void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * state
 
 std::wstring lambda_p::binder::node_list_binder::binder_name ()
 {
-	return std::wstring (L"routine_instances_binder");
+	return std::wstring (L"routine_nodes_binder");
 }

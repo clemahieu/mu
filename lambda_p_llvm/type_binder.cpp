@@ -22,41 +22,41 @@ lambda_p_llvm::type_binder::type_binder (lambda_p_llvm::generation_context & con
 {
 }
 
-void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
 		size_t declaration (statement->association->results [0]);
 		size_t command (statement->association->parameters [0]);
-		boost::shared_ptr <lambda_p::binder::node> command_instance (instances [command]);
+		boost::shared_ptr <lambda_p::binder::node> command_instance (nodes [command]);
 		boost::shared_ptr <lambda_p::binder::data> command_data (boost::dynamic_pointer_cast <lambda_p::binder::data> (command_instance));
 		if (command_data.get () != NULL)
 		{
 			if (command_data->string ().compare (std::wstring (L"getInt32Ty")) == 0)
 			{
 				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt32Ty (context.context)));
-				instances [declaration] = type;
+				nodes [declaration] = type;
 			}
             else if (command_data->string ().compare (std::wstring (L"getInt64PtrTy")) == 0)
             {
                 boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64PtrTy (context.context)));
-                instances [declaration] = type;
+                nodes [declaration] = type;
             }
 			else if (command_data->string ().compare (std::wstring (L"getInt1Ty")) == 0)
 			{
 				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt1Ty (context.context)));
-				instances [declaration] = type;
+				nodes [declaration] = type;
 			}
 			else if (command_data->string ().compare (std::wstring (L"getInt8PtrTy")) == 0)
 			{
 				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt8PtrTy (context.context)));
-				instances [declaration] = type;
+				nodes [declaration] = type;
 			}
 			else if (command_data->string ().compare (std::wstring (L"getInt64Ty")) == 0)
 			{
 				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64Ty (context.context)));
-				instances [declaration] = type;
+				nodes [declaration] = type;
 			}
 			else
 			{

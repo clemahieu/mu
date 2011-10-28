@@ -50,13 +50,13 @@ void lambda_p_test::echo_binder_test::run ()
     start->getBasicBlockList ().push_back (block);
     context.block = block;
     lambda_p_repl::echo_binder binder (wprintf.wprintf, context);
-    lambda_p::binder::node_list instances;
+    lambda_p::binder::node_list nodes;
     std::wstring raw_string (L"test_echo");
     lambda_p_llvm::constant_wstring string (context, raw_string);
     boost::shared_ptr < lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
-    instances [str] = value;
+    nodes [str] = value;
 	lambda_p::errors::error_list problems;
-    binder.bind (statement, instances, problems);
+    binder.bind (statement, nodes, problems);
 	assert (problems.errors.size () == 0);
     assert (block->getInstList ().size () == 1);
 }

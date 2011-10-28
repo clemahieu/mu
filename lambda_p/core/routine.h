@@ -64,13 +64,13 @@ namespace lambda_p
 			lambda_p::core::statement * add_statement ();
 			size_t add_data (std::wstring string);
 			size_t add_declaration ();
-            void placement (std::map < size_t, lambda_p::core::position> & argument_positions, std::map < lambda_p::core::statement const *, size_t> & statement_positions) const;
-			void validate (std::vector < lambda_p::errors::error *> & problems) const;
+            void placement (std::map <size_t, lambda_p::core::position> & argument_positions, std::map <lambda_p::core::statement const *, size_t> & statement_positions) const;
+			void validate (std::vector <lambda_p::errors::error *> & problems) const;
 			lambda_p::core::association * surface;
-			std::vector < lambda_p::core::statement *> statements;
+			std::vector <lambda_p::core::statement *> statements;
 		private:
-			lambda_p::binder::node_list instances;
-			void validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector < lambda_p::errors::error *> & problems) const;
+			lambda_p::binder::node_list injected;
+			void validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector <lambda_p::errors::error *> & problems) const;
 			size_t nodes;
 		};
 	}

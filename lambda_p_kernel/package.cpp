@@ -19,7 +19,7 @@ lambda_p_kernel::package::~package(void)
 {
 }
 
-void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->parameters.size ());
@@ -30,11 +30,11 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 		for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
 		{
 			size_t parameter (*i);
-			boost::shared_ptr <lambda_p::binder::node> instance (instances [parameter]);
+			boost::shared_ptr <lambda_p::binder::node> instance (nodes [parameter]);
 			boost::shared_ptr <lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
 			if (node_data.get () != NULL)
 			{
-				parse_one (instances, node_data, statement->association->results [current_argument], problems);
+				parse_one (nodes, node_data, statement->association->results [current_argument], problems);
 			}
 			else
 			{
@@ -59,7 +59,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 	}
 }
 
-void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & instances, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & nodes, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
 {
 	boost::shared_ptr <lambda_p::binder::node> current_node (shared_from_this ());
 	boost::shared_ptr <lambda_p_kernel::package> current_package (shared_from_this ());
@@ -98,7 +98,7 @@ void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & instance
 	}
 	if (current_node.get () != NULL)
 	{
-		instances [result] = current_node;
+		nodes [result] = current_node;
 	}
 }
 

@@ -109,7 +109,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	boost::shared_ptr <lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
 	boost::shared_ptr <lambda_p_llvm::fo_value> abort_function (new lambda_p_llvm::fo_value (abort.abort));
 	boost::shared_ptr <lambda_p_kernel::apply> apply_binder (new lambda_p_kernel::apply);
-	boost::shared_ptr <lambda_p::binder::node_list_binder> instances_binder (new lambda_p::binder::node_list_binder);
+	boost::shared_ptr <lambda_p::binder::node_list_binder> nodes_binder (new lambda_p::binder::node_list_binder);
 	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr <lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
 	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
@@ -131,7 +131,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	std::wstring malloc_name (L"malloc");
 	std::wstring while_name (L"while");
 	std::wstring abort_name (L"abort");
-	std::wstring instances_name (L"instances");
+	std::wstring nodes_name (L"nodes");
 	std::wstring noop_closure_name (L"closen");
 	std::wstring call_binder_name (L"call");
 	std::wstring list_name (L"list");
@@ -153,7 +153,7 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
     package->nodes [memcpy_name] = memcpy_function;
 	package->nodes [while_name] = while_binder;
 	package->nodes [abort_name] = abort_function;
-	package->nodes [instances_name] = instances_binder;
+	package->nodes [nodes_name] = nodes_binder;
 	package->nodes [noop_closure_name] = noop_closure_binder;
 	package->nodes [call_binder_name] = call_binder;
 	package->nodes [list_name] = list_binder;
@@ -165,8 +165,8 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	package->nodes [apply_name] = apply_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
 	boost::shared_ptr <lambda_p_kernel::routine > routine (new lambda_p_kernel::routine (routine_a));
-	boost::shared_ptr <lambda_p::binder::node_list> instances (new lambda_p::binder::node_list);
-	instances->operator[] (0) = package;	
+	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
+	nodes->operator[] (0) = package;	
 	if (repl != NULL)
 	{
         std::vector <llvm::Type const *> parameters;
@@ -178,14 +178,14 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
         context.module->getGlobalList ().push_back (quit_object);
         engine->addGlobalMapping (quit_object, repl);
 		boost::shared_ptr <lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
-		instances->operator[] (1) = binder;
+		nodes->operator[] (1) = binder;
 	}
-	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*instances.get ()));
-	instances->operator[] (2) = exec_binder;
-	exec_binder->instances.operator[] (2) = exec_binder;
+	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*nodes.get ()));
+	nodes->operator[] (2) = exec_binder;
+	exec_binder->nodes.operator[] (2) = exec_binder;
 	std::wstring exec_name (L"exec");
 	lambda_p::errors::error_list problems;
-	lambda_p_kernel::single_bind_routine bind (routine, instances);
+	lambda_p_kernel::single_bind_routine bind (routine, nodes);
 	bind (problems);
 	if (!problems.errors.empty ())
 	{

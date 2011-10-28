@@ -9,10 +9,10 @@ lambda_p_llvm::argument_binder::argument_binder(void)
 {
 }
 
-void lambda_p_llvm::argument_binder::apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::argument_binder::apply (std::vector <llvm::Value *> & argument_values, boost::shared_ptr <lambda_p::binder::list> arguments, llvm::FunctionType::param_iterator parameter, llvm::FunctionType::param_iterator parameter_end, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	auto argument (arguments->instances.begin ());
-	while (argument != arguments->instances.end () && parameter != parameter_end)
+	auto argument (arguments->nodes.begin ());
+	while (argument != arguments->nodes.end () && parameter != parameter_end)
 	{
 		boost::shared_ptr <lambda_p::binder::node> value_instance (*argument);
 		boost::shared_ptr <lambda_p_llvm::value> value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (value_instance));
@@ -34,7 +34,7 @@ void lambda_p_llvm::argument_binder::apply (std::vector <llvm::Value *> & argume
 		++argument;
 		++parameter;
 	}
-	if ((argument == arguments->instances.end ()) != (parameter == parameter_end))
+	if ((argument == arguments->nodes.end ()) != (parameter == parameter_end))
 	{
 		problems (new lambda_p::errors::binder_string_error (std::wstring (L"argument_binder"), std::wstring (L"Incorrect number of arguments")));
 	}

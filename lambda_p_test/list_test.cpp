@@ -28,14 +28,14 @@ void lambda_p_test::list_test::run_1 ()
 	statement->association->results.push_back (result);
 	boost::shared_ptr <lambda_p::binder::list_binder> binder (new lambda_p::binder::list_binder);
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list instances;
-	instances [group] = binder;
-	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
+	lambda_p::binder::node_list nodes;
+	nodes [group] = binder;
+	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (instances [result].get () != NULL);
-	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [result]).get () != NULL);
-	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [result])->instances.size () == 0);
+	assert (nodes [result].get () != NULL);
+	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [result]).get () != NULL);
+	assert (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [result])->nodes.size () == 0);
 }
 
 void lambda_p_test::list_test::run_2 ()
@@ -50,16 +50,16 @@ void lambda_p_test::list_test::run_2 ()
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
-	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
-	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
-	lambda_p::binder::node_list instances;
-	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
-	instances [list] = binder;
+	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
+	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
+	lambda_p::binder::node_list nodes;
+	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
+	nodes [list] = binder;
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (problems.errors.empty ());
-	assert (instances [result1].get () != NULL);
-	assert (instances [result2].get () != NULL);
+	assert (nodes [result1].get () != NULL);
+	assert (nodes [result2].get () != NULL);
 }
 
 void lambda_p_test::list_test::run_3 ()
@@ -74,10 +74,10 @@ void lambda_p_test::list_test::run_3 ()
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
-	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
-	lambda_p::binder::node_list instances;
-	instances [list] = binder;
-	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
+	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
+	lambda_p::binder::node_list nodes;
+	nodes [list] = binder;
+	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	lambda_p::errors::error_list problems;
 	bind_procedure (problems);
 	assert (!problems.errors.empty ());

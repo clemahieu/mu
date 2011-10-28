@@ -14,17 +14,17 @@
 
 #include <sstream>
 
-lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::node_list instances_a)
-	: instances (instances_a)
+lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::node_list nodes_a)
+	: nodes (nodes_a)
 {
 }
 
-void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances_a [statement->association->parameters [0]]));
+		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes_a [statement->association->parameters [0]]));
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
@@ -37,7 +37,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 				if (input.routines.routines->size () > 0)
 				{
 					lambda_p_kernel::apply binder;
-					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), instances, problems);
+					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems);
 				}
 				else
 				{

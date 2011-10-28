@@ -35,7 +35,7 @@ size_t lambda_p::core::routine::add_data (std::wstring string)
 {
     boost::shared_ptr < lambda_p::binder::data> data_l (new lambda_p::binder::data (string));
 	size_t result (add_declaration ());
-	instances [result] = data_l;
+	injected [result] = data_l;
 	return result;
 }
 

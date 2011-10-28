@@ -9,7 +9,7 @@ namespace lambda_p_llvm
 	public:
 		context_binder(void);
 		~context_binder(void);
-		void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems) override;
+		void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) override;
 		std::wstring binder_name () override;
 	};
 }

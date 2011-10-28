@@ -28,9 +28,9 @@ namespace lambda_p_kernel
 	class single_bind_routine
 	{
 	public:
-		single_bind_routine (boost::shared_ptr <lambda_p_kernel::routine> routine_a, boost::shared_ptr <lambda_p::binder::node_list> instances_a);
+		single_bind_routine (boost::shared_ptr <lambda_p_kernel::routine> routine_a, boost::shared_ptr <lambda_p::binder::node_list> nodes_a);
 		void operator () (lambda_p::errors::error_list & problems);
-		boost::shared_ptr <lambda_p::binder::node_list> outer_instances;
+		boost::shared_ptr <lambda_p::binder::node_list> outer_nodes;
 		boost::shared_ptr <lambda_p_kernel::apply> binder_m;
 		boost::shared_ptr <lambda_p::core::routine> outer_routine;
 		lambda_p::core::statement * statement;

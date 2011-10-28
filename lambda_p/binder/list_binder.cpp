@@ -6,16 +6,16 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 
-void lambda_p::binder::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->results.size () == 1)
 	{
 		boost::shared_ptr <lambda_p::binder::list> set (new lambda_p::binder::list);
 		for (auto i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i)
 		{
-			set->instances.push_back (instances_a [*i]);
+			set->nodes.push_back (nodes_a [*i]);
 		}
-		instances_a [statement->association->results [0]] = set;
+		nodes_a [statement->association->results [0]] = set;
 	}
 	else
 	{

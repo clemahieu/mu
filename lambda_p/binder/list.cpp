@@ -5,16 +5,16 @@
 #include <lambda_p/binder/node_list.h>
 #include <sstream>
 
-void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
 	if (statement->association->parameters.empty ())
 	{
-		if (statement->association->results.size () == instances.size ())
+		if (statement->association->results.size () == nodes.size ())
 		{
-			std::vector <boost::shared_ptr < lambda_p::binder::node>>::iterator j = instances.begin ();
+			std::vector <boost::shared_ptr < lambda_p::binder::node>>::iterator j = nodes.begin ();
 			for (std::vector <size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i, ++j)
 			{
-				instances_a [*i] = *j;
+				nodes_a [*i] = *j;
 			}
 		}
 		else
@@ -23,7 +23,7 @@ void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda
 			message << L"Unexpected number of results, have: ";
 			message << statement->association->results.size ();
 			message < L" expecting: ";
-			message << instances.size ();
+			message << nodes.size ();
 			add_error (message.str (), problems);
 		}
 	}

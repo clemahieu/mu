@@ -18,17 +18,17 @@ lambda_p_llvm::while_call_binder::while_call_binder (lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		std::vector <size_t>::iterator argument (statement->association->parameters.begin ());		
-		boost::shared_ptr <lambda_p_llvm::so_value> condition (boost::dynamic_pointer_cast <lambda_p_llvm::so_value> (instances [*argument]));
+		boost::shared_ptr <lambda_p_llvm::so_value> condition (boost::dynamic_pointer_cast <lambda_p_llvm::so_value> (nodes [*argument]));
 		++argument;
 		if (condition.get () != NULL)
 		{
-			boost::shared_ptr <lambda_p_llvm::so_value> function_l (boost::dynamic_pointer_cast <lambda_p_llvm::so_value> (instances [*argument]));
+			boost::shared_ptr <lambda_p_llvm::so_value> function_l (boost::dynamic_pointer_cast <lambda_p_llvm::so_value> (nodes [*argument]));
 			++argument;
 			if (function_l.get () != NULL)
 			{

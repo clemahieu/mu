@@ -10,7 +10,7 @@
 #include <lambda_p_test/echo_binder_test.h>
 #include <lambda_p_test/constant_int_binder_test_1.h>
 #include <lambda_p_test/routine_input_test_1.h>
-#include <lambda_p_test/node_instances_test_1.h>
+#include <lambda_p_test/node_list_test_1.h>
 #include <lambda_p_test/routine_binder_test.h>
 #include <lambda_p_test/noop_closure_test.h>
 #include <lambda_p_test/unbindable_statement_test.h>
@@ -84,7 +84,7 @@ int main ()
 		test.run ();
 	}
 	{
-		node_instances_test_1 test;
+		node_list_test_1 test;
 		test.run ();
 	}
 	{

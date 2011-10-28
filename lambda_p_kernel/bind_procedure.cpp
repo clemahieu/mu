@@ -10,9 +10,9 @@
 
 #include <sstream>
 
-lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::node_list & instances_a)
+lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::node_list & nodes_a)
 	: routine (routine_a),
-	instances (instances_a)
+	nodes (nodes_a)
 {
 }
 
@@ -22,7 +22,7 @@ lambda_p_kernel::bind_procedure::~bind_procedure(void)
 
 void lambda_p_kernel::bind_procedure::operator () (lambda_p::errors::error_list & problems)
 {
-	instances.merge (routine->instances, problems);
+	nodes.merge (routine->injected, problems);
 	if (problems.errors.empty ())
 	{
 		size_t statement_count (routine->statements.size ());
@@ -44,7 +44,7 @@ void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p
 	if (binder.get () != NULL)
 	{
 		size_t previous_size (problems.errors.size ());
-		binder->bind (routine->statements [statement], instances, problems);
+		binder->bind (routine->statements [statement], nodes, problems);
 		if (problems.errors.size () != previous_size)
 		{
 			std::wstring message (L"Bind error for statement: ");
@@ -102,9 +102,9 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 void lambda_p_kernel::bind_procedure::copy_declaration_binder (boost::shared_ptr <lambda_p::binder::node> & binder, size_t node)
 {
 	size_t declaration (node);
-	if (declaration < instances.instances.size ())
+	if (declaration < nodes.nodes.size ())
 	{
-		binder = instances [declaration];
+		binder = nodes [declaration];
 	}
 	else
 	{

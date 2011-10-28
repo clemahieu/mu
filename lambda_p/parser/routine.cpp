@@ -12,7 +12,7 @@ lambda_p::parser::routine::routine(void)
 	//size_t list_position (routine_m->add_declaration ());
 	//routine_m->surface->results.push_back (list_position);
 	//positions [std::wstring (L"~")] = list_position;
-	//routine_m->instances [list_position] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
+	//routine_m->nodes [list_position] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
 }
 
 lambda_p::parser::routine::~routine(void)

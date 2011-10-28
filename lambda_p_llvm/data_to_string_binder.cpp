@@ -29,17 +29,17 @@ lambda_p_llvm::data_to_string_binder::~data_to_string_binder (void)
 {
 }
 
-void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->parameters [0]]));
 		if (data.get () != NULL)
 		{
 			lambda_p_llvm::constant_wstring string (context, data->string ());                        
 			boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
-			instances [statement->association->results [0]] = value;
+			nodes [statement->association->results [0]] = value;
 		}
 		else
 		{

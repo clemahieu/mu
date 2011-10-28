@@ -15,19 +15,19 @@
 #include <fstream>
 #include <sstream>
 
-void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & instances, lambda_p::errors::error_list & problems)
+void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (instances [statement->association->parameters [0]]));
+		boost::shared_ptr < lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (nodes [statement->association->parameters [0]]));
 		if (stream.get () != NULL)
 		{
 			::lambda_p_repl::routine_input input;
 			input (stream);
 			if (!input.error ())
 			{
-				instances [statement->association->results [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
+				nodes [statement->association->results [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
 			}
 			else
 			{

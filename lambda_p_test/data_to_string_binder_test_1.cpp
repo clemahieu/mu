@@ -43,15 +43,15 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     llvm::Module * module = new llvm::Module (module_name, llvm_context);
     lambda_p_llvm::generation_context context (llvm_context, module, NULL);
 	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> binder (new lambda_p_llvm::data_to_string_binder (context));
-	lambda_p::binder::node_list instances;
-	instances [0] = binder;
+	lambda_p::binder::node_list nodes;
+	nodes [0] = binder;
 	lambda_p::errors::error_list problems;
-	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
+	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	bind_procedure (problems);
-    //binder->bind (statement, instances, problems);
+    //binder->bind (statement, nodes, problems);
 	assert (problems.errors.size () == 0);
     assert (module->getGlobalList ().size () == 1);
-	assert (instances.instances.size () == 3);
-    assert (instances [declaration].get () != NULL);
-    assert (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instances [declaration]).get () != NULL);
+	assert (nodes.nodes.size () == 3);
+    assert (nodes [declaration].get () != NULL);
+    assert (boost::dynamic_pointer_cast < lambda_p_llvm::value> (nodes [declaration]).get () != NULL);
 }
