@@ -35,11 +35,11 @@ void lambda_p_llvm::cast_inst_binder::bind (lambda_p::core::statement * statemen
 	{
 		size_t value_node (statement->association->parameters [0]);
 		size_t type_node (statement->association->parameters [1]);
-        boost::shared_ptr <lambda_p::binder::instance> value_instance (instances [value_node]);
+        boost::shared_ptr <lambda_p::binder::node> value_instance (instances [value_node]);
         boost::shared_ptr <lambda_p_llvm::value> value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (value_instance));
         if (value.get () != NULL)
         {
-            boost::shared_ptr <lambda_p::binder::instance> type_instance (instances [type_node]);
+            boost::shared_ptr <lambda_p::binder::node> type_instance (instances [type_node]);
             boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (type_instance));
             if (type.get () != NULL)
             {

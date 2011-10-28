@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/instance.h>
+#include <lambda_p/binder/node.h>
 #include <lambda_p/errors/error.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -19,7 +19,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class routine_instances;
-		class binder : virtual public instance
+		class binder : virtual public lambda_p::binder::node
 		{
 		public:
 			binder(void);

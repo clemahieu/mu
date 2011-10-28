@@ -20,7 +20,7 @@ void lambda_p_llvm::alloca_inst_binder::bind (lambda_p::core::statement * statem
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::instance> type_instance (instances [statement->association->parameters [0]]);
+		boost::shared_ptr <lambda_p::binder::node> type_instance (instances [statement->association->parameters [0]]);
 		boost::shared_ptr <lambda_p_llvm::type> type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (type_instance));
 		if (type.get () != NULL)
 		{

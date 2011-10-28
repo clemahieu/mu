@@ -20,7 +20,7 @@ namespace lambda_p_kernel
         package (void);
         ~package (void);
         virtual void bind (lambda_p::core::statement * statement, lambda_p::binder::routine_instances & instances, lambda_p::errors::error_list & problems) override;
-		std::map <std::wstring, boost::shared_ptr <lambda_p::binder::instance> > nodes;
+		std::map <std::wstring, boost::shared_ptr <lambda_p::binder::node>> nodes;
 		std::wstring binder_name () override;
 	private:
 		void parse_one (lambda_p::binder::routine_instances & instances, boost::shared_ptr <lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems);

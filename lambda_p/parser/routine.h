@@ -13,7 +13,7 @@ namespace lambda_p
 {
 	namespace binder 
 	{
-		class instance;
+		class node;
 	}
 	namespace core
 	{

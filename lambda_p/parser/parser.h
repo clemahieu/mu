@@ -13,7 +13,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class instance;
+		class node;
 	}
 	namespace core
 	{
@@ -24,7 +24,7 @@ namespace lambda_p
 		class parser
 		{
 		public:
-			parser (boost::function <void (boost::shared_ptr < lambda_p::core::routine>)> target_a);
+			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a);
 			void operator () (lambda_p::tokens::token * token);
 			void reset ();
 			bool error ();
@@ -45,8 +45,8 @@ namespace lambda_p
 			std::wstring token_type_name (lambda_p::tokens::token * token);
 			boost::function <void (boost::shared_ptr < lambda_p::core::routine>)> target;
 		public:
-			boost::shared_ptr < lambda_p::parser::state> last_state;
-			std::stack < boost::shared_ptr < lambda_p::parser::state> > state;
+			boost::shared_ptr <lambda_p::parser::state> last_state;
+			std::stack <boost::shared_ptr <lambda_p::parser::state>> state;
 		};
 	}
 }

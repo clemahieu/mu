@@ -131,9 +131,6 @@
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="routine_builder.h" />
-    <ClInclude Include="binder\instance.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="binder\data.h">
       <Filter>binder</Filter>
     </ClInclude>
@@ -166,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
+    </ClInclude>
+    <ClInclude Include="binder\node.h">
+      <Filter>binder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +296,6 @@
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="routine_builder.cpp" />
-    <ClCompile Include="binder\instance.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="binder\data.cpp">
       <Filter>binder</Filter>
     </ClCompile>
@@ -331,6 +328,9 @@
     </ClCompile>
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="binder\node.cpp">
+      <Filter>binder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

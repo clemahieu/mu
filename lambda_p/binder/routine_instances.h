@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/binder/instance.h>
+#include <lambda_p/binder/node.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/shared_ptr.hpp>
@@ -15,14 +15,14 @@ namespace lambda_p
 	}
 	namespace binder
 	{
-		class instance;
-		class routine_instances : public lambda_p::binder::instance
+		class node;
+		class routine_instances : public lambda_p::binder::node
 		{
 		public:
 			routine_instances (void);
-			boost::shared_ptr <lambda_p::binder::instance> & operator [] (size_t node);
+			boost::shared_ptr <lambda_p::binder::node> & operator [] (size_t node);
 			void merge (routine_instances & other, lambda_p::errors::error_list & problems);
-			std::vector <boost::shared_ptr <lambda_p::binder::instance>> instances;
+			std::vector <boost::shared_ptr <lambda_p::binder::node>> instances;
 		};
 	}
 }

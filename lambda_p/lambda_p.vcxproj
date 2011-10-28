@@ -134,7 +134,7 @@
     <ClInclude Include="binder\list.h" />
     <ClInclude Include="binder\routine_instances.h" />
     <ClInclude Include="binder\binder.h" />
-    <ClInclude Include="binder\instance.h" />
+    <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\position.h" />
     <ClInclude Include="binder\data.h" />
@@ -192,7 +192,7 @@
     <ClCompile Include="binder\list.cpp" />
     <ClCompile Include="binder\routine_instances.cpp" />
     <ClCompile Include="binder\binder.cpp" />
-    <ClCompile Include="binder\instance.cpp" />
+    <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\position.cpp" />
     <ClCompile Include="binder\data.cpp" />

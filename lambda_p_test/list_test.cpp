@@ -50,8 +50,8 @@ void lambda_p_test::list_test::run_2 ()
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
-	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
-	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
+	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
+	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
 	lambda_p::binder::routine_instances instances;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);
 	instances [list] = binder;
@@ -74,7 +74,7 @@ void lambda_p_test::list_test::run_3 ()
 	statement->association->results.push_back (result1);
 	statement->association->results.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
-	binder->instances.push_back (boost::shared_ptr < lambda_p::binder::instance> (new lambda_p_kernel::null_binder));
+	binder->instances.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
 	lambda_p::binder::routine_instances instances;
 	instances [list] = binder;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, instances);

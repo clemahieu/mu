@@ -27,11 +27,11 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 	if (argument_count == result_count)
 	{
 		size_t current_argument (0);
-		for (std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
+		for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
 		{
 			size_t parameter (*i);
-			boost::shared_ptr < lambda_p::binder::instance> instance (instances [parameter]);
-			boost::shared_ptr < lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
+			boost::shared_ptr <lambda_p::binder::node> instance (instances [parameter]);
+			boost::shared_ptr <lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
 			if (node_data.get () != NULL)
 			{
 				parse_one (instances, node_data, statement->association->results [current_argument], problems);
@@ -61,22 +61,22 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 
 void lambda_p_kernel::package::parse_one (lambda_p::binder::routine_instances & instances, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
 {
-	boost::shared_ptr < lambda_p::binder::instance> current_node (shared_from_this ());
-	boost::shared_ptr < lambda_p_kernel::package> current_package (shared_from_this ());
+	boost::shared_ptr <lambda_p::binder::node> current_node (shared_from_this ());
+	boost::shared_ptr <lambda_p_kernel::package> current_package (shared_from_this ());
 	std::wstring string (node->string ());
 	boost::char_separator <wchar_t> separator (L".");
-	boost::tokenizer < boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring> tokenizer (string, separator);
+	boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring> tokenizer (string, separator);
 	std::wstring current_string;
-	for (boost::tokenizer < boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring>::iterator i = tokenizer.begin (); current_node.get () != NULL && i != tokenizer.end (); ++i)
+	for (boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring>::iterator i = tokenizer.begin (); current_node.get () != NULL && i != tokenizer.end (); ++i)
 	{
 		if (current_package.get () != NULL)
 		{
 			current_string = *i;
-			std::map < std::wstring, boost::shared_ptr < lambda_p::binder::instance> >::iterator target = current_package->nodes.find (current_string);
+			std::map <std::wstring, boost::shared_ptr <lambda_p::binder::node>>::iterator target = current_package->nodes.find (current_string);
 			if (target != current_package->nodes.end ())
 			{
 				current_node = target->second;
-				current_package = boost::dynamic_pointer_cast < lambda_p_kernel::package> (current_node);
+				current_package = boost::dynamic_pointer_cast <lambda_p_kernel::package> (current_node);
 			}
 			else
 			{

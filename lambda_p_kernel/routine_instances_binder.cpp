@@ -14,8 +14,8 @@ void lambda_p::binder::routine_instances_binder::bind (lambda_p::core::statement
 		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (instances [statement->association->parameters [0]]));
 		if (list.get () != NULL)
 		{
-			boost::shared_ptr < lambda_p::binder::routine_instances> instances_l (new lambda_p::binder::routine_instances);
-			for (std::vector < boost::shared_ptr < lambda_p::binder::instance> >::iterator i = list->instances.begin (); i != list->instances.end (); ++i)
+			boost::shared_ptr <lambda_p::binder::routine_instances> instances_l (new lambda_p::binder::routine_instances);
+			for (auto i = list->instances.begin (); i != list->instances.end (); ++i)
 			{
 				instances_l->instances.push_back (*i);
 				instances [statement->association->results [0]] = instances_l;

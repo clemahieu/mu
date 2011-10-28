@@ -21,7 +21,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class binder;
-		class instance;
+		class node;
 		class routine_instances;
 	}
 }
@@ -40,7 +40,7 @@ namespace lambda_p_kernel
 		void bind_statement (size_t statement, lambda_p::errors::error_list & problems);
 		void populate_unbound (size_t statement, boost::shared_ptr <lambda_p::binder::binder> & binder, lambda_p::errors::error_list & problems);
 		void retry_bind (size_t statement, lambda_p::errors::error_list & problems);
-		void copy_declaration_binder (boost::shared_ptr <lambda_p::binder::instance> & binder, size_t node);
+		void copy_declaration_binder (boost::shared_ptr <lambda_p::binder::node> & binder, size_t node);
 	};
 }
 

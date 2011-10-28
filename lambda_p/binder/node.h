@@ -4,11 +4,11 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class instance
+		class node
 		{
 		public:
-			instance(void);
-			virtual ~instance(void);
+			node(void);
+			virtual ~node(void);
 		};
 	}
 }

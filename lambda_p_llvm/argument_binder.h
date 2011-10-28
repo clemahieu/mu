@@ -13,7 +13,7 @@ namespace lambda_p
 	{
 		class list;
 		class routine_instances;
-		class instance;
+		class node;
 	}
 	namespace errors
 	{

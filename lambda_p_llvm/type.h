@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p/binder/instance.h>
+#include <lambda_p/binder/node.h>
 
 #include <llvm/Type.h>
 
 namespace lambda_p_llvm
 {
-	class type : public lambda_p::binder::instance
+	class type : public lambda_p::binder::node
 	{
 	public:
 		type (llvm::Type const * type_a);
