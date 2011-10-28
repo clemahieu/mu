@@ -136,7 +136,7 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="apply.cpp" />
-    <ClCompile Include="routine_instances_binder.cpp" />
+    <ClCompile Include="node_list_binder.cpp" />
     <ClCompile Include="single_bind_routine.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +150,7 @@
     <ClInclude Include="package_create.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="apply.h" />
-    <ClInclude Include="routine_instances_binder.h" />
+    <ClInclude Include="node_list_binder.h" />
     <ClInclude Include="single_bind_routine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -38,7 +38,7 @@
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/apply.h>
-#include <lambda_p_kernel/routine_instances_binder.h>
+#include <lambda_p_kernel/node_list_binder.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
