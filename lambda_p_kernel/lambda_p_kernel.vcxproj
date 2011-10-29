@@ -138,7 +138,6 @@
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="node_list_binder.cpp" />
-    <ClCompile Include="single_bind_routine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -153,7 +152,6 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="apply.h" />
     <ClInclude Include="node_list_binder.h" />
-    <ClInclude Include="single_bind_routine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

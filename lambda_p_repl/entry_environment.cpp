@@ -34,7 +34,6 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/while_call_binder.h>
 #include <lambda_p_repl/abort_function.h>
-#include <lambda_p_kernel/single_bind_routine.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/apply.h>
@@ -185,8 +184,8 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	exec_binder->nodes.operator[] (2) = exec_binder;
 	std::wstring exec_name (L"exec");
 	lambda_p::errors::error_list problems;
-	lambda_p_kernel::single_bind_routine bind (routine, nodes);
-	bind (problems);
+	lambda_p_kernel::apply apply;
+	apply.core (*routine, *nodes, problems);
 	if (!problems.errors.empty ())
 	{
 		std::wcout << "Binding error:\n";
