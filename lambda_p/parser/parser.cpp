@@ -23,8 +23,16 @@
 
 #include <map>
 
-lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr < lambda_p::core::routine>)> target_a)
+lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a)
 	: target (target_a)
+{
+	reset ();
+}
+
+lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a)
+	: target (target_a),
+	injected_parameters (injected_parameters_a),
+	injected_returns (injected_returns_a)
 {
 	reset ();
 }
@@ -40,8 +48,8 @@ void lambda_p::parser::parser::reset ()
 	{
 		state.pop ();
 	}
-    state.push (boost::shared_ptr < lambda_p::parser::state> (new lambda_p::parser::finished));
-	state.push (boost::shared_ptr < lambda_p::parser::state> (new lambda_p::parser::begin));
+    state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::finished));
+	state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::begin));
 }
 
 bool lambda_p::parser::parser::error ()
@@ -65,7 +73,7 @@ lambda_p::parser::state_id lambda_p::parser::parser::current_state ()
 
 void lambda_p::parser::parser::error_message (std::wstring & target)
 {
-	boost::shared_ptr < lambda_p::parser::error> error_l = (boost::static_pointer_cast < lambda_p::parser::error> (state.top ()));
+	boost::shared_ptr <lambda_p::parser::error> error_l = (boost::static_pointer_cast <lambda_p::parser::error> (state.top ()));
 	target = error_l->message;
 }
 
@@ -120,7 +128,7 @@ void lambda_p::parser::parser::parse_begin (lambda_p::tokens::token * token)
         case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_divider:
         {
-            boost::shared_ptr < lambda_p::parser::state> new_state (new lambda_p::parser::routine);
+            boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::routine (injected_parameters, injected_returns));
             state.push (new_state);
             parse_internal (token);
         }

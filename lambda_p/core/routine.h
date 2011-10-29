@@ -69,6 +69,7 @@ namespace lambda_p
 			lambda_p::core::association * surface;
 			std::vector <lambda_p::core::statement *> statements;
 		private:
+			lambda_p::core::association * injected_surface;
 			lambda_p::binder::node_list injected;
 			void validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector <lambda_p::errors::error *> & problems) const;
 			size_t nodes;

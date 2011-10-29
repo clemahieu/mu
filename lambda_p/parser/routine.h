@@ -7,6 +7,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 namespace lambda_p
 {
@@ -23,8 +24,7 @@ namespace lambda_p
 		class routine : public state, public lambda_p::parser::association_target
 		{
 		public:
-			routine(void);
-			~routine(void);
+			routine (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters, std::vector <std::wstring> & injected_returns);
 			state_id state_type ();
 			boost::function <void (size_t)> sink_declaration () override;
 			boost::function <void (size_t)> sink_argument () override;

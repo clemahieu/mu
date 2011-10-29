@@ -12,16 +12,19 @@
 
 lambda_p::core::routine::routine ()
 	: surface (new lambda_p::core::association),
-	nodes (0)
+	nodes (0),
+	injected_surface (new lambda_p::core::association)
 {
 }
 
 lambda_p::core::routine::~routine(void)
 {
-	for (std::vector < lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i)
+	for (auto i = statements.begin (); i != statements.end (); ++i)
 	{
 		delete *i;
 	}
+	delete surface;
+	delete injected_surface;
 }
 
 lambda_p::core::statement * lambda_p::core::routine::add_statement ()

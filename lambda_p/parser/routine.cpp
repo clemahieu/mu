@@ -7,19 +7,24 @@
 
 #include <boost/bind.hpp>
 
-lambda_p::parser::routine::routine(void)
+lambda_p::parser::routine::routine (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters, std::vector <std::wstring> & injected_returns)
 	: parsed_routine (false),
 	routine_m (new lambda_p::core::routine),
 	have_surface (false)
 {
-	//size_t list_position (routine_m->add_declaration ());
-	//routine_m->surface->results.push_back (list_position);
-	//positions [std::wstring (L"~")] = list_position;
-	//routine_m->nodes [list_position] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
-}
-
-lambda_p::parser::routine::~routine(void)
-{
+	for (auto i = injected_parameters.begin (); i != injected_parameters.end (); ++i)
+	{
+		size_t injected_position (routine_m->add_declaration ());
+		positions [i->first] = injected_position;
+		routine_m->injected_surface->declarations.push_back (injected_position);
+		routine_m->injected [injected_position] = i->second;
+	}
+	for (auto i = injected_returns.begin (); i != injected_returns.end (); ++i)
+	{
+		size_t injected_position (routine_m->add_declaration ());
+		routine_m->injected_surface->references.push_back (injected_position);
+		unresolved_references.insert (std::multimap <std::wstring, boost::function <void (size_t)>>::value_type (*i, boost::bind <void> (lambda_p::parser::position_set (routine_m->injected_surface->references, routine_m->injected_surface->references.size () - 1), _1)));
+	}
 }
 
 lambda_p::parser::state_id lambda_p::parser::routine::state_type ()
