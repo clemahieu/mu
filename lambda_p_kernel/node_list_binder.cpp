@@ -6,7 +6,7 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
 
-void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::node_list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
@@ -28,7 +28,7 @@ void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * state
 	}
 }
 
-std::wstring lambda_p::binder::node_list_binder::binder_name ()
+std::wstring lambda_p_kernel::node_list_binder::binder_name ()
 {
 	return std::wstring (L"routine_nodes_binder");
 }

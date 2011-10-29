@@ -15,7 +15,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_repl/abort_function.h>
+#include <lambda_p_llvm/abort_function.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -36,7 +36,7 @@ void lambda_p_test::abort_binder_test_1::run ()
     llvm::StringRef name ("test");
     llvm::Module * module (new llvm::Module (name, context));
     lambda_p_llvm::generation_context current (context, module, nullptr);
-	lambda_p_repl::abort_function abort_function (current);
+	lambda_p_llvm::abort_function abort_function (current);
 	llvm::Function * generation = llvm::Function::Create (abort_function.abort->getFunctionType (), llvm::GlobalValue::ExternalLinkage);   
     module->getFunctionList ().push_back (abort_function.abort);
     module->getFunctionList ().push_back (generation);

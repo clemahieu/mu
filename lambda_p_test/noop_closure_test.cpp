@@ -38,11 +38,11 @@ void lambda_p_test::noop_closure_test::run_1 ()
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	llvm::Function * target (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (target);
-	std::vector < llvm::Value *> arguments;
+	std::vector <llvm::Value *> arguments;
 	lambda_p_llvm::noop_closure closure (context, target, arguments);
 	closure.operator() ();
 	assert (block->getInstList ().size () == 1);
-	assert (llvm::isa < llvm::CallInst> (*block->getInstList ().begin ()));
+	assert (llvm::isa <llvm::CallInst> (*block->getInstList ().begin ()));
 }
 
 void lambda_p_test::noop_closure_test::run_2 ()
@@ -57,7 +57,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	llvm::Function * target (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
 	module->getFunctionList ().push_back (target);
-	std::vector < llvm::Value *> arguments;
+	std::vector <llvm::Value *> arguments;
 	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> binder (new lambda_p_llvm::noop_closure_binder (context));
 	boost::shared_ptr <lambda_p_llvm::fo_value> function (new lambda_p_llvm::fo_value (target));
 	boost::shared_ptr <lambda_p_llvm::call_binder> call (new lambda_p_llvm::call_binder);
@@ -77,5 +77,5 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	assert (problems.errors.size () == 0);
 	size_t count (block->getInstList ().size ());
 	assert (count == 1);
-	assert (llvm::isa < llvm::CallInst> (*block->getInstList ().begin ()));
+	assert (llvm::isa <llvm::CallInst> (*block->getInstList ().begin ()));
 }

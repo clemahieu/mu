@@ -7,9 +7,6 @@ namespace llvm
 namespace lambda_p_llvm
 {
 	class generation_context;
-}
-namespace lambda_p_repl
-{
 	class abort_function
 	{
 	public:

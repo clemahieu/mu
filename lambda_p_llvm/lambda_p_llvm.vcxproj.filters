@@ -30,6 +30,7 @@
     <ClInclude Include="function_binder.h" />
     <ClInclude Include="fo_value.h" />
     <ClInclude Include="struct_binder.h" />
+    <ClInclude Include="abort_function.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -61,5 +62,6 @@
     <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="struct_binder.cpp" />
+    <ClCompile Include="abort_function.cpp" />
   </ItemGroup>
 </Project>

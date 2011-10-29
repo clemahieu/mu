@@ -134,7 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="abort_function.cpp" />
+    <ClCompile Include="api.cpp" />
     <ClCompile Include="character_stream.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="data_stream_binder.cpp" />
@@ -156,7 +156,7 @@
     <ClCompile Include="wistream_input.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="abort_function.h" />
+    <ClInclude Include="api.h" />
     <ClInclude Include="character_stream.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="data_stream_binder.h" />

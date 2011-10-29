@@ -23,10 +23,6 @@ void lambda_p_repl::routine_input::operator () (boost::shared_ptr < lambda_p_rep
 			line.push_back (last_char);
 		}
 		operator () (line);
-		if (last_char == L'\n')
-		{
-			last_char = L' ';
-		}
 	}
 }
 
