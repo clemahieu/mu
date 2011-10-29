@@ -20,7 +20,7 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (nodes [statement->association->references [0]]));
 		if (stream.get () != nullptr)
 		{
 			core (statement, nodes, problems, stream);
@@ -38,7 +38,7 @@ void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * st
 	input (stream);
 	if (!input.error ())
 	{
-		nodes [statement->association->results [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
+		nodes [statement->association->declarations [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
 	}
 	else
 	{

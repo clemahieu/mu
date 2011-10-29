@@ -37,13 +37,13 @@ void lambda_p_test::echo_binder_test::run ()
     lambda_p_llvm::wprintf_function wprintf (context);
     lambda_p::core::routine routine;
     size_t p1 = routine.add_declaration ();
-	routine.surface->results.push_back (p1);
+	routine.surface->declarations.push_back (p1);
     size_t p2 = routine.add_declaration ();
-	routine.surface->results.push_back (p2);
+	routine.surface->declarations.push_back (p2);
     lambda_p::core::statement * statement = routine.add_statement ();
 	statement->target = p1;
     size_t str = p2;
-    statement->association->parameters.push_back (str);
+    statement->association->references.push_back (str);
     llvm::Function * start (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (llvm_context), false), llvm::GlobalValue::ExternalLinkage));
     module->getFunctionList ().push_back (start);
     llvm::BasicBlock * block (llvm::BasicBlock::Create (llvm_context));

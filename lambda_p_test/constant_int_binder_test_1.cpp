@@ -29,15 +29,15 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 
 	boost::shared_ptr < lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t binder = routine->add_declaration ();
-	routine->surface->results.push_back (binder);
+	routine->surface->declarations.push_back (binder);
 	lambda_p::core::statement * statement = routine->add_statement ();
 	statement->target = binder;
 	size_t declaration = routine->add_declaration ();
-	statement->association->results.push_back (declaration);
+	statement->association->declarations.push_back (declaration);
 	size_t number = routine->add_declaration ();
-	statement->association->parameters.push_back (number);
+	statement->association->references.push_back (number);
 	size_t bits = routine->add_declaration ();
-	statement->association->parameters.push_back (bits);
+	statement->association->references.push_back (bits);
 	llvm::LLVMContext llvm_context;
 	lambda_p_llvm::generation_context context (llvm_context, nullptr, nullptr);
 	boost::shared_ptr < lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder (context));

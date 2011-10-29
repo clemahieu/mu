@@ -23,7 +23,7 @@ void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * stateme
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		std::vector <size_t>::iterator argument (statement->association->parameters.begin ());		
+		std::vector <size_t>::iterator argument (statement->association->references.begin ());		
 		boost::shared_ptr <lambda_p_llvm::so_value> condition (boost::dynamic_pointer_cast <lambda_p_llvm::so_value> (nodes [*argument]));
 		++argument;
 		if (condition.get () != nullptr)

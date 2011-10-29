@@ -318,8 +318,8 @@ void lambda_p_test::parser_test_1::run_11 ()
 	assert (errors.size () == 0);
 	assert (routines.routines->size () == 1);
 	assert ((*routines.routines)[0]->statements.size () == 1);
-	assert ((*routines.routines)[0]->statements [0]->association->parameters.size () == 1);
-	assert ((*routines.routines)[0]->statements [0]->association->parameters [0] != 0);
+	assert ((*routines.routines)[0]->statements [0]->association->references.size () == 1);
+	assert ((*routines.routines)[0]->statements [0]->association->references [0] != 0);
 }
 
 void lambda_p_test::parser_test_1::run_12 ()

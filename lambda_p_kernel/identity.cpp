@@ -6,17 +6,17 @@
 
 void lambda_p_kernel::identity::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->parameters.size () == statement->association->results.size ())
+	if (statement->association->references.size () == statement->association->declarations.size ())
 	{
-		std::vector < size_t>::iterator j (statement->association->results.begin ());
-		for (std::vector < size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++j)
+		auto j (statement->association->declarations.begin ());
+		for (auto i = statement->association->references.begin (); i != statement->association->references.end (); ++i, ++j)
 		{
 			nodes [*j] = nodes [*i];
 		}
 	}
 	else
 	{
-		add_error (std::wstring (L"expect same number of arguments and results"), problems);
+		add_error (std::wstring (L"expect same number of arguments and declarations"), problems);
 	}
 }
 

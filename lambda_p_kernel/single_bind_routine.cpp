@@ -12,15 +12,15 @@ lambda_p_kernel::single_bind_routine::single_bind_routine (boost::shared_ptr <la
 	outer_nodes (new lambda_p::binder::node_list)
 {
 	size_t binder_parameter (outer_routine->add_declaration ());
-	outer_routine->surface->results.push_back (binder_parameter);
+	outer_routine->surface->declarations.push_back (binder_parameter);
 	size_t routine_parameter (outer_routine->add_declaration ());
-	outer_routine->surface->results.push_back (routine_parameter);
+	outer_routine->surface->declarations.push_back (routine_parameter);
 	size_t nodes_parameter (outer_routine->add_declaration ());
-	outer_routine->surface->results.push_back (nodes_parameter);
+	outer_routine->surface->declarations.push_back (nodes_parameter);
 	statement = outer_routine->add_statement ();
 	statement->target = binder_parameter;
-	statement->association->parameters.push_back (routine_parameter);
-	statement->association->parameters.push_back (nodes_parameter);
+	statement->association->references.push_back (routine_parameter);
+	statement->association->references.push_back (nodes_parameter);
 	(*outer_nodes) [0] = binder_m;
 	(*outer_nodes) [1] = inner_routine_a;
 	(*outer_nodes) [2] = inner_nodes_a;

@@ -13,7 +13,7 @@ void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->parameters [0]]));
+		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			std::wstring string (data->string ());
@@ -21,7 +21,7 @@ void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement
 			core (string, target, problems);
 			if (target.get () != nullptr)
 			{
-				nodes [statement->association->results [0]] = target;
+				nodes [statement->association->declarations [0]] = target;
 			}
 		}
 		else

@@ -19,13 +19,13 @@ lambda_p_llvm::function_binder::function_binder (lambda_p_llvm::generation_conte
 
 void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->results.size () == 1)
+	if (statement->association->declarations.size () == 1)
 	{
-		if (statement->association->parameters.size () == function->arg_size ())
+		if (statement->association->references.size () == function->arg_size ())
 		{
 			std::vector <llvm::Value *> arguments;
 			size_t position (0);
-			for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++position)
+			for (auto i = statement->association->references.begin (); i != statement->association->references.end (); ++i, ++position)
 			{
 				boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [*i]));
 				if (value.get () != nullptr)
@@ -42,14 +42,14 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 				llvm::CallInst * call (llvm::CallInst::Create (function, arguments.begin (), arguments.end ()));
 				context.block->getInstList ().push_back (call);
 				boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (call));
-				nodes [statement->association->results [0]] = value;
+				nodes [statement->association->declarations [0]] = value;
 			}
 		}
 		else
 		{
 			std::wstringstream message;
 			message << L"Number of arguments: ";
-			message << statement->association->parameters.size ();
+			message << statement->association->references.size ();
 			message << L" does not match number of parameters: ";
 			message << function->arg_size ();
 			add_error (message.str (), problems);

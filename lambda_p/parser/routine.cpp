@@ -29,14 +29,14 @@ lambda_p::parser::state_id lambda_p::parser::routine::state_type ()
 
 boost::function <void (size_t)> lambda_p::parser::routine::sink_declaration ()
 {
-	routine_m->surface->results.push_back (~0);
-	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->results, routine_m->surface->results.size () - 1), _1));
+	routine_m->surface->declarations.push_back (~0);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->declarations, routine_m->surface->declarations.size () - 1), _1));
 	return result;
 }
 
 boost::function <void (size_t)> lambda_p::parser::routine::sink_argument ()
 {
-	routine_m->surface->parameters.push_back (~0);
-	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->parameters, routine_m->surface->parameters.size () - 1), _1));
+	routine_m->surface->references.push_back (~0);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (routine_m->surface->references, routine_m->surface->references.size () - 1), _1));
 	return result;
 }

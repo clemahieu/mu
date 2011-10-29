@@ -14,12 +14,12 @@ void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statem
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p::binder::data> data (boost::dynamic_pointer_cast < lambda_p::binder::data> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			boost::shared_ptr <lambda_p_repl::file_stream> stream (new lambda_p_repl::file_stream (path.wstring ()));
-			nodes [statement->association->results [0]] = stream;
+			nodes [statement->association->declarations [0]] = stream;
 		}
 		else
 		{

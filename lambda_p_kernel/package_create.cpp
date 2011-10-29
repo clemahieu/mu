@@ -10,7 +10,7 @@ void lambda_p_kernel::package_create::bind (lambda_p::core::statement * statemen
 	check_count (1, 0, statement, problems);
 	if (problems.errors.empty ())
 	{
-		nodes [statement->association->results [0]] = boost::shared_ptr < lambda_p_kernel::package> (new lambda_p_kernel::package);
+		nodes [statement->association->declarations [0]] = boost::shared_ptr <lambda_p_kernel::package> (new lambda_p_kernel::package);
 	}
 }
 

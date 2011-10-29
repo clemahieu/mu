@@ -22,19 +22,19 @@ lambda_p_kernel::package::~package(void)
 void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	bool problem (false);
-	size_t argument_count (statement->association->parameters.size ());
-	size_t result_count (statement->association->results.size ());
+	size_t argument_count (statement->association->references.size ());
+	size_t result_count (statement->association->declarations.size ());
 	if (argument_count == result_count)
 	{
 		size_t current_argument (0);
-		for (std::vector <size_t>::iterator i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i, ++current_argument)
+		for (std::vector <size_t>::iterator i = statement->association->references.begin (); i != statement->association->references.end (); ++i, ++current_argument)
 		{
 			size_t parameter (*i);
 			boost::shared_ptr <lambda_p::binder::node> instance (nodes [parameter]);
 			boost::shared_ptr <lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
 			if (node_data.get () != nullptr)
 			{
-				parse_one (nodes, node_data, statement->association->results [current_argument], problems);
+				parse_one (nodes, node_data, statement->association->declarations [current_argument], problems);
 			}
 			else
 			{

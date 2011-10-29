@@ -66,10 +66,10 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	builder (L"; binder function call list; list ; args ; binder function args; closure; call closure;; :;");
 	boost::shared_ptr <lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
 	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
-	nodes->operator[] (routine->surface->results [0]) = binder;
-	nodes->operator[] (routine->surface->results [1]) = function;
-	nodes->operator[] (routine->surface->results [2]) = call;
-	nodes->operator[] (routine->surface->results [3]) = list;
+	nodes->operator[] (routine->surface->declarations [0]) = binder;
+	nodes->operator[] (routine->surface->declarations [1]) = function;
+	nodes->operator[] (routine->surface->declarations [2]) = call;
+	nodes->operator[] (routine->surface->declarations [3]) = list;
 	boost::shared_ptr <lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
 	lambda_p_kernel::single_bind_routine bind_action (routine_instance, nodes);
 	lambda_p::errors::error_list problems;

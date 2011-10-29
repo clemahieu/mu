@@ -33,8 +33,8 @@ void lambda_p_llvm::cast_inst_binder::bind (lambda_p::core::statement * statemen
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		size_t value_node (statement->association->parameters [0]);
-		size_t type_node (statement->association->parameters [1]);
+		size_t value_node (statement->association->references [0]);
+		size_t type_node (statement->association->references [1]);
         boost::shared_ptr <lambda_p::binder::node> value_instance (nodes [value_node]);
         boost::shared_ptr <lambda_p_llvm::value> value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (value_instance));
         if (value.get () != nullptr)
@@ -46,7 +46,7 @@ void lambda_p_llvm::cast_inst_binder::bind (lambda_p::core::statement * statemen
 				llvm::CastInst * cast (llvm::CastInst::CreatePointerCast (value->operator() (), type->type_m));
                 context.block->getInstList ().push_back (cast);
                 boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (cast));
-				nodes [statement->association->results [0]] = value;
+				nodes [statement->association->declarations [0]] = value;
             }
             else 
             {

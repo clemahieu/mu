@@ -210,14 +210,14 @@ void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p
 	}
 }
 
-size_t lambda_p_repl::entry_environment::environment_node (boost::shared_ptr < lambda_p::core::routine> routine)
+size_t lambda_p_repl::entry_environment::environment_node (boost::shared_ptr <lambda_p::core::routine> routine)
 {
-	size_t result (routine->surface->results [0]);
+	size_t result (routine->surface->declarations [0]);
 	return result;
 }
 
 void lambda_p_repl::entry_environment::quit_invoke (void * object)
 {
-    lambda_p_repl::repl * repl (reinterpret_cast < lambda_p_repl::repl *> (object));
+    lambda_p_repl::repl * repl (reinterpret_cast <lambda_p_repl::repl *> (object));
     repl->stop ();
 }

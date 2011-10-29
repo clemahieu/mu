@@ -19,7 +19,7 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [0]]));
 		if (list.get () != nullptr)
 		{
 			std::vector <llvm::Type const *> types;
@@ -39,7 +39,7 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 			{
 				llvm::StructType * type (llvm::StructType::get (context.context, types, false));
 				boost::shared_ptr <lambda_p_llvm::type> new_type (new lambda_p_llvm::type (type));
-				nodes [statement->association->results [0]] = new_type;
+				nodes [statement->association->declarations [0]] = new_type;
 			}
 		}
 		else

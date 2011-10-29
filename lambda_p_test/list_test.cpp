@@ -21,11 +21,11 @@ void lambda_p_test::list_test::run_1 ()
 {
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t group (routine->add_declaration ());
-	routine->surface->results.push_back (group);
+	routine->surface->declarations.push_back (group);
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target = group;
 	size_t result (routine->add_declaration ());
-	statement->association->results.push_back (result);
+	statement->association->declarations.push_back (result);
 	boost::shared_ptr <lambda_p::binder::list_binder> binder (new lambda_p::binder::list_binder);
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::node_list nodes;
@@ -42,13 +42,13 @@ void lambda_p_test::list_test::run_2 ()
 {
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t list (routine->add_declaration ());
-	routine->surface->results.push_back (list);
+	routine->surface->declarations.push_back (list);
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target = list;
 	size_t result1 (routine->add_declaration ());
 	size_t result2 (routine->add_declaration ());
-	statement->association->results.push_back (result1);
-	statement->association->results.push_back (result2);
+	statement->association->declarations.push_back (result1);
+	statement->association->declarations.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
 	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
 	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
@@ -66,13 +66,13 @@ void lambda_p_test::list_test::run_3 ()
 {
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t list (routine->add_declaration ());
-	routine->surface->results.push_back (list);
+	routine->surface->declarations.push_back (list);
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target = list;
 	size_t result1 (routine->add_declaration ());
 	size_t result2 (routine->add_declaration ());
-	statement->association->results.push_back (result1);
-	statement->association->results.push_back (result2);
+	statement->association->declarations.push_back (result1);
+	statement->association->declarations.push_back (result2);
 	boost::shared_ptr <lambda_p::binder::list> binder (new lambda_p::binder::list);
 	binder->nodes.push_back (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::null_binder));
 	lambda_p::binder::node_list nodes;

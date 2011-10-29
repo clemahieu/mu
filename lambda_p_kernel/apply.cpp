@@ -20,10 +20,10 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
 		if (routine.get () != nullptr)
 		{
-			boost::shared_ptr < lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast < lambda_p::binder::node_list> (nodes [statement->association->parameters [1]]));
+			boost::shared_ptr < lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast < lambda_p::binder::node_list> (nodes [statement->association->references [1]]));
 			if (nodes_l.get () != nullptr)
 			{
 				core (*routine.get (), *nodes_l.get (), problems);
@@ -42,7 +42,7 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 
 void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems)
 {
-	size_t parameters (routine.routine_m->surface->results.size ());
+	size_t parameters (routine.routine_m->surface->declarations.size ());
 	size_t binders (nodes_l.nodes.size ());
 	if (parameters == binders)
 	{

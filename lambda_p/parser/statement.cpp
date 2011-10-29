@@ -29,14 +29,14 @@ lambda_p::parser::state_id lambda_p::parser::statement::state_type ()
 
 boost::function <void (size_t)> lambda_p::parser::statement::sink_declaration ()
 {
-	statement_m->association->results.push_back (~0);
-	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (statement_m->association->results, statement_m->association->results.size () - 1), _1));
+	statement_m->association->declarations.push_back (~0);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (statement_m->association->declarations, statement_m->association->declarations.size () - 1), _1));
 	return result;
 }
 
 boost::function <void (size_t)> lambda_p::parser::statement::sink_argument ()
 {
-	statement_m->association->parameters.push_back (~0);
-	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (statement_m->association->parameters, statement_m->association->parameters.size () - 1), _1));
+	statement_m->association->references.push_back (~0);
+	boost::function <void (size_t)> result (boost::bind <void> (lambda_p::parser::position_set (statement_m->association->references, statement_m->association->references.size () - 1), _1));
 	return result;
 }

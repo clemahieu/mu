@@ -33,8 +33,8 @@ void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * stateme
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		size_t destination_node (statement->association->parameters [0]);
-		size_t source_node (statement->association->parameters [1]);
+		size_t destination_node (statement->association->references [0]);
+		size_t source_node (statement->association->references [1]);
 		boost::shared_ptr <lambda_p::binder::node> source_instance (nodes [source_node]);
 		boost::shared_ptr <lambda_p_llvm::value> source (boost::dynamic_pointer_cast <lambda_p_llvm::value> (source_instance));
 		if (source.get () != nullptr)

@@ -20,8 +20,8 @@ void lambda_p_llvm::context_binder::bind (lambda_p::core::statement * statement,
 	check_count (1, 0, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_llvm::context> context (new lambda_p_llvm::context);
-		nodes [statement->association->results [0]] = context;
+		boost::shared_ptr <lambda_p_llvm::context> context (new lambda_p_llvm::context);
+		nodes [statement->association->declarations [0]] = context;
 	}
 }
 

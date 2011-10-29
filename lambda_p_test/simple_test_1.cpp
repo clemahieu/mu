@@ -29,7 +29,7 @@ void lambda_p_test::simple_test_1::run ()
 void lambda_p_test::simple_test_1::run_1 ()
 {
 	lambda_p::core::routine routine;
-	std::vector < lambda_p::errors::error *> problems;
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -41,8 +41,8 @@ void lambda_p_test::simple_test_1::run_1 ()
 void lambda_p_test::simple_test_1::run_2 ()
 {
 	lambda_p::core::routine routine;
-	routine.surface->results.push_back (routine.add_declaration ());
-	std::vector < lambda_p::errors::error *> problems;
+	routine.surface->declarations.push_back (routine.add_declaration ());
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -54,9 +54,9 @@ void lambda_p_test::simple_test_1::run_2 ()
 void lambda_p_test::simple_test_1::run_3 ()
 {
 	lambda_p::core::routine routine;
-	routine.surface->results.push_back (routine.add_declaration ());
-	routine.surface->results.push_back (routine.add_declaration ());
-	std::vector < lambda_p::errors::error *> problems;
+	routine.surface->declarations.push_back (routine.add_declaration ());
+	routine.surface->declarations.push_back (routine.add_declaration ());
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -69,11 +69,11 @@ void lambda_p_test::simple_test_1::run_4 ()
 {
 	lambda_p::core::routine routine;
     size_t declaration (routine.add_declaration ());
-	routine.surface->results.push_back (declaration);
-	routine.surface->results.push_back (routine.add_declaration ());
+	routine.surface->declarations.push_back (declaration);
+	routine.surface->declarations.push_back (routine.add_declaration ());
     lambda_p::core::statement * statement1 = routine.add_statement ();
 	statement1->target = declaration;
-	std::vector < lambda_p::errors::error *> problems;
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -86,10 +86,10 @@ void lambda_p_test::simple_test_1::run_5 ()
 {
 	lambda_p::core::routine routine;
 	size_t declaration (routine.add_declaration ());
-	routine.surface->results.push_back (declaration);
+	routine.surface->declarations.push_back (declaration);
     lambda_p::core::statement * statement1 = routine.add_statement ();
 	statement1->target = declaration;
-	std::vector < lambda_p::errors::error *> problems;
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -102,12 +102,12 @@ void lambda_p_test::simple_test_1::run_6 ()
 {
 	lambda_p::core::routine routine;
 	size_t main_declaration (routine.add_declaration ());
-	routine.surface->results.push_back (main_declaration);
+	routine.surface->declarations.push_back (main_declaration);
     lambda_p::core::statement * statement1 = routine.add_statement ();
 	statement1->target = main_declaration;
     size_t declaration (routine.add_declaration ());
-    statement1->association->results.push_back (declaration);
-	std::vector < lambda_p::errors::error *> problems;
+    statement1->association->declarations.push_back (declaration);
+	std::vector <lambda_p::errors::error *> problems;
     lambda_p::core::statement * statement2 = routine.add_statement ();
 	statement2->target = declaration;
     std::wstringstream target;
@@ -122,21 +122,21 @@ void lambda_p_test::simple_test_1::run_7 ()
 {
 	lambda_p::core::routine routine;
     size_t declaration1 (routine.add_declaration ());
-	routine.surface->results.push_back (declaration1);
+	routine.surface->declarations.push_back (declaration1);
     size_t declaration2 (routine.add_declaration ());
-	routine.surface->results.push_back (declaration2);
+	routine.surface->declarations.push_back (declaration2);
     size_t declaration3 (routine.add_declaration ());
-	routine.surface->results.push_back (declaration3);
+	routine.surface->declarations.push_back (declaration3);
     lambda_p::core::statement * statement1 = routine.add_statement ();
 	statement1->target = declaration3;
     size_t declaration4 (routine.add_declaration ());
-    statement1->association->results.push_back (declaration4);
-	statement1->association->parameters.push_back (declaration2);
-	std::vector < lambda_p::errors::error *> problems;
+    statement1->association->declarations.push_back (declaration4);
+	statement1->association->references.push_back (declaration2);
+	std::vector <lambda_p::errors::error *> problems;
     lambda_p::core::statement * statement2 = routine.add_statement ();
 	statement2->target = declaration1;
-    statement2->association->parameters.push_back (declaration4);
-	statement2->association->parameters.push_back (declaration2);
+    statement2->association->references.push_back (declaration4);
+	statement2->association->references.push_back (declaration2);
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);
@@ -149,11 +149,11 @@ void lambda_p_test::simple_test_1::run_8 ()
 {
 	lambda_p::core::routine routine;
     size_t declaration (routine.add_declaration ());
-	routine.surface->results.push_back (declaration);
+	routine.surface->declarations.push_back (declaration);
 	lambda_p::core::statement * statement1 = routine.add_statement ();
 	statement1->target = declaration;
-	statement1->association->parameters.push_back (routine.add_declaration ());
-	std::vector < lambda_p::errors::error *> problems;
+	statement1->association->references.push_back (routine.add_declaration ());
+	std::vector <lambda_p::errors::error *> problems;
     std::wstringstream target;
 	lambda_p::serialization::simple < std::wstringstream> serializer (target);
 	routine.validate (problems);

@@ -49,18 +49,18 @@ size_t lambda_p::core::routine::add_declaration ()
 void lambda_p::core::routine::validate (std::vector < lambda_p::errors::error *> & problems) const
 {
     size_t current_statement (0);
-    for (std::vector < lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++current_statement)
+    for (auto i = statements.begin (); i != statements.end (); ++i, ++current_statement)
     {
         size_t current_argument (0);
         lambda_p::core::statement * statement (*i);
 		validate_node (statement->target, current_statement, current_argument, problems);
 		++current_argument;		
-		for (std::vector < size_t>::const_iterator j = statement->association->results.begin (); j != statement->association->results.end (); ++j, ++current_argument)
+		for (auto j = statement->association->declarations.begin (); j != statement->association->declarations.end (); ++j, ++current_argument)
 		{
 			size_t node (*j);
 			validate_node (node, current_statement, current_argument, problems);
 		}
-		for (std::vector < size_t>::const_iterator j = statement->association->parameters.begin (); j != statement->association->parameters.end (); ++j, ++current_argument)
+		for (auto j = statement->association->references.begin (); j != statement->association->references.end (); ++j, ++current_argument)
         {
 			size_t node (*j);
 			validate_node (node, current_statement, current_argument, problems);
@@ -70,7 +70,7 @@ void lambda_p::core::routine::validate (std::vector < lambda_p::errors::error *>
 	size_t statement_number (0 - 1);
 	{
 		size_t result_number (0);
-		for (std::vector < size_t>::const_iterator i = surface->results.begin (); i != surface->results.end (); ++i, ++previous, ++result_number)
+		for (auto i = surface->declarations.begin (); i != surface->declarations.end (); ++i, ++previous, ++result_number)
 		{
 			if (*i != previous + 1)
 			{
@@ -109,19 +109,19 @@ void lambda_p::core::routine::validate_node (size_t node, size_t current_stateme
 void lambda_p::core::routine::placement (std::map < size_t, lambda_p::core::position> & argument_positions, std::map < lambda_p::core::statement const *, size_t> & statement_positions) const
 {
     size_t current_statement (0);
-    for (std::vector < lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++current_statement)
+    for (auto i = statements.begin (); i != statements.end (); ++i, ++current_statement)
     {
         size_t current_argument (0);
         lambda_p::core::statement * statement (*i);
         statement_positions [statement] = current_statement;
 		argument_positions [statement->target] = lambda_p::core::position (current_statement, current_argument);
 		++current_argument;
-		for (std::vector < size_t>::const_iterator j = statement->association->results.begin (); j != statement->association->results.end (); ++j, ++current_argument)
+		for (auto j = statement->association->declarations.begin (); j != statement->association->declarations.end (); ++j, ++current_argument)
 		{
             size_t argument (*j);
             argument_positions [argument] = lambda_p::core::position (current_statement, current_argument);
 		}
-		for (std::vector < size_t>::const_iterator j = statement->association->parameters.begin (); j != statement->association->parameters.end (); ++j, ++current_argument)
+		for (auto j = statement->association->references.begin (); j != statement->association->references.end (); ++j, ++current_argument)
         {
             size_t argument (*j);
             argument_positions [argument] = lambda_p::core::position (current_statement, current_argument);

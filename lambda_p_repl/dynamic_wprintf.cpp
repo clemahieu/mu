@@ -30,13 +30,13 @@ lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
 
 void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	size_t parameter_count (statement->association->parameters.size ());
+	size_t parameter_count (statement->association->references.size ());
 	std::wstring format;
 	std::vector <llvm::Value *> arguments;
 	arguments.push_back (nullptr); // Filled with format string after other arguments are computed
 	for (size_t i = 0; i < parameter_count; ++i)
 	{
-		boost::shared_ptr <lambda_p::binder::node> instance (nodes [statement->association->parameters [i]]);
+		boost::shared_ptr <lambda_p::binder::node> instance (nodes [statement->association->references [i]]);
 		boost::shared_ptr <lambda_p_llvm::value> argument_value (boost::dynamic_pointer_cast < lambda_p_llvm::value> (instance));
 		if (argument_value.get () != nullptr)
 		{

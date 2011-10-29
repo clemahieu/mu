@@ -21,22 +21,22 @@ void lambda_p_llvm::noop_closure_binder::bind (lambda_p::core::statement * state
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_llvm::value> function_value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_llvm::value> function_value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [statement->association->references [0]]));
 		if (function_value.get () != nullptr)
 		{
-			llvm::Function * function (llvm::dyn_cast < llvm::Function> (function_value->operator() ()));
+			llvm::Function * function (llvm::dyn_cast <llvm::Function> (function_value->operator() ()));
 			if (function != nullptr)
 			{
-				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [1]]));
+				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
 				if (arguments.get () != nullptr)
 				{
-					std::vector < llvm::Value *> argument_values;
+					std::vector <llvm::Value *> argument_values;
 					::lambda_p_llvm::argument_binder argument_binder;
 					argument_binder.apply (argument_values, arguments, function->getFunctionType ()->param_begin (), function->getFunctionType ()->param_end (), nodes, problems);
 					if (problems.errors.empty ())
 					{
 						boost::shared_ptr <lambda_p_llvm::noop_closure> closure (new lambda_p_llvm::noop_closure (context, function, argument_values));
-						nodes [statement->association->results [0]] = closure;
+						nodes [statement->association->declarations [0]] = closure;
 					}
 				}
 				else

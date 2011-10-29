@@ -8,18 +8,18 @@
 
 void lambda_p::binder::list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->results.size () == 1)
+	if (statement->association->declarations.size () == 1)
 	{
 		boost::shared_ptr <lambda_p::binder::list> set (new lambda_p::binder::list);
-		for (auto i = statement->association->parameters.begin (); i != statement->association->parameters.end (); ++i)
+		for (auto i = statement->association->references.begin (); i != statement->association->references.end (); ++i)
 		{
 			set->nodes.push_back (nodes_a [*i]);
 		}
-		nodes_a [statement->association->results [0]] = set;
+		nodes_a [statement->association->declarations [0]] = set;
 	}
 	else
 	{
-		add_error (std::wstring (L"expecting 1 result"), problems);
+		add_error (std::wstring (L"expecting 1 declaration"), problems);
 	}
 }
 

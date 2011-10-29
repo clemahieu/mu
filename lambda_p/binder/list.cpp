@@ -7,12 +7,12 @@
 
 void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->parameters.empty ())
+	if (statement->association->references.empty ())
 	{
-		if (statement->association->results.size () == nodes.size ())
+		if (statement->association->declarations.size () == nodes.size ())
 		{
 			std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
-			for (std::vector <size_t>::iterator i = statement->association->results.begin (); i != statement->association->results.end (); ++i, ++j)
+			for (std::vector <size_t>::iterator i = statement->association->declarations.begin (); i != statement->association->declarations.end (); ++i, ++j)
 			{
 				nodes_a [*i] = *j;
 			}
@@ -20,8 +20,8 @@ void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda
 		else
 		{
 			std::wstringstream message;
-			message << L"Unexpected number of results, have: ";
-			message << statement->association->results.size ();
+			message << L"Unexpected number of declarations, have: ";
+			message << statement->association->declarations.size ();
 			message < L" expecting: ";
 			message << nodes.size ();
 			add_error (message.str (), problems);

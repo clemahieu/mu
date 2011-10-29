@@ -11,14 +11,14 @@ void lambda_p::binder::node_list_binder::bind (lambda_p::core::statement * state
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::list> list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [0]]));
 		if (list.get () != nullptr)
 		{
 			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (new lambda_p::binder::node_list);
 			for (auto i = list->nodes.begin (); i != list->nodes.end (); ++i)
 			{
 				nodes_l->nodes.push_back (*i);
-				nodes [statement->association->results [0]] = nodes_l;
+				nodes [statement->association->declarations [0]] = nodes_l;
 			}
 		}
 		else

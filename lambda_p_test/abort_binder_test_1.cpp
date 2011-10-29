@@ -46,7 +46,7 @@ void lambda_p_test::abort_binder_test_1::run ()
 	lambda_p_llvm::abort_binder binder (abort_function.abort, &current);
     lambda_p::core::routine routine;
     size_t parameter (routine.add_declaration ());
-	routine.surface->results.push_back (parameter);
+	routine.surface->declarations.push_back (parameter);
     lambda_p::core::statement * call (routine.add_statement ());
 	call->target = parameter;
     lambda_p::binder::node_list nodes;

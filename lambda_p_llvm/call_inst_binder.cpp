@@ -23,13 +23,13 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 	if (problems.errors.empty ())
 	{
 		std::vector <llvm::Value *> argument_values;
-		boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_llvm::fo_value> value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes [statement->association->references [0]]));
 		if (value.get () != nullptr)
 		{
 			llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value));
 			if (function != nullptr)
 			{
-				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->parameters [1]]));
+				boost::shared_ptr <lambda_p::binder::list> arguments (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
 				if (arguments.get () != nullptr)
 				{
 					llvm::FunctionType const * type (function->getFunctionType ());
@@ -41,7 +41,7 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 						llvm::CallInst * call (llvm::CallInst::Create (value->operator() (), argument_values.begin (), argument_values.end ()));
 						context.block->getInstList ().push_back (call);
 						boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (call));
-						nodes [statement->association->results [0]] = value;
+						nodes [statement->association->declarations [0]] = value;
 					}
 				}
 				else

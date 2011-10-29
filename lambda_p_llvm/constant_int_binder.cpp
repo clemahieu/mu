@@ -32,14 +32,14 @@ void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * state
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [0]]));
 		if (number.get () != nullptr)
 		{
-			boost::shared_ptr <lambda_p_kernel::number> bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->parameters [1]]));
+			boost::shared_ptr <lambda_p_kernel::number> bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [1]]));
 			if (bits.get () != nullptr)
 			{
 				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
-				nodes [statement->association->results [0]] = value;
+				nodes [statement->association->declarations [0]] = value;
 			}
 			else
 			{

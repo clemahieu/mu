@@ -19,14 +19,14 @@ lambda_p::binder::binder::~binder(void)
 
 void lambda_p::binder::binder::check_count (size_t result_count, size_t argument_count, lambda_p::core::statement * statement, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->results.size () != result_count)
+	if (statement->association->declarations.size () != result_count)
 	{
-		boost::shared_ptr <lambda_p::errors::unexpected_result_count> problem (new lambda_p::errors::unexpected_result_count (binder_name (), statement->association->results.size (), result_count));
+		boost::shared_ptr <lambda_p::errors::unexpected_result_count> problem (new lambda_p::errors::unexpected_result_count (binder_name (), statement->association->declarations.size (), result_count));
 		problems (problem);
 	}
-	if (statement->association->parameters.size () != argument_count)
+	if (statement->association->references.size () != argument_count)
 	{
-		boost::shared_ptr <lambda_p::errors::unexpected_argument_count> problem (new lambda_p::errors::unexpected_argument_count (binder_name (), statement->association->parameters.size (), argument_count));
+		boost::shared_ptr <lambda_p::errors::unexpected_argument_count> problem (new lambda_p::errors::unexpected_argument_count (binder_name (), statement->association->references.size (), argument_count));
 		problems (problem);
 	}
 }

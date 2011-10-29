@@ -74,10 +74,10 @@ void lambda_p_kernel::bind_procedure::populate_unbound (size_t statement, boost:
 	copy_declaration_binder (binder_l, statement_l->target);
 	if (binder_l.get () != nullptr)
 	{
-		binder = boost::dynamic_pointer_cast < lambda_p::binder::binder> (binder_l);
+		binder = boost::dynamic_pointer_cast <lambda_p::binder::binder> (binder_l);
 		if (binder.get () != nullptr)
 		{
-			for (auto i = statement_l->association->parameters.begin (); binder.get () != nullptr && i != statement_l->association->parameters.end (); ++i)
+			for (auto i = statement_l->association->references.begin (); binder.get () != nullptr && i != statement_l->association->references.end (); ++i)
 			{
 				size_t node (*i);
 				copy_declaration_binder (binder_l, node);
@@ -115,7 +115,7 @@ void lambda_p_kernel::bind_procedure::copy_declaration_binder (boost::shared_ptr
 void lambda_p_kernel::bind_procedure::retry_bind (size_t statement, lambda_p::errors::error_list & problems)
 {
 	lambda_p::core::statement * statement_l (routine->statements [statement]);
-	for (auto i = statement_l->association->results.begin (); i != statement_l->association->results.end (); ++i)
+	for (auto i = statement_l->association->declarations.begin (); i != statement_l->association->declarations.end (); ++i)
 	{
 		auto search (unbound_statements.find (*i));
 		if (search != unbound_statements.end ())

@@ -34,12 +34,12 @@ void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * sta
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->parameters [0]]));
+		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			lambda_p_llvm::constant_wstring string (context, data->string ());                        
 			boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (string.value));
-			nodes [statement->association->results [0]] = value;
+			nodes [statement->association->declarations [0]] = value;
 		}
 		else
 		{
