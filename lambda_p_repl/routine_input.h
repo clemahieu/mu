@@ -13,8 +13,7 @@ namespace lambda_p_repl
 	{
 	public:
 		routine_input (void);
-		~routine_input (void);
-		void operator () (boost::shared_ptr < lambda_p_repl::character_stream> input_stream);
+		void operator () (boost::shared_ptr <lambda_p_repl::character_stream> input_stream);
 		void operator () (wchar_t character);
 		void operator () (std::wstring & string);
 		bool error ();
@@ -22,6 +21,8 @@ namespace lambda_p_repl
 		lambda_p::parser::routine_vector routines;
 		lambda_p::parser::parser parser;
 		lambda_p::lexer::lexer lexer;
+	private:
+		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters ();
 	};
 }
 

@@ -28,6 +28,7 @@
     <ClCompile Include="node_list_test_1.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="file_stream_test.cpp" />
+    <ClCompile Include="apply_binder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -56,5 +57,6 @@
     <ClInclude Include="node_list_test_1.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="file_stream_test.h" />
+    <ClInclude Include="apply_binder_test.h" />
   </ItemGroup>
 </Project>

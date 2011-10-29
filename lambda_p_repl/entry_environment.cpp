@@ -72,7 +72,7 @@ lambda_p_repl::entry_environment::entry_environment ()
 
 void lambda_p_repl::entry_environment::operator () (boost::shared_ptr < lambda_p::core::routine> routine_a)
 {	
-	boost::shared_ptr < lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);
+	boost::shared_ptr <lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);
     std::string module_name_string ("llvm_repl");
     llvm::StringRef module_name (module_name_string);
 	llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));

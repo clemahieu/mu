@@ -29,6 +29,13 @@ lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lamb
 	reset ();
 }
 
+lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a)
+	: target (target_a),
+	injected_parameters (injected_parameters_a)
+{
+	reset ();
+}
+
 lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a)
 	: target (target_a),
 	injected_parameters (injected_parameters_a),

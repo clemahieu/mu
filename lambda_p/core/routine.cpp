@@ -36,9 +36,15 @@ lambda_p::core::statement * lambda_p::core::routine::add_statement ()
 
 size_t lambda_p::core::routine::add_data (std::wstring string)
 {
-    boost::shared_ptr < lambda_p::binder::data> data_l (new lambda_p::binder::data (string));
+    boost::shared_ptr <lambda_p::binder::data> data_l (new lambda_p::binder::data (string));
+	size_t result (inject_declaration (data_l));
+	return result;
+}
+
+size_t lambda_p::core::routine::inject_declaration (boost::shared_ptr <lambda_p::binder::node> node_a)
+{
 	size_t result (add_declaration ());
-	injected [result] = data_l;
+	injected [result] = node_a;
 	return result;
 }
 
@@ -49,7 +55,7 @@ size_t lambda_p::core::routine::add_declaration ()
 	return declaration;
 }
 
-void lambda_p::core::routine::validate (std::vector < lambda_p::errors::error *> & problems) const
+void lambda_p::core::routine::validate (std::vector <lambda_p::errors::error *> & problems) const
 {
     size_t current_statement (0);
     for (auto i = statements.begin (); i != statements.end (); ++i, ++current_statement)
@@ -69,35 +75,6 @@ void lambda_p::core::routine::validate (std::vector < lambda_p::errors::error *>
 			validate_node (node, current_statement, current_argument, problems);
         }
     }
-	size_t previous (0 - 1);
-	size_t statement_number (0 - 1);
-	{
-		size_t result_number (0);
-		for (auto i = surface->declarations.begin (); i != surface->declarations.end (); ++i, ++previous, ++result_number)
-		{
-			if (*i != previous + 1)
-			{
-				lambda_p::errors::node_out_of_order * error (new lambda_p::errors::node_out_of_order (statement_number, result_number));
-				problems.push_back (error);
-			}
-		}
-	}
-	/* Was supposed to make sure nodes on left side are ordered but data creates new nodes on the right side.  Need for this depends on if we want to keep it that way.
-	++statement_number;
-	for (std::vector < lambda_p::core::statement *>::const_iterator i = statements.begin (); i != statements.end (); ++i, ++statement_number)
-	{
-		{
-			size_t result_number (0);
-			for (std::vector < size_t>::const_iterator j = (*i)->association->results.begin (); j != (*i)->association->results.end (); ++j, ++previous, ++result_number)
-			{
-				if (*j != previous + 1)
-				{
-					lambda_p::errors::node_out_of_order * error (new lambda_p::errors::node_out_of_order (statement_number, result_number));
-					problems.push_back (error);
-				}
-			}
-		}
-	}*/
 }
 
 void lambda_p::core::routine::validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector < lambda_p::errors::error *> & problems) const

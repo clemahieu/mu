@@ -52,7 +52,7 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 		{
 			if (i->get () != nullptr)
 			{
-				nodes [position] = *i;
+				nodes [routine.routine_m->surface->declarations [position]] = *i;
 			}
 			else
 			{

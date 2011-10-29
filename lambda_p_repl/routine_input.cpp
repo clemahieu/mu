@@ -1,16 +1,13 @@
 #include "routine_input.h"
 
 #include <lambda_p_repl/character_stream.h>
+#include <lambda_p/binder/list_binder.h>
 
 #include <boost/bind.hpp>
 
 lambda_p_repl::routine_input::routine_input (void)
-	: parser (routines),
+	: parser (routines, injected_parameters ()),
 	lexer (boost::bind (&lambda_p::parser::parser::operator(), &parser, _1))
-{
-}
-
-lambda_p_repl::routine_input::~routine_input (void)
 {
 }
 
@@ -31,6 +28,13 @@ void lambda_p_repl::routine_input::operator () (boost::shared_ptr < lambda_p_rep
 			last_char = L' ';
 		}
 	}
+}
+
+std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> lambda_p_repl::routine_input::injected_parameters ()
+{
+	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> result;
+	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"~"), boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder)));
+	return result;
 }
 
 void lambda_p_repl::routine_input::operator () (wchar_t character)

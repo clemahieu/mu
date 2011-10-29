@@ -26,6 +26,7 @@ namespace lambda_p
 		{
 		public:
 			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a);
+			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a);
 			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 			void operator () (lambda_p::tokens::token * token);
 			void reset ();
@@ -45,7 +46,7 @@ namespace lambda_p
             void parse_finished (lambda_p::tokens::token * token);
 			void parse_association (lambda_p::tokens::token * token);
 			std::wstring token_type_name (lambda_p::tokens::token * token);
-			boost::function <void (boost::shared_ptr < lambda_p::core::routine>)> target;
+			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 			std::vector <std::wstring> injected_returns;
 		public:
