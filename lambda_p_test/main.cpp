@@ -22,6 +22,8 @@
 #include <lambda_p_test/filesystem_test.h>
 #include <lambda_p_test/istream_input_test.h>
 #include <lambda_p_test/node_list_test.h>
+#include <lambda_p_test/directory_iterator_test.h>
+#include <lambda_p_test/file_stream_test.h>
 
 using namespace lambda_p_test;
 
@@ -121,6 +123,14 @@ int main ()
 	}
 	{
 		istream_input_test test;
+		test.run ();
+	}
+	{
+		directory_iterator_test test;
+		test.run ();
+	}
+	{
+		file_stream_test test;
 		test.run ();
 	}
 	return 0;

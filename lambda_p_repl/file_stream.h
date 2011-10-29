@@ -13,8 +13,8 @@ namespace lambda_p_repl
 	public:
 		file_stream (std::wstring name_a);
 		wchar_t operator () ();
-		::std::fstream file;
-		::lambda_p_repl::istream_input input;
+		std::fstream file;
+		lambda_p_repl::istream_input input;
 	};
 }
 
