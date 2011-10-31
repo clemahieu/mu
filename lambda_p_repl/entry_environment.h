@@ -17,6 +17,11 @@ namespace lambda_p
         class routine;
     }
 }
+namespace lambda_p_llvm
+{
+	class context;
+	class generation_context;
+}
 namespace lambda_p_repl
 {
     class repl;
@@ -25,7 +30,7 @@ namespace lambda_p_repl
     public:
 		entry_environment (lambda_p_repl::repl * repl_a);
         entry_environment ();
-        void operator () (boost::shared_ptr < lambda_p::core::routine> routine_a);
+        void operator () (boost::shared_ptr <lambda_p_llvm::context> context_instance, lambda_p_llvm::generation_context & context, boost::shared_ptr <lambda_p::core::routine> routine_a);
 		size_t environment_node (boost::shared_ptr < lambda_p::core::routine> routine);
     private:
         static void quit_invoke (void * object);

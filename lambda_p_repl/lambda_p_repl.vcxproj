@@ -142,7 +142,6 @@
     <ClCompile Include="echo_binder.cpp" />
     <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
-    <ClCompile Include="entry_input_binder.cpp" />
     <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="exec_binder.cpp" />
     <ClCompile Include="file_stream.cpp" />
@@ -164,7 +163,6 @@
     <ClInclude Include="echo_binder.h" />
     <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />
-    <ClInclude Include="entry_input_binder.h" />
     <ClInclude Include="entry_routine.h" />
     <ClInclude Include="exec_binder.h" />
     <ClInclude Include="file_stream.h" />
