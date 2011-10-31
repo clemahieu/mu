@@ -14,7 +14,7 @@
 #include <sstream>
 #include <iostream>
 
-void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl::character_stream> in, std::wostream & out)
+void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p_repl::character_stream> in, std::wostream & out)
 {
 	::lambda_p_repl::routine_input input;
 	out << L"lp> \n";
@@ -43,7 +43,7 @@ void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl:
         if (!errors.empty ())
         {
             out << "Validation error:\n";
-            for (std::vector < lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
+            for (std::vector <lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
             {
                 lambda_p::errors::error * error (*i);
                 error->string (out);

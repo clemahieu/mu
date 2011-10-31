@@ -22,8 +22,9 @@
 #include <llvm/LLVMContext.h>
 
 lambda_p_repl::api::api (lambda_p_llvm::generation_context & context, lambda_p_llvm::wprintf_function & wprintf, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::abort_function & abort, lambda_p_llvm::memcpy_function & memcpy)
+	: package (new lambda_p_kernel::package)
 {
-	boost::shared_ptr <lambda_p_kernel::package> package (new lambda_p_kernel::package);
+	boost::shared_ptr <lambda_p_kernel::package> package_l (new lambda_p_kernel::package);
 	boost::shared_ptr <lambda_p_repl::hello_world_binder> hello_binder (new lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
 	boost::shared_ptr <lambda_p_repl::echo_binder> echo_binder (new lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	boost::shared_ptr <lambda_p_repl::routine_builder_binder> read_binder (new lambda_p_repl::routine_builder_binder);

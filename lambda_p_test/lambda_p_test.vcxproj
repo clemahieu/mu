@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="abort_binder_test_1.cpp" />
+    <ClCompile Include="api_test.cpp" />
     <ClCompile Include="apply_binder_test.cpp" />
     <ClCompile Include="constant_int_binder_test_1.cpp" />
     <ClCompile Include="data_to_string_binder_test_1.cpp" />
@@ -173,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_binder_test_1.h" />
+    <ClInclude Include="api_test.h" />
     <ClInclude Include="apply_binder_test.h" />
     <ClInclude Include="constant_int_binder_test_1.h" />
     <ClInclude Include="data_to_string_binder_test_1.h" />
