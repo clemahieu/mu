@@ -22,10 +22,6 @@ repl (nullptr)
 {
 }
 
-lambda_p_repl::entry_routine::~entry_routine (void)
-{
-}
-
 void lambda_p_repl::entry_routine::operator () ()
 {
 	boost::shared_ptr <lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);

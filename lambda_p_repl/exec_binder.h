@@ -1,8 +1,14 @@
 #pragma once
 
 #include <lambda_p/binder/binder.h>
-#include <lambda_p/binder/node_list.h>
 
+namespace lambda_p
+{
+	namespace binder
+	{
+		class node_list;
+	}
+}
 namespace lambda_p_repl
 {
 	class exec_binder : public lambda_p::binder::binder

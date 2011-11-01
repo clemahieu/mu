@@ -8,12 +8,9 @@
 
 #pragma once
 
-#include <iostream>
-
 #include <lambda_p_repl/routine_input.h>
 
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
 
 #include <vector>
 

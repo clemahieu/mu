@@ -2,7 +2,7 @@
 
 #include <lambda_p_repl/character_stream.h>
 
-#include <sstream>
+#include <istream>
 
 namespace lambda_p_repl
 {

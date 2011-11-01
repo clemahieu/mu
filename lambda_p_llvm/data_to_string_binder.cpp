@@ -26,9 +26,6 @@ lambda_p_llvm::data_to_string_binder::data_to_string_binder (lambda_p_llvm::gene
 {
 }
 
-lambda_p_llvm::data_to_string_binder::~data_to_string_binder (void)
-{
-}
 
 void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {

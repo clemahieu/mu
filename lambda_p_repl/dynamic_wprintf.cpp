@@ -24,10 +24,6 @@ lambda_p_repl::dynamic_wprintf::dynamic_wprintf (llvm::Value * wprintf_a, lambda
 {
 }
 
-lambda_p_repl::dynamic_wprintf::~dynamic_wprintf(void)
-{
-}
-
 void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	size_t parameter_count (statement->association->references.size ());

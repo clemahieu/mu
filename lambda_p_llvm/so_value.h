@@ -1,8 +1,11 @@
 #pragma once
 
 #include <lambda_p_llvm/value.h>
-#include <lambda_p/binder/binder.h>
 
+namespace llvm
+{
+	class Function;
+}
 namespace lambda_p_llvm
 {
 	class so_value : public lambda_p_llvm::value
