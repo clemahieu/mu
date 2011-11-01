@@ -8,7 +8,7 @@
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/binder/node_list.h>
-#include <lambda_p/routine_builder.h>
+#include <lambda_p/builder.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/routine.h>
 

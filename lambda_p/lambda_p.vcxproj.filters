@@ -130,7 +130,6 @@
     <ClInclude Include="binder\binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="routine_builder.h" />
     <ClInclude Include="binder\data.h">
       <Filter>binder</Filter>
     </ClInclude>
@@ -170,6 +169,7 @@
     <ClInclude Include="parser\position_set.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="builder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -298,7 +298,6 @@
     <ClCompile Include="binder\binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="routine_builder.cpp" />
     <ClCompile Include="binder\data.cpp">
       <Filter>binder</Filter>
     </ClCompile>
@@ -338,6 +337,7 @@
     <ClCompile Include="parser\position_set.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

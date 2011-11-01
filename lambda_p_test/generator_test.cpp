@@ -5,7 +5,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p/routine_builder.h>
+#include <lambda_p/builder.h>
 #include <lambda_p_llvm/generator.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/type.h>
@@ -27,7 +27,7 @@ void lambda_p_test::generator_test::run ()
 
 void lambda_p_test::generator_test::run_1 ()
 {
-	lambda_p::routine_builder routine;
+	lambda_p::builder routine;
 	routine (L"result; fma a b c d e; fma a b c; res; fma res d e; result; :;");
 	llvm::LLVMContext llvm_context;
 	llvm::StringRef name ("test");
@@ -43,7 +43,7 @@ void lambda_p_test::generator_test::run_1 ()
 	llvm::BasicBlock * block (llvm::BasicBlock::Create (llvm_context));
 	start->getBasicBlockList ().push_back (block);
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
-	lambda_p::routine_builder enclosing;
+	lambda_p::builder enclosing;
 	enclosing (L"func; generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group; group fma p1_type p2_type p3_type p4_type p5_type; arguments; generator routine result_type arguments; func; :;");
 	lambda_p::binder::node_list nodes;
 	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));

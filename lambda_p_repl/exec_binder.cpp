@@ -5,7 +5,6 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
