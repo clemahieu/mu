@@ -14,11 +14,15 @@
 #include <sstream>
 #include <iostream>
 
+lambda_p_repl::entry_input::entry_input (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters)
+	: input (injected_parameters)
+{
+}
+
 void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p_repl::character_stream> in, std::wostream & out)
 {
-	::lambda_p_repl::routine_input input;
 	out << L"lp> \n";
-	std::wstring environment (L";environment quit exec;\n");
+	std::wstring environment (L";;\n");
 	input (environment);
 	out << environment;
 	input (in);

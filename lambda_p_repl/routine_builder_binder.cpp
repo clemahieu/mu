@@ -34,7 +34,8 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 
 void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems, boost::shared_ptr <lambda_p_repl::character_stream> stream)
 {
-	::lambda_p_repl::routine_input input;
+	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
+	lambda_p_repl::routine_input input (injected_parameters);
 	input (stream);
 	if (!input.error ())
 	{

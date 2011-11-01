@@ -54,8 +54,9 @@ context (context_a)
     start->getBasicBlockList ().push_back (block);
     context->block = block;
 	lambda_p_repl::api api (*context, overlay.wprintf, overlay.malloc, overlay.abort, overlay.memcpy);	
-	nodes.reset (new lambda_p::binder::node_list);
-	nodes->operator[] (0) = api.package;	
+	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));
+	//nodes.reset (new lambda_p::binder::node_list);
+	//nodes->operator[] (0) = api.package;	
 	//if (repl != nullptr)
 	//{
  //       std::vector <llvm::Type const *> parameters;
@@ -69,11 +70,12 @@ context (context_a)
 	//	boost::shared_ptr <lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
 	//	nodes->operator[] (1) = binder;
 	//}
-	boost::shared_ptr <lambda_p_repl::exec_binder> exec2 (new lambda_p_repl::exec_binder (*nodes.get ()));
-	nodes->operator[] (1) = exec2;
-	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder (*nodes.get ()));
-	nodes->operator[] (2) = exec_binder;
-	exec_binder->nodes.operator[] (2) = exec_binder;
+	//boost::shared_ptr <lambda_p_repl::exec_binder> exec2 (new lambda_p_repl::exec_binder (*nodes.get ()));
+	//nodes->operator[] (1) = exec2;	
+	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder);
+	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_binder));
+	//nodes->operator[] (2) = exec_binder;
+	//exec_binder->nodes.operator[] (2) = exec_binder;
 }
 
 void lambda_p_repl::entry_environment::run (boost::shared_ptr <lambda_p::core::routine> routine_a)
@@ -81,7 +83,8 @@ void lambda_p_repl::entry_environment::run (boost::shared_ptr <lambda_p::core::r
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (routine_a));
 	lambda_p::errors::error_list problems;
 	lambda_p_kernel::apply apply;
-	apply.core (*routine, *nodes, problems);
+	lambda_p::binder::node_list nodes;
+	apply.core (*routine, nodes, problems);
 	if (!problems.errors.empty ())
 	{
 		std::wcout << "Binding error:\n";

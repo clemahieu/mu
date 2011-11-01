@@ -28,16 +28,16 @@ lambda_p_repl::entry_routine::~entry_routine (void)
 
 void lambda_p_repl::entry_routine::operator () ()
 {
-    lambda_p_repl::entry_input input;
+	boost::shared_ptr <lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);
+	std::string module_name_string ("llvm_repl");
+	llvm::StringRef module_name (module_name_string);
+	llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
+	boost::shared_ptr <lambda_p_llvm::generation_context> context (new lambda_p_llvm::generation_context (context_instance->context_m, module, nullptr));
+    lambda_p_repl::entry_environment environment (repl, context_instance, context);
+	lambda_p_repl::entry_input input (environment.injected_parameters);
     input (in, out);
     if (input.routine.get () != nullptr)
     {
-		boost::shared_ptr <lambda_p_llvm::context> context_instance (new lambda_p_llvm::context);
-		std::string module_name_string ("llvm_repl");
-		llvm::StringRef module_name (module_name_string);
-		llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
-		boost::shared_ptr <lambda_p_llvm::generation_context> context (new lambda_p_llvm::generation_context (context_instance->context_m, module, nullptr));
-        lambda_p_repl::entry_environment environment (repl, context_instance, context);
 		environment.run (input.routine);
     }
 }

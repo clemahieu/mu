@@ -14,8 +14,7 @@
 
 #include <sstream>
 
-lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::node_list nodes_a)
-	: nodes (nodes_a)
+lambda_p_repl::exec_binder::exec_binder ()
 {
 }
 
@@ -29,14 +28,16 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			auto stream (boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
-			lambda_p_repl::routine_input input;
-			input (std::wstring (L";environment quit exec;\n"));
+			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
+			lambda_p_repl::routine_input input (injected_parameters);
+			input (std::wstring (L";;\n"));
 			input (stream);
 			if (!input.error ())
 			{
 				if (input.routines.routines->size () > 0)
 				{
 					lambda_p_kernel::apply binder;
+					lambda_p::binder::node_list nodes;
 					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems);
 				}
 				else

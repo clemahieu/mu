@@ -10,6 +10,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <vector>
+
 namespace llvm
 {
 	class ExecutionEngine;
@@ -19,6 +21,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
+		class node;
 		class node_list;
 	}
     namespace core
@@ -45,8 +48,8 @@ namespace lambda_p_repl
         entry_environment ();
 		void run (boost::shared_ptr <lambda_p::core::routine> routine_a);
 		size_t environment_node (boost::shared_ptr < lambda_p::core::routine> routine);
+		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
     private:
-		boost::shared_ptr <lambda_p::binder::node_list> nodes;
 		boost::shared_ptr <lambda_p_llvm::generation_context> context;
 		llvm::ExecutionEngine * engine;
 		llvm::Function * start;
