@@ -10,13 +10,14 @@
 #define __STDC_CONSTANT_MACROS
 
 #include <lambda_p_llvm/constant_wstring.h>
+#include <lambda_p_llvm/generation_context.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>
 #include <llvm/GlobalVariable.h>
 #include <llvm/Module.h>
 
-lambda_p_llvm::constant_wstring::constant_wstring (lambda_p_llvm::generation_context context, std::wstring const & string)
+lambda_p_llvm::constant_wstring::constant_wstring (lambda_p_llvm::generation_context & context, std::wstring const & string)
 {    
     llvm::ArrayType * string_type (llvm::ArrayType::get (context.wchar_t_type, string.size () + 1));
     std::vector < llvm::Constant *> string_initializer;

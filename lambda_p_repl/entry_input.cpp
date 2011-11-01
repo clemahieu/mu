@@ -14,11 +14,15 @@
 #include <sstream>
 #include <iostream>
 
-void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl::character_stream> in, std::wostream & out)
+lambda_p_repl::entry_input::entry_input (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters)
+	: input (injected_parameters)
 {
-	::lambda_p_repl::routine_input input;
+}
+
+void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p_repl::character_stream> in, std::wostream & out)
+{
 	out << L"lp> \n";
-	std::wstring environment (L";environment quit exec;\n");
+	std::wstring environment (L";;\n");
 	input (environment);
 	out << environment;
 	input (in);
@@ -43,7 +47,7 @@ void lambda_p_repl::entry_input::operator () (boost::shared_ptr < lambda_p_repl:
         if (!errors.empty ())
         {
             out << "Validation error:\n";
-            for (std::vector < lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
+            for (std::vector <lambda_p::errors::error *>::iterator i = errors.begin (); i != errors.end (); ++i)
             {
                 lambda_p::errors::error * error (*i);
                 error->string (out);

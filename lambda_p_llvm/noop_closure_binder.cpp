@@ -7,6 +7,7 @@
 #include <lambda_p_llvm/noop_closure.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Function.h>
 #include <llvm/Value.h>
@@ -41,17 +42,17 @@ void lambda_p_llvm::noop_closure_binder::bind (lambda_p::core::statement * state
 				}
 				else
 				{
-					unexpected_binder_type_error (1, std::wstring (L"list"), problems);
+					unexpected_binder_type_error (1, L"list", problems);
 				}
 			}
 			else
 			{
-				add_error (std::wstring (L"argument 1 must be a function"), problems);
+				add_error (L"argument 1 must be a function", problems);
 			}
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"llvm_value"), problems);
+			unexpected_binder_type_error (0, L"llvm_value", problems);
 		}
 	}
 }

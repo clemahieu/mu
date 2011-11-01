@@ -176,7 +176,7 @@
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\statement.h" />
     <ClInclude Include="parser\target_set.h" />
-    <ClInclude Include="routine_builder.h" />
+    <ClInclude Include="builder.h" />
     <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="lexer\lexer.h" />
     <ClInclude Include="parser\parser.h" />
@@ -237,7 +237,7 @@
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
     <ClCompile Include="parser\target_set.cpp" />
-    <ClCompile Include="routine_builder.cpp" />
+    <ClCompile Include="builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />

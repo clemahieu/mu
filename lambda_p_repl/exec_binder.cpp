@@ -5,17 +5,16 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p/routine_builder.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/filesystem.hpp>
 
 #include <sstream>
 
-lambda_p_repl::exec_binder::exec_binder (lambda_p::binder::node_list nodes_a)
-	: nodes (nodes_a)
+lambda_p_repl::exec_binder::exec_binder ()
 {
 }
 
@@ -29,14 +28,16 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			auto stream (boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
-			lambda_p_repl::routine_input input;
-			input (std::wstring (L";environment quit exec;\n"));
+			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
+			lambda_p_repl::routine_input input (injected_parameters);
+			input (std::wstring (L";;\n"));
 			input (stream);
 			if (!input.error ())
 			{
 				if (input.routines.routines->size () > 0)
 				{
 					lambda_p_kernel::apply binder;
+					lambda_p::binder::node_list nodes;
 					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems);
 				}
 				else
@@ -50,12 +51,12 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 			}
 			else
 			{
-				add_error (std::wstring (L"unable to parse stream"), problems);
+				add_error (L"unable to parse stream", problems);
 			}			
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"data"), problems);
+			unexpected_binder_type_error (0, L"data", problems);
 		}
 	}
 }

@@ -4,16 +4,9 @@
 #include <lambda_p_llvm/context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <sstream>
-
-lambda_p_llvm::context_binder::context_binder(void)
-{
-}
-
-lambda_p_llvm::context_binder::~context_binder(void)
-{
-}
 
 void lambda_p_llvm::context_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {

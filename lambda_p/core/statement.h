@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 namespace lambda_p_kernel
 {
 	class bind_procedure;

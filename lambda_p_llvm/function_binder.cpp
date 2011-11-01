@@ -5,6 +5,7 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Function.h>
 #include <llvm/Instructions.h>
@@ -34,7 +35,7 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 				}
 				else
 				{
-					unexpected_binder_type_error (position, std::wstring (L"fo_value"), problems);
+					unexpected_binder_type_error (position, L"fo_value", problems);
 				}
 			}
 			if (problems.errors.empty ())
@@ -57,7 +58,7 @@ void lambda_p_llvm::function_binder::bind (lambda_p::core::statement * statement
 	}
 	else
 	{
-		add_error (std::wstring (L"expected 1 result"), problems);
+		add_error (L"expected 1 result", problems);
 	}
 }
 

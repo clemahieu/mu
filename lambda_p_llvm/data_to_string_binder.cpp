@@ -11,6 +11,7 @@
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/binder/node_list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Constants.h>
@@ -25,9 +26,6 @@ lambda_p_llvm::data_to_string_binder::data_to_string_binder (lambda_p_llvm::gene
 {
 }
 
-lambda_p_llvm::data_to_string_binder::~data_to_string_binder (void)
-{
-}
 
 void lambda_p_llvm::data_to_string_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {

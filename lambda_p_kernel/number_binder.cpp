@@ -5,6 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/number.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <sstream>
 
@@ -26,7 +27,7 @@ void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"data"), problems);
+			unexpected_binder_type_error (0, L"data", problems);
 		}
 	}
 }

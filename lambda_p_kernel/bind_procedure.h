@@ -3,8 +3,6 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
-#include <sstream>
-#include <vector>
 
 namespace lambda_p
 {

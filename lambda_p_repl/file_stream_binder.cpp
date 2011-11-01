@@ -6,6 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/filesystem.hpp>
 
@@ -23,7 +24,7 @@ void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statem
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"data"), problems);
+			unexpected_binder_type_error (0, L"data", problems);
 		}
 	}
 }

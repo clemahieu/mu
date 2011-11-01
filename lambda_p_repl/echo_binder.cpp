@@ -9,6 +9,7 @@
 #include <lambda_p_llvm/constant_wstring.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>

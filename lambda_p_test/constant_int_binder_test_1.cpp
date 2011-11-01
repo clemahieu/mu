@@ -12,6 +12,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_kernel/number.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Constants.h>

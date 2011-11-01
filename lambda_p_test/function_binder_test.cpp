@@ -1,13 +1,14 @@
 #include "function_binder_test.h"
 
 #include <lambda_p_llvm/function_binder.h>
-#include <lambda_p/routine_builder.h>
+#include <lambda_p/builder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/fo_value.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -17,7 +18,7 @@
 
 void lambda_p_test::function_binder_test::run ()
 {
-	lambda_p::routine_builder builder;
+	lambda_p::builder builder;
 	builder (L"result; op one; op one; result; :;");
 	assert (builder.routines.routines->size () == 1);
 	lambda_p::core::statement * statement (builder.routines.routines->operator[] (0)->statements [0]);

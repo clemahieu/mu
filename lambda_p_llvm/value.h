@@ -10,8 +10,11 @@
 
 #include <lambda_p/binder/node.h>
 
-#include <llvm/Value.h>
-
+namespace llvm
+{
+	class Value;
+	class Type;
+}
 namespace lambda_p_llvm
 {
     class value : public lambda_p::binder::node

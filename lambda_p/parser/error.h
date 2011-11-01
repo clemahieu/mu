@@ -12,7 +12,6 @@ namespace lambda_p
 		{
 		public:
 			error(std::wstring message_a);
-			~error(void);
 			lambda_p::parser::state_id state_type ();
 			std::wstring message;
 		};

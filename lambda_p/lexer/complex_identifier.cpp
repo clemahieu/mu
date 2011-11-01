@@ -5,10 +5,6 @@ lambda_p::lexer::complex_identifier::complex_identifier(void)
 {
 }
 
-lambda_p::lexer::complex_identifier::~complex_identifier(void)
-{
-}
-
 lambda_p::lexer::state_id lambda_p::lexer::complex_identifier::state_type ()
 {
 	return lambda_p::lexer::state_complex_identifier;

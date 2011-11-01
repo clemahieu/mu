@@ -2,7 +2,7 @@
 
 #include <lambda_p/binder/binder.h>
 
-#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
 
 namespace lambda_p_kernel
 {

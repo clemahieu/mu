@@ -1,7 +1,6 @@
 #pragma once
 
 #include <lambda_p/binder/node.h>
-#include <lambda_p/errors/error_list.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -12,6 +11,7 @@ namespace lambda_p
 	namespace errors
 	{
 		class error;
+		class error_list;
 	}
 	namespace binder
 	{

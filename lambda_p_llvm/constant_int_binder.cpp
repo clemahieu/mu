@@ -9,6 +9,7 @@
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/number.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -43,12 +44,12 @@ void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * state
 			}
 			else
 			{
-				unexpected_binder_type_error (1, std::wstring (L"number"), problems);
+				unexpected_binder_type_error (1, L"number", problems);
 			}
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"number"), problems);
+			unexpected_binder_type_error (0, L"number", problems);
 		}
 	}
 }

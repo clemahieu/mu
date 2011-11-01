@@ -9,8 +9,6 @@ namespace lambda_p
 		class begin : public state
 		{
 		public:
-			begin(void);
-			~begin(void);
 			state_id state_type ();
 		};
 	}

@@ -2,12 +2,11 @@
 
 namespace lambda_p_test
 {
-	class routine_input_test_1
+	class api_test
 	{
 	public:
 		void run ();
 		void run_1 ();
-		void run_2 ();
 	};
 }
 

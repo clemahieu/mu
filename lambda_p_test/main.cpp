@@ -25,6 +25,7 @@
 #include <lambda_p_test/directory_iterator_test.h>
 #include <lambda_p_test/file_stream_test.h>
 #include <lambda_p_test/apply_binder_test.h>
+#include <lambda_p_test/api_test.h>
 
 using namespace lambda_p_test;
 
@@ -136,6 +137,10 @@ int main ()
 	}
 	{
 		apply_binder_test test;
+		test.run ();
+	}
+	{
+		api_test test;
 		test.run ();
 	}
 	return 0;

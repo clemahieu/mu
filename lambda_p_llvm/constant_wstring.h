@@ -10,18 +10,17 @@
 
 #include <string>
 
-#include <lambda_p_llvm/generation_context.h>
-
 namespace llvm
 {
     class Constant;
 }
 namespace lambda_p_llvm
 {
+	class generation_context;
     class constant_wstring
     {
     public:
-        constant_wstring (lambda_p_llvm::generation_context context, std::wstring const & string);
+        constant_wstring (lambda_p_llvm::generation_context & context, std::wstring const & string);
         llvm::Constant * value;
     };
 }

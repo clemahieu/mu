@@ -1,5 +1,7 @@
 #include "fo_value.h"
 
+#include <llvm/Value.h>
+
 lambda_p_llvm::fo_value::fo_value(llvm::Value * value_a)
 	: value (value_a)
 {

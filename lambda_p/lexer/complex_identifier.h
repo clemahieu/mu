@@ -14,7 +14,6 @@ namespace lambda_p
 		{
 		public:
 			complex_identifier(void);
-			~complex_identifier(void);
 			state_id state_type ();
 			std::wstring end_token;
 			std::wstring data;

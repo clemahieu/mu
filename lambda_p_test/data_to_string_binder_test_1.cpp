@@ -18,6 +18,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

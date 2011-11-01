@@ -6,10 +6,6 @@ lambda_p::parser::data::data (boost::shared_ptr < lambda_p::parser::routine> rou
 {
 }
 
-lambda_p::parser::data::~data (void)
-{
-}
-
 lambda_p::parser::state_id lambda_p::parser::data::state_type ()
 {
 	return lambda_p::parser::state_data;

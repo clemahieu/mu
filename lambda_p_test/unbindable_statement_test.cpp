@@ -7,6 +7,7 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/apply.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/shared_ptr.hpp>
 
