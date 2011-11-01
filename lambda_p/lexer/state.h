@@ -17,8 +17,6 @@ namespace lambda_p
 		class state
 		{
 		public:
-			state(void);
-			~state(void);
 			virtual state_id state_type () = 0;
 		};
 	}

@@ -9,8 +9,7 @@ namespace lambda_p
 		class control : public lambda_p::lexer::state
 		{
 		public:
-			control(void);
-			~control(void);
+			control (void);
 			state_id state_type ();
 			bool complete;
 		};

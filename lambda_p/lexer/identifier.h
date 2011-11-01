@@ -11,8 +11,6 @@ namespace lambda_p
 		class identifier : public state
 		{
 		public:
-			identifier(void);
-			~identifier(void);
 			state_id state_type ();
 			std::wstring string;
 		};

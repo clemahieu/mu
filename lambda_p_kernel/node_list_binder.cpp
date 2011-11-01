@@ -5,6 +5,7 @@
 #include <lambda_p/errors/unexpected_result_count.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 void lambda_p_kernel::node_list_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
@@ -23,7 +24,7 @@ void lambda_p_kernel::node_list_binder::bind (lambda_p::core::statement * statem
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"list"), problems);
+			unexpected_binder_type_error (0, L"list", problems);
 		}
 	}
 }

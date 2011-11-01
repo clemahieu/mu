@@ -12,6 +12,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -74,7 +75,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 								}
 								else
 								{
-									unexpected_binder_type_error (position, std::wstring (L"type or fo_value"), problems);
+									unexpected_binder_type_error (position, L"type or fo_value", problems);
 								}
 							}
 						}
@@ -103,7 +104,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 								}
 								else
 								{
-									add_error (std::wstring (L"result value is not an llvm value"), problems);
+									add_error (L"result value is not an llvm value", problems);
 								}
 							}
 						}
@@ -120,17 +121,17 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 				}
 				else
 				{
-					unexpected_binder_type_error (2, std::wstring (L"group"), problems);
+					unexpected_binder_type_error (2, L"group", problems);
 				}
 			}
 			else
 			{
-				unexpected_binder_type_error (1, std::wstring (L"type"), problems);
+				unexpected_binder_type_error (1, L"type", problems);
 			}
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"routine"), problems);
+			unexpected_binder_type_error (0, L"routine", problems);
 		}
 	}
 }

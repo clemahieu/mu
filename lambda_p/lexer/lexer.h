@@ -1,7 +1,6 @@
 #pragma once
 
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <stack>
 
@@ -35,7 +34,7 @@ namespace lambda_p
 			void pop_state ();
 			boost::function <void (lambda_p::tokens::token *)> target;
 		public:
-			std::stack < lambda_p::lexer::state *> state;
+			std::stack <lambda_p::lexer::state *> state;
 		};
 	}
 }

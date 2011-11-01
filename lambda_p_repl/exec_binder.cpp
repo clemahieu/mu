@@ -8,6 +8,7 @@
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/filesystem.hpp>
 
@@ -50,12 +51,12 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 			}
 			else
 			{
-				add_error (std::wstring (L"unable to parse stream"), problems);
+				add_error (L"unable to parse stream", problems);
 			}			
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"data"), problems);
+			unexpected_binder_type_error (0, L"data", problems);
 		}
 	}
 }

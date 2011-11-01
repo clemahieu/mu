@@ -10,7 +10,6 @@ namespace lambda_p
 		{
 		public:
 			multiline_comment(void);
-			~multiline_comment(void);
 			state_id state_type ();
 			bool have_colon;
 		};

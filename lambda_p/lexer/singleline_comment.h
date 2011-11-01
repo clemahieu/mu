@@ -9,8 +9,6 @@ namespace lambda_p
 		class singleline_comment : public state
 		{
 		public:
-			singleline_comment(void);
-			~singleline_comment(void);
 			state_id state_type ();
 		};
 	}

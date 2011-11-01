@@ -13,6 +13,7 @@
 #include <lambda_p/binder/list_binder.h>
 #include <lambda_p/builder.h>
 #include <lambda_p_kernel/apply.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

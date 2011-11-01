@@ -5,6 +5,7 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/package.h>
 #include <lambda_p/binder/data.h>
+#include <lambda_p/errors/error_list.h>
 
 void lambda_p_kernel::package_add::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
@@ -21,12 +22,12 @@ void lambda_p_kernel::package_add::bind (lambda_p::core::statement * statement, 
 			}
 			else
 			{
-				unexpected_binder_type_error (2, std::wstring (L"data"), problems);
+				unexpected_binder_type_error (2, L"data", problems);
 			}
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"package"), problems);
+			unexpected_binder_type_error (0, L"package", problems);
 		}
 	}
 }

@@ -7,6 +7,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p_kernel/apply.h>
+#include <lambda_p/errors/error_list.h>
 
 void lambda_p_test::routine_binder_test::run ()
 {

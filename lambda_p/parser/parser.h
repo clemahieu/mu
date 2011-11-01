@@ -4,10 +4,8 @@
 #include <boost/shared_ptr.hpp>
 
 #include <lambda_p/parser/state.h>
-#include <lambda_p/tokens/token.h>
 
 #include <stack>
-#include <map>
 #include <vector>
 
 namespace lambda_p
@@ -20,8 +18,13 @@ namespace lambda_p
 	{
 		class routine;
 	}
+	namespace tokens
+	{
+		class token;
+	}
 	namespace parser
 	{
+		class state;
 		class parser
 		{
 		public:

@@ -4,6 +4,7 @@
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 lambda_p_llvm::argument_binder::argument_binder(void)
 {

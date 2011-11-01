@@ -7,6 +7,7 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <sstream>
 
@@ -20,22 +21,22 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr < lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast < lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
+		boost::shared_ptr <lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
 		if (routine.get () != nullptr)
 		{
-			boost::shared_ptr < lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast < lambda_p::binder::node_list> (nodes [statement->association->references [1]]));
+			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::node_list> (nodes [statement->association->references [1]]));
 			if (nodes_l.get () != nullptr)
 			{
 				core (*routine.get (), *nodes_l.get (), problems);
 			}
 			else
 			{
-				unexpected_binder_type_error (1, std::wstring (L"routine_nodes"), problems);
+				unexpected_binder_type_error (1, L"routine_nodes", problems);
 			}
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"routine"), problems);
+			unexpected_binder_type_error (0, L"routine", problems);
 		}
 	}
 }

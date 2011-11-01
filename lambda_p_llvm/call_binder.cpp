@@ -5,6 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Function.h>
 #include <llvm/BasicBlock.h>
@@ -23,7 +24,7 @@ void lambda_p_llvm::call_binder::bind (lambda_p::core::statement * statement, la
 		}
 		else
 		{
-			add_error (std::wstring (L"argument 1 must be a noop_closure"), problems);
+			add_error (L"argument 1 must be a noop_closure", problems);
 		}
 	}
 }

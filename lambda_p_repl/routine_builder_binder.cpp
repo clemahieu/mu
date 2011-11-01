@@ -11,6 +11,7 @@
 #include <lambda_p/builder.h>
 #include <lambda_p_repl/routine_input.h>
 #include <lambda_p_kernel/routine.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <fstream>
 #include <sstream>

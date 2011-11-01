@@ -7,6 +7,7 @@
 #include <lambda_p/errors/unresolved_statement.h>
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/errors/target_not_bindable.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <sstream>
 

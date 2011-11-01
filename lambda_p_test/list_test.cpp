@@ -7,6 +7,7 @@
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/null_binder.h>
 #include <lambda_p_kernel/bind_procedure.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/shared_ptr.hpp>
 

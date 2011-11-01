@@ -7,6 +7,7 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/parser/position_set.h>
+#include <lambda_p/parser/routine.h>
 
 #include <boost/bind.hpp>
 
@@ -15,10 +16,6 @@ lambda_p::parser::statement::statement (boost::shared_ptr < lambda_p::parser::ro
 	on_results (true),
 	routine (routine_a),
 	statement_m (routine->routine_m->add_statement ())
-{
-}
-
-lambda_p::parser::statement::~statement(void)
 {
 }
 

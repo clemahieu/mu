@@ -8,9 +8,7 @@ namespace lambda_p
 	{
 		class begin : public lambda_p::lexer::state
 		{
-		public:
-			begin(void);
-			~begin(void);				
+		public:				
 			state_id state_type ();
 		};
 	}

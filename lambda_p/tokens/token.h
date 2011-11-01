@@ -18,8 +18,6 @@ namespace lambda_p
 		class token
 		{
 		public:
-			token(void);
-			~token(void);
 			virtual token_ids token_id () = 0;
 		};
 	}

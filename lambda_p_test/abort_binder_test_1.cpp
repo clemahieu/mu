@@ -16,6 +16,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/abort_function.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

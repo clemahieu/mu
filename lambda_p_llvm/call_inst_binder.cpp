@@ -7,6 +7,7 @@
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -46,7 +47,7 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 				}
 				else
 				{
-					unexpected_binder_type_error (1, std::wstring (L"list"), problems);
+					unexpected_binder_type_error (1, L"list", problems);
 				}
 			}
 			else
@@ -56,7 +57,7 @@ void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statemen
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"fo_value"), problems);
+			unexpected_binder_type_error (0, L"fo_value", problems);
 		}
 	}
 }

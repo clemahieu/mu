@@ -11,6 +11,7 @@
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/binder/list_binder.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

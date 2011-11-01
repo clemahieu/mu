@@ -23,6 +23,8 @@
 #include <lambda_p_repl/repl.h>
 #include <lambda_p_kernel/package.h>
 #include <lambda_p_repl/overlayed_functions.h>
+#include <lambda_p/errors/error.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Type.h>

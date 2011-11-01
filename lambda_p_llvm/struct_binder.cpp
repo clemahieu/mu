@@ -6,6 +6,7 @@
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/DerivedTypes.h>
 
@@ -32,7 +33,7 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 				}
 				else
 				{
-					add_error (std::wstring (L"Expecting type"), problems);
+					add_error (L"Expecting type", problems);
 				}
 			}
 			if (problems.errors.empty ())
@@ -44,7 +45,7 @@ void lambda_p_llvm::struct_binder::bind (lambda_p::core::statement * statement, 
 		}
 		else
 		{
-			unexpected_binder_type_error (0, std::wstring (L"struct_binder"), problems);
+			unexpected_binder_type_error (0, L"struct_binder", problems);
 		}
 	}
 }

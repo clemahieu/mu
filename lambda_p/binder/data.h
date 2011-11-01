@@ -4,9 +4,6 @@
 
 #include <lambda_p/binder/node.h>
 
-#include <boost/cstdint.hpp>
-#include <boost/shared_array.hpp>
-
 namespace lambda_p
 {
 	namespace binder

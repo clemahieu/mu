@@ -5,19 +5,12 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/node_list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/array.hpp>
 
 #include <sstream>
-
-lambda_p_kernel::package::package(void)
-{
-}
-
-lambda_p_kernel::package::~package(void)
-{
-}
 
 void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {

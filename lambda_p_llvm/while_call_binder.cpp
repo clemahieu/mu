@@ -8,6 +8,7 @@
 #include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/argument_binder.h>
 #include <lambda_p/binder/node_list.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
@@ -54,17 +55,17 @@ void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * stateme
 				}
 				else
 				{
-					add_error (std::wstring (L"argument 1 is not a bool"), problems);
+					add_error (L"argument 1 is not a bool", problems);
 				}
 			}
 			else
 			{
-				add_error (std::wstring (L"argument 2 function is not a noop_closure"), problems);
+				add_error (L"argument 2 function is not a noop_closure", problems);
 			}
 		}
 		else
 		{
-			add_error (std::wstring (L"argument 1 condition is not a noop_closure"), problems);
+			add_error (L"argument 1 condition is not a noop_closure", problems);
 		}
 	}
 }
