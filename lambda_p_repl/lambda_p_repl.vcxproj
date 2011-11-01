@@ -148,6 +148,7 @@
     <ClCompile Include="file_stream_binder.cpp" />
     <ClCompile Include="hello_world_binder.cpp" />
     <ClCompile Include="istream_input.cpp" />
+    <ClCompile Include="overlayed_functions.cpp" />
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
     <ClCompile Include="routine_input.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="file_stream_binder.h" />
     <ClInclude Include="hello_world_binder.h" />
     <ClInclude Include="istream_input.h" />
+    <ClInclude Include="overlayed_functions.h" />
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
     <ClInclude Include="routine_input.h" />

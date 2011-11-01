@@ -37,7 +37,7 @@ void lambda_p_repl::entry_routine::operator () ()
 		llvm::StringRef module_name (module_name_string);
 		llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
 		boost::shared_ptr <lambda_p_llvm::generation_context> context (new lambda_p_llvm::generation_context (context_instance->context_m, module, nullptr));
-        lambda_p_repl::entry_environment environment (repl, context_instance, context, input.routine);
-		environment.run ();
+        lambda_p_repl::entry_environment environment (repl, context_instance, context);
+		environment.run (input.routine);
     }
 }

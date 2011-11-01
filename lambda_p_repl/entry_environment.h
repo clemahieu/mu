@@ -41,12 +41,11 @@ namespace lambda_p_repl
     class entry_environment
     {
     public:
-		entry_environment (lambda_p_repl::repl * repl_a, boost::shared_ptr <lambda_p_llvm::context> context_instance, boost::shared_ptr <lambda_p_llvm::generation_context> context, boost::shared_ptr <lambda_p::core::routine> routine_a);
+		entry_environment (lambda_p_repl::repl * repl_a, boost::shared_ptr <lambda_p_llvm::context> context_instance, boost::shared_ptr <lambda_p_llvm::generation_context> context);
         entry_environment ();
-		void run ();
+		void run (boost::shared_ptr <lambda_p::core::routine> routine_a);
 		size_t environment_node (boost::shared_ptr < lambda_p::core::routine> routine);
     private:
-		boost::shared_ptr <lambda_p_kernel::routine> routine;
 		boost::shared_ptr <lambda_p::binder::node_list> nodes;
 		boost::shared_ptr <lambda_p_llvm::generation_context> context;
 		llvm::ExecutionEngine * engine;
