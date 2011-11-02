@@ -4,24 +4,30 @@
 
 #include <boost/bind.hpp>
 
+#include <lambda_p/lexer/character_stream.h>
+#include <lambda_p/lexer/wistream_input.h>
+
 lambda_p::builder::builder ()
 	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), injected_declarations (), injected_references ()),
 	lexer (boost::bind (&(lambda_p::parser::parser::operator()), &parser, _1))
 {
 }
 
-void lambda_p::builder::operator << (std::wistream & source)
+void lambda_p::builder::operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source)
 {
-	while (!source.eof ())
+	wchar_t last_char (L' ');
+	while (last_char != L'\uffff')
 	{
-		lexer (source.get ());
+		last_char = source->operator() ();
+		lexer (last_char);
 	}
 }
 
 void lambda_p::builder::operator () (std::wstring & string)
 {
 	std::wstringstream stream (string);
-	operator << (stream);
+	boost::shared_ptr <lambda_p::lexer::wistream_input> input (new lambda_p::lexer::wistream_input (stream));
+	operator << (input);
 }
 
 void lambda_p::builder::operator () (wchar_t const * string)

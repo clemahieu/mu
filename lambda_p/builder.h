@@ -6,13 +6,17 @@
 
 namespace lambda_p
 {
+	namespace lexer
+	{
+		class character_stream;
+	}
 	class builder
 	{
 	public:
 		builder ();
 		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
-		void operator << (std::wistream & source);
+		void operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source);
 		virtual std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations ();
 		virtual std::vector <std::wstring> injected_references ();
 		lambda_p::parser::routine_vector routines;
