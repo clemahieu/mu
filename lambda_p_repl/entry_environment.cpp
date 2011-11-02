@@ -60,6 +60,7 @@ context (context_a)
 	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));	
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder);
 	exec = exec_binder;
+	exec_binder->set (environment, exec);
 	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_binder));
 }
 

@@ -5,7 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p_kernel/builder.h>
+#include <lambda_p_repl/builder.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/errors/error_list.h>
@@ -18,6 +18,12 @@ lambda_p_repl::exec_binder::exec_binder ()
 {
 }
 
+void lambda_p_repl::exec_binder::set (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a)
+{
+	environment = environment_a;
+	exec = exec_a;
+}
+
 void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
@@ -28,7 +34,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			auto stream (boost::shared_ptr <lambda_p::lexer::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
-			lambda_p_kernel::builder input;
+			lambda_p_repl::builder input (environment, exec);
 			input (std::wstring (L";;\n"));
 			input (stream);
 			if (!input.error ())
