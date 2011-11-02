@@ -5,7 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p_repl/routine_input.h>
+#include <lambda_p_kernel/builder.h>
 #include <lambda_p_kernel/package.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/errors/error_list.h>
@@ -61,7 +61,7 @@ void lambda_p_kernel::directory_compile::package_directory (lambda_p::errors::er
 		{
 			boost::shared_ptr <lambda_p::lexer::character_stream> stream (new lambda_p_repl::file_stream (directory->path ().wstring ()));
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
-			lambda_p_repl::routine_input input (injected_parameters);
+			lambda_p_kernel::builder input;
 			input (stream);
 			if (input.routines.routines->size () == 1)
 			{

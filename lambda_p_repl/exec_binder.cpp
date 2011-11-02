@@ -5,7 +5,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p_repl/file_stream.h>
-#include <lambda_p_repl/routine_input.h>
+#include <lambda_p_kernel/builder.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/errors/error_list.h>
@@ -28,8 +28,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
 			auto stream (boost::shared_ptr <lambda_p::lexer::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
-			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
-			lambda_p_repl::routine_input input (injected_parameters);
+			lambda_p_kernel::builder input;
 			input (std::wstring (L";;\n"));
 			input (stream);
 			if (!input.error ())

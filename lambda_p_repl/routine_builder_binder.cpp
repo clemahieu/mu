@@ -9,7 +9,7 @@
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/binder/node_list.h>
 #include <lambda_p/builder.h>
-#include <lambda_p_repl/routine_input.h>
+#include <lambda_p_kernel/builder.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -36,7 +36,7 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems, boost::shared_ptr <lambda_p::lexer::character_stream> stream)
 {
 	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
-	lambda_p_repl::routine_input input (injected_parameters);
+	lambda_p_kernel::builder input;
 	input (stream);
 	if (!input.error ())
 	{

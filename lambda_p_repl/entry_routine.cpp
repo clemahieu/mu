@@ -1,6 +1,5 @@
 #include "entry_routine.h"
 
-#include <lambda_p_repl/routine_input.h>
 #include <lambda_p_repl/entry_input.h>
 #include <lambda_p_repl/entry_environment.h>
 #include <lambda_p_llvm/context.h>
@@ -30,7 +29,7 @@ void lambda_p_repl::entry_routine::operator () ()
 	llvm::Module * module (new llvm::Module (module_name, context_instance->context_m));
 	boost::shared_ptr <lambda_p_llvm::generation_context> context (new lambda_p_llvm::generation_context (context_instance->context_m, module, nullptr));
     lambda_p_repl::entry_environment environment (repl, context_instance, context);
-	lambda_p_repl::entry_input input (environment.injected_parameters);
+	lambda_p_repl::entry_input input (environment.environment, environment.exec);
     input (in, out);
     if (input.routine.get () != nullptr)
     {

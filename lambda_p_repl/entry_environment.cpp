@@ -56,8 +56,10 @@ context (context_a)
     start->getBasicBlockList ().push_back (block);
     context->block = block;
 	lambda_p_repl::api api (*context, overlay.wprintf, overlay.malloc, overlay.abort, overlay.memcpy);	
+	environment = api.package;
 	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));	
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder);
+	exec = exec_binder;
 	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_binder));
 }
 

@@ -150,7 +150,6 @@
     <ClCompile Include="overlayed_functions.cpp" />
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
-    <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_builder_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +169,6 @@
     <ClInclude Include="overlayed_functions.h" />
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
-    <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_builder_binder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

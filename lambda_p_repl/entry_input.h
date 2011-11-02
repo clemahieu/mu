@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <lambda_p_repl/routine_input.h>
+#include <lambda_p_repl/builder.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -30,9 +30,9 @@ namespace lambda_p_repl
     class entry_input
     {
     public:  
-		entry_input (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters);
+		entry_input (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a);
 		void operator () (boost::shared_ptr <lambda_p::lexer::character_stream> in_a, std::wostream & out_a);
         boost::shared_ptr <lambda_p::core::routine> routine;
-		lambda_p_repl::routine_input input;
+		lambda_p_repl::builder input;
     };
 }

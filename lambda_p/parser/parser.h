@@ -35,7 +35,7 @@ namespace lambda_p
 			void reset ();
 			bool error ();
 			lambda_p::parser::state_id current_state ();
-			void error_message (std::wstring & target);
+			void error_message (std::wostream & target);
 		private:
 			void parse_internal (lambda_p::tokens::token * token);
 			void parse_error (lambda_p::tokens::token * token);

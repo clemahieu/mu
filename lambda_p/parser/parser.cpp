@@ -78,10 +78,10 @@ lambda_p::parser::state_id lambda_p::parser::parser::current_state ()
 	return state.top ()->state_type ();
 }
 
-void lambda_p::parser::parser::error_message (std::wstring & target)
+void lambda_p::parser::parser::error_message (std::wostream & target)
 {
 	boost::shared_ptr <lambda_p::parser::error> error_l = (boost::static_pointer_cast <lambda_p::parser::error> (state.top ()));
-	target = error_l->message;
+	target << error_l->message;
 }
 
 void lambda_p::parser::parser::parse_internal (lambda_p::tokens::token * token)

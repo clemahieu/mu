@@ -55,10 +55,10 @@ bool lambda_p::lexer::lexer::error ()
 	return result;
 }
 	
-void lambda_p::lexer::lexer::error_message (std::wstring & target)
+void lambda_p::lexer::lexer::error_message (std::wostream & target)
 {
 	lambda_p::lexer::error * error_l = (static_cast < lambda_p::lexer::error *> (state.top ()));
-	target = error_l->message;
+	target << error_l->message;
 }
 
 void lambda_p::lexer::lexer::lex_internal (wchar_t character)

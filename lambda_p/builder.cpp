@@ -18,6 +18,25 @@ void lambda_p::builder::finish ()
 	lexer (L'\uffff');
 }
 
+void lambda_p::builder::operator () (boost::shared_ptr <lambda_p::lexer::character_stream> source)
+{
+	wchar_t last_char (L' ');
+	while (routines.routines->empty () && last_char != L'\uffff' && !lexer.error () && !parser.error ())
+	{
+		std::wstring line;
+		while (last_char != L'\uffff' && last_char != L'\n')
+		{
+			last_char = source->operator() ();
+			line.push_back (last_char);
+		}
+		operator () (line);
+		if (last_char == L'\n')
+		{
+			last_char = L' ';
+		}
+	}
+}
+
 void lambda_p::builder::operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source)
 {
 	wchar_t last_char (source->operator() ());
@@ -51,4 +70,22 @@ std::vector <std::wstring> lambda_p::builder::injected_references ()
 {
 	std::vector <std::wstring> result;
 	return result;
+}
+
+bool lambda_p::builder::error ()
+{
+	bool result (lexer.error () || parser.error ());
+	return result;
+}
+
+void lambda_p::builder::error_message (std::wostream & out)
+{
+	if (lexer.error ())
+	{
+		lexer.error_message (out);
+	}
+	if (parser.error ())
+	{
+		parser.error_message (out);
+	}
 }

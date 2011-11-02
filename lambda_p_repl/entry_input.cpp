@@ -7,15 +7,15 @@
 //
 
 #include <lambda_p_repl/entry_input.h>
-#include <lambda_p_repl/routine_input.h>
+#include <lambda_p_repl/builder.h>
 #include <lambda_p/errors/error.h>
 #include <lambda_p/core/routine.h>
 
 #include <sstream>
 #include <iostream>
 
-lambda_p_repl::entry_input::entry_input (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters)
-	: input (injected_parameters)
+lambda_p_repl::entry_input::entry_input (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a)
+	:input (environment_a, exec_a)
 {
 }
 
@@ -29,9 +29,7 @@ void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p::lexer
 	if (input.error ())
 	{
 		out << "Lexing error:\n";
-		std::wstring message;
-		input.error_message (message);
-		out << message;
+		input.error_message (out);
 		out << '\n';
 	}
 	else if (input.routines.routines->size () < 1)

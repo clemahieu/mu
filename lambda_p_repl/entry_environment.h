@@ -49,6 +49,8 @@ namespace lambda_p_repl
 		void run (boost::shared_ptr <lambda_p::core::routine> routine_a);
 		size_t environment_node (boost::shared_ptr < lambda_p::core::routine> routine);
 		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
+		boost::shared_ptr <lambda_p::binder::node> environment;
+		boost::shared_ptr <lambda_p::binder::node> exec;
     private:
 		boost::shared_ptr <lambda_p_llvm::generation_context> context;
 		llvm::ExecutionEngine * engine;

@@ -21,7 +21,7 @@ namespace lambda_p
 			void operator () (wchar_t character);
 			void reset ();
 			bool error ();
-			void error_message (std::wstring & target);
+			void error_message (std::wostream & target);
 		private:
 			void lex_internal (wchar_t character);
 			void lex_error (wchar_t character);
