@@ -67,7 +67,7 @@ void lambda_p_test::package_test_1::run_2 ()
 	statement1->target = declaration;
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->declarations.push_back (declaration2);
-	std::wstring dname (L"package.null_binder");
+	std::wstring dname (L"package/null_binder");
 	statement1->association->references.push_back (routine->add_data (dname));
 	lambda_p::binder::node_list nodes;
     nodes [declaration] = outer;

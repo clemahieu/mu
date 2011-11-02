@@ -13,7 +13,6 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_llvm/while_call_binder.h>
-#include <lambda_p_kernel/node_list_binder.h>
 #include <lambda_p_llvm/noop_closure_binder.h>
 #include <lambda_p_llvm/call_binder.h>
 #include <lambda_p_llvm/struct_binder.h>
@@ -78,10 +77,6 @@ lambda_p_llvm::api::api (lambda_p_llvm::generation_context & context, lambda_p_l
 	std::wstring while_name (L"while");
 	boost::shared_ptr <lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
 	package->nodes [while_name] = while_binder;
-	
-	std::wstring nodes_name (L"nodes");
-	boost::shared_ptr <lambda_p_kernel::node_list_binder> nodes_binder (new lambda_p_kernel::node_list_binder);
-	package->nodes [nodes_name] = nodes_binder;
 	
 	std::wstring noop_closure_name (L"closen");
 	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));

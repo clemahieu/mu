@@ -57,7 +57,7 @@ void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & nodes, b
 	boost::shared_ptr <lambda_p::binder::node> current_node (shared_from_this ());
 	boost::shared_ptr <lambda_p_kernel::package> current_package (shared_from_this ());
 	std::wstring string (node->string ());
-	boost::char_separator <wchar_t> separator (L".");
+	boost::char_separator <wchar_t> separator (L"/");
 	boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring> tokenizer (string, separator);
 	std::wstring current_string;
 	for (boost::tokenizer <boost::char_separator <wchar_t>, std::wstring::const_iterator, std::wstring>::iterator i = tokenizer.begin (); current_node.get () != nullptr && i != tokenizer.end (); ++i)

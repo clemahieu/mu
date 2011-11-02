@@ -3,6 +3,7 @@
 #include <lambda_p_repl/api.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/generation_context.h>
+#include <lambda_p/binder/list_binder.h>
 
 #include <llvm/Module.h>
 
@@ -16,5 +17,6 @@ std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>
 	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> result;
 	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), environment_a));
 	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_a));
+	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"~"), boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::list_binder)));
 	return result;
 }

@@ -29,6 +29,7 @@ void lambda_p_kernel::directory_compile::bind (lambda_p::core::statement * state
 				boost::shared_ptr <lambda_p_kernel::package> package (new lambda_p_kernel::package);
 				boost::filesystem3::directory_iterator directory (path);
 				package_directory (problems, package, directory);	
+				nodes [statement->association->declarations [0]] = package;
 			}
 			catch (boost::filesystem3::filesystem_error const & error)
 			{

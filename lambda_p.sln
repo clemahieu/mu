@@ -27,19 +27,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_llvm", "lambda_p_l
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}"
 	ProjectSection(SolutionItems) = preProject
-		examples\exec.lp = examples\exec.lp
-		examples\execute.lp = examples\execute.lp
-		examples\hello.lp = examples\hello.lp
-		examples\malloc.lp = examples\malloc.lp
-		examples\malloc_builder.lp = examples\malloc_builder.lp
-		examples\malloc_function.lp = examples\malloc_function.lp
-		examples\quit.lp = examples\quit.lp
-		examples\store_routine.lp = examples\store_routine.lp
 		examples\swap.lp = examples\swap.lp
 		examples\test.lp = examples\test.lp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_kernel", "lambda_p_kernel\lambda_p_kernel.vcxproj", "{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{1590009D-9516-46CA-9928-AE87F0D1F865}"
+	ProjectSection(SolutionItems) = preProject
+		examples\functions\execute.lp = examples\functions\execute.lp
+		examples\functions\malloc_function.lp = examples\functions\malloc_function.lp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repl", "repl", "{7B55A5B3-65EB-480E-B406-A51888A35E84}"
+	ProjectSection(SolutionItems) = preProject
+		examples\repl\exec.lp = examples\repl\exec.lp
+		examples\repl\hello.lp = examples\repl\hello.lp
+		examples\repl\hello_execute.lp = examples\repl\hello_execute.lp
+		examples\repl\malloc.lp = examples\repl\malloc.lp
+		examples\repl\malloc_builder.lp = examples\repl\malloc_builder.lp
+		examples\repl\quit.lp = examples\repl\quit.lp
+		examples\repl\store_routine.lp = examples\repl\store_routine.lp
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,5 +108,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1590009D-9516-46CA-9928-AE87F0D1F865} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
+		{7B55A5B3-65EB-480E-B406-A51888A35E84} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
 	EndGlobalSection
 EndGlobal
