@@ -7,6 +7,7 @@ namespace lambda_p_kernel
 	class builder : public lambda_p::builder
 	{
 	public:
+		builder ();
 		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations () override;
 	};
 }

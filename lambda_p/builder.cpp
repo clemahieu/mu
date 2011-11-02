@@ -13,6 +13,13 @@ lambda_p::builder::builder ()
 {
 }
 
+lambda_p::builder::builder (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_declarations_a, std::vector <std::wstring> & injected_references_a)
+	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), injected_declarations_a, injected_references_a),
+	lexer (boost::bind (&(lambda_p::parser::parser::operator()), &parser, _1))
+{
+
+}
+
 void lambda_p::builder::finish ()
 {
 	lexer (L'\uffff');

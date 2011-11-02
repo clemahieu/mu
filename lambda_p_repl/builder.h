@@ -10,9 +10,7 @@ namespace lambda_p_repl
 	{
 	public:
 		builder (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a);
-		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations () override;
-		boost::shared_ptr <lambda_p::binder::node> environment;
-		boost::shared_ptr <lambda_p::binder::node> exec;
+		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a);
 	};
 }
 

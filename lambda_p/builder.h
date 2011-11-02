@@ -14,6 +14,7 @@ namespace lambda_p
 	{
 	public:
 		builder ();
+		builder (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 		void finish ();
 		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
