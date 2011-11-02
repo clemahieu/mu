@@ -13,6 +13,8 @@ namespace lambda_p
 		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
 		void operator << (std::wistream & source);
+		virtual std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations ();
+		virtual std::vector <std::wstring> injected_references ();
 		lambda_p::parser::routine_vector routines;
 		lambda_p::parser::parser parser;
 		lambda_p::lexer::lexer lexer;
