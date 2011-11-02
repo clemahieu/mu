@@ -56,28 +56,9 @@ context (context_a)
     start->getBasicBlockList ().push_back (block);
     context->block = block;
 	lambda_p_repl::api api (*context, overlay.wprintf, overlay.malloc, overlay.abort, overlay.memcpy);	
-	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));
-	//nodes.reset (new lambda_p::binder::node_list);
-	//nodes->operator[] (0) = api.package;	
-	//if (repl != nullptr)
-	//{
- //       std::vector <llvm::Type const *> parameters;
- //       parameters.push_back (llvm::Type::getInt8PtrTy (context.context, 0));
- //       llvm::Function * quit_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context.context), parameters, false), llvm::GlobalValue::ExternalLinkage));
- //       context.module->getFunctionList ().push_back (quit_function);
- //       engine->addGlobalMapping (quit_function, (void *)&quit_invoke);
- //       llvm::GlobalVariable * quit_object (new llvm::GlobalVariable (llvm::Type::getInt8Ty (context.context), true, llvm::GlobalValue::ExternalLinkage));
- //       context.module->getGlobalList ().push_back (quit_object);
- //       engine->addGlobalMapping (quit_object, repl);
-	//	boost::shared_ptr <lambda_p_repl::repl_quit_binder> binder (new lambda_p_repl::repl_quit_binder (context, quit_function, quit_object));
-	//	nodes->operator[] (1) = binder;
-	//}
-	//boost::shared_ptr <lambda_p_repl::exec_binder> exec2 (new lambda_p_repl::exec_binder (*nodes.get ()));
-	//nodes->operator[] (1) = exec2;	
+	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));	
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder);
 	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_binder));
-	//nodes->operator[] (2) = exec_binder;
-	//exec_binder->nodes.operator[] (2) = exec_binder;
 }
 
 void lambda_p_repl::entry_environment::run (boost::shared_ptr <lambda_p::core::routine> routine_a)

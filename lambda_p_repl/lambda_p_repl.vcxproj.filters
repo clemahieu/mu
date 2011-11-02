@@ -21,6 +21,7 @@
     <ClCompile Include="exec_binder.cpp" />
     <ClCompile Include="api.cpp" />
     <ClCompile Include="overlayed_functions.cpp" />
+    <ClCompile Include="builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -43,5 +44,6 @@
     <ClInclude Include="exec_binder.h" />
     <ClInclude Include="api.h" />
     <ClInclude Include="overlayed_functions.h" />
+    <ClInclude Include="builder.h" />
   </ItemGroup>
 </Project>

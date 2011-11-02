@@ -135,6 +135,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="builder.cpp" />
     <ClCompile Include="character_stream.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="data_stream_binder.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
+    <ClInclude Include="builder.h" />
     <ClInclude Include="character_stream.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="data_stream_binder.h" />
