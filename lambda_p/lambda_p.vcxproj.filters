@@ -173,6 +173,12 @@
     <ClInclude Include="lexer\character_stream.h">
       <Filter>lexer</Filter>
     </ClInclude>
+    <ClInclude Include="lexer\istream_input.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\wistream_input.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -342,6 +348,12 @@
     </ClCompile>
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lexer\character_stream.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\istream_input.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\wistream_input.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
   </ItemGroup>

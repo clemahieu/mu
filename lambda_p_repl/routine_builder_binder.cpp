@@ -4,7 +4,7 @@
 #include <lambda_p_repl/entry_routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p_repl/istream_input.h>
+#include <lambda_p/lexer/istream_input.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/errors/binder_string_error.h>
 #include <lambda_p/binder/node_list.h>

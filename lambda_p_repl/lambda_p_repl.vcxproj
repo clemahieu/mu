@@ -147,13 +147,11 @@
     <ClCompile Include="file_stream.cpp" />
     <ClCompile Include="file_stream_binder.cpp" />
     <ClCompile Include="hello_world_binder.cpp" />
-    <ClCompile Include="istream_input.cpp" />
     <ClCompile Include="overlayed_functions.cpp" />
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
     <ClCompile Include="routine_input.cpp" />
     <ClCompile Include="routine_builder_binder.cpp" />
-    <ClCompile Include="wistream_input.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
@@ -169,13 +167,11 @@
     <ClInclude Include="file_stream.h" />
     <ClInclude Include="file_stream_binder.h" />
     <ClInclude Include="hello_world_binder.h" />
-    <ClInclude Include="istream_input.h" />
     <ClInclude Include="overlayed_functions.h" />
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
     <ClInclude Include="routine_input.h" />
     <ClInclude Include="routine_builder_binder.h" />
-    <ClInclude Include="wistream_input.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

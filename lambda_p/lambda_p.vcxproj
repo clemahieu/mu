@@ -130,6 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="lexer\wistream_input.h" />
+    <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\list.h" />
@@ -190,6 +192,8 @@
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lexer\wistream_input.cpp" />
+    <ClCompile Include="lexer\istream_input.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\list.cpp" />
