@@ -14,6 +14,7 @@ namespace lambda_p
 	{
 	public:
 		builder ();
+		void finish ();
 		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
 		void operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source);

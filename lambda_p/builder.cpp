@@ -13,13 +13,18 @@ lambda_p::builder::builder ()
 {
 }
 
+void lambda_p::builder::finish ()
+{
+	lexer (L'\uffff');
+}
+
 void lambda_p::builder::operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source)
 {
-	wchar_t last_char (L' ');
+	wchar_t last_char (source->operator() ());
 	while (last_char != L'\uffff')
-	{
-		last_char = source->operator() ();
+	{		
 		lexer (last_char);
+		last_char = source->operator () ();
 	}
 }
 
