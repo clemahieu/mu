@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\list.h" />
     <ClInclude Include="binder\node_list.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\list.cpp" />
     <ClCompile Include="binder\node_list.cpp" />

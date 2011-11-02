@@ -14,7 +14,6 @@
     <ClCompile Include="istream_input.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="routine_builder_binder.cpp" />
-    <ClCompile Include="character_stream.cpp" />
     <ClCompile Include="data_stream_binder.cpp" />
     <ClCompile Include="file_stream_binder.cpp" />
     <ClCompile Include="file_stream.cpp" />
@@ -37,7 +36,6 @@
     <ClInclude Include="istream_input.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="routine_builder_binder.h" />
-    <ClInclude Include="character_stream.h" />
     <ClInclude Include="data_stream_binder.h" />
     <ClInclude Include="file_stream_binder.h" />
     <ClInclude Include="file_stream.h" />

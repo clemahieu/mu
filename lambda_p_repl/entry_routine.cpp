@@ -8,14 +8,14 @@
 
 #include <llvm/Module.h>
 
-lambda_p_repl::entry_routine::entry_routine (lambda_p_repl::repl * repl_a, boost::shared_ptr < lambda_p_repl::character_stream> in_a, std::wostream & out_a)
+lambda_p_repl::entry_routine::entry_routine (lambda_p_repl::repl * repl_a, boost::shared_ptr < lambda_p::lexer::character_stream> in_a, std::wostream & out_a)
 : repl (repl_a),
 in (in_a),
 out (out_a)
 {
 }
 
-lambda_p_repl::entry_routine::entry_routine (boost::shared_ptr < lambda_p_repl::character_stream> in_a, std::wostream & out_a)
+lambda_p_repl::entry_routine::entry_routine (boost::shared_ptr < lambda_p::lexer::character_stream> in_a, std::wostream & out_a)
 : in (in_a),
 out (out_a),
 repl (nullptr)

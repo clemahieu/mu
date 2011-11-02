@@ -1,6 +1,6 @@
 #include "routine_input.h"
 
-#include <lambda_p_repl/character_stream.h>
+#include <lambda_p/lexer/character_stream.h>
 #include <lambda_p/binder/list_binder.h>
 
 #include <boost/bind.hpp>
@@ -11,7 +11,7 @@ lambda_p_repl::routine_input::routine_input (std::vector <std::pair <std::wstrin
 {
 }
 
-void lambda_p_repl::routine_input::operator () (boost::shared_ptr < lambda_p_repl::character_stream> input_stream)
+void lambda_p_repl::routine_input::operator () (boost::shared_ptr <lambda_p::lexer::character_stream> input_stream)
 {	
 	wchar_t last_char (L' ');
 	while (routines.routines->empty () && last_char != L'\uffff' && !lexer.error () && !parser.error ())

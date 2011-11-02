@@ -19,7 +19,7 @@ lambda_p_repl::entry_input::entry_input (std::vector <std::pair <std::wstring, b
 {
 }
 
-void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p_repl::character_stream> in, std::wostream & out)
+void lambda_p_repl::entry_input::operator () (boost::shared_ptr <lambda_p::lexer::character_stream> in, std::wostream & out)
 {
 	out << L"lp> \n";
 	std::wstring environment (L";;\n");

@@ -27,7 +27,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
-			auto stream (boost::shared_ptr <lambda_p_repl::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
+			auto stream (boost::shared_ptr <lambda_p::lexer::character_stream> (new lambda_p_repl::file_stream (path.wstring ())));
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 			lambda_p_repl::routine_input input (injected_parameters);
 			input (std::wstring (L";;\n"));

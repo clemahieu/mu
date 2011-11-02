@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p_repl/character_stream.h>
+#include <lambda_p/lexer/character_stream.h>
 
 #include <istream>
 

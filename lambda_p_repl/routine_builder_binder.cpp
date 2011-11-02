@@ -21,7 +21,7 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_repl::character_stream> stream (boost::dynamic_pointer_cast <lambda_p_repl::character_stream> (nodes [statement->association->references [0]]));
+		boost::shared_ptr <lambda_p::lexer::character_stream> stream (boost::dynamic_pointer_cast <lambda_p::lexer::character_stream> (nodes [statement->association->references [0]]));
 		if (stream.get () != nullptr)
 		{
 			core (statement, nodes, problems, stream);
@@ -33,7 +33,7 @@ void lambda_p_repl::routine_builder_binder::bind (lambda_p::core::statement * st
 	}
 }
 
-void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems, boost::shared_ptr <lambda_p_repl::character_stream> stream)
+void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems, boost::shared_ptr <lambda_p::lexer::character_stream> stream)
 {
 	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 	lambda_p_repl::routine_input input (injected_parameters);

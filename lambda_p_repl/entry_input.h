@@ -27,12 +27,11 @@ namespace lambda_p
 }
 namespace lambda_p_repl
 {
-	class character_stream;
     class entry_input
     {
     public:  
 		entry_input (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters);
-		void operator () (boost::shared_ptr <lambda_p_repl::character_stream> in_a, std::wostream & out_a);
+		void operator () (boost::shared_ptr <lambda_p::lexer::character_stream> in_a, std::wostream & out_a);
         boost::shared_ptr <lambda_p::core::routine> routine;
 		lambda_p_repl::routine_input input;
     };

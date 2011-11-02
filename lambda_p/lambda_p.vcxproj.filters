@@ -170,6 +170,9 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
+    <ClInclude Include="lexer\character_stream.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -338,6 +341,9 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="lexer\character_stream.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

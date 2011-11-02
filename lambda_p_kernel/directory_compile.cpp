@@ -59,7 +59,7 @@ void lambda_p_kernel::directory_compile::package_directory (lambda_p::errors::er
 		}
 		catch (boost::filesystem3::filesystem_error & error)
 		{
-			boost::shared_ptr <lambda_p_repl::character_stream> stream (new lambda_p_repl::file_stream (directory->path ().wstring ()));
+			boost::shared_ptr <lambda_p::lexer::character_stream> stream (new lambda_p_repl::file_stream (directory->path ().wstring ()));
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 			lambda_p_repl::routine_input input (injected_parameters);
 			input (stream);
