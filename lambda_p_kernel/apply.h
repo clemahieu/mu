@@ -12,9 +12,8 @@ namespace lambda_p_kernel
 	{
 	public:
 		apply (void);
-		lambda_p::binder::node_list actual_nodes;
 		void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) override;
-		void core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems);
+		void core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::node_list & declarations);
 		std::wstring binder_name () override;
 	};
 }

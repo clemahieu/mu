@@ -17,7 +17,7 @@ lambda_p_kernel::apply::apply(void)
 
 void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	check_count (0, 2, statement, problems);
+	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
@@ -26,7 +26,12 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::node_list> (nodes [statement->association->references [1]]));
 			if (nodes_l.get () != nullptr)
 			{
-				core (*routine.get (), *nodes_l.get (), problems);
+				boost::shared_ptr <lambda_p::binder::node_list> actual_declarations (new lambda_p::binder::node_list);
+				core (*routine.get (), *nodes_l.get (), problems, *actual_declarations);
+				if (problems.errors.empty ())
+				{
+					nodes [statement->association->declarations [0]] = actual_declarations;
+				}
 			}
 			else
 			{
@@ -40,13 +45,14 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	}
 }
 
-void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::node_list & declarations)
 {
 	size_t parameters (routine.routine_m->surface->declarations.size ());
 	size_t binders (nodes_l.nodes.size ());
 	if (parameters == binders)
 	{
 		size_t position (0);
+		lambda_p::binder::node_list actual_nodes;
 		for (auto i = nodes_l.nodes.begin (); i != nodes_l.nodes.end (); ++i, ++position)
 		{
 			if (i->get () != nullptr)
@@ -66,6 +72,14 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 		{
 			lambda_p_kernel::bind_procedure procedure (routine.routine_m, actual_nodes);
 			procedure (problems);
+			if (problems.errors.empty ())
+			{
+				size_t position (0);
+				for (auto i = routine.routine_m->surface->references.begin (); i != routine.routine_m->surface->references.end (); ++i, ++position)
+				{
+					declarations [position] = actual_nodes [*i];
+				}
+			}
 		}
 	}
 	else

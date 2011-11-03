@@ -39,10 +39,11 @@ void lambda_p_test::overlay_binder_test::run_1 ()
 	nodes [routine->routine_m->surface->declarations [2]] = module;
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	apply.core (*routine, nodes, problems);
+	lambda_p::binder::node_list declarations;
+	apply.core (*routine, nodes, problems, declarations);
 	assert (problems.errors.empty ());
-	assert (apply.actual_nodes.nodes.size () > routine->routine_m->surface->references [0]);
-	boost::shared_ptr <lambda_p_kernel::package> package (boost::dynamic_pointer_cast <lambda_p_kernel::package> (apply.actual_nodes [routine->routine_m->surface->references [0]]));
+	assert (declarations.nodes.size () == 1);
+	boost::shared_ptr <lambda_p_kernel::package> package (boost::dynamic_pointer_cast <lambda_p_kernel::package> (declarations [0]));
 	assert (package.get () != nullptr);
 	assert (package->nodes.find (std::wstring (L"abort")) != package->nodes.end ());
 	assert (package->nodes.find (std::wstring (L"malloc")) != package->nodes.end ());

@@ -43,7 +43,8 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 				{
 					lambda_p_kernel::apply binder;
 					lambda_p::binder::node_list nodes;
-					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems);
+					lambda_p::binder::node_list declarations;
+					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems, declarations);
 				}
 				else
 				{

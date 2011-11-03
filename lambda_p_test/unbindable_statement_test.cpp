@@ -24,6 +24,7 @@ void lambda_p_test::unbindable_statement_test::run ()
 	boost::shared_ptr <lambda_p_kernel::routine> target (new lambda_p_kernel::routine (routine));
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	apply.core (*target, *nodes, problems);
+	lambda_p::binder::node_list declarations;
+	apply.core (*target, *nodes, problems, declarations);
 	assert (problems.errors.size () == 1);
 }

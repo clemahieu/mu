@@ -31,6 +31,8 @@
 
 #include <llvm/Target/TargetSelect.h>
 
+#include <iostream>
+
 using namespace lambda_p_test;
 
 int main ()
@@ -155,6 +157,10 @@ int main ()
 	{
 		api_test test;
 		test.run ();
+	}
+	for (size_t i (0); i < 1000; ++i)
+	{
+		std::wcout << L'-';
 	}
 	return 0;
 }
