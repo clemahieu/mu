@@ -18,12 +18,14 @@
 #include <lambda_p_llvm/struct_binder.h>
 #include <lambda_p_llvm/malloc_function.h>
 #include <lambda_p_llvm/memcpy_function.h>
+#include <lambda_p_llvm/assemble_binder.h>
+#include <lambda_p_llvm/overlay_binder.h>
 
 #include <llvm/Function.h>
 
 #include <string>
 
-lambda_p_llvm::api::api (lambda_p_llvm::generation_context & context, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::memcpy_function & memcpy)
+lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::generation_context & context, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::memcpy_function & memcpy)
 	: package (new lambda_p_kernel::package)
 {
 	std::wstring context_name (L"context");
@@ -89,4 +91,12 @@ lambda_p_llvm::api::api (lambda_p_llvm::generation_context & context, lambda_p_l
 	std::wstring struct_name (L"struct");
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));
 	package->nodes [struct_name] = struct_binder;
+
+	std::wstring overlay_name (L"overlay");
+	boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay_binder (new lambda_p_llvm::overlay_binder (context.context, engine_a));
+	package->nodes [overlay_name] = overlay_binder;
+
+	std::wstring assemble_name (L"assemble");
+	boost::shared_ptr <lambda_p_llvm::assemble_binder> assemble_binder (new lambda_p_llvm::assemble_binder (context.context));
+	package->nodes [assemble_name] = assemble_binder;
 }

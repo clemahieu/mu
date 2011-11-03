@@ -31,6 +31,11 @@
     <ClInclude Include="fo_value.h" />
     <ClInclude Include="struct_binder.h" />
     <ClInclude Include="abort_function.h" />
+    <ClInclude Include="assemble_binder.h" />
+    <ClInclude Include="module.h" />
+    <ClInclude Include="overlay_binder.h" />
+    <ClInclude Include="execution_engine_binder.h" />
+    <ClInclude Include="execution_engine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -63,5 +68,10 @@
     <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="struct_binder.cpp" />
     <ClCompile Include="abort_function.cpp" />
+    <ClCompile Include="assemble_binder.cpp" />
+    <ClCompile Include="module.cpp" />
+    <ClCompile Include="overlay_binder.cpp" />
+    <ClCompile Include="execution_engine_binder.cpp" />
+    <ClCompile Include="execution_engine.cpp" />
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
 #include <llvm/DerivedTypes.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
 
 void lambda_p_test::api_test::run ()
 {
@@ -29,6 +30,11 @@ void lambda_p_test::api_test::run_1 ()
 	lambda_p_llvm::memcpy_function memcpy_function (context);
 	lambda_p_llvm::wprintf_function wprintf_function (context);
 	lambda_p_llvm::abort_function abort_function (context);
-	lambda_p_repl::api api (context, wprintf_function, malloc_function, abort_function, memcpy_function);
+	llvm::EngineBuilder builder (module);
+    builder.setEngineKind (llvm::EngineKind::JIT);
+    std::string error;
+    builder.setErrorStr (&error);
+	llvm::ExecutionEngine * engine (builder.create ());
+	lambda_p_repl::api api (engine, context, wprintf_function, malloc_function, abort_function, memcpy_function);
 	assert (api.package.get () != nullptr);
 }

@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="adata.cpp" />
+    <ClCompile Include="adata_binder.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="number.cpp" />
@@ -141,6 +143,8 @@
     <ClCompile Include="node_list_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="adata.h" />
+    <ClInclude Include="adata_binder.h" />
     <ClInclude Include="bind_procedure.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="directory_compile.h" />

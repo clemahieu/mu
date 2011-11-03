@@ -17,12 +17,13 @@
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_llvm/abort_function.h>
 #include <lambda_p_kernel/directory_compile.h>
+#include <lambda_p_kernel/adata_binder.h>
 
 #include <llvm/Function.h>
 
 #include <llvm/LLVMContext.h>
 
-lambda_p_repl::api::api (lambda_p_llvm::generation_context & context, lambda_p_llvm::wprintf_function & wprintf, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::abort_function & abort, lambda_p_llvm::memcpy_function & memcpy)
+lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::generation_context & context, lambda_p_llvm::wprintf_function & wprintf, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::abort_function & abort, lambda_p_llvm::memcpy_function & memcpy)
 	: package (new lambda_p_kernel::package)
 {
 	boost::shared_ptr <lambda_p_kernel::package> package_l (new lambda_p_kernel::package);
@@ -38,7 +39,8 @@ lambda_p_repl::api::api (lambda_p_llvm::generation_context & context, lambda_p_l
 	boost::shared_ptr <lambda_p_repl::file_stream_binder> file_stream_binder (new lambda_p_repl::file_stream_binder);
 	boost::shared_ptr <lambda_p_kernel::directory_compile> directory_compile (new lambda_p_kernel::directory_compile);
 	boost::shared_ptr <lambda_p_kernel::node_list_binder> nodes_binder (new lambda_p_kernel::node_list_binder);
-	lambda_p_llvm::api llvm_binder (context, malloc, memcpy);
+	boost::shared_ptr <lambda_p_kernel::adata_binder> adata_binder (new lambda_p_kernel::adata_binder);
+	lambda_p_llvm::api llvm_binder (engine_a, context, malloc, memcpy);
 	std::wstring echo_name (L"echo");
 	std::wstring hello_name (L"hello");
 	std::wstring read_name (L"read");
@@ -52,6 +54,7 @@ lambda_p_repl::api::api (lambda_p_llvm::generation_context & context, lambda_p_l
 	std::wstring file_stream_name (L"file_stream");
 	std::wstring directory_compile_name (L"directory_compile");
 	std::wstring nodes_name (L"nodes");
+	std::wstring adata_name (L"adata");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [read_name] = read_binder;
@@ -65,4 +68,5 @@ lambda_p_repl::api::api (lambda_p_llvm::generation_context & context, lambda_p_l
 	package->nodes [file_stream_name] = file_stream_binder;
 	package->nodes [directory_compile_name] = directory_compile;
 	package->nodes [nodes_name] = nodes_binder;
+	package->nodes [adata_name] = adata_binder;
 }

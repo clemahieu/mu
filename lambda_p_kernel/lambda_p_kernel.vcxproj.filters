@@ -14,6 +14,8 @@
     <ClCompile Include="node_list_binder.cpp" />
     <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="adata.cpp" />
+    <ClCompile Include="adata_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -29,5 +31,7 @@
     <ClInclude Include="node_list_binder.h" />
     <ClInclude Include="directory_compile.h" />
     <ClInclude Include="builder.h" />
+    <ClInclude Include="adata.h" />
+    <ClInclude Include="adata_binder.h" />
   </ItemGroup>
 </Project>
