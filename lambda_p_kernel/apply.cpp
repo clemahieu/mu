@@ -4,7 +4,6 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/binder/node_list.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/errors/error_list.h>
@@ -48,12 +47,11 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 	if (parameters == binders)
 	{
 		size_t position (0);
-		lambda_p::binder::node_list nodes;
 		for (auto i = nodes_l.nodes.begin (); i != nodes_l.nodes.end (); ++i, ++position)
 		{
 			if (i->get () != nullptr)
 			{
-				nodes [routine.routine_m->surface->declarations [position]] = *i;
+				actual_nodes [routine.routine_m->surface->declarations [position]] = *i;
 			}
 			else
 			{
@@ -66,7 +64,7 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 		}
 		if (problems.errors.empty ())
 		{
-			lambda_p_kernel::bind_procedure procedure (routine.routine_m, nodes);
+			lambda_p_kernel::bind_procedure procedure (routine.routine_m, actual_nodes);
 			procedure (problems);
 		}
 	}

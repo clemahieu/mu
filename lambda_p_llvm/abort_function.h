@@ -3,6 +3,7 @@
 namespace llvm
 {
 	class Function;
+	class LLVMContext;
 }
 namespace lambda_p_llvm
 {
@@ -10,7 +11,7 @@ namespace lambda_p_llvm
 	class abort_function
 	{
 	public:
-		abort_function (lambda_p_llvm::generation_context & context_a);
+		abort_function (llvm::LLVMContext & context_a);
 		llvm::Function * abort;
 	};
 }

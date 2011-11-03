@@ -11,6 +11,8 @@
 namespace llvm
 {
 	class Function;
+	class LLVMContext;
+	class Type;
 }
 namespace lambda_p_llvm
 {
@@ -18,7 +20,7 @@ namespace lambda_p_llvm
     class wprintf_function
     {
     public:
-        wprintf_function (lambda_p_llvm::generation_context & context_a);
+        wprintf_function (llvm::LLVMContext & context_a, llvm::Type const * wchar_t_type);
         llvm::Function * wprintf;
     };
 }

@@ -26,10 +26,10 @@ void lambda_p_test::api_test::run_1 ()
 	llvm::BasicBlock * block (llvm::BasicBlock::Create (context_item));
 	function->getBasicBlockList ().push_back (block);
 	lambda_p_llvm::generation_context context (context_item, module, block);
-	lambda_p_llvm::malloc_function malloc_function (context);
-	lambda_p_llvm::memcpy_function memcpy_function (context);
-	lambda_p_llvm::wprintf_function wprintf_function (context);
-	lambda_p_llvm::abort_function abort_function (context);
+	lambda_p_llvm::malloc_function malloc_function (context.context, llvm::IntegerType::get (context_item, sizeof (size_t) * 8));
+	lambda_p_llvm::memcpy_function memcpy_function (context.context);
+	lambda_p_llvm::wprintf_function wprintf_function (context.context, llvm::IntegerType::get (context_item, sizeof (wchar_t) * 8));
+	lambda_p_llvm::abort_function abort_function (context.context);
 	llvm::EngineBuilder builder (module);
     builder.setEngineKind (llvm::EngineKind::JIT);
     std::string error;

@@ -157,6 +157,7 @@
     <ClCompile Include="jit_test_1.cpp" />
     <ClCompile Include="node_list_test_1.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
+    <ClCompile Include="overlay_binder_test.cpp" />
     <ClCompile Include="package_test_1.cpp" />
     <ClCompile Include="generator_test.cpp" />
     <ClCompile Include="routine_binder_test.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="jit_test_1.h" />
     <ClInclude Include="node_list_test_1.h" />
     <ClInclude Include="noop_closure_test.h" />
+    <ClInclude Include="overlay_binder_test.h" />
     <ClInclude Include="package_test_1.h" />
     <ClInclude Include="generator_test.h" />
     <ClInclude Include="routine_binder_test.h" />

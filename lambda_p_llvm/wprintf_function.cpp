@@ -16,10 +16,10 @@
 #include <llvm/GlobalValue.h>
 #include <llvm/Function.h>
 
-lambda_p_llvm::wprintf_function::wprintf_function (lambda_p_llvm::generation_context & context_a)
+lambda_p_llvm::wprintf_function::wprintf_function (llvm::LLVMContext & context_a, llvm::Type const * wchar_t_type)
 {    
     std::vector <llvm::Type const *> wprintf_parameters;
-    wprintf_parameters.push_back (llvm::PointerType::get (context_a.wchar_t_type, 0));
-    llvm::FunctionType * wprintf_type (llvm::FunctionType::get (llvm::Type::getInt32Ty (context_a.context), wprintf_parameters, true));
+    wprintf_parameters.push_back (llvm::PointerType::get (wchar_t_type, 0));
+    llvm::FunctionType * wprintf_type (llvm::FunctionType::get (llvm::Type::getInt32Ty (context_a), wprintf_parameters, true));
     wprintf = llvm::Function::Create (wprintf_type, llvm::GlobalValue::ExternalLinkage);
 }

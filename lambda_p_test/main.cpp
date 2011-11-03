@@ -27,6 +27,7 @@
 #include <lambda_p_test/apply_binder_test.h>
 #include <lambda_p_test/api_test.h>
 #include <lambda_p_test/execution_engine_test.h>
+#include <lambda_p_test/overlay_binder_test.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -53,6 +54,10 @@ int main ()
 	}
 	{
 		execution_engine_test test;
+		test.run ();
+	}
+	{
+		overlay_binder_test test;
 		test.run ();
 	}
 	{
