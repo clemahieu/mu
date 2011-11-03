@@ -30,6 +30,7 @@
     <ClCompile Include="file_stream_test.cpp" />
     <ClCompile Include="apply_binder_test.cpp" />
     <ClCompile Include="api_test.cpp" />
+    <ClCompile Include="execution_engine_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -60,5 +61,6 @@
     <ClInclude Include="file_stream_test.h" />
     <ClInclude Include="apply_binder_test.h" />
     <ClInclude Include="api_test.h" />
+    <ClInclude Include="execution_engine_test.h" />
   </ItemGroup>
 </Project>

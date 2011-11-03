@@ -92,9 +92,9 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));
 	package->nodes [struct_name] = struct_binder;
 
-	std::wstring overlay_name (L"overlay");
-	boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay_binder (new lambda_p_llvm::overlay_binder (context.context, engine_a));
-	package->nodes [overlay_name] = overlay_binder;
+	//std::wstring overlay_name (L"overlay");
+	//boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay_binder (new lambda_p_llvm::overlay_binder (context.context, engine_a));
+	//package->nodes [overlay_name] = overlay_binder;
 
 	std::wstring assemble_name (L"assemble");
 	boost::shared_ptr <lambda_p_llvm::assemble_binder> assemble_binder (new lambda_p_llvm::assemble_binder (context.context));

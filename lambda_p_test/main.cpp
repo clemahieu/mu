@@ -26,11 +26,15 @@
 #include <lambda_p_test/file_stream_test.h>
 #include <lambda_p_test/apply_binder_test.h>
 #include <lambda_p_test/api_test.h>
+#include <lambda_p_test/execution_engine_test.h>
+
+#include <llvm/Target/TargetSelect.h>
 
 using namespace lambda_p_test;
 
 int main ()
 {
+    llvm::InitializeNativeTarget ();
 	{
 		simple_test_1 test;
 		test.run ();
@@ -45,6 +49,10 @@ int main ()
 	}
 	{
 		simple_compile_test_1 test;
+		test.run ();
+	}
+	{
+		execution_engine_test test;
 		test.run ();
 	}
 	{
