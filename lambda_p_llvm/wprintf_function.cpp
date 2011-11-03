@@ -21,5 +21,5 @@ lambda_p_llvm::wprintf_function::wprintf_function (llvm::LLVMContext & context_a
     std::vector <llvm::Type const *> wprintf_parameters;
     wprintf_parameters.push_back (llvm::PointerType::get (wchar_t_type, 0));
     llvm::FunctionType * wprintf_type (llvm::FunctionType::get (llvm::Type::getInt32Ty (context_a), wprintf_parameters, true));
-    wprintf = llvm::Function::Create (wprintf_type, llvm::GlobalValue::ExternalLinkage);
+    wprintf = llvm::Function::Create (wprintf_type, llvm::GlobalValue::ExternalLinkage, llvm::Twine ("wprintf"));
 }

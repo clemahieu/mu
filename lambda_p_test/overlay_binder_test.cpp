@@ -49,4 +49,8 @@ void lambda_p_test::overlay_binder_test::run_1 ()
 	assert (package->nodes.find (std::wstring (L"malloc")) != package->nodes.end ());
 	assert (package->nodes.find (std::wstring (L"memcpy")) != package->nodes.end ());
 	assert (package->nodes.find (std::wstring (L"wprintf")) != package->nodes.end ());
+	assert (module->module_m->getFunction (llvm::StringRef ("abort")) != nullptr);
+	assert (module->module_m->getFunction (llvm::StringRef ("malloc")) != nullptr);
+	assert (module->module_m->getFunction (llvm::StringRef ("llvm.memcpy.p0i8.p0i8.i64")) != nullptr);
+	assert (module->module_m->getFunction (llvm::StringRef ("wprintf")) != nullptr);
 }

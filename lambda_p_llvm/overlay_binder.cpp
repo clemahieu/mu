@@ -39,12 +39,15 @@ void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement,
 				engine->engine->addGlobalMapping (abort.abort, (void *)::abort);
 				package->nodes [std::wstring (L"abort")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (abort.abort));
 				lambda_p_llvm::malloc_function malloc (module->module_m->getContext (), size_t_type);
+				module->module_m->getFunctionList ().push_back (malloc.malloc);
 				engine->engine->addGlobalMapping (malloc.malloc, (void *)::malloc);
 				package->nodes [std::wstring (L"malloc")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (malloc.malloc));
 				lambda_p_llvm::memcpy_function memcpy (module->module_m->getContext ());
+				module->module_m->getFunctionList ().push_back (memcpy.memcpy);
 				engine->engine->addGlobalMapping (memcpy.memcpy, (void *)::memcpy);
 				package->nodes [std::wstring (L"memcpy")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (memcpy.memcpy));
 				lambda_p_llvm::wprintf_function wprintf (module->module_m->getContext (), wchar_t_type);
+				module->module_m->getFunctionList ().push_back (wprintf.wprintf);
 				engine->engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
 				package->nodes [std::wstring (L"wprintf")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (wprintf.wprintf));
 				nodes [statement->association->declarations [0]] = package;

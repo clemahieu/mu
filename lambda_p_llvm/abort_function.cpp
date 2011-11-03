@@ -8,6 +8,6 @@
 lambda_p_llvm::abort_function::abort_function (llvm::LLVMContext & context_a)
 {
     llvm::FunctionType * type (llvm::FunctionType::get (llvm::Type::getVoidTy (context_a), false));
-    abort = llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage);
+    abort = llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage, llvm::Twine ("abort"));
 }
 
