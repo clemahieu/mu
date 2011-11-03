@@ -36,6 +36,7 @@
     <ClInclude Include="overlay_binder.h" />
     <ClInclude Include="execution_engine_binder.h" />
     <ClInclude Include="execution_engine.h" />
+    <ClInclude Include="module_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -73,5 +74,6 @@
     <ClCompile Include="overlay_binder.cpp" />
     <ClCompile Include="execution_engine_binder.cpp" />
     <ClCompile Include="execution_engine.cpp" />
+    <ClCompile Include="module_binder.cpp" />
   </ItemGroup>
 </Project>

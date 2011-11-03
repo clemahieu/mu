@@ -39,3 +39,10 @@ void lambda_p::binder::binder::unexpected_binder_type_error (size_t position, wc
 	problems (new lambda_p::errors::unexpected_binder_type (binder_name (), position, std::wstring (expected)));
 }
 
+void lambda_p::binder::binder::check_binder (boost::shared_ptr <lambda_p::binder::node> binder_a, size_t position, wchar_t * expected, lambda_p::errors::error_list & problems)
+{
+	if (binder_a.get () == nullptr)
+	{
+		unexpected_binder_type_error (position, expected, problems);
+	}
+}

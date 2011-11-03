@@ -44,7 +44,6 @@ void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement,
 				package->nodes [std::wstring (L"malloc")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (malloc.malloc));
 				lambda_p_llvm::memcpy_function memcpy (module->module_m->getContext ());
 				module->module_m->getFunctionList ().push_back (memcpy.memcpy);
-				engine->engine->addGlobalMapping (memcpy.memcpy, (void *)::memcpy);
 				package->nodes [std::wstring (L"memcpy")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (memcpy.memcpy));
 				lambda_p_llvm::wprintf_function wprintf (module->module_m->getContext (), wchar_t_type);
 				module->module_m->getFunctionList ().push_back (wprintf.wprintf);
