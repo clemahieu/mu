@@ -18,12 +18,14 @@ environment
 context ; ctx;
 adata `|%%%%|
 
-@str = internal constant [13 x i16] 
+@str = internal constant [14 x i8] c"Hello world!\0a\00"
 
-declare void @wprintf (i16 *, ...)
+declare void @printf (i8 *, ...)
 
 define void @start ()
 {
+  %1 = bitcast [14 x i8] * @str to i8 *
+  call void (i8*, ...)* @printf (i8* %1)
   ret void
 }
 

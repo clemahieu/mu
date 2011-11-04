@@ -42,6 +42,11 @@ void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement,
 			{
 				engine->engine->addGlobalMapping (wprintf, (void *)::wprintf);
 			}
+			llvm::Function * printf (module->module_m->getFunction (llvm::StringRef ("printf")));
+			if (printf != nullptr)
+			{
+				engine->engine->addGlobalMapping (printf, (void *)::printf);
+			}
 		}
 	}
 }
