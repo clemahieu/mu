@@ -37,6 +37,8 @@
     <ClInclude Include="execution_engine_binder.h" />
     <ClInclude Include="execution_engine.h" />
     <ClInclude Include="module_binder.h" />
+    <ClInclude Include="module_get_function.h" />
+    <ClInclude Include="jit_function.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -75,5 +77,7 @@
     <ClCompile Include="execution_engine_binder.cpp" />
     <ClCompile Include="execution_engine.cpp" />
     <ClCompile Include="module_binder.cpp" />
+    <ClCompile Include="module_get_function.cpp" />
+    <ClCompile Include="jit_function.cpp" />
   </ItemGroup>
 </Project>

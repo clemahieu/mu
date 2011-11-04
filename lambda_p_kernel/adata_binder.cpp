@@ -17,6 +17,7 @@ void lambda_p_kernel::adata_binder::bind (lambda_p::core::statement * statement,
 		{
 			std::wstring wide_string (data->string ());
 			std::string ascii_string;
+			ascii_string.resize (wide_string.size ());
 			std::copy (wide_string.begin (), wide_string.end (), ascii_string.begin ());
 			boost::shared_ptr <lambda_p_kernel::adata> ascii_data (new lambda_p_kernel::adata (ascii_string));
 			nodes [statement->association->declarations [0]] = ascii_data;

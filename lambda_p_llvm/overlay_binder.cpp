@@ -16,45 +16,32 @@
 #include <llvm/Module.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 
-lambda_p_llvm::overlay_binder::overlay_binder (llvm::Type const * size_t_type_a, llvm::Type const * wchar_t_type_a)
-	: size_t_type (size_t_type_a),
-	wchar_t_type (wchar_t_type_a)
-{
-}
-
 void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	check_count (1, 2, statement, problems);
+	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_llvm::execution_engine> engine (boost::dynamic_pointer_cast <lambda_p_llvm::execution_engine> (nodes [statement->association->references [0]]));
-		if (engine.get () != nullptr)
+		check_binder (engine, 0, L"execution_engine", problems);
+		boost::shared_ptr <lambda_p_llvm::module> module (boost::dynamic_pointer_cast <lambda_p_llvm::module> (nodes [statement->association->references [1]]));
+		check_binder (module, 1, L"module", problems);
+		if (problems.errors.empty ())
 		{
-			boost::shared_ptr <lambda_p_llvm::module> module (boost::dynamic_pointer_cast <lambda_p_llvm::module> (nodes [statement->association->references [1]]));
-			if (module.get () != nullptr)
+			llvm::Function * abort (module->module_m->getFunction (llvm::StringRef ("abort")));
+			if (abort != nullptr)
 			{
-				boost::shared_ptr <lambda_p_kernel::package> package (new lambda_p_kernel::package);
-				lambda_p_llvm::abort_function abort (module->module_m->getContext ());
-				module->module_m->getFunctionList ().push_back (abort.abort);
-				engine->engine->addGlobalMapping (abort.abort, (void *)::abort);
-				package->nodes [std::wstring (L"abort")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (abort.abort));
-				lambda_p_llvm::malloc_function malloc (module->module_m->getContext (), size_t_type);
-				module->module_m->getFunctionList ().push_back (malloc.malloc);
-				engine->engine->addGlobalMapping (malloc.malloc, (void *)::malloc);
-				package->nodes [std::wstring (L"malloc")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (malloc.malloc));
-				lambda_p_llvm::memcpy_function memcpy (module->module_m->getContext ());
-				module->module_m->getFunctionList ().push_back (memcpy.memcpy);
-				package->nodes [std::wstring (L"memcpy")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (memcpy.memcpy));
-				lambda_p_llvm::wprintf_function wprintf (module->module_m->getContext (), wchar_t_type);
-				module->module_m->getFunctionList ().push_back (wprintf.wprintf);
-				engine->engine->addGlobalMapping (wprintf.wprintf, (void *)::wprintf);
-				package->nodes [std::wstring (L"wprintf")] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (wprintf.wprintf));
-				nodes [statement->association->declarations [0]] = package;
+				engine->engine->addGlobalMapping (abort, (void *)::abort);
 			}
-		}
-		else
-		{
-			unexpected_binder_type_error (0, L"engine", problems);
+			llvm::Function * malloc (module->module_m->getFunction (llvm::StringRef ("malloc")));
+			if (malloc != nullptr)
+			{
+				engine->engine->addGlobalMapping (malloc, (void *)::malloc);
+			}
+			llvm::Function * wprintf (module->module_m->getFunction (llvm::StringRef ("wprintf")));
+			if (wprintf != nullptr)
+			{
+				engine->engine->addGlobalMapping (wprintf, (void *)::wprintf);
+			}
 		}
 	}
 }

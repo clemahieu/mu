@@ -2,7 +2,7 @@
 
 namespace lambda_p_test
 {
-	class execution_engine_test
+	class adata_test
 	{
 	public:
 		void run ();

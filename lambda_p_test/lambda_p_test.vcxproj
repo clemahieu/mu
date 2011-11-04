@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="abort_binder_test_1.cpp" />
+    <ClCompile Include="adata_test.cpp" />
     <ClCompile Include="api_test.cpp" />
     <ClCompile Include="apply_binder_test.cpp" />
     <ClCompile Include="constant_int_binder_test_1.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
+    <ClCompile Include="link_test.cpp" />
     <ClCompile Include="node_list_test_1.cpp" />
     <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="overlay_binder_test.cpp" />
@@ -176,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_binder_test_1.h" />
+    <ClInclude Include="adata_test.h" />
     <ClInclude Include="api_test.h" />
     <ClInclude Include="apply_binder_test.h" />
     <ClInclude Include="constant_int_binder_test_1.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="jit_test_1.h" />
+    <ClInclude Include="link_test.h" />
     <ClInclude Include="node_list_test_1.h" />
     <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="overlay_binder_test.h" />

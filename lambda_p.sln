@@ -33,6 +33,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_kernel", "lambda_p_kernel\lambda_p_kernel.vcxproj", "{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repl", "repl", "{847ACC92-CD83-4C5A-8C98-545D71C096D2}"
+	ProjectSection(SolutionItems) = preProject
+		examples\repl\assemble.lp = examples\repl\assemble.lp
+		examples\repl\exec.lp = examples\repl\exec.lp
+		examples\repl\hello.lp = examples\repl\hello.lp
+		examples\repl\hello_execute.lp = examples\repl\hello_execute.lp
+		examples\repl\malloc.lp = examples\repl\malloc.lp
+		examples\repl\malloc_builder.lp = examples\repl\malloc_builder.lp
+		examples\repl\quit.lp = examples\repl\quit.lp
+		examples\repl\store_routine.lp = examples\repl\store_routine.lp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{38CE15FF-E093-417C-A737-813620AEA03C}"
+	ProjectSection(SolutionItems) = preProject
+		examples\functions\execute.lp = examples\functions\execute.lp
+		examples\functions\malloc_function.lp = examples\functions\malloc_function.lp
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -91,5 +109,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{847ACC92-CD83-4C5A-8C98-545D71C096D2} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
+		{38CE15FF-E093-417C-A737-813620AEA03C} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
 	EndGlobalSection
 EndGlobal

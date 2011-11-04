@@ -32,6 +32,8 @@
     <ClCompile Include="api_test.cpp" />
     <ClCompile Include="execution_engine_test.cpp" />
     <ClCompile Include="overlay_binder_test.cpp" />
+    <ClCompile Include="link_test.cpp" />
+    <ClCompile Include="adata_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -64,5 +66,7 @@
     <ClInclude Include="api_test.h" />
     <ClInclude Include="execution_engine_test.h" />
     <ClInclude Include="overlay_binder_test.h" />
+    <ClInclude Include="link_test.h" />
+    <ClInclude Include="adata_test.h" />
   </ItemGroup>
 </Project>

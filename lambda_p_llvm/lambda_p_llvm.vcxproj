@@ -31,8 +31,10 @@
     <ClInclude Include="execution_engine_binder.h" />
     <ClInclude Include="function_binder.h" />
     <ClInclude Include="generator.h" />
+    <ClInclude Include="jit_function.h" />
     <ClInclude Include="module.h" />
     <ClInclude Include="module_binder.h" />
+    <ClInclude Include="module_get_function.h" />
     <ClInclude Include="overlay_binder.h" />
     <ClInclude Include="so_value.h" />
     <ClInclude Include="constant_int_binder.h" />
@@ -69,8 +71,10 @@
     <ClCompile Include="execution_engine_binder.cpp" />
     <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="generator.cpp" />
+    <ClCompile Include="jit_function.cpp" />
     <ClCompile Include="module.cpp" />
     <ClCompile Include="module_binder.cpp" />
+    <ClCompile Include="module_get_function.cpp" />
     <ClCompile Include="overlay_binder.cpp" />
     <ClCompile Include="so_value.cpp" />
     <ClCompile Include="constant_int_binder.cpp" />

@@ -20,6 +20,9 @@
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p_llvm/assemble_binder.h>
 #include <lambda_p_llvm/overlay_binder.h>
+#include <lambda_p_llvm/module_get_function.h>
+#include <lambda_p_llvm/jit_function.h>
+#include <lambda_p_llvm/execution_engine_binder.h>
 
 #include <llvm/Function.h>
 
@@ -92,11 +95,23 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));
 	package->nodes [struct_name] = struct_binder;
 
-	//std::wstring overlay_name (L"overlay");
-	//boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay_binder (new lambda_p_llvm::overlay_binder (context.context, engine_a));
-	//package->nodes [overlay_name] = overlay_binder;
+	std::wstring overlay_name (L"overlay");
+	boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay_binder (new lambda_p_llvm::overlay_binder);
+	package->nodes [overlay_name] = overlay_binder;
+
+	std::wstring execution_engine_name (L"execution_engine");
+	boost::shared_ptr <lambda_p_llvm::execution_engine_binder> execution_engine_binder (new lambda_p_llvm::execution_engine_binder);
+	package->nodes [execution_engine_name] = execution_engine_binder;
 
 	std::wstring assemble_name (L"assemble");
-	boost::shared_ptr <lambda_p_llvm::assemble_binder> assemble_binder (new lambda_p_llvm::assemble_binder (context.context));
+	boost::shared_ptr <lambda_p_llvm::assemble_binder> assemble_binder (new lambda_p_llvm::assemble_binder);
 	package->nodes [assemble_name] = assemble_binder;
+
+	std::wstring module_get_function_name (L"module_get_function");
+	boost::shared_ptr <lambda_p_llvm::module_get_function> module_get_function_binder (new lambda_p_llvm::module_get_function);
+	package->nodes [module_get_function_name] = module_get_function_binder;
+
+	std::wstring jit_function_name (L"jit_function");
+	boost::shared_ptr <lambda_p_llvm::jit_function> jit_function_binder (new lambda_p_llvm::jit_function);
+	package->nodes [jit_function_name] = jit_function_binder;
 }

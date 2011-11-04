@@ -25,13 +25,13 @@ void lambda_p_test::overlay_binder_test::run ()
 void lambda_p_test::overlay_binder_test::run_1 ()
 {
 	llvm::LLVMContext context;
-	boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay (new lambda_p_llvm::overlay_binder (llvm::IntegerType::get (context, sizeof (size_t) * 8), llvm::IntegerType::get (context, sizeof (wchar_t) * 8)));
+	boost::shared_ptr <lambda_p_llvm::overlay_binder> overlay (new lambda_p_llvm::overlay_binder);
 	boost::shared_ptr <lambda_p_llvm::module> module (new lambda_p_llvm::module (new llvm::Module (llvm::StringRef ("test"), context)));
 	llvm::EngineBuilder builder (module->module_m);
 	builder.setEngineKind (llvm::EngineKind::JIT);
 	boost::shared_ptr <lambda_p_llvm::execution_engine> engine (new lambda_p_llvm::execution_engine (builder.create ()));
 	lambda_p::builder builder2;
-	builder2 (L"functions; overlay module engine; overlay module engine; functions; :;");
+	builder2 (L"; overlay module engine; overlay module engine; ; :;");
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder2.routines.routines->operator[] (0)));
 	lambda_p::binder::node_list nodes;
 	nodes [routine->routine_m->surface->declarations [0]] = overlay;
@@ -42,15 +42,5 @@ void lambda_p_test::overlay_binder_test::run_1 ()
 	lambda_p::binder::node_list declarations;
 	apply.core (*routine, nodes, problems, declarations);
 	assert (problems.errors.empty ());
-	assert (declarations.nodes.size () == 1);
-	boost::shared_ptr <lambda_p_kernel::package> package (boost::dynamic_pointer_cast <lambda_p_kernel::package> (declarations [0]));
-	assert (package.get () != nullptr);
-	assert (package->nodes.find (std::wstring (L"abort")) != package->nodes.end ());
-	assert (package->nodes.find (std::wstring (L"malloc")) != package->nodes.end ());
-	assert (package->nodes.find (std::wstring (L"memcpy")) != package->nodes.end ());
-	assert (package->nodes.find (std::wstring (L"wprintf")) != package->nodes.end ());
-	assert (module->module_m->getFunction (llvm::StringRef ("abort")) != nullptr);
-	assert (module->module_m->getFunction (llvm::StringRef ("malloc")) != nullptr);
-	assert (module->module_m->getFunction (llvm::StringRef ("llvm.memcpy.p0i8.p0i8.i64")) != nullptr);
-	assert (module->module_m->getFunction (llvm::StringRef ("wprintf")) != nullptr);
+	assert (declarations.nodes.size () == 0);
 }
