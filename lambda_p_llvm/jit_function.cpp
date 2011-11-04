@@ -36,5 +36,5 @@ void lambda_p_llvm::jit_function::bind (lambda_p::core::statement * statement, l
 
 std::wstring lambda_p_llvm::jit_function::binder_name ()
 {
-	return std::wstring (L"jit_start");
+	return std::wstring (L"jit_function");
 }

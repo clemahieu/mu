@@ -17,7 +17,7 @@ void lambda_p::errors::unexpected_result_count::string (std::wostream & stream)
 	stream << binder_name;
 	stream << L" is expecting ";
 	stream << expected;
-	stream << L" results, have; ";
+	stream << L" results, have: ";
 	stream << actual;
 	stream << L'\n';
 }

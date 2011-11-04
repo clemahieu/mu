@@ -18,6 +18,10 @@ environment
 context ; ctx;
 adata `|%%%%|
 
+@str = internal constant [13 x i16] 
+
+declare void @wprintf (i16 *, ...)
+
 define void @start ()
 {
   ret void

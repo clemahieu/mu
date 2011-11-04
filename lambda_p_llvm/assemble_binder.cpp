@@ -11,6 +11,8 @@
 #include <llvm/Assembly/Parser.h>
 #include <llvm/Support/SourceMgr.h>
 
+#include <sstream>
+
 void lambda_p_llvm::assemble_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 2, statement, problems);
@@ -31,10 +33,14 @@ void lambda_p_llvm::assemble_binder::bind (lambda_p::core::statement * statement
 			}
 			else
 			{
+				std::wstringstream message;
 				std::string amessage (diagnostic.getMessage ());
-				std::wstring message (L"Unable to assemble data:\n");
-				std::copy (amessage.begin (), amessage.end (), message.end ());
-				add_error (message, problems);
+				std::wstring converted;
+				converted.resize (amessage.size ());
+				std::copy (amessage.begin (), amessage.end (), converted.begin ());
+				message << L"Unable to assemble data:\n";
+				message << converted;
+				add_error (message.str (), problems);
 			}
 		}
 	}

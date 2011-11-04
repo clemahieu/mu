@@ -22,7 +22,7 @@ void lambda_p_llvm::execution_engine_binder::bind (lambda_p::core::statement * s
 			std::string error;
 			builder.setErrorStr (&error);
 			llvm::ExecutionEngine * engine (builder.create ());
-			if (!error.empty ())
+			if (error.empty ())
 			{
 				boost::shared_ptr <lambda_p_llvm::execution_engine> node (new lambda_p_llvm::execution_engine (engine));
 				nodes [statement->association->declarations [0]] = node;

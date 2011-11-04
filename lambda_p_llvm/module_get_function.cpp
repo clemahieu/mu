@@ -14,7 +14,7 @@
 
 void lambda_p_llvm::module_get_function::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
 {
-	check_count (0, 2, statement, problems);
+	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
 		boost::shared_ptr <lambda_p_llvm::module> module (boost::dynamic_pointer_cast <lambda_p_llvm::module> (nodes [statement->association->references [0]]));

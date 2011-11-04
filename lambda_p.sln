@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repl", "repl", "{847ACC92-C
 		examples\repl\exec.lp = examples\repl\exec.lp
 		examples\repl\hello.lp = examples\repl\hello.lp
 		examples\repl\hello_execute.lp = examples\repl\hello_execute.lp
+		examples\repl\hello_ll.lp = examples\repl\hello_ll.lp
 		examples\repl\malloc.lp = examples\repl\malloc.lp
 		examples\repl\malloc_builder.lp = examples\repl\malloc_builder.lp
 		examples\repl\quit.lp = examples\repl\quit.lp
