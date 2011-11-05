@@ -22,7 +22,7 @@ namespace lambda_p
 	namespace binder
 	{
 		class node;
-		class node_list;
+		class list;
 	}
     namespace core
     {

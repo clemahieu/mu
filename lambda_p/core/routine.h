@@ -4,7 +4,7 @@
 #include <map>
 
 #include <lambda_p/core/position.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -71,7 +71,7 @@ namespace lambda_p
 			std::vector <lambda_p::core::statement *> statements;
 		private:
 			lambda_p::core::association * injected_surface;
-			lambda_p::binder::node_list injected;
+			lambda_p::binder::list injected;
 			void validate_node (size_t node, size_t current_statement, size_t current_argument, std::vector <lambda_p::errors::error *> & problems) const;
 			size_t nodes;
 		};

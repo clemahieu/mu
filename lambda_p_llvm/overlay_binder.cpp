@@ -11,12 +11,12 @@
 #include <lambda_p_llvm/memcpy_function.h>
 #include <lambda_p_llvm/wprintf_function.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 
 #include <llvm/Module.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 
-void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::overlay_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())

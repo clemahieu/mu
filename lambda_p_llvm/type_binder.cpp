@@ -11,7 +11,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/node.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <llvm/DerivedTypes.h>
@@ -23,7 +23,7 @@ lambda_p_llvm::type_binder::type_binder (lambda_p_llvm::generation_context & con
 {
 }
 
-void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

@@ -7,7 +7,7 @@
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/argument_binder.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <llvm/BasicBlock.h>
@@ -19,7 +19,7 @@ lambda_p_llvm::while_call_binder::while_call_binder (lambda_p_llvm::generation_c
 {
 }
 
-void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::while_call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 2, statement, problems);
 	if (problems.errors.empty ())

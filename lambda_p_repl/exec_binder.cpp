@@ -3,7 +3,7 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p_repl/builder.h>
 #include <lambda_p_kernel/apply.h>
@@ -24,7 +24,7 @@ void lambda_p_repl::exec_binder::set (boost::shared_ptr <lambda_p::binder::node>
 	exec = exec_a;
 }
 
-void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes_a, lambda_p::errors::error_list & problems)
+void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes_a, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())
@@ -42,8 +42,8 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 				if (input.routines.routines->size () > 0)
 				{
 					lambda_p_kernel::apply binder;
-					lambda_p::binder::node_list nodes;
-					lambda_p::binder::node_list declarations;
+					lambda_p::binder::list nodes;
+					lambda_p::binder::list declarations;
 					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems, declarations);
 				}
 				else

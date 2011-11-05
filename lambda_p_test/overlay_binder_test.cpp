@@ -33,13 +33,13 @@ void lambda_p_test::overlay_binder_test::run_1 ()
 	lambda_p::builder builder2;
 	builder2 (L"; overlay module engine; overlay module engine; ; :;");
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder2.routines.routines->operator[] (0)));
-	lambda_p::binder::node_list nodes;
+	lambda_p::binder::list nodes;
 	nodes [routine->routine_m->surface->declarations [0]] = overlay;
 	nodes [routine->routine_m->surface->declarations [1]] = engine;
 	nodes [routine->routine_m->surface->declarations [2]] = module;
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list declarations;
+	lambda_p::binder::list declarations;
 	apply.core (*routine, nodes, problems, declarations);
 	assert (problems.errors.empty ());
 	assert (declarations.nodes.size () == 0);

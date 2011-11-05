@@ -3,7 +3,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_kernel/routine.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/core/routine.h>
@@ -26,7 +26,7 @@ lambda_p_llvm::generator::generator (lambda_p_llvm::generation_context & context
 {
 }
 
-void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	size_t position;
 	check_count (1, 3, statement, problems);
@@ -43,7 +43,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 				{
 					if (argument_list->nodes.size () == routine->routine_m->surface->declarations.size ())
 					{
-						lambda_p::binder::node_list nodes_l;
+						lambda_p::binder::list nodes_l;
 						std::vector <size_t> open_positions;
 						std::vector <llvm::Type const *> parameters;
 						position = 0;

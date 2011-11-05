@@ -21,12 +21,12 @@ void lambda_p_test::apply_binder_test::run_1 ()
 	size_t data (routine->add_data (std::wstring (L"~")));
 	size_t declaration (routine->add_declaration ());
 	routine->surface->declarations.push_back (declaration);
-	boost::shared_ptr <lambda_p::binder::node_list> list (new lambda_p::binder::node_list);
+	boost::shared_ptr <lambda_p::binder::list> list (new lambda_p::binder::list);
 	list->operator[] (0) = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring (L"test")));
 	boost::shared_ptr <lambda_p_kernel::apply> apply (new lambda_p_kernel::apply);
 	boost::shared_ptr <lambda_p_kernel::routine> rout (new lambda_p_kernel::routine (routine));
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list declarations;
+	lambda_p::binder::list declarations;
 	apply->core (*rout, *list, problems, declarations);
 	assert (problems.errors.empty ());
 }

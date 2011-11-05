@@ -3,13 +3,13 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/number.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <sstream>
 
-void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
@@ -67,7 +67,7 @@ void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_
 	if (problems.errors.empty ())
 	{						
 		wchar_t * next;
-		wchar_t const * string_l (string.c_str ());
+		wchar_t const * string_l (string.c_str () + 1);
 		errno = 0;
 		unsigned long number = std::wcstol (string_l, &next, base);
 		if (errno == ERANGE)

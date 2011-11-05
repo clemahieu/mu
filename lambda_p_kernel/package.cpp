@@ -4,7 +4,7 @@
 #include <lambda_p/binder/data.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/tokenizer.hpp>
@@ -12,7 +12,7 @@
 
 #include <sstream>
 
-void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	bool problem (false);
 	size_t argument_count (statement->association->references.size ());
@@ -52,7 +52,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 	}
 }
 
-void lambda_p_kernel::package::parse_one (lambda_p::binder::node_list & nodes, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package::parse_one (lambda_p::binder::list & nodes, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
 {
 	boost::shared_ptr <lambda_p::binder::node> current_node (shared_from_this ());
 	boost::shared_ptr <lambda_p_kernel::package> current_package (shared_from_this ());

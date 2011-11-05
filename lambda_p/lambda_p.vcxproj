@@ -136,7 +136,6 @@
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="binder\list_binder.h" />
     <ClInclude Include="binder\list.h" />
-    <ClInclude Include="binder\node_list.h" />
     <ClInclude Include="binder\binder.h" />
     <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\association.h" />
@@ -198,7 +197,6 @@
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="binder\list_binder.cpp" />
     <ClCompile Include="binder\list.cpp" />
-    <ClCompile Include="binder\node_list.cpp" />
     <ClCompile Include="binder\binder.cpp" />
     <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\association.cpp" />

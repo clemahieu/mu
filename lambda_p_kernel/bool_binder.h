@@ -12,7 +12,7 @@ namespace lambda_p_kernel
 	{
 	public:
 		bool_binder ();
-		void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) override;
+		void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;
 		std::wstring binder_name () override;
 		std::map <std::wstring, lambda_p_kernel::bool_c> map;
 	};

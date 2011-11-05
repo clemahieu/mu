@@ -6,7 +6,6 @@
 #include <lambda_p_repl/routine_builder_binder.h>
 #include <lambda_p_repl/dynamic_wprintf.h>
 #include <lambda_p_kernel/apply.h>
-#include <lambda_p_kernel/node_list_binder.h>
 #include <lambda_p_kernel/package_add.h>
 #include <lambda_p_kernel/package_create.h>
 #include <lambda_p_repl/data_stream_binder.h>
@@ -21,6 +20,9 @@
 #include <lambda_p_kernel/cvalue.h>
 #include <lambda_p_kernel/fapply.h>
 #include <lambda_p_kernel/compute.h>
+#include <lambda_p_kernel/times.h>
+#include <lambda_p_kernel/number_binder.h>
+#include <lambda_p/binder/list_binder.h>
 
 #include <llvm/Function.h>
 
@@ -41,11 +43,13 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_repl::routine_builder_binder> routine_builder_binder (new lambda_p_repl::routine_builder_binder);
 	boost::shared_ptr <lambda_p_repl::file_stream_binder> file_stream_binder (new lambda_p_repl::file_stream_binder);
 	boost::shared_ptr <lambda_p_kernel::directory_compile> directory_compile (new lambda_p_kernel::directory_compile);
-	boost::shared_ptr <lambda_p_kernel::node_list_binder> nodes_binder (new lambda_p_kernel::node_list_binder);
 	boost::shared_ptr <lambda_p_kernel::adata_binder> adata_binder (new lambda_p_kernel::adata_binder);
 	boost::shared_ptr <lambda_p_kernel::cvalue> cvalue_binder (new lambda_p_kernel::cvalue);
 	boost::shared_ptr <lambda_p_kernel::fapply> fapply_binder (new lambda_p_kernel::fapply);
 	boost::shared_ptr <lambda_p_kernel::compute> compute_binder (new lambda_p_kernel::compute);
+	boost::shared_ptr <lambda_p_kernel::times> times_binder (new lambda_p_kernel::times);
+	boost::shared_ptr <lambda_p_kernel::number_binder> number_binder (new lambda_p_kernel::number_binder);
+	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
 	lambda_p_llvm::api llvm_binder (engine_a, context, malloc, memcpy);
 	std::wstring echo_name (L"echo");
 	std::wstring hello_name (L"hello");
@@ -59,11 +63,13 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring apply_name (L"apply");
 	std::wstring file_stream_name (L"file_stream");
 	std::wstring directory_compile_name (L"directory_compile");
-	std::wstring nodes_name (L"nodes");
 	std::wstring adata_name (L"adata");
 	std::wstring cvalue_name (L"cvalue");
 	std::wstring fapply_name (L"fapply");
 	std::wstring compute_name (L"compute");
+	std::wstring times_name (L"times");
+	std::wstring number_name (L"number");
+	std::wstring list_name (L"list");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [read_name] = read_binder;
@@ -76,9 +82,11 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [apply_name] = apply_binder;
 	package->nodes [file_stream_name] = file_stream_binder;
 	package->nodes [directory_compile_name] = directory_compile;
-	package->nodes [nodes_name] = nodes_binder;
 	package->nodes [adata_name] = adata_binder;
 	package->nodes [cvalue_name] = cvalue_binder;
 	package->nodes [fapply_name] = fapply_binder;
 	package->nodes [compute_name] = compute_binder;
+	package->nodes [times_name] = times_binder;
+	package->nodes [number_name] = number_binder;
+	package->nodes [list_name] = list_binder;
 }

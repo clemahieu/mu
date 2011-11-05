@@ -16,7 +16,9 @@ lambda_p::errors::error_id lambda_p::errors::unexpected_binder_type::error_type 
 
 void lambda_p::errors::unexpected_binder_type::string (std::wostream & stream)
 {
-	stream << L"Unexpected binder type at position: ";
+	stream << L"In binder: ";
+	stream << binder_name;
+	stream << " unexpected binder type at position: ";
 	stream << position;
 	stream << L" expecting: ";
 	stream << expected_type;

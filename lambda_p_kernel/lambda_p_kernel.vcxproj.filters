@@ -11,7 +11,6 @@
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="apply.cpp" />
-    <ClCompile Include="node_list_binder.cpp" />
     <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="adata.cpp" />
@@ -22,6 +21,7 @@
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
+    <ClCompile Include="times.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -34,7 +34,6 @@
     <ClInclude Include="number_binder.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="apply.h" />
-    <ClInclude Include="node_list_binder.h" />
     <ClInclude Include="directory_compile.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="adata.h" />
@@ -45,5 +44,6 @@
     <ClInclude Include="fapply.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bool_binder.h" />
+    <ClInclude Include="times.h" />
   </ItemGroup>
 </Project>

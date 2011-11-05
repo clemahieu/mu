@@ -40,6 +40,7 @@ void lambda_p_test::parser_test_1::run ()
 	run_12 ();
 	run_13 ();
 	run_14 ();
+	run_15 ();
 }
 
 void lambda_p_test::parser_test_1::run_1 ()
@@ -408,5 +409,23 @@ void lambda_p_test::parser_test_1::run_14 ()
 	parser (&t15);
 	parser (&t16);
 	parser (&t17);
+	assert (!parser.error ());
+}
+
+// Test direct linking surface declarations to references
+void lambda_p_test::parser_test_1::run_15 ()
+{
+	lambda_p::parser::routine_vector routines;
+	lambda_p::parser::parser parser (routines);
+	lambda_p::tokens::identifier t1 (std::wstring (L"c"));
+	lambda_p::tokens::divider t2;
+	lambda_p::tokens::identifier t3 (std::wstring (L"c"));
+	lambda_p::tokens::divider t4;
+	lambda_p::tokens::routine_end t5;
+	parser (&t1);
+	parser (&t2);
+	parser (&t3);
+	parser (&t4);
+	parser (&t5);
 	assert (!parser.error ());
 }

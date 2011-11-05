@@ -31,6 +31,8 @@
 #include <lambda_p_test/link_test.h>
 #include <lambda_p_test/adata_test.h>
 #include <lambda_p_test/cvalue_test.h>
+#include <lambda_p_test/times_test.h>
+#include <lambda_p_test/number_binder_test.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -171,6 +173,14 @@ int main ()
 	}
 	{
 		api_test test;
+		test.run ();
+	}
+	{
+		times_test test;
+		test.run ();
+	}
+	{
+		number_binder_test test;
 		test.run ();
 	}
 	for (size_t i (0); i < 1000; ++i)

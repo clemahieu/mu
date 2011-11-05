@@ -160,9 +160,6 @@
     <ClInclude Include="binder\node.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\node_list.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="parser\target_set.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -338,9 +335,6 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="binder\node.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\node_list.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="parser\target_set.cpp">

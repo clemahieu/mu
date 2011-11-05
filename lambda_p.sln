@@ -44,6 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repl", "repl", "{847ACC92-C
 		examples\repl\malloc_builder.lp = examples\repl\malloc_builder.lp
 		examples\repl\quit.lp = examples\repl\quit.lp
 		examples\repl\store_routine.lp = examples\repl\store_routine.lp
+		examples\repl\times.lp = examples\repl\times.lp
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{38CE15FF-E093-417C-A737-813620AEA03C}"

@@ -9,7 +9,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_kernel/bind_procedure.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -24,7 +24,7 @@ lambda_p_repl::dynamic_wprintf::dynamic_wprintf (llvm::Value * wprintf_a, lambda
 {
 }
 
-void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_repl::dynamic_wprintf::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	size_t parameter_count (statement->association->references.size ());
 	std::wstring format;

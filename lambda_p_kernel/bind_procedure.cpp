@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::node_list & nodes_a)
+lambda_p_kernel::bind_procedure::bind_procedure (boost::shared_ptr < lambda_p::core::routine> routine_a, lambda_p::binder::list & nodes_a)
 	: routine (routine_a),
 	nodes (nodes_a)
 {

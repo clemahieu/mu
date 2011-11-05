@@ -8,7 +8,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class node_list;
+		class list;
 	}
 }
 namespace lambda_p_kernel
@@ -17,9 +17,9 @@ namespace lambda_p_kernel
 	class application : public lambda_p::binder::node
 	{
 	public:
-		application (boost::shared_ptr <lambda_p_kernel::routine> routine_a, boost::shared_ptr <lambda_p::binder::node_list> nodes_a);
+		application (boost::shared_ptr <lambda_p_kernel::routine> routine_a, boost::shared_ptr <lambda_p::binder::list> nodes_a);
 		boost::shared_ptr <lambda_p_kernel::routine> routine;
-		boost::shared_ptr <lambda_p::binder::node_list> nodes;
+		boost::shared_ptr <lambda_p::binder::list> nodes;
 	};
 }
 

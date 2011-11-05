@@ -4,7 +4,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p/errors/error_list.h>
@@ -19,12 +19,12 @@ void lambda_p_test::unbindable_statement_test::run ()
 	routine->surface->declarations.push_back (declaration);
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target = declaration;
-	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
+	boost::shared_ptr <lambda_p::binder::list> nodes (new lambda_p::binder::list);
 	(*nodes) [declaration] = data;
 	boost::shared_ptr <lambda_p_kernel::routine> target (new lambda_p_kernel::routine (routine));
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list declarations;
+	lambda_p::binder::list declarations;
 	apply.core (*target, *nodes, problems, declarations);
 	assert (problems.errors.size () == 1);
 }

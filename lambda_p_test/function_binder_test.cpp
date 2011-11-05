@@ -4,7 +4,7 @@
 #include <lambda_p/builder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_llvm/fo_value.h>
@@ -35,7 +35,7 @@ void lambda_p_test::function_binder_test::run ()
 	lambda_p_llvm::generation_context context (llvm_context, module, block);
 	lambda_p_llvm::function_binder binder (context, target);
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list nodes;
+	lambda_p::binder::list nodes;
 	nodes [statement->association->references [0]] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::Type::getInt16Ty (llvm_context), 0xffcc)));
 	binder.bind (statement, nodes, problems);
 	assert (nodes [statement->association->declarations [0]].get () != nullptr);

@@ -18,11 +18,11 @@ namespace lambda_p
 	}
 	namespace binder
 	{
-		class node_list;
+		class list;
 		class binder : virtual public lambda_p::binder::node
 		{
 		public:
-			virtual void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) = 0;
+			virtual void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) = 0;
 			virtual std::wstring binder_name () = 0;
 		protected:
 			void check_binder (boost::shared_ptr <lambda_p::binder::node> binder_a, size_t position, wchar_t * expected, lambda_p::errors::error_list & problems);

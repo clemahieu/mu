@@ -44,7 +44,7 @@ void lambda_p_test::data_to_string_binder_test_1::run ()
     llvm::Module * module = new llvm::Module (module_name, llvm_context);
     lambda_p_llvm::generation_context context (llvm_context, module, nullptr);
 	boost::shared_ptr < lambda_p_llvm::data_to_string_binder> binder (new lambda_p_llvm::data_to_string_binder (context));
-	lambda_p::binder::node_list nodes;
+	lambda_p::binder::list nodes;
 	nodes [0] = binder;
 	lambda_p::errors::error_list problems;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);

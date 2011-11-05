@@ -5,7 +5,7 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/argument_binder.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -18,7 +18,7 @@ lambda_p_llvm::call_inst_binder::call_inst_binder (lambda_p_llvm::generation_con
 {
 }
 
-void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::call_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
@@ -67,6 +67,6 @@ std::wstring lambda_p_llvm::call_inst_binder::binder_name ()
 	return std::wstring (L"call_inst_binder");
 }
 
-void lambda_p_llvm::call_inst_binder::validate_argument_types (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::call_inst_binder::validate_argument_types (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 }

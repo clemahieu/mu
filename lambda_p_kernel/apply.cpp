@@ -15,7 +15,7 @@ lambda_p_kernel::apply::apply(void)
 }
 
 
-void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
@@ -23,10 +23,10 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 		boost::shared_ptr <lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
 		if (routine.get () != nullptr)
 		{
-			boost::shared_ptr <lambda_p::binder::node_list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::node_list> (nodes [statement->association->references [1]]));
+			boost::shared_ptr <lambda_p::binder::list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
 			if (nodes_l.get () != nullptr)
 			{
-				boost::shared_ptr <lambda_p::binder::node_list> actual_declarations (new lambda_p::binder::node_list);
+				boost::shared_ptr <lambda_p::binder::list> actual_declarations (new lambda_p::binder::list);
 				core (*routine.get (), *nodes_l.get (), problems, *actual_declarations);
 				if (problems.errors.empty ())
 				{
@@ -45,14 +45,14 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	}
 }
 
-void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::node_list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::node_list & declarations)
+void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p::binder::list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::list & declarations)
 {
 	size_t parameters (routine.routine_m->surface->declarations.size ());
 	size_t binders (nodes_l.nodes.size ());
 	if (parameters == binders)
 	{
 		size_t position (0);
-		lambda_p::binder::node_list actual_nodes;
+		lambda_p::binder::list actual_nodes;
 		for (auto i = nodes_l.nodes.begin (); i != nodes_l.nodes.end (); ++i, ++position)
 		{
 			if (i->get () != nullptr)

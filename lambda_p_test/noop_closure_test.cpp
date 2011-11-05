@@ -6,7 +6,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/call_binder.h>
@@ -66,7 +66,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	lambda_p::builder builder;
 	builder (L"; binder function call list; list ; args ; binder function args; closure; call closure;; :;");
 	boost::shared_ptr <lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
-	boost::shared_ptr <lambda_p::binder::node_list> nodes (new lambda_p::binder::node_list);
+	boost::shared_ptr <lambda_p::binder::list> nodes (new lambda_p::binder::list);
 	nodes->operator[] (routine->surface->declarations [0]) = binder;
 	nodes->operator[] (routine->surface->declarations [1]) = function;
 	nodes->operator[] (routine->surface->declarations [2]) = call;
@@ -74,7 +74,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	boost::shared_ptr <lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	lambda_p::binder::node_list declarations;
+	lambda_p::binder::list declarations;
 	apply.core (*routine_instance, *nodes, problems, declarations);
 	assert (problems.errors.size () == 0);
 	size_t count (block->getInstList ().size ());

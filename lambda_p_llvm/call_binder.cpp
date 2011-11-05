@@ -3,7 +3,7 @@
 #include <lambda_p_llvm/noop_closure.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -11,7 +11,7 @@
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
 
-void lambda_p_llvm::call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::call_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())

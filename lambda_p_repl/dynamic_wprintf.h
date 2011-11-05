@@ -16,7 +16,7 @@ namespace lambda_p_repl
 	{
 	public:
 		dynamic_wprintf (llvm::Value * wprintf_a, lambda_p_llvm::generation_context & context_a);
-		void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) override;
+		void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;
 		std::wstring binder_name ();
 	private:
 		void problem (size_t argument_position, lambda_p::errors::error_list & problems);

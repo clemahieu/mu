@@ -18,7 +18,7 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class node_list;
+		class list;
 	}
 }
 namespace lambda_p_llvm
@@ -28,7 +28,7 @@ namespace lambda_p_llvm
     {
     public:  
         abort_binder (llvm::Function * abort_function_a, lambda_p_llvm::generation_context * context_a);
-        void bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems) override;
+        void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;
 		std::wstring binder_name () override;
     private:
         llvm::Function * abort_function;

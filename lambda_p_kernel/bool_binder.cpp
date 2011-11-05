@@ -24,7 +24,7 @@ lambda_p_kernel::bool_binder::bool_binder ()
 	map [std::wstring (L"low")] = f;
 }
 
-void lambda_p_kernel::bool_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::bool_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())

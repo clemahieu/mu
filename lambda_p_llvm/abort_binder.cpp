@@ -12,7 +12,7 @@
 #include <lambda_p_llvm/abort_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/node_list.h>
+#include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <sstream>
@@ -27,7 +27,7 @@ context (context_a)
 {
 }
 
-void lambda_p_llvm::abort_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::node_list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_llvm::abort_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (0, 0, statement, problems);
 	if (problems.errors.empty ())
