@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="binder\binder_implementor.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />

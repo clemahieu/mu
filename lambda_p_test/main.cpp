@@ -30,6 +30,7 @@
 #include <lambda_p_test/overlay_binder_test.h>
 #include <lambda_p_test/link_test.h>
 #include <lambda_p_test/adata_test.h>
+#include <lambda_p_test/cvalue_test.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -62,6 +63,10 @@ int main ()
 	}
 	{
 		execution_engine_test test;
+		test.run ();
+	}
+	{
+		cvalue_test test;
 		test.run ();
 	}
 	{

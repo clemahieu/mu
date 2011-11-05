@@ -77,7 +77,27 @@ void lambda_p_kernel::apply::core (lambda_p_kernel::routine & routine, lambda_p:
 				size_t position (0);
 				for (auto i = routine.routine_m->surface->references.begin (); i != routine.routine_m->surface->references.end (); ++i, ++position)
 				{
-					declarations [position] = actual_nodes [*i];
+					boost::shared_ptr <lambda_p::binder::node> node (actual_nodes [*i]);
+					if (node.get () != nullptr)
+					{
+						declarations [position] = node;
+					}
+					else
+					{
+						std::wstringstream message;
+						message << L"Binder did not set declaration at position: ";
+						message << position;
+						add_error (message.str (), problems);
+					}
+				}
+				if (declarations.nodes.size () != routine.routine_m->surface->references.size ())
+				{
+					std::wstringstream message;
+					message << L"Binder did not set correct number of declarations, have: ";
+					message << declarations.nodes.size ();
+					message << L" need: ";
+					message << routine.routine_m->surface->references.size ();
+					add_error (message.str (), problems);
 				}
 			}
 		}

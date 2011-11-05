@@ -179,6 +179,9 @@
     <ClInclude Include="lexer\wistream_input.h">
       <Filter>lexer</Filter>
     </ClInclude>
+    <ClInclude Include="binder\binder_implementor.h">
+      <Filter>binder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">

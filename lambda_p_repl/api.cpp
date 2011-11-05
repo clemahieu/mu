@@ -18,6 +18,9 @@
 #include <lambda_p_llvm/abort_function.h>
 #include <lambda_p_kernel/directory_compile.h>
 #include <lambda_p_kernel/adata_binder.h>
+#include <lambda_p_kernel/cvalue.h>
+#include <lambda_p_kernel/fapply.h>
+#include <lambda_p_kernel/compute.h>
 
 #include <llvm/Function.h>
 
@@ -40,6 +43,9 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_kernel::directory_compile> directory_compile (new lambda_p_kernel::directory_compile);
 	boost::shared_ptr <lambda_p_kernel::node_list_binder> nodes_binder (new lambda_p_kernel::node_list_binder);
 	boost::shared_ptr <lambda_p_kernel::adata_binder> adata_binder (new lambda_p_kernel::adata_binder);
+	boost::shared_ptr <lambda_p_kernel::cvalue> cvalue_binder (new lambda_p_kernel::cvalue);
+	boost::shared_ptr <lambda_p_kernel::fapply> fapply_binder (new lambda_p_kernel::fapply);
+	boost::shared_ptr <lambda_p_kernel::compute> compute_binder (new lambda_p_kernel::compute);
 	lambda_p_llvm::api llvm_binder (engine_a, context, malloc, memcpy);
 	std::wstring echo_name (L"echo");
 	std::wstring hello_name (L"hello");
@@ -55,6 +61,9 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring directory_compile_name (L"directory_compile");
 	std::wstring nodes_name (L"nodes");
 	std::wstring adata_name (L"adata");
+	std::wstring cvalue_name (L"cvalue");
+	std::wstring fapply_name (L"fapply");
+	std::wstring compute_name (L"compute");
 	package->nodes [echo_name] = echo_binder;
 	package->nodes [hello_name] = hello_binder;
 	package->nodes [read_name] = read_binder;
@@ -69,4 +78,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [directory_compile_name] = directory_compile;
 	package->nodes [nodes_name] = nodes_binder;
 	package->nodes [adata_name] = adata_binder;
+	package->nodes [cvalue_name] = cvalue_binder;
+	package->nodes [fapply_name] = fapply_binder;
+	package->nodes [compute_name] = compute_binder;
 }

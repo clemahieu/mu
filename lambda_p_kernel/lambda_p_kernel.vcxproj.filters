@@ -16,6 +16,12 @@
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="adata.cpp" />
     <ClCompile Include="adata_binder.cpp" />
+    <ClCompile Include="bool_c.cpp" />
+    <ClCompile Include="cvalue.cpp" />
+    <ClCompile Include="compute.cpp" />
+    <ClCompile Include="fapply.cpp" />
+    <ClCompile Include="application.cpp" />
+    <ClCompile Include="bool_binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -33,5 +39,11 @@
     <ClInclude Include="builder.h" />
     <ClInclude Include="adata.h" />
     <ClInclude Include="adata_binder.h" />
+    <ClInclude Include="bool_c.h" />
+    <ClInclude Include="cvalue.h" />
+    <ClInclude Include="compute.h" />
+    <ClInclude Include="fapply.h" />
+    <ClInclude Include="application.h" />
+    <ClInclude Include="bool_binder.h" />
   </ItemGroup>
 </Project>
