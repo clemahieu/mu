@@ -40,7 +40,7 @@ void lambda_p_test::overlay_binder_test::run_1 ()
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, nodes, problems, declarations);
+	apply.core (routine, nodes, problems, declarations);
 	assert (problems.errors.empty ());
 	assert (declarations.nodes.size () == 0);
 }

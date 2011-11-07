@@ -71,7 +71,7 @@ void lambda_p_repl::entry_environment::run (boost::shared_ptr <lambda_p::core::r
 	lambda_p_kernel::apply apply;
 	lambda_p::binder::list nodes;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, nodes, problems, declarations);
+	apply.core (routine, nodes, problems, declarations);
 	if (!problems.errors.empty ())
 	{
 		std::wcout << "Binding error:\n";

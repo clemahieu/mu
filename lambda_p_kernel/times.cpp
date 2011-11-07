@@ -32,7 +32,7 @@ void lambda_p_kernel::times::bind (lambda_p::core::statement * statement, lambda
 						lambda_p::binder::list references (*declarations);
 						declarations->nodes.clear ();
 						lambda_p_kernel::apply apply;
-						apply.core (*routine, references, problems, *declarations);
+						apply.core (routine, references, problems, *declarations);
 					}
 					if (problems.errors.empty ())
 					{

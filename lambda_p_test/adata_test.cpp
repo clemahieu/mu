@@ -24,7 +24,7 @@ void lambda_p_test::adata_test::run_1 ()
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder.routines.routines->operator[] (0)));
-	apply.core (*routine, list, problems, declarations);
+	apply.core (routine, list, problems, declarations);
 	assert (problems.errors.empty ());
 	assert (declarations.nodes.size () == 1);
 	boost::shared_ptr <lambda_p_kernel::adata> adata (boost::dynamic_pointer_cast <lambda_p_kernel::adata> (declarations [0]));

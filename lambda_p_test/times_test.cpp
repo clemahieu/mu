@@ -34,7 +34,7 @@ void lambda_p_test::times_test::run_1 ()
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (test_routine.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, test_nodes, problems, declarations);
+	apply.core (routine, test_nodes, problems, declarations);
 	assert (declarations.nodes.size () == 1);
 	boost::shared_ptr <lambda_p::binder::list> nodes (boost::dynamic_pointer_cast <lambda_p::binder::list> (declarations [0]));
 	assert (nodes.get () != nullptr);
@@ -60,7 +60,7 @@ void lambda_p_test::times_test::run_2 ()
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (test_routine.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, test_nodes, problems, declarations);
+	apply.core (routine, test_nodes, problems, declarations);
 	assert (declarations.nodes.size () == 1);
 	boost::shared_ptr <lambda_p::binder::list> nodes (boost::dynamic_pointer_cast <lambda_p::binder::list> (declarations [0]));
 	assert (nodes.get () != nullptr);
@@ -86,7 +86,7 @@ void lambda_p_test::times_test::run_3 ()
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (test_routine.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, test_nodes, problems, declarations);
+	apply.core (routine, test_nodes, problems, declarations);
 	assert (declarations.nodes.size () == 1);
 	boost::shared_ptr <lambda_p::binder::list> nodes (boost::dynamic_pointer_cast <lambda_p::binder::list> (declarations [0]));
 	assert (nodes.get () != nullptr);
@@ -112,6 +112,6 @@ void lambda_p_test::times_test::run_4 ()
 	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (test_routine.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine, test_nodes, problems, declarations);
+	apply.core (routine, test_nodes, problems, declarations);
 	assert (!problems.errors.empty ());
 }

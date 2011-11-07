@@ -25,6 +25,6 @@ void lambda_p_test::unbindable_statement_test::run ()
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*target, *nodes, problems, declarations);
+	apply.core (target, *nodes, problems, declarations);
 	assert (problems.errors.size () == 1);
 }

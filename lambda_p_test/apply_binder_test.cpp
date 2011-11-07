@@ -27,6 +27,6 @@ void lambda_p_test::apply_binder_test::run_1 ()
 	boost::shared_ptr <lambda_p_kernel::routine> rout (new lambda_p_kernel::routine (routine));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply->core (*rout, *list, problems, declarations);
+	apply->core (rout, *list, problems, declarations);
 	assert (problems.errors.empty ());
 }

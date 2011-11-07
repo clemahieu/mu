@@ -13,7 +13,7 @@ namespace lambda_p_kernel
 	public:
 		apply (void);
 		void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;
-		void core (lambda_p_kernel::routine & routine, lambda_p::binder::list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::list & declarations);
+		void core (boost::shared_ptr <lambda_p_kernel::routine> routine, lambda_p::binder::list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::list & declarations);
 		std::wstring binder_name () override;
 	};
 }

@@ -42,7 +42,7 @@ void lambda_p_test::loop_test::run_1 ()
 	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
-	apply.core (*loop, list, problems, results);
+	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
 	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
@@ -71,7 +71,7 @@ void lambda_p_test::loop_test::run_2 ()
 	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
-	apply.core (*loop, list, problems, results);
+	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
 	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
@@ -100,7 +100,7 @@ void lambda_p_test::loop_test::run_3 ()
 	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
-	apply.core (*loop, list, problems, results);
+	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
 	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
@@ -129,7 +129,7 @@ void lambda_p_test::loop_test::run_4 ()
 	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
-	apply.core (*loop, list, problems, results);
+	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
 	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));

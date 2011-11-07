@@ -32,7 +32,7 @@ void lambda_p_kernel::loop::bind (lambda_p::core::statement * statement, lambda_
 					references.merge (*declarations, problems);
 					declarations->nodes.clear ();
 					lambda_p_kernel::apply apply;
-					apply.core (*routine, references, problems, *declarations);
+					apply.core (routine, references, problems, *declarations);
 					if (problems.errors.empty ())
 					{
 						size_t bool_index (routine->routine_m->surface->references.size () - 1);

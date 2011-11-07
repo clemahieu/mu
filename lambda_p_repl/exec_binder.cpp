@@ -44,7 +44,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 					lambda_p_kernel::apply binder;
 					lambda_p::binder::list nodes;
 					lambda_p::binder::list declarations;
-					binder.core (lambda_p_kernel::routine (input.routines.routines->operator[] (0)), nodes, problems, declarations);
+					binder.core (boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0))), nodes, problems, declarations);
 				}
 				else
 				{

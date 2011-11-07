@@ -19,8 +19,7 @@ void lambda_p_kernel::compute::bind (lambda_p::core::statement * statement, lamb
 		{
 			lambda_p_kernel::apply apply;
 			boost::shared_ptr <lambda_p::binder::list> declarations (new lambda_p::binder::list);
-			lambda_p_kernel::routine routine (application->routine->routine_m);
-			apply.core (routine, *application->nodes, problems, *declarations);
+			apply.core (application->routine, *application->nodes, problems, *declarations);
 			nodes [statement->association->declarations [0]] = declarations;
 		}
 	}

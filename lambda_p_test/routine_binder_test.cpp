@@ -22,6 +22,6 @@ void lambda_p_test::routine_binder_test::run_1 ()
 	lambda_p::errors::error_list problems;
 	lambda_p_kernel::apply apply;
 	lambda_p::binder::list declarations;
-	apply.core (*rout, *inner_nodes, problems, declarations);
+	apply.core (rout, *inner_nodes, problems, declarations);
 	assert (problems.errors.size () == 0);
 }

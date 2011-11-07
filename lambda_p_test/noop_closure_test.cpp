@@ -75,7 +75,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	apply.core (*routine_instance, *nodes, problems, declarations);
+	apply.core (routine_instance, *nodes, problems, declarations);
 	assert (problems.errors.size () == 0);
 	size_t count (block->getInstList ().size ());
 	assert (count == 1);
