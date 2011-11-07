@@ -7,7 +7,6 @@
     <ClCompile Include="package.cpp" />
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
-    <ClCompile Include="routine.cpp" />
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="apply.cpp" />
@@ -34,7 +33,6 @@
     <ClInclude Include="package.h" />
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
-    <ClInclude Include="routine.h" />
     <ClInclude Include="number_binder.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="apply.h" />

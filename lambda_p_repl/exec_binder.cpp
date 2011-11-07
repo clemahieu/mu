@@ -7,7 +7,7 @@
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p_repl/builder.h>
 #include <lambda_p_kernel/apply.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/filesystem.hpp>
@@ -44,7 +44,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 					lambda_p_kernel::apply binder;
 					lambda_p::binder::list nodes;
 					lambda_p::binder::list declarations;
-					binder.core (boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0))), nodes, problems, declarations);
+					binder.core (input.routines.routines->operator[] (0), nodes, problems, declarations);
 				}
 				else
 				{

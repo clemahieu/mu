@@ -6,7 +6,6 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p_kernel/routine.h>
 
 void lambda_p_test::apply_binder_test::run ()
 {
@@ -24,7 +23,7 @@ void lambda_p_test::apply_binder_test::run_1 ()
 	boost::shared_ptr <lambda_p::binder::list> list (new lambda_p::binder::list);
 	list->operator[] (0) = boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring (L"test")));
 	boost::shared_ptr <lambda_p_kernel::apply> apply (new lambda_p_kernel::apply);
-	boost::shared_ptr <lambda_p_kernel::routine> rout (new lambda_p_kernel::routine (routine));
+	boost::shared_ptr <lambda_p::core::routine> rout (routine);
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
 	apply->core (rout, *list, problems, declarations);

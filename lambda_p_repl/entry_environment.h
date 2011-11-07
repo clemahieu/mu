@@ -34,10 +34,6 @@ namespace lambda_p_llvm
 	class context;
 	class generation_context;
 }
-namespace lambda_p_kernel
-{
-	class routine;
-}
 namespace lambda_p_repl
 {
     class repl;

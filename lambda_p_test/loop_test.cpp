@@ -8,7 +8,7 @@
 #include <lambda_p_kernel/equals.h>
 #include <lambda_p_kernel/loop.h>
 #include <lambda_p/binder/list_binder.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_kernel/bool_c.h>
 #include <lambda_p_kernel/not.h>
@@ -30,7 +30,7 @@ void lambda_p_test::loop_test::run_1 ()
 	lambda_p::binder::list list;
 	list [0] = boost::shared_ptr <lambda_p_kernel::loop> (new lambda_p_kernel::loop);
 	list [1] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (inner_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (inner_builder.routines.routines->operator[] (0));
 	list [2] = routine;
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
@@ -39,7 +39,7 @@ void lambda_p_test::loop_test::run_1 ()
 	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
 	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
 	lambda_p_kernel::apply apply;
-	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
 	apply.core (loop, list, problems, results);
@@ -59,7 +59,7 @@ void lambda_p_test::loop_test::run_2 ()
 	lambda_p::binder::list list;
 	list [0] = boost::shared_ptr <lambda_p_kernel::loop> (new lambda_p_kernel::loop);
 	list [1] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (inner_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (inner_builder.routines.routines->operator[] (0));
 	list [2] = routine;
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
@@ -68,7 +68,7 @@ void lambda_p_test::loop_test::run_2 ()
 	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
 	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
 	lambda_p_kernel::apply apply;
-	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
 	apply.core (loop, list, problems, results);
@@ -88,7 +88,7 @@ void lambda_p_test::loop_test::run_3 ()
 	lambda_p::binder::list list;
 	list [0] = boost::shared_ptr <lambda_p_kernel::loop> (new lambda_p_kernel::loop);
 	list [1] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (inner_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (inner_builder.routines.routines->operator[] (0));
 	list [2] = routine;
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
@@ -97,7 +97,7 @@ void lambda_p_test::loop_test::run_3 ()
 	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
 	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
 	lambda_p_kernel::apply apply;
-	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
 	apply.core (loop, list, problems, results);
@@ -117,7 +117,7 @@ void lambda_p_test::loop_test::run_4 ()
 	lambda_p::binder::list list;
 	list [0] = boost::shared_ptr <lambda_p_kernel::loop> (new lambda_p_kernel::loop);
 	list [1] = boost::shared_ptr <lambda_p::binder::list_binder> (new lambda_p::binder::list_binder);
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (inner_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (inner_builder.routines.routines->operator[] (0));
 	list [2] = routine;
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
@@ -126,7 +126,7 @@ void lambda_p_test::loop_test::run_4 ()
 	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
 	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (8));
 	lambda_p_kernel::apply apply;
-	boost::shared_ptr <lambda_p_kernel::routine> loop (new lambda_p_kernel::routine (outer_builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list results;
 	apply.core (loop, list, problems, results);

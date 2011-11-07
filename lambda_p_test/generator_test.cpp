@@ -7,7 +7,6 @@
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/builder.h>
 #include <lambda_p_llvm/generator.h>
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/binder/list_binder.h>
@@ -49,7 +48,7 @@ void lambda_p_test::generator_test::run_1 ()
 	lambda_p::binder::list nodes;
 	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
 	nodes [0] = generator;
-	boost::shared_ptr <lambda_p_kernel::routine> routine_value (new lambda_p_kernel::routine (boost::shared_ptr < lambda_p::core::routine> (routine.routines.routines->operator[] (0))));
+	boost::shared_ptr <lambda_p::core::routine> routine_value (routine.routines.routines->operator[] (0));
 	nodes [1] = routine_value;
 	boost::shared_ptr <lambda_p_llvm::fo_value> fma_value (new lambda_p_llvm::fo_value (fma));
 	nodes [2] = fma_value;

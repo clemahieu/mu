@@ -5,6 +5,7 @@
 
 #include <lambda_p/core/position.h>
 #include <lambda_p/binder/list.h>
+#include <lambda_p/binder/node.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -24,7 +25,6 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class node;
 		class bind_procedure;
 		class data;
 	}
@@ -46,7 +46,7 @@ namespace lambda_p
 	{
 		class association;
 		class statement;
-		class routine
+		class routine : public lambda_p::binder::node
 		{
 			friend class lambda_p::core::statement;
 			friend class lambda_p::binder::data;

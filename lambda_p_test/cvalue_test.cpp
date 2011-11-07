@@ -7,7 +7,7 @@
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/bool_c.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 
 void lambda_p_test::cvalue_test::run ()
 {
@@ -27,7 +27,7 @@ void lambda_p_test::cvalue_test::run_1 ()
 	lambda_p::binder::list result;
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
 	apply.core (routine, list, problems, result);
 	assert (problems.errors.empty ());
 	assert (result.nodes.size () == 1);
@@ -46,7 +46,7 @@ void lambda_p_test::cvalue_test::run_2 ()
 	lambda_p::binder::list result;
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
 	apply.core (routine, list, problems, result);
 	assert (problems.errors.empty ());
 	assert (result.nodes.size () == 1);

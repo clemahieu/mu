@@ -13,7 +13,6 @@
 
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/generation_context.h>
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_repl/exec_binder.h>
@@ -66,12 +65,11 @@ context (context_a)
 
 void lambda_p_repl::entry_environment::run (boost::shared_ptr <lambda_p::core::routine> routine_a)
 {
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (routine_a));
 	lambda_p::errors::error_list problems;
 	lambda_p_kernel::apply apply;
 	lambda_p::binder::list nodes;
 	lambda_p::binder::list declarations;
-	apply.core (routine, nodes, problems, declarations);
+	apply.core (routine_a, nodes, problems, declarations);
 	if (!problems.errors.empty ())
 	{
 		std::wcout << "Binding error:\n";

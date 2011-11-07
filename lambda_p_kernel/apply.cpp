@@ -1,10 +1,8 @@
 #include "apply.h"
 
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -20,7 +18,7 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
+		boost::shared_ptr <lambda_p::core::routine> routine (boost::dynamic_pointer_cast <lambda_p::core::routine> (nodes [statement->association->references [0]]));
 		if (routine.get () != nullptr)
 		{
 			boost::shared_ptr <lambda_p::binder::list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
@@ -45,9 +43,9 @@ void lambda_p_kernel::apply::bind (lambda_p::core::statement * statement, lambda
 	}
 }
 
-void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p_kernel::routine> routine, lambda_p::binder::list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::list & declarations)
+void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p::core::routine> routine, lambda_p::binder::list & nodes_l, lambda_p::errors::error_list & problems, lambda_p::binder::list & declarations)
 {
-	size_t parameters (routine->routine_m->surface->declarations.size ());
+	size_t parameters (routine->surface->declarations.size ());
 	size_t binders (nodes_l.nodes.size ());
 	if (parameters == binders)
 	{
@@ -57,7 +55,7 @@ void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p_kernel::routine> 
 		{
 			if (i->get () != nullptr)
 			{
-				actual_nodes [routine->routine_m->surface->declarations [position]] = *i;
+				actual_nodes [routine->surface->declarations [position]] = *i;
 			}
 			else
 			{
@@ -70,12 +68,12 @@ void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p_kernel::routine> 
 		}
 		if (problems.errors.empty ())
 		{
-			lambda_p_kernel::bind_procedure procedure (routine->routine_m, actual_nodes);
+			lambda_p_kernel::bind_procedure procedure (routine, actual_nodes);
 			procedure (problems);
 			if (problems.errors.empty ())
 			{
 				size_t position (0);
-				for (auto i = routine->routine_m->surface->references.begin (); i != routine->routine_m->surface->references.end (); ++i, ++position)
+				for (auto i = routine->surface->references.begin (); i != routine->surface->references.end (); ++i, ++position)
 				{
 					boost::shared_ptr <lambda_p::binder::node> node (actual_nodes [*i]);
 					if (node.get () != nullptr)
@@ -90,13 +88,13 @@ void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p_kernel::routine> 
 						add_error (message.str (), problems);
 					}
 				}
-				if (declarations.nodes.size () != routine->routine_m->surface->references.size ())
+				if (declarations.nodes.size () != routine->surface->references.size ())
 				{
 					std::wstringstream message;
 					message << L"Binder did not set correct number of declarations, have: ";
 					message << declarations.nodes.size ();
 					message << L" need: ";
-					message << routine->routine_m->surface->references.size ();
+					message << routine->surface->references.size ();
 					add_error (message.str (), problems);
 				}
 			}

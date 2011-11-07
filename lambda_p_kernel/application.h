@@ -10,15 +10,18 @@ namespace lambda_p
 	{
 		class list;
 	}
+	namespace core
+	{
+		class routine;
+	}
 }
 namespace lambda_p_kernel
 {
-	class routine;
 	class application : public lambda_p::binder::node
 	{
 	public:
-		application (boost::shared_ptr <lambda_p_kernel::routine> routine_a, boost::shared_ptr <lambda_p::binder::list> nodes_a);
-		boost::shared_ptr <lambda_p_kernel::routine> routine;
+		application (boost::shared_ptr <lambda_p::core::routine> routine_a, boost::shared_ptr <lambda_p::binder::list> nodes_a);
+		boost::shared_ptr <lambda_p::core::routine> routine;
 		boost::shared_ptr <lambda_p::binder::list> nodes;
 	};
 }

@@ -2,7 +2,6 @@
 
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/fo_value.h>
@@ -32,7 +31,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 	check_count (1, 3, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
+		auto routine (boost::dynamic_pointer_cast <lambda_p::core::routine> (nodes [statement->association->references [0]]));
 		if (routine.get () != nullptr)
 		{
 			auto return_type (boost::dynamic_pointer_cast < lambda_p_llvm::type> (nodes [statement->association->references [1]]));
@@ -41,7 +40,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 				auto argument_list (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [2]]));
 				if (argument_list.get () != nullptr)
 				{
-					if (argument_list->nodes.size () == routine->routine_m->surface->declarations.size ())
+					if (argument_list->nodes.size () == routine->surface->declarations.size ())
 					{
 						lambda_p::binder::list nodes_l;
 						std::vector <size_t> open_positions;
@@ -89,11 +88,11 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 							{
 								nodes_l [*j] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (&(*i)));
 							}
-							lambda_p_kernel::bind_procedure procedure (routine->routine_m, nodes_l);
+							lambda_p_kernel::bind_procedure procedure (routine, nodes_l);
 							procedure (problems);
 							if (problems.errors.empty ())
 							{
-								auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes_l [routine->routine_m->surface->references [0]]));
+								auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes_l [routine->surface->references [0]]));
 								if (return_value.get () != nullptr)
 								{
 									llvm::ReturnInst * ret (llvm::ReturnInst::Create (context_l.context, return_value->value));
@@ -115,7 +114,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 						message << L"Unexpected number of arguments, have: ";
 						message << argument_list->nodes.size ();
 						message << L" expect: ";
-						message << routine->routine_m->surface->references.size ();
+						message << routine->surface->references.size ();
 						add_error (message.str (), problems);
 					}
 				}

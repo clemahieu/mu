@@ -10,7 +10,7 @@
 #include <lambda_p/binder/list.h>
 #include <lambda_p/builder.h>
 #include <lambda_p_kernel/builder.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <fstream>
@@ -40,7 +40,7 @@ void lambda_p_repl::routine_builder_binder::core (lambda_p::core::statement * st
 	input (stream);
 	if (!input.error ())
 	{
-		nodes [statement->association->declarations [0]] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
+		nodes [statement->association->declarations [0]] = input.routines.routines->operator[] (0);
 	}
 	else
 	{

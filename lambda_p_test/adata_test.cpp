@@ -6,7 +6,7 @@
 #include <lambda_p_kernel/adata.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 
 void lambda_p_test::adata_test::run ()
 {
@@ -23,7 +23,7 @@ void lambda_p_test::adata_test::run_1 ()
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;
-	boost::shared_ptr <lambda_p_kernel::routine> routine (new lambda_p_kernel::routine (builder.routines.routines->operator[] (0)));
+	boost::shared_ptr <lambda_p::core::routine> routine (builder.routines.routines->operator[] (0));
 	apply.core (routine, list, problems, declarations);
 	assert (problems.errors.empty ());
 	assert (declarations.nodes.size () == 1);

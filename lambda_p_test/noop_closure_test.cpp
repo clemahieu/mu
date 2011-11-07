@@ -8,7 +8,6 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p_llvm/fo_value.h>
-#include <lambda_p_kernel/routine.h>
 #include <lambda_p_llvm/call_binder.h>
 #include <lambda_p/binder/list_binder.h>
 #include <lambda_p/builder.h>
@@ -71,7 +70,7 @@ void lambda_p_test::noop_closure_test::run_2 ()
 	nodes->operator[] (routine->surface->declarations [1]) = function;
 	nodes->operator[] (routine->surface->declarations [2]) = call;
 	nodes->operator[] (routine->surface->declarations [3]) = list;
-	boost::shared_ptr <lambda_p_kernel::routine> routine_instance (new lambda_p_kernel::routine (routine));
+	boost::shared_ptr <lambda_p::core::routine> routine_instance (routine);
 	lambda_p_kernel::apply apply;
 	lambda_p::errors::error_list problems;
 	lambda_p::binder::list declarations;

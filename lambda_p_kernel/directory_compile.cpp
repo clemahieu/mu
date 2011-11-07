@@ -7,7 +7,7 @@
 #include <lambda_p_repl/file_stream.h>
 #include <lambda_p_kernel/builder.h>
 #include <lambda_p_kernel/package.h>
-#include <lambda_p_kernel/routine.h>
+#include <lambda_p/core/routine.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/filesystem.hpp>
@@ -66,7 +66,7 @@ void lambda_p_kernel::directory_compile::package_directory (lambda_p::errors::er
 			input (stream);
 			if (input.routines.routines->size () == 1)
 			{
-				package->nodes [item_name] = boost::shared_ptr <lambda_p_kernel::routine> (new lambda_p_kernel::routine (input.routines.routines->operator[] (0)));
+				package->nodes [item_name] = input.routines.routines->operator[] (0);
 			}
 			else
 			{
