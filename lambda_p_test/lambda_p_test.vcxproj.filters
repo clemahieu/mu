@@ -37,6 +37,7 @@
     <ClCompile Include="cvalue_test.cpp" />
     <ClCompile Include="times_test.cpp" />
     <ClCompile Include="number_binder_test.cpp" />
+    <ClCompile Include="loop_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -74,5 +75,6 @@
     <ClInclude Include="cvalue_test.h" />
     <ClInclude Include="times_test.h" />
     <ClInclude Include="number_binder_test.h" />
+    <ClInclude Include="loop_test.h" />
   </ItemGroup>
 </Project>

@@ -33,6 +33,7 @@
 #include <lambda_p_test/cvalue_test.h>
 #include <lambda_p_test/times_test.h>
 #include <lambda_p_test/number_binder_test.h>
+#include <lambda_p_test/loop_test.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -181,6 +182,10 @@ int main ()
 	}
 	{
 		number_binder_test test;
+		test.run ();
+	}
+	{
+		loop_test test;
 		test.run ();
 	}
 	for (size_t i (0); i < 1000; ++i)

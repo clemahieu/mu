@@ -22,6 +22,9 @@
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
     <ClCompile Include="times.cpp" />
+    <ClCompile Include="subtract.cpp" />
+    <ClCompile Include="equals.cpp" />
+    <ClCompile Include="loop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -45,5 +48,8 @@
     <ClInclude Include="application.h" />
     <ClInclude Include="bool_binder.h" />
     <ClInclude Include="times.h" />
+    <ClInclude Include="subtract.h" />
+    <ClInclude Include="equals.h" />
+    <ClInclude Include="loop.h" />
   </ItemGroup>
 </Project>

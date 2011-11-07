@@ -16,7 +16,7 @@ void lambda_p_kernel::times::bind (lambda_p::core::statement * statement, lambda
 		boost::shared_ptr <lambda_p_kernel::routine> routine (boost::dynamic_pointer_cast <lambda_p_kernel::routine> (nodes [statement->association->references [0]]));
 		check_binder (routine, 0, L"routine", problems);
 		boost::shared_ptr <lambda_p::binder::list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
-		check_binder (nodes_l, 1, L"node_list", problems);
+		check_binder (nodes_l, 1, L"list", problems);
 		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [2]]));
 		check_binder (number, 2, L"number", problems);
 		if (problems.errors.empty ())
