@@ -19,7 +19,7 @@ void lambda_p_test::loop_test::run ()
 void lambda_p_test::loop_test::run_1 ()
 {
 	lambda_p::builder inner_builder;
-	inner_builder (L"subtract equals value one zero next; subtract equals value one zero; subtract value one; next; :;");
+	inner_builder (L"subtract equals new_value one zero next; subtract equals value one zero; subtract value one; new_value; equals new_value zero; next; :;");
 	lambda_p::builder outer_builder;
 	outer_builder (L"; loop list routine subtract equals value one zero; list subtract equals value one zero; args; loop routine args; results; :;");
 	lambda_p::binder::list list;

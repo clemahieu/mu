@@ -35,11 +35,13 @@ void lambda_p_kernel::loop::bind (lambda_p::core::statement * statement, lambda_
 					apply.core (*routine, references, problems, *declarations);
 					if (problems.errors.empty ())
 					{
-						boost::shared_ptr <lambda_p_kernel::bool_c> condition (boost::dynamic_pointer_cast <lambda_p_kernel::bool_c> (declarations->operator[] (routine->routine_m->surface->references [routine->routine_m->surface->references.size () - 1])));
+						size_t bool_index (routine->routine_m->surface->references.size () - 1);
+						boost::shared_ptr <lambda_p_kernel::bool_c> condition (boost::dynamic_pointer_cast <lambda_p_kernel::bool_c> (declarations->operator[] (bool_index)));
 						check_binder (condition, 0, L"bool_c", problems);
 						if (problems.errors.empty ())
 						{
 							value = condition->value;
+							declarations->nodes.resize (bool_index);
 						}
 					}
 				}
