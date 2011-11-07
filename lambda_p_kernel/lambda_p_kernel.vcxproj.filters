@@ -25,6 +25,7 @@
     <ClCompile Include="subtract.cpp" />
     <ClCompile Include="equals.cpp" />
     <ClCompile Include="loop.cpp" />
+    <ClCompile Include="not.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -51,5 +52,6 @@
     <ClInclude Include="subtract.h" />
     <ClInclude Include="equals.h" />
     <ClInclude Include="loop.h" />
+    <ClInclude Include="not.h" />
   </ItemGroup>
 </Project>

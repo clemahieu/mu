@@ -138,6 +138,7 @@
     <ClCompile Include="equals.cpp" />
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="loop.cpp" />
+    <ClCompile Include="not.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="routine.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="fapply.h" />
     <ClInclude Include="identity.h" />
     <ClInclude Include="loop.h" />
+    <ClInclude Include="not.h" />
     <ClInclude Include="null_binder.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="number_binder.h" />
