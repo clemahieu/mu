@@ -25,7 +25,6 @@
     <ClInclude Include="api.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="assemble_binder.h" />
-    <ClInclude Include="call_binder.h" />
     <ClInclude Include="cast_inst_binder.h" />
     <ClInclude Include="execution_engine.h" />
     <ClInclude Include="execution_engine_binder.h" />
@@ -46,8 +45,6 @@
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="malloc_function.h" />
     <ClInclude Include="memcpy_function.h" />
-    <ClInclude Include="noop_closure.h" />
-    <ClInclude Include="noop_closure_binder.h" />
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="struct_binder.h" />
     <ClInclude Include="type_inference.h" />
@@ -63,7 +60,6 @@
     <ClCompile Include="api.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="assemble_binder.cpp" />
-    <ClCompile Include="call_binder.cpp" />
     <ClCompile Include="cast_inst_binder.cpp" />
     <ClCompile Include="execution_engine.cpp" />
     <ClCompile Include="execution_engine_binder.cpp" />
@@ -84,8 +80,6 @@
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
-    <ClCompile Include="noop_closure.cpp" />
-    <ClCompile Include="noop_closure_binder.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="struct_binder.cpp" />
     <ClCompile Include="type_inference.cpp" />

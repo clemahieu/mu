@@ -12,9 +12,6 @@
 #include <lambda_p_llvm/generator.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
-#include <lambda_p_llvm/while_call_binder.h>
-#include <lambda_p_llvm/noop_closure_binder.h>
-#include <lambda_p_llvm/call_binder.h>
 #include <lambda_p_llvm/struct_binder.h>
 #include <lambda_p_llvm/malloc_function.h>
 #include <lambda_p_llvm/memcpy_function.h>
@@ -64,7 +61,7 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [alloca_inst_name] = alloca_inst_binder;
 
 	std::wstring generator_name (L"generator");
-	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
+	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator);
 	package->nodes [generator_name] = generator;
 	
 	std::wstring malloc_name (L"malloc");
@@ -78,18 +75,6 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
     std::wstring memcpy_name (L"memcpy");
     boost::shared_ptr <lambda_p_llvm::fo_value> memcpy_function (new lambda_p_llvm::fo_value (memcpy.memcpy));
     package->nodes [memcpy_name] = memcpy_function;
-	
-	std::wstring while_name (L"while");
-	boost::shared_ptr <lambda_p_llvm::while_call_binder> while_binder (new lambda_p_llvm::while_call_binder (context));
-	package->nodes [while_name] = while_binder;
-	
-	std::wstring noop_closure_name (L"closen");
-	boost::shared_ptr <lambda_p_llvm::noop_closure_binder> noop_closure_binder (new lambda_p_llvm::noop_closure_binder (context));
-	package->nodes [noop_closure_name] = noop_closure_binder;
-	
-	std::wstring call_binder_name (L"call");
-	boost::shared_ptr <lambda_p_llvm::call_binder> call_binder (new lambda_p_llvm::call_binder);
-	package->nodes [call_binder_name] = call_binder;
 
 	std::wstring struct_name (L"struct");
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder (context));

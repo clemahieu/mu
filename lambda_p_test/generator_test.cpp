@@ -46,7 +46,7 @@ void lambda_p_test::generator_test::run_1 ()
 	lambda_p::builder enclosing;
 	enclosing (L"func; generator routine fma result_type p1_type p2_type p3_type p4_type p5_type group; group fma p1_type p2_type p3_type p4_type p5_type; arguments; generator routine result_type arguments; func; :;");
 	lambda_p::binder::list nodes;
-	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator (context));
+	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator);
 	nodes [0] = generator;
 	boost::shared_ptr <lambda_p::core::routine> routine_value (routine.routines.routines->operator[] (0));
 	nodes [1] = routine_value;

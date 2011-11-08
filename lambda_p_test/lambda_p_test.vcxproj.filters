@@ -13,10 +13,8 @@
     <ClCompile Include="package_test_1.cpp" />
     <ClCompile Include="bind_procedure_test_1.cpp" />
     <ClCompile Include="routine_binder_test.cpp" />
-    <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
-    <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="list_test.cpp" />
     <ClCompile Include="generator_test.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
@@ -38,6 +36,7 @@
     <ClCompile Include="times_test.cpp" />
     <ClCompile Include="number_binder_test.cpp" />
     <ClCompile Include="loop_test.cpp" />
+    <ClCompile Include="type_inference_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_test_1.h" />
@@ -51,10 +50,8 @@
     <ClInclude Include="package_test_1.h" />
     <ClInclude Include="bind_procedure_test_1.h" />
     <ClInclude Include="routine_binder_test.h" />
-    <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="unbindable_statement_test.h" />
     <ClInclude Include="routine_builder_test.h" />
-    <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="list_test.h" />
     <ClInclude Include="generator_test.h" />
     <ClInclude Include="wistream_input_test.h" />
@@ -76,5 +73,6 @@
     <ClInclude Include="times_test.h" />
     <ClInclude Include="number_binder_test.h" />
     <ClInclude Include="loop_test.h" />
+    <ClInclude Include="type_inference_test.h" />
   </ItemGroup>
 </Project>

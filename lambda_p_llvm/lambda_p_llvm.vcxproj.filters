@@ -21,9 +21,6 @@
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
-    <ClInclude Include="noop_closure_binder.h" />
-    <ClInclude Include="noop_closure.h" />
-    <ClInclude Include="call_binder.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="fo_value.h" />
     <ClInclude Include="struct_binder.h" />
@@ -59,9 +56,6 @@
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
-    <ClCompile Include="noop_closure_binder.cpp" />
-    <ClCompile Include="noop_closure.cpp" />
-    <ClCompile Include="call_binder.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="struct_binder.cpp" />

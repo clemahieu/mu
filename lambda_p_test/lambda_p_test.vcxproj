@@ -154,13 +154,11 @@
     <ClCompile Include="execution_engine_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="file_stream_test.cpp" />
-    <ClCompile Include="function_binder_test.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="jit_test_1.cpp" />
     <ClCompile Include="link_test.cpp" />
     <ClCompile Include="loop_test.cpp" />
     <ClCompile Include="node_list_test_1.cpp" />
-    <ClCompile Include="noop_closure_test.cpp" />
     <ClCompile Include="number_binder_test.cpp" />
     <ClCompile Include="overlay_binder_test.cpp" />
     <ClCompile Include="package_test_1.cpp" />
@@ -177,6 +175,7 @@
     <ClCompile Include="parser_test_1.cpp" />
     <ClCompile Include="simple_test_1.cpp" />
     <ClCompile Include="times_test.cpp" />
+    <ClCompile Include="type_inference_test.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
@@ -193,13 +192,11 @@
     <ClInclude Include="execution_engine_test.h" />
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="file_stream_test.h" />
-    <ClInclude Include="function_binder_test.h" />
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="jit_test_1.h" />
     <ClInclude Include="link_test.h" />
     <ClInclude Include="loop_test.h" />
     <ClInclude Include="node_list_test_1.h" />
-    <ClInclude Include="noop_closure_test.h" />
     <ClInclude Include="number_binder_test.h" />
     <ClInclude Include="overlay_binder_test.h" />
     <ClInclude Include="package_test_1.h" />
@@ -215,6 +212,7 @@
     <ClInclude Include="parser_test_1.h" />
     <ClInclude Include="simple_test_1.h" />
     <ClInclude Include="times_test.h" />
+    <ClInclude Include="type_inference_test.h" />
     <ClInclude Include="unbindable_statement_test.h" />
     <ClInclude Include="wistream_input_test.h" />
   </ItemGroup>

@@ -6,8 +6,6 @@
 #include <lambda_p_llvm/type.h>
 #include <lambda_p_llvm/fo_value.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p_llvm/so_value.h>
-#include <lambda_p_llvm/function_binder.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/binder/list.h>
@@ -56,32 +54,32 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 			}
 			if (problems.errors.empty ())
 			{
-				llvm::Function * function (llvm::Function::Create (llvm::FunctionType::get (return_type->type_m, parameters, false), llvm::GlobalValue::ExternalLinkage));
-				function->getBasicBlockList ().push_back (block);
-				llvm::Function::arg_iterator i (function->arg_begin ());
-				std::vector <size_t >::iterator j (open_positions.begin ());
-				for (; i != function->arg_end (); ++i, ++j)
-				{
-					nodes_l [*j] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (&(*i)));
-				}
-				lambda_p_kernel::bind_procedure procedure (routine, nodes_l);
-				procedure (problems);
-				if (problems.errors.empty ())
-				{
-					auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes_l [routine->surface->references [0]]));
-					if (return_value.get () != nullptr)
-					{
-						llvm::ReturnInst * ret (llvm::ReturnInst::Create (context_l.context, return_value->value));
-						context_l.block->getInstList ().push_back (ret);
-						context.module->getFunctionList ().push_back (function);
-						boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (function));
-						nodes [statement->association->declarations [0]] = value;
-					}
-					else
-					{
-						add_error (L"result value is not an llvm value", problems);
-					}
-				}
+				//llvm::Function * function (llvm::Function::Create (llvm::FunctionType::get (return_type->type_m, parameters, false), llvm::GlobalValue::ExternalLinkage));
+				//function->getBasicBlockList ().push_back (block);
+				//llvm::Function::arg_iterator i (function->arg_begin ());
+				//std::vector <size_t >::iterator j (open_positions.begin ());
+				//for (; i != function->arg_end (); ++i, ++j)
+				//{
+				//	nodes_l [*j] = boost::shared_ptr <lambda_p_llvm::fo_value> (new lambda_p_llvm::fo_value (&(*i)));
+				//}
+				//lambda_p_kernel::bind_procedure procedure (routine, nodes_l);
+				//procedure (problems);
+				//if (problems.errors.empty ())
+				//{
+				//	auto return_value (boost::dynamic_pointer_cast <lambda_p_llvm::fo_value> (nodes_l [routine->surface->references [0]]));
+				//	if (return_value.get () != nullptr)
+				//	{
+				//		llvm::ReturnInst * ret (llvm::ReturnInst::Create (context_l.context, return_value->value));
+				//		context_l.block->getInstList ().push_back (ret);
+				//		context.module->getFunctionList ().push_back (function);
+				//		boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (function));
+				//		nodes [statement->association->declarations [0]] = value;
+				//	}
+				//	else
+				//	{
+				//		add_error (L"result value is not an llvm value", problems);
+				//	}
+				//}
 			}
 		}
 	}
