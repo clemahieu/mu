@@ -29,7 +29,10 @@ void lambda_p_llvm::generator_value::bind (lambda_p::core::statement * statement
 			arguments.push_back (value->value);
 		}
 	}
-	block->getInstList ().push_back (llvm::CallInst::Create (value, arguments.begin (), arguments.end ()));
+	auto call (llvm::CallInst::Create (value, arguments.begin (), arguments.end ()));
+	block->getInstList ().push_back (call);
+	boost::shared_ptr <lambda_p_llvm::generator_value> result (new lambda_p_llvm::generator_value (call, block));
+	nodes [statement->association->declarations [0]] = result;
 }
 
 std::wstring lambda_p_llvm::generator_value::binder_name ()

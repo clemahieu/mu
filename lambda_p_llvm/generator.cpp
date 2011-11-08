@@ -62,7 +62,9 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 					auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (instance));
 					if (value.get () != nullptr)
 					{
-						type_arguments->operator[] (position) = boost::shared_ptr <lambda_p_llvm::type_inference> (new lambda_p_llvm::type_inference (value->type ()));
+						llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value_m));
+						llvm::Type const * value_type (function != nullptr ? function->getFunctionType () : value->type ());
+						type_arguments->operator[] (position) = boost::shared_ptr <lambda_p_llvm::type_inference> (new lambda_p_llvm::type_inference (value_type));
 					}
 					else
 					{
