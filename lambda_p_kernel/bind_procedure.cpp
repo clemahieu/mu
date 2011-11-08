@@ -40,12 +40,13 @@ void lambda_p_kernel::bind_procedure::operator () (lambda_p::errors::error_list 
 
 void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p::errors::error_list & problems)
 {	
-	boost::shared_ptr < lambda_p::binder::binder> binder;
+	boost::shared_ptr <lambda_p::binder::binder> binder;
 	populate_unbound (statement, binder, problems);
 	if (binder.get () != nullptr)
 	{
 		size_t previous_size (problems.errors.size ());
-		binder->bind (routine->statements [statement], nodes, problems);
+		lambda_p::core::statement * statement_l (routine->statements [statement]);
+		binder->bind (statement_l, nodes, problems);
 		if (problems.errors.size () != previous_size)
 		{
 			std::wstring message (L"Bind error for statement: ");
@@ -54,6 +55,20 @@ void lambda_p_kernel::bind_procedure::bind_statement (size_t statement, lambda_p
 			message.append (stream.str ());
 			problems (new lambda_p::errors::binder_string_error (std::wstring (L"bind_procedure"), message));
 
+		}
+		else
+		{
+			size_t position (0);
+			for (auto i (statement_l->association->declarations.begin ()); i != statement_l->association->declarations.end (); ++i, ++position)
+			{
+				if (nodes [*i].get () == nullptr)
+				{
+					std::wstringstream message;
+					message << L"Binder did not set result at position: ";
+					message << position;
+					problems (new lambda_p::errors::binder_string_error (binder->binder_name (), message.str ()));
+				}
+			}
 		}
 		retry_bind (statement, problems); // We might have resolved what was needed for a previously unresolved bind
 	}

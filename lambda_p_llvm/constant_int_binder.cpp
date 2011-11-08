@@ -3,13 +3,13 @@
 #include "constant_int_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/number.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -39,7 +39,7 @@ void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * state
 			boost::shared_ptr <lambda_p_kernel::number> bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [1]]));
 			if (bits.get () != nullptr)
 			{
-				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::fo_value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
+				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
 				nodes [statement->association->declarations [0]] = value;
 			}
 			else

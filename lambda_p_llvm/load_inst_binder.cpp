@@ -11,11 +11,11 @@
 
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p_llvm/fo_value.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/Type.h>
 #include <llvm/Instructions.h>
@@ -42,7 +42,7 @@ void lambda_p_llvm::load_inst_binder::bind (lambda_p::core::statement * statemen
             {
 				llvm::LoadInst * load (new llvm::LoadInst (pointer->operator() ()));
                 context.block->getInstList ().push_back (load);
-                boost::shared_ptr <lambda_p_llvm::fo_value> value (new lambda_p_llvm::fo_value (load));
+                boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::value (load));
 				nodes [statement->association->declarations [0]] = value;
             }
             else

@@ -12,11 +12,9 @@
 #include <lambda_p_test/routine_input_test_1.h>
 #include <lambda_p_test/node_list_test_1.h>
 #include <lambda_p_test/routine_binder_test.h>
-#include <lambda_p_test/noop_closure_test.h>
 #include <lambda_p_test/unbindable_statement_test.h>
 #include <lambda_p_test/generator_test.h>
 #include <lambda_p_test/routine_builder_test.h>
-#include <lambda_p_test/function_binder_test.h>
 #include <lambda_p_test/list_test.h>
 #include <lambda_p_test/wistream_input_test.h>
 #include <lambda_p_test/filesystem_test.h>
@@ -34,6 +32,7 @@
 #include <lambda_p_test/times_test.h>
 #include <lambda_p_test/number_binder_test.h>
 #include <lambda_p_test/loop_test.h>
+#include <lambda_p_test/type_inference_test.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -133,14 +132,6 @@ int main ()
 		test.run ();
 	}
 	{
-		noop_closure_test test;
-		test.run ();
-	}
-	{
-		function_binder_test test;
-		test.run ();
-	}
-	{
 		routine_builder_test test;
 		test.run ();
 	}
@@ -186,6 +177,10 @@ int main ()
 	}
 	{
 		loop_test test;
+		test.run ();
+	}
+	{
+		type_inference_test test;
 		test.run ();
 	}
 	for (size_t i (0); i < 1000; ++i)
