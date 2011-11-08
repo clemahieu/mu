@@ -19,15 +19,12 @@
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="memcpy_function.h" />
     <ClInclude Include="store_inst_binder.h" />
-    <ClInclude Include="while_call_binder.h" />
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="noop_closure_binder.h" />
     <ClInclude Include="noop_closure.h" />
     <ClInclude Include="call_binder.h" />
-    <ClInclude Include="so_value.h" />
     <ClInclude Include="generator.h" />
-    <ClInclude Include="function_binder.h" />
     <ClInclude Include="fo_value.h" />
     <ClInclude Include="struct_binder.h" />
     <ClInclude Include="abort_function.h" />
@@ -39,6 +36,7 @@
     <ClInclude Include="module_binder.h" />
     <ClInclude Include="module_get_function.h" />
     <ClInclude Include="jit_function.h" />
+    <ClInclude Include="type_inference.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -59,15 +57,12 @@
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
-    <ClCompile Include="while_call_binder.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="noop_closure_binder.cpp" />
     <ClCompile Include="noop_closure.cpp" />
     <ClCompile Include="call_binder.cpp" />
-    <ClCompile Include="so_value.cpp" />
     <ClCompile Include="generator.cpp" />
-    <ClCompile Include="function_binder.cpp" />
     <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="struct_binder.cpp" />
     <ClCompile Include="abort_function.cpp" />
@@ -79,5 +74,6 @@
     <ClCompile Include="module_binder.cpp" />
     <ClCompile Include="module_get_function.cpp" />
     <ClCompile Include="jit_function.cpp" />
+    <ClCompile Include="type_inference.cpp" />
   </ItemGroup>
 </Project>
