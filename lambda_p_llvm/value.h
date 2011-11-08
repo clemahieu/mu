@@ -20,7 +20,9 @@ namespace lambda_p_llvm
     class value : public lambda_p::binder::node
     {
     public:  
-        virtual llvm::Value * operator () () = 0;
-		virtual llvm::Type const * type () = 0;
+		value (llvm::Value * value_a);
+        llvm::Value * operator () ();
+		llvm::Type const * type ();
+		llvm::Value * value_m;
     };
 }

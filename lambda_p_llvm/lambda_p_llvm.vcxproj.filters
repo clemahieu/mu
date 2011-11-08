@@ -22,7 +22,6 @@
     <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="generator.h" />
-    <ClInclude Include="fo_value.h" />
     <ClInclude Include="struct_binder.h" />
     <ClInclude Include="abort_function.h" />
     <ClInclude Include="assemble_binder.h" />
@@ -34,6 +33,7 @@
     <ClInclude Include="module_get_function.h" />
     <ClInclude Include="jit_function.h" />
     <ClInclude Include="type_inference.h" />
+    <ClInclude Include="generator_value.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -57,7 +57,6 @@
     <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="generator.cpp" />
-    <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="struct_binder.cpp" />
     <ClCompile Include="abort_function.cpp" />
     <ClCompile Include="assemble_binder.cpp" />
@@ -69,5 +68,6 @@
     <ClCompile Include="module_get_function.cpp" />
     <ClCompile Include="jit_function.cpp" />
     <ClCompile Include="type_inference.cpp" />
+    <ClCompile Include="generator_value.cpp" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/adata.h>
-#include <lambda_p_llvm/fo_value.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/Module.h>
 
@@ -26,7 +26,7 @@ void lambda_p_llvm::module_get_function::bind (lambda_p::core::statement * state
 			llvm::Function * function (module->module_m->getFunction (name->string));
 			if (function != nullptr)
 			{
-				boost::shared_ptr <lambda_p_llvm::fo_value> function (new lambda_p_llvm::fo_value (function));
+				boost::shared_ptr <lambda_p_llvm::value> function (new lambda_p_llvm::value (function));
 				nodes [statement->association->declarations [0]] = function;
 			}
 			else

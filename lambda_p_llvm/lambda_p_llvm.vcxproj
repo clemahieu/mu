@@ -29,6 +29,7 @@
     <ClInclude Include="execution_engine.h" />
     <ClInclude Include="execution_engine_binder.h" />
     <ClInclude Include="generator.h" />
+    <ClInclude Include="generator_value.h" />
     <ClInclude Include="jit_function.h" />
     <ClInclude Include="module.h" />
     <ClInclude Include="module_binder.h" />
@@ -41,7 +42,6 @@
     <ClInclude Include="data_to_string_binder.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="call_inst_binder.h" />
-    <ClInclude Include="fo_value.h" />
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="malloc_function.h" />
     <ClInclude Include="memcpy_function.h" />
@@ -64,6 +64,7 @@
     <ClCompile Include="execution_engine.cpp" />
     <ClCompile Include="execution_engine_binder.cpp" />
     <ClCompile Include="generator.cpp" />
+    <ClCompile Include="generator_value.cpp" />
     <ClCompile Include="jit_function.cpp" />
     <ClCompile Include="module.cpp" />
     <ClCompile Include="module_binder.cpp" />
@@ -76,7 +77,6 @@
     <ClCompile Include="data_to_string_binder.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="call_inst_binder.cpp" />
-    <ClCompile Include="fo_value.cpp" />
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="memcpy_function.cpp" />

@@ -83,7 +83,7 @@ void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p::core::routine> r
 					else
 					{
 						std::wstringstream message;
-						message << L"Binder did not set declaration at position: ";
+						message << L"Routine did not set declaration at position: ";
 						message << position;
 						add_error (message.str (), problems);
 					}
@@ -91,7 +91,7 @@ void lambda_p_kernel::apply::core (boost::shared_ptr <lambda_p::core::routine> r
 				if (declarations.nodes.size () != routine->surface->references.size ())
 				{
 					std::wstringstream message;
-					message << L"Binder did not set correct number of declarations, have: ";
+					message << L"Routine did not set correct number of declarations, have: ";
 					message << declarations.nodes.size ();
 					message << L" need: ";
 					message << routine->surface->references.size ();

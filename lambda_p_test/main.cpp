@@ -139,10 +139,10 @@ int main ()
 		list_test test;
 		test.run ();
 	}
-	//{
-	//	generator_test test;
-	//	test.run ();
-	//}
+	{
+		generator_test test;
+		test.run ();
+	}
 	{
 		filesystem_test test;
 		test.run ();

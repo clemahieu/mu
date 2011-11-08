@@ -10,7 +10,7 @@
 #include <lambda_p_llvm/cast_inst_binder.h>
 #include <lambda_p_llvm/alloca_inst_binder.h>
 #include <lambda_p_llvm/generator.h>
-#include <lambda_p_llvm/fo_value.h>
+#include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/data_to_string_binder.h>
 #include <lambda_p_llvm/struct_binder.h>
 #include <lambda_p_llvm/malloc_function.h>
@@ -65,7 +65,7 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [generator_name] = generator;
 	
 	std::wstring malloc_name (L"malloc");
-	boost::shared_ptr <lambda_p_llvm::fo_value> malloc_function (new lambda_p_llvm::fo_value (malloc.malloc));
+	boost::shared_ptr <lambda_p_llvm::value> malloc_function (new lambda_p_llvm::value (malloc.malloc));
     package->nodes [malloc_name] = malloc_function;
 	
 	std::wstring d2s_name (L"d2s");
@@ -73,7 +73,7 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [d2s_name] = d2s_binder;
 	
     std::wstring memcpy_name (L"memcpy");
-    boost::shared_ptr <lambda_p_llvm::fo_value> memcpy_function (new lambda_p_llvm::fo_value (memcpy.memcpy));
+    boost::shared_ptr <lambda_p_llvm::value> memcpy_function (new lambda_p_llvm::value (memcpy.memcpy));
     package->nodes [memcpy_name] = memcpy_function;
 
 	std::wstring struct_name (L"struct");
