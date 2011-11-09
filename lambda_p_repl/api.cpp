@@ -1,10 +1,7 @@
 #include "api.h"
 
 #include <lambda_p_kernel/package.h>
-#include <lambda_p_repl/hello_world_binder.h>
-#include <lambda_p_repl/echo_binder.h>
 #include <lambda_p_repl/routine_builder_binder.h>
-#include <lambda_p_repl/dynamic_wprintf.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/package_add.h>
 #include <lambda_p_kernel/package_create.h>
@@ -32,10 +29,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	: package (new lambda_p_kernel::package)
 {
 	boost::shared_ptr <lambda_p_kernel::package> package_l (new lambda_p_kernel::package);
-	boost::shared_ptr <lambda_p_repl::hello_world_binder> hello_binder (new lambda_p_repl::hello_world_binder (wprintf.wprintf, context));
-	boost::shared_ptr <lambda_p_repl::echo_binder> echo_binder (new lambda_p_repl::echo_binder (wprintf.wprintf, context));
 	boost::shared_ptr <lambda_p_repl::routine_builder_binder> read_binder (new lambda_p_repl::routine_builder_binder);
-	boost::shared_ptr <lambda_p_repl::dynamic_wprintf> wprintf_binder (new lambda_p_repl::dynamic_wprintf (wprintf.wprintf, context));
 	boost::shared_ptr <lambda_p_kernel::apply> apply_binder (new lambda_p_kernel::apply);
 	boost::shared_ptr <lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
 	boost::shared_ptr <lambda_p_kernel::package_create> package_create_binder (new lambda_p_kernel::package_create);
@@ -51,11 +45,8 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_kernel::number_binder> number_binder (new lambda_p_kernel::number_binder);
 	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
 	lambda_p_llvm::api llvm_binder (engine_a, context, malloc, memcpy);
-	std::wstring echo_name (L"echo");
-	std::wstring hello_name (L"hello");
 	std::wstring read_name (L"read");
 	std::wstring llvm_name (L"llvm");
-	std::wstring wprintf_name (L"wprintf");
 	std::wstring package_create_name (L"package_create");
 	std::wstring package_add_name (L"package_add");
 	std::wstring data_stream_name (L"data_stream");
@@ -70,11 +61,8 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring times_name (L"times");
 	std::wstring number_name (L"number");
 	std::wstring list_name (L"list");
-	package->nodes [echo_name] = echo_binder;
-	package->nodes [hello_name] = hello_binder;
 	package->nodes [read_name] = read_binder;
 	package->nodes [llvm_name] = llvm_binder.package;
-	package->nodes [wprintf_name] = wprintf_binder;
 	package->nodes [package_create_name] = package_create_binder;
 	package->nodes [package_add_name] = package_add_binder;
 	package->nodes [data_stream_name] = data_stream_binder;

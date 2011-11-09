@@ -7,12 +7,14 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/binder/data.h>
-#include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p_kernel/number.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p/builder.h>
+#include <lambda_p_llvm/context.h>
+#include <lambda_p_kernel/apply.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Constants.h>
@@ -27,33 +29,22 @@ lambda_p_test::constant_int_binder_test_1::~constant_int_binder_test_1(void)
 
 void lambda_p_test::constant_int_binder_test_1::run ()
 {
-
-	boost::shared_ptr < lambda_p::core::routine> routine (new lambda_p::core::routine);
-	size_t binder = routine->add_declaration ();
-	routine->surface->declarations.push_back (binder);
-	lambda_p::core::statement * statement = routine->add_statement ();
-	statement->target = binder;
-	size_t declaration = routine->add_declaration ();
-	statement->association->declarations.push_back (declaration);
-	size_t number = routine->add_declaration ();
-	statement->association->references.push_back (number);
-	size_t bits = routine->add_declaration ();
-	statement->association->references.push_back (bits);
-	llvm::LLVMContext llvm_context;
-	lambda_p_llvm::generation_context context (llvm_context, nullptr, nullptr);
-	boost::shared_ptr < lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder (context));
-	lambda_p::binder::list nodes;
-	nodes [binder] = constant_int_binder;
-	nodes [number] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (16));
-	nodes [bits] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (64));
+	lambda_p::builder builder;
+	builder (L"res; binder context number bits; binder context number bits; res; :;");
+	auto nodes (boost::shared_ptr <lambda_p::binder::list> (new lambda_p::binder::list));
+	nodes->operator[] (0) = boost::shared_ptr <lambda_p_llvm::constant_int_binder> (new lambda_p_llvm::constant_int_binder);
+	nodes->operator[] (1) = boost::shared_ptr <lambda_p_llvm::context> (new lambda_p_llvm::context);
+	nodes->operator[] (2) = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (16));
+	nodes->operator[] (3) = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (64));
 	lambda_p::errors::error_list problems;
-	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
-	bind_procedure (problems);
+	lambda_p_kernel::apply apply;
+	lambda_p::binder::list declarations;
+	apply.core (builder.routines.routines->operator[] (0), *nodes, problems, declarations);
 	assert (problems.errors.empty ());
-	assert (nodes [declaration].get () != nullptr);
-	assert (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [declaration]).get () != nullptr);
-	assert (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() () != nullptr);
-	assert (llvm::isa <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ()));
-	assert (llvm::cast <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ())->getBitWidth () == 64);
-	assert (llvm::cast <llvm::ConstantInt> (boost::static_pointer_cast <lambda_p_llvm::value> (nodes [declaration])->operator() ())->getValue () == 16);
+	assert (declarations.nodes.size () == 1);
+	assert (boost::dynamic_pointer_cast <lambda_p_llvm::value> (declarations [0]).get () != nullptr);
+	assert (boost::static_pointer_cast <lambda_p_llvm::value> (declarations [0])->operator() () != nullptr);
+	assert (llvm::isa <llvm::ConstantInt> (boost::dynamic_pointer_cast <lambda_p_llvm::value> (declarations [0])->operator() ()));
+	assert (llvm::cast <llvm::ConstantInt> (boost::dynamic_pointer_cast <lambda_p_llvm::value> (declarations [0])->operator() ())->getBitWidth () == 64);
+	assert (llvm::cast <llvm::ConstantInt> (boost::dynamic_pointer_cast <lambda_p_llvm::value> (declarations [0])->operator() ())->getValue () == 16);
 }

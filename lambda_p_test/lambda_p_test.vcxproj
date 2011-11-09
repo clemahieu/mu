@@ -148,9 +148,7 @@
     <ClCompile Include="apply_binder_test.cpp" />
     <ClCompile Include="constant_int_binder_test_1.cpp" />
     <ClCompile Include="cvalue_test.cpp" />
-    <ClCompile Include="data_to_string_binder_test_1.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
-    <ClCompile Include="echo_binder_test.cpp" />
     <ClCompile Include="execution_engine_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="file_stream_test.cpp" />
@@ -186,9 +184,7 @@
     <ClInclude Include="apply_binder_test.h" />
     <ClInclude Include="constant_int_binder_test_1.h" />
     <ClInclude Include="cvalue_test.h" />
-    <ClInclude Include="data_to_string_binder_test_1.h" />
     <ClInclude Include="directory_iterator_test.h" />
-    <ClInclude Include="echo_binder_test.h" />
     <ClInclude Include="execution_engine_test.h" />
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="file_stream_test.h" />

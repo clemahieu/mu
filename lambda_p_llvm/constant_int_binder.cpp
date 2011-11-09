@@ -10,6 +10,7 @@
 #include <lambda_p_kernel/number.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_llvm/value.h>
+#include <lambda_p_llvm/context.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -19,37 +20,20 @@
 
 #include <sstream>
 
-lambda_p_llvm::constant_int_binder::constant_int_binder (lambda_p_llvm::generation_context & context_a)
-	: context (context_a)
-{
-}
-
-lambda_p_llvm::constant_int_binder::~constant_int_binder(void)
-{
-}
-
 void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)	
 {
-	check_count (1, 2, statement, problems);
+	check_count (1, 3, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [0]]));
-		if (number.get () != nullptr)
+		auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context> (nodes [statement->association->references [0]]));
+		check_binder (context, 0, L"context", problems);
+		auto number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [1]]));
+		check_binder (number, 1, L"number", problems);
+		auto bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [2]]));
+		check_binder (bits, 2, L"number", problems);
+		if (problems.errors.empty ())
 		{
-			boost::shared_ptr <lambda_p_kernel::number> bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [1]]));
-			if (bits.get () != nullptr)
-			{
-				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::value (llvm::ConstantInt::get (llvm::IntegerType::get (context.context, (unsigned int)bits->value), number->value)));
-				nodes [statement->association->declarations [0]] = value;
-			}
-			else
-			{
-				unexpected_binder_type_error (1, L"number", problems);
-			}
-		}
-		else
-		{
-			unexpected_binder_type_error (0, L"number", problems);
+			nodes [statement->association->declarations [0]] = boost::shared_ptr <lambda_p_llvm::value> (new lambda_p_llvm::value (llvm::ConstantInt::get (llvm::IntegerType::get (context->context_m, (unsigned int)bits->value), number->value)));
 		}
 	}
 }

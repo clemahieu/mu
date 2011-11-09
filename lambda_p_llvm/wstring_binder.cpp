@@ -26,7 +26,9 @@ void lambda_p_llvm::wstring_binder::bind (lambda_p::core::statement * statement,
 		{ 
 			if (type->type_m->isIntegerTy ())
 			{
-				core (module, data, type);
+				boost::shared_ptr <lambda_p_llvm::value> value;
+				core (module, data, type, value);
+				nodes [statement->association->declarations [0]] = value;
 			}
 			else
 			{
@@ -36,7 +38,7 @@ void lambda_p_llvm::wstring_binder::bind (lambda_p::core::statement * statement,
 	}
 }
 
-void lambda_p_llvm::wstring_binder::core (boost::shared_ptr <lambda_p_llvm::module> module, boost::shared_ptr <lambda_p::binder::data> data, boost::shared_ptr <lambda_p_llvm::type> type)
+void lambda_p_llvm::wstring_binder::core (boost::shared_ptr <lambda_p_llvm::module> module, boost::shared_ptr <lambda_p::binder::data> data, boost::shared_ptr <lambda_p_llvm::type> type, boost::shared_ptr <lambda_p_llvm::value> & value)
 {
 	auto string_type (llvm::ArrayType::get (type->type_m, data->string ().size () + 1));
 	std::vector <llvm::Constant *> string_initializer;
@@ -48,7 +50,7 @@ void lambda_p_llvm::wstring_binder::core (boost::shared_ptr <lambda_p_llvm::modu
 	auto string_array (llvm::ConstantArray::get (string_type, string_initializer));
 	auto string_global (new llvm::GlobalVariable (string_type, true, llvm::GlobalValue::ExternalLinkage, string_array));
 	module->module_m->getGlobalList ().push_back (string_global);
-	boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::value (llvm::ConstantExpr::getPointerCast (string_global, llvm::PointerType::get (type->type_m, 0))));
+	value = boost::shared_ptr <lambda_p_llvm::value> (new lambda_p_llvm::value (llvm::ConstantExpr::getPointerCast (string_global, llvm::PointerType::get (type->type_m, 0))));
 }
 
 std::wstring lambda_p_llvm::wstring_binder::binder_name ()

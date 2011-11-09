@@ -18,58 +18,49 @@
 
 #include <sstream>
 
-lambda_p_llvm::type_binder::type_binder (lambda_p_llvm::generation_context & context_a)
-	: context (context_a)
-{
-}
-
 void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
-	check_count (1, 1, statement, problems);
+	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		size_t declaration (statement->association->declarations [0]);
-		size_t command (statement->association->references [0]);
-		boost::shared_ptr <lambda_p::binder::node> command_instance (nodes [command]);
-		boost::shared_ptr <lambda_p::binder::data> command_data (boost::dynamic_pointer_cast <lambda_p::binder::data> (command_instance));
-		if (command_data.get () != nullptr)
+		auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context> (nodes [statement->association->references [0]]));
+		check_binder (context, 0, L"context", problems);
+		auto command (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [1]]));
+		check_binder (command, 1, L"data", problems);
+		if (problems.errors.empty ())
 		{
-			if (command_data->string ().compare (std::wstring (L"getInt32Ty")) == 0)
+			if (command->string ().compare (std::wstring (L"getInt32Ty")) == 0)
 			{
-				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt32Ty (context.context)));
-				nodes [declaration] = type;
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt32Ty (context->context_m)));
+				nodes [statement->association->declarations [0]] = type;
 			}
-            else if (command_data->string ().compare (std::wstring (L"getInt64PtrTy")) == 0)
+            else if (command->string ().compare (std::wstring (L"getInt64PtrTy")) == 0)
             {
-                boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64PtrTy (context.context)));
-                nodes [declaration] = type;
+                boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64PtrTy (context->context_m)));
+                nodes [statement->association->declarations [0]] = type;
             }
-			else if (command_data->string ().compare (std::wstring (L"getInt1Ty")) == 0)
+			else if (command->string ().compare (std::wstring (L"getInt1Ty")) == 0)
 			{
-				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt1Ty (context.context)));
-				nodes [declaration] = type;
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt1Ty (context->context_m)));
+				nodes [statement->association->declarations [0]] = type;
 			}
-			else if (command_data->string ().compare (std::wstring (L"getInt8PtrTy")) == 0)
+			else if (command->string ().compare (std::wstring (L"getInt8PtrTy")) == 0)
 			{
-				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt8PtrTy (context.context)));
-				nodes [declaration] = type;
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt8PtrTy (context->context_m)));
+				nodes [statement->association->declarations [0]] = type;
 			}
-			else if (command_data->string ().compare (std::wstring (L"getInt64Ty")) == 0)
+			else if (command->string ().compare (std::wstring (L"getInt64Ty")) == 0)
 			{
-				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64Ty (context.context)));
-				nodes [declaration] = type;
+				boost::shared_ptr <lambda_p_llvm::type> type (new lambda_p_llvm::type (llvm::Type::getInt64Ty (context->context_m)));
+				nodes [statement->association->declarations [0]] = type;
 			}
 			else
 			{
 				std::wstring message;
 				message.append (L"Unknown type_binder command: ");
-				message.append (command_data->string ());
+				message.append (command->string ());
 				add_error (message, problems);
 			}
-		}
-		else
-		{
-			problems (new lambda_p::errors::unexpected_binder_type (binder_name (), 1, std::wstring (L"data")));
 		}
 	}
 }

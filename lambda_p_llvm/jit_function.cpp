@@ -18,7 +18,7 @@ void lambda_p_llvm::jit_function::bind (lambda_p::core::statement * statement, l
 		boost::shared_ptr <lambda_p_llvm::execution_engine> engine (boost::dynamic_pointer_cast <lambda_p_llvm::execution_engine> (nodes [statement->association->references [0]]));
 		check_binder (engine, 0, L"execution_engine", problems);
 		boost::shared_ptr <lambda_p_llvm::value> value (boost::dynamic_pointer_cast <lambda_p_llvm::value> (nodes [statement->association->references [1]]));
-		check_binder (value, 1, L"fo_value", problems);
+		check_binder (value, 1, L"value", problems);
 		if (problems.errors.empty ())
 		{
 			llvm::Function * function (llvm::dyn_cast <llvm::Function> (value->value_m));

@@ -6,8 +6,6 @@
 #include <lambda_p_test/package_test_1.h>
 #include <lambda_p_test/abort_binder_test_1.h>
 #include <lambda_p_test/jit_test_1.h>
-#include <lambda_p_test/data_to_string_binder_test_1.h>
-#include <lambda_p_test/echo_binder_test.h>
 #include <lambda_p_test/constant_int_binder_test_1.h>
 #include <lambda_p_test/routine_input_test_1.h>
 #include <lambda_p_test/node_list_test_1.h>
@@ -97,14 +95,6 @@ int main ()
     }
     {
         jit_test_1 test;
-        test.run ();
-    }
-    {
-        data_to_string_binder_test_1 test;
-        test.run ();
-    }
-    {
-        echo_binder_test test;
         test.run ();
     }
 	{
