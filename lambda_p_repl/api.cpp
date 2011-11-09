@@ -19,7 +19,7 @@
 #include <lambda_p_kernel/adata_binder.h>
 #include <lambda_p_kernel/cvalue.h>
 #include <lambda_p_kernel/fapply.h>
-#include <lambda_p_kernel/compute.h>
+#include <lambda_p_kernel/eval.h>
 #include <lambda_p_kernel/times.h>
 #include <lambda_p_kernel/number_binder.h>
 #include <lambda_p/binder/list_binder.h>
@@ -46,7 +46,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_kernel::adata_binder> adata_binder (new lambda_p_kernel::adata_binder);
 	boost::shared_ptr <lambda_p_kernel::cvalue> cvalue_binder (new lambda_p_kernel::cvalue);
 	boost::shared_ptr <lambda_p_kernel::fapply> fapply_binder (new lambda_p_kernel::fapply);
-	boost::shared_ptr <lambda_p_kernel::compute> compute_binder (new lambda_p_kernel::compute);
+	boost::shared_ptr <lambda_p_kernel::eval> eval_binder (new lambda_p_kernel::eval);
 	boost::shared_ptr <lambda_p_kernel::times> times_binder (new lambda_p_kernel::times);
 	boost::shared_ptr <lambda_p_kernel::number_binder> number_binder (new lambda_p_kernel::number_binder);
 	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
@@ -66,7 +66,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring adata_name (L"adata");
 	std::wstring cvalue_name (L"cvalue");
 	std::wstring fapply_name (L"fapply");
-	std::wstring compute_name (L"compute");
+	std::wstring eval_name (L"eval");
 	std::wstring times_name (L"times");
 	std::wstring number_name (L"number");
 	std::wstring list_name (L"list");
@@ -85,7 +85,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [adata_name] = adata_binder;
 	package->nodes [cvalue_name] = cvalue_binder;
 	package->nodes [fapply_name] = fapply_binder;
-	package->nodes [compute_name] = compute_binder;
+	package->nodes [eval_name] = eval_binder;
 	package->nodes [times_name] = times_binder;
 	package->nodes [number_name] = number_binder;
 	package->nodes [list_name] = list_binder;

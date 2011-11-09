@@ -16,7 +16,6 @@
     <ClCompile Include="adata_binder.cpp" />
     <ClCompile Include="bool_c.cpp" />
     <ClCompile Include="cvalue.cpp" />
-    <ClCompile Include="compute.cpp" />
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
@@ -25,6 +24,7 @@
     <ClCompile Include="equals.cpp" />
     <ClCompile Include="loop.cpp" />
     <ClCompile Include="not.cpp" />
+    <ClCompile Include="eval.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -42,7 +42,6 @@
     <ClInclude Include="adata_binder.h" />
     <ClInclude Include="bool_c.h" />
     <ClInclude Include="cvalue.h" />
-    <ClInclude Include="compute.h" />
     <ClInclude Include="fapply.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bool_binder.h" />
@@ -51,5 +50,6 @@
     <ClInclude Include="equals.h" />
     <ClInclude Include="loop.h" />
     <ClInclude Include="not.h" />
+    <ClInclude Include="eval.h" />
   </ItemGroup>
 </Project>

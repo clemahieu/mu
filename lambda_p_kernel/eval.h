@@ -4,7 +4,7 @@
 
 namespace lambda_p_kernel
 {
-	class compute : public lambda_p::binder::binder
+	class eval : public lambda_p::binder::binder
 	{
 	public:
 		void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;

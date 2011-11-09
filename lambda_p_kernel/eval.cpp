@@ -1,4 +1,4 @@
-#include "compute.h"
+#include "eval.h"
 
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/binder/list.h>
@@ -8,7 +8,7 @@
 #include <lambda_p_kernel/application.h>
 #include <lambda_p_kernel/apply.h>
 
-void lambda_p_kernel::compute::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::eval::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
@@ -25,7 +25,7 @@ void lambda_p_kernel::compute::bind (lambda_p::core::statement * statement, lamb
 	}
 }
 
-std::wstring lambda_p_kernel::compute::binder_name ()
+std::wstring lambda_p_kernel::eval::binder_name ()
 {
-	return std::wstring (L"compute");
+	return std::wstring (L"eval");
 }
