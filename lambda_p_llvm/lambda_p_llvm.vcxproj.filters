@@ -34,6 +34,8 @@
     <ClInclude Include="jit_function.h" />
     <ClInclude Include="type_inference.h" />
     <ClInclude Include="generator_value.h" />
+    <ClInclude Include="subtract_binder.h" />
+    <ClInclude Include="eq_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -69,5 +71,7 @@
     <ClCompile Include="jit_function.cpp" />
     <ClCompile Include="type_inference.cpp" />
     <ClCompile Include="generator_value.cpp" />
+    <ClCompile Include="subtract_binder.cpp" />
+    <ClCompile Include="eq_binder.cpp" />
   </ItemGroup>
 </Project>

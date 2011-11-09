@@ -26,6 +26,7 @@
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="assemble_binder.h" />
     <ClInclude Include="cast_inst_binder.h" />
+    <ClInclude Include="eq_binder.h" />
     <ClInclude Include="execution_engine.h" />
     <ClInclude Include="execution_engine_binder.h" />
     <ClInclude Include="generator.h" />
@@ -47,6 +48,7 @@
     <ClInclude Include="memcpy_function.h" />
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="struct_binder.h" />
+    <ClInclude Include="subtract_binder.h" />
     <ClInclude Include="type_inference.h" />
     <ClInclude Include="value.h" />
     <ClInclude Include="type.h" />
@@ -61,6 +63,7 @@
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="assemble_binder.cpp" />
     <ClCompile Include="cast_inst_binder.cpp" />
+    <ClCompile Include="eq_binder.cpp" />
     <ClCompile Include="execution_engine.cpp" />
     <ClCompile Include="execution_engine_binder.cpp" />
     <ClCompile Include="generator.cpp" />
@@ -82,6 +85,7 @@
     <ClCompile Include="memcpy_function.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="struct_binder.cpp" />
+    <ClCompile Include="subtract_binder.cpp" />
     <ClCompile Include="type_inference.cpp" />
     <ClCompile Include="value.cpp" />
     <ClCompile Include="type.cpp" />
