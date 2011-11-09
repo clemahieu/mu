@@ -48,14 +48,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 				if (type.get () != nullptr)
 				{
 					parameters.push_back (type->type_m);
-					if (type->type_m->isVoidTy ())
-					{
-						type_arguments->operator[] (position) = boost::shared_ptr <lambda_p_llvm::type_inference> (new lambda_p_llvm::type_inference (llvm::Type::getInt1Ty (module->module_m->getContext ())));
-					}
-					else
-					{
-						type_arguments->operator[] (position) = boost::shared_ptr <lambda_p_llvm::type_inference> (new lambda_p_llvm::type_inference (type->type_m));
-					}
+					type_arguments->operator[] (position) = boost::shared_ptr <lambda_p_llvm::type_inference> (new lambda_p_llvm::type_inference (type->type_m));
 				}
 				else
 				{
@@ -93,6 +86,7 @@ void lambda_p_llvm::generator::bind (lambda_p::core::statement * statement, lamb
 						auto val (boost::dynamic_pointer_cast <lambda_p_llvm::value> (*i));
 						if (val.get () == nullptr)
 						{
+							assert ((boost::dynamic_pointer_cast <lambda_p_llvm::type> (*i)).get () != nullptr);
 							actual_parameters->operator[] (position) = boost::shared_ptr <lambda_p_llvm::generator_value> (new lambda_p_llvm::generator_value (arguments, block));
 							++arguments;
 						}

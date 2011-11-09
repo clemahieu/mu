@@ -20,14 +20,7 @@ void lambda_p_llvm::generator_value::bind (lambda_p::core::statement * statement
 	for (auto i = statement->association->references.begin (); i != statement->association->references.end (); ++i)
 	{
 		auto value (boost::dynamic_pointer_cast <lambda_p_llvm::generator_value> (nodes [*i]));
-		if (value->value->getType ()->isVoidTy ())
-		{
-			arguments.push_back (llvm::ConstantInt::get (llvm::Type::getInt1Ty (block->getContext ()), 0));
-		}
-		else
-		{
-			arguments.push_back (value->value);
-		}
+		arguments.push_back (value->value);
 	}
 	auto call (llvm::CallInst::Create (value, arguments.begin (), arguments.end ()));
 	block->getInstList ().push_back (call);

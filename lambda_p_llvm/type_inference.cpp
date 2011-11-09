@@ -29,10 +29,7 @@ void lambda_p_llvm::type_inference::bind (lambda_p::core::statement * statement,
 					{
 						llvm::Type const * formal (function_type->getParamType (i));
 						llvm::IntegerType const * int_type (llvm::dyn_cast <llvm::IntegerType> (type->type));
-						if (formal->isVoidTy () && int_type != nullptr && int_type->getBitWidth () == 1)
-						{
-						}
-						else if (formal != type->type)
+						if (formal != type->type)
 						{
 							std::wstringstream message;
 							message << L"Formal argument: ";
