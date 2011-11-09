@@ -3,6 +3,7 @@
 #include <lambda_p/binder/binder_implementor.h>
 #include <lambda_p_llvm/module.h>
 #include <lambda_p_llvm/type.h>
+#include <lambda_p_llvm/value.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -37,6 +38,8 @@ void lambda_p_llvm::eq_binder::bind (lambda_p::core::statement * statement, lamb
 				auto op (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, arg1, arg2));
 				block->getInstList ().push_back (op);
 				block->getInstList ().push_back (llvm::ReturnInst::Create (module->module_m->getContext (), op));
+				boost::shared_ptr <lambda_p_llvm::value> value (new lambda_p_llvm::value (function));
+				nodes [statement->association->declarations [0]] = value;
 			}
 			else
 			{

@@ -36,6 +36,7 @@
     <ClInclude Include="generator_value.h" />
     <ClInclude Include="subtract_binder.h" />
     <ClInclude Include="eq_binder.h" />
+    <ClInclude Include="wstring_binder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -73,5 +74,6 @@
     <ClCompile Include="generator_value.cpp" />
     <ClCompile Include="subtract_binder.cpp" />
     <ClCompile Include="eq_binder.cpp" />
+    <ClCompile Include="wstring_binder.cpp" />
   </ItemGroup>
 </Project>
