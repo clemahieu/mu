@@ -4,7 +4,6 @@
 #include <lambda_p_llvm/context_binder.h>
 #include <lambda_p_llvm/type_binder.h>
 #include <lambda_p_llvm/constant_int_binder.h>
-#include <lambda_p_llvm/call_inst_binder.h>
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p_llvm/store_inst_binder.h>
 #include <lambda_p_llvm/cast_inst_binder.h>
@@ -39,12 +38,8 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
     boost::shared_ptr <lambda_p_llvm::constant_int_binder> constant_int_binder (new lambda_p_llvm::constant_int_binder);
     package->nodes [constant_int_name] = constant_int_binder;
 
-	std::wstring call_inst_name (L"call_inst");
-	boost::shared_ptr <lambda_p_llvm::call_inst_binder> call_inst_binder (new lambda_p_llvm::call_inst_binder (context));
-	package->nodes [call_inst_name] = call_inst_binder;
-
     std::wstring load_inst_name (L"load_inst");
-    boost::shared_ptr <lambda_p_llvm::load_inst_binder> load_inst_binder (new lambda_p_llvm::load_inst_binder (context));
+    boost::shared_ptr <lambda_p_llvm::load_inst_binder> load_inst_binder (new lambda_p_llvm::load_inst_binder);
     package->nodes [load_inst_name] = load_inst_binder;
 
     std::wstring store_inst_name (L"store_inst");

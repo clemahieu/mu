@@ -15,6 +15,7 @@ void lambda_p_test::type_inference_test::run ()
 	run_2 ();
 	run_3 ();
 	run_4 ();
+	run_5 ();
 }
 
 void lambda_p_test::type_inference_test::run_1 ()
@@ -92,4 +93,12 @@ void lambda_p_test::type_inference_test::run_4 ()
 	boost::shared_ptr <lambda_p::binder::list> declarations (new lambda_p::binder::list);
 	apply.core (builder.routines.routines->operator[] (0), *arguments, problems, *declarations);
 	assert (!problems.errors.empty ());
+}
+
+void lambda_p_test::type_inference_test::run_5 ()
+{
+	llvm::LLVMContext context;
+	auto type (llvm::Type::getDoublePtrTy (context));
+	auto inner (type->getTypeAtIndex ((unsigned int)0));
+	assert (inner->isDoubleTy ());
 }

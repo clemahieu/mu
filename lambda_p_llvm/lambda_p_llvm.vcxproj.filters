@@ -17,7 +17,6 @@
     <ClInclude Include="load_inst_binder.h" />
     <ClInclude Include="memcpy_function.h" />
     <ClInclude Include="store_inst_binder.h" />
-    <ClInclude Include="call_inst_binder.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="struct_binder.h" />
@@ -53,7 +52,6 @@
     <ClCompile Include="load_inst_binder.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
-    <ClCompile Include="call_inst_binder.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="struct_binder.cpp" />
