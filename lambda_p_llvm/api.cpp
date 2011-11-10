@@ -6,7 +6,6 @@
 #include <lambda_p_llvm/constant_int_binder.h>
 #include <lambda_p_llvm/load_inst_binder.h>
 #include <lambda_p_llvm/store_inst_binder.h>
-#include <lambda_p_llvm/cast_inst_binder.h>
 #include <lambda_p_llvm/alloca_inst_binder.h>
 #include <lambda_p_llvm/generator.h>
 #include <lambda_p_llvm/value.h>
@@ -23,9 +22,10 @@
 
 #include <string>
 
-lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::generation_context & context, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::memcpy_function & memcpy)
-	: package (new lambda_p_kernel::package)
+boost::shared_ptr <lambda_p_kernel::package> lambda_p_llvm::api::operator() ()
 {
+	boost::shared_ptr <lambda_p_kernel::package> package (new lambda_p_kernel::package);
+
 	std::wstring context_name (L"context");
 	boost::shared_ptr <lambda_p_llvm::context_binder> context_binder (new lambda_p_llvm::context_binder);
 	package->nodes [context_name] = context_binder;
@@ -43,28 +43,16 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
     package->nodes [load_inst_name] = load_inst_binder;
 
     std::wstring store_inst_name (L"store_inst");
-    boost::shared_ptr <lambda_p_llvm::store_inst_binder> store_inst_binder (new lambda_p_llvm::store_inst_binder (context));
+    boost::shared_ptr <lambda_p_llvm::store_inst_binder> store_inst_binder (new lambda_p_llvm::store_inst_binder);
     package->nodes [store_inst_name] = store_inst_binder;
 
-    std::wstring cast_inst_name (L"cast_inst");
-    boost::shared_ptr <lambda_p_llvm::cast_inst_binder> cast_inst_binder (new lambda_p_llvm::cast_inst_binder (context));
-    package->nodes [cast_inst_name] = cast_inst_binder;
-
 	std::wstring alloca_inst_name (L"alloca_inst");
-	boost::shared_ptr <lambda_p_llvm::alloca_inst_binder> alloca_inst_binder (new lambda_p_llvm::alloca_inst_binder (context));
+	boost::shared_ptr <lambda_p_llvm::alloca_inst_binder> alloca_inst_binder (new lambda_p_llvm::alloca_inst_binder);
 	package->nodes [alloca_inst_name] = alloca_inst_binder;
 
 	std::wstring generator_name (L"generator");
 	boost::shared_ptr <lambda_p_llvm::generator> generator (new lambda_p_llvm::generator);
 	package->nodes [generator_name] = generator;
-	
-	std::wstring malloc_name (L"malloc");
-	boost::shared_ptr <lambda_p_llvm::value> malloc_function (new lambda_p_llvm::value (malloc.malloc));
-    package->nodes [malloc_name] = malloc_function;
-	
-    std::wstring memcpy_name (L"memcpy");
-    boost::shared_ptr <lambda_p_llvm::value> memcpy_function (new lambda_p_llvm::value (memcpy.memcpy));
-    package->nodes [memcpy_name] = memcpy_function;
 
 	std::wstring struct_name (L"struct");
 	boost::shared_ptr <lambda_p_llvm::struct_binder> struct_binder (new lambda_p_llvm::struct_binder);
@@ -89,4 +77,6 @@ lambda_p_llvm::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring jit_function_name (L"jit_function");
 	boost::shared_ptr <lambda_p_llvm::jit_function> jit_function_binder (new lambda_p_llvm::jit_function);
 	package->nodes [jit_function_name] = jit_function_binder;
+
+	return package;
 }

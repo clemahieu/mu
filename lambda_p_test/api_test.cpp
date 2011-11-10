@@ -35,6 +35,6 @@ void lambda_p_test::api_test::run_1 ()
     std::string error;
     builder.setErrorStr (&error);
 	llvm::ExecutionEngine * engine (builder.create ());
-	lambda_p_repl::api api (engine, context, wprintf_function, malloc_function, abort_function, memcpy_function);
-	assert (api.package.get () != nullptr);
+	lambda_p_repl::api api;
+	assert (api ().get () != nullptr);
 }

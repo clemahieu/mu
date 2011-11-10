@@ -54,9 +54,9 @@ context (context_a)
     llvm::BasicBlock * block (llvm::BasicBlock::Create (context->context));
     start->getBasicBlockList ().push_back (block);
     context->block = block;
-	lambda_p_repl::api api (engine, *context, overlay.wprintf, overlay.malloc, overlay.abort, overlay.memcpy);	
-	environment = api.package;
-	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), api.package));	
+	lambda_p_repl::api api;
+	environment = api ();
+	injected_parameters.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), environment));	
 	boost::shared_ptr <lambda_p_repl::exec_binder> exec_binder (new lambda_p_repl::exec_binder);
 	exec = exec_binder;
 	exec_binder->set (environment, exec);

@@ -25,10 +25,9 @@
 
 #include <llvm/LLVMContext.h>
 
-lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::generation_context & context, lambda_p_llvm::wprintf_function & wprintf, lambda_p_llvm::malloc_function & malloc, lambda_p_llvm::abort_function & abort, lambda_p_llvm::memcpy_function & memcpy)
-	: package (new lambda_p_kernel::package)
+boost::shared_ptr <lambda_p_kernel::package> lambda_p_repl::api::operator () ()
 {
-	boost::shared_ptr <lambda_p_kernel::package> package_l (new lambda_p_kernel::package);
+	boost::shared_ptr <lambda_p_kernel::package> package (new lambda_p_kernel::package);
 	boost::shared_ptr <lambda_p_repl::routine_builder_binder> read_binder (new lambda_p_repl::routine_builder_binder);
 	boost::shared_ptr <lambda_p_kernel::apply> apply_binder (new lambda_p_kernel::apply);
 	boost::shared_ptr <lambda_p_kernel::package_add> package_add_binder (new lambda_p_kernel::package_add);
@@ -44,7 +43,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	boost::shared_ptr <lambda_p_kernel::times> times_binder (new lambda_p_kernel::times);
 	boost::shared_ptr <lambda_p_kernel::number_binder> number_binder (new lambda_p_kernel::number_binder);
 	boost::shared_ptr <lambda_p::binder::list_binder> list_binder (new lambda_p::binder::list_binder);
-	lambda_p_llvm::api llvm_binder (engine_a, context, malloc, memcpy);
+	lambda_p_llvm::api llvm_binder;
 	std::wstring read_name (L"read");
 	std::wstring llvm_name (L"llvm");
 	std::wstring package_create_name (L"package_create");
@@ -62,7 +61,7 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	std::wstring number_name (L"number");
 	std::wstring list_name (L"list");
 	package->nodes [read_name] = read_binder;
-	package->nodes [llvm_name] = llvm_binder.package;
+	package->nodes [llvm_name] = llvm_binder ();
 	package->nodes [package_create_name] = package_create_binder;
 	package->nodes [package_add_name] = package_add_binder;
 	package->nodes [data_stream_name] = data_stream_binder;
@@ -77,4 +76,5 @@ lambda_p_repl::api::api (llvm::ExecutionEngine * engine_a, lambda_p_llvm::genera
 	package->nodes [times_name] = times_binder;
 	package->nodes [number_name] = number_binder;
 	package->nodes [list_name] = list_binder;
+	return package;
 }

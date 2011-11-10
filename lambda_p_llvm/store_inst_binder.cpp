@@ -17,59 +17,41 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p_llvm/module.h>
+#include <lambda_p_llvm/type.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
+#include <llvm/Function.h>
+#include <llvm/Module.h>
 
 #include <sstream>
 
-lambda_p_llvm::store_inst_binder::store_inst_binder (lambda_p_llvm::generation_context & context_a)
-: context (context_a)
-{
-}
-
 void lambda_p_llvm::store_inst_binder::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
-	check_count (0, 2, statement, problems);
+	check_count (1, 2, statement, problems);
 	if (problems.errors.empty ())
 	{
-		size_t destination_node (statement->association->references [0]);
-		size_t source_node (statement->association->references [1]);
-		boost::shared_ptr <lambda_p::binder::node> source_instance (nodes [source_node]);
-		boost::shared_ptr <lambda_p_llvm::value> source (boost::dynamic_pointer_cast <lambda_p_llvm::value> (source_instance));
-		if (source.get () != nullptr)
+		auto module (boost::dynamic_pointer_cast <lambda_p_llvm::module> (nodes [statement->association->references [0]]));
+		check_binder (module, 0, L"module", problems);
+		auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type> (nodes [statement->association->references [1]]));
+		check_binder (type, 1, L"type", problems);
+		if (problems.errors.empty ())
 		{
-			boost::shared_ptr <lambda_p::binder::node> destination_instance (nodes [destination_node]);
-			boost::shared_ptr <lambda_p_llvm::value> destination (boost::dynamic_pointer_cast <lambda_p_llvm::value> (destination_instance));
-			if (destination.get () != nullptr)
-			{
-				llvm::PointerType const * destination_pointer (llvm::dyn_cast < llvm::PointerType const> (destination->type ()));
-				if (destination_pointer != nullptr)
-				{
-					if (destination_pointer->getElementType () == source->type ())
-					{
-						llvm::StoreInst * store (new llvm::StoreInst (source->operator () (), destination->operator () ()));
-						context.block->getInstList ().push_back (store);
-					}
-					else
-					{
-						add_error (std::wstring (L"store_inst_binder expects argument 1 to be a pointer to the type of argument 2"), problems);
-					}
-				}
-				else
-				{
-					add_error (std::wstring (L"store_inst_binder expects argument 1 to be a pointer"), problems);
-				}
-			}
-			else
-			{
-				add_error (std::wstring (L"store_inst_binder expects argument 1 to be an llvm value"), problems);
-			}
-		}
-		else
-		{
-			add_error (std::wstring (L"store_inst_binder expects argument 2 to be an llvm value"), problems);
+			std::vector <llvm::Type const *> arguments;
+			arguments.push_back (type->type_m);
+			arguments.push_back (llvm::PointerType::get (type->type_m, 0));
+			auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (module->module_m->getContext()), arguments, false), llvm::GlobalValue::ExternalLinkage));
+			module->module_m->getFunctionList ().push_back (function);
+			auto block (llvm::BasicBlock::Create (module->module_m->getContext ()));
+			function->getBasicBlockList ().push_back (block);
+			auto actual (function->arg_begin ());
+			auto actual1 (actual);
+			++actual;
+			auto actual2 (actual);
+			block->getInstList ().push_back (new llvm::StoreInst (actual1, actual2));
+			nodes [statement->association->declarations [0]] = boost::shared_ptr <lambda_p_llvm::value> (new lambda_p_llvm::value (function));
 		}
 	}
 }
