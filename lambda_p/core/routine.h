@@ -13,10 +13,6 @@ namespace lambda_p_test
 {
 	class parser_test_1;
 }
-namespace lambda_p_repl
-{
-	class entry_environment;
-}
 namespace lambda_p_kernel
 {
 	class bind_procedure;
@@ -54,7 +50,6 @@ namespace lambda_p
 			friend class lambda_p::parser::parser;
 			friend class lambda_p_kernel::bind_procedure;
 			friend class lambda_p::parser::statement;
-			friend class lambda_p_repl::entry_environment;
 			friend class lambda_p::parser::routine;
 			friend class lambda_p_test::parser_test_1;
 		private:

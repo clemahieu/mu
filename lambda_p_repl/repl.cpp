@@ -7,7 +7,6 @@
 #include <boost/bind.hpp>
 
 #include <lambda_p_repl/entry_routine.h>
-#include <lambda_p_repl/entry_environment.h>
 #include <lambda_p/lexer/wistream_input.h>
 
 lambda_p_repl::repl::repl(void)

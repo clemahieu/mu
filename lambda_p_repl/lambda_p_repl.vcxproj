@@ -138,7 +138,6 @@
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="data_stream_binder.cpp" />
-    <ClCompile Include="entry_environment.cpp" />
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="exec_binder.cpp" />
@@ -154,7 +153,6 @@
     <ClInclude Include="builder.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="data_stream_binder.h" />
-    <ClInclude Include="entry_environment.h" />
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="entry_routine.h" />
     <ClInclude Include="exec_binder.h" />
