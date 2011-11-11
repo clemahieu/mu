@@ -33,6 +33,10 @@
     <ClInclude Include="wstring_binder.h" />
     <ClInclude Include="malloc_function.h" />
     <ClInclude Include="memcpy_function.h" />
+    <ClInclude Include="verify_binder.h" />
+    <ClInclude Include="raw_fd_ostream_binder.h" />
+    <ClInclude Include="raw_fd_ostream.h" />
+    <ClInclude Include="compile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="alloca_inst_binder.cpp" />
@@ -67,5 +71,9 @@
     <ClCompile Include="wstring_binder.cpp" />
     <ClCompile Include="malloc_function.cpp" />
     <ClCompile Include="memcpy_function.cpp" />
+    <ClCompile Include="verify_binder.cpp" />
+    <ClCompile Include="raw_fd_ostream_binder.cpp" />
+    <ClCompile Include="raw_fd_ostream.cpp" />
+    <ClCompile Include="compile.cpp" />
   </ItemGroup>
 </Project>

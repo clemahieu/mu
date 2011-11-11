@@ -25,6 +25,7 @@
     <ClInclude Include="api.h" />
     <ClInclude Include="argument_binder.h" />
     <ClInclude Include="assemble_binder.h" />
+    <ClInclude Include="compile.h" />
     <ClInclude Include="eq_binder.h" />
     <ClInclude Include="execution_engine.h" />
     <ClInclude Include="execution_engine_binder.h" />
@@ -42,6 +43,8 @@
     <ClInclude Include="context_binder.h" />
     <ClInclude Include="generation_context.h" />
     <ClInclude Include="load_inst_binder.h" />
+    <ClInclude Include="raw_fd_ostream.h" />
+    <ClInclude Include="raw_fd_ostream_binder.h" />
     <ClInclude Include="store_inst_binder.h" />
     <ClInclude Include="struct_binder.h" />
     <ClInclude Include="subtract_binder.h" />
@@ -49,6 +52,7 @@
     <ClInclude Include="value.h" />
     <ClInclude Include="type.h" />
     <ClInclude Include="type_binder.h" />
+    <ClInclude Include="verify_binder.h" />
     <ClInclude Include="wprintf_function.h" />
     <ClInclude Include="wstring_binder.h" />
   </ItemGroup>
@@ -59,6 +63,7 @@
     <ClCompile Include="api.cpp" />
     <ClCompile Include="argument_binder.cpp" />
     <ClCompile Include="assemble_binder.cpp" />
+    <ClCompile Include="compile.cpp" />
     <ClCompile Include="eq_binder.cpp" />
     <ClCompile Include="execution_engine.cpp" />
     <ClCompile Include="execution_engine_binder.cpp" />
@@ -76,6 +81,8 @@
     <ClCompile Include="context_binder.cpp" />
     <ClCompile Include="generation_context.cpp" />
     <ClCompile Include="load_inst_binder.cpp" />
+    <ClCompile Include="raw_fd_ostream.cpp" />
+    <ClCompile Include="raw_fd_ostream_binder.cpp" />
     <ClCompile Include="store_inst_binder.cpp" />
     <ClCompile Include="struct_binder.cpp" />
     <ClCompile Include="subtract_binder.cpp" />
@@ -83,6 +90,7 @@
     <ClCompile Include="value.cpp" />
     <ClCompile Include="type.cpp" />
     <ClCompile Include="type_binder.cpp" />
+    <ClCompile Include="verify_binder.cpp" />
     <ClCompile Include="wprintf_function.cpp" />
     <ClCompile Include="wstring_binder.cpp" />
   </ItemGroup>

@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="repl_quit_binder.cpp" />
-    <ClCompile Include="entry_routine.cpp" />
     <ClCompile Include="entry_input.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="routine_builder_binder.cpp" />
@@ -18,7 +17,6 @@
   <ItemGroup>
     <ClInclude Include="repl.h" />
     <ClInclude Include="repl_quit_binder.h" />
-    <ClInclude Include="entry_routine.h" />
     <ClInclude Include="entry_input.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="routine_builder_binder.h" />

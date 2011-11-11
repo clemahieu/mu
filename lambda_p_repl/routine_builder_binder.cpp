@@ -1,7 +1,6 @@
 #include "routine_builder_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p_repl/entry_routine.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/data.h>
 #include <lambda_p/lexer/istream_input.h>

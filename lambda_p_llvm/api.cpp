@@ -17,6 +17,7 @@
 #include <lambda_p_llvm/module_get_function.h>
 #include <lambda_p_llvm/jit_function.h>
 #include <lambda_p_llvm/execution_engine_binder.h>
+#include <lambda_p_llvm/verify_binder.h>
 
 #include <llvm/Function.h>
 
@@ -77,6 +78,10 @@ boost::shared_ptr <lambda_p_kernel::package> lambda_p_llvm::api::operator() ()
 	std::wstring jit_function_name (L"jit_function");
 	boost::shared_ptr <lambda_p_llvm::jit_function> jit_function_binder (new lambda_p_llvm::jit_function);
 	package->nodes [jit_function_name] = jit_function_binder;
+
+	std::wstring verify_name (L"verify");
+	boost::shared_ptr <lambda_p_llvm::verify_binder> verify_binder (new lambda_p_llvm::verify_binder);
+	package->nodes [verify_name] = verify_binder;
 
 	return package;
 }
