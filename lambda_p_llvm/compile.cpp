@@ -6,6 +6,11 @@
 
 #include <llvm/Target/TargetRegistry.h>
 #include <llvm/Support/Host.h>
+#include <llvm/Target/TargetData.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/PassManager.h>
+#include <llvm/Support/FormattedStream.h>
+#include <llvm/Support/raw_ostream.h>
 
 void lambda_p_llvm::compile::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems)
 {
@@ -19,15 +24,31 @@ void lambda_p_llvm::compile::bind (lambda_p::core::statement * statement, lambda
 		if (problems.errors.empty ())
 		{
 			std::string error;
-			llvm::Target const * target (llvm::TargetRegistry::lookupTarget (llvm::sys::getHostTriple (), error));
+			std::string triple (llvm::sys::getHostTriple ());
+			llvm::Target const * target (llvm::TargetRegistry::lookupTarget (triple, error));
 			if (error.empty ())
 			{
-
+				llvm::TargetMachine * machine (target->createTargetMachine (triple, std::string ()));
+				llvm::TargetData const * data (machine->getTargetData ());
+				llvm::PassManager manager;
+				manager.add (new llvm::TargetData (*data));
+				std::string error_info;
+				llvm::formatted_raw_ostream stream (llvm::raw_fd_ostream (name->string.c_str (), error_info));
+				if (error_info.empty ())
+				{
+					machine->addPassesToEmitFile (manager, stream, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile, llvm::CodeGenOpt::None);
+					manager.run (*module->module_m);
+				}
+				else
+				{
+					std::wstring message (error_info.begin (), error_info.end ());
+					add_error (message, problems);
+				}
 			}
 			else
 			{
 				std::wstring message (error.begin (), error.end ());
-				add_error (message.str (), problems);
+				add_error (message, problems);
 			}
 		}
 	}
