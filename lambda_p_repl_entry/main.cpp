@@ -4,7 +4,8 @@
 
 int main ()
 {
-    llvm::InitializeNativeTarget ();
+	llvm::InitializeNativeTarget ();
+	llvm::InitializeNativeTargetAsmPrinter ();
 	lambda_p_repl::repl repl;
 	repl.run ();
 	return 0;

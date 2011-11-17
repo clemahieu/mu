@@ -33,11 +33,19 @@ void lambda_p_llvm::compile::bind (lambda_p::core::statement * statement, lambda
 				llvm::PassManager manager;
 				manager.add (new llvm::TargetData (*data));
 				std::string error_info;
-				llvm::formatted_raw_ostream stream (llvm::raw_fd_ostream (name->string.c_str (), error_info));
+				llvm::raw_fd_ostream raw (name->string.c_str (), error_info);
+				llvm::formatted_raw_ostream stream (raw);
 				if (error_info.empty ())
 				{
-					machine->addPassesToEmitFile (manager, stream, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile, llvm::CodeGenOpt::None);
-					manager.run (*module->module_m);
+					bool failed_add (machine->addPassesToEmitFile (manager, stream, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile, llvm::CodeGenOpt::None));
+					if (!failed_add)
+					{
+						manager.run (*module->module_m);
+					}
+					else
+					{
+						add_error (L"Target does not support generation of files of this file type", problems);
+					}
 				}
 				else
 				{
