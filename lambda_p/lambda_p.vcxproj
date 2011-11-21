@@ -178,6 +178,7 @@
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\statement.h" />
+    <ClInclude Include="parser\state_factory.h" />
     <ClInclude Include="parser\target_set.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="serialization\simple.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
+    <ClCompile Include="parser\state_factory.cpp" />
     <ClCompile Include="parser\target_set.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />

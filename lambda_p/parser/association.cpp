@@ -10,6 +10,8 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/data.h>
 
+#include <sstream>
+
 lambda_p::parser::association::association (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::parser::association_target & target_a)
 	: on_results (false),
 	target (target_a),
@@ -35,25 +37,37 @@ void lambda_p::parser::association::parse (lambda_p::tokens::token * token)
 		case lambda_p::tokens::token_id_identifier:
 			{
 				auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
-				auto i = routine.positions.find (identifier->string);
-				if (i == routine.positions.end ())
+				auto j = parser.keywords.find (identifier->string);
+				if (j == parser.keywords.end ())
 				{
-					auto location (target.sink_declaration ());
-					size_t declaration (routine.routine_m->add_declaration ());
-					location (declaration);
-					routine.positions [identifier->string] = declaration;
-					for (auto i = routine.unresolved_references.find (identifier->string); i != routine.unresolved_references.end (); ++i)
+					auto i = routine.positions.find (identifier->string);
+					if (i == routine.positions.end ())
 					{
-						i->second (declaration);
+						auto location (target.sink_declaration ());
+						size_t declaration (routine.routine_m->add_declaration ());
+						location (declaration);
+						routine.positions [identifier->string] = declaration;
+						for (auto i = routine.unresolved_references.find (identifier->string); i != routine.unresolved_references.end (); ++i)
+						{
+							i->second (declaration);
+						}
+						routine.unresolved_references.erase (identifier->string);
 					}
-					routine.unresolved_references.erase (identifier->string);
+					else
+					{
+						std::wstring message (L"Identifier already used: ");
+						message.append (identifier->string);
+						boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::error (message));
+						parser.state.push (new_state);
+					}
 				}
 				else
 				{
-					std::wstring message (L"Identifier already used: ");
-					message.append (identifier->string);
-					boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::error (message));
-					parser.state.push (new_state);
+					std::wstringstream message;					
+					message << L"Cannot use: ";
+					message << identifier->string;
+					message << L" as an identifier, it's a keyword";
+					parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
 				}
 			}
 			break;

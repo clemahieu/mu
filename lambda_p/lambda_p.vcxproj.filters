@@ -179,6 +179,9 @@
     <ClInclude Include="binder\binder_implementor.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="parser\state_factory.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -352,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="lexer\wistream_input.cpp">
       <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\state_factory.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

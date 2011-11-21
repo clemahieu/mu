@@ -7,6 +7,7 @@
 
 #include <stack>
 #include <vector>
+#include <map>
 
 namespace lambda_p
 {
@@ -31,6 +32,7 @@ namespace lambda_p
 		class statement;
 		class error;
 		class data;
+		class state_factory;
 		class parser
 		{
 			friend class lambda_p::parser::association;
@@ -50,6 +52,7 @@ namespace lambda_p
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 			std::vector <std::wstring> injected_returns;
+			std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords;
 		public:
 			boost::shared_ptr <lambda_p::parser::state> last_state;
 			std::stack <boost::shared_ptr <lambda_p::parser::state>> state;
