@@ -11,7 +11,6 @@ namespace lambda_p
 		{
 		public:
 			singleline_comment (lambda_p::lexer::lexer & lexer_a);
-			state_id state_type () override;
 			void lex (wchar_t character) override;
 			lambda_p::lexer::lexer & lexer;
 		};

@@ -12,7 +12,6 @@ namespace lambda_p
 		{
 		public:
 			error(std::wstring message_a);
-			state_id state_type () override;
 			void lex (wchar_t character) override;
 			std::wstring message;
 		};

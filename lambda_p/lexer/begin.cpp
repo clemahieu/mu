@@ -12,11 +12,6 @@ lambda_p::lexer::begin::begin (lambda_p::lexer::lexer & lexer_a)
 {
 }
 
-lambda_p::lexer::state_id lambda_p::lexer::begin::state_type ()
-{
-	return lambda_p::lexer::state_begin;
-}
-
 void lambda_p::lexer::begin::lex (wchar_t character)
 {
 	switch (character)

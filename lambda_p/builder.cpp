@@ -6,6 +6,7 @@
 
 #include <lambda_p/lexer/character_stream.h>
 #include <lambda_p/lexer/wistream_input.h>
+#include <lambda_p/lexer/error.h>
 
 lambda_p::builder::builder ()
 	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), injected_declarations (), injected_references ()),
@@ -87,9 +88,10 @@ bool lambda_p::builder::error ()
 
 void lambda_p::builder::error_message (std::wostream & out)
 {
-	if (lexer.error ())
+	auto lexer_error (lexer.error ());
+	if (lexer_error.get () != nullptr)
 	{
-		lexer.error_message (out);
+		out << lexer_error->message;
 	}
 	if (parser.error ())
 	{

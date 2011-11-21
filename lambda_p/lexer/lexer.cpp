@@ -42,22 +42,12 @@ void lambda_p::lexer::lexer::reset ()
 	state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::begin (*this)));
 }
 
-bool lambda_p::lexer::lexer::error ()
+boost::shared_ptr <lambda_p::lexer::error> lambda_p::lexer::lexer::error ()
 {
-	bool result;
-	if (state.empty ())
+	boost::shared_ptr <lambda_p::lexer::error> result;
+	if (!state.empty ())
 	{
-		result = false;
-	}
-	else
-	{
-		result = state.top ()->state_type () == lambda_p::lexer::state_error;
+		result = boost::dynamic_pointer_cast <lambda_p::lexer::error> (state.top ());
 	}
 	return result;
-}
-	
-void lambda_p::lexer::lexer::error_message (std::wostream & target)
-{
-	auto error_l = (boost::static_pointer_cast <lambda_p::lexer::error> (state.top ()));
-	target << error_l->message;
 }

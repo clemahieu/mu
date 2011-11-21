@@ -11,7 +11,6 @@ namespace lambda_p
 		{
 		public:
 			multiline_comment (lambda_p::lexer::lexer & lexer_a);
-			state_id state_type () override;
 			void lex (wchar_t character) override;
 			bool have_colon;
 			lambda_p::lexer::lexer & lexer;

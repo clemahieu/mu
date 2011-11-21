@@ -7,11 +7,6 @@ lambda_p::lexer::singleline_comment::singleline_comment (lambda_p::lexer::lexer 
 {
 }
 
-lambda_p::lexer::state_id lambda_p::lexer::singleline_comment::state_type ()
-{
-	return lambda_p::lexer::state_singleline_comment;
-}
-
 void lambda_p::lexer::singleline_comment::lex (wchar_t character)
 {
 	switch (character)

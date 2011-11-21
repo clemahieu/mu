@@ -20,6 +20,7 @@ namespace lambda_p
 		class multiline_comment;
 		class singleline_comment;
 		class control;
+		class error;
 		class lexer
 		{
 			friend class lambda_p::lexer::begin;
@@ -33,8 +34,7 @@ namespace lambda_p
 			~lexer ();
 			void operator () (wchar_t character);
 			void reset ();
-			bool error ();
-			void error_message (std::wostream & target);
+			boost::shared_ptr <lambda_p::lexer::error> error ();
 		private:
 			boost::function <void (lambda_p::tokens::token *)> target;
 		public:

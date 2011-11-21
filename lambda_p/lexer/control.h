@@ -11,7 +11,6 @@ namespace lambda_p
 		{
 		public:
 			control (lambda_p::lexer::lexer & lexer_a);
-			state_id state_type () override;
 			void lex (wchar_t character) override;
 			bool complete;
 			lambda_p::lexer::lexer & lexer;

@@ -5,11 +5,6 @@ lambda_p::lexer::error::error (std::wstring message_a)
 {
 }
 
-lambda_p::lexer::state_id lambda_p::lexer::error::state_type ()
-{
-	return lambda_p::lexer::state_error;
-}
-
 void lambda_p::lexer::error::lex (wchar_t character)
 {
 }

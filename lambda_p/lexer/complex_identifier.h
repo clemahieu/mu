@@ -15,7 +15,6 @@ namespace lambda_p
 		{
 		public:
 			complex_identifier (lambda_p::lexer::lexer & lexer_a);
-			state_id state_type () override;
 			void lex (wchar_t character) override;
 			std::wstring end_token;
 			std::wstring data;

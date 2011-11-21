@@ -12,11 +12,6 @@ lambda_p::lexer::control::control (lambda_p::lexer::lexer & lexer_a)
 {
 }
 
-lambda_p::lexer::state_id lambda_p::lexer::control::state_type ()
-{
-	return lambda_p::lexer::state_control;
-}
-
 void lambda_p::lexer::control::lex (wchar_t character)
 {
 	if (character != '\uffff')
