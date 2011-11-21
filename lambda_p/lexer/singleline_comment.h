@@ -6,10 +6,14 @@ namespace lambda_p
 {
 	namespace lexer
 	{
+		class lexer;
 		class singleline_comment : public state
 		{
 		public:
-			state_id state_type ();
+			singleline_comment (lambda_p::lexer::lexer & lexer_a);
+			state_id state_type () override;
+			void lex (wchar_t character) override;
+			lambda_p::lexer::lexer & lexer;
 		};
 	}
 }

@@ -18,6 +18,7 @@ namespace lambda_p
 		{
 		public:
 			virtual state_id state_type () = 0;
+			virtual void lex (wchar_t character) = 0;
 		};
 	}
 }

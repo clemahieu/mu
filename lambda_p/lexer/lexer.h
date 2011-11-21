@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/function.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include <stack>
 
@@ -13,8 +14,20 @@ namespace lambda_p
 	namespace lexer
 	{
 		class state;
+		class begin;
+		class complex_identifier;
+		class identifier;
+		class multiline_comment;
+		class singleline_comment;
+		class control;
 		class lexer
 		{
+			friend class lambda_p::lexer::begin;
+			friend class lambda_p::lexer::complex_identifier;
+			friend class lambda_p::lexer::identifier;
+			friend class lambda_p::lexer::multiline_comment;
+			friend class lambda_p::lexer::singleline_comment;
+			friend class lambda_p::lexer::control;
 		public:
 			lexer (boost::function <void (lambda_p::tokens::token *)> target_a);
 			~lexer ();
@@ -23,18 +36,9 @@ namespace lambda_p
 			bool error ();
 			void error_message (std::wostream & target);
 		private:
-			void lex_internal (wchar_t character);
-			void lex_error (wchar_t character);
-			void lex_begin (wchar_t character);
-			void lex_control (wchar_t character);
-			void lex_multiline_comment (wchar_t character);
-			void lex_singleline_comment (wchar_t character);
-			void lex_complex_identifier (wchar_t character);
-			void lex_identifier (wchar_t character);
-			void pop_state ();
 			boost::function <void (lambda_p::tokens::token *)> target;
 		public:
-			std::stack <lambda_p::lexer::state *> state;
+			std::stack <boost::shared_ptr <lambda_p::lexer::state>> state;
 		};
 	}
 }
