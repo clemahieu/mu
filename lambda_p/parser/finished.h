@@ -14,10 +14,13 @@ namespace lambda_p
 {
     namespace parser
     {
+		class parser;
         class finished : public lambda_p::parser::state
         {
         public:
-            state_id state_type ();
+			finished (lambda_p::parser::parser & parser_a);
+			void parse (lambda_p::tokens::token * token) override;
+			lambda_p::parser::parser & parser;
         };
     }
 }

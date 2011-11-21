@@ -16,17 +16,19 @@ namespace lambda_p
 	{
 		class routine;
 		class body;
+		class parser;
 		class statement : public state, public lambda_p::parser::association_target
 		{
 		public:
-			statement (boost::shared_ptr <lambda_p::parser::routine> routine_a);
-			state_id state_type ();
+			statement (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a);
+			void parse (lambda_p::tokens::token * token) override;
 			boost::function <void (size_t)> sink_declaration () override;
 			boost::function <void (size_t)> sink_argument () override ;
 			bool have_target;
 			bool on_results;
-			boost::shared_ptr <lambda_p::parser::routine> routine;
+			lambda_p::parser::routine & routine;
 			lambda_p::core::statement * statement_m;
+			lambda_p::parser::parser & parser;
 		};
 	}
 }

@@ -10,13 +10,15 @@ namespace lambda_p
 	{
 		class routine;
 		class data_target;
+		class parser;
 		class data : public state
 		{
 		public:
-			data (boost::shared_ptr <lambda_p::parser::routine> routine_a, boost::shared_ptr <lambda_p::parser::data_target> target_a);
-			state_id state_type ();
-			boost::shared_ptr <lambda_p::parser::routine> routine;
-			boost::shared_ptr <lambda_p::parser::data_target> target;
+			data (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::parser::data_target & target_a);
+			void parse (lambda_p::tokens::token * token) override;
+			lambda_p::parser::routine & routine;
+			lambda_p::parser::data_target & target;
+			lambda_p::parser::parser & parser;
 		};
 	}
 }

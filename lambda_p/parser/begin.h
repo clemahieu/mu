@@ -6,10 +6,13 @@ namespace lambda_p
 {	
 	namespace parser
 	{
+		class parser;
 		class begin : public state
 		{
 		public:
-			state_id state_type ();
+			begin (lambda_p::parser::parser & parser_a);
+			void parse (lambda_p::tokens::token * token) override;
+			lambda_p::parser::parser & parser;
 		};
 	}
 }

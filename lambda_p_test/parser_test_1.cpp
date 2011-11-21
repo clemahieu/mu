@@ -12,6 +12,8 @@
 #include <lambda_p/tokens/stream_end.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
+#include <lambda_p/parser/finished.h>
+#include <lambda_p/parser/begin.h>
 
 #include <vector>
 #include <sstream>
@@ -63,7 +65,7 @@ void lambda_p_test::parser_test_1::run_2 ()
 	parser (&statement_end);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -84,7 +86,7 @@ void lambda_p_test::parser_test_1::run_3 ()
 	parser (&statement_end);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -111,7 +113,7 @@ void lambda_p_test::parser_test_1::run_4 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -140,7 +142,7 @@ void lambda_p_test::parser_test_1::run_5 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -175,7 +177,7 @@ void lambda_p_test::parser_test_1::run_6 ()
 	parser (&se3);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -210,7 +212,7 @@ void lambda_p_test::parser_test_1::run_7 ()
 	parser (&se3);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -241,7 +243,7 @@ void lambda_p_test::parser_test_1::run_8 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -272,7 +274,7 @@ void lambda_p_test::parser_test_1::run_9 ()
 	parser (&se2);
 	parser (&routine_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_begin);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::begin> (parser.state.top ()).get () != nullptr);
 	std::vector < lambda_p::errors::error *> problems;
 	assert (routines.routines->size () == 1);
 	(*routines.routines) [0]->validate (problems);
@@ -287,7 +289,7 @@ void lambda_p_test::parser_test_1::run_10 ()
 	::lambda_p::tokens::stream_end stream_end;
 	parser (&stream_end);
 	assert (!parser.error ());
-	assert (parser.current_state () == lambda_p::parser::state_finished);
+	assert (boost::dynamic_pointer_cast <lambda_p::parser::finished> (parser.state.top ()).get () != nullptr);
 	assert (routines.routines->size () == 0);
 }
 

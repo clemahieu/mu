@@ -21,11 +21,12 @@ namespace lambda_p
 	}
 	namespace parser
 	{
+		class parser;
 		class routine : public state, public lambda_p::parser::association_target
 		{
 		public:
-			routine (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters, std::vector <std::wstring> & injected_returns);
-			state_id state_type ();
+			routine (lambda_p::parser::parser & parser_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters, std::vector <std::wstring> & injected_returns);
+			void parse (lambda_p::tokens::token * token) override;
 			boost::function <void (size_t)> sink_declaration () override;
 			boost::function <void (size_t)> sink_argument () override;
 			boost::shared_ptr <lambda_p::core::routine> routine_m;
@@ -33,6 +34,7 @@ namespace lambda_p
 			std::multimap <std::wstring, boost::function <void (size_t)>> unresolved_references;
 			std::map <std::wstring, size_t> positions;
 			bool parsed_routine;
+			lambda_p::parser::parser & parser;
 		};
 	}
 }

@@ -8,7 +8,16 @@
 
 #include <lambda_p/parser/finished.h>
 
-lambda_p::parser::state_id lambda_p::parser::finished::state_type ()
+#include <lambda_p/parser/error.h>
+#include <lambda_p/parser/parser.h>
+
+lambda_p::parser::finished::finished (lambda_p::parser::parser & parser_a)
+	: parser (parser_a)
 {
-    return lambda_p::parser::state_finished;
+}
+
+void lambda_p::parser::finished::parse (lambda_p::tokens::token * token)
+{
+    std::wstring message (L"Token received after parser is finished");
+    parser.state.push (boost::shared_ptr < lambda_p::parser::state> (new lambda_p::parser::error (message)));
 }

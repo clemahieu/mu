@@ -12,7 +12,7 @@ namespace lambda_p
 		{
 		public:
 			error(std::wstring message_a);
-			lambda_p::parser::state_id state_type ();
+			void parse (lambda_p::tokens::token * token) override;
 			std::wstring message;
 		};
 	}
