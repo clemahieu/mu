@@ -1,7 +1,7 @@
 #include <lambda_p/parser/association.h>
 
 #include <lambda_p/parser/association_target.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/parser/routine.h>

@@ -6,7 +6,6 @@ namespace lambda_p
 {
 	namespace binder
 	{
-		class data;
 		class list;
 	}
 }

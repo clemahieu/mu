@@ -140,13 +140,10 @@
     <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\position.h" />
-    <ClInclude Include="binder\data.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
-    <ClInclude Include="parser\data_factory.h" />
-    <ClInclude Include="parser\data.h" />
     <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
     <ClInclude Include="errors\binder_string_error.h" />
@@ -201,13 +198,10 @@
     <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\position.cpp" />
-    <ClCompile Include="binder\data.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
-    <ClCompile Include="parser\data_factory.cpp" />
-    <ClCompile Include="parser\data.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
     <ClCompile Include="errors\binder_string_error.cpp" />

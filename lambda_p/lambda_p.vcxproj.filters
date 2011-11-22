@@ -121,9 +121,6 @@
     <ClInclude Include="binder\binder.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="binder\data.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\complex_identifier.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -171,12 +168,6 @@
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="parser\state_factory.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\data_factory.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\data.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
@@ -298,9 +289,6 @@
     <ClCompile Include="binder\binder.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="binder\data.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="lexer\complex_identifier.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
@@ -345,12 +333,6 @@
       <Filter>lexer</Filter>
     </ClCompile>
     <ClCompile Include="parser\state_factory.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\data_factory.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\data.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

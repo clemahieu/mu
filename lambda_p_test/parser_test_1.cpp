@@ -13,7 +13,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/parser/finished.h>
 #include <lambda_p/parser/begin.h>
-#include <lambda_p/parser/data_factory.h>
+#include <lambda_p_kernel/parser_factories/data_factory.h>
 
 #include <vector>
 #include <sstream>
@@ -224,7 +224,7 @@ void lambda_p_test::parser_test_1::run_8 ()
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
 	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords;
-	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p_kernel::parser_factories::data_factory)));
 	lambda_p::parser::parser parser (routines, keywords, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;
@@ -257,7 +257,7 @@ void lambda_p_test::parser_test_1::run_9 ()
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
 	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords;
-	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p_kernel::parser_factories::data_factory)));
 	lambda_p::parser::parser parser (routines, keywords, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;

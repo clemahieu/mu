@@ -1,6 +1,6 @@
 #include "exec_binder.h"
 
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
@@ -29,7 +29,7 @@ void lambda_p_repl::exec_binder::bind (lambda_p::core::statement * statement, la
 	check_count (0, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes_a [statement->association->references [0]]));
+		auto data (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes_a [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());

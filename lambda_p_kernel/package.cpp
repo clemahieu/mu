@@ -1,7 +1,7 @@
 #include "package.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/list.h>
@@ -24,7 +24,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 		{
 			size_t parameter (*i);
 			boost::shared_ptr <lambda_p::binder::node> instance (nodes [parameter]);
-			boost::shared_ptr <lambda_p::binder::data> node_data (boost::dynamic_pointer_cast < lambda_p::binder::data> (instance));
+			boost::shared_ptr <lambda_p_kernel::nodes::data> node_data (boost::dynamic_pointer_cast < lambda_p_kernel::nodes::data> (instance));
 			if (node_data.get () != nullptr)
 			{
 				parse_one (nodes, node_data, statement->association->declarations [current_argument], problems);
@@ -52,7 +52,7 @@ void lambda_p_kernel::package::bind (lambda_p::core::statement * statement, lamb
 	}
 }
 
-void lambda_p_kernel::package::parse_one (lambda_p::binder::list & nodes, boost::shared_ptr < lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::package::parse_one (lambda_p::binder::list & nodes, boost::shared_ptr < lambda_p_kernel::nodes::data> node, size_t result, lambda_p::errors::error_list & problems)
 {
 	boost::shared_ptr <lambda_p::binder::node> current_node (shared_from_this ());
 	boost::shared_ptr <lambda_p_kernel::package> current_package (shared_from_this ());

@@ -1,6 +1,6 @@
 #include "number_binder.h"
 
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
@@ -14,7 +14,7 @@ void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
+		auto data (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			std::wstring string (data->string ());

@@ -31,7 +31,6 @@ namespace lambda_p
 		class routine;
 		class statement;
 		class error;
-		class data;
 		class state_factory;
 		class parser
 		{
@@ -39,7 +38,6 @@ namespace lambda_p
 			friend class lambda_p::parser::begin;
 			friend class lambda_p::parser::routine;
 			friend class lambda_p::parser::statement;
-			friend class lambda_p::parser::data;
 		public:
 			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 			void operator () (lambda_p::tokens::token * token);

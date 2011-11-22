@@ -6,7 +6,7 @@
 #include <lambda_p_llvm/constant_int_binder.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>

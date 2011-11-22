@@ -9,6 +9,12 @@ namespace lambda_p
 		class parser;
 		class routine;
 		class association_target;
+	}
+}
+namespace lambda_p_kernel
+{
+	namespace parser_states
+	{
 		class data : public lambda_p::parser::state
 		{
 		public:

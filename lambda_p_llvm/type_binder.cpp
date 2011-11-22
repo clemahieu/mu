@@ -3,7 +3,7 @@
 #include "type_binder.h"
 
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/type.h>
 #include <lambda_p/core/association.h>
@@ -25,7 +25,7 @@ void lambda_p_llvm::type_binder::bind (lambda_p::core::statement * statement, la
 	{
 		auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context> (nodes [statement->association->references [0]]));
 		check_binder (context, 0, L"context", problems);
-		auto command (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [1]]));
+		auto command (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes [statement->association->references [1]]));
 		check_binder (command, 1, L"data", problems);
 		if (problems.errors.empty ())
 		{

@@ -7,7 +7,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
@@ -16,7 +16,6 @@
 #include <lambda_p/parser/association.h>
 #include <lambda_p/parser/position_set.h>
 #include <lambda_p/parser/target_set.h>
-#include <lambda_p/parser/data_factory.h>
 
 #include <boost/bind.hpp>
 

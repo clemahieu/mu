@@ -16,13 +16,16 @@ namespace lambda_p_test
 namespace lambda_p_kernel
 {
 	class bind_procedure;
+	namespace nodes
+	{
+		class data;
+	}
 }
 namespace lambda_p
 {
 	namespace binder
 	{
 		class bind_procedure;
-		class data;
 	}
 	namespace serialization
 	{
@@ -45,7 +48,7 @@ namespace lambda_p
 		class routine : public lambda_p::binder::node
 		{
 			friend class lambda_p::core::statement;
-			friend class lambda_p::binder::data;
+			friend class lambda_p_kernel::nodes::data;
             template <typename> friend class lambda_p::serialization::simple;
 			friend class lambda_p::parser::parser;
 			friend class lambda_p_kernel::bind_procedure;

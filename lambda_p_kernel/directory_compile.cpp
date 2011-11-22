@@ -1,6 +1,6 @@
 #include "directory_compile.h"
 
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
@@ -20,7 +20,7 @@ void lambda_p_kernel::directory_compile::bind (lambda_p::core::statement * state
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto directory (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
+		auto directory (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes [statement->association->references [0]]));
 		if (directory.get () != nullptr)
 		{			
 			auto path (boost::filesystem3::initial_path () /= directory->string ());

@@ -1,6 +1,6 @@
 #include "unbindable_statement_test.h"
 
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
@@ -12,7 +12,7 @@
 
 void lambda_p_test::unbindable_statement_test::run ()
 {
-	boost::shared_ptr <lambda_p::binder::data> data (new lambda_p::binder::data (std::wstring ()));
+	boost::shared_ptr <lambda_p_kernel::nodes::data> data (new lambda_p_kernel::nodes::data (std::wstring ()));
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
 	size_t declaration (routine->add_declaration ());
 	routine->surface->declarations.push_back (declaration);

@@ -2,9 +2,9 @@
 
 #include <lambda_p/parser/state_factory.h>
 
-namespace lambda_p
+namespace lambda_p_kernel
 {
-	namespace parser
+	namespace parser_factories
 	{
 		class data_factory : public lambda_p::parser::state_factory
 		{

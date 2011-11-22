@@ -1,6 +1,6 @@
 #include "file_stream_binder.h"
 
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
@@ -15,7 +15,7 @@ void lambda_p_repl::file_stream_binder::bind (lambda_p::core::statement * statem
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
+		boost::shared_ptr <lambda_p_kernel::nodes::data> data (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes [statement->association->references [0]]));
 		if (data.get () != nullptr)
 		{
 			auto path (boost::filesystem::initial_path () /= data->string ());
