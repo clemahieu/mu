@@ -49,9 +49,6 @@
     <ClInclude Include="parser\begin.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\data.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\error.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -81,9 +78,6 @@
     </ClInclude>
     <ClInclude Include="core\position.h">
       <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\data.h">
-      <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="parser\finished.h">
       <Filter>parser</Filter>
@@ -235,9 +229,6 @@
     <ClCompile Include="parser\begin.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\data.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\error.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -267,9 +258,6 @@
     </ClCompile>
     <ClCompile Include="core\position.cpp">
       <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\data.cpp">
-      <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="parser\finished.cpp">
       <Filter>parser</Filter>

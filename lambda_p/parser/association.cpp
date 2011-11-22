@@ -8,7 +8,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/parser.h>
-#include <lambda_p/parser/data.h>
 #include <lambda_p/parser/state_factory.h>
 
 #include <sstream>
@@ -109,12 +108,6 @@ void lambda_p::parser::association::parse (lambda_p::tokens::token * token)
 					auto new_state (j->second->create (parser, routine, target));
 					parser.state.push (new_state);
 				}
-			}
-			break;
-		case lambda_p::tokens::token_id_data:
-			{
-				boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::data (parser, routine, *this));
-				parser.state.push (new_state);
 			}
 			break;
 		case lambda_p::tokens::token_id_divider:			

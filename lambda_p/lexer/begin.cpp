@@ -1,6 +1,5 @@
 #include <lambda_p/lexer/begin.h>
 
-#include <lambda_p/tokens/data.h>
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/lexer/lexer.h>
 #include <lambda_p/lexer/complex_identifier.h>

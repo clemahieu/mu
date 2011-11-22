@@ -4,7 +4,6 @@
 #include <lambda_p/tokens/complex_identifier.h>
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
@@ -13,7 +12,6 @@
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
 #include <lambda_p/parser/statement.h>
-#include <lambda_p/parser/data.h>
 #include <lambda_p/parser/finished.h>
 #include <lambda_p/parser/association.h>
 #include <lambda_p/parser/position_set.h>
@@ -88,9 +86,6 @@ std::wstring lambda_p::parser::parser::token_type_name (lambda_p::tokens::token 
 		break;
 	case lambda_p::tokens::token_id_routine_end:
 		result.append (L"routine_end");
-		break;
-	case lambda_p::tokens::token_id_data:
-		result.append (L"data");
 		break;
 	case lambda_p::tokens::token_id_divider:
 		result.append (L"divider");

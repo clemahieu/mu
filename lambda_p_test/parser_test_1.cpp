@@ -8,7 +8,6 @@
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/tokens/data.h>
 #include <lambda_p/tokens/stream_end.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
@@ -229,7 +228,7 @@ void lambda_p_test::parser_test_1::run_8 ()
 	lambda_p::tokens::divider se1;
 	lambda_p::tokens::identifier targeta1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c2;
-	lambda_p::tokens::data dt1;
+	lambda_p::tokens::identifier dt1 (std::wstring (L"`"));
 	lambda_p::tokens::complex_identifier d1 (std::wstring (L"manifest data \0\t\n\f and more \u0983 \u23098"), std::wstring (L"abcdef"));
 	lambda_p::tokens::divider se2;
 	lambda_p::tokens::routine_end routine_end;
@@ -260,7 +259,7 @@ void lambda_p_test::parser_test_1::run_9 ()
 	lambda_p::tokens::divider se1;
 	lambda_p::tokens::identifier targeta1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c2;
-	lambda_p::tokens::data dt1;
+	lambda_p::tokens::identifier dt1 (std::wstring (L"`"));
 	lambda_p::tokens::identifier d1 (std::wstring (L"161871606870670184030848abcef654066450"));
 	lambda_p::tokens::divider se2;
 	lambda_p::tokens::routine_end routine_end;

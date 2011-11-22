@@ -172,7 +172,6 @@
     <ClInclude Include="parser\association.h" />
     <ClInclude Include="parser\association_target.h" />
     <ClInclude Include="parser\begin.h" />
-    <ClInclude Include="parser\data.h" />
     <ClInclude Include="parser\data_target.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\finished.h" />
@@ -189,7 +188,6 @@
     <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
-    <ClInclude Include="tokens\data.h" />
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
@@ -237,7 +235,6 @@
     <ClCompile Include="parser\association.cpp" />
     <ClCompile Include="parser\association_target.cpp" />
     <ClCompile Include="parser\begin.cpp" />
-    <ClCompile Include="parser\data.cpp" />
     <ClCompile Include="parser\data_target.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\finished.cpp" />
@@ -252,7 +249,6 @@
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
-    <ClCompile Include="tokens\data.cpp" />
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
