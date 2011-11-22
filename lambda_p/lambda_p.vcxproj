@@ -146,7 +146,7 @@
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="parser\data_factory.h" />
-    <ClInclude Include="parser\data_state.h" />
+    <ClInclude Include="parser\data.h" />
     <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
     <ClInclude Include="errors\binder_string_error.h" />
@@ -172,7 +172,6 @@
     <ClInclude Include="parser\association.h" />
     <ClInclude Include="parser\association_target.h" />
     <ClInclude Include="parser\begin.h" />
-    <ClInclude Include="parser\data_target.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\finished.h" />
     <ClInclude Include="parser\routine.h" />
@@ -208,7 +207,7 @@
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="parser\data_factory.cpp" />
-    <ClCompile Include="parser\data_state.cpp" />
+    <ClCompile Include="parser\data.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
     <ClCompile Include="errors\binder_string_error.cpp" />
@@ -235,7 +234,6 @@
     <ClCompile Include="parser\association.cpp" />
     <ClCompile Include="parser\association_target.cpp" />
     <ClCompile Include="parser\begin.cpp" />
-    <ClCompile Include="parser\data_target.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\routine.cpp" />

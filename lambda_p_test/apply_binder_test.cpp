@@ -17,7 +17,7 @@ void lambda_p_test::apply_binder_test::run ()
 void lambda_p_test::apply_binder_test::run_1 ()
 {
 	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
-	size_t data (routine->add_data (std::wstring (L"~")));
+	size_t data (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::data (std::wstring (L"~")))));
 	size_t declaration (routine->add_declaration ());
 	routine->surface->declarations.push_back (declaration);
 	boost::shared_ptr <lambda_p::binder::list> list (new lambda_p::binder::list);

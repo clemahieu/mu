@@ -34,13 +34,6 @@ lambda_p::core::statement * lambda_p::core::routine::add_statement ()
 	return statement;
 }
 
-size_t lambda_p::core::routine::add_data (std::wstring string)
-{
-    boost::shared_ptr <lambda_p::binder::data> data_l (new lambda_p::binder::data (string));
-	size_t result (inject_declaration (data_l));
-	return result;
-}
-
 size_t lambda_p::core::routine::inject_declaration (boost::shared_ptr <lambda_p::binder::node> node_a)
 {
 	size_t result (add_declaration ());

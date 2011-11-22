@@ -57,7 +57,6 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			lambda_p::core::statement * add_statement ();
-			size_t add_data (std::wstring string);
 			size_t inject_declaration (boost::shared_ptr <lambda_p::binder::node> node_a);
 			size_t add_declaration ();
             void placement (std::map <size_t, lambda_p::core::position> & argument_positions, std::map <lambda_p::core::statement const *, size_t> & statement_positions) const;

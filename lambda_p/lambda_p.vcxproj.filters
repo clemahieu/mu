@@ -94,9 +94,6 @@
     <ClInclude Include="parser\association_target.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\data_target.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -179,7 +176,7 @@
     <ClInclude Include="parser\data_factory.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\data_state.h">
+    <ClInclude Include="parser\data.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,9 +271,6 @@
     <ClCompile Include="parser\association_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\data_target.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
       <Filter>errors</Filter>
     </ClCompile>
@@ -356,7 +350,7 @@
     <ClCompile Include="parser\data_factory.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\data_state.cpp">
+    <ClCompile Include="parser\data.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

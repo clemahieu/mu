@@ -1,4 +1,4 @@
-#include "data_state.h"
+#include "data.h"
 
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/tokens/identifier.h>
@@ -9,14 +9,14 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/error.h>
 
-lambda_p::parser::data_state::data_state (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::parser::association_target & target_a)
+lambda_p::parser::data::data (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::parser::association_target & target_a)
 	: parser (parser_a),
 	routine (routine_a),
 	target (target_a)
 {
 }
 
-void lambda_p::parser::data_state::parse (lambda_p::tokens::token * token)
+void lambda_p::parser::data::parse (lambda_p::tokens::token * token)
 {
 	lambda_p::tokens::token_ids token_id (token->token_id ());
 	switch (token_id)

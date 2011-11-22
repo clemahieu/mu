@@ -20,12 +20,6 @@ lambda_p::parser::association::association (lambda_p::parser::parser & parser_a,
 {
 }
 
-boost::function <void (size_t)> lambda_p::parser::association::sink_data ()
-{
-	boost::function <void (size_t)> result (target.sink_argument ());
-	return result;
-}
-
 void lambda_p::parser::association::parse (lambda_p::tokens::token * token)
 {	
 	lambda_p::tokens::token_ids token_id (token->token_id ());
