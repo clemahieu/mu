@@ -9,6 +9,7 @@
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/data.h>
+#include <lambda_p/parser/state_factory.h>
 
 #include <sstream>
 
@@ -89,15 +90,24 @@ void lambda_p::parser::association::parse (lambda_p::tokens::token * token)
 		case lambda_p::tokens::token_id_identifier:
 			{
 				auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
-				auto i = routine.positions.find (identifier->string);
-				auto location (target.sink_argument ());
-				if (i != routine.positions.end ())
+				auto j = parser.keywords.find (identifier->string);
+				if (j == parser.keywords.end ())
 				{
-					location (i->second);
+					auto i = routine.positions.find (identifier->string);
+					auto location (target.sink_argument ());
+					if (i != routine.positions.end ())
+					{
+						location (i->second);
+					}
+					else
+					{
+						routine.unresolved_references.insert (std::multimap <std::wstring, boost::function <void (size_t)>>::value_type (identifier->string, location));
+					}
 				}
 				else
 				{
-					routine.unresolved_references.insert (std::multimap <std::wstring, boost::function <void (size_t)>>::value_type (identifier->string, location));
+					auto new_state (j->second->create (parser, routine, target));
+					parser.state.push (new_state);
 				}
 			}
 			break;

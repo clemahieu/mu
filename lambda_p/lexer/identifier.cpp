@@ -17,7 +17,7 @@ void lambda_p::lexer::identifier::lex (wchar_t character)
 	case L'\n':
 	case L'\f':
 	case L';':
-	case L'`':
+	//case L'`':
 	case L'|':
 	case L':':
 	case L'\0':

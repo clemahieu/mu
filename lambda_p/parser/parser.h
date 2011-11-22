@@ -47,8 +47,8 @@ namespace lambda_p
 			void operator () (lambda_p::tokens::token * token);
 			void reset ();
 			boost::shared_ptr <lambda_p::parser::error> error ();
-		private:
 			std::wstring token_type_name (lambda_p::tokens::token * token);
+		private:
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;
 			std::vector <std::wstring> injected_returns;

@@ -16,7 +16,7 @@ void lambda_p_test::adata_test::run ()
 void lambda_p_test::adata_test::run_1 ()
 {
 	lambda_p::builder builder;
-	builder (L"test ;adata; adata `test; test; :;");
+	builder (L"test ;adata; adata ` test; test; :;");
 	assert (builder.routines.routines->size () == 1);
 	lambda_p::binder::list list;
 	list [0] = boost::shared_ptr <lambda_p_kernel::adata_binder> (new lambda_p_kernel::adata_binder);

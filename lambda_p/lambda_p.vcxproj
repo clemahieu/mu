@@ -145,6 +145,8 @@
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
+    <ClInclude Include="parser\data_factory.h" />
+    <ClInclude Include="parser\data_state.h" />
     <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
     <ClInclude Include="errors\binder_string_error.h" />
@@ -207,6 +209,8 @@
     <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
+    <ClCompile Include="parser\data_factory.cpp" />
+    <ClCompile Include="parser\data_state.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
     <ClCompile Include="errors\binder_string_error.cpp" />

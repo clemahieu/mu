@@ -18,6 +18,7 @@
 #include <lambda_p/parser/association.h>
 #include <lambda_p/parser/position_set.h>
 #include <lambda_p/parser/target_set.h>
+#include <lambda_p/parser/data_factory.h>
 
 #include <boost/bind.hpp>
 
@@ -26,6 +27,7 @@
 lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a)
 	: target (target_a)
 {
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
 	reset ();
 }
 
@@ -33,6 +35,7 @@ lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lamb
 	: target (target_a),
 	injected_parameters (injected_parameters_a)
 {
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
 	reset ();
 }
 
@@ -41,6 +44,7 @@ lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lamb
 	injected_parameters (injected_parameters_a),
 	injected_returns (injected_returns_a)
 {
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
 	reset ();
 }
 
