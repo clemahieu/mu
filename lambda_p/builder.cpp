@@ -9,17 +9,34 @@
 #include <lambda_p/lexer/error.h>
 #include <lambda_p/parser/error.h>
 
-lambda_p::builder::builder ()
-	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), injected_declarations (), injected_references ()),
+lambda_p::builder::builder (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_declarations_a, std::vector <std::wstring> & injected_references_a)
+	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), keywords_a, injected_declarations_a, injected_references_a),
 	lexer (boost::bind (&(lambda_p::parser::parser::operator()), &parser, _1))
 {
 }
 
-lambda_p::builder::builder (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_declarations_a, std::vector <std::wstring> & injected_references_a)
-	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), injected_declarations_a, injected_references_a),
+lambda_p::builder::builder ()
+	: parser (boost::bind (&(lambda_p::parser::routine_vector::operator()), &routines, _1), std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ()),
 	lexer (boost::bind (&(lambda_p::parser::parser::operator()), &parser, _1))
 {
+}
 
+std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> lambda_p::builder::keywords ()
+{
+	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> result;
+	return result;
+}
+
+std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> lambda_p::builder::injected_declarations ()
+{
+	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> result;
+	return result;
+}
+
+std::vector <std::wstring> lambda_p::builder::injected_references ()
+{
+	std::vector <std::wstring> result;
+	return result;
 }
 
 void lambda_p::builder::finish ()
@@ -67,18 +84,6 @@ void lambda_p::builder::operator () (wchar_t const * string)
 {
 	std::wstring str (string);
 	operator () (str);
-}
-
-std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> lambda_p::builder::injected_declarations ()
-{
-	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> result;
-	return result;
-}
-
-std::vector <std::wstring> lambda_p::builder::injected_references ()
-{
-	std::vector <std::wstring> result;
-	return result;
 }
 
 bool lambda_p::builder::error ()

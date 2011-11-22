@@ -8,7 +8,7 @@
 #include <llvm/Module.h>
 
 lambda_p_repl::builder::builder (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a)
-	: lambda_p::builder (injected_declarations (environment_a, exec_a), injected_references ())
+	: lambda_p::builder (keywords (), injected_declarations (environment_a, exec_a), injected_references ())
 {
 }
 

@@ -41,9 +41,7 @@ namespace lambda_p
 			friend class lambda_p::parser::statement;
 			friend class lambda_p::parser::data;
 		public:
-			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a);
-			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a);
-			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
+			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 			void operator () (lambda_p::tokens::token * token);
 			void reset ();
 			boost::shared_ptr <lambda_p::parser::error> error ();

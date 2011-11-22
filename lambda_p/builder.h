@@ -14,7 +14,7 @@ namespace lambda_p
 	{
 	public:
 		builder ();
-		builder (std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
+		builder (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 		void finish ();
 		void operator () (std::wstring & string);
 		void operator () (wchar_t const * string);
@@ -22,6 +22,7 @@ namespace lambda_p
 		void operator << (boost::shared_ptr <lambda_p::lexer::character_stream> source);
 		virtual std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations ();
 		virtual std::vector <std::wstring> injected_references ();
+		virtual std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords ();
 		bool error ();
 		void error_message (std::wostream & out);
 		lambda_p::parser::routine_vector routines;

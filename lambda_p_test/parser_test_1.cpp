@@ -13,6 +13,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/parser/finished.h>
 #include <lambda_p/parser/begin.h>
+#include <lambda_p/parser/data_factory.h>
 
 #include <vector>
 #include <sstream>
@@ -48,7 +49,7 @@ void lambda_p_test::parser_test_1::run_1 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	assert (!parser.error ());
 }
 
@@ -56,7 +57,7 @@ void lambda_p_test::parser_test_1::run_2 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::divider connector;
 	lambda_p::tokens::divider statement_end;
 	lambda_p::tokens::routine_end routine_end;
@@ -75,7 +76,7 @@ void lambda_p_test::parser_test_1::run_3 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider connector;
 	lambda_p::tokens::divider statement_end;
@@ -96,7 +97,7 @@ void lambda_p_test::parser_test_1::run_4 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider connector;
 	lambda_p::tokens::divider se1;
@@ -123,7 +124,7 @@ void lambda_p_test::parser_test_1::run_5 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;
 	lambda_p::tokens::divider se1;
@@ -152,7 +153,7 @@ void lambda_p_test::parser_test_1::run_6 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;
 	lambda_p::tokens::divider se1;
@@ -187,7 +188,7 @@ void lambda_p_test::parser_test_1::run_7 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::complex_identifier parameter1 (std::wstring (L"parameter1 \0\t\n\fhello"), std::wstring (L"abcdef"));
     lambda_p::tokens::divider c1;
 	lambda_p::tokens::divider se1;
@@ -222,7 +223,9 @@ void lambda_p_test::parser_test_1::run_8 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords;
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
+	lambda_p::parser::parser parser (routines, keywords, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;
 	lambda_p::tokens::divider se1;
@@ -253,7 +256,9 @@ void lambda_p_test::parser_test_1::run_9 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords;
+	keywords.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p::parser::data_factory)));
+	lambda_p::parser::parser parser (routines, keywords, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier parameter1 (std::wstring (L"parameter1"));
     lambda_p::tokens::divider c1;
 	lambda_p::tokens::divider se1;
@@ -284,7 +289,7 @@ void lambda_p_test::parser_test_1::run_10 ()
 {
 	::lambda_p::lexer::token_vector tokens;
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	::lambda_p::tokens::stream_end stream_end;
 	parser (&stream_end);
 	assert (!parser.error ());
@@ -295,7 +300,7 @@ void lambda_p_test::parser_test_1::run_10 ()
 void lambda_p_test::parser_test_1::run_11 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::divider t1;
 	lambda_p::tokens::identifier t2 (std::wstring (L"1"));
 	lambda_p::tokens::identifier t3 (std::wstring (L"2"));
@@ -327,7 +332,7 @@ void lambda_p_test::parser_test_1::run_11 ()
 void lambda_p_test::parser_test_1::run_12 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::divider t1;
 	lambda_p::tokens::identifier t2 (std::wstring (L"e"));
 	lambda_p::tokens::divider t3;
@@ -350,7 +355,7 @@ void lambda_p_test::parser_test_1::run_12 ()
 void lambda_p_test::parser_test_1::run_13 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier t1 (std::wstring (L"c"));
 	lambda_p::tokens::divider t2;
 	lambda_p::tokens::identifier t3 (std::wstring (L"e"));
@@ -375,7 +380,7 @@ void lambda_p_test::parser_test_1::run_13 ()
 void lambda_p_test::parser_test_1::run_14 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier t1 (std::wstring (L"c"));
 	lambda_p::tokens::identifier t2 (std::wstring (L"d1"));
 	lambda_p::tokens::identifier t3 (std::wstring (L"d2"));
@@ -417,7 +422,7 @@ void lambda_p_test::parser_test_1::run_14 ()
 void lambda_p_test::parser_test_1::run_15 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::tokens::identifier t1 (std::wstring (L"c"));
 	lambda_p::tokens::divider t2;
 	lambda_p::tokens::identifier t3 (std::wstring (L"c"));

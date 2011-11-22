@@ -23,14 +23,14 @@ void lambda_p_test::simple_compile_test_1::run ()
 void lambda_p_test::simple_compile_test_1::run_1 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::lexer::lexer lexer (boost::bind <void> (parser, _1));
 }
 
 void lambda_p_test::simple_compile_test_1::run_2 ()
 {
 	lambda_p::parser::routine_vector routines;
-	lambda_p::parser::parser parser (routines);
+	lambda_p::parser::parser parser (routines, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ());
 	lambda_p::lexer::lexer lexer (boost::bind <void> (parser, _1));
 	std::wstring routine1 (L"routine1 ;; ;. ");
 	std::wstring routine2 (L"routine2 ;; ;. ");
