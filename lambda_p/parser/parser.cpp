@@ -4,16 +4,14 @@
 #include <lambda_p/tokens/complex_identifier.h>
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/routine_end.h>
-#include <lambda_p/tokens/data.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
 #include <lambda_p/parser/statement.h>
-#include <lambda_p/parser/data.h>
 #include <lambda_p/parser/finished.h>
 #include <lambda_p/parser/association.h>
 #include <lambda_p/parser/position_set.h>
@@ -23,21 +21,9 @@
 
 #include <map>
 
-lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a)
-	: target (target_a)
-{
-	reset ();
-}
-
-lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a)
+lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a)
 	: target (target_a),
-	injected_parameters (injected_parameters_a)
-{
-	reset ();
-}
-
-lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a)
-	: target (target_a),
+	keywords (keywords_a),
 	injected_parameters (injected_parameters_a),
 	injected_returns (injected_returns_a)
 {
@@ -84,9 +70,6 @@ std::wstring lambda_p::parser::parser::token_type_name (lambda_p::tokens::token 
 		break;
 	case lambda_p::tokens::token_id_routine_end:
 		result.append (L"routine_end");
-		break;
-	case lambda_p::tokens::token_id_data:
-		result.append (L"data");
 		break;
 	case lambda_p::tokens::token_id_divider:
 		result.append (L"divider");

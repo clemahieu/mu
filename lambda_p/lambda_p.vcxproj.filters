@@ -49,9 +49,6 @@
     <ClInclude Include="parser\begin.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\data.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\error.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -82,9 +79,6 @@
     <ClInclude Include="core\position.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\data.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="parser\finished.h">
       <Filter>parser</Filter>
     </ClInclude>
@@ -98,9 +92,6 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\association_target.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\data_target.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
@@ -128,9 +119,6 @@
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="binder\binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\data.h">
       <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="lexer\complex_identifier.h">
@@ -179,6 +167,9 @@
     <ClInclude Include="binder\binder_implementor.h">
       <Filter>binder</Filter>
     </ClInclude>
+    <ClInclude Include="parser\state_factory.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\statement.cpp">
@@ -226,9 +217,6 @@
     <ClCompile Include="parser\begin.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\data.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\error.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -259,9 +247,6 @@
     <ClCompile Include="core\position.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\data.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
     <ClCompile Include="parser\finished.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -275,9 +260,6 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\association_target.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\data_target.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
@@ -305,9 +287,6 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="binder\binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\data.cpp">
       <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="lexer\complex_identifier.cpp">
@@ -352,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="lexer\wistream_input.cpp">
       <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\state_factory.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

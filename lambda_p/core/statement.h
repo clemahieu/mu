@@ -3,13 +3,13 @@
 namespace lambda_p_kernel
 {
 	class bind_procedure;
-}
-namespace lambda_p
-{
-	namespace binder
+	namespace nodes
 	{
 		class data;
 	}
+}
+namespace lambda_p
+{
 	namespace serialization
 	{
 		template <typename> class simple;
@@ -24,7 +24,7 @@ namespace lambda_p
 		class association;
 		class statement
 		{
-			friend class lambda_p::binder::data;
+			friend class lambda_p_kernel::nodes::data;
 			friend class lambda_p_kernel::bind_procedure;
 			template <typename> friend class lambda_p::serialization::simple;
 			friend class lambda_p::serialization::parser::parser;

@@ -5,7 +5,7 @@
 #include <lambda_p_kernel/null_binder.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/shared_ptr.hpp>
@@ -95,7 +95,7 @@ void lambda_p_test::bind_procedure_test_1::run_5 ()
 	routine->surface->declarations.push_back (routine->add_declaration ());
 	lambda_p::core::statement * statement (routine->add_statement ());
 	statement->target = declaration;
-	statement->association->references.push_back (routine->add_data (std::wstring ()));
+	statement->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (std::wstring ())))));
 	lambda_p::binder::list nodes;
 	lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
 	nodes [declaration] = boost::shared_ptr <lambda_p::binder::binder> (new lambda_p_kernel::null_binder);

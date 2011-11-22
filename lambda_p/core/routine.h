@@ -16,13 +16,16 @@ namespace lambda_p_test
 namespace lambda_p_kernel
 {
 	class bind_procedure;
+	namespace nodes
+	{
+		class data;
+	}
 }
 namespace lambda_p
 {
 	namespace binder
 	{
 		class bind_procedure;
-		class data;
 	}
 	namespace serialization
 	{
@@ -45,7 +48,7 @@ namespace lambda_p
 		class routine : public lambda_p::binder::node
 		{
 			friend class lambda_p::core::statement;
-			friend class lambda_p::binder::data;
+			friend class lambda_p_kernel::nodes::data;
             template <typename> friend class lambda_p::serialization::simple;
 			friend class lambda_p::parser::parser;
 			friend class lambda_p_kernel::bind_procedure;
@@ -57,7 +60,6 @@ namespace lambda_p
 			routine ();
 			~routine (void);
 			lambda_p::core::statement * add_statement ();
-			size_t add_data (std::wstring string);
 			size_t inject_declaration (boost::shared_ptr <lambda_p::binder::node> node_a);
 			size_t add_declaration ();
             void placement (std::map <size_t, lambda_p::core::position> & argument_positions, std::map <lambda_p::core::statement const *, size_t> & statement_positions) const;

@@ -1,7 +1,7 @@
 #include "bool_binder.h"
 
 #include <lambda_p/binder/binder_implementor.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 
 #include <sstream>
 #include <cctype>
@@ -29,7 +29,7 @@ void lambda_p_kernel::bool_binder::bind (lambda_p::core::statement * statement, 
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		boost::shared_ptr <lambda_p::binder::data> data (boost::dynamic_pointer_cast <lambda_p::binder::data> (nodes [statement->association->references [0]]));
+		boost::shared_ptr <lambda_p_kernel::nodes::data> data (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::data> (nodes [statement->association->references [0]]));
 		check_binder (data, 0, L"data", problems);
 		if (problems.errors.empty ())
 		{

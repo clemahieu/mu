@@ -1,6 +1,5 @@
 #include <lambda_p/lexer/begin.h>
 
-#include <lambda_p/tokens/data.h>
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/lexer/lexer.h>
 #include <lambda_p/lexer/complex_identifier.h>
@@ -23,12 +22,12 @@ void lambda_p::lexer::begin::lex (wchar_t character)
 	case L'\0':
 		// Eat whitespace
 		break;
-	case L'`':
-		{
-			lambda_p::tokens::data * token = new lambda_p::tokens::data;
-			lexer.target (token);
-		}
-		break;
+	//case L'`':
+	//	{
+	//		lambda_p::tokens::data * token = new lambda_p::tokens::data;
+	//		lexer.target (token);
+	//	}
+	//	break;
 	case L'|':
 		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::complex_identifier (lexer)));
 		break;

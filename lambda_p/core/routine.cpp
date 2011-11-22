@@ -5,7 +5,7 @@
 #include <lambda_p/errors/undefined_reference.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/core/statement.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/errors/node_out_of_order.h>
 
 #include <algorithm>
@@ -32,13 +32,6 @@ lambda_p::core::statement * lambda_p::core::routine::add_statement ()
     lambda_p::core::statement * statement (new lambda_p::core::statement);
 	statements.push_back (statement);
 	return statement;
-}
-
-size_t lambda_p::core::routine::add_data (std::wstring string)
-{
-    boost::shared_ptr <lambda_p::binder::data> data_l (new lambda_p::binder::data (string));
-	size_t result (inject_declaration (data_l));
-	return result;
 }
 
 size_t lambda_p::core::routine::inject_declaration (boost::shared_ptr <lambda_p::binder::node> node_a)

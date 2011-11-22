@@ -10,12 +10,15 @@ namespace lambda_p
 {
     namespace binder
     {        
-		class data;
 		class list;
     }
 }
 namespace lambda_p_kernel
 {
+	namespace nodes
+	{
+		class data;
+	}
     class package : public lambda_p::binder::binder, public boost::enable_shared_from_this <lambda_p_kernel::package>
     {
     public:
@@ -23,6 +26,6 @@ namespace lambda_p_kernel
 		std::map <std::wstring, boost::shared_ptr <lambda_p::binder::node>> nodes;
 		std::wstring binder_name () override;
 	private:
-		void parse_one (lambda_p::binder::list & nodes, boost::shared_ptr <lambda_p::binder::data> node, size_t result, lambda_p::errors::error_list & problems);
+		void parse_one (lambda_p::binder::list & nodes, boost::shared_ptr <lambda_p_kernel::nodes::data> node, size_t result, lambda_p::errors::error_list & problems);
     };
 }

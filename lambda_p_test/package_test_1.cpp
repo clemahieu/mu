@@ -6,7 +6,7 @@
 #include <lambda_p_kernel/bind_procedure.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p/binder/data.h>
+#include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <sstream>
@@ -40,7 +40,7 @@ void lambda_p_test::package_test_1::run_1 ()
 	statement1->target = declaration;
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->declarations.push_back (declaration2);
-	statement1->association->references.push_back (routine->add_data (name));
+	statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (name)))));
 	lambda_p::binder::list nodes;
     nodes [declaration] = package;
     lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -68,7 +68,7 @@ void lambda_p_test::package_test_1::run_2 ()
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->declarations.push_back (declaration2);
 	std::wstring dname (L"package/null_binder");
-	statement1->association->references.push_back (routine->add_data (dname));
+	statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (dname)))));
 	lambda_p::binder::list nodes;
     nodes [declaration] = outer;
     lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -94,8 +94,8 @@ void lambda_p_test::package_test_1::run_3 ()
 	statement1->association->references.push_back (declaration);
 	size_t declaration2 (routine->add_declaration ());
 	statement1->association->declarations.push_back (declaration2);
-	statement1->association->references.push_back (routine->add_data (junk));
-	statement1->association->references.push_back (routine->add_data (name));
+	statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (junk)))));
+	statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (name)))));
 	lambda_p::binder::list nodes;
     nodes [declaration] = package;
     lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);
@@ -119,8 +119,8 @@ void lambda_p_test::package_test_1::run_4 ()
 	statement1->association->declarations.push_back (d1);
     size_t d2 (routine->add_declaration ());
 	statement1->association->declarations.push_back (d2);
-	statement1->association->references.push_back (routine->add_data (name));
-    statement1->association->references.push_back (routine->add_data (name));
+	statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (name)))));
+    statement1->association->references.push_back (routine->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (std::wstring (name)))));
 	lambda_p::binder::list nodes;
     nodes [declaration] = package;
     lambda_p_kernel::bind_procedure bind_procedure (routine, nodes);

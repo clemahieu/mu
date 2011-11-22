@@ -2,9 +2,9 @@
 
 #include <lambda_p/binder/binder.h>
 
-namespace lambda_p
+namespace lambda_p_kernel
 {
-	namespace binder
+	namespace nodes
 	{
 		class data;
 	}
@@ -23,7 +23,7 @@ namespace lambda_p_llvm
 	public:
 		void bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes, lambda_p::errors::error_list & problems) override;
 		std::wstring binder_name () override;
-		void core (boost::shared_ptr <lambda_p_llvm::module> module, boost::shared_ptr <lambda_p::binder::data> data, boost::shared_ptr <lambda_p_llvm::type> type, boost::shared_ptr <lambda_p_llvm::value> & value);
+		void core (boost::shared_ptr <lambda_p_llvm::module> module, boost::shared_ptr <lambda_p_kernel::nodes::data> data, boost::shared_ptr <lambda_p_llvm::type> type, boost::shared_ptr <lambda_p_llvm::value> & value);
 	};
 }
 

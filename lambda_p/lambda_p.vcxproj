@@ -140,7 +140,6 @@
     <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\association.h" />
     <ClInclude Include="core\position.h" />
-    <ClInclude Include="binder\data.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\statement.h" />
     <ClInclude Include="errors\error_list.h" />
@@ -170,14 +169,13 @@
     <ClInclude Include="parser\association.h" />
     <ClInclude Include="parser\association_target.h" />
     <ClInclude Include="parser\begin.h" />
-    <ClInclude Include="parser\data.h" />
-    <ClInclude Include="parser\data_target.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\finished.h" />
     <ClInclude Include="parser\routine.h" />
     <ClInclude Include="parser\routine_vector.h" />
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\statement.h" />
+    <ClInclude Include="parser\state_factory.h" />
     <ClInclude Include="parser\target_set.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="serialization\simple.h" />
@@ -186,7 +184,6 @@
     <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\routine_end.h" />
-    <ClInclude Include="tokens\data.h" />
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
@@ -201,7 +198,6 @@
     <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\association.cpp" />
     <ClCompile Include="core\position.cpp" />
-    <ClCompile Include="binder\data.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
@@ -232,8 +228,6 @@
     <ClCompile Include="parser\association.cpp" />
     <ClCompile Include="parser\association_target.cpp" />
     <ClCompile Include="parser\begin.cpp" />
-    <ClCompile Include="parser\data.cpp" />
-    <ClCompile Include="parser\data_target.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\routine.cpp" />
@@ -241,12 +235,12 @@
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\statement.cpp" />
+    <ClCompile Include="parser\state_factory.cpp" />
     <ClCompile Include="parser\target_set.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
-    <ClCompile Include="tokens\data.cpp" />
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
