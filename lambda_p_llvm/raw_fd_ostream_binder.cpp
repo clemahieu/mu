@@ -1,7 +1,7 @@
 #include "raw_fd_ostream_binder.h"
 
 #include <lambda_p/binder/binder_implementor.h>
-#include <lambda_p_kernel/adata.h>
+#include <lambda_p_kernel/nodes/adata.h>
 #include <lambda_p_llvm/raw_fd_ostream.h>
 
 #include <llvm/Support/raw_ostream.h>
@@ -13,7 +13,7 @@ void lambda_p_llvm::raw_fd_ostream_binder::bind (lambda_p::core::statement * sta
 	check_count (1, 1, statement, problems);
 	if (problems.errors.empty ())
 	{
-		auto name (boost::dynamic_pointer_cast <lambda_p_kernel::adata> (nodes [statement->association->references [0]]));
+		auto name (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::adata> (nodes [statement->association->references [0]]));
 		check_binder (name, 0, L"adata", problems);
 		if (problems.errors.empty ())
 		{

@@ -134,7 +134,7 @@
     <ClCompile Include="parser_factories\number.cpp" />
     <ClCompile Include="parser_states\data.cpp" />
     <ClCompile Include="parser_factories\data_factory.cpp" />
-    <ClCompile Include="adata.cpp" />
+    <ClCompile Include="nodes\adata.cpp" />
     <ClCompile Include="adata_binder.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
@@ -165,7 +165,7 @@
     <ClInclude Include="parser_factories\number.h" />
     <ClInclude Include="parser_states\data.h" />
     <ClInclude Include="parser_factories\data_factory.h" />
-    <ClInclude Include="adata.h" />
+    <ClInclude Include="nodes\adata.h" />
     <ClInclude Include="adata_binder.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bind_procedure.h" />

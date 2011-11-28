@@ -2,7 +2,7 @@
 
 #include <lambda_p/binder/binder_implementor.h>
 #include <lambda_p_llvm/module.h>
-#include <lambda_p_kernel/adata.h>
+#include <lambda_p_kernel/nodes/adata.h>
 
 #include <llvm/Target/TargetRegistry.h>
 #include <llvm/Support/Host.h>
@@ -19,7 +19,7 @@ void lambda_p_llvm::compile::bind (lambda_p::core::statement * statement, lambda
 	{
 		auto module (boost::dynamic_pointer_cast <lambda_p_llvm::module> (nodes [statement->association->references [0]]));
 		check_binder (module, 0, L"module", problems);
-		auto name (boost::dynamic_pointer_cast <lambda_p_kernel::adata> (nodes [statement->association->references [1]]));
+		auto name (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::adata> (nodes [statement->association->references [1]]));
 		check_binder (name, 1, L"adata", problems);
 		if (problems.errors.empty ())
 		{
