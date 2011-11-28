@@ -6,6 +6,7 @@
 #include <lambda_p/binder/list_binder.h>
 #include <lambda_p_kernel/parser_factories/number.h>
 #include <lambda_p_kernel/parser_factories/data_factory.h>
+#include <lambda_p_kernel/parser_factories/adata.h>
 
 #include <llvm/Module.h>
 
@@ -27,6 +28,7 @@ std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> lam
 {
 	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> result;
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p_kernel::parser_factories::data_factory)));
+	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"`a"), boost::shared_ptr <lambda_p::parser::state_factory> (new lambda_p_kernel::parser_factories::adata)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_kernel::parser_factories::number> (new lambda_p_kernel::parser_factories::number)));
 	return result;
 }

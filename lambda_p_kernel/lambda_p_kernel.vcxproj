@@ -131,7 +131,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="nodes\data.cpp" />
+    <ClCompile Include="parser_factories\adata.cpp" />
     <ClCompile Include="parser_factories\number.cpp" />
+    <ClCompile Include="parser_states\adata.cpp" />
     <ClCompile Include="parser_states\data.cpp" />
     <ClCompile Include="parser_factories\data_factory.cpp" />
     <ClCompile Include="nodes\adata.cpp" />
@@ -162,7 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\data.h" />
+    <ClInclude Include="parser_factories\adata.h" />
     <ClInclude Include="parser_factories\number.h" />
+    <ClInclude Include="parser_states\adata.h" />
     <ClInclude Include="parser_states\data.h" />
     <ClInclude Include="parser_factories\data_factory.h" />
     <ClInclude Include="nodes\adata.h" />

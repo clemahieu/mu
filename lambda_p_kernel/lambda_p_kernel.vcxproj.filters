@@ -44,6 +44,12 @@
     <ClCompile Include="nodes\adata.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
+    <ClCompile Include="parser_states\adata.cpp">
+      <Filter>parser_states</Filter>
+    </ClCompile>
+    <ClCompile Include="parser_factories\adata.cpp">
+      <Filter>parser_factories</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -88,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="nodes\adata.h">
       <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_states\adata.h">
+      <Filter>parser_states</Filter>
+    </ClInclude>
+    <ClInclude Include="parser_factories\adata.h">
+      <Filter>parser_factories</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
