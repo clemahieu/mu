@@ -8,7 +8,7 @@ environment
  compile
 ;
 context ; ctx;
-`a |%|
+assemble `a |%|
 define void @WinMainCRTStartup ()
 {
  ret void
@@ -17,8 +17,6 @@ define void @WinMain ()
 {
  ret void
 }
-%; code;
-assemble code ctx; mod;
-`a ./test.o; name;
-compile mod name;;
+% ctx; mod;
+compile mod `a ./test.o;;
 :;
