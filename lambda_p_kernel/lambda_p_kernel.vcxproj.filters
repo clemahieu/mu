@@ -8,7 +8,6 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="number_binder.cpp" />
-    <ClCompile Include="number.cpp" />
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="builder.cpp" />
@@ -40,6 +39,9 @@
     <ClCompile Include="parser_states\number.cpp">
       <Filter>parser_states</Filter>
     </ClCompile>
+    <ClCompile Include="nodes\number.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -49,7 +51,6 @@
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
     <ClInclude Include="number_binder.h" />
-    <ClInclude Include="number.h" />
     <ClInclude Include="apply.h" />
     <ClInclude Include="directory_compile.h" />
     <ClInclude Include="builder.h" />
@@ -80,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="parser_states\number.h">
       <Filter>parser_states</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\number.h">
+      <Filter>nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

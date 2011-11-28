@@ -147,7 +147,7 @@
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="loop.cpp" />
     <ClCompile Include="not.cpp" />
-    <ClCompile Include="number.cpp" />
+    <ClCompile Include="nodes\number.cpp" />
     <ClCompile Include="number_binder.cpp" />
     <ClCompile Include="bind_procedure.cpp" />
     <ClCompile Include="identity.cpp" />
@@ -181,7 +181,7 @@
     <ClInclude Include="loop.h" />
     <ClInclude Include="not.h" />
     <ClInclude Include="null_binder.h" />
-    <ClInclude Include="number.h" />
+    <ClInclude Include="nodes\number.h" />
     <ClInclude Include="number_binder.h" />
     <ClInclude Include="package.h" />
     <ClInclude Include="package_add.h" />

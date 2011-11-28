@@ -7,7 +7,7 @@
 #include <lambda_p/core/association.h>
 #include <lambda_p/errors/unexpected_binder_type.h>
 #include <lambda_p/binder/list.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p_llvm/context.h>
@@ -27,9 +27,9 @@ void lambda_p_llvm::constant_int_binder::bind (lambda_p::core::statement * state
 	{
 		auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context> (nodes [statement->association->references [0]]));
 		check_binder (context, 0, L"context", problems);
-		auto number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [1]]));
+		auto number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (nodes [statement->association->references [1]]));
 		check_binder (number, 1, L"number", problems);
-		auto bits (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [2]]));
+		auto bits (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (nodes [statement->association->references [2]]));
 		check_binder (bits, 2, L"number", problems);
 		if (problems.errors.empty ())
 		{

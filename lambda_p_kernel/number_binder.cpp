@@ -4,7 +4,7 @@
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <sstream>
@@ -18,7 +18,7 @@ void lambda_p_kernel::number_binder::bind (lambda_p::core::statement * statement
 		if (data.get () != nullptr)
 		{
 			std::wstring string (data->string ());
-			boost::shared_ptr <lambda_p_kernel::number> target;
+			boost::shared_ptr <lambda_p_kernel::nodes::number> target;
 			core (string, target, problems);
 			if (target.get () != nullptr)
 			{
@@ -37,7 +37,7 @@ std::wstring lambda_p_kernel::number_binder::binder_name ()
 	return std::wstring (L"number");
 }
 
-void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_ptr <lambda_p_kernel::number> & target, lambda_p::errors::error_list & problems)
+void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_ptr <lambda_p_kernel::nodes::number> & target, lambda_p::errors::error_list & problems)
 {
 	int base;
 	wchar_t base_char (string [0]);
@@ -79,7 +79,7 @@ void lambda_p_kernel::number_binder::core (std::wstring & string, boost::shared_
 		}
 		else
 		{
-			target = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (number));
+			target = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (number));
 		}
 	}
 }

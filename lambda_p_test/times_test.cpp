@@ -5,7 +5,7 @@
 #include <lambda_p_kernel/identity.h>
 #include <lambda_p_kernel/times.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p/errors/error_list.h>
 
@@ -29,7 +29,7 @@ void lambda_p_test::times_test::run_1 ()
 	test_nodes [0] = boost::shared_ptr <lambda_p_kernel::times> (new lambda_p_kernel::times);	;
 	test_nodes [1] = loop_routine.routines.routines->operator[] (0);
 	test_nodes [2] = loop_nodes;
-	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
+	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (0));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> routine (test_routine.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -55,7 +55,7 @@ void lambda_p_test::times_test::run_2 ()
 	test_nodes [0] = boost::shared_ptr <lambda_p_kernel::times> (new lambda_p_kernel::times);	;
 	test_nodes [1] = loop_routine.routines.routines->operator[] (0);
 	test_nodes [2] = loop_nodes;
-	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
+	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> routine (test_routine.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -81,7 +81,7 @@ void lambda_p_test::times_test::run_3 ()
 	test_nodes [0] = boost::shared_ptr <lambda_p_kernel::times> (new lambda_p_kernel::times);	;
 	test_nodes [1] = loop_routine.routines.routines->operator[] (0);
 	test_nodes [2] = loop_nodes;
-	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (5));
+	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (5));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> routine (test_routine.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -107,7 +107,7 @@ void lambda_p_test::times_test::run_4 ()
 	test_nodes [0] = boost::shared_ptr <lambda_p_kernel::times> (new lambda_p_kernel::times);	;
 	test_nodes [1] = loop_routine.routines.routines->operator[] (0);
 	test_nodes [2] = loop_nodes;
-	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
+	test_nodes [3] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> routine (test_routine.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;

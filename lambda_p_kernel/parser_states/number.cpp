@@ -4,7 +4,7 @@
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/parser/parser.h>
 #include <lambda_p_kernel/number_binder.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/errors/error.h>
 #include <lambda_p/parser/association_target.h>
@@ -26,7 +26,7 @@ void lambda_p_kernel::parser_states::number::parse (lambda_p::tokens::token * to
 	if (identifier != nullptr)
 	{
 		lambda_p_kernel::number_binder binder;
-		boost::shared_ptr <lambda_p_kernel::number> number;
+		boost::shared_ptr <lambda_p_kernel::nodes::number> number;
 		lambda_p::errors::error_list errors;
 		binder.core (identifier->string, number, errors);
 		if (number.get () != nullptr)

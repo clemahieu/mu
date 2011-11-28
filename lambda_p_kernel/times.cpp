@@ -1,7 +1,7 @@
 #include "times.h"
 
 #include <lambda_p/binder/binder_implementor.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p/core/routine.h>
 
@@ -16,7 +16,7 @@ void lambda_p_kernel::times::bind (lambda_p::core::statement * statement, lambda
 		check_binder (routine, 0, L"routine", problems);
 		boost::shared_ptr <lambda_p::binder::list> nodes_l (boost::dynamic_pointer_cast <lambda_p::binder::list> (nodes [statement->association->references [1]]));
 		check_binder (nodes_l, 1, L"list", problems);
-		boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (nodes [statement->association->references [2]]));
+		boost::shared_ptr <lambda_p_kernel::nodes::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (nodes [statement->association->references [2]]));
 		check_binder (number, 2, L"number", problems);
 		if (problems.errors.empty ())
 		{

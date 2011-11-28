@@ -10,7 +10,7 @@
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p_llvm/value.h>
 #include <lambda_p/core/association.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/builder.h>
 #include <lambda_p_llvm/context.h>
@@ -34,8 +34,8 @@ void lambda_p_test::constant_int_binder_test_1::run ()
 	auto nodes (boost::shared_ptr <lambda_p::binder::list> (new lambda_p::binder::list));
 	nodes->operator[] (0) = boost::shared_ptr <lambda_p_llvm::constant_int_binder> (new lambda_p_llvm::constant_int_binder);
 	nodes->operator[] (1) = boost::shared_ptr <lambda_p_llvm::context> (new lambda_p_llvm::context);
-	nodes->operator[] (2) = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (16));
-	nodes->operator[] (3) = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (64));
+	nodes->operator[] (2) = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (16));
+	nodes->operator[] (3) = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (64));
 	lambda_p::errors::error_list problems;
 	lambda_p_kernel::apply apply;
 	lambda_p::binder::list declarations;

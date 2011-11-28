@@ -4,7 +4,7 @@
 #include <lambda_p/binder/list.h>
 #include <lambda_p_kernel/apply.h>
 #include <lambda_p_kernel/subtract.h>
-#include <lambda_p_kernel/number.h>
+#include <lambda_p_kernel/nodes/number.h>
 #include <lambda_p_kernel/equals.h>
 #include <lambda_p_kernel/loop.h>
 #include <lambda_p/binder/list_binder.h>
@@ -35,9 +35,9 @@ void lambda_p_test::loop_test::run_1 ()
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
 	list [5] = boost::shared_ptr <lambda_p_kernel::not> (new lambda_p_kernel::not);
-	list [6] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
-	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
-	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
+	list [6] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
+	list [7] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
+	list [8] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (0));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -45,7 +45,7 @@ void lambda_p_test::loop_test::run_1 ()
 	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
-	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
+	boost::shared_ptr <lambda_p_kernel::nodes::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (results [0]));
 	assert (number.get () != nullptr);
 	assert (number->value == 0);
 }
@@ -64,9 +64,9 @@ void lambda_p_test::loop_test::run_2 ()
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
 	list [5] = boost::shared_ptr <lambda_p_kernel::not> (new lambda_p_kernel::not);
-	list [6] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (2));
-	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
-	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
+	list [6] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (2));
+	list [7] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
+	list [8] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (0));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -74,7 +74,7 @@ void lambda_p_test::loop_test::run_2 ()
 	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
-	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
+	boost::shared_ptr <lambda_p_kernel::nodes::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (results [0]));
 	assert (number.get () != nullptr);
 	assert (number->value == 0);
 }
@@ -93,9 +93,9 @@ void lambda_p_test::loop_test::run_3 ()
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
 	list [5] = boost::shared_ptr <lambda_p_kernel::not> (new lambda_p_kernel::not);
-	list [6] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (5));
-	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
-	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (0));
+	list [6] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (5));
+	list [7] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
+	list [8] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (0));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -103,7 +103,7 @@ void lambda_p_test::loop_test::run_3 ()
 	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
-	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
+	boost::shared_ptr <lambda_p_kernel::nodes::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (results [0]));
 	assert (number.get () != nullptr);
 	assert (number->value == 0);
 }
@@ -122,9 +122,9 @@ void lambda_p_test::loop_test::run_4 ()
 	list [3] = boost::shared_ptr <lambda_p_kernel::subtract> (new lambda_p_kernel::subtract);
 	list [4] = boost::shared_ptr <lambda_p_kernel::equals> (new lambda_p_kernel::equals);
 	list [5] = boost::shared_ptr <lambda_p_kernel::not> (new lambda_p_kernel::not);
-	list [6] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (10));
-	list [7] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (1));
-	list [8] = boost::shared_ptr <lambda_p_kernel::number> (new lambda_p_kernel::number (8));
+	list [6] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (10));
+	list [7] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (1));
+	list [8] = boost::shared_ptr <lambda_p_kernel::nodes::number> (new lambda_p_kernel::nodes::number (8));
 	lambda_p_kernel::apply apply;
 	boost::shared_ptr <lambda_p::core::routine> loop (outer_builder.routines.routines->operator[] (0));
 	lambda_p::errors::error_list problems;
@@ -132,7 +132,7 @@ void lambda_p_test::loop_test::run_4 ()
 	apply.core (loop, list, problems, results);
 	assert (problems.errors.empty ());
 	assert (results.nodes.size () == 1);
-	boost::shared_ptr <lambda_p_kernel::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::number> (results [0]));
+	boost::shared_ptr <lambda_p_kernel::nodes::number> number (boost::dynamic_pointer_cast <lambda_p_kernel::nodes::number> (results [0]));
 	assert (number.get () != nullptr);
 	assert (number->value == 8);
 }
