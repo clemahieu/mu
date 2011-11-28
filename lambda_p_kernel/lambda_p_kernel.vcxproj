@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="nodes\data.cpp" />
+    <ClCompile Include="parser_factories\number.cpp" />
     <ClCompile Include="parser_states\data.cpp" />
     <ClCompile Include="parser_factories\data_factory.cpp" />
     <ClCompile Include="adata.cpp" />
@@ -155,11 +156,13 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="apply.cpp" />
+    <ClCompile Include="parser_states\number.cpp" />
     <ClCompile Include="subtract.cpp" />
     <ClCompile Include="times.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\data.h" />
+    <ClInclude Include="parser_factories\number.h" />
     <ClInclude Include="parser_states\data.h" />
     <ClInclude Include="parser_factories\data_factory.h" />
     <ClInclude Include="adata.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
     <ClInclude Include="apply.h" />
+    <ClInclude Include="parser_states\number.h" />
     <ClInclude Include="subtract.h" />
     <ClInclude Include="times.h" />
   </ItemGroup>

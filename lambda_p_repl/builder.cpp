@@ -4,6 +4,7 @@
 #include <lambda_p_llvm/context.h>
 #include <lambda_p_llvm/generation_context.h>
 #include <lambda_p/binder/list_binder.h>
+#include <lambda_p_kernel/parser_factories/number.h>
 
 #include <llvm/Module.h>
 
@@ -18,5 +19,12 @@ std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>
 	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"environment"), environment_a));
 	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"exec"), exec_a));
 	result.push_back (std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>> (std::wstring (L"~"), boost::shared_ptr <lambda_p::binder::node> (new lambda_p::binder::list_binder)));
+	return result;
+}
+
+std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> lambda_p_repl::builder::keywords ()
+{
+	std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> result;
+	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_kernel::parser_factories::number> (new lambda_p_kernel::parser_factories::number)));
 	return result;
 }

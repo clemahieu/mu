@@ -11,6 +11,7 @@ namespace lambda_p_repl
 	public:
 		builder (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a);
 		std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_declarations (boost::shared_ptr <lambda_p::binder::node> environment_a, boost::shared_ptr <lambda_p::binder::node> exec_a);
+		std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> keywords () override;
 	};
 }
 

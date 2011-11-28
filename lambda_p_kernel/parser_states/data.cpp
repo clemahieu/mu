@@ -24,7 +24,7 @@ void lambda_p_kernel::parser_states::data::parse (lambda_p::tokens::token * toke
 	case lambda_p::tokens::token_id_complex_identifier:
 	case lambda_p::tokens::token_id_identifier:
 		{
-			lambda_p::tokens::identifier * data_string (static_cast <lambda_p::tokens::identifier *> (token));
+			lambda_p::tokens::identifier * data_string (dynamic_cast <lambda_p::tokens::identifier *> (token));
 			auto location (target.sink_argument ());
 			size_t declaration (routine.routine_m->inject_declaration (boost::shared_ptr <lambda_p::binder::node> (new lambda_p_kernel::nodes::data (data_string->string))));
 			location (declaration);
