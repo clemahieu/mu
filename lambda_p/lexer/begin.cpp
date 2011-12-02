@@ -5,6 +5,8 @@
 #include <lambda_p/lexer/complex_identifier.h>
 #include <lambda_p/lexer/control.h>
 #include <lambda_p/lexer/identifier.h>
+#include <lambda_p/tokens/left_square.h>
+#include <lambda_p/tokens/right_square.h>
 
 lambda_p::lexer::begin::begin (lambda_p::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
@@ -32,13 +34,16 @@ void lambda_p::lexer::begin::lex (wchar_t character)
 		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::complex_identifier (lexer)));
 		break;
 	case L';':
-		{
-			lambda_p::tokens::divider * token = new lambda_p::tokens::divider;
-			lexer.target (token);
-		}
+		lexer.target (new lambda_p::tokens::divider);
 		break;
 	case L':':
 		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::control (lexer)));
+		break;
+	case L'[':
+		lexer.target (new lambda_p::tokens::left_square);
+		break;
+	case L']':
+		lexer.target (new lambda_p::tokens::right_square);
 		break;
 	case L'\uffff':
 		lexer.state.pop ();

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="core\statement.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\routine.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -76,17 +73,11 @@
     <ClInclude Include="errors\undefined_reference.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="core\position.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="parser\finished.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="tokens\stream_end.h">
       <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="core\association.h">
-      <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="parser\association.h">
       <Filter>parser</Filter>
@@ -170,11 +161,12 @@
     <ClInclude Include="parser\state_factory.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="core\expression.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\left_square.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\statement.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\routine.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -244,17 +236,11 @@
     <ClCompile Include="errors\undefined_reference.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="core\position.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="parser\finished.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="tokens\stream_end.cpp">
       <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="core\association.cpp">
-      <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="parser\association.cpp">
       <Filter>parser</Filter>
@@ -335,6 +321,10 @@
     <ClCompile Include="parser\state_factory.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="core\expression.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\left_square.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

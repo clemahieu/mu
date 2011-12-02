@@ -12,6 +12,8 @@ namespace lambda_p
 			token_id_identifier,
 			token_id_routine_end,
 			token_id_divider,
+			token_id_left_square,
+			token_id_right_square,
             token_id_stream_end
 		};
 		class token

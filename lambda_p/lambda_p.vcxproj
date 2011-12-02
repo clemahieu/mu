@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="binder\binder_implementor.h" />
+    <ClInclude Include="core\expression.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />
@@ -138,10 +139,7 @@
     <ClInclude Include="binder\list.h" />
     <ClInclude Include="binder\binder.h" />
     <ClInclude Include="binder\node.h" />
-    <ClInclude Include="core\association.h" />
-    <ClInclude Include="core\position.h" />
     <ClInclude Include="core\routine.h" />
-    <ClInclude Include="core\statement.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="parser\position_set.h" />
@@ -183,12 +181,14 @@
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
     <ClInclude Include="tokens\identifier.h" />
+    <ClInclude Include="tokens\left_square.h" />
     <ClInclude Include="tokens\routine_end.h" />
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="lexer\istream_input.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
@@ -196,10 +196,7 @@
     <ClCompile Include="binder\list.cpp" />
     <ClCompile Include="binder\binder.cpp" />
     <ClCompile Include="binder\node.cpp" />
-    <ClCompile Include="core\association.cpp" />
-    <ClCompile Include="core\position.cpp" />
     <ClCompile Include="core\routine.cpp" />
-    <ClCompile Include="core\statement.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
@@ -240,6 +237,7 @@
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
+    <ClCompile Include="tokens\left_square.cpp" />
     <ClCompile Include="tokens\routine_end.cpp" />
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
