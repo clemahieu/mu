@@ -2,6 +2,8 @@
 
 #include <lambda_p/tokens/token.h>
 
+#include <string>
+
 namespace lambda_p
 {
 	namespace tokens
@@ -10,6 +12,7 @@ namespace lambda_p
 		{
 		public:
 			token_ids token_id () override;
+			std::wstring token_name () override;
 		};
 	}
 }

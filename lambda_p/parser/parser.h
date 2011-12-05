@@ -22,6 +22,7 @@ namespace lambda_p
 	namespace tokens
 	{
 		class token;
+		class identifier;
 	}
 	namespace parser
 	{
@@ -34,16 +35,12 @@ namespace lambda_p
 		class state_factory;
 		class parser
 		{
-			friend class lambda_p::parser::association;
-			friend class lambda_p::parser::begin;
-			friend class lambda_p::parser::routine;
-			friend class lambda_p::parser::statement;
 		public:
 			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
 			void operator () (lambda_p::tokens::token * token);
 			void reset ();
 			boost::shared_ptr <lambda_p::parser::error> error ();
-			std::wstring token_type_name (lambda_p::tokens::token * token);
+			void process_token (lambda_p::tokens::token * token);
 		private:
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
 			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> injected_parameters;

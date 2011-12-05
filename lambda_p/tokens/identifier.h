@@ -12,7 +12,8 @@ namespace lambda_p
 		{	
 		public:
 			identifier (std::wstring string_a);
-			token_ids token_id ();
+			token_ids token_id () override;
+			std::wstring token_name () override;
 			std::wstring string;
 		};
 	}

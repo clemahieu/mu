@@ -164,6 +164,9 @@
     <ClInclude Include="parser\identifier_list.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="parser\expression.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\routine.cpp">
@@ -321,6 +324,9 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="parser\identifier_list.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\expression.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

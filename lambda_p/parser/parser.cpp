@@ -3,19 +3,17 @@
 #include <lambda_p/tokens/identifier.h>
 #include <lambda_p/tokens/complex_identifier.h>
 #include <lambda_p/tokens/divider.h>
-#include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/core/statement.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/core/association.h>
 #include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
 #include <lambda_p/parser/statement.h>
 #include <lambda_p/parser/finished.h>
-#include <lambda_p/parser/association.h>
 #include <lambda_p/parser/position_set.h>
 #include <lambda_p/parser/target_set.h>
+#include <lambda_p/parser/state_factory.h>
 
 #include <boost/bind.hpp>
 
@@ -31,6 +29,28 @@ lambda_p::parser::parser::parser (boost::function <void (boost::shared_ptr <lamb
 }
 
 void lambda_p::parser::parser::operator () (lambda_p::tokens::token * token)
+{
+	auto identifier (dynamic_cast <lambda_p::tokens::identifier *> (token));
+	if (identifier != nullptr)
+	{
+		auto keyword (keywords.find (identifier->string));
+		if (keyword != keywords.end ())
+		{
+			auto new_state (keyword->second->create (*this, state.top ()));
+			new_state->parse (identifier);
+		}
+		else
+		{
+			process_token (token);
+		}
+	}
+	else
+	{
+		process_token (token);
+	}
+}
+
+void lambda_p::parser::parser::process_token (lambda_p::tokens::token * token)
 {
 	auto state_l (state.top ());
 	state_l->parse (token);

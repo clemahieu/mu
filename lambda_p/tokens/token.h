@@ -10,7 +10,6 @@ namespace lambda_p
 		{
 			token_id_complex_identifier,
 			token_id_identifier,
-			token_id_routine_end,
 			token_id_divider,
 			token_id_left_square,
 			token_id_right_square,
@@ -20,6 +19,7 @@ namespace lambda_p
 		{
 		public:
 			virtual token_ids token_id () = 0;
+			virtual std::wstring token_name () = 0;
 		};
 	}
 }

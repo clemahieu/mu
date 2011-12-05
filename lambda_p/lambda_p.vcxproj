@@ -142,6 +142,7 @@
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
+    <ClInclude Include="parser\expression.h" />
     <ClInclude Include="parser\identifier_list.h" />
     <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
+    <ClCompile Include="parser\expression.cpp" />
     <ClCompile Include="parser\identifier_list.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />

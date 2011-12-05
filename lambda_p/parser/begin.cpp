@@ -19,7 +19,7 @@ void lambda_p::parser::begin::parse (lambda_p::tokens::token * token)
         case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_divider:
         {
-            boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::routine (parser, parser.injected_parameters, parser.injected_returns));
+            boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::routine (parser);
             parser.state.push (new_state);
             parser (token);
         }

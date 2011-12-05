@@ -10,9 +10,9 @@ namespace lambda_p
 		{
 		public:
 			complex_identifier (std::wstring identifier_a, std::wstring terminator_a);
-			~complex_identifier (void);
 			std::wstring terminator;
-			token_ids token_id ();
+			token_ids token_id () override;
+			std::wstring token_name () override;
 		};
 	}
 }

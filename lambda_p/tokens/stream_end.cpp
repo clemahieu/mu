@@ -12,3 +12,8 @@ lambda_p::tokens::token_ids lambda_p::tokens::stream_end::token_id ()
 {
     return lambda_p::tokens::token_id_stream_end;
 }
+
+std::wstring lambda_p::tokens::stream_end::token_name ()
+{
+	return std::wstring (L"stream end");
+}

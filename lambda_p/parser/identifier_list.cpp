@@ -32,4 +32,5 @@ void lambda_p::parser::identifier_list::parse (lambda_p::tokens::token * token)
 			message << parser.token_type_name (token);			
 			parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
 			break;
+	}
 }

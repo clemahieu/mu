@@ -10,6 +10,8 @@
 
 #include <lambda_p/tokens/token.h>
 
+#include <string>
+
 namespace lambda_p
 {
     namespace tokens
@@ -17,7 +19,8 @@ namespace lambda_p
         class stream_end : public lambda_p::tokens::token
         {
         public:
-            token_ids token_id ();
+			token_ids token_id () override;
+			std::wstring token_name () override;
         };
     }
 }
