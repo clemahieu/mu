@@ -71,11 +71,15 @@ void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 			parser.state.push (boost::shared_ptr <lambda_p::parser::expression> (new lambda_p::parser::expression (parser, routine, boost::bind <void> (&lambda_p::parser::expression::nested_expression_sink, this, _1))));
 			break;
 		case lambda_p::tokens::token_id_right_square:
-			auto expression (new lambda_p::core::expression);
-			expression.contents.insert (expressions.begin (), expressions.end ());
-			target (
+			auto expression_l (new lambda_p::core::expression);
+			expression_l->contents.insert (expressions.begin (), expressions.end ());
+			target (expression_l);
 			parser.state.pop ();
 			break;
+		default:
+			std::wstringstream message;
+			message << L"Unexpected while parsing expression: ";
+			message << 
 	}
 }
 
