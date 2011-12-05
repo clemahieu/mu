@@ -11,8 +11,7 @@ namespace lambda_p
 		class expression
 		{
 		public:
-			std::vector <boost::shared_ptr <lambda_p::core::expression>> contents;
-			void add (boost::shared_ptr <lambda_p::core::expression> other);
+			std::vector <lambda_p::core::expression *> contents;
 		};
 	}
 }

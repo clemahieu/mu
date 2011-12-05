@@ -13,9 +13,6 @@
     <ClInclude Include="tokens\identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\routine_end.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\complex_identifier.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -78,12 +75,6 @@
     </ClInclude>
     <ClInclude Include="tokens\stream_end.h">
       <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\association.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\association_target.h">
-      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
       <Filter>errors</Filter>
@@ -164,7 +155,15 @@
     <ClInclude Include="core\expression.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="tokens\left_square.h" />
+    <ClInclude Include="tokens\left_square.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\right_square.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\identifier_list.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\routine.cpp">
@@ -174,9 +173,6 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\identifier.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\routine_end.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\complex_identifier.cpp">
@@ -241,12 +237,6 @@
     </ClCompile>
     <ClCompile Include="tokens\stream_end.cpp">
       <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\association.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\association_target.cpp">
-      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
       <Filter>errors</Filter>
@@ -324,7 +314,15 @@
     <ClCompile Include="core\expression.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="tokens\left_square.cpp" />
+    <ClCompile Include="tokens\left_square.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\right_square.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\identifier_list.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

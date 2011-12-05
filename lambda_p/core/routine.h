@@ -3,7 +3,6 @@
 #include <vector>
 #include <map>
 
-#include <lambda_p/core/expression.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/binder/node.h>
 
@@ -43,6 +42,7 @@ namespace lambda_p
 	}
 	namespace core
 	{
+		class expression;
 		class routine : public lambda_p::binder::node
 		{
 			friend class lambda_p::core::statement;
@@ -54,7 +54,8 @@ namespace lambda_p
 			friend class lambda_p::parser::routine;
 			friend class lambda_p_test::parser_test_1;
 		public:
-			boost::shared_ptr <lambda_p::core::expression> routine_expression;
+			std::vector <lambda_p::core::expression *> surface;
+			lambda_p::core::expression * routine_expression;
 		};
 	}
 }
