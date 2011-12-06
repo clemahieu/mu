@@ -1,38 +1,25 @@
 #include "list.h"
 
-#include <lambda_p/core/statement.h>
-#include <lambda_p/core/association.h>
 #include <lambda_p/binder/list.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/errors/string_error.h>
+#include <lambda_p/core/expression.h>
 
 #include <sstream>
 
-void lambda_p::binder::list::bind (lambda_p::core::statement * statement, lambda_p::binder::list & nodes_a, lambda_p::errors::error_list & problems)
+void lambda_p::binder::list::bind (lambda_p::core::expression * expression, std::map <lambda_p::core::expression *, boost::shared_ptr <lambda_p::binder::node>> & nodes_a, lambda_p::errors::error_list & problems)
 {
-	if (statement->association->references.empty ())
+	if (expression->begin () == expression->end ())
 	{
-		if (statement->association->declarations.size () == nodes.size ())
+		std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
+		for (std::vector <size_t>::iterator i = statement->association->declarations.begin (); i != statement->association->declarations.end (); ++i, ++j)
 		{
-			std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
-			for (std::vector <size_t>::iterator i = statement->association->declarations.begin (); i != statement->association->declarations.end (); ++i, ++j)
-			{
-				nodes_a [*i] = *j;
-			}
-		}
-		else
-		{
-			std::wstringstream message;
-			message << L"Unexpected number of declarations, have: ";
-			message << statement->association->declarations.size ();
-			message < L" expecting: ";
-			message << nodes.size ();
-			add_error (message.str (), problems);
+			nodes_a [*i] = *j;
 		}
 	}
 	else
 	{
-		add_error (std::wstring (L"Not expecting parameters"), problems);
+		add_error (std::wstring (L"Not expecting arguments"), problems);
 	}
 }
 

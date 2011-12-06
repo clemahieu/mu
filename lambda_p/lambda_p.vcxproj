@@ -132,6 +132,12 @@
   <ItemGroup>
     <ClInclude Include="binder\binder_implementor.h" />
     <ClInclude Include="core\expression.h" />
+    <ClInclude Include="core\expression_iterator.h" />
+    <ClInclude Include="core\expression_iterator_internal.h" />
+    <ClInclude Include="core\expression_leaf.h" />
+    <ClInclude Include="core\expression_leaf_iterator.h" />
+    <ClInclude Include="core\expression_list.h" />
+    <ClInclude Include="core\expression_list_iterator.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />
@@ -149,7 +155,6 @@
     <ClInclude Include="errors\binder_string_error.h" />
     <ClInclude Include="errors\error.h" />
     <ClInclude Include="errors\node_out_of_order.h" />
-    <ClInclude Include="errors\orphan_node.h" />
     <ClInclude Include="errors\orphan_reference.h" />
     <ClInclude Include="errors\target_not_bindable.h" />
     <ClInclude Include="errors\undefined_reference.h" />
@@ -189,6 +194,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\expression.cpp" />
+    <ClCompile Include="core\expression_iterator.cpp" />
+    <ClCompile Include="core\expression_iterator_internal.cpp" />
+    <ClCompile Include="core\expression_leaf.cpp" />
+    <ClCompile Include="core\expression_leaf_iterator.cpp" />
+    <ClCompile Include="core\expression_list.cpp" />
+    <ClCompile Include="core\expression_list_iterator.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="lexer\istream_input.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
@@ -206,7 +217,6 @@
     <ClCompile Include="errors\binder_string_error.cpp" />
     <ClCompile Include="errors\error.cpp" />
     <ClCompile Include="errors\node_out_of_order.cpp" />
-    <ClCompile Include="errors\orphan_node.cpp" />
     <ClCompile Include="errors\orphan_reference.cpp" />
     <ClCompile Include="errors\target_not_bindable.cpp" />
     <ClCompile Include="errors\undefined_reference.cpp" />

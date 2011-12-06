@@ -3,7 +3,6 @@
 #include <lambda_p/lexer/lexer.h>
 #include <lambda_p/lexer/multiline_comment.h>
 #include <lambda_p/lexer/singleline_comment.h>
-#include <lambda_p/tokens/routine_end.h>
 #include <lambda_p/lexer/error.h>
 
 lambda_p::lexer::control::control (lambda_p::lexer::lexer & lexer_a)
@@ -26,15 +25,8 @@ void lambda_p::lexer::control::lex (wchar_t character)
 			lexer.state.pop ();
 			lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::singleline_comment (lexer)));
 			break;
-		case L';':
-			{
-				lambda_p::tokens::routine_end * token = new lambda_p::tokens::routine_end;
-				lexer.target (token);
-				lexer.state.pop ();
-			}
-			break;
 		default:
-			std::wstring message (L"Unknown token: #");
+			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
 			lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::error (message)));
 			break;

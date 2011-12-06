@@ -61,9 +61,6 @@
     <ClInclude Include="errors\error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="errors\orphan_node.h">
-      <Filter>errors</Filter>
-    </ClInclude>
     <ClInclude Include="errors\orphan_reference.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -167,6 +164,24 @@
     <ClInclude Include="parser\expression.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="core\expression_iterator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_leaf.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_list.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_leaf_iterator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_list_iterator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_iterator_internal.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\routine.cpp">
@@ -224,9 +239,6 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="errors\error.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\orphan_node.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="errors\orphan_reference.cpp">
@@ -328,6 +340,24 @@
     </ClCompile>
     <ClCompile Include="parser\expression.cpp">
       <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_iterator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_leaf.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_list.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_leaf_iterator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_list_iterator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_iterator_internal.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
