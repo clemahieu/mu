@@ -36,7 +36,7 @@ void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 			else if (has_nested_expression)
 			{
 				std::wstringstream message;
-				message << L"Left had side of naming must be an identifier list";				
+				message << L"Left hand side of naming must be an identifier list";				
 				parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
 			}
 			else
@@ -73,14 +73,39 @@ void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 			break;
 		case lambda_p::tokens::token_id_right_square:
 			auto expression_l (new lambda_p::core::expression_list);
-			expression_l->contents.insert (expressions.begin (), expressions.end ());
+			if (is_naming)
+			{
+				auto i (expressions.begin ());
+				auto j (expressions.end ());
+				auto k (local_names.begin ());
+				auto l (local_names.end ());
+				while (i != j && k != l)
+				{
+					expression_l->contents.push_back (*i);
+					routine.names.insert (std::map <std::wstring, lambda_p::core::expression *>::value_type (*k, *i));
+					++i;
+					++k;
+				}
+				if ((i != j) != (k != l))
+				{
+					std::wstringstream message;
+					message << L"Cardinality of left hand side does not match cardinality of right hand side";
+					parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
+				}
+			}
+			else
+			{
+				expression_l->contents.insert (expressions.begin (), expressions.end ());
+			}
 			target (expression_l);
 			parser.state.pop ();
 			break;
 		default:
 			std::wstringstream message;
 			message << L"Unexpected while parsing expression: ";
-			message << 
+			message << token->token_name ();
+			parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
+			break;
 	}
 }
 

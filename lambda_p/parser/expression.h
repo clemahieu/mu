@@ -28,6 +28,7 @@ namespace lambda_p
 			bool is_naming;
 			std::vector <lambda_p::core::expression *> expressions;
 			std::map <std::wstring, size_t> local_unresolved;
+			std::vector <std::wstring> local_names;
 			void parse (lambda_p::tokens::token * token) override;
 			void nested_expression_sink (lambda_p::core::expression * expression_a);
 		};

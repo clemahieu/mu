@@ -15,7 +15,6 @@ namespace lambda_p
 		public:
 			virtual lambda_p::core::expression_iterator begin () = 0;
 			virtual lambda_p::core::expression_iterator end () = 0;
-			std::vector <lambda_p::core::expression *> nested;
 		};
 	}
 }
