@@ -10,10 +10,11 @@ namespace lambda_p
 	namespace core
 	{
 		class expression;
+		class expression_list;
 		class expression_list_iterator : public lambda_p::core::expression_iterator_internal
 		{
 		public:
-			expression_list_iterator (lambda_p::core::expression_iterator target_current_a, lambda_p::core::expression_iterator target_end_a, std::vector <lambda_p::core::expression *>::iterator current_a, std::vector <lambda_p::core::expression *>::iterator end_a);
+			expression_list_iterator (lambda_p::core::expression_list & list_a, bool end_a);
 			void operator ++ () override;
 			bool operator == (lambda_p::core::expression_iterator_internal * other) override;
 			bool operator != (lambda_p::core::expression_iterator_internal * other) override;
@@ -22,6 +23,8 @@ namespace lambda_p
 			std::vector <lambda_p::core::expression *>::iterator end;
 			lambda_p::core::expression_iterator target_current;
 			lambda_p::core::expression_iterator target_end;
+		private:
+			void check_end ();
 		};
 	}
 }

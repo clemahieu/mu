@@ -176,6 +176,12 @@
     <ClInclude Include="core\expression_iterator_internal.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="parser\expression_sink.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression_list.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\routine.cpp">
@@ -345,6 +351,12 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\expression_iterator_internal.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\expression_sink.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression_list.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

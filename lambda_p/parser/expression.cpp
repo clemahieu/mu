@@ -6,7 +6,6 @@
 #include <lambda_p/parser/routine.h>
 #include <lambda_p/core/expression.h>
 #include <lambda_p/tokens/identifier.h>
-#include <lambda_p/core/expression_list.h>
 
 #include <sstream>
 
@@ -72,7 +71,7 @@ void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 			parser.state.push (boost::shared_ptr <lambda_p::parser::expression> (new lambda_p::parser::expression (parser, routine, boost::bind <void> (&lambda_p::parser::expression::nested_expression_sink, this, _1))));
 			break;
 		case lambda_p::tokens::token_id_right_square:
-			auto expression_l (new lambda_p::core::expression_list);
+			auto expression_l (new lambda_p::core::expression);
 			if (is_naming)
 			{
 				auto i (expressions.begin ());
@@ -109,7 +108,7 @@ void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 	}
 }
 
-void lambda_p::parser::expression::nested_expression_sink (lambda_p::core::expression * expression_a)
+void lambda_p::parser::expression::sink (lambda_p::core::expression * expression_a)
 {
 	expressions.push_back (expression_a);
 }

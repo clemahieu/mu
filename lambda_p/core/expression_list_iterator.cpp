@@ -1,35 +1,52 @@
 #include "expression_list_iterator.h"
 
 #include <lambda_p/core/expression.h>
+#include <lambda_p/core/expression_list.h>
 #include <lambda_p/core/expression_leaf_iterator.h>
 
 #include <assert.h>
 
-lambda_p::core::expression_list_iterator::expression_list_iterator (lambda_p::core::expression_iterator target_current_a, lambda_p::core::expression_iterator target_end_a, std::vector <lambda_p::core::expression *>::iterator current_a, std::vector <lambda_p::core::expression *>::iterator end_a)
-	: current (current_a),
-	end (end_a),
-	target_current (target_current_a),
-	target_end (target_end_a)
+lambda_p::core::expression_list_iterator::expression_list_iterator (lambda_p::core::expression_list & list_a, bool end_a)
 {
-}
-
-void lambda_p::core::expression_list_iterator::operator ++ ()
-{
-	assert (current != end);
-	assert (target_current != target_end);
-	++target_current;
-	if (target_current == target_end)
+	target_current = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
+	target_end = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
+	if (end_a)
 	{
-		++current;
-		if (current != end)
+		current = list_a.contents.end ();
+		end = list_a.contents.end ();
+	}
+	else
+	{
+		current = list_a.contents.begin ();
+		end = list_a.contents.end ();
+		while (current != end && target_current == target_end)
 		{
 			target_current = (*current)->begin ();
 			target_end = (*current)->end ();
 		}
-		else
+		check_end ();
+	}
+}
+
+void lambda_p::core::expression_list_iterator::check_end ()
+{
+	if (current == end)
+	{
+		target_current = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
+		target_end = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
+	}
+}
+
+void lambda_p::core::expression_list_iterator::operator ++ ()
+{
+	++target_current;
+	if (target_current == target_end)
+	{
+		while (current != end && target_current == target_end)
 		{
-			target_current = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
-			target_end = lambda_p::core::expression_iterator (new lambda_p::core::expression_leaf_iterator (nullptr, true));
+			++current;
+			target_current = (*current)->begin ();
+			target_end = (*current)->end ();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <lambda_p/parser/state.h>
+#include <lambda_p/parser/expression_sink.h>
 
 #include <boost/function.hpp>
 
@@ -17,10 +18,11 @@ namespace lambda_p
 	{
 		class parser;
 		class routine;
-		class expression : public lambda_p::parser::state
+		class expression : public lambda_p::parser::state, public lambda_p::parser::expression_sink
 		{
 		public:
 			expression (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, boost::function <void (lambda_p::core::expression * expression)> target_a);
+			void sink (lambda_p::core::expression * expression) override;
 			boost::function <void (lambda_p::core::expression * expression)> target;
 			lambda_p::parser::routine & routine;
 			lambda_p::parser::parser & parser;
