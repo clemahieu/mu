@@ -25,6 +25,7 @@ namespace lambda_p
 			lambda_p::core::expression_iterator target_end;
 		private:
 			void check_end ();
+			void skip ();
 		};
 	}
 }
