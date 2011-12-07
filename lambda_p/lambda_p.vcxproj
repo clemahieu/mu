@@ -134,6 +134,7 @@
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\expression_iterator.h" />
     <ClInclude Include="core\expression_iterator_internal.h" />
+    <ClInclude Include="core\expression_leaf.h" />
     <ClInclude Include="core\expression_leaf_iterator.h" />
     <ClInclude Include="core\expression_list.h" />
     <ClInclude Include="core\expression_list_iterator.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="parser\expression.h" />
     <ClInclude Include="parser\expression_sink.h" />
+    <ClInclude Include="parser\expression_state.h" />
     <ClInclude Include="parser\identifier_list.h" />
     <ClInclude Include="parser\position_set.h" />
     <ClInclude Include="errors\binder_error.h" />
@@ -196,6 +198,7 @@
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\expression_iterator.cpp" />
     <ClCompile Include="core\expression_iterator_internal.cpp" />
+    <ClCompile Include="core\expression_leaf.cpp" />
     <ClCompile Include="core\expression_leaf_iterator.cpp" />
     <ClCompile Include="core\expression_list.cpp" />
     <ClCompile Include="core\expression_list_iterator.cpp" />
@@ -211,6 +214,7 @@
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="parser\expression.cpp" />
     <ClCompile Include="parser\expression_sink.cpp" />
+    <ClCompile Include="parser\expression_state.cpp" />
     <ClCompile Include="parser\identifier_list.cpp" />
     <ClCompile Include="parser\position_set.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />

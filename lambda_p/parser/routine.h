@@ -27,6 +27,7 @@ namespace lambda_p
 	namespace parser
 	{
 		class parser;
+		class expression;
 		class routine : public state
 		{
 		public:
@@ -38,7 +39,7 @@ namespace lambda_p
 			lambda_p::parser::parser & parser;
 			bool have_surface;
 			std::vector <lambda_p::core::expression *> surface;
-			std::multimap <std::wstring, std::pair <lambda_p::core::expression *, size_t>> unresolved_references;
+			std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>> unresolved_references;
 			std::map <std::wstring, lambda_p::core::expression *> names;
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target;
 		};

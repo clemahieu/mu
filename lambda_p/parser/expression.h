@@ -2,6 +2,7 @@
 
 #include <lambda_p/parser/state.h>
 #include <lambda_p/parser/expression_sink.h>
+#include <lambda_p/parser/expression_state.h>
 
 #include <boost/function.hpp>
 
@@ -12,7 +13,7 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class expression;
+		class expression_list;
 	}
 	namespace parser
 	{
@@ -21,18 +22,17 @@ namespace lambda_p
 		class expression : public lambda_p::parser::state, public lambda_p::parser::expression_sink
 		{
 		public:
-			expression (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, boost::function <void (lambda_p::core::expression * expression)> target_a);
+			expression (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::core::expression_list * list_a);
 			void sink (lambda_p::core::expression * expression) override;
-			boost::function <void (lambda_p::core::expression * expression)> target;
+			lambda_p::core::expression_list * list;
 			lambda_p::parser::routine & routine;
 			lambda_p::parser::parser & parser;
-			bool has_nested_expression;
-			bool is_naming;
-			std::vector <lambda_p::core::expression *> expressions;
-			std::map <std::wstring, size_t> local_unresolved;
+			lambda_p::parser::expression_state::expression_state state;
 			std::vector <std::wstring> local_names;
+			std::wstring full_name;
+			void resolve ();
+			void back_resolve (std::wstring identifier, lambda_p::core::expression * expression);
 			void parse (lambda_p::tokens::token * token) override;
-			void nested_expression_sink (lambda_p::core::expression * expression_a);
 		};
 	}
 }
