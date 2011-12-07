@@ -5,8 +5,9 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/error.h>
 
-lambda_p::parser::begin::begin (lambda_p::parser::parser & parser_a)
-	: parser (parser_a)
+lambda_p::parser::begin::begin (lambda_p::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
+	: parser (parser_a),
+	target (target_a)
 {
 }
 
@@ -19,7 +20,7 @@ void lambda_p::parser::begin::parse (lambda_p::tokens::token * token)
         case lambda_p::tokens::token_id_complex_identifier:
 		case lambda_p::tokens::token_id_divider:
         {
-            boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::routine (parser);
+            boost::shared_ptr <lambda_p::parser::state> new_state (new lambda_p::parser::routine (parser, target));
             parser.state.push (new_state);
             parser (token);
         }

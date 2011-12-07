@@ -22,81 +22,142 @@ lambda_p::parser::expression::expression (lambda_p::parser::parser & parser_a, l
 void lambda_p::parser::expression::parse (lambda_p::tokens::token * token)
 {	
 	auto self (boost::static_pointer_cast <lambda_p::parser::expression> (parser.state.top ()));
+	switch (state)
+	{
+	case lambda_p::parser::expression_state::expressions:
+		parse_expression (token);
+		break;
+	case lambda_p::parser::expression_state::local_naming:
+		parse_local_name (token);
+		break;
+	case lambda_p::parser::expression_state::full_naming:
+		parse_full_name (token);
+		break;
+	case lambda_p::parser::expression_state::nested:
+		parse_nested (token);
+		break;
+	}
+}
+
+void lambda_p::parser::expression::parse_nested (lambda_p::tokens::token * token)
+{
 	lambda_p::tokens::token_ids token_id (token->token_id ());
 	switch (token_id)
 	{
-		case lambda_p::tokens::token_id_divider:
-			switch (state)
-			{
-			case lambda_p::parser::expression_state::expressions:
-				state = lambda_p::parser::expression_state::local_naming;
-				break;
-			case lambda_p::parser::expression_state::local_naming:
-				state = lambda_p::parser::expression_state::full_naming;
-				break;
-			case lambda_p::parser::expression_state::full_naming:
-				{
-					std::wstringstream message;
-					message << L"Expecting identifier or right bracket while full naming, have divider";				
-					parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
-				}
-				break;
-			default:
-				assert (false);
-			}
-			break;
-		case lambda_p::tokens::token_id_complex_identifier:
-		case lambda_p::tokens::token_id_identifier:
+	case lambda_p::tokens::token_id_right_square:
+		state = lambda_p::parser::expression_state::expressions;
+		break;
+	default:
+		assert (false);
+	}
+}
+
+void lambda_p::parser::expression::parse_expression (lambda_p::tokens::token * token)
+{
+	lambda_p::tokens::token_ids token_id (token->token_id ());
+	switch (token_id)
+	{
+	case lambda_p::tokens::token_id_divider:
+		state = lambda_p::parser::expression_state::local_naming;
+		break;
+	case lambda_p::tokens::token_id_complex_identifier:
+	case lambda_p::tokens::token_id_identifier:
+		{
 			auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
-			switch (state)
+			auto existing (routine.names.find (identifier->string));
+			if (existing != routine.names.end ())
 			{
-			case lambda_p::parser::expression_state::expressions:
-				auto existing (routine.names.find (identifier->string));
-				if (existing != routine.names.end ())
-				{
-					list->contents.push_back (existing->second);
-				}
-				else
-				{
-					list->contents.push_back (nullptr);
-					routine.unresolved_references.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>>::value_type (identifier->string, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t> (self, list->contents.size () - 1)));
-				}
-				break;
-			case lambda_p::parser::expression_state::local_naming:
-				local_names.push_back (identifier->string);
-				break;
-			case lambda_p::parser::expression_state::full_naming:
-				if (full_name.empty ())
-				{
-					full_name = identifier->string;
-				}
-				else
-				{
-					std::wstringstream message;
-					message << L"Cannot specify more than one full name, have: ";
-					message << identifier->string;
-					parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
-				}
-				break;
+				list->contents.push_back (existing->second);
 			}
-		case lambda_p::tokens::token_id_left_square:
+			else
+			{
+				auto self (boost::static_pointer_cast <lambda_p::parser::expression> (parser.state.top ()));
+				list->contents.push_back (nullptr);
+				routine.unresolved_references.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>>::value_type (identifier->string, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t> (self, list->contents.size () - 1)));
+			}
+		}
+		break;
+	case lambda_p::tokens::token_id_left_square:
+		{
 			auto new_expression (new lambda_p::core::expression_list);
 			list->contents.push_back (new_expression);
 			parser.state.push (boost::shared_ptr <lambda_p::parser::expression> (new lambda_p::parser::expression (parser, routine, new_expression)));
-			break;
-		case lambda_p::tokens::token_id_right_square:
-			if (list->resolved ())
-			{
-				resolve ();
-			}
-			parser.state.pop ();
-			break;
-		default:
+		}
+		break;
+	case lambda_p::tokens::token_id_right_square:
+		if (list->resolved ())
+		{
+			resolve ();
+		}
+		parser.state.pop ();
+		parser (token);
+		break;
+	}
+}
+
+void lambda_p::parser::expression::parse_local_name (lambda_p::tokens::token * token)
+{
+	lambda_p::tokens::token_ids token_id (token->token_id ());
+	switch (token_id)
+	{
+	case lambda_p::tokens::token_id_divider:
+		state = lambda_p::parser::expression_state::full_naming;
+		break;
+	case lambda_p::tokens::token_id_complex_identifier:
+	case lambda_p::tokens::token_id_identifier:
+		{
+			auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
+			local_names.push_back (identifier->string);
+		}
+		break;
+	case lambda_p::tokens::token_id_right_square:
+		if (list->resolved ())
+		{
+			resolve ();
+		}
+		parser.state.pop ();
+		parser (token);
+		break;
+	}
+}
+
+void lambda_p::parser::expression::parse_full_name (lambda_p::tokens::token * token)
+{
+	lambda_p::tokens::token_ids token_id (token->token_id ());
+	switch (token_id)
+	{
+	case lambda_p::tokens::token_id_divider:
+		{
 			std::wstringstream message;
-			message << L"Unexpected while parsing expression: ";
-			message << token->token_name ();
+			message << L"Expecting identifier or right bracket while full naming, have divider";				
 			parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
-			break;
+		}
+		break;
+	case lambda_p::tokens::token_id_complex_identifier:
+	case lambda_p::tokens::token_id_identifier:
+		{
+			auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
+			if (full_name.empty ())
+			{
+				full_name = identifier->string;
+			}
+			else
+			{
+				std::wstringstream message;
+				message << L"Cannot specify more than one full name, have: ";
+				message << identifier->string;
+				parser.state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::error (message.str ())));
+			}
+		}
+		break;
+	case lambda_p::tokens::token_id_right_square:
+		if (list->resolved ())
+		{
+			resolve ();
+		}
+		parser.state.pop ();
+		parser (token);
+		break;
 	}
 }
 

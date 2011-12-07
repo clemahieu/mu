@@ -42,14 +42,14 @@ namespace lambda_p
 	}
 	namespace core
 	{
-		class expression;
+		class expression_list;
 		class expression_leaf;
 		class routine : public lambda_p::binder::node
 		{
 		public:
-			routine (std::vector <lambda_p::core::expression_leaf *> & surface, lambda_p::core::expression * routine_expression);
+			routine ();
 			std::vector <lambda_p::core::expression_leaf *> surface;
-			lambda_p::core::expression * routine_expression;
+			lambda_p::core::expression_list * expression;
 		};
 	}
 }

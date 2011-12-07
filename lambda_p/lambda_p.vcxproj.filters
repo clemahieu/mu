@@ -55,16 +55,7 @@
     <ClInclude Include="parser\state.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\statement.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\orphan_reference.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\undefined_reference.h">
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="parser\finished.h">
@@ -127,12 +118,6 @@
     <ClInclude Include="binder\node.h">
       <Filter>binder</Filter>
     </ClInclude>
-    <ClInclude Include="parser\target_set.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\position_set.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="builder.h" />
     <ClInclude Include="lexer\character_stream.h">
       <Filter>lexer</Filter>
@@ -157,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="tokens\right_square.h">
       <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\identifier_list.h">
-      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\expression.h">
       <Filter>parser</Filter>
@@ -186,6 +168,9 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="parser\expression_state.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\routine_state.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
@@ -241,16 +226,7 @@
     <ClCompile Include="parser\state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\statement.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\orphan_reference.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\undefined_reference.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="parser\finished.cpp">
@@ -313,12 +289,6 @@
     <ClCompile Include="binder\node.cpp">
       <Filter>binder</Filter>
     </ClCompile>
-    <ClCompile Include="parser\target_set.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\position_set.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lexer\character_stream.cpp">
       <Filter>lexer</Filter>
@@ -340,9 +310,6 @@
     </ClCompile>
     <ClCompile Include="tokens\right_square.cpp">
       <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\identifier_list.cpp">
-      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\expression.cpp">
       <Filter>parser</Filter>
@@ -369,6 +336,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="parser\expression_state.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\routine_state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>

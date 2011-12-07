@@ -9,10 +9,7 @@
 #include <lambda_p/parser/begin.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/routine.h>
-#include <lambda_p/parser/statement.h>
 #include <lambda_p/parser/finished.h>
-#include <lambda_p/parser/position_set.h>
-#include <lambda_p/parser/target_set.h>
 #include <lambda_p/parser/state_factory.h>
 
 #include <boost/bind.hpp>
@@ -63,7 +60,7 @@ void lambda_p::parser::parser::reset ()
 		state.pop ();
 	}
     state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::finished (*this)));
-	state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::begin (*this)));
+	state.push (boost::shared_ptr <lambda_p::parser::state> (new lambda_p::parser::begin (*this, target)));
 }
 
 boost::shared_ptr <lambda_p::parser::error> lambda_p::parser::parser::error ()
@@ -73,34 +70,5 @@ boost::shared_ptr <lambda_p::parser::error> lambda_p::parser::parser::error ()
 	{
 		result = boost::dynamic_pointer_cast <lambda_p::parser::error> (state.top ());
 	}
-	return result;
-}
-
-std::wstring lambda_p::parser::parser::token_type_name (lambda_p::tokens::token * token)
-{
-	std::wstring result;
-	size_t token_id (token->token_id ());
-	switch (token_id)
-	{
-	case lambda_p::tokens::token_id_complex_identifier:
-		result.append (L"complex_identifier");
-		break;
-	case lambda_p::tokens::token_id_identifier:
-		result.append (L"identifier");
-		break;
-	case lambda_p::tokens::token_id_routine_end:
-		result.append (L"routine_end");
-		break;
-	case lambda_p::tokens::token_id_divider:
-		result.append (L"divider");
-		break;
-	case lambda_p::tokens::token_id_stream_end:
-		result.append (L"stream_end");
-		break;
-	default:
-		result.append (L"Unknown");
-		assert (false);
-	}
-
 	return result;
 }

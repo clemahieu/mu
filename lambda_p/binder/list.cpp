@@ -9,18 +9,18 @@
 
 void lambda_p::binder::list::bind (lambda_p::core::expression * expression, std::map <lambda_p::core::expression *, boost::shared_ptr <lambda_p::binder::node>> & nodes_a, lambda_p::errors::error_list & problems)
 {
-	if (expression->begin () == expression->end ())
-	{
-		std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
-		for (std::vector <size_t>::iterator i = statement->association->declarations.begin (); i != statement->association->declarations.end (); ++i, ++j)
-		{
-			nodes_a [*i] = *j;
-		}
-	}
-	else
-	{
-		add_error (std::wstring (L"Not expecting arguments"), problems);
-	}
+	//if (expression->begin () == expression->end ())
+	//{
+	//	std::vector <boost::shared_ptr <lambda_p::binder::node>>::iterator j = nodes.begin ();
+	//	for (std::vector <size_t>::iterator i = statement->association->declarations.begin (); i != statement->association->declarations.end (); ++i, ++j)
+	//	{
+	//		nodes_a [*i] = *j;
+	//	}
+	//}
+	//else
+	//{
+	//	add_error (std::wstring (L"Not expecting arguments"), problems);
+	//}
 }
 
 boost::shared_ptr <lambda_p::binder::node> & lambda_p::binder::list::operator [] (size_t node)

@@ -1,12 +1,13 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
 #include <lambda_p/parser/state.h>
+#include <lambda_p/parser/routine_state.h>
+
 #include <map>
 #include <string>
 #include <vector>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
 namespace lambda_p
@@ -19,6 +20,7 @@ namespace lambda_p
 	{
 		class routine;
 		class expression;
+		class expression_list;
 	}
 	namespace tokens
 	{
@@ -31,14 +33,13 @@ namespace lambda_p
 		class routine : public state
 		{
 		public:
-			routine (lambda_p::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters, std::vector <std::wstring> & injected_returns);
+			routine (lambda_p::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a);
 			void parse (lambda_p::tokens::token * token) override;
 			void reset ();
 			void routine_expression_sink (lambda_p::core::expression * expression);
-			void surface_sink (lambda_p::tokens::identifier * identifier);
 			lambda_p::parser::parser & parser;
-			bool have_surface;
-			std::vector <lambda_p::core::expression *> surface;
+			lambda_p::parser::routine_state::routine_state state;
+			boost::shared_ptr <lambda_p::core::routine> routine_m;
 			std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>> unresolved_references;
 			std::map <std::wstring, lambda_p::core::expression *> names;
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target;

@@ -10,7 +10,8 @@ namespace lambda_p
 			{
 				expressions,
 				local_naming,
-				full_naming
+				full_naming,
+				nested
 			};
 		}
 	}

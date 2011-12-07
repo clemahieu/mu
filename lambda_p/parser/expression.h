@@ -33,6 +33,10 @@ namespace lambda_p
 			void resolve ();
 			void back_resolve (std::wstring identifier, lambda_p::core::expression * expression);
 			void parse (lambda_p::tokens::token * token) override;
+			void parse_expression (lambda_p::tokens::token * token);
+			void parse_local_name (lambda_p::tokens::token * token);
+			void parse_full_name (lambda_p::tokens::token * token);
+			void parse_nested (lambda_p::tokens::token * token);
 		};
 	}
 }
