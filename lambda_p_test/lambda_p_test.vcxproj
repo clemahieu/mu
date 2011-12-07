@@ -24,23 +24,23 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
@@ -142,8 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="abort_binder_test_1.cpp" />
-    <ClCompile Include="adata_test.cpp" />
     <ClCompile Include="api_test.cpp" />
     <ClCompile Include="apply_binder_test.cpp" />
     <ClCompile Include="constant_int_binder_test_1.cpp" />
@@ -164,7 +162,6 @@
     <ClCompile Include="routine_binder_test.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
     <ClCompile Include="routine_input_test_1.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="bind_procedure_test_1.cpp" />
     <ClCompile Include="list_test.cpp" />
     <ClCompile Include="node_list_test.cpp" />
@@ -178,8 +175,6 @@
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="abort_binder_test_1.h" />
-    <ClInclude Include="adata_test.h" />
     <ClInclude Include="api_test.h" />
     <ClInclude Include="apply_binder_test.h" />
     <ClInclude Include="constant_int_binder_test_1.h" />
