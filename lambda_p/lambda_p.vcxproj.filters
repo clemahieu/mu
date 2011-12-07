@@ -167,12 +167,6 @@
     <ClInclude Include="core\expression_iterator.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\expression_leaf.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression_list.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\expression_leaf_iterator.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -342,12 +336,6 @@
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="core\expression_iterator.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_leaf.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_list.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\expression_leaf_iterator.cpp">

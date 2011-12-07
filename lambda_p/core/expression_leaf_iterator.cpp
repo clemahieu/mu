@@ -1,8 +1,14 @@
 #include "expression_leaf_iterator.h"
 
-#include <lambda_p/core/expression_leaf.h>
+#include <lambda_p/core/expression.h>
 
 #include <assert.h>
+
+lambda_p::core::expression_leaf_iterator::expression_leaf_iterator (lambda_p::core::expression * expression_a, bool end_a)
+	: expression (expression_a),
+	end (end_a)
+{
+}
 
 void lambda_p::core::expression_leaf_iterator::operator ++ ()
 {

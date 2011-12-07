@@ -134,9 +134,7 @@
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\expression_iterator.h" />
     <ClInclude Include="core\expression_iterator_internal.h" />
-    <ClInclude Include="core\expression_leaf.h" />
     <ClInclude Include="core\expression_leaf_iterator.h" />
-    <ClInclude Include="core\expression_list.h" />
     <ClInclude Include="core\expression_list_iterator.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
@@ -196,9 +194,7 @@
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\expression_iterator.cpp" />
     <ClCompile Include="core\expression_iterator_internal.cpp" />
-    <ClCompile Include="core\expression_leaf.cpp" />
     <ClCompile Include="core\expression_leaf_iterator.cpp" />
-    <ClCompile Include="core\expression_list.cpp" />
     <ClCompile Include="core\expression_list_iterator.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="lexer\istream_input.cpp" />

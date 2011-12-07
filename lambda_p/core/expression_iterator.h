@@ -9,6 +9,7 @@ namespace lambda_p
 		class expression_iterator
 		{
 		public:
+			expression_iterator ();
 			expression_iterator (lambda_p::core::expression_iterator_internal * iter_a);
 			void operator ++ ();
 			bool operator == (lambda_p::core::expression_iterator & other);

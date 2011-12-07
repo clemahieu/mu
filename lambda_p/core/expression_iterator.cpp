@@ -2,6 +2,10 @@
 
 #include <lambda_p/core/expression_iterator_internal.h>
 
+lambda_p::core::expression_iterator::expression_iterator ()
+{
+}
+
 lambda_p::core::expression_iterator::expression_iterator (lambda_p::core::expression_iterator_internal * iter_a)
 	: iter (iter_a)
 {
