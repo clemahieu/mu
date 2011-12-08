@@ -1,10 +1,10 @@
 #include "node_iterator.h"
 
-#include <lambda_p/core/expression.h>
+#include <lambda_p/core/node.h>
 
 #include <assert.h>
 
-lambda_p::core::node_iterator::node_iterator (lambda_p::core::expression * expression_a, bool end_a)
+lambda_p::core::node_iterator::node_iterator (boost::shared_ptr <lambda_p::core::node> expression_a, bool end_a)
 	: expression (expression_a),
 	end (end_a)
 {

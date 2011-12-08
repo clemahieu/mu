@@ -8,6 +8,7 @@
     <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="node_iterator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simple_compile_test_1.h" />
@@ -17,5 +18,6 @@
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="node_iterator.h" />
   </ItemGroup>
 </Project>
