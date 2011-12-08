@@ -4,14 +4,14 @@
 #include <lambda_p/parser/error.h>
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/routine.h>
-#include <lambda_p/core/expression_list.h>
+#include <lambda_p/core/list.h>
 #include <lambda_p/tokens/identifier.h>
 
 #include <sstream>
 
 #include <boost/bind.hpp>
 
-lambda_p::parser::expression::expression (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, lambda_p::core::expression_list * list_a)
+lambda_p::parser::expression::expression (lambda_p::parser::parser & parser_a, lambda_p::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::list> list_a)
 	: list (list_a),
 	parser (parser_a),
 	routine (routine_a),
@@ -72,14 +72,14 @@ void lambda_p::parser::expression::parse_expression (lambda_p::tokens::token * t
 			else
 			{
 				auto self (boost::static_pointer_cast <lambda_p::parser::expression> (parser.state.top ()));
-				list->contents.push_back (nullptr);
+				list->contents.push_back (boost::shared_ptr <lambda_p::core::expression> ());
 				routine.unresolved_references.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>>::value_type (identifier->string, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t> (self, list->contents.size () - 1)));
 			}
 		}
 		break;
 	case lambda_p::tokens::token_id_left_square:
 		{
-			auto new_expression (new lambda_p::core::expression_list);
+			auto new_expression (boost::shared_ptr <lambda_p::core::list> (new lambda_p::core::list));
 			list->contents.push_back (new_expression);
 			parser.state.push (boost::shared_ptr <lambda_p::parser::expression> (new lambda_p::parser::expression (parser, routine, new_expression)));
 		}
@@ -175,7 +175,7 @@ void lambda_p::parser::expression::resolve ()
 			auto existing (routine.names.find (identifier));
 			if (existing == routine.names.end ())
 			{
-				routine.names.insert (std::map <std::wstring, lambda_p::core::expression *>::value_type (identifier, *list_current));
+				routine.names.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::core::expression>>::value_type (identifier, *list_current));
 				back_resolve (identifier, *list_current);
 			}
 			else
@@ -201,7 +201,7 @@ void lambda_p::parser::expression::resolve ()
 		auto existing (routine.names.find (full_name));
 		if (existing == routine.names.end ())
 		{
-			routine.names.insert (std::map <std::wstring, lambda_p::core::expression *>::value_type (full_name, list));
+			routine.names.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::core::expression>>::value_type (full_name, list));
 			back_resolve (full_name, list);
 		}
 		else
@@ -215,7 +215,7 @@ void lambda_p::parser::expression::resolve ()
 	}
 }
 
-void lambda_p::parser::expression::back_resolve (std::wstring identifier, lambda_p::core::expression * expression)
+void lambda_p::parser::expression::back_resolve (std::wstring identifier, boost::shared_ptr <lambda_p::core::expression> expression)
 {
 	auto unresolved_begin (routine.unresolved_references.find (identifier));
 	auto unresolved_end (routine.unresolved_references.end ());
@@ -233,7 +233,7 @@ void lambda_p::parser::expression::back_resolve (std::wstring identifier, lambda
 	routine.unresolved_references.erase (unresolved_begin, unresolved_end);
 }
 
-void lambda_p::parser::expression::sink (lambda_p::core::expression * expression_a)
+void lambda_p::parser::expression::sink (boost::shared_ptr <lambda_p::core::expression> expression_a)
 {
 	list->contents.push_back (expression_a);
 }

@@ -41,7 +41,7 @@ namespace lambda_p
 			lambda_p::parser::routine_state::routine_state state;
 			boost::shared_ptr <lambda_p::core::routine> routine_m;
 			std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p::parser::expression>, size_t>> unresolved_references;
-			std::map <std::wstring, lambda_p::core::expression *> names;
+			std::map <std::wstring, boost::shared_ptr <lambda_p::core::expression>> names;
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target;
 		};
 	}

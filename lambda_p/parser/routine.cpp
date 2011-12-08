@@ -1,14 +1,13 @@
 #include <lambda_p/parser/routine.h>
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/binder/list_binder.h>
 #include <lambda_p/tokens/token.h>
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/tokens/identifier.h>
-#include <lambda_p/core/expression_leaf.h>
+#include <lambda_p/core/node.h>
 #include <lambda_p/parser/expression.h>
-#include <lambda_p/core/expression_list.h>
+#include <lambda_p/core/list.h>
 
 #include <boost/bind.hpp>
 
@@ -37,9 +36,9 @@ void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
 				auto existing (names.find (identifier->string));
 				if (existing == names.end ())
 				{
-					auto expression (new lambda_p::core::expression_leaf);
+					auto expression (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 					routine_m->surface.push_back (expression);
-					names.insert (std::map <std::wstring, lambda_p::core::expression *>::value_type (identifier->string, expression));
+					names.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::core::expression>>::value_type (identifier->string, expression));
 				}
 				else
 				{

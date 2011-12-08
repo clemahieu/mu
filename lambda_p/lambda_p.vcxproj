@@ -130,21 +130,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="binder\binder_implementor.h" />
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\expression_iterator.h" />
     <ClInclude Include="core\expression_iterator_internal.h" />
-    <ClInclude Include="core\expression_leaf.h" />
-    <ClInclude Include="core\expression_leaf_iterator.h" />
-    <ClInclude Include="core\expression_list.h" />
-    <ClInclude Include="core\expression_list_iterator.h" />
+    <ClInclude Include="core\node.h" />
+    <ClInclude Include="core\node_iterator.h" />
+    <ClInclude Include="core\list.h" />
+    <ClInclude Include="core\list_iterator.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />
-    <ClInclude Include="binder\list_binder.h" />
-    <ClInclude Include="binder\list.h" />
-    <ClInclude Include="binder\binder.h" />
-    <ClInclude Include="binder\node.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
@@ -192,17 +187,13 @@
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\expression_iterator.cpp" />
     <ClCompile Include="core\expression_iterator_internal.cpp" />
-    <ClCompile Include="core\expression_leaf.cpp" />
-    <ClCompile Include="core\expression_leaf_iterator.cpp" />
-    <ClCompile Include="core\expression_list.cpp" />
-    <ClCompile Include="core\expression_list_iterator.cpp" />
+    <ClCompile Include="core\node.cpp" />
+    <ClCompile Include="core\node_iterator.cpp" />
+    <ClCompile Include="core\list.cpp" />
+    <ClCompile Include="core\list_iterator.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="lexer\istream_input.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
-    <ClCompile Include="binder\list_binder.cpp" />
-    <ClCompile Include="binder\list.cpp" />
-    <ClCompile Include="binder\binder.cpp" />
-    <ClCompile Include="binder\node.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />

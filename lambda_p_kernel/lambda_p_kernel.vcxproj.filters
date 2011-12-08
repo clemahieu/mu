@@ -50,6 +50,7 @@
     <ClCompile Include="parser_factories\adata.cpp">
       <Filter>parser_factories</Filter>
     </ClCompile>
+    <ClCompile Include="..\lambda_p\binder\binder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -101,6 +102,8 @@
     <ClInclude Include="parser_factories\adata.h">
       <Filter>parser_factories</Filter>
     </ClInclude>
+    <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
+    <ClInclude Include="..\lambda_p\binder\binder.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="parser_states">

@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="routine_input_test_1.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
     <ClCompile Include="times_test.cpp" />
     <ClCompile Include="routine_binder_test.cpp" />
@@ -139,6 +141,8 @@
     <ClCompile Include="adata_test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="routine_input_test_1.h" />
+    <ClInclude Include="tests.h" />
     <ClInclude Include="unbindable_statement_test.h" />
     <ClInclude Include="times_test.h" />
     <ClInclude Include="routine_binder_test.h" />

@@ -12,6 +12,8 @@
     <ClCompile Include="routine_binder_test.cpp" />
     <ClCompile Include="times_test.cpp" />
     <ClCompile Include="unbindable_statement_test.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="routine_input_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="adata_test.h" />
@@ -25,5 +27,7 @@
     <ClInclude Include="routine_binder_test.h" />
     <ClInclude Include="times_test.h" />
     <ClInclude Include="unbindable_statement_test.h" />
+    <ClInclude Include="tests.h" />
+    <ClInclude Include="routine_input_test_1.h" />
   </ItemGroup>
 </Project>

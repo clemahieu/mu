@@ -144,27 +144,19 @@
   <ItemGroup>
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
-    <ClCompile Include="file_stream_test.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
-    <ClCompile Include="node_list_test_1.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
-    <ClCompile Include="routine_input_test_1.cpp" />
-    <ClCompile Include="node_list_test.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
-    <ClCompile Include="lexer_test_1.cpp" />
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="filesystem_test.h" />
-    <ClInclude Include="file_stream_test.h" />
     <ClInclude Include="istream_input_test.h" />
-    <ClInclude Include="node_list_test_1.h" />
     <ClInclude Include="routine_builder_test.h" />
-    <ClInclude Include="routine_input_test_1.h" />
-    <ClInclude Include="node_list_test.h" />
     <ClInclude Include="simple_compile_test_1.h" />
-    <ClInclude Include="lexer_test_1.h" />
+    <ClInclude Include="tests.h" />
     <ClInclude Include="wistream_input_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

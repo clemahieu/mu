@@ -9,6 +9,7 @@
     <ClCompile Include="link_test.cpp" />
     <ClCompile Include="overlay_binder_test.cpp" />
     <ClCompile Include="type_inference_test.cpp" />
+    <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abort_binder_test_1.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="link_test.h" />
     <ClInclude Include="overlay_binder_test.h" />
     <ClInclude Include="type_inference_test.h" />
+    <ClInclude Include="tests.h" />
   </ItemGroup>
 </Project>

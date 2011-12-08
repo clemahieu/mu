@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p
 {
 	namespace core
@@ -11,7 +13,7 @@ namespace lambda_p
 		class expression_sink
 		{
 		public:
-			virtual void sink (lambda_p::core::expression * expression) = 0;
+			virtual void sink (boost::shared_ptr <lambda_p::core::expression> expression) = 0;
 		};
 	}
 }

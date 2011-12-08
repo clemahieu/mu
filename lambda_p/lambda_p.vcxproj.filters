@@ -85,9 +85,6 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\complex_identifier.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -97,23 +94,14 @@
     <ClInclude Include="lexer\lexer.h">
       <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="binder\list.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\divider.h">
       <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\list_binder.h">
-      <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="errors\error_list.h">
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\node.h">
-      <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
     <ClInclude Include="lexer\character_stream.h">
@@ -124,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="lexer\wistream_input.h">
       <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\binder_implementor.h">
-      <Filter>binder</Filter>
     </ClInclude>
     <ClInclude Include="parser\state_factory.h">
       <Filter>parser</Filter>
@@ -146,28 +131,28 @@
     <ClInclude Include="core\expression_iterator.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\expression_leaf_iterator.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression_list_iterator.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\expression_iterator_internal.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression_sink.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression_list.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression_leaf.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="parser\expression_state.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\routine_state.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="core\node.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\node_iterator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\list.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\list_iterator.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\expression_sink.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
@@ -256,9 +241,6 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="lexer\complex_identifier.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
@@ -268,23 +250,14 @@
     <ClCompile Include="lexer\lexer.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="binder\list.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\divider.cpp">
       <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\list_binder.cpp">
-      <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="errors\error_list.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\node.cpp">
-      <Filter>binder</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lexer\character_stream.cpp">
@@ -314,28 +287,28 @@
     <ClCompile Include="core\expression_iterator.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="core\expression_leaf_iterator.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_list_iterator.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\expression_iterator_internal.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\expression_sink.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_list.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_leaf.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="parser\expression_state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\routine_state.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="core\node.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\node_iterator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\list.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\list_iterator.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\expression_sink.cpp">
       <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -348,9 +321,6 @@
     </Filter>
     <Filter Include="tokens">
       <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="binder">
-      <UniqueIdentifier>{b1c16bab-1a35-4fef-89b6-b87b6877cecb}</UniqueIdentifier>
     </Filter>
     <Filter Include="lexer">
       <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>

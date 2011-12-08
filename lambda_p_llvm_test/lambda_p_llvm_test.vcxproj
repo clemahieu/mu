@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="tests.cpp" />
     <ClCompile Include="type_inference_test.cpp" />
     <ClCompile Include="overlay_binder_test.cpp" />
     <ClCompile Include="link_test.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="abort_binder_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tests.h" />
     <ClInclude Include="type_inference_test.h" />
     <ClInclude Include="overlay_binder_test.h" />
     <ClInclude Include="link_test.h" />

@@ -26,7 +26,7 @@ bool lambda_p::core::expression_iterator::operator != (lambda_p::core::expressio
 	return iter->operator!= (other.iter);
 }
 
-lambda_p::core::expression * lambda_p::core::expression_iterator::operator * ()
+boost::shared_ptr <lambda_p::core::expression> lambda_p::core::expression_iterator::operator * ()
 {
 	return iter->operator* ();
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/shared_ptr.hpp>
+
 namespace lambda_p
 {
 	namespace core
@@ -14,7 +16,7 @@ namespace lambda_p
 			void operator ++ ();
 			bool operator == (lambda_p::core::expression_iterator & other);
 			bool operator != (lambda_p::core::expression_iterator & other);
-			lambda_p::core::expression * operator * ();
+			boost::shared_ptr <lambda_p::core::expression> operator * ();
 			lambda_p::core::expression_iterator_internal * iter;
 		};
 	}
