@@ -152,8 +152,6 @@
     <ClCompile Include="node_list_test.cpp" />
     <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="lexer_test_1.cpp" />
-    <ClCompile Include="parser_test_1.cpp" />
-    <ClCompile Include="simple_test_1.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,8 +165,6 @@
     <ClInclude Include="node_list_test.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="lexer_test_1.h" />
-    <ClInclude Include="parser_test_1.h" />
-    <ClInclude Include="simple_test_1.h" />
     <ClInclude Include="wistream_input_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,7 +3,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/lexer/lexer.h>
 #include <lambda_p/tokens/token.h>
-#include <lambda_p/serialization/simple.h>
 #include <lambda_p/tokens/divider.h>
 #include <lambda_p/tokens/complex_identifier.h>
 #include <lambda_p/lexer/token_vector.h>

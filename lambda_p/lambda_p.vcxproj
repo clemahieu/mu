@@ -178,7 +178,6 @@
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\state_factory.h" />
     <ClInclude Include="builder.h" />
-    <ClInclude Include="serialization\simple.h" />
     <ClInclude Include="lexer\lexer.h" />
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="tokens\complex_identifier.h" />

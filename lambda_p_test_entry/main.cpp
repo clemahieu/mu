@@ -1,4 +1,3 @@
-#include <lambda_p_test/simple_test_1.h>
 #include <lambda_p_test/lexer_test_1.h>
 #include <lambda_p_test/parser_test_1.h>
 #include <lambda_p_test/simple_compile_test_1.h>
