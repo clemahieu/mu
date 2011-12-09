@@ -5,7 +5,7 @@
 #include <lambda_p/parser/parser.h>
 #include <lambda_p/parser/error.h>
 #include <lambda_p/tokens/identifier.h>
-#include <lambda_p/core/node.h>
+#include <lambda_p/core/expression.h>
 #include <lambda_p/parser/expression.h>
 #include <lambda_p/core/list.h>
 
@@ -36,7 +36,7 @@ void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
 				auto existing (names.find (identifier->string));
 				if (existing == names.end ())
 				{
-					auto expression (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+					auto expression (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
 					routine_m->surface.push_back (expression);
 					names.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::core::expression>>::value_type (identifier->string, expression));
 				}

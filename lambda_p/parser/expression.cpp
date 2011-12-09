@@ -6,6 +6,7 @@
 #include <lambda_p/parser/routine.h>
 #include <lambda_p/core/list.h>
 #include <lambda_p/tokens/identifier.h>
+#include <lambda_p/core/list_iterator.h>
 
 #include <sstream>
 
@@ -167,8 +168,8 @@ void lambda_p::parser::expression::resolve ()
 	{
 		auto local_current (local_names.begin ());
 		auto local_end (local_names.end ());
-		auto list_current (list->begin ());
-		auto list_end (list->end ());
+		auto list_current (lambda_p::core::list_iterator (list, false));
+		auto list_end (lambda_p::core::list_iterator (list, true));
 		while (local_current != local_end && list_current != list_end)
 		{
 			auto identifier (*local_current);

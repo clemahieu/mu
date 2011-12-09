@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/core/node.h>
+#include <lambda_p/core/expression.h>
 
 #include <vector>
 
@@ -11,11 +11,11 @@ namespace lambda_p
 	namespace core
 	{
 		class list;
-		class routine : public lambda_p::core::node
+		class routine : public lambda_p::core::expression
 		{
 		public:
 			routine ();
-			std::vector <boost::shared_ptr <lambda_p::core::node>> surface;
+			std::vector <boost::shared_ptr <lambda_p::core::expression>> surface;
 			boost::shared_ptr <lambda_p::core::list> expression;
 		};
 	}

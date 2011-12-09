@@ -128,23 +128,11 @@
     <ClInclude Include="parser\expression.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="core\expression_iterator.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression_iterator_internal.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="parser\expression_state.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\routine_state.h">
       <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="core\node.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\node_iterator.h">
-      <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\list.h">
       <Filter>core</Filter>
@@ -284,23 +272,11 @@
     <ClCompile Include="parser\expression.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="core\expression_iterator.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression_iterator_internal.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="parser\expression_state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\routine_state.cpp">
       <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="core\node.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\node_iterator.cpp">
-      <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\list.cpp">
       <Filter>core</Filter>

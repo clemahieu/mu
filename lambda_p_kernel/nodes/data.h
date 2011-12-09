@@ -2,13 +2,13 @@
 
 #include <string>
 
-#include <lambda_p/core/node.h>
+#include <lambda_p/core/expression.h>
 
 namespace lambda_p_kernel
 {
 	namespace nodes
 	{
-		class data : public lambda_p::core::node
+		class data : public lambda_p::core::expression
 		{
 		public:
 			data (std::wstring string_a);

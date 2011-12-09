@@ -131,10 +131,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\expression.h" />
-    <ClInclude Include="core\expression_iterator.h" />
-    <ClInclude Include="core\expression_iterator_internal.h" />
-    <ClInclude Include="core\node.h" />
-    <ClInclude Include="core\node_iterator.h" />
     <ClInclude Include="core\list.h" />
     <ClInclude Include="core\list_iterator.h" />
     <ClInclude Include="lexer\wistream_input.h" />
@@ -185,10 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\expression.cpp" />
-    <ClCompile Include="core\expression_iterator.cpp" />
-    <ClCompile Include="core\expression_iterator_internal.cpp" />
-    <ClCompile Include="core\node.cpp" />
-    <ClCompile Include="core\node_iterator.cpp" />
     <ClCompile Include="core\list.cpp" />
     <ClCompile Include="core\list_iterator.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />

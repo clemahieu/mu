@@ -2,71 +2,83 @@
 
 #include <lambda_p/core/expression.h>
 #include <lambda_p/core/list.h>
-#include <lambda_p/core/node_iterator.h>
 
 #include <assert.h>
 
-lambda_p::core::list_iterator::list_iterator (lambda_p::core::list & list_a, bool end_a)
+lambda_p::core::list_iterator::list_iterator ()
 {
-	if (end_a)
+}
+
+lambda_p::core::list_iterator::list_iterator (boost::shared_ptr <lambda_p::core::list> list_a, bool end_a)
+	: list (list_a),
+	current (end_a ? list_a->contents.end () : list_a->contents.begin ()),
+	end (list_a->contents.end ())
+{
+	set_target ();
+	skip ();
+}
+
+void lambda_p::core::list_iterator::set_target ()
+{
+	if (current != end)
 	{
-		current = list_a.contents.end ();
-		end = list_a.contents.end ();
-		target_current = lambda_p::core::expression_iterator (new lambda_p::core::node_iterator (nullptr, true));
-		target_end = lambda_p::core::expression_iterator (new lambda_p::core::node_iterator (nullptr, true));
+		auto current_l (boost::dynamic_pointer_cast <lambda_p::core::list> (*current));
+		if (current_l.get () != nullptr)
+		{
+			target_current.reset (new lambda_p::core::list_iterator (current_l, false));
+			target_end.reset (new lambda_p::core::list_iterator (current_l, true));
+		}
+		else
+		{
+			target_current.reset ();
+			target_end.reset ();
+		}
 	}
 	else
 	{
-		current = list_a.contents.begin ();
-		end = list_a.contents.end ();
-		if (current != end)
-		{
-			target_current = (*current)->begin ();
-			target_end = (*current)->end ();
-		}
-		skip ();
-	}
-}
-
-void lambda_p::core::list_iterator::check_end ()
-{
-	if (current == end)
-	{
-		target_current = lambda_p::core::expression_iterator (new lambda_p::core::node_iterator (nullptr, true));
-		target_end = lambda_p::core::expression_iterator (new lambda_p::core::node_iterator (nullptr, true));
+		target_current.reset ();
+		target_current.reset ();
 	}
 }
 
 void lambda_p::core::list_iterator::skip ()
 {
-	while (current != end && target_current == target_end)
+	boost::shared_ptr <lambda_p::core::list> current_l;
+	while (current != end && (current_l = boost::dynamic_pointer_cast <lambda_p::core::list> (*current)).get () != nullptr && *target_current == *target_end)
 	{
 		++current;
-		target_current = (*current)->begin ();
-		target_end = (*current)->end ();
+		set_target ();
 	}
-	check_end ();
 }
 
 void lambda_p::core::list_iterator::operator ++ ()
 {
-	++target_current;
+	assert (current != end);
+	auto current_l (boost::dynamic_pointer_cast <lambda_p::core::list> (*current));
+	if (current_l.get () != nullptr)
+	{
+		++*target_current;
+	}
+	else
+	{
+		++current;
+		set_target ();
+	}
 	skip ();
 }
 
-bool lambda_p::core::list_iterator::operator == (lambda_p::core::expression_iterator_internal * other)
+bool lambda_p::core::list_iterator::operator == (lambda_p::core::list_iterator const & other)
 {
-	bool result (false);
-	auto o (dynamic_cast <lambda_p::core::list_iterator *> (other));
-	if (o != nullptr)
+	bool result (current == other.current);
+	result = result && target_current.get () == other.target_current.get ();
+	if (target_current.get () != nullptr)
 	{
-		result = current == o->current && target_current == o->target_current;
+		result = result && *target_current == *other.target_current;
 	}
-
 	return result;
 }
 
-bool lambda_p::core::list_iterator::operator != (lambda_p::core::expression_iterator_internal * other)
+bool lambda_p::core::list_iterator::operator != (lambda_p::core::list_iterator const & other)
 {
 	return ! operator == (other);
 }
@@ -74,5 +86,15 @@ bool lambda_p::core::list_iterator::operator != (lambda_p::core::expression_iter
 boost::shared_ptr <lambda_p::core::expression> lambda_p::core::list_iterator::operator * ()
 {
 	assert (current != end);
-	return *current;
+	boost::shared_ptr <lambda_p::core::expression> result;
+	auto current_l (boost::dynamic_pointer_cast <lambda_p::core::list> (*current));
+	if (current_l.get () != nullptr)
+	{
+		result = **target_current;
+	}
+	else
+	{
+		result = current_l;
+	}
+	return result;
 }

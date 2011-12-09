@@ -9,9 +9,7 @@ namespace lambda_p
 		class list : public lambda_p::core::expression
 		{
 		public:
-			lambda_p::core::expression_iterator begin () override;
-			lambda_p::core::expression_iterator end () override;
-			bool resolved () override;
+			bool resolved ();
 			std::vector <boost::shared_ptr <lambda_p::core::expression>> contents;
 		};
 	}
