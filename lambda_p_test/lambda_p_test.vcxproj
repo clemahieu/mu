@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="builder.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="builder.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="istream_input_test.h" />

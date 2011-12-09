@@ -80,6 +80,7 @@ void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
 			parser.state.push (new_state);
 			break;
 		}
+		break;
 	case lambda_p::parser::routine_state::expression_end:
 		switch (token_id)
 		{
@@ -90,5 +91,6 @@ void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
 			assert (false);
 			break;
 		}
+		break;
 	}
 }
