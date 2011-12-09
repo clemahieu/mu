@@ -11,6 +11,8 @@ void lambda_p_test::list_iterator::run ()
 	run_2 ();
 	run_3 ();
 	run_4 ();
+	run_5 ();
+	run_6 ();
 }
 
 void lambda_p_test::list_iterator::run_1 ()
@@ -57,4 +59,32 @@ void lambda_p_test::list_iterator::run_4 ()
 	assert (current != end);
 	assert ((*current).get () == nullptr);
 	assert (!list->resolved ());
+}
+
+void lambda_p_test::list_iterator::run_5 ()
+{
+	boost::shared_ptr <lambda_p::core::list> list (new lambda_p::core::list);
+	boost::shared_ptr <lambda_p::core::expression> value (new lambda_p::core::expression);
+	list->contents.push_back (value);
+	lambda_p::core::list_iterator current (list, false);
+	lambda_p::core::list_iterator end (list, true);
+	assert (current != end);
+	auto value2 (*current);
+	assert (value2 == value);
+	assert (list->resolved ());
+}
+
+void lambda_p_test::list_iterator::run_6 ()
+{
+	boost::shared_ptr <lambda_p::core::list> list (new lambda_p::core::list);
+	boost::shared_ptr <lambda_p::core::list> list2 (new lambda_p::core::list);
+	list->contents.push_back (list2);
+	boost::shared_ptr <lambda_p::core::expression> value (new lambda_p::core::expression);
+	list2->contents.push_back (value);
+	lambda_p::core::list_iterator current (list, false);
+	lambda_p::core::list_iterator end (list, true);
+	assert (current != end);
+	auto value2 (*current);
+	assert (value2 == value);
+	assert (list->resolved ());
 }

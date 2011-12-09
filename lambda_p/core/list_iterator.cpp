@@ -87,8 +87,9 @@ boost::shared_ptr <lambda_p::core::expression> lambda_p::core::list_iterator::op
 {
 	assert (current != end);
 	boost::shared_ptr <lambda_p::core::expression> result;
-	auto current_l (boost::dynamic_pointer_cast <lambda_p::core::list> (*current));
-	if (current_l.get () != nullptr)
+	auto current_l (*current);
+	auto list_l (boost::dynamic_pointer_cast <lambda_p::core::list> (current_l));
+	if (list_l.get () != nullptr)
 	{
 		result = **target_current;
 	}
