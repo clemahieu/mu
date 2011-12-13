@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="core\routine.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\token.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -116,9 +113,6 @@
     <ClInclude Include="parser\state_factory.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="core\expression.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="tokens\left_square.h">
       <Filter>tokens</Filter>
     </ClInclude>
@@ -134,20 +128,32 @@
     <ClInclude Include="parser\routine_state.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="core\list.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\list_iterator.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="parser\expression_sink.h">
       <Filter>parser</Filter>
     </ClInclude>
+    <ClInclude Include="core\connection.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\expression.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\gather.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\target.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\input.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\scatter.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\point.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\routine.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
@@ -260,9 +266,6 @@
     <ClCompile Include="parser\state_factory.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="core\expression.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\left_square.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
@@ -278,14 +281,29 @@
     <ClCompile Include="parser\routine_state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="core\list.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\list_iterator.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="parser\expression_sink.cpp">
       <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="core\connection.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\expression.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\gather.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\target.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\input.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\scatter.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\point.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

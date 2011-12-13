@@ -130,13 +130,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="core\connection.h" />
     <ClInclude Include="core\expression.h" />
-    <ClInclude Include="core\list.h" />
-    <ClInclude Include="core\list_iterator.h" />
+    <ClInclude Include="core\gather.h" />
+    <ClInclude Include="core\input.h" />
+    <ClInclude Include="core\point.h" />
+    <ClInclude Include="core\scatter.h" />
+    <ClInclude Include="core\target.h" />
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="lexer\istream_input.h" />
     <ClInclude Include="lexer\character_stream.h" />
-    <ClInclude Include="core\routine.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="parser\expression.h" />
@@ -180,13 +183,16 @@
     <ClInclude Include="tokens\token.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\connection.cpp" />
     <ClCompile Include="core\expression.cpp" />
-    <ClCompile Include="core\list.cpp" />
-    <ClCompile Include="core\list_iterator.cpp" />
+    <ClCompile Include="core\gather.cpp" />
+    <ClCompile Include="core\input.cpp" />
+    <ClCompile Include="core\point.cpp" />
+    <ClCompile Include="core\scatter.cpp" />
+    <ClCompile Include="core\target.cpp" />
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="lexer\istream_input.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
-    <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="parser\expression.cpp" />

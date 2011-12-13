@@ -6,19 +6,8 @@
 #include <lambda_p_test/filesystem_test.h>
 #include <lambda_p_test/istream_input_test.h>
 #include <lambda_p_test/directory_iterator_test.h>
-#include <lambda_p_test/list_iterator.h>
-#include <lambda_p_test/builder.h>
-
 void lambda_p_test::tests::run ()
 {
-	{
-		list_iterator test;
-		test.run ();
-	}
-	{
-		builder test;
-		test.run ();
-	}
 	{
 		simple_compile_test_1 test;
 		test.run ();
