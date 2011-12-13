@@ -1,20 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
-    <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
-    <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="routine_builder_test.h" />
-    <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="filesystem_test.h" />
-    <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="tests.h" />
   </ItemGroup>

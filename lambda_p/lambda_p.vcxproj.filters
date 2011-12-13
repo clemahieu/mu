@@ -1,62 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="tokens\token.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\identifier.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\complex_identifier.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\begin.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\control.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\error.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\identifier.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\multiline_comment.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\singleline_comment.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\state.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\token_vector.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\begin.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\error.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine_vector.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error.h">
       <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\finished.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\stream_end.h">
-      <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
       <Filter>errors</Filter>
@@ -82,54 +28,11 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\complex_identifier.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\parser.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\lexer.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\divider.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error_list.h">
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="builder.h" />
-    <ClInclude Include="lexer\character_stream.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\istream_input.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\wistream_input.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\state_factory.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\left_square.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\right_square.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression_state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine_state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression_sink.h">
-      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="core\connection.h">
       <Filter>core</Filter>
@@ -154,62 +57,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tokens\token.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\identifier.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\complex_identifier.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\begin.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\control.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\error.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\identifier.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\multiline_comment.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\singleline_comment.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\state.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\token_vector.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\begin.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\error.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine_vector.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\finished.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\stream_end.cpp">
-      <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
       <Filter>errors</Filter>
@@ -235,54 +84,11 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\complex_identifier.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\parser.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\lexer.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\divider.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error_list.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="builder.cpp" />
-    <ClCompile Include="lexer\character_stream.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\istream_input.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\wistream_input.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\state_factory.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\left_square.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\right_square.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\expression.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\expression_state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine_state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\expression_sink.cpp">
-      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="core\connection.cpp">
       <Filter>core</Filter>
@@ -309,18 +115,6 @@
   <ItemGroup>
     <Filter Include="core">
       <UniqueIdentifier>{0fec4cae-08e7-47e9-9348-3f4441aea61a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="serialization">
-      <UniqueIdentifier>{30e325db-0739-4add-8e93-6657e9cb9d13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tokens">
-      <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lexer">
-      <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="parser">
-      <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="errors">
       <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
