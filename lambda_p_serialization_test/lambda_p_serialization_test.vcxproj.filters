@@ -5,11 +5,13 @@
     <ClCompile Include="simple_compile_test_1.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="..\lambda_p_test\routine_builder_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="simple_compile_test_1.h" />
     <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="..\lambda_p_test\routine_builder_test.h" />
   </ItemGroup>
 </Project>

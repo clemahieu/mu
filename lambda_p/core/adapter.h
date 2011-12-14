@@ -6,13 +6,13 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class target;
-		class scatter : public lambda_p::core::input
+		class connection;
+		class adapter : public lambda_p::core::input
 		{
 		public:
-			scatter (size_t size);
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
-			std::vector <std::vector <boost::shared_ptr <lambda_p::core::target>>> targets;
+			boost::shared_ptr <lambda_p::core::connection> connection;
+			boost::shared_ptr <lambda_p::core::input> target;
 		};
 	}
 }
