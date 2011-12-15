@@ -122,15 +122,6 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="container.cpp" />
-    <ClCompile Include="core\node.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\connection.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\target.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

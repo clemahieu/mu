@@ -8,12 +8,12 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class input;
+		class target;
 		class expression;
 		class node
 		{
 		public:
-			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> parameters, boost::shared_ptr <lambda_p::core::input> list_a) = 0;
+			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> parameters, boost::shared_ptr <lambda_p::core::target> list_a) = 0;
 		};
 	}
 }

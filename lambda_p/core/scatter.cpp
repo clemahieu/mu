@@ -1,6 +1,6 @@
 #include "scatter.h"
 
-#include <lambda_p/core/target.h>
+#include <lambda_p/core/connection.h>
 
 lambda_p::core::scatter::scatter (size_t size_a)
 	: targets (size_a)

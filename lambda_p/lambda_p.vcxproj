@@ -156,15 +156,12 @@
   <ItemGroup>
     <ClCompile Include="container.cpp" />
     <ClCompile Include="core\adapter.cpp" />
-    <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\gather.cpp" />
-    <ClCompile Include="core\target.cpp" />
     <ClCompile Include="core\pipe.cpp" />
     <ClCompile Include="core\point.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\scatter.cpp" />
-    <ClCompile Include="core\connection.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />

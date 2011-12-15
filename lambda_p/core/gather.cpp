@@ -1,8 +1,8 @@
 #include "gather.h"
 
-#include <lambda_p/core/input.h>
+#include <lambda_p/core/target.h>
 
-lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::input> target_a, size_t size_a)
+lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a, size_t size_a)
 	: arguments (size_a),
 	target (target_a),
 	remaining (size_a)

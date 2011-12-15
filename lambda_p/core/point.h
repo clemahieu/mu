@@ -1,13 +1,13 @@
 #pragma once
 
-#include <lambda_p/core/target.h>
+#include <lambda_p/core/connection.h>
 
 namespace lambda_p
 {
 	namespace core
 	{
 		class gather;
-		class point : public lambda_p::core::target
+		class point : public lambda_p::core::connection
 		{
 		public:
 			point (boost::shared_ptr <lambda_p::core::gather> target_a, size_t index_a);
