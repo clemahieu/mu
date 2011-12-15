@@ -10,7 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace binder 
 	{

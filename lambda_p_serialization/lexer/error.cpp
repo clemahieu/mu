@@ -1,10 +1,10 @@
-#include <lambda_p/lexer/error.h>
+#include <lambda_p_serialization/lexer/error.h>
 
-lambda_p::lexer::error::error (std::wstring message_a)
+lambda_p_serialization::lexer::error::error (std::wstring message_a)
 	: message (message_a)
 {
 }
 
-void lambda_p::lexer::error::lex (wchar_t character)
+void lambda_p_serialization::lexer::error::lex (wchar_t character)
 {
 }

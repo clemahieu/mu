@@ -1,14 +1,14 @@
-#include <lambda_p/lexer/identifier.h>
+#include <lambda_p_serialization/lexer/identifier.h>
 
-#include <lambda_p/lexer/lexer.h>
-#include <lambda_p/tokens/identifier.h>
+#include <lambda_p_serialization/lexer/lexer.h>
+#include <lambda_p_serialization/tokens/identifier.h>
 
-lambda_p::lexer::identifier::identifier (lambda_p::lexer::lexer & lexer_a)
+lambda_p_serialization::lexer::identifier::identifier (lambda_p_serialization::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
 {
 }
 
-void lambda_p::lexer::identifier::lex (wchar_t character)
+void lambda_p_serialization::lexer::identifier::lex (wchar_t character)
 {				
 	switch (character)
 	{

@@ -1,15 +1,15 @@
-#include <lambda_p/lexer/multiline_comment.h>
+#include <lambda_p_serialization/lexer/multiline_comment.h>
 
-#include <lambda_p/lexer/lexer.h>
-#include <lambda_p/lexer/error.h>
+#include <lambda_p_serialization/lexer/lexer.h>
+#include <lambda_p_serialization/lexer/error.h>
 
-lambda_p::lexer::multiline_comment::multiline_comment (lambda_p::lexer::lexer & lexer_a)
+lambda_p_serialization::lexer::multiline_comment::multiline_comment (lambda_p_serialization::lexer::lexer & lexer_a)
 	: have_colon (false),
 	lexer (lexer_a)
 {
 }
 
-void lambda_p::lexer::multiline_comment::lex (wchar_t character)
+void lambda_p_serialization::lexer::multiline_comment::lex (wchar_t character)
 {	
 	if (character != L'\uffff')
 	{

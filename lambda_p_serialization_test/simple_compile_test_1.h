@@ -1,6 +1,6 @@
 #pragma once
 
-namespace lambda_p_test
+namespace lambda_p_serialization_test
 {
 	class simple_compile_test_1
 	{

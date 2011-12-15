@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace core
 	{

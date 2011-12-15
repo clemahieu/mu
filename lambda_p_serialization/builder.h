@@ -1,10 +1,10 @@
 #pragma once
 
-#include <lambda_p/parser/routine_vector.h>
-#include <lambda_p/lexer/lexer.h>
-#include <lambda_p/parser/parser.h>
+#include <lambda_p_serialization/parser/routine_vector.h>
+#include <lambda_p_serialization/lexer/lexer.h>
+#include <lambda_p_serialization/parser/parser.h>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace lexer
 	{

@@ -9,7 +9,7 @@
 #include <vector>
 #include <map>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace binder
 	{

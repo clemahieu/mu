@@ -1,10 +1,10 @@
 #include "routine_builder_test.h"
 
-#include <lambda_p/builder.h>
+#include <lambda_p_serialization/builder.h>
 
-void lambda_p_test::routine_builder_test::run ()
+void lambda_p_serialization_test::routine_builder_test::run ()
 {	
-	lambda_p::builder routine;
+	lambda_p_serialization::builder routine;
 	routine (L"result; add a b c; add a b; res; add res c; result; :;");
 	assert (routine.routines.routines->size () == 1);
 }

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <lambda_p/lexer/state.h>
+#include <lambda_p_serialization/lexer/state.h>
 
 #include <string>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace lexer
 	{
-		class error : public lambda_p::lexer::state
+		class error : public lambda_p_serialization::lexer::state
 		{
 		public:
 			error(std::wstring message_a);

@@ -1,16 +1,16 @@
-#include <lambda_p/lexer/complex_identifier.h>
+#include <lambda_p_serialization/lexer/complex_identifier.h>
 
-#include <lambda_p/tokens/complex_identifier.h>
-#include <lambda_p/lexer/lexer.h>
-#include <lambda_p/lexer/error.h>
+#include <lambda_p_serialization/tokens/complex_identifier.h>
+#include <lambda_p_serialization/lexer/lexer.h>
+#include <lambda_p_serialization/lexer/error.h>
 
-lambda_p::lexer::complex_identifier::complex_identifier (lambda_p::lexer::lexer & lexer_a)
+lambda_p_serialization::lexer::complex_identifier::complex_identifier (lambda_p::lexer::lexer & lexer_a)
 	: have_end_token (false),
 	lexer (lexer_a)
 {
 }
 
-bool lambda_p::lexer::complex_identifier::match ()
+bool lambda_p_serialization::lexer::complex_identifier::match ()
 {
 	bool result (last_characters.size () == end_token.size ());
 	if (result)
@@ -27,7 +27,7 @@ bool lambda_p::lexer::complex_identifier::match ()
 	return result;
 }
 
-void lambda_p::lexer::complex_identifier::lex (wchar_t character)
+void lambda_p_serialization::lexer::complex_identifier::lex (wchar_t character)
 {
 	if (character != L'\uffff')
 	{

@@ -34,19 +34,10 @@
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="core\connection.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\expression.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\gather.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\target.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\input.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="core\scatter.h">
@@ -65,6 +56,15 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="container.h" />
+    <ClInclude Include="core\node.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\connection.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\target.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -100,19 +100,10 @@
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="core\connection.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\expression.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\gather.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\target.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\input.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\scatter.cpp">
@@ -131,6 +122,15 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="container.cpp" />
+    <ClCompile Include="core\node.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\connection.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\target.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

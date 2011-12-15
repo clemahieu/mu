@@ -2,7 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace parser
 	{
@@ -13,7 +13,7 @@ namespace lambda_p
 		class state_factory
 		{
 		public:
-			virtual boost::shared_ptr <lambda_p::parser::state> create (lambda_p::parser::parser & parser_a, boost::shared_ptr <lambda_p::parser::state> previous_state) = 0;
+			virtual boost::shared_ptr <lambda_p_serialization::parser::state> create (lambda_p_serialization::parser::parser & parser_a, boost::shared_ptr <lambda_p_serialization::parser::state> previous_state) = 0;
 		};
 	}
 }

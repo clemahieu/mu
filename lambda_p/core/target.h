@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <boost/shared_ptr.hpp>
 
 namespace lambda_p
@@ -10,7 +12,7 @@ namespace lambda_p
 		class target
 		{
 		public:
-			virtual void operator () (boost::shared_ptr <lambda_p::core::expression> expression_a) = 0;
+			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) = 0;
 		};
 	}
 }

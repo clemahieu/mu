@@ -1,10 +1,10 @@
 #pragma once
 
-#include <lambda_p/parser/state.h>
+#include <lambda_p_serialization/parser/state.h>
 
 #include <string>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace parser
 	{

@@ -1,17 +1,17 @@
-#include <lambda_p/lexer/control.h>
+#include <lambda_p_serialization/lexer/control.h>
 
-#include <lambda_p/lexer/lexer.h>
-#include <lambda_p/lexer/multiline_comment.h>
-#include <lambda_p/lexer/singleline_comment.h>
-#include <lambda_p/lexer/error.h>
+#include <lambda_p_serialization/lexer/lexer.h>
+#include <lambda_p_serialization/lexer/multiline_comment.h>
+#include <lambda_p_serialization/lexer/singleline_comment.h>
+#include <lambda_p_serialization/lexer/error.h>
 
-lambda_p::lexer::control::control (lambda_p::lexer::lexer & lexer_a)
+lambda_p_serialization::lexer::control::control (lambda_p_serialization::lexer::lexer & lexer_a)
 	: complete (false),
 	lexer (lexer_a)
 {
 }
 
-void lambda_p::lexer::control::lex (wchar_t character)
+void lambda_p_serialization::lexer::control::lex (wchar_t character)
 {
 	if (character != '\uffff')
 	{

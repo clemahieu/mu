@@ -1,37 +1,37 @@
-#include <lambda_p/lexer/lexer.h>
+#include <lambda_p_serialization/lexer/lexer.h>
 #include <lambda_p/core/routine.h>
-#include <lambda_p/tokens/identifier.h>
-#include <lambda_p/tokens/divider.h>
-#include <lambda_p/tokens/complex_identifier.h>
+#include <lambda_p_serialization/tokens/identifier.h>
+#include <lambda_p_serialization/tokens/divider.h>
+#include <lambda_p_serialization/tokens/complex_identifier.h>
 
-#include <lambda_p/lexer/state.h>
-#include <lambda_p/lexer/begin.h>
-#include <lambda_p/lexer/error.h>
-#include <lambda_p/lexer/control.h>
-#include <lambda_p/lexer/identifier.h>
-#include <lambda_p/lexer/multiline_comment.h>
-#include <lambda_p/lexer/singleline_comment.h>
-#include <lambda_p/lexer/complex_identifier.h>
+#include <lambda_p_serialization/lexer/state.h>
+#include <lambda_p_serialization/lexer/begin.h>
+#include <lambda_p_serialization/lexer/error.h>
+#include <lambda_p_serialization/lexer/control.h>
+#include <lambda_p_serialization/lexer/identifier.h>
+#include <lambda_p_serialization/lexer/multiline_comment.h>
+#include <lambda_p_serialization/lexer/singleline_comment.h>
+#include <lambda_p_serialization/lexer/complex_identifier.h>
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p::lexer::lexer::lexer (boost::function < void (lambda_p::tokens::token *)> target_a)
+lambda_p_serialization::lexer::lexer::lexer (boost::function < void (lambda_p::tokens::token *)> target_a)
 	: target (target_a)
 {
-	state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::begin (*this)));
+	state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::begin (*this)));
 }
 
-lambda_p::lexer::lexer::~lexer ()
+lambda_p_serialization::lexer::lexer::~lexer ()
 {
 }
 
-void lambda_p::lexer::lexer::operator () (wchar_t character)
+void lambda_p_serialization::lexer::lexer::operator () (wchar_t character)
 {
 	auto state_l (state.top ());
 	state_l->lex (character);
 }
 
-void lambda_p::lexer::lexer::reset ()
+void lambda_p_serialization::lexer::lexer::reset ()
 {
 	while (!state.empty ())
 	{

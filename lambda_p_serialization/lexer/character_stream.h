@@ -2,7 +2,7 @@
 
 #include <lambda_p/core/expression.h>
 
-namespace lambda_p
+namespace lambda_p_serialization
 {
 	namespace lexer
 	{
