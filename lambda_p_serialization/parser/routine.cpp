@@ -15,7 +15,7 @@
 lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
 	: target (target_a),
 	parser (parser_a),
-	state (lambda_p::parser::routine_state::surface),
+	state (lambda_p_serialization::parser::routine_state::surface),
 	routine_m (new lambda_p::core::routine)
 {
 }

@@ -13,7 +13,7 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class list;
+		class expression;
 	}
 }
 namespace lambda_p_serialization
@@ -27,7 +27,7 @@ namespace lambda_p_serialization
 		public:
 			expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::list> list_a);
 			void sink (boost::shared_ptr <lambda_p::core::expression> expression) override;
-			boost::shared_ptr <lambda_p::core::list> list;
+			std::vector <boost::shared_ptr <lambda_p::core::expression>> list;
 			lambda_p_serialization::parser::routine & routine;
 			lambda_p_serialization::parser::parser & parser;
 			lambda_p_serialization::parser::expression_state::expression_state state;
