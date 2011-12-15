@@ -43,9 +43,6 @@
     <ClInclude Include="core\scatter.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\point.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\pipe.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -59,10 +56,10 @@
     <ClInclude Include="core\node.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\connection.h">
+    <ClInclude Include="core\target.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\target.h">
+    <ClInclude Include="core\sequence.h">
       <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
@@ -109,9 +106,6 @@
     <ClCompile Include="core\scatter.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="core\point.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="core\pipe.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -122,6 +116,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="container.cpp" />
+    <ClCompile Include="core\sequence.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">

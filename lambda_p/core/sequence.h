@@ -6,12 +6,14 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class scatter : public lambda_p::core::target
+		class gather;
+		class sequence : public lambda_p::core::target
 		{
 		public:
-			scatter (size_t size);
+			sequence (boost::shared_ptr <lambda_p::core::gather> gather_a, size_t number_a);
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
-			std::vector <std::vector <boost::shared_ptr <lambda_p::core::target>>> targets;
+			boost::shared_ptr <lambda_p::core::gather> gather;
+			size_t number;
 		};
 	}
 }

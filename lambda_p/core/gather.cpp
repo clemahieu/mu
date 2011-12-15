@@ -10,12 +10,9 @@ lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> targe
 	assert (target_a != nullptr && L"Null target");
 }
 
-void lambda_p::core::gather::operator () (boost::shared_ptr <lambda_p::core::expression> expression_a, size_t index_a)
+void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_a)
 {
-	assert (expression_a.get () != nullptr && L"Null expression");
-	assert (arguments.size () > index_a && L"Out of bounds");
-	assert (arguments [index_a].get () == nullptr && L"Already set");
-	arguments [index_a] = expression_a;
+	arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
 	--remaining;
 	if (remaining == 0)
 	{

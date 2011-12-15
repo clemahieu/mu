@@ -135,12 +135,11 @@
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\gather.h" />
+    <ClInclude Include="core\sequence.h" />
     <ClInclude Include="core\target.h" />
     <ClInclude Include="core\pipe.h" />
-    <ClInclude Include="core\point.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\scatter.h" />
-    <ClInclude Include="core\connection.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="errors\binder_error.h" />
@@ -159,9 +158,9 @@
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\gather.cpp" />
     <ClCompile Include="core\pipe.cpp" />
-    <ClCompile Include="core\point.cpp" />
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\scatter.cpp" />
+    <ClCompile Include="core\sequence.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />
