@@ -23,22 +23,22 @@ namespace lambda_p_serialization
 		class error;
 		class lexer
 		{
-			friend class lambda_p::lexer::begin;
-			friend class lambda_p::lexer::complex_identifier;
-			friend class lambda_p::lexer::identifier;
-			friend class lambda_p::lexer::multiline_comment;
-			friend class lambda_p::lexer::singleline_comment;
-			friend class lambda_p::lexer::control;
+			friend class lambda_p_serialization::lexer::begin;
+			friend class lambda_p_serialization::lexer::complex_identifier;
+			friend class lambda_p_serialization::lexer::identifier;
+			friend class lambda_p_serialization::lexer::multiline_comment;
+			friend class lambda_p_serialization::lexer::singleline_comment;
+			friend class lambda_p_serialization::lexer::control;
 		public:
-			lexer (boost::function <void (lambda_p::tokens::token *)> target_a);
+			lexer (boost::function <void (lambda_p_serialization::tokens::token *)> target_a);
 			~lexer ();
 			void operator () (wchar_t character);
 			void reset ();
-			boost::shared_ptr <lambda_p::lexer::error> error ();
+			boost::shared_ptr <lambda_p_serialization::lexer::error> error ();
 		private:
-			boost::function <void (lambda_p::tokens::token *)> target;
+			boost::function <void (lambda_p_serialization::tokens::token *)> target;
 		public:
-			std::stack <boost::shared_ptr <lambda_p::lexer::state>> state;
+			std::stack <boost::shared_ptr <lambda_p_serialization::lexer::state>> state;
 		};
 	}
 }

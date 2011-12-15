@@ -25,25 +25,25 @@ void lambda_p_serialization::lexer::begin::lex (wchar_t character)
 		// Eat whitespace
 		break;
 	case L'|':
-		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::complex_identifier (lexer)));
+		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::complex_identifier (lexer)));
 		break;
 	case L';':
-		lexer.target (new lambda_p::tokens::divider);
+		lexer.target (new lambda_p_serialization::tokens::divider);
 		break;
 	case L':':
-		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::control (lexer)));
+		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::control (lexer)));
 		break;
 	case L'[':
-		lexer.target (new lambda_p::tokens::left_square);
+		lexer.target (new lambda_p_serialization::tokens::left_square);
 		break;
 	case L']':
-		lexer.target (new lambda_p::tokens::right_square);
+		lexer.target (new lambda_p_serialization::tokens::right_square);
 		break;
 	case L'\uffff':
 		lexer.state.pop ();
 		break;
 	default:
-		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::identifier (lexer)));
+		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::identifier (lexer)));
 		lexer (character);
 		break;
 	}

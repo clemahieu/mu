@@ -4,12 +4,15 @@
 
 #include <boost/function.hpp>
 
-namespace lambda_p_serialization
-{	
+namespace lambda_p
+{
 	namespace core
 	{
 		class routine;
 	}
+}
+namespace lambda_p_serialization
+{	
 	namespace parser
 	{
 		class parser;

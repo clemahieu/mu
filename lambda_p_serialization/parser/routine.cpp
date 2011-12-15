@@ -1,19 +1,18 @@
-#include <lambda_p/parser/routine.h>
+#include <lambda_p_serialization/parser/routine.h>
 
 #include <lambda_p/core/routine.h>
-#include <lambda_p/tokens/token.h>
-#include <lambda_p/parser/parser.h>
-#include <lambda_p/parser/error.h>
-#include <lambda_p/tokens/identifier.h>
+#include <lambda_p_serialization/tokens/token.h>
+#include <lambda_p_serialization/parser/parser.h>
+#include <lambda_p_serialization/parser/error.h>
+#include <lambda_p_serialization/tokens/identifier.h>
 #include <lambda_p/core/expression.h>
-#include <lambda_p/parser/expression.h>
-#include <lambda_p/core/list.h>
+#include <lambda_p_serialization/parser/expression.h>
 
 #include <boost/bind.hpp>
 
 #include <sstream>
 
-lambda_p::parser::routine::routine (lambda_p::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
+lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
 	: target (target_a),
 	parser (parser_a),
 	state (lambda_p::parser::routine_state::surface),
@@ -21,18 +20,18 @@ lambda_p::parser::routine::routine (lambda_p::parser::parser & parser_a, boost::
 {
 }
 
-void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
+void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tokens::token * token)
 {
-	lambda_p::tokens::token_ids token_id (token->token_id ());
+	auto token_id (token->token_id ());
 	switch (state)
 	{
-	case lambda_p::parser::routine_state::surface:
+	case lambda_p_serialization::parser::routine_state::surface:
 		switch (token_id)
 		{
-		case lambda_p::tokens::token_id_complex_identifier:
-		case lambda_p::tokens::token_id_identifier:
+		case lambda_p_serialization::tokens::token_id_complex_identifier:
+		case lambda_p_serialization::tokens::token_id_identifier:
 			{
-				auto identifier (static_cast <lambda_p::tokens::identifier *> (token));
+				auto identifier (static_cast <lambda_p_serialization::tokens::identifier *> (token));
 				auto existing (names.find (identifier->string));
 				if (existing == names.end ())
 				{
@@ -50,10 +49,10 @@ void lambda_p::parser::routine::parse (lambda_p::tokens::token * token)
 				}
 			}
 			break;
-		case lambda_p::tokens::token_id_divider:
+		case lambda_p_serialization::tokens::token_id_divider:
 			state = lambda_p::parser::routine_state::expression_begin;
 			break;
-		case lambda_p::tokens::token_id_stream_end:
+		case lambda_p_serialization::tokens::token_id_stream_end:
 			parser.state.pop ();
 			break;
 		default:

@@ -11,7 +11,7 @@ namespace lambda_p_serialization
 		class state
 		{
 		public:
-			virtual void parse (lambda_p::tokens::token * token) = 0;
+			virtual void parse (lambda_p_serialization::tokens::token * token) = 0;
 		};
 	}
 }

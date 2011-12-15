@@ -18,7 +18,7 @@ namespace lambda_p_serialization
 		class token
 		{
 		public:
-			virtual token_ids token_id () = 0;
+			virtual lambda_p_serialization::tokens::token_ids token_id () = 0;
 			virtual std::wstring token_name () = 0;
 		};
 	}

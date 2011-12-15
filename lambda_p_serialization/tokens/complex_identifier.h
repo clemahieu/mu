@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/tokens/identifier.h>
+#include <lambda_p_serialization/tokens/identifier.h>
 
 namespace lambda_p_serialization
 {
@@ -11,7 +11,7 @@ namespace lambda_p_serialization
 		public:
 			complex_identifier (std::wstring identifier_a, std::wstring terminator_a);
 			std::wstring terminator;
-			token_ids token_id () override;
+			lambda_p_serialization::tokens::token_ids token_id () override;
 			std::wstring token_name () override;
 		};
 	}
