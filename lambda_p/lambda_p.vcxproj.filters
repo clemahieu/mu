@@ -59,7 +59,7 @@
     <ClInclude Include="core\target.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\sequence.h">
+    <ClInclude Include="core\connection.h">
       <Filter>core</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,7 +116,7 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="container.cpp" />
-    <ClCompile Include="core\sequence.cpp">
+    <ClCompile Include="core\connection.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

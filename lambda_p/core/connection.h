@@ -7,10 +7,10 @@ namespace lambda_p
 	namespace core
 	{
 		class gather;
-		class sequence : public lambda_p::core::target
+		class connection : public lambda_p::core::target
 		{
 		public:
-			sequence (boost::shared_ptr <lambda_p::core::gather> gather_a, size_t number_a);
+			connection (boost::shared_ptr <lambda_p::core::gather> gather_a, size_t number_a);
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
 			boost::shared_ptr <lambda_p::core::gather> gather;
 			size_t number;

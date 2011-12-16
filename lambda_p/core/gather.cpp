@@ -10,17 +10,24 @@ lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> targe
 	assert (target_a != nullptr && L"Null target");
 }
 
-void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_a)
+void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_a, size_t sequence)
 {
-	arguments.insert (arguments.end (), arguments_a.begin (), arguments_a.end ());
+	assert (arguments [sequence].empty ());
+	arguments [sequence].insert (arguments [sequence].end (), arguments_a.begin (), arguments_a.end ());
 	--remaining;
 	if (remaining == 0)
 	{
-		(*target) (arguments);
-		remaining = arguments.size ();
+		std::vector <boost::shared_ptr <lambda_p::core::expression>> all_arguments;
 		for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 		{
-			i->reset ();
+			for (auto k (i->begin ()), l (i->end ()); k != l; ++k)
+			{
+				all_arguments.push_back (*k);
+			}
 		}
+		(*target) (all_arguments);
+		remaining = arguments.size ();
+		arguments.clear ();
+		arguments.resize (remaining);
 	}
 }
