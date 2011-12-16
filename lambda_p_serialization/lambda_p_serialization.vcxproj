@@ -128,11 +128,11 @@
     <ClCompile Include="parser\begin.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\expression.cpp" />
-    <ClCompile Include="parser\expression_sink.cpp" />
     <ClCompile Include="parser\expression_state.cpp" />
     <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\reference.cpp" />
+    <ClCompile Include="parser\reference_scatter.cpp" />
     <ClCompile Include="parser\reference_tee.cpp" />
     <ClCompile Include="parser\routine.cpp" />
     <ClCompile Include="parser\routine_state.cpp" />
@@ -168,11 +168,11 @@
     <ClInclude Include="parser\begin.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\expression.h" />
-    <ClInclude Include="parser\expression_sink.h" />
     <ClInclude Include="parser\expression_state.h" />
     <ClInclude Include="parser\finished.h" />
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="parser\reference.h" />
+    <ClInclude Include="parser\reference_scatter.h" />
     <ClInclude Include="parser\reference_tee.h" />
     <ClInclude Include="parser\routine.h" />
     <ClInclude Include="parser\routine_state.h" />

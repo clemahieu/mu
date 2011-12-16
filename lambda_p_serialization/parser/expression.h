@@ -1,7 +1,6 @@
 #pragma once
 
 #include <lambda_p_serialization/parser/state.h>
-#include <lambda_p_serialization/parser/expression_sink.h>
 #include <lambda_p_serialization/parser/expression_state.h>
 
 #include <boost/shared_ptr.hpp>
@@ -14,6 +13,10 @@ namespace lambda_p
 	namespace core
 	{
 		class expression;
+		class tee;
+		class gather;
+		class target;
+		class scatter;
 	}
 }
 namespace lambda_p_serialization
@@ -22,15 +25,18 @@ namespace lambda_p_serialization
 	{
 		class parser;
 		class routine;
-		class expression : public lambda_p_serialization::parser::state, public lambda_p_serialization::parser::expression_sink
+		class expression : public lambda_p_serialization::parser::state
 		{
 		public:
-			expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::list> list_a);
-			void sink (boost::shared_ptr <lambda_p::core::expression> expression) override;
-			std::vector <boost::shared_ptr <lambda_p::core::expression>> list;
+			expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::target> target_a);
+			boost::shared_ptr <lambda_p::core::tee> tee;
+			boost::shared_ptr <lambda_p::core::scatter> scatter;
+			boost::shared_ptr <lambda_p::core::gather> gather;
+			boost::shared_ptr <lambda_p::core::target> target;
 			lambda_p_serialization::parser::routine & routine;
 			lambda_p_serialization::parser::parser & parser;
 			lambda_p_serialization::parser::expression_state::expression_state state;
+			size_t position;
 			std::vector <std::wstring> local_names;
 			std::wstring full_name;
 			void resolve ();

@@ -60,9 +60,6 @@
     <ClCompile Include="parser\expression.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\expression_sink.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\expression_state.cpp">
       <Filter>parser</Filter>
     </ClCompile>
@@ -124,6 +121,9 @@
     <ClCompile Include="parser\reference_tee.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="parser\reference_scatter.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -172,9 +172,6 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\expression.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression_sink.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\expression_state.h">
@@ -236,6 +233,9 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\reference_tee.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference_scatter.h">
       <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
