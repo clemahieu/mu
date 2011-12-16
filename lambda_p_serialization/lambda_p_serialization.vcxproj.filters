@@ -109,6 +109,21 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="parser\signature.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\signature_state.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\signature_sink.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\reference.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\reference_tee.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -208,5 +223,20 @@
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
+    <ClInclude Include="parser\signature.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\signature_state.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\signature_sink.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference_tee.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

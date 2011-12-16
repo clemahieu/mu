@@ -140,6 +140,7 @@
     <ClInclude Include="core\pipe.h" />
     <ClInclude Include="core\routine.h" />
     <ClInclude Include="core\scatter.h" />
+    <ClInclude Include="core\tee.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\string_error.h" />
     <ClInclude Include="errors\binder_error.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="core\routine.cpp" />
     <ClCompile Include="core\scatter.cpp" />
     <ClCompile Include="core\connection.cpp" />
+    <ClCompile Include="core\tee.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
     <ClCompile Include="errors\binder_error.cpp" />

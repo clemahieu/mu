@@ -13,7 +13,7 @@ namespace lambda_p_serialization
 		class expression_sink
 		{
 		public:
-			virtual void sink (boost::shared_ptr <lambda_p::core::expression> expression) = 0;
+			virtual void operator () (boost::shared_ptr <lambda_p::core::expression> expression) = 0;
 		};
 	}
 }

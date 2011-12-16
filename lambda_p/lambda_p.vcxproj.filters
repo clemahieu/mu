@@ -62,6 +62,9 @@
     <ClInclude Include="core\connection.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\tee.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -117,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="container.cpp" />
     <ClCompile Include="core\connection.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\tee.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

@@ -93,3 +93,30 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 		break;
 	}
 }
+
+void lambda_p_serialization::parser::routine::operator () (std::vector <std::wstring> parameters, std::wstring full_parameter)
+{
+
+}
+
+void lambda_p_serialization::parser::routine::operator () (boost::shared_ptr <lambda_p::core::expression> expression)
+{
+
+}
+
+void lambda_p_serialization::parser::routine::add_name (std::wstring name, boost::shared_ptr <lambda_p::core::scatter> scatter_a, size_t position)
+{
+	auto existing (names.find (name));
+	if (existing != names.end ())
+	{
+		names.insert (std::map <std::wstring, std::pair <boost::shared_ptr <lambda_p::core::scatter>, size_t>>::value_type (name, std::pair <boost::shared_ptr <lambda_p::core::scatter>, size_t> (scatter_a, position)));
+	}
+	else
+	{
+		std::wstringstream message;
+		message << L"Identifier: ";
+		message << name;
+		message << L" has already been declared";
+		parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::error (message.str ())));
+	}
+}
