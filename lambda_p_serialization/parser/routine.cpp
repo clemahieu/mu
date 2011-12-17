@@ -10,6 +10,8 @@
 #include <lambda_p_serialization/parser/reference_scatter.h>
 #include <lambda_p_serialization/parser/reference_tee.h>
 #include <lambda_p_serialization/parser/signature.h>
+#include <lambda_p_serialization/parser/parser.h>
+#include <lambda_p/core/pipe.h>
 
 #include <boost/bind.hpp>
 
@@ -19,7 +21,8 @@ lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser
 	: target (target_a),
 	parser (parser_a),
 	state (lambda_p_serialization::parser::routine_state::surface_begin),
-	routine_m (new lambda_p::core::routine)
+	routine_m (new lambda_p::core::routine),
+	names (parser.globals)
 {
 }
 
@@ -59,7 +62,7 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 		{
 		case lambda_p_serialization::tokens::token_id_left_square:
 			state = lambda_p_serialization::parser::routine_state::expression_end;
-			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::expression (parser, *this)));
+			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::expression (parser, *this, routine_m->output)));
 			break;
 		default:
 			std::wstringstream message;

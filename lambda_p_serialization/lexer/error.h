@@ -11,7 +11,7 @@ namespace lambda_p_serialization
 		class error : public lambda_p_serialization::lexer::state
 		{
 		public:
-			error(std::wstring message_a);
+			error (std::wstring message_a);
 			void lex (wchar_t character) override;
 			std::wstring message;
 		};

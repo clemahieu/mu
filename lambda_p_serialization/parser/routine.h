@@ -18,6 +18,7 @@ namespace lambda_p
 		class routine;
 		class expression;
 		class scatter;
+		class target;
 	}
 }
 namespace lambda_p_serialization

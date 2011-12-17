@@ -6,7 +6,7 @@
 
 #include <assert.h>
 
-void lambda_p_test::wistream_input_test::run ()
+void lambda_p_serialization_test::wistream_input_test::run ()
 {
 	std::wstringstream stream (L"");
 	lambda_p_serialization::lexer::wistream_input input (stream);

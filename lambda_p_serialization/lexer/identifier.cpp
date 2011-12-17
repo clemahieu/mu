@@ -23,7 +23,7 @@ void lambda_p_serialization::lexer::identifier::lex (wchar_t character)
 	case L'\0':
 	case L'\uffff':
 		{
-			lambda_p::tokens::identifier * identifier = new lambda_p::tokens::identifier (string);
+			lambda_p_serialization::tokens::identifier * identifier = new lambda_p_serialization::tokens::identifier (string);
 			lexer.target (identifier);
 			lexer.state.pop ();
 			lexer (character);

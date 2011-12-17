@@ -19,16 +19,16 @@ void lambda_p_serialization::lexer::control::lex (wchar_t character)
 		{
 		case L'*':
 			lexer.state.pop ();
-			lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::multiline_comment (lexer)));
+			lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::multiline_comment (lexer)));
 			break;
 		case L'/':
 			lexer.state.pop ();
-			lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::singleline_comment (lexer)));
+			lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::singleline_comment (lexer)));
 			break;
 		default:
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
-			lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::error (message)));
+			lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::error (message)));
 			break;
 		}
 	}
@@ -36,6 +36,6 @@ void lambda_p_serialization::lexer::control::lex (wchar_t character)
 	{
 		std::wstring message (L"End of stream when parsing control character");
 		message.push_back (character);
-		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::error (message)));
+		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::error (message)));
 	}
 }

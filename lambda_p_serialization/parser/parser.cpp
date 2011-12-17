@@ -15,11 +15,10 @@
 
 #include <map>
 
-lambda_p_serialization::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a)
+lambda_p_serialization::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> & keywords_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> & globals_a)
 	: target (target_a),
 	keywords (keywords_a),
-	injected_parameters (injected_parameters_a),
-	injected_returns (injected_returns_a)
+	globals (globals_a)
 {
 	reset ();
 }

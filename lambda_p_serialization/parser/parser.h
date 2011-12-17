@@ -27,27 +27,25 @@ namespace lambda_p_serialization
 	namespace parser
 	{
 		class state;
-		class association;
 		class begin;
 		class routine;
-		class statement;
 		class error;
 		class state_factory;
+		class reference;
 		class parser
 		{
+			friend class lambda_p_serialization::parser::routine;
 		public:
-			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> & keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::core::node>>> & injected_parameters_a, std::vector <std::wstring> & injected_returns_a);
+			parser (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> & keywords_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> & globals_a);
 			void operator () (lambda_p_serialization::tokens::token * token);
 			void reset ();
 			boost::shared_ptr <lambda_p_serialization::parser::error> error ();
-			void process_token (lambda_p_serialization::tokens::token * token);
 		private:
+			void process_token (lambda_p_serialization::tokens::token * token);
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
-			std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::core::node>>> injected_parameters;
-			std::vector <std::wstring> injected_returns;
+			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> globals;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords;
 		public:
-			boost::shared_ptr <lambda_p_serialization::parser::state> last_state;
 			std::stack <boost::shared_ptr <lambda_p_serialization::parser::state>> state;
 		};
 	}

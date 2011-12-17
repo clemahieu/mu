@@ -15,7 +15,7 @@
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p_serialization::lexer::lexer::lexer (boost::function < void (lambda_p::tokens::token *)> target_a)
+lambda_p_serialization::lexer::lexer::lexer (boost::function < void (lambda_p_serialization::tokens::token *)> target_a)
 	: target (target_a)
 {
 	state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::begin (*this)));
@@ -37,15 +37,15 @@ void lambda_p_serialization::lexer::lexer::reset ()
 	{
 		state.pop ();
 	}
-	state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::begin (*this)));
+	state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::begin (*this)));
 }
 
-boost::shared_ptr <lambda_p::lexer::error> lambda_p::lexer::lexer::error ()
+boost::shared_ptr <lambda_p_serialization::lexer::error> lambda_p_serialization::lexer::lexer::error ()
 {
-	boost::shared_ptr <lambda_p::lexer::error> result;
+	boost::shared_ptr <lambda_p_serialization::lexer::error> result;
 	if (!state.empty ())
 	{
-		result = boost::dynamic_pointer_cast <lambda_p::lexer::error> (state.top ());
+		result = boost::dynamic_pointer_cast <lambda_p_serialization::lexer::error> (state.top ());
 	}
 	return result;
 }

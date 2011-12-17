@@ -15,9 +15,9 @@ namespace lambda_p_serialization
 		class token_vector
 		{
 		public:
-			token_vector(void);
-			void operator () (lambda_p::tokens::token * token);
-			boost::shared_ptr <std::vector <lambda_p::tokens::token *>> tokens;
+			token_vector ();
+			void operator () (lambda_p_serialization::tokens::token * token);
+			boost::shared_ptr <std::vector <lambda_p_serialization::tokens::token *>> tokens;
 		};
 	}
 }

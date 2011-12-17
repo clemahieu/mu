@@ -9,14 +9,8 @@
 #include <lambda_p_serialization/lexer/error.h>
 #include <lambda_p_serialization/parser/error.h>
 
-lambda_p_serialization::builder::builder (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords_a, std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> & injected_declarations_a, std::vector <std::wstring> & injected_references_a)
-	: parser (boost::bind (&(lambda_p_serialization::parser::routine_vector::operator()), &routines, _1), keywords_a, injected_declarations_a, injected_references_a),
-	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
-{
-}
-
-lambda_p_serialization::builder::builder ()
-	: parser (boost::bind (&(lambda_p_serialization::parser::routine_vector::operator()), &routines, _1), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> (), std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::binder::node>>> (), std::vector <std::wstring> ()),
+lambda_p_serialization::builder::builder (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> & globals_a)
+	: parser (boost::bind (&(lambda_p_serialization::parser::routine_vector::operator()), &routines, _1), keywords_a, globals_a),
 	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
 {
 }
@@ -27,15 +21,9 @@ std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state
 	return result;
 }
 
-std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::core::node>>> lambda_p::builder::injected_declarations ()
+std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> lambda_p_serialization::builder::globals ()
 {
-	std::vector <std::pair <std::wstring, boost::shared_ptr <lambda_p::core::node>>> result;
-	return result;
-}
-
-std::vector <std::wstring> lambda_p_serialization::builder::injected_references ()
-{
-	std::vector <std::wstring> result;
+	std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> result;
 	return result;
 }
 

@@ -4,7 +4,7 @@
 #include <lambda_p_serialization/lexer/lexer.h>
 #include <lambda_p_serialization/lexer/error.h>
 
-lambda_p_serialization::lexer::complex_identifier::complex_identifier (lambda_p::lexer::lexer & lexer_a)
+lambda_p_serialization::lexer::complex_identifier::complex_identifier (lambda_p_serialization::lexer::lexer & lexer_a)
 	: have_end_token (false),
 	lexer (lexer_a)
 {
@@ -52,7 +52,7 @@ void lambda_p_serialization::lexer::complex_identifier::lex (wchar_t character)
 		if (have_end_token && match ())
 		{
 			data.resize (data.size () - end_token.size ());
-			lambda_p::tokens::complex_identifier * token (new lambda_p::tokens::complex_identifier (data, end_token));
+			lambda_p_serialization::tokens::complex_identifier * token (new lambda_p_serialization::tokens::complex_identifier (data, end_token));
 			lexer.target (token);
 			lexer.state.pop ();
 		}
@@ -60,7 +60,7 @@ void lambda_p_serialization::lexer::complex_identifier::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of file while parsing complex identifier");
-		auto error (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::error (message)));
+		auto error (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::error (message)));
 		lexer.state.push (error);
 	}
 }

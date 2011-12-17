@@ -41,6 +41,6 @@ void lambda_p_serialization::lexer::multiline_comment::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of stream inside multiline comment");
-		lexer.state.push (boost::shared_ptr <lambda_p::lexer::state> (new lambda_p::lexer::error (message)));
+		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::error (message)));
 	}
 }
