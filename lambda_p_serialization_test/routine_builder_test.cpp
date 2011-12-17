@@ -5,6 +5,6 @@
 void lambda_p_serialization_test::routine_builder_test::run ()
 {	
 	lambda_p_serialization::builder routine;
-	routine (L"result; add a b c; add a b; res; add res c; result; :;");
+	routine (L"[] []");
 	assert (routine.routines.routines->size () == 1);
 }

@@ -2,12 +2,18 @@
 
 #include <lambda_p/core/target.h>
 
-lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a, size_t size_a)
-	: arguments (size_a),
-	target (target_a),
-	remaining (size_a)
+lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a)
+	: target (target_a),
+	remaining (0)
 {
 	assert (target_a != nullptr && L"Null target");
+}
+
+lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a, size_t size_a)
+	: remaining (size_a),
+	arguments (size_a),
+	target (target_a)
+{
 }
 
 void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_a, size_t sequence)
@@ -30,4 +36,10 @@ void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda
 		arguments.clear ();
 		arguments.resize (remaining);
 	}
+}
+
+void lambda_p::core::gather::increment ()
+{
+	++remaining;
+	arguments.resize (arguments.size () + 1);
 }

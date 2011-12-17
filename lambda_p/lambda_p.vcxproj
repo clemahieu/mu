@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="container.h" />
     <ClInclude Include="core\adapter.h" />
+    <ClInclude Include="core\call.h" />
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\gather.h" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="container.cpp" />
     <ClCompile Include="core\adapter.cpp" />
+    <ClCompile Include="core\call.cpp" />
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\gather.cpp" />
     <ClCompile Include="core\pipe.cpp" />

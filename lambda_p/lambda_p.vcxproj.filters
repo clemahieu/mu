@@ -65,6 +65,9 @@
     <ClInclude Include="core\tee.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\call.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -123,6 +126,9 @@
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\tee.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\call.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

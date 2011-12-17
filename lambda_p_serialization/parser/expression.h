@@ -17,6 +17,7 @@ namespace lambda_p
 		class gather;
 		class target;
 		class scatter;
+		class call;
 	}
 }
 namespace lambda_p_serialization
@@ -29,10 +30,11 @@ namespace lambda_p_serialization
 		{
 		public:
 			expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::target> target_a);
-			boost::shared_ptr <lambda_p::core::tee> tee;
-			boost::shared_ptr <lambda_p::core::scatter> scatter;
-			boost::shared_ptr <lambda_p::core::gather> gather;
 			boost::shared_ptr <lambda_p::core::target> target;
+			boost::shared_ptr <lambda_p::core::scatter> scatter;
+			boost::shared_ptr <lambda_p::core::tee> tee;
+			boost::shared_ptr <lambda_p::core::call> call;
+			boost::shared_ptr <lambda_p::core::gather> gather;
 			lambda_p_serialization::parser::routine & routine;
 			lambda_p_serialization::parser::parser & parser;
 			lambda_p_serialization::parser::expression_state::expression_state state;

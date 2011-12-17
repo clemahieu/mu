@@ -9,6 +9,9 @@
 #include <lambda_p_serialization/parser/reference.h>
 #include <lambda_p_serialization/parser/reference_scatter.h>
 #include <lambda_p_serialization/parser/reference_tee.h>
+#include <lambda_p/core/tee.h>
+#include <lambda_p/core/call.h>
+#include <lambda_p/core/gather.h>
 
 #include <sstream>
 
@@ -16,11 +19,15 @@
 
 lambda_p_serialization::parser::expression::expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::target> target_a)
 	: target (target_a),
+	tee (new lambda_p::core::tee),
+	call (new lambda_p::core::call (tee)),
+	gather (new lambda_p::core::gather (call)),
 	parser (parser_a),
 	routine (routine_a),
 	state (lambda_p_serialization::parser::expression_state::expressions),
 	position (0)
 {
+	tee->targets.push_back (target_a);
 }
 			
 void lambda_p_serialization::parser::expression::parse (lambda_p_serialization::tokens::token * token)
@@ -67,6 +74,7 @@ void lambda_p_serialization::parser::expression::parse_expression (lambda_p_seri
 	case lambda_p_serialization::tokens::token_id_complex_identifier:
 	case lambda_p_serialization::tokens::token_id_identifier:
 		{
+			gather->increment ();
 			auto target_l (boost::shared_ptr <lambda_p::core::target> (new lambda_p::core::connection (gather, position)));
 			auto identifier (static_cast <lambda_p_serialization::tokens::identifier *> (token));
 			auto existing (routine.names.find (identifier->string));
@@ -83,6 +91,7 @@ void lambda_p_serialization::parser::expression::parse_expression (lambda_p_seri
 		break;
 	case lambda_p_serialization::tokens::token_id_left_square:
 		{
+			gather->increment ();
 			auto target_l (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather, position)));
 			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::expression> (new lambda_p_serialization::parser::expression (parser, routine, target_l)));
 			++position;

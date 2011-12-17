@@ -16,9 +16,7 @@ void lambda_p_serialization::parser::begin::parse (lambda_p_serialization::token
 	lambda_p_serialization::tokens::token_ids token_id (token->token_id ());
 	switch (token_id)
 	{
-        case lambda_p_serialization::tokens::token_id_identifier:
-        case lambda_p_serialization::tokens::token_id_complex_identifier:
-		case lambda_p_serialization::tokens::token_id_divider:
+	case lambda_p_serialization::tokens::token_id_left_square:
         {
             boost::shared_ptr <lambda_p_serialization::parser::state> new_state (new lambda_p_serialization::parser::routine (parser, target));
             parser.state.push (new_state);
@@ -30,7 +28,7 @@ void lambda_p_serialization::parser::begin::parse (lambda_p_serialization::token
 		break;
 	default:
         {
-            std::wstring message (L"At top level, expecting identifier or end of stream");
+            std::wstring message (L"At top level, expecting signature or end of stream");
             parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::error (message)));
         }
 		break;

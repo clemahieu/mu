@@ -35,7 +35,7 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 		switch (token_id)
 		{
 		case lambda_p_serialization::tokens::token_id_left_square:
-			state = lambda_p_serialization::parser::routine_state::expression_end;
+			state = lambda_p_serialization::parser::routine_state::surface_end;
 			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::signature (parser, *this)));
 			break;
 		default:
@@ -57,6 +57,7 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 			assert (false);
 			break;
 		}
+		break;
 	case lambda_p_serialization::parser::routine_state::expression_begin:
 		switch (token_id)
 		{

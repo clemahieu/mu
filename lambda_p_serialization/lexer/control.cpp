@@ -13,7 +13,7 @@ lambda_p_serialization::lexer::control::control (lambda_p_serialization::lexer::
 
 void lambda_p_serialization::lexer::control::lex (wchar_t character)
 {
-	if (character != '\uffff')
+	if (character != L'\uffff')
 	{
 		switch (character)
 		{
