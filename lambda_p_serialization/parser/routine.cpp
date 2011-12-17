@@ -107,7 +107,7 @@ void lambda_p_serialization::parser::routine::operator () (std::vector <std::wst
 void lambda_p_serialization::parser::routine::add_name (std::wstring name, boost::shared_ptr <lambda_p_serialization::parser::reference> reference)
 {
 	auto existing (names.find (name));
-	if (existing != names.end ())
+	if (existing == names.end ())
 	{
 		names.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>>::value_type (name, reference));
 	}

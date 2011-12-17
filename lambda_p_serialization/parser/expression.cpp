@@ -91,6 +91,7 @@ void lambda_p_serialization::parser::expression::parse_expression (lambda_p_seri
 		break;
 	case lambda_p_serialization::tokens::token_id_left_square:
 		{
+			state = lambda_p_serialization::parser::expression_state::nested;
 			gather->increment ();
 			auto target_l (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather, position)));
 			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::expression> (new lambda_p_serialization::parser::expression (parser, routine, target_l)));

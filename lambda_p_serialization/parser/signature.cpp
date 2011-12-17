@@ -51,6 +51,7 @@ void lambda_p_serialization::parser::signature::parse (lambda_p_serialization::t
 			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::error (L"Not expecting divider, expecting right square or identifier")));
 			break;
 		}
+		break;
 	case lambda_p_serialization::tokens::token_id_right_square:
 		parser.state.pop ();
 		parser (token);

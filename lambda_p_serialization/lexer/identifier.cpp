@@ -17,10 +17,11 @@ void lambda_p_serialization::lexer::identifier::lex (wchar_t character)
 	case L'\n':
 	case L'\f':
 	case L';':
-	//case L'`':
 	case L'|':
 	case L':':
 	case L'\0':
+	case L'[':
+	case L']':
 	case L'\uffff':
 		{
 			lambda_p_serialization::tokens::identifier * identifier = new lambda_p_serialization::tokens::identifier (string);
