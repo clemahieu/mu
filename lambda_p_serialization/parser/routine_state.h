@@ -8,8 +8,6 @@ namespace lambda_p_serialization
 		{
 			enum routine_state
 			{
-				surface_begin,
-				surface_end,
 				expression_begin,
 				expression_end,
 				state_end

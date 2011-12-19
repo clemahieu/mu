@@ -12,6 +12,7 @@
 #include <lambda_p/core/tee.h>
 #include <lambda_p/core/call.h>
 #include <lambda_p/core/gather.h>
+#include <lambda_p/core/scatter.h>
 
 #include <sstream>
 
@@ -171,6 +172,7 @@ void lambda_p_serialization::parser::expression::resolve ()
 	if (!local_names.empty ())
 	{
 		size_t position (0);
+		scatter->set_required (local_names.size ());
 		for (auto i (local_names.begin ()), j (local_names.end ()); i != j; ++i, ++position)
 		{
 			routine.add_name (*i, boost::shared_ptr <lambda_p_serialization::parser::reference> (new lambda_p_serialization::parser::reference_scatter (scatter, position)));

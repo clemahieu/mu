@@ -9,7 +9,6 @@
 #include <lambda_p_serialization/parser/expression.h>
 #include <lambda_p_serialization/parser/reference_scatter.h>
 #include <lambda_p_serialization/parser/reference_tee.h>
-#include <lambda_p_serialization/parser/signature.h>
 #include <lambda_p_serialization/parser/parser.h>
 #include <lambda_p/core/pipe.h>
 #include <lambda_p/core/tee.h>
@@ -23,14 +22,13 @@
 lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
 	: target (target_a),
 	parser (parser_a),
-	state (lambda_p_serialization::parser::routine_state::surface_begin),
+	state (lambda_p_serialization::parser::routine_state::expression_begin),
+	tee (new lambda_p::core::tee),
 	routine_m (new lambda_p::core::routine),
-	names (parser.globals),
-	parameter_scatter (new lambda_p::core::scatter (routine_m->errors)),
-	parameter_tee (new lambda_p::core::tee)
+	names (parser.globals)
 {
-	routine_m->input = boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (parameter_tee));
-	parameter_tee->targets.push_back (parameter_scatter);
+	routine_m->input->next = tee;
+	names [std::wstring (L"~")] = boost::shared_ptr <lambda_p_serialization::parser::reference_tee> (new lambda_p_serialization::parser::reference_tee (tee));
 }
 
 void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tokens::token * token)
@@ -38,33 +36,6 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 	auto token_id (token->token_id ());
 	switch (state)
 	{
-	case lambda_p_serialization::parser::routine_state::surface_begin:
-		switch (token_id)
-		{
-		case lambda_p_serialization::tokens::token_id_left_square:
-			state = lambda_p_serialization::parser::routine_state::surface_end;
-			parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::signature (parser, *this)));
-			break;
-		default:
-			std::wstringstream message;
-			message << L"Expecting an routine signature, have: ";
-			message << token->token_name ();
-			boost::shared_ptr <lambda_p_serialization::parser::state> new_state (new lambda_p_serialization::parser::error (message.str ()));
-			parser.state.push (new_state);
-			break;
-		}
-		break;
-	case lambda_p_serialization::parser::routine_state::surface_end:
-		switch (token_id)
-		{
-		case lambda_p_serialization::tokens::token_id_right_square:
-			state = lambda_p_serialization::parser::routine_state::expression_begin;
-			break;
-		default:
-			assert (false);
-			break;
-		}
-		break;
 	case lambda_p_serialization::parser::routine_state::expression_begin:
 		switch (token_id)
 		{
@@ -86,6 +57,7 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 		{
 		case lambda_p_serialization::tokens::token_id_right_square:
 			target (routine_m);
+			parser.state.pop ();
 			break;
 		default:
 			assert (false);
@@ -95,20 +67,6 @@ void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tok
 	case lambda_p_serialization::parser::routine_state::state_end:
 		parser.state.push (boost::shared_ptr <lambda_p_serialization::parser::state> (new lambda_p_serialization::parser::error (L"Token received in end state")));
 		break;
-	}
-}
-
-void lambda_p_serialization::parser::routine::operator () (std::vector <std::wstring> parameters, std::wstring full_parameter)
-{
-	size_t position (0);
-	parameter_scatter->set_required (parameters.size () == 0 ? ~0 : parameters.size ());
-	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i, ++position)
-	{
-		add_name (*i, boost::shared_ptr <lambda_p_serialization::parser::reference> (new lambda_p_serialization::parser::reference_scatter (parameter_scatter, position)));
-	}
-	if (!full_parameter.empty ())
-	{
-		add_name (full_parameter, boost::shared_ptr <lambda_p_serialization::parser::reference> (new lambda_p_serialization::parser::reference_tee (parameter_tee)));
 	}
 }
 

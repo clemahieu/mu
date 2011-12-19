@@ -29,7 +29,7 @@ void lambda_p_serialization_test::routine_builder_test::run ()
 void lambda_p_serialization_test::routine_builder_test::run_1 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[] []");
+	routine (L"[]");
 	assert (routine.routines.routines->size () == 1);
 	auto result (routine.routines.routines->operator[] (0));
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
@@ -41,13 +41,11 @@ void lambda_p_serialization_test::routine_builder_test::run_1a ()
 {
 	lambda_p_serialization::builder routine;
 	routine (L"[] []");
-	assert (routine.routines.routines->size () == 1);
+	assert (routine.routines.routines->size () == 2);
 	auto result (routine.routines.routines->operator[] (0));
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	arguments.push_back (a1);
+	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert ((*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_2 ()

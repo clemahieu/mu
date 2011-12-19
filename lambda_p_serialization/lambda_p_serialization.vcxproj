@@ -156,9 +156,6 @@
     <ClCompile Include="parser\routine.cpp" />
     <ClCompile Include="parser\routine_state.cpp" />
     <ClCompile Include="parser\routine_vector.cpp" />
-    <ClCompile Include="parser\signature.cpp" />
-    <ClCompile Include="parser\signature_sink.cpp" />
-    <ClCompile Include="parser\signature_state.cpp" />
     <ClCompile Include="parser\state.cpp" />
     <ClCompile Include="parser\state_factory.cpp" />
     <ClCompile Include="tokens\complex_identifier.cpp" />
@@ -196,9 +193,6 @@
     <ClInclude Include="parser\routine.h" />
     <ClInclude Include="parser\routine_state.h" />
     <ClInclude Include="parser\routine_vector.h" />
-    <ClInclude Include="parser\signature.h" />
-    <ClInclude Include="parser\signature_sink.h" />
-    <ClInclude Include="parser\signature_state.h" />
     <ClInclude Include="parser\state.h" />
     <ClInclude Include="parser\state_factory.h" />
     <ClInclude Include="tokens\complex_identifier.h" />
