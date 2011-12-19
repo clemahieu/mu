@@ -22,7 +22,7 @@ void lambda_p_test::routine::run_1 ()
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
 	routine->output->next = container;
 	auto gather (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));
-	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter));
+	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter (routine->errors)));
 	scatter->set_required (2);
 	auto tee (boost::shared_ptr <lambda_p::core::tee> (new lambda_p::core::tee));
 	tee->targets.push_back (scatter);
@@ -44,7 +44,7 @@ void lambda_p_test::routine::run_2 ()
 	routine->output->next = container;
 	auto gather1 (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));
 	auto gather2 (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 3)));
-	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter));
+	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter (routine->errors)));
 	scatter->set_required (4);
 	(*scatter) [0].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather2, 2)));
 	(*scatter) [1].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather1, 1)));

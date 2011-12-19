@@ -7,6 +7,7 @@ namespace lambda_p_serialization_test
 	public:
 		void run ();
 		void run_1 ();
+		void run_1a ();
 		void run_2 ();
 		void run_3 ();
 		void run_4 ();

@@ -4,6 +4,10 @@
 
 namespace lambda_p
 {
+	namespace errors
+	{
+		class error_list;
+	}
 	namespace core
 	{
 		class entry;
@@ -14,6 +18,7 @@ namespace lambda_p
 			routine ();
 			boost::shared_ptr <lambda_p::core::entry> input;
 			boost::shared_ptr <lambda_p::core::pipe> output;
+			boost::shared_ptr <lambda_p::errors::error_list> errors;
 		};
 	}
 }
