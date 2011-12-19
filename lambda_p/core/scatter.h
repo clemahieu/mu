@@ -9,9 +9,13 @@ namespace lambda_p
 		class scatter : public lambda_p::core::target
 		{
 		public:
-			scatter (size_t size);
+			scatter ();
+			void set_required (size_t required_a);
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
+			std::vector <boost::shared_ptr <lambda_p::core::target>> & operator [] (size_t index);
+		private:
 			std::vector <std::vector <boost::shared_ptr <lambda_p::core::target>>> targets;
+			size_t required;
 		};
 	}
 }

@@ -10,5 +10,5 @@ lambda_p_serialization::parser::reference_scatter::reference_scatter (boost::sha
 
 void lambda_p_serialization::parser::reference_scatter::operator () (boost::shared_ptr <lambda_p::core::target> target_a)
 {
-	scatter->targets [position].push_back (target_a);
+	(*scatter) [position].push_back (target_a);
 }

@@ -1,6 +1,9 @@
 #include "routine_builder_test.h"
 
 #include <lambda_p_serialization/builder.h>
+#include <lambda_p/core/routine.h>
+#include <lambda_p/core/entry.h>
+#include <lambda_p/core/expression.h>
 
 void lambda_p_serialization_test::routine_builder_test::run ()
 {	
@@ -26,6 +29,10 @@ void lambda_p_serialization_test::routine_builder_test::run_1 ()
 	lambda_p_serialization::builder routine;
 	routine (L"[] []");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	assert (result->input.get () != nullptr);
+	(*(result->input)) (arguments);
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_2 ()
@@ -33,6 +40,11 @@ void lambda_p_serialization_test::routine_builder_test::run_2 ()
 	lambda_p_serialization::builder routine;
 	routine (L"[a] []");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	assert (result->input.get () != nullptr);
+	(*(result->input)) (arguments);
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_3 ()
@@ -40,6 +52,11 @@ void lambda_p_serialization_test::routine_builder_test::run_3 ()
 	lambda_p_serialization::builder routine;
 	routine (L"[a b] []");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	assert (result->input.get () != nullptr);
+	(*(result->input)) (arguments);
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_4 ()

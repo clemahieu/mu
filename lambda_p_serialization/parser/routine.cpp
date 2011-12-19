@@ -12,6 +12,9 @@
 #include <lambda_p_serialization/parser/signature.h>
 #include <lambda_p_serialization/parser/parser.h>
 #include <lambda_p/core/pipe.h>
+#include <lambda_p/core/tee.h>
+#include <lambda_p/core/scatter.h>
+#include <lambda_p/core/entry.h>
 
 #include <boost/bind.hpp>
 
@@ -22,8 +25,12 @@ lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser
 	parser (parser_a),
 	state (lambda_p_serialization::parser::routine_state::surface_begin),
 	routine_m (new lambda_p::core::routine),
-	names (parser.globals)
+	names (parser.globals),
+	parameter_scatter (new lambda_p::core::scatter),
+	parameter_tee (new lambda_p::core::tee)
 {
+	routine_m->input = boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (parameter_tee));
+	parameter_tee->targets.push_back (parameter_scatter);
 }
 
 void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tokens::token * token)
