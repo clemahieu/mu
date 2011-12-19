@@ -100,7 +100,7 @@ void lambda_p_serialization::parser::routine::operator () (std::vector <std::wst
 	}
 	if (!full_parameter.empty ())
 	{
-		add_name (full_parameter, boost::shared_ptr <lambda_p_serialization::parser::reference> (new lambda_p_serialization::parser::reference_tee (routine_m->input)));
+		add_name (full_parameter, boost::shared_ptr <lambda_p_serialization::parser::reference> (new lambda_p_serialization::parser::reference_tee (parameter_tee)));
 	}
 }
 

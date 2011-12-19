@@ -19,6 +19,7 @@ namespace lambda_p
 		class expression;
 		class scatter;
 		class target;
+		class tee;
 	}
 }
 namespace lambda_p_serialization
@@ -43,6 +44,7 @@ namespace lambda_p_serialization
 			lambda_p_serialization::parser::parser & parser;
 			lambda_p_serialization::parser::routine_state::routine_state state;
 			boost::shared_ptr <lambda_p::core::scatter> parameter_scatter;
+			boost::shared_ptr <lambda_p::core::tee> parameter_tee;
 			boost::shared_ptr <lambda_p::core::routine> routine_m;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved_references;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> names;

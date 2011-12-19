@@ -133,6 +133,8 @@
     <ClInclude Include="container.h" />
     <ClInclude Include="core\adapter.h" />
     <ClInclude Include="core\call.h" />
+    <ClInclude Include="core\entry.h" />
+    <ClInclude Include="core\fixed.h" />
     <ClInclude Include="core\node.h" />
     <ClInclude Include="core\expression.h" />
     <ClInclude Include="core\gather.h" />
@@ -158,7 +160,9 @@
     <ClCompile Include="container.cpp" />
     <ClCompile Include="core\adapter.cpp" />
     <ClCompile Include="core\call.cpp" />
+    <ClCompile Include="core\entry.cpp" />
     <ClCompile Include="core\expression.cpp" />
+    <ClCompile Include="core\fixed.cpp" />
     <ClCompile Include="core\gather.cpp" />
     <ClCompile Include="core\pipe.cpp" />
     <ClCompile Include="core\routine.cpp" />

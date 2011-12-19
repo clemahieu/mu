@@ -55,6 +55,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test_entry", "lambda_p_test_entry\lambda_p_test_entry.vcxproj", "{3B93F5FC-8121-44E1-840C-36571BDA8BF9}"
 	ProjectSection(ProjectDependencies) = postProject
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F} = {0365160D-8CA1-4266-8803-22A0B49A5A7F}
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
 		{499674EB-0500-4F97-97F3-1E7E5B28B011} = {499674EB-0500-4F97-97F3-1E7E5B28B011}
 		{92FA64F4-0618-4602-B59C-7B12016BDC03} = {92FA64F4-0618-4602-B59C-7B12016BDC03}
 	EndProjectSection
@@ -68,6 +70,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_serialization", "lambda_p_serialization\lambda_p_serialization.vcxproj", "{0365160D-8CA1-4266-8803-22A0B49A5A7F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_serialization_test", "lambda_p_serialization_test\lambda_p_serialization_test.vcxproj", "{499674EB-0500-4F97-97F3-1E7E5B28B011}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F} = {0365160D-8CA1-4266-8803-22A0B49A5A7F}
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

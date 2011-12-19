@@ -8,6 +8,7 @@
 #include <lambda_p/core/expression.h>
 #include <lambda_p/core/connection.h>
 #include <lambda_p/core/tee.h>
+#include <lambda_p/core/entry.h>
 
 void lambda_p_test::routine::run ()
 {
@@ -24,7 +25,8 @@ void lambda_p_test::routine::run_1 ()
 	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter (2)));
 	auto tee (boost::shared_ptr <lambda_p::core::tee> (new lambda_p::core::tee));
 	tee->targets.push_back (scatter);
-	routine->input = tee;
+	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (tee)));
+	routine->input = entry;
 	scatter->targets [0].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather, 0)));
 	scatter->targets [1].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather, 1)));
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> values;
@@ -48,7 +50,8 @@ void lambda_p_test::routine::run_2 ()
 	scatter->targets [3].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather2, 0)));
 	auto tee (boost::shared_ptr <lambda_p::core::tee> (new lambda_p::core::tee));
 	tee->targets.push_back (scatter);
-	routine->input = tee;
+	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (tee)));
+	routine->input = entry;
 	gather1->target = boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather2, 1));
 	auto v1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
 	auto v2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
