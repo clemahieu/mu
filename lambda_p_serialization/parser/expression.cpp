@@ -13,6 +13,7 @@
 #include <lambda_p/core/call.h>
 #include <lambda_p/core/gather.h>
 #include <lambda_p/core/scatter.h>
+#include <lambda_p/core/routine.h>
 
 #include <sstream>
 
@@ -21,7 +22,7 @@
 lambda_p_serialization::parser::expression::expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::target> target_a)
 	: target (target_a),
 	tee (new lambda_p::core::tee),
-	call (new lambda_p::core::call (tee)),
+	call (new lambda_p::core::call (tee, routine_a.routine_m->errors)),
 	gather (new lambda_p::core::gather (call)),
 	parser (parser_a),
 	routine (routine_a),

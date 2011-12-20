@@ -74,6 +74,7 @@
     <ClInclude Include="core\entry.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\identity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -143,6 +144,7 @@
     <ClCompile Include="core\entry.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="core\identity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
