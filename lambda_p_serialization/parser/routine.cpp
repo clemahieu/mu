@@ -14,6 +14,8 @@
 #include <lambda_p/core/tee.h>
 #include <lambda_p/core/scatter.h>
 #include <lambda_p/core/entry.h>
+#include <lambda_p/core/collapse.h>
+#include <lambda_p/core/adapter.h>
 
 #include <boost/bind.hpp>
 
@@ -27,7 +29,8 @@ lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser
 	routine_m (new lambda_p::core::routine),
 	names (parser.globals)
 {
-	routine_m->input->next = tee;
+	auto collapse (boost::shared_ptr <lambda_p::core::collapse> (new lambda_p::core::collapse (tee, routine_m->errors)));
+	routine_m->input->next = collapse;
 	names [std::wstring (L"~")] = boost::shared_ptr <lambda_p_serialization::parser::reference_tee> (new lambda_p_serialization::parser::reference_tee (tee));
 }
 

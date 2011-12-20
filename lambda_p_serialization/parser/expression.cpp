@@ -173,6 +173,8 @@ void lambda_p_serialization::parser::expression::resolve ()
 	if (!local_names.empty ())
 	{
 		size_t position (0);
+		scatter = boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter (routine.routine_m->errors));
+		tee->targets.push_back (scatter);
 		scatter->set_required (local_names.size ());
 		for (auto i (local_names.begin ()), j (local_names.end ()); i != j; ++i, ++position)
 		{

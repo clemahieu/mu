@@ -10,6 +10,7 @@ namespace lambda_p_serialization_test
 		void run_1a ();
 		void run_1b ();
 		void run_2 ();
+		void run_2a ();
 		void run_3 ();
 		void run_4 ();
 		void run_5 ();

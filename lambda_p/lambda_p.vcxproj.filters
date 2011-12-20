@@ -74,7 +74,18 @@
     <ClInclude Include="core\entry.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="core\identity.h" />
+    <ClInclude Include="core\explode.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\implode.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\identity.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\collapse.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -144,7 +155,18 @@
     <ClCompile Include="core\entry.cpp">
       <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="core\identity.cpp" />
+    <ClCompile Include="core\explode.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\implode.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\identity.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\collapse.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
