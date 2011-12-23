@@ -10,6 +10,9 @@
     <Filter Include="tokens">
       <UniqueIdentifier>{09551674-bb99-4e2e-9651-42734041793b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ast">
+      <UniqueIdentifier>{0a9fdc4a-1610-4d4a-bf60-0bab99ed3ee1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lexer\begin.cpp">
@@ -115,6 +118,18 @@
     <ClCompile Include="parser\reference_scatter.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="parser\reference_fixed.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\expression.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\node.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\naming.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -219,6 +234,18 @@
     </ClInclude>
     <ClInclude Include="parser\reference_scatter.h">
       <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\reference_fixed.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\expression.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\node.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\naming.h">
+      <Filter>ast</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

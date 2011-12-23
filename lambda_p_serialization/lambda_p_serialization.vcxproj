@@ -130,6 +130,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ast\expression.cpp" />
+    <ClCompile Include="ast\naming.cpp" />
+    <ClCompile Include="ast\node.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
@@ -151,6 +154,7 @@
     <ClCompile Include="parser\finished.cpp" />
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\reference.cpp" />
+    <ClCompile Include="parser\reference_fixed.cpp" />
     <ClCompile Include="parser\reference_scatter.cpp" />
     <ClCompile Include="parser\reference_tee.cpp" />
     <ClCompile Include="parser\routine.cpp" />
@@ -167,6 +171,9 @@
     <ClCompile Include="tokens\token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ast\expression.h" />
+    <ClInclude Include="ast\naming.h" />
+    <ClInclude Include="ast\node.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
@@ -188,6 +195,7 @@
     <ClInclude Include="parser\finished.h" />
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="parser\reference.h" />
+    <ClInclude Include="parser\reference_fixed.h" />
     <ClInclude Include="parser\reference_scatter.h" />
     <ClInclude Include="parser\reference_tee.h" />
     <ClInclude Include="parser\routine.h" />

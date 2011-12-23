@@ -7,14 +7,12 @@
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/container.h>
 #include <lambda_p/core/pipe.h>
+#include <lambda_p/core/identity.h>
 
 void lambda_p_serialization_test::routine_builder_test::run ()
 {	
 	run_1 ();
-	run_1a ();
-	run_1b ();
 	run_2 ();
-	run_2a ();
 	run_3 ();
 	run_4 ();
 	run_5 ();
@@ -24,10 +22,6 @@ void lambda_p_serialization_test::routine_builder_test::run ()
 	run_9 ();
 	run_10 ();
 	run_11 ();
-	run_12 ();
-	run_13 ();
-	run_14 ();
-	run_15 ();
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_1 ()
@@ -44,7 +38,7 @@ void lambda_p_serialization_test::routine_builder_test::run_1 ()
 	assert (!(*result->errors) ());
 }
 
-void lambda_p_serialization_test::routine_builder_test::run_1a ()
+void lambda_p_serialization_test::routine_builder_test::run_2 ()
 {
 	lambda_p_serialization::builder routine;
 	routine (L"[] []");
@@ -58,7 +52,7 @@ void lambda_p_serialization_test::routine_builder_test::run_1a ()
 	assert (!(*result->errors) ());
 }
 
-void lambda_p_serialization_test::routine_builder_test::run_1b ()
+void lambda_p_serialization_test::routine_builder_test::run_3 ()
 {
 	lambda_p_serialization::builder routine;
 	routine (L"[~]");
@@ -72,7 +66,7 @@ void lambda_p_serialization_test::routine_builder_test::run_1b ()
 	assert (!(*result->errors) ());
 }
 
-void lambda_p_serialization_test::routine_builder_test::run_2 ()
+void lambda_p_serialization_test::routine_builder_test::run_4 ()
 {
 	lambda_p_serialization::builder routine;
 	routine (L"[~; a]");
@@ -90,7 +84,7 @@ void lambda_p_serialization_test::routine_builder_test::run_2 ()
 	assert (container->results [0] == e1);
 }
 
-void lambda_p_serialization_test::routine_builder_test::run_2a ()
+void lambda_p_serialization_test::routine_builder_test::run_5 ()
 {
 	lambda_p_serialization::builder routine;
 	routine (L"[~; a]");
@@ -104,99 +98,100 @@ void lambda_p_serialization_test::routine_builder_test::run_2a ()
 	assert ((*result->errors) ());
 }
 
-void lambda_p_serialization_test::routine_builder_test::run_3 ()
+void lambda_p_serialization_test::routine_builder_test::run_6 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[a b] []");
+	routine (L"[~; a b]");
 	assert (routine.routines.routines->size () == 1);
 	auto result (routine.routines.routines->operator[] (0));
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	result->output->next = container;
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	auto a2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	arguments.push_back (a1);
+	arguments.push_back (a2);
 	(*(result->input)) (arguments);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_4 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a] [a]");
-	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_5 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a b] [a b]");
-	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_6 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a; b] []");
-	assert (routine.routines.routines->size () == 1);
+	assert (!(*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_7 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[a b] [a b; c d]");
+	routine (L"[[~; a] a]");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
+	result->output->next = container;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	arguments.push_back (a1);
+	(*(result->input)) (arguments);
+	assert (!(*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_8 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[a b] [a b; c d; e]");
+	routine (L"[[~; a b] a b]");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
+	result->output->next = container;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	auto a2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	arguments.push_back (a1);
+	arguments.push_back (a2);
+	(*(result->input)) (arguments);
+	assert (!(*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_9 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[a b] [a b;; e]");
+	routine (L"[~; a; b]");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
+	result->output->next = container;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	arguments.push_back (a1);
+	(*(result->input)) (arguments);
+	assert (!(*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_10 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[] [[]]");
+	routine (L"[[~; a b] a; c d]");
 	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
+	result->output->next = container;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	auto a2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	arguments.push_back (a1);
+	arguments.push_back (a2);
+	(*(result->input)) (arguments);
+	assert (!(*result->errors) ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_11 ()
 {
 	lambda_p_serialization::builder routine;
-	routine (L"[a] [[a]]");
+	routine (L"[[~; a b] a b; d; e]");
 	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_12 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a] [b [a; b]]");
-	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_13 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a] [[a]; b]");
-	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_14 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a] [[a] [a]; b c]");
-	assert (routine.routines.routines->size () == 1);
-}
-
-void lambda_p_serialization_test::routine_builder_test::run_15 ()
-{
-	lambda_p_serialization::builder routine;
-	routine (L"[a] [[a] [a];; b]");
-	assert (routine.routines.routines->size () == 1);
+	auto result (routine.routines.routines->operator[] (0));
+	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
+	result->output->next = container;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	auto a2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	arguments.push_back (a1);
+	arguments.push_back (a2);
+	(*(result->input)) (arguments);
+	assert (!(*result->errors) ());
 }

@@ -16,6 +16,8 @@
 #include <lambda_p/core/entry.h>
 #include <lambda_p/core/collapse.h>
 #include <lambda_p/core/adapter.h>
+#include <lambda_p/core/identity.h>
+#include <lambda_p_serialization/parser/reference_fixed.h>
 
 #include <boost/bind.hpp>
 
@@ -32,6 +34,9 @@ lambda_p_serialization::parser::routine::routine (lambda_p_serialization::parser
 	auto collapse (boost::shared_ptr <lambda_p::core::collapse> (new lambda_p::core::collapse (tee, routine_m->errors)));
 	routine_m->input->next = collapse;
 	names [std::wstring (L"~")] = boost::shared_ptr <lambda_p_serialization::parser::reference_tee> (new lambda_p_serialization::parser::reference_tee (tee));
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> identity_expressions;
+	identity_expressions.push_back (boost::shared_ptr <lambda_p::core::identity> (new lambda_p::core::identity));
+	names [std::wstring (L".identity")] = boost::shared_ptr <lambda_p_serialization::parser::reference_fixed> (new lambda_p_serialization::parser::reference_fixed (routine_m->input, identity_expressions));
 }
 
 void lambda_p_serialization::parser::routine::parse (lambda_p_serialization::tokens::token * token)
