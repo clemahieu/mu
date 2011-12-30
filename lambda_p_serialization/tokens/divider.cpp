@@ -7,13 +7,14 @@
 //
 
 #include <lambda_p_serialization/tokens/divider.h>
-
-lambda_p_serialization::tokens::token_ids lambda_p_serialization::tokens::divider::token_id ()
-{
-	return lambda_p_serialization::tokens::token_id_divider;
-}
+#include <lambda_p_serialization/tokens/visitor.h>
 
 std::wstring lambda_p_serialization::tokens::divider::token_name ()
 {
 	return std::wstring (L"divider");
+}
+
+void lambda_p_serialization::tokens::divider::operator () (lambda_p_serialization::tokens::visitor * visitor_a)
+{
+	(*visitor_a) (this);
 }

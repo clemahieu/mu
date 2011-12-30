@@ -12,8 +12,8 @@ namespace lambda_p_serialization
 		{	
 		public:
 			identifier (std::wstring string_a);
-			token_ids token_id () override;
 			std::wstring token_name () override;
+			void operator () (lambda_p_serialization::tokens::visitor * visitor_a) override;
 			std::wstring string;
 		};
 	}

@@ -9,7 +9,7 @@
 #include <lambda_p_serialization/tokens/identifier.h>
 #include <lambda_p_serialization/tokens/right_square.h>
 
-lambda_p_serialization::parser::begin::begin (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p::core::routine> routine)> target_a)
+lambda_p_serialization::parser::begin::begin (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_serialization::ast::expression>)> target_a)
 	: parser (parser_a),
 	target (target_a)
 {

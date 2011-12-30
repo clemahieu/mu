@@ -8,18 +8,23 @@
 
 #pragma once
 
-#include <lambda_p_serialization/parser/state.h>
+#include <lambda_p_serialization/tokens/visitor.h>
 
 namespace lambda_p_serialization
 {
     namespace parser
     {
 		class parser;
-        class finished : public lambda_p_serialization::parser::state
+        class finished : public lambda_p_serialization::tokens::visitor
         {
         public:
 			finished (lambda_p_serialization::parser::parser & parser_a);
-			void parse (lambda_p_serialization::tokens::token * token) override;
+			void operator () (lambda_p_serialization::tokens::divider * token) override;
+			void operator () (lambda_p_serialization::tokens::identifier * token) override;
+			void operator () (lambda_p_serialization::tokens::left_square * token) override;
+			void operator () (lambda_p_serialization::tokens::right_square * token) override;
+			void operator () (lambda_p_serialization::tokens::stream_end * token) override;
+			void add_error (lambda_p_serialization::tokens::token * token);
 			lambda_p_serialization::parser::parser & parser;
         };
     }

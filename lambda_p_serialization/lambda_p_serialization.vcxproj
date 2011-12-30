@@ -152,7 +152,6 @@
     <ClCompile Include="parser\begin.cpp" />
     <ClCompile Include="parser\error.cpp" />
     <ClCompile Include="parser\finished.cpp" />
-    <ClCompile Include="parser\expression.cpp" />
     <ClCompile Include="parser\full.cpp" />
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\single.cpp" />
@@ -188,7 +187,6 @@
     <ClInclude Include="parser\begin.h" />
     <ClInclude Include="parser\error.h" />
     <ClInclude Include="parser\finished.h" />
-    <ClInclude Include="parser\expression.h" />
     <ClInclude Include="parser\full.h" />
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="parser\single.h" />

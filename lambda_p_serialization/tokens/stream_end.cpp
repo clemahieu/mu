@@ -7,13 +7,14 @@
 //
 
 #include <lambda_p_serialization/tokens/stream_end.h>
-
-lambda_p_serialization::tokens::token_ids lambda_p_serialization::tokens::stream_end::token_id ()
-{
-    return lambda_p_serialization::tokens::token_id_stream_end;
-}
+#include <lambda_p_serialization/tokens/visitor.h>
 
 std::wstring lambda_p_serialization::tokens::stream_end::token_name ()
 {
 	return std::wstring (L"stream end");
+}
+
+void lambda_p_serialization::tokens::stream_end::operator () (lambda_p_serialization::tokens::visitor * visitor_a)
+{
+	(*visitor_a) (this);
 }

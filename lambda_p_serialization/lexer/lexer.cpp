@@ -2,7 +2,6 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p_serialization/tokens/identifier.h>
 #include <lambda_p_serialization/tokens/divider.h>
-#include <lambda_p_serialization/tokens/complex_identifier.h>
 
 #include <lambda_p_serialization/lexer/state.h>
 #include <lambda_p_serialization/lexer/begin.h>

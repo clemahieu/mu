@@ -8,29 +8,13 @@
 #include <lambda_p_serialization/lexer/wistream_input.h>
 #include <lambda_p_serialization/lexer/error.h>
 #include <lambda_p_serialization/parser/error.h>
+#include <lambda_p_serialization/ast/expression.h>
 
 lambda_p_serialization::builder::builder ()	
-	: parser (boost::bind (&(lambda_p_serialization::analyzer::analyzer::operator()), &analyzer, _1), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> (), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> ()),
-	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
+	: analyzer (boost::bind (&lambda_p_serialization::builder::analyzer_output, this, _1)),
+	parser (boost::bind (&lambda_p_serialization::builder::parser_output, this, _1)),
+	lexer (boost::bind (&lambda_p_serialization::builder::lexer_output, this, _1))
 {
-}
-
-lambda_p_serialization::builder::builder (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> & globals_a)
-	: parser (boost::bind (&(lambda_p_serialization::analyzer::analyzer::operator()), &analyzer, _1), keywords_a, globals_a),
-	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
-{
-}
-
-std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> lambda_p_serialization::builder::keywords ()
-{
-	std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> result;
-	return result;
-}
-
-std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> lambda_p_serialization::builder::globals ()
-{
-	std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> result;
-	return result;
 }
 
 void lambda_p_serialization::builder::finish ()
@@ -98,4 +82,19 @@ void lambda_p_serialization::builder::error_message (std::wostream & out)
 	{
 		out << parser_error->message;
 	}
+}
+
+void lambda_p_serialization::builder::analyzer_output (boost::shared_ptr <lambda_p::core::routine> routine_a)
+{
+	routines.push_back (routine_a);
+}
+
+void lambda_p_serialization::builder::parser_output (boost::shared_ptr <lambda_p_serialization::ast::expression> expression_a)
+{
+	analyzer (expression_a);
+}
+
+void lambda_p_serialization::builder::lexer_output (lambda_p_serialization::tokens::token * token_a)
+{
+	parser (token_a);
 }

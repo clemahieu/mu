@@ -19,8 +19,8 @@ namespace lambda_p_serialization
         class stream_end : public lambda_p_serialization::tokens::token
         {
         public:
-			lambda_p_serialization::tokens::token_ids token_id () override;
 			std::wstring token_name () override;
+			void operator () (lambda_p_serialization::tokens::visitor * visitor_a) override;
         };
     }
 }

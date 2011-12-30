@@ -11,7 +11,7 @@ namespace lambda_p_serialization
 		class error : public lambda_p_serialization::tokens::visitor
 		{
 		public:
-			error(std::wstring message_a);
+			error (std::wstring message_a);
 			void operator () (lambda_p_serialization::tokens::divider * token) override;
 			void operator () (lambda_p_serialization::tokens::identifier * token) override;
 			void operator () (lambda_p_serialization::tokens::left_square * token) override;

@@ -94,9 +94,6 @@
     <ClCompile Include="ast\identifier.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="parser\expression.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="tokens\visitor.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
@@ -195,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="ast\identifier.h">
       <Filter>ast</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression.h">
-      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="tokens\visitor.h">
       <Filter>tokens</Filter>
