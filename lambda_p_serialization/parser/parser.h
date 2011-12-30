@@ -3,8 +3,6 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <lambda_p_serialization/parser/state.h>
-
 #include <stack>
 #include <vector>
 #include <map>
@@ -23,6 +21,11 @@ namespace lambda_p_serialization
 	{
 		class token;
 		class identifier;
+		class visitor;
+	}
+	namespace ast
+	{
+		class node;
 	}
 	namespace parser
 	{
@@ -42,11 +45,11 @@ namespace lambda_p_serialization
 			boost::shared_ptr <lambda_p_serialization::parser::error> error ();
 		private:
 			void process_token (lambda_p_serialization::tokens::token * token);
-			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
+			boost::function <void (boost::shared_ptr <lambda_p_serialization::ast::node>)> target;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> globals;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords;
 		public:
-			std::stack <boost::shared_ptr <lambda_p_serialization::parser::state>> state;
+			std::stack <boost::shared_ptr <lambda_p_serialization::tokens::visitor>> state;
 		};
 	}
 }

@@ -130,9 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="analyzer\analyzer.cpp" />
     <ClCompile Include="ast\expression.cpp" />
-    <ClCompile Include="ast\naming.cpp" />
+    <ClCompile Include="ast\identifier.cpp" />
     <ClCompile Include="ast\node.cpp" />
+    <ClCompile Include="ast\visitor.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
@@ -149,31 +151,26 @@
     <ClCompile Include="lexer\wistream_input.cpp" />
     <ClCompile Include="parser\begin.cpp" />
     <ClCompile Include="parser\error.cpp" />
-    <ClCompile Include="parser\expression.cpp" />
-    <ClCompile Include="parser\expression_state.cpp" />
     <ClCompile Include="parser\finished.cpp" />
+    <ClCompile Include="parser\expression.cpp" />
+    <ClCompile Include="parser\full.cpp" />
     <ClCompile Include="parser\parser.cpp" />
-    <ClCompile Include="parser\reference.cpp" />
-    <ClCompile Include="parser\reference_fixed.cpp" />
-    <ClCompile Include="parser\reference_scatter.cpp" />
-    <ClCompile Include="parser\reference_tee.cpp" />
-    <ClCompile Include="parser\routine.cpp" />
-    <ClCompile Include="parser\routine_state.cpp" />
-    <ClCompile Include="parser\routine_vector.cpp" />
-    <ClCompile Include="parser\state.cpp" />
-    <ClCompile Include="parser\state_factory.cpp" />
-    <ClCompile Include="tokens\complex_identifier.cpp" />
+    <ClCompile Include="parser\single.cpp" />
+    <ClCompile Include="parser\values.cpp" />
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\left_square.cpp" />
     <ClCompile Include="tokens\right_square.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
+    <ClCompile Include="tokens\visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="analyzer\analyzer.h" />
     <ClInclude Include="ast\expression.h" />
-    <ClInclude Include="ast\naming.h" />
+    <ClInclude Include="ast\identifier.h" />
     <ClInclude Include="ast\node.h" />
+    <ClInclude Include="ast\visitor.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
@@ -190,26 +187,19 @@
     <ClInclude Include="lexer\wistream_input.h" />
     <ClInclude Include="parser\begin.h" />
     <ClInclude Include="parser\error.h" />
-    <ClInclude Include="parser\expression.h" />
-    <ClInclude Include="parser\expression_state.h" />
     <ClInclude Include="parser\finished.h" />
+    <ClInclude Include="parser\expression.h" />
+    <ClInclude Include="parser\full.h" />
     <ClInclude Include="parser\parser.h" />
-    <ClInclude Include="parser\reference.h" />
-    <ClInclude Include="parser\reference_fixed.h" />
-    <ClInclude Include="parser\reference_scatter.h" />
-    <ClInclude Include="parser\reference_tee.h" />
-    <ClInclude Include="parser\routine.h" />
-    <ClInclude Include="parser\routine_state.h" />
-    <ClInclude Include="parser\routine_vector.h" />
-    <ClInclude Include="parser\state.h" />
-    <ClInclude Include="parser\state_factory.h" />
-    <ClInclude Include="tokens\complex_identifier.h" />
+    <ClInclude Include="parser\single.h" />
+    <ClInclude Include="parser\values.h" />
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\left_square.h" />
     <ClInclude Include="tokens\right_square.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />
+    <ClInclude Include="tokens\visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,53 +1,42 @@
 #pragma once
 
-#include <lambda_p_serialization/parser/state.h>
-#include <lambda_p_serialization/parser/expression_state.h>
+#include <lambda_p_serialization/tokens/visitor.h>
 
-#include <boost/shared_ptr.hpp>
-
-#include <map>
 #include <vector>
 
-namespace lambda_p
-{
-	namespace core
-	{
-		class expression;
-		class tee;
-		class gather;
-		class target;
-		class scatter;
-		class call;
-	}
-}
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
+
 namespace lambda_p_serialization
 {
+	namespace ast
+	{
+		class node;
+	}
 	namespace parser
 	{
 		class parser;
-		class routine;
-		class expression : public lambda_p_serialization::parser::state
+		enum expression_state
+		{
+			values,
+			individual_names,
+			full_name
+		};
+		class expression : public lambda_p_serialization::tokens::visitor
 		{
 		public:
-			expression (lambda_p_serialization::parser::parser & parser_a, lambda_p_serialization::parser::routine & routine_a, boost::shared_ptr <lambda_p::core::target> target_a);
-			boost::shared_ptr <lambda_p::core::target> target;
-			boost::shared_ptr <lambda_p::core::scatter> scatter;
-			boost::shared_ptr <lambda_p::core::tee> tee;
-			boost::shared_ptr <lambda_p::core::call> call;
-			boost::shared_ptr <lambda_p::core::gather> gather;
-			lambda_p_serialization::parser::routine & routine;
-			lambda_p_serialization::parser::parser & parser;
-			lambda_p_serialization::parser::expression_state::expression_state state;
-			size_t position;
-			std::vector <std::wstring> local_names;
-			std::wstring full_name;
-			void resolve ();
-			void back_resolve (std::wstring identifier, boost::shared_ptr <lambda_p::core::expression> expression);
+			expression (lambda_p_serialization::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_serialization::ast::node>)> target_a);
 			void parse (lambda_p_serialization::tokens::token * token) override;
-			void parse_expression (lambda_p_serialization::tokens::token * token);
-			void parse_local_name (lambda_p_serialization::tokens::token * token);
+			void parse_value (lambda_p_serialization::tokens::token * token);
+			void parse_individual_names (lambda_p_serialization::tokens::token * token);
 			void parse_full_name (lambda_p_serialization::tokens::token * token);
-			void parse_nested (lambda_p_serialization::tokens::token * token);
+			void subvalue (boost::shared_ptr <lambda_p_serialization::ast::node> value);
+			lambda_p_serialization::parser::parser & parser;
+			boost::function <void (boost::shared_ptr <lambda_p_serialization::ast::node>)> target;
+			std::vector <boost::shared_ptr <lambda_p_serialization::ast::node>> values;
+			std::vector <std::wstring> individual_names;
+			std::wstring full_name;
+			lambda_p_serialization::parser::expression_state state;
 		};
 	}
 }

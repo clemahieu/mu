@@ -1,15 +1,12 @@
 #include <lambda_p_serialization/parser/parser.h>
 
 #include <lambda_p_serialization/tokens/identifier.h>
-#include <lambda_p_serialization/tokens/complex_identifier.h>
 #include <lambda_p_serialization/tokens/divider.h>
 #include <lambda_p/core/routine.h>
 #include <lambda_p_kernel/nodes/data.h>
 #include <lambda_p_serialization/parser/begin.h>
 #include <lambda_p_serialization/parser/error.h>
-#include <lambda_p_serialization/parser/routine.h>
 #include <lambda_p_serialization/parser/finished.h>
-#include <lambda_p_serialization/parser/state_factory.h>
 
 #include <boost/bind.hpp>
 
@@ -48,7 +45,7 @@ void lambda_p_serialization::parser::parser::operator () (lambda_p_serialization
 void lambda_p_serialization::parser::parser::process_token (lambda_p_serialization::tokens::token * token)
 {
 	auto state_l (state.top ());
-	state_l->parse (token);
+	(*token) (*state_l);
 }
 
 void lambda_p_serialization::parser::parser::reset ()

@@ -41,7 +41,7 @@ void lambda_p_serialization::builder::finish ()
 void lambda_p_serialization::builder::operator () (boost::shared_ptr <lambda_p_serialization::lexer::character_stream> source)
 {
 	wchar_t last_char (L' ');
-	while (routines.routines->empty () && last_char != L'\uffff' && !lexer.error () && !parser.error ())
+	while (last_char != L'\uffff' && !lexer.error () && !parser.error ())
 	{
 		std::wstring line;
 		while (last_char != L'\uffff' && last_char != L'\n')

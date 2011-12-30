@@ -13,6 +13,9 @@
     <Filter Include="ast">
       <UniqueIdentifier>{0a9fdc4a-1610-4d4a-bf60-0bab99ed3ee1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{e887e47c-e469-4e40-aa07-7c5db0e09a41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lexer\begin.cpp">
@@ -45,9 +48,6 @@
     <ClCompile Include="lexer\singleline_comment.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\state.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
     <ClCompile Include="lexer\token_vector.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
@@ -60,35 +60,11 @@
     <ClCompile Include="parser\error.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\expression.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\expression_state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="parser\finished.cpp">
       <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="parser\parser.cpp">
       <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine_state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine_vector.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\state_factory.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\complex_identifier.cpp">
-      <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="tokens\divider.cpp">
       <Filter>tokens</Filter>
@@ -109,26 +85,38 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="parser\reference.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\reference_tee.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\reference_scatter.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\reference_fixed.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="ast\expression.cpp">
       <Filter>ast</Filter>
     </ClCompile>
     <ClCompile Include="ast\node.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="ast\naming.cpp">
+    <ClCompile Include="ast\identifier.cpp">
       <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\expression.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\visitor.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\visitor.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\state.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\analyzer.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\values.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\single.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\full.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +150,6 @@
     <ClInclude Include="lexer\singleline_comment.h">
       <Filter>lexer</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\state.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
     <ClInclude Include="lexer\token_vector.h">
       <Filter>lexer</Filter>
     </ClInclude>
@@ -177,35 +162,11 @@
     <ClInclude Include="parser\error.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\expression.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\expression_state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="parser\finished.h">
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="parser\parser.h">
       <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine_state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine_vector.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\state_factory.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\complex_identifier.h">
-      <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="tokens\divider.h">
       <Filter>tokens</Filter>
@@ -226,26 +187,38 @@
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
-    <ClInclude Include="parser\reference.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\reference_tee.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\reference_scatter.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\reference_fixed.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="ast\expression.h">
       <Filter>ast</Filter>
     </ClInclude>
     <ClInclude Include="ast\node.h">
       <Filter>ast</Filter>
     </ClInclude>
-    <ClInclude Include="ast\naming.h">
+    <ClInclude Include="ast\identifier.h">
       <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\expression.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\visitor.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\visitor.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\state.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\analyzer.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\values.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\single.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\full.h">
+      <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

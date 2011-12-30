@@ -1,6 +1,5 @@
 #pragma once
 
-#include <lambda_p_serialization/parser/routine_vector.h>
 #include <lambda_p_serialization/lexer/lexer.h>
 #include <lambda_p_serialization/parser/parser.h>
 
@@ -24,7 +23,6 @@ namespace lambda_p_serialization
 		virtual std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords ();
 		bool error ();
 		void error_message (std::wostream & out);
-		lambda_p_serialization::parser::routine_vector routines;
 		lambda_p_serialization::parser::parser parser;
 		lambda_p_serialization::lexer::lexer lexer;
 	};
