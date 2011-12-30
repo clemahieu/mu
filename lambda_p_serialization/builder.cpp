@@ -10,13 +10,13 @@
 #include <lambda_p_serialization/parser/error.h>
 
 lambda_p_serialization::builder::builder ()	
-	: parser (boost::bind (&(lambda_p_serialization::parser::routine_vector::operator()), &routines, _1), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> (), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> ()),
+	: parser (boost::bind (&(lambda_p_serialization::analyzer::analyzer::operator()), &analyzer, _1), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> (), std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> ()),
 	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
 {
 }
 
 lambda_p_serialization::builder::builder (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::state_factory>> keywords_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::parser::reference>> & globals_a)
-	: parser (boost::bind (&(lambda_p_serialization::parser::routine_vector::operator()), &routines, _1), keywords_a, globals_a),
+	: parser (boost::bind (&(lambda_p_serialization::analyzer::analyzer::operator()), &analyzer, _1), keywords_a, globals_a),
 	lexer (boost::bind (&(lambda_p_serialization::parser::parser::operator()), &parser, _1))
 {
 }

@@ -2,6 +2,7 @@
 
 #include <lambda_p_serialization/lexer/lexer.h>
 #include <lambda_p_serialization/parser/parser.h>
+#include <lambda_p_serialization/analyzer/analyzer.h>
 
 namespace lambda_p_serialization
 {
@@ -25,6 +26,7 @@ namespace lambda_p_serialization
 		void error_message (std::wostream & out);
 		lambda_p_serialization::parser::parser parser;
 		lambda_p_serialization::lexer::lexer lexer;
+		lambda_p_serialization::analyzer::analyzer analyzer;
 	};
 }
 
