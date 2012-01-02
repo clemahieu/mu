@@ -7,6 +7,7 @@
 #include <lambda_p_serialization/lexer/identifier.h>
 #include <lambda_p_serialization/tokens/left_square.h>
 #include <lambda_p_serialization/tokens/right_square.h>
+#include <lambda_p_serialization/tokens/stream_end.h>
 
 lambda_p_serialization::lexer::begin::begin (lambda_p_serialization::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
@@ -41,6 +42,7 @@ void lambda_p_serialization::lexer::begin::lex (wchar_t character)
 		break;
 	case L'\uffff':
 		lexer.state.pop ();
+		lexer.target (new lambda_p_serialization::tokens::stream_end);
 		break;
 	default:
 		lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::identifier (lexer)));

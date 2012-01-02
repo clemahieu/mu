@@ -4,6 +4,7 @@
 #include <lambda_p_serialization/parser/parser.h>
 #include <lambda_p_serialization/analyzer/analyzer.h>
 #include <lambda_p/container.h>
+#include <lambda_p_serialization/source.h>
 
 #include <vector>
 
@@ -38,6 +39,7 @@ namespace lambda_p_serialization
 		lambda_p_serialization::analyzer::analyzer analyzer;
 		lambda_p_serialization::parser::parser parser;
 		lambda_p_serialization::lexer::lexer lexer;
+		lambda_p_serialization::source source;
 	};
 }
 

@@ -156,6 +156,7 @@
     <ClCompile Include="parser\parser.cpp" />
     <ClCompile Include="parser\single.cpp" />
     <ClCompile Include="parser\values.cpp" />
+    <ClCompile Include="source.cpp" />
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\left_square.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="parser\parser.h" />
     <ClInclude Include="parser\single.h" />
     <ClInclude Include="parser\values.h" />
+    <ClInclude Include="source.h" />
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\left_square.h" />

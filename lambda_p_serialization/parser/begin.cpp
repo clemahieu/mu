@@ -29,7 +29,6 @@ void lambda_p_serialization::parser::begin::operator () (lambda_p_serialization:
 {
     boost::shared_ptr <lambda_p_serialization::tokens::visitor> new_state (new lambda_p_serialization::parser::values (parser, target));
     parser.state.push (new_state);
-    parser (token);
 }
 
 void lambda_p_serialization::parser::begin::operator () (lambda_p_serialization::tokens::right_square * token)

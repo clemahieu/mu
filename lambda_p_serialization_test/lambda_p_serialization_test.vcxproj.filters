@@ -5,11 +5,23 @@
     <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="routine_builder_test.cpp" />
+    <ClCompile Include="lexer.cpp" />
+    <ClCompile Include="lexer_result.cpp" />
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="source_result.cpp" />
+    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="parser_result.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="routine_builder_test.h" />
+    <ClInclude Include="lexer.h" />
+    <ClInclude Include="lexer_result.h" />
+    <ClInclude Include="source.h" />
+    <ClInclude Include="source_result.h" />
+    <ClInclude Include="parser.h" />
+    <ClInclude Include="parser_result.h" />
   </ItemGroup>
 </Project>
