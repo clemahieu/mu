@@ -11,7 +11,7 @@
 #include <lambda_p_serialization/ast/expression.h>
 
 lambda_p_serialization::builder::builder ()	
-	: analyzer (boost::bind (&lambda_p_serialization::builder::analyzer_output, this, _1)),
+	: analyzer (boost::bind (&lambda_p_serialization::builder::analyzer_output, this, _1), boost::bind (&lambda_p_serialization::builder::new_error, this, _1)),
 	parser (boost::bind (&lambda_p_serialization::builder::parser_output, this, _1)),
 	lexer (boost::bind (&lambda_p_serialization::builder::lexer_output, this, _1)),
 	source (boost::bind (&lambda_p_serialization::lexer::lexer::operator(), &lexer, _1))
@@ -41,6 +41,10 @@ void lambda_p_serialization::builder::operator << (boost::shared_ptr <lambda_p_s
 void lambda_p_serialization::builder::finish ()
 {
 	lexer (L'\uffff');
+}
+		
+void lambda_p_serialization::builder::new_error (std::wstring message)
+{
 }
 
 bool lambda_p_serialization::builder::error ()

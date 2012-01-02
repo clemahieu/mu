@@ -131,6 +131,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="analyzer\analyzer.cpp" />
+    <ClCompile Include="analyzer\declaration.cpp" />
+    <ClCompile Include="analyzer\expression.cpp" />
+    <ClCompile Include="analyzer\full.cpp" />
+    <ClCompile Include="analyzer\individual.cpp" />
+    <ClCompile Include="analyzer\routine.cpp" />
     <ClCompile Include="ast\expression.cpp" />
     <ClCompile Include="ast\identifier.cpp" />
     <ClCompile Include="ast\node.cpp" />
@@ -167,6 +172,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer\analyzer.h" />
+    <ClInclude Include="analyzer\declaration.h" />
+    <ClInclude Include="analyzer\expression.h" />
+    <ClInclude Include="analyzer\full.h" />
+    <ClInclude Include="analyzer\individual.h" />
+    <ClInclude Include="analyzer\routine.h" />
     <ClInclude Include="ast\expression.h" />
     <ClInclude Include="ast\identifier.h" />
     <ClInclude Include="ast\node.h" />

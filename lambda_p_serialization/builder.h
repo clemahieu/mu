@@ -32,6 +32,7 @@ namespace lambda_p_serialization
 		void operator << (boost::shared_ptr <lambda_p_serialization::lexer::character_stream> source);
 		bool error ();
 		void error_message (std::wostream & out);
+		void new_error (std::wstring message);
 		void analyzer_output (boost::shared_ptr <lambda_p::core::routine> routine_a);
 		void parser_output (boost::shared_ptr <lambda_p_serialization::ast::expression> expression_a);
 		void lexer_output (lambda_p_serialization::tokens::token * token_a);
