@@ -17,11 +17,11 @@ void lambda_p_serialization::lexer::control::lex (wchar_t character)
 	{
 		switch (character)
 		{
-		case L'*':
+		case L'[':
 			lexer.state.pop ();
 			lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::multiline_comment (lexer)));
 			break;
-		case L'/':
+		case L'-':
 			lexer.state.pop ();
 			lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::singleline_comment (lexer)));
 			break;

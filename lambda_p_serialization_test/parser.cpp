@@ -17,6 +17,9 @@ void lambda_p_serialization_test::parser::run ()
 	run_1 ();
 	run_2 ();
 	run_3 ();
+	run_4 ();
+	run_5 ();
+	run_6 ();
 }
 
 void lambda_p_serialization_test::parser::run_1 ()
@@ -56,4 +59,53 @@ void lambda_p_serialization_test::parser::run_3 ()
 	assert (i1->string == std::wstring (L"t1"));
 	assert (e1->full_name.empty ());
 	assert (e1->individual_names.empty ());
+}
+
+void lambda_p_serialization_test::parser::run_4 ()
+{
+	lambda_p_serialization_test::parser_result result;
+	lambda_p_serialization::parser::parser parser (boost::bind (&lambda_p_serialization_test::parser_result::operator(), &result, _1));
+	parser (new lambda_p_serialization::tokens::left_square);
+	parser (new lambda_p_serialization::tokens::divider);
+	parser (new lambda_p_serialization::tokens::identifier (std::wstring (L"t1")));
+	parser (new lambda_p_serialization::tokens::right_square);
+	auto e1 (boost::dynamic_pointer_cast <lambda_p_serialization::ast::expression> (result.results [0]));
+	assert (e1->values.empty ());
+	assert (e1->individual_names.size () == 1);
+	auto i1 (e1->individual_names [0]);
+	assert (i1 == std::wstring (L"t1"));
+	assert (e1->full_name.empty ());
+}
+
+void lambda_p_serialization_test::parser::run_5 ()
+{
+	lambda_p_serialization_test::parser_result result;
+	lambda_p_serialization::parser::parser parser (boost::bind (&lambda_p_serialization_test::parser_result::operator(), &result, _1));
+	parser (new lambda_p_serialization::tokens::left_square);
+	parser (new lambda_p_serialization::tokens::divider);
+	parser (new lambda_p_serialization::tokens::divider);
+	parser (new lambda_p_serialization::tokens::identifier (std::wstring (L"t1")));
+	parser (new lambda_p_serialization::tokens::right_square);
+	auto e1 (boost::dynamic_pointer_cast <lambda_p_serialization::ast::expression> (result.results [0]));
+	assert (e1->values.empty ());
+	assert (e1->individual_names.empty ());
+	assert (e1->full_name == std::wstring (L"t1"));
+}
+
+void lambda_p_serialization_test::parser::run_6 ()
+{
+	lambda_p_serialization_test::parser_result result;
+	lambda_p_serialization::parser::parser parser (boost::bind (&lambda_p_serialization_test::parser_result::operator(), &result, _1));
+	parser (new lambda_p_serialization::tokens::left_square);
+	parser (new lambda_p_serialization::tokens::left_square);
+	parser (new lambda_p_serialization::tokens::right_square);
+	parser (new lambda_p_serialization::tokens::right_square);
+	auto e1 (boost::dynamic_pointer_cast <lambda_p_serialization::ast::expression> (result.results [0]));
+	assert (e1->values.size () == 1);
+	assert (e1->individual_names.empty ());
+	assert (e1->full_name.empty ());
+	auto e2 (boost::dynamic_pointer_cast <lambda_p_serialization::ast::expression> (e1->values [0]));
+	assert (e2->values.empty ());
+	assert (e2->individual_names.empty ());
+	assert (e2->full_name.empty ());
 }

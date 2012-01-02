@@ -17,8 +17,12 @@ void lambda_p_serialization::lexer::multiline_comment::lex (wchar_t character)
 		{
 			switch (character)
 			{
-			case L'*':
+			case L']':
 				lexer.state.pop ();
+				break;
+			case L'[':
+				have_colon = false;
+				lexer.state.push (boost::shared_ptr <lambda_p_serialization::lexer::state> (new lambda_p_serialization::lexer::multiline_comment (lexer)));
 				break;
 			case L':':
 				// Remain in have_colon state

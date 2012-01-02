@@ -21,6 +21,9 @@ void lambda_p_serialization_test::lexer::run ()
 	run_5 ();
 	run_6 ();
 	run_7 ();
+	run_8 ();
+	run_9 ();
+	run_10 ();
 }
 
 void lambda_p_serialization_test::lexer::run_1 ()
@@ -129,4 +132,43 @@ void lambda_p_serialization_test::lexer::run_7 ()
 	assert (t1i != nullptr);
 	assert (t1i->string == std::wstring (L"|;[]"));
 	assert (dynamic_cast <lambda_p_serialization::tokens::stream_end *> (t2) != nullptr);
+}
+
+void lambda_p_serialization_test::lexer::run_8 ()
+{
+	lambda_p_serialization_test::lexer_result result;
+	lambda_p_serialization::lexer::lexer lexer (boost::bind (&lambda_p_serialization_test::lexer_result::operator (), &result, _1));
+	lambda_p_serialization::source source (boost::bind (&lambda_p_serialization::lexer::lexer::operator (), &lexer, _1));
+	source (L":- a\nb");
+	source ();
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_serialization::tokens::identifier *> (result.results [0]));
+	assert (t1->string == std::wstring (L"b"));
+	assert (dynamic_cast <lambda_p_serialization::tokens::stream_end *> (result.results [1]) != nullptr);
+}
+
+void lambda_p_serialization_test::lexer::run_9 ()
+{
+	lambda_p_serialization_test::lexer_result result;
+	lambda_p_serialization::lexer::lexer lexer (boost::bind (&lambda_p_serialization_test::lexer_result::operator (), &result, _1));
+	lambda_p_serialization::source source (boost::bind (&lambda_p_serialization::lexer::lexer::operator (), &lexer, _1));
+	source (L":[ a :] b");
+	source ();
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_serialization::tokens::identifier *> (result.results [0]));
+	assert (t1->string == std::wstring (L"b"));
+	assert (dynamic_cast <lambda_p_serialization::tokens::stream_end *> (result.results [1]) != nullptr);
+}
+
+void lambda_p_serialization_test::lexer::run_10 ()
+{
+	lambda_p_serialization_test::lexer_result result;
+	lambda_p_serialization::lexer::lexer lexer (boost::bind (&lambda_p_serialization_test::lexer_result::operator (), &result, _1));
+	lambda_p_serialization::source source (boost::bind (&lambda_p_serialization::lexer::lexer::operator (), &lexer, _1));
+	source (L":[:[ a :]:] b");
+	source ();
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_serialization::tokens::identifier *> (result.results [0]));
+	assert (t1->string == std::wstring (L"b"));
+	assert (dynamic_cast <lambda_p_serialization::tokens::stream_end *> (result.results [1]) != nullptr);
 }
