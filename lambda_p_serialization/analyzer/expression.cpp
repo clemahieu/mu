@@ -9,12 +9,13 @@
 #include <lambda_p/core/call.h>
 #include <lambda_p_serialization/analyzer/declaration.h>
 
-lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a)
+lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
 	: routine (routine_a),
 	target (target_a),
 	position (0),
+	errors (errors_a),
 	tee (new lambda_p::core::tee),
-	call (new lambda_p::core::call (tee, routine_a.errors)),
+	call (new lambda_p::core::call (tee, errors_a)),
 	gather (new lambda_p::core::gather (call))
 {
 	for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
@@ -28,7 +29,7 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 void lambda_p_serialization::analyzer::expression::operator () (lambda_p_serialization::ast::expression * expression_a)
 {
 	auto connection (boost::shared_ptr <lambda_p::core::target> (new lambda_p::core::connection (gather, position)));
-	lambda_p_serialization::analyzer::expression expression (routine, expression_a, connection);
+	lambda_p_serialization::analyzer::expression expression (routine, expression_a, connection, errors);
 }
 
 void lambda_p_serialization::analyzer::expression::operator () (lambda_p_serialization::ast::identifier * identifier_a)

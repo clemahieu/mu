@@ -1,12 +1,13 @@
 #pragma once
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 namespace lambda_p
 {
 	namespace errors
 	{
-		class error_list;
+		class error;
 	}
 	namespace core
 	{
@@ -15,11 +16,11 @@ namespace lambda_p
 		class routine
 		{
 		public:
-			routine ();
-			routine (boost::shared_ptr <lambda_p::core::entry> input_a,	boost::shared_ptr <lambda_p::core::pipe> output_a, boost::shared_ptr <lambda_p::errors::error_list> errors_a);
+			routine (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
+			routine (boost::shared_ptr <lambda_p::core::entry> input_a,	boost::shared_ptr <lambda_p::core::pipe> output_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
 			boost::shared_ptr <lambda_p::core::entry> input;
 			boost::shared_ptr <lambda_p::core::pipe> output;
-			boost::shared_ptr <lambda_p::errors::error_list> errors;
+			boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors;
 		};
 	}
 }

@@ -3,6 +3,7 @@
 #include <lambda_p_serialization/ast/visitor.h>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
 
 #include <map>
 
@@ -16,7 +17,7 @@ namespace lambda_p
 	}
 	namespace errors
 	{
-		class error_list;
+		class error;
 	}
 }
 namespace lambda_p_serialization
@@ -28,10 +29,9 @@ namespace lambda_p_serialization
 		class routine
 		{
 		public:
-			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a);
+			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
 			boost::shared_ptr <lambda_p::core::entry> entry;
 			boost::shared_ptr <lambda_p::core::pipe> pipe;
-			boost::shared_ptr <lambda_p::errors::error_list> errors;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved;
 		};

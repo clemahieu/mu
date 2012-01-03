@@ -9,6 +9,9 @@
 #include <lambda_p/core/connection.h>
 #include <lambda_p/core/tee.h>
 #include <lambda_p/core/entry.h>
+#include <lambda_p/errors/error_list.h>
+
+#include <boost/bind.hpp>
 
 void lambda_p_test::routine::run ()
 {
@@ -18,7 +21,8 @@ void lambda_p_test::routine::run ()
 
 void lambda_p_test::routine::run_1 ()
 {
-	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
+	lambda_p::errors::error_list errors;
+	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (boost::bind (static_cast <void (lambda_p::errors::error_list::*) (boost::shared_ptr <lambda_p::errors::error>)>(&lambda_p::errors::error_list::operator()), &errors, _1)));
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
 	routine->output->next = container;
 	auto gather (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));
@@ -40,7 +44,8 @@ void lambda_p_test::routine::run_1 ()
 
 void lambda_p_test::routine::run_2 ()
 {
-	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine);
+	lambda_p::errors::error_list errors;
+	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (boost::bind (static_cast <void (lambda_p::errors::error_list::*) (boost::shared_ptr <lambda_p::errors::error>)>(&lambda_p::errors::error_list::operator()), &errors, _1)));
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
 	routine->output->next = container;
 	auto gather1 (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));

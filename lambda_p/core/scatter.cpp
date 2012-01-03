@@ -1,10 +1,10 @@
 #include "scatter.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <lambda_p/errors/string_error.h>
 
 #include <sstream>
 
-lambda_p::core::scatter::scatter (boost::shared_ptr <lambda_p::errors::error_list> errors_a)
+lambda_p::core::scatter::scatter (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
 	: required (~0),
 	errors (errors_a)
 {
@@ -21,7 +21,7 @@ void lambda_p::core::scatter::operator () (std::vector <boost::shared_ptr <lambd
 			message << arguments.size ();
 			message << L" doesn't match number of formal arguments: ";
 			message << required;
-			(*errors) (message.str ());
+			errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (message.str ())));
 		}
 		assert (targets.size () <= required);
 	}

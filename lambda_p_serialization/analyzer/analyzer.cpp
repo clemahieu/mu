@@ -21,7 +21,7 @@ void lambda_p_serialization::analyzer::analyzer::operator () (boost::shared_ptr 
 void lambda_p_serialization::analyzer::analyzer::operator () (lambda_p_serialization::ast::expression * expression_a)
 {
 	std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations;
-	lambda_p_serialization::analyzer::routine (*this, expression_a, declarations);
+	lambda_p_serialization::analyzer::routine (*this, expression_a, declarations, errors);
 }
 
 void lambda_p_serialization::analyzer::analyzer::operator () (lambda_p_serialization::ast::identifier * identifier_a)
