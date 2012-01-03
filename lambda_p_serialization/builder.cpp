@@ -9,9 +9,11 @@
 #include <lambda_p_serialization/lexer/error.h>
 #include <lambda_p_serialization/parser/error.h>
 #include <lambda_p_serialization/ast/expression.h>
+#include <lambda_p/errors/error_list.h>
 
 lambda_p_serialization::builder::builder ()	
-	: analyzer (boost::bind (&lambda_p_serialization::builder::analyzer_output, this, _1), boost::bind (&lambda_p::errors::error_list::operator (), &errors, _1)),
+	: errors (new lambda_p::errors::error_list),
+	analyzer (boost::bind (&lambda_p_serialization::builder::analyzer_output, this, _1), errors),
 	parser (boost::bind (&lambda_p_serialization::builder::parser_output, this, _1)),
 	lexer (boost::bind (&lambda_p_serialization::builder::lexer_output, this, _1)),
 	source (boost::bind (&lambda_p_serialization::lexer::lexer::operator(), &lexer, _1))

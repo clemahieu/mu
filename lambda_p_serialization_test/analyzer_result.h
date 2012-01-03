@@ -12,7 +12,7 @@ namespace lambda_p
 	}
 	namespace errors
 	{
-		class error;
+		class error_list;
 	}
 }
 namespace lambda_p_serialization_test
@@ -20,10 +20,10 @@ namespace lambda_p_serialization_test
 	class analyzer_result
 	{
 	public:
+		analyzer_result ();
 		void operator () (boost::shared_ptr <lambda_p::core::routine> routine_a);
-		void operator () (boost::shared_ptr <lambda_p::errors::error> error_a);
 		std::vector <boost::shared_ptr <lambda_p::core::routine>> routines;
-		std::vector <boost::shared_ptr <lambda_p::errors::error>> errors;
+		boost::shared_ptr <lambda_p::errors::error_list> errors;
 	};
 }
 

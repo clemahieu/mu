@@ -13,9 +13,9 @@
 #include <lambda_p/core/scatter.h>
 #include <lambda_p/core/fixed.h>
 #include <lambda_p/core/entry.h>
-#include <lambda_p/errors/string_error.h>
+#include <lambda_p/errors/error_target.h>
 
-lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
+lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: routine (routine_a),
 	target (target_a),
 	position (0),
@@ -59,7 +59,7 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 	}
 	else
 	{
-		errors (boost::shared_ptr <lambda_p::errors::string_error> (new lambda_p::errors::string_error (std::wstring (L"Expression has no target"))));
+		(*errors) (L"Expression has no target");
 	}
 }
 

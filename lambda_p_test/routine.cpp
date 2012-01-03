@@ -21,16 +21,15 @@ void lambda_p_test::routine::run ()
 
 void lambda_p_test::routine::run_1 ()
 {
-	lambda_p::errors::error_list errors;
-	auto error (boost::bind (&lambda_p::errors::error_list::operator(), &errors, _1));
-	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (error));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_target> (new lambda_p::errors::error_list));
+	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (errors));
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
 	routine->output->next = container;
 	auto gather (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));
 	auto scatter (boost::shared_ptr <lambda_p::core::scatter> (new lambda_p::core::scatter (2, routine->errors)));
 	auto tee (boost::shared_ptr <lambda_p::core::tee> (new lambda_p::core::tee));
 	tee->targets.push_back (scatter);
-	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (error)));
+	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (errors)));
 	entry->next = tee;
 	routine->input = entry;
 	(*scatter) [0].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather, 0)));
@@ -44,9 +43,8 @@ void lambda_p_test::routine::run_1 ()
 
 void lambda_p_test::routine::run_2 ()
 {
-	lambda_p::errors::error_list errors;
-	auto error (boost::bind (&lambda_p::errors::error_list::operator(), &errors, _1));
-	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (error));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_target> (new lambda_p::errors::error_list));
+	boost::shared_ptr <lambda_p::core::routine> routine (new lambda_p::core::routine (errors));
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
 	routine->output->next = container;
 	auto gather1 (boost::shared_ptr <lambda_p::core::gather> (new lambda_p::core::gather (routine->output, 2)));
@@ -58,7 +56,7 @@ void lambda_p_test::routine::run_2 ()
 	(*scatter) [3].push_back (boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather2, 0)));
 	auto tee (boost::shared_ptr <lambda_p::core::tee> (new lambda_p::core::tee));
 	tee->targets.push_back (scatter);
-	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (error)));
+	auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (errors)));
 	entry->next = tee;
 	routine->input = entry;
 	gather1->target = boost::shared_ptr <lambda_p::core::connection> (new lambda_p::core::connection (gather2, 1));

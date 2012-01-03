@@ -15,7 +15,7 @@
 
 #include <sstream>
 
-lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
+lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: entry (new lambda_p::core::entry (errors_a)),
 	pipe (new lambda_p::core::pipe),
 	declarations (declarations_a)
@@ -40,13 +40,13 @@ lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::anal
 				std::wstringstream message;
 				message << L"Unresolved identifier: ";
 				message << i->first;
-				analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (message.str ())));
+				(*analyzer_a.errors) (message.str ());
 			}
 		}
 	}
 	else
 	{
-		analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (std::wstring (L"Top level routine cannot have individual or a full name"))));
+		(*analyzer_a.errors) (L"Top level routine cannot have individual or a full name");
 	}
 }
 

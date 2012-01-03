@@ -5,7 +5,6 @@
 #include <lambda_p_serialization/analyzer/analyzer.h>
 #include <lambda_p/container.h>
 #include <lambda_p_serialization/source.h>
-#include <lambda_p/errors/error_list.h>
 
 #include <vector>
 
@@ -14,6 +13,10 @@ namespace lambda_p
 	namespace core
 	{
 		class routine;
+	}
+	namespace errors
+	{
+		class error_list;
 	}
 }
 namespace lambda_p_serialization
@@ -37,7 +40,7 @@ namespace lambda_p_serialization
 		void parser_output (boost::shared_ptr <lambda_p_serialization::ast::expression> expression_a);
 		void lexer_output (lambda_p_serialization::tokens::token * token_a);
 		std::vector <boost::shared_ptr <lambda_p::core::routine>> routines;
-		lambda_p::errors::error_list errors;
+		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_serialization::analyzer::analyzer analyzer;
 		lambda_p_serialization::parser::parser parser;
 		lambda_p_serialization::lexer::lexer lexer;

@@ -7,7 +7,7 @@ namespace lambda_p
 {
 	namespace errors
 	{
-		class error;
+		class error_target;
 	}
 	namespace core
 	{
@@ -16,11 +16,11 @@ namespace lambda_p
 		class routine
 		{
 		public:
-			routine (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
-			routine (boost::shared_ptr <lambda_p::core::entry> input_a,	boost::shared_ptr <lambda_p::core::pipe> output_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
+			routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a);
+			routine (boost::shared_ptr <lambda_p::core::entry> input_a,	boost::shared_ptr <lambda_p::core::pipe> output_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			boost::shared_ptr <lambda_p::core::entry> input;
 			boost::shared_ptr <lambda_p::core::pipe> output;
-			boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors;
+			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};
 	}
 }

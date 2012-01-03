@@ -4,7 +4,7 @@
 #include <lambda_p/core/tee.h>
 #include <lambda_p/core/explode.h>
 
-lambda_p::core::entry::entry (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
+lambda_p::core::entry::entry (boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: next (new lambda_p::core::tee),
 	errors (errors_a)
 {

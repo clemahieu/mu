@@ -15,7 +15,7 @@ namespace lambda_p
 	}
 	namespace errors
 	{
-		class error;
+		class error_target;
 	}
 }
 namespace lambda_p_serialization
@@ -30,12 +30,12 @@ namespace lambda_p_serialization
 		class analyzer : public lambda_p_serialization::ast::visitor
 		{
 		public:
-			analyzer (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
+			analyzer (boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			void operator () (boost::shared_ptr <lambda_p_serialization::ast::node> node);
 			void operator () (lambda_p_serialization::ast::expression * expression_a) override;
 			void operator () (lambda_p_serialization::ast::identifier * identifier_a) override;
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
-			boost::function <void (boost::shared_ptr <lambda_p::errors::error> error_a)> errors;
+			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};
 	}
 }

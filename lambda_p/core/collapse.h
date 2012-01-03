@@ -2,23 +2,21 @@
 
 #include <lambda_p/core/target.h>
 
-#include <boost/function.hpp>
-
 namespace lambda_p
 {
 	namespace errors
 	{
-		class error;
+		class error_target;
 	}
 	namespace core
 	{
 		class collapse : public lambda_p::core::target
 		{
 		public:
-			collapse (boost::shared_ptr <lambda_p::core::target> target_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
+			collapse (boost::shared_ptr <lambda_p::core::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
 			boost::shared_ptr <lambda_p::core::target> target;
-			boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors;
+			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};
 	}
 }
