@@ -4,3 +4,8 @@ void lambda_p::errors::error_list::operator () (boost::shared_ptr <lambda_p::err
 {
 	errors.push_back (error);
 }
+
+bool lambda_p::errors::error_list::operator () ()
+{
+	return !errors.empty ();
+}

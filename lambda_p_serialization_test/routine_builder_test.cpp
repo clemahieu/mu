@@ -27,7 +27,6 @@ void lambda_p_serialization_test::routine_builder_test::run ()
 void lambda_p_serialization_test::routine_builder_test::run_1 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -36,13 +35,12 @@ void lambda_p_serialization_test::routine_builder_test::run_1 ()
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_2 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[] []");
 	assert (routine.routines.size () == 2);
 	auto result (routine.routines [0]);
@@ -51,13 +49,12 @@ void lambda_p_serialization_test::routine_builder_test::run_2 ()
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_3 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[~]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -66,13 +63,12 @@ void lambda_p_serialization_test::routine_builder_test::run_3 ()
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_4 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[~; a]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -83,7 +79,7 @@ void lambda_p_serialization_test::routine_builder_test::run_4 ()
 	arguments.push_back (e1);
 	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 	assert (container->results.size () == 1);
 	assert (container->results [0] == e1);
 }
@@ -91,7 +87,6 @@ void lambda_p_serialization_test::routine_builder_test::run_4 ()
 void lambda_p_serialization_test::routine_builder_test::run_5 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[~; a]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -100,13 +95,12 @@ void lambda_p_serialization_test::routine_builder_test::run_5 ()
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	assert (result->input.get () != nullptr);
 	(*(result->input)) (arguments);
-	assert (!errors.errors.empty ());
+	assert (!routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_6 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[~; a b]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -118,13 +112,12 @@ void lambda_p_serialization_test::routine_builder_test::run_6 ()
 	arguments.push_back (a1);
 	arguments.push_back (a2);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_7 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[[~; a] a]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -134,13 +127,12 @@ void lambda_p_serialization_test::routine_builder_test::run_7 ()
 	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
 	arguments.push_back (a1);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_8 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[[~; a b] a b]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -152,13 +144,12 @@ void lambda_p_serialization_test::routine_builder_test::run_8 ()
 	arguments.push_back (a1);
 	arguments.push_back (a2);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_9 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[~; a; b]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -168,13 +159,12 @@ void lambda_p_serialization_test::routine_builder_test::run_9 ()
 	auto a1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
 	arguments.push_back (a1);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_10 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[[~; a b] a; c d]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -186,13 +176,12 @@ void lambda_p_serialization_test::routine_builder_test::run_10 ()
 	arguments.push_back (a1);
 	arguments.push_back (a2);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }
 
 void lambda_p_serialization_test::routine_builder_test::run_11 ()
 {
 	lambda_p_serialization::builder routine;
-	lambda_p::errors::error_list errors;
 	routine (L"[[~; a b] a b; d; e]");
 	assert (routine.routines.size () == 1);
 	auto result (routine.routines [0]);
@@ -204,5 +193,5 @@ void lambda_p_serialization_test::routine_builder_test::run_11 ()
 	arguments.push_back (a1);
 	arguments.push_back (a2);
 	(*(result->input)) (arguments);
-	assert (errors.errors.empty ());
+	assert (routine.errors.errors.empty ());
 }

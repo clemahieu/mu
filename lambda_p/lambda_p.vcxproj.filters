@@ -86,6 +86,9 @@
     <ClInclude Include="core\collapse.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="errors\error_target.h">
+      <Filter>errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -166,6 +169,9 @@
     </ClCompile>
     <ClCompile Include="core\collapse.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\error_target.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

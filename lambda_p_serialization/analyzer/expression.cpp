@@ -13,6 +13,7 @@
 #include <lambda_p/core/scatter.h>
 #include <lambda_p/core/fixed.h>
 #include <lambda_p/core/entry.h>
+#include <lambda_p/errors/string_error.h>
 
 lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
 	: routine (routine_a),
@@ -23,35 +24,42 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 	call (new lambda_p::core::call (tee, errors_a)),
 	gather (new lambda_p::core::gather (call))
 {
-	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	if (!expression_a->values.empty ())
 	{
-		tee->targets.push_back (target);
+		if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+		{
+			tee->targets.push_back (target);
+		}
+		else
+		{
+			auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
+			fixed->target->targets.push_back (target);
+			routine.entry->fixed.push_back (fixed);
+			if (!expression_a->full_name.empty ())
+			{
+				routine (expression_a->full_name, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (tee)));
+			}
+			if (!expression_a->individual_names.empty ())
+			{
+				boost::shared_ptr <lambda_p::core::scatter> scatter (new lambda_p::core::scatter (expression_a->individual_names.size (), errors));
+				tee->targets.push_back (scatter);
+				size_t position_l (0);
+				for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i, ++position_l)
+				{
+					routine (*i, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::individual (scatter, position_l)));
+				}
+			}
+		}
+		for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
+		{
+			(*(*i)) (this);
+			++position;
+			gather->increment ();
+		}
 	}
 	else
 	{
-		auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
-		fixed->target->targets.push_back (target);
-		routine.entry->fixed.push_back (fixed);
-		if (!expression_a->full_name.empty ())
-		{
-			routine (expression_a->full_name, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (tee)));
-		}
-		if (!expression_a->individual_names.empty ())
-		{
-			boost::shared_ptr <lambda_p::core::scatter> scatter (new lambda_p::core::scatter (expression_a->individual_names.size (), errors));
-			tee->targets.push_back (scatter);
-			size_t position_l (0);
-			for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i, ++position_l)
-			{
-				routine (*i, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::individual (scatter, position_l)));
-			}
-		}
-	}
-	for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
-	{
-		(*(*i)) (this);
-		++position;
-		gather->increment ();
+		errors (boost::shared_ptr <lambda_p::errors::string_error> (new lambda_p::errors::string_error (std::wstring (L"Expression has no target"))));
 	}
 }
 
