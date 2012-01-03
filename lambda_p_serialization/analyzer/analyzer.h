@@ -6,6 +6,7 @@
 #include <boost/function.hpp>
 
 #include <stack>
+#include <map>
 
 namespace lambda_p
 {
@@ -27,6 +28,7 @@ namespace lambda_p_serialization
 	}
 	namespace analyzer
 	{
+		class extension;
 		class analyzer : public lambda_p_serialization::ast::visitor
 		{
 		public:
@@ -34,6 +36,7 @@ namespace lambda_p_serialization
 			void operator () (boost::shared_ptr <lambda_p_serialization::ast::node> node);
 			void operator () (lambda_p_serialization::ast::expression * expression_a) override;
 			void operator () (lambda_p_serialization::ast::identifier * identifier_a) override;
+			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::extension>> extensions;
 			boost::function <void (boost::shared_ptr <lambda_p::core::routine>)> target;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};

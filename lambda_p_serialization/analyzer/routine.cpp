@@ -16,7 +16,8 @@
 #include <sstream>
 
 lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
-	: entry (new lambda_p::core::entry (errors_a)),
+	: analyzer (analyzer_a),
+	entry (new lambda_p::core::entry (errors_a)),
 	pipe (new lambda_p::core::pipe),
 	declarations (declarations_a)
 {

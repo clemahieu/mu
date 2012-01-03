@@ -31,6 +31,7 @@ namespace lambda_p_serialization
 		{
 		public:
 			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
+			lambda_p_serialization::analyzer::analyzer & analyzer;
 			boost::shared_ptr <lambda_p::core::entry> entry;
 			boost::shared_ptr <lambda_p::core::pipe> pipe;
 			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed;

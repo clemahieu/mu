@@ -50,9 +50,10 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 				}
 			}
 		}
-		for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
+		auto j (expression_a->values.size ());
+		while (position != j && !(*errors) ())
 		{
-			(*(*i)) (this);
+			(*expression_a->values [position]) (this);
 			++position;
 			gather->increment ();
 		}
