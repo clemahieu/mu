@@ -17,7 +17,7 @@ namespace lambda_p
 		public:
 			gather (boost::shared_ptr <lambda_p::core::target> target_a);
 			gather (boost::shared_ptr <lambda_p::core::target> target_a, size_t size_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments, size_t sequence);
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments, size_t sequence);
 			void increment ();
 			std::vector <std::vector <boost::shared_ptr <lambda_p::core::expression>>> arguments;
 			boost::shared_ptr <lambda_p::core::target> target;

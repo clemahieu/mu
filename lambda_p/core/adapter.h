@@ -10,7 +10,7 @@ namespace lambda_p
 		class adapter : public lambda_p::core::target
 		{
 		public:
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
 			boost::shared_ptr <lambda_p::core::node> node;
 			boost::shared_ptr <lambda_p::core::target> target;
 		};

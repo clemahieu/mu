@@ -186,7 +186,7 @@ void lambda_p_serialization_test::analyzer::run_10 ()
 	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
 	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
 	(*routine->input) (arguments);
-	assert (!result.errors.empty ());
+	assert (result.errors.empty ());
 	assert (container->results.size () == 1);
 	assert (container->results [0] == arguments [0]);
 }

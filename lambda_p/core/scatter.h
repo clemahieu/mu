@@ -14,9 +14,8 @@ namespace lambda_p
 		class scatter : public lambda_p::core::target
 		{
 		public:
-			scatter (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
-			void set_required (size_t required_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
+			scatter (size_t required_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
 			std::vector <boost::shared_ptr <lambda_p::core::target>> & operator [] (size_t index);
 		private:
 			void perform (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments);

@@ -9,7 +9,7 @@ lambda_p::core::call::call (boost::shared_ptr <lambda_p::core::target> target_a,
 {
 }
 
-void lambda_p::core::call::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments)
+void lambda_p::core::call::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
 {
 	if (!arguments.empty ())
 	{

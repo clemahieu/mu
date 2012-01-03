@@ -8,7 +8,7 @@ lambda_p::core::implode::implode (boost::function <void (boost::shared_ptr <lamb
 {
 }
 
-void lambda_p::core::implode::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> parameters, boost::shared_ptr <lambda_p::core::target> target_a)
+void lambda_p::core::implode::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & parameters, boost::shared_ptr <lambda_p::core::target> target_a)
 {
 	assert (parameters.size () > 0);
 	assert (parameters [0].get () == this);

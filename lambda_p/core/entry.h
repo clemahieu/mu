@@ -18,8 +18,8 @@ namespace lambda_p
 		{
 		public:
 			entry (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
-			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed_parameters;
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
+			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed;
 			boost::shared_ptr <lambda_p::core::tee> next;
 			boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors;
 		};

@@ -10,9 +10,9 @@ lambda_p::core::entry::entry (boost::function <void (boost::shared_ptr <lambda_p
 {
 }
 
-void lambda_p::core::entry::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments)
+void lambda_p::core::entry::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
 {
-	for (auto i (fixed_parameters.begin ()), j (fixed_parameters.end ()); i != j; ++i)
+	for (auto i (fixed.begin ()), j (fixed.end ()); i != j; ++i)
 	{
 		(*(*i)) ();
 	}

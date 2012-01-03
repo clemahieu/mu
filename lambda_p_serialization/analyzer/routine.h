@@ -6,6 +6,7 @@
 #include <boost/function.hpp>
 
 #include <map>
+#include <vector>
 
 namespace lambda_p
 {
@@ -14,6 +15,7 @@ namespace lambda_p
 		class entry;
 		class pipe;
 		class target;
+		class fixed;
 	}
 	namespace errors
 	{
@@ -32,6 +34,7 @@ namespace lambda_p_serialization
 			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a, boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a);
 			boost::shared_ptr <lambda_p::core::entry> entry;
 			boost::shared_ptr <lambda_p::core::pipe> pipe;
+			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved;
 		};

@@ -14,7 +14,7 @@ namespace lambda_p
 		class node : public lambda_p::core::expression
 		{
 		public:
-			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> parameters, boost::shared_ptr <lambda_p::core::target> target_a) = 0;
+			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & parameters, boost::shared_ptr <lambda_p::core::target> target_a) = 0;
 		};
 	}
 }
