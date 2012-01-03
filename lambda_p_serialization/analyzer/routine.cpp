@@ -30,8 +30,15 @@ lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::anal
 		lambda_p_serialization::analyzer::expression expression (*this, expression_a, pipe, errors_a);
 		if (unresolved.empty ())
 		{
-			auto routine (boost::shared_ptr <lambda_p::core::routine> (new lambda_p::core::routine (entry, pipe, errors_a)));
-			analyzer_a.target (routine);
+			if (!(*errors_a) ())
+			{
+				auto routine (boost::shared_ptr <lambda_p::core::routine> (new lambda_p::core::routine (entry, pipe, errors_a)));
+				analyzer_a.target (routine);
+			}
+			else
+			{
+				(*errors_a) (L"Not generating routine due to other errors");
+			}
 		}
 		else
 		{

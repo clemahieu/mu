@@ -32,7 +32,8 @@ void lambda_p_serialization_test::analyzer::run_1 ()
 {
 	lambda_p_serialization_test::analyzer_result result;
 	lambda_p_serialization::analyzer::analyzer analyzer_l (boost::bind (static_cast <void (lambda_p_serialization_test::analyzer_result::*)(boost::shared_ptr <lambda_p::core::routine>)> (&lambda_p_serialization_test::analyzer_result::operator()), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_serialization::ast::node> (new lambda_p_serialization::ast::expression (std::vector <boost::shared_ptr <lambda_p_serialization::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_serialization::ast::expression> (new lambda_p_serialization::ast::expression (std::vector <boost::shared_ptr <lambda_p_serialization::ast::node>> ())));
+	expression->values.push_back (boost::shared_ptr <lambda_p_serialization::ast::identifier> (new lambda_p_serialization::ast::identifier (std::wstring (L".identity"))));
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());
