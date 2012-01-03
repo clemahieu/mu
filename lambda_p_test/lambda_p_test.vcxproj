@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
+    <ClCompile Include="identity.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="scatter.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="filesystem_test.h" />
+    <ClInclude Include="identity.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="scatter.h" />
     <ClInclude Include="tests.h" />

@@ -9,6 +9,9 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_serialization/analyzer/full.h>
+#include <lambda_p/core/fixed.h>
+#include <lambda_p/core/identity.h>
+#include <lambda_p_serialization/analyzer/declaration.h>
 
 #include <sstream>
 
@@ -17,35 +20,42 @@ lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::anal
 	pipe (new lambda_p::core::pipe),
 	declarations (declarations_a)
 {
-	if (declarations.find (std::wstring (L"~")) == declarations.end ())
+	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (std::wstring (L"~"), boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (entry->next))));
+	auto identity (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
+	entry->fixed.push_back (identity);
+	identity->arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (std::wstring (L".identity"), boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (identity->target))));
+	if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
 	{
-		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (std::wstring (L"~"), boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (entry->next))));
-		if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
+		lambda_p_serialization::analyzer::expression expression (*this, expression_a, pipe, errors_a);
+		if (unresolved.empty ())
 		{
-			lambda_p_serialization::analyzer::expression expression (*this, expression_a, pipe, errors_a);
-			if (unresolved.empty ())
-			{
-				auto routine (boost::shared_ptr <lambda_p::core::routine> (new lambda_p::core::routine (entry, pipe, errors_a)));
-				analyzer_a.target (routine);
-			}
-			else
-			{
-				for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
-				{
-					std::wstringstream message;
-					message << L"Unresolved identifier: ";
-					message << i->first;
-					analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (message.str ())));
-				}
-			}
+			auto routine (boost::shared_ptr <lambda_p::core::routine> (new lambda_p::core::routine (entry, pipe, errors_a)));
+			analyzer_a.target (routine);
 		}
 		else
 		{
-			analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (std::wstring (L"Top level routine cannot have individual or a full name"))));
+			for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
+			{
+				std::wstringstream message;
+				message << L"Unresolved identifier: ";
+				message << i->first;
+				analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (message.str ())));
+			}
 		}
 	}
 	else
 	{
-		analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (std::wstring (L"Identifier ~ is already declared"))));
+		analyzer_a.errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (std::wstring (L"Top level routine cannot have individual or a full name"))));
 	}
+}
+
+void lambda_p_serialization::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> declaration)
+{
+	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (identifier, declaration));
+	for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j; ++i)
+	{
+		(*declaration) (i->second);
+	}
+	unresolved.erase (identifier);
 }

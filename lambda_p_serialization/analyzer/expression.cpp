@@ -30,11 +30,11 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 	else
 	{
 		auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
-		fixed->target = target;
+		fixed->target->targets.push_back (target);
 		routine.entry->fixed.push_back (fixed);
 		if (!expression_a->full_name.empty ())
 		{
-			routine.declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (expression_a->full_name, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (tee))));
+			routine (expression_a->full_name, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::full (tee)));
 		}
 		if (!expression_a->individual_names.empty ())
 		{
@@ -43,7 +43,7 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 			size_t position_l (0);
 			for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i, ++position_l)
 			{
-				routine.declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (*i, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::individual (scatter, position_l))));
+				routine (*i, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> (new lambda_p_serialization::analyzer::individual (scatter, position_l)));
 			}
 		}
 	}

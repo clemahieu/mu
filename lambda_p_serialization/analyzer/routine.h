@@ -35,6 +35,7 @@ namespace lambda_p_serialization
 			boost::shared_ptr <lambda_p::core::entry> entry;
 			boost::shared_ptr <lambda_p::core::pipe> pipe;
 			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed;
+			void operator () (std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>);
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved;
 		};

@@ -4,5 +4,10 @@
 
 void lambda_p::core::identity::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & parameters, boost::shared_ptr <lambda_p::core::target> target_a)
 {
-	(*target_a) (parameters);
+	auto i (parameters.begin ());
+	auto j (parameters.end ());
+	assert (i != j);
+	++i;
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments (i, j);
+	(*target_a) (arguments);
 }
