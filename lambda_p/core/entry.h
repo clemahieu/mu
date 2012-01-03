@@ -7,12 +7,14 @@ namespace lambda_p
 	namespace core
 	{
 		class fixed;
+		class tee;
 		class entry : public lambda_p::core::target
 		{
 		public:
+			entry ();
 			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments) override;
 			std::vector <boost::shared_ptr <lambda_p::core::fixed>> fixed_parameters;
-			boost::shared_ptr <lambda_p::core::target> next;
+			boost::shared_ptr <lambda_p::core::tee> next;
 		};
 	}
 }

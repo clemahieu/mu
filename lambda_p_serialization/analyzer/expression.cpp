@@ -21,6 +21,7 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 	{
 		(*(*i)) (this);
 		++position;
+		gather->increment ();
 	}
 }
 

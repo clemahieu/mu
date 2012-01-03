@@ -43,8 +43,9 @@ void lambda_p_serialization::builder::finish ()
 	lexer (L'\uffff');
 }
 		
-void lambda_p_serialization::builder::new_error (std::wstring message)
+void lambda_p_serialization::builder::new_error (boost::shared_ptr <lambda_p::errors::error> error_a)
 {
+	errors (error_a);
 }
 
 bool lambda_p_serialization::builder::error ()

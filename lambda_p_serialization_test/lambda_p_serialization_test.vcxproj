@@ -130,6 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="analyzer.cpp" />
+    <ClCompile Include="analyzer_result.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="lexer_result.cpp" />
     <ClCompile Include="parser.cpp" />
@@ -142,6 +144,8 @@
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="analyzer.h" />
+    <ClInclude Include="analyzer_result.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexer_result.h" />
     <ClInclude Include="parser.h" />

@@ -28,13 +28,12 @@ namespace lambda_p_serialization
 		class routine
 		{
 		public:
-			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a);
+			routine (lambda_p_serialization::analyzer::analyzer & analyzer_a, lambda_p_serialization::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations_a);
 			boost::shared_ptr <lambda_p::core::entry> entry;
 			boost::shared_ptr <lambda_p::core::pipe> pipe;
 			boost::shared_ptr <lambda_p::errors::error_list> errors;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>> declarations;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved;
-			lambda_p_serialization::analyzer::analyzer & analyzer;
 		};
 	}
 }
