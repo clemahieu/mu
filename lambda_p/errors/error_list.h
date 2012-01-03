@@ -14,10 +14,6 @@ namespace lambda_p
 		public:
 			std::vector <boost::shared_ptr <lambda_p::errors::error>> errors;
 			void operator () (boost::shared_ptr <lambda_p::errors::error> error);
-			void operator () (lambda_p::errors::error * error);
-			void operator () (std::wstring & string_a);
-			void operator () (wchar_t const * error);
-			bool operator () ();
 		};
 	}
 }

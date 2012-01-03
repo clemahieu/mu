@@ -5,11 +5,13 @@
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="scatter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="scatter.h" />
   </ItemGroup>
 </Project>

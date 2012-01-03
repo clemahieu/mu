@@ -23,8 +23,20 @@ void lambda_p::core::scatter::operator () (std::vector <boost::shared_ptr <lambd
 			message << required;
 			errors (boost::shared_ptr <lambda_p::errors::error> (new lambda_p::errors::string_error (message.str ())));
 		}
+		else
+		{
+			perform (arguments);
+		}
 		assert (targets.size () <= required);
 	}
+	else
+	{
+		perform (arguments);
+	}
+}
+
+void lambda_p::core::scatter::perform (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments)
+{
 	auto argument_current (arguments.begin ());
 	auto argument_end (arguments.end ());
 	for (auto target_current (targets.begin ()), target_end (targets.end ()); target_current != target_end; ++target_current, ++argument_current)

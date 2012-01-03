@@ -2,9 +2,11 @@
 
 #include <lambda_p/core/fixed.h>
 #include <lambda_p/core/tee.h>
+#include <lambda_p/core/explode.h>
 
-lambda_p::core::entry::entry ()
-	: next (new lambda_p::core::tee)
+lambda_p::core::entry::entry (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
+	: next (new lambda_p::core::tee),
+	errors (errors_a)
 {
 }
 
@@ -14,5 +16,8 @@ void lambda_p::core::entry::operator () (std::vector <boost::shared_ptr <lambda_
 	{
 		(*(*i)) ();
 	}
-	(*next) (arguments);
+	auto explode (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::explode (arguments, errors)));
+	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_l;
+	arguments_l.push_back (explode);
+	(*next) (arguments_l);
 }

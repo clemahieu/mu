@@ -3,7 +3,7 @@
 #include <lambda_p/core/explode.h>
 #include <lambda_p/core/target.h>
 
-lambda_p::core::implode::implode (boost::shared_ptr <lambda_p::errors::error_list> errors_a)
+lambda_p::core::implode::implode (boost::function <void (boost::shared_ptr <lambda_p::errors::error>)> errors_a)
 	: errors (errors_a)
 {
 }

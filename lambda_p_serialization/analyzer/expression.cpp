@@ -18,6 +18,10 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 	call (new lambda_p::core::call (tee, errors_a)),
 	gather (new lambda_p::core::gather (call))
 {
+	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	{
+		tee->targets.push_back (target);
+	}
 	for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
 	{
 		(*(*i)) (this);
