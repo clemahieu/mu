@@ -1,98 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="core\statement.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\routine.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="serialization\simple.h">
-      <Filter>serialization</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\token.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\identifier.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\routine_end.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\complex_identifier.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\begin.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\control.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\error.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\identifier.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\multiline_comment.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\singleline_comment.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\state.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\token_vector.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\begin.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\error.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\routine_vector.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\state.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\statement.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error.h">
       <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\orphan_node.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\orphan_reference.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\undefined_reference.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="core\position.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\finished.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\stream_end.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="core\association.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\association.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\association_target.h">
-      <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="errors\unresolved_statement.h">
       <Filter>errors</Filter>
@@ -118,149 +28,71 @@
     <ClInclude Include="errors\target_not_bindable.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\complex_identifier.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="parser\parser.h">
-      <Filter>parser</Filter>
-    </ClInclude>
-    <ClInclude Include="lexer\lexer.h">
-      <Filter>lexer</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\list.h">
-      <Filter>binder</Filter>
-    </ClInclude>
-    <ClInclude Include="tokens\divider.h">
-      <Filter>tokens</Filter>
-    </ClInclude>
-    <ClInclude Include="binder\list_binder.h">
-      <Filter>binder</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error_list.h">
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="binder\node.h">
-      <Filter>binder</Filter>
+    <ClInclude Include="core\expression.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="parser\target_set.h">
-      <Filter>parser</Filter>
+    <ClInclude Include="core\gather.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="parser\position_set.h">
-      <Filter>parser</Filter>
+    <ClInclude Include="core\scatter.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="builder.h" />
-    <ClInclude Include="lexer\character_stream.h">
-      <Filter>lexer</Filter>
+    <ClInclude Include="core\pipe.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\istream_input.h">
-      <Filter>lexer</Filter>
+    <ClInclude Include="core\routine.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\wistream_input.h">
-      <Filter>lexer</Filter>
+    <ClInclude Include="core\adapter.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="binder\binder_implementor.h">
-      <Filter>binder</Filter>
+    <ClInclude Include="container.h" />
+    <ClInclude Include="core\node.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="parser\state_factory.h">
-      <Filter>parser</Filter>
+    <ClInclude Include="core\target.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\connection.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\tee.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\call.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\fixed.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\entry.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\explode.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\implode.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\identity.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\collapse.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="errors\error_target.h">
+      <Filter>errors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\statement.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\routine.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\token.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\identifier.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\routine_end.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\complex_identifier.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\begin.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\control.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\error.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\identifier.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\multiline_comment.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\singleline_comment.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\state.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\token_vector.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\begin.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\error.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\routine_vector.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\state.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\statement.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\orphan_node.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\orphan_reference.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\undefined_reference.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="core\position.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\finished.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\stream_end.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="core\association.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\association.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\association_target.cpp">
-      <Filter>parser</Filter>
     </ClCompile>
     <ClCompile Include="errors\unresolved_statement.cpp">
       <Filter>errors</Filter>
@@ -286,74 +118,65 @@
     <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\complex_identifier.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="parser\parser.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
-    <ClCompile Include="lexer\lexer.cpp">
-      <Filter>lexer</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\list.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
-    <ClCompile Include="tokens\divider.cpp">
-      <Filter>tokens</Filter>
-    </ClCompile>
-    <ClCompile Include="binder\list_binder.cpp">
-      <Filter>binder</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error_list.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="binder\node.cpp">
-      <Filter>binder</Filter>
+    <ClCompile Include="core\expression.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="parser\target_set.cpp">
-      <Filter>parser</Filter>
+    <ClCompile Include="core\gather.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="parser\position_set.cpp">
-      <Filter>parser</Filter>
+    <ClCompile Include="core\scatter.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="builder.cpp" />
-    <ClCompile Include="lexer\character_stream.cpp">
-      <Filter>lexer</Filter>
+    <ClCompile Include="core\pipe.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\istream_input.cpp">
-      <Filter>lexer</Filter>
+    <ClCompile Include="core\routine.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\wistream_input.cpp">
-      <Filter>lexer</Filter>
+    <ClCompile Include="core\adapter.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="parser\state_factory.cpp">
-      <Filter>parser</Filter>
+    <ClCompile Include="container.cpp" />
+    <ClCompile Include="core\connection.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\tee.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\call.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\fixed.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\entry.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\explode.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\implode.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\identity.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\collapse.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="errors\error_target.cpp">
+      <Filter>errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="core">
       <UniqueIdentifier>{0fec4cae-08e7-47e9-9348-3f4441aea61a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="serialization">
-      <UniqueIdentifier>{30e325db-0739-4add-8e93-6657e9cb9d13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tokens">
-      <UniqueIdentifier>{f7fb68c6-4a1b-4101-b6ab-203dc11c4e9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="binder">
-      <UniqueIdentifier>{b1c16bab-1a35-4fef-89b6-b87b6877cecb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lexer">
-      <UniqueIdentifier>{9d01b868-304a-4e86-9f66-8f7e5afea82d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="parser">
-      <UniqueIdentifier>{85d97a9d-4f21-499e-ba7c-370b201993a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="errors">
       <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>

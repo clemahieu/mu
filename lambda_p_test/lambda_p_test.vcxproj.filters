@@ -1,74 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="simple_test_1.cpp" />
-    <ClCompile Include="simple_compile_test_1.cpp" />
-    <ClCompile Include="routine_input_test_1.cpp" />
-    <ClCompile Include="abort_binder_test_1.cpp" />
-    <ClCompile Include="jit_test_1.cpp" />
-    <ClCompile Include="constant_int_binder_test_1.cpp" />
-    <ClCompile Include="package_test_1.cpp" />
-    <ClCompile Include="bind_procedure_test_1.cpp" />
-    <ClCompile Include="routine_binder_test.cpp" />
-    <ClCompile Include="unbindable_statement_test.cpp" />
-    <ClCompile Include="routine_builder_test.cpp" />
-    <ClCompile Include="list_test.cpp" />
-    <ClCompile Include="generator_test.cpp" />
-    <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
-    <ClCompile Include="parser_test_1.cpp" />
-    <ClCompile Include="lexer_test_1.cpp" />
-    <ClCompile Include="istream_input_test.cpp" />
-    <ClCompile Include="node_list_test.cpp" />
-    <ClCompile Include="node_list_test_1.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
-    <ClCompile Include="file_stream_test.cpp" />
-    <ClCompile Include="apply_binder_test.cpp" />
-    <ClCompile Include="api_test.cpp" />
-    <ClCompile Include="execution_engine_test.cpp" />
-    <ClCompile Include="overlay_binder_test.cpp" />
-    <ClCompile Include="link_test.cpp" />
-    <ClCompile Include="adata_test.cpp" />
-    <ClCompile Include="cvalue_test.cpp" />
-    <ClCompile Include="times_test.cpp" />
-    <ClCompile Include="number_binder_test.cpp" />
-    <ClCompile Include="loop_test.cpp" />
-    <ClCompile Include="type_inference_test.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="routine.cpp" />
+    <ClCompile Include="scatter.cpp" />
+    <ClCompile Include="identity.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simple_test_1.h" />
-    <ClInclude Include="simple_compile_test_1.h" />
-    <ClInclude Include="routine_input_test_1.h" />
-    <ClInclude Include="abort_binder_test_1.h" />
-    <ClInclude Include="jit_test_1.h" />
-    <ClInclude Include="constant_int_binder_test_1.h" />
-    <ClInclude Include="package_test_1.h" />
-    <ClInclude Include="bind_procedure_test_1.h" />
-    <ClInclude Include="routine_binder_test.h" />
-    <ClInclude Include="unbindable_statement_test.h" />
-    <ClInclude Include="routine_builder_test.h" />
-    <ClInclude Include="list_test.h" />
-    <ClInclude Include="generator_test.h" />
-    <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="filesystem_test.h" />
-    <ClInclude Include="parser_test_1.h" />
-    <ClInclude Include="lexer_test_1.h" />
-    <ClInclude Include="istream_input_test.h" />
-    <ClInclude Include="node_list_test.h" />
-    <ClInclude Include="node_list_test_1.h" />
     <ClInclude Include="directory_iterator_test.h" />
-    <ClInclude Include="file_stream_test.h" />
-    <ClInclude Include="apply_binder_test.h" />
-    <ClInclude Include="api_test.h" />
-    <ClInclude Include="execution_engine_test.h" />
-    <ClInclude Include="overlay_binder_test.h" />
-    <ClInclude Include="link_test.h" />
-    <ClInclude Include="adata_test.h" />
-    <ClInclude Include="cvalue_test.h" />
-    <ClInclude Include="times_test.h" />
-    <ClInclude Include="number_binder_test.h" />
-    <ClInclude Include="loop_test.h" />
-    <ClInclude Include="type_inference_test.h" />
+    <ClInclude Include="tests.h" />
+    <ClInclude Include="routine.h" />
+    <ClInclude Include="scatter.h" />
+    <ClInclude Include="identity.h" />
   </ItemGroup>
 </Project>

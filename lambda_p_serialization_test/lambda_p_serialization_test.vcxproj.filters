@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="istream_input_test.cpp" />
+    <ClCompile Include="wistream_input_test.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="routine_builder_test.cpp" />
+    <ClCompile Include="lexer.cpp" />
+    <ClCompile Include="lexer_result.cpp" />
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="source_result.cpp" />
+    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="parser_result.cpp" />
+    <ClCompile Include="analyzer.cpp" />
+    <ClCompile Include="analyzer_result.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="istream_input_test.h" />
+    <ClInclude Include="wistream_input_test.h" />
+    <ClInclude Include="tests.h" />
+    <ClInclude Include="routine_builder_test.h" />
+    <ClInclude Include="lexer.h" />
+    <ClInclude Include="lexer_result.h" />
+    <ClInclude Include="source.h" />
+    <ClInclude Include="source_result.h" />
+    <ClInclude Include="parser.h" />
+    <ClInclude Include="parser_result.h" />
+    <ClInclude Include="analyzer.h" />
+    <ClInclude Include="analyzer_result.h" />
+  </ItemGroup>
+</Project>

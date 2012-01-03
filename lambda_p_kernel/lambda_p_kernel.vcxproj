@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\lambda_p\binder\binder.cpp" />
     <ClCompile Include="nodes\data.cpp" />
     <ClCompile Include="parser_factories\adata.cpp" />
     <ClCompile Include="parser_factories\number.cpp" />
@@ -163,6 +164,8 @@
     <ClCompile Include="times.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\lambda_p\binder\binder.h" />
+    <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
     <ClInclude Include="nodes\data.h" />
     <ClInclude Include="parser_factories\adata.h" />
     <ClInclude Include="parser_factories\number.h" />
