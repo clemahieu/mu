@@ -4,10 +4,7 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class target;
-	}
+	class target;
 }
 namespace lambda_p_io
 {
@@ -16,7 +13,7 @@ namespace lambda_p_io
 		class declaration
 		{
 		public:
-			virtual void operator () (boost::shared_ptr <lambda_p::core::target> target_a) = 0;
+			virtual void operator () (boost::shared_ptr <lambda_p::target> target_a) = 0;
 		};
 	}
 }

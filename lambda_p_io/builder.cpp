@@ -65,7 +65,7 @@ void lambda_p_io::builder::error_message (std::wostream & out)
 	}
 }
 
-void lambda_p_io::builder::analyzer_output (boost::shared_ptr <lambda_p::core::routine> routine_a)
+void lambda_p_io::builder::analyzer_output (boost::shared_ptr <lambda_p::routine> routine_a)
 {
 	routines.push_back (routine_a);
 }

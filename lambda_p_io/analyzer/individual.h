@@ -4,10 +4,7 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class scatter;
-	}
+	class scatter;
 }
 namespace lambda_p_io
 {
@@ -16,9 +13,9 @@ namespace lambda_p_io
 		class individual : public lambda_p_io::analyzer::declaration
 		{
 		public:
-			individual (boost::shared_ptr <lambda_p::core::scatter> scatter_a, size_t index_a);
-			void operator () (boost::shared_ptr <lambda_p::core::target> target_a) override;
-			boost::shared_ptr <lambda_p::core::scatter> scatter;
+			individual (boost::shared_ptr <lambda_p::scatter> scatter_a, size_t index_a);
+			void operator () (boost::shared_ptr <lambda_p::target> target_a) override;
+			boost::shared_ptr <lambda_p::scatter> scatter;
 			size_t index;
 		};
 	}

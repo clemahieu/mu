@@ -9,13 +9,10 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class entry;
-		class pipe;
-		class target;
-		class fixed;
-	}
+	class entry;
+	class pipe;
+	class target;
+	class fixed;
 	namespace errors
 	{
 		class error_target;
@@ -32,11 +29,11 @@ namespace lambda_p_io
 		public:
 			routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			lambda_p_io::analyzer::analyzer & analyzer;
-			boost::shared_ptr <lambda_p::core::entry> entry;
-			boost::shared_ptr <lambda_p::core::pipe> pipe;
+			boost::shared_ptr <lambda_p::entry> entry;
+			boost::shared_ptr <lambda_p::pipe> pipe;
 			void operator () (std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>);
 			std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>> declarations;
-			std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>> unresolved;
+			std::multimap <std::wstring, boost::shared_ptr <lambda_p::target>> unresolved;
 		};
 	}
 }

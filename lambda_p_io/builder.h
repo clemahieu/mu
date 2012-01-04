@@ -10,10 +10,7 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class routine;
-	}
+	class routine;
 	namespace errors
 	{
 		class error_list;
@@ -36,10 +33,10 @@ namespace lambda_p_io
 		void operator << (boost::shared_ptr <lambda_p_io::lexer::character_stream> source);
 		bool error ();
 		void error_message (std::wostream & out);
-		void analyzer_output (boost::shared_ptr <lambda_p::core::routine> routine_a);
+		void analyzer_output (boost::shared_ptr <lambda_p::routine> routine_a);
 		void parser_output (boost::shared_ptr <lambda_p_io::ast::expression> expression_a);
 		void lexer_output (lambda_p_io::tokens::token * token_a);
-		std::vector <boost::shared_ptr <lambda_p::core::routine>> routines;
+		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;

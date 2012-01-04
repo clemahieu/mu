@@ -3,29 +3,29 @@
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/analyzer/routine.h>
-#include <lambda_p/core/connection.h>
-#include <lambda_p/core/gather.h>
-#include <lambda_p/core/tee.h>
-#include <lambda_p/core/call.h>
+#include <lambda_p/connection.h>
+#include <lambda_p/gather.h>
+#include <lambda_p/tee.h>
+#include <lambda_p/call.h>
 #include <lambda_p_io/analyzer/declaration.h>
 #include <lambda_p_io/analyzer/full.h>
 #include <lambda_p_io/analyzer/individual.h>
-#include <lambda_p/core/scatter.h>
-#include <lambda_p/core/fixed.h>
-#include <lambda_p/core/entry.h>
+#include <lambda_p/scatter.h>
+#include <lambda_p/fixed.h>
+#include <lambda_p/entry.h>
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/analyzer/extension.h>
 
-lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
+lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: routine (routine_a),
 	target (target_a),
 	position (0),
 	errors (errors_a),
 	expression_m (expression_a),
-	tee (new lambda_p::core::tee),
-	call (new lambda_p::core::call (tee, errors_a)),
-	gather (new lambda_p::core::gather (call))
+	tee (new lambda_p::tee),
+	call (new lambda_p::call (tee, errors_a)),
+	gather (new lambda_p::gather (call))
 {
 	if (!expression_a->values.empty ())
 	{
@@ -35,7 +35,7 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 		}
 		else
 		{
-			auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
+			auto fixed (boost::shared_ptr <lambda_p::fixed> (new lambda_p::fixed));
 			fixed->target->targets.push_back (target);
 			routine.entry->fixed.push_back (fixed);
 			if (!expression_a->full_name.empty ())
@@ -44,7 +44,7 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 			}
 			if (!expression_a->individual_names.empty ())
 			{
-				boost::shared_ptr <lambda_p::core::scatter> scatter (new lambda_p::core::scatter (expression_a->individual_names.size (), errors));
+				boost::shared_ptr <lambda_p::scatter> scatter (new lambda_p::scatter (expression_a->individual_names.size (), errors));
 				tee->targets.push_back (scatter);
 				size_t position_l (0);
 				for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i, ++position_l)
@@ -85,7 +85,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		}
 		else
 		{
-			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>>::value_type (identifier_a->string, connection));
+			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p::target>>::value_type (identifier_a->string, connection));
 		}
 	}
 	else
@@ -94,7 +94,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		assert (injected.first < expression_m->values.size ());
 		position += injected.first;
 		assert (position <= expression_m->values.size ());
-		auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed ()));
+		auto fixed (boost::shared_ptr <lambda_p::fixed> (new lambda_p::fixed ()));
 		fixed->arguments = injected.second;
 		fixed->target->targets.push_back (connection);
 		routine.entry->fixed.push_back (fixed);

@@ -4,7 +4,7 @@
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p/core/data.h>
+#include <lambda_p/data.h>
 
 #include <boost/bind.hpp>
 
@@ -26,7 +26,7 @@ void lambda_p_io_test::data::run_1 ()
 	assert (!(*errors) ());
 	assert (results.first == 1);
 	assert (results.second.size () == 1);
-	auto data_l (boost::dynamic_pointer_cast <lambda_p::core::data> (results.second [0]));
+	auto data_l (boost::dynamic_pointer_cast <lambda_p::data> (results.second [0]));
 	assert (data_l.get () != nullptr);
 	assert (data_l->string == std::wstring (L"a"));
 }

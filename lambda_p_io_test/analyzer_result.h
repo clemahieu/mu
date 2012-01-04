@@ -6,10 +6,7 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class routine;
-	}
+	class routine;
 	namespace errors
 	{
 		class error_list;
@@ -21,8 +18,8 @@ namespace lambda_p_io_test
 	{
 	public:
 		analyzer_result ();
-		void operator () (boost::shared_ptr <lambda_p::core::routine> routine_a);
-		std::vector <boost::shared_ptr <lambda_p::core::routine>> routines;
+		void operator () (boost::shared_ptr <lambda_p::routine> routine_a);
+		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 	};
 }

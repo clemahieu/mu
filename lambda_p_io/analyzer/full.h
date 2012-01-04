@@ -4,10 +4,7 @@
 
 namespace lambda_p
 {
-	namespace core
-	{
-		class tee;
-	}
+	class tee;
 }
 namespace lambda_p_io
 {
@@ -16,9 +13,9 @@ namespace lambda_p_io
 		class full : public lambda_p_io::analyzer::declaration
 		{
 		public:
-			full (boost::shared_ptr <lambda_p::core::tee> tee_a);
-			void operator () (boost::shared_ptr <lambda_p::core::target> target_a) override;
-			boost::shared_ptr <lambda_p::core::tee> tee;
+			full (boost::shared_ptr <lambda_p::tee> tee_a);
+			void operator () (boost::shared_ptr <lambda_p::target> target_a) override;
+			boost::shared_ptr <lambda_p::tee> tee;
 		};
 	}
 }

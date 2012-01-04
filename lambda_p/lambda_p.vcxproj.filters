@@ -34,64 +34,28 @@
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="core\gather.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\scatter.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\pipe.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\routine.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\adapter.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="container.h" />
-    <ClInclude Include="core\target.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\connection.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\tee.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\call.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\fixed.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\entry.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\explode.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\implode.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\identity.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\collapse.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error_target.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="core\data.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\expression.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\node.h">
-      <Filter>core</Filter>
-    </ClInclude>
+    <ClInclude Include="adapter.h" />
+    <ClInclude Include="call.h" />
+    <ClInclude Include="collapse.h" />
+    <ClInclude Include="connection.h" />
+    <ClInclude Include="data.h" />
+    <ClInclude Include="entry.h" />
+    <ClInclude Include="explode.h" />
+    <ClInclude Include="expression.h" />
+    <ClInclude Include="fixed.h" />
+    <ClInclude Include="gather.h" />
+    <ClInclude Include="identity.h" />
+    <ClInclude Include="implode.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="pipe.h" />
+    <ClInclude Include="routine.h" />
+    <ClInclude Include="scatter.h" />
+    <ClInclude Include="target.h" />
+    <ClInclude Include="tee.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -127,63 +91,28 @@
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="core\gather.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\scatter.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\pipe.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\routine.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\adapter.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="container.cpp" />
-    <ClCompile Include="core\connection.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\tee.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\call.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\fixed.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\entry.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\explode.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\implode.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\identity.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\collapse.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="errors\error_target.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="core\data.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
-    <ClCompile Include="core\node.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
+    <ClCompile Include="adapter.cpp" />
+    <ClCompile Include="call.cpp" />
+    <ClCompile Include="collapse.cpp" />
+    <ClCompile Include="connection.cpp" />
+    <ClCompile Include="data.cpp" />
+    <ClCompile Include="entry.cpp" />
+    <ClCompile Include="explode.cpp" />
+    <ClCompile Include="fixed.cpp" />
+    <ClCompile Include="gather.cpp" />
+    <ClCompile Include="identity.cpp" />
+    <ClCompile Include="implode.cpp" />
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="pipe.cpp" />
+    <ClCompile Include="routine.cpp" />
+    <ClCompile Include="scatter.cpp" />
+    <ClCompile Include="tee.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="core">
-      <UniqueIdentifier>{0fec4cae-08e7-47e9-9348-3f4441aea61a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="errors">
       <UniqueIdentifier>{2b58f1a6-998b-4372-86bc-2c5637129c69}</UniqueIdentifier>
     </Filter>

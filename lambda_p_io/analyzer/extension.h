@@ -11,10 +11,7 @@ namespace lambda_p
 	{
 		class error_target;
 	}
-	namespace core
-	{
-		class node;
-	}
+	class node;
 }
 namespace lambda_p_io
 {
@@ -28,7 +25,7 @@ namespace lambda_p_io
 		class extension
 		{
 		public:
-			virtual std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::core::node>>> operator () (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> & values_a, size_t position_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a) = 0;
+			virtual std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::node>>> operator () (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> & values_a, size_t position_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a) = 0;
 		};
 	}
 }
