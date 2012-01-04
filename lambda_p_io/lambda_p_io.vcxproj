@@ -19,28 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3B93F5FC-8121-44E1-840C-36571BDA8BF9}</ProjectGuid>
-    <RootNamespace>lambda_p_test_entry</RootNamespace>
+    <ProjectGuid>{0365160D-8CA1-4266-8803-22A0B49A5A7F}</ProjectGuid>
+    <RootNamespace>lambda_p_io</RootNamespace>
+    <ProjectName>lambda_p_io</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -62,45 +63,41 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost;$(SolutionDir)llvm\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lambda_p.lib;lambda_p_test.lib;lambda_p_io.lib;lambda_p_io_test.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost;$(SolutionDir)llvm\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lambda_p.lib;lambda_p_test.lib;lambda_p_io.lib;lambda_p_io_test.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,15 +106,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost;$(SolutionDir)llvm\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lambda_p.lib;lambda_p_test.lib;lambda_p_io.lib;lambda_p_io_test.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,19 +121,100 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost;$(SolutionDir)llvm\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
       <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lambda_p.lib;lambda_p_test.lib;lambda_p_io.lib;lambda_p_io_test.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="analyzer\analyzer.cpp" />
+    <ClCompile Include="analyzer\declaration.cpp" />
+    <ClCompile Include="analyzer\expression.cpp" />
+    <ClCompile Include="analyzer\extension.cpp" />
+    <ClCompile Include="analyzer\full.cpp" />
+    <ClCompile Include="analyzer\individual.cpp" />
+    <ClCompile Include="analyzer\routine.cpp" />
+    <ClCompile Include="ast\expression.cpp" />
+    <ClCompile Include="ast\identifier.cpp" />
+    <ClCompile Include="ast\node.cpp" />
+    <ClCompile Include="ast\visitor.cpp" />
+    <ClCompile Include="builder.cpp" />
+    <ClCompile Include="extensions\data.cpp" />
+    <ClCompile Include="lexer\begin.cpp" />
+    <ClCompile Include="lexer\character_stream.cpp" />
+    <ClCompile Include="lexer\complex_identifier.cpp" />
+    <ClCompile Include="lexer\control.cpp" />
+    <ClCompile Include="lexer\error.cpp" />
+    <ClCompile Include="lexer\identifier.cpp" />
+    <ClCompile Include="lexer\istream_input.cpp" />
+    <ClCompile Include="lexer\lexer.cpp" />
+    <ClCompile Include="lexer\multiline_comment.cpp" />
+    <ClCompile Include="lexer\singleline_comment.cpp" />
+    <ClCompile Include="lexer\state.cpp" />
+    <ClCompile Include="lexer\token_vector.cpp" />
+    <ClCompile Include="lexer\wistream_input.cpp" />
+    <ClCompile Include="parser\begin.cpp" />
+    <ClCompile Include="parser\error.cpp" />
+    <ClCompile Include="parser\finished.cpp" />
+    <ClCompile Include="parser\full.cpp" />
+    <ClCompile Include="parser\parser.cpp" />
+    <ClCompile Include="parser\single.cpp" />
+    <ClCompile Include="parser\values.cpp" />
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="tokens\divider.cpp" />
+    <ClCompile Include="tokens\identifier.cpp" />
+    <ClCompile Include="tokens\left_square.cpp" />
+    <ClCompile Include="tokens\right_square.cpp" />
+    <ClCompile Include="tokens\stream_end.cpp" />
+    <ClCompile Include="tokens\token.cpp" />
+    <ClCompile Include="tokens\visitor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="analyzer\analyzer.h" />
+    <ClInclude Include="analyzer\declaration.h" />
+    <ClInclude Include="analyzer\expression.h" />
+    <ClInclude Include="analyzer\extension.h" />
+    <ClInclude Include="analyzer\full.h" />
+    <ClInclude Include="analyzer\individual.h" />
+    <ClInclude Include="analyzer\routine.h" />
+    <ClInclude Include="ast\expression.h" />
+    <ClInclude Include="ast\identifier.h" />
+    <ClInclude Include="ast\node.h" />
+    <ClInclude Include="ast\visitor.h" />
+    <ClInclude Include="builder.h" />
+    <ClInclude Include="extensions\data.h" />
+    <ClInclude Include="lexer\begin.h" />
+    <ClInclude Include="lexer\character_stream.h" />
+    <ClInclude Include="lexer\complex_identifier.h" />
+    <ClInclude Include="lexer\control.h" />
+    <ClInclude Include="lexer\error.h" />
+    <ClInclude Include="lexer\identifier.h" />
+    <ClInclude Include="lexer\istream_input.h" />
+    <ClInclude Include="lexer\lexer.h" />
+    <ClInclude Include="lexer\multiline_comment.h" />
+    <ClInclude Include="lexer\singleline_comment.h" />
+    <ClInclude Include="lexer\state.h" />
+    <ClInclude Include="lexer\token_vector.h" />
+    <ClInclude Include="lexer\wistream_input.h" />
+    <ClInclude Include="parser\begin.h" />
+    <ClInclude Include="parser\error.h" />
+    <ClInclude Include="parser\finished.h" />
+    <ClInclude Include="parser\full.h" />
+    <ClInclude Include="parser\parser.h" />
+    <ClInclude Include="parser\single.h" />
+    <ClInclude Include="parser\values.h" />
+    <ClInclude Include="source.h" />
+    <ClInclude Include="tokens\divider.h" />
+    <ClInclude Include="tokens\identifier.h" />
+    <ClInclude Include="tokens\left_square.h" />
+    <ClInclude Include="tokens\right_square.h" />
+    <ClInclude Include="tokens\stream_end.h" />
+    <ClInclude Include="tokens\token.h" />
+    <ClInclude Include="tokens\visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -67,13 +67,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_kernel_test", "lam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_repl_test", "lambda_p_repl_test\lambda_p_repl_test.vcxproj", "{B625C2F2-EFC9-4809-A2CA-7145A7446E58}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_serialization", "lambda_p_serialization\lambda_p_serialization.vcxproj", "{0365160D-8CA1-4266-8803-22A0B49A5A7F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_io", "lambda_p_io\lambda_p_io.vcxproj", "{0365160D-8CA1-4266-8803-22A0B49A5A7F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_serialization_test", "lambda_p_serialization_test\lambda_p_serialization_test.vcxproj", "{499674EB-0500-4F97-97F3-1E7E5B28B011}"
-	ProjectSection(ProjectDependencies) = postProject
-		{0365160D-8CA1-4266-8803-22A0B49A5A7F} = {0365160D-8CA1-4266-8803-22A0B49A5A7F}
-		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_io_test", "lambda_p_io_test\lambda_p_io_test.vcxproj", "{499674EB-0500-4F97-97F3-1E7E5B28B011}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,14 +160,16 @@ Global
 		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Debug|x64.Build.0 = Debug|x64
 		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Release|Win32.ActiveCfg = Release|Win32
 		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Release|Win32.Build.0 = Release|Win32
-		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Release|x64.ActiveCfg = Release|Win32
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Release|x64.ActiveCfg = Release|x64
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F}.Release|x64.Build.0 = Release|x64
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Debug|Win32.ActiveCfg = Debug|Win32
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Debug|Win32.Build.0 = Debug|Win32
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Debug|x64.ActiveCfg = Debug|x64
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Debug|x64.Build.0 = Debug|x64
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Release|Win32.ActiveCfg = Release|Win32
 		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Release|Win32.Build.0 = Release|Win32
-		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Release|x64.ActiveCfg = Release|Win32
+		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Release|x64.ActiveCfg = Release|x64
+		{499674EB-0500-4F97-97F3-1E7E5B28B011}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
