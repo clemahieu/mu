@@ -11,8 +11,6 @@
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="directory_compile.cpp" />
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="adata_binder.cpp" />
-    <ClCompile Include="bool_c.cpp" />
     <ClCompile Include="cvalue.cpp" />
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="application.cpp" />
@@ -23,34 +21,25 @@
     <ClCompile Include="loop.cpp" />
     <ClCompile Include="not.cpp" />
     <ClCompile Include="eval.cpp" />
-    <ClCompile Include="parser_states\data.cpp">
-      <Filter>parser_states</Filter>
-    </ClCompile>
-    <ClCompile Include="parser_factories\data_factory.cpp">
-      <Filter>parser_factories</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\data.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="parser_factories\number.cpp">
-      <Filter>parser_factories</Filter>
-    </ClCompile>
-    <ClCompile Include="parser_states\number.cpp">
-      <Filter>parser_states</Filter>
-    </ClCompile>
     <ClCompile Include="nodes\number.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
     <ClCompile Include="nodes\adata.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="parser_states\adata.cpp">
-      <Filter>parser_states</Filter>
-    </ClCompile>
-    <ClCompile Include="parser_factories\adata.cpp">
-      <Filter>parser_factories</Filter>
-    </ClCompile>
     <ClCompile Include="..\lambda_p\binder\binder.cpp" />
+    <ClCompile Include="extensions\adata.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\number.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\bool_c.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\bool_c.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -63,8 +52,6 @@
     <ClInclude Include="apply.h" />
     <ClInclude Include="directory_compile.h" />
     <ClInclude Include="builder.h" />
-    <ClInclude Include="adata_binder.h" />
-    <ClInclude Include="bool_c.h" />
     <ClInclude Include="cvalue.h" />
     <ClInclude Include="fapply.h" />
     <ClInclude Include="application.h" />
@@ -75,45 +62,36 @@
     <ClInclude Include="loop.h" />
     <ClInclude Include="not.h" />
     <ClInclude Include="eval.h" />
-    <ClInclude Include="parser_states\data.h">
-      <Filter>parser_states</Filter>
-    </ClInclude>
-    <ClInclude Include="parser_factories\data_factory.h">
-      <Filter>parser_factories</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\data.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="parser_factories\number.h">
-      <Filter>parser_factories</Filter>
-    </ClInclude>
-    <ClInclude Include="parser_states\number.h">
-      <Filter>parser_states</Filter>
-    </ClInclude>
     <ClInclude Include="nodes\number.h">
       <Filter>nodes</Filter>
     </ClInclude>
     <ClInclude Include="nodes\adata.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="parser_states\adata.h">
-      <Filter>parser_states</Filter>
-    </ClInclude>
-    <ClInclude Include="parser_factories\adata.h">
-      <Filter>parser_factories</Filter>
-    </ClInclude>
     <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
     <ClInclude Include="..\lambda_p\binder\binder.h" />
+    <ClInclude Include="extensions\adata.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\number.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\bool_c.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\bool_c.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="parser_states">
-      <UniqueIdentifier>{55f81c5c-efba-44aa-9b64-78de55b9b72f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="parser_factories">
-      <UniqueIdentifier>{6a47d7eb-66d2-4820-80c3-405385cff150}</UniqueIdentifier>
-    </Filter>
     <Filter Include="nodes">
       <UniqueIdentifier>{45416b4d-e3c5-4ed3-a99d-7dc2bec548ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="expressions">
+      <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extensions">
+      <UniqueIdentifier>{99dce724-fda7-492b-aeae-d124dcb8c53e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

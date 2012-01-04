@@ -131,17 +131,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lambda_p\binder\binder.cpp" />
-    <ClCompile Include="nodes\data.cpp" />
-    <ClCompile Include="parser_factories\adata.cpp" />
-    <ClCompile Include="parser_factories\number.cpp" />
-    <ClCompile Include="parser_states\adata.cpp" />
-    <ClCompile Include="parser_states\data.cpp" />
-    <ClCompile Include="parser_factories\data_factory.cpp" />
+    <ClCompile Include="extensions\adata.cpp" />
+    <ClCompile Include="extensions\bool_c.cpp" />
+    <ClCompile Include="extensions\number.cpp" />
     <ClCompile Include="nodes\adata.cpp" />
-    <ClCompile Include="adata_binder.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
-    <ClCompile Include="bool_c.cpp" />
+    <ClCompile Include="nodes\bool_c.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="eval.cpp" />
     <ClCompile Include="cvalue.cpp" />
@@ -159,25 +155,20 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="apply.cpp" />
-    <ClCompile Include="parser_states\number.cpp" />
     <ClCompile Include="subtract.cpp" />
     <ClCompile Include="times.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lambda_p\binder\binder.h" />
     <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
-    <ClInclude Include="nodes\data.h" />
-    <ClInclude Include="parser_factories\adata.h" />
-    <ClInclude Include="parser_factories\number.h" />
-    <ClInclude Include="parser_states\adata.h" />
-    <ClInclude Include="parser_states\data.h" />
-    <ClInclude Include="parser_factories\data_factory.h" />
+    <ClInclude Include="extensions\adata.h" />
+    <ClInclude Include="extensions\bool_c.h" />
+    <ClInclude Include="extensions\number.h" />
     <ClInclude Include="nodes\adata.h" />
-    <ClInclude Include="adata_binder.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bind_procedure.h" />
     <ClInclude Include="bool_binder.h" />
-    <ClInclude Include="bool_c.h" />
+    <ClInclude Include="nodes\bool_c.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="eval.h" />
     <ClInclude Include="cvalue.h" />
@@ -194,7 +185,6 @@
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
     <ClInclude Include="apply.h" />
-    <ClInclude Include="parser_states\number.h" />
     <ClInclude Include="subtract.h" />
     <ClInclude Include="times.h" />
   </ItemGroup>
