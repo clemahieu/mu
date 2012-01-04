@@ -20,6 +20,7 @@ void lambda_p_io_test::analyzer::run ()
 	run_5 ();
 	run_6 ();
 	run_7 ();
+	run_8 ();
 }
 
 //Test empty expression
@@ -135,4 +136,23 @@ void lambda_p_io_test::analyzer::run_7 ()
 	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (*routine->dependencies.begin ()));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
+}
+
+// Test failure of cyclic reference
+void lambda_p_io_test::analyzer::run_8 ()
+{
+	lambda_p_io_test::analyzer_result result;
+	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (static_cast <void (lambda_p_io_test::analyzer_result::*)(boost::shared_ptr <lambda_p::expression>)> (&lambda_p_io_test::analyzer_result::operator()), &result, _1), result.errors);
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	expression->values.push_back (expression1);
+	expression->values.push_back (expression2);
+	expression1->full_name = std::wstring (L"a");
+	expression2->full_name = std::wstring (L"b");
+	expression1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"b"))));
+	expression2->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
+	analyzer_l (expression);
+	assert (result.routines.empty ());
+	assert (result.errors->errors.size () == 2);	
 }

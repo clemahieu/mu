@@ -11,19 +11,23 @@
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	result (new lambda_p::expression)
+	result (new lambda_p::expression),
+	complete (true)
 {
 	for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i)
 	{
 		(*(*i)) (this);
 	}
-	for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i)
+	if (complete)
 	{
-		routine_a (*i, result);
-	}
-	if (!expression_a->full_name.empty ())
-	{
-		routine_a (expression_a->full_name, result);
+		for (auto i (expression_a->individual_names.begin ()), j (expression_a->individual_names.end ()); i != j; ++i)
+		{
+			routine_a (*i, result);
+		}
+		if (!expression_a->full_name.empty ())
+		{
+			routine_a (expression_a->full_name, result);
+		}
 	}
 }
 
@@ -47,6 +51,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		{
 			auto mapping (routine.unresolved [identifier_a->string]);
 			mapping.insert (expression_m);
+			complete = false;
 		}
 	}
 	else
