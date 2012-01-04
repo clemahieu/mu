@@ -7,7 +7,6 @@
 #include <lambda_p/node.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/expression.h>
-#include <lambda_p/parameters.h>
 
 #include <boost/bind.hpp>
 

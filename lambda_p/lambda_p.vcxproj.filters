@@ -38,9 +38,7 @@
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="node.h" />
-    <ClInclude Include="operation.h" />
     <ClInclude Include="expression.h" />
-    <ClInclude Include="parameters.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">

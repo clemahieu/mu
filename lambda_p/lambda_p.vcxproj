@@ -131,7 +131,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="expression.h" />
-    <ClInclude Include="operation.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\error_target.h" />
@@ -145,7 +144,6 @@
     <ClInclude Include="errors\unexpected_binder_type.h" />
     <ClInclude Include="errors\unexpected_result_count.h" />
     <ClInclude Include="errors\unresolved_statement.h" />
-    <ClInclude Include="parameters.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="node.cpp" />
