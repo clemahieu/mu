@@ -13,17 +13,17 @@
 
 #include <sstream>
 
-std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::core::expression>>> lambda_p_io::extensions::data::operator () (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> & values_a, size_t position_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
+std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::core::node>>> lambda_p_io::extensions::data::operator () (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> & values_a, size_t position_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 {
 	auto data_position (position_a + 1);
-	std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::core::expression>>> result;
+	std::pair <size_t, std::vector <boost::shared_ptr <lambda_p::core::node>>> result;
 	if (data_position < values_a.size ())
 	{
 		auto data_node (values_a [data_position]);
 		auto data_identifier (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (data_node));
 		if (data_identifier.get () != nullptr)
 		{
-			result.second.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::data (data_identifier->string)));
+			result.second.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::data (data_identifier->string)));
 		}
 		else
 		{

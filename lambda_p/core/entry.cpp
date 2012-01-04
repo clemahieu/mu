@@ -10,14 +10,14 @@ lambda_p::core::entry::entry (boost::shared_ptr <lambda_p::errors::error_target>
 {
 }
 
-void lambda_p::core::entry::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
+void lambda_p::core::entry::operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments)
 {
 	for (auto i (fixed.begin ()), j (fixed.end ()); i != j; ++i)
 	{
 		(*(*i)) ();
 	}
-	auto explode (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::explode (arguments, errors)));
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_l;
+	auto explode (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::explode (arguments, errors)));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments_l;
 	arguments_l.push_back (explode);
 	(*next) (arguments_l);
 }

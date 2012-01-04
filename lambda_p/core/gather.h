@@ -17,10 +17,10 @@ namespace lambda_p
 		{
 		public:
 			gather (boost::shared_ptr <lambda_p::core::target> target_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments, size_t sequence);
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments, size_t sequence);
 			boost::shared_ptr <lambda_p::core::connection> operator () (boost::shared_ptr <lambda_p::core::gather> self_a);
 		private:
-			std::vector <std::vector <boost::shared_ptr <lambda_p::core::expression>>> arguments;
+			std::vector <std::vector <boost::shared_ptr <lambda_p::core::node>>> arguments;
 			boost::shared_ptr <lambda_p::core::target> target;
 			size_t remaining;
 		};

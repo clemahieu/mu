@@ -5,13 +5,13 @@
 
 #include <sstream>
 
-lambda_p::core::explode::explode (std::vector <boost::shared_ptr <lambda_p::core::expression>> items_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
+lambda_p::core::explode::explode (std::vector <boost::shared_ptr <lambda_p::core::node>> items_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: items (items_a),
 	errors (errors_a)
 {
 }
 
-void lambda_p::core::explode::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & parameters, boost::shared_ptr <lambda_p::core::target> target_a)
+void lambda_p::core::explode::operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & parameters, boost::shared_ptr <lambda_p::core::target> target_a)
 {
 	assert (parameters.size () > 0);
 	if (parameters.size () == 1)

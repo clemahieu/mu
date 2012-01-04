@@ -140,8 +140,8 @@
     <ClInclude Include="core\identity.h" />
     <ClInclude Include="core\explode.h" />
     <ClInclude Include="core\implode.h" />
-    <ClInclude Include="core\node.h" />
     <ClInclude Include="core\expression.h" />
+    <ClInclude Include="core\node.h" />
     <ClInclude Include="core\gather.h" />
     <ClInclude Include="core\connection.h" />
     <ClInclude Include="core\target.h" />
@@ -169,7 +169,7 @@
     <ClCompile Include="core\collapse.cpp" />
     <ClCompile Include="core\data.cpp" />
     <ClCompile Include="core\entry.cpp" />
-    <ClCompile Include="core\expression.cpp" />
+    <ClCompile Include="core\node.cpp" />
     <ClCompile Include="core\fixed.cpp" />
     <ClCompile Include="core\gather.cpp" />
     <ClCompile Include="core\identity.cpp" />

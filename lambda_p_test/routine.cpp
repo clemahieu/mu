@@ -5,7 +5,7 @@
 #include <lambda_p/core/pipe.h>
 #include <lambda_p/core/scatter.h>
 #include <lambda_p/core/gather.h>
-#include <lambda_p/core/expression.h>
+#include <lambda_p/core/node.h>
 #include <lambda_p/core/connection.h>
 #include <lambda_p/core/tee.h>
 #include <lambda_p/core/entry.h>
@@ -34,9 +34,9 @@ void lambda_p_test::routine::run_1 ()
 	routine->input = entry;
 	(*scatter) [0].push_back ((*gather) (gather));
 	(*scatter) [1].push_back ((*gather) (gather));
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> values;
-	values.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	values.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> values;
+	values.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+	values.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (values);
 	assert (container->results.size () == 2);
 }
@@ -60,11 +60,11 @@ void lambda_p_test::routine::run_2 ()
 	//auto entry (boost::shared_ptr <lambda_p::core::entry> (new lambda_p::core::entry (errors)));
 	//entry->next = tee;
 	//routine->input = entry;
-	//auto v1 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	//auto v2 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	//auto v3 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	//auto v4 (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
-	//std::vector <boost::shared_ptr <lambda_p::core::expression>> values;
+	//auto v1 (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+	//auto v2 (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+	//auto v3 (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+	//auto v4 (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
+	//std::vector <boost::shared_ptr <lambda_p::core::node>> values;
 	//values.push_back (v1);
 	//values.push_back (v2);
 	//values.push_back (v3);

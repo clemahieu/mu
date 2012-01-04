@@ -8,10 +8,10 @@ lambda_p::core::collapse::collapse (boost::shared_ptr <lambda_p::core::target> t
 {
 }
 
-void lambda_p::core::collapse::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
+void lambda_p::core::collapse::operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments)
 {
 	auto explode (boost::shared_ptr <lambda_p::core::explode> (new lambda_p::core::explode (arguments, errors)));
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments_l;
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments_l;
 	arguments_l.push_back (explode);
 	(*target) (arguments_l);
 }

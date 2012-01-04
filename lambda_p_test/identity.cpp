@@ -12,7 +12,7 @@ void lambda_p_test::identity::run_1 ()
 {
 	boost::shared_ptr <lambda_p::core::identity> identity (new lambda_p::core::identity);
 	boost::shared_ptr <lambda_p::container> container (new lambda_p::container);
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
 	arguments.push_back (identity);
 	(*identity) (arguments, container);
 	assert (container->results.empty ());

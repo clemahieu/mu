@@ -24,7 +24,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>>::value_type (std::wstring (L"~"), boost::shared_ptr <lambda_p_io::analyzer::declaration> (new lambda_p_io::analyzer::full (entry->next))));
 	auto identity (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed));
 	entry->fixed.push_back (identity);
-	identity->arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::identity));
+	identity->arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::identity));
 	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>>::value_type (std::wstring (L".identity"), boost::shared_ptr <lambda_p_io::analyzer::declaration> (new lambda_p_io::analyzer::full (identity->target))));
 	if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
 	{

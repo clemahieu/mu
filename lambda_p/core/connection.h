@@ -11,7 +11,7 @@ namespace lambda_p
 		{
 		public:
 			connection (boost::shared_ptr <lambda_p::core::gather> gather_a, size_t number_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments) override;
 			boost::shared_ptr <lambda_p::core::gather> gather;
 			size_t number;
 		};

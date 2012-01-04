@@ -6,12 +6,12 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class node;
+		class expression;
 		class adapter : public lambda_p::core::target
 		{
 		public:
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
-			boost::shared_ptr <lambda_p::core::node> node;
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments) override;
+			boost::shared_ptr <lambda_p::core::expression> node;
 			boost::shared_ptr <lambda_p::core::target> target;
 		};
 	}

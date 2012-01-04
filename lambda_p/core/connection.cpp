@@ -8,7 +8,7 @@ lambda_p::core::connection::connection (boost::shared_ptr <lambda_p::core::gathe
 {
 }
 
-void lambda_p::core::connection::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
+void lambda_p::core::connection::operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments)
 {
 	(*gather) (arguments, number);
 }

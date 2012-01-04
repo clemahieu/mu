@@ -7,7 +7,7 @@
 #include <lambda_p/core/routine.h>
 #include <lambda_p/container.h>
 #include <lambda_p/core/entry.h>
-#include <lambda_p/core/expression.h>
+#include <lambda_p/core/node.h>
 #include <lambda_p/core/pipe.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/core/data.h>
@@ -98,8 +98,8 @@ void lambda_p_io_test::analyzer::run_6 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.size () == 1);
@@ -122,8 +122,8 @@ void lambda_p_io_test::analyzer::run_7 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.empty ());
@@ -145,8 +145,8 @@ void lambda_p_io_test::analyzer::run_8 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.empty ());
@@ -168,8 +168,8 @@ void lambda_p_io_test::analyzer::run_9 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.empty ());
@@ -192,8 +192,8 @@ void lambda_p_io_test::analyzer::run_10 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.size () == 1);
@@ -217,8 +217,8 @@ void lambda_p_io_test::analyzer::run_11 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.size () == 1);
@@ -239,8 +239,8 @@ void lambda_p_io_test::analyzer::run_12 ()
 	auto routine (result.routines [0]);
 	auto container (boost::shared_ptr <lambda_p::container> (new lambda_p::container));
 	routine->output->next = container;
-	std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
-	arguments.push_back (boost::shared_ptr <lambda_p::core::expression> (new lambda_p::core::expression));
+	std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
+	arguments.push_back (boost::shared_ptr <lambda_p::core::node> (new lambda_p::core::node));
 	(*routine->input) (arguments);
 	assert (result.errors->errors.empty ());
 	assert (container->results.size () == 1);

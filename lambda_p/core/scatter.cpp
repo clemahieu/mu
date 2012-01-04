@@ -11,7 +11,7 @@ lambda_p::core::scatter::scatter (size_t required_a, boost::shared_ptr <lambda_p
 {
 }
 
-void lambda_p::core::scatter::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments)
+void lambda_p::core::scatter::operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments)
 {
 	if (arguments.size () != required)
 	{
@@ -28,7 +28,7 @@ void lambda_p::core::scatter::operator () (std::vector <boost::shared_ptr <lambd
 	}
 }
 
-void lambda_p::core::scatter::perform (std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments)
+void lambda_p::core::scatter::perform (std::vector <boost::shared_ptr <lambda_p::core::node>> arguments)
 {
 	auto argument_current (arguments.begin ());
 	auto argument_end (arguments.end ());
@@ -37,7 +37,7 @@ void lambda_p::core::scatter::perform (std::vector <boost::shared_ptr <lambda_p:
 		auto current (*target_current);
 		for (auto i (current.begin ()), j (current.end ()); i != j; ++i)
 		{
-			std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+			std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
 			arguments.push_back (*argument_current);
 			(*(*i)) (arguments);
 		}

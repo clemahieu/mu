@@ -34,9 +34,6 @@
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="core\expression.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\gather.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -53,9 +50,6 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="container.h" />
-    <ClInclude Include="core\node.h">
-      <Filter>core</Filter>
-    </ClInclude>
     <ClInclude Include="core\target.h">
       <Filter>core</Filter>
     </ClInclude>
@@ -92,6 +86,12 @@
     <ClInclude Include="core\data.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="core\expression.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\node.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -126,9 +126,6 @@
     </ClCompile>
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="core\expression.cpp">
-      <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="core\gather.cpp">
       <Filter>core</Filter>
@@ -177,6 +174,9 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="core\data.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\node.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>

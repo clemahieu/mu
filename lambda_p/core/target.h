@@ -8,11 +8,11 @@ namespace lambda_p
 {
 	namespace core
 	{
-		class expression;
+		class node;
 		class target
 		{
 		public:
-			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) = 0;
+			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments) = 0;
 		};
 	}
 }

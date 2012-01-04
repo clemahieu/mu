@@ -16,7 +16,7 @@ namespace lambda_p
 		{
 		public:
 			call (boost::shared_ptr <lambda_p::core::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
-			void operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments) override;
+			void operator () (std::vector <boost::shared_ptr <lambda_p::core::node>> & arguments) override;
 			boost::shared_ptr <lambda_p::core::target> target;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};

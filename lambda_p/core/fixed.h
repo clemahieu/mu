@@ -9,14 +9,14 @@ namespace lambda_p
 	namespace core
 	{
 		class tee;
-		class expression;
+		class node;
 		class fixed
 		{
 		public:
 			fixed ();
 			void operator () ();
 			boost::shared_ptr <lambda_p::core::tee> target;
-			std::vector <boost::shared_ptr <lambda_p::core::expression>> arguments;
+			std::vector <boost::shared_ptr <lambda_p::core::node>> arguments;
 		};
 	}
 }
