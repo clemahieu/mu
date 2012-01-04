@@ -142,6 +142,7 @@
     <ClCompile Include="ast\node.cpp" />
     <ClCompile Include="ast\visitor.cpp" />
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="extensions\data.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="lexer\complex_identifier.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="ast\node.h" />
     <ClInclude Include="ast\visitor.h" />
     <ClInclude Include="builder.h" />
+    <ClInclude Include="extensions\data.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="lexer\complex_identifier.h" />

@@ -1,19 +1,13 @@
 #include "gather.h"
 
 #include <lambda_p/core/target.h>
+#include <lambda_p/core/connection.h>
 
 lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a)
 	: target (target_a),
 	remaining (0)
 {
 	assert (target_a != nullptr && L"Null target");
-}
-
-lambda_p::core::gather::gather (boost::shared_ptr <lambda_p::core::target> target_a, size_t size_a)
-	: remaining (size_a),
-	arguments (size_a),
-	target (target_a)
-{
 }
 
 void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda_p::core::expression>> & arguments_a, size_t sequence)
@@ -38,8 +32,13 @@ void lambda_p::core::gather::operator () (std::vector <boost::shared_ptr <lambda
 	}
 }
 
-void lambda_p::core::gather::increment ()
+boost::shared_ptr <lambda_p::core::connection> lambda_p::core::gather::operator () (boost::shared_ptr <lambda_p::core::gather> self_a)
 {
-	++remaining;
-	arguments.resize (arguments.size () + 1);
+	assert (self_a.get () == this);
+	auto remaining_l (remaining);
+	boost::shared_ptr <lambda_p::core::connection> result (new lambda_p::core::connection (self_a, remaining_l));
+	++remaining_l;
+	remaining = remaining_l;
+	arguments.resize (remaining_l);
+	return result;
 }

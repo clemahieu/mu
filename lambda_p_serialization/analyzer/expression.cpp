@@ -14,12 +14,15 @@
 #include <lambda_p/core/fixed.h>
 #include <lambda_p/core/entry.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_serialization/analyzer/analyzer.h>
+#include <lambda_p_serialization/analyzer/extension.h>
 
 lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization::analyzer::routine & routine_a, lambda_p_serialization::ast::expression * expression_a, boost::shared_ptr <lambda_p::core::target> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: routine (routine_a),
 	target (target_a),
 	position (0),
 	errors (errors_a),
+	expression_m (expression_a),
 	tee (new lambda_p::core::tee),
 	call (new lambda_p::core::call (tee, errors_a)),
 	gather (new lambda_p::core::gather (call))
@@ -55,7 +58,6 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 		{
 			(*expression_a->values [position]) (this);
 			++position;
-			gather->increment ();
 		}
 	}
 	else
@@ -66,20 +68,35 @@ lambda_p_serialization::analyzer::expression::expression (lambda_p_serialization
 
 void lambda_p_serialization::analyzer::expression::operator () (lambda_p_serialization::ast::expression * expression_a)
 {
-	auto connection (boost::shared_ptr <lambda_p::core::target> (new lambda_p::core::connection (gather, position)));
+	auto connection ((*gather) (gather));
 	lambda_p_serialization::analyzer::expression expression (routine, expression_a, connection, errors);
 }
 
 void lambda_p_serialization::analyzer::expression::operator () (lambda_p_serialization::ast::identifier * identifier_a)
 {
-	auto connection (boost::shared_ptr <lambda_p::core::target> (new lambda_p::core::connection (gather, position)));
-	auto existing (routine.declarations.find (identifier_a->string));
-	if (existing != routine.declarations.end ())
+	auto connection ((*gather) (gather));
+	auto keyword (routine.analyzer.extensions.find (identifier_a->string));
+	if (keyword == routine.analyzer.extensions.end ())
 	{
-		(*existing->second) (connection);
+		auto existing (routine.declarations.find (identifier_a->string));
+		if (existing != routine.declarations.end ())
+		{
+			(*existing->second) (connection);
+		}
+		else
+		{
+			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>>::value_type (identifier_a->string, connection));
+		}
 	}
 	else
 	{
-		routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p::core::target>>::value_type (identifier_a->string, connection));
+		auto injected ((*keyword->second) (expression_m->values, position, errors));
+		assert (injected.first < expression_m->values.size ());
+		position += injected.first;
+		assert (position <= expression_m->values.size ());
+		auto fixed (boost::shared_ptr <lambda_p::core::fixed> (new lambda_p::core::fixed ()));
+		fixed->arguments = injected.second;
+		fixed->target->targets.push_back (connection);
+		routine.entry->fixed.push_back (fixed);
 	}
 }

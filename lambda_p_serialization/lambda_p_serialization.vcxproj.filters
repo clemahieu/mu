@@ -16,6 +16,9 @@
     <Filter Include="analyzer">
       <UniqueIdentifier>{e887e47c-e469-4e40-aa07-7c5db0e09a41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="extensions">
+      <UniqueIdentifier>{9f5c2171-c8ae-4fe0-8723-2deed7a43b4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lexer\begin.cpp">
@@ -134,6 +137,9 @@
     <ClCompile Include="analyzer\extension.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="extensions\data.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -251,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="analyzer\extension.h">
       <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\data.h">
+      <Filter>extensions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

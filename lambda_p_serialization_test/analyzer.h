@@ -17,6 +17,7 @@ namespace lambda_p_serialization_test
 		void run_9 ();
 		void run_10 ();
 		void run_11 ();
+		void run_12 ();
 	};
 }
 

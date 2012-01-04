@@ -5,6 +5,7 @@
 #include <lambda_p_serialization/analyzer/routine.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_serialization/extensions/data.h>
 
 #include <sstream>
 
@@ -12,6 +13,7 @@ lambda_p_serialization::analyzer::analyzer::analyzer (boost::function <void (boo
 	: target (target_a),
 	errors (errors_a)
 {
+	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::extension>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p_serialization::analyzer::extension> (new lambda_p_serialization::extensions::data)));
 }
 
 void lambda_p_serialization::analyzer::analyzer::operator () (boost::shared_ptr <lambda_p_serialization::ast::node> node)

@@ -7,6 +7,7 @@
 #include <lambda_p_serialization_test/lexer.h>
 #include <lambda_p_serialization_test/parser.h>
 #include <lambda_p_serialization_test/analyzer.h>
+#include <lambda_p_serialization_test/data.h>
 
 void lambda_p_serialization_test::tests::run ()
 {
@@ -24,6 +25,10 @@ void lambda_p_serialization_test::tests::run ()
 	}
 	{
 		analyzer test;
+		test.run ();
+	}
+	{
+		data test;
 		test.run ();
 	}
 	{

@@ -13,6 +13,7 @@
     <ClCompile Include="parser_result.cpp" />
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
+    <ClCompile Include="data.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
@@ -27,5 +28,6 @@
     <ClInclude Include="parser_result.h" />
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
+    <ClInclude Include="data.h" />
   </ItemGroup>
 </Project>

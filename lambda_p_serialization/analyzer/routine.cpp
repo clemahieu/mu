@@ -60,10 +60,21 @@ lambda_p_serialization::analyzer::routine::routine (lambda_p_serialization::anal
 
 void lambda_p_serialization::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p_serialization::analyzer::declaration> declaration)
 {
-	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (identifier, declaration));
-	for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j; ++i)
+	if (analyzer.extensions.find (identifier) == analyzer.extensions.end ())
 	{
-		(*declaration) (i->second);
+		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_serialization::analyzer::declaration>>::value_type (identifier, declaration));
+		for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j; ++i)
+		{
+			(*declaration) (i->second);
+		}
+		unresolved.erase (identifier);
 	}
-	unresolved.erase (identifier);
+	else
+	{
+		std::wstringstream message;
+		message << L"The identifier: ";
+		message << identifier;
+		message << L" is a keyword";
+		(*analyzer.errors) (message.str ());
+	}
 }

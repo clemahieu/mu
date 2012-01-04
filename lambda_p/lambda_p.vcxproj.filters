@@ -89,6 +89,9 @@
     <ClInclude Include="errors\error_target.h">
       <Filter>errors</Filter>
     </ClInclude>
+    <ClInclude Include="core\data.h">
+      <Filter>core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="errors\error_target.cpp">
       <Filter>errors</Filter>
+    </ClCompile>
+    <ClCompile Include="core\data.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

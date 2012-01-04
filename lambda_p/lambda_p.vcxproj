@@ -134,6 +134,7 @@
     <ClInclude Include="core\adapter.h" />
     <ClInclude Include="core\call.h" />
     <ClInclude Include="core\collapse.h" />
+    <ClInclude Include="core\data.h" />
     <ClInclude Include="core\entry.h" />
     <ClInclude Include="core\fixed.h" />
     <ClInclude Include="core\identity.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="core\adapter.cpp" />
     <ClCompile Include="core\call.cpp" />
     <ClCompile Include="core\collapse.cpp" />
+    <ClCompile Include="core\data.cpp" />
     <ClCompile Include="core\entry.cpp" />
     <ClCompile Include="core\expression.cpp" />
     <ClCompile Include="core\fixed.cpp" />

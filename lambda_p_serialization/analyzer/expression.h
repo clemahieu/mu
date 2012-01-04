@@ -31,6 +31,7 @@ namespace lambda_p_serialization
 			void operator () (lambda_p_serialization::ast::identifier * identifier_a) override;
 			lambda_p_serialization::analyzer::routine & routine;
 			size_t position;
+			lambda_p_serialization::ast::expression * expression_m;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 			boost::shared_ptr <lambda_p::core::tee> tee;
 			boost::shared_ptr <lambda_p::core::call> call;
