@@ -16,9 +16,6 @@
     <Filter Include="analyzer">
       <UniqueIdentifier>{e887e47c-e469-4e40-aa07-7c5db0e09a41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="extensions">
-      <UniqueIdentifier>{9f5c2171-c8ae-4fe0-8723-2deed7a43b4b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lexer\begin.cpp">
@@ -87,7 +84,6 @@
     <ClCompile Include="tokens\token.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
-    <ClCompile Include="builder.cpp" />
     <ClCompile Include="ast\expression.cpp">
       <Filter>ast</Filter>
     </ClCompile>
@@ -118,28 +114,16 @@
     <ClCompile Include="parser\full.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="source.cpp" />
     <ClCompile Include="analyzer\routine.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
     <ClCompile Include="analyzer\expression.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\full.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
-    <ClCompile Include="analyzer\individual.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
-    <ClCompile Include="analyzer\declaration.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="analyzer\extension.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="extensions\data.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
+    <ClCompile Include="source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -208,7 +192,6 @@
     <ClInclude Include="tokens\token.h">
       <Filter>tokens</Filter>
     </ClInclude>
-    <ClInclude Include="builder.h" />
     <ClInclude Include="ast\expression.h">
       <Filter>ast</Filter>
     </ClInclude>
@@ -239,27 +222,15 @@
     <ClInclude Include="parser\full.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="source.h" />
     <ClInclude Include="analyzer\routine.h">
       <Filter>analyzer</Filter>
     </ClInclude>
     <ClInclude Include="analyzer\expression.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\full.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\individual.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\declaration.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
     <ClInclude Include="analyzer\extension.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="extensions\data.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
+    <ClInclude Include="source.h" />
   </ItemGroup>
 </Project>

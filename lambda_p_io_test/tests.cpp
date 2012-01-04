@@ -2,12 +2,10 @@
 
 #include <lambda_p_io_test/wistream_input_test.h>
 #include <lambda_p_io_test/istream_input_test.h>
-#include <lambda_p_io_test/routine_builder_test.h>
 #include <lambda_p_io_test/source.h>
 #include <lambda_p_io_test/lexer.h>
 #include <lambda_p_io_test/parser.h>
 #include <lambda_p_io_test/analyzer.h>
-#include <lambda_p_io_test/data.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -28,19 +26,11 @@ void lambda_p_io_test::tests::run ()
 		test.run ();
 	}
 	{
-		data test;
-		test.run ();
-	}
-	{
 		wistream_input_test test;
 		test.run ();
 	}
 	{
 		istream_input_test test;
-		test.run ();
-	}
-	{
-		routine_builder_test test;
 		test.run ();
 	}
 }

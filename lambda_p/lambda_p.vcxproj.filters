@@ -34,28 +34,13 @@
     <ClInclude Include="errors\string_error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="container.h" />
     <ClInclude Include="errors\error_target.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="adapter.h" />
-    <ClInclude Include="call.h" />
-    <ClInclude Include="collapse.h" />
-    <ClInclude Include="connection.h" />
-    <ClInclude Include="data.h" />
-    <ClInclude Include="entry.h" />
-    <ClInclude Include="explode.h" />
-    <ClInclude Include="expression.h" />
-    <ClInclude Include="fixed.h" />
-    <ClInclude Include="gather.h" />
-    <ClInclude Include="identity.h" />
-    <ClInclude Include="implode.h" />
     <ClInclude Include="node.h" />
-    <ClInclude Include="pipe.h" />
-    <ClInclude Include="routine.h" />
-    <ClInclude Include="scatter.h" />
-    <ClInclude Include="target.h" />
-    <ClInclude Include="tee.h" />
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="expression.h" />
+    <ClInclude Include="parameters.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -91,26 +76,10 @@
     <ClCompile Include="errors\string_error.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="container.cpp" />
     <ClCompile Include="errors\error_target.cpp">
       <Filter>errors</Filter>
     </ClCompile>
-    <ClCompile Include="adapter.cpp" />
-    <ClCompile Include="call.cpp" />
-    <ClCompile Include="collapse.cpp" />
-    <ClCompile Include="connection.cpp" />
-    <ClCompile Include="data.cpp" />
-    <ClCompile Include="entry.cpp" />
-    <ClCompile Include="explode.cpp" />
-    <ClCompile Include="fixed.cpp" />
-    <ClCompile Include="gather.cpp" />
-    <ClCompile Include="identity.cpp" />
-    <ClCompile Include="implode.cpp" />
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="pipe.cpp" />
-    <ClCompile Include="routine.cpp" />
-    <ClCompile Include="scatter.cpp" />
-    <ClCompile Include="tee.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

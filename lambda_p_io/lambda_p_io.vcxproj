@@ -132,18 +132,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="analyzer\analyzer.cpp" />
-    <ClCompile Include="analyzer\declaration.cpp" />
     <ClCompile Include="analyzer\expression.cpp" />
     <ClCompile Include="analyzer\extension.cpp" />
-    <ClCompile Include="analyzer\full.cpp" />
-    <ClCompile Include="analyzer\individual.cpp" />
     <ClCompile Include="analyzer\routine.cpp" />
     <ClCompile Include="ast\expression.cpp" />
     <ClCompile Include="ast\identifier.cpp" />
     <ClCompile Include="ast\node.cpp" />
     <ClCompile Include="ast\visitor.cpp" />
-    <ClCompile Include="builder.cpp" />
-    <ClCompile Include="extensions\data.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="lexer\complex_identifier.cpp" />
@@ -175,18 +170,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer\analyzer.h" />
-    <ClInclude Include="analyzer\declaration.h" />
     <ClInclude Include="analyzer\expression.h" />
     <ClInclude Include="analyzer\extension.h" />
-    <ClInclude Include="analyzer\full.h" />
-    <ClInclude Include="analyzer\individual.h" />
     <ClInclude Include="analyzer\routine.h" />
     <ClInclude Include="ast\expression.h" />
     <ClInclude Include="ast\identifier.h" />
     <ClInclude Include="ast\node.h" />
     <ClInclude Include="ast\visitor.h" />
-    <ClInclude Include="builder.h" />
-    <ClInclude Include="extensions\data.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="lexer\complex_identifier.h" />

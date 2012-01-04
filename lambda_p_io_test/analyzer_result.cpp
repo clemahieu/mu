@@ -7,7 +7,7 @@ lambda_p_io_test::analyzer_result::analyzer_result ()
 {
 }
 
-void lambda_p_io_test::analyzer_result::operator () (boost::shared_ptr <lambda_p::routine> routine_a)
+void lambda_p_io_test::analyzer_result::operator () (boost::shared_ptr <lambda_p::expression> routine_a)
 {
 	routines.push_back (routine_a);
 }

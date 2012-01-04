@@ -5,14 +5,11 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
-#include <vector>
+#include <set>
 
 namespace lambda_p
 {
-	class entry;
-	class pipe;
-	class target;
-	class fixed;
+	class node;
 	namespace errors
 	{
 		class error_target;
@@ -27,13 +24,11 @@ namespace lambda_p_io
 		class routine
 		{
 		public:
-			routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
+			routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a);
 			lambda_p_io::analyzer::analyzer & analyzer;
-			boost::shared_ptr <lambda_p::entry> entry;
-			boost::shared_ptr <lambda_p::pipe> pipe;
-			void operator () (std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>);
-			std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>> declarations;
-			std::multimap <std::wstring, boost::shared_ptr <lambda_p::target>> unresolved;
+			void operator () (std::wstring, boost::shared_ptr <lambda_p::node>);
+			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> declarations;
+			std::map <std::wstring, std::set <lambda_p_io::ast::expression *>> unresolved;
 		};
 	}
 }

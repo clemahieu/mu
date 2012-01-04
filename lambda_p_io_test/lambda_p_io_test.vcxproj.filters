@@ -4,7 +4,6 @@
     <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
     <ClCompile Include="tests.cpp" />
-    <ClCompile Include="routine_builder_test.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="lexer_result.cpp" />
     <ClCompile Include="source.cpp" />
@@ -13,13 +12,11 @@
     <ClCompile Include="parser_result.cpp" />
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
-    <ClCompile Include="data.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="wistream_input_test.h" />
     <ClInclude Include="tests.h" />
-    <ClInclude Include="routine_builder_test.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexer_result.h" />
     <ClInclude Include="source.h" />
@@ -28,6 +25,5 @@
     <ClInclude Include="parser_result.h" />
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
-    <ClInclude Include="data.h" />
   </ItemGroup>
 </Project>

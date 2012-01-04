@@ -133,12 +133,10 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
-    <ClCompile Include="data.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="lexer_result.cpp" />
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="parser_result.cpp" />
-    <ClCompile Include="routine_builder_test.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="source_result.cpp" />
@@ -148,12 +146,10 @@
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
-    <ClInclude Include="data.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexer_result.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="parser_result.h" />
-    <ClInclude Include="routine_builder_test.h" />
     <ClInclude Include="istream_input_test.h" />
     <ClInclude Include="source.h" />
     <ClInclude Include="source_result.h" />

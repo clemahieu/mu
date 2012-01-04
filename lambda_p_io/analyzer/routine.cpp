@@ -3,42 +3,26 @@
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/analyzer/expression.h>
-#include <lambda_p/pipe.h>
 #include <lambda_p/errors/string_error.h>
-#include <lambda_p/entry.h>
-#include <lambda_p/routine.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p_io/analyzer/full.h>
-#include <lambda_p/fixed.h>
-#include <lambda_p/identity.h>
-#include <lambda_p_io/analyzer/declaration.h>
 
 #include <sstream>
 
-lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>> declarations_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
-	: analyzer (analyzer_a),
-	entry (new lambda_p::entry (errors_a)),
-	pipe (new lambda_p::pipe),
-	declarations (declarations_a)
+lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a)
+	: analyzer (analyzer_a)
 {
-	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>>::value_type (std::wstring (L"~"), boost::shared_ptr <lambda_p_io::analyzer::declaration> (new lambda_p_io::analyzer::full (entry->next))));
-	auto identity (boost::shared_ptr <lambda_p::fixed> (new lambda_p::fixed));
-	entry->fixed.push_back (identity);
-	identity->arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p::identity));
-	declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>>::value_type (std::wstring (L".identity"), boost::shared_ptr <lambda_p_io::analyzer::declaration> (new lambda_p_io::analyzer::full (identity->target))));
 	if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
 	{
-		lambda_p_io::analyzer::expression expression (*this, expression_a, pipe, errors_a);
+		lambda_p_io::analyzer::expression expression (*this, expression_a);
 		if (unresolved.empty ())
 		{
-			if (!(*errors_a) ())
+			if (!(*analyzer.errors) ())
 			{
-				auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (entry, pipe, errors_a)));
-				analyzer_a.target (routine);
+				analyzer_a.target (expression.result);
 			}
 			else
 			{
-				(*errors_a) (L"Not generating routine due to other errors");
+				(*analyzer_a.errors) (L"Not generating routine due to other errors");
 			}
 		}
 		else
@@ -58,14 +42,18 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 	}
 }
 
-void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p_io::analyzer::declaration> declaration)
+void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p::node> node)
 {
 	if (analyzer.extensions.find (identifier) == analyzer.extensions.end ())
 	{
-		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::declaration>>::value_type (identifier, declaration));
-		for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j; ++i)
+		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
+		auto existing (unresolved.find (identifier));
+		if (existing != unresolved.end ())
 		{
-			(*declaration) (i->second);
+			for (auto i (existing->second.begin ()), j (existing->second.end ()); i != j; ++i)
+			{
+				lambda_p_io::analyzer::expression expression (*this, *i);
+			}
 		}
 		unresolved.erase (identifier);
 	}
