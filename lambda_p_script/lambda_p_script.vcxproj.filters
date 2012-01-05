@@ -43,10 +43,13 @@
     <ClCompile Include="nodes\operation.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="operations\parameters.cpp">
-      <Filter>operations</Filter>
-    </ClCompile>
     <ClCompile Include="context.cpp" />
+    <ClCompile Include="extensions\parameters.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\parameters.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -92,10 +95,13 @@
     <ClInclude Include="nodes\operation.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="operations\parameters.h">
-      <Filter>operations</Filter>
-    </ClInclude>
     <ClInclude Include="context.h" />
+    <ClInclude Include="extensions\parameters.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\parameters.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">

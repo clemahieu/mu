@@ -23,8 +23,8 @@ namespace lambda_p_script
 		public:
 			virtual size_t parameter_count () = 0;
 			virtual size_t result_count () = 0;
+			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::node>> & context, boost::shared_ptr <lambda_p::errors::error_list> errors_a, std::vector <size_t> parameter_locations, std::vector <size_t> result_locations) = 0;
 			void execute (std::vector <boost::shared_ptr <lambda_p::node>> & context, boost::shared_ptr <lambda_p::errors::error_list> errors_a, std::vector <size_t> parameter_locations, std::vector <size_t> result_locations);
-			virtual void operator () (std::vector <boost::shared_ptr <lambda_p::node>> & context, boost::shared_ptr <lambda_p::errors::error_list> errors_a, std::vector <size_t> parameter_locations, std::vector <size_t> result_locations);
 		};
 	}
 }

@@ -135,6 +135,7 @@
     <ClCompile Include="extensions\adata.cpp" />
     <ClCompile Include="extensions\bool_c.cpp" />
     <ClCompile Include="extensions\number.cpp" />
+    <ClCompile Include="extensions\parameters.cpp" />
     <ClCompile Include="nodes\adata.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
@@ -153,7 +154,7 @@
     <ClCompile Include="bind_procedure.cpp" />
     <ClCompile Include="identity.cpp" />
     <ClCompile Include="null_binder.cpp" />
-    <ClCompile Include="operations\parameters.cpp" />
+    <ClCompile Include="nodes\parameters.cpp" />
     <ClCompile Include="package.cpp" />
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="extensions\adata.h" />
     <ClInclude Include="extensions\bool_c.h" />
     <ClInclude Include="extensions\number.h" />
+    <ClInclude Include="extensions\parameters.h" />
     <ClInclude Include="nodes\adata.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bind_procedure.h" />
@@ -186,7 +188,7 @@
     <ClInclude Include="null_binder.h" />
     <ClInclude Include="nodes\number.h" />
     <ClInclude Include="number_binder.h" />
-    <ClInclude Include="operations\parameters.h" />
+    <ClInclude Include="nodes\parameters.h" />
     <ClInclude Include="package.h" />
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
