@@ -133,6 +133,11 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
+    <ClCompile Include="extension.cpp" />
+    <ClCompile Include="extension1.cpp" />
+    <ClCompile Include="extension2.cpp" />
+    <ClCompile Include="extension3.cpp" />
+    <ClCompile Include="extension4.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="lexer_result.cpp" />
     <ClCompile Include="parser.cpp" />
@@ -146,6 +151,11 @@
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
+    <ClInclude Include="extension.h" />
+    <ClInclude Include="extension1.h" />
+    <ClInclude Include="extension2.h" />
+    <ClInclude Include="extension3.h" />
+    <ClInclude Include="extension4.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexer_result.h" />
     <ClInclude Include="parser.h" />
