@@ -127,6 +127,9 @@
     <ClCompile Include="analyzer\resolver.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\unresolved.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -236,6 +239,9 @@
       <Filter>parser</Filter>
     </ClInclude>
     <ClInclude Include="analyzer\resolver.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\unresolved.h">
       <Filter>analyzer</Filter>
     </ClInclude>
   </ItemGroup>

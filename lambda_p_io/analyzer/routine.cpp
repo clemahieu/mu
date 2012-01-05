@@ -7,6 +7,7 @@
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/expression.h>
 #include <lambda_p_io/analyzer/resolver.h>
+#include <lambda_p_io/analyzer/unresolved.h>
 
 #include <sstream>
 
@@ -51,7 +52,13 @@ void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost
 		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
 		for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
 		{
+			auto resolver (i->second);
+			resolver->expression->dependencies [resolver->index] = node;
+			--resolver->unresolved->count;
+			if (resolver->unresolved->complete && resolver->unresolved->count == 0) 
+			{
 
+			}
 		}
 		unresolved.erase (identifier);
 	}
