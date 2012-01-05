@@ -44,8 +44,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		else
 		{
 			++unresolved->count;
-			auto resolver (boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (unresolved, result, result->dependencies.size ())));
-			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, resolver));
+			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (unresolved, result))));
 			result->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
 		}
 	}

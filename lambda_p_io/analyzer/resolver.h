@@ -14,7 +14,7 @@ namespace lambda_p_io
 		class resolver
 		{
 		public:
-			resolver (boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved_a, boost::shared_ptr <lambda_p::expression> expression_a, size_t index_a);
+			resolver (boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved_a, boost::shared_ptr <lambda_p::expression> expression_a);
 			boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved;
 			boost::shared_ptr <lambda_p::expression> expression;
 			size_t index;

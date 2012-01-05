@@ -15,16 +15,19 @@ lambda_p_io::analyzer::unresolved::unresolved (lambda_p_io::ast::expression * ex
 
 void lambda_p_io::analyzer::unresolved::operator () (lambda_p_io::analyzer::routine & routine_a)
 {
-	size_t position (0);
-	for (auto i (expression->individual_names.begin ()), j (expression->individual_names.end ()); i != j; ++i, ++position)
+	if (complete && count == 0)
 	{
-		auto reference (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference));
-		reference->index = position;
-		reference->expression = result;
-		routine_a (*i, reference);
-	}
-	if (!expression->full_name.empty ())
-	{
-		routine_a (expression->full_name, result);
+		size_t position (0);
+		for (auto i (expression->individual_names.begin ()), j (expression->individual_names.end ()); i != j; ++i, ++position)
+		{
+			auto reference (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference));
+			reference->index = position;
+			reference->expression = result;
+			routine_a (*i, reference);
+		}
+		if (!expression->full_name.empty ())
+		{
+			routine_a (expression->full_name, result);
+		}
 	}
 }
