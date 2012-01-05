@@ -131,10 +131,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lambda_p\binder\binder.cpp" />
+    <ClCompile Include="context.cpp" />
     <ClCompile Include="extensions\adata.cpp" />
     <ClCompile Include="extensions\bool_c.cpp" />
     <ClCompile Include="extensions\number.cpp" />
-    <ClCompile Include="frame.cpp" />
     <ClCompile Include="nodes\adata.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
@@ -164,10 +164,10 @@
   <ItemGroup>
     <ClInclude Include="..\lambda_p\binder\binder.h" />
     <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
+    <ClInclude Include="context.h" />
     <ClInclude Include="extensions\adata.h" />
     <ClInclude Include="extensions\bool_c.h" />
     <ClInclude Include="extensions\number.h" />
-    <ClInclude Include="frame.h" />
     <ClInclude Include="nodes\adata.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bind_procedure.h" />

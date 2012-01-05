@@ -46,7 +46,7 @@
     <ClCompile Include="operations\parameters.cpp">
       <Filter>operations</Filter>
     </ClCompile>
-    <ClCompile Include="frame.cpp" />
+    <ClCompile Include="context.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -95,7 +95,7 @@
     <ClInclude Include="operations\parameters.h">
       <Filter>operations</Filter>
     </ClInclude>
-    <ClInclude Include="frame.h" />
+    <ClInclude Include="context.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
