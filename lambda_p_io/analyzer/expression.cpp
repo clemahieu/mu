@@ -18,9 +18,9 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 	unresolved (new lambda_p_io::analyzer::unresolved (expression_a, result)),
 	position (0)
 {
-	for (auto i (expression_a->values.begin ()), j (expression_a->values.end ()); i != j; ++i, ++position)
+	for (auto j (expression_a->values.size ()); position != j; ++position)
 	{
-		(*(*i)) (this);
+		(*expression_a->values [position]) (this);
 	}
 	unresolved->complete = true;
 	(*unresolved) (routine_a);
@@ -51,6 +51,6 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 	}
 	else
 	{
-		
+		(*keyword->second) (*this);
 	}
 }

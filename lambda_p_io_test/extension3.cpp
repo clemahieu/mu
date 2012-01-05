@@ -1,5 +1,10 @@
 #include "extension3.h"
 
-void lambda_p_io_test::extension3::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & dependencies_a, lambda_p_io::ast::expression * expression_a, size_t position_a)
+#include <lambda_p_io/analyzer/expression.h>
+#include <lambda_p/expression.h>
+
+void lambda_p_io_test::extension3::operator () (lambda_p_io::analyzer::expression & expression_a)
 {
+	expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p::node> ());
+	expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p::node> ());
 }

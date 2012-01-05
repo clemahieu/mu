@@ -6,6 +6,7 @@
 #include <lambda_p_io_test/lexer.h>
 #include <lambda_p_io_test/parser.h>
 #include <lambda_p_io_test/analyzer.h>
+#include <lambda_p_io_test/extension.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -23,6 +24,10 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		analyzer test;
+		test.run ();
+	}
+	{
+		extension test;
 		test.run ();
 	}
 	{
