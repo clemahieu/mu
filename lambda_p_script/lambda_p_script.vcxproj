@@ -19,28 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{A6AF1C64-7947-468D-AAD5-CD764F5B5101}</ProjectGuid>
-    <RootNamespace>lambda_p_kernel_test</RootNamespace>
+    <ProjectGuid>{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}</ProjectGuid>
+    <RootNamespace>lambda_p_script</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -65,11 +65,11 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -81,7 +81,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -91,7 +92,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -103,7 +105,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -117,7 +120,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)boost</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)boost;$(SolutionDir)</AdditionalIncludeDirectories>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -126,34 +130,69 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="routine_input_test_1.cpp" />
-    <ClCompile Include="tests.cpp" />
-    <ClCompile Include="unbindable_statement_test.cpp" />
-    <ClCompile Include="times_test.cpp" />
-    <ClCompile Include="routine_binder_test.cpp" />
-    <ClCompile Include="package_test_1.cpp" />
-    <ClCompile Include="number_binder_test.cpp" />
-    <ClCompile Include="loop_test.cpp" />
-    <ClCompile Include="list_test.cpp" />
-    <ClCompile Include="cvalue_test.cpp" />
-    <ClCompile Include="bind_procedure_test_1.cpp" />
-    <ClCompile Include="apply_binder_test.cpp" />
-    <ClCompile Include="adata_test.cpp" />
+    <ClCompile Include="..\lambda_p\binder\binder.cpp" />
+    <ClCompile Include="extensions\adata.cpp" />
+    <ClCompile Include="extensions\bool_c.cpp" />
+    <ClCompile Include="extensions\number.cpp" />
+    <ClCompile Include="frame.cpp" />
+    <ClCompile Include="nodes\adata.cpp" />
+    <ClCompile Include="application.cpp" />
+    <ClCompile Include="bool_binder.cpp" />
+    <ClCompile Include="nodes\bool_c.cpp" />
+    <ClCompile Include="builder.cpp" />
+    <ClCompile Include="eval.cpp" />
+    <ClCompile Include="cvalue.cpp" />
+    <ClCompile Include="directory_compile.cpp" />
+    <ClCompile Include="equals.cpp" />
+    <ClCompile Include="fapply.cpp" />
+    <ClCompile Include="loop.cpp" />
+    <ClCompile Include="nodes\operation.cpp" />
+    <ClCompile Include="not.cpp" />
+    <ClCompile Include="nodes\number.cpp" />
+    <ClCompile Include="number_binder.cpp" />
+    <ClCompile Include="bind_procedure.cpp" />
+    <ClCompile Include="identity.cpp" />
+    <ClCompile Include="null_binder.cpp" />
+    <ClCompile Include="operations\parameters.cpp" />
+    <ClCompile Include="package.cpp" />
+    <ClCompile Include="package_add.cpp" />
+    <ClCompile Include="package_create.cpp" />
+    <ClCompile Include="apply.cpp" />
+    <ClCompile Include="subtract.cpp" />
+    <ClCompile Include="times.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="routine_input_test_1.h" />
-    <ClInclude Include="tests.h" />
-    <ClInclude Include="unbindable_statement_test.h" />
-    <ClInclude Include="times_test.h" />
-    <ClInclude Include="routine_binder_test.h" />
-    <ClInclude Include="package_test_1.h" />
-    <ClInclude Include="number_binder_test.h" />
-    <ClInclude Include="loop_test.h" />
-    <ClInclude Include="list_test.h" />
-    <ClInclude Include="cvalue_test.h" />
-    <ClInclude Include="bind_procedure_test_1.h" />
-    <ClInclude Include="apply_binder_test.h" />
-    <ClInclude Include="adata_test.h" />
+    <ClInclude Include="..\lambda_p\binder\binder.h" />
+    <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
+    <ClInclude Include="extensions\adata.h" />
+    <ClInclude Include="extensions\bool_c.h" />
+    <ClInclude Include="extensions\number.h" />
+    <ClInclude Include="frame.h" />
+    <ClInclude Include="nodes\adata.h" />
+    <ClInclude Include="application.h" />
+    <ClInclude Include="bind_procedure.h" />
+    <ClInclude Include="bool_binder.h" />
+    <ClInclude Include="nodes\bool_c.h" />
+    <ClInclude Include="builder.h" />
+    <ClInclude Include="eval.h" />
+    <ClInclude Include="cvalue.h" />
+    <ClInclude Include="directory_compile.h" />
+    <ClInclude Include="equals.h" />
+    <ClInclude Include="fapply.h" />
+    <ClInclude Include="identity.h" />
+    <ClInclude Include="loop.h" />
+    <ClInclude Include="nodes\operation.h" />
+    <ClInclude Include="not.h" />
+    <ClInclude Include="null_binder.h" />
+    <ClInclude Include="nodes\number.h" />
+    <ClInclude Include="number_binder.h" />
+    <ClInclude Include="operations\parameters.h" />
+    <ClInclude Include="package.h" />
+    <ClInclude Include="package_add.h" />
+    <ClInclude Include="package_create.h" />
+    <ClInclude Include="apply.h" />
+    <ClInclude Include="subtract.h" />
+    <ClInclude Include="times.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,7 @@
     </ClInclude>
     <ClInclude Include="node.h" />
     <ClInclude Include="expression.h" />
+    <ClInclude Include="reference.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -78,6 +79,7 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="reference.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

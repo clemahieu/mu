@@ -40,6 +40,13 @@
     <ClCompile Include="nodes\bool_c.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
+    <ClCompile Include="nodes\operation.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="operations\parameters.cpp">
+      <Filter>operations</Filter>
+    </ClCompile>
+    <ClCompile Include="frame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -82,16 +89,23 @@
     <ClInclude Include="nodes\bool_c.h">
       <Filter>nodes</Filter>
     </ClInclude>
+    <ClInclude Include="nodes\operation.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="operations\parameters.h">
+      <Filter>operations</Filter>
+    </ClInclude>
+    <ClInclude Include="frame.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
       <UniqueIdentifier>{45416b4d-e3c5-4ed3-a99d-7dc2bec548ac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="expressions">
-      <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="extensions">
       <UniqueIdentifier>{99dce724-fda7-492b-aeae-d124dcb8c53e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="operations">
+      <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

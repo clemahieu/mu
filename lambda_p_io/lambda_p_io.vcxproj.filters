@@ -111,9 +111,6 @@
     <ClCompile Include="parser\single.cpp">
       <Filter>parser</Filter>
     </ClCompile>
-    <ClCompile Include="parser\full.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
     <ClCompile Include="analyzer\routine.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
@@ -124,6 +121,9 @@
       <Filter>analyzer</Filter>
     </ClCompile>
     <ClCompile Include="source.cpp" />
+    <ClCompile Include="parser\full.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -219,9 +219,6 @@
     <ClInclude Include="parser\single.h">
       <Filter>parser</Filter>
     </ClInclude>
-    <ClInclude Include="parser\full.h">
-      <Filter>parser</Filter>
-    </ClInclude>
     <ClInclude Include="analyzer\routine.h">
       <Filter>analyzer</Filter>
     </ClInclude>
@@ -232,5 +229,8 @@
       <Filter>analyzer</Filter>
     </ClInclude>
     <ClInclude Include="source.h" />
+    <ClInclude Include="parser\full.h">
+      <Filter>parser</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
