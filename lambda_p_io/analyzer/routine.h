@@ -5,11 +5,12 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
-#include <set>
+#include <utility>
 
 namespace lambda_p
 {
 	class node;
+	class expression;
 	namespace errors
 	{
 		class error_target;
@@ -21,6 +22,7 @@ namespace lambda_p_io
 	{
 		class analyzer;
 		class declaration;
+		class resolver;
 		class routine
 		{
 		public:
@@ -28,7 +30,7 @@ namespace lambda_p_io
 			lambda_p_io::analyzer::analyzer & analyzer;
 			void operator () (std::wstring, boost::shared_ptr <lambda_p::node>);
 			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> declarations;
-			std::map <std::wstring, std::set <lambda_p_io::ast::expression *>> unresolved;
+			std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>> unresolved;
 		};
 	}
 }

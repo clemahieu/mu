@@ -17,6 +17,7 @@ namespace lambda_p_io
 	namespace analyzer
 	{
 		class routine;
+		class resolver;
 		class expression : public lambda_p_io::ast::visitor
 		{
 		public:
@@ -25,7 +26,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
 			lambda_p_io::analyzer::routine & routine;
 			lambda_p_io::ast::expression * expression_m;
-			bool complete;
+			boost::shared_ptr <lambda_p_io::analyzer::resolver> resolver;
 			boost::shared_ptr <lambda_p::expression> result;
 		};
 	}

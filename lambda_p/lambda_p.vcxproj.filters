@@ -79,7 +79,6 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="reference.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

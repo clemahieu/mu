@@ -5,6 +5,8 @@
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p/expression.h>
+#include <lambda_p_io/analyzer/resolver.h>
 
 #include <sstream>
 
@@ -47,13 +49,9 @@ void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost
 	if (analyzer.extensions.find (identifier) == analyzer.extensions.end ())
 	{
 		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
-		auto existing (unresolved.find (identifier));
-		if (existing != unresolved.end ())
+		for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
 		{
-			for (auto i (existing->second.begin ()), j (existing->second.end ()); i != j; ++i)
-			{
-				lambda_p_io::analyzer::expression expression (*this, *i);
-			}
+
 		}
 		unresolved.erase (identifier);
 	}

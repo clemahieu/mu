@@ -124,6 +124,9 @@
     <ClCompile Include="parser\full.cpp">
       <Filter>parser</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\resolver.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="source.h" />
     <ClInclude Include="parser\full.h">
       <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\resolver.h">
+      <Filter>analyzer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
