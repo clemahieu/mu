@@ -1,12 +1,8 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_list.h>
-
-#include <sstream>
-
-void lambda_p_script::nodes::operation::execute (lambda_p_script::context & context, boost::shared_ptr <lambda_p::errors::error_list> errors_a, std::vector <size_t> parameter_locations, std::vector <size_t> result_locations)
+lambda_p_script::nodes::operation::operation (size_t parameter_size_a, size_t result_size_a, boost::shared_ptr <lambda_p_script::operation> operation_a)
+	: parameter_size (parameter_size_a),
+	result_size (result_size_a),
+	operation (operation_a)
 {
-	assert (parameter_locations.size () == parameter_count ());
-	assert (result_locations.size () == result_count ());
-	(*this) (context, errors_a, parameter_locations, result_locations);
 }

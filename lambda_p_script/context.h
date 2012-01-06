@@ -4,16 +4,13 @@
 
 #include <vector>
 
-namespace lambda_p
-{
-	class node;
-}
 namespace lambda_p_script
 {
+	class node;
 	class context
 	{
 	public:
-		std::vector <boost::shared_ptr <lambda_p::node>> values;
+		std::vector <boost::shared_ptr <lambda_p_script::node>> values;
 	};
 }
 

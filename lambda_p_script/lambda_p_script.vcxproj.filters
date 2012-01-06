@@ -40,9 +40,6 @@
     <ClCompile Include="nodes\bool_c.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="nodes\operation.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
     <ClCompile Include="context.cpp" />
     <ClCompile Include="extensions\parameters.cpp">
       <Filter>extensions</Filter>
@@ -50,6 +47,13 @@
     <ClCompile Include="nodes\parameters.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="routine.cpp" />
+    <ClCompile Include="operation.cpp" />
+    <ClCompile Include="nodes\operation.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="call.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -92,9 +96,6 @@
     <ClInclude Include="nodes\bool_c.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="nodes\operation.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
     <ClInclude Include="context.h" />
     <ClInclude Include="extensions\parameters.h">
       <Filter>extensions</Filter>
@@ -102,6 +103,13 @@
     <ClInclude Include="nodes\parameters.h">
       <Filter>nodes</Filter>
     </ClInclude>
+    <ClInclude Include="node.h" />
+    <ClInclude Include="routine.h" />
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="nodes\operation.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="call.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
