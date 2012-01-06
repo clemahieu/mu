@@ -2,6 +2,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <vector>
+
 namespace lambda_p
 {
 	class node;
