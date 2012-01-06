@@ -2,11 +2,6 @@
 
 #include <lambda_p_script/call.h>
 
-lambda_p_script::routine::routine (size_t count_a)
-	: count (count_a)
-{
-}
-
 void lambda_p_script::routine::operator () (std::vector <boost::shared_ptr <lambda_p::node>> & context, size_t base)
 {
 	auto base_l (base);

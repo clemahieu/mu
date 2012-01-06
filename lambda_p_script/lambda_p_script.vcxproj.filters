@@ -60,7 +60,7 @@
     <ClCompile Include="synthesizer\routine.cpp">
       <Filter>synthesizer</Filter>
     </ClCompile>
-    <ClCompile Include="synthesizer\call.cpp">
+    <ClCompile Include="synthesizer\expression.cpp">
       <Filter>synthesizer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -125,7 +125,7 @@
     <ClInclude Include="synthesizer\routine.h">
       <Filter>synthesizer</Filter>
     </ClInclude>
-    <ClInclude Include="synthesizer\call.h">
+    <ClInclude Include="synthesizer\expression.h">
       <Filter>synthesizer</Filter>
     </ClInclude>
   </ItemGroup>

@@ -164,7 +164,7 @@
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="subtract.cpp" />
-    <ClCompile Include="synthesizer\call.cpp" />
+    <ClCompile Include="synthesizer\expression.cpp" />
     <ClCompile Include="synthesizer\routine.cpp" />
     <ClCompile Include="synthesizer\synthesizer.cpp" />
     <ClCompile Include="times.cpp" />
@@ -205,7 +205,7 @@
     <ClInclude Include="apply.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="subtract.h" />
-    <ClInclude Include="synthesizer\call.h" />
+    <ClInclude Include="synthesizer\expression.h" />
     <ClInclude Include="synthesizer\routine.h" />
     <ClInclude Include="synthesizer\synthesizer.h" />
     <ClInclude Include="times.h" />
