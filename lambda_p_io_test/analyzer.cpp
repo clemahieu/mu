@@ -6,7 +6,7 @@
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p/node.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p/expression.h>
+#include <lambda_p/call.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/routine.h>
 
@@ -72,9 +72,9 @@ void lambda_p_io_test::analyzer::run_4 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->expression);
+	auto routine (result.routines [0]->call);
 	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (*routine->dependencies.begin ()));
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::call> (*routine->dependencies.begin ()));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
 }
@@ -92,9 +92,9 @@ void lambda_p_io_test::analyzer::run_5 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->expression);
+	auto routine (result.routines [0]->call);
 	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (*routine->dependencies.begin ()));
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::call> (*routine->dependencies.begin ()));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
 }
@@ -112,11 +112,11 @@ void lambda_p_io_test::analyzer::run_6 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->expression);
+	auto routine (result.routines [0]->call);
 	assert (routine->dependencies.size () == 2);
 	auto reference (boost::dynamic_pointer_cast <lambda_p::reference> (*routine->dependencies.begin ()));
 	assert (reference.get () != nullptr);
-	assert (reference->expression->dependencies.empty ());
+	assert (reference->call->dependencies.empty ());
 	assert (reference->index == 0);
 }
 
@@ -133,9 +133,9 @@ void lambda_p_io_test::analyzer::run_7 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->expression);
+	auto routine (result.routines [0]->call);
 	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (*routine->dependencies.begin ()));
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::call> (*routine->dependencies.begin ()));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
 }

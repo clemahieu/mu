@@ -1,10 +1,10 @@
 #include "resolver.h"
 
-#include <lambda_p/expression.h>
+#include <lambda_p/call.h>
 
-lambda_p_io::analyzer::resolver::resolver (boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved_a, boost::shared_ptr <lambda_p::expression> expression_a)
+lambda_p_io::analyzer::resolver::resolver (boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved_a, boost::shared_ptr <lambda_p::call> call_a)
 	: unresolved (unresolved_a),
-	expression (expression_a),
-	index (expression_a->dependencies.size ())
+	call (call_a),
+	index (call_a->dependencies.size ())
 {
 }

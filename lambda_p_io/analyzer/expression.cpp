@@ -6,7 +6,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/analyzer/extension.h>
-#include <lambda_p/expression.h>
+#include <lambda_p/call.h>
 #include <lambda_p/reference.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
@@ -14,7 +14,7 @@
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	result (new lambda_p::expression),
+	result (new lambda_p::call),
 	unresolved (new lambda_p_io::analyzer::unresolved (expression_a, result)),
 	position (0)
 {

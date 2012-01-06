@@ -4,12 +4,12 @@
 
 namespace lambda_p
 {
-	class expression;
+	class call;
 	class routine
 	{
 	public:
-		routine (boost::shared_ptr <lambda_p::expression> expression_a);
-		boost::shared_ptr <lambda_p::expression> expression;
+		routine (boost::shared_ptr <lambda_p::call> call_a);
+		boost::shared_ptr <lambda_p::call> call;
 	};
 }
 

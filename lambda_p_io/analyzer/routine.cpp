@@ -5,7 +5,7 @@
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p/expression.h>
+#include <lambda_p/call.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
 #include <lambda_p/routine.h>
@@ -55,7 +55,7 @@ void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost
 		for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
 		{
 			auto resolver (i->second);
-			resolver->expression->dependencies [resolver->index] = node;
+			resolver->call->dependencies [resolver->index] = node;
 			--resolver->unresolved->count;
 			if (resolver->unresolved->complete && resolver->unresolved->count == 0) 
 			{

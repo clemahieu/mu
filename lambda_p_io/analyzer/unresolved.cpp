@@ -2,10 +2,10 @@
 
 #include <lambda_p/reference.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/expression.h>
+#include <lambda_p/call.h>
 #include <lambda_p_io/analyzer/routine.h>
 
-lambda_p_io::analyzer::unresolved::unresolved (lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> result_a)
+lambda_p_io::analyzer::unresolved::unresolved (lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::call> result_a)
 	: complete (false),
 	count (0),
 	expression (expression_a),
@@ -22,7 +22,7 @@ void lambda_p_io::analyzer::unresolved::operator () (lambda_p_io::analyzer::rout
 		{
 			auto reference (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference));
 			reference->index = position;
-			reference->expression = result;
+			reference->call = result;
 			routine_a (*i, reference);
 		}
 		if (!expression->full_name.empty ())

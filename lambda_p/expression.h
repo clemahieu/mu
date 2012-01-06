@@ -11,8 +11,6 @@ namespace lambda_p
 	class expression : public lambda_p::node
 	{
 	public:
-		std::vector <boost::shared_ptr <lambda_p::node>> dependencies;
-		void operator () (lambda_p::visitor * visitor_a) override;
 	};
 }
 

@@ -4,7 +4,7 @@
 
 namespace lambda_p
 {
-	class expression;
+	class call;
 }
 namespace lambda_p_io
 {
@@ -18,10 +18,10 @@ namespace lambda_p_io
 		class unresolved
 		{
 		public:
-			unresolved (lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> result_a);
+			unresolved (lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::call> result_a);
 			void operator () (lambda_p_io::analyzer::routine & routine);
 			lambda_p_io::ast::expression * expression;
-			boost::shared_ptr <lambda_p::expression> result;
+			boost::shared_ptr <lambda_p::call> result;
 			size_t count;
 			bool complete;
 		};
