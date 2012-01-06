@@ -11,6 +11,7 @@ namespace lambda_p
 {
 	class node;
 	class expression;
+	class routine;
 	namespace errors
 	{
 		class error_target;
@@ -29,6 +30,7 @@ namespace lambda_p_io
 			routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a);
 			lambda_p_io::analyzer::analyzer & analyzer;
 			void operator () (std::wstring, boost::shared_ptr <lambda_p::node>);
+			boost::shared_ptr <lambda_p::routine> routine_m;
 			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> declarations;
 			std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>> unresolved;
 		};

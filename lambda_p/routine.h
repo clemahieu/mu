@@ -5,10 +5,12 @@
 namespace lambda_p
 {
 	class call;
+	class parameters;
 	class routine
 	{
 	public:
-		routine (boost::shared_ptr <lambda_p::call> call_a);
+		routine ();
+		boost::shared_ptr <lambda_p::parameters> parameters;
 		boost::shared_ptr <lambda_p::call> call;
 	};
 }

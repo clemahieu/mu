@@ -1,6 +1,8 @@
 #include "routine.h"
 
-lambda_p::routine::routine (boost::shared_ptr <lambda_p::call> call_a)
-	: call (call_a)
+#include <lambda_p/parameters.h>
+
+lambda_p::routine::routine ()
+	: parameters (new lambda_p::parameters)
 {
 }
