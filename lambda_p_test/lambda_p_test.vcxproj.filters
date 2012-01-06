@@ -4,10 +4,14 @@
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="test_visitor.cpp" />
+    <ClCompile Include="visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="test_visitor.h" />
+    <ClInclude Include="visitor.h" />
   </ItemGroup>
 </Project>

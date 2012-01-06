@@ -54,6 +54,15 @@
       <Filter>nodes</Filter>
     </ClCompile>
     <ClCompile Include="call.cpp" />
+    <ClCompile Include="synthesizer\synthesizer.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\routine.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\call.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bind_procedure.h" />
@@ -110,6 +119,15 @@
       <Filter>nodes</Filter>
     </ClInclude>
     <ClInclude Include="call.h" />
+    <ClInclude Include="synthesizer\synthesizer.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\routine.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\call.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
@@ -120,6 +138,9 @@
     </Filter>
     <Filter Include="operations">
       <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synthesizer">
+      <UniqueIdentifier>{8d7d8007-6bf0-4827-add0-809c4099886b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

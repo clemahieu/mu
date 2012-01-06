@@ -149,11 +149,15 @@
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="test_visitor.cpp" />
+    <ClCompile Include="visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="filesystem_test.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="test_visitor.h" />
+    <ClInclude Include="visitor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
