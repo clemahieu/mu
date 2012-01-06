@@ -24,6 +24,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::tokens::left_square * token) override;
 			void operator () (lambda_p_io::tokens::right_square * token) override;
 			void operator () (lambda_p_io::tokens::stream_end * token) override;
+			void operator () (lambda_p_io::tokens::parameters * token) override;
 			void add_error (lambda_p_io::tokens::token * token);
 			lambda_p_io::parser::parser & parser;
         };

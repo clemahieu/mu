@@ -166,6 +166,7 @@
     <ClCompile Include="tokens\divider.cpp" />
     <ClCompile Include="tokens\identifier.cpp" />
     <ClCompile Include="tokens\left_square.cpp" />
+    <ClCompile Include="tokens\parameters.cpp" />
     <ClCompile Include="tokens\right_square.cpp" />
     <ClCompile Include="tokens\stream_end.cpp" />
     <ClCompile Include="tokens\token.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="tokens\divider.h" />
     <ClInclude Include="tokens\identifier.h" />
     <ClInclude Include="tokens\left_square.h" />
+    <ClInclude Include="tokens\parameters.h" />
     <ClInclude Include="tokens\right_square.h" />
     <ClInclude Include="tokens\stream_end.h" />
     <ClInclude Include="tokens\token.h" />

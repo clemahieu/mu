@@ -133,6 +133,9 @@
     <ClCompile Include="ast\parameters.cpp">
       <Filter>ast</Filter>
     </ClCompile>
+    <ClCompile Include="tokens\parameters.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -249,6 +252,9 @@
     </ClInclude>
     <ClInclude Include="ast\parameters.h">
       <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\parameters.h">
+      <Filter>tokens</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

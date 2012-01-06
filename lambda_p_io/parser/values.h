@@ -25,6 +25,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::tokens::left_square * token) override;
 			void operator () (lambda_p_io::tokens::right_square * token) override;
 			void operator () (lambda_p_io::tokens::stream_end * token) override;
+			void operator () (lambda_p_io::tokens::parameters * token) override;
 			void subexpression (boost::shared_ptr <lambda_p_io::ast::expression> expression);
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_m;
 			lambda_p_io::parser::parser & parser;

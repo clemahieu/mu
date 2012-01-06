@@ -24,3 +24,7 @@ void lambda_p_io::parser::error::operator () (lambda_p_io::tokens::right_square 
 void lambda_p_io::parser::error::operator () (lambda_p_io::tokens::stream_end * token)
 {
 }
+
+void lambda_p_io::parser::error::operator () (lambda_p_io::tokens::parameters * token)
+{
+}

@@ -17,6 +17,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::tokens::left_square * token) override;
 			void operator () (lambda_p_io::tokens::right_square * token) override;
 			void operator () (lambda_p_io::tokens::stream_end * token) override;
+			void operator () (lambda_p_io::tokens::parameters * token) override;
 			std::wstring message;
 		};
 	}

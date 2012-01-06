@@ -8,6 +8,8 @@
 #include <lambda_p_io/tokens/divider.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/parser/error.h>
+#include <lambda_p_io/tokens/parameters.h>
+#include <lambda_p_io/ast/parameters.h>
 
 #include <boost/bind.hpp>
 
@@ -42,6 +44,11 @@ void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::right_square
 void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::stream_end * token)
 {
 	parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error (std::wstring (L"Unexpected end of stream while parsing expression"))));
+}
+
+void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::parameters * token)
+{
+	values_m.push_back (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters));
 }
 
 void lambda_p_io::parser::values::subexpression (boost::shared_ptr <lambda_p_io::ast::expression> expression)

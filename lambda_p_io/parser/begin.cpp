@@ -8,6 +8,7 @@
 #include <lambda_p_io/tokens/divider.h>
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/tokens/right_square.h>
+#include <lambda_p_io/tokens/parameters.h>
 
 lambda_p_io::parser::begin::begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
 	: parser (parser_a),
@@ -39,6 +40,11 @@ void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::right_square 
 void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::stream_end * token)
 {
 	parser.state.pop ();
+}
+
+void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::parameters * token)
+{
+	unexpected_token (token);
 }
 
 void lambda_p_io::parser::begin::unexpected_token (lambda_p_io::tokens::token * token)

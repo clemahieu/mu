@@ -10,6 +10,7 @@ namespace lambda_p_io
 		class right_square;
 		class stream_end;
 		class token;
+		class parameters;
 		class visitor
 		{
 		public:
@@ -18,6 +19,7 @@ namespace lambda_p_io
 			virtual void operator () (lambda_p_io::tokens::left_square * token) = 0;
 			virtual void operator () (lambda_p_io::tokens::right_square * token) = 0;
 			virtual void operator () (lambda_p_io::tokens::stream_end * token) = 0;
+			virtual void operator () (lambda_p_io::tokens::parameters * token) = 0;
 		};
 	}
 }

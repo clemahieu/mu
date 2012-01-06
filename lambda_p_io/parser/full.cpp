@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/parser/error.h>
 #include <lambda_p_io/ast/expression.h>
+#include <lambda_p_io/tokens/parameters.h>
 
 #include <sstream>
 
@@ -63,6 +64,11 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square *
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::stream_end * token)
+{
+	unexpected_token (token);
+}
+
+void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::parameters * token)
 {
 	unexpected_token (token);
 }

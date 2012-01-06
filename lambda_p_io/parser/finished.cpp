@@ -15,6 +15,7 @@
 #include <lambda_p_io/tokens/left_square.h>
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/stream_end.h>
+#include <lambda_p_io/tokens/parameters.h>
 
 lambda_p_io::parser::finished::finished (lambda_p_io::parser::parser & parser_a)
 	: parser (parser_a)
@@ -42,6 +43,11 @@ void lambda_p_io::parser::finished::operator () (lambda_p_io::tokens::right_squa
 }
 
 void lambda_p_io::parser::finished::operator () (lambda_p_io::tokens::stream_end * token)
+{
+	add_error (token);
+}
+
+void lambda_p_io::parser::finished::operator () (lambda_p_io::tokens::parameters * token)
 {
 	add_error (token);
 }
