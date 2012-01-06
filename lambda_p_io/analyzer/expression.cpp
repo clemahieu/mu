@@ -2,12 +2,15 @@
 
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
+#include <lambda_p_io/ast/parameters.h>
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/analyzer/extension.h>
 #include <lambda_p/call.h>
 #include <lambda_p/reference.h>
+#include <lambda_p/routine.h>
+#include <lambda_p/parameters.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
 
@@ -24,6 +27,11 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 	}
 	unresolved->complete = true;
 	(*unresolved) (routine_a);
+}
+
+void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameters * parameters_a)
+{
+	result->dependencies.push_back (routine.routine_m->parameters);
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)

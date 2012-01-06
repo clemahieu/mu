@@ -140,6 +140,7 @@
     <ClCompile Include="ast\expression.cpp" />
     <ClCompile Include="ast\identifier.cpp" />
     <ClCompile Include="ast\node.cpp" />
+    <ClCompile Include="ast\parameters.cpp" />
     <ClCompile Include="ast\visitor.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="ast\expression.h" />
     <ClInclude Include="ast\identifier.h" />
     <ClInclude Include="ast\node.h" />
+    <ClInclude Include="ast\parameters.h" />
     <ClInclude Include="ast\visitor.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />

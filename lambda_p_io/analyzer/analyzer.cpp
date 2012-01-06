@@ -26,6 +26,13 @@ void lambda_p_io::analyzer::analyzer::operator () (boost::shared_ptr <lambda_p_i
 	(*node) (this);
 }
 
+void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::parameters * parameters_a)
+{
+	std::wstringstream message;
+	message << L"At top level, expecting expression, have parameters.";
+	(*errors) (message.str ());
+}
+
 void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::expression * expression_a)
 {
 	lambda_p_io::analyzer::routine (*this, expression_a);

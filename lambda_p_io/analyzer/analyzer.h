@@ -33,6 +33,7 @@ namespace lambda_p_io
 			analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions_a);
 			void operator () (boost::shared_ptr <lambda_p_io::ast::node> node);
 			void operator () (lambda_p_io::ast::expression * expression_a) override;
+			void operator () (lambda_p_io::ast::parameters * parameters_a) override;
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
 			boost::function <void (boost::shared_ptr <lambda_p::routine>)> target;
