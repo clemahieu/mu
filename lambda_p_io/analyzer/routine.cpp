@@ -8,6 +8,7 @@
 #include <lambda_p/expression.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
+#include <lambda_p/routine.h>
 
 #include <sstream>
 
@@ -21,7 +22,8 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		{
 			if (!(*analyzer.errors) ())
 			{
-				analyzer_a.target (expression.result);
+				auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (expression.result)));
+				analyzer_a.target (routine);
 			}
 			else
 			{

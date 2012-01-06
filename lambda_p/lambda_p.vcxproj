@@ -145,6 +145,7 @@
     <ClInclude Include="errors\unexpected_result_count.h" />
     <ClInclude Include="errors\unresolved_statement.h" />
     <ClInclude Include="reference.h" />
+    <ClInclude Include="routine.h" />
     <ClInclude Include="visitor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +164,7 @@
     <ClCompile Include="errors\unexpected_result_count.cpp" />
     <ClCompile Include="errors\unresolved_statement.cpp" />
     <ClCompile Include="reference.cpp" />
+    <ClCompile Include="routine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
