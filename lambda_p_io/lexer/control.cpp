@@ -4,6 +4,7 @@
 #include <lambda_p_io/lexer/multiline_comment.h>
 #include <lambda_p_io/lexer/singleline_comment.h>
 #include <lambda_p_io/lexer/error.h>
+#include <lambda_p_io/tokens/parameters.h>
 
 lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a)
 	: complete (false),
@@ -17,6 +18,9 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 	{
 		switch (character)
 		{
+		case L'~':
+			lexer.target (new lambda_p_io::tokens::parameters);
+			break;
 		case L'[':
 			lexer.state.pop ();
 			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::multiline_comment (lexer)));

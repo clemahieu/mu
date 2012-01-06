@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/divider.h>
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/tokens/stream_end.h>
+#include <lambda_p_io/tokens/parameters.h>
 
 #include <boost/bind.hpp>
 
@@ -171,4 +172,16 @@ void lambda_p_io_test::lexer::run_10 ()
 	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
 	assert (t1->string == std::wstring (L"b"));
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (result.results [1]) != nullptr);
+}
+
+void lambda_p_io_test::lexer::run_11 ()
+{
+	lambda_p_io_test::lexer_result result;
+	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":~");
+	source ();
+	assert (result.results.size () == 1);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::parameters *> (result.results [0]));
+	assert (t1 != nullptr);
 }
