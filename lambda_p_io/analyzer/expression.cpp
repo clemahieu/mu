@@ -14,6 +14,8 @@
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
 
+#include <sstream>
+
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
@@ -31,7 +33,27 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameters * parameters_a)
 {
-	result->dependencies.push_back (routine.routine_m->parameters);
+	if (routine.parameter_count == ~0)
+	{
+		routine.parameter_count = expression_m->individual_names.size ();
+		result->dependencies.push_back (routine.routine_m->parameters);
+	}
+	else
+	{
+		if (routine.parameter_count == expression_m->individual_names.size ())
+		{
+			result->dependencies.push_back (routine.routine_m->parameters);
+		}
+		else
+		{
+			std::wstringstream message;
+			message << L"Parameters being referenced with inconsistent number of nodes, previously: ";
+			message << routine.parameter_count;
+			message << L" now: ";
+			expression_m->individual_names.size ();
+			(*routine.analyzer.errors) (message.str ());
+		}
+	}
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)

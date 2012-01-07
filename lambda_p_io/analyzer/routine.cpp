@@ -14,7 +14,8 @@
 
 lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a)
 	: analyzer (analyzer_a),
-	routine_m (new lambda_p::routine)
+	routine_m (new lambda_p::routine),
+	parameter_count (~0)
 {
 	if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
 	{
