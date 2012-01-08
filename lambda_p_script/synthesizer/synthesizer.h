@@ -5,7 +5,7 @@
 
 namespace lambda_p
 {
-	class expression;
+	class routine;
 	namespace errors
 	{
 		class error_target;
@@ -20,7 +20,7 @@ namespace lambda_p_script
 		{
 		public:
 			synthesizer (boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
-			void operator () (boost::shared_ptr <lambda_p::expression> expression_a);
+			void operator () (boost::shared_ptr <lambda_p::routine> expression_a);
 			boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target;	
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};

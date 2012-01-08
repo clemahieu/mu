@@ -7,22 +7,28 @@
 
 namespace lambda_p
 {
-	class expression;
+	class routine;
+	class call;
 }
 namespace lambda_p_script
 {
+	class routine;
 	namespace synthesizer
 	{
-		class expression;
+		class order;
 		class synthesizer;
+		class expression;
 		class routine
 		{
 		public:
-			routine (lambda_p_script::synthesizer::synthesizer & synthesizer_a, boost::shared_ptr <lambda_p::expression> expression_a);
+			routine (lambda_p_script::synthesizer::synthesizer & synthesizer_a, boost::shared_ptr <lambda_p::routine> routine_a);
 			boost::shared_ptr <lambda_p_script::routine> result;
-			void operator () (boost::shared_ptr <lambda_p::expression> dominator, boost::shared_ptr <lambda_p::expression> new_expression_a);
-			std::map <boost::shared_ptr <lambda_p::expression>, std::list <boost::shared_ptr <lambda_p_script::synthesizer::call>>::value_type> synthesis;
-			std::list <boost::shared_ptr <lambda_p_script::synthesizer::call>> calls;
+			void operator () (boost::shared_ptr <lambda_p_script::synthesizer::order> expression, boost::shared_ptr <lambda_p::call> call);
+			void operator () (boost::shared_ptr <lambda_p::call> dominator, boost::shared_ptr <lambda_p::call> follower);
+			std::map <boost::shared_ptr <lambda_p::call>, std::list <boost::shared_ptr <lambda_p_script::synthesizer::order>>::iterator> synthesis;
+			std::list <boost::shared_ptr <lambda_p_script::synthesizer::order>> expressions;
+			size_t open;
+			std::map <boost::shared_ptr <lambda_p::call>, size_t> reservation;
 		};
 	}
 }

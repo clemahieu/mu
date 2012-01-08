@@ -131,13 +131,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\lambda_p\binder\binder.cpp" />
-    <ClCompile Include="call.cpp" />
-    <ClCompile Include="context.cpp" />
     <ClCompile Include="extensions\adata.cpp" />
     <ClCompile Include="extensions\bool_c.cpp" />
     <ClCompile Include="extensions\number.cpp" />
     <ClCompile Include="extensions\parameters.cpp" />
-    <ClCompile Include="node.cpp" />
     <ClCompile Include="nodes\adata.cpp" />
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bool_binder.cpp" />
@@ -150,7 +147,6 @@
     <ClCompile Include="fapply.cpp" />
     <ClCompile Include="loop.cpp" />
     <ClCompile Include="nodes\operation.cpp" />
-    <ClCompile Include="operation.cpp" />
     <ClCompile Include="not.cpp" />
     <ClCompile Include="nodes\number.cpp" />
     <ClCompile Include="number_binder.cpp" />
@@ -162,9 +158,17 @@
     <ClCompile Include="package_add.cpp" />
     <ClCompile Include="package_create.cpp" />
     <ClCompile Include="apply.cpp" />
+    <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="runtime\call.cpp" />
+    <ClCompile Include="runtime\context.cpp" />
+    <ClCompile Include="runtime\expression.cpp" />
+    <ClCompile Include="runtime\node.cpp" />
+    <ClCompile Include="runtime\reference.cpp" />
+    <ClCompile Include="runtime\routine.cpp" />
     <ClCompile Include="subtract.cpp" />
     <ClCompile Include="synthesizer\expression.cpp" />
+    <ClCompile Include="synthesizer\order.cpp" />
     <ClCompile Include="synthesizer\routine.cpp" />
     <ClCompile Include="synthesizer\synthesizer.cpp" />
     <ClCompile Include="times.cpp" />
@@ -172,13 +176,10 @@
   <ItemGroup>
     <ClInclude Include="..\lambda_p\binder\binder.h" />
     <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
-    <ClInclude Include="call.h" />
-    <ClInclude Include="context.h" />
     <ClInclude Include="extensions\adata.h" />
     <ClInclude Include="extensions\bool_c.h" />
     <ClInclude Include="extensions\number.h" />
     <ClInclude Include="extensions\parameters.h" />
-    <ClInclude Include="node.h" />
     <ClInclude Include="nodes\adata.h" />
     <ClInclude Include="application.h" />
     <ClInclude Include="bind_procedure.h" />
@@ -193,7 +194,6 @@
     <ClInclude Include="identity.h" />
     <ClInclude Include="loop.h" />
     <ClInclude Include="nodes\operation.h" />
-    <ClInclude Include="operation.h" />
     <ClInclude Include="not.h" />
     <ClInclude Include="null_binder.h" />
     <ClInclude Include="nodes\number.h" />
@@ -203,9 +203,17 @@
     <ClInclude Include="package_add.h" />
     <ClInclude Include="package_create.h" />
     <ClInclude Include="apply.h" />
+    <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="runtime\call.h" />
+    <ClInclude Include="runtime\context.h" />
+    <ClInclude Include="runtime\expression.h" />
+    <ClInclude Include="runtime\node.h" />
+    <ClInclude Include="runtime\reference.h" />
+    <ClInclude Include="runtime\routine.h" />
     <ClInclude Include="subtract.h" />
     <ClInclude Include="synthesizer\expression.h" />
+    <ClInclude Include="synthesizer\order.h" />
     <ClInclude Include="synthesizer\routine.h" />
     <ClInclude Include="synthesizer\synthesizer.h" />
     <ClInclude Include="times.h" />

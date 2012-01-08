@@ -40,20 +40,13 @@
     <ClCompile Include="nodes\bool_c.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="context.cpp" />
     <ClCompile Include="extensions\parameters.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
     <ClCompile Include="nodes\parameters.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="node.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="operation.cpp" />
-    <ClCompile Include="nodes\operation.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="call.cpp" />
     <ClCompile Include="synthesizer\synthesizer.cpp">
       <Filter>synthesizer</Filter>
     </ClCompile>
@@ -62,6 +55,31 @@
     </ClCompile>
     <ClCompile Include="synthesizer\expression.cpp">
       <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="reference.cpp" />
+    <ClCompile Include="synthesizer\order.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\routine.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\operation.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\context.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\call.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\expression.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\reference.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\node.cpp">
+      <Filter>runtime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,20 +123,13 @@
     <ClInclude Include="nodes\bool_c.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="context.h" />
     <ClInclude Include="extensions\parameters.h">
       <Filter>extensions</Filter>
     </ClInclude>
     <ClInclude Include="nodes\parameters.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="node.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="nodes\operation.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="call.h" />
     <ClInclude Include="synthesizer\synthesizer.h">
       <Filter>synthesizer</Filter>
     </ClInclude>
@@ -127,6 +138,31 @@
     </ClInclude>
     <ClInclude Include="synthesizer\expression.h">
       <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="reference.h" />
+    <ClInclude Include="synthesizer\order.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\routine.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\operation.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\context.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\call.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\expression.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\reference.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\node.h">
+      <Filter>runtime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +177,9 @@
     </Filter>
     <Filter Include="synthesizer">
       <UniqueIdentifier>{8d7d8007-6bf0-4827-add0-809c4099886b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{e325f7ed-12ab-47ba-b74d-b008d081f2d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
