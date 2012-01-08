@@ -11,5 +11,5 @@ void lambda_p_script::runtime::expression::operator () (boost::shared_ptr <lambd
 {
 	assert (context.nodes.size () > index);
 	std::vector <boost::shared_ptr <lambda_p::node>> & source (context.nodes [index]);
-	target.insert (source.begin (), source.end ());
+	target.insert (target.end (), source.begin (), source.end ());
 }

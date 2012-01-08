@@ -1,52 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="bind_procedure.cpp" />
-    <ClCompile Include="identity.cpp" />
-    <ClCompile Include="null_binder.cpp" />
-    <ClCompile Include="package.cpp" />
-    <ClCompile Include="package_add.cpp" />
-    <ClCompile Include="package_create.cpp" />
-    <ClCompile Include="number_binder.cpp" />
-    <ClCompile Include="apply.cpp" />
-    <ClCompile Include="directory_compile.cpp" />
-    <ClCompile Include="builder.cpp" />
-    <ClCompile Include="cvalue.cpp" />
-    <ClCompile Include="fapply.cpp" />
-    <ClCompile Include="application.cpp" />
-    <ClCompile Include="bool_binder.cpp" />
-    <ClCompile Include="times.cpp" />
-    <ClCompile Include="subtract.cpp" />
-    <ClCompile Include="equals.cpp" />
-    <ClCompile Include="loop.cpp" />
-    <ClCompile Include="not.cpp" />
-    <ClCompile Include="eval.cpp" />
-    <ClCompile Include="nodes\number.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\adata.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\lambda_p\binder\binder.cpp" />
-    <ClCompile Include="extensions\adata.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="extensions\number.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="extensions\bool_c.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\bool_c.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="extensions\parameters.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\parameters.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="routine.cpp" />
     <ClCompile Include="synthesizer\synthesizer.cpp">
       <Filter>synthesizer</Filter>
     </ClCompile>
@@ -54,10 +8,6 @@
       <Filter>synthesizer</Filter>
     </ClCompile>
     <ClCompile Include="synthesizer\expression.cpp">
-      <Filter>synthesizer</Filter>
-    </ClCompile>
-    <ClCompile Include="reference.cpp" />
-    <ClCompile Include="synthesizer\order.cpp">
       <Filter>synthesizer</Filter>
     </ClCompile>
     <ClCompile Include="runtime\routine.cpp">
@@ -83,53 +33,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bind_procedure.h" />
-    <ClInclude Include="identity.h" />
-    <ClInclude Include="null_binder.h" />
-    <ClInclude Include="package.h" />
-    <ClInclude Include="package_add.h" />
-    <ClInclude Include="package_create.h" />
-    <ClInclude Include="number_binder.h" />
-    <ClInclude Include="apply.h" />
-    <ClInclude Include="directory_compile.h" />
-    <ClInclude Include="builder.h" />
-    <ClInclude Include="cvalue.h" />
-    <ClInclude Include="fapply.h" />
-    <ClInclude Include="application.h" />
-    <ClInclude Include="bool_binder.h" />
-    <ClInclude Include="times.h" />
-    <ClInclude Include="subtract.h" />
-    <ClInclude Include="equals.h" />
-    <ClInclude Include="loop.h" />
-    <ClInclude Include="not.h" />
-    <ClInclude Include="eval.h" />
-    <ClInclude Include="nodes\number.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\adata.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\lambda_p\binder\binder_implementor.h" />
-    <ClInclude Include="..\lambda_p\binder\binder.h" />
-    <ClInclude Include="extensions\adata.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="extensions\number.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="extensions\bool_c.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\bool_c.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="extensions\parameters.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\parameters.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="routine.h" />
     <ClInclude Include="synthesizer\synthesizer.h">
       <Filter>synthesizer</Filter>
     </ClInclude>
@@ -137,10 +40,6 @@
       <Filter>synthesizer</Filter>
     </ClInclude>
     <ClInclude Include="synthesizer\expression.h">
-      <Filter>synthesizer</Filter>
-    </ClInclude>
-    <ClInclude Include="reference.h" />
-    <ClInclude Include="synthesizer\order.h">
       <Filter>synthesizer</Filter>
     </ClInclude>
     <ClInclude Include="runtime\routine.h">

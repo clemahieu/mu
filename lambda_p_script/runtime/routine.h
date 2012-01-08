@@ -9,7 +9,7 @@
 namespace lambda_p
 {
 	class node;
-
+}
 namespace lambda_p_script
 {
 	namespace runtime

@@ -13,15 +13,18 @@ namespace lambda_p
 }
 namespace lambda_p_script
 {
-	class routine;
+	namespace runtime
+	{
+		class routine;
+	}
 	namespace synthesizer
 	{
 		class synthesizer
 		{
 		public:
-			synthesizer (boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
+			synthesizer (boost::function <void (boost::shared_ptr <lambda_p_script::runtime::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			void operator () (boost::shared_ptr <lambda_p::routine> expression_a);
-			boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target;	
+			boost::function <void (boost::shared_ptr <lambda_p_script::runtime::routine>)> target;	
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 		};
 	}

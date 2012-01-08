@@ -20,7 +20,7 @@ namespace lambda_p_script
 			expression (lambda_p_script::synthesizer::routine & routine_a, boost::shared_ptr <lambda_p::call> call_a);
 			lambda_p_script::synthesizer::routine & routine;
 			boost::shared_ptr <lambda_p::node> current;
-			boost::shared_ptr <lambda_p_script::synthesizer::order> order;
+			boost::shared_ptr <lambda_p::call> call;
 			void operator () (lambda_p::call * call_a) override;
 			void operator () (lambda_p::parameters * parameters_a) override;
 			void operator () (lambda_p::reference * reference_a) override;
