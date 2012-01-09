@@ -136,6 +136,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="operations\identity.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="operations\identity.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
   </ItemGroup>

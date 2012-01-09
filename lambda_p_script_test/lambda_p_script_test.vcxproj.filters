@@ -3,9 +3,11 @@
   <ItemGroup>
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="call.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="call.h" />
   </ItemGroup>
 </Project>

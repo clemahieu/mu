@@ -11,6 +11,9 @@
     <ClCompile Include="node.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="operations\identity.cpp">
+      <Filter>operations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\operation.h">
@@ -23,6 +26,9 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="operations\identity.h">
+      <Filter>operations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
