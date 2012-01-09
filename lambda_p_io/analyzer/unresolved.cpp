@@ -22,7 +22,7 @@ void lambda_p_io::analyzer::unresolved::operator () (lambda_p_io::analyzer::rout
 		{
 			auto reference (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference));
 			reference->index = position;
-			reference->call = result;
+			reference->expression = result;
 			routine_a (*i, reference);
 		}
 		if (!expression->full_name.empty ())

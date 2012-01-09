@@ -120,7 +120,9 @@ void lambda_p_io_test::analyzer::run_6 ()
 	assert (routine->dependencies.size () == 2);
 	auto reference (boost::dynamic_pointer_cast <lambda_p::reference> (*routine->dependencies.begin ()));
 	assert (reference.get () != nullptr);
-	assert (reference->call->dependencies.empty ());
+	auto call (boost::dynamic_pointer_cast <lambda_p::call> (reference->expression));
+	assert (call.get () != nullptr);
+	assert (call->dependencies.empty ());
 	assert (reference->index == 0);
 }
 

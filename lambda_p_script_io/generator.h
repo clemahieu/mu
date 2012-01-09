@@ -6,7 +6,7 @@
 
 namespace lambda_p
 {
-	class call;
+	class expression;
 }
 namespace lambda_p_script
 {
@@ -20,7 +20,7 @@ namespace lambda_p_script_io
 	public:
 		generator (lambda_p_script_io::routine & routine_a);
 		boost::shared_ptr <lambda_p_script::routine> result;
-		std::map <boost::shared_ptr <lambda_p::call>, size_t> reservations;
+		std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
 	};
 }
 
