@@ -131,33 +131,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="nodes\operation.cpp" />
-    <ClCompile Include="runtime\call.cpp" />
-    <ClCompile Include="runtime\constant.cpp" />
-    <ClCompile Include="runtime\context.cpp" />
-    <ClCompile Include="runtime\expression.cpp" />
-    <ClCompile Include="runtime\node.cpp" />
-    <ClCompile Include="runtime\reference.cpp" />
-    <ClCompile Include="runtime\routine.cpp" />
-    <ClCompile Include="synthesizer\call.cpp" />
-    <ClCompile Include="synthesizer\expression.cpp" />
-    <ClCompile Include="synthesizer\generator.cpp" />
-    <ClCompile Include="synthesizer\routine.cpp" />
-    <ClCompile Include="synthesizer\synthesizer.cpp" />
+    <ClCompile Include="call.cpp" />
+    <ClCompile Include="constant.cpp" />
+    <ClCompile Include="context.cpp" />
+    <ClCompile Include="expression.cpp" />
+    <ClCompile Include="node.cpp" />
+    <ClCompile Include="reference.cpp" />
+    <ClCompile Include="routine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\operation.h" />
-    <ClInclude Include="runtime\call.h" />
-    <ClInclude Include="runtime\constant.h" />
-    <ClInclude Include="runtime\context.h" />
-    <ClInclude Include="runtime\expression.h" />
-    <ClInclude Include="runtime\node.h" />
-    <ClInclude Include="runtime\reference.h" />
-    <ClInclude Include="runtime\routine.h" />
-    <ClInclude Include="synthesizer\call.h" />
-    <ClInclude Include="synthesizer\expression.h" />
-    <ClInclude Include="synthesizer\generator.h" />
-    <ClInclude Include="synthesizer\routine.h" />
-    <ClInclude Include="synthesizer\synthesizer.h" />
+    <ClInclude Include="call.h" />
+    <ClInclude Include="constant.h" />
+    <ClInclude Include="context.h" />
+    <ClInclude Include="expression.h" />
+    <ClInclude Include="node.h" />
+    <ClInclude Include="reference.h" />
+    <ClInclude Include="routine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
