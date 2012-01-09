@@ -21,11 +21,10 @@ namespace lambda_p_script
 		class call
 		{
 		public:
-			call (boost::shared_ptr <lambda_p::errors::error_target> errors_a);
-			std::vector <boost::shared_ptr <lambda_p_script::runtime::node>> arguments;
+			call (size_t results_a);
 			size_t results;
-			void operator () (lambda_p_script::runtime::context & context);
-			boost::shared_ptr <lambda_p::errors::error_target> errors;
+			std::vector <boost::shared_ptr <lambda_p_script::runtime::node>> arguments;
+			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::runtime::context & context);
 		};
 	}
 }

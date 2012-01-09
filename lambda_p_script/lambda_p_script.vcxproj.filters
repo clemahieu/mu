@@ -31,6 +31,15 @@
     <ClCompile Include="runtime\node.cpp">
       <Filter>runtime</Filter>
     </ClCompile>
+    <ClCompile Include="runtime\constant.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\generator.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\call.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer\synthesizer.h">
@@ -62,6 +71,15 @@
     </ClInclude>
     <ClInclude Include="runtime\node.h">
       <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\constant.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\generator.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\call.h">
+      <Filter>synthesizer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

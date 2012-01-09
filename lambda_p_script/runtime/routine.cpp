@@ -4,7 +4,7 @@
 #include <lambda_p_script/nodes/operation.h>
 #include <lambda_p_script/runtime/call.h>
 
-void lambda_p_script::runtime::routine::operator () (std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::runtime::routine::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	size_t size (calls.size () + 1);
 	lambda_p_script::runtime::context context (size);
@@ -12,7 +12,7 @@ void lambda_p_script::runtime::routine::operator () (std::vector <boost::shared_
 	context.nodes [0].insert (context.nodes [0].end (), parameters.begin (), parameters.end ());
 	for (auto i (calls.begin ()), j (calls.end ()); i != j; ++i)
 	{
-		(*(*i)) (context);
+		(*(*i)) (errors_a, context);
 	}
 	results.assign (context.nodes [size - 1].begin (), context.nodes [size - 1].end ());
 }
