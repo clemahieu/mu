@@ -5,11 +5,13 @@
     <ClCompile Include="synthesizer_results.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="call.cpp" />
+    <ClCompile Include="generator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="synthesizer_results.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="call.h" />
+    <ClInclude Include="generator.h" />
   </ItemGroup>
 </Project>

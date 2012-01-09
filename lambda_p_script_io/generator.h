@@ -3,10 +3,13 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
+#include <list>
 
 namespace lambda_p
 {
+	class call;
 	class expression;
+	class parameters;
 }
 namespace lambda_p_script
 {
@@ -18,7 +21,7 @@ namespace lambda_p_script_io
 	class generator
 	{
 	public:
-		generator (lambda_p_script_io::routine & routine_a);
+		generator (std::list <boost::shared_ptr <lambda_p::call>> & expressions_a, boost::shared_ptr <lambda_p::parameters> parameters_a);
 		boost::shared_ptr <lambda_p_script::routine> result;
 		std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
 	};

@@ -8,6 +8,7 @@
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script_io/generator.h>
+#include <lambda_p/routine.h>
 
 lambda_p_script_io::synthesizer::synthesizer (boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: target (target_a),
@@ -20,7 +21,7 @@ void lambda_p_script_io::synthesizer::operator () (boost::shared_ptr <lambda_p::
 	lambda_p_script_io::routine routine (*this, routine_a);
 	if (!(*errors) ())
 	{
-		lambda_p_script_io::generator generator (routine);
+		lambda_p_script_io::generator generator (routine.expressions, routine_a->parameters);
 		target (generator.result);
 	}
 }
