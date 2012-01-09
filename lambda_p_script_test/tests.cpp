@@ -1,5 +1,11 @@
 #include "tests.h"
 
-void lambda_p_kernel_test::tests::run ()
+#include <lambda_p_script_test/synthesizer.h>
+
+void lambda_p_script_test::tests::run ()
 {
+	{
+		synthesizer test;
+		test.run ();
+	}
 }

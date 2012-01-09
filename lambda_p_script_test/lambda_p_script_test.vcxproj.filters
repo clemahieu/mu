@@ -2,8 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="synthesizer.cpp" />
+    <ClCompile Include="synthesizer_results.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
+    <ClInclude Include="synthesizer.h" />
+    <ClInclude Include="synthesizer_results.h" />
   </ItemGroup>
 </Project>

@@ -2,10 +2,11 @@
 
 namespace lambda_p_script_test
 {
-	class tests
+	class synthesizer
 	{
 	public:
 		void run ();
+		void run_1 ();
 	};
 }
 

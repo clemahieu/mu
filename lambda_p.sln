@@ -70,6 +70,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_script", "lambda_p_script\lambda_p_script.vcxproj", "{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_script_test", "lambda_p_script_test\lambda_p_script_test.vcxproj", "{A6AF1C64-7947-468D-AAD5-CD764F5B5101}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AB695DE-E9F4-4848-9E48-C1A4FC05B295} = {7AB695DE-E9F4-4848-9E48-C1A4FC05B295}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
