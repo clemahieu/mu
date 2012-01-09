@@ -4,10 +4,16 @@
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="call.cpp" />
+    <ClCompile Include="constant.cpp" />
+    <ClCompile Include="expression.cpp" />
+    <ClCompile Include="reference.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="call.h" />
+    <ClInclude Include="constant.h" />
+    <ClInclude Include="expression.h" />
+    <ClInclude Include="reference.h" />
   </ItemGroup>
 </Project>
