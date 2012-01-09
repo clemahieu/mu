@@ -12,14 +12,13 @@ lambda_p_script_io::generator::generator (lambda_p_script_io::routine & routine_
 	size_t open (1);
 	for (auto i (routine_a.expressions.begin ()), j (routine_a.expressions.end ()); i != j; ++i, ++open)
 	{
-		reservation.insert (std::map <boost::shared_ptr <lambda_p::call>, size_t>::value_type (*i, open));
+		reservations.insert (std::map <boost::shared_ptr <lambda_p::call>, size_t>::value_type (*i, open));
 		auto call_l (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (open)));
-		++open;
 		result->calls.push_back (call_l);
 		auto item (*i);
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)
 		{
-			lambda_p_script_io::call call (*this, call_l, *k);
+			lambda_p_script_io::call call (reservations, call_l, *k);
 		}
 	}
 }

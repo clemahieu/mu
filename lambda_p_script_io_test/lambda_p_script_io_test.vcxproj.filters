@@ -4,10 +4,12 @@
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="synthesizer_results.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="call.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="synthesizer_results.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="call.h" />
   </ItemGroup>
 </Project>

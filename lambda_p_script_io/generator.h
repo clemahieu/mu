@@ -20,7 +20,7 @@ namespace lambda_p_script_io
 	public:
 		generator (lambda_p_script_io::routine & routine_a);
 		boost::shared_ptr <lambda_p_script::routine> result;
-		std::map <boost::shared_ptr <lambda_p::call>, size_t> reservation;
+		std::map <boost::shared_ptr <lambda_p::call>, size_t> reservations;
 	};
 }
 

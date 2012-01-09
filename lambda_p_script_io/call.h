@@ -4,8 +4,11 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <map>
+
 namespace lambda_p
 {
+	class call;
 	class node;
 }
 namespace lambda_p_script
@@ -18,14 +21,14 @@ namespace lambda_p_script_io
 	class call : public lambda_p::visitor
 	{
 	public:
-		call (lambda_p_script_io::generator & generator_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a);
+		call (std::map <boost::shared_ptr <lambda_p::call>, size_t> & generator_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a);
 		void operator () (lambda_p::call * call_a) override;
 		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		boost::shared_ptr <lambda_p::node> node;
 		boost::shared_ptr <lambda_p_script::call> call_m;
-		lambda_p_script_io::generator & generator;
+		std::map <boost::shared_ptr <lambda_p::call>, size_t> & reservations;
 	};
 }
 
