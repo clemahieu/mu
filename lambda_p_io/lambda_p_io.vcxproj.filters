@@ -137,6 +137,9 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="analyzer\global.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -258,5 +261,8 @@
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
+    <ClInclude Include="analyzer\global.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

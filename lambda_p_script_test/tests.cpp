@@ -5,6 +5,7 @@
 #include <lambda_p_script_test/constant.h>
 #include <lambda_p_script_test/expression.h>
 #include <lambda_p_script_test/reference.h>
+#include <lambda_p_script_test/operations/number/equal.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -26,6 +27,10 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		routine test;
+		test.run ();
+	}
+	{
+		operations::number::equal test;
 		test.run ();
 	}
 }

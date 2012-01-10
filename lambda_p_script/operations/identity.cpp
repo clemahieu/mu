@@ -7,3 +7,8 @@ void lambda_p_script::operations::identity::operator () (boost::shared_ptr <lamb
 	++begin;
 	results.assign (begin, parameters.end ());
 }
+
+std::wstring lambda_p_script::operations::identity::name ()
+{
+	return std::wstring (L"lambda_p_script::operations::identity");
+}

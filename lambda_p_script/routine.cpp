@@ -15,3 +15,8 @@ void lambda_p_script::routine::operator () (boost::shared_ptr <lambda_p::errors:
 	}
 	results.assign (context.nodes [size - 1].begin (), context.nodes [size - 1].end ());
 }
+
+std::wstring lambda_p_script::routine::name ()
+{
+	return std::wstring (L"lambda_p_script::routine");
+}

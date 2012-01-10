@@ -129,6 +129,7 @@
     <ClCompile Include="call.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
+    <ClCompile Include="operations\number\equal.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="call.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
+    <ClInclude Include="operations\number\equal.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="tests.h" />

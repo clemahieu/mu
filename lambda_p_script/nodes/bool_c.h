@@ -4,9 +4,14 @@
 
 namespace lambda_p_script
 {
-	class bool_c : public lambda_p::node
+	namespace nodes
 	{
-	public:
-		bool value;
-	};
+		class bool_c : public lambda_p::node
+		{
+		public:
+			bool_c ();
+			bool_c (bool value_a);
+			bool value;
+		};
+	}
 }

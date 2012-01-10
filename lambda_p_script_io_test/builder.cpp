@@ -18,6 +18,7 @@ void lambda_p_script_io_test::builder::run ()
 	run_5 ();
 	run_6 ();
 	run_7 ();
+	run_8 ();
 }
 
 void lambda_p_script_io_test::builder::run_1 ()
@@ -132,4 +133,12 @@ void lambda_p_script_io_test::builder::run_7 ()
 	auto data (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (results [0]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"string with spaces"));
+}
+
+void lambda_p_script_io_test::builder::run_8 ()
+{
+	lambda_p_script_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[[:~; #]]");
+	assert (!builder.errors->errors.empty ());
 }

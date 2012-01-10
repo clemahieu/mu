@@ -134,6 +134,7 @@
     <ClCompile Include="analyzer\analyzer.cpp" />
     <ClCompile Include="analyzer\expression.cpp" />
     <ClCompile Include="analyzer\extension.cpp" />
+    <ClCompile Include="analyzer\global.cpp" />
     <ClCompile Include="analyzer\resolver.cpp" />
     <ClCompile Include="analyzer\routine.cpp" />
     <ClCompile Include="analyzer\unresolved.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="analyzer\analyzer.h" />
     <ClInclude Include="analyzer\expression.h" />
     <ClInclude Include="analyzer\extension.h" />
+    <ClInclude Include="analyzer\global.h" />
     <ClInclude Include="analyzer\resolver.h" />
     <ClInclude Include="analyzer\routine.h" />
     <ClInclude Include="analyzer\unresolved.h" />
