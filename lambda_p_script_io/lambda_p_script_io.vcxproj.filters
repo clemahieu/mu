@@ -6,6 +6,7 @@
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="synthesizer.cpp" />
+    <ClCompile Include="builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="generator.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="synthesizer.h" />
+    <ClInclude Include="builder.h" />
   </ItemGroup>
 </Project>

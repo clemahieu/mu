@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="builder.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="synthesizer.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="builder.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="synthesizer.h" />

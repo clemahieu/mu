@@ -8,7 +8,6 @@ void lambda_p_script::routine::operator () (boost::shared_ptr <lambda_p::errors:
 {
 	size_t size (calls.size () + 1);
 	lambda_p_script::context context (size);
-
 	context.nodes [0].insert (context.nodes [0].end (), parameters.begin (), parameters.end ());
 	for (auto i (calls.begin ()), j (calls.end ()); i != j; ++i)
 	{
