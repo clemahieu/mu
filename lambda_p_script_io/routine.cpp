@@ -9,6 +9,7 @@
 lambda_p_script_io::routine::routine (lambda_p_script_io::synthesizer & synthesizer_a, boost::shared_ptr <lambda_p::routine> routine_a)
 {	
 	auto expression (boost::shared_ptr <lambda_p_script_io::expression> (new lambda_p_script_io::expression (*this, routine_a->call)));
+	expressions.push_back (routine_a->call);
 }
 			
 void lambda_p_script_io::routine::operator () (boost::shared_ptr <lambda_p::call> expression)

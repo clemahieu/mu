@@ -21,13 +21,20 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 	if (arguments_l.size () > 0)
 	{
 		auto operation (boost::dynamic_pointer_cast <lambda_p_script::nodes::operation> (arguments_l [0]));
-		(*operation) (errors_a, arguments_l, results_l);
-		std::vector <boost::shared_ptr <lambda_p::node>> & target (context.nodes [results]);
-		assert (target.empty () && L"Destination has already been assigned");
-		target.assign (results_l.begin (), results_l.end ());
+		if (operation.get () != nullptr)
+		{
+			(*operation) (errors_a, arguments_l, results_l);
+			std::vector <boost::shared_ptr <lambda_p::node>> & target (context.nodes [results]);
+			assert (target.empty () && L"Destination has already been assigned");
+			target.assign (results_l.begin (), results_l.end ());
+		}
+		else
+		{
+			(*errors_a) (L"First argument to call is not an operation");
+		}
 	}
 	else
 	{
-		(*errors_a) (L"First argument is not an operation");
+		(*errors_a) (L"Call has no arguments");
 	}
 }
