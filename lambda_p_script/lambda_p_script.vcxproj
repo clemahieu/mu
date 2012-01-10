@@ -141,9 +141,11 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="operations\package.cpp" />
     <ClCompile Include="operations\bool_c\equal.cpp" />
     <ClCompile Include="operations\identity.cpp" />
     <ClCompile Include="operations\number\equal.cpp" />
+    <ClCompile Include="operations\package\add.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
   </ItemGroup>
@@ -159,9 +161,11 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="operations\package.h" />
     <ClInclude Include="operations\bool_c\equal.h" />
     <ClInclude Include="operations\identity.h" />
     <ClInclude Include="operations\number\equal.h" />
+    <ClInclude Include="operations\package\add.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
   </ItemGroup>

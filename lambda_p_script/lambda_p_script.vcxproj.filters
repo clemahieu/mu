@@ -35,6 +35,12 @@
     <ClCompile Include="extensions\data.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
+    <ClCompile Include="operations\package\add.cpp">
+      <Filter>operations\package</Filter>
+    </ClCompile>
+    <ClCompile Include="operations\package.cpp">
+      <Filter>operations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\operation.h">
@@ -71,6 +77,12 @@
     <ClInclude Include="extensions\data.h">
       <Filter>extensions</Filter>
     </ClInclude>
+    <ClInclude Include="operations\package\add.h">
+      <Filter>operations\package</Filter>
+    </ClInclude>
+    <ClInclude Include="operations\package.h">
+      <Filter>operations</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
@@ -87,6 +99,9 @@
     </Filter>
     <Filter Include="operations\bool_c">
       <UniqueIdentifier>{d2470526-da8e-4399-82b6-0d634eb00e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="operations\package">
+      <UniqueIdentifier>{c93818cb-9d2e-4c1c-8530-e4472d1a13a6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
