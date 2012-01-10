@@ -134,6 +134,7 @@
     <ClCompile Include="extensions\number.cpp" />
     <ClCompile Include="nodes\bool_c.cpp" />
     <ClCompile Include="nodes\data.cpp" />
+    <ClCompile Include="nodes\fixed.cpp" />
     <ClCompile Include="nodes\number.cpp" />
     <ClCompile Include="nodes\operation.cpp" />
     <ClCompile Include="call.cpp" />
@@ -141,11 +142,12 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="operations\package.cpp" />
+    <ClCompile Include="operations\package\package.cpp" />
     <ClCompile Include="operations\bool_c\equal.cpp" />
     <ClCompile Include="operations\identity.cpp" />
     <ClCompile Include="operations\number\equal.cpp" />
     <ClCompile Include="operations\package\add.cpp" />
+    <ClCompile Include="operations\package\remove.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
   </ItemGroup>
@@ -154,6 +156,7 @@
     <ClInclude Include="extensions\number.h" />
     <ClInclude Include="nodes\bool_c.h" />
     <ClInclude Include="nodes\data.h" />
+    <ClInclude Include="nodes\fixed.h" />
     <ClInclude Include="nodes\number.h" />
     <ClInclude Include="nodes\operation.h" />
     <ClInclude Include="call.h" />
@@ -161,11 +164,12 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
-    <ClInclude Include="operations\package.h" />
+    <ClInclude Include="operations\package\package.h" />
     <ClInclude Include="operations\bool_c\equal.h" />
     <ClInclude Include="operations\identity.h" />
     <ClInclude Include="operations\number\equal.h" />
     <ClInclude Include="operations\package\add.h" />
+    <ClInclude Include="operations\package\remove.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
   </ItemGroup>

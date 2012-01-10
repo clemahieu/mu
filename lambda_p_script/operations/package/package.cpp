@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-void lambda_p_script::operations::package::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::operations::package::package::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	bool expected (check_count (errors_a, parameters, 1));
 	if (expected)
@@ -33,7 +33,7 @@ void lambda_p_script::operations::package::operator () (boost::shared_ptr <lambd
 	}
 }
 
-std::wstring lambda_p_script::operations::package::name ()
+std::wstring lambda_p_script::operations::package::package::name ()
 {
 	return std::wstring (L"lambda_p_script::operations::package");
 }

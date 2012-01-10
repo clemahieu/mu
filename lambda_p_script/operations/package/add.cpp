@@ -1,6 +1,6 @@
 #include "add.h"
 
-#include <lambda_p_script/operations/package.h>
+#include <lambda_p_script/operations/package/package.h>
 #include <lambda_p_script/nodes/data.h>
 #include <lambda_p/errors/error_target.h>
 
@@ -11,7 +11,7 @@ void lambda_p_script::operations::package::add::operator () (boost::shared_ptr <
 	auto expected (check_count (errors_a, parameters, 3));
 	if (expected)
 	{
-		auto one (boost::dynamic_pointer_cast <class lambda_p_script::operations::package> (parameters [0]));
+		auto one (boost::dynamic_pointer_cast <lambda_p_script::operations::package::package> (parameters [0]));
 		auto two (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (parameters [1]));
 		if (one.get () != nullptr)
 		{

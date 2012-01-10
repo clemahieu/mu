@@ -38,8 +38,14 @@
     <ClCompile Include="operations\package\add.cpp">
       <Filter>operations\package</Filter>
     </ClCompile>
-    <ClCompile Include="operations\package.cpp">
-      <Filter>operations</Filter>
+    <ClCompile Include="operations\package\package.cpp">
+      <Filter>operations\package</Filter>
+    </ClCompile>
+    <ClCompile Include="operations\package\remove.cpp">
+      <Filter>operations\package</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\fixed.cpp">
+      <Filter>nodes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,8 +86,14 @@
     <ClInclude Include="operations\package\add.h">
       <Filter>operations\package</Filter>
     </ClInclude>
-    <ClInclude Include="operations\package.h">
-      <Filter>operations</Filter>
+    <ClInclude Include="operations\package\package.h">
+      <Filter>operations\package</Filter>
+    </ClInclude>
+    <ClInclude Include="operations\package\remove.h">
+      <Filter>operations\package</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\fixed.h">
+      <Filter>nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
