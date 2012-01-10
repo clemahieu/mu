@@ -20,6 +20,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		{
 		case L'~':
 			lexer.target (new lambda_p_io::tokens::parameters);
+			lexer.state.pop ();
 			break;
 		case L'[':
 			lexer.state.pop ();

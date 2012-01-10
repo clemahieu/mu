@@ -1,6 +1,6 @@
 #include "analyzer.h"
 
-#include <lambda_p_io/ast/node.h>
+#include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p/errors/string_error.h>
@@ -21,27 +21,7 @@ lambda_p_io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_
 {
 }
 
-void lambda_p_io::analyzer::analyzer::operator () (boost::shared_ptr <lambda_p_io::ast::node> node)
+void lambda_p_io::analyzer::analyzer::operator () (boost::shared_ptr <lambda_p_io::ast::expression> expression_a)
 {
-	(*node) (this);
-}
-
-void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::parameters * parameters_a)
-{
-	std::wstringstream message;
-	message << L"At top level, expecting expression, have parameters.";
-	(*errors) (message.str ());
-}
-
-void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::expression * expression_a)
-{
-	lambda_p_io::analyzer::routine (*this, expression_a);
-}
-
-void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::identifier * identifier_a)
-{
-	std::wstringstream message;
-	message << L"At top level, expecting expression, have identifier: ";
-	message << identifier_a->string;
-	(*errors) (message.str ());
+	lambda_p_io::analyzer::routine (*this, expression_a.get ());
 }

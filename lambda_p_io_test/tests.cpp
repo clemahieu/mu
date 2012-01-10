@@ -7,6 +7,7 @@
 #include <lambda_p_io_test/parser.h>
 #include <lambda_p_io_test/analyzer.h>
 #include <lambda_p_io_test/extension.h>
+#include <lambda_p_io_test/builder.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -36,6 +37,10 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		istream_input_test test;
+		test.run ();
+	}
+	{
+		builder test;
 		test.run ();
 	}
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <lambda_p_io/ast/visitor.h>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
@@ -20,21 +18,18 @@ namespace lambda_p_io
 {
 	namespace ast
 	{
-		class node;
+		class expression;
 		class visitor;
 	}
 	namespace analyzer
 	{
 		class extension;
-		class analyzer : public lambda_p_io::ast::visitor
+		class analyzer
 		{
 		public:
 			analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a);
 			analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions_a);
-			void operator () (boost::shared_ptr <lambda_p_io::ast::node> node);
-			void operator () (lambda_p_io::ast::expression * expression_a) override;
-			void operator () (lambda_p_io::ast::parameters * parameters_a) override;
-			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
+			void operator () (boost::shared_ptr <lambda_p_io::ast::expression> expression_a);
 			std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
 			boost::function <void (boost::shared_ptr <lambda_p::routine>)> target;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;

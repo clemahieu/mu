@@ -25,6 +25,8 @@ void lambda_p_io_test::lexer::run ()
 	run_8 ();
 	run_9 ();
 	run_10 ();
+	run_11 ();
+	run_12 ();
 }
 
 void lambda_p_io_test::lexer::run_1 ()
@@ -180,8 +182,20 @@ void lambda_p_io_test::lexer::run_11 ()
 	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":~");
-	source ();
 	assert (result.results.size () == 1);
 	auto t1 (dynamic_cast <lambda_p_io::tokens::parameters *> (result.results [0]));
 	assert (t1 != nullptr);
+}
+
+void lambda_p_io_test::lexer::run_12 ()
+{
+	lambda_p_io_test::lexer_result result;
+	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":~]");
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::parameters *> (result.results [0]));
+	assert (t1 != nullptr);
+	auto t2 (dynamic_cast <lambda_p_io::tokens::right_square *> (result.results [1]));
+	assert (t2 != nullptr);
 }

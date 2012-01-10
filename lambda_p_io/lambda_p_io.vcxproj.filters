@@ -136,6 +136,7 @@
     <ClCompile Include="tokens\parameters.cpp">
       <Filter>tokens</Filter>
     </ClCompile>
+    <ClCompile Include="builder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -256,5 +257,6 @@
     <ClInclude Include="tokens\parameters.h">
       <Filter>tokens</Filter>
     </ClInclude>
+    <ClInclude Include="builder.h" />
   </ItemGroup>
 </Project>

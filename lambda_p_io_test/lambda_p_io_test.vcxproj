@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
+    <ClCompile Include="builder.cpp" />
     <ClCompile Include="extension.cpp" />
     <ClCompile Include="extension1.cpp" />
     <ClCompile Include="extension2.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
+    <ClInclude Include="builder.h" />
     <ClInclude Include="extension.h" />
     <ClInclude Include="extension1.h" />
     <ClInclude Include="extension2.h" />
