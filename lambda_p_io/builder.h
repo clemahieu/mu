@@ -14,6 +14,7 @@ namespace lambda_p_io
 	{
 	public:
 		builder ();
+		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions ();
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;

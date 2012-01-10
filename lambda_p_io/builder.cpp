@@ -1,7 +1,6 @@
 #include "builder.h"
 
 #include <boost/bind.hpp>
-#include <lambda_p_io/ast/expression.h>
 
 lambda_p_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),

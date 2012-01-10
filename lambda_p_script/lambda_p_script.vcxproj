@@ -130,24 +130,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="extensions\data.cpp" />
+    <ClCompile Include="extensions\number.cpp" />
+    <ClCompile Include="nodes\bool_c.cpp" />
+    <ClCompile Include="nodes\data.cpp" />
+    <ClCompile Include="nodes\number.cpp" />
     <ClCompile Include="nodes\operation.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="operations\bool_c\equal.cpp" />
     <ClCompile Include="operations\identity.cpp" />
+    <ClCompile Include="operations\number\equal.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="extensions\data.h" />
+    <ClInclude Include="extensions\number.h" />
+    <ClInclude Include="nodes\bool_c.h" />
+    <ClInclude Include="nodes\data.h" />
+    <ClInclude Include="nodes\number.h" />
     <ClInclude Include="nodes\operation.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="operations\bool_c\equal.h" />
     <ClInclude Include="operations\identity.h" />
+    <ClInclude Include="operations\number\equal.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
   </ItemGroup>

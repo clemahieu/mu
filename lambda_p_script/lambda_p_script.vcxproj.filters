@@ -14,6 +14,27 @@
     <ClCompile Include="operations\identity.cpp">
       <Filter>operations</Filter>
     </ClCompile>
+    <ClCompile Include="nodes\number.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\bool_c.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="operations\bool_c\equal.cpp">
+      <Filter>operations\bool_c</Filter>
+    </ClCompile>
+    <ClCompile Include="operations\number\equal.cpp">
+      <Filter>operations\number</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\number.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="nodes\data.cpp">
+      <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\data.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="nodes\operation.h">
@@ -29,6 +50,27 @@
     <ClInclude Include="operations\identity.h">
       <Filter>operations</Filter>
     </ClInclude>
+    <ClInclude Include="nodes\number.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\bool_c.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="operations\bool_c\equal.h">
+      <Filter>operations\bool_c</Filter>
+    </ClInclude>
+    <ClInclude Include="operations\number\equal.h">
+      <Filter>operations\number</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\number.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="nodes\data.h">
+      <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\data.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
@@ -39,6 +81,12 @@
     </Filter>
     <Filter Include="operations">
       <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="operations\number">
+      <UniqueIdentifier>{71e18399-578c-44f8-ad6b-6360f8037cdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="operations\bool_c">
+      <UniqueIdentifier>{d2470526-da8e-4399-82b6-0d634eb00e07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
