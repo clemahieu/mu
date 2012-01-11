@@ -7,12 +7,14 @@
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="reference.cpp" />
-    <ClCompile Include="closure.cpp" />
     <ClCompile Include="package\create.cpp">
       <Filter>package</Filter>
     </ClCompile>
     <ClCompile Include="integer\equal.cpp">
       <Filter>integer</Filter>
+    </ClCompile>
+    <ClCompile Include="closure\operation.cpp">
+      <Filter>closure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -22,12 +24,14 @@
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="reference.h" />
-    <ClInclude Include="closure.h" />
     <ClInclude Include="package\create.h">
       <Filter>package</Filter>
     </ClInclude>
     <ClInclude Include="integer\equal.h">
       <Filter>integer</Filter>
+    </ClInclude>
+    <ClInclude Include="closure\operation.h">
+      <Filter>closure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +40,9 @@
     </Filter>
     <Filter Include="integer">
       <UniqueIdentifier>{0c512b8b-1e3a-4a59-99d3-ca76aad0b1b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="closure">
+      <UniqueIdentifier>{454b13c7-dcc0-4bd4-a4d9-f2b82d8f81fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

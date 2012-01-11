@@ -1,11 +1,11 @@
-#include "closure.h"
+#include "operation.h"
 
 #include <lambda_p_script/closure/operation.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/closure/hole.h>
 
-void lambda_p_script_test::closure::run ()
+void lambda_p_script_test::closure::operation::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -14,7 +14,7 @@ void lambda_p_script_test::closure::run ()
 	run_5 ();
 }
 
-void lambda_p_script_test::closure::run_1 ()
+void lambda_p_script_test::closure::operation::run_1 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script::closure::operation closure (0, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
@@ -25,7 +25,7 @@ void lambda_p_script_test::closure::run_1 ()
 	assert (results.empty ());
 }
 
-void lambda_p_script_test::closure::run_2 ()
+void lambda_p_script_test::closure::operation::run_2 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script::closure::operation closure (1, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
@@ -39,7 +39,7 @@ void lambda_p_script_test::closure::run_2 ()
 	assert (results [0] == node);
 }
 
-void lambda_p_script_test::closure::run_3 ()
+void lambda_p_script_test::closure::operation::run_3 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
@@ -56,7 +56,7 @@ void lambda_p_script_test::closure::run_3 ()
 	assert (results [1] == n2);
 }
 
-void lambda_p_script_test::closure::run_4 ()
+void lambda_p_script_test::closure::operation::run_4 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
@@ -81,7 +81,7 @@ void lambda_p_script_test::closure::run_4 ()
 	assert (res2 [1] == n3);
 }
 
-void lambda_p_script_test::closure::run_5 ()
+void lambda_p_script_test::closure::operation::run_5 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));

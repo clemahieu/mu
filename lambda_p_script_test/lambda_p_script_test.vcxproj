@@ -127,7 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="call.cpp" />
-    <ClCompile Include="closure.cpp" />
+    <ClCompile Include="closure\operation.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="integer\equal.cpp" />
@@ -138,7 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
-    <ClInclude Include="closure.h" />
+    <ClInclude Include="closure\operation.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="integer\equal.h" />
