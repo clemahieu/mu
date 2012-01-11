@@ -130,7 +130,8 @@
     <ClCompile Include="closure.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
-    <ClCompile Include="operations\number\equal.cpp" />
+    <ClCompile Include="integer\equal.cpp" />
+    <ClCompile Include="package\create.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -140,7 +141,8 @@
     <ClInclude Include="closure.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
-    <ClInclude Include="operations\number\equal.h" />
+    <ClInclude Include="integer\equal.h" />
+    <ClInclude Include="package\create.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="tests.h" />

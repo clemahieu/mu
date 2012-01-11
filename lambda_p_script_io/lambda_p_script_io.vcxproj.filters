@@ -16,4 +16,9 @@
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="builder.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="package">
+      <UniqueIdentifier>{1771922d-028f-4314-85ee-711250b25f09}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

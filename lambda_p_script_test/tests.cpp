@@ -5,8 +5,9 @@
 #include <lambda_p_script_test/constant.h>
 #include <lambda_p_script_test/expression.h>
 #include <lambda_p_script_test/reference.h>
-#include <lambda_p_script_test/operations/number/equal.h>
+#include <lambda_p_script_test/integer/equal.h>
 #include <lambda_p_script_test/closure.h>
+#include <lambda_p_script_test/package/create.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -31,11 +32,15 @@ void lambda_p_script_test::tests::run ()
 		test.run ();
 	}
 	{
-		operations::number::equal test;
+		integer::equal test;
 		test.run ();
 	}
 	{
 		closure test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::package::create test;
 		test.run ();
 	}
 }

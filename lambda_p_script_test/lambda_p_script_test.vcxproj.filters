@@ -7,10 +7,13 @@
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="reference.cpp" />
-    <ClCompile Include="operations\number\equal.cpp">
-      <Filter>operations\number</Filter>
-    </ClCompile>
     <ClCompile Include="closure.cpp" />
+    <ClCompile Include="package\create.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="integer\equal.cpp">
+      <Filter>integer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -19,17 +22,20 @@
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="reference.h" />
-    <ClInclude Include="operations\number\equal.h">
-      <Filter>operations\number</Filter>
-    </ClInclude>
     <ClInclude Include="closure.h" />
+    <ClInclude Include="package\create.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="integer\equal.h">
+      <Filter>integer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="operations">
-      <UniqueIdentifier>{157f20ca-5c14-45d9-b3b9-d4c44a196e8d}</UniqueIdentifier>
+    <Filter Include="package">
+      <UniqueIdentifier>{a3f2936a-3694-453f-b89d-7962e713fae4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="operations\number">
-      <UniqueIdentifier>{71585c9b-b15d-45dc-abe3-b2822e8ce8eb}</UniqueIdentifier>
+    <Filter Include="integer">
+      <UniqueIdentifier>{0c512b8b-1e3a-4a59-99d3-ca76aad0b1b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

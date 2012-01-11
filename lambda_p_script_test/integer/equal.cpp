@@ -5,14 +5,14 @@
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/bool_c/node.h>
 
-void lambda_p_script_test::operations::number::equal::run ()
+void lambda_p_script_test::integer::equal::run ()
 {
 	run_1 ();
 	run_2 ();
 	run_3 ();
 }
 
-void lambda_p_script_test::operations::number::equal::run_1 ()
+void lambda_p_script_test::integer::equal::run_1 ()
 {
 	lambda_p_script::integer::equal equal;
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
@@ -28,7 +28,7 @@ void lambda_p_script_test::operations::number::equal::run_1 ()
 	assert (result->value == false);
 }
 
-void lambda_p_script_test::operations::number::equal::run_2 ()
+void lambda_p_script_test::integer::equal::run_2 ()
 {
 	lambda_p_script::integer::equal equal;
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
@@ -44,7 +44,7 @@ void lambda_p_script_test::operations::number::equal::run_2 ()
 	assert (result->value == true);
 }
 
-void lambda_p_script_test::operations::number::equal::run_3 ()
+void lambda_p_script_test::integer::equal::run_3 ()
 {
 	lambda_p_script::integer::equal equal;
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
