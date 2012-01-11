@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p_script/nodes/operation.h>
+#include <lambda_p_script/operation.h>
 
 namespace lambda_p_script
 {
-	namespace operations
+	namespace identity
 	{
-		class identity : public lambda_p_script::nodes::operation
+		class operation : public lambda_p_script::operation
 		{
 		public:
 			void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;

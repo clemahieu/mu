@@ -3,7 +3,7 @@
 #include <lambda_p_script/routine.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/call.h>
-#include <lambda_p_script/operations/identity.h>
+#include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/expression.h>
 
@@ -41,7 +41,7 @@ void lambda_p_script_test::routine::run_3 ()
 	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
 	lambda_p_script::routine routine;
 	auto call (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (1)));
-	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::operations::identity))));
+	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation))));
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
@@ -54,7 +54,7 @@ void lambda_p_script_test::routine::run_4 ()
 	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
 	lambda_p_script::routine routine;
 	auto call (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (1)));
-	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::operations::identity))));
+	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation))));
 	call->arguments.push_back (boost::shared_ptr <lambda_p_script::expression> (new lambda_p_script::expression (0)));
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

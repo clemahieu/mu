@@ -1,14 +1,14 @@
 #include "add.h"
 
-#include <lambda_p_script/operations/package/package.h>
+#include <lambda_p_script/package/operation.h>
 #include <lambda_p_script/data/node.h>
 #include <lambda_p/errors/error_target.h>
 
 #include <sstream>
 
-void lambda_p_script::operations::package::add::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::package::add::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_script::operations::package::package> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <lambda_p_script::package::operation> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{
@@ -38,12 +38,12 @@ void lambda_p_script::operations::package::add::operator () (boost::shared_ptr <
 	}
 }
 
-std::wstring lambda_p_script::operations::package::add::name ()
+std::wstring lambda_p_script::package::add::name ()
 {
-	return std::wstring (L"lambda_p_script::operations::package::add");
+	return std::wstring (L"lambda_p_script::package::add");
 }
 
-size_t lambda_p_script::operations::package::add::count ()
+size_t lambda_p_script::package::add::count ()
 {
 	return 3;
 }

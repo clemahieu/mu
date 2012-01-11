@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="nodes\operation.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
     <ClCompile Include="call.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="context.cpp" />
@@ -11,30 +8,6 @@
     <ClCompile Include="node.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="operations\identity.cpp">
-      <Filter>operations</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\bool_c.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="operations\bool_c\equal.cpp">
-      <Filter>operations\bool_c</Filter>
-    </ClCompile>
-    <ClCompile Include="operations\package\add.cpp">
-      <Filter>operations\package</Filter>
-    </ClCompile>
-    <ClCompile Include="operations\package\package.cpp">
-      <Filter>operations\package</Filter>
-    </ClCompile>
-    <ClCompile Include="operations\package\remove.cpp">
-      <Filter>operations\package</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\fixed.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="nodes\hole.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
     <ClCompile Include="data\extension.cpp">
       <Filter>data</Filter>
     </ClCompile>
@@ -53,11 +26,31 @@
     <ClCompile Include="closure\operation.cpp">
       <Filter>closure</Filter>
     </ClCompile>
+    <ClCompile Include="closure\hole.cpp">
+      <Filter>closure</Filter>
+    </ClCompile>
+    <ClCompile Include="package\add.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="package\operation.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="package\remove.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="bool_c\node.cpp">
+      <Filter>bool_c</Filter>
+    </ClCompile>
+    <ClCompile Include="bool_c\equal.cpp">
+      <Filter>bool_c</Filter>
+    </ClCompile>
+    <ClCompile Include="identity\operation.cpp">
+      <Filter>identity</Filter>
+    </ClCompile>
+    <ClCompile Include="operation.cpp" />
+    <ClCompile Include="fixed.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="nodes\operation.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
     <ClInclude Include="call.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="context.h" />
@@ -65,30 +58,6 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="operations\identity.h">
-      <Filter>operations</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\bool_c.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="operations\bool_c\equal.h">
-      <Filter>operations\bool_c</Filter>
-    </ClInclude>
-    <ClInclude Include="operations\package\add.h">
-      <Filter>operations\package</Filter>
-    </ClInclude>
-    <ClInclude Include="operations\package\package.h">
-      <Filter>operations\package</Filter>
-    </ClInclude>
-    <ClInclude Include="operations\package\remove.h">
-      <Filter>operations\package</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\fixed.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="nodes\hole.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
     <ClInclude Include="data\extension.h">
       <Filter>data</Filter>
     </ClInclude>
@@ -107,20 +76,31 @@
     <ClInclude Include="closure\operation.h">
       <Filter>closure</Filter>
     </ClInclude>
+    <ClInclude Include="closure\hole.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="package\add.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\operation.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\remove.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="bool_c\node.h">
+      <Filter>bool_c</Filter>
+    </ClInclude>
+    <ClInclude Include="bool_c\equal.h">
+      <Filter>bool_c</Filter>
+    </ClInclude>
+    <ClInclude Include="identity\operation.h">
+      <Filter>identity</Filter>
+    </ClInclude>
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="fixed.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="nodes">
-      <UniqueIdentifier>{45416b4d-e3c5-4ed3-a99d-7dc2bec548ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="operations">
-      <UniqueIdentifier>{3e36f6f1-be1d-4b2a-95df-385374b3d93e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="operations\bool_c">
-      <UniqueIdentifier>{d2470526-da8e-4399-82b6-0d634eb00e07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="operations\package">
-      <UniqueIdentifier>{c93818cb-9d2e-4c1c-8530-e4472d1a13a6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{d161275d-a71b-4b87-8d96-c3eea6f6cf71}</UniqueIdentifier>
     </Filter>
@@ -129,6 +109,15 @@
     </Filter>
     <Filter Include="closure">
       <UniqueIdentifier>{a040ba63-5788-47cd-b91d-bd39e98fe46f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="package">
+      <UniqueIdentifier>{1fd75edf-2781-4610-9f9c-d524325670d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bool_c">
+      <UniqueIdentifier>{9eed93e2-8179-4681-9b32-b24f2401fa10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="identity">
+      <UniqueIdentifier>{eaf8171f-db84-4d67-9ed8-a1dd39e2a7ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

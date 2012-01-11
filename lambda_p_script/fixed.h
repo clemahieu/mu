@@ -2,23 +2,14 @@
 
 #include <lambda_p_script/operation.h>
 
-#include <vector>
-
-#include <boost/shared_ptr.hpp>
-
-namespace lambda_p
-{
-	class node;
-}
 namespace lambda_p_script
 {
-	class call;
-	class routine : public lambda_p_script::operation
+	class fixed : public lambda_p_script::operation
 	{
 	public:
 		void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
-		std::wstring name () override;
-		std::vector <boost::shared_ptr <lambda_p_script::call>> calls;
+		virtual void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) = 0;
+		virtual size_t count () = 0;
 	};
 }
 

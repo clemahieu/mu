@@ -1,7 +1,7 @@
 #include "call.h"
 
 #include <lambda_p_script/node.h>
-#include <lambda_p_script/nodes/operation.h>
+#include <lambda_p_script/operation.h>
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_script/context.h>
 
@@ -20,7 +20,7 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 	std::vector <boost::shared_ptr <lambda_p::node>> results_l;
 	if (arguments_l.size () > 0)
 	{
-		auto operation (boost::dynamic_pointer_cast <lambda_p_script::nodes::operation> (arguments_l [0]));
+		auto operation (boost::dynamic_pointer_cast <lambda_p_script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
 			operation->perform (errors_a, arguments_l, results_l);

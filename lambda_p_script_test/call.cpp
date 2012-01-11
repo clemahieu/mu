@@ -5,7 +5,7 @@
 #include <lambda_p/node.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/context.h>
-#include <lambda_p_script/operations/identity.h>
+#include <lambda_p_script/identity/operation.h>
 
 void lambda_p_script_test::call::run ()
 {
@@ -17,7 +17,7 @@ void lambda_p_script_test::call::run_1 ()
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	boost::shared_ptr <lambda_p_script::call> call (new lambda_p_script::call (1));
 	lambda_p_script::context context (2);
-	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::operations::identity))));
+	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation))));
 	auto node (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (node)));
 	(*call) (errors, context);

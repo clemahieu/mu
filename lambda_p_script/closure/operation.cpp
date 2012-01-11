@@ -1,8 +1,8 @@
 #include "operation.h"
 
-#include <lambda_p_script/nodes/hole.h>
+#include <lambda_p_script/closure/hole.h>
 
-lambda_p_script::closure::operation::operation (size_t count_a, boost::shared_ptr <lambda_p_script::nodes::operation> operation_a)
+lambda_p_script::closure::operation::operation (size_t count_a, boost::shared_ptr <lambda_p_script::operation> operation_a)
 	: closed (count_a + 1),
 	open (count_a)
 {
@@ -25,7 +25,7 @@ void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda
 	for (size_t position (0), end (parameters.size ()); position != end; ++position)
 	{
 		auto val (parameters [position]);
-		auto hole (boost::dynamic_pointer_cast <lambda_p_script::nodes::hole> (val));
+		auto hole (boost::dynamic_pointer_cast <lambda_p_script::closure::hole> (val));
 		if (hole.get () == nullptr)
 		{
 			closed [open [position]] = val;
@@ -42,7 +42,7 @@ void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda
 	else
 	{
 		assert (closed.size () > 0);
-		auto operation (boost::static_pointer_cast <lambda_p_script::nodes::operation> (closed [0]));
+		auto operation (boost::static_pointer_cast <lambda_p_script::operation> (closed [0]));
 		operation->perform (errors_a, closed, results);
 	}
 }

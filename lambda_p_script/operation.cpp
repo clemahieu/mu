@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-bool lambda_p_script::nodes::operation::check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, size_t expected)
+bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, size_t expected)
 {
 	bool result (parameters.size () == expected);
 	if (!result)
@@ -21,7 +21,7 @@ bool lambda_p_script::nodes::operation::check_count (boost::shared_ptr <lambda_p
 	return result;
 }
 
-void lambda_p_script::nodes::operation::invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, size_t position)
+void lambda_p_script::operation::invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";

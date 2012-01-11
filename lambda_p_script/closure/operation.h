@@ -1,15 +1,15 @@
 #pragma once
 
-#include <lambda_p_script/nodes/fixed.h>
+#include <lambda_p_script/fixed.h>
 
 namespace lambda_p_script
 {
 	namespace closure
 	{
-		class operation : public lambda_p_script::nodes::fixed
+		class operation : public lambda_p_script::fixed
 		{
 		public:
-			operation (size_t count_a, boost::shared_ptr <lambda_p_script::nodes::operation> operation_a);
+			operation (size_t count_a, boost::shared_ptr <lambda_p_script::operation> operation_a);
 			operation (std::vector <size_t> & open_a, std::vector <boost::shared_ptr <lambda_p::node>> & closed_a);
 			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 			size_t count () override;

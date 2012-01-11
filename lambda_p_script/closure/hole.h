@@ -4,7 +4,7 @@
 
 namespace lambda_p_script
 {
-	namespace nodes
+	namespace closure
 	{
 		class hole : public lambda_p::node
 		{

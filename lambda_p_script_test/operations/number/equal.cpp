@@ -3,7 +3,7 @@
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/integer/equal.h>
 #include <lambda_p_script/integer/node.h>
-#include <lambda_p_script/nodes/bool_c.h>
+#include <lambda_p_script/bool_c/node.h>
 
 void lambda_p_script_test::operations::number::equal::run ()
 {
@@ -23,7 +23,7 @@ void lambda_p_script_test::operations::number::equal::run_1 ()
 	equal (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::nodes::bool_c> (results [0]));
+	auto result (boost::dynamic_pointer_cast <lambda_p_script::bool_c::node> (results [0]));
 	assert (result.get () != nullptr);
 	assert (result->value == false);
 }
@@ -39,7 +39,7 @@ void lambda_p_script_test::operations::number::equal::run_2 ()
 	equal (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::nodes::bool_c> (results [0]));
+	auto result (boost::dynamic_pointer_cast <lambda_p_script::bool_c::node> (results [0]));
 	assert (result.get () != nullptr);
 	assert (result->value == true);
 }
