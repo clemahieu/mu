@@ -2,7 +2,7 @@
 
 #include <boost/bind.hpp>
 
-#include <lambda_p_script/extensions/number.h>
+#include <lambda_p_script/integer/extension.h>
 #include <lambda_p_script/data/extension.h>
 
 lambda_p_script_io::builder::builder ()
@@ -22,7 +22,7 @@ void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p_scrip
 std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> lambda_p_script_io::builder::extensions ()
 {
 	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> result;
-	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::extensions::number)));
+	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::integer::extension)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::data::extension)));
 	return result;
 }

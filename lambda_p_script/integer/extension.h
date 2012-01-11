@@ -4,9 +4,9 @@
 
 namespace lambda_p_script
 {
-	namespace extensions
+	namespace integer
 	{
-		class number : public lambda_p_io::analyzer::extension
+		class extension : public lambda_p_io::analyzer::extension
 		{
 		public:
 			void operator () (lambda_p_io::analyzer::expression & expression_a) override;

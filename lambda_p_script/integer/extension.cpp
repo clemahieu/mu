@@ -1,4 +1,4 @@
-#include "number.h"
+#include "extension.h"
 
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/analyzer/routine.h>
@@ -7,11 +7,11 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p/call.h>
-#include <lambda_p_script/nodes/number.h>
+#include <lambda_p_script/integer/node.h>
 
 #include <sstream>
 
-void lambda_p_script::extensions::number::operator () (lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::integer::extension::operator () (lambda_p_io::analyzer::expression & expression_a)
 {
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -61,7 +61,7 @@ void lambda_p_script::extensions::number::operator () (lambda_p_io::analyzer::ex
 				}
 				else
 				{
-					expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p_script::nodes::number> (new lambda_p_script::nodes::number (number)));
+					expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p_script::integer::node> (new lambda_p_script::integer::node (number)));
 				}
 			}
 		}

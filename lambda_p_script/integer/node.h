@@ -4,13 +4,13 @@
 
 namespace lambda_p_script
 {
-	namespace nodes
+	namespace integer
 	{
-		class number : public lambda_p::node
+		class node : public lambda_p::node
 		{
 		public:
-			number ();
-			number (unsigned long long value_a);
+			node ();
+			node (unsigned long long value_a);
 			unsigned long long value;
 		};
 	}

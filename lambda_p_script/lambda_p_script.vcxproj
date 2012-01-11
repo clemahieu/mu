@@ -131,12 +131,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="data\extension.cpp" />
-    <ClCompile Include="extensions\number.cpp" />
+    <ClCompile Include="integer\extension.cpp" />
     <ClCompile Include="nodes\bool_c.cpp" />
     <ClCompile Include="data\node.cpp" />
     <ClCompile Include="nodes\fixed.cpp" />
     <ClCompile Include="nodes\hole.cpp" />
-    <ClCompile Include="nodes\number.cpp" />
+    <ClCompile Include="integer\node.cpp" />
     <ClCompile Include="nodes\operation.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="constant.cpp" />
@@ -147,7 +147,7 @@
     <ClCompile Include="operations\package\package.cpp" />
     <ClCompile Include="operations\bool_c\equal.cpp" />
     <ClCompile Include="operations\identity.cpp" />
-    <ClCompile Include="operations\number\equal.cpp" />
+    <ClCompile Include="integer\equal.cpp" />
     <ClCompile Include="operations\package\add.cpp" />
     <ClCompile Include="operations\package\remove.cpp" />
     <ClCompile Include="reference.cpp" />
@@ -155,12 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\extension.h" />
-    <ClInclude Include="extensions\number.h" />
+    <ClInclude Include="integer\extension.h" />
     <ClInclude Include="nodes\bool_c.h" />
     <ClInclude Include="data\node.h" />
     <ClInclude Include="nodes\fixed.h" />
     <ClInclude Include="nodes\hole.h" />
-    <ClInclude Include="nodes\number.h" />
+    <ClInclude Include="integer\node.h" />
     <ClInclude Include="nodes\operation.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="constant.h" />
@@ -171,7 +171,7 @@
     <ClInclude Include="operations\package\package.h" />
     <ClInclude Include="operations\bool_c\equal.h" />
     <ClInclude Include="operations\identity.h" />
-    <ClInclude Include="operations\number\equal.h" />
+    <ClInclude Include="integer\equal.h" />
     <ClInclude Include="operations\package\add.h" />
     <ClInclude Include="operations\package\remove.h" />
     <ClInclude Include="reference.h" />

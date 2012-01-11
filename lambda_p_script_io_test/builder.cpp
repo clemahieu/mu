@@ -4,7 +4,7 @@
 #include <lambda_p_io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/operations/identity.h>
-#include <lambda_p_script/nodes/number.h>
+#include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/data/node.h>
 
 #include <boost/bind.hpp>
@@ -90,7 +90,7 @@ void lambda_p_script_io_test::builder::run_5 ()
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
-	auto number (boost::dynamic_pointer_cast <lambda_p_script::nodes::number> (results [0]));
+	auto number (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [0]));
 	assert (number.get () != nullptr);
 	assert (number->value == 4);
 }
