@@ -10,7 +10,6 @@ void lambda_p_script_test::operations::number::equal::run ()
 	run_1 ();
 	run_2 ();
 	run_3 ();
-	run_4 ();
 }
 
 void lambda_p_script_test::operations::number::equal::run_1 ()
@@ -53,19 +52,6 @@ void lambda_p_script_test::operations::number::equal::run_3 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::nodes::number (3)));
 	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
-	equal (errors, arguments, results);
-	assert (!errors->errors.empty ());
-}
-
-void lambda_p_script_test::operations::number::equal::run_4 ()
-{
-	lambda_p_script::operations::number::equal equal;
-	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::nodes::number (3)));
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::nodes::number (3)));
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::nodes::number (3)));
 	equal (errors, arguments, results);
 	assert (!errors->errors.empty ());
 }

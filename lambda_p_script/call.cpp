@@ -23,7 +23,7 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 		auto operation (boost::dynamic_pointer_cast <lambda_p_script::nodes::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-			(*operation) (errors_a, arguments_l, results_l);
+			operation->perform (errors_a, arguments_l, results_l);
 			std::vector <boost::shared_ptr <lambda_p::node>> & target (context.nodes [results]);
 			assert (target.empty () && L"Destination has already been assigned");
 			target.assign (results_l.begin (), results_l.end ());

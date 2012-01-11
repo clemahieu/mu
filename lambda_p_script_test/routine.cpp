@@ -21,7 +21,7 @@ void lambda_p_script_test::routine::run_1 ()
 	lambda_p_script::routine routine;
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	routine (errors, arguments, results);
+	routine.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 }
 
@@ -32,7 +32,7 @@ void lambda_p_script_test::routine::run_2 ()
 	routine.calls.push_back (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (0)));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	routine (errors, arguments, results);
+	routine.perform (errors, arguments, results);
 	assert (!errors->errors.empty ());
 }
 
@@ -45,7 +45,7 @@ void lambda_p_script_test::routine::run_3 ()
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	routine (errors, arguments, results);
+	routine.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 }
 
@@ -61,7 +61,7 @@ void lambda_p_script_test::routine::run_4 ()
 	auto node (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	routine (errors, arguments, results);
+	routine.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == node);
