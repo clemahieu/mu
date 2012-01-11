@@ -130,13 +130,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="closure\apply.cpp" />
+    <ClCompile Include="closure\create.cpp" />
     <ClCompile Include="data\extension.cpp" />
+    <ClCompile Include="if_c\operation.cpp" />
     <ClCompile Include="integer\extension.cpp" />
     <ClCompile Include="bool_c\node.cpp" />
     <ClCompile Include="data\node.cpp" />
     <ClCompile Include="fixed.cpp" />
     <ClCompile Include="closure\hole.cpp" />
     <ClCompile Include="integer\node.cpp" />
+    <ClCompile Include="integer\subtract.cpp" />
     <ClCompile Include="operation.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="constant.cpp" />
@@ -151,18 +155,23 @@
     <ClCompile Include="integer\equal.cpp" />
     <ClCompile Include="package\add.cpp" />
     <ClCompile Include="package\remove.cpp" />
-    <ClCompile Include="package\retrieve.cpp" />
+    <ClCompile Include="package\get.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="times\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="closure\apply.h" />
+    <ClInclude Include="closure\create.h" />
     <ClInclude Include="data\extension.h" />
+    <ClInclude Include="if_c\operation.h" />
     <ClInclude Include="integer\extension.h" />
     <ClInclude Include="bool_c\node.h" />
     <ClInclude Include="data\node.h" />
     <ClInclude Include="fixed.h" />
     <ClInclude Include="closure\hole.h" />
     <ClInclude Include="integer\node.h" />
+    <ClInclude Include="integer\subtract.h" />
     <ClInclude Include="operation.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="constant.h" />
@@ -177,9 +186,10 @@
     <ClInclude Include="integer\equal.h" />
     <ClInclude Include="package\add.h" />
     <ClInclude Include="package\remove.h" />
-    <ClInclude Include="package\retrieve.h" />
+    <ClInclude Include="package\get.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="times\operation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

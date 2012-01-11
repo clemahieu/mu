@@ -46,14 +46,29 @@
     </ClCompile>
     <ClCompile Include="operation.cpp" />
     <ClCompile Include="fixed.cpp" />
-    <ClCompile Include="package\retrieve.cpp">
-      <Filter>package</Filter>
-    </ClCompile>
     <ClCompile Include="package\node.cpp">
       <Filter>package</Filter>
     </ClCompile>
     <ClCompile Include="package\create.cpp">
       <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="package\get.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="if_c\operation.cpp">
+      <Filter>if_c</Filter>
+    </ClCompile>
+    <ClCompile Include="closure\create.cpp">
+      <Filter>closure</Filter>
+    </ClCompile>
+    <ClCompile Include="closure\apply.cpp">
+      <Filter>closure</Filter>
+    </ClCompile>
+    <ClCompile Include="times\operation.cpp">
+      <Filter>times</Filter>
+    </ClCompile>
+    <ClCompile Include="integer\subtract.cpp">
+      <Filter>integer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,14 +117,29 @@
     </ClInclude>
     <ClInclude Include="operation.h" />
     <ClInclude Include="fixed.h" />
-    <ClInclude Include="package\retrieve.h">
-      <Filter>package</Filter>
-    </ClInclude>
     <ClInclude Include="package\node.h">
       <Filter>package</Filter>
     </ClInclude>
     <ClInclude Include="package\create.h">
       <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\get.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="if_c\operation.h">
+      <Filter>if_c</Filter>
+    </ClInclude>
+    <ClInclude Include="closure\create.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="closure\apply.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="times\operation.h">
+      <Filter>times</Filter>
+    </ClInclude>
+    <ClInclude Include="integer\subtract.h">
+      <Filter>integer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +160,12 @@
     </Filter>
     <Filter Include="identity">
       <UniqueIdentifier>{eaf8171f-db84-4d67-9ed8-a1dd39e2a7ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="if_c">
+      <UniqueIdentifier>{3aa7a70a-e455-4917-b613-157b6ec6de85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="times">
+      <UniqueIdentifier>{f3554a1b-2985-4bc9-97b8-940a09aa3005}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

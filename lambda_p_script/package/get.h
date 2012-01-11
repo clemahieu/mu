@@ -6,7 +6,7 @@ namespace lambda_p_script
 {
 	namespace package
 	{
-		class retrieve : public lambda_p_script::fixed
+		class get : public lambda_p_script::fixed
 		{
 		public:
 			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;

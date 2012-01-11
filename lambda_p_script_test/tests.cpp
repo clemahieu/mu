@@ -8,6 +8,8 @@
 #include <lambda_p_script_test/integer/equal.h>
 #include <lambda_p_script_test/closure/operation.h>
 #include <lambda_p_script_test/package/create.h>
+#include <lambda_p_script_test/package/get.h>
+#include <lambda_p_script_test/closure/apply.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -41,6 +43,14 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		lambda_p_script_test::package::create test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::package::get test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::closure::apply test;
 		test.run ();
 	}
 }

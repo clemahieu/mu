@@ -1,4 +1,4 @@
-#include "retrieve.h"
+#include "get.h"
 
 #include <lambda_p_script/data/node.h>
 #include <lambda_p_script/package/node.h>
@@ -6,7 +6,7 @@
 
 #include <sstream>
 
-void lambda_p_script::package::retrieve::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::package::get::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto node (boost::dynamic_pointer_cast <lambda_p_script::package::node> (parameters [0]));
 	auto name (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [1]));
@@ -38,12 +38,12 @@ void lambda_p_script::package::retrieve::operator () (boost::shared_ptr <lambda_
 	}
 }
 
-std::wstring lambda_p_script::package::retrieve::name ()
+std::wstring lambda_p_script::package::get::name ()
 {
-	return std::wstring (L"lambda_p_script::package::operation");
+	return std::wstring (L"lambda_p_script::package::get");
 }
 
-size_t lambda_p_script::package::retrieve::count ()
+size_t lambda_p_script::package::get::count ()
 {
 	return 2;
 }
