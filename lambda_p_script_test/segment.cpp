@@ -28,4 +28,5 @@ void lambda_p_script_test::segment::run_1 ()
 	assert (segment [0] == 1);
 	assert (segment [1] == 2);
 	assert (segment [2] == 3);
+	assert (segment.size () == 3);
 }

@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, size_t expected)
+bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, size_t expected)
 {
 	bool result (parameters.size () == expected);
 	if (!result)

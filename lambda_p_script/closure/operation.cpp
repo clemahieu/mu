@@ -19,7 +19,7 @@ lambda_p_script::closure::operation::operation (std::vector <size_t> & open_a, s
 {
 }
 
-void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	std::vector <size_t> open_l;
 	for (size_t position (0), end (parameters.size ()); position != end; ++position)

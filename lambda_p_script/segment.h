@@ -8,6 +8,12 @@ namespace lambda_p_script
 	class segment
 	{
 	public:
+		segment (std::vector <T> & source_a)
+			: lower (0),
+			upper (source_a.size () - 1),
+			source (source_a)
+		{
+		}
 		segment (size_t lower_a, size_t upper_a, std::vector <T> & source_a)
 			: lower (lower_a),
 			upper (upper_a),
@@ -25,6 +31,10 @@ namespace lambda_p_script
 		typename std::vector <T>::iterator end ()
 		{
 			return source.begin () + upper + 1;
+		}
+		size_t size ()
+		{
+			return upper - lower + 1;
 		}
 		size_t lower;
 		size_t upper;

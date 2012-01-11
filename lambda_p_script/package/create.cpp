@@ -2,7 +2,7 @@
 
 #include <lambda_p_script/package/node.h>
 
-void lambda_p_script::package::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::package::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	results.push_back (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
 }
