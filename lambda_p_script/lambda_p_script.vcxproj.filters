@@ -32,9 +32,6 @@
     <ClCompile Include="package\add.cpp">
       <Filter>package</Filter>
     </ClCompile>
-    <ClCompile Include="package\operation.cpp">
-      <Filter>package</Filter>
-    </ClCompile>
     <ClCompile Include="package\remove.cpp">
       <Filter>package</Filter>
     </ClCompile>
@@ -49,6 +46,12 @@
     </ClCompile>
     <ClCompile Include="operation.cpp" />
     <ClCompile Include="fixed.cpp" />
+    <ClCompile Include="package\retrieve.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="package\node.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -82,9 +85,6 @@
     <ClInclude Include="package\add.h">
       <Filter>package</Filter>
     </ClInclude>
-    <ClInclude Include="package\operation.h">
-      <Filter>package</Filter>
-    </ClInclude>
     <ClInclude Include="package\remove.h">
       <Filter>package</Filter>
     </ClInclude>
@@ -99,6 +99,12 @@
     </ClInclude>
     <ClInclude Include="operation.h" />
     <ClInclude Include="fixed.h" />
+    <ClInclude Include="package\retrieve.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="package\node.h">
+      <Filter>package</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">

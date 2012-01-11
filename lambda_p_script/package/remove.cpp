@@ -1,6 +1,6 @@
 #include "remove.h"
 
-#include <lambda_p_script/package/operation.h>
+#include <lambda_p_script/package/node.h>
 #include <lambda_p_script/data/node.h>
 #include <lambda_p/errors/error_target.h>
 
@@ -8,7 +8,7 @@
 
 void lambda_p_script::package::remove::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_script::package::operation> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <lambda_p_script::package::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{
