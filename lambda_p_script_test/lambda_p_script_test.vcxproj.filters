@@ -10,6 +10,7 @@
     <ClCompile Include="operations\number\equal.cpp">
       <Filter>operations\number</Filter>
     </ClCompile>
+    <ClCompile Include="closure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -21,6 +22,7 @@
     <ClInclude Include="operations\number\equal.h">
       <Filter>operations\number</Filter>
     </ClInclude>
+    <ClInclude Include="closure.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="operations">

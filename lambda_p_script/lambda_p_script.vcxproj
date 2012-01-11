@@ -135,6 +135,7 @@
     <ClCompile Include="nodes\bool_c.cpp" />
     <ClCompile Include="nodes\data.cpp" />
     <ClCompile Include="nodes\fixed.cpp" />
+    <ClCompile Include="nodes\hole.cpp" />
     <ClCompile Include="nodes\number.cpp" />
     <ClCompile Include="nodes\operation.cpp" />
     <ClCompile Include="call.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="context.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
+    <ClCompile Include="operations\closure\closure.cpp" />
     <ClCompile Include="operations\package\package.cpp" />
     <ClCompile Include="operations\bool_c\equal.cpp" />
     <ClCompile Include="operations\identity.cpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="nodes\bool_c.h" />
     <ClInclude Include="nodes\data.h" />
     <ClInclude Include="nodes\fixed.h" />
+    <ClInclude Include="nodes\hole.h" />
     <ClInclude Include="nodes\number.h" />
     <ClInclude Include="nodes\operation.h" />
     <ClInclude Include="call.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="context.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
+    <ClInclude Include="operations\closure\closure.h" />
     <ClInclude Include="operations\package\package.h" />
     <ClInclude Include="operations\bool_c\equal.h" />
     <ClInclude Include="operations\identity.h" />
