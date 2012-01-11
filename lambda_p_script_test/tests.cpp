@@ -1,5 +1,6 @@
 #include "tests.h"
 
+#include <lambda_p_script_test\segment.h>
 #include <lambda_p_script_test/routine.h>
 #include <lambda_p_script_test/call.h>
 #include <lambda_p_script_test/constant.h>
@@ -13,6 +14,10 @@
 
 void lambda_p_script_test::tests::run ()
 {
+	{
+		segment test;
+		test.run ();
+	}
 	{
 		reference test;
 		test.run ();

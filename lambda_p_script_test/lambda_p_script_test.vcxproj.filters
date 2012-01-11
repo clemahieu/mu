@@ -25,6 +25,7 @@
     <ClCompile Include="times\operation.cpp">
       <Filter>times</Filter>
     </ClCompile>
+    <ClCompile Include="segment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="times\operation.h">
       <Filter>times</Filter>
     </ClInclude>
+    <ClInclude Include="segment.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
