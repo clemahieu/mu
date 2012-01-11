@@ -32,9 +32,6 @@
     <ClCompile Include="nodes\fixed.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
-    <ClCompile Include="operations\closure\closure.cpp">
-      <Filter>operations\closure</Filter>
-    </ClCompile>
     <ClCompile Include="nodes\hole.cpp">
       <Filter>nodes</Filter>
     </ClCompile>
@@ -52,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="integer\equal.cpp">
       <Filter>integer</Filter>
+    </ClCompile>
+    <ClCompile Include="closure\operation.cpp">
+      <Filter>closure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,9 +86,6 @@
     <ClInclude Include="nodes\fixed.h">
       <Filter>nodes</Filter>
     </ClInclude>
-    <ClInclude Include="operations\closure\closure.h">
-      <Filter>operations\closure</Filter>
-    </ClInclude>
     <ClInclude Include="nodes\hole.h">
       <Filter>nodes</Filter>
     </ClInclude>
@@ -107,6 +104,9 @@
     <ClInclude Include="integer\equal.h">
       <Filter>integer</Filter>
     </ClInclude>
+    <ClInclude Include="closure\operation.h">
+      <Filter>closure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="nodes">
@@ -121,14 +121,14 @@
     <Filter Include="operations\package">
       <UniqueIdentifier>{c93818cb-9d2e-4c1c-8530-e4472d1a13a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="operations\closure">
-      <UniqueIdentifier>{da66a576-c447-4d9a-aead-57b8056fd3ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="data">
       <UniqueIdentifier>{d161275d-a71b-4b87-8d96-c3eea6f6cf71}</UniqueIdentifier>
     </Filter>
     <Filter Include="integer">
       <UniqueIdentifier>{0ccb1b61-2cf8-4a9b-acf2-7709b18b0057}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="closure">
+      <UniqueIdentifier>{a040ba63-5788-47cd-b91d-bd39e98fe46f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

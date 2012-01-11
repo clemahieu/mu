@@ -1,6 +1,6 @@
 #include "closure.h"
 
-#include <lambda_p_script/operations/closure/closure.h>
+#include <lambda_p_script/closure/operation.h>
 #include <lambda_p_script/operations/identity.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/nodes/hole.h>
@@ -17,7 +17,7 @@ void lambda_p_script_test::closure::run ()
 void lambda_p_script_test::closure::run_1 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	lambda_p_script::operations::closure::closure closure (0, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
+	lambda_p_script::closure::operation closure (0, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	closure (errors, arguments, results);
@@ -28,7 +28,7 @@ void lambda_p_script_test::closure::run_1 ()
 void lambda_p_script_test::closure::run_2 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	lambda_p_script::operations::closure::closure closure (1, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
+	lambda_p_script::closure::operation closure (1, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto node (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	arguments.push_back (node);
@@ -42,7 +42,7 @@ void lambda_p_script_test::closure::run_2 ()
 void lambda_p_script_test::closure::run_3 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	lambda_p_script::operations::closure::closure closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
+	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	arguments.push_back (n1);
@@ -59,7 +59,7 @@ void lambda_p_script_test::closure::run_3 ()
 void lambda_p_script_test::closure::run_4 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	lambda_p_script::operations::closure::closure closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
+	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	arguments.push_back (n1);
@@ -69,7 +69,7 @@ void lambda_p_script_test::closure::run_4 ()
 	closure (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::operations::closure::closure> (results [0]));
+	auto result (boost::dynamic_pointer_cast <lambda_p_script::closure::operation> (results [0]));
 	assert (result.get () != nullptr);
 	auto n3 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	std::vector <boost::shared_ptr <lambda_p::node>> args2;
@@ -84,7 +84,7 @@ void lambda_p_script_test::closure::run_4 ()
 void lambda_p_script_test::closure::run_5 ()
 {
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	lambda_p_script::operations::closure::closure closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
+	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::nodes::operation> (new lambda_p_script::operations::identity));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p::node> (new lambda_p_script::nodes::hole));
 	arguments.push_back (n1);
@@ -94,7 +94,7 @@ void lambda_p_script_test::closure::run_5 ()
 	closure (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::operations::closure::closure> (results [0]));
+	auto result (boost::dynamic_pointer_cast <lambda_p_script::closure::operation> (results [0]));
 	assert (result.get () != nullptr);
 	auto n3 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
 	std::vector <boost::shared_ptr <lambda_p::node>> args2;
