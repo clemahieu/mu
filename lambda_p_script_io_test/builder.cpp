@@ -5,7 +5,7 @@
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/operations/identity.h>
 #include <lambda_p_script/nodes/number.h>
-#include <lambda_p_script/nodes/data.h>
+#include <lambda_p_script/data/node.h>
 
 #include <boost/bind.hpp>
 
@@ -110,7 +110,7 @@ void lambda_p_script_io_test::builder::run_6 ()
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (results [0]));
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [0]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"testing"));
 }
@@ -130,7 +130,7 @@ void lambda_p_script_io_test::builder::run_7 ()
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (results [0]));
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [0]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"string with spaces"));
 }

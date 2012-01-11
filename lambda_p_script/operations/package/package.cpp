@@ -1,13 +1,13 @@
 #include "package.h"
 
-#include <lambda_p_script/nodes/data.h>
+#include <lambda_p_script/data/node.h>
 #include <lambda_p/errors/error_target.h>
 
 #include <sstream>
 
 void lambda_p_script::operations::package::package::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
-	auto name (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (parameters [0]));
+	auto name (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [0]));
 	if (name.get () != nullptr)
 	{
 		auto existing (items.find (name->string));

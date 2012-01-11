@@ -29,12 +29,6 @@
     <ClCompile Include="extensions\number.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
-    <ClCompile Include="nodes\data.cpp">
-      <Filter>nodes</Filter>
-    </ClCompile>
-    <ClCompile Include="extensions\data.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
     <ClCompile Include="operations\package\add.cpp">
       <Filter>operations\package</Filter>
     </ClCompile>
@@ -52,6 +46,12 @@
     </ClCompile>
     <ClCompile Include="nodes\hole.cpp">
       <Filter>nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="data\extension.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="data\node.cpp">
+      <Filter>data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,12 +83,6 @@
     <ClInclude Include="extensions\number.h">
       <Filter>extensions</Filter>
     </ClInclude>
-    <ClInclude Include="nodes\data.h">
-      <Filter>nodes</Filter>
-    </ClInclude>
-    <ClInclude Include="extensions\data.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
     <ClInclude Include="operations\package\add.h">
       <Filter>operations\package</Filter>
     </ClInclude>
@@ -106,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="nodes\hole.h">
       <Filter>nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="data\extension.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="data\node.h">
+      <Filter>data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +129,9 @@
     </Filter>
     <Filter Include="operations\closure">
       <UniqueIdentifier>{da66a576-c447-4d9a-aead-57b8056fd3ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{d161275d-a71b-4b87-8d96-c3eea6f6cf71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

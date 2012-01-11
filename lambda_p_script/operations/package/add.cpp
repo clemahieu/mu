@@ -1,7 +1,7 @@
 #include "add.h"
 
 #include <lambda_p_script/operations/package/package.h>
-#include <lambda_p_script/nodes/data.h>
+#include <lambda_p_script/data/node.h>
 #include <lambda_p/errors/error_target.h>
 
 #include <sstream>
@@ -9,7 +9,7 @@
 void lambda_p_script::operations::package::add::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::vector <boost::shared_ptr <lambda_p::node>> & parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::operations::package::package> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <lambda_p_script::nodes::data> (parameters [1]));
+	auto two (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)

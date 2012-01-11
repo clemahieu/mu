@@ -6,12 +6,12 @@
 
 namespace lambda_p_script
 {
-	namespace nodes
+	namespace data
 	{
-		class data : public lambda_p::node
+		class node : public lambda_p::node
 		{
 		public:
-			 data (std::wstring string_a);
+			 node (std::wstring string_a);
 			 std::wstring string;
 		};
 	}

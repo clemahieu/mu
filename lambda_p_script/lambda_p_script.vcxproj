@@ -130,10 +130,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="extensions\data.cpp" />
+    <ClCompile Include="data\extension.cpp" />
     <ClCompile Include="extensions\number.cpp" />
     <ClCompile Include="nodes\bool_c.cpp" />
-    <ClCompile Include="nodes\data.cpp" />
+    <ClCompile Include="data\node.cpp" />
     <ClCompile Include="nodes\fixed.cpp" />
     <ClCompile Include="nodes\hole.cpp" />
     <ClCompile Include="nodes\number.cpp" />
@@ -154,10 +154,10 @@
     <ClCompile Include="routine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="extensions\data.h" />
+    <ClInclude Include="data\extension.h" />
     <ClInclude Include="extensions\number.h" />
     <ClInclude Include="nodes\bool_c.h" />
-    <ClInclude Include="nodes\data.h" />
+    <ClInclude Include="data\node.h" />
     <ClInclude Include="nodes\fixed.h" />
     <ClInclude Include="nodes\hole.h" />
     <ClInclude Include="nodes\number.h" />
