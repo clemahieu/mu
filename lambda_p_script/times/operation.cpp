@@ -15,13 +15,14 @@ void lambda_p_script::times::operation::perform (boost::shared_ptr <lambda_p::er
 		{
 			if (two.get () != nullptr)
 			{
-				results.assign (parameters.begin () + 2, parameters.end ());
+				std::vector <boost::shared_ptr <lambda_p::node>> results_l (parameters.begin () + 2, parameters.end ());
 				for (size_t i (0), j (one->value); i != j; ++i)
 				{
 					std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-					arguments.swap (results);
-					two->perform (errors_a, arguments, results);
+					arguments.swap (results_l);
+					two->perform (errors_a, arguments, results_l);
 				}
+				results.insert (results.end (), results_l.begin (), results_l.end ());
 			}
 			else
 			{

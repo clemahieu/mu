@@ -16,7 +16,7 @@ void lambda_p_script_io_test::generator::run ()
 
 void lambda_p_script_io_test::generator::run_1 ()
 {
-	std::list <boost::shared_ptr <lambda_p::call>> calls;
+	std::vector <boost::shared_ptr <lambda_p::call>> calls;
 	auto parameters (boost::shared_ptr <lambda_p::parameters> (new lambda_p::parameters));
 	auto call1 (boost::shared_ptr <lambda_p::call> (new lambda_p::call));
 	calls.push_back (call1);
