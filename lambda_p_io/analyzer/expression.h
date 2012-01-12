@@ -29,7 +29,7 @@ namespace lambda_p_io
 			lambda_p_io::analyzer::routine & routine;
 			lambda_p_io::ast::expression * expression_m;
 			size_t position; // Position in the ast::expression::values list, which may not match the position in the lambda_p::expression::dependencies list due to extensions
-			boost::shared_ptr <lambda_p::call> result;
+			boost::shared_ptr <lambda_p::node> result;
 			boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved;
 		};
 	}

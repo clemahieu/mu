@@ -1,5 +1,7 @@
 #include "expression.h"
 
+#include <lambda_p_io/analyzer/call.h>
+#include <lambda_p_io/analyzer/set.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/ast/parameters.h>
@@ -10,7 +12,6 @@
 #include <lambda_p/call.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/routine.h>
-#include <lambda_p/parameters.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/unresolved.h>
 
@@ -19,10 +20,20 @@
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	result (new lambda_p::call),
+	result (),
 	unresolved (new lambda_p_io::analyzer::unresolved (expression_a, result)),
 	position (0)
 {
+	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	{
+		lambda_p_io::analyzer::call call (routine_a, expression_a);
+		result = call.result;
+	}
+	else
+	{
+		lambda_p_io::analyzer::set set (routine_a, expression_a);
+		result = set.result;
+	}
 	for (auto j (expression_a->values.size ()); position != j; ++position)
 	{
 		(*expression_a->values [position]) (this);

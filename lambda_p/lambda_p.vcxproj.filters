@@ -43,6 +43,7 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="set.h" />
+    <ClInclude Include="expression.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -86,6 +87,7 @@
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="set.cpp" />
+    <ClCompile Include="expression.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

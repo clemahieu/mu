@@ -2,7 +2,7 @@
 
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/analyzer/analyzer.h>
-#include <lambda_p_io/analyzer/expression.h>
+#include <lambda_p_io/analyzer/set.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/call.h>
@@ -16,14 +16,18 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 	: analyzer (analyzer_a),
 	routine_m (new lambda_p::routine)
 {
-	if (expression_a->individual_names.empty () && expression_a->full_name.empty ())
+	if (expression_a->individual_names.empty ())
 	{
-		lambda_p_io::analyzer::expression expression (*this, expression_a);
+		if (expression_a->full_name.empty ())
+		{
+			expression_a->full_name = std::wstring (L"anonymous");
+		}
+		lambda_p_io::analyzer::set set (*this, expression_a);
 		if (unresolved.empty ())
 		{
 			if (!(*analyzer.errors) ())
 			{
-				routine_m->call = expression.result;
+				routine_m->body = set.result;
 				analyzer_a.target (routine_m);
 			}
 			else
@@ -44,7 +48,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 	}
 	else
 	{
-		(*analyzer_a.errors) (L"Top level routine cannot have individual or a full name");
+		(*analyzer_a.errors) (L"Top level routine cannot have individual names");
 	}
 }
 
