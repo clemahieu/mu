@@ -2,7 +2,7 @@
 
 #include <lambda_p/visitor.h>
 
-#include <set>
+#include <map>
 #include <list>
 
 #include <boost/shared_ptr.hpp>
@@ -26,7 +26,7 @@ namespace lambda_p_script_io
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		boost::shared_ptr <lambda_p::node> current;
-		std::set <boost::shared_ptr <lambda_p::call>> already;
+		std::map <boost::shared_ptr <lambda_p::call>, std::list <boost::shared_ptr <lambda_p::call>>::iterator> already;
 		std::list <boost::shared_ptr <lambda_p::call>> expressions;
 	};
 }

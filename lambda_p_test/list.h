@@ -1,13 +1,12 @@
 #pragma once
 
-namespace lambda_p_script_io_test
+namespace lambda_p_test
 {
-	class order
+	class list
 	{
 	public:
 		void run ();
 		void run_1 ();
-		void run_2 ();
 	};
 }
 

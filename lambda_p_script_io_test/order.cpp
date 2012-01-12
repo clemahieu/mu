@@ -11,6 +11,7 @@
 void lambda_p_script_io_test::order::run ()
 {
 	run_1 ();
+	run_2 ();
 }
 
 void lambda_p_script_io_test::order::run_1 ()
@@ -24,6 +25,26 @@ void lambda_p_script_io_test::order::run_1 ()
 	lambda_p_script_io::order order (routine->call);
 	auto i (order.expressions.begin ());
 	assert (*i == parameters);
+	++i;
+	assert (*i == root);
+}
+
+void lambda_p_script_io_test::order::run_2 ()
+{
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
+	auto root (boost::shared_ptr <lambda_p::call> (new lambda_p::call));
+	routine->call = root;
+	auto c1 (boost::shared_ptr <lambda_p::call> (new lambda_p::call));
+	root->dependencies.push_back (c1);
+	c1->dependencies.push_back (routine->parameters);
+	auto c2 (boost::shared_ptr <lambda_p::call> (new lambda_p::call));
+	root->dependencies.push_back (c2);
+	c2->dependencies.push_back (c1);
+	lambda_p_script_io::order order (routine->call);
+	auto i (order.expressions.begin ());
+	assert (*i == c1);
+	++i;
+	assert (*i == c2);
 	++i;
 	assert (*i == root);
 }

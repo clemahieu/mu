@@ -6,6 +6,7 @@
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="test_visitor.cpp" />
     <ClCompile Include="visitor.cpp" />
+    <ClCompile Include="list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filesystem_test.h" />
@@ -13,5 +14,6 @@
     <ClInclude Include="tests.h" />
     <ClInclude Include="test_visitor.h" />
     <ClInclude Include="visitor.h" />
+    <ClInclude Include="list.h" />
   </ItemGroup>
 </Project>

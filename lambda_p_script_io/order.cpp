@@ -5,7 +5,8 @@
 lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::call> call_a)
 {
 	expressions.push_front (call_a);
-	already.insert (call_a);
+	auto location (expressions.begin ());
+	already.insert (std::map <boost::shared_ptr <lambda_p::call>, std::list <boost::shared_ptr <lambda_p::call>>::iterator>::value_type (call_a, location));
 	(*this) (call_a);
 }
 
@@ -25,7 +26,8 @@ void lambda_p_script_io::order::operator () (lambda_p::call * call_a)
 	if (existing == already.end ())
 	{
 		expressions.push_front (call_l);
-		already.insert (call_l);
+		auto location (expressions.begin ());
+		already.insert (std::map <boost::shared_ptr <lambda_p::call>, std::list <boost::shared_ptr <lambda_p::call>>::iterator>::value_type (call_l, location));
 	}
 }
 
