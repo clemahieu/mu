@@ -33,7 +33,7 @@ void lambda_p_script_io_test::synthesizer::run_1 ()
 
 void lambda_p_script_io_test::synthesizer::run_2 ()
 {
-	// [[:~ ; a b c] a [a b c] c]
+	// [[:~]]
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_script_test::synthesizer_results results;
 	lambda_p_script_io::synthesizer synthesizer (boost::bind (&lambda_p_script_test::synthesizer_results::operator(), &results, _1));
@@ -47,5 +47,5 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 	assert (errors->errors.empty ());
 	assert (results.routines.size () == 1);
 	auto result (results.routines [0]);
-	assert (result->calls.size () == 1);
+	assert (result->calls.size () == 2);
 }

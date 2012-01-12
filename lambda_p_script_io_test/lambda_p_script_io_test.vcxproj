@@ -118,7 +118,7 @@
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="generator.cpp" />
-    <ClCompile Include="routine.cpp" />
+    <ClCompile Include="order.cpp" />
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="synthesizer_results.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -127,7 +127,7 @@
     <ClInclude Include="builder.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="generator.h" />
-    <ClInclude Include="routine.h" />
+    <ClInclude Include="order.h" />
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="synthesizer_results.h" />
     <ClInclude Include="tests.h" />

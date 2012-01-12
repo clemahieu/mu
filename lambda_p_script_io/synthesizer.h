@@ -3,10 +3,9 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include <map>
-
 namespace lambda_p
 {
+	class node;
 	class routine;
 	namespace errors
 	{

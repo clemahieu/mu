@@ -2,7 +2,7 @@
 
 namespace lambda_p_script_io_test
 {
-	class routine
+	class order
 	{
 	public:
 		void run ();
