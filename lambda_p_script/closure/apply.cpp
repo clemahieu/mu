@@ -26,7 +26,7 @@ void lambda_p_script::closure::apply::perform (boost::shared_ptr <lambda_p::erro
 				{
 					open_l.push_back (operation->open [position - 1]);
 				}
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::closure::operation (open_l, operation->closed)));
+				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::closure::operation (operation->operation_m, open_l, operation->closed)));
 			}
 		}
 		else

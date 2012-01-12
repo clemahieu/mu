@@ -7,6 +7,7 @@
 void lambda_p_script_test::segment::run ()
 {
 	run_1 ();
+	run_2 ();
 }
 
 void lambda_p_script_test::segment::run_1 ()
@@ -29,4 +30,14 @@ void lambda_p_script_test::segment::run_1 ()
 	assert (segment [1] == 2);
 	assert (segment [2] == 3);
 	assert (segment.size () == 3);
+}
+
+void lambda_p_script_test::segment::run_2 ()
+{
+	std::vector <size_t> values (5);
+	lambda_p_script::segment <size_t> segment (values);
+	for (auto i (segment.begin ()), j (segment.end ()); i != j; ++i)
+	{
+		auto val (*i);
+	}
 }

@@ -3,19 +3,20 @@
 #include <lambda_p_script/closure/hole.h>
 
 lambda_p_script::closure::operation::operation (size_t count_a, boost::shared_ptr <lambda_p_script::operation> operation_a)
-	: closed (count_a + 1),
-	open (count_a)
+	: closed (count_a),
+	open (count_a),
+	operation_m (operation_a)
 {
-	closed [0] = operation_a;
 	for (size_t i (0); i != count_a; ++i)
 	{
-		open [i] = i + 1;
+		open [i] = i;
 	}
 }
 
-lambda_p_script::closure::operation::operation (std::vector <size_t> & open_a, std::vector <boost::shared_ptr <lambda_p::node>> & closed_a)
+lambda_p_script::closure::operation::operation (boost::shared_ptr <lambda_p_script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <lambda_p::node>> & closed_a)
 	: open (open_a),
-	closed (closed_a)
+	closed (closed_a),
+	operation_m (operation_a)
 {
 }
 
@@ -37,13 +38,11 @@ void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda
 	}
 	if (open_l.size () != 0)
 	{
-		results.push_back (boost::shared_ptr <lambda_p_script::closure::operation> (new lambda_p_script::closure::operation (open_l, closed)));
+		results.push_back (boost::shared_ptr <lambda_p_script::closure::operation> (new lambda_p_script::closure::operation (operation_m, open_l, closed)));
 	}
 	else
 	{
-		assert (closed.size () > 0);
-		auto operation (boost::static_pointer_cast <lambda_p_script::operation> (closed [0]));
-		operation->perform (errors_a, closed, results);
+		operation_m->perform (errors_a, closed, results);
 	}
 }
 
