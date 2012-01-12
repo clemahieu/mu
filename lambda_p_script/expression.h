@@ -4,6 +4,7 @@
 
 namespace lambda_p_script
 {
+	// Internal node to link all values of an expression, e.g. the expression [c] that references the `c' in some other [a; b; c]
 	class expression : public lambda_p_script::node
 	{
 	public:

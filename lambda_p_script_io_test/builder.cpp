@@ -6,6 +6,10 @@
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/data/node.h>
+#include <lambda_p_script/call.h>
+#include <lambda_p_script/expression.h>
+#include <lambda_p_script/reference.h>
+#include <lambda_p_script/constant.h>
 
 #include <boost/bind.hpp>
 
@@ -19,6 +23,7 @@ void lambda_p_script_io_test::builder::run ()
 	run_6 ();
 	run_7 ();
 	run_8 ();
+	run_9 ();
 }
 
 void lambda_p_script_io_test::builder::run_1 ()
@@ -141,4 +146,54 @@ void lambda_p_script_io_test::builder::run_8 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; #]]");
 	assert (!builder.errors->errors.empty ());
+}
+
+void lambda_p_script_io_test::builder::run_9 ()
+{
+	lambda_p_script_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[[:~; a b c] .id a [a b c] c]");
+	assert (builder.errors->errors.empty ());
+	assert (builder.routines.size () == 1);
+	auto routine (builder.routines [0]);
+	assert (routine->calls.size () == 3);
+	auto c1 (routine->calls [0]);
+	assert (c1->results == 1);
+	assert (c1->arguments.size () == 1);
+	auto c11 (boost::dynamic_pointer_cast <lambda_p_script::expression> (c1->arguments [0]));
+	assert (c11.get () != nullptr);
+	assert (c11->index == 0);
+	auto c2 (routine->calls [1]);
+	assert (c2->results == 2);
+	assert (c2->arguments.size () == 3);
+	auto c21 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c2->arguments [0]));
+	assert (c21.get () != nullptr);
+	assert (c21->expression == 1);
+	assert (c21->index == 0);
+	auto c22 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c2->arguments [1]));
+	assert (c22.get () != nullptr);
+	assert (c22->expression == 1);
+	assert (c22->index == 1);
+	auto c23 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c2->arguments [2]));
+	assert (c23.get () != nullptr);
+	assert (c23->expression == 1);
+	assert (c23->index == 2);
+	auto c3 (routine->calls [2]);
+	assert (c3->results == 3);
+	assert (c3->arguments.size () == 5);
+	auto c31 (boost::dynamic_pointer_cast <lambda_p_script::expression> (c3->arguments [0]));
+	assert (c31.get () != nullptr);
+	assert (c31->index == 1);
+	auto c32 (boost::dynamic_pointer_cast <lambda_p_script::constant> (c3->arguments [1]));
+	assert (c32.get () != nullptr);
+	assert (c32->value.get () != nullptr);
+	auto c33 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c3->arguments [2]));
+	assert (c33.get () != nullptr);
+	assert (c33->expression == 1);
+	assert (c33->index == 0);
+	auto c34 (boost::dynamic_pointer_cast <lambda_p_script::expression> (c3->arguments [3]));
+	assert (c34->index == 2);
+	auto c35 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c3->arguments [4]));
+	assert (c35->expression == 1);
+	assert (c35->index == 2);
 }
