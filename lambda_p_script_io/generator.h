@@ -3,7 +3,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include <map>
-#include <list>
+#include <vector>
 
 namespace lambda_p
 {
@@ -21,7 +21,7 @@ namespace lambda_p_script_io
 	class generator
 	{
 	public:
-		generator (std::list <boost::shared_ptr <lambda_p::call>> & expressions_a, boost::shared_ptr <lambda_p::parameters> parameters_a);
+		generator (std::vector <boost::shared_ptr <lambda_p::call>> & expressions_a, boost::shared_ptr <lambda_p::parameters> parameters_a);
 		boost::shared_ptr <lambda_p_script::routine> result;
 		std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
 	};
