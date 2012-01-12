@@ -15,7 +15,7 @@ void lambda_p_script::times::operation::perform (boost::shared_ptr <lambda_p::er
 		{
 			if (two.get () != nullptr)
 			{
-				results.assign (++parameters.begin (), parameters.end ());
+				results.assign (parameters.begin () + 2, parameters.end ());
 				for (size_t i (0), j (one->value); i != j; ++i)
 				{
 					std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -38,6 +38,7 @@ void lambda_p_script::times::operation::perform (boost::shared_ptr <lambda_p::er
 		std::wstringstream message;
 		message << name ();
 		message << L" must have at least two arguments";
+		(*errors_a) (message.str ());
 	}
 }
 

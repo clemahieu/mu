@@ -6,10 +6,10 @@
 #include <lambda_p/routine.h>
 #include <lambda_p/call.h>
 
-lambda_p_script_io::routine::routine (lambda_p_script_io::synthesizer & synthesizer_a, boost::shared_ptr <lambda_p::routine> routine_a)
+lambda_p_script_io::routine::routine (boost::shared_ptr <lambda_p::routine> routine_a)
 {	
+	(*this) (routine_a->call);
 	auto expression (boost::shared_ptr <lambda_p_script_io::expression> (new lambda_p_script_io::expression (*this, routine_a->call)));
-	expressions.push_back (routine_a->call);
 }
 			
 void lambda_p_script_io::routine::operator () (boost::shared_ptr <lambda_p::call> expression)
@@ -24,7 +24,6 @@ void lambda_p_script_io::routine::operator () (boost::shared_ptr <lambda_p::call
 	auto existing_follower (synthesis.find (follower));
 	assert (existing_dominator != synthesis.end ());
 	assert (existing_follower != synthesis.end ());
-	++existing_dominator;
 	expressions.erase (existing_follower->second);
 	expressions.insert (existing_dominator->second, follower);
 }

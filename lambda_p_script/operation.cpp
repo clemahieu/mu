@@ -15,7 +15,7 @@ bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::error
 		message << L" expecting: ";
 		message << expected;
 		message << L" arguments, have: ";
-		parameters.size ();
+		message << parameters.size ();
 		(*errors_a) (message.str ());
 	}
 	return result;

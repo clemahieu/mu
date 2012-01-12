@@ -22,9 +22,14 @@ void lambda_p_script_io::expression::operator () (lambda_p::call * call_a)
 	auto existing (routine.synthesis.find (call_l));
 	if (existing == routine.synthesis.end ())
 	{
+		routine (call_l);
+		routine (call_l, call);
 		auto expression (boost::shared_ptr <lambda_p_script_io::expression> (new lambda_p_script_io::expression (routine, call_l)));
 	}
-	routine (call_l, call);
+	else
+	{
+		routine (call_l, call);
+	}
 }
 
 void lambda_p_script_io::expression::operator () (lambda_p::parameters * parameters_a)

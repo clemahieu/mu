@@ -21,7 +21,7 @@ namespace lambda_p_script_io
 	class routine
 	{
 	public:
-		routine (lambda_p_script_io::synthesizer & synthesizer_a, boost::shared_ptr <lambda_p::routine> routine_a);
+		routine (boost::shared_ptr <lambda_p::routine> routine_a);
 		void operator () (boost::shared_ptr <lambda_p::call> call);
 		void operator () (boost::shared_ptr <lambda_p::call> dominator, boost::shared_ptr <lambda_p::call> follower);
 		std::map <boost::shared_ptr <lambda_p::call>, std::list <boost::shared_ptr <lambda_p::call>>::iterator> synthesis;
