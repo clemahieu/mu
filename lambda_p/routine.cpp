@@ -1,8 +1,8 @@
 #include "routine.h"
 
-#include <lambda_p/parameters.h>
+#include <lambda_p/set.h>
 
 lambda_p::routine::routine ()
-	: parameters (new lambda_p::parameters)
+	: parameters (new lambda_p::set)
 {
 }

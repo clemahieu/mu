@@ -38,12 +38,11 @@
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="node.h" />
-    <ClInclude Include="expression.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="visitor.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="call.h" />
-    <ClInclude Include="parameters.h" />
+    <ClInclude Include="set.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -83,11 +82,10 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="node.cpp" />
-    <ClCompile Include="expression.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="call.cpp" />
-    <ClCompile Include="parameters.cpp" />
+    <ClCompile Include="set.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

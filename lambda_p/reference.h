@@ -6,12 +6,12 @@
 
 namespace lambda_p
 {
-	class expression;
+	class set;
 	class reference : public lambda_p::node
 	{
 	public:
 		void operator () (lambda_p::visitor * visitor_a) override;
-		boost::shared_ptr <lambda_p::expression> expression;
+		boost::shared_ptr <lambda_p::set> set;
 		size_t index;
 	};
 }
