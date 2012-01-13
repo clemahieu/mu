@@ -1,9 +1,9 @@
 //#include <lambda_p_llvm_test/tests.h>
 //#include <lambda_p_repl_test/tests.h>
-#include <lambda_p_io_test/tests.h>
+//#include <lambda_p_io_test/tests.h>
 #include <lambda_p_test/tests.h>
-#include <lambda_p_script_test/tests.h>
-#include <lambda_p_script_io_test/tests.h>
+//#include <lambda_p_script_test/tests.h>
+//#include <lambda_p_script_io_test/tests.h>
 
 #include <llvm/Target/TargetSelect.h>
 
@@ -18,18 +18,18 @@ int main ()
 		lambda_p_test::tests test;
 		test.run ();
 	}
-	{
-		lambda_p_io_test::tests test;
-		test.run ();
-	}
-	{
-		lambda_p_script_test::tests test;
-		test.run ();
-	}
-	{
-		lambda_p_script_io_test::tests test;
-		test.run ();
-	}
+	//{
+	//	lambda_p_io_test::tests test;
+	//	test.run ();
+	//}
+	//{
+	//	lambda_p_script_test::tests test;
+	//	test.run ();
+	//}
+	//{
+	//	lambda_p_script_io_test::tests test;
+	//	test.run ();
+	//}
 	//{
 	//	lambda_p_llvm_test::tests test;
 	//	test.run ();

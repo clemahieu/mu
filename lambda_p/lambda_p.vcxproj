@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="call.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="errors\error_list.h" />
@@ -146,9 +147,11 @@
     <ClInclude Include="errors\unresolved_statement.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="set.h" />
     <ClInclude Include="visitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="call.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="errors\unresolved_statement.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="set.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

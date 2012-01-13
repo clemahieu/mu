@@ -1,8 +1,13 @@
 #include "test_visitor.h"
 
-void lambda_p_test::test_visitor::operator () (lambda_p::expression * expression_a)
+void lambda_p_test::test_visitor::operator () (lambda_p::set * set_a)
 {
-	expressions.push_back (expression_a);
+	sets.push_back (set_a);
+}
+
+void lambda_p_test::test_visitor::operator () (lambda_p::call * call_a)
+{
+	calls.push_back (call_a);
 }
 
 void lambda_p_test::test_visitor::operator () (lambda_p::reference * reference_a)
