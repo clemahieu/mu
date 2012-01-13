@@ -4,9 +4,9 @@
 #include <lambda_p/call.h>
 #include <lambda_p_script_io/call.h>
 #include <lambda_p_script/call.h>
-#include <lambda_p/parameters.h>
+#include <lambda_p/set.h>
 
-lambda_p_script_io::generator::generator (std::vector <boost::shared_ptr <lambda_p::call>> & expressions_a, boost::shared_ptr <lambda_p::parameters> parameters_a)
+lambda_p_script_io::generator::generator (std::vector <boost::shared_ptr <lambda_p::expression>> & expressions_a, boost::shared_ptr <lambda_p::set> parameters_a)
 	: result (new lambda_p_script::routine)
 {
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters_a, 0));

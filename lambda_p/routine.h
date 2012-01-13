@@ -10,7 +10,7 @@ namespace lambda_p
 	{
 	public:
 		routine ();
-		boost::shared_ptr <lambda_p::node> parameters;
+		boost::shared_ptr <lambda_p::set> parameters;
 		boost::shared_ptr <lambda_p::set> body;
 	};
 }
