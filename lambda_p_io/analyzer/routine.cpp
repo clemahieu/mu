@@ -21,12 +21,11 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		{
 			expression_a->full_name = std::wstring (L"anonymous");
 		}
-		lambda_p_io::analyzer::expression expression (*this, expression_a);
+		lambda_p_io::analyzer::expression expression (*this, expression_a, *routine_m->body);
 		if (unresolved.empty ())
 		{
 			if (!(*analyzer.errors) ())
 			{
-				routine_m->body = boost::static_pointer_cast <lambda_p::set> (expression.result);
 				analyzer_a.target (routine_m);
 			}
 			else

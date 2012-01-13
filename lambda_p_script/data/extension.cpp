@@ -20,7 +20,7 @@ void lambda_p_script::data::extension::operator () (lambda_p_io::analyzer::expre
 		auto data (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [data_position]));
 		if (data.get () != nullptr)
 		{
-			expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p_script::data::node> (new lambda_p_script::data::node (data->string)));
+			expression_a.self->dependencies.push_back (boost::shared_ptr <lambda_p_script::data::node> (new lambda_p_script::data::node (data->string)));
 		}
 		else
 		{

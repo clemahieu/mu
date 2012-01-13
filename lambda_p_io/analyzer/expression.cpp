@@ -11,7 +11,7 @@
 #include <lambda_p_io/analyzer/extension.h>
 #include <lambda_p/reference.h>
 
-lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
+lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, lambda_p::expression & target_a)
 	: routine (routine_a),
 	expression_m (expression_a),
 	position (0)
@@ -19,12 +19,13 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
 	{
 		boost::shared_ptr <lambda_p::call> call_l (new lambda_p::call);
-		result = call_l;
+		target_a.dependencies.push_back (call_l);
+		self = call_l;
 	}
 	else
 	{
 		boost::shared_ptr <lambda_p::set> set_l (new lambda_p::set);
-		result = set_l;
+		self = set_l;
 		if (!expression_a->full_name.empty ())
 		{
 			routine_a (expression_a->full_name, set_l);
@@ -42,13 +43,12 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameters * parameters_a)
 {
-	result->dependencies.push_back (routine.routine_m->parameters);
+	self->dependencies.push_back (routine.routine_m->parameters);
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)
 {
-	lambda_p_io::analyzer::expression expression (routine, expression_a);
-	result->dependencies.push_back (expression.result);
+	lambda_p_io::analyzer::expression expression (routine, expression_a, *self);
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifier * identifier_a)
@@ -59,12 +59,12 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		auto existing (routine.declarations.find (identifier_a->string));
 		if (existing != routine.declarations.end ())
 		{
-			result->dependencies.push_back (existing->second);
+			self->dependencies.push_back (existing->second);
 		}
 		else
 		{
-			result->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
-			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (result, result->dependencies.size () - 1))));
+			self->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
+			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1))));
 		}
 	}
 	else

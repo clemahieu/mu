@@ -61,7 +61,7 @@ void lambda_p_script::integer::extension::operator () (lambda_p_io::analyzer::ex
 				}
 				else
 				{
-					expression_a.result->dependencies.push_back (boost::shared_ptr <lambda_p_script::integer::node> (new lambda_p_script::integer::node (number)));
+					expression_a.self->dependencies.push_back (boost::shared_ptr <lambda_p_script::integer::node> (new lambda_p_script::integer::node (number)));
 				}
 			}
 		}
