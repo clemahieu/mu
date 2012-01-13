@@ -6,7 +6,7 @@
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/call.h>
+#include <lambda_p/expression.h>
 #include <lambda_p_script/integer/node.h>
 
 #include <sstream>

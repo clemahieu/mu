@@ -1,9 +1,8 @@
 #include "order.h"
 
-#include <lambda_p/set.h>
-#include <lambda_p/call.h>
+#include <lambda_p/expression.h>
 
-lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::set> call_a)
+lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::expression> call_a)
 {
 	(*this) (call_a);
 }
@@ -23,16 +22,10 @@ void lambda_p_script_io::order::operator () (boost::shared_ptr <lambda_p::expres
 	}
 }
 
-void lambda_p_script_io::order::operator () (lambda_p::call * call_a)
+void lambda_p_script_io::order::operator () (lambda_p::expression * expression_a)
 {
-	auto call_l (boost::static_pointer_cast <lambda_p::call> (current));
+	auto call_l (boost::static_pointer_cast <lambda_p::expression> (current));
 	(*this) (call_l);
-}
-
-void lambda_p_script_io::order::operator () (lambda_p::set * set_a)
-{
-	auto set_l (boost::static_pointer_cast <lambda_p::set> (current));
-	(*this) (set_l);
 }
 
 void lambda_p_script_io::order::operator () (lambda_p::reference * reference_a)

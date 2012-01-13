@@ -116,14 +116,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="call.cpp" />
+    <ClCompile Include="expression.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="synthesizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="builder.h" />
-    <ClInclude Include="call.h" />
+    <ClInclude Include="expression.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="synthesizer.h" />

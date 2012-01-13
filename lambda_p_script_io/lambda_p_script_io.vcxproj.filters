@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="call.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="order.cpp" />
+    <ClCompile Include="expression.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="call.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="order.h" />
+    <ClInclude Include="expression.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
