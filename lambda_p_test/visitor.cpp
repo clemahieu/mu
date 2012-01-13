@@ -49,7 +49,7 @@ void lambda_p_test::visitor::run_3 ()
 	boost::shared_ptr <lambda_p::visitor> visitor (vis);
 	lambda_p::call * call (new lambda_p::call);
 	lambda_p::node * node (new lambda_p::node);
-	lambda_p::reference * reference (new lambda_p::reference);
+	lambda_p::reference * reference (new lambda_p::reference (boost::shared_ptr <lambda_p::set> (), 0));
 	(*call) (visitor.get ());	
 	(*node) (visitor.get ());
 	(*reference) (visitor.get ());

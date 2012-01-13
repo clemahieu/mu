@@ -10,6 +10,7 @@ namespace lambda_p
 	class reference : public lambda_p::node
 	{
 	public:
+		reference (boost::shared_ptr <lambda_p::set> set_a, size_t index_a);
 		void operator () (lambda_p::visitor * visitor_a) override;
 		boost::shared_ptr <lambda_p::set> set;
 		size_t index;

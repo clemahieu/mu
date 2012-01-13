@@ -12,6 +12,7 @@
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p/call.h>
 #include <lambda_p/routine.h>
+#include <lambda_p/set.h>
 
 #include <boost/bind.hpp>
 
@@ -36,7 +37,7 @@ void lambda_p_io_test::extension::run_1 ()
 	analyzer_l (expression);
 	assert (result.errors->errors.empty ());
 	assert (result.routines.size () == 1);
-	auto routine (result.routines [0]->call);
+	auto routine (result.routines [0]->body);
 	assert (routine->dependencies.size () == 0);
 }
 
@@ -51,7 +52,7 @@ void lambda_p_io_test::extension::run_2 ()
 	analyzer_l (expression);
 	assert (result.errors->errors.empty ());
 	assert (result.routines.size () == 1);
-	auto routine (result.routines [0]->call);
+	auto routine (result.routines [0]->body);
 	assert (routine->dependencies.size () == 1);
 }
 
@@ -66,7 +67,7 @@ void lambda_p_io_test::extension::run_3 ()
 	analyzer_l (expression);
 	assert (result.errors->errors.empty ());
 	assert (result.routines.size () == 1);
-	auto routine (result.routines [0]->call);
+	auto routine (result.routines [0]->body);
 	assert (routine->dependencies.size () == 2);
 }
 
@@ -82,6 +83,6 @@ void lambda_p_io_test::extension::run_4 ()
 	analyzer_l (expression);
 	assert (result.errors->errors.empty ());
 	assert (result.routines.size () == 1);
-	auto routine (result.routines [0]->call);
+	auto routine (result.routines [0]->body);
 	assert (routine->dependencies.size () == 1);
 }

@@ -1,70 +1,48 @@
 #include "expression.h"
 
-#include <lambda_p_io/analyzer/call.h>
-#include <lambda_p_io/analyzer/set.h>
-#include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/ast/identifier.h>
-#include <lambda_p_io/ast/parameters.h>
 #include <lambda_p_io/analyzer/routine.h>
-#include <lambda_p/errors/error_target.h>
-#include <lambda_p_io/analyzer/analyzer.h>
-#include <lambda_p_io/analyzer/extension.h>
+#include <lambda_p_io/ast/expression.h>
 #include <lambda_p/call.h>
-#include <lambda_p/reference.h>
+#include <lambda_p/set.h>
 #include <lambda_p/routine.h>
+#include <lambda_p_io/analyzer/analyzer.h>
+#include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/analyzer/resolver.h>
-#include <lambda_p_io/analyzer/unresolved.h>
-
-#include <sstream>
+#include <lambda_p_io/analyzer/extension.h>
+#include <lambda_p/reference.h>
 
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	result (),
-	unresolved (new lambda_p_io::analyzer::unresolved (expression_a, result)),
 	position (0)
 {
 	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
 	{
-		lambda_p_io::analyzer::call call (routine_a, expression_a);
-		result = call.result;
+		boost::shared_ptr <lambda_p::call> call_l (new lambda_p::call);
+		result = call_l;
 	}
 	else
 	{
-		lambda_p_io::analyzer::set set (routine_a, expression_a);
-		result = set.result;
+		boost::shared_ptr <lambda_p::set> set_l (new lambda_p::set);
+		result = set_l;
+		if (!expression_a->full_name.empty ())
+		{
+			routine_a (expression_a->full_name, set_l);
+		}
+		for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
+		{
+			routine_a (expression_a->individual_names [i], boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (set_l, i)));
+		}
 	}
-	for (auto j (expression_a->values.size ()); position != j; ++position)
+	for (auto end (expression_a->values.size ()); position != end; ++position)
 	{
 		(*expression_a->values [position]) (this);
 	}
-	unresolved->complete = true;
-	(*unresolved) (routine_a);
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameters * parameters_a)
 {
-	if (routine.routine_m->parameters->count == ~0)
-	{
-		routine.routine_m->parameters->count = expression_m->individual_names.size ();
-		result->dependencies.push_back (routine.routine_m->parameters);
-	}
-	else
-	{
-		if (routine.routine_m->parameters->count == expression_m->individual_names.size ())
-		{
-			result->dependencies.push_back (routine.routine_m->parameters);
-		}
-		else
-		{
-			std::wstringstream message;
-			message << L"Parameters being referenced with inconsistent number of nodes, previously: ";
-			message << routine.routine_m->parameters->count;
-			message << L" now: ";
-			expression_m->individual_names.size ();
-			(*routine.analyzer.errors) (message.str ());
-		}
-	}
+	result->dependencies.push_back (routine.routine_m->parameters);
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)
@@ -85,9 +63,8 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		}
 		else
 		{
-			++unresolved->count;
-			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (unresolved, result))));
 			result->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
+			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (result, result->dependencies.size () - 1))));
 		}
 	}
 	else

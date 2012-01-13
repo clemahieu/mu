@@ -6,7 +6,7 @@
 
 namespace lambda_p
 {
-	class call;
+	class expression;
 	namespace errors
 	{
 		class error_target;
@@ -17,8 +17,6 @@ namespace lambda_p_io
 	namespace analyzer
 	{
 		class routine;
-		class resolver;
-		class unresolved;
 		class expression : public lambda_p_io::ast::visitor
 		{
 		public:
@@ -28,9 +26,8 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
 			lambda_p_io::analyzer::routine & routine;
 			lambda_p_io::ast::expression * expression_m;
-			size_t position; // Position in the ast::expression::values list, which may not match the position in the lambda_p::expression::dependencies list due to extensions
-			boost::shared_ptr <lambda_p::node> result;
-			boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved;
+			size_t position;
+			boost::shared_ptr <lambda_p::expression> result;
 		};
 	}
 }

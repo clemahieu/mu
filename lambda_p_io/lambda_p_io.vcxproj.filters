@@ -127,9 +127,6 @@
     <ClCompile Include="analyzer\resolver.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\unresolved.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="ast\parameters.cpp">
       <Filter>ast</Filter>
     </ClCompile>
@@ -138,12 +135,6 @@
     </ClCompile>
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="analyzer\global.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
-    <ClCompile Include="analyzer\set.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
-    <ClCompile Include="analyzer\call.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,9 +248,6 @@
     <ClInclude Include="analyzer\resolver.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\unresolved.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
     <ClInclude Include="ast\parameters.h">
       <Filter>ast</Filter>
     </ClInclude>
@@ -268,12 +256,6 @@
     </ClInclude>
     <ClInclude Include="builder.h" />
     <ClInclude Include="analyzer\global.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\set.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\call.h">
       <Filter>analyzer</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,20 +4,20 @@
 
 namespace lambda_p
 {
-	class call;
+	class expression;
+	class node;
 }
 namespace lambda_p_io
 {
 	namespace analyzer
 	{
-		class unresolved;
 		class resolver
 		{
 		public:
-			resolver (boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved_a, boost::shared_ptr <lambda_p::call> call_a);
-			boost::shared_ptr <lambda_p_io::analyzer::unresolved> unresolved;
-			boost::shared_ptr <lambda_p::call> call;
-			size_t index;
+			resolver (boost::shared_ptr <lambda_p::expression> unresolved_a, size_t position_a);
+			void operator () (boost::shared_ptr <lambda_p::node> node_a);
+			boost::shared_ptr <lambda_p::expression> unresolved;
+			size_t position;
 		};
 	}
 }
