@@ -2,8 +2,8 @@
 
 #include <lambda_p/visitor.h>
 
-lambda_p::reference::reference (boost::shared_ptr <lambda_p::set> set_a, size_t index_a)
-	: set (set_a),
+lambda_p::reference::reference (boost::shared_ptr <lambda_p::expression> expression_a, size_t index_a)
+	: expression (expression_a),
 	index (index_a)
 {
 }

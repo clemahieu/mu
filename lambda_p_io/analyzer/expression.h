@@ -21,7 +21,7 @@ namespace lambda_p_io
 		class expression : public lambda_p_io::ast::visitor
 		{
 		public:
-			expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, lambda_p::expression & target_a);
+			expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a);
 			void operator () (lambda_p_io::ast::parameters * parameters_a) override;
 			void operator () (lambda_p_io::ast::expression * expression_a) override;
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;

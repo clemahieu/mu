@@ -2,8 +2,7 @@
 
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/call.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 #include <lambda_p/routine.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/ast/identifier.h>
@@ -11,29 +10,19 @@
 #include <lambda_p_io/analyzer/extension.h>
 #include <lambda_p/reference.h>
 
-lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, lambda_p::expression & target_a)
+lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	position (0)
+	position (0),
+	self (new lambda_p::expression)
 {
-	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	if (!expression_a->full_name.empty ())
 	{
-		boost::shared_ptr <lambda_p::call> call_l (new lambda_p::call);
-		target_a.dependencies.push_back (call_l);
-		self = call_l;
+		routine_a (expression_a->full_name, self);
 	}
-	else
+	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		boost::shared_ptr <lambda_p::set> set_l (new lambda_p::set);
-		self = set_l;
-		if (!expression_a->full_name.empty ())
-		{
-			routine_a (expression_a->full_name, set_l);
-		}
-		for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
-		{
-			routine_a (expression_a->individual_names [i], boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (set_l, i)));
-		}
+		routine_a (expression_a->individual_names [i], boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)));
 	}
 	for (auto end (expression_a->values.size ()); position != end; ++position)
 	{
@@ -48,7 +37,15 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameter
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)
 {
-	lambda_p_io::analyzer::expression expression (routine, expression_a, *self);
+	lambda_p_io::analyzer::expression expression (routine, expression_a);
+	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	{
+		self->dependencies.push_back (expression.self);
+	}
+	else
+	{
+		// When naming we don't pass the expression results to the parent
+	}
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifier * identifier_a)

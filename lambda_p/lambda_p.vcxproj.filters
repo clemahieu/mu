@@ -41,8 +41,6 @@
     <ClInclude Include="reference.h" />
     <ClInclude Include="visitor.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="call.h" />
-    <ClInclude Include="set.h" />
     <ClInclude Include="expression.h" />
   </ItemGroup>
   <ItemGroup>
@@ -85,8 +83,6 @@
     <ClCompile Include="node.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="call.cpp" />
-    <ClCompile Include="set.cpp" />
     <ClCompile Include="expression.cpp" />
   </ItemGroup>
   <ItemGroup>

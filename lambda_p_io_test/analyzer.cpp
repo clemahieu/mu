@@ -7,8 +7,7 @@
 #include <lambda_p_io/ast/parameters.h>
 #include <lambda_p/node.h>
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p/call.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/routine.h>
 
@@ -75,9 +74,9 @@ void lambda_p_io_test::analyzer::run_4 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->body);
-	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::set> (*routine->dependencies.begin ()));
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 1);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
 }
@@ -95,11 +94,11 @@ void lambda_p_io_test::analyzer::run_5 ()
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->body);
-	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::set> (*routine->dependencies.begin ()));
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 1);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::reference> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
-	assert (parameters->dependencies.empty ());
+	assert (parameters->index == 0);
 }
 
 // Test out of order name reference
@@ -114,12 +113,12 @@ void lambda_p_io_test::analyzer::run_6 ()
 	expression->values.push_back (expression1);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
-	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->body);
-	assert (routine->dependencies.size () == 2);
-	auto reference (boost::dynamic_pointer_cast <lambda_p::reference> (*routine->dependencies.begin ()));
+	assert (result.errors->errors.empty ());		
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 1);
+	auto reference (boost::dynamic_pointer_cast <lambda_p::reference> (body->dependencies [0]));
 	assert (reference.get () != nullptr);
-	auto call (boost::dynamic_pointer_cast <lambda_p::set> (reference->set));
+	auto call (boost::dynamic_pointer_cast <lambda_p::expression> (reference->expression));
 	assert (call.get () != nullptr);
 	assert (call->dependencies.empty ());
 	assert (reference->index == 0);
@@ -137,10 +136,10 @@ void lambda_p_io_test::analyzer::run_7 ()
 	expression->values.push_back (expression1);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
-	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]->body);
-	assert (routine->dependencies.size () == 2);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::set> (*routine->dependencies.begin ()));
+	assert (result.errors->errors.empty ());		
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 1);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
 }
@@ -155,18 +154,20 @@ void lambda_p_io_test::analyzer::run_8 ()
 	auto expression2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (expression1);
 	expression->values.push_back (expression2);
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"b"))));
 	expression1->full_name = std::wstring (L"a");
 	expression2->full_name = std::wstring (L"b");
 	expression1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"b"))));
 	expression2->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
 	analyzer_l (expression);
 	assert (!result.routines.empty ());
-	assert (result.errors->errors.empty ());	
-	auto routine (result.routines [0]);
-	assert (routine->body->dependencies.size () == 2);
-	auto d1 (boost::dynamic_pointer_cast <lambda_p::set> (routine->body->dependencies [0]));
+	assert (result.errors->errors.empty ());		
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 2);
+	auto d1 (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (d1.get () != nullptr);
-	auto d2 (boost::dynamic_pointer_cast <lambda_p::set> (routine->body->dependencies [1]));
+	auto d2 (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [1]));
 	assert (d2.get () != nullptr);
 	assert (d1->dependencies.size () == 1);
 	assert (d2->dependencies.size () == 1);
@@ -184,9 +185,9 @@ void lambda_p_io_test::analyzer::run_9 ()
 	expression->values.push_back (parameters);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
-	assert (result.errors->errors.empty ());
-	auto routine (result.routines [0]->body);
-	assert (routine->dependencies.size () == 1);
-	auto params (boost::dynamic_pointer_cast <lambda_p::node> (routine->dependencies [0]));
+	assert (result.errors->errors.empty ());	
+	auto body (result.routines [0]->body);
+	assert (body->dependencies.size () == 1);
+	auto params (boost::dynamic_pointer_cast <lambda_p::node> (body->dependencies [0]));
 	assert (params.get () != nullptr);
 }

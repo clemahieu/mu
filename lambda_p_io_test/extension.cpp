@@ -10,9 +10,8 @@
 #include <lambda_p_io_test/extension4.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/call.h>
+#include <lambda_p/expression.h>
 #include <lambda_p/routine.h>
-#include <lambda_p/set.h>
 
 #include <boost/bind.hpp>
 

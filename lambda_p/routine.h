@@ -5,13 +5,13 @@
 namespace lambda_p
 {
 	class node;
-	class set;
+	class expression;
 	class routine
 	{
 	public:
 		routine ();
-		boost::shared_ptr <lambda_p::set> parameters;
-		boost::shared_ptr <lambda_p::set> body;
+		boost::shared_ptr <lambda_p::expression> parameters;
+		boost::shared_ptr <lambda_p::expression> body;
 	};
 }
 
