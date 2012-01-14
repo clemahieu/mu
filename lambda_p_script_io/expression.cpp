@@ -16,7 +16,15 @@ lambda_p_script_io::expression::expression (std::map <boost::shared_ptr <lambda_
 	(*node_a) (this);
 }
 
-void lambda_p_script_io::expression::operator () (lambda_p::expression * expression_a)
+void lambda_p_script_io::expression::operator () (lambda_p::set * set_a)
+{
+	auto value (boost::static_pointer_cast <lambda_p::expression> (node));
+	auto existing (reservations.find (value));
+	assert (existing != reservations.end ());
+	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::expression> (new lambda_p_script::expression (existing->second)));
+}
+
+void lambda_p_script_io::expression::operator () (lambda_p::call * call_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::expression> (node));
 	auto existing (reservations.find (value));
