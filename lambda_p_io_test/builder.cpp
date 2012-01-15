@@ -5,6 +5,8 @@
 #include <lambda_p/routine.h>
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
+#include <lambda_p/set.h>
+#include <lambda_p/call.h>
 
 #include <boost/bind.hpp>
 
@@ -23,6 +25,10 @@ void lambda_p_io_test::builder::run_1 ()
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
+	auto routine (builder.routines [0]);
+	assert (routine->body->dependencies.size () == 1);
+	assert (routine->body->dependencies [0] == routine->parameters);
+	assert (routine->parameters->dependencies.size () == 0);
 }
 
 void lambda_p_io_test::builder::run_2 ()
@@ -37,42 +43,37 @@ void lambda_p_io_test::builder::run_2 ()
 
 void lambda_p_io_test::builder::run_3 ()
 {
-	//lambda_p_io::builder builder;
-	//lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	//source (L"[[:~; a b c d] a b [b c d] d]");
-	//assert (builder.errors->errors.empty ());
-	//assert (builder.routines.size () == 1);
-	//auto routine (builder.routines [0]);
-	//assert (routine->body->dependencies.size () == 5);
-	//auto d11 (boost::dynamic_pointer_cast <lambda_p::call> (routine->body->dependencies [0]));
-	//assert (d11.get () != nullptr);
-	//auto d12 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [1]));
-	//assert (d12.get () != nullptr);
-	//auto d13 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [2]));
-	//assert (d13.get () != nullptr);
-	//auto d14 (boost::dynamic_pointer_cast <lambda_p::call> (routine->body->dependencies [3]));
-	//assert (d14.get () != nullptr);
-	//auto d15 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [4]));
-	//assert (d15.get () != nullptr);
-	//assert (d11->dependencies.size () == 1);
-	//assert (d11->dependencies [0] == routine->parameters);
-	//assert (d12->set == d11);
-	//assert (d12->index == 0);
-	//assert (d13->set == d11);
-	//assert (d13->index == 1);
-	//assert (d14->dependencies.size () == 3);
-	//auto d141 (boost::dynamic_pointer_cast <lambda_p::reference> (d14->dependencies [0]));
-	//assert (d141.get () != nullptr);
-	//auto d142 (boost::dynamic_pointer_cast <lambda_p::reference> (d14->dependencies [1]));
-	//assert (d142.get () != nullptr);
-	//auto d143 (boost::dynamic_pointer_cast <lambda_p::reference> (d14->dependencies [2]));
-	//assert (d143.get () != nullptr);
-	//assert (d141->set == d11);
-	//assert (d141->index == 1);
-	//assert (d142->set == d11);
-	//assert (d142->index == 2);
-	//assert (d143->set == d11);
-	//assert (d143->index == 3);
-	//assert (d15->set == d11);
-	//assert (d15->index == 3);
+	lambda_p_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[[:~; a b c] a [a b c] c]");
+	assert (builder.errors->errors.empty ());
+	assert (builder.routines.size () == 1);
+	auto routine (builder.routines [0]);
+	assert (routine->body->dependencies.size () == 3);
+	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [0]));
+	assert (d1.get () != nullptr);
+	auto d2 (boost::dynamic_pointer_cast <lambda_p::call> (routine->body->dependencies [1]));
+	assert (d2.get () != nullptr);
+	auto d3 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [2]));
+	assert (d3.get () != nullptr);
+	auto d11 (boost::dynamic_pointer_cast <lambda_p::set> (d1->expression));
+	assert (d11.get () != nullptr);
+	assert (d1->index == 0);
+	assert (d11->dependencies.size () == 1);
+	assert (d11->dependencies [0] == routine->parameters);
+	assert (d2->dependencies.size () == 3);
+	auto d21 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [0]));
+	assert (d21.get () != nullptr);
+	assert (d21->expression == d11);
+	assert (d21->index == 0);
+	auto d22 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [1]));
+	assert (d22.get () != nullptr);
+	assert (d22->expression == d11);
+	assert (d22->index == 1);
+	auto d23 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [2]));
+	assert (d23.get () != nullptr);
+	assert (d23->expression == d11);
+	assert (d23->index == 2);
+	assert (d3->expression == d11);
+	assert (d3->index == 2);
 }

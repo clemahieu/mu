@@ -33,6 +33,8 @@ void lambda_p_script_io_test::builder::run_1 ()
 	source (L"[:~]");
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
+	auto routine (builder.routines [0]);
+
 }
 
 void lambda_p_script_io_test::builder::run_2 ()
@@ -49,8 +51,9 @@ void lambda_p_script_io_test::builder::run_2 ()
 	arguments.push_back (n2);
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
-	assert (results.size () == 1);
-	assert (results [0] == n2);
+	assert (results.size () == 2);
+	assert (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]).get () != nullptr);
+	assert (results [1] == n2);
 }
 
 void lambda_p_script_io_test::builder::run_3 ()
@@ -65,7 +68,8 @@ void lambda_p_script_io_test::builder::run_3 ()
 	arguments.push_back (n1);
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
-	assert (results.size () == 0);
+	assert (results.size () == 1);
+	assert (results [0] == n1);
 }
 
 void lambda_p_script_io_test::builder::run_4 ()
@@ -77,7 +81,8 @@ void lambda_p_script_io_test::builder::run_4 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
-	assert (!builder.errors->errors.empty ());
+	assert (builder.errors->errors.empty ());
+	assert (results.size () == 0);
 }
 
 void lambda_p_script_io_test::builder::run_5 ()
@@ -94,8 +99,10 @@ void lambda_p_script_io_test::builder::run_5 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
-	assert (results.size () == 1);
-	auto number (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [0]));
+	assert (results.size () == 2);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]));
+	assert (parameters.get () != nullptr);
+	auto number (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [1]));
 	assert (number.get () != nullptr);
 	assert (number->value == 4);
 }
@@ -114,8 +121,10 @@ void lambda_p_script_io_test::builder::run_6 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
-	assert (results.size () == 1);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [0]));
+	assert (results.size () == 2);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]));
+	assert (parameters.get () != nullptr);
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [1]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"testing"));
 }
@@ -134,8 +143,10 @@ void lambda_p_script_io_test::builder::run_7 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
-	assert (results.size () == 1);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [0]));
+	assert (results.size () == 2);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]));
+	assert (parameters.get () != nullptr);
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [1]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"string with spaces"));
 }
@@ -152,7 +163,7 @@ void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] .id a [a b c] c]");
+	source (L"[[:~; a b c] a [a b c] c]");
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);

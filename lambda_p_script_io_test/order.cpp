@@ -3,6 +3,7 @@
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/routine.h>
 #include <lambda_p/set.h>
+#include <lambda_p/reference.h>
 #include <lambda_p_script_io/order.h>
 
 #include <boost/shared_ptr.hpp>
@@ -11,6 +12,7 @@ void lambda_p_script_io_test::order::run ()
 {
 	run_1 ();
 	run_2 ();
+	run_3 ();
 }
 
 void lambda_p_script_io_test::order::run_1 ()
@@ -23,9 +25,13 @@ void lambda_p_script_io_test::order::run_1 ()
 	parameters->dependencies.push_back (routine->parameters);
 	lambda_p_script_io::order order (routine->body);
 	auto i (order.expressions.begin ());
+	assert (*i == routine->parameters);
+	++i;
 	assert (*i == parameters);
 	++i;
 	assert (*i == root);
+	++i;
+	assert (i == order.expressions.end ());
 }
 
 void lambda_p_script_io_test::order::run_2 ()
@@ -41,9 +47,29 @@ void lambda_p_script_io_test::order::run_2 ()
 	c2->dependencies.push_back (c1);
 	lambda_p_script_io::order order (routine->body);
 	auto i (order.expressions.begin ());
+	assert (*i == routine->parameters);
+	++i;
 	assert (*i == c1);
 	++i;
 	assert (*i == c2);
 	++i;
 	assert (*i == root);
+	++i;
+	assert (i == order.expressions.end ());
+}
+
+void lambda_p_script_io_test::order::run_3 ()
+{
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
+	auto root (boost::shared_ptr <lambda_p::set> (new lambda_p::set));
+	routine->body = root;
+	auto r1 (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (routine->parameters, 0)));
+	root->dependencies.push_back (r1);
+	lambda_p_script_io::order order (routine->body);
+	auto i (order.expressions.begin ());
+	assert (*i == routine->parameters);
+	++i;
+	assert (*i == root);
+	++i;
+	assert (i == order.expressions.end ());
 }

@@ -2,6 +2,7 @@
 
 #include <lambda_p/set.h>
 #include <lambda_p/call.h>
+#include <lambda_p/reference.h>
 
 lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::expression> call_a)
 {
@@ -37,7 +38,8 @@ void lambda_p_script_io::order::operator () (lambda_p::call * call_a)
 
 void lambda_p_script_io::order::operator () (lambda_p::reference * reference_a)
 {
-
+	auto reference_l (boost::static_pointer_cast <lambda_p::reference> (current));
+	(*this) (reference_l->expression);
 }
 
 void lambda_p_script_io::order::operator () (lambda_p::node * node_a)
