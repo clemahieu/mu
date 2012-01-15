@@ -2,16 +2,21 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p_kernel
+#include <map>
+
+namespace lambda_p_io
 {
-	class package;
+	namespace analyzer
+	{
+		class extension;
+	}
 }
 namespace lambda_p_repl
 {
 	class api
 	{
 	public:
-		boost::shared_ptr <lambda_p_kernel::package> operator () ();
+		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> operator () ();
 	};
 }
 

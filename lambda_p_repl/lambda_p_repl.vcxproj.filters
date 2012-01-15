@@ -2,30 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="repl.cpp" />
-    <ClCompile Include="repl_quit_binder.cpp" />
-    <ClCompile Include="entry_input.cpp" />
-    <ClCompile Include="data_stream.cpp" />
-    <ClCompile Include="routine_builder_binder.cpp" />
-    <ClCompile Include="data_stream_binder.cpp" />
-    <ClCompile Include="file_stream_binder.cpp" />
     <ClCompile Include="file_stream.cpp" />
-    <ClCompile Include="exec_binder.cpp" />
     <ClCompile Include="api.cpp" />
-    <ClCompile Include="overlayed_functions.cpp" />
-    <ClCompile Include="builder.cpp" />
+    <ClCompile Include="quit\operation.cpp">
+      <Filter>quit</Filter>
+    </ClCompile>
+    <ClCompile Include="data_stream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
-    <ClInclude Include="repl_quit_binder.h" />
-    <ClInclude Include="entry_input.h" />
-    <ClInclude Include="data_stream.h" />
-    <ClInclude Include="routine_builder_binder.h" />
-    <ClInclude Include="data_stream_binder.h" />
-    <ClInclude Include="file_stream_binder.h" />
     <ClInclude Include="file_stream.h" />
-    <ClInclude Include="exec_binder.h" />
     <ClInclude Include="api.h" />
-    <ClInclude Include="overlayed_functions.h" />
-    <ClInclude Include="builder.h" />
+    <ClInclude Include="quit\operation.h">
+      <Filter>quit</Filter>
+    </ClInclude>
+    <ClInclude Include="data_stream.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="quit">
+      <UniqueIdentifier>{0fa27fe6-3e5f-4017-b0dc-0a42cbc64083}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
