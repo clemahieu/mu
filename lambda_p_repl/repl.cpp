@@ -5,13 +5,14 @@
 #include <sstream>
 
 #include <boost/bind.hpp>
-#include <lambda_p_repl/api.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p/errors/error.h>
 #include <lambda_p_repl/cli_stream.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_io/source.h>
 #include <lambda_p_script/routine.h>
+#include <lambda_p_io/lexer/error.h>
+#include <lambda_p_io/parser/error.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false)
@@ -48,12 +49,13 @@ void lambda_p_repl::repl::stop ()
 
 void lambda_p_repl::repl::iteration ()
 {
+	std::wcout << L"lp> ";
 	boost::shared_ptr <lambda_p_io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
-	lambda_p_repl::api api;
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (stream);
-	if (builder.errors->errors.empty ())
+	source ();
+	if (builder.errors->errors.empty () && ! builder.lexer.error () && !builder.parser.error ())
 	{
 		bool stop (false);
 		for (auto i (builder.routines.begin ()), j (builder.routines.end ()); i != j && !stop; ++i)
@@ -67,14 +69,26 @@ void lambda_p_repl::repl::iteration ()
 			{
 				stop = true;
 				(*k)->string (std::wcout);
+				std::wcout << L"\n";
 			}
 		}
 	}
 	else
 	{
+		if (builder.lexer.error ())
+		{
+			std::wcout << boost::static_pointer_cast <lambda_p_io::lexer::error> (builder.lexer.state.top ())->message;
+			std::wcout << L"\n";
+		}
+		if (builder.parser.error ())
+		{
+			std::wcout << boost::static_pointer_cast <lambda_p_io::parser::error> (builder.parser.state.top ())->message;
+			std::wcout << L"\n";
+		}
 		for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 		{
 			(*i)->string (std::wcout);
+			std::wcout << L"\n";
 		}
 	}
 }

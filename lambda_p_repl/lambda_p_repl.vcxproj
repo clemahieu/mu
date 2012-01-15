@@ -138,7 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="api.cpp" />
     <ClCompile Include="cli_stream.cpp" />
     <ClCompile Include="data_stream.cpp" />
     <ClCompile Include="file_stream.cpp" />
@@ -146,7 +145,6 @@
     <ClCompile Include="repl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="api.h" />
     <ClInclude Include="cli_stream.h" />
     <ClInclude Include="data_stream.h" />
     <ClInclude Include="file_stream.h" />

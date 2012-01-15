@@ -137,6 +137,7 @@
     <ClCompile Include="analyzer\global.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="lambda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -258,5 +259,6 @@
     <ClInclude Include="analyzer\global.h">
       <Filter>analyzer</Filter>
     </ClInclude>
+    <ClInclude Include="lambda.h" />
   </ItemGroup>
 </Project>

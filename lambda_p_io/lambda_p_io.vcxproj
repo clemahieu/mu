@@ -143,6 +143,7 @@
     <ClCompile Include="ast\parameters.cpp" />
     <ClCompile Include="ast\visitor.cpp" />
     <ClCompile Include="builder.cpp" />
+    <ClCompile Include="lambda.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="lexer\complex_identifier.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="ast\parameters.h" />
     <ClInclude Include="ast\visitor.h" />
     <ClInclude Include="builder.h" />
+    <ClInclude Include="lambda.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="lexer\complex_identifier.h" />

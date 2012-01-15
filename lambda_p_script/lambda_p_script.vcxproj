@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bool_c\create.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\create.cpp" />
     <ClCompile Include="data\extension.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="unit\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bool_c\create.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\create.h" />
     <ClInclude Include="data\extension.h" />

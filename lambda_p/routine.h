@@ -1,11 +1,13 @@
 #pragma once
 
+#include <lambda_p/node.h>
+
 #include <boost/shared_ptr.hpp>
 
 namespace lambda_p
 {
 	class set;
-	class routine
+	class routine : public lambda_p::node
 	{
 	public:
 		routine ();

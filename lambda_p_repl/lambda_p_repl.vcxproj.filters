@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="repl.cpp" />
     <ClCompile Include="file_stream.cpp" />
-    <ClCompile Include="api.cpp" />
     <ClCompile Include="quit\operation.cpp">
       <Filter>quit</Filter>
     </ClCompile>
@@ -13,7 +12,6 @@
   <ItemGroup>
     <ClInclude Include="repl.h" />
     <ClInclude Include="file_stream.h" />
-    <ClInclude Include="api.h" />
     <ClInclude Include="quit\operation.h">
       <Filter>quit</Filter>
     </ClInclude>

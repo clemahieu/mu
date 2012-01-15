@@ -73,6 +73,9 @@
     <ClCompile Include="unit\operation.cpp">
       <Filter>unit</Filter>
     </ClCompile>
+    <ClCompile Include="bool_c\create.cpp">
+      <Filter>bool_c</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -147,6 +150,9 @@
     <ClInclude Include="segment.h" />
     <ClInclude Include="unit\operation.h">
       <Filter>unit</Filter>
+    </ClInclude>
+    <ClInclude Include="bool_c\create.h">
+      <Filter>bool_c</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
