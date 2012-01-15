@@ -14,5 +14,5 @@ void lambda_p_repl_test::file_stream_test::run_1 ()
 	auto path (boost::filesystem::initial_path () /= L"junkfile0239840289374");
 	lambda_p_repl::file_stream stream (path.wstring ());
 	wchar_t val (stream ());
-	assert (val == ~0);
+	assert (val == L'\uffff');
 }

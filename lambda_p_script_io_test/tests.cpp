@@ -5,6 +5,7 @@
 #include <lambda_p_script_io_test/call.h>
 #include <lambda_p_script_io_test/generator.h>
 #include <lambda_p_script_io_test/builder.h>
+#include <lambda_p_script_io_test/lambda.h>
 
 void lambda_p_script_io_test::tests::run ()
 {
@@ -26,6 +27,10 @@ void lambda_p_script_io_test::tests::run ()
 	}
 	{
 		builder test;
+		test.run ();
+	}
+	{
+		lambda test;
 		test.run ();
 	}
 }

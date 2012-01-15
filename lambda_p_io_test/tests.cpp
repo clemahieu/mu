@@ -8,6 +8,7 @@
 #include <lambda_p_io_test/analyzer.h>
 #include <lambda_p_io_test/extension.h>
 #include <lambda_p_io_test/builder.h>
+#include <lambda_p_io_test/lambda.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -41,6 +42,10 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		builder test;
+		test.run ();
+	}
+	{
+		lambda test;
 		test.run ();
 	}
 }

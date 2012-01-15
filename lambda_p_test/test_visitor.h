@@ -12,10 +12,12 @@ namespace lambda_p_test
 		void operator () (lambda_p::set * set_a) override;
 		void operator () (lambda_p::call * call_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
+		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		std::vector <lambda_p::set *> sets;
 		std::vector <lambda_p::call *> calls;
 		std::vector <lambda_p::reference *> references;
+		std::vector <lambda_p::routine *> routines;
 		std::vector <lambda_p::node *> nodes;
 	};
 }

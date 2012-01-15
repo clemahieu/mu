@@ -47,3 +47,8 @@ void lambda_p_script_io::order::operator () (lambda_p::node * node_a)
 {
 
 }
+
+void lambda_p_script_io::order::operator () (lambda_p::routine * routine_a)
+{
+
+}

@@ -14,6 +14,7 @@ namespace lambda_p
 namespace lambda_p_script
 {
 	class call;
+	class routine;
 }
 namespace lambda_p_script_io
 {
@@ -25,7 +26,9 @@ namespace lambda_p_script_io
 		void operator () (lambda_p::set * set_a) override;
 		void operator () (lambda_p::call * call_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
+		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
+		void add (boost::shared_ptr <lambda_p_script::routine> routine_a);
 		boost::shared_ptr <lambda_p::node> node;
 		boost::shared_ptr <lambda_p_script::call> call_m;
 		std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations;

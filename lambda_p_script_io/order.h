@@ -23,6 +23,7 @@ namespace lambda_p_script_io
 		void operator () (lambda_p::set * set_a) override;
 		void operator () (lambda_p::call * call_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
+		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		boost::shared_ptr <lambda_p::node> current;
 		std::set <boost::shared_ptr <lambda_p::expression>> already;

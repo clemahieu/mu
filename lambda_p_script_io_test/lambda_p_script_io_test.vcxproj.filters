@@ -8,6 +8,7 @@
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="order.cpp" />
+    <ClCompile Include="lambda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer.h" />
@@ -17,5 +18,6 @@
     <ClInclude Include="generator.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="order.h" />
+    <ClInclude Include="lambda.h" />
   </ItemGroup>
 </Project>

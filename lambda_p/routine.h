@@ -11,6 +11,7 @@ namespace lambda_p
 	{
 	public:
 		routine ();
+		void operator () (lambda_p::visitor * visitor_a) override;
 		boost::shared_ptr <lambda_p::set> parameters;
 		boost::shared_ptr <lambda_p::set> body;
 	};
