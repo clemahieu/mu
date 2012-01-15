@@ -159,6 +159,7 @@
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="times\operation.cpp" />
+    <ClCompile Include="unit\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="closure\apply.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="segment.h" />
     <ClInclude Include="times\operation.h" />
+    <ClInclude Include="unit\operation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

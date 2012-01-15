@@ -70,6 +70,9 @@
     <ClCompile Include="integer\subtract.cpp">
       <Filter>integer</Filter>
     </ClCompile>
+    <ClCompile Include="unit\operation.cpp">
+      <Filter>unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -142,6 +145,9 @@
       <Filter>integer</Filter>
     </ClInclude>
     <ClInclude Include="segment.h" />
+    <ClInclude Include="unit\operation.h">
+      <Filter>unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">
@@ -167,6 +173,9 @@
     </Filter>
     <Filter Include="times">
       <UniqueIdentifier>{f3554a1b-2985-4bc9-97b8-940a09aa3005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="unit">
+      <UniqueIdentifier>{37d4aacc-b772-4c68-9103-c3bcc928981e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
