@@ -8,6 +8,7 @@
       <Filter>quit</Filter>
     </ClCompile>
     <ClCompile Include="data_stream.cpp" />
+    <ClCompile Include="cli_stream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="repl.h" />
@@ -17,6 +18,7 @@
       <Filter>quit</Filter>
     </ClInclude>
     <ClInclude Include="data_stream.h" />
+    <ClInclude Include="cli_stream.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="quit">
