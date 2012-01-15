@@ -4,8 +4,9 @@
 #include <lambda_p/call.h>
 #include <lambda_p/reference.h>
 
-lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::expression> call_a)
+lambda_p_script_io::order::order (boost::shared_ptr <lambda_p::expression> call_a, boost::shared_ptr <lambda_p::expression> parameters)
 {
+	already.insert (parameters);
 	(*this) (call_a);
 }
 

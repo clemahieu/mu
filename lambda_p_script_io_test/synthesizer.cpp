@@ -46,5 +46,5 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 	assert (errors->errors.empty ());
 	assert (results.routines.size () == 1);
 	auto result (results.routines [0]);
-	assert (result->calls.size () == 3);
+	assert (result->calls.size () == 2);
 }
