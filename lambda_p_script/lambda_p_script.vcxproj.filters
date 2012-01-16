@@ -88,6 +88,15 @@
     <ClCompile Include="astring\extension.cpp">
       <Filter>astring</Filter>
     </ClCompile>
+    <ClCompile Include="load\load_file.cpp">
+      <Filter>load</Filter>
+    </ClCompile>
+    <ClCompile Include="load\load_directory.cpp">
+      <Filter>load</Filter>
+    </ClCompile>
+    <ClCompile Include="package\get_recursive.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -178,6 +187,15 @@
     <ClInclude Include="astring\extension.h">
       <Filter>astring</Filter>
     </ClInclude>
+    <ClInclude Include="load\load_file.h">
+      <Filter>load</Filter>
+    </ClInclude>
+    <ClInclude Include="load\load_directory.h">
+      <Filter>load</Filter>
+    </ClInclude>
+    <ClInclude Include="package\get_recursive.h">
+      <Filter>package</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -215,6 +233,9 @@
     </Filter>
     <Filter Include="astring">
       <UniqueIdentifier>{10969149-2edf-4da3-8d49-220c7e5c0e97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="load">
+      <UniqueIdentifier>{1ff824c9-cc97-4fba-b010-e65ea151543f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
