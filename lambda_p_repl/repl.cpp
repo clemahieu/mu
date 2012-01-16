@@ -71,6 +71,15 @@ void lambda_p_repl::repl::iteration ()
 				(*k)->string (std::wcout);
 				std::wcout << L"\n";
 			}
+			if (errors->errors.empty ())
+			{
+				for (auto k (results.begin ()), l (results.end ()); k != l; ++k)
+				{
+					std::wcout << (*k)->debug ();
+					std::wcout << L" ";
+				}
+				std::wcout << L"\n";
+			}
 		}
 	}
 	else

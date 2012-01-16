@@ -11,6 +11,7 @@ namespace lambda_p_script
 		public:
 			node ();
 			node (bool value_a);
+			std::wstring debug () override;
 			bool value;
 		};
 	}

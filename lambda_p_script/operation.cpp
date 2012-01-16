@@ -26,7 +26,7 @@ void lambda_p_script::operation::invalid_type (boost::shared_ptr <lambda_p::erro
 	std::wstringstream message;
 	message << L"In operation: ";
 	message << name ();
-	message << L"Invalid node type at position: ";
+	message << L" invalid node type at position: ";
 	message << position;
 	(*errors_a) (message.str ());
 }

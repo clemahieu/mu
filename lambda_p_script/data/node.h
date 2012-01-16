@@ -12,6 +12,7 @@ namespace lambda_p_script
 		{
 		public:
 			 node (std::wstring string_a);
+			 std::wstring debug () override;
 			 std::wstring string;
 		};
 	}

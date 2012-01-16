@@ -8,7 +8,7 @@ namespace lambda_p_io
 {
 	namespace lexer
 	{
-		class istream_input
+		class istream_input : public lambda_p_io::lexer::character_stream
 		{
 		public:
 			istream_input (std::istream & source_a);

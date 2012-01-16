@@ -76,6 +76,9 @@
     <ClCompile Include="bool_c\create.cpp">
       <Filter>bool_c</Filter>
     </ClCompile>
+    <ClCompile Include="exec\operation.cpp">
+      <Filter>exec</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -154,6 +157,9 @@
     <ClInclude Include="bool_c\create.h">
       <Filter>bool_c</Filter>
     </ClInclude>
+    <ClInclude Include="exec\operation.h">
+      <Filter>exec</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">
@@ -182,6 +188,9 @@
     </Filter>
     <Filter Include="unit">
       <UniqueIdentifier>{37d4aacc-b772-4c68-9103-c3bcc928981e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="exec">
+      <UniqueIdentifier>{e8b979fb-c2fe-4c84-abbe-feea605bb583}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

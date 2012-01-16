@@ -11,6 +11,7 @@ namespace lambda_p_script
 		public:
 			node ();
 			node (unsigned long long value_a);
+			std::wstring debug () override;
 			unsigned long long value;
 		};
 	}

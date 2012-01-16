@@ -134,6 +134,7 @@
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\create.cpp" />
     <ClCompile Include="data\extension.cpp" />
+    <ClCompile Include="exec\operation.cpp" />
     <ClCompile Include="if_c\operation.cpp" />
     <ClCompile Include="integer\extension.cpp" />
     <ClCompile Include="bool_c\node.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\create.h" />
     <ClInclude Include="data\extension.h" />
+    <ClInclude Include="exec\operation.h" />
     <ClInclude Include="if_c\operation.h" />
     <ClInclude Include="integer\extension.h" />
     <ClInclude Include="bool_c\node.h" />
