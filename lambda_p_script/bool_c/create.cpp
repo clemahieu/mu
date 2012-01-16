@@ -1,7 +1,7 @@
 #include "create.h"
 
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_script/data/node.h>
+#include <lambda_p_script/string/node.h>
 #include <lambda_p_script/bool_c/node.h>
 
 #include <sstream>
@@ -22,7 +22,7 @@ lambda_p_script::bool_c::create::create ()
 
 void lambda_p_script::bool_c::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
 		std::wstring lower;

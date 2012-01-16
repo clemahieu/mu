@@ -1,7 +1,7 @@
 #include "operation.h"
 
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_script/data/node.h>
+#include <lambda_p_script/string/node.h>
 #include <lambda_p_io/lexer/istream_input.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_io/source.h>
@@ -16,7 +16,7 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 {
 	if (parameters.size () > 0)
 	{
-		auto name (boost::dynamic_pointer_cast <lambda_p_script::data::node> (parameters [0]));
+		auto name (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 		if (name.get () != nullptr)
 		{		
 			auto path (::boost::filesystem::initial_path ());

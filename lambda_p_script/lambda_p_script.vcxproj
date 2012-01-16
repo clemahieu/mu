@@ -130,16 +130,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="astring\extension.cpp" />
+    <ClCompile Include="astring\node.cpp" />
     <ClCompile Include="bool_c\create.cpp" />
     <ClCompile Include="chain\operation.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\create.cpp" />
-    <ClCompile Include="data\extension.cpp" />
+    <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="exec\operation.cpp" />
     <ClCompile Include="if_c\operation.cpp" />
     <ClCompile Include="integer\extension.cpp" />
     <ClCompile Include="bool_c\node.cpp" />
-    <ClCompile Include="data\node.cpp" />
+    <ClCompile Include="string\node.cpp" />
     <ClCompile Include="fixed.cpp" />
     <ClCompile Include="closure\hole.cpp" />
     <ClCompile Include="integer\node.cpp" />
@@ -165,16 +167,18 @@
     <ClCompile Include="unit\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="astring\extension.h" />
+    <ClInclude Include="astring\node.h" />
     <ClInclude Include="bool_c\create.h" />
     <ClInclude Include="chain\operation.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\create.h" />
-    <ClInclude Include="data\extension.h" />
+    <ClInclude Include="string\extension.h" />
     <ClInclude Include="exec\operation.h" />
     <ClInclude Include="if_c\operation.h" />
     <ClInclude Include="integer\extension.h" />
     <ClInclude Include="bool_c\node.h" />
-    <ClInclude Include="data\node.h" />
+    <ClInclude Include="string\node.h" />
     <ClInclude Include="fixed.h" />
     <ClInclude Include="closure\hole.h" />
     <ClInclude Include="integer\node.h" />

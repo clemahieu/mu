@@ -3,7 +3,7 @@
 #include <boost/bind.hpp>
 
 #include <lambda_p_script/integer/extension.h>
-#include <lambda_p_script/data/extension.h>
+#include <lambda_p_script/string/extension.h>
 #include <lambda_p_io/analyzer/global.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/unit/operation.h>
@@ -51,7 +51,7 @@ std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> la
 	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> result;
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"=>"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::lambda)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::integer::extension)));
-	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::data::extension)));
+	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::string::extension)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L".id"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::analyzer::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation)))));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L".()"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::analyzer::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::unit::operation)))));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"script/bool_c/create"), boost::shared_ptr <lambda_p_io::analyzer::global> (new lambda_p_io::analyzer::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::bool_c::create)))));

@@ -4,7 +4,7 @@
 
 namespace lambda_p_script
 {
-	namespace data
+	namespace astring
 	{
 		class extension : public lambda_p_io::analyzer::extension
 		{
@@ -13,3 +13,4 @@ namespace lambda_p_script
 		};
 	}
 }
+

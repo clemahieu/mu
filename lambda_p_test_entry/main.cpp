@@ -5,15 +5,12 @@
 #include <lambda_p_script_test/tests.h>
 #include <lambda_p_script_io_test/tests.h>
 
-#include <llvm/Target/TargetSelect.h>
-
 #include <iostream>
 
 using namespace lambda_p_test;
 
 int main ()
 {
-    llvm::InitializeNativeTarget ();
 	{
 		lambda_p_test::tests test;
 		test.run ();

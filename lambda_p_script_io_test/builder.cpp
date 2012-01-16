@@ -5,7 +5,7 @@
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/integer/node.h>
-#include <lambda_p_script/data/node.h>
+#include <lambda_p_script/string/node.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/reference.h>
@@ -125,7 +125,7 @@ void lambda_p_script_io_test::builder::run_6 ()
 	assert (results.size () == 2);
 	auto parameters (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]));
 	assert (parameters.get () != nullptr);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [1]));
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::string::node> (results [1]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"testing"));
 }
@@ -147,7 +147,7 @@ void lambda_p_script_io_test::builder::run_7 ()
 	assert (results.size () == 2);
 	auto parameters (boost::dynamic_pointer_cast <lambda_p_script::identity::operation> (results [0]));
 	assert (parameters.get () != nullptr);
-	auto data (boost::dynamic_pointer_cast <lambda_p_script::data::node> (results [1]));
+	auto data (boost::dynamic_pointer_cast <lambda_p_script::string::node> (results [1]));
 	assert (data.get () != nullptr);
 	assert (data->string == std::wstring (L"string with spaces"));
 }

@@ -2,18 +2,17 @@
 
 #include <lambda_p/node.h>
 
-#include <string>
-
 namespace lambda_p_script
 {
-	namespace data
+	namespace astring
 	{
 		class node : public lambda_p::node
 		{
 		public:
-			 node (std::wstring string_a);
-			 std::wstring debug () override;
-			 std::wstring string;
+			node (std::string string_a);
+			std::string string;
+			std::wstring name () override;
+			std::wstring debug () override;
 		};
 	}
 }

@@ -7,11 +7,11 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p/expression.h>
-#include <lambda_p_script/data/node.h>
+#include <lambda_p_script/astring/node.h>
 
 #include <sstream>
 
-void lambda_p_script::data::extension::operator () (lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::astring::extension::operator () (lambda_p_io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -20,15 +20,16 @@ void lambda_p_script::data::extension::operator () (lambda_p_io::analyzer::expre
 		auto data (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [data_position]));
 		if (data.get () != nullptr)
 		{
-			expression_a.self->dependencies.push_back (boost::shared_ptr <lambda_p_script::data::node> (new lambda_p_script::data::node (data->string)));
+			std::string string_l (data->string.begin (), data->string.end ());
+			expression_a.self->dependencies.push_back (boost::shared_ptr <lambda_p_script::astring::node> (new lambda_p_script::astring::node (string_l)));
 		}
 		else
 		{
-			(*expression_a.routine.analyzer.errors) (L"Data extension requires its argument to be an identifier");
+			(*expression_a.routine.analyzer.errors) (L"AString extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*expression_a.routine.analyzer.errors) (L"Data extension requires one argument");
+		(*expression_a.routine.analyzer.errors) (L"AString extension requires one argument");
 	}
 }

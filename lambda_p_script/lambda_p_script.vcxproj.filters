@@ -8,12 +8,6 @@
     <ClCompile Include="node.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="data\extension.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
-    <ClCompile Include="data\node.cpp">
-      <Filter>data</Filter>
-    </ClCompile>
     <ClCompile Include="integer\node.cpp">
       <Filter>integer</Filter>
     </ClCompile>
@@ -82,6 +76,18 @@
     <ClCompile Include="chain\operation.cpp">
       <Filter>chain</Filter>
     </ClCompile>
+    <ClCompile Include="string\node.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="string\extension.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
+    <ClCompile Include="astring\node.cpp">
+      <Filter>astring</Filter>
+    </ClCompile>
+    <ClCompile Include="astring\extension.cpp">
+      <Filter>astring</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -91,12 +97,6 @@
     <ClInclude Include="node.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="data\extension.h">
-      <Filter>data</Filter>
-    </ClInclude>
-    <ClInclude Include="data\node.h">
-      <Filter>data</Filter>
-    </ClInclude>
     <ClInclude Include="integer\node.h">
       <Filter>integer</Filter>
     </ClInclude>
@@ -166,11 +166,20 @@
     <ClInclude Include="chain\operation.h">
       <Filter>chain</Filter>
     </ClInclude>
+    <ClInclude Include="string\node.h">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="string\extension.h">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="astring\node.h">
+      <Filter>astring</Filter>
+    </ClInclude>
+    <ClInclude Include="astring\extension.h">
+      <Filter>astring</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="data">
-      <UniqueIdentifier>{d161275d-a71b-4b87-8d96-c3eea6f6cf71}</UniqueIdentifier>
-    </Filter>
     <Filter Include="integer">
       <UniqueIdentifier>{0ccb1b61-2cf8-4a9b-acf2-7709b18b0057}</UniqueIdentifier>
     </Filter>
@@ -200,6 +209,12 @@
     </Filter>
     <Filter Include="chain">
       <UniqueIdentifier>{75c2b010-1dbb-4d92-b1e6-b51871fbf48f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{d161275d-a71b-4b87-8d96-c3eea6f6cf71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="astring">
+      <UniqueIdentifier>{10969149-2edf-4da3-8d49-220c7e5c0e97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
