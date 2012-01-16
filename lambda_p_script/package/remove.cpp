@@ -25,12 +25,12 @@ void lambda_p_script::package::remove::operator () (boost::shared_ptr <lambda_p:
 		}
 		else
 		{
-			invalid_type (errors_a, 1);
+			invalid_type (errors_a, parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, 0);
+		invalid_type (errors_a, parameters [0], 0);
 	}
 }
 

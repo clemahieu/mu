@@ -24,23 +24,23 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -127,25 +127,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="tests.cpp" />
-    <ClCompile Include="type_inference_test.cpp" />
-    <ClCompile Include="overlay_binder_test.cpp" />
-    <ClCompile Include="link_test.cpp" />
-    <ClCompile Include="jit_test_1.cpp" />
-    <ClCompile Include="generator_test.cpp" />
-    <ClCompile Include="execution_engine_test.cpp" />
-    <ClCompile Include="constant_int_binder_test_1.cpp" />
-    <ClCompile Include="abort_binder_test_1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
-    <ClInclude Include="type_inference_test.h" />
-    <ClInclude Include="overlay_binder_test.h" />
-    <ClInclude Include="link_test.h" />
-    <ClInclude Include="jit_test_1.h" />
-    <ClInclude Include="generator_test.h" />
-    <ClInclude Include="execution_engine_test.h" />
-    <ClInclude Include="constant_int_binder_test_1.h" />
-    <ClInclude Include="abort_binder_test_1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

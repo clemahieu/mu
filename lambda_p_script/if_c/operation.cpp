@@ -26,17 +26,17 @@ void lambda_p_script::if_c::operation::operator () (boost::shared_ptr <lambda_p:
 			}
 			else
 			{
-				invalid_type (errors_a, 2);
+				invalid_type (errors_a, parameters [2], 2);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, 1);
+			invalid_type (errors_a, parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, 0);
+		invalid_type (errors_a, parameters [0], 0);
 	}
 }
 

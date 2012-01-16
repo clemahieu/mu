@@ -21,12 +21,14 @@ bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::error
 	return result;
 }
 
-void lambda_p_script::operation::invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, size_t position)
+void lambda_p_script::operation::invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::node> node_a, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";
 	message << name ();
-	message << L" invalid node type at position: ";
+	message << L" invalid node type:";
+	message << node_a->name ();
+	message << L" at position: ";
 	message << position;
 	(*errors_a) (message.str ());
 }

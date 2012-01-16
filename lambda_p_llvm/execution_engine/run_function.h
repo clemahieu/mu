@@ -1,24 +1,15 @@
 #pragma once
 
 #include <lambda_p_script/operation.h>
+#include <lambda_p_llvm/execution_engine/node.h>
 
-#include <map>
-
-namespace lambda_p_io
+namespace lambda_p_llvm
 {
-	namespace analyzer
+	namespace execution_engine
 	{
-		class extension;
-	}
-}
-namespace lambda_p_script
-{
-	namespace exec
-	{
-		class operation : public lambda_p_script::operation
+		class run_function : public lambda_p_script::operation
 		{
 		public:
-			std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> * extensions;
 			void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 			std::wstring name () override;
 		};

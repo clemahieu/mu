@@ -25,7 +25,7 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 			std::ifstream stream;
 			stream.open (path.string ());
 			auto input (boost::shared_ptr <lambda_p_io::lexer::istream_input> (new lambda_p_io::lexer::istream_input (stream)));
-			lambda_p_script_io::builder builder;
+			lambda_p_script_io::builder builder (*extensions);
 			lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 			source (input);
 			source ();
@@ -55,7 +55,7 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 		}
 		else
 		{
-			invalid_type (errors_a, 0);
+			invalid_type (errors_a, parameters [0], 0);
 		}
 	}
 	else

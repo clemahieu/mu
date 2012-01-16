@@ -1,79 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="alloca_inst_binder.h" />
-    <ClInclude Include="abort_binder.h" />
-    <ClInclude Include="wprintf_function.h" />
-    <ClInclude Include="generation_context.h" />
-    <ClInclude Include="type.h" />
-    <ClInclude Include="context.h" />
-    <ClInclude Include="context_binder.h" />
-    <ClInclude Include="type_binder.h" />
     <ClInclude Include="api.h" />
-    <ClInclude Include="value.h" />
-    <ClInclude Include="constant_int_binder.h" />
-    <ClInclude Include="load_inst_binder.h" />
-    <ClInclude Include="store_inst_binder.h" />
-    <ClInclude Include="argument_binder.h" />
-    <ClInclude Include="generator.h" />
-    <ClInclude Include="struct_binder.h" />
-    <ClInclude Include="abort_function.h" />
-    <ClInclude Include="assemble_binder.h" />
-    <ClInclude Include="module.h" />
-    <ClInclude Include="overlay_binder.h" />
-    <ClInclude Include="execution_engine_binder.h" />
-    <ClInclude Include="execution_engine.h" />
-    <ClInclude Include="module_binder.h" />
-    <ClInclude Include="module_get_function.h" />
-    <ClInclude Include="jit_function.h" />
-    <ClInclude Include="type_inference.h" />
-    <ClInclude Include="generator_value.h" />
-    <ClInclude Include="subtract_binder.h" />
-    <ClInclude Include="eq_binder.h" />
-    <ClInclude Include="wstring_binder.h" />
-    <ClInclude Include="malloc_function.h" />
-    <ClInclude Include="memcpy_function.h" />
-    <ClInclude Include="verify_binder.h" />
-    <ClInclude Include="raw_fd_ostream_binder.h" />
-    <ClInclude Include="raw_fd_ostream.h" />
-    <ClInclude Include="compile.h" />
+    <ClInclude Include="context\node.h">
+      <Filter>context</Filter>
+    </ClInclude>
+    <ClInclude Include="context\create.h">
+      <Filter>context</Filter>
+    </ClInclude>
+    <ClInclude Include="module\node.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="module\assemble.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="module\get_function.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="function\node.h">
+      <Filter>function</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_engine\create_jit.h">
+      <Filter>execution_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_engine\node.h">
+      <Filter>execution_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_engine\run_function.h">
+      <Filter>execution_engine</Filter>
+    </ClInclude>
+    <ClInclude Include="execution_engine\generic_value\node.h">
+      <Filter>execution_engine\generic_value</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="alloca_inst_binder.cpp" />
-    <ClCompile Include="abort_binder.cpp" />
-    <ClCompile Include="wprintf_function.cpp" />
-    <ClCompile Include="generation_context.cpp" />
-    <ClCompile Include="type.cpp" />
-    <ClCompile Include="context.cpp" />
-    <ClCompile Include="context_binder.cpp" />
-    <ClCompile Include="type_binder.cpp" />
     <ClCompile Include="api.cpp" />
-    <ClCompile Include="value.cpp" />
-    <ClCompile Include="constant_int_binder.cpp" />
-    <ClCompile Include="load_inst_binder.cpp" />
-    <ClCompile Include="store_inst_binder.cpp" />
-    <ClCompile Include="argument_binder.cpp" />
-    <ClCompile Include="generator.cpp" />
-    <ClCompile Include="struct_binder.cpp" />
-    <ClCompile Include="abort_function.cpp" />
-    <ClCompile Include="assemble_binder.cpp" />
-    <ClCompile Include="module.cpp" />
-    <ClCompile Include="overlay_binder.cpp" />
-    <ClCompile Include="execution_engine_binder.cpp" />
-    <ClCompile Include="execution_engine.cpp" />
-    <ClCompile Include="module_binder.cpp" />
-    <ClCompile Include="module_get_function.cpp" />
-    <ClCompile Include="jit_function.cpp" />
-    <ClCompile Include="type_inference.cpp" />
-    <ClCompile Include="generator_value.cpp" />
-    <ClCompile Include="subtract_binder.cpp" />
-    <ClCompile Include="eq_binder.cpp" />
-    <ClCompile Include="wstring_binder.cpp" />
-    <ClCompile Include="malloc_function.cpp" />
-    <ClCompile Include="memcpy_function.cpp" />
-    <ClCompile Include="verify_binder.cpp" />
-    <ClCompile Include="raw_fd_ostream_binder.cpp" />
-    <ClCompile Include="raw_fd_ostream.cpp" />
-    <ClCompile Include="compile.cpp" />
+    <ClCompile Include="context\node.cpp">
+      <Filter>context</Filter>
+    </ClCompile>
+    <ClCompile Include="context\create.cpp">
+      <Filter>context</Filter>
+    </ClCompile>
+    <ClCompile Include="module\node.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="module\assemble.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="module\get_function.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="function\node.cpp">
+      <Filter>function</Filter>
+    </ClCompile>
+    <ClCompile Include="execution_engine\create_jit.cpp">
+      <Filter>execution_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="execution_engine\node.cpp">
+      <Filter>execution_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="execution_engine\run_function.cpp">
+      <Filter>execution_engine</Filter>
+    </ClCompile>
+    <ClCompile Include="execution_engine\generic_value\node.cpp">
+      <Filter>execution_engine\generic_value</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="context">
+      <UniqueIdentifier>{75ae2f59-bdcc-434d-96f1-73a1f496c4c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="module">
+      <UniqueIdentifier>{ad811557-3b2a-49ab-b3bc-f884d21887a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function">
+      <UniqueIdentifier>{7e59110d-3157-4a8b-84a2-3820de0609e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="execution_engine">
+      <UniqueIdentifier>{37180ed4-a1eb-4f44-8721-1a291e5a8143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="execution_engine\generic_value">
+      <UniqueIdentifier>{3cbcd04b-6836-45f0-8a7e-3c3970247dcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

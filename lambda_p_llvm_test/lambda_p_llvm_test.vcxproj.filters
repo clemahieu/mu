@@ -1,25 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="abort_binder_test_1.cpp" />
-    <ClCompile Include="constant_int_binder_test_1.cpp" />
-    <ClCompile Include="execution_engine_test.cpp" />
-    <ClCompile Include="generator_test.cpp" />
-    <ClCompile Include="jit_test_1.cpp" />
-    <ClCompile Include="link_test.cpp" />
-    <ClCompile Include="overlay_binder_test.cpp" />
-    <ClCompile Include="type_inference_test.cpp" />
     <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="abort_binder_test_1.h" />
-    <ClInclude Include="constant_int_binder_test_1.h" />
-    <ClInclude Include="execution_engine_test.h" />
-    <ClInclude Include="generator_test.h" />
-    <ClInclude Include="jit_test_1.h" />
-    <ClInclude Include="link_test.h" />
-    <ClInclude Include="overlay_binder_test.h" />
-    <ClInclude Include="type_inference_test.h" />
     <ClInclude Include="tests.h" />
   </ItemGroup>
 </Project>

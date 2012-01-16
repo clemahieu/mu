@@ -14,12 +14,12 @@ void lambda_p_script::bool_c::equal::operator () (boost::shared_ptr <lambda_p::e
 		}
 		else
 		{
-			invalid_type (errors_a, 1);
+			invalid_type (errors_a, parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, 0);
+		invalid_type (errors_a, parameters [0], 0);
 	}
 }
 

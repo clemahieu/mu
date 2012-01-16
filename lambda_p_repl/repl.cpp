@@ -15,6 +15,7 @@
 #include <lambda_p_io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
 #include <lambda_p_io/analyzer/global.h>
+#include <lambda_p_llvm/api.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false)
@@ -54,6 +55,8 @@ void lambda_p_repl::repl::iteration ()
 	std::wcout << L"lp> ";
 	boost::shared_ptr <lambda_p_io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
 	lambda_p_script_io::builder builder;
+	lambda_p_llvm::api api;
+	builder.analyzer.extensions.insert (api.extensions.begin (), api.extensions.end ());
 	auto quit (boost::shared_ptr <lambda_p::node> (new lambda_p_repl::quit::operation (*this)));
 	builder.analyzer.extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::analyzer::global (quit))));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));

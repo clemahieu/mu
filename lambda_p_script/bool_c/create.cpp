@@ -43,7 +43,7 @@ void lambda_p_script::bool_c::create::operator () (boost::shared_ptr <lambda_p::
 	}
 	else
 	{
-		invalid_type (errors_a, 0);
+		invalid_type (errors_a, parameters [0], 0);
 	}
 }
 

@@ -9,6 +9,13 @@
 
 #include <vector>
 
+namespace lambda_p_script
+{
+	namespace exec
+	{
+		class operation;
+	}
+}
 namespace lambda_p_script_io
 {
 	class builder
@@ -16,6 +23,7 @@ namespace lambda_p_script_io
 	public:
 		builder ();
 		builder (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions_a);
+		boost::shared_ptr <lambda_p_script::exec::operation> exec;
 		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions ();
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_script_io::synthesizer synthesizer;
