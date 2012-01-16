@@ -15,6 +15,7 @@ namespace lambda_p_script_io
 	{
 	public:
 		builder ();
+		builder (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions_a);
 		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions ();
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_script_io::synthesizer synthesizer;

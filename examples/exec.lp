@@ -1,0 +1,1 @@
+[[.exec ` examples/functions/times.lp]]

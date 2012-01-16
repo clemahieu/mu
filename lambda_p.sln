@@ -28,29 +28,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_llvm", "lambda_p_l
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}"
 	ProjectSection(SolutionItems) = preProject
-		examples\swap.lp = examples\swap.lp
-		examples\test.lp = examples\test.lp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "repl", "repl", "{847ACC92-CD83-4C5A-8C98-545D71C096D2}"
-	ProjectSection(SolutionItems) = preProject
-		examples\repl\assemble.lp = examples\repl\assemble.lp
-		examples\repl\exec.lp = examples\repl\exec.lp
-		examples\repl\hello.lp = examples\repl\hello.lp
-		examples\repl\hello_execute.lp = examples\repl\hello_execute.lp
-		examples\repl\hello_ll.lp = examples\repl\hello_ll.lp
-		examples\repl\malloc.lp = examples\repl\malloc.lp
-		examples\repl\malloc_builder.lp = examples\repl\malloc_builder.lp
-		examples\repl\quit.lp = examples\repl\quit.lp
-		examples\repl\store_routine.lp = examples\repl\store_routine.lp
-		examples\repl\times.lp = examples\repl\times.lp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{38CE15FF-E093-417C-A737-813620AEA03C}"
-	ProjectSection(SolutionItems) = preProject
-		examples\functions\execute.lp = examples\functions\execute.lp
-		examples\functions\malloc_function.lp = examples\functions\malloc_function.lp
-		examples\functions\times.lp = examples\functions\times.lp
+		examples\exec.lp = examples\exec.lp
+		examples\quit.lp = examples\quit.lp
+		examples\times.lp = examples\times.lp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test_entry", "lambda_p_test_entry\lambda_p_test_entry.vcxproj", "{3B93F5FC-8121-44E1-840C-36571BDA8BF9}"
@@ -200,9 +180,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{847ACC92-CD83-4C5A-8C98-545D71C096D2} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
-		{38CE15FF-E093-417C-A737-813620AEA03C} = {0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}
 	EndGlobalSection
 EndGlobal

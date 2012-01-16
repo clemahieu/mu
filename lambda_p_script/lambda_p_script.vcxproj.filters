@@ -79,6 +79,9 @@
     <ClCompile Include="exec\operation.cpp">
       <Filter>exec</Filter>
     </ClCompile>
+    <ClCompile Include="chain\operation.cpp">
+      <Filter>chain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -160,6 +163,9 @@
     <ClInclude Include="exec\operation.h">
       <Filter>exec</Filter>
     </ClInclude>
+    <ClInclude Include="chain\operation.h">
+      <Filter>chain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">
@@ -191,6 +197,9 @@
     </Filter>
     <Filter Include="exec">
       <UniqueIdentifier>{e8b979fb-c2fe-4c84-abbe-feea605bb583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="chain">
+      <UniqueIdentifier>{75c2b010-1dbb-4d92-b1e6-b51871fbf48f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
