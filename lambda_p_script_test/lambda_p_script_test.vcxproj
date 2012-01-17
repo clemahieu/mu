@@ -133,11 +133,13 @@
     <ClCompile Include="call.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\operation.cpp" />
+    <ClCompile Include="closure\single.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="integer\equal.cpp" />
     <ClCompile Include="package\create.cpp" />
     <ClCompile Include="package\get.cpp" />
+    <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="segment.cpp" />
@@ -148,11 +150,13 @@
     <ClInclude Include="call.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\operation.h" />
+    <ClInclude Include="closure\single.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="integer\equal.h" />
     <ClInclude Include="package\create.h" />
     <ClInclude Include="package\get.h" />
+    <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="segment.h" />

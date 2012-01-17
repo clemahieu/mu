@@ -2,8 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="module\get_package.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
+    <ClInclude Include="module\get_package.h">
+      <Filter>module</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="module">
+      <UniqueIdentifier>{180cf719-a564-4347-adad-a6b4939cad7c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

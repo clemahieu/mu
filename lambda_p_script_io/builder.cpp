@@ -23,6 +23,9 @@
 #include <lambda_p_script/times/operation.h>
 #include <lambda_p_script/exec/operation.h>
 #include <lambda_p_script/astring/extension.h>
+#include <lambda_p_script/package/node.h>
+#include <lambda_p_script/closure/single.h>
+#include <lambda_p_script/package/get_recursive.h>
 
 lambda_p_script_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
@@ -51,6 +54,20 @@ void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p_scrip
 std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> lambda_p_script_io::builder::extensions ()
 {
 	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> result;
+	auto package_root (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
+	auto package_script (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
+	package_root->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"script"), package_script));
+	auto package_package (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
+	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"add"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::add)));
+	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"create"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::create)));
+	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"get"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::get)));
+	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"remove"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::remove)));	
+	package_script->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"package"), package_package));
+	auto package_integer (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
+	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	arguments.push_back (package_root);
+	auto environment (boost::shared_ptr <lambda_p_script::closure::single> (new lambda_p_script::closure::single (arguments, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::package::get_recursive))));
+	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"~"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::analyzer::global (boost::shared_ptr <lambda_p::node> (environment)))));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"=>"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::lambda)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"#"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::integer::extension)));
 	result.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"`"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_script::string::extension)));;

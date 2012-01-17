@@ -136,6 +136,8 @@
     <ClCompile Include="chain\operation.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\create.cpp" />
+    <ClCompile Include="closure\create_single.cpp" />
+    <ClCompile Include="closure\single.cpp" />
     <ClCompile Include="load\load_directory.cpp" />
     <ClCompile Include="load\load_file.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
@@ -176,6 +178,8 @@
     <ClInclude Include="chain\operation.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\create.h" />
+    <ClInclude Include="closure\create_single.h" />
+    <ClInclude Include="closure\single.h" />
     <ClInclude Include="load\load_directory.h" />
     <ClInclude Include="load\load_file.h" />
     <ClInclude Include="package\get_recursive.h" />

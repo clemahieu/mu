@@ -26,6 +26,12 @@
       <Filter>times</Filter>
     </ClCompile>
     <ClCompile Include="segment.cpp" />
+    <ClCompile Include="closure\single.cpp">
+      <Filter>closure</Filter>
+    </ClCompile>
+    <ClCompile Include="package\get_recursive.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -53,6 +59,12 @@
       <Filter>times</Filter>
     </ClInclude>
     <ClInclude Include="segment.h" />
+    <ClInclude Include="closure\single.h">
+      <Filter>closure</Filter>
+    </ClInclude>
+    <ClInclude Include="package\get_recursive.h">
+      <Filter>package</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">

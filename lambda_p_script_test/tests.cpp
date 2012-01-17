@@ -12,6 +12,8 @@
 #include <lambda_p_script_test/package/get.h>
 #include <lambda_p_script_test/closure/apply.h>
 #include <lambda_p_script_test/times/operation.h>
+#include <lambda_p_script_test/closure/single.h>
+#include <lambda_p_script_test/package/get_recursive.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -61,6 +63,14 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		lambda_p_script_test::times::operation test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::closure::single test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::package::get_recursive test;
 		test.run ();
 	}
 }

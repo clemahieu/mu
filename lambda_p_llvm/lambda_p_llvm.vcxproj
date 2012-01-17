@@ -29,6 +29,7 @@
     <ClInclude Include="function\node.h" />
     <ClInclude Include="module\assemble.h" />
     <ClInclude Include="module\get_function.h" />
+    <ClInclude Include="module\get_package.h" />
     <ClInclude Include="module\node.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +43,7 @@
     <ClCompile Include="function\node.cpp" />
     <ClCompile Include="module\assemble.cpp" />
     <ClCompile Include="module\get_function.cpp" />
+    <ClCompile Include="module\get_package.cpp" />
     <ClCompile Include="module\node.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
