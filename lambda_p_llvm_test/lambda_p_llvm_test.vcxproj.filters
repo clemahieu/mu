@@ -8,6 +8,9 @@
     <ClCompile Include="module\add_package.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="linker\link_modules.cpp">
+      <Filter>linker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -17,10 +20,16 @@
     <ClInclude Include="module\add_package.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="linker\link_modules.h">
+      <Filter>linker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
       <UniqueIdentifier>{180cf719-a564-4347-adad-a6b4939cad7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="linker">
+      <UniqueIdentifier>{f7b35197-5f73-4741-be19-e282095e7dcd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

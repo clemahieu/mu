@@ -38,6 +38,9 @@
     <ClInclude Include="module\add_package.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="linker\link_modules.h">
+      <Filter>linker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -77,6 +80,9 @@
     <ClCompile Include="module\add_package.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="linker\link_modules.cpp">
+      <Filter>linker</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -93,6 +99,9 @@
     </Filter>
     <Filter Include="execution_engine\generic_value">
       <UniqueIdentifier>{3cbcd04b-6836-45f0-8a7e-3c3970247dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="linker">
+      <UniqueIdentifier>{f36cfcd0-93d1-41a0-b74b-3569ba804726}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
