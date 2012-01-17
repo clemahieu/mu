@@ -1,7 +1,7 @@
 #include "generator.h"
 
 #include <lambda_p_script/routine.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 #include <lambda_p_script_io/expression.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/identity/operation.h>
@@ -17,11 +17,6 @@ lambda_p_script_io::generator::generator (std::vector <boost::shared_ptr <lambda
 		auto call_l (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (open)));
 		result->calls.push_back (call_l);
 		auto item (*i);
-		auto set (boost::dynamic_pointer_cast <lambda_p::set> (item));
-		if (set.get () != nullptr)
-		{
-			lambda_p_script_io::expression expression (reservations, call_l, boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
-		}
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)
 		{
 			lambda_p_script_io::expression expression (reservations, call_l, *k);

@@ -1,11 +1,11 @@
 #include "routine.h"
 
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 
 #include <lambda_p/visitor.h>
 
 lambda_p::routine::routine ()
-	: parameters (new lambda_p::set)
+	: parameters (new lambda_p::expression)
 {
 }
 

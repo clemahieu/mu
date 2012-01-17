@@ -12,7 +12,7 @@ namespace lambda_p
 	{
 	public:
 		std::vector <boost::shared_ptr <lambda_p::node>> dependencies;
-		void operator () (lambda_p::visitor * visitor_a) = 0;
+		void operator () (lambda_p::visitor * visitor_a) override;
 	};
 }
 

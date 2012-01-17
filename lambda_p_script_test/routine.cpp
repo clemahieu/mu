@@ -54,7 +54,6 @@ void lambda_p_script_test::routine::run_4 ()
 	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
 	lambda_p_script::routine routine;
 	auto call (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (1)));
-	call->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation))));
 	call->arguments.push_back (boost::shared_ptr <lambda_p_script::expression> (new lambda_p_script::expression (0)));
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

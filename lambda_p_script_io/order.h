@@ -20,8 +20,7 @@ namespace lambda_p_script_io
 	public:
 		order (boost::shared_ptr <lambda_p::expression> expression_a, boost::shared_ptr <lambda_p::expression> parameters);
 		void operator () (boost::shared_ptr <lambda_p::expression> expression_a);
-		void operator () (lambda_p::set * set_a) override;
-		void operator () (lambda_p::call * call_a) override;
+		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;

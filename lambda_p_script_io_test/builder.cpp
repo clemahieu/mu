@@ -164,19 +164,17 @@ void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] a [a b c] c]");
+	source (L"[[:~; a b c] .id a [a b c] c]");
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
 	assert (routine->calls.size () == 3);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 1);
-	assert (c1->arguments.size () == 2);
-	auto c11 (boost::dynamic_pointer_cast <lambda_p_script::constant> (c1->arguments [0]));
+	assert (c1->arguments.size () == 1);
+	auto c11 (boost::dynamic_pointer_cast <lambda_p_script::expression> (c1->arguments [0]));
 	assert (c11.get () != nullptr);
-	auto c12 (boost::dynamic_pointer_cast <lambda_p_script::expression> (c1->arguments [1]));
-	assert (c12.get () != nullptr);
-	assert (c12->index == 0);
+	assert (c11->index == 0);
 	auto c2 (routine->calls [1]);
 	assert (c2->results == 2);
 	assert (c2->arguments.size () == 3);

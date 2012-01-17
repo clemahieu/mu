@@ -3,7 +3,7 @@
 #include <lambda_p_io/builder.h>
 #include <lambda_p_io/source.h>
 #include <lambda_p/routine.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 
 #include <boost/bind.hpp>
 

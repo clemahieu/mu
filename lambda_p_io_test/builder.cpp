@@ -5,8 +5,7 @@
 #include <lambda_p/routine.h>
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
-#include <lambda_p/set.h>
-#include <lambda_p/call.h>
+#include <lambda_p/expression.h>
 
 #include <boost/bind.hpp>
 
@@ -52,11 +51,11 @@ void lambda_p_io_test::builder::run_3 ()
 	assert (routine->body->dependencies.size () == 3);
 	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [0]));
 	assert (d1.get () != nullptr);
-	auto d2 (boost::dynamic_pointer_cast <lambda_p::call> (routine->body->dependencies [1]));
+	auto d2 (boost::dynamic_pointer_cast <lambda_p::expression> (routine->body->dependencies [1]));
 	assert (d2.get () != nullptr);
 	auto d3 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [2]));
 	assert (d3.get () != nullptr);
-	auto d11 (boost::dynamic_pointer_cast <lambda_p::set> (d1->expression));
+	auto d11 (boost::dynamic_pointer_cast <lambda_p::expression> (d1->expression));
 	assert (d11.get () != nullptr);
 	assert (d1->index == 0);
 	assert (d11->dependencies.size () == 1);

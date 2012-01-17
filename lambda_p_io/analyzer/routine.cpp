@@ -7,7 +7,7 @@
 #include <lambda_p/routine.h>
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/analyzer/resolver.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 
 #include <sstream>
 
@@ -21,9 +21,9 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		{
 			expression_a->full_name = std::wstring (L"anonymous");
 		}
-		auto set_l (boost::shared_ptr <lambda_p::set> (new lambda_p::set));
-		lambda_p_io::analyzer::expression expression (*this, expression_a, set_l);
-		routine_m->body = set_l;
+		auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+		lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
+		routine_m->body = expression_l;
 		if (unresolved.empty ())
 		{
 			if (!(*analyzer.errors) ())

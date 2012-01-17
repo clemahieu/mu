@@ -3,7 +3,6 @@
 #include <lambda_p_script_io/order.h>
 #include <lambda_p/routine.h>
 #include <lambda_p_script_io/generator.h>
-#include <lambda_p/set.h>
 
 lambda_p_script_io::synthesizer::synthesizer (boost::function <void (boost::shared_ptr <lambda_p_script::routine>)> target_a)
 	: target (target_a)

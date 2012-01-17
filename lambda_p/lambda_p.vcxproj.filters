@@ -42,8 +42,6 @@
     <ClInclude Include="visitor.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="expression.h" />
-    <ClInclude Include="set.h" />
-    <ClInclude Include="call.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -86,8 +84,6 @@
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="expression.cpp" />
-    <ClCompile Include="set.cpp" />
-    <ClCompile Include="call.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

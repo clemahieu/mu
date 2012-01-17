@@ -6,14 +6,14 @@
 
 namespace lambda_p
 {
-	class set;
+	class expression;
 	class routine : public lambda_p::node
 	{
 	public:
 		routine ();
 		void operator () (lambda_p::visitor * visitor_a) override;
-		boost::shared_ptr <lambda_p::set> parameters;
-		boost::shared_ptr <lambda_p::set> body;
+		boost::shared_ptr <lambda_p::expression> parameters;
+		boost::shared_ptr <lambda_p::expression> body;
 	};
 }
 

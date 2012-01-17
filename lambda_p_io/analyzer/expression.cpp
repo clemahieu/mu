@@ -2,8 +2,7 @@
 
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/call.h>
-#include <lambda_p/set.h>
+#include <lambda_p/expression.h>
 #include <lambda_p/routine.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/ast/identifier.h>
@@ -38,16 +37,14 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameter
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)
 {
+	auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	lambda_p_io::analyzer::expression expression (routine, expression_a, expression_l);
 	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
 	{
-		auto call_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::call));
-		lambda_p_io::analyzer::expression expression (routine, expression_a, call_l);
 		self->dependencies.push_back (expression.self);
 	}
 	else
 	{
-		auto set_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::set));
-		lambda_p_io::analyzer::expression::expression (routine, expression_a, set_l);
 		// When naming we don't pass the expression results to the parent
 	}
 }

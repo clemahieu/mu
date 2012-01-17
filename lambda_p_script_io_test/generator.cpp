@@ -1,7 +1,7 @@
 #include "generator.h"
 
 #include <lambda_p_script_io/generator.h>
-#include <lambda_p/call.h>
+#include <lambda_p/expression.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/expression.h>
@@ -16,11 +16,11 @@ void lambda_p_script_io_test::generator::run ()
 void lambda_p_script_io_test::generator::run_1 ()
 {
 	std::vector <boost::shared_ptr <lambda_p::expression>> calls;
-	auto parameters (boost::shared_ptr <lambda_p::call> (new lambda_p::call));
-	auto call1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::call));
+	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto call1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
 	calls.push_back (call1);
 	call1->dependencies.push_back (parameters);
-	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::call));
+	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
 	lambda_p_script_io::generator generator (calls, parameters);
