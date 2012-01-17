@@ -16,8 +16,8 @@
 		}
 	!]; module2]
 	[[llvm/module/create context]; module]
-	[llvm/linker/link_modules module module1]
-	[llvm/linker/link_modules module module2]
+	[[llvm/linker/link_modules module module1];; link1]
+	[[llvm/linker/link_modules module module2];; link2]
 	[[llvm/execution_engine/create_jit module]; engine]
-	[[llvm/module/get_function module `a main]; function]
+	[[llvm/module/get_function module `a main link1 link2]; function]
 ]
