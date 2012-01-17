@@ -23,6 +23,7 @@ void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_
 			package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function));
 			function->setName (llvm::Twine ());
 		}
+		one->module->getFunctionList ().clear ();
 		results.push_back (package);
 	}
 	else
