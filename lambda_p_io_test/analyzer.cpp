@@ -25,6 +25,7 @@ void lambda_p_io_test::analyzer::run ()
 	run_8 ();
 	run_9 ();
 	run_10 ();
+	run_11 ();
 }
 
 //Test empty expression
@@ -218,6 +219,31 @@ void lambda_p_io_test::analyzer::run_10 ()
 	e4->values.push_back (parameters);
 	e4->individual_names.push_back (std::wstring (L"unresolved"));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));	
+	analyzer_l (expression);
+	assert (result.routines.size () == 1);
+	assert (result.errors->errors.empty ());	
+}
+
+// With more than one unresolved identifier, resolve lesser then greater
+void lambda_p_io_test::analyzer::run_11 ()
+{
+	// [[un1 un2] [:~; un1] [:~; un2]]
+	lambda_p_io_test::analyzer_result result;
+	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
+	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	expression->values.push_back (e1);
+	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"un1"))));
+	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"un2"))));
+	auto e2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	expression->values.push_back (e2);
+	e2->values.push_back (parameters);
+	e2->individual_names.push_back (std::wstring (L"un1"));
+	auto e3 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	expression->values.push_back (e3);
+	e3->values.push_back (parameters);
+	e3->individual_names.push_back (std::wstring (L"un2"));
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	

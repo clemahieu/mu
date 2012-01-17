@@ -57,7 +57,7 @@ void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost
 	if (analyzer.extensions.find (identifier) == analyzer.extensions.end ())
 	{
 		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
-		for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j; ++i)
+		for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j && i->first == identifier; ++i)
 		{
 			(*i->second) (node);
 		}

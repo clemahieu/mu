@@ -1,4 +1,5 @@
 [
+	[llvm/execution_engine/run_function engine function]
 	[[llvm/context/create]; context]
 	[[llvm/module/assemble context `a |!|
 		declare i32 @fun ()
@@ -19,5 +20,4 @@
 	[llvm/linker/link_modules module module2]
 	[[llvm/execution_engine/create_jit module]; engine]
 	[[llvm/module/get_function module `a main]; function]
-	[llvm/execution_engine/run_function engine function]
 ]
