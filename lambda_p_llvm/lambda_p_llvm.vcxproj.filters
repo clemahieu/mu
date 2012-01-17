@@ -41,6 +41,9 @@
     <ClInclude Include="linker\link_modules.h">
       <Filter>linker</Filter>
     </ClInclude>
+    <ClInclude Include="module\create.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="linker\link_modules.cpp">
       <Filter>linker</Filter>
+    </ClCompile>
+    <ClCompile Include="module\create.cpp">
+      <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
