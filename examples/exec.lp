@@ -1,1 +1,1 @@
-[[.exec ` examples/functions/times.lp]]
+[.exec ` examples/times.lp]
