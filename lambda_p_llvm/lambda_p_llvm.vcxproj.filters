@@ -35,6 +35,9 @@
     <ClInclude Include="module\get_package.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="module\add_package.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -69,6 +72,9 @@
       <Filter>execution_engine\generic_value</Filter>
     </ClCompile>
     <ClCompile Include="module\get_package.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="module\add_package.cpp">
       <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>

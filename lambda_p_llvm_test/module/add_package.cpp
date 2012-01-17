@@ -1,30 +1,34 @@
-#include "get_package.h"
+#include "add_package.h"
 
-#include <lambda_p_llvm/module/get_package.h>
-#include <lambda_p_llvm/function/node.h>
-#include <lambda_p/errors/error_list.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_script/package/node.h>
+#include <lambda_p_llvm/module/get_package.h>
+#include <lambda_p/errors/error_list.h>
 #include <lambda_p_script/astring/node.h>
+#include <lambda_p_llvm/module/add_package.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
-#include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
 
-void lambda_p_llvm_test::module::get_package::run ()
+#include <boost/shared_ptr.hpp>
+
+void lambda_p_llvm_test::module::add_package::run ()
 {
 	run_1 ();
 }
 
-void lambda_p_llvm_test::module::get_package::run_1 ()
-{
+void lambda_p_llvm_test::module::add_package::run_1 ()
+{	
 	llvm::LLVMContext context;
 	auto module (boost::shared_ptr <lambda_p_llvm::module::node> (new lambda_p_llvm::module::node (new llvm::Module (llvm::StringRef ("test"), context))));	
 	std::vector <llvm::Type *> types;
 	auto function1 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "a"));
+	function1->getBasicBlockList ().push_back (llvm::BasicBlock::Create (context));
+	assert (!function1->isDeclaration ());
 	module->module->getFunctionList ().push_back (function1);
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b"));
+	function2->getBasicBlockList ().push_back (llvm::BasicBlock::Create (context));
+	assert (!function2->isDeclaration ());
 	module->module->getFunctionList ().push_back (function2);
 	lambda_p_llvm::module::get_package get;
 	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
@@ -34,18 +38,22 @@ void lambda_p_llvm_test::module::get_package::run_1 ()
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	get.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
-	assert (results.size () == 1);
-	auto package (boost::dynamic_pointer_cast <lambda_p_script::package::node> (results [0]));
-	assert (package.get () != nullptr);
-	assert (package->items.size () == 2);
-	assert (package->items.find (L"a") != package->items.end ());
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"a")->second));
-	assert (f1.get () != nullptr);
-	assert (f1->function == function1);
-	assert (function1->getNameStr () == std::string ("a.suffix"));
-	assert (package->items.find (L"b") != package->items.end ());
-	auto f2 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"b")->second));
-	assert (f2.get () != nullptr);
-	assert (f2->function == function2);
-	assert (function2->getNameStr () == std::string ("b.suffix"));
+	auto mod1 (boost::shared_ptr <lambda_p_llvm::module::node> (new lambda_p_llvm::module::node (new llvm::Module (llvm::StringRef ("test"), context))));
+	std::vector <boost::shared_ptr <lambda_p::node>> args1;
+	args1.push_back (mod1);
+	args1.push_back (results [0]);
+	std::vector <boost::shared_ptr <lambda_p::node>> res1;
+	lambda_p_llvm::module::add_package add;
+	add.perform (errors, args1, res1);
+	assert (errors->errors.empty ());
+	assert (res1.empty ());
+	assert (mod1->module->getFunctionList ().size () == 2);
+	auto fn1 (mod1->module->getFunction ("a.suffix"));
+	assert (fn1 != nullptr);
+	assert (fn1->getType () == function1->getType ());
+	assert (fn1->isDeclaration ());
+	auto fn2 (mod1->module->getFunction ("b.suffix"));
+	assert (fn2 != nullptr);
+	assert (fn2->getType () == function2->getType ());
+	assert (fn2->isDeclaration ());
 }
