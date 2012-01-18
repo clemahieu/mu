@@ -28,6 +28,7 @@
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_script/package/get_recursive.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
+#include <lambda_p_script/print/operation.h>
 
 lambda_p_script_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
@@ -85,6 +86,7 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/integer/equal"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::equal)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/integer/subtract"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::subtract)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".exec"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p_script::exec::operation> (new lambda_p_script::exec::operation (result))))));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/print/operation"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::print::operation)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/add"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::add)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/create"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::create)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/get"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::get)))));

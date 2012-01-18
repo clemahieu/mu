@@ -103,6 +103,9 @@
     <ClCompile Include="closure\create_single.cpp">
       <Filter>closure</Filter>
     </ClCompile>
+    <ClCompile Include="print\operation.cpp">
+      <Filter>print</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -208,6 +211,9 @@
     <ClInclude Include="closure\create_single.h">
       <Filter>closure</Filter>
     </ClInclude>
+    <ClInclude Include="print\operation.h">
+      <Filter>print</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -248,6 +254,9 @@
     </Filter>
     <Filter Include="load">
       <UniqueIdentifier>{1ff824c9-cc97-4fba-b010-e65ea151543f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="print">
+      <UniqueIdentifier>{212268bc-d870-4f42-a920-4bcfcc302eed}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

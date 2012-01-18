@@ -17,6 +17,7 @@
 #include <lambda_p_io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
+#include <lambda_p_script/print/operation.h>
 
 lambda_p_repl::repl::repl(void)
 	: stop_m (false)
@@ -81,12 +82,9 @@ void lambda_p_repl::repl::iteration ()
 			}
 			if (errors->errors.empty ())
 			{
-				for (auto k (results.begin ()), l (results.end ()); k != l; ++k)
-				{
-					std::wcout << (*k)->debug ();
-					std::wcout << L" ";
-				}
-				std::wcout << L"\n";
+				lambda_p_script::print::operation print;
+				std::vector <boost::shared_ptr <lambda_p::node>> print_results;
+				print.perform (errors, results, print_results);
 			}
 		}
 	}
