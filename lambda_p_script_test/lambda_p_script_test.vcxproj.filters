@@ -32,6 +32,12 @@
     <ClCompile Include="package\get_recursive.cpp">
       <Filter>package</Filter>
     </ClCompile>
+    <ClCompile Include="chain\operation.cpp">
+      <Filter>chain</Filter>
+    </ClCompile>
+    <ClCompile Include="chain\ten_count.cpp">
+      <Filter>chain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -65,6 +71,12 @@
     <ClInclude Include="package\get_recursive.h">
       <Filter>package</Filter>
     </ClInclude>
+    <ClInclude Include="chain\operation.h">
+      <Filter>chain</Filter>
+    </ClInclude>
+    <ClInclude Include="chain\ten_count.h">
+      <Filter>chain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -78,6 +90,9 @@
     </Filter>
     <Filter Include="times">
       <UniqueIdentifier>{aa3601b9-3bca-4a41-b0af-26a8780ec4af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="chain">
+      <UniqueIdentifier>{c6441af1-be9e-45e3-93b5-217bc10c821b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

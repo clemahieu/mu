@@ -131,6 +131,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="call.cpp" />
+    <ClCompile Include="chain\operation.cpp" />
+    <ClCompile Include="chain\ten_count.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\operation.cpp" />
     <ClCompile Include="closure\single.cpp" />
@@ -148,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
+    <ClInclude Include="chain\operation.h" />
+    <ClInclude Include="chain\ten_count.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\operation.h" />
     <ClInclude Include="closure\single.h" />
