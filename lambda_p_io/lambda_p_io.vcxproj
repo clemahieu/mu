@@ -133,8 +133,9 @@
   <ItemGroup>
     <ClCompile Include="analyzer\analyzer.cpp" />
     <ClCompile Include="analyzer\expression.cpp" />
-    <ClCompile Include="analyzer\extension.cpp" />
-    <ClCompile Include="analyzer\global.cpp" />
+    <ClCompile Include="analyzer\extensions\extension.cpp" />
+    <ClCompile Include="analyzer\extensions\global.cpp" />
+    <ClCompile Include="analyzer\globals.cpp" />
     <ClCompile Include="analyzer\resolver.cpp" />
     <ClCompile Include="analyzer\routine.cpp" />
     <ClCompile Include="ast\expression.cpp" />
@@ -143,7 +144,7 @@
     <ClCompile Include="ast\parameters.cpp" />
     <ClCompile Include="ast\visitor.cpp" />
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="lambda.cpp" />
+    <ClCompile Include="analyzer\extensions\lambda.cpp" />
     <ClCompile Include="lexer\begin.cpp" />
     <ClCompile Include="lexer\character_stream.cpp" />
     <ClCompile Include="lexer\complex_identifier.cpp" />
@@ -177,8 +178,9 @@
   <ItemGroup>
     <ClInclude Include="analyzer\analyzer.h" />
     <ClInclude Include="analyzer\expression.h" />
-    <ClInclude Include="analyzer\extension.h" />
-    <ClInclude Include="analyzer\global.h" />
+    <ClInclude Include="analyzer\extensions\extension.h" />
+    <ClInclude Include="analyzer\extensions\global.h" />
+    <ClInclude Include="analyzer\globals.h" />
     <ClInclude Include="analyzer\resolver.h" />
     <ClInclude Include="analyzer\routine.h" />
     <ClInclude Include="ast\expression.h" />
@@ -187,7 +189,7 @@
     <ClInclude Include="ast\parameters.h" />
     <ClInclude Include="ast\visitor.h" />
     <ClInclude Include="builder.h" />
-    <ClInclude Include="lambda.h" />
+    <ClInclude Include="analyzer\extensions\lambda.h" />
     <ClInclude Include="lexer\begin.h" />
     <ClInclude Include="lexer\character_stream.h" />
     <ClInclude Include="lexer\complex_identifier.h" />

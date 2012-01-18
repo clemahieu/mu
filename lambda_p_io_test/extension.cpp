@@ -28,8 +28,8 @@ void lambda_p_io_test::extension::run ()
 void lambda_p_io_test::extension::run_1 ()
 {	
 	lambda_p_io_test::analyzer_result result;
-	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
-	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io_test::extension1);
+	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions;
+	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io_test::extension1);
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
@@ -43,8 +43,8 @@ void lambda_p_io_test::extension::run_1 ()
 void lambda_p_io_test::extension::run_2 ()
 {	
 	lambda_p_io_test::analyzer_result result;
-	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
-	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io_test::extension2);
+	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions;
+	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io_test::extension2);
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
@@ -58,8 +58,8 @@ void lambda_p_io_test::extension::run_2 ()
 void lambda_p_io_test::extension::run_3 ()
 {	
 	lambda_p_io_test::analyzer_result result;
-	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
-	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io_test::extension3);
+	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions;
+	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io_test::extension3);
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
@@ -73,8 +73,8 @@ void lambda_p_io_test::extension::run_3 ()
 void lambda_p_io_test::extension::run_4 ()
 {	
 	lambda_p_io_test::analyzer_result result;
-	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
-	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io_test::extension4);
+	std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions;
+	extensions [std::wstring (L"a")] = boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io_test::extension4);
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));

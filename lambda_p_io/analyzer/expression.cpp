@@ -7,7 +7,7 @@
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/ast/identifier.h>
 #include <lambda_p_io/analyzer/resolver.h>
-#include <lambda_p_io/analyzer/extension.h>
+#include <lambda_p_io/analyzer/extensions/extension.h>
 #include <lambda_p/reference.h>
 
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> self_a)

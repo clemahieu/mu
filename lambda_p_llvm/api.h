@@ -8,7 +8,10 @@ namespace lambda_p_io
 {
 	namespace analyzer
 	{
-		class extension;
+		namespace extensions
+		{
+			class extension;
+		}
 	}
 }
 namespace lambda_p_llvm
@@ -17,7 +20,7 @@ namespace lambda_p_llvm
 	{
 	public:
 		api ();
-		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions;
+		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions;
 	};
 }
 

@@ -22,9 +22,9 @@ namespace lambda_p_script_io
 	{
 	public:
 		builder ();
-		builder (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions_a);
+		builder (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions_a);
 		boost::shared_ptr <lambda_p_script::exec::operation> exec;
-		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>> extensions ();
+		std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions ();
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_script_io::synthesizer synthesizer;
 		lambda_p_io::analyzer::analyzer analyzer;

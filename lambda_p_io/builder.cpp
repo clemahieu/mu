@@ -2,7 +2,7 @@
 
 #include <boost/bind.hpp>
 
-#include <lambda_p_io/lambda.h>
+#include <lambda_p_io/analyzer/extensions/lambda.h>
 
 lambda_p_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
@@ -10,7 +10,7 @@ lambda_p_io::builder::builder ()
 	parser (boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
 	lexer (boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1))
 {
-	analyzer.extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extension>>::value_type (std::wstring (L"=>"), boost::shared_ptr <lambda_p_io::analyzer::extension> (new lambda_p_io::lambda)));
+	analyzer.extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"=>"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::lambda)));
 }
 
 void lambda_p_io::builder::operator () (boost::shared_ptr <lambda_p::routine> routine_a)

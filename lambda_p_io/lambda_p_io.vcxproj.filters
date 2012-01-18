@@ -16,6 +16,9 @@
     <Filter Include="analyzer">
       <UniqueIdentifier>{e887e47c-e469-4e40-aa07-7c5db0e09a41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="analyzer\extensions">
+      <UniqueIdentifier>{c2581f0e-2fe9-437d-b38a-659e97cbb409}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lexer\begin.cpp">
@@ -117,9 +120,6 @@
     <ClCompile Include="analyzer\expression.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\extension.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="source.cpp" />
     <ClCompile Include="parser\full.cpp">
       <Filter>parser</Filter>
@@ -134,10 +134,18 @@
       <Filter>tokens</Filter>
     </ClCompile>
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="analyzer\global.cpp">
+    <ClCompile Include="analyzer\extensions\extension.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\extensions\global.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\extensions\lambda.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\globals.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="lambda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -239,9 +247,6 @@
     <ClInclude Include="analyzer\expression.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\extension.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
     <ClInclude Include="source.h" />
     <ClInclude Include="parser\full.h">
       <Filter>parser</Filter>
@@ -256,9 +261,17 @@
       <Filter>tokens</Filter>
     </ClInclude>
     <ClInclude Include="builder.h" />
-    <ClInclude Include="analyzer\global.h">
+    <ClInclude Include="analyzer\extensions\extension.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\global.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\lambda.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\globals.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="lambda.h" />
   </ItemGroup>
 </Project>

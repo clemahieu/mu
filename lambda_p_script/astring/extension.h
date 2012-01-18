@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p_io/analyzer/extension.h>
+#include <lambda_p_io/analyzer/extensions/extension.h>
 
 namespace lambda_p_script
 {
 	namespace astring
 	{
-		class extension : public lambda_p_io::analyzer::extension
+		class extension : public lambda_p_io::analyzer::extensions::extension
 		{
 		public:
 			void operator () (lambda_p_io::analyzer::expression & expression_a) override;
