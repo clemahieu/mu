@@ -10,8 +10,9 @@
 
 #include <map>
 
-lambda_p_io::parser::parser::parser (boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
-	: target (target_a)
+lambda_p_io::parser::parser::parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
+	: target (target_a),
+	errors (errors_a)
 {
 	reset ();
 }
@@ -30,14 +31,4 @@ void lambda_p_io::parser::parser::reset ()
 	}
 	state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::finished (*this)));
 	state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::begin (*this, target)));
-}
-
-boost::shared_ptr <lambda_p_io::parser::error> lambda_p_io::parser::parser::error ()
-{
-	boost::shared_ptr <lambda_p_io::parser::error> result;
-	if (!state.empty ())
-	{
-		result = boost::dynamic_pointer_cast <lambda_p_io::parser::error> (state.top ());
-	}
-	return result;
 }

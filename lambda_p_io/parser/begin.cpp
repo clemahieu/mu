@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/parameters.h>
+#include <lambda_p/errors/error_target.h>
 
 lambda_p_io::parser::begin::begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
 	: parser (parser_a),
@@ -50,5 +51,6 @@ void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::parameters * 
 void lambda_p_io::parser::begin::unexpected_token (lambda_p_io::tokens::token * token)
 {
     std::wstring message (L"At top level, expecting signature or end of stream");
-    parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error (message)));
+	(*parser.errors) (message);
+    parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

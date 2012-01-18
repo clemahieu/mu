@@ -1,10 +1,5 @@
 #include <lambda_p_io/parser/error.h>
 
-lambda_p_io::parser::error::error (std::wstring message_a)
-	: message (message_a)
-{
-}
-
 void lambda_p_io::parser::error::operator () (lambda_p_io::tokens::divider * token)
 {
 }

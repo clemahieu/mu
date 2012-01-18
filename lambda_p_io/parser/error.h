@@ -11,14 +11,12 @@ namespace lambda_p_io
 		class error : public lambda_p_io::tokens::visitor
 		{
 		public:
-			error (std::wstring message_a);
 			void operator () (lambda_p_io::tokens::divider * token) override;
 			void operator () (lambda_p_io::tokens::identifier * token) override;
 			void operator () (lambda_p_io::tokens::left_square * token) override;
 			void operator () (lambda_p_io::tokens::right_square * token) override;
 			void operator () (lambda_p_io::tokens::stream_end * token) override;
 			void operator () (lambda_p_io::tokens::parameters * token) override;
-			std::wstring message;
 		};
 	}
 }

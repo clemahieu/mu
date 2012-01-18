@@ -34,7 +34,7 @@ lambda_p_script_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
 	synthesizer (boost::bind (&lambda_p_script_io::builder::operator (), this, _1)),
 	analyzer (boost::bind (&lambda_p_script_io::synthesizer::operator (), &synthesizer, _1), errors, extensions ()),
-	parser (boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
+	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1))
 {
 }
@@ -43,7 +43,7 @@ lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::
 	: errors (new lambda_p::errors::error_list),
 	synthesizer (boost::bind (&lambda_p_script_io::builder::operator (), this, _1)),
 	analyzer (boost::bind (&lambda_p_script_io::synthesizer::operator (), &synthesizer, _1), errors, extensions_a),
-	parser (boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
+	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1))
 {
 }

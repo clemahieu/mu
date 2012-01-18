@@ -7,6 +7,13 @@
 #include <vector>
 #include <map>
 
+namespace lambda_p
+{
+	namespace errors
+	{
+		class error_target;
+	}
+}
 namespace lambda_p_io
 {
 	namespace tokens
@@ -27,13 +34,11 @@ namespace lambda_p_io
 		class parser
 		{
 		public:
-			parser (boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
+			parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
 			void operator () (lambda_p_io::tokens::token * token);
 			void reset ();
-			boost::shared_ptr <lambda_p_io::parser::error> error ();
-		private:
+			boost::shared_ptr <lambda_p::errors::error_target> errors;
 			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
-		public:
 			std::stack <boost::shared_ptr <lambda_p_io::tokens::visitor>> state;
 		};
 	}

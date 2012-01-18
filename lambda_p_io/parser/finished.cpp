@@ -16,6 +16,7 @@
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/tokens/parameters.h>
+#include <lambda_p/errors/error_target.h>
 
 lambda_p_io::parser::finished::finished (lambda_p_io::parser::parser & parser_a)
 	: parser (parser_a)
@@ -55,5 +56,6 @@ void lambda_p_io::parser::finished::operator () (lambda_p_io::tokens::parameters
 void lambda_p_io::parser::finished::add_error (lambda_p_io::tokens::token * token)
 {
     std::wstring message (L"Token received after parser is finished");
-	parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error (message)));
+	(*parser.errors) (message);
+	parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/bind.hpp>
 
@@ -25,16 +26,18 @@ void lambda_p_io_test::parser::run ()
 void lambda_p_io_test::parser::run_1 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::stream_end);
 	assert (result.results.empty ());
-	assert (parser.error ().get () == nullptr);
+	assert (errors->errors.empty ());
 }
 
 void lambda_p_io_test::parser::run_2 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::right_square);
 	assert (result.results.size () == 1);
@@ -49,7 +52,8 @@ void lambda_p_io_test::parser::run_2 ()
 void lambda_p_io_test::parser::run_3 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::identifier (std::wstring (L"t1")));
 	parser (new lambda_p_io::tokens::right_square);
@@ -64,7 +68,8 @@ void lambda_p_io_test::parser::run_3 ()
 void lambda_p_io_test::parser::run_4 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::divider);
 	parser (new lambda_p_io::tokens::identifier (std::wstring (L"t1")));
@@ -80,7 +85,8 @@ void lambda_p_io_test::parser::run_4 ()
 void lambda_p_io_test::parser::run_5 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::divider);
 	parser (new lambda_p_io::tokens::divider);
@@ -95,7 +101,8 @@ void lambda_p_io_test::parser::run_5 ()
 void lambda_p_io_test::parser::run_6 ()
 {
 	lambda_p_io_test::parser_result result;
-	lambda_p_io::parser::parser parser (boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::left_square);
 	parser (new lambda_p_io::tokens::right_square);

@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/parser/full.h>
 #include <lambda_p_io/tokens/parameters.h>
+#include <lambda_p/errors/error_target.h>
 
 #include <sstream>
 
@@ -56,5 +57,6 @@ void lambda_p_io::parser::single::unexpected_token (lambda_p_io::tokens::token *
     std::wstringstream message;
 	message << L"Unexpected token while parsing individual names: ";
 	message << token->token_name ();
-    parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error (message.str ())));
+	(*parser.errors) (message.str ());
+    parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }
