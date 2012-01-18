@@ -5,16 +5,18 @@
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_io/analyzer/extensions/extensions.h>
 
 #include <sstream>
 
 lambda_p_io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: target (target_a),
-	errors (errors_a)
+	errors (errors_a),
+	extensions (new lambda_p_io::analyzer::extensions::extensions)
 {
 }
 
-lambda_p_io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>> extensions_a)
+lambda_p_io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <lambda_p::routine>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
 	: target (target_a),
 	errors (errors_a),
 	extensions (extensions_a)

@@ -8,6 +8,7 @@
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p/expression.h>
+#include <lambda_p_io/analyzer/extensions/extensions.h>
 
 #include <sstream>
 
@@ -54,7 +55,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 
 void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p::node> node)
 {
-	if (analyzer.extensions.find (identifier) == analyzer.extensions.end ())
+	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
 		declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
 		for (auto i (unresolved.find (identifier)), j (unresolved.end ()); i != j && i->first == identifier; ++i)

@@ -146,6 +146,9 @@
     <ClCompile Include="analyzer\globals.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\extensions\extensions.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -272,6 +275,9 @@
     </ClInclude>
     <ClInclude Include="analyzer\globals.h">
       <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\extensions.h">
+      <Filter>analyzer\extensions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

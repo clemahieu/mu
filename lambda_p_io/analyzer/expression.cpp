@@ -9,6 +9,7 @@
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/extensions/extension.h>
 #include <lambda_p/reference.h>
+#include <lambda_p_io/analyzer/extensions/extensions.h>
 
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> self_a)
 	: routine (routine_a),
@@ -51,8 +52,8 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expressio
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifier * identifier_a)
 {
-	auto keyword (routine.analyzer.extensions.find (identifier_a->string));
-	if (keyword == routine.analyzer.extensions.end ())
+	auto keyword (routine.analyzer.extensions->extensions_m.find (identifier_a->string));
+	if (keyword == routine.analyzer.extensions->extensions_m.end ())
 	{
 		auto existing (routine.declarations.find (identifier_a->string));
 		if (existing != routine.declarations.end ())
