@@ -28,6 +28,13 @@ void lambda_p_io_test::lexer::run ()
 	run_10 ();
 	run_11 ();
 	run_12 ();
+	run_13 ();
+	run_14 ();
+	run_15 ();
+	run_16 ();
+	run_17 ();
+	run_18 ();
+	run_19 ();
 }
 
 void lambda_p_io_test::lexer::run_1 ()
@@ -211,4 +218,109 @@ void lambda_p_io_test::lexer::run_12 ()
 	assert (t1 != nullptr);
 	auto t2 (dynamic_cast <lambda_p_io::tokens::right_square *> (result.results [1]));
 	assert (t2 != nullptr);
+}
+
+void lambda_p_io_test::lexer::run_13 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":a20");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == std::wstring (L" "));
+}
+
+void lambda_p_io_test::lexer::run_14 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L"thing:a20");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L"thing ");
+}
+
+void lambda_p_io_test::lexer::run_15 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":a20thing");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L" thing");
+}
+
+void lambda_p_io_test::lexer::run_16 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":u00000020");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L" ");
+}
+
+void lambda_p_io_test::lexer::run_17 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L"thing:u00000020");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L"thing ");
+}
+
+void lambda_p_io_test::lexer::run_18 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":u00000020thing");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L" thing");
+}
+
+void lambda_p_io_test::lexer::run_19 ()
+{
+	lambda_p_io_test::lexer_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
+	source (L":a7C:a3A:a3b:a5b:a5d");
+	source ();
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 2);
+	auto t1 (dynamic_cast <lambda_p_io::tokens::identifier *> (result.results [0]));
+	assert (t1 != nullptr);
+	assert (t1->string == L"|:;[]");
 }

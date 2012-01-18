@@ -6,7 +6,8 @@
 #include <lambda_p_io/lexer/singleline_comment.h>
 #include <lambda_p_io/lexer/error.h>
 #include <lambda_p_io/tokens/parameters.h>
-#include <lambda_p_io/lexer/utf_character.h>
+#include <lambda_p_io/lexer/hex_code.h>
+#include <lambda_p_io/lexer/identifier.h>
 
 lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
@@ -31,30 +32,21 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 			lexer.state.pop ();
 			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::singleline_comment (lexer)));
 			break;
-		case L'0':
-		case L'1':
-		case L'2':
-		case L'3':
-		case L'4':
-		case L'5':
-		case L'6':
-		case L'7':
-		case L'8':
-		case L'9':
 		case L'a':
-		case L'A':
-		case L'b':
-		case L'B':
-		case L'c':
-		case L'C':
-		case L'd':
-		case L'D':
-		case L'e':
-		case L'E':
-		case L'f':
-		case L'F':
-			lexer.state.pop ();
-			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::utf_character (lexer)));
+			{
+				lexer.state.pop ();
+				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer)));
+				lexer.state.push (identifier);
+				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::hex_code> (new lambda_p_io::lexer::hex_code (2, *identifier)));
+			}
+			break;
+		case L'u':
+			{
+				lexer.state.pop ();
+				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer)));
+				lexer.state.push (identifier);
+				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::hex_code> (new lambda_p_io::lexer::hex_code (8, *identifier)));
+			}
 			break;
 		default:
 			std::wstring message (L"Unknown token: :");

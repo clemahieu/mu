@@ -149,7 +149,7 @@
     <ClCompile Include="analyzer\extensions\extensions.cpp">
       <Filter>analyzer\extensions</Filter>
     </ClCompile>
-    <ClCompile Include="lexer\utf_character.cpp">
+    <ClCompile Include="lexer\hex_code.cpp">
       <Filter>lexer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -282,7 +282,7 @@
     <ClInclude Include="analyzer\extensions\extensions.h">
       <Filter>analyzer\extensions</Filter>
     </ClInclude>
-    <ClInclude Include="lexer\utf_character.h">
+    <ClInclude Include="lexer\hex_code.h">
       <Filter>lexer</Filter>
     </ClInclude>
   </ItemGroup>
