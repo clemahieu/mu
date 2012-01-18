@@ -6,6 +6,7 @@
 int main ()
 {
 	llvm::InitializeNativeTarget ();
+	llvm::InitializeAllAsmPrinters();
 	lambda_p_repl::repl repl;
 	repl.run ();
 	return 0;

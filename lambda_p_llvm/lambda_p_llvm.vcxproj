@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
+    <ClInclude Include="compile\operation.h" />
     <ClInclude Include="context\create.h" />
     <ClInclude Include="context\node.h" />
     <ClInclude Include="execution_engine\create_jit.h" />
@@ -37,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="compile\operation.cpp" />
     <ClCompile Include="context\create.cpp" />
     <ClCompile Include="context\node.cpp" />
     <ClCompile Include="execution_engine\create_jit.cpp" />

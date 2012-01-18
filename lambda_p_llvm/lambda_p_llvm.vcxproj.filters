@@ -44,6 +44,9 @@
     <ClInclude Include="module\create.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="compile\operation.h">
+      <Filter>compile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -89,6 +92,9 @@
     <ClCompile Include="module\create.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="compile\operation.cpp">
+      <Filter>compile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -108,6 +114,9 @@
     </Filter>
     <Filter Include="linker">
       <UniqueIdentifier>{f36cfcd0-93d1-41a0-b74b-3569ba804726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="compile">
+      <UniqueIdentifier>{b2ed0bdf-bc77-495c-860b-0653d423d813}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
