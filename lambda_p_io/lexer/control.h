@@ -12,7 +12,6 @@ namespace lambda_p_io
 		public:
 			control (lambda_p_io::lexer::lexer & lexer_a);
 			void lex (wchar_t character) override;
-			bool complete;
 			lambda_p_io::lexer::lexer & lexer;
 		};
 	}

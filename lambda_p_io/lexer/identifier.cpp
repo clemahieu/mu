@@ -16,10 +16,10 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 	case L'\t':
 	case L'\n':
 	case L'\f':
+	case L'\0':
+	case L':':
 	case L';':
 	case L'|':
-	case L':':
-	case L'\0':
 	case L'[':
 	case L']':
 	case L'\uffff':
