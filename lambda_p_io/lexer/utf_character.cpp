@@ -1,6 +1,8 @@
 #include "utf_character.h"
 
+#include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/lexer/lexer.h>
+#include <lambda_p_io/lexer/error.h>
 
 lambda_p_io::lexer::utf_character::utf_character (lambda_p_io::lexer::lexer & lexer_a)
 	: lexer (lexer_a),
@@ -38,17 +40,9 @@ void lambda_p_io::lexer::utf_character::lex (wchar_t character)
 		case L'F':
 			process (character);
 			break;
-		case L' ':
-		case L'\t':
-		case L'\n':
-		case L'\f':
-		case L'\0':
-		case L':':
-		case L';':
-		case L'|':
-		case L'[':
-		case L']':
 		default:
+			(*lexer.errors) (L"Invalid UTF-8 character");
+			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 			break;
 	}
 }
@@ -81,8 +75,39 @@ void lambda_p_io::lexer::utf_character::terminate ()
 {
 	if (last_nibble == nibble)
 	{
-
+		wchar_t result;
+		switch (last_nibble)
+		{
+		case 2:
+			result = extract (bytes [0], 0x7f, 0);
+			break;
+		case 4:
+			result = extract (bytes [0], 0x1f, 6) | extract (bytes [1], 0x3f, 0);
+			break;
+		case 6:
+			result = extract (bytes [0], 0xf, 12) | extract (bytes [1], 0x3f, 6) | extract (bytes [2], 0x3f, 0);
+			break;
+		case 8:
+			result = extract (bytes [0], 0x7, 18) | extract (bytes [1], 0x3f, 12) | extract (bytes [2], 0x3f, 6) | extract (bytes [3], 0x3f, 0);
+			break;
+		case 10:
+			result = extract (bytes [0], 0x3, 24) | extract (bytes [1], 0x3f, 18) | extract (bytes [2], 0x3f, 12) | extract (bytes [3], 0x3f, 6) | extract (bytes [4], 0x3f, 0);
+			break;
+		case 12:
+			result = extract (bytes [0], 0x1, 30) | extract (bytes [1], 0x3f, 24) | extract (bytes [2], 0x3f, 18) | extract (bytes [3], 0x3f, 12) | extract (bytes [4], 0x3f, 6) | extract (bytes [5], 0x3f, 0);
+			break;
+		default:
+			assert (false);
+		}
+		lexer.state.pop ();
+		lexer (result);
 	}
+}
+
+unsigned long lambda_p_io::lexer::utf_character::extract (unsigned long value, unsigned long mask, size_t count)
+{
+	auto result ((value & mask) << count);
+	return result;
 }
 
 void lambda_p_io::lexer::utf_character::add_nibble (wchar_t character)

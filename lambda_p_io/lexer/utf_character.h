@@ -16,6 +16,8 @@ namespace lambda_p_io
 			void add_nibble (wchar_t character);
 			void set_size ();
 			void terminate ();
+			void end ();
+			unsigned long extract (unsigned long value, unsigned long mask, size_t count);
 			size_t nibble;
 			unsigned char bytes [6];
 			size_t last_nibble;
