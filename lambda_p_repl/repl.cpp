@@ -64,7 +64,7 @@ void lambda_p_repl::repl::iteration ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (stream);
 	source ();
-	if (builder.errors->errors.empty () && ! builder.lexer.error () && !builder.parser.error ())
+	if (builder.errors->errors.empty () && !builder.parser.error ())
 	{
 		bool stop (false);
 		for (auto i (builder.routines.begin ()), j (builder.routines.end ()); i != j && !stop; ++i)
@@ -90,11 +90,6 @@ void lambda_p_repl::repl::iteration ()
 	}
 	else
 	{
-		if (builder.lexer.error ())
-		{
-			std::wcout << boost::static_pointer_cast <lambda_p_io::lexer::error> (builder.lexer.state.top ())->message;
-			std::wcout << L"\n";
-		}
 		if (builder.parser.error ())
 		{
 			std::wcout << boost::static_pointer_cast <lambda_p_io::parser::error> (builder.parser.state.top ())->message;

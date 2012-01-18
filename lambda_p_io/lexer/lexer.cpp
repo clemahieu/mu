@@ -13,14 +13,11 @@
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p_io::lexer::lexer::lexer (boost::function < void (lambda_p_io::tokens::token *)> target_a)
-	: target (target_a)
+lambda_p_io::lexer::lexer::lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function < void (lambda_p_io::tokens::token *)> target_a)
+	: target (target_a),
+	errors (errors_a)
 {
 	state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::begin (*this)));
-}
-
-lambda_p_io::lexer::lexer::~lexer ()
-{
 }
 
 void lambda_p_io::lexer::lexer::operator () (wchar_t character)
@@ -36,14 +33,4 @@ void lambda_p_io::lexer::lexer::reset ()
 		state.pop ();
 	}
 	state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::begin (*this)));
-}
-
-boost::shared_ptr <lambda_p_io::lexer::error> lambda_p_io::lexer::lexer::error ()
-{
-	boost::shared_ptr <lambda_p_io::lexer::error> result;
-	if (!state.empty ())
-	{
-		result = boost::dynamic_pointer_cast <lambda_p_io::lexer::error> (state.top ());
-	}
-	return result;
 }

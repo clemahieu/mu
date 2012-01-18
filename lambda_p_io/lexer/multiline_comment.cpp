@@ -2,6 +2,7 @@
 
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/lexer/error.h>
+#include <lambda_p/errors/error_target.h>
 
 lambda_p_io::lexer::multiline_comment::multiline_comment (lambda_p_io::lexer::lexer & lexer_a)
 	: have_colon (false),
@@ -44,7 +45,7 @@ void lambda_p_io::lexer::multiline_comment::lex (wchar_t character)
 	}
 	else
 	{
-		std::wstring message (L"End of stream inside multiline comment");
-		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error (message)));
+		(*lexer.errors) (L"End of stream inside multiline comment");
+		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

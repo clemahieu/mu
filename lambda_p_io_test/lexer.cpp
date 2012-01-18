@@ -10,6 +10,7 @@
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/tokens/parameters.h>
+#include <lambda_p/errors/error_list.h>
 
 #include <boost/bind.hpp>
 
@@ -32,7 +33,8 @@ void lambda_p_io_test::lexer::run ()
 void lambda_p_io_test::lexer::run_1 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"");
 	assert (result.results.empty ());
@@ -41,7 +43,8 @@ void lambda_p_io_test::lexer::run_1 ()
 void lambda_p_io_test::lexer::run_2 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"");
 	source ();
@@ -53,7 +56,8 @@ void lambda_p_io_test::lexer::run_2 ()
 void lambda_p_io_test::lexer::run_3 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"a[];");
 	source ();
@@ -76,7 +80,8 @@ void lambda_p_io_test::lexer::run_3 ()
 void lambda_p_io_test::lexer::run_4 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"||");
 	source ();
@@ -92,7 +97,8 @@ void lambda_p_io_test::lexer::run_4 ()
 void lambda_p_io_test::lexer::run_5 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"|a|a");
 	source ();
@@ -108,7 +114,8 @@ void lambda_p_io_test::lexer::run_5 ()
 void lambda_p_io_test::lexer::run_6 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"|a||;[]:a");
 	source ();
@@ -124,7 +131,8 @@ void lambda_p_io_test::lexer::run_6 ()
 void lambda_p_io_test::lexer::run_7 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L"|:a||;[]:a");
 	source ();
@@ -140,7 +148,8 @@ void lambda_p_io_test::lexer::run_7 ()
 void lambda_p_io_test::lexer::run_8 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":- a\nb");
 	source ();
@@ -153,7 +162,8 @@ void lambda_p_io_test::lexer::run_8 ()
 void lambda_p_io_test::lexer::run_9 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":[ a :] b");
 	source ();
@@ -166,7 +176,8 @@ void lambda_p_io_test::lexer::run_9 ()
 void lambda_p_io_test::lexer::run_10 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":[:[ a :]:] b");
 	source ();
@@ -179,7 +190,8 @@ void lambda_p_io_test::lexer::run_10 ()
 void lambda_p_io_test::lexer::run_11 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":~");
 	assert (result.results.size () == 1);
@@ -190,7 +202,8 @@ void lambda_p_io_test::lexer::run_11 ()
 void lambda_p_io_test::lexer::run_12 ()
 {
 	lambda_p_io_test::lexer_result result;
-	lambda_p_io::lexer::lexer lexer (boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::lexer::lexer lexer (errors, boost::bind (&lambda_p_io_test::lexer_result::operator (), &result, _1));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator (), &lexer, _1));
 	source (L":~]");
 	assert (result.results.size () == 2);

@@ -11,9 +11,7 @@ namespace lambda_p_io
 		class error : public lambda_p_io::lexer::state
 		{
 		public:
-			error (std::wstring message_a);
 			void lex (wchar_t character) override;
-			std::wstring message;
 		};
 	}
 }

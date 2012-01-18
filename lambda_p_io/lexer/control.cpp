@@ -1,5 +1,6 @@
 #include <lambda_p_io/lexer/control.h>
 
+#include <lambda_p/errors/error_target.h>
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/lexer/multiline_comment.h>
 #include <lambda_p_io/lexer/singleline_comment.h>
@@ -33,14 +34,15 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		default:
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
-			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error (message)));
+			(*lexer.errors) (message);
+			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 			break;
 		}
 	}
 	else
 	{
 		std::wstring message (L"End of stream when parsing control character");
-		message.push_back (character);
-		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error (message)));
+		(*lexer.errors) (message);
+		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

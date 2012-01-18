@@ -5,6 +5,13 @@
 
 #include <stack>
 
+namespace lambda_p
+{
+	namespace errors
+	{
+		class error_target;
+	}
+}
 namespace lambda_p_io
 {
 	namespace tokens
@@ -30,14 +37,11 @@ namespace lambda_p_io
 			friend class lambda_p_io::lexer::singleline_comment;
 			friend class lambda_p_io::lexer::control;
 		public:
-			lexer (boost::function <void (lambda_p_io::tokens::token *)> target_a);
-			~lexer ();
+			lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (lambda_p_io::tokens::token *)> target_a);
 			void operator () (wchar_t character);
 			void reset ();
-			boost::shared_ptr <lambda_p_io::lexer::error> error ();
-		private:
+			boost::shared_ptr <lambda_p::errors::error_target> errors;
 			boost::function <void (lambda_p_io::tokens::token *)> target;
-		public:
 			std::stack <boost::shared_ptr <lambda_p_io::lexer::state>> state;
 		};
 	}
