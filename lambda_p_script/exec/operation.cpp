@@ -12,6 +12,11 @@
 
 #include <sstream>
 
+lambda_p_script::exec::operation::operation (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
+	: extensions (extensions_a)
+{
+}
+
 void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	if (parameters.size () > 0)

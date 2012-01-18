@@ -23,7 +23,6 @@ namespace lambda_p_script_io
 	public:
 		builder ();
 		builder (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a);
-		boost::shared_ptr <lambda_p_script::exec::operation> exec;
 		boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions ();
 		boost::shared_ptr <lambda_p::errors::error_list> errors;
 		lambda_p_script_io::synthesizer synthesizer;
