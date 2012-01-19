@@ -18,78 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="api.h" />
-    <ClInclude Include="argument\node.h" />
-    <ClInclude Include="basic_block\node.h" />
-    <ClInclude Include="compile\operation.h" />
-    <ClInclude Include="context\create.h" />
-    <ClInclude Include="context\node.h" />
-    <ClInclude Include="execution_engine\create_jit.h" />
-    <ClInclude Include="execution_engine\generic_value\node.h" />
-    <ClInclude Include="execution_engine\node.h" />
-    <ClInclude Include="execution_engine\run_function.h" />
-    <ClInclude Include="function\node.h" />
-    <ClInclude Include="linker\link_modules.h" />
-    <ClInclude Include="module\add_package.h" />
-    <ClInclude Include="module\assemble.h" />
-    <ClInclude Include="module\create.h" />
-    <ClInclude Include="module\get_function.h" />
-    <ClInclude Include="module\get_package.h" />
-    <ClInclude Include="module\node.h" />
-    <ClInclude Include="type\node.h" />
-    <ClInclude Include="type\type_set.h" />
-    <ClInclude Include="value\node.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="api.cpp" />
-    <ClCompile Include="argument\node.cpp" />
-    <ClCompile Include="basic_block\node.cpp" />
-    <ClCompile Include="compile\operation.cpp" />
-    <ClCompile Include="context\create.cpp" />
-    <ClCompile Include="context\node.cpp" />
-    <ClCompile Include="execution_engine\create_jit.cpp" />
-    <ClCompile Include="execution_engine\generic_value\node.cpp" />
-    <ClCompile Include="execution_engine\node.cpp" />
-    <ClCompile Include="execution_engine\run_function.cpp" />
-    <ClCompile Include="function\node.cpp" />
-    <ClCompile Include="linker\link_modules.cpp" />
-    <ClCompile Include="module\add_package.cpp" />
-    <ClCompile Include="module\assemble.cpp" />
-    <ClCompile Include="module\create.cpp" />
-    <ClCompile Include="module\get_function.cpp" />
-    <ClCompile Include="module\get_package.cpp" />
-    <ClCompile Include="module\node.cpp" />
-    <ClCompile Include="type\node.cpp" />
-    <ClCompile Include="type\type_set.cpp" />
-    <ClCompile Include="value\node.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6E7EC1DF-205B-4A75-B3F2-7364E315FABB}</ProjectGuid>
-    <RootNamespace>lambda_p_llvm</RootNamespace>
+    <ProjectGuid>{8A667231-742B-4971-A60B-E0BD26736CE3}</ProjectGuid>
+    <RootNamespace>lambda_p_llvm_io</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -111,11 +65,11 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)</IntDir>
   </PropertyGroup>
@@ -175,6 +129,12 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="synthesizer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="synthesizer.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

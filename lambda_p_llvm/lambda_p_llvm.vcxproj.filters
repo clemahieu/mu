@@ -47,6 +47,21 @@
     <ClInclude Include="compile\operation.h">
       <Filter>compile</Filter>
     </ClInclude>
+    <ClInclude Include="basic_block\node.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
+    <ClInclude Include="type\node.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="value\node.h">
+      <Filter>value</Filter>
+    </ClInclude>
+    <ClInclude Include="type\type_set.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="argument\node.h">
+      <Filter>argument</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -95,6 +110,21 @@
     <ClCompile Include="compile\operation.cpp">
       <Filter>compile</Filter>
     </ClCompile>
+    <ClCompile Include="basic_block\node.cpp">
+      <Filter>basic_block</Filter>
+    </ClCompile>
+    <ClCompile Include="type\node.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="value\node.cpp">
+      <Filter>value</Filter>
+    </ClCompile>
+    <ClCompile Include="type\type_set.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="argument\node.cpp">
+      <Filter>argument</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -117,6 +147,18 @@
     </Filter>
     <Filter Include="compile">
       <UniqueIdentifier>{b2ed0bdf-bc77-495c-860b-0653d423d813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="basic_block">
+      <UniqueIdentifier>{ea643011-a92b-42df-a42a-033608e7ca89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="type">
+      <UniqueIdentifier>{b68bcb2d-05ba-426e-872c-bd39679b68d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="value">
+      <UniqueIdentifier>{a866286d-c3fe-4b20-96bb-b076cab16fc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="argument">
+      <UniqueIdentifier>{a23c64d0-58fd-4386-b345-5d477c89df09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
