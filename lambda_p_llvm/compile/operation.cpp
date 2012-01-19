@@ -60,7 +60,7 @@ void lambda_p_llvm::compile::operation::operator () (boost::shared_ptr <lambda_p
 				if (link)
 				{
 					std::stringstream command;
-					command << "link /NOLOGO /ENTRY:main ";
+					command << "\"c:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\VC\\vcvarsall.bat\" amd64 && link kernel32.lib /NOLOGO /SUBSYSTEM:WINDOWS /ENTRY:_start ";
 					command << obj_name;
 					command << " /OUT:";
 					command << name->string;
