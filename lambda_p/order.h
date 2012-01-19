@@ -12,9 +12,6 @@ namespace lambda_p
 	class reference;
 	class node;
 	class expression;
-}
-namespace lambda_p_script_io
-{
 	class order : public lambda_p::visitor
 	{
 	public:

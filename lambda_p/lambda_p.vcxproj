@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="order.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="errors\error_list.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="visitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="order.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="errors\error_list.cpp" />

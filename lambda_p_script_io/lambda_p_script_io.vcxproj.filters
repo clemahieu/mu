@@ -4,14 +4,12 @@
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="order.cpp" />
     <ClCompile Include="expression.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="generator.h" />
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="builder.h" />
-    <ClInclude Include="order.h" />
     <ClInclude Include="expression.h" />
   </ItemGroup>
   <ItemGroup>
