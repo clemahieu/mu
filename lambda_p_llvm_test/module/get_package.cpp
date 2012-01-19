@@ -41,11 +41,11 @@ void lambda_p_llvm_test::module::get_package::run_1 ()
 	assert (package->items.find (L"a") != package->items.end ());
 	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"a")->second));
 	assert (f1.get () != nullptr);
-	assert (f1->function == function1);
+	assert (f1->function () == function1);
 	assert (function1->getNameStr () == std::string ("a.suffix"));
 	assert (package->items.find (L"b") != package->items.end ());
 	auto f2 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"b")->second));
 	assert (f2.get () != nullptr);
-	assert (f2->function == function2);
+	assert (f2->function () == function2);
 	assert (function2->getNameStr () == std::string ("b.suffix"));
 }

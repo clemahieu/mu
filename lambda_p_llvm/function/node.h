@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <lambda_p_llvm/value/node.h>
 
 namespace llvm
 {
@@ -10,11 +10,12 @@ namespace lambda_p_llvm
 {
 	namespace function
 	{
-		class node : public lambda_p::node
+		class node : public lambda_p_llvm::value::node
 		{
 		public:
-			node (llvm::Function * function_a);
-			llvm::Function * function;
+			node (llvm::Function * function_a, bool multiple_return_a);
+			llvm::Function * function ();
+			bool multiple_return;
 		};
 	}
 }

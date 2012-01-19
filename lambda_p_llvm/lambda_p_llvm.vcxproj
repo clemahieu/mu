@@ -38,7 +38,6 @@
     <ClInclude Include="module\get_package.h" />
     <ClInclude Include="module\node.h" />
     <ClInclude Include="type\node.h" />
-    <ClInclude Include="type\type_set.h" />
     <ClInclude Include="value\node.h" />
   </ItemGroup>
   <ItemGroup>
@@ -61,7 +60,6 @@
     <ClCompile Include="module\get_package.cpp" />
     <ClCompile Include="module\node.cpp" />
     <ClCompile Include="type\node.cpp" />
-    <ClCompile Include="type\type_set.cpp" />
     <ClCompile Include="value\node.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

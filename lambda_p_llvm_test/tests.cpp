@@ -6,12 +6,25 @@
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
+#include <llvm/Function.h>
+#include <llvm/DerivedTypes.h>
 
 void lambda_p_llvm_test::tests::run ()
 {
 	{
 		llvm::LLVMContext context;
 		llvm::Module (llvm::StringRef (), context);
+		assert ("No module name");
+	}
+	{
+		llvm::LLVMContext context;
+		auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage));
+		auto type (function->getType ());
+		auto function_type (function->getFunctionType ());
+		assert (type->isPointerTy ());
+		assert (type->getContainedType (0)->isFunctionTy ());
+		assert (function_type->getReturnType () == llvm::Type::getVoidTy (context));
+		assert (function_type->param_begin () == function_type->param_end ());
 	}
 	{
 		lambda_p_llvm_test::module::get_package test;

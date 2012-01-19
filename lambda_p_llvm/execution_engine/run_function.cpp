@@ -43,7 +43,7 @@ void lambda_p_llvm::execution_engine::run_function::perform (boost::shared_ptr <
 						good = false;
 					}
 				}
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::generic_value::node (one->engine->runFunction (two->function, arguments))));
+				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::generic_value::node (one->engine->runFunction (two->function (), arguments))));
 			}
 			else
 			{

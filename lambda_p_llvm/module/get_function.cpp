@@ -20,7 +20,7 @@ void lambda_p_llvm::module::get_function::operator () (boost::shared_ptr <lambda
 			auto function (one->module->getFunction (llvm::StringRef (two->string)));
 			if (function != nullptr)
 			{
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function)));
+				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, false)));
 			}
 			else
 			{

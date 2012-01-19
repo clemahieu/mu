@@ -23,7 +23,7 @@ void lambda_p_llvm::module::add_package::operator () (boost::shared_ptr <lambda_
 				auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (i->second));
 				if (source.get () != nullptr)
 				{
-					llvm::Function::Create (source->function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, source->function->getName (), one->module);
+					llvm::Function::Create (source->function ()->getFunctionType (), llvm::GlobalValue::ExternalLinkage, source->function ()->getName (), one->module);
 				}
 				else
 				{

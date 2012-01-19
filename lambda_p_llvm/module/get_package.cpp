@@ -24,7 +24,7 @@ void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_
 				llvm::Function * function (i);
 				auto name (i->getNameStr ());
 				std::wstring wname (name.begin (), name.end ());
-				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function));
+				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, false));
 				name.append (two->string);
 				function->setName (name);
 			}

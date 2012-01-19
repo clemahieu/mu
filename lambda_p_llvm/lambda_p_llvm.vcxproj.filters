@@ -56,9 +56,6 @@
     <ClInclude Include="value\node.h">
       <Filter>value</Filter>
     </ClInclude>
-    <ClInclude Include="type\type_set.h">
-      <Filter>type</Filter>
-    </ClInclude>
     <ClInclude Include="argument\node.h">
       <Filter>argument</Filter>
     </ClInclude>
@@ -118,9 +115,6 @@
     </ClCompile>
     <ClCompile Include="value\node.cpp">
       <Filter>value</Filter>
-    </ClCompile>
-    <ClCompile Include="type\type_set.cpp">
-      <Filter>type</Filter>
     </ClCompile>
     <ClCompile Include="argument\node.cpp">
       <Filter>argument</Filter>
