@@ -8,14 +8,14 @@
 
 #include <boost/shared_ptr.hpp>
 
-void lambda_p_script_io_test::order::run ()
+void lambda_p_test::order::run ()
 {
 	run_1 ();
 	run_2 ();
 	run_3 ();
 }
 
-void lambda_p_script_io_test::order::run_1 ()
+void lambda_p_test::order::run_1 ()
 {
 	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
 	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
@@ -32,7 +32,7 @@ void lambda_p_script_io_test::order::run_1 ()
 	assert (i == order.expressions.end ());
 }
 
-void lambda_p_script_io_test::order::run_2 ()
+void lambda_p_test::order::run_2 ()
 {
 	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
 	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
@@ -54,7 +54,7 @@ void lambda_p_script_io_test::order::run_2 ()
 	assert (i == order.expressions.end ());
 }
 
-void lambda_p_script_io_test::order::run_3 ()
+void lambda_p_test::order::run_3 ()
 {
 	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
 	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));

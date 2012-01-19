@@ -119,7 +119,6 @@
     <ClCompile Include="call.cpp" />
     <ClCompile Include="generator.cpp" />
     <ClCompile Include="lambda.cpp" />
-    <ClCompile Include="order.cpp" />
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="synthesizer_results.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -129,7 +128,6 @@
     <ClInclude Include="call.h" />
     <ClInclude Include="generator.h" />
     <ClInclude Include="lambda.h" />
-    <ClInclude Include="order.h" />
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="synthesizer_results.h" />
     <ClInclude Include="tests.h" />
