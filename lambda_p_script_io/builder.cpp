@@ -29,6 +29,7 @@
 #include <lambda_p_script/package/get_recursive.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
+#include <lambda_p_llvm_io/synthesizer.h>
 
 lambda_p_script_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
@@ -92,5 +93,6 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/get"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::get)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/remove"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::remove)))));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/times/operation"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_script::times::operation)))));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm_io/synthesizer"), boost::shared_ptr <lambda_p_io::analyzer::extensions::global> (new lambda_p_io::analyzer::extensions::global (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm_io::synthesizer)))));
 	return result;
 }

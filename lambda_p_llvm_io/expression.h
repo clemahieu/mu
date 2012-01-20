@@ -9,7 +9,9 @@
 
 namespace llvm
 {
+	class Value;
 	class Function;
+	class BasicBlock;
 }
 namespace lambda_p
 {
@@ -29,17 +31,13 @@ namespace lambda_p_llvm
 	{
 		class node;
 	}
-	namespace module
-	{
-		class node;
-	}
 }
 namespace lambda_p_llvm_io
 {
 	class expression : public lambda_p::visitor
 	{
 	public:
-		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a);
+		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a);
 		std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values;
 		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
@@ -48,11 +46,10 @@ namespace lambda_p_llvm_io
 		bool process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
 		void process_value (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
 		boost::shared_ptr <lambda_p::errors::error_target> errors;
-		std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & destination;
-		boost::shared_ptr <lambda_p_llvm::module::node> module;
+		std::vector <llvm::Value *> arguments;
+		llvm::BasicBlock * & block;
 		boost::shared_ptr <lambda_p::node> current;
 		boost::shared_ptr <lambda_p_llvm::function::node> target;
-		size_t argument;
 	};
 }
 

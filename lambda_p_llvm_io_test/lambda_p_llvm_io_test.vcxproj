@@ -130,9 +130,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="synthesizer.h" />
     <ClInclude Include="tests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
