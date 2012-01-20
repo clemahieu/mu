@@ -59,6 +59,9 @@
     <ClInclude Include="argument\node.h">
       <Filter>argument</Filter>
     </ClInclude>
+    <ClInclude Include="module\verify.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="argument\node.cpp">
       <Filter>argument</Filter>
+    </ClCompile>
+    <ClCompile Include="module\verify.cpp">
+      <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

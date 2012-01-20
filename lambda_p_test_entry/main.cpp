@@ -6,12 +6,17 @@
 #include <lambda_p_script_io_test/tests.h>
 #include <lambda_p_llvm_io_test/tests.h>
 
+#include <llvm/ExecutionEngine/JIT.h>
+#include <llvm/Support/TargetSelect.h>
+
 #include <iostream>
 
 using namespace lambda_p_test;
 
 int main ()
 {
+	llvm::InitializeNativeTarget ();
+	llvm::InitializeAllAsmPrinters();
 	{
 		lambda_p_test::tests test;
 		test.run ();

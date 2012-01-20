@@ -37,6 +37,7 @@
     <ClInclude Include="module\get_function.h" />
     <ClInclude Include="module\get_package.h" />
     <ClInclude Include="module\node.h" />
+    <ClInclude Include="module\verify.h" />
     <ClInclude Include="type\node.h" />
     <ClInclude Include="value\node.h" />
   </ItemGroup>
@@ -59,6 +60,7 @@
     <ClCompile Include="module\get_function.cpp" />
     <ClCompile Include="module\get_package.cpp" />
     <ClCompile Include="module\node.cpp" />
+    <ClCompile Include="module\verify.cpp" />
     <ClCompile Include="type\node.cpp" />
     <ClCompile Include="value\node.cpp" />
   </ItemGroup>
