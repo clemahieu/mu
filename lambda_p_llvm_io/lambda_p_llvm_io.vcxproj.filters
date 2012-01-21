@@ -4,10 +4,12 @@
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="dynamic_function.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="dynamic_function.cpp" />
   </ItemGroup>
 </Project>

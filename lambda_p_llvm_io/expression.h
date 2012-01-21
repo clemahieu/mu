@@ -34,6 +34,7 @@ namespace lambda_p_llvm
 }
 namespace lambda_p_llvm_io
 {
+	class dynamic_function;
 	class expression : public lambda_p::visitor
 	{
 	public:
@@ -44,12 +45,12 @@ namespace lambda_p_llvm_io
 		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		bool process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
-		void process_value (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
 		boost::shared_ptr <lambda_p::errors::error_target> errors;
 		std::vector <llvm::Value *> arguments;
 		llvm::BasicBlock * & block;
 		boost::shared_ptr <lambda_p::node> current;
-		boost::shared_ptr <lambda_p_llvm::function::node> target;
+		boost::shared_ptr <lambda_p_llvm::function::node> static_target;
+		boost::shared_ptr <lambda_p_llvm_io::dynamic_function> dynamic_target;
 	};
 }
 

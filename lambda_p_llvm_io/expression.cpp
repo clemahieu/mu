@@ -6,6 +6,7 @@
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm_io/routine.h>
+#include <lambda_p_llvm_io/dynamic_function.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -26,36 +27,68 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 	}
 	if (!(*errors_a) ())
 	{
-		if (target != nullptr)
+		if (static_target.get () != nullptr || dynamic_target.get () != nullptr)
 		{
-			auto function (target->function ());
-			if (arguments.size () == function->getFunctionType ()->getNumParams ())
+			boost::shared_ptr <lambda_p_llvm::function::node> target;
+			if (static_target.get () != nullptr)
 			{
-				std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & destination (values [expression_a]);
-				assert (destination.empty ());
-				auto call (llvm::CallInst::Create (target->function (), arguments));
-				block_a->getInstList ().push_back (call);
-				if (target->multiple_return)
+				target = static_target;
+			}
+			else
+			{
+				target = (*dynamic_target) (*this);
+			}
+			auto function (target->function ());
+			if (!(*errors_a) ())
+			{
+				if (arguments.size () == function->getFunctionType ()->getNumParams ())
 				{
-					auto return_type (llvm::cast <llvm::StructType> (function->getReturnType ()));
-					for (size_t i (0), j (return_type->getNumElements()); i != j; ++i)
+					bool good (true);
+					for (size_t i (0), j (arguments.size ()); i != j && good; ++i)
 					{
-						auto element (llvm::ExtractValueInst::Create (call, i));
-						block_a->getInstList ().push_back (element);
-						destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (element)));
+						if (arguments [i]->getType () != function->getFunctionType ()->getParamType (i))
+						{
+							std::wstringstream message;
+							message << L"Invalid type at position: ";
+							message << i;
+							(*errors_a) (message.str ());
+							good = false;
+						}
+					}
+					if (good)
+					{
+						std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & destination (values [expression_a]);
+						assert (destination.empty ());
+						auto call (llvm::CallInst::Create (function, arguments));
+						block_a->getInstList ().push_back (call);
+						if (target->multiple_return)
+						{
+							auto return_type (llvm::cast <llvm::StructType> (function->getReturnType ()));
+							for (size_t i (0), j (return_type->getNumElements()); i != j; ++i)
+							{
+								auto element (llvm::ExtractValueInst::Create (call, i));
+								block_a->getInstList ().push_back (element);
+								destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (element)));
+							}
+						}
+						else
+						{
+							if (!call->getType ()->isVoidTy ())
+							{
+								destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (call)));
+							}
+						}
 					}
 				}
 				else
 				{
-					if (!call->getType ()->isVoidTy ())
-					{
-						destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (call)));
-					}
+					std::wstringstream message;
+					message << L"Actual number of arguments: ";
+					message << arguments.size ();
+					message << L" doesn't match number of formal parameters: ";
+					message << function->getFunctionType ()->getNumParams ();
+					(*errors_a) (message.str ());
 				}
-			}
-			else
-			{
-				(*errors_a) (L"Not enough arguments");
 			}
 		}
 		else
@@ -76,7 +109,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::expression * expressio
 		auto j (source.end ());
 		for (; i != j && !(*errors) (); ++i)
 		{
-			process_value (*i);
+			arguments.push_back ((*i)->value ());
 		}
 	}
 }
@@ -87,7 +120,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 	auto source (values [value->expression]);
 	if (source.size () > value->index)
 	{
-		process_value (source [value->index]);
+		arguments.push_back (source [value->index]->value ());
 	}
 	else
 	{
@@ -114,7 +147,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 		auto took_target (process_target (value));
 		if (!took_target)
 		{
-			process_value (value);
+			arguments.push_back (value->value ());
 		}
 	}
 	else
@@ -126,43 +159,29 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 	}
 }
 
-void lambda_p_llvm_io::expression::process_value (boost::shared_ptr <lambda_p_llvm::value::node> node_a)
-{
-	assert (target != nullptr);
-	auto function (target->function ());
-	if (arguments.size () < function->getFunctionType ()->getNumParams ())
-	{
-		if (node_a->value ()->getType () == target->function ()->getFunctionType ()->getParamType (arguments.size ()))
-		{
-			arguments.push_back (node_a->value ());
-		}
-		else
-		{
-			std::wstringstream message;
-			message << L"Actual argument type does not match formal parameter type";
-			(*errors) (message.str ());
-		}
-	}
-	else
-	{
-		(*errors) (L"Passing too many arguments");
-	}
-}
-
 bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a)
 {
 	bool result (false);
-	if (target == nullptr)
+	if (static_target.get () == nullptr && dynamic_target.get () == nullptr)
 	{
-		auto function (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (node_a));
-		if (function.get () != nullptr)
+		auto static_function (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (node_a));
+		if (static_function.get () != nullptr)
 		{
 			result = true;
-			target = function;
+			static_target = static_function;
 		}
 		else
 		{
-			(*errors) (L"Target of expression is not a function");
+			auto dynamic_function (boost::dynamic_pointer_cast <lambda_p_llvm_io::dynamic_function> (node_a));
+			if (dynamic_function.get () != nullptr)
+			{
+				result = true;
+				dynamic_target == dynamic_function;
+			}
+			else
+			{
+				(*errors) (L"Target of expression is not a function");
+			}
 		}
 	}
 	return result;

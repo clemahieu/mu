@@ -130,11 +130,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dynamic_function.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="synthesizer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dynamic_function.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="synthesizer.cpp" />
