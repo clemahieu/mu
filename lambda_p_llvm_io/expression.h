@@ -21,7 +21,7 @@ namespace lambda_p
 		class error_target;
 	}
 }
-namespace lambda_p_llvm
+namespace lambda_p_llvm_wrapper
 {
 	namespace value
 	{
@@ -38,18 +38,18 @@ namespace lambda_p_llvm_io
 	class expression : public lambda_p::visitor
 	{
 	public:
-		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a);
-		std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values;
+		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a);
+		std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>>> & values;
 		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
-		bool process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
+		bool process_target (boost::shared_ptr <lambda_p_llvm_wrapper::value::node> node_a);
 		boost::shared_ptr <lambda_p::errors::error_target> errors;
 		std::vector <llvm::Value *> arguments;
 		llvm::BasicBlock * & block;
 		boost::shared_ptr <lambda_p::node> current;
-		boost::shared_ptr <lambda_p_llvm::function::node> static_target;
+		boost::shared_ptr <lambda_p_llvm_wrapper::function::node> static_target;
 		boost::shared_ptr <lambda_p_llvm_io::dynamic_function> dynamic_target;
 	};
 }
