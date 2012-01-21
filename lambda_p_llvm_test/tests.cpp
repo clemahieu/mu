@@ -27,6 +27,9 @@ void lambda_p_llvm_test::tests::run ()
 		assert (function_type->param_begin () == function_type->param_end ());
 	}
 	{
+		llvm::LLVMContext context;
+	}
+	{
 		lambda_p_llvm_test::module::get_package test;
 		test.run ();
 	}

@@ -31,7 +31,7 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 			auto function (target->function ());
 			if (arguments.size () == function->getFunctionType ()->getNumParams ())
 			{
-				auto destination (values [expression_a]);
+				std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & destination (values [expression_a]);
 				assert (destination.empty ());
 				auto call (llvm::CallInst::Create (target->function (), arguments));
 				block_a->getInstList ().push_back (call);
@@ -47,7 +47,10 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 				}
 				else
 				{
-					destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (call)));
+					if (!call->getType ()->isVoidTy ())
+					{
+						destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (call)));
+					}
 				}
 			}
 			else

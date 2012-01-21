@@ -61,13 +61,13 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 			{
 				auto type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), parameters_l, false));
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context));
-				add_function (module_a, blocks, type, false);
+				add_function (module_a, blocks, type, false, values [routine_a->parameters]);
 			}
 			else if (results.size () == 1)
 			{
 				auto type (llvm::FunctionType::get (results [0]->value ()->getType (), parameters_l, false));
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context, results [0]->value ()));
-				add_function (module_a, blocks, type, false);
+				add_function (module_a, blocks, type, false, values [routine_a->parameters]);
 			}
 			else
 			{
@@ -86,15 +86,27 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 					working->getInstList ().push_back (llvm::InsertElementInst::Create (struct_l, (*i)->value (), llvm::ConstantInt::getIntegerValue (llvm::Type::getInt32Ty (context), llvm::APInt (position, 32))));
 				}
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context, struct_l));
-				add_function (module_a, blocks, type, false);
+				add_function (module_a, blocks, type, false, values [routine_a->parameters]);
 			}
 		}
 	}
 }
 
-void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi)
+void lambda_p_llvm_io::routine::add_arguments (std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments, llvm::Function * function)
+{
+	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
+	{
+		auto argument (boost::dynamic_pointer_cast <lambda_p_llvm::argument::node> (*i));
+		assert (argument.get () != nullptr);
+		function->getArgumentList ().push_back (argument->argument ());
+	}
+}
+
+void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments)
 {
 	auto function (llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage));
+	function->getArgumentList ().clear ();
+	add_arguments (arguments, function);
 	for (auto i (blocks.begin ()), j (blocks.end ()); i != j; ++i)
 	{
 		function->getBasicBlockList ().push_back (*i);
