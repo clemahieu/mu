@@ -78,15 +78,18 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 				}
 				auto return_type (llvm::StructType::get (context, return_types, false));
 				auto type (llvm::FunctionType::get (return_type, parameters_l, false));
-				auto struct_l (new llvm::AllocaInst (return_type));
-				working->getInstList ().push_back (struct_l);
 				unsigned int position (0);
+				llvm::Value * struct_l (llvm::UndefValue::get (return_type));
 				for (auto i (results.begin ()), j (results.end ()); i != j; ++i, ++position)
 				{
-					working->getInstList ().push_back (llvm::InsertElementInst::Create (struct_l, (*i)->value (), llvm::ConstantInt::getIntegerValue (llvm::Type::getInt32Ty (context), llvm::APInt (position, 32))));
+					std::vector <unsigned int> indicies;
+					indicies.push_back (position);
+					auto instruction (llvm::InsertValueInst::Create (struct_l, (*i)->value (), indicies));
+					working->getInstList ().push_back (instruction);
+					struct_l = instruction;
 				}
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context, struct_l));
-				add_function (module_a, blocks, type, false, values [routine_a->parameters]);
+				add_function (module_a, blocks, type, true, values [routine_a->parameters]);
 			}
 		}
 	}
