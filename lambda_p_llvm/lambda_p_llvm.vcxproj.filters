@@ -62,6 +62,13 @@
     <ClInclude Include="module\verify.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="operation.h" />
+    <ClInclude Include="function\operation.h">
+      <Filter>function</Filter>
+    </ClInclude>
+    <ClInclude Include="lambda\operation.h">
+      <Filter>lambda</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -125,6 +132,13 @@
     <ClCompile Include="module\verify.cpp">
       <Filter>module</Filter>
     </ClCompile>
+    <ClCompile Include="operation.cpp" />
+    <ClCompile Include="function\operation.cpp">
+      <Filter>function</Filter>
+    </ClCompile>
+    <ClCompile Include="lambda\operation.cpp">
+      <Filter>lambda</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -159,6 +173,9 @@
     </Filter>
     <Filter Include="argument">
       <UniqueIdentifier>{a23c64d0-58fd-4386-b345-5d477c89df09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lambda">
+      <UniqueIdentifier>{65cacd36-a07f-46ce-825e-589260c22485}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
