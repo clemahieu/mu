@@ -2,6 +2,7 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <lambda_p/node.h>
 #include <lambda_p_script/segment.h>
 
 namespace llvm
@@ -10,7 +11,6 @@ namespace llvm
 }
 namespace lambda_p
 {
-	class node;
 	namespace errors
 	{
 		class error_target;
@@ -22,7 +22,7 @@ namespace lambda_p_llvm
 	{
 		class node;
 	}
-	class operation
+	class operation : public lambda_p::node
 	{
 	public:
 		virtual void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & results_a) = 0;

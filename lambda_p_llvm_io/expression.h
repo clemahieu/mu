@@ -44,7 +44,7 @@ namespace lambda_p_llvm_io
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::routine * routine_a) override;
 		void operator () (lambda_p::node * node_a) override;
-		bool process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a);
+		bool process_target (boost::shared_ptr <lambda_p::node> node_a);
 		boost::shared_ptr <lambda_p::errors::error_target> errors;
 		std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 		llvm::BasicBlock * & block;

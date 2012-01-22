@@ -64,7 +64,12 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 	auto source (values [value->expression]);
 	if (source.size () > value->index)
 	{
-		arguments.push_back (source [value->index]);
+		auto value_l (source [value->index]);
+		auto took_target (process_target (value_l));
+		if (!took_target)
+		{
+			arguments.push_back (value_l);
+		}
 	}
 	else
 	{
@@ -85,25 +90,14 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::routine * routine_a)
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 {
-	auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (current));
-	if (value.get () != nullptr)
+	auto took_target (process_target (current));
+	if (!took_target)
 	{
-		auto took_target (process_target (value));
-		if (!took_target)
-		{
-			arguments.push_back (value);
-		}
-	}
-	else
-	{
-		std::wstringstream message;
-		message << L"Node is not an LLVM value: ";
-		message << current->name ();
-		(*errors) (message.str ());
+		arguments.push_back (current);
 	}
 }
 
-bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a)
+bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::node> node_a)
 {
 	bool result (false);
 	if (target.get () == nullptr)

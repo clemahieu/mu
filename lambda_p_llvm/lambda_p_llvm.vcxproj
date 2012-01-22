@@ -31,6 +31,7 @@
     <ClInclude Include="execution_engine\run_function.h" />
     <ClInclude Include="function\node.h" />
     <ClInclude Include="function\operation.h" />
+    <ClInclude Include="identity\operation.h" />
     <ClInclude Include="lambda\operation.h" />
     <ClInclude Include="linker\link_modules.h" />
     <ClInclude Include="module\add_package.h" />
@@ -57,6 +58,7 @@
     <ClCompile Include="execution_engine\run_function.cpp" />
     <ClCompile Include="function\node.cpp" />
     <ClCompile Include="function\operation.cpp" />
+    <ClCompile Include="identity\operation.cpp" />
     <ClCompile Include="lambda\operation.cpp" />
     <ClCompile Include="linker\link_modules.cpp" />
     <ClCompile Include="module\add_package.cpp" />

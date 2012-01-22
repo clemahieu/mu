@@ -69,6 +69,9 @@
     <ClInclude Include="lambda\operation.h">
       <Filter>lambda</Filter>
     </ClInclude>
+    <ClInclude Include="identity\operation.h">
+      <Filter>identity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -139,6 +142,9 @@
     <ClCompile Include="lambda\operation.cpp">
       <Filter>lambda</Filter>
     </ClCompile>
+    <ClCompile Include="identity\operation.cpp">
+      <Filter>identity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -176,6 +182,9 @@
     </Filter>
     <Filter Include="lambda">
       <UniqueIdentifier>{65cacd36-a07f-46ce-825e-589260c22485}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="identity">
+      <UniqueIdentifier>{79d379f4-7b05-4aa1-a698-27ef4f1e7a69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

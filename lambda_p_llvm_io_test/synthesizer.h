@@ -10,6 +10,7 @@ namespace lambda_p_llvm_io_test
 		void run_2 ();
 		void run_3 ();
 		void run_4 ();
+		void run_5 ();
 	};
 }
 
