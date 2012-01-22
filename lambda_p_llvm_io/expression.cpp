@@ -19,7 +19,7 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a)
+lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a)
 	: values (values_a),
 	errors (errors_a),
 	block (block_a)
@@ -85,7 +85,11 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::routine * routine_a)
 {
-	assert (false);
+	auto took_target (process_target (current));
+	if (!took_target)
+	{
+		arguments.push_back (current);
+	}
 }
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)

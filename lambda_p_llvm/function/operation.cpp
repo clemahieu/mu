@@ -15,7 +15,7 @@ lambda_p_llvm::function::operation::operation (boost::shared_ptr <lambda_p_llvm:
 {
 }
 
-void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> arguments_a, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & results_a)
+void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> arguments_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
 	assert (results_a.empty ());
 	if (arguments_a.size () == function->function ()->getFunctionType ()->getNumParams ())
