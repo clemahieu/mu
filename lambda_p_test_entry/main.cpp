@@ -1,4 +1,4 @@
-#include <lambda_p_llvm_wrapper_test/tests.h>
+#include <lambda_p_llvm_test/tests.h>
 #include <lambda_p_repl_test/tests.h>
 #include <lambda_p_io_test/tests.h>
 #include <lambda_p_test/tests.h>
@@ -34,7 +34,7 @@ int main ()
 		test.run ();
 	}
 	{
-		lambda_p_llvm_wrapper_test::tests test;
+		lambda_p_llvm_test::tests test;
 		test.run ();
 	}
 	{

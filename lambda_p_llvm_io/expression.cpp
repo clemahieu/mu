@@ -3,8 +3,8 @@
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_llvm_wrapper/value/node.h>
-#include <lambda_p_llvm_wrapper/function/node.h>
+#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm_io/dynamic_function.h>
 
@@ -15,7 +15,7 @@
 
 #include <sstream>
 
-lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a)
+lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a)
 	: values (values_a),
 	errors (errors_a),
 	block (block_a)
@@ -29,7 +29,7 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 	{
 		if (static_target.get () != nullptr || dynamic_target.get () != nullptr)
 		{
-			boost::shared_ptr <lambda_p_llvm_wrapper::function::node> target;
+			boost::shared_ptr <lambda_p_llvm::function::node> target;
 			if (static_target.get () != nullptr)
 			{
 				target = static_target;
@@ -57,7 +57,7 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 					}
 					if (good)
 					{
-						std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>> & destination (values [expression_a]);
+						std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & destination (values [expression_a]);
 						assert (destination.empty ());
 						auto call (llvm::CallInst::Create (function, arguments));
 						block_a->getInstList ().push_back (call);
@@ -68,14 +68,14 @@ lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::e
 							{
 								auto element (llvm::ExtractValueInst::Create (call, i));
 								block_a->getInstList ().push_back (element);
-								destination.push_back (boost::shared_ptr <lambda_p_llvm_wrapper::value::node> (new lambda_p_llvm_wrapper::value::node (element)));
+								destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (element)));
 							}
 						}
 						else
 						{
 							if (!call->getType ()->isVoidTy ())
 							{
-								destination.push_back (boost::shared_ptr <lambda_p_llvm_wrapper::value::node> (new lambda_p_llvm_wrapper::value::node (call)));
+								destination.push_back (boost::shared_ptr <lambda_p_llvm::value::node> (new lambda_p_llvm::value::node (call)));
 							}
 						}
 					}
@@ -104,7 +104,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::expression * expressio
 	auto source (values [current_l]);
 	if (!source.empty ())
 	{
-		auto took_target (process_target (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::value::node> (source [0])));
+		auto took_target (process_target (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (source [0])));
 		auto i (source.begin () + (took_target ? 1 : 0));
 		auto j (source.end ());
 		for (; i != j && !(*errors) (); ++i)
@@ -141,7 +141,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::routine * routine_a)
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 {
-	auto value (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::value::node> (current));
+	auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (current));
 	if (value.get () != nullptr)
 	{
 		auto took_target (process_target (value));
@@ -159,12 +159,12 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 	}
 }
 
-bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p_llvm_wrapper::value::node> node_a)
+bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p_llvm::value::node> node_a)
 {
 	bool result (false);
 	if (static_target.get () == nullptr && dynamic_target.get () == nullptr)
 	{
-		auto static_function (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::function::node> (node_a));
+		auto static_function (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (node_a));
 		if (static_function.get () != nullptr)
 		{
 			result = true;

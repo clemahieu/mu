@@ -15,7 +15,7 @@
 #include <lambda_p_io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
 #include <lambda_p_io/analyzer/extensions/global.h>
-#include <lambda_p_llvm_wrapper/api.h>
+#include <lambda_p_llvm/api.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
 
@@ -57,7 +57,7 @@ void lambda_p_repl::repl::iteration ()
 	std::wcout << L"lp> ";
 	boost::shared_ptr <lambda_p_io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
 	lambda_p_script_io::builder builder;
-	lambda_p_llvm_wrapper::api api;
+	lambda_p_llvm::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
 	auto quit (boost::shared_ptr <lambda_p::node> (new lambda_p_repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::global (quit))));

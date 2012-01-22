@@ -89,7 +89,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm_wrapper.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
+      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -101,7 +101,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm_wrapper.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
+      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,7 +117,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm_wrapper.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
+      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,7 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration)\;$(SolutionDir)llvm\lib\$(Configuration)\;$(SolutionDir)boost\stage\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm_wrapper.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
+      <AdditionalDependencies>Advapi32.lib;Shell32.lib;lambda_p.lib;lambda_p_io.lib;lambda_p_llvm.lib;lambda_p_llvm_io.lib;lambda_p_script.lib;lambda_p_script_io.lib;lambda_p_repl.lib;LLVMCore.lib;LLVMSupport.lib;LLVMExecutionEngine.lib;LLVMTarget.lib;LLVMJIT.lib;LLVMMC.lib;LLVMCodeGen.lib;LLVMAnalysis.lib;LLVMX86Info.lib;LLVMTransformUtils.lib;LLVMX86CodeGen.lib;LLVMSelectionDAG.lib;LLVMX86Utils.lib;LLVMScalarOpts.lib;LLVMX86Desc.lib;LLVMAsmParser.lib;LLVMLinker.lib;LLVMX86AsmPrinter.lib;LLVMAsmPrinter.lib;LLVMMCParser.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

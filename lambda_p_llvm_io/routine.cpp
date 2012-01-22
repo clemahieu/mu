@@ -3,11 +3,11 @@
 #include <lambda_p/routine.h>
 #include <lambda_p/order.h>
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_llvm_wrapper/type/node.h>
-#include <lambda_p_llvm_wrapper/argument/node.h>
-#include <lambda_p_llvm_wrapper/module/node.h>
+#include <lambda_p_llvm/type/node.h>
+#include <lambda_p_llvm/argument/node.h>
+#include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm_io/expression.h>
-#include <lambda_p_llvm_wrapper/function/node.h>
+#include <lambda_p_llvm/function/node.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/BasicBlock.h>
@@ -21,19 +21,19 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm_wrapper::module::node> module_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters)
+lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters)
 {	
 	bool good (true);
 	lambda_p::order order (routine_a->body, routine_a->parameters);
-	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>>> values;
+	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>>> values;
 	std::vector <llvm::Type *> parameters_l;
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
-		auto type (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::type::node> (*i));
+		auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (*i));
 		if (type.get () != nullptr)
 		{
 			parameters_l.push_back (type->type ());
-			values [routine_a->parameters].push_back (boost::shared_ptr <lambda_p_llvm_wrapper::argument::node> (new lambda_p_llvm_wrapper::argument::node (new llvm::Argument (type->type ()))));
+			values [routine_a->parameters].push_back (boost::shared_ptr <lambda_p_llvm::argument::node> (new lambda_p_llvm::argument::node (new llvm::Argument (type->type ()))));
 		}
 		else
 		{
@@ -95,17 +95,17 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 	}
 }
 
-void lambda_p_llvm_io::routine::add_arguments (std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>> & arguments, llvm::Function * function)
+void lambda_p_llvm_io::routine::add_arguments (std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments, llvm::Function * function)
 {
 	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
-		auto argument (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::argument::node> (*i));
+		auto argument (boost::dynamic_pointer_cast <lambda_p_llvm::argument::node> (*i));
 		assert (argument.get () != nullptr);
 		function->getArgumentList ().push_back (argument->argument ());
 	}
 }
 
-void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm_wrapper::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>> & arguments)
+void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments)
 {
 	auto function (llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage));
 	function->getArgumentList ().clear ();
@@ -115,5 +115,5 @@ void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm_w
 		function->getBasicBlockList ().push_back (*i);
 	}
 	module_a->module->getFunctionList ().push_back (function);
-	result = boost::make_shared <lambda_p_llvm_wrapper::function::node> (function, multi);
+	result = boost::make_shared <lambda_p_llvm::function::node> (function, multi);
 }

@@ -21,7 +21,7 @@ namespace lambda_p
 		class error_target;
 	}
 }
-namespace lambda_p_llvm_wrapper
+namespace lambda_p_llvm
 {
 	namespace module
 	{
@@ -41,10 +41,10 @@ namespace lambda_p_llvm_io
 	class routine
 	{
 	public:
-		routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm_wrapper::module::node> module_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters);
-		void add_function (boost::shared_ptr <lambda_p_llvm_wrapper::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multy, std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>> & arguments);
-		void add_arguments (std::vector <boost::shared_ptr <lambda_p_llvm_wrapper::value::node>> & arguments, llvm::Function * function);
-		boost::shared_ptr <lambda_p_llvm_wrapper::function::node> result;
+		routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters);
+		void add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multy, std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments);
+		void add_arguments (std::vector <boost::shared_ptr <lambda_p_llvm::value::node>> & arguments, llvm::Function * function);
+		boost::shared_ptr <lambda_p_llvm::function::node> result;
 	};
 }
 

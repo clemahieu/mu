@@ -2,9 +2,9 @@
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm_io/routine.h>
-#include <lambda_p_llvm_wrapper/module/node.h>
+#include <lambda_p_llvm/module/node.h>
 #include <lambda_p/routine.h>
-#include <lambda_p_llvm_wrapper/function/node.h>
+#include <lambda_p_llvm/function/node.h>
 
 #include <sstream>
 
@@ -13,7 +13,7 @@ void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors
 	if (parameters.size () > 1)
 	{
 		auto one (boost::dynamic_pointer_cast <lambda_p::routine> (parameters [0]));
-		auto two (boost::dynamic_pointer_cast <lambda_p_llvm_wrapper::module::node> (parameters [1]));
+		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
