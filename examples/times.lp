@@ -1,10 +1,12 @@
 [
 	[
 		.id
-		=>												:[Build lambda routine that will be used in times operation:] 
-		[
-			[:~; op value amount]						:[Expecting 3 arguments, an operation, a value and an amount:]
-			op value amount							:[Apply value and amount to operation:]
+		[.synthesize
+			=>												:[Build lambda routine that will be used in times operation:] 
+			[
+				[:~; op value amount]						:[Expecting 3 arguments, an operation, a value and an amount:]
+				op value amount							:[Apply value and amount to operation:]
+			]
 		]												:[Function is the results of the operation:]
 	; routine]											:[Name lambda `routine':]
 	[.create routine # d3; closure]					:[Create a closure out of routine taking 3 arguments:]
