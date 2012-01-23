@@ -7,7 +7,8 @@
 
 lambda_p_io::lexer::complex_identifier::complex_identifier (lambda_p_io::lexer::lexer & lexer_a)
 	: have_end_token (false),
-	lexer (lexer_a)
+	lexer (lexer_a),
+	first (lexer_a.position)
 {
 }
 
@@ -54,7 +55,7 @@ void lambda_p_io::lexer::complex_identifier::lex (wchar_t character)
 		{
 			data.resize (data.size () - end_token.size ());
 			lambda_p_io::tokens::identifier * token (new lambda_p_io::tokens::identifier (data));
-			lexer.target (token);
+			lexer.target (token, lambda_p::context (first, lexer.position));
 			lexer.state.pop ();
 		}
 	}

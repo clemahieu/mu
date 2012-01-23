@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lambda_p/position.h>
 #include <lambda_p_io/lexer/state.h>
 
 namespace lambda_p_io
@@ -12,6 +13,7 @@ namespace lambda_p_io
 		public:
 			control (lambda_p_io::lexer::lexer & lexer_a);
 			void lex (wchar_t character) override;
+			lambda_p::position first;
 			lambda_p_io::lexer::lexer & lexer;
 		};
 	}

@@ -29,20 +29,20 @@ void lambda_p_io::lexer::begin::lex (wchar_t character)
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::complex_identifier (lexer)));
 		break;
 	case L';':
-		lexer.target (new lambda_p_io::tokens::divider);
+		lexer.target (new lambda_p_io::tokens::divider, lambda_p::context (lexer.position, lexer.position));
 		break;
 	case L':':
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::control (lexer)));
 		break;
 	case L'[':
-		lexer.target (new lambda_p_io::tokens::left_square);
+		lexer.target (new lambda_p_io::tokens::left_square, lambda_p::context (lexer.position, lexer.position));
 		break;
 	case L']':
-		lexer.target (new lambda_p_io::tokens::right_square);
+		lexer.target (new lambda_p_io::tokens::right_square, lambda_p::context (lexer.position, lexer.position));
 		break;
 	case L'\uffff':
 		lexer.state.pop ();
-		lexer.target (new lambda_p_io::tokens::stream_end);
+		lexer.target (new lambda_p_io::tokens::stream_end, lambda_p::context (lexer.position, lexer.position));
 		break;
 	default:
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::identifier (lexer)));

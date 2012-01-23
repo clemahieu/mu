@@ -10,7 +10,8 @@
 #include <lambda_p_io/lexer/identifier.h>
 
 lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a)
-	: lexer (lexer_a)
+	: lexer (lexer_a),
+	first (lexer_a.position)
 {
 }
 
@@ -21,7 +22,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		switch (character)
 		{
 		case L'~':
-			lexer.target (new lambda_p_io::tokens::parameters);
+			lexer.target (new lambda_p_io::tokens::parameters, lambda_p::context (first, lexer.position));
 			lexer.state.pop ();
 			break;
 		case L'[':

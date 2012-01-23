@@ -43,6 +43,8 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="order.h" />
+    <ClInclude Include="context.h" />
+    <ClInclude Include="position.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -86,6 +88,8 @@
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="order.cpp" />
+    <ClCompile Include="context.cpp" />
+    <ClCompile Include="position.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

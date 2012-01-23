@@ -13,7 +13,7 @@
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p_io::lexer::lexer::lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function < void (lambda_p_io::tokens::token *)> target_a)
+lambda_p_io::lexer::lexer::lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function < void (lambda_p_io::tokens::token *, lambda_p::context)> target_a)
 	: target (target_a),
 	errors (errors_a)
 {
@@ -24,6 +24,16 @@ void lambda_p_io::lexer::lexer::operator () (wchar_t character)
 {
 	auto state_l (state.top ());
 	state_l->lex (character);
+	++position.character;
+	if (character == L'\n')
+	{
+		++position.row;
+		position.column = 1;
+	}
+	else
+	{
+		++position.column;
+	}
 }
 
 void lambda_p_io::lexer::lexer::reset ()

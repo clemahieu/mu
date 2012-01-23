@@ -6,7 +6,8 @@
 
 lambda_p_io::lexer::identifier::identifier (lambda_p_io::lexer::lexer & lexer_a)
 	: lexer (lexer_a),
-	lookahead (false)
+	lookahead (false),
+	first (lexer_a.position)
 {
 }
 
@@ -24,6 +25,7 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::hex_code (2, *this)));
 				break;
 			default:
+				lexer.position = lookahead_first;
 				lexer.state.pop ();
 				lexer (L':');
 				lexer (character);
@@ -46,12 +48,13 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 			case L'\uffff':
 				{
 					lambda_p_io::tokens::identifier * identifier = new lambda_p_io::tokens::identifier (string);
-					lexer.target (identifier);
+					lexer.target (identifier, lambda_p::context (first, lexer.position));
 					lexer.state.pop ();
 					lexer (character);
 				}
 				break;
 			case L':':
+				lookahead_first = lexer.position;
 				lookahead = true;
 				break;
 			default:

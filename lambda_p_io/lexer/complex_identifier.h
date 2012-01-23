@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lambda_p/position.h>
 #include <lambda_p_io/lexer/state.h>
 
 #include <string>
@@ -21,6 +22,7 @@ namespace lambda_p_io
 			bool have_end_token;
 			boost::circular_buffer <wchar_t> last_characters;
 			bool match ();
+			lambda_p::position first;
 			lambda_p_io::lexer::lexer & lexer;
 		};
 	}

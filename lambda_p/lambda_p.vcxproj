@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="context.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
@@ -145,11 +146,13 @@
     <ClInclude Include="errors\unexpected_binder_type.h" />
     <ClInclude Include="errors\unexpected_result_count.h" />
     <ClInclude Include="errors\unresolved_statement.h" />
+    <ClInclude Include="position.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="visitor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="context.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
@@ -165,6 +168,7 @@
     <ClCompile Include="errors\unexpected_binder_type.cpp" />
     <ClCompile Include="errors\unexpected_result_count.cpp" />
     <ClCompile Include="errors\unresolved_statement.cpp" />
+    <ClCompile Include="position.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
   </ItemGroup>

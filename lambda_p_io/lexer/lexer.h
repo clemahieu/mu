@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/context.h>
+
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -37,11 +39,12 @@ namespace lambda_p_io
 			friend class lambda_p_io::lexer::singleline_comment;
 			friend class lambda_p_io::lexer::control;
 		public:
-			lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (lambda_p_io::tokens::token *)> target_a);
+			lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (lambda_p_io::tokens::token *, lambda_p::context)> target_a);
 			void operator () (wchar_t character);
 			void reset ();
+			lambda_p::position position;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
-			boost::function <void (lambda_p_io::tokens::token *)> target;
+			boost::function <void (lambda_p_io::tokens::token *, lambda_p::context)> target;
 			std::stack <boost::shared_ptr <lambda_p_io::lexer::state>> state;
 		};
 	}
