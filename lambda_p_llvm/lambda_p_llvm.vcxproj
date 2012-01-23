@@ -29,6 +29,7 @@
     <ClInclude Include="execution_engine\generic_value\node.h" />
     <ClInclude Include="execution_engine\node.h" />
     <ClInclude Include="execution_engine\run_function.h" />
+    <ClInclude Include="function\node.h" />
     <ClInclude Include="function\operation.h" />
     <ClInclude Include="function_pointer\node.h" />
     <ClInclude Include="function_pointer_type\node.h" />
@@ -61,6 +62,7 @@
     <ClCompile Include="execution_engine\generic_value\node.cpp" />
     <ClCompile Include="execution_engine\node.cpp" />
     <ClCompile Include="execution_engine\run_function.cpp" />
+    <ClCompile Include="function\node.cpp" />
     <ClCompile Include="function\operation.cpp" />
     <ClCompile Include="function_pointer\node.cpp" />
     <ClCompile Include="function_pointer_type\node.cpp" />

@@ -87,6 +87,9 @@
     <ClInclude Include="integer_type\create.h">
       <Filter>integer_type</Filter>
     </ClInclude>
+    <ClInclude Include="function\node.h">
+      <Filter>function</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -174,6 +177,9 @@
     </ClCompile>
     <ClCompile Include="integer_type\create.cpp">
       <Filter>integer_type</Filter>
+    </ClCompile>
+    <ClCompile Include="function\node.cpp">
+      <Filter>function</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
