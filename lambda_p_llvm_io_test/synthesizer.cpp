@@ -162,7 +162,7 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"val"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
-	source (L"[val :~]");
+	source (L"[val [:~]]");
 	auto routine (builder.routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	arguments.push_back (routine);

@@ -31,6 +31,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> values;
 	std::vector <llvm::Type *> parameters_l;
 	values [routine_a->parameters].push_back (boost::make_shared <lambda_p_llvm::identity::operation> ());
+	std::vector <llvm::Argument *> arguments;
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
 		auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (*i));
@@ -38,6 +39,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 		{
 			parameters_l.push_back (type->type ());
 			auto arg (new llvm::Argument (type->type ()));
+			arguments.push_back (arg);
 			auto function_pointer_type (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer_type::node> (type));
 			boost::shared_ptr <lambda_p_llvm::value::node> value;
 			if (function_pointer_type.get () != nullptr)
@@ -77,7 +79,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 			{
 				auto type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), parameters_l, false));
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context));
-				add_function (module_a, blocks, type, false, values [routine_a->parameters]);
+				add_function (module_a, blocks, type, false, arguments);
 			}
 			else if (results.size () == 1)
 			{
@@ -86,7 +88,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 				{
 					auto type (llvm::FunctionType::get (value->value ()->getType (), parameters_l, false));
 					working->getInstList ().push_back (llvm::ReturnInst::Create (context, value->value ()));
-					add_function (module_a, blocks, type, false, values [routine_a->parameters]);
+					add_function (module_a, blocks, type, false, arguments);
 				}
 				else
 				{
@@ -132,28 +134,21 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 						struct_l = instruction;
 					}
 					working->getInstList ().push_back (llvm::ReturnInst::Create (context, struct_l));
-					add_function (module_a, blocks, type, true, values [routine_a->parameters]);
+					add_function (module_a, blocks, type, true, arguments);
 				}
 			}
 		}
 	}
 }
 
-void lambda_p_llvm_io::routine::add_arguments (std::vector <boost::shared_ptr <lambda_p::node>> & arguments, llvm::Function * function)
-{
-	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
-	{
-		auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
-		auto argument (llvm::cast <llvm::Argument> (value->value ()));
-		function->getArgumentList ().push_back (argument);
-	}
-}
-
-void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <boost::shared_ptr <lambda_p::node>> & arguments)
+void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <llvm::Argument *> & arguments)
 {
 	auto function (llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage));
 	function->getArgumentList ().clear ();
-	add_arguments (arguments, function);
+	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
+	{
+		function->getArgumentList ().push_back (*i);
+	}
 	for (auto i (blocks.begin ()), j (blocks.end ()); i != j; ++i)
 	{
 		function->getBasicBlockList ().push_back (*i);
