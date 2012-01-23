@@ -4,7 +4,7 @@
 #include <lambda_p/reference.h>
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/value/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/function/operation.h>
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm/operation.h>
@@ -48,7 +48,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::expression * expressio
 	auto source (values [current_l]);
 	if (!source.empty ())
 	{
-		auto took_target (process_target (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (source [0])));
+		auto took_target (process_target (source [0]));
 		auto i (source.begin () + (took_target ? 1 : 0));
 		auto j (source.end ());
 		for (; i != j && !(*errors) (); ++i)
@@ -103,6 +103,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::node * node_a)
 
 bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::node> node_a)
 {
+	assert (node_a.get () != nullptr);
 	bool result (false);
 	if (target.get () == nullptr)
 	{
@@ -114,7 +115,8 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 		}
 		else
 		{
-			auto function (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (node_a));
+			llvm::Value * val;
+			auto function (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (node_a));
 			if (function.get () != nullptr)
 			{
 				result = true;
@@ -130,10 +132,15 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 				//}
 				//else
 				//{
-					(*errors) (L"Target of expression is not a function");
+					not_callable ();
 				//}
 			}
 		}
 	}
 	return result;
+}
+
+void lambda_p_llvm_io::expression::not_callable ()
+{
+	(*errors) (L"Target of expression is not callable");
 }

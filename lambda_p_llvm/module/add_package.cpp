@@ -3,7 +3,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 
 #include <llvm/Function.h>
 
@@ -20,10 +20,14 @@ void lambda_p_llvm::module::add_package::operator () (boost::shared_ptr <lambda_
 			auto good (true);
 			for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
 			{
-				auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (i->second));
+				auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (i->second));
 				if (source.get () != nullptr)
 				{
-					llvm::Function::Create (source->function ()->getFunctionType (), llvm::GlobalValue::ExternalLinkage, source->function ()->getName (), one->module);
+					auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
+					if (function != nullptr)
+					{
+						llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
+					}
 				}
 				else
 				{

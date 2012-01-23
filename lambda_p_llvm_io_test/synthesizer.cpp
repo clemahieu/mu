@@ -6,13 +6,14 @@
 #include <lambda_p/routine.h>
 #include <lambda_p_llvm_io/synthesizer.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/execution_engine/create_jit.h>
 #include <lambda_p_llvm/execution_engine/run_function.h>
 #include <lambda_p_llvm/execution_engine/generic_value/node.h>
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_llvm/identity/operation.h>
+#include <lambda_p_script_io/builder.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -43,12 +44,13 @@ void lambda_p_llvm_io_test::synthesizer::run_1 ()
 	lambda_p_io::builder builder;
 	llvm::LLVMContext context;
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (""), context)));
-	auto function (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage), false));
+	auto fun (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage));
+	auto function (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun, false));
 	auto block (llvm::BasicBlock::Create (context));
-	function->function ()->getBasicBlockList ().push_back (block);
+	fun->getBasicBlockList ().push_back (block);
 	auto ret (llvm::ReturnInst::Create (context));
 	block->getInstList ().push_back (ret);
-	module->module->getFunctionList ().push_back (function->function ());
+	module->module->getFunctionList ().push_back (fun);
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"noop"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
@@ -68,7 +70,7 @@ void lambda_p_llvm_io_test::synthesizer::run_1 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (values [0]));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -93,12 +95,13 @@ void lambda_p_llvm_io_test::synthesizer::run_2 ()
 	lambda_p_io::builder builder;
 	llvm::LLVMContext context;
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (""), context)));
-	auto function (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), false), llvm::GlobalValue::ExternalLinkage), false));
+	auto fun (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), false), llvm::GlobalValue::ExternalLinkage));
+	auto function (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun, false));
 	auto block (llvm::BasicBlock::Create (context));
-	function->function ()->getBasicBlockList ().push_back (block);
+	fun->getBasicBlockList ().push_back (block);
 	auto ret (llvm::ReturnInst::Create (context, llvm::ConstantInt::getIntegerValue (llvm::Type::getInt32Ty (context), llvm::APInt (32, 42))));
 	block->getInstList ().push_back (ret);
-	module->module->getFunctionList ().push_back (function->function ());
+	module->module->getFunctionList ().push_back (fun);
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"val"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
@@ -118,7 +121,7 @@ void lambda_p_llvm_io_test::synthesizer::run_2 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (values [0]));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -148,13 +151,14 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (""), context)));
 	std::vector <llvm::Type *> arg_types;
 	arg_types.push_back (llvm::Type::getInt32Ty (context));
-	auto function (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), arg_types, false), llvm::GlobalValue::ExternalLinkage), false));
+	auto fun (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), arg_types, false), llvm::GlobalValue::ExternalLinkage));
+	auto function (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun, false));
 	auto block (llvm::BasicBlock::Create (context));
-	function->function ()->getBasicBlockList ().push_back (block);
-	llvm::Argument * arg (function->function ()->arg_begin ());
+	fun->getBasicBlockList ().push_back (block);
+	llvm::Argument * arg (fun->arg_begin ());
 	auto ret (llvm::ReturnInst::Create (context, arg));
 	block->getInstList ().push_back (ret);
-	module->module->getFunctionList ().push_back (function->function ());
+	module->module->getFunctionList ().push_back (fun);
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"val"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
@@ -175,7 +179,7 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (values [0]));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -210,19 +214,21 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	res_types.push_back (llvm::Type::getInt32Ty (context));
 	res_types.push_back (llvm::Type::getInt32Ty (context));
 	auto res_type (llvm::StructType::create (context, res_types));
-	auto function (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (res_type, false), llvm::GlobalValue::ExternalLinkage), true));
+	auto fun (llvm::Function::Create (llvm::FunctionType::get (res_type, false), llvm::GlobalValue::ExternalLinkage));
+	auto function (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun, true));
 	auto block (llvm::BasicBlock::Create (context));
-	function->function ()->getBasicBlockList ().push_back (block);
+	fun->getBasicBlockList ().push_back (block);
 	std::vector <llvm::Constant *> result_values;
 	result_values.push_back (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 0x33333333)));
 	result_values.push_back (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 0xcccccccc)));
 	auto ret (llvm::ReturnInst::Create (context, llvm::ConstantStruct::get (res_type, result_values)));
 	block->getInstList ().push_back (ret);
-	module->module->getFunctionList ().push_back (function->function ());
-	auto fun1 (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), res_types, false), llvm::GlobalValue::ExternalLinkage), false));
+	module->module->getFunctionList ().push_back (fun);
+	auto fun_1 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt32Ty (context), res_types, false), llvm::GlobalValue::ExternalLinkage));
+	auto fun1 (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun_1, false));
 	auto block2 (llvm::BasicBlock::Create (context));
-	fun1->function ()->getBasicBlockList ().push_back (block2);
-	auto args (fun1->function ()->arg_begin ());
+	fun_1->getBasicBlockList ().push_back (block2);
+	auto args (fun_1->arg_begin ());
 	llvm::Value * arg1 (args);
 	++args;
 	llvm::Value * arg2 (args);
@@ -230,7 +236,7 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	block2->getInstList ().push_back (add);
 	auto ret2 (llvm::ReturnInst::Create (context, add));
 	block2->getInstList ().push_back (ret2);
-	module->module->getFunctionList ().push_back (fun1->function ());
+	module->module->getFunctionList ().push_back (fun_1);
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"multi"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"add"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (fun1)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -251,7 +257,7 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (values [0]));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
 	assert (f1.get () != nullptr);
 	assert (f1->multiple_return == false);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
@@ -280,12 +286,13 @@ void lambda_p_llvm_io_test::synthesizer::run_5 ()
 	lambda_p_io::builder builder;
 	llvm::LLVMContext context;
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (""), context)));
-	auto function (boost::make_shared <lambda_p_llvm::function::node> (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage), false));
+	auto fun (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage));
+	auto function (boost::make_shared <lambda_p_llvm::function_pointer::node> (fun, false));
 	auto block (llvm::BasicBlock::Create (context));
-	function->function ()->getBasicBlockList ().push_back (block);
+	fun->getBasicBlockList ().push_back (block);
 	auto ret (llvm::ReturnInst::Create (context));
 	block->getInstList ().push_back (ret);
-	module->module->getFunctionList ().push_back (function->function ());
+	module->module->getFunctionList ().push_back (fun);
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"noop"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".id"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::identity::operation> ())));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -307,7 +314,7 @@ void lambda_p_llvm_io_test::synthesizer::run_5 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (values [0]));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;

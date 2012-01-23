@@ -1,7 +1,7 @@
 #include "get_package.h"
 
 #include <lambda_p_llvm/module/get_package.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/package/node.h>
@@ -39,13 +39,13 @@ void lambda_p_llvm_test::module::get_package::run_1 ()
 	assert (package.get () != nullptr);
 	assert (package->items.size () == 2);
 	assert (package->items.find (L"a") != package->items.end ());
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"a")->second));
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (package->items.find (L"a")->second));
 	assert (f1.get () != nullptr);
-	assert (f1->function () == function1);
+	assert (f1->value () == function1);
 	assert (function1->getNameStr () == std::string ("a.suffix"));
 	assert (package->items.find (L"b") != package->items.end ());
-	auto f2 (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (package->items.find (L"b")->second));
+	auto f2 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (package->items.find (L"b")->second));
 	assert (f2.get () != nullptr);
-	assert (f2->function () == function2);
+	assert (f2->value () == function2);
 	assert (function2->getNameStr () == std::string ("b.suffix"));
 }

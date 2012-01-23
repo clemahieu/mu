@@ -2,7 +2,7 @@
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/execution_engine/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/execution_engine/generic_value/node.h>
 
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
@@ -15,42 +15,52 @@ void lambda_p_llvm::execution_engine::run_function::perform (boost::shared_ptr <
 	if (parameters.size () > 1)
 	{
 		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::execution_engine::node> (parameters [0]));
-		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (parameters [1]));
+		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (parameters [1]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
 			{
-				bool good (true);
-				std::vector <llvm::GenericValue> arguments;
-				auto i (parameters.begin () + 2);
-				auto j (parameters.end ());
-				for (; i != j && good; ++i)
-				// for (auto i (parameters.begin () + 2), j (parameters.end ()); i != j && good; ++i) Error	11	error C3538: in a declarator-list 'auto' must always deduce to the same type	C:\lambda-p\lambda_p_llvm\execution_engine\run_function.cpp	25	1	lambda_p_llvm
+				auto function (llvm::dyn_cast <llvm::Function> (two->value ()));
+				if (function != nullptr)
 				{
-					auto value (boost::dynamic_pointer_cast <lambda_p_llvm::execution_engine::generic_value::node> (*i));
-					if (value.get () != nullptr)
+					bool good (true);
+					std::vector <llvm::GenericValue> arguments;
+					auto i (parameters.begin () + 2);
+					auto j (parameters.end ());
+					for (; i != j && good; ++i)
+					// for (auto i (parameters.begin () + 2), j (parameters.end ()); i != j && good; ++i) Error	11	error C3538: in a declarator-list 'auto' must always deduce to the same type	C:\lambda-p\lambda_p_llvm\execution_engine\run_function.cpp	25	1	lambda_p_llvm
 					{
-						arguments.push_back (value->value);
+						auto value (boost::dynamic_pointer_cast <lambda_p_llvm::execution_engine::generic_value::node> (*i));
+						if (value.get () != nullptr)
+						{
+							arguments.push_back (value->value);
+						}
+						else
+						{
+							std::wstringstream message;
+							message << L"Arguments to: ";
+							message << name ();
+							message << L" must be generic_value, have: ";
+							message << (*i)->name ();
+							(*errors_a) (message.str ());
+							good = false;
+						}
+					}
+					auto result (one->engine->runFunction (function, arguments));
+					if (two->multiple_return)
+					{
+						assert (false);
 					}
 					else
 					{
-						std::wstringstream message;
-						message << L"Arguments to: ";
-						message << name ();
-						message << L" must be generic_value, have: ";
-						message << (*i)->name ();
-						(*errors_a) (message.str ());
-						good = false;
+						results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::generic_value::node (result)));
 					}
-				}
-				auto result (one->engine->runFunction (two->function (), arguments));
-				if (two->multiple_return)
-				{
-					assert (false);
 				}
 				else
 				{
-					results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::generic_value::node (result)));
+					std::wstringstream message;
+					message << L"Value is not a function type";
+					(*errors_a) (message.str ());
 				}
 			}
 			else

@@ -8,7 +8,7 @@
 
 void lambda_p_script_io_test::lambda::run ()
 {
-	run_1 ();
+	//run_1 ();
 }
 
 void lambda_p_script_io_test::lambda::run_1 ()

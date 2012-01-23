@@ -3,7 +3,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/astring/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 
 #include <llvm/Module.h>
 
@@ -20,7 +20,7 @@ void lambda_p_llvm::module::get_function::operator () (boost::shared_ptr <lambda
 			auto function (one->module->getFunction (llvm::StringRef (two->string)));
 			if (function != nullptr)
 			{
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, false)));
+				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function_pointer::node (function, false)));
 			}
 			else
 			{

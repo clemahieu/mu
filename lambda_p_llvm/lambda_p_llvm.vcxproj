@@ -29,8 +29,9 @@
     <ClInclude Include="execution_engine\generic_value\node.h" />
     <ClInclude Include="execution_engine\node.h" />
     <ClInclude Include="execution_engine\run_function.h" />
-    <ClInclude Include="function\node.h" />
     <ClInclude Include="function\operation.h" />
+    <ClInclude Include="function_pointer\node.h" />
+    <ClInclude Include="function_pointer_type\node.h" />
     <ClInclude Include="identity\operation.h" />
     <ClInclude Include="lambda\operation.h" />
     <ClInclude Include="linker\link_modules.h" />
@@ -42,7 +43,9 @@
     <ClInclude Include="module\node.h" />
     <ClInclude Include="module\verify.h" />
     <ClInclude Include="operation.h" />
+    <ClInclude Include="pointer_type\node.h" />
     <ClInclude Include="type\node.h" />
+    <ClInclude Include="value\get_type.h" />
     <ClInclude Include="value\node.h" />
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +59,9 @@
     <ClCompile Include="execution_engine\generic_value\node.cpp" />
     <ClCompile Include="execution_engine\node.cpp" />
     <ClCompile Include="execution_engine\run_function.cpp" />
-    <ClCompile Include="function\node.cpp" />
     <ClCompile Include="function\operation.cpp" />
+    <ClCompile Include="function_pointer\node.cpp" />
+    <ClCompile Include="function_pointer_type\node.cpp" />
     <ClCompile Include="identity\operation.cpp" />
     <ClCompile Include="lambda\operation.cpp" />
     <ClCompile Include="linker\link_modules.cpp" />
@@ -69,7 +73,9 @@
     <ClCompile Include="module\node.cpp" />
     <ClCompile Include="module\verify.cpp" />
     <ClCompile Include="operation.cpp" />
+    <ClCompile Include="pointer_type\node.cpp" />
     <ClCompile Include="type\node.cpp" />
+    <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -4,7 +4,7 @@
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p/routine.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 
 #include <sstream>
 

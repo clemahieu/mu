@@ -8,6 +8,8 @@
 #include <llvm/Module.h>
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
+#include <llvm/Instructions.h>
+#include <llvm/Constants.h>
 
 void lambda_p_llvm_test::tests::run ()
 {

@@ -7,7 +7,10 @@
 #include <lambda_p_llvm/argument/node.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm_io/expression.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
+#include <lambda_p_llvm/identity/operation.h>
+#include <lambda_p_llvm/function_pointer/node.h>
+#include <lambda_p_llvm/function_pointer_type/node.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/BasicBlock.h>
@@ -27,13 +30,26 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 	lambda_p::order order (routine_a->body, routine_a->parameters);
 	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> values;
 	std::vector <llvm::Type *> parameters_l;
+	values [routine_a->parameters].push_back (boost::make_shared <lambda_p_llvm::identity::operation> ());
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
 		auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (*i));
 		if (type.get () != nullptr)
 		{
 			parameters_l.push_back (type->type ());
-			values [routine_a->parameters].push_back (boost::shared_ptr <lambda_p_llvm::argument::node> (new lambda_p_llvm::argument::node (new llvm::Argument (type->type ()))));
+			auto arg (new llvm::Argument (type->type ()));
+			auto function_pointer_type (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer_type::node> (type));
+			boost::shared_ptr <lambda_p_llvm::value::node> value;
+			if (function_pointer_type.get () != nullptr)
+			{
+				value = boost::make_shared <lambda_p_llvm::function_pointer::node> (arg, function_pointer_type->multiple_return);
+			}
+			else
+			{
+				value = boost::make_shared <lambda_p_llvm::argument::node> (arg);
+			}
+			values [routine_a->parameters].push_back (value);
+			auto type (arg->getType ());
 		}
 		else
 		{
@@ -127,9 +143,9 @@ void lambda_p_llvm_io::routine::add_arguments (std::vector <boost::shared_ptr <l
 {
 	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
-		auto argument (boost::dynamic_pointer_cast <lambda_p_llvm::argument::node> (*i));
-		assert (argument.get () != nullptr);
-		function->getArgumentList ().push_back (argument->argument ());
+		auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
+		auto argument (llvm::cast <llvm::Argument> (value->value ()));
+		function->getArgumentList ().push_back (argument);
 	}
 }
 
@@ -143,5 +159,5 @@ void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::
 		function->getBasicBlockList ().push_back (*i);
 	}
 	module_a->module->getFunctionList ().push_back (function);
-	result = boost::make_shared <lambda_p_llvm::function::node> (function, multi);
+	result = boost::make_shared <lambda_p_llvm::function_pointer::node> (function, multi);
 }

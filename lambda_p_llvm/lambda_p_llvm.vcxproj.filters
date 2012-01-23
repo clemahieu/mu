@@ -17,9 +17,6 @@
     <ClInclude Include="module\get_function.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="function\node.h">
-      <Filter>function</Filter>
-    </ClInclude>
     <ClInclude Include="execution_engine\create_jit.h">
       <Filter>execution_engine</Filter>
     </ClInclude>
@@ -72,6 +69,18 @@
     <ClInclude Include="identity\operation.h">
       <Filter>identity</Filter>
     </ClInclude>
+    <ClInclude Include="value\get_type.h">
+      <Filter>value</Filter>
+    </ClInclude>
+    <ClInclude Include="function_pointer_type\node.h">
+      <Filter>function_pointer_type</Filter>
+    </ClInclude>
+    <ClInclude Include="function_pointer\node.h">
+      <Filter>function_pointer</Filter>
+    </ClInclude>
+    <ClInclude Include="pointer_type\node.h">
+      <Filter>pointer_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -89,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="module\get_function.cpp">
       <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="function\node.cpp">
-      <Filter>function</Filter>
     </ClCompile>
     <ClCompile Include="execution_engine\create_jit.cpp">
       <Filter>execution_engine</Filter>
@@ -145,6 +151,18 @@
     <ClCompile Include="identity\operation.cpp">
       <Filter>identity</Filter>
     </ClCompile>
+    <ClCompile Include="value\get_type.cpp">
+      <Filter>value</Filter>
+    </ClCompile>
+    <ClCompile Include="function_pointer_type\node.cpp">
+      <Filter>function_pointer_type</Filter>
+    </ClCompile>
+    <ClCompile Include="function_pointer\node.cpp">
+      <Filter>function_pointer</Filter>
+    </ClCompile>
+    <ClCompile Include="pointer_type\node.cpp">
+      <Filter>pointer_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -185,6 +203,15 @@
     </Filter>
     <Filter Include="identity">
       <UniqueIdentifier>{79d379f4-7b05-4aa1-a698-27ef4f1e7a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function_pointer_type">
+      <UniqueIdentifier>{2b1a3726-1fae-40b0-b8e2-330f459b2c5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function_pointer">
+      <UniqueIdentifier>{29b15e6c-6db8-4d09-9e28-38384c883296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pointer_type">
+      <UniqueIdentifier>{61af682e-cde6-4d3a-a927-9447f60da2ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

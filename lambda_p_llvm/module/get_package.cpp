@@ -3,7 +3,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/package/node.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_script/astring/node.h>
 
 #include <llvm/Module.h>
@@ -24,7 +24,7 @@ void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_
 				llvm::Function * function (i);
 				auto name (i->getNameStr ());
 				std::wstring wname (name.begin (), name.end ());
-				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, false));
+				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function_pointer::node (function, false));
 				name.append (two->string);
 				function->setName (name);
 			}

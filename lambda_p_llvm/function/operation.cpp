@@ -2,7 +2,8 @@
 
 #include <lambda_p/routine.h>
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/function_pointer/node.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -10,21 +11,24 @@
 
 #include <sstream>
 
-lambda_p_llvm::function::operation::operation (boost::shared_ptr <lambda_p_llvm::function::node> function_a)
+lambda_p_llvm::function::operation::operation (boost::shared_ptr <lambda_p_llvm::function_pointer::node> function_a)
 	: function (function_a)
 {
+	assert (function->value ()->getType ()->isPointerTy ());
+	assert (llvm::cast <llvm::PointerType> (function->value ()->getType ())->getElementType ()->isFunctionTy ());
 }
 
 void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> arguments_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
 	assert (results_a.empty ());
-	if (arguments_a.size () == function->function ()->getFunctionType ()->getNumParams ())
+	auto function_type (llvm::cast <llvm::FunctionType> (llvm::cast <llvm::PointerType> (function->value ()->getType ())->getElementType ()));
+	if (arguments_a.size () == function_type->getNumParams ())
 	{
 		bool good (true);
 		std::vector <llvm::Value *> arguments;
 		for (size_t i (0), j (arguments_a.size ()); i != j && good; ++i)
 		{
-			auto argument_type (function->function ()->getFunctionType ()->getParamType (i));
+			auto argument_type (function_type->getParamType (i));
 			auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (arguments_a [i]));
 			if (value.get () != nullptr)
 			{
@@ -57,11 +61,11 @@ void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_
 		}
 		if (good)
 		{
-			auto call (llvm::CallInst::Create (function->function (), arguments));
+			auto call (llvm::CallInst::Create (function->value (), arguments));
 			context_a->getInstList ().push_back (call);
 			if (function->multiple_return)
 			{
-				auto return_type (llvm::cast <llvm::StructType> (function->function ()->getReturnType ()));
+				auto return_type (llvm::cast <llvm::StructType> (function_type->getReturnType ()));
 				for (size_t i (0), j (return_type->getNumElements()); i != j; ++i)
 				{
 					auto element (llvm::ExtractValueInst::Create (call, i));
@@ -84,7 +88,7 @@ void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_
 		message << L"Actual number of arguments: ";
 		message << arguments_a.size ();
 		message << L" doesn't match number of formal parameters: ";
-		message << function->function ()->getFunctionType ()->getNumParams ();
+		message << function_type->getNumParams ();
 		(*errors_a) (message.str ());
 	}
 }
