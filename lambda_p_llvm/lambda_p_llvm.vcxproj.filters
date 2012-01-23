@@ -81,6 +81,12 @@
     <ClInclude Include="pointer_type\node.h">
       <Filter>pointer_type</Filter>
     </ClInclude>
+    <ClInclude Include="integer_type\node.h">
+      <Filter>integer_type</Filter>
+    </ClInclude>
+    <ClInclude Include="integer_type\create.h">
+      <Filter>integer_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -163,6 +169,12 @@
     <ClCompile Include="pointer_type\node.cpp">
       <Filter>pointer_type</Filter>
     </ClCompile>
+    <ClCompile Include="integer_type\node.cpp">
+      <Filter>integer_type</Filter>
+    </ClCompile>
+    <ClCompile Include="integer_type\create.cpp">
+      <Filter>integer_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -212,6 +224,9 @@
     </Filter>
     <Filter Include="pointer_type">
       <UniqueIdentifier>{61af682e-cde6-4d3a-a927-9447f60da2ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="integer_type">
+      <UniqueIdentifier>{53f089e5-94fd-418d-b09f-a61bedb86ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
