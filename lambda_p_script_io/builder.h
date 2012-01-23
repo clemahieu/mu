@@ -29,7 +29,7 @@ namespace lambda_p_script_io
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
-		void operator () (boost::shared_ptr <lambda_p_script::routine> routine_a);
+		void operator () (boost::shared_ptr <lambda_p::routine> routine_a);
 		std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
 	};
 }

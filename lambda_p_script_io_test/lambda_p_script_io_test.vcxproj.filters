@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="synthesizer.cpp" />
-    <ClCompile Include="synthesizer_results.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="generator.cpp" />
@@ -11,7 +10,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer.h" />
-    <ClInclude Include="synthesizer_results.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="generator.h" />

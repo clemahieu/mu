@@ -35,7 +35,6 @@ void lambda_p_script_io_test::builder::run_1 ()
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
-
 }
 
 void lambda_p_script_io_test::builder::run_2 ()
