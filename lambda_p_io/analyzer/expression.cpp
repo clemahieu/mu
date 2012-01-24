@@ -25,7 +25,7 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 	{
 		routine_a (expression_a->individual_names [i]->string, boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)));
 	}
-	for (auto end (expression_a->values.size ()); position != end; ++position)
+	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
 		(*expression_a->values [position]) (this);
 	}
