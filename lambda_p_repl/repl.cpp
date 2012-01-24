@@ -18,6 +18,10 @@
 #include <lambda_p_llvm/api.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
+#include <lambda_p_io/tokens/left_square.h>
+#include <lambda_p_io/tokens/right_square.h>
+
+#include <boost/make_shared.hpp>
 
 lambda_p_repl::repl::repl ()
 	: stop_m (false)
@@ -58,11 +62,9 @@ void lambda_p_repl::repl::iteration ()
 	auto quit (boost::shared_ptr <lambda_p::node> (new lambda_p_repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::global (quit))));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L'[');
-	builder.lexer.position.column = 1;
-	builder.lexer.position.character = 0;
+	builder.parser (new lambda_p_io::tokens::left_square (), lambda_p::context ());
 	source (stream);
-	source (L']');
+	builder.parser (new lambda_p_io::tokens::right_square (), lambda_p::context (builder.lexer.position, builder.lexer.position));
 	source ();
 	if (builder.errors->errors.empty ())
 	{
