@@ -9,9 +9,9 @@
 #include <lambda_p_io/lexer/hex_code.h>
 #include <lambda_p_io/lexer/identifier.h>
 
-lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a)
+lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a)
 	: lexer (lexer_a),
-	first (lexer_a.position)
+	first (first_a)
 {
 }
 
@@ -36,17 +36,19 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		case L'a':
 			{
 				lexer.state.pop ();
-				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer)));
+				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer, first)));
 				lexer.state.push (identifier);
-				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::hex_code> (new lambda_p_io::lexer::hex_code (2, *identifier)));
+				identifier->lex (L':');
+				identifier->lex (L'a');
 			}
 			break;
 		case L'u':
 			{
 				lexer.state.pop ();
-				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer)));
+				auto identifier (boost::shared_ptr <lambda_p_io::lexer::identifier> (new lambda_p_io::lexer::identifier (lexer, first)));
 				lexer.state.push (identifier);
-				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::hex_code> (new lambda_p_io::lexer::hex_code (8, *identifier)));
+				identifier->lex (L':');
+				identifier->lex (L'u');
 			}
 			break;
 		default:

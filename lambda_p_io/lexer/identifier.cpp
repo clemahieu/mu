@@ -3,12 +3,15 @@
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/lexer/hex_code.h>
+#include <lambda_p_io/lexer/control.h>
 
-lambda_p_io::lexer::identifier::identifier (lambda_p_io::lexer::lexer & lexer_a)
+#include <boost/make_shared.hpp>
+
+lambda_p_io::lexer::identifier::identifier (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a)
 	: lexer (lexer_a),
 	lookahead (false),
-	first (lexer_a.position),
-	last (lexer_a.position)
+	first (first_a),
+	last (first_a)
 {
 }
 
@@ -26,10 +29,12 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 				lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::hex_code (2, *this)));
 				break;
 			default:
-				lexer.position = lookahead_first;
+				lambda_p_io::tokens::identifier * identifier = new lambda_p_io::tokens::identifier (string);
+				lexer.target (identifier, lambda_p::context (first, last));
 				lexer.state.pop ();
-				lexer (L':');
-				lexer (character);
+				auto state (boost::make_shared <lambda_p_io::lexer::control> (lexer, lookahead_first));
+				lexer.state.push (state);
+				state->lex (character);
 				break;
 		}
 	}

@@ -11,7 +11,7 @@ namespace lambda_p_io
 		class control : public lambda_p_io::lexer::state
 		{
 		public:
-			control (lambda_p_io::lexer::lexer & lexer_a);
+			control (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a);
 			void lex (wchar_t character) override;
 			lambda_p::position first;
 			lambda_p_io::lexer::lexer & lexer;

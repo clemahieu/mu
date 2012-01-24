@@ -33,7 +33,7 @@ void lambda_p_io::lexer::begin::lex (wchar_t character)
 		lexer.target (new lambda_p_io::tokens::divider, lambda_p::context (lexer.position, lexer.position));
 		break;
 	case L':':
-		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::control (lexer)));
+		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::control (lexer, lexer.position)));
 		break;
 	case L'[':
 		lexer.target (new lambda_p_io::tokens::left_square, lambda_p::context (lexer.position, lexer.position));
@@ -46,7 +46,7 @@ void lambda_p_io::lexer::begin::lex (wchar_t character)
 		lexer.target (new lambda_p_io::tokens::stream_end, lambda_p::context (lexer.position, lexer.position));
 		break;
 	default:
-		auto state (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::identifier (lexer)));
+		auto state (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::identifier (lexer, lexer.position)));
 		lexer.state.push (state);
 		state->lex (character);
 		break;

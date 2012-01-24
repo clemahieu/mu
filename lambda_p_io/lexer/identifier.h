@@ -13,7 +13,7 @@ namespace lambda_p_io
 		class identifier : public lambda_p_io::lexer::state
 		{
 		public:
-			identifier (lambda_p_io::lexer::lexer & lexer_a);
+			identifier (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a);
 			void lex (wchar_t character) override;
 			void add (wchar_t character);
 			std::wstring string;
