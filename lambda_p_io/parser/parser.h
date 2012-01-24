@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/context.h>
+
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
@@ -35,8 +37,9 @@ namespace lambda_p_io
 		{
 		public:
 			parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
-			void operator () (lambda_p_io::tokens::token * token);
+			void operator () (lambda_p_io::tokens::token * token, lambda_p::context context_a);
 			void reset ();
+			lambda_p::context context;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
 			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
 			std::stack <boost::shared_ptr <lambda_p_io::tokens::visitor>> state;

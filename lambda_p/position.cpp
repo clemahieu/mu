@@ -6,3 +6,10 @@ lambda_p::position::position ()
 	character (0)
 {
 }
+
+lambda_p::position::position (size_t row_a, size_t column_a, size_t character_a)
+	: row (row_a),
+	column (column_a),
+	character (character_a)
+{
+}

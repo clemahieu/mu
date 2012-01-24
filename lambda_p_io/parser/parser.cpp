@@ -17,8 +17,9 @@ lambda_p_io::parser::parser::parser (boost::shared_ptr <lambda_p::errors::error_
 	reset ();
 }
 
-void lambda_p_io::parser::parser::operator () (lambda_p_io::tokens::token * token)
+void lambda_p_io::parser::parser::operator () (lambda_p_io::tokens::token * token, lambda_p::context context_a)
 {
+	context = context_a;
 	auto state_l (state.top ());
 	(*token) (state_l.get ());
 }
