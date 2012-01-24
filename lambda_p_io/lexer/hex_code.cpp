@@ -78,7 +78,7 @@ void lambda_p_io::lexer::hex_code::lex (wchar_t character)
 		default:
 			std::wstring message (L"Invalid hex digit: ");
 			message.push_back (character);
-			(*identifier.lexer.errors) (message);
+			(*identifier.lexer.errors) (message, lambda_p::context (identifier.lexer.position, identifier.lexer.position));
 			identifier.lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::error> (new lambda_p_io::lexer::error));
 			break;
 	}

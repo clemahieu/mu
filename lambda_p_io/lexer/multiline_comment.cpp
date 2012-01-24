@@ -45,7 +45,7 @@ void lambda_p_io::lexer::multiline_comment::lex (wchar_t character)
 	}
 	else
 	{
-		(*lexer.errors) (L"End of stream inside multiline comment");
+		(*lexer.errors) (L"End of stream inside multiline comment", lambda_p::context (lexer.position, lexer.position));
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

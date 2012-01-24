@@ -9,6 +9,10 @@
 #include <lambda_p_io_test/extension.h>
 #include <lambda_p_io_test/builder.h>
 #include <lambda_p_io_test/lambda.h>
+#include <lambda_p_io_test/complex_identifier.h>
+#include <lambda_p_io_test/control.h>
+#include <lambda_p_io_test/hex_code.h>
+#include <lambda_p_io_test/multiline_comment.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -46,6 +50,22 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		lambda test;
+		test.run ();
+	}
+	{
+		complex_identifier test;
+		test.run ();
+	}
+	{
+		control test;
+		test.run ();
+	}
+	{
+		hex_code test;
+		test.run ();
+	}
+	{
+		multiline_comment test;
 		test.run ();
 	}
 }

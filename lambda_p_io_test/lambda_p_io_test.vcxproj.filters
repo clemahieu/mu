@@ -19,6 +19,10 @@
     <ClCompile Include="extension4.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="lambda.cpp" />
+    <ClCompile Include="complex_identifier.cpp" />
+    <ClCompile Include="control.cpp" />
+    <ClCompile Include="hex_code.cpp" />
+    <ClCompile Include="multiline_comment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
@@ -39,5 +43,9 @@
     <ClInclude Include="extension4.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="lambda.h" />
+    <ClInclude Include="complex_identifier.h" />
+    <ClInclude Include="control.h" />
+    <ClInclude Include="hex_code.h" />
+    <ClInclude Include="multiline_comment.h" />
   </ItemGroup>
 </Project>

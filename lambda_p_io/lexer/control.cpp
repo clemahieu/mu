@@ -54,7 +54,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		default:
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
-			(*lexer.errors) (message);
+			(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
 			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 			break;
 		}
@@ -62,7 +62,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of stream when parsing control character");
-		(*lexer.errors) (message);
+		(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

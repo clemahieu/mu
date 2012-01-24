@@ -64,7 +64,7 @@ void lambda_p_io::lexer::complex_identifier::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of file while parsing complex identifier");
-		(*lexer.errors) (message);
+		(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
 		auto error (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 		lexer.state.push (error);
 	}
