@@ -39,7 +39,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 				std::wstringstream message;
 				message << L"Unresolved identifier: ";
 				message << i->first;
-				(*analyzer_a.errors) (message.str ());
+				(*analyzer_a.errors) (message.str (), i->second.second);
 			}
 		}
 	}

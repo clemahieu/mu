@@ -13,9 +13,9 @@
 void lambda_p_io::analyzer::extensions::lambda::operator () (lambda_p_io::analyzer::expression & expression_a)
 {
 	size_t lambda_position (expression_a.position + 1);
-	expression_a.position = lambda_position;
 	if (expression_a.expression_m->values.size () > lambda_position)
 	{
+		expression_a.position = lambda_position;
 		auto routine (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (expression_a.expression_m->values [lambda_position]));
 		if (routine.get () != nullptr)
 		{
@@ -24,12 +24,12 @@ void lambda_p_io::analyzer::extensions::lambda::operator () (lambda_p_io::analyz
 		}
 		else
 		{
-			(*expression_a.routine.analyzer.errors) (L"Lambda extension requires its argument to be an expression");
+			(*expression_a.routine.analyzer.errors) (L"Lambda extension requires its argument to be an expression", lambda_p::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last));
 		}
 	}
 	else
 	{
-		(*expression_a.routine.analyzer.errors) (L"Lambda extension requires one argument");
+		(*expression_a.routine.analyzer.errors) (L"Lambda extension requires one argument", expression_a.expression_m->values [lambda_position - 1]->context);
 	}
 }
 

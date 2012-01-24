@@ -151,6 +151,7 @@
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="parser_result.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
+    <ClCompile Include="routine.cpp" />
     <ClCompile Include="single.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="source_result.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="parser.h" />
     <ClInclude Include="parser_result.h" />
     <ClInclude Include="istream_input_test.h" />
+    <ClInclude Include="routine.h" />
     <ClInclude Include="single.h" />
     <ClInclude Include="source.h" />
     <ClInclude Include="source_result.h" />

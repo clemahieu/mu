@@ -143,9 +143,6 @@
     <ClCompile Include="analyzer\extensions\lambda.cpp">
       <Filter>analyzer\extensions</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\globals.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="analyzer\extensions\extensions.cpp">
       <Filter>analyzer\extensions</Filter>
     </ClCompile>
@@ -275,9 +272,6 @@
     </ClInclude>
     <ClInclude Include="analyzer\extensions\lambda.h">
       <Filter>analyzer\extensions</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\globals.h">
-      <Filter>analyzer</Filter>
     </ClInclude>
     <ClInclude Include="analyzer\extensions\extensions.h">
       <Filter>analyzer\extensions</Filter>
