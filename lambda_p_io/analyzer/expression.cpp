@@ -63,7 +63,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		else
 		{
 			self->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
-			routine.unresolved.insert (std::multimap <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::resolver>>::value_type (identifier_a->string, boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1))));
+			routine.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context> (boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
 		}
 	}
 	else
