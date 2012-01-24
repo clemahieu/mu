@@ -64,7 +64,7 @@ void lambda_p_repl::repl::iteration ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	builder.parser (new lambda_p_io::tokens::left_square (), lambda_p::context ());
 	source (stream);
-	builder.parser (new lambda_p_io::tokens::right_square (), lambda_p::context (builder.lexer.position, builder.lexer.position));
+	source (L']');
 	source ();
 	if (builder.errors->errors.empty ())
 	{

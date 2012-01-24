@@ -5,11 +5,10 @@
 		function
 		[llvm/execution_engine/generic_value/create_int
 			# d32
-			# hcfcfcfcf
+			# h3c3c3c3c
 		]
-	]
+	; result]
 	[llvm/execution_engine/create_jit
-		context
 		module
 	; engine]
 	[llvm_io/synthesize

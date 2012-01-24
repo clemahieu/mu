@@ -4,7 +4,7 @@ void lambda_p_script::print::operation::perform (boost::shared_ptr <lambda_p::er
 {
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
-		std::wcout << parameters [0]->debug ();
+		std::wcout << (*i)->debug ();
 		std::wcout << L'\n';
 	}
 }
