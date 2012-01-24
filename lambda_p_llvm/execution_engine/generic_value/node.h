@@ -13,6 +13,7 @@ namespace lambda_p_llvm
 			class node : public lambda_p::node
 			{
 			public:
+				node ();
 				node (llvm::GenericValue & value_a);
 				std::wstring debug () override;
 				llvm::GenericValue value;

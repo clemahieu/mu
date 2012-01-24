@@ -26,6 +26,7 @@
     <ClInclude Include="context\create.h" />
     <ClInclude Include="context\node.h" />
     <ClInclude Include="execution_engine\create_jit.h" />
+    <ClInclude Include="execution_engine\generic_value\create_int.h" />
     <ClInclude Include="execution_engine\generic_value\node.h" />
     <ClInclude Include="execution_engine\node.h" />
     <ClInclude Include="execution_engine\run_function.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="context\create.cpp" />
     <ClCompile Include="context\node.cpp" />
     <ClCompile Include="execution_engine\create_jit.cpp" />
+    <ClCompile Include="execution_engine\generic_value\create_int.cpp" />
     <ClCompile Include="execution_engine\generic_value\node.cpp" />
     <ClCompile Include="execution_engine\node.cpp" />
     <ClCompile Include="execution_engine\run_function.cpp" />

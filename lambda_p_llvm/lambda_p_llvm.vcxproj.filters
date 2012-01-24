@@ -90,6 +90,9 @@
     <ClInclude Include="function\node.h">
       <Filter>function</Filter>
     </ClInclude>
+    <ClInclude Include="execution_engine\generic_value\create_int.h">
+      <Filter>execution_engine\generic_value</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -180,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="function\node.cpp">
       <Filter>function</Filter>
+    </ClCompile>
+    <ClCompile Include="execution_engine\generic_value\create_int.cpp">
+      <Filter>execution_engine\generic_value</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

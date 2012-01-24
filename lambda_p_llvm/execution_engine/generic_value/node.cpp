@@ -2,6 +2,10 @@
 
 #include <sstream>
 
+lambda_p_llvm::execution_engine::generic_value::node::node ()
+{
+}
+
 lambda_p_llvm::execution_engine::generic_value::node::node (llvm::GenericValue & value_a)
 	: value (value_a)
 {
