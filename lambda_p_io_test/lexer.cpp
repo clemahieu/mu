@@ -58,6 +58,12 @@ void lambda_p_io_test::lexer::run_2 ()
 	assert (result.results.size () == 1);
 	auto t1 (result.results [0]);
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (t1.first) != nullptr);
+	assert (t1.second.first.character == 0);
+	assert (t1.second.first.column == 1);
+	assert (t1.second.first.row == 1);
+	assert (t1.second.last.character == 0);
+	assert (t1.second.last.column == 1);
+	assert (t1.second.last.row == 1);
 }
 
 void lambda_p_io_test::lexer::run_3 ()
@@ -78,10 +84,40 @@ void lambda_p_io_test::lexer::run_3 ()
 	assert (t1i != nullptr);
 	assert (t1i->string.size () == 1);
 	assert (t1i->string [0] == L'a');
+	assert (t1.second.first.character == 0);
+	assert (t1.second.first.column == 1);
+	assert (t1.second.first.row == 1);
+	assert (t1.second.last.character == 0);
+	assert (t1.second.last.column == 1);
+	assert (t1.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::left_square *> (t2.first) != nullptr);
+	assert (t2.second.first.character == 1);
+	assert (t2.second.first.column == 2);
+	assert (t2.second.first.row == 1);
+	assert (t2.second.last.character == 1);
+	assert (t2.second.last.column == 2);
+	assert (t2.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::right_square *> (t3.first) != nullptr);
+	assert (t3.second.first.character == 2);
+	assert (t3.second.first.column == 3);
+	assert (t3.second.first.row == 1);
+	assert (t3.second.last.character == 2);
+	assert (t3.second.last.column == 3);
+	assert (t3.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::divider *> (t4.first) != nullptr);
+	assert (t4.second.first.character == 3);
+	assert (t4.second.first.column == 4);
+	assert (t4.second.first.row == 1);
+	assert (t4.second.last.character == 3);
+	assert (t4.second.last.column == 4);
+	assert (t4.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (t5.first) != nullptr);
+	assert (t5.second.first.character == 4);
+	assert (t5.second.first.column == 5);
+	assert (t5.second.first.row == 1);
+	assert (t5.second.last.character == 4);
+	assert (t5.second.last.column == 5);
+	assert (t5.second.last.row == 1);
 }
 
 void lambda_p_io_test::lexer::run_4 ()
@@ -98,7 +134,19 @@ void lambda_p_io_test::lexer::run_4 ()
 	auto t1i (dynamic_cast <lambda_p_io::tokens::identifier *> (t1.first));
 	assert (t1i != nullptr);
 	assert (t1i->string.size () == 0);
+	assert (t1.second.first.character == 0);
+	assert (t1.second.first.column == 1);
+	assert (t1.second.first.row == 1);
+	assert (t1.second.last.character == 1);
+	assert (t1.second.last.column == 2);
+	assert (t1.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (t2.first) != nullptr);
+	assert (t2.second.first.character == 2);
+	assert (t2.second.first.column == 3);
+	assert (t2.second.first.row == 1);
+	assert (t2.second.last.character == 2);
+	assert (t2.second.last.column == 3);
+	assert (t2.second.last.row == 1);
 }
 
 void lambda_p_io_test::lexer::run_5 ()
@@ -115,7 +163,19 @@ void lambda_p_io_test::lexer::run_5 ()
 	auto t1i (dynamic_cast <lambda_p_io::tokens::identifier *> (t1.first));
 	assert (t1i != nullptr);
 	assert (t1i->string.size () == 0);
+	assert (t1.second.first.character == 0);
+	assert (t1.second.first.column == 1);
+	assert (t1.second.first.row == 1);
+	assert (t1.second.last.character == 3);
+	assert (t1.second.last.column == 4);
+	assert (t1.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (t2.first) != nullptr);
+	assert (t2.second.first.character == 4);
+	assert (t2.second.first.column == 5);
+	assert (t2.second.first.row == 1);
+	assert (t2.second.last.character == 4);
+	assert (t2.second.last.column == 5);
+	assert (t2.second.last.row == 1);
 }
 
 void lambda_p_io_test::lexer::run_6 ()
@@ -132,7 +192,19 @@ void lambda_p_io_test::lexer::run_6 ()
 	auto t1i (dynamic_cast <lambda_p_io::tokens::identifier *> (t1.first));
 	assert (t1i != nullptr);
 	assert (t1i->string == std::wstring (L"|;[]:"));
+	assert (t1.second.first.character == 0);
+	assert (t1.second.first.column == 1);
+	assert (t1.second.first.row == 1);
+	assert (t1.second.last.character == 8);
+	assert (t1.second.last.column == 9);
+	assert (t1.second.last.row == 1);
 	assert (dynamic_cast <lambda_p_io::tokens::stream_end *> (t2.first) != nullptr);
+	assert (t2.second.first.character == 9);
+	assert (t2.second.first.column == 10);
+	assert (t2.second.first.row == 1);
+	assert (t2.second.last.character == 9);
+	assert (t2.second.last.column == 10);
+	assert (t2.second.last.row == 1);
 }
 
 void lambda_p_io_test::lexer::run_7 ()

@@ -23,6 +23,7 @@ namespace lambda_p_io
 			boost::circular_buffer <wchar_t> last_characters;
 			bool match ();
 			lambda_p::position first;
+			lambda_p::position last;
 			lambda_p_io::lexer::lexer & lexer;
 		};
 	}

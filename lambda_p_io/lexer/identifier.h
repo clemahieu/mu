@@ -20,6 +20,7 @@ namespace lambda_p_io
 			bool lookahead;
 			lambda_p::position lookahead_first;
 			lambda_p::position first;
+			lambda_p::position last;
 			lambda_p_io::lexer::lexer & lexer;
 		};
 	}

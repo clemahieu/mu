@@ -8,7 +8,8 @@
 lambda_p_io::lexer::complex_identifier::complex_identifier (lambda_p_io::lexer::lexer & lexer_a)
 	: have_end_token (false),
 	lexer (lexer_a),
-	first (lexer_a.position)
+	first (lexer_a.position),
+	last (lexer_a.position)
 {
 }
 
@@ -49,6 +50,7 @@ void lambda_p_io::lexer::complex_identifier::lex (wchar_t character)
 		else
 		{		
 			last_characters.push_back (character);
+			last = lexer.position;
 			data.push_back (character);
 		}
 		if (have_end_token && match ())
