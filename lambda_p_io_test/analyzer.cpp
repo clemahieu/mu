@@ -33,7 +33,7 @@ void lambda_p_io_test::analyzer::run_1 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());
@@ -44,7 +44,7 @@ void lambda_p_io_test::analyzer::run_2 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->individual_names.push_back (std::wstring (L"a"));
 	analyzer_l (expression);
 	assert (result.routines.empty ());
@@ -56,8 +56,8 @@ void lambda_p_io_test::analyzer::run_3 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));
 	analyzer_l (expression);
 	assert (result.routines.empty ());
 	assert (result.errors->errors.size () == 1);
@@ -68,11 +68,11 @@ void lambda_p_io_test::analyzer::run_4 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression1->full_name = std::wstring (L"~");
 	expression->values.push_back (expression1);
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"~"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
@@ -88,11 +88,11 @@ void lambda_p_io_test::analyzer::run_5 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression1->individual_names.push_back (std::wstring (L"~"));
 	expression->values.push_back (expression1);
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"~"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
@@ -108,10 +108,10 @@ void lambda_p_io_test::analyzer::run_6 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression1->individual_names.push_back (std::wstring (L"~"));
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"~"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	expression->values.push_back (expression1);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
@@ -131,10 +131,10 @@ void lambda_p_io_test::analyzer::run_7 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression1->full_name = std::wstring (L"~");
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"~"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	expression->values.push_back (expression1);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
@@ -151,17 +151,17 @@ void lambda_p_io_test::analyzer::run_8 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto expression2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto expression2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (expression1);
 	expression->values.push_back (expression2);
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"b"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"b"))));
 	expression1->full_name = std::wstring (L"a");
 	expression2->full_name = std::wstring (L"b");
-	expression1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"b"))));
-	expression2->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));
+	expression1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"b"))));
+	expression2->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));
 	analyzer_l (expression);
 	assert (!result.routines.empty ());
 	assert (result.errors->errors.empty ());		
@@ -182,8 +182,8 @@ void lambda_p_io_test::analyzer::run_9 ()
 {
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters (lambda_p::context ())));
 	expression->values.push_back (parameters);
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
@@ -200,25 +200,25 @@ void lambda_p_io_test::analyzer::run_10 ()
 	// [[unresolved; a] [:~; b] [:~; c] [:~; unresolved] a]
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters));
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto e1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters (lambda_p::context ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e1);
-	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"unresolved"))));
+	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"unresolved"))));
 	e1->individual_names.push_back (std::wstring (L"a"));
-	auto e2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
 	e2->individual_names.push_back (std::wstring (L"b"));
-	auto e3 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e3 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
 	e3->individual_names.push_back (std::wstring (L"c"));
-	auto e4 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e4 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e4);
 	e4->values.push_back (parameters);
 	e4->individual_names.push_back (std::wstring (L"unresolved"));
-	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"a"))));	
+	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));	
 	analyzer_l (expression);
 	assert (result.routines.size () == 1);
 	assert (result.errors->errors.empty ());	
@@ -230,17 +230,17 @@ void lambda_p_io_test::analyzer::run_11 ()
 	// [[un1 un2] [:~; un1] [:~; un2]]
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters));
-	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	auto e1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters (lambda_p::context ())));
+	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e1 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e1);
-	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"un1"))));
-	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (std::wstring (L"un2"))));
-	auto e2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"un1"))));
+	e1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"un2"))));
+	auto e2 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
 	e2->individual_names.push_back (std::wstring (L"un1"));
-	auto e3 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
+	auto e3 (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
 	e3->individual_names.push_back (std::wstring (L"un2"));

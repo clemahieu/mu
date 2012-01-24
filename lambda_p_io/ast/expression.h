@@ -13,9 +13,9 @@ namespace lambda_p_io
 		class expression : public lambda_p_io::ast::node
 		{
 		public:
-			expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values);
-			expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values, std::vector <std::wstring> individual_names);
-			expression (std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values, std::vector <std::wstring> individual_names, std::wstring full_name);
+			expression (lambda_p::context context_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values);
+			expression (lambda_p::context context_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values, std::vector <std::wstring> individual_names);
+			expression (lambda_p::context context_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values, std::vector <std::wstring> individual_names, std::wstring full_name);
 			std::wstring name () override;
 			void operator () (lambda_p_io::ast::visitor * visitor_a) override;
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values;

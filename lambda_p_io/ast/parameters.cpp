@@ -2,6 +2,11 @@
 
 #include <lambda_p_io/ast/visitor.h>
 
+lambda_p_io::ast::parameters::parameters (lambda_p::context context_a)
+	: lambda_p_io::ast::node (context_a)
+{
+}
+
 std::wstring lambda_p_io::ast::parameters::name ()
 {
 	return std::wstring (L"parameters");

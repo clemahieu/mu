@@ -14,11 +14,14 @@
 
 #include <sstream>
 
+#include <boost/make_shared.hpp>
+
 lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <std::wstring> names_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
-	names (names_a)
+	names (names_a),
+	first (parser_a.context)
 {
 }
 
@@ -62,7 +65,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square *
 	else
 	{
 		parser.state.pop ();
-		target (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (values, names, full_name)));
+		target (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (first.first, parser.context.last), values, names, full_name));
 	}
 }
 
