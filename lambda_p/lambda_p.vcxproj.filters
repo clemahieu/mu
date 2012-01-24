@@ -4,30 +4,6 @@
     <ClInclude Include="errors\error.h">
       <Filter>errors</Filter>
     </ClInclude>
-    <ClInclude Include="errors\unresolved_statement.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\unexpected_argument_count.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\unexpected_result_count.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\binder_error.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\binder_string_error.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\unexpected_binder_type.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\node_out_of_order.h">
-      <Filter>errors</Filter>
-    </ClInclude>
-    <ClInclude Include="errors\target_not_bindable.h">
-      <Filter>errors</Filter>
-    </ClInclude>
     <ClInclude Include="errors\error_list.h">
       <Filter>errors</Filter>
     </ClInclude>
@@ -45,33 +21,12 @@
     <ClInclude Include="order.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="position.h" />
+    <ClInclude Include="errors\error_context.h">
+      <Filter>errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\unresolved_statement.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\unexpected_argument_count.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\unexpected_result_count.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\binder_error.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\binder_string_error.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\unexpected_binder_type.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\node_out_of_order.cpp">
-      <Filter>errors</Filter>
-    </ClCompile>
-    <ClCompile Include="errors\target_not_bindable.cpp">
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="errors\error_list.cpp">
@@ -90,6 +45,9 @@
     <ClCompile Include="order.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="position.cpp" />
+    <ClCompile Include="errors\error_context.cpp">
+      <Filter>errors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

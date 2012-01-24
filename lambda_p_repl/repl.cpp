@@ -79,7 +79,7 @@ void lambda_p_repl::repl::iteration ()
 			for (auto k (errors->errors.begin ()), l (errors->errors.end ()); k != l; ++k)
 			{
 				stop = true;
-				(*k)->string (std::wcout);
+				(*k).first->string (std::wcout);
 				std::wcout << L"\n";
 			}
 			if (errors->errors.empty ())
@@ -94,7 +94,7 @@ void lambda_p_repl::repl::iteration ()
 	{
 		for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 		{
-			(*i)->string (std::wcout);
+			(*i).first->string (std::wcout);
 			std::wcout << L"\n";
 		}
 	}

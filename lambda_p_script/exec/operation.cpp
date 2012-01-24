@@ -54,7 +54,7 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 			{
 				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 				{
-					(*errors_a) (*i);
+					(*errors_a) ((*i).first, (*i).second);
 				}
 			}
 		}

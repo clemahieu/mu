@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <lambda_p/context.h>
+
 #include <ostream>
 
 namespace lambda_p

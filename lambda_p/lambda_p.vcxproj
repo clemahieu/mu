@@ -131,21 +131,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="context.h" />
+    <ClInclude Include="errors\error_context.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="errors\error_list.h" />
     <ClInclude Include="errors\error_target.h" />
     <ClInclude Include="errors\string_error.h" />
-    <ClInclude Include="errors\binder_error.h" />
-    <ClInclude Include="errors\binder_string_error.h" />
     <ClInclude Include="errors\error.h" />
-    <ClInclude Include="errors\node_out_of_order.h" />
-    <ClInclude Include="errors\target_not_bindable.h" />
-    <ClInclude Include="errors\unexpected_argument_count.h" />
-    <ClInclude Include="errors\unexpected_binder_type.h" />
-    <ClInclude Include="errors\unexpected_result_count.h" />
-    <ClInclude Include="errors\unresolved_statement.h" />
     <ClInclude Include="position.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
@@ -153,21 +146,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="context.cpp" />
+    <ClCompile Include="errors\error_context.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="errors\error_list.cpp" />
     <ClCompile Include="errors\error_target.cpp" />
     <ClCompile Include="errors\string_error.cpp" />
-    <ClCompile Include="errors\binder_error.cpp" />
-    <ClCompile Include="errors\binder_string_error.cpp" />
     <ClCompile Include="errors\error.cpp" />
-    <ClCompile Include="errors\node_out_of_order.cpp" />
-    <ClCompile Include="errors\target_not_bindable.cpp" />
-    <ClCompile Include="errors\unexpected_argument_count.cpp" />
-    <ClCompile Include="errors\unexpected_binder_type.cpp" />
-    <ClCompile Include="errors\unexpected_result_count.cpp" />
-    <ClCompile Include="errors\unresolved_statement.cpp" />
     <ClCompile Include="position.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
