@@ -3,6 +3,7 @@
 #include <lambda_p/context.h>
 #include <lambda_p_io/tokens/visitor.h>
 
+#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
 #include <vector>
@@ -13,6 +14,7 @@ namespace lambda_p_io
 	{
 		class node;
 		class expression;
+		class identifier;
 	}
 	namespace parser
 	{
@@ -20,7 +22,7 @@ namespace lambda_p_io
 		class full : public lambda_p_io::tokens::visitor
 		{
 		public:
-			full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <std::wstring> names_a, lambda_p::context first_a);
+			full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names_a, lambda_p::context first_a);
 			void operator () (lambda_p_io::tokens::divider * token) override;
 			void operator () (lambda_p_io::tokens::identifier * token) override;
 			void operator () (lambda_p_io::tokens::left_square * token) override;
@@ -31,8 +33,8 @@ namespace lambda_p_io
 			lambda_p_io::parser::parser & parser;
 			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values;
-			std::vector <std::wstring> names;
-			std::wstring full_name;			
+			std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names;
+			boost::shared_ptr <lambda_p_io::ast::identifier> full_name;			
 			lambda_p::context first;
 		};
 	}

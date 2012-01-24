@@ -10,6 +10,7 @@
 #include <lambda_p_io/parser/full.h>
 #include <lambda_p_io/tokens/parameters.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_io/ast/identifier.h>
 
 #include <sstream>
 
@@ -31,7 +32,7 @@ void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::divider * to
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::identifier * token)
 {
-	names.push_back (token->string);
+	names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (parser.context, token->string));
 }
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::left_square * token)

@@ -17,13 +17,13 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 	position (0),
 	self (self_a)
 {
-	if (!expression_a->full_name.empty ())
+	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a (expression_a->full_name, self);
+		routine_a (expression_a->full_name->string, self);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		routine_a (expression_a->individual_names [i], boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)));
+		routine_a (expression_a->individual_names [i]->string, boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)));
 	}
 	for (auto end (expression_a->values.size ()); position != end; ++position)
 	{
@@ -40,7 +40,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expressio
 {
 	auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
 	lambda_p_io::analyzer::expression expression (routine, expression_a, expression_l);
-	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
+	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())
 	{
 		self->dependencies.push_back (expression.self);
 	}

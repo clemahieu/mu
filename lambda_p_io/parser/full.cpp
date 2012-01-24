@@ -11,17 +11,19 @@
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/tokens/parameters.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_io/ast/identifier.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <std::wstring> names_a, lambda_p::context first_a)
+lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names_a, lambda_p::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	first (first_a)
+	first (first_a),
+	full_name (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring ()))
 {
 }
 
@@ -32,9 +34,9 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::divider * toke
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::identifier * token)
 {
-	if (full_name.empty ())
+	if (full_name->string.empty ())
 	{
-		full_name = token->string;
+		full_name = boost::make_shared <lambda_p_io::ast::identifier> (parser.context, token->string);
 	}
 	else
 	{		
@@ -55,7 +57,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::left_square * 
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square * token)
 {
-	if (full_name.empty ())
+	if (full_name->string.empty ())
 	{
 		std::wstringstream message;
 		message << L"Expression has no full name";

@@ -13,6 +13,7 @@ namespace lambda_p_io
 	{
 		class node;
 		class expression;
+		class identifier;
 	}
 	namespace parser
 	{
@@ -31,7 +32,7 @@ namespace lambda_p_io
 			lambda_p_io::parser::parser & parser;
 			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values;
-			std::vector <std::wstring> names;			
+			std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names;			
 			lambda_p::context first;
 		};
 	}
