@@ -10,6 +10,9 @@
 #include <lambda_p_io/analyzer/extensions/extension.h>
 #include <lambda_p/reference.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
+#include <lambda_p/errors/error_context.h>
+
+#include <boost/make_shared.hpp>
 
 lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> self_a)
 	: routine (routine_a),
@@ -68,6 +71,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 	}
 	else
 	{
-		(*keyword->second) (*this);
+		auto errors_l (boost::make_shared <lambda_p::errors::error_context> (routine.analyzer.errors, identifier_a->context));
+		(*keyword->second) (errors_l, *this);
 	}
 }

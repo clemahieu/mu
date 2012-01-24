@@ -10,7 +10,7 @@
 
 #include <boost/bind.hpp>
 
-void lambda_p_io::analyzer::extensions::lambda::operator () (lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_io::analyzer::extensions::lambda::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	size_t lambda_position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > lambda_position)

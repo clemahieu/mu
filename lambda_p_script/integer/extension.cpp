@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-void lambda_p_script::integer::extension::operator () (lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::integer::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -67,11 +67,11 @@ void lambda_p_script::integer::extension::operator () (lambda_p_io::analyzer::ex
 		}
 		else
 		{
-			(*expression_a.routine.analyzer.errors) (L"Number extension requires its argument to be an identifier");
+			(*errors_a) (L"Number extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*expression_a.routine.analyzer.errors) (L"Number extension requires one argument");
+		(*errors_a) (L"Number extension requires one argument");
 	}
 }

@@ -19,7 +19,7 @@ namespace lambda_p_io
 			public:
 				global (boost::shared_ptr <lambda_p::node> node_a);
 				boost::shared_ptr <lambda_p::node> node;
-				void operator () (lambda_p_io::analyzer::expression & expression_a) override;
+				void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
 			};
 		}
 	}

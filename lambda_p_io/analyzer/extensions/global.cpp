@@ -8,7 +8,7 @@ lambda_p_io::analyzer::extensions::global::global (boost::shared_ptr <lambda_p::
 {
 }
 
-void lambda_p_io::analyzer::extensions::global::operator () (lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_io::analyzer::extensions::global::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	expression_a.self->dependencies.push_back (node);
 }
