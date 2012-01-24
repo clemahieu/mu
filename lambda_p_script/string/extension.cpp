@@ -14,9 +14,9 @@
 void lambda_p_script::string::extension::operator () (lambda_p_io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
-	expression_a.position = data_position;
 	if (expression_a.expression_m->values.size () > data_position)
 	{
+		expression_a.position = data_position;
 		auto data (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [data_position]));
 		if (data.get () != nullptr)
 		{
@@ -24,11 +24,11 @@ void lambda_p_script::string::extension::operator () (lambda_p_io::analyzer::exp
 		}
 		else
 		{
-			(*expression_a.routine.analyzer.errors) (L"String extension requires its argument to be an identifier");
+			(*expression_a.routine.analyzer.errors) (L"String extension requires its argument to be an identifier", lambda_p::context (expression_a.expression_m->values [data_position - 1]->context.first, expression_a.expression_m->values [data_position]->context.last));
 		}
 	}
 	else
 	{
-		(*expression_a.routine.analyzer.errors) (L"String extension requires one argument");
+		(*expression_a.routine.analyzer.errors) (L"String extension requires one argument", expression_a.expression_m->values [data_position - 1]->context);
 	}
 }

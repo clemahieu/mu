@@ -145,6 +145,7 @@
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="segment.cpp" />
+    <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="times\operation.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="segment.h" />
+    <ClInclude Include="string\extension.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="times\operation.h" />
   </ItemGroup>

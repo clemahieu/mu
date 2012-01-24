@@ -38,6 +38,9 @@
     <ClCompile Include="chain\ten_count.cpp">
       <Filter>chain</Filter>
     </ClCompile>
+    <ClCompile Include="string\extension.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -77,6 +80,9 @@
     <ClInclude Include="chain\ten_count.h">
       <Filter>chain</Filter>
     </ClInclude>
+    <ClInclude Include="string\extension.h">
+      <Filter>string</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -93,6 +99,9 @@
     </Filter>
     <Filter Include="chain">
       <UniqueIdentifier>{c6441af1-be9e-45e3-93b5-217bc10c821b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{f419e5e1-9866-4b50-a8ca-9583876e58d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
