@@ -1,5 +1,7 @@
 #include "context.h"
 
+#include <sstream>
+
 lambda_p::context::context ()
 {
 }
@@ -20,4 +22,21 @@ bool lambda_p::context::operator == (lambda_p::context const & other)
 {
 	bool result (first == other.first && last == other.last);
 	return result;
+}
+
+std::wstring lambda_p::context::string ()
+{
+	std::wstringstream result;
+	result << first.row;
+	result << L',';
+	result << first.column;
+	result << L',';
+	result << first.character;
+	result << L':';
+	result << last.row;
+	result << L',';
+	result << last.column;
+	result << L',';
+	result << last.character;
+	return result.str ();
 }

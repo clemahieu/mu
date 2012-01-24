@@ -19,12 +19,8 @@
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
 
-lambda_p_repl::repl::repl(void)
+lambda_p_repl::repl::repl ()
 	: stop_m (false)
-{
-}
-
-lambda_p_repl::repl::~repl(void)
 {
 }
 
@@ -63,6 +59,8 @@ void lambda_p_repl::repl::iteration ()
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::global (quit))));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L'[');
+	builder.lexer.position.column = 1;
+	builder.lexer.position.character = 0;
 	source (stream);
 	source (L']');
 	source ();
@@ -76,26 +74,32 @@ void lambda_p_repl::repl::iteration ()
 			std::vector <boost::shared_ptr <lambda_p::node>> results;
 			auto routine (builder.routines [0]);
 			routine->perform (errors, arguments, results);
-			for (auto k (errors->errors.begin ()), l (errors->errors.end ()); k != l; ++k)
-			{
-				stop = true;
-				(*k).first->string (std::wcout);
-				std::wcout << L"\n";
-			}
 			if (errors->errors.empty ())
 			{
 				lambda_p_script::print::operation print;
 				std::vector <boost::shared_ptr <lambda_p::node>> print_results;
 				print.perform (errors, results, print_results);
 			}
+			else
+			{
+				print_errors (errors);
+			}
 		}
 	}
 	else
 	{
-		for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
-		{
-			(*i).first->string (std::wcout);
-			std::wcout << L"\n";
-		}
+		print_errors (builder.errors);
 	}
+}
+
+void lambda_p_repl::repl::print_errors (boost::shared_ptr <lambda_p::errors::error_list> errors_a)
+{
+	for (auto i (errors_a->errors.begin ()), j (errors_a->errors.end ()); i != j; ++i)
+	{
+		std::wcout << (*i).second.string ();
+		std::wcout << L' ';
+		(*i).first->string (std::wcout);
+		std::wcout << L"\n";
+	}
+
 }
