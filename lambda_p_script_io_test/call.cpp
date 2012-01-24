@@ -19,7 +19,7 @@ void lambda_p_script_io_test::call::run ()
 void lambda_p_script_io_test::call::run_1 ()
 {
 	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1));
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
 	boost::shared_ptr <lambda_p::node> node (new lambda_p::node);
 	lambda_p_script_io::expression expression (reservations, target, node);
 	assert (target->arguments.size () == 1);
@@ -31,7 +31,7 @@ void lambda_p_script_io_test::call::run_1 ()
 void lambda_p_script_io_test::call::run_2 ()
 {
 	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1));
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
 	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
 	lambda_p_script_io::expression expression (reservations, target, parameters);
@@ -44,7 +44,7 @@ void lambda_p_script_io_test::call::run_2 ()
 void lambda_p_script_io_test::call::run_3 ()
 {
 	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1));
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
 	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
 	boost::shared_ptr <lambda_p::reference> reference (new lambda_p::reference (parameters, 0));

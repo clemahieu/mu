@@ -5,8 +5,9 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_script/context.h>
 
-lambda_p_script::call::call (size_t results_a)
-	: results (results_a)
+lambda_p_script::call::call (size_t results_a, lambda_p::context context_a)
+	: results (results_a),
+	context (context_a)
 {
 }
 

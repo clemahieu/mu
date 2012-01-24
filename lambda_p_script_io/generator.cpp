@@ -14,7 +14,7 @@ lambda_p_script_io::generator::generator (std::vector <boost::shared_ptr <lambda
 	for (auto i (expressions_a.begin ()), j (expressions_a.end ()); i != j; ++i, ++open)
 	{
 		reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (*i, open));
-		auto call_l (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (open)));
+		auto call_l (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (open, (*i)->context)));
 		result->calls.push_back (call_l);
 		auto item (*i);
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)

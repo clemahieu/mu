@@ -1,5 +1,7 @@
 #pragma once
 
+#include <lambda_p/context.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <vector>
@@ -19,7 +21,8 @@ namespace lambda_p_script
 	class call
 	{
 	public:
-		call (size_t results_a);
+		call (size_t results_a, lambda_p::context context_a);
+		lambda_p::context context;
 		size_t results;
 		std::vector <boost::shared_ptr <lambda_p_script::node>> arguments;
 		void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::context & context);

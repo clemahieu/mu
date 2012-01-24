@@ -46,8 +46,6 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 void lambda_p_script_io::expression::operator () (lambda_p::routine * routine_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::routine> (node));
-	//lambda_p_script_io::synthesizer synthesizer (boost::bind (&lambda_p_script_io::expression::add, this, _1));
-	//synthesizer (value);
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
 }
 
