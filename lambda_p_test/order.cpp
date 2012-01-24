@@ -17,10 +17,10 @@ void lambda_p_test::order::run ()
 
 void lambda_p_test::order::run_1 ()
 {
-	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
-	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (lambda_p::context ())));
+	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	routine->body = root;
-	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	root->dependencies.push_back (parameters);
 	parameters->dependencies.push_back (routine->parameters);
 	lambda_p::order order (routine->body, routine->parameters);
@@ -34,13 +34,13 @@ void lambda_p_test::order::run_1 ()
 
 void lambda_p_test::order::run_2 ()
 {
-	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
-	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (lambda_p::context ())));
+	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	routine->body = root;
-	auto c1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto c1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	root->dependencies.push_back (c1);
 	c1->dependencies.push_back (routine->parameters);
-	auto c2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto c2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	root->dependencies.push_back (c2);
 	c2->dependencies.push_back (c1);
 	lambda_p::order order (routine->body, routine->parameters);
@@ -56,8 +56,8 @@ void lambda_p_test::order::run_2 ()
 
 void lambda_p_test::order::run_3 ()
 {
-	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
-	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (lambda_p::context ())));
+	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	routine->body = root;
 	auto r1 (boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (routine->parameters, 0)));
 	root->dependencies.push_back (r1);

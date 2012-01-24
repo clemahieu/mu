@@ -54,10 +54,10 @@ void lambda_p_test::visitor::run_3 ()
 {
 	boost::shared_ptr <lambda_p_test::test_visitor> vis (new lambda_p_test::test_visitor);	
 	boost::shared_ptr <lambda_p::visitor> visitor (vis);
-	lambda_p::expression * expression (new lambda_p::expression);
+	lambda_p::expression * expression (new lambda_p::expression (lambda_p::context ()));
 	lambda_p::node * node (new lambda_p::node);
 	lambda_p::reference * reference (new lambda_p::reference (boost::shared_ptr <lambda_p::expression> (), 0));
-	lambda_p::routine * routine (new lambda_p::routine);
+	lambda_p::routine * routine (new lambda_p::routine (lambda_p::context ()));
 	(*expression) (visitor.get ());	
 	(*node) (visitor.get ());
 	(*reference) (visitor.get ());

@@ -16,11 +16,11 @@ void lambda_p_script_io_test::generator::run ()
 void lambda_p_script_io_test::generator::run_1 ()
 {
 	std::vector <boost::shared_ptr <lambda_p::expression>> calls;
-	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
-	auto call1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
+	auto call1 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	calls.push_back (call1);
 	call1->dependencies.push_back (parameters);
-	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
 	lambda_p_script_io::generator generator (calls, parameters);

@@ -4,8 +4,8 @@
 
 #include <lambda_p/visitor.h>
 
-lambda_p::routine::routine ()
-	: parameters (new lambda_p::expression)
+lambda_p::routine::routine (lambda_p::context context_a)
+	: parameters (new lambda_p::expression (context_a))
 {
 }
 

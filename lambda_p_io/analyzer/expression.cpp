@@ -38,7 +38,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameter
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)
 {
-	auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
 	lambda_p_io::analyzer::expression expression (routine, expression_a, expression_l);
 	if (expression_a->full_name.empty () && expression_a->individual_names.empty ())
 	{

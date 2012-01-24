@@ -14,7 +14,7 @@
 
 lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a)
 	: analyzer (analyzer_a),
-	routine_m (new lambda_p::routine)
+	routine_m (new lambda_p::routine (lambda_p::context (expression_a->context.first, expression_a->context.first)))
 {
 	if (expression_a->individual_names.empty ())
 	{
@@ -22,7 +22,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		{
 			expression_a->full_name = std::wstring (L"anonymous");
 		}
-		auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+		auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
 		lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
 		routine_m->body = expression_l;
 		if (unresolved.empty ())

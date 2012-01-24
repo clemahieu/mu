@@ -21,8 +21,8 @@ void lambda_p_script_io_test::synthesizer::run ()
 void lambda_p_script_io_test::synthesizer::run_1 ()
 {
 	lambda_p_script_io::synthesizer synthesizer;
-	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
-	routine->body = boost::shared_ptr <lambda_p::expression> (new lambda_p::expression);
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (lambda_p::context (1, 1, 0, 1, 1, 0))));
+	routine->body = boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context (1, 1, 0, 1, 2, 1)));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
@@ -39,10 +39,10 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 {
 	// [[:~]]
 	lambda_p_script_io::synthesizer synthesizer;
-	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine));
-	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto routine (boost::shared_ptr <lambda_p::routine> (new lambda_p::routine (lambda_p::context (1, 1, 0, 1, 1, 0))));
+	auto root (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context (1, 1, 0, 1, 6, 5))));
 	routine->body = root;
-	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression));
+	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context (1, 2, 1, 1, 3, 2))));
 	root->dependencies.push_back (parameters);
 	parameters->dependencies.push_back (routine->parameters);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
