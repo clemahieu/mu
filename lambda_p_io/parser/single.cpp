@@ -15,18 +15,18 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::single::single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a)
+lambda_p_io::parser::single::single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, lambda_p::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
-	first (parser_a.context)
+	first (first_a)
 {
 }
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::divider * token)
 {
 	parser.state.pop ();
-	parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::full (parser, target, values, names)));
+	parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::full (parser, target, values, names, first)));
 }
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::identifier * token)

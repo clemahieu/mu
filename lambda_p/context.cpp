@@ -15,3 +15,9 @@ lambda_p::context::context (size_t first_row, size_t first_column, size_t first_
 	last (last_row, last_column, last_character)
 {
 }
+
+bool lambda_p::context::operator == (lambda_p::context const & other)
+{
+	bool result (first == other.first && last == other.last);
+	return result;
+}

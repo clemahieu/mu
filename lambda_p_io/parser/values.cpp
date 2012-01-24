@@ -25,7 +25,7 @@ lambda_p_io::parser::values::values (lambda_p_io::parser::parser & parser_a, boo
 void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::divider * token)
 {
 	parser.state.pop ();
-	parser.state.push (boost::make_shared <lambda_p_io::parser::single> (parser, target, values_m));
+	parser.state.push (boost::make_shared <lambda_p_io::parser::single> (parser, target, values_m, first));
 }
 
 void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::identifier * token)

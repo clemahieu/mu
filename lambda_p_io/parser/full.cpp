@@ -16,12 +16,12 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <std::wstring> names_a)
+lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <std::wstring> names_a, lambda_p::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	first (parser_a.context)
+	first (first_a)
 {
 }
 

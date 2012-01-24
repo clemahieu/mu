@@ -20,7 +20,7 @@ namespace lambda_p_io
 		class single : public lambda_p_io::tokens::visitor
 		{
 		public:
-			single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a);
+			single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, lambda_p::context first_a);
 			void operator () (lambda_p_io::tokens::divider * token) override;
 			void operator () (lambda_p_io::tokens::identifier * token) override;
 			void operator () (lambda_p_io::tokens::left_square * token) override;

@@ -13,3 +13,9 @@ lambda_p::position::position (size_t row_a, size_t column_a, size_t character_a)
 	character (character_a)
 {
 }
+
+bool lambda_p::position::operator == (lambda_p::position const & other)
+{
+	bool result (row == other.row && column == other.column && character == other.character);
+	return result;
+}

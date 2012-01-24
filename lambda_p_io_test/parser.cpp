@@ -47,6 +47,7 @@ void lambda_p_io_test::parser::run_2 ()
 	assert (e1->values.empty ());
 	assert (e1->full_name.empty ());
 	assert (e1->individual_names.empty ());
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 2, 1));
 }
 
 void lambda_p_io_test::parser::run_3 ()
@@ -58,9 +59,11 @@ void lambda_p_io_test::parser::run_3 ()
 	parser (new lambda_p_io::tokens::identifier (std::wstring (L"t1")), lambda_p::context (1, 2, 1, 1, 3, 2));
 	parser (new lambda_p_io::tokens::right_square, lambda_p::context (1, 4, 3, 1, 4, 3));
 	auto e1 (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (result.results [0]));
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 4, 3));
 	assert (e1->values.size () == 1);
 	auto i1 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (e1->values [0]));
 	assert (i1->string == std::wstring (L"t1"));
+	assert (i1->context == lambda_p::context (1, 2, 1, 1, 3, 2));
 	assert (e1->full_name.empty ());
 	assert (e1->individual_names.empty ());
 }
@@ -77,6 +80,7 @@ void lambda_p_io_test::parser::run_4 ()
 	auto e1 (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (result.results [0]));
 	assert (e1->values.empty ());
 	assert (e1->individual_names.size () == 1);
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 5, 4));
 	auto i1 (e1->individual_names [0]);
 	assert (i1 == std::wstring (L"t1"));
 	assert (e1->full_name.empty ());
@@ -96,6 +100,7 @@ void lambda_p_io_test::parser::run_5 ()
 	assert (e1->values.empty ());
 	assert (e1->individual_names.empty ());
 	assert (e1->full_name == std::wstring (L"t1"));
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 6, 5));
 }
 
 void lambda_p_io_test::parser::run_6 ()
@@ -111,8 +116,10 @@ void lambda_p_io_test::parser::run_6 ()
 	assert (e1->values.size () == 1);
 	assert (e1->individual_names.empty ());
 	assert (e1->full_name.empty ());
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 4, 3));
 	auto e2 (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (e1->values [0]));
 	assert (e2->values.empty ());
 	assert (e2->individual_names.empty ());
 	assert (e2->full_name.empty ());
+	assert (e2->context == lambda_p::context (1, 2, 1, 1, 3, 2));
 }
