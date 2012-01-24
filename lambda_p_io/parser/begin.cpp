@@ -51,6 +51,6 @@ void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::parameters * 
 void lambda_p_io::parser::begin::unexpected_token (lambda_p_io::tokens::token * token)
 {
     std::wstring message (L"At top level, expecting signature or end of stream");
-	(*parser.errors) (message);
+	(*parser.errors) (message, parser.context);
     parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

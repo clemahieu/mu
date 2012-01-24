@@ -43,7 +43,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::identifier * t
 		message << full_name;
 		message << L" current: ";
 		message << token->string;
-		(*parser.errors) (message.str ());
+		(*parser.errors) (message.str (), parser.context);
 		parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 	}
 }
@@ -59,7 +59,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square *
 	{
 		std::wstringstream message;
 		message << L"Expression has no full name";
-		(*parser.errors) (message.str ());
+		(*parser.errors) (message.str (), parser.context);
 		parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 	}
 	else
@@ -84,6 +84,6 @@ void lambda_p_io::parser::full::unexpected_token (lambda_p_io::tokens::token * t
     std::wstringstream message;
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str ());
+	(*parser.errors) (message.str (), parser.context);
     parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
+    <ClCompile Include="begin.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="complex_identifier.cpp" />
     <ClCompile Include="control.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="extension2.cpp" />
     <ClCompile Include="extension3.cpp" />
     <ClCompile Include="extension4.cpp" />
+    <ClCompile Include="full.cpp" />
     <ClCompile Include="hex_code.cpp" />
     <ClCompile Include="lambda.cpp" />
     <ClCompile Include="lexer.cpp" />
@@ -149,14 +151,17 @@
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="parser_result.cpp" />
     <ClCompile Include="istream_input_test.cpp" />
+    <ClCompile Include="single.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="source_result.cpp" />
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="values.cpp" />
     <ClCompile Include="wistream_input_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
+    <ClInclude Include="begin.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="complex_identifier.h" />
     <ClInclude Include="control.h" />
@@ -165,6 +170,7 @@
     <ClInclude Include="extension2.h" />
     <ClInclude Include="extension3.h" />
     <ClInclude Include="extension4.h" />
+    <ClInclude Include="full.h" />
     <ClInclude Include="hex_code.h" />
     <ClInclude Include="lambda.h" />
     <ClInclude Include="lexer.h" />
@@ -173,9 +179,11 @@
     <ClInclude Include="parser.h" />
     <ClInclude Include="parser_result.h" />
     <ClInclude Include="istream_input_test.h" />
+    <ClInclude Include="single.h" />
     <ClInclude Include="source.h" />
     <ClInclude Include="source_result.h" />
     <ClInclude Include="tests.h" />
+    <ClInclude Include="values.h" />
     <ClInclude Include="wistream_input_test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

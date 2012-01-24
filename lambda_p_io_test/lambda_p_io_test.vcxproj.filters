@@ -23,6 +23,10 @@
     <ClCompile Include="control.cpp" />
     <ClCompile Include="hex_code.cpp" />
     <ClCompile Include="multiline_comment.cpp" />
+    <ClCompile Include="begin.cpp" />
+    <ClCompile Include="values.cpp" />
+    <ClCompile Include="single.cpp" />
+    <ClCompile Include="full.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
@@ -47,5 +51,9 @@
     <ClInclude Include="control.h" />
     <ClInclude Include="hex_code.h" />
     <ClInclude Include="multiline_comment.h" />
+    <ClInclude Include="begin.h" />
+    <ClInclude Include="values.h" />
+    <ClInclude Include="single.h" />
+    <ClInclude Include="full.h" />
   </ItemGroup>
 </Project>

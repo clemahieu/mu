@@ -60,6 +60,6 @@ void lambda_p_io::parser::single::unexpected_token (lambda_p_io::tokens::token *
     std::wstringstream message;
 	message << L"Unexpected token while parsing individual names: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str ());
+	(*parser.errors) (message.str (), parser.context);
     parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

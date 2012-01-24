@@ -13,6 +13,10 @@
 #include <lambda_p_io_test/control.h>
 #include <lambda_p_io_test/hex_code.h>
 #include <lambda_p_io_test/multiline_comment.h>
+#include <lambda_p_io_test/begin.h>
+#include <lambda_p_io_test/values.h>
+#include <lambda_p_io_test/single.h>
+#include <lambda_p_io_test/full.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -66,6 +70,22 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		multiline_comment test;
+		test.run ();
+	}
+	{
+		begin test;
+		test.run ();
+	}
+	{
+		values test;
+		test.run ();
+	}
+	{
+		single test;
+		test.run ();
+	}
+	{
+		full test;
 		test.run ();
 	}
 }

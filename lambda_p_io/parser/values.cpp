@@ -46,7 +46,7 @@ void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::right_square
 
 void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::stream_end * token)
 {
-	(*parser.errors) (L"Unexpected end of stream while parsing expression");
+	(*parser.errors) (L"Unexpected end of stream while parsing expression", parser.context);
 	parser.state.push (boost::make_shared <lambda_p_io::parser::error> ());
 }
 
