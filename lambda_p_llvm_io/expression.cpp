@@ -6,6 +6,7 @@
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/function/operation.h>
+#include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm/operation.h>
 #include <lambda_p_llvm/lambda/operation.h>
@@ -115,7 +116,6 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 		}
 		else
 		{
-			llvm::Value * val;
 			auto function (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (node_a));
 			if (function.get () != nullptr)
 			{
@@ -124,16 +124,16 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 			}
 			else
 			{
-				//auto routine (boost::dynamic_pointer_cast <lambda_p::routine> (node_a));
-				//if (routine.get () != nullptr)
-				//{
-				//	result = true;
-				//	target = boost::make_shared <lambda_p_llvm::lambda::operation> (routine);
-				//}
-				//else
-				//{
+				auto function (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (node_a));
+				if (function.get () != nullptr)
+				{
+					result = true;
+					target = boost::make_shared <lambda_p_llvm::function::operation> (boost::make_shared <lambda_p_llvm::function_pointer::node> (function->function (), false));
+				}
+				else
+				{
 					not_callable ();
-				//}
+				}
 			}
 		}
 	}

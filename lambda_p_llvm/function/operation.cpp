@@ -44,19 +44,12 @@ void lambda_p_llvm::function::operation::operator () (boost::shared_ptr <lambda_
 			}
 			else
 			{
-				//auto routine (boost::dynamic_pointer_cast <lambda_p::routine> (arguments_a [i]));
-				//if (routine.get () != nullptr)
-				//{
-				//}
-				//else
-				//{
-					std::wstringstream message;
-					message << L"Parameter at position: ";
-					message << i;
-					message << L" is not a value";
-					(*errors_a) (message.str ());
-					good = false;
-				//}
+				std::wstringstream message;
+				message << L"Parameter at position: ";
+				message << i;
+				message << L" is not a value";
+				(*errors_a) (message.str ());
+				good = false;
 			}
 		}
 		if (good)

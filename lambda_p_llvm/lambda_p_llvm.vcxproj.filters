@@ -93,6 +93,27 @@
     <ClInclude Include="execution_engine\generic_value\create_int.h">
       <Filter>execution_engine\generic_value</Filter>
     </ClInclude>
+    <ClInclude Include="instructions\add.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\mul.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\sdiv.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\srem.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\sub.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\udiv.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\urem.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -187,6 +208,27 @@
     <ClCompile Include="execution_engine\generic_value\create_int.cpp">
       <Filter>execution_engine\generic_value</Filter>
     </ClCompile>
+    <ClCompile Include="instructions\add.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\mul.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\sdiv.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\srem.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\sub.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\udiv.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\urem.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -239,6 +281,9 @@
     </Filter>
     <Filter Include="integer_type">
       <UniqueIdentifier>{53f089e5-94fd-418d-b09f-a61bedb86ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="instructions">
+      <UniqueIdentifier>{ea269487-8832-4950-a40b-1735a60141c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
