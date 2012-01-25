@@ -114,6 +114,33 @@
     <ClInclude Include="instructions\urem.h">
       <Filter>instructions</Filter>
     </ClInclude>
+    <ClInclude Include="instructions\shl.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\lshr.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\ashr.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\and.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\or.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\xor.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\load.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\store.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\cmpxchg.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -227,6 +254,33 @@
       <Filter>instructions</Filter>
     </ClCompile>
     <ClCompile Include="instructions\urem.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\shl.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\lshr.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\ashr.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\and.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\or.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\xor.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\load.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\store.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\cmpxchg.cpp">
       <Filter>instructions</Filter>
     </ClCompile>
   </ItemGroup>

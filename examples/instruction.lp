@@ -9,7 +9,7 @@
 		]
 		[llvm/execution_engine/generic_value/create_int
 			# d32
-			# h100
+			# h80
 		]
 	; result]
 	[llvm/execution_engine/create_jit
@@ -17,7 +17,7 @@
 	; engine]
 	[llvm_io/synthesize
 		=>
-			[llvm/instructions/add
+			[llvm/instructions/urem
 				one two
 				[:~ ; one two]				
 			]
