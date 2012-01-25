@@ -14,6 +14,7 @@ namespace lambda_p_llvm
 		{
 		public:
 			node (llvm::Module * module_a);
+			std::wstring debug () override;
 			llvm::Module * module;
 		};
 	}

@@ -86,6 +86,9 @@
     <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="instructions.lp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6E7EC1DF-205B-4A75-B3F2-7364E315FABB}</ProjectGuid>
     <RootNamespace>lambda_p_llvm</RootNamespace>

@@ -14,6 +14,7 @@ namespace lambda_p_script
 		{
 		public:
 			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> items;
+			std::wstring debug () override;
 		};
 	}
 }

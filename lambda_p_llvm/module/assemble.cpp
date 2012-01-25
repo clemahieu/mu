@@ -26,14 +26,19 @@ void lambda_p_llvm::module::assemble::operator () (boost::shared_ptr <lambda_p::
 			}
 			else
 			{
-				std::wstringstream message;
-				std::string amessage (diagnostic.getMessage ());
-				std::wstring converted;
-				converted.resize (amessage.size ());
-				std::copy (amessage.begin (), amessage.end (), converted.begin ());
+				std::stringstream message;
 				message << L"Unable to assemble data:\n";
-				message << converted;
-				(*errors_a) (message.str ());
+				std::string msg (diagnostic.getMessage ());
+				message << msg;
+				message << ": (";
+				message << diagnostic.getLineNo ();
+				message << ",";
+				message << diagnostic.getColumnNo ();
+				message << "): ";
+				message << diagnostic.getLineContents ();
+				std::string amessage (message.str ());
+				std::wstring converted (amessage.begin (), amessage.end ());
+				(*errors_a) (converted);
 			}
 		}
 		else

@@ -241,4 +241,7 @@
       <UniqueIdentifier>{53f089e5-94fd-418d-b09f-a61bedb86ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="instructions.lp" />
+  </ItemGroup>
 </Project>
