@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="context\value.h" />
     <ClInclude Include="instructions\add.h" />
     <ClInclude Include="api.h" />
     <ClInclude Include="argument\node.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="instructions\or.h" />
     <ClInclude Include="instructions\shl.h" />
     <ClInclude Include="instructions\store.h" />
+    <ClInclude Include="instructions\trunc.h" />
     <ClInclude Include="instructions\xor.h" />
     <ClInclude Include="integer_type\create.h" />
     <ClInclude Include="integer_type\node.h" />
@@ -65,10 +67,12 @@
     <ClInclude Include="type\node.h" />
     <ClInclude Include="instructions\udiv.h" />
     <ClInclude Include="instructions\urem.h" />
+    <ClInclude Include="value\get_context.h" />
     <ClInclude Include="value\get_type.h" />
     <ClInclude Include="value\node.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="context\value.cpp" />
     <ClCompile Include="instructions\add.cpp" />
     <ClCompile Include="api.cpp" />
     <ClCompile Include="argument\node.cpp" />
@@ -94,6 +98,7 @@
     <ClCompile Include="instructions\or.cpp" />
     <ClCompile Include="instructions\shl.cpp" />
     <ClCompile Include="instructions\store.cpp" />
+    <ClCompile Include="instructions\trunc.cpp" />
     <ClCompile Include="instructions\xor.cpp" />
     <ClCompile Include="integer_type\create.cpp" />
     <ClCompile Include="integer_type\node.cpp" />
@@ -115,6 +120,7 @@
     <ClCompile Include="type\node.cpp" />
     <ClCompile Include="instructions\udiv.cpp" />
     <ClCompile Include="instructions\urem.cpp" />
+    <ClCompile Include="value\get_context.cpp" />
     <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
   </ItemGroup>

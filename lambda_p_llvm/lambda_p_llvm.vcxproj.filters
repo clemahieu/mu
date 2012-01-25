@@ -141,6 +141,15 @@
     <ClInclude Include="instructions\cmpxchg.h">
       <Filter>instructions</Filter>
     </ClInclude>
+    <ClInclude Include="instructions\trunc.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="value\get_context.h">
+      <Filter>value</Filter>
+    </ClInclude>
+    <ClInclude Include="context\value.h">
+      <Filter>context</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -282,6 +291,15 @@
     </ClCompile>
     <ClCompile Include="instructions\cmpxchg.cpp">
       <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\trunc.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="value\get_context.cpp">
+      <Filter>value</Filter>
+    </ClCompile>
+    <ClCompile Include="context\value.cpp">
+      <Filter>context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

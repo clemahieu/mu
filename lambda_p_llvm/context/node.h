@@ -11,7 +11,8 @@ namespace lambda_p_llvm
 		class node : public lambda_p::node
 		{
 		public:
-			llvm::LLVMContext context;
+			node (llvm::LLVMContext & context_a);
+			llvm::LLVMContext & context;
 			std::wstring name () override;
 		};
 	}
