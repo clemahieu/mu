@@ -150,6 +150,9 @@
     <ClInclude Include="context\value.h">
       <Filter>context</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer\operation.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -301,6 +304,9 @@
     <ClCompile Include="context\value.cpp">
       <Filter>context</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\operation.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -356,6 +362,9 @@
     </Filter>
     <Filter Include="instructions">
       <UniqueIdentifier>{ea269487-8832-4950-a40b-1735a60141c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{5413245f-7265-4e2b-8571-92aaeef80159}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

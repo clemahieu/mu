@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="analyzer\node.cpp" />
     <ClCompile Include="astring\extension.cpp" />
     <ClCompile Include="astring\node.cpp" />
     <ClCompile Include="bool_c\create.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="unit\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="analyzer\node.h" />
     <ClInclude Include="astring\extension.h" />
     <ClInclude Include="astring\node.h" />
     <ClInclude Include="bool_c\create.h" />

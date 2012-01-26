@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="analyzer\operation.h" />
     <ClInclude Include="context\value.h" />
     <ClInclude Include="instructions\add.h" />
     <ClInclude Include="api.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="value\node.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="analyzer\operation.cpp" />
     <ClCompile Include="context\value.cpp" />
     <ClCompile Include="instructions\add.cpp" />
     <ClCompile Include="api.cpp" />

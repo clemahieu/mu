@@ -41,6 +41,9 @@
     <ClCompile Include="string\extension.cpp">
       <Filter>string</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\analyzer.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -83,6 +86,9 @@
     <ClInclude Include="string\extension.h">
       <Filter>string</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer\analyzer.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -102,6 +108,9 @@
     </Filter>
     <Filter Include="string">
       <UniqueIdentifier>{f419e5e1-9866-4b50-a8ca-9583876e58d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{11a64922-c8c3-407d-b320-9fa7d38cd245}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

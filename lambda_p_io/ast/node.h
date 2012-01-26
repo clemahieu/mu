@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lambda_p/node.h>
 #include <lambda_p/context.h>
 
 #include <string>
@@ -9,7 +10,7 @@ namespace lambda_p_io
 	namespace ast
 	{
 		class visitor;
-		class node
+		class node : public lambda_p::node
 		{
 		public:
 			node (lambda_p::context context_a);
