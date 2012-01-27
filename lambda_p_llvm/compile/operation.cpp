@@ -14,7 +14,7 @@
 
 #include <sstream>;
 
-void lambda_p_llvm::compile::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::compile::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto module (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
 	auto name (boost::dynamic_pointer_cast <lambda_p_script::astring::node> (parameters [1]));

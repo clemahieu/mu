@@ -1,6 +1,6 @@
 #pragma once
 
-namespace lambda_p_script_test
+namespace lambda_p_test
 {
 	class segment
 	{

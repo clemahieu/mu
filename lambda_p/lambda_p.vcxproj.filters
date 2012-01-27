@@ -24,6 +24,7 @@
     <ClInclude Include="errors\error_context.h">
       <Filter>errors</Filter>
     </ClInclude>
+    <ClInclude Include="segment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">

@@ -25,7 +25,6 @@
     <ClCompile Include="times\operation.cpp">
       <Filter>times</Filter>
     </ClCompile>
-    <ClCompile Include="segment.cpp" />
     <ClCompile Include="closure\single.cpp">
       <Filter>closure</Filter>
     </ClCompile>
@@ -70,7 +69,6 @@
     <ClInclude Include="times\operation.h">
       <Filter>times</Filter>
     </ClInclude>
-    <ClInclude Include="segment.h" />
     <ClInclude Include="closure\single.h">
       <Filter>closure</Filter>
     </ClInclude>

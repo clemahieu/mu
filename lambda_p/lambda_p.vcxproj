@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="segment.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="errors\error_context.h" />
     <ClInclude Include="order.h" />

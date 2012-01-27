@@ -8,7 +8,7 @@
 
 #include <sstream>
 
-void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	if (parameters.size () > 1)
 	{
@@ -18,7 +18,7 @@ void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors
 		{
 			if (two.get () != nullptr)
 			{
-				lambda_p_llvm_io::routine routine (errors_a, one, two, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> (parameters.lower + 2, parameters.size_m - 2, parameters.source));
+				lambda_p_llvm_io::routine routine (errors_a, one, two, lambda_p::segment <boost::shared_ptr <lambda_p::node>> (parameters.lower + 2, parameters.source));
 				if (!(*errors_a) ())
 				{
 					results.push_back (routine.result);

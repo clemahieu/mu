@@ -8,7 +8,7 @@ lambda_p_script_test::chain::ten_count::ten_count ()
 {
 }
 
-void lambda_p_script_test::chain::ten_count::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script_test::chain::ten_count::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (parameters [0]));
 	if (one.get () != nullptr)

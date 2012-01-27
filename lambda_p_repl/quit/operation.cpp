@@ -7,7 +7,7 @@ lambda_p_repl::quit::operation::operation (lambda_p_repl::repl & repl_a)
 {
 }
 
-void lambda_p_repl::quit::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_repl::quit::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	repl.stop ();
 }

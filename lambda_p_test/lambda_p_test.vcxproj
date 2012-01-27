@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="segment.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="directory_iterator_test.cpp" />
     <ClCompile Include="filesystem_test.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="visitor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="segment.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="directory_iterator_test.h" />
     <ClInclude Include="filesystem_test.h" />

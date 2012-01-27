@@ -2,7 +2,7 @@
 
 #include <vector>
 
-namespace lambda_p_script
+namespace lambda_p
 {
 	template <typename T, typename U = std::vector <T>>
 	class segment
@@ -10,13 +10,11 @@ namespace lambda_p_script
 	public:
 		segment (U & source_a)
 			: lower (0),
-			size_m (source_a.size ()),
 			source (source_a)
 		{
 		}
-		segment (size_t lower_a, size_t size_a, U & source_a)
+		segment (size_t lower_a, U & source_a)
 			: lower (lower_a),
-			size_m (size_a),
 			source (source_a)
 		{
 		}
@@ -30,14 +28,13 @@ namespace lambda_p_script
 		}
 		typename U::iterator end ()
 		{
-			return source.begin () + lower + size_m;
+			return source.end ();
 		}
 		size_t size ()
 		{
-			return size_m;
+			return source.size () - lower;
 		}
 		size_t lower;
-		size_t size_m;
 		U & source;
 	};
 }

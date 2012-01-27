@@ -10,7 +10,7 @@
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/constant.h>
-#include <lambda_p_script/segment.h>
+#include <lambda_p/segment.h>
 
 #include <boost/bind.hpp>
 

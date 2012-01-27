@@ -145,7 +145,6 @@
     <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="segment.cpp" />
     <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="tests.cpp" />
     <ClCompile Include="times\operation.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="segment.h" />
     <ClInclude Include="string\extension.h" />
     <ClInclude Include="tests.h" />
     <ClInclude Include="times\operation.h" />

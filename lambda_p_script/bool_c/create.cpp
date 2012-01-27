@@ -20,7 +20,7 @@ lambda_p_script::bool_c::create::create ()
 	values.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"low"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::bool_c::node (false))));
 }
 
-void lambda_p_script::bool_c::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::bool_c::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
