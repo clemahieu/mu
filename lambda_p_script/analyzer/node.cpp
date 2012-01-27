@@ -12,8 +12,9 @@ void lambda_p_script::analyzer::node::operator () (boost::shared_ptr <lambda_p::
 	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		lambda_p_io::analyzer::analyzer analyzer (boost::bind (&lambda_p_script::analyzer::node::add, this, results, _1), errors_a);
-		analyzer (one);
+		std::vector <boost::shared_ptr <lambda_p::node>> * results_l (&results);
+		lambda_p_io::analyzer::analyzer analyzer (boost::bind (&lambda_p_script::analyzer::node::add, this, results_l, _1), errors_a);
+		analyzer.input (one);
 	}
 	else
 	{
@@ -26,7 +27,7 @@ size_t lambda_p_script::analyzer::node::count ()
 	return 1;
 }
 
-void lambda_p_script::analyzer::node::add (std::vector <boost::shared_ptr <lambda_p::node>> & results, boost::shared_ptr <lambda_p::routine> routine_a)
+void lambda_p_script::analyzer::node::add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
-	results.push_back (routine_a);
+	results->push_back (cluster_a);
 }

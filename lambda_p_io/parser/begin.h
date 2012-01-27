@@ -12,7 +12,7 @@ namespace lambda_p_io
 {	
 	namespace ast
 	{
-		class expression;
+		class node;
 	}
 	namespace parser
 	{
@@ -20,7 +20,7 @@ namespace lambda_p_io
 		class begin : public lambda_p_io::tokens::visitor
 		{
 		public:
-			begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
+			begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a);
 			void operator () (lambda_p_io::tokens::divider * token) override;
 			void operator () (lambda_p_io::tokens::identifier * token) override;
 			void operator () (lambda_p_io::tokens::left_square * token) override;
@@ -29,7 +29,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::tokens::parameters * token) override;
 			void unexpected_token (lambda_p_io::tokens::token * token);
 			lambda_p_io::parser::parser & parser;
-			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
+			boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target;
 		};
 	}
 }

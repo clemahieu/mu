@@ -11,7 +11,7 @@
 #include <lambda_p_io/tokens/parameters.h>
 #include <lambda_p/errors/error_target.h>
 
-lambda_p_io::parser::begin::begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
+lambda_p_io::parser::begin::begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a)
 	: parser (parser_a),
 	target (target_a)
 {

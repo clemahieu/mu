@@ -15,7 +15,7 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::values::values (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
+lambda_p_io::parser::values::values (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a)
 	: parser (parser_a),
 	target (target_a),
 	first (parser_a.context)
@@ -55,7 +55,7 @@ void lambda_p_io::parser::values::operator () (lambda_p_io::tokens::parameters *
 	values_m.push_back (boost::make_shared <lambda_p_io::ast::parameters> (parser.context));
 }
 
-void lambda_p_io::parser::values::subexpression (boost::shared_ptr <lambda_p_io::ast::expression> expression)
+void lambda_p_io::parser::values::subexpression (boost::shared_ptr <lambda_p_io::ast::node> node_a)
 {
-	values_m.push_back (expression);
+	values_m.push_back (node_a);
 }

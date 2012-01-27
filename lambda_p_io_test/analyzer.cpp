@@ -35,8 +35,12 @@ void lambda_p_io_test::analyzer::run_1 ()
 	lambda_p_io_test::analyzer_result result;
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [std::wstring (L"1")]);
 	assert (result.errors->errors.empty ());
 }
 
@@ -47,8 +51,8 @@ void lambda_p_io_test::analyzer::run_2 ()
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->individual_names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"a")));
-	analyzer_l (expression);
-	assert (result.routines.empty ());
+	analyzer_l.input (expression);
+	assert (result.clusters.empty ());
 	assert (result.errors->errors.size () == 1);
 }
 
@@ -59,8 +63,8 @@ void lambda_p_io_test::analyzer::run_3 ()
 	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));
-	analyzer_l (expression);
-	assert (result.routines.empty ());
+	analyzer_l.input (expression);
+	assert (result.clusters.empty ());
 	assert (result.errors->errors.size () == 1);
 }
 
@@ -74,10 +78,13 @@ void lambda_p_io_test::analyzer::run_4 ()
 	expression1->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"~"));
 	expression->values.push_back (expression1);
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
+	assert (cluster->routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto body (result.routines [0]->body);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 1);
 	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
@@ -94,10 +101,13 @@ void lambda_p_io_test::analyzer::run_5 ()
 	expression1->individual_names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
+	assert (cluster->routines.size () == 1);
 	assert (result.errors->errors.empty ());	
-	auto body (result.routines [0]->body);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 1);
 	auto parameters (boost::dynamic_pointer_cast <lambda_p::reference> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
@@ -114,10 +124,12 @@ void lambda_p_io_test::analyzer::run_6 ()
 	expression1->individual_names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"~")));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	expression->values.push_back (expression1);
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
 	assert (result.errors->errors.empty ());		
-	auto body (result.routines [0]->body);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 1);
 	auto reference (boost::dynamic_pointer_cast <lambda_p::reference> (body->dependencies [0]));
 	assert (reference.get () != nullptr);
@@ -137,10 +149,12 @@ void lambda_p_io_test::analyzer::run_7 ()
 	expression1->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"~"));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"~"))));
 	expression->values.push_back (expression1);
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
 	assert (result.errors->errors.empty ());		
-	auto body (result.routines [0]->body);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 1);
 	auto parameters (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
@@ -163,10 +177,12 @@ void lambda_p_io_test::analyzer::run_8 ()
 	expression2->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"b"));
 	expression1->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"b"))));
 	expression2->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));
-	analyzer_l (expression);
-	assert (!result.routines.empty ());
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (!result.clusters.empty ());
 	assert (result.errors->errors.empty ());		
-	auto body (result.routines [0]->body);
+	auto cluster (result.clusters [0]);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 2);
 	auto d1 (boost::dynamic_pointer_cast <lambda_p::expression> (body->dependencies [0]));
 	assert (d1.get () != nullptr);
@@ -186,10 +202,12 @@ void lambda_p_io_test::analyzer::run_9 ()
 	auto expression (boost::shared_ptr <lambda_p_io::ast::expression> (new lambda_p_io::ast::expression (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ())));
 	auto parameters (boost::shared_ptr <lambda_p_io::ast::parameters> (new lambda_p_io::ast::parameters (lambda_p::context ())));
 	expression->values.push_back (parameters);
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
+	auto cluster (result.clusters [0]);
 	assert (result.errors->errors.empty ());	
-	auto body (result.routines [0]->body);
+	auto body (cluster->routines [std::wstring (L"1")]->body);
 	assert (body->dependencies.size () == 1);
 	auto params (boost::dynamic_pointer_cast <lambda_p::node> (body->dependencies [0]));
 	assert (params.get () != nullptr);
@@ -220,8 +238,9 @@ void lambda_p_io_test::analyzer::run_10 ()
 	e4->values.push_back (parameters);
 	e4->individual_names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"unresolved")));
 	expression->values.push_back (boost::shared_ptr <lambda_p_io::ast::identifier> (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring (L"a"))));	
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
 	assert (result.errors->errors.empty ());	
 }
 
@@ -245,7 +264,8 @@ void lambda_p_io_test::analyzer::run_11 ()
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
 	e3->individual_names.push_back (boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"un2")));
-	analyzer_l (expression);
-	assert (result.routines.size () == 1);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (result.clusters.size () == 1);
 	assert (result.errors->errors.empty ());	
 }

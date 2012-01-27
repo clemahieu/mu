@@ -6,7 +6,7 @@
 
 namespace lambda_p
 {
-	class routine;
+	class cluster;
 }
 namespace lambda_p_io
 {
@@ -18,7 +18,7 @@ namespace lambda_p_io
 			{
 			public:
 				void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
-				void add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <lambda_p::routine> routine_a);
+				void add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <lambda_p::cluster> cluster_a);
 			};
 		}
 	}

@@ -26,6 +26,7 @@
     </ClInclude>
     <ClInclude Include="segment.h" />
     <ClInclude Include="apply.h" />
+    <ClInclude Include="cluster.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -51,6 +52,7 @@
       <Filter>errors</Filter>
     </ClCompile>
     <ClCompile Include="apply.cpp" />
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">

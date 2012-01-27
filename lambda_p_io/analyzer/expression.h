@@ -25,6 +25,7 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::ast::parameters * parameters_a) override;
 			void operator () (lambda_p_io::ast::expression * expression_a) override;
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
+			void operator () (lambda_p_io::ast::end * end_a) override;
 			lambda_p_io::analyzer::routine & routine;
 			lambda_p_io::ast::expression * expression_m;
 			boost::shared_ptr <lambda_p::expression> self;

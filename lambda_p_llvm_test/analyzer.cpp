@@ -17,10 +17,12 @@ void lambda_p_llvm_test::analyzer::run_1 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.ast [# d32 add and ashr bitcast cmpxchg icmp integer inttoptr load lshr mul or pointer ptrtoint sdiv sext shl srem store structure sub trunc udiv urem void xor zext]]");
+	source (L"[.ast [# d32 add and ashr bitcast cmpxchg icmp integer inttoptr load lshr mul or pointer ptrtoint sdiv sext shl srem store structure sub trunc udiv urem void xor zext] ;; 1]");
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [std::wstring (L"1")]);
 	assert (routine->body->dependencies.size () == 1);
 	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (routine->body->dependencies [0]));
 	assert (ast.get () != nullptr);

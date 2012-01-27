@@ -22,11 +22,11 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 {
 	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a (expression_a->full_name->string, self);
+		routine_a (expression_a->full_name->string, self, expression_a->full_name->context);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		routine_a (expression_a->individual_names [i]->string, boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)));
+		routine_a (expression_a->individual_names [i]->string, boost::shared_ptr <lambda_p::reference> (new lambda_p::reference (self, i)), expression_a->individual_names [i]->context);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
@@ -66,7 +66,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		else
 		{
 			self->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
-			routine.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context> (boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
+			routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context> (boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
 		}
 	}
 	else
@@ -74,4 +74,9 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		auto errors_l (boost::make_shared <lambda_p::errors::error_context> (routine.analyzer.errors, identifier_a->context));
 		(*keyword->second) (errors_l, *this);
 	}
+}
+
+void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::end * end_a)
+{	
+	(*routine.analyzer.errors) (L"Expression not expecting end");
 }

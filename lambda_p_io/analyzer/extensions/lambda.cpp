@@ -7,8 +7,10 @@
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p/expression.h>
 #include <lambda_p/routine.h>
+#include <lambda_p_io/ast/end.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 void lambda_p_io::analyzer::extensions::lambda::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
@@ -20,7 +22,8 @@ void lambda_p_io::analyzer::extensions::lambda::operator () (boost::shared_ptr <
 		if (routine.get () != nullptr)
 		{
 			lambda_p_io::analyzer::analyzer analyzer (boost::bind (&lambda_p_io::analyzer::extensions::lambda::add, this, expression_a, _1), expression_a.routine.analyzer.errors, expression_a.routine.analyzer.extensions);
-			analyzer (routine);
+			analyzer.input (routine);
+			analyzer.input (boost::make_shared <lambda_p_io::ast::end> (lambda_p::context (expression_a.expression_m->context.last, expression_a.expression_m->context.last)));
 		}
 		else
 		{
@@ -33,7 +36,7 @@ void lambda_p_io::analyzer::extensions::lambda::operator () (boost::shared_ptr <
 	}
 }
 
-void lambda_p_io::analyzer::extensions::lambda::add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <lambda_p::routine> routine_a)
+void lambda_p_io::analyzer::extensions::lambda::add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
-	expression_a.self->dependencies.push_back (routine_a);
+	expression_a.self->dependencies.push_back (cluster_a);
 }

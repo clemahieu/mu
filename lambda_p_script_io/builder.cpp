@@ -42,7 +42,7 @@
 lambda_p_script_io::builder::builder ()
 	: errors (new lambda_p::errors::error_list),
 	analyzer (boost::bind (&lambda_p_script_io::builder::operator(), this, _1), errors, extensions ()),
-	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
+	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
 {
 }
@@ -50,22 +50,25 @@ lambda_p_script_io::builder::builder ()
 lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
 	: errors (new lambda_p::errors::error_list),
 	analyzer (boost::bind (&lambda_p_script_io::builder::operator(), this, _1), errors, extensions_a),
-	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::operator (), &analyzer, _1)),
+	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
 {
 }
 
-void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::routine> routine_a)
+void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (routine_a);
-	synthesizer (errors, arguments, results);
-	if (results.size () == 1)
+	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
-		auto result (boost::dynamic_pointer_cast <lambda_p_script::routine> (results [0]));
-		assert (result.get () != nullptr);
-		routines.push_back (result);
+		std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+		std::vector <boost::shared_ptr <lambda_p::node>> results;
+		arguments.push_back (i->second);
+		synthesizer (errors, arguments, results);
+		if (results.size () == 1)
+		{
+			auto result (boost::dynamic_pointer_cast <lambda_p_script::routine> (results [0]));
+			assert (result.get () != nullptr);
+			routines.push_back (result);
+		}
 	}
 }
 

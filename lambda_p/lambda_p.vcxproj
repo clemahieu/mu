@@ -144,6 +144,7 @@
     <ClInclude Include="position.h" />
     <ClInclude Include="reference.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="cluster.h" />
     <ClInclude Include="visitor.h" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <ClCompile Include="position.cpp" />
     <ClCompile Include="reference.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

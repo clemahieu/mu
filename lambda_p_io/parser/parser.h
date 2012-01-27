@@ -27,7 +27,6 @@ namespace lambda_p_io
 	namespace ast
 	{
 		class node;
-		class expression;
 	}
 	namespace parser
 	{
@@ -36,12 +35,12 @@ namespace lambda_p_io
 		class parser
 		{
 		public:
-			parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
+			parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a);
 			void operator () (lambda_p_io::tokens::token * token, lambda_p::context context_a);
 			void reset ();
 			lambda_p::context context;
 			boost::shared_ptr <lambda_p::errors::error_target> errors;
-			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
+			boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target;
 			std::stack <boost::shared_ptr <lambda_p_io::tokens::visitor>> state;
 		};
 	}

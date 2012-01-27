@@ -20,18 +20,18 @@ namespace lambda_p_io
 		class values : public lambda_p_io::tokens::visitor
 		{
 		public:
-			values (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a);
+			values (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a);
 			void operator () (lambda_p_io::tokens::divider * token) override;
 			void operator () (lambda_p_io::tokens::identifier * token) override;
 			void operator () (lambda_p_io::tokens::left_square * token) override;
 			void operator () (lambda_p_io::tokens::right_square * token) override;
 			void operator () (lambda_p_io::tokens::stream_end * token) override;
 			void operator () (lambda_p_io::tokens::parameters * token) override;
-			void subexpression (boost::shared_ptr <lambda_p_io::ast::expression> expression);
+			void subexpression (boost::shared_ptr <lambda_p_io::ast::node> node_a);
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_m;
 			lambda_p_io::parser::parser & parser;
 			lambda_p::context first;
-			boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target;
+			boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target;
 		};
 	}
 }

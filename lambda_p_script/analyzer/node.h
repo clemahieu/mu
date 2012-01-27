@@ -4,7 +4,7 @@
 
 namespace lambda_p
 {
-	class routine;
+	class cluster;
 }
 namespace lambda_p_script
 {
@@ -15,7 +15,7 @@ namespace lambda_p_script
 		public:
 			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 			size_t count () override;
-			void add (std::vector <boost::shared_ptr <lambda_p::node>> & results, boost::shared_ptr <lambda_p::routine> routine_a);
+			void add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a);
 		};
 	}
 }

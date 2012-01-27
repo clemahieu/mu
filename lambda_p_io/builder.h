@@ -19,8 +19,8 @@ namespace lambda_p_io
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
-		void operator () (boost::shared_ptr <lambda_p::routine>);
-		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
+		void operator () (boost::shared_ptr <lambda_p::cluster> cluster_a);
+		std::vector <boost::shared_ptr <lambda_p::cluster>> clusters;
 	};
 }
 

@@ -10,7 +10,7 @@
 
 #include <map>
 
-lambda_p_io::parser::parser::parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a)
+lambda_p_io::parser::parser::parser (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a)
 	: target (target_a),
 	errors (errors_a)
 {
