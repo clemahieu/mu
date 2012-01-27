@@ -199,6 +199,15 @@
     <ClInclude Include="instructions\icmp.h">
       <Filter>instructions</Filter>
     </ClInclude>
+    <ClInclude Include="constants\integer.h">
+      <Filter>constants</Filter>
+    </ClInclude>
+    <ClInclude Include="constant\node.h">
+      <Filter>constant</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_int\node.h">
+      <Filter>constant_int</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -399,6 +408,15 @@
     <ClCompile Include="instructions\icmp.cpp">
       <Filter>instructions</Filter>
     </ClCompile>
+    <ClCompile Include="constants\integer.cpp">
+      <Filter>constants</Filter>
+    </ClCompile>
+    <ClCompile Include="constant\node.cpp">
+      <Filter>constant</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_int\node.cpp">
+      <Filter>constant_int</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -472,6 +490,15 @@
     </Filter>
     <Filter Include="array_type">
       <UniqueIdentifier>{e15f9203-1b6f-4712-8e36-67d67fc80c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="constants">
+      <UniqueIdentifier>{dd5960da-fde1-4c67-8d54-b11bf14d9500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="constant">
+      <UniqueIdentifier>{561d1cef-65cb-4219-96fd-cb2b2f91c3f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="constant_int">
+      <UniqueIdentifier>{23a69bfb-2b12-4e85-a679-4831d21e6312}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

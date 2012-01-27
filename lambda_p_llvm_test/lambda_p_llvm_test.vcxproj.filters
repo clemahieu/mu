@@ -13,6 +13,9 @@
     </ClCompile>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="extension.cpp" />
+    <ClCompile Include="types\integer.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -27,6 +30,9 @@
     </ClInclude>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="extension.h" />
+    <ClInclude Include="types\integer.h">
+      <Filter>types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -34,6 +40,9 @@
     </Filter>
     <Filter Include="linker">
       <UniqueIdentifier>{f7b35197-5f73-4741-be19-e282095e7dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="types">
+      <UniqueIdentifier>{5318c82d-e508-44b1-9f57-d1e1908802be}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

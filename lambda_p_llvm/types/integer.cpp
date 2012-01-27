@@ -18,7 +18,7 @@ void lambda_p_llvm::types::integer::operator () (boost::shared_ptr <lambda_p::er
 		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters_a [0]));
 		if (one.get () != nullptr)
 		{
-			if (one->value->getLimitedValue () <= llvm::IntegerType::MAX_INT_BITS && one->value->getLimitedValue () <= llvm::IntegerType::MIN_INT_BITS)
+			if (one->value->getLimitedValue () <= llvm::IntegerType::MAX_INT_BITS && one->value->getLimitedValue () >= llvm::IntegerType::MIN_INT_BITS)
 			{				
 				results_a.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_a->getContext (), one->value->getLimitedValue ())));
 			}
@@ -26,7 +26,7 @@ void lambda_p_llvm::types::integer::operator () (boost::shared_ptr <lambda_p::er
 			{
 				std::wstringstream message;
 				message << L"Invalid number of integer bits: ";
-				message << one->value;
+				message << one->value->getLimitedValue ();
 				message << L" must be between: ";
 				message << llvm::IntegerType::MIN_INT_BITS;
 				message << L" and: ";

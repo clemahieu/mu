@@ -5,9 +5,9 @@
 		function
 		[llvm/execution_engine/generic_value/create_int
 			# d32
-			# h100
+			# h12345678
 		; a]
-		a a a a a a
+		a
 	; result]
 	[llvm/execution_engine/create_jit
 		module
@@ -15,17 +15,14 @@
 	[llvm_io/synthesize
 		.llvm
 			[
-				[:~; 1 2 3 4 5 6]
-				add
-					[udiv
-						[mul 1 2]
-						[add 3 4]
-					]
-					[add 5 6]
+				[:~; 1]
+				trunc
+					1
+					[integer # d16]
 			]
 		module
 		[llvm/integer_type/create context # d32 ; t]
-		t t t t t t
+		t
 	; function]
 	[llvm/module/create 
 		[llvm/context/create; context]
