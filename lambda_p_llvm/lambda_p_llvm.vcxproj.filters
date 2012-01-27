@@ -160,6 +160,27 @@
       <Filter>apint</Filter>
     </ClInclude>
     <ClInclude Include="extension.h" />
+    <ClInclude Include="types\integer.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="types\void_c.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="void_type\node.h">
+      <Filter>void_type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\pointer.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="types\structure.h">
+      <Filter>types</Filter>
+    </ClInclude>
+    <ClInclude Include="struct_type\node.h">
+      <Filter>struct_type</Filter>
+    </ClInclude>
+    <ClInclude Include="array_type\node.h">
+      <Filter>array_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -321,6 +342,27 @@
       <Filter>apint</Filter>
     </ClCompile>
     <ClCompile Include="extension.cpp" />
+    <ClCompile Include="types\integer.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="types\void_c.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="void_type\node.cpp">
+      <Filter>void_type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\pointer.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="types\structure.cpp">
+      <Filter>types</Filter>
+    </ClCompile>
+    <ClCompile Include="struct_type\node.cpp">
+      <Filter>struct_type</Filter>
+    </ClCompile>
+    <ClCompile Include="array_type\node.cpp">
+      <Filter>array_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -382,6 +424,18 @@
     </Filter>
     <Filter Include="apint">
       <UniqueIdentifier>{9ef1e6f6-b799-4160-a4bb-8ac5bd565747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="types">
+      <UniqueIdentifier>{930f8607-2558-4731-998f-8fd31e10a151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="void_type">
+      <UniqueIdentifier>{1ec6395a-d767-4dbe-b5e8-625b8dabd9db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="struct_type">
+      <UniqueIdentifier>{708a5760-fe3d-4239-87f1-cc7adf1ecfb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="array_type">
+      <UniqueIdentifier>{e15f9203-1b6f-4712-8e36-67d67fc80c68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

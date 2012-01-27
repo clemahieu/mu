@@ -22,6 +22,7 @@
     <ClInclude Include="analyzer\operation.h" />
     <ClInclude Include="apint\extension.h" />
     <ClInclude Include="apint\node.h" />
+    <ClInclude Include="array_type\node.h" />
     <ClInclude Include="context\value.h" />
     <ClInclude Include="extension.h" />
     <ClInclude Include="instructions\add.h" />
@@ -68,17 +69,24 @@
     <ClInclude Include="instructions\sdiv.h" />
     <ClInclude Include="instructions\srem.h" />
     <ClInclude Include="instructions\sub.h" />
+    <ClInclude Include="struct_type\node.h" />
+    <ClInclude Include="types\integer.h" />
+    <ClInclude Include="types\pointer.h" />
+    <ClInclude Include="types\structure.h" />
+    <ClInclude Include="types\void_c.h" />
     <ClInclude Include="type\node.h" />
     <ClInclude Include="instructions\udiv.h" />
     <ClInclude Include="instructions\urem.h" />
     <ClInclude Include="value\get_context.h" />
     <ClInclude Include="value\get_type.h" />
     <ClInclude Include="value\node.h" />
+    <ClInclude Include="void_type\node.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="analyzer\operation.cpp" />
     <ClCompile Include="apint\extension.cpp" />
     <ClCompile Include="apint\node.cpp" />
+    <ClCompile Include="array_type\node.cpp" />
     <ClCompile Include="context\value.cpp" />
     <ClCompile Include="extension.cpp" />
     <ClCompile Include="instructions\add.cpp" />
@@ -125,12 +133,18 @@
     <ClCompile Include="instructions\sdiv.cpp" />
     <ClCompile Include="instructions\srem.cpp" />
     <ClCompile Include="instructions\sub.cpp" />
+    <ClCompile Include="struct_type\node.cpp" />
+    <ClCompile Include="types\integer.cpp" />
+    <ClCompile Include="types\pointer.cpp" />
+    <ClCompile Include="types\structure.cpp" />
+    <ClCompile Include="types\void_c.cpp" />
     <ClCompile Include="type\node.cpp" />
     <ClCompile Include="instructions\udiv.cpp" />
     <ClCompile Include="instructions\urem.cpp" />
     <ClCompile Include="value\get_context.cpp" />
     <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
+    <ClCompile Include="void_type\node.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="instructions.lp" />
