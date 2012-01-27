@@ -11,6 +11,7 @@
     <ClCompile Include="linker\link_modules.cpp">
       <Filter>linker</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="linker\link_modules.h">
       <Filter>linker</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">

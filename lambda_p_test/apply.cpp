@@ -2,6 +2,7 @@
 
 #include <lambda_p/apply.h>
 #include <lambda_p/node.h>
+#include <lambda_p/segment.h>
 
 #include <boost/make_shared.hpp>
 

@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="analyzer_result.cpp" />
+    <ClCompile Include="ast.cpp" />
     <ClCompile Include="begin.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="complex_identifier.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="analyzer_result.h" />
+    <ClInclude Include="ast.h" />
     <ClInclude Include="begin.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="complex_identifier.h" />

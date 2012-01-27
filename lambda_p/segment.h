@@ -30,6 +30,10 @@ namespace lambda_p
 		{
 			return source.end ();
 		}
+		void resize (size_t size_a)
+		{
+			source.resize (size_a + lower);
+		}
 		size_t size ()
 		{
 			return source.size () - lower;

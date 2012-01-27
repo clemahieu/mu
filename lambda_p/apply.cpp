@@ -1,6 +1,6 @@
 #include "apply.h"
 
-void lambda_p::apply::merge (std::vector <boost::shared_ptr <lambda_p::node>> & target, std::vector <boost::shared_ptr <lambda_p::node>> & source)
+void lambda_p::apply::merge (lambda_p::segment <boost::shared_ptr <lambda_p::node>> target, lambda_p::segment <boost::shared_ptr <lambda_p::node>> source)
 {
 	size_t position (0);
 	auto i (source.begin ());

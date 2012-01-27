@@ -1,14 +1,14 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <lambda_p/segment.h>
 
-#include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace lambda_p
 {
 	class node;
 	namespace apply
 	{
-		void merge (std::vector <boost::shared_ptr <lambda_p::node>> & target, std::vector <boost::shared_ptr <lambda_p::node>> & source);
+		void merge (lambda_p::segment <boost::shared_ptr <lambda_p::node>> target, lambda_p::segment <boost::shared_ptr <lambda_p::node>> source);
 	}
 }

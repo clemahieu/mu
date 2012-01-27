@@ -53,7 +53,8 @@ void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <lambda_
 	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		lambda_p_io::analyzer::analyzer analyzer (boost::bind (&lambda_p_llvm::analyzer::operation::add, this, results, _1), errors_a, extensions);
+		auto function (boost::bind (&lambda_p_llvm::analyzer::operation::add, this, &results, _1));
+		lambda_p_io::analyzer::analyzer analyzer (function, errors_a, extensions);
 		analyzer (one);
 	}
 	else
@@ -67,7 +68,7 @@ size_t lambda_p_llvm::analyzer::operation::count ()
 	return 1;
 }
 
-void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <lambda_p::node>> & results, boost::shared_ptr <lambda_p::routine> routine_a)
+void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::routine> routine_a)
 {
-	results.push_back (routine_a);
+	results->push_back (routine_a);
 }
