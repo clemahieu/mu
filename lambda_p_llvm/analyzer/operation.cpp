@@ -35,6 +35,7 @@
 #include <lambda_p_llvm/constants/integer.h>
 #include <lambda_p_llvm/apint/extension.h>
 #include <lambda_p_script/string/extension.h>
+#include <lambda_p_io/ast/end.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -82,6 +83,7 @@ void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <lambda_
 		auto function (boost::bind (&lambda_p_llvm::analyzer::operation::add, this, &results, _1));
 		lambda_p_io::analyzer::analyzer analyzer (function, errors_a, extensions);
 		analyzer.input (one);
+		analyzer.input (boost::make_shared <lambda_p_io::ast::end> (lambda_p::context (one->context.last, one->context.last)));
 	}
 	else
 	{
@@ -96,5 +98,6 @@ size_t lambda_p_llvm::analyzer::operation::count ()
 
 void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
-	results->push_back (cluster_a);
+	assert (cluster_a->routines.size () == 1);
+	results->push_back (cluster_a->routines.begin ()->second);
 }

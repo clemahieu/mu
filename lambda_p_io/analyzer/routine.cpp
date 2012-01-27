@@ -22,6 +22,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		auto name (expression_a->full_name->string);
 		if (!name.empty ())
 		{
+			expression_a->full_name->string.clear ();
 			auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
 			lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
 			routine_m->body = expression_l;

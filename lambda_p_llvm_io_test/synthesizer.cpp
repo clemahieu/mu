@@ -54,7 +54,9 @@ void lambda_p_llvm_io_test::synthesizer::run_1 ()
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"noop"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (function)));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
-	source (L"[noop] ;; 1");
+	source (L"[noop ;; 1]");
+	source ();
+	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [std::wstring (L"1")]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -107,6 +109,8 @@ void lambda_p_llvm_io_test::synthesizer::run_2 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
 	source (L"[val ;; 1]");
+	source ();
+	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [std::wstring (L"1")]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -165,6 +169,8 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
 	source (L"[val [:~] ;; 1]");
+	source ();
+	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [std::wstring (L"1")]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -245,6 +251,8 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
 	source (L"[add [multi] ;; 1]");
+	source ();
+	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [std::wstring (L"1")]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -302,6 +310,8 @@ void lambda_p_llvm_io_test::synthesizer::run_5 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	lambda_p_llvm_io::synthesizer synthesizer;
 	source (L"[[.id noop; a]a ;; 1]");
+	source ();
+	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [std::wstring (L"1")]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

@@ -41,7 +41,8 @@ void lambda_p_script_test::times::operation::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; subtract number amount] .id subtract [subtract number amount] amount]");
+	source (L"[[:~; subtract number amount] .id subtract [subtract number amount] amount ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	lambda_p_script::times::operation times;
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

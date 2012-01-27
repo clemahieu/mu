@@ -31,7 +31,8 @@ void lambda_p_script_io_test::builder::run_1 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
+	source (L"[:~ ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
@@ -41,7 +42,8 @@ void lambda_p_script_io_test::builder::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
+	source (L"[:~ ;; 1]");
+	source ();
 	auto routine (builder.routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
@@ -60,7 +62,8 @@ void lambda_p_script_io_test::builder::run_3 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
+	source (L"[:~ ;; 1]");
+	source ();
 	auto routine (builder.routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
@@ -76,7 +79,8 @@ void lambda_p_script_io_test::builder::run_4 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
+	source (L"[:~ ;; 1]");
+	source ();
 	auto routine (builder.routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
@@ -89,7 +93,8 @@ void lambda_p_script_io_test::builder::run_5 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ # d4]");
+	source (L"[:~ # d4 ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
@@ -111,7 +116,8 @@ void lambda_p_script_io_test::builder::run_6 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ` testing]");
+	source (L"[:~ ` testing ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
@@ -133,7 +139,8 @@ void lambda_p_script_io_test::builder::run_7 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ` |%|string with spaces%]");
+	source (L"[:~ ` |%|string with spaces% ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
@@ -155,7 +162,8 @@ void lambda_p_script_io_test::builder::run_8 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; #]]");
+	source (L"[[:~; #] ;; 1]");
+	source ();
 	assert (!builder.errors->errors.empty ());
 }
 
@@ -163,7 +171,8 @@ void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] .id a [a b c] c]");
+	source (L"[[:~; a b c] .id a [a b c] c ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);

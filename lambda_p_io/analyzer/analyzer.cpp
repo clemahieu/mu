@@ -77,6 +77,7 @@ void lambda_p_io::analyzer::analyzer::operator () (std::wstring name_a, lambda_p
 
 void lambda_p_io::analyzer::analyzer::operator () (std::wstring name_a, boost::shared_ptr <lambda_p::routine> routine_a, lambda_p::context context_a)
 {
+	assert (!name_a.empty ());
 	auto existing (used_names.find (name_a));
 	if (existing == used_names.end ())
 	{
@@ -93,6 +94,7 @@ void lambda_p_io::analyzer::analyzer::operator () (std::wstring name_a, boost::s
 			message << name_a;
 			message << L" collides with usage at: ";
 			message << existing->second.string ();
+			(*errors) (message.str ());
 		}
 	}
 }

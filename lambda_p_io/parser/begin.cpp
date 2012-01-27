@@ -10,6 +10,9 @@
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/parameters.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_io/ast/end.h>
+
+#include <boost/make_shared.hpp>
 
 lambda_p_io::parser::begin::begin (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target_a)
 	: parser (parser_a),
@@ -40,6 +43,7 @@ void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::right_square 
 
 void lambda_p_io::parser::begin::operator () (lambda_p_io::tokens::stream_end * token)
 {
+	target (boost::make_shared <lambda_p_io::ast::end> (parser.context));
 	parser.state.pop ();
 }
 

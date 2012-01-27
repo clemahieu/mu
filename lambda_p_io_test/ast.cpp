@@ -18,6 +18,7 @@ void lambda_p_io_test::ast::run_1 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[.ast [] ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -33,6 +34,7 @@ void lambda_p_io_test::ast::run_2 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[.ast thing ;; 1]");
+	source ();
 	assert (!builder.errors->errors.empty ());
 	assert (builder.clusters.empty ());
 }

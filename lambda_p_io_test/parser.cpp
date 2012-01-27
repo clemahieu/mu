@@ -9,6 +9,7 @@
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
+#include <lambda_p_io/ast/end.h>
 #include <lambda_p/errors/error_list.h>
 
 #include <boost/bind.hpp>
@@ -21,6 +22,7 @@ void lambda_p_io_test::parser::run ()
 	run_4 ();
 	run_5 ();
 	run_6 ();
+	run_7 ();
 }
 
 void lambda_p_io_test::parser::run_1 ()
@@ -29,7 +31,8 @@ void lambda_p_io_test::parser::run_1 ()
 	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
 	parser (new lambda_p_io::tokens::stream_end, lambda_p::context (0, 0, 0, 0, 0, 0));
-	assert (result.results.empty ());
+	assert (result.results.size () == 1);
+	auto end (boost::dynamic_pointer_cast <lambda_p_io::ast::end> (result.results [0]));
 	assert (errors->errors.empty ());
 }
 
@@ -47,7 +50,7 @@ void lambda_p_io_test::parser::run_2 ()
 	assert (e1->values.empty ());
 	assert (e1->full_name->string.empty ());
 	assert (e1->individual_names.empty ());
-	assert (e1->context == lambda_p::context (1, 1, 0, 1, 2, 1));
+	assert (e1->context == lambda_p::context (1, 1, 0, 1, 2, 1));	
 }
 
 void lambda_p_io_test::parser::run_3 ()
@@ -122,4 +125,15 @@ void lambda_p_io_test::parser::run_6 ()
 	assert (e2->individual_names.empty ());
 	assert (e2->full_name->string.empty ());
 	assert (e2->context == lambda_p::context (1, 2, 1, 1, 3, 2));
+}
+
+void lambda_p_io_test::parser::run_7 ()
+{
+	lambda_p_io_test::parser_result result;
+	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+	lambda_p_io::parser::parser parser (errors, boost::bind (&lambda_p_io_test::parser_result::operator(), &result, _1));
+	parser (new lambda_p_io::tokens::stream_end, lambda_p::context (1, 1, 0, 1, 1, 0));
+	assert (errors->errors.empty ());
+	assert (result.results.size () == 1);
+	auto end (boost::dynamic_pointer_cast <lambda_p_io::ast::end> (result.results [0]));
 }

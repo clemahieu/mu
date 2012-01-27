@@ -31,7 +31,7 @@ void lambda_p_io_test::builder::run_1 ()
 	assert (routine->body->dependencies [0] == routine->parameters);
 	assert (routine->parameters->dependencies.size () == 0);
 	assert (routine->parameters->context == lambda_p::context (1, 1, 0, 1, 1, 0));
-	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
+	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 9, 8));
 }
 
 void lambda_p_io_test::builder::run_2 ()
@@ -40,6 +40,7 @@ void lambda_p_io_test::builder::run_2 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~ ;; 1]");
 	source (L"[:~ ;; 2]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -47,9 +48,9 @@ void lambda_p_io_test::builder::run_2 ()
 	auto routine1 (cluster->routines [std::wstring (L"1")]);
 	auto routine2 (cluster->routines [std::wstring (L"2")]);
 	assert (routine1->parameters->context == lambda_p::context (1, 1, 0, 1, 1, 0));
-	assert (routine1->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
-	assert (routine2->parameters->context == lambda_p::context (1, 5, 4, 1, 5, 4));
-	assert (routine2->body->context == lambda_p::context (1, 5, 4, 1, 8, 7));
+	assert (routine1->body->context == lambda_p::context (1, 1, 0, 1, 9, 8));
+	assert (routine2->parameters->context == lambda_p::context (1, 10, 9, 1, 10, 9));
+	assert (routine2->body->context == lambda_p::context (1, 10, 9, 1, 18, 17));
 }
 
 void lambda_p_io_test::builder::run_3 ()
@@ -57,12 +58,13 @@ void lambda_p_io_test::builder::run_3 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; a b c] a [a b c] c ;; 1]");
+	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [std::wstring (L"1")]);
-	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 25, 24));
+	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 30, 29));
 	assert (routine->body->dependencies.size () == 3);
 	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [0]));
 	assert (d1.get () != nullptr);
