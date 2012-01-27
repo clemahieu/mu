@@ -6,6 +6,7 @@
 #include <lambda_p_test/list.h>
 #include <lambda_p_test/order.h>
 #include <lambda_p_test/segment.h>
+#include <lambda_p_test/apply.h>
 
 void lambda_p_test::tests::run ()
 {
@@ -31,6 +32,10 @@ void lambda_p_test::tests::run ()
 	}
 	{
 		segment test;
+		test.run ();
+	}
+	{
+		apply test;
 		test.run ();
 	}
 }

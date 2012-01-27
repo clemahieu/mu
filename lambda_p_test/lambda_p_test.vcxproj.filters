@@ -9,6 +9,7 @@
     <ClCompile Include="list.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="segment.cpp" />
+    <ClCompile Include="apply.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="filesystem_test.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="list.h" />
     <ClInclude Include="order.h" />
     <ClInclude Include="segment.h" />
+    <ClInclude Include="apply.h" />
   </ItemGroup>
 </Project>

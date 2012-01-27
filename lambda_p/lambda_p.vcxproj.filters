@@ -25,6 +25,7 @@
       <Filter>errors</Filter>
     </ClInclude>
     <ClInclude Include="segment.h" />
+    <ClInclude Include="apply.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -49,6 +50,7 @@
     <ClCompile Include="errors\error_context.cpp">
       <Filter>errors</Filter>
     </ClCompile>
+    <ClCompile Include="apply.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">
