@@ -3,6 +3,8 @@
 #include <lambda_p_llvm_test/module/get_package.h>
 #include <lambda_p_llvm_test/module/add_package.h>
 #include <lambda_p_llvm_test/linker/link_modules.h>
+#include <lambda_p_llvm_test/analyzer.h>
+#include <lambda_p_llvm_test/extension.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -41,6 +43,14 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		lambda_p_llvm_test::linker::link_modules test;
+		test.run ();
+	}
+	{
+		analyzer test;
+		test.run ();
+	}
+	{
+		extension test;
 		test.run ();
 	}
 }

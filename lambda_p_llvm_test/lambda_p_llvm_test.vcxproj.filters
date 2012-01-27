@@ -12,6 +12,7 @@
       <Filter>linker</Filter>
     </ClCompile>
     <ClCompile Include="analyzer.cpp" />
+    <ClCompile Include="extension.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -25,6 +26,7 @@
       <Filter>linker</Filter>
     </ClInclude>
     <ClInclude Include="analyzer.h" />
+    <ClInclude Include="extension.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">

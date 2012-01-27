@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer\operation.h" />
+    <ClInclude Include="apint\extension.h" />
+    <ClInclude Include="apint\node.h" />
     <ClInclude Include="context\value.h" />
+    <ClInclude Include="extension.h" />
     <ClInclude Include="instructions\add.h" />
     <ClInclude Include="api.h" />
     <ClInclude Include="argument\node.h" />
@@ -74,7 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="analyzer\operation.cpp" />
+    <ClCompile Include="apint\extension.cpp" />
+    <ClCompile Include="apint\node.cpp" />
     <ClCompile Include="context\value.cpp" />
+    <ClCompile Include="extension.cpp" />
     <ClCompile Include="instructions\add.cpp" />
     <ClCompile Include="api.cpp" />
     <ClCompile Include="argument\node.cpp" />

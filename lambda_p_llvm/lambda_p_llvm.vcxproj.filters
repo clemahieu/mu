@@ -153,6 +153,13 @@
     <ClInclude Include="analyzer\operation.h">
       <Filter>analyzer</Filter>
     </ClInclude>
+    <ClInclude Include="apint\extension.h">
+      <Filter>apint</Filter>
+    </ClInclude>
+    <ClInclude Include="apint\node.h">
+      <Filter>apint</Filter>
+    </ClInclude>
+    <ClInclude Include="extension.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -307,6 +314,13 @@
     <ClCompile Include="analyzer\operation.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="apint\extension.cpp">
+      <Filter>apint</Filter>
+    </ClCompile>
+    <ClCompile Include="apint\node.cpp">
+      <Filter>apint</Filter>
+    </ClCompile>
+    <ClCompile Include="extension.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -365,6 +379,9 @@
     </Filter>
     <Filter Include="analyzer">
       <UniqueIdentifier>{5413245f-7265-4e2b-8571-92aaeef80159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="apint">
+      <UniqueIdentifier>{9ef1e6f6-b799-4160-a4bb-8ac5bd565747}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

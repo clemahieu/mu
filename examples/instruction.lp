@@ -13,8 +13,7 @@
 		module
 	; engine]
 	[llvm_io/synthesize
-		[llvm/analyze
-			.ast
+		.llvm
 			[
 				[:~; 1 2 3 4 5 6]
 				add
@@ -24,7 +23,6 @@
 					]
 					[add 5 6]
 			]
-		]
 		module
 		[llvm/integer_type/create context # d32 ; t]
 		t t t t t t
