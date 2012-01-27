@@ -17,7 +17,7 @@ void lambda_p_llvm_test::analyzer::run_1 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.ast [# d32 add and ashr cmpxchg load lshr mul or sdiv shl srem store sub trunc udiv urem xor]]");
+	source (L"[.ast [# d32 add and ashr bitcast cmpxchg icmp integer inttoptr load lshr mul or pointer ptrtoint sdiv sext shl srem store structure sub trunc udiv urem void xor zext]]");
 	assert (builder.errors->errors.empty ());
 	assert (builder.routines.size () == 1);
 	auto routine (builder.routines [0]);
@@ -34,5 +34,5 @@ void lambda_p_llvm_test::analyzer::run_1 ()
 	auto routine1 (boost::dynamic_pointer_cast <lambda_p::routine> (results [0]));
 	assert (routine1.get () != nullptr);
 	auto dependencies (routine1->body->dependencies);
-	assert (dependencies.size () == 18);
+	assert (dependencies.size () == 28);
 }

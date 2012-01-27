@@ -181,6 +181,24 @@
     <ClInclude Include="array_type\node.h">
       <Filter>array_type</Filter>
     </ClInclude>
+    <ClInclude Include="instructions\zext.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\sext.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\ptrtoint.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\inttoptr.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\bitcast.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="instructions\icmp.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -362,6 +380,24 @@
     </ClCompile>
     <ClCompile Include="array_type\node.cpp">
       <Filter>array_type</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\zext.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\sext.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\ptrtoint.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\inttoptr.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\bitcast.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\icmp.cpp">
+      <Filter>instructions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
