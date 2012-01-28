@@ -18,7 +18,6 @@
     <ClCompile Include="extension3.cpp" />
     <ClCompile Include="extension4.cpp" />
     <ClCompile Include="builder.cpp" />
-    <ClCompile Include="lambda.cpp" />
     <ClCompile Include="complex_identifier.cpp" />
     <ClCompile Include="control.cpp" />
     <ClCompile Include="hex_code.cpp" />
@@ -48,7 +47,6 @@
     <ClInclude Include="extension3.h" />
     <ClInclude Include="extension4.h" />
     <ClInclude Include="builder.h" />
-    <ClInclude Include="lambda.h" />
     <ClInclude Include="complex_identifier.h" />
     <ClInclude Include="control.h" />
     <ClInclude Include="hex_code.h" />

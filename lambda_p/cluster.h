@@ -16,6 +16,7 @@ namespace lambda_p
 	public:
 		std::map <std::wstring, size_t> names;
 		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
+		std::wstring name () override;
 	};
 }
 

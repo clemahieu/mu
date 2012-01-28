@@ -3,7 +3,6 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-#include <lambda_p_io/analyzer/extensions/lambda.h>
 #include <lambda_p_io/analyzer/extensions/ast.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 
@@ -13,7 +12,6 @@ lambda_p_io::builder::builder ()
 	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
 {
-	analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"=>"), boost::make_shared <lambda_p_io::analyzer::extensions::lambda> ()));
 	analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".ast"), boost::make_shared <lambda_p_io::analyzer::extensions::ast> ()));
 }
 

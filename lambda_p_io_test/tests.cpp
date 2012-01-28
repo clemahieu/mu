@@ -8,7 +8,6 @@
 #include <lambda_p_io_test/analyzer.h>
 #include <lambda_p_io_test/extension.h>
 #include <lambda_p_io_test/builder.h>
-#include <lambda_p_io_test/lambda.h>
 #include <lambda_p_io_test/complex_identifier.h>
 #include <lambda_p_io_test/control.h>
 #include <lambda_p_io_test/hex_code.h>
@@ -52,10 +51,6 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		builder test;
-		test.run ();
-	}
-	{
-		lambda test;
 		test.run ();
 	}
 	{

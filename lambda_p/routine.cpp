@@ -13,3 +13,8 @@ void lambda_p::routine::operator () (lambda_p::visitor * visitor_a)
 {
 	(*visitor_a) (this);
 }
+
+std::wstring lambda_p::routine::name ()
+{
+	return std::wstring (L"lambda_p::routine");
+}

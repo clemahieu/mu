@@ -145,7 +145,6 @@
     <ClCompile Include="extension4.cpp" />
     <ClCompile Include="full.cpp" />
     <ClCompile Include="hex_code.cpp" />
-    <ClCompile Include="lambda.cpp" />
     <ClCompile Include="lexer.cpp" />
     <ClCompile Include="lexer_result.cpp" />
     <ClCompile Include="multiline_comment.cpp" />
@@ -175,7 +174,6 @@
     <ClInclude Include="extension4.h" />
     <ClInclude Include="full.h" />
     <ClInclude Include="hex_code.h" />
-    <ClInclude Include="lambda.h" />
     <ClInclude Include="lexer.h" />
     <ClInclude Include="lexer_result.h" />
     <ClInclude Include="multiline_comment.h" />
