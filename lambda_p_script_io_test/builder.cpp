@@ -11,6 +11,7 @@
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p/segment.h>
+#include <lambda_p_script/cluster.h>
 
 #include <boost/bind.hpp>
 
@@ -31,20 +32,23 @@ void lambda_p_script_io_test::builder::run_1 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ;; 1]");
+	source (L"[:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [0]);
 }
 
 void lambda_p_script_io_test::builder::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ;; 1]");
+	source (L"[:~]");
 	source ();
-	auto routine (builder.routines [0]);
+	auto cluster (builder.clusters [0]);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
@@ -62,9 +66,10 @@ void lambda_p_script_io_test::builder::run_3 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ;; 1]");
+	source (L"[:~]");
 	source ();
-	auto routine (builder.routines [0]);
+	auto cluster (builder.clusters [0]);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
@@ -79,9 +84,10 @@ void lambda_p_script_io_test::builder::run_4 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ;; 1]");
+	source (L"[:~]");
 	source ();
-	auto routine (builder.routines [0]);
+	auto cluster (builder.clusters [0]);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
@@ -93,11 +99,13 @@ void lambda_p_script_io_test::builder::run_5 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ # d4 ;; 1]");
+	source (L"[:~ # d4]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
@@ -116,11 +124,13 @@ void lambda_p_script_io_test::builder::run_6 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ` testing ;; 1]");
+	source (L"[:~ ` testing]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
@@ -139,11 +149,13 @@ void lambda_p_script_io_test::builder::run_7 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~ ` |%|string with spaces% ;; 1]");
+	source (L"[:~ ` |%|string with spaces%]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
@@ -171,11 +183,13 @@ void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] .id a [a b c] c ;; 1]");
+	source (L"[[:~; a b c] .id a [a b c] c]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
+	auto routine (cluster->routines [0]);
 	assert (routine->calls.size () == 3);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 1);

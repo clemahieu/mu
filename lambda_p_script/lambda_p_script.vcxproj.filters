@@ -109,6 +109,7 @@
     <ClCompile Include="analyzer\node.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -219,6 +220,7 @@
     <ClInclude Include="analyzer\node.h">
       <Filter>analyzer</Filter>
     </ClInclude>
+    <ClInclude Include="cluster.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">

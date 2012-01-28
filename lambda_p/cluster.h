@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 
@@ -13,7 +14,8 @@ namespace lambda_p
 	class cluster : public lambda_p::node
 	{
 	public:
-		std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> routines;
+		std::map <std::wstring, size_t> names;
+		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
 	};
 }
 

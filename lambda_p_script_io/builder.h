@@ -11,6 +11,7 @@
 
 namespace lambda_p_script
 {
+	class cluster;
 	namespace exec
 	{
 		class operation;
@@ -30,7 +31,7 @@ namespace lambda_p_script_io
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
 		void operator () (boost::shared_ptr <lambda_p::cluster> cluster_a);
-		std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
+		std::vector <boost::shared_ptr <lambda_p_script::cluster>> clusters;
 	};
 }
 

@@ -23,14 +23,17 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 		if (!name.empty ())
 		{
 			expression_a->full_name->string.clear ();
-			auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
-			lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
-			routine_m->body = expression_l;
+		}
+		auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
+		lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
+		routine_m->body = expression_l;
+		if (!name.empty ())
+		{
 			analyzer.resolve_routine (name, routine_m, expression_a->context);
 		}
 		else
 		{
-			(*analyzer_a.errors) (L"Routines must have a full name");
+			analyzer.cluster->routines.push_back (routine_m);
 		}
 	}
 	else
@@ -43,7 +46,7 @@ void lambda_p_io::analyzer::routine::resolve_local (std::wstring identifier, boo
 {
 	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
-		if (analyzer.cluster->routines.find (identifier) == analyzer.cluster->routines.end ())
+		if (analyzer.cluster->names.find (identifier) == analyzer.cluster->names.end ())
 		{
 			if (declarations.find (identifier) == declarations.end ())
 			{

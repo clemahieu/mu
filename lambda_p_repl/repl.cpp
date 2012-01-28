@@ -20,6 +20,7 @@
 #include <lambda_p_script/print/operation.h>
 #include <lambda_p_io/tokens/left_square.h>
 #include <lambda_p_io/tokens/right_square.h>
+#include <lambda_p_script/cluster.h>
 
 #include <boost/make_shared.hpp>
 
@@ -69,23 +70,37 @@ void lambda_p_repl::repl::iteration ()
 	if (builder.errors->errors.empty ())
 	{
 		bool stop (false);
-		for (auto i (builder.routines.begin ()), j (builder.routines.end ()); i != j && !stop; ++i)
+		if (builder.clusters.size () == 1)
 		{
-			auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-			std::vector <boost::shared_ptr <lambda_p::node>> results;
-			auto routine (builder.routines [0]);
-			routine->perform (errors, arguments, results);
-			if (errors->errors.empty ())
+			auto cluster (builder.clusters [0]);
+			if (cluster->routines.size () == 1)
 			{
-				lambda_p_script::print::operation print;
-				std::vector <boost::shared_ptr <lambda_p::node>> print_results;
-				print.perform (errors, results, print_results);
+				auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
+				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+				std::vector <boost::shared_ptr <lambda_p::node>> results;
+				auto routine (cluster->routines [0]);
+				routine->perform (errors, arguments, results);
+				if (errors->errors.empty ())
+				{
+					lambda_p_script::print::operation print;
+					std::vector <boost::shared_ptr <lambda_p::node>> print_results;
+					print.perform (errors, results, print_results);
+				}
+				else
+				{
+					print_errors (errors);
+				}
 			}
 			else
 			{
-				print_errors (errors);
+				std::wcout << L"Cluster does not have one routine: ";
+				std::wcout << cluster->routines.size ();
 			}
+		}
+		else
+		{
+			std::wcout << L"Input was not one cluster: ";
+			std::wcout << builder.clusters.size ();
 		}
 	}
 	else

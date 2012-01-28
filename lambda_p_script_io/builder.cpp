@@ -36,6 +36,7 @@
 #include <lambda_p_script/analyzer/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_llvm/extension.h>
+#include <lambda_p_script/cluster.h>
 
 #include <boost/make_shared.hpp>
 
@@ -57,18 +58,15 @@ lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::
 
 void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
-	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
+	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	arguments.push_back (cluster_a);
+	synthesizer (errors, arguments, results);
+	if (results.size () == 1)
 	{
-		std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-		std::vector <boost::shared_ptr <lambda_p::node>> results;
-		arguments.push_back (i->second);
-		synthesizer (errors, arguments, results);
-		if (results.size () == 1)
-		{
-			auto result (boost::dynamic_pointer_cast <lambda_p_script::routine> (results [0]));
-			assert (result.get () != nullptr);
-			routines.push_back (result);
-		}
+		auto result (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+		assert (result.get () != nullptr);
+		clusters.push_back (result);
 	}
 }
 

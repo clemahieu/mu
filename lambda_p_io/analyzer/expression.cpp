@@ -61,27 +61,27 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 		auto local (routine.declarations.find (identifier_a->string));
 		if (local == routine.declarations.end ())
 		{
-			auto routine_l (routine.analyzer.cluster->routines.find (identifier_a->string));
-			if (routine_l == routine.analyzer.cluster->routines.end ())
+			auto routine_l (routine.analyzer.cluster->names.find (identifier_a->string));
+			if (routine_l == routine.analyzer.cluster->names.end ())
 			{
 				self->dependencies.push_back (boost::shared_ptr <lambda_p::expression> ());
 				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <lambda_p_io::analyzer::resolver>, lambda_p::context> (boost::shared_ptr <lambda_p_io::analyzer::resolver> (new lambda_p_io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
 			}
 			else
 			{
-				self->dependencies.push_back (routine_l->second);
+				self->dependencies.push_back (routine.analyzer.cluster->routines [routine_l->second]);
 			}
 		}
 		else
 		{
-			assert (routine.analyzer.cluster->routines.find (identifier_a->string) == routine.analyzer.cluster->routines.end ());
+			assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
 			self->dependencies.push_back (local->second);
 		}
 	}
 	else
 	{
 		assert (routine.declarations.find (identifier_a->string) == routine.declarations.end ());
-		assert (routine.analyzer.cluster->routines.find (identifier_a->string) == routine.analyzer.cluster->routines.end ());
+		assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
 		auto errors_l (boost::make_shared <lambda_p::errors::error_context> (routine.analyzer.errors, identifier_a->context));
 		(*keyword->second) (errors_l, *this);
 	}

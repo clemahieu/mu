@@ -39,5 +39,5 @@ void lambda_p_io::analyzer::extensions::lambda::operator () (boost::shared_ptr <
 void lambda_p_io::analyzer::extensions::lambda::add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
 	assert (cluster_a->routines.size () == 1);
-	expression_a.self->dependencies.push_back (cluster_a->routines.begin ()->second);
+	expression_a.self->dependencies.push_back (cluster_a->routines [0]);
 }

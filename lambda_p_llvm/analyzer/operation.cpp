@@ -99,5 +99,5 @@ size_t lambda_p_llvm::analyzer::operation::count ()
 void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a)
 {
 	assert (cluster_a->routines.size () == 1);
-	results->push_back (cluster_a->routines.begin ()->second);
+	results->push_back (cluster_a->routines [0]);
 }

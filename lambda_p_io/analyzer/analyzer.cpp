@@ -96,8 +96,9 @@ void lambda_p_io::analyzer::analyzer::resolve_routine (std::wstring name_a, boos
 		if (existing == used_names.end ())
 		{
 			mark_used (name_a, context_a);
-			assert (cluster->routines.find (name_a) == cluster->routines.end ());
-			cluster->routines [name_a] = routine_a;
+			assert (cluster->names.find (name_a) == cluster->names.end ());
+			cluster->routines.push_back (routine_a);
+			cluster->names [name_a] = cluster->routines.size () - 1;
 			back_resolve (name_a, routine_a);
 		}
 		else

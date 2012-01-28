@@ -19,13 +19,13 @@ void lambda_p_io_test::lambda::run_1 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[=>[;; 2] ;; 1]");
+	source (L"[=>[]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
-	auto routine (cluster->routines [std::wstring (L"1")]);
+	auto routine (cluster->routines [0]);
 	assert (routine->body->dependencies.size () == 1);
 	auto lambda (boost::dynamic_pointer_cast <lambda_p::routine> (routine->body->dependencies [0]));
 	assert (lambda.get () != nullptr);
@@ -35,7 +35,7 @@ void lambda_p_io_test::lambda::run_2 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[=> thing ;; 1]");
+	source (L"[=> thing]");
 	source ();
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());
@@ -47,7 +47,7 @@ void lambda_p_io_test::lambda::run_3 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[=> ;; 1]");
+	source (L"[=>]");
 	source ();
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());

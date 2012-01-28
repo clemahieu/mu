@@ -6,6 +6,7 @@
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_io/source.h>
 #include <lambda_p_script/routine.h>
+#include <lambda_p_script/cluster.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -36,17 +37,28 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 			source ();
 			if (builder.errors->errors.empty ())
 			{
-				if (builder.routines.size () == 1)
+				if (builder.clusters.size () == 1)
 				{
-					auto routine (builder.routines [0]);
-					std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
-					routine->perform (errors_a, arguments, results);
+					auto cluster (builder.clusters [0]);
+					if (cluster->routines.size () == 1)
+					{
+						auto routine (cluster->routines [0]);
+						std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
+						routine->perform (errors_a, arguments, results);
+					}
+					else
+					{
+						std::wstringstream message;
+						message << L"Cluster does not contain one routine: ";
+						message << cluster->routines.size ();
+						(*errors_a) (message.str ());
+					}
 				}
 				else
 				{
 					std::wstringstream message;
-					message << L"File did not contain exactly one routine: ";
-					message << builder.routines.size ();
+					message << L"File did not contain one cluster: ";
+					message << builder.clusters.size ();
 					(*errors_a) (message.str ());
 				}
 			}

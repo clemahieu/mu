@@ -3,6 +3,7 @@
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/integer/node.h>
+#include <lambda_p_script/cluster.h>
 
 #include <boost/bind.hpp>
 
@@ -16,9 +17,11 @@ void lambda_p_script_io_test::lambda::run_1 ()
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[.id # d42]]");
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 1);
 	assert (builder.errors->errors.empty ());
-	assert (builder.routines.size () == 1);
-	auto routine (builder.routines [0]);
+	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	routine->perform (builder.errors, arguments, results);
