@@ -30,7 +30,7 @@ namespace lambda_p_io
 		public:
 			routine (lambda_p_io::analyzer::analyzer & analyzer_a, lambda_p_io::ast::expression * expression_a);
 			lambda_p_io::analyzer::analyzer & analyzer;
-			void operator () (std::wstring, boost::shared_ptr <lambda_p::node>, lambda_p::context context_a);
+			void resolve_local (std::wstring, boost::shared_ptr <lambda_p::node>, lambda_p::context context_a);
 			boost::shared_ptr <lambda_p::routine> routine_m;
 			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> declarations;
 		};

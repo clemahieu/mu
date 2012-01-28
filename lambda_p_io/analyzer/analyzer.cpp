@@ -5,7 +5,9 @@
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p/errors/string_error.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
+#include <lambda_p/routine.h>
 
 #include <sstream>
 
@@ -70,31 +72,53 @@ void lambda_p_io::analyzer::analyzer::operator () (lambda_p_io::ast::end * end_a
 	}
 }
 
-void lambda_p_io::analyzer::analyzer::operator () (std::wstring name_a, lambda_p::context context_a)
+void lambda_p_io::analyzer::analyzer::mark_used (std::wstring name_a, lambda_p::context context_a)
 {
 	used_names.insert (std::multimap <std::wstring, lambda_p::context>::value_type (name_a, context_a));
 }
 
-void lambda_p_io::analyzer::analyzer::operator () (std::wstring name_a, boost::shared_ptr <lambda_p::routine> routine_a, lambda_p::context context_a)
+void lambda_p_io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <lambda_p::node> node_a)
+{
+	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
+	{
+		(*(i->second).first) (node_a);
+	}
+	unresolved.erase (name_a);
+}
+
+void lambda_p_io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <lambda_p::routine> routine_a, lambda_p::context context_a)
 {
 	assert (!name_a.empty ());
-	auto existing (used_names.find (name_a));
-	if (existing == used_names.end ())
+	auto keyword (extensions->extensions_m.find (name_a));
+	if (keyword == extensions->extensions_m.end ())
 	{
-		(*this) (name_a, context_a);
-		assert (cluster->routines.find (name_a) == cluster->routines.end ());
-		cluster->routines [name_a] = routine_a;
+		auto existing (used_names.find (name_a));
+		if (existing == used_names.end ())
+		{
+			mark_used (name_a, context_a);
+			assert (cluster->routines.find (name_a) == cluster->routines.end ());
+			cluster->routines [name_a] = routine_a;
+			back_resolve (name_a, routine_a);
+		}
+		else
+		{
+			for (; existing != used_names.end () && existing->first == name_a; ++existing)
+			{
+				std::wstringstream message;
+				message << L"Routine name: ";
+				message << name_a;
+				message << L" collides with usage at: ";
+				message << existing->second.string ();
+				(*errors) (message.str ());
+			}
+		}
 	}
 	else
 	{
-		for (; existing != used_names.end () && existing->first == name_a; ++existing)
-		{
-			std::wstringstream message;
-			message << L"Routine name: ";
-			message << name_a;
-			message << L" collides with usage at: ";
-			message << existing->second.string ();
-			(*errors) (message.str ());
-		}
+		std::wstringstream message;
+		message << L"Routine named: ";
+		message << name_a;
+		message << L" is a keyword";
+		(*errors) (message.str ());
 	}
 }

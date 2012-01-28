@@ -41,8 +41,9 @@ namespace lambda_p_io
 			void operator () (lambda_p_io::ast::expression * expression_a) override;
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
 			void operator () (lambda_p_io::ast::end * end_a) override;
-			void operator () (std::wstring name_a, lambda_p::context context_a);
-			void operator () (std::wstring name_a, boost::shared_ptr <lambda_p::routine> routine_a, lambda_p::context context_a);
+			void mark_used (std::wstring name_a, lambda_p::context context_a);
+			void back_resolve (std::wstring name_a, boost::shared_ptr <lambda_p::node> node_a);
+			void resolve_routine (std::wstring name_a, boost::shared_ptr <lambda_p::routine> routine_a, lambda_p::context context_a);
 			boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions;
 			boost::function <void (boost::shared_ptr <lambda_p::cluster>)> target;
 			std::multimap <std::wstring, lambda_p::context> used_names;

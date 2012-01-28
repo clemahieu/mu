@@ -26,7 +26,7 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 			auto expression_l (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (expression_a->context)));
 			lambda_p_io::analyzer::expression expression (*this, expression_a, expression_l);
 			routine_m->body = expression_l;
-			analyzer_a (name, routine_m, expression_a->context);
+			analyzer.resolve_routine (name, routine_m, expression_a->context);
 		}
 		else
 		{
@@ -39,19 +39,26 @@ lambda_p_io::analyzer::routine::routine (lambda_p_io::analyzer::analyzer & analy
 	}
 }
 
-void lambda_p_io::analyzer::routine::operator () (std::wstring identifier, boost::shared_ptr <lambda_p::node> node, lambda_p::context context_a)
+void lambda_p_io::analyzer::routine::resolve_local (std::wstring identifier, boost::shared_ptr <lambda_p::node> node, lambda_p::context context_a)
 {
 	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
 		if (analyzer.cluster->routines.find (identifier) == analyzer.cluster->routines.end ())
 		{
-			analyzer (identifier, context_a);
-			declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
-			for (auto i (analyzer.unresolved.find (identifier)), j (analyzer.unresolved.end ()); i != j && i->first == identifier; ++i)
+			if (declarations.find (identifier) == declarations.end ())
 			{
-				(*(i->second).first) (node);
+				analyzer.mark_used (identifier, context_a);
+				declarations.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (identifier, node));
+				analyzer.back_resolve (identifier, node);
 			}
-			analyzer.unresolved.erase (identifier);
+			else
+			{
+				std::wstringstream message;
+				message << L"The identifier: ";
+				message << identifier;
+				message << L" collides with another local declaration";
+				(*analyzer.errors) (message.str ());
+			}
 		}
 		else
 		{

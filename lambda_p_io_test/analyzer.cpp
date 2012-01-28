@@ -32,6 +32,7 @@ void lambda_p_io_test::analyzer::run ()
 	run_13 ();
 	run_14 ();
 	run_15 ();
+	run_16 ();
 }
 
 //Test empty expression
@@ -356,4 +357,21 @@ void lambda_p_io_test::analyzer::run_15 ()
 	analyzer_l.input (expression1);
 	analyzer_l.input (boost::make_shared <lambda_p_io::ast::end> (lambda_p::context ()));
 	assert (result.errors->errors.empty ());
+}
+
+//Test duplicate local name
+void lambda_p_io_test::analyzer::run_16 ()
+{
+	lambda_p_io_test::analyzer_result result;
+	lambda_p_io::analyzer::analyzer analyzer_l (boost::bind (&lambda_p_io_test::analyzer_result::operator(), &result, _1), result.errors);
+	auto expression (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ()));
+	auto expression2 (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ()));
+	expression2->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"2"));
+	expression->values.push_back (expression2);
+	auto expression3 (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (), std::vector <boost::shared_ptr <lambda_p_io::ast::node>> ()));
+	expression3->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"2"));
+	expression->values.push_back (expression3);
+	expression->full_name = boost::make_shared <lambda_p_io::ast::identifier> (lambda_p::context (), std::wstring (L"1"));
+	analyzer_l.input (expression);
+	assert (!result.errors->errors.empty ());
 }
