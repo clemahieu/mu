@@ -155,6 +155,9 @@
     <ClCompile Include="ast\end.cpp">
       <Filter>ast</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\extensions\cluster.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lexer\begin.h">
@@ -290,6 +293,9 @@
     </ClInclude>
     <ClInclude Include="ast\end.h">
       <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\cluster.h">
+      <Filter>analyzer\extensions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
