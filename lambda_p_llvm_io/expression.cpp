@@ -10,6 +10,9 @@
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm/operation.h>
 #include <lambda_p_llvm/lambda/operation.h>
+#include <lambda_p/cluster.h>
+#include <lambda_p/link.h>
+#include <lambda_p/routine.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -84,9 +87,10 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 	}
 }
 
-void lambda_p_llvm_io::expression::operator () (lambda_p::routine * routine_a)
+void lambda_p_llvm_io::expression::operator () (lambda_p::link * link_a)
 {
-	auto took_target (process_target (current));
+	auto routine (link_a->cluster->routines [link_a->index]);
+	auto took_target (process_target (routine));
 	if (!took_target)
 	{
 		arguments.push_back (current);

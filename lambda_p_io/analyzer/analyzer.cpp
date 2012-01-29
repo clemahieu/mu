@@ -8,8 +8,11 @@
 #include <lambda_p_io/analyzer/resolver.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p/routine.h>
+#include <lambda_p/link.h>
 
 #include <sstream>
+
+#include <boost/make_shared.hpp>
 
 lambda_p_io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <lambda_p::cluster>)> target_a, boost::shared_ptr <lambda_p::errors::error_target> errors_a)
 	: target (target_a),
@@ -99,7 +102,8 @@ void lambda_p_io::analyzer::analyzer::resolve_routine (std::wstring name_a, boos
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = cluster->routines.size () - 1;
-			back_resolve (name_a, routine_a);
+			auto link (boost::make_shared <lambda_p::link> (cluster, cluster->routines.size () - 1));
+			back_resolve (name_a, link);
 		}
 		else
 		{
