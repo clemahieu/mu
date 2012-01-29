@@ -28,8 +28,8 @@ void lambda_p_script_io_test::routine::run_1 ()
 	calls.push_back (call2);
 	auto rout (boost::make_shared <lambda_p::routine> (call2, parameters));
 	std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
-	lambda_p_script_io::routine r (generated, rout);
-	auto routine (r.result);
+	auto routine (boost::make_shared <lambda_p_script::routine> ());
+	lambda_p_script_io::routine r (generated, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 1);

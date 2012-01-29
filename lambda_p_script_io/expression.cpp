@@ -52,8 +52,10 @@ void lambda_p_script_io::expression::operator () (lambda_p::routine * routine_a)
 	auto existing (generated.find (value));
 	if (existing == generated.end ())
 	{
-		lambda_p_script_io::routine routine (generated, value);
-		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (routine.result));
+		auto result (boost::make_shared <lambda_p_script::routine> ());
+		generated [value] = result;
+		lambda_p_script_io::routine routine (generated, value, result);
+		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (result));
 	}
 	else
 	{
