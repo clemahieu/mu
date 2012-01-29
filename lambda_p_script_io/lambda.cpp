@@ -38,7 +38,7 @@ void lambda_p_script_io::lambda::operator () (boost::shared_ptr <lambda_p::error
 					std::wstringstream message;
 					message << L"Value is not an expression: ";
 					message << (*i)->name ();
-					(*expression_a.routine.analyzer.errors) (message.str ());
+					(*errors_a) (message.str ());
 				}
 			}
 			if (good)
@@ -48,12 +48,12 @@ void lambda_p_script_io::lambda::operator () (boost::shared_ptr <lambda_p::error
 		}
 		else
 		{
-			(*expression_a.routine.analyzer.errors) (L"Lambda extension requires its argument to be an expression", lambda_p::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last));
+			(*errors_a) (L"Lambda extension requires its argument to be an expression", lambda_p::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last));
 		}
 	}
 	else
 	{
-		(*expression_a.routine.analyzer.errors) (L"Lambda extension requires one argument", expression_a.expression_m->values [lambda_position - 1]->context);
+		(*errors_a) (L"Lambda extension requires one argument", expression_a.expression_m->values [lambda_position - 1]->context);
 	}
 }
 

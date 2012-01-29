@@ -30,44 +30,56 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 			path /= relative;
 			std::ifstream stream;
 			stream.open (path.string ());
-			auto input (boost::shared_ptr <lambda_p_io::lexer::istream_input> (new lambda_p_io::lexer::istream_input (stream)));
-			lambda_p_script_io::builder builder (extensions);
-			lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-			source (input);
-			source ();
-			if (builder.errors->errors.empty ())
+			if (stream.is_open ())
 			{
-				if (builder.clusters.size () == 1)
+				auto input (boost::shared_ptr <lambda_p_io::lexer::istream_input> (new lambda_p_io::lexer::istream_input (stream)));
+				lambda_p_script_io::builder builder (extensions);
+				lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+				source (input);
+				source ();
+				if (builder.errors->errors.empty ())
 				{
-					auto cluster (builder.clusters [0]);
-					if (cluster->routines.size () == 1)
+					if (builder.clusters.size () == 1)
 					{
-						auto routine (cluster->routines [0]);
-						std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
-						routine->perform (errors_a, arguments, results);
+						auto cluster (builder.clusters [0]);
+						if (cluster->routines.size () > 0)
+						{
+							auto routine (cluster->routines [0]);
+							std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
+							routine->perform (errors_a, arguments, results);
+						}
+						else
+						{
+							std::wstringstream message;
+							message << L"Cluster does not contain a routine: ";
+							message << cluster->routines.size ();
+							(*errors_a) (message.str ());
+						}
 					}
 					else
 					{
 						std::wstringstream message;
-						message << L"Cluster does not contain one routine: ";
-						message << cluster->routines.size ();
+						message << L"File did not contain one cluster: ";
+						message << builder.clusters.size ();
 						(*errors_a) (message.str ());
 					}
 				}
 				else
 				{
-					std::wstringstream message;
-					message << L"File did not contain one cluster: ";
-					message << builder.clusters.size ();
-					(*errors_a) (message.str ());
+					for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
+					{
+						(*errors_a) ((*i).first, (*i).second);
+					}
 				}
 			}
 			else
 			{
-				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
-				{
-					(*errors_a) ((*i).first, (*i).second);
-				}
+				std::wstringstream message;
+				message << L"File could not be opened: ";
+				std::string patha (path.string ());
+				std::wstring path (patha.begin (), patha.end ());
+				message << path;
+				(*errors_a) (message.str ());
 			}
 		}
 		else

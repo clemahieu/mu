@@ -73,7 +73,7 @@ void lambda_p_repl::repl::iteration ()
 		if (builder.clusters.size () == 1)
 		{
 			auto cluster (builder.clusters [0]);
-			if (cluster->routines.size () == 1)
+			if (cluster->routines.size () > 0)
 			{
 				auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
 				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -93,7 +93,7 @@ void lambda_p_repl::repl::iteration ()
 			}
 			else
 			{
-				std::wcout << L"Cluster does not have one routine: ";
+				std::wcout << L"Cluster does not have a routine: ";
 				std::wcout << cluster->routines.size ();
 			}
 		}

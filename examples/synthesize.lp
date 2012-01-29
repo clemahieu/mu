@@ -12,7 +12,7 @@
 		module
 	; engine]
 	[llvm_io/synthesize
-		=>
+		->
 			[:~]
 		module
 		[llvm/integer_type/create context # d32]
