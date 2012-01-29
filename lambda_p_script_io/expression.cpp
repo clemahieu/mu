@@ -43,7 +43,7 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
 }
 
-void lambda_p_script_io::expression::operator () (lambda_p::routine * routine_a)
+void lambda_p_script_io::expression::operator () (lambda_p::link * link_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::routine> (node));
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));

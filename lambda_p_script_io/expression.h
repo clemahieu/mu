@@ -25,7 +25,7 @@ namespace lambda_p_script_io
 		expression (std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a);
 		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
-		void operator () (lambda_p::routine * routine_a) override;
+		void operator () (lambda_p::link * link_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		void add (boost::shared_ptr <lambda_p_script::routine> routine_a);
 		boost::shared_ptr <lambda_p::node> node;

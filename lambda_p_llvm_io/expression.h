@@ -42,7 +42,7 @@ namespace lambda_p_llvm_io
 		std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> & values;
 		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
-		void operator () (lambda_p::routine * routine_a) override;
+		void operator () (lambda_p::link * link_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		void not_callable ();
 		bool process_target (boost::shared_ptr <lambda_p::node> node_a);

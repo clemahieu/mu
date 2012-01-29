@@ -29,7 +29,7 @@ void lambda_p_test::visitor::run_1 ()
 	assert (visitor->expressions.size () == 1);
 	assert (visitor->nodes.size () == 1);
 	assert (visitor->references.size () == 1);
-	assert (visitor->routines.size () == 1);
+	assert (visitor->links.size () == 1);
 }
 
 void lambda_p_test::visitor::run_2 ()
@@ -47,7 +47,7 @@ void lambda_p_test::visitor::run_2 ()
 	assert (vis->expressions.size () == 1);
 	assert (vis->nodes.size () == 1);
 	assert (vis->references.size () == 1);
-	assert (vis->routines.size () == 1);
+	assert (vis->links.size () == 1);
 }
 
 void lambda_p_test::visitor::run_3 ()
@@ -65,5 +65,5 @@ void lambda_p_test::visitor::run_3 ()
 	assert (vis->expressions.size () == 1);
 	assert (vis->nodes.size () == 1);
 	assert (vis->references.size () == 1);
-	assert (vis->routines.size () == 1);
+	assert (vis->links.size () == 1);
 }

@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="apply.h" />
+    <ClInclude Include="link.h" />
     <ClInclude Include="segment.h" />
     <ClInclude Include="context.h" />
     <ClInclude Include="errors\error_context.h" />
@@ -151,6 +152,7 @@
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="context.cpp" />
     <ClCompile Include="errors\error_context.cpp" />
+    <ClCompile Include="link.cpp" />
     <ClCompile Include="order.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="node.cpp" />
