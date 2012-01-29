@@ -22,7 +22,8 @@ void lambda_p_script_io::synthesizer::operator() (boost::shared_ptr <lambda_p::e
 			lambda_p_script_io::generator generator (order.expressions, routine->parameters);
 			routines.push_back (generator.result);
 		}
-		results.push_back (boost::make_shared <lambda_p_script::cluster> (routines));
+		auto cluster (boost::make_shared <lambda_p_script::cluster> (one->names, routines));
+		results.push_back (cluster);
 	}
 	else
 	{
