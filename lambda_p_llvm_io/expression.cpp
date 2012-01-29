@@ -84,7 +84,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 	}
 }
 
-void lambda_p_llvm_io::expression::operator () (lambda_p::link * link_a)
+void lambda_p_llvm_io::expression::operator () (lambda_p::routine * routine_a)
 {
 	auto took_target (process_target (current));
 	if (!took_target)

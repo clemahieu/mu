@@ -27,7 +27,6 @@
     <ClInclude Include="segment.h" />
     <ClInclude Include="apply.h" />
     <ClInclude Include="cluster.h" />
-    <ClInclude Include="link.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="errors\error.cpp">
@@ -54,7 +53,6 @@
     </ClCompile>
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="cluster.cpp" />
-    <ClCompile Include="link.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="errors">
