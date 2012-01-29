@@ -3,7 +3,7 @@
 #include <lambda_p/order.h>
 #include <lambda_p/routine.h>
 #include <lambda_p/cluster.h>
-#include <lambda_p_script_io/generator.h>
+#include <lambda_p_script_io/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster.h>
 
@@ -17,10 +17,10 @@ void lambda_p_script_io::synthesizer::operator() (boost::shared_ptr <lambda_p::e
 		std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
 		for (auto i (one->routines.begin ()), j (one->routines.end ()); i != j; ++i)
 		{
-			auto routine (*i);
-			lambda_p::order order (routine->body, routine->parameters);
-			lambda_p_script_io::generator generator (order.expressions, routine->parameters);
-			routines.push_back (generator.result);
+			auto value (*i);
+			lambda_p::order order (value->body, value->parameters);
+			lambda_p_script_io::routine routine (order.expressions, value->parameters);
+			routines.push_back (routine.result);
 		}
 		auto cluster (boost::make_shared <lambda_p_script::cluster> (one->names, routines));
 		results.push_back (cluster);

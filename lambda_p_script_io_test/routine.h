@@ -2,7 +2,7 @@
 
 namespace lambda_p_script_io_test
 {
-	class generator
+	class routine
 	{
 	public:
 		void run ();

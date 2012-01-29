@@ -119,7 +119,7 @@
     <ClCompile Include="lambda_single.cpp" />
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="expression.cpp" />
-    <ClCompile Include="generator.cpp" />
+    <ClCompile Include="routine.cpp" />
     <ClCompile Include="synthesizer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +127,7 @@
     <ClInclude Include="lambda_single.h" />
     <ClInclude Include="builder.h" />
     <ClInclude Include="expression.h" />
-    <ClInclude Include="generator.h" />
+    <ClInclude Include="routine.h" />
     <ClInclude Include="synthesizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

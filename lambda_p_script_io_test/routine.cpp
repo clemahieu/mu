@@ -1,6 +1,6 @@
-#include "generator.h"
+#include "routine.h"
 
-#include <lambda_p_script_io/generator.h>
+#include <lambda_p_script_io/routine.h>
 #include <lambda_p/expression.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/reference.h>
@@ -8,12 +8,12 @@
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/call.h>
 
-void lambda_p_script_io_test::generator::run ()
+void lambda_p_script_io_test::routine::run ()
 {
 	run_1 ();
 }
 
-void lambda_p_script_io_test::generator::run_1 ()
+void lambda_p_script_io_test::routine::run_1 ()
 {
 	std::vector <boost::shared_ptr <lambda_p::expression>> calls;
 	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
@@ -23,8 +23,8 @@ void lambda_p_script_io_test::generator::run_1 ()
 	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
-	lambda_p_script_io::generator generator (calls, parameters);
-	auto routine (generator.result);
+	lambda_p_script_io::routine r (calls, parameters);
+	auto routine (r.result);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 1);

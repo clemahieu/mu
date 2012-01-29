@@ -117,7 +117,7 @@
   <ItemGroup>
     <ClCompile Include="builder.cpp" />
     <ClCompile Include="call.cpp" />
-    <ClCompile Include="generator.cpp" />
+    <ClCompile Include="routine.cpp" />
     <ClCompile Include="lambda.cpp" />
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -125,7 +125,7 @@
   <ItemGroup>
     <ClInclude Include="builder.h" />
     <ClInclude Include="call.h" />
-    <ClInclude Include="generator.h" />
+    <ClInclude Include="routine.h" />
     <ClInclude Include="lambda.h" />
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="tests.h" />

@@ -1,4 +1,4 @@
-#include "generator.h"
+#include "routine.h"
 
 #include <lambda_p_script/routine.h>
 #include <lambda_p/expression.h>
@@ -6,7 +6,7 @@
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/identity/operation.h>
 
-lambda_p_script_io::generator::generator (std::vector <boost::shared_ptr <lambda_p::expression>> & expressions_a, boost::shared_ptr <lambda_p::expression> parameters_a)
+lambda_p_script_io::routine::routine (std::vector <boost::shared_ptr <lambda_p::expression>> & expressions_a, boost::shared_ptr <lambda_p::expression> parameters_a)
 	: result (new lambda_p_script::routine)
 {
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters_a, 0));
