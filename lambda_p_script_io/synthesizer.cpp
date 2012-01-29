@@ -6,6 +6,7 @@
 #include <lambda_p_script_io/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster.h>
+#include <lambda_p_script_io/cluster.h>
 
 #include <boost/make_shared.hpp>
 
@@ -14,16 +15,11 @@ void lambda_p_script_io::synthesizer::operator() (boost::shared_ptr <lambda_p::e
 	auto one (boost::dynamic_pointer_cast <lambda_p::cluster> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
-		for (auto i (one->routines.begin ()), j (one->routines.end ()); i != j; ++i)
+		lambda_p_script_io::cluster cluster (one);
+		if (cluster.result.get () != nullptr)
 		{
-			auto value (*i);
-			lambda_p::order order (value->body, value->parameters);
-			lambda_p_script_io::routine routine (order.expressions, value->parameters);
-			routines.push_back (routine.result);
+			results.push_back (cluster.result);
 		}
-		auto cluster (boost::make_shared <lambda_p_script::cluster> (one->names, routines));
-		results.push_back (cluster);
 	}
 	else
 	{

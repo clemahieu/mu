@@ -7,6 +7,7 @@
     <ClCompile Include="lambda.cpp" />
     <ClCompile Include="lambda_single.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="synthesizer.h" />
@@ -15,5 +16,6 @@
     <ClInclude Include="lambda.h" />
     <ClInclude Include="lambda_single.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="cluster.h" />
   </ItemGroup>
 </Project>

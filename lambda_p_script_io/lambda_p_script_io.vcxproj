@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cluster.cpp" />
     <ClCompile Include="lambda.cpp" />
     <ClCompile Include="lambda_single.cpp" />
     <ClCompile Include="builder.cpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="synthesizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cluster.h" />
     <ClInclude Include="lambda.h" />
     <ClInclude Include="lambda_single.h" />
     <ClInclude Include="builder.h" />

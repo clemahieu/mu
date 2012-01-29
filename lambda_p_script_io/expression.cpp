@@ -10,13 +10,16 @@
 #include <lambda_p/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script_io/synthesizer.h>
+#include <lambda_p_script_io/routine.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
-lambda_p_script_io::expression::expression (std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
+lambda_p_script_io::expression::expression (std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
 	: node (node_a),
 	reservations (reservations_a),
-	call_m (call_a)
+	call_m (call_a),
+	generated (generated_a)
 {
 	(*node_a) (this);
 }
@@ -46,7 +49,16 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 void lambda_p_script_io::expression::operator () (lambda_p::routine * routine_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::routine> (node));
-	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
+	auto existing (generated.find (value));
+	if (existing == generated.end ())
+	{
+		lambda_p_script_io::routine routine (generated, value);
+		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (routine.result));
+	}
+	else
+	{
+		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (existing->second));
+	}
 }
 
 void lambda_p_script_io::expression::add (boost::shared_ptr <lambda_p_script::routine> routine_a)

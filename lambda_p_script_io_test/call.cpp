@@ -21,7 +21,8 @@ void lambda_p_script_io_test::call::run_1 ()
 	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
 	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
 	boost::shared_ptr <lambda_p::node> node (new lambda_p::node);
-	lambda_p_script_io::expression expression (reservations, target, node);
+	std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+	lambda_p_script_io::expression expression (generated, reservations, target, node);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <lambda_p_script::constant> (target->arguments [0]));
 	assert (added.get () != nullptr);
@@ -34,7 +35,8 @@ void lambda_p_script_io_test::call::run_2 ()
 	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
 	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
-	lambda_p_script_io::expression expression (reservations, target, parameters);
+	std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+	lambda_p_script_io::expression expression (generated, reservations, target, parameters);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <lambda_p_script::expression> (target->arguments [0]));
 	assert (added.get () != nullptr);
@@ -48,7 +50,8 @@ void lambda_p_script_io_test::call::run_3 ()
 	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
 	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
 	boost::shared_ptr <lambda_p::reference> reference (new lambda_p::reference (parameters, 0));
-	lambda_p_script_io::expression expression (reservations, target, reference);
+	std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+	lambda_p_script_io::expression expression (generated, reservations, target, reference);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <lambda_p_script::reference> (target->arguments [0]));
 	assert (added.get () != nullptr);

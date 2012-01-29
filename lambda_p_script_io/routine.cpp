@@ -5,13 +5,16 @@
 #include <lambda_p_script_io/expression.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/identity/operation.h>
+#include <lambda_p/order.h>
+#include <lambda_p/routine.h>
 
-lambda_p_script_io::routine::routine (std::vector <boost::shared_ptr <lambda_p::expression>> & expressions_a, boost::shared_ptr <lambda_p::expression> parameters_a)
+lambda_p_script_io::routine::routine (std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated_a, boost::shared_ptr <lambda_p::routine> routine_a)
 	: result (new lambda_p_script::routine)
 {
-	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters_a, 0));
+	lambda_p::order order (routine_a->body, routine_a->parameters);
+	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (routine_a->parameters, 0));
 	size_t open (1);
-	for (auto i (expressions_a.begin ()), j (expressions_a.end ()); i != j; ++i, ++open)
+	for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i, ++open)
 	{
 		reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (*i, open));
 		auto call_l (boost::shared_ptr <lambda_p_script::call> (new lambda_p_script::call (open, (*i)->context)));
@@ -19,7 +22,7 @@ lambda_p_script_io::routine::routine (std::vector <boost::shared_ptr <lambda_p::
 		auto item (*i);
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)
 		{
-			lambda_p_script_io::expression expression (reservations, call_l, *k);
+			lambda_p_script_io::expression expression (generated_a, reservations, call_l, *k);
 		}
 	}
 }

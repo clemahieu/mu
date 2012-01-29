@@ -7,6 +7,9 @@
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/call.h>
+#include <lambda_p/routine.h>
+
+#include <boost/make_shared.hpp>
 
 void lambda_p_script_io_test::routine::run ()
 {
@@ -23,7 +26,9 @@ void lambda_p_script_io_test::routine::run_1 ()
 	auto call2 (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context ())));
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
-	lambda_p_script_io::routine r (calls, parameters);
+	auto rout (boost::make_shared <lambda_p::routine> (call2, parameters));
+	std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+	lambda_p_script_io::routine r (generated, rout);
 	auto routine (r.result);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
