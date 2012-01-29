@@ -51,7 +51,7 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 void lambda_p_script_io::expression::operator () (lambda_p::link * link_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::link> (node));
-	auto routine (value->cluster->routines [value->index]);
+	auto routine (value->routine);
 	auto existing (generated.find (routine));
 	if (existing == generated.end ())
 	{

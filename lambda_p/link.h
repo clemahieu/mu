@@ -6,15 +6,14 @@
 
 namespace lambda_p
 {
-	class cluster;
+	class routine;
 	class link : public lambda_p::node
 	{
 	public:
-		link (boost::shared_ptr <lambda_p::cluster> cluster_a, size_t index_a);
+		link (boost::shared_ptr <lambda_p::routine> routine_a);
 		void operator () (lambda_p::visitor * visitor_a) override;
 		std::wstring name () override;
-		boost::shared_ptr <lambda_p::cluster> cluster;
-		size_t index;
+		boost::shared_ptr <lambda_p::routine> routine;
 	};
 }
 

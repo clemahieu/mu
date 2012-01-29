@@ -102,7 +102,7 @@ void lambda_p_io::analyzer::analyzer::resolve_routine (std::wstring name_a, boos
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = cluster->routines.size () - 1;
-			auto link (boost::make_shared <lambda_p::link> (cluster, cluster->routines.size () - 1));
+			auto link (boost::make_shared <lambda_p::link> (routine_a));
 			back_resolve (name_a, link);
 		}
 		else

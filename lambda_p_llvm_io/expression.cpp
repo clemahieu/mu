@@ -89,7 +89,7 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::link * link_a)
 {
-	auto routine (link_a->cluster->routines [link_a->index]);
+	auto routine (link_a->routine);
 	auto took_target (process_target (routine));
 	if (!took_target)
 	{

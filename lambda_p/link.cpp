@@ -2,9 +2,8 @@
 
 #include <lambda_p/visitor.h>
 
-lambda_p::link::link (boost::shared_ptr <lambda_p::cluster> cluster_a, size_t index_a)
-	: cluster (cluster_a),
-	index (index_a)
+lambda_p::link::link (boost::shared_ptr <lambda_p::routine> routine_a)
+	: routine (routine_a)
 {
 }
 

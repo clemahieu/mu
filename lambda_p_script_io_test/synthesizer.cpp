@@ -86,7 +86,7 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	auto cluster (boost::make_shared <lambda_p::cluster> ());
 	cluster->routines.push_back (routine1);
 	cluster->routines.push_back (routine2);
-	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (cluster, 1));
+	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (routine2));
 	arguments.push_back (cluster);
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
@@ -115,7 +115,7 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	auto cluster (boost::make_shared <lambda_p::cluster> ());
 	cluster->routines.push_back (routine1);
-	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (cluster, 0));
+	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (routine1));
 	arguments.push_back (cluster);
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
