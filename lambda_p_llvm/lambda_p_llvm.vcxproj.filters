@@ -208,6 +208,7 @@
     <ClInclude Include="constant_int\node.h">
       <Filter>constant_int</Filter>
     </ClInclude>
+    <ClInclude Include="cluster.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -417,6 +418,7 @@
     <ClCompile Include="constant_int\node.cpp">
       <Filter>constant_int</Filter>
     </ClCompile>
+    <ClCompile Include="cluster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">

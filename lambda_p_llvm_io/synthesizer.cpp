@@ -3,25 +3,33 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm_io/routine.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p/routine.h>
+#include <lambda_p/cluster.h>
 #include <lambda_p_llvm/function_pointer/node.h>
+#include <lambda_p_llvm/cluster.h>
 
 #include <sstream>
+
+#include <boost/make_shared.hpp>
 
 void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	if (parameters.size () > 1)
 	{
-		auto one (boost::dynamic_pointer_cast <lambda_p::routine> (parameters [0]));
+		auto one (boost::dynamic_pointer_cast <lambda_p::cluster> (parameters [0]));
 		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
 			{
-				lambda_p_llvm_io::routine routine (errors_a, one, two, lambda_p::segment <boost::shared_ptr <lambda_p::node>> (parameters.lower + 2, parameters.source));
+				auto result (boost::make_shared <lambda_p_llvm::cluster> ());
+				for (auto i (one->routines.begin ()), j (one->routines.end ()); i != j; ++i)
+				{
+					lambda_p_llvm_io::routine routine (errors_a, *i, two, lambda_p::segment <boost::shared_ptr <lambda_p::node>> (parameters.lower + 2, parameters.source));
+					result->routines.push_back (routine.result);
+				}
 				if (!(*errors_a) ())
 				{
-					results.push_back (routine.result);
+					results.push_back (result);
 				}
 			}
 			else

@@ -2,10 +2,6 @@
 
 #include <lambda_p_script/operation.h>
 
-namespace lambda_p
-{
-	class routine;
-}
 namespace lambda_p_llvm_io
 {
 	class synthesizer : public lambda_p_script::operation

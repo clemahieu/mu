@@ -14,6 +14,7 @@
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_llvm/identity/operation.h>
 #include <lambda_p_script_io/builder.h>
+#include <lambda_p_llvm/cluster.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -58,12 +59,12 @@ void lambda_p_llvm_io_test::synthesizer::run_1 ()
 	source ();
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (routine);
+	arguments.push_back (cluster);
 	arguments.push_back (module);
 	std::vector <boost::shared_ptr <lambda_p::node>> values;
 	synthesizer.perform (builder.errors, arguments, values);
+	assert (builder.errors->errors.empty ());
 	llvm::PassManager PM;
 	std::string text;
 	llvm::raw_string_ostream stream (text);
@@ -73,7 +74,10 @@ void lambda_p_llvm_io_test::synthesizer::run_1 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_llvm::cluster> (values [0]));
+	assert (cl.get () != nullptr);
+	assert (cl->routines.size () == 1);
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (cl->routines [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -112,9 +116,8 @@ void lambda_p_llvm_io_test::synthesizer::run_2 ()
 	source ();
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (routine);
+	arguments.push_back (cluster);
 	arguments.push_back (module);
 	std::vector <boost::shared_ptr <lambda_p::node>> values;
 	synthesizer.perform (builder.errors, arguments, values);
@@ -127,7 +130,10 @@ void lambda_p_llvm_io_test::synthesizer::run_2 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_llvm::cluster> (values [0]));
+	assert (cl.get () != nullptr);
+	assert (cl->routines.size () == 1);
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (cl->routines [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -172,9 +178,8 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	source ();
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (routine);
+	arguments.push_back (cluster);
 	arguments.push_back (module);
 	arguments.push_back (boost::make_shared <lambda_p_llvm::type::node> (llvm::Type::getInt32Ty (context)));
 	std::vector <boost::shared_ptr <lambda_p::node>> values;
@@ -188,7 +193,10 @@ void lambda_p_llvm_io_test::synthesizer::run_3 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_llvm::cluster> (values [0]));
+	assert (cl.get () != nullptr);
+	assert (cl->routines.size () == 1);
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (cl->routines [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
@@ -254,9 +262,8 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	source ();
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (routine);
+	arguments.push_back (cluster);
 	arguments.push_back (module);
 	std::vector <boost::shared_ptr <lambda_p::node>> values;
 	synthesizer.perform (builder.errors, arguments, values);
@@ -269,7 +276,10 @@ void lambda_p_llvm_io_test::synthesizer::run_4 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_llvm::cluster> (values [0]));
+	assert (cl.get () != nullptr);
+	assert (cl->routines.size () == 1);
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (cl->routines [0]));
 	assert (f1.get () != nullptr);
 	assert (f1->multiple_return == false);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
@@ -313,9 +323,8 @@ void lambda_p_llvm_io_test::synthesizer::run_5 ()
 	source ();
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (routine);
+	arguments.push_back (cluster);
 	arguments.push_back (module);
 	std::vector <boost::shared_ptr <lambda_p::node>> values;
 	synthesizer.perform (builder.errors, arguments, values);
@@ -329,7 +338,10 @@ void lambda_p_llvm_io_test::synthesizer::run_5 ()
 	auto error (llvm::verifyModule (*module->module, llvm::VerifierFailureAction::ReturnStatusAction, &analysis_errors));
 	assert (!error);
 	assert (values.size () == 1);
-	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (values [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_llvm::cluster> (values [0]));
+	assert (cl.get () != nullptr);
+	assert (cl->routines.size () == 1);
+	auto f1 (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (cl->routines [0]));
 	assert (f1.get () != nullptr);
 	lambda_p_llvm::execution_engine::create_jit create_jit;
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
