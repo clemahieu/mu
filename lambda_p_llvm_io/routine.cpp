@@ -2,7 +2,9 @@
 
 #include <lambda_p/routine.h>
 #include <lambda_p/order.h>
+#include <lambda_p/expression.h>
 #include <lambda_p/errors/error_target.h>
+#include <lambda_p/errors/error_context.h>
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_llvm/argument/node.h>
 #include <lambda_p_llvm/module/node.h>
@@ -70,7 +72,8 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 		blocks.push_back (working);
 		for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i)
 		{
-			lambda_p_llvm_io::expression expression (errors_a, working, values, *i);
+			auto errors_l (boost::make_shared <lambda_p::errors::error_context> (errors_a, (*i)->context));
+			lambda_p_llvm_io::expression expression (errors_l, working, values, *i);
 		}
 		if (!(*errors_a) ())
 		{

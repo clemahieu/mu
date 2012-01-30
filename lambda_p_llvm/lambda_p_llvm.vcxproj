@@ -62,6 +62,7 @@
     <ClInclude Include="instructions\trunc.h" />
     <ClInclude Include="instructions\xor.h" />
     <ClInclude Include="instructions\zext.h" />
+    <ClInclude Include="integer_type\from_type.h" />
     <ClInclude Include="integer_type\create.h" />
     <ClInclude Include="integer_type\node.h" />
     <ClInclude Include="lambda\operation.h" />
@@ -136,6 +137,7 @@
     <ClCompile Include="instructions\trunc.cpp" />
     <ClCompile Include="instructions\xor.cpp" />
     <ClCompile Include="instructions\zext.cpp" />
+    <ClCompile Include="integer_type\from_type.cpp" />
     <ClCompile Include="integer_type\create.cpp" />
     <ClCompile Include="integer_type\node.cpp" />
     <ClCompile Include="lambda\operation.cpp" />

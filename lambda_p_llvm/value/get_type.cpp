@@ -7,20 +7,19 @@
 
 #include <llvm/Value.h>
 
-void lambda_p_llvm::value::get_type::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::value::get_type::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters [0]));
-	if (one.get () != nullptr)
+	auto expected (check_size (errors_a, 1, parameters_a.size ()));
+	if (expected)
 	{
-		results.push_back (boost::make_shared <lambda_p_llvm::type::node> (one->value ()->getType ()));
+		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
+		if (one.get () != nullptr)
+		{
+			results_a.push_back (boost::make_shared <lambda_p_llvm::type::node> (one->value ()->getType ()));
+		}
+		else
+		{
+			invalid_type (errors_a, 0);
+		}
 	}
-	else
-	{
-		invalid_type (errors_a, parameters [0], 0);
-	}
-}
-
-size_t lambda_p_llvm::value::get_type::count ()
-{
-	return 1;
 }

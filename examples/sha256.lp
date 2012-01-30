@@ -1,38 +1,29 @@
 [.id
+	cluster
 	[llvm_io/synthesize
 		.llvm
-			[sext
-				[integerc # d1 # d1]
-				[integer # d32]
-			]
-		module
-	]
-	[llvm_io/synthesize
-		.llvm
+		[
 			[xor
 				value
+				[sext
+					[constants/integer
+						# d1
+						# d1
+					]
+					[value/get_type
+						value
+					]
+				]
 				[:~; value]
-			]
-		module
-		word
-	]
-	[llvm_io/synthesize
-		.llvm
+			;; not]
 			[xor
 				[and x y]
 				[and
 					[not x]
 					z
 				]
-				[:~ ; x y z not]
-			]
-		module
-		word
-		word
-		word
-	]
-	[llvm_io/synthesize
-		.llvm
+				[:~ ; x y z]
+			;; ch]
 			[xor
 				[xor
 					[and x y]
@@ -40,12 +31,10 @@
 				]
 				[and y z]
 				[:~ ; x y z]
-			]
+			;; maj]
+		]
 		module
-		word
-		word
-		word
-	]
+	;; cluster]
 	[llvm/integer_type/create
 		context
 		# d32

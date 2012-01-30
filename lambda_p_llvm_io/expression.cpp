@@ -136,7 +136,7 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 				}
 				else
 				{
-					not_callable ();
+					not_callable (node_a);
 				}
 			}
 		}
@@ -144,7 +144,10 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 	return result;
 }
 
-void lambda_p_llvm_io::expression::not_callable ()
+void lambda_p_llvm_io::expression::not_callable (boost::shared_ptr <lambda_p::node> node_a)
 {
-	(*errors) (L"Target of expression is not callable");
+	std::wstringstream message;
+	message << L"Target of expression is not callable: ";
+	message << node_a->name ();
+	(*errors) (message.str ());
 }

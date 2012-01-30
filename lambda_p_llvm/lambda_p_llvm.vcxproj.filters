@@ -209,6 +209,9 @@
       <Filter>constant_int</Filter>
     </ClInclude>
     <ClInclude Include="cluster.h" />
+    <ClInclude Include="integer_type\from_type.h">
+      <Filter>integer_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -419,6 +422,9 @@
       <Filter>constant_int</Filter>
     </ClCompile>
     <ClCompile Include="cluster.cpp" />
+    <ClCompile Include="integer_type\from_type.cpp">
+      <Filter>integer_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
