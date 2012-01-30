@@ -152,8 +152,8 @@
     <ClCompile Include="ast\end.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\extensions\cluster.cpp">
-      <Filter>analyzer\extensions</Filter>
+    <ClCompile Include="ast\cluster.cpp">
+      <Filter>ast</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,8 +288,8 @@
     <ClInclude Include="ast\end.h">
       <Filter>ast</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\extensions\cluster.h">
-      <Filter>analyzer\extensions</Filter>
+    <ClInclude Include="ast\cluster.h">
+      <Filter>ast</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,7 +4,7 @@
 #include <lambda_p/routine.h>
 #include <lambda_p_io/builder.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/analyzer/extensions/cluster.h>
+#include <lambda_p_io/ast/cluster.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 
 #include <boost/bind.hpp>
@@ -26,19 +26,20 @@ void lambda_p_llvm_test::analyzer::run_1 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	assert (routine->body->dependencies.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_io::analyzer::extensions::cluster> (routine->body->dependencies [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (routine->body->dependencies [0]));
 	assert (cl != nullptr);
 	assert (cl->expressions.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (cl->expressions [0]));
-	assert (ast.get () != nullptr);
 	lambda_p_llvm::analyzer::operation analyzer;
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (ast);
+	arguments.push_back (cl);
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	analyzer (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
-	auto routine1 (boost::dynamic_pointer_cast <lambda_p::routine> (results [0]));
+	auto clust (boost::dynamic_pointer_cast <lambda_p::cluster> (results [0]));
+	assert (clust != nullptr);
+	assert (clust->routines.size () == 1);
+	auto routine1 (boost::dynamic_pointer_cast <lambda_p::routine> (clust->routines [0]));
 	assert (routine1.get () != nullptr);
 	auto dependencies (routine1->body->dependencies);
 	assert (dependencies.size () == 28);

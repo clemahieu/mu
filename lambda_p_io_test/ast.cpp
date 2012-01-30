@@ -5,7 +5,7 @@
 #include <lambda_p_io/builder.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p_io/analyzer/extensions/cluster.h>
+#include <lambda_p_io/ast/cluster.h>
 
 #include <boost/bind.hpp>
 
@@ -28,7 +28,7 @@ void lambda_p_io_test::ast::run_1 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	assert (routine->body->dependencies.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_io::analyzer::extensions::cluster> (routine->body->dependencies [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (routine->body->dependencies [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->expressions.size () == 0);
 }
@@ -55,7 +55,7 @@ void lambda_p_io_test::ast::run_3 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	assert (routine->body->dependencies.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_io::analyzer::extensions::cluster> (routine->body->dependencies [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (routine->body->dependencies [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->expressions.size () == 1);
 	auto expression (cl->expressions [0]);
