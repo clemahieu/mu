@@ -6,6 +6,11 @@ void lambda_p_test::test_visitor::operator () (lambda_p::expression * expression
 	expressions.push_back (expression_a);
 }
 
+void lambda_p_test::test_visitor::operator() (lambda_p::parameters * parameters_a)
+{
+	parameters.push_back (parameters_a);
+}
+
 void lambda_p_test::test_visitor::operator () (lambda_p::reference * reference_a)
 {
 	references.push_back (reference_a);

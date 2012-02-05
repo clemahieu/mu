@@ -13,6 +13,7 @@
 #include <lambda_p_script_io/routine.h>
 #include <lambda_p/link.h>
 #include <lambda_p/cluster.h>
+#include <lambda_p_script/parameters.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -32,6 +33,11 @@ void lambda_p_script_io::expression::operator () (lambda_p::expression * set_a)
 	auto existing (reservations.find (value));
 	assert (existing != reservations.end ());
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::expression> (new lambda_p_script::expression (existing->second)));
+}
+
+void lambda_p_script_io::expression::operator () (lambda_p::parameters * parameters_a)
+{
+	call_m->arguments.push_back (boost::make_shared <lambda_p_script::parameters> ());
 }
 
 void lambda_p_script_io::expression::operator () (lambda_p::reference * reference_a)

@@ -6,6 +6,7 @@
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/expression.h>
+#include <lambda_p/parameters.h>
 
 #include <boost/bind.hpp>
 
@@ -28,9 +29,8 @@ void lambda_p_io_test::builder::run_1 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	assert (routine->body->dependencies.size () == 1);
-	assert (routine->body->dependencies [0] == routine->parameters);
-	assert (routine->parameters->dependencies.size () == 0);
-	assert (routine->parameters->context == lambda_p::context (1, 1, 0, 1, 1, 0));
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (routine->body->dependencies [0]));
+	assert (parameters != nullptr);
 	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
 }
 
@@ -47,9 +47,7 @@ void lambda_p_io_test::builder::run_2 ()
 	assert (cluster->routines.size () == 2);
 	auto routine1 (cluster->routines [0]);
 	auto routine2 (cluster->routines [1]);
-	assert (routine1->parameters->context == lambda_p::context (1, 1, 0, 1, 1, 0));
 	assert (routine1->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
-	assert (routine2->parameters->context == lambda_p::context (1, 5, 4, 1, 5, 4));
 	assert (routine2->body->context == lambda_p::context (1, 5, 4, 1, 8, 7));
 }
 
@@ -78,7 +76,8 @@ void lambda_p_io_test::builder::run_3 ()
 	assert (d11->context == lambda_p::context (1, 2, 1, 1, 12, 11));
 	assert (d1->index == 0);
 	assert (d11->dependencies.size () == 1);
-	assert (d11->dependencies [0] == routine->parameters);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (d11->dependencies [0]));
+	assert (parameters != nullptr);
 	assert (d2->dependencies.size () == 3);
 	auto d21 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [0]));
 	assert (d21.get () != nullptr);

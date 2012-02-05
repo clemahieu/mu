@@ -29,10 +29,10 @@
 lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters)
 {	
 	bool good (true);
-	lambda_p::order order (routine_a->body, routine_a->parameters);
+	lambda_p::order order (routine_a->body);
 	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> values;
 	std::vector <llvm::Type *> parameters_l;
-	values [routine_a->parameters].push_back (boost::make_shared <lambda_p_llvm::identity::operation> ());
+//	values [routine_a->parameters].push_back (boost::make_shared <lambda_p_llvm::identity::operation> ());
 	std::vector <llvm::Argument *> arguments;
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
@@ -52,7 +52,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 			{
 				value = boost::make_shared <lambda_p_llvm::argument::node> (arg);
 			}
-			values [routine_a->parameters].push_back (value);
+//			values [routine_a->parameters].push_back (value);
 			auto type (arg->getType ());
 		}
 		else
@@ -73,7 +73,7 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 		for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i)
 		{
 			auto errors_l (boost::make_shared <lambda_p::errors::error_context> (errors_a, (*i)->context));
-			lambda_p_llvm_io::expression expression (errors_l, working, values, *i);
+//			lambda_p_llvm_io::expression expression (errors_l, working, values, *i);
 		}
 		if (!(*errors_a) ())
 		{

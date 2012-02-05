@@ -143,6 +143,7 @@
     <ClCompile Include="load\load_directory.cpp" />
     <ClCompile Include="load\load_file.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
+    <ClCompile Include="parameters.cpp" />
     <ClCompile Include="print\operation.cpp" />
     <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="exec\operation.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="times\operation.cpp" />
     <ClCompile Include="unit\operation.cpp" />
+    <ClCompile Include="values\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="analyzer\node.h" />
@@ -188,6 +190,7 @@
     <ClInclude Include="load\load_directory.h" />
     <ClInclude Include="load\load_file.h" />
     <ClInclude Include="package\get_recursive.h" />
+    <ClInclude Include="parameters.h" />
     <ClInclude Include="print\operation.h" />
     <ClInclude Include="string\extension.h" />
     <ClInclude Include="exec\operation.h" />
@@ -218,6 +221,7 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="times\operation.h" />
     <ClInclude Include="unit\operation.h" />
+    <ClInclude Include="values\operation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

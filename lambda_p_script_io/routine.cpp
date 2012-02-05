@@ -10,9 +10,8 @@
 
 lambda_p_script_io::routine::routine (std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a)
 {
-	lambda_p::order order (routine_a->body, routine_a->parameters);
-	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (routine_a->parameters, 0));
-	size_t open (1);
+	lambda_p::order order (routine_a->body);
+	size_t open (0);
 	for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i, ++open)
 	{
 		reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (*i, open));

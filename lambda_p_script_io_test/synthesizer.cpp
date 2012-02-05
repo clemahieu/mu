@@ -6,6 +6,7 @@
 #include <lambda_p/cluster.h>
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
+#include <lambda_p/parameters.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster.h>
 #include <lambda_p_script/call.h>
@@ -56,7 +57,7 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 	routine->body = root;
 	auto parameters (boost::shared_ptr <lambda_p::expression> (new lambda_p::expression (lambda_p::context (1, 2, 1, 1, 3, 2))));
 	root->dependencies.push_back (parameters);
-	parameters->dependencies.push_back (routine->parameters);
+	parameters->dependencies.push_back (boost::make_shared <lambda_p::parameters> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
@@ -78,8 +79,8 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 {
 	//[a][;;a]
 	lambda_p_script_io::synthesizer synthesizer;
-	auto routine1 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ()), boost::make_shared <lambda_p::expression> (lambda_p::context ())));
-	auto routine2 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ()), boost::make_shared <lambda_p::expression> (lambda_p::context ())));
+	auto routine1 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ())));
+	auto routine2 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ())));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
@@ -109,7 +110,7 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 {
 	//[a;;a]
 	lambda_p_script_io::synthesizer synthesizer;
-	auto routine1 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ()), boost::make_shared <lambda_p::expression> (lambda_p::context ())));
+	auto routine1 (boost::make_shared <lambda_p::routine> (boost::make_shared <lambda_p::expression> (lambda_p::context ())));
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());

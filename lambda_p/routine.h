@@ -12,10 +12,9 @@ namespace lambda_p
 	{
 	public:
 		routine (lambda_p::context context_a);
-		routine (boost::shared_ptr <lambda_p::expression> body_a, boost::shared_ptr <lambda_p::expression> parameters_a);
+		routine (boost::shared_ptr <lambda_p::expression> body_a);
 		void operator () (lambda_p::visitor * visitor_a) override;
 		std::wstring name () override;
-		boost::shared_ptr <lambda_p::expression> parameters;
 		boost::shared_ptr <lambda_p::expression> body;
 	};
 }

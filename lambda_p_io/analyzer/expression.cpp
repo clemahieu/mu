@@ -11,6 +11,7 @@
 #include <lambda_p/reference.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p/errors/error_context.h>
+#include <lambda_p/parameters.h>
 
 #include <boost/make_shared.hpp>
 
@@ -36,7 +37,7 @@ lambda_p_io::analyzer::expression::expression (lambda_p_io::analyzer::routine & 
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::parameters * parameters_a)
 {
-	self->dependencies.push_back (routine.routine_m->parameters);
+	self->dependencies.push_back (boost::make_shared <lambda_p::parameters> ());
 }
 
 void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::expression * expression_a)

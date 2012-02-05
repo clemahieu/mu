@@ -3,9 +3,8 @@
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
 
-lambda_p::order::order (boost::shared_ptr <lambda_p::expression> call_a, boost::shared_ptr <lambda_p::expression> parameters)
+lambda_p::order::order (boost::shared_ptr <lambda_p::expression> call_a)
 {
-	already.insert (parameters);
 	(*this) (call_a);
 }
 
@@ -22,6 +21,11 @@ void lambda_p::order::operator () (boost::shared_ptr <lambda_p::expression> expr
 		}
 		expressions.push_back (expression_a);
 	}
+}
+
+void lambda_p::order::operator() (lambda_p::parameters * parameters_a)
+{
+
 }
 
 void lambda_p::order::operator () (lambda_p::expression * set_a)

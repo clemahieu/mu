@@ -15,9 +15,10 @@ namespace lambda_p
 	class order : public lambda_p::visitor
 	{
 	public:
-		order (boost::shared_ptr <lambda_p::expression> expression_a, boost::shared_ptr <lambda_p::expression> parameters);
+		order (boost::shared_ptr <lambda_p::expression> expression_a);
 		void operator () (boost::shared_ptr <lambda_p::expression> expression_a);
 		void operator () (lambda_p::expression * expression_a) override;
+		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::link * link_a) override;
 		void operator () (lambda_p::node * node_a) override;

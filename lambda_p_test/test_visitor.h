@@ -10,10 +10,12 @@ namespace lambda_p_test
 	{
 	public:
 		void operator () (lambda_p::expression * expression_a) override;
+		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::link * link_a) override;
 		void operator () (lambda_p::node * node_a) override;
 		std::vector <lambda_p::expression *> expressions;
+		std::vector <lambda_p::parameters *> parameters;
 		std::vector <lambda_p::reference *> references;
 		std::vector <lambda_p::link *> links;
 		std::vector <lambda_p::node *> nodes;
