@@ -16,6 +16,9 @@
     <ClCompile Include="types\integer.cpp">
       <Filter>types</Filter>
     </ClCompile>
+    <ClCompile Include="basic_block\insert.cpp">
+      <Filter>basic_block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -33,6 +36,9 @@
     <ClInclude Include="types\integer.h">
       <Filter>types</Filter>
     </ClInclude>
+    <ClInclude Include="basic_block\insert.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -43,6 +49,9 @@
     </Filter>
     <Filter Include="types">
       <UniqueIdentifier>{5318c82d-e508-44b1-9f57-d1e1908802be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="basic_block">
+      <UniqueIdentifier>{3aa9d754-9277-441c-957b-e9778643cfb2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
