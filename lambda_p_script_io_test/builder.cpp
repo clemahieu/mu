@@ -27,6 +27,7 @@ void lambda_p_script_io_test::builder::run ()
 	run_7 ();
 	run_8 ();
 	run_9 ();
+	run_10 ();
 }
 
 void lambda_p_script_io_test::builder::run_1 ()
@@ -237,4 +238,22 @@ void lambda_p_script_io_test::builder::run_9 ()
 	assert (results [1] == n2);
 	assert (results [2] == n3);
 	assert (results [3] == n3);
+}
+
+void lambda_p_script_io_test::builder::run_10 ()
+{
+	lambda_p_script_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[.id [. 2];; 1][;; 2]");
+	source ();
+	assert (builder.errors->errors.empty ());
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 2);
+	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	cluster->routines [0]->perform (builder.errors, arguments, results);
+	assert (builder.errors->errors.empty ());
+	assert (results.size () == 1);
+	assert (results [0] == cluster->routines [1]);
 }
