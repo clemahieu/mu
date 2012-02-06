@@ -11,7 +11,6 @@
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script_io/synthesizer.h>
 #include <lambda_p_script_io/routine.h>
-#include <lambda_p/link.h>
 #include <lambda_p/cluster.h>
 #include <lambda_p_script/parameters.h>
 
@@ -52,24 +51,6 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::node> (node));
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
-}
-
-void lambda_p_script_io::expression::operator () (lambda_p::link * link_a)
-{
-	auto value (boost::static_pointer_cast <lambda_p::link> (node));
-	auto routine (value->routine);
-	auto existing (generated.find (routine));
-	if (existing == generated.end ())
-	{
-		auto result (boost::make_shared <lambda_p_script::routine> ());
-		generated [routine] = result;
-		lambda_p_script_io::routine routine (generated, routine, result);
-		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (result));
-	}
-	else
-	{
-		call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (existing->second));
-	}
 }
 
 void lambda_p_script_io::expression::add (boost::shared_ptr <lambda_p_script::routine> routine_a)

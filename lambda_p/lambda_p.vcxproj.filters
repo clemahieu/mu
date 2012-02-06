@@ -27,7 +27,6 @@
     <ClInclude Include="segment.h" />
     <ClInclude Include="apply.h" />
     <ClInclude Include="cluster.h" />
-    <ClInclude Include="link.h" />
     <ClInclude Include="parameters.h" />
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +54,6 @@
     </ClCompile>
     <ClCompile Include="apply.cpp" />
     <ClCompile Include="cluster.cpp" />
-    <ClCompile Include="link.cpp" />
     <ClCompile Include="parameters.cpp" />
   </ItemGroup>
   <ItemGroup>

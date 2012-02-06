@@ -11,7 +11,6 @@
 #include <lambda_p_script/cluster.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/constant.h>
-#include <lambda_p/link.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -87,7 +86,7 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	auto cluster (boost::make_shared <lambda_p::cluster> ());
 	cluster->routines.push_back (routine1);
 	cluster->routines.push_back (routine2);
-	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (routine2));
+	routine1->body->dependencies.push_back (routine2);
 	arguments.push_back (cluster);
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
@@ -102,8 +101,8 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	assert (call->arguments.size () == 1);
 	auto argument (boost::dynamic_pointer_cast <lambda_p_script::constant> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <lambda_p_script::routine> (argument->value));
-	assert (rout == result2);
+	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->value));
+	assert (rout == routine2);
 }
 
 void lambda_p_script_io_test::synthesizer::run_4 ()
@@ -116,7 +115,7 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	auto cluster (boost::make_shared <lambda_p::cluster> ());
 	cluster->routines.push_back (routine1);
-	routine1->body->dependencies.push_back (boost::make_shared <lambda_p::link> (routine1));
+	routine1->body->dependencies.push_back (routine1);
 	arguments.push_back (cluster);
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
@@ -130,6 +129,6 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 	assert (call->arguments.size () == 1);
 	auto argument (boost::dynamic_pointer_cast <lambda_p_script::constant> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <lambda_p_script::routine> (argument->value));
-	assert (rout == result1);
+	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->value));
+	assert (rout == routine1);
 }
