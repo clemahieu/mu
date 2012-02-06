@@ -35,12 +35,14 @@ namespace lambda_p_llvm
 }
 namespace lambda_p_llvm_io
 {
+	class routine;
 	class expression : public lambda_p::visitor
 	{
 	public:
-		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a);
+		expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_llvm_io::routine & routine_a, boost::shared_ptr <lambda_p::expression> expression_a);
 		std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> & values;
 		void operator () (lambda_p::expression * expression_a) override;
+		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::link * link_a) override;
 		void operator () (lambda_p::node * node_a) override;

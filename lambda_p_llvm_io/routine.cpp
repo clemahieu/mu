@@ -26,61 +26,46 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters)
+lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_llvm::module::node> module_a)
+	: errors (errors_a),
+	routine_m (routine_a),
+	module (module_a),
+	unresolved (0)
 {	
-	bool good (true);
 	lambda_p::order order (routine_a->body);
-	std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> values;
-	std::vector <llvm::Type *> parameters_l;
-//	values [routine_a->parameters].push_back (boost::make_shared <lambda_p_llvm::identity::operation> ());
-	std::vector <llvm::Argument *> arguments;
-	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
+	for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i)
 	{
-		auto type (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (*i));
-		if (type.get () != nullptr)
-		{
-			parameters_l.push_back (type->type ());
-			auto arg (new llvm::Argument (type->type ()));
-			arguments.push_back (arg);
-			auto function_pointer_type (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer_type::node> (type));
-			boost::shared_ptr <lambda_p_llvm::value::node> value;
-			if (function_pointer_type.get () != nullptr)
-			{
-				value = boost::make_shared <lambda_p_llvm::function_pointer::node> (arg, function_pointer_type->multiple_return);
-			}
-			else
-			{
-				value = boost::make_shared <lambda_p_llvm::argument::node> (arg);
-			}
-//			values [routine_a->parameters].push_back (value);
-			auto type (arg->getType ());
-		}
-		else
-		{
-			good = false;
-			std::wstringstream message;
-			message << L"Arguments to function must be types, have: ";
-			message << (*i)->name ();
-			(*errors_a) (message.str ());
-		}
+		auto errors_l (boost::make_shared <lambda_p::errors::error_context> (errors_a, (*i)->context));
+		lambda_p_llvm_io::expression expression (errors_l, *this, *i);
 	}
-	if (good)
+	try_resolve ();
+}
+
+void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <llvm::Argument *> & arguments)
+{
+	auto function (llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage));
+	function->getArgumentList ().clear ();
+	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
-		llvm::LLVMContext & context (module_a->module->getContext ());
-		auto working (llvm::BasicBlock::Create (context));
-		std::vector <llvm::BasicBlock *> blocks;
-		blocks.push_back (working);
-		for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i)
+		function->getArgumentList ().push_back (*i);
+	}
+	for (auto i (blocks.begin ()), j (blocks.end ()); i != j; ++i)
+	{
+		function->getBasicBlockList ().push_back (*i);
+	}
+	module_a->module->getFunctionList ().push_back (function);
+	result = boost::make_shared <lambda_p_llvm::function_pointer::node> (function, multi);
+}
+
+void lambda_p_llvm_io::routine::try_resolve ()
+{
+	if (unresolved == 0)
+	{
+		if (!(*errors) ())
 		{
-			auto errors_l (boost::make_shared <lambda_p::errors::error_context> (errors_a, (*i)->context));
-//			lambda_p_llvm_io::expression expression (errors_l, working, values, *i);
-		}
-		if (!(*errors_a) ())
-		{
-			auto results (values [routine_a->body]);
 			if (results.size () == 0)
 			{
-				auto type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), parameters_l, false));
+				auto type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), parameters, false));
 				working->getInstList ().push_back (llvm::ReturnInst::Create (context));
 				add_function (module_a, blocks, type, false, arguments);
 			}
@@ -142,20 +127,4 @@ lambda_p_llvm_io::routine::routine (boost::shared_ptr <lambda_p::errors::error_t
 			}
 		}
 	}
-}
-
-void lambda_p_llvm_io::routine::add_function (boost::shared_ptr <lambda_p_llvm::module::node> module_a, std::vector <llvm::BasicBlock *> & blocks, llvm::FunctionType * type, bool multi, std::vector <llvm::Argument *> & arguments)
-{
-	auto function (llvm::Function::Create (type, llvm::GlobalValue::ExternalLinkage));
-	function->getArgumentList ().clear ();
-	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
-	{
-		function->getArgumentList ().push_back (*i);
-	}
-	for (auto i (blocks.begin ()), j (blocks.end ()); i != j; ++i)
-	{
-		function->getBasicBlockList ().push_back (*i);
-	}
-	module_a->module->getFunctionList ().push_back (function);
-	result = boost::make_shared <lambda_p_llvm::function_pointer::node> (function, multi);
 }

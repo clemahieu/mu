@@ -5,10 +5,9 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/function_pointer/node.h>
-#include <lambda_p_llvm/function/operation.h>
+#include <lambda_p_llvm_io/function.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm_io/routine.h>
-#include <lambda_p_llvm/operation.h>
 #include <lambda_p_llvm/lambda/operation.h>
 #include <lambda_p/cluster.h>
 #include <lambda_p/link.h>
@@ -23,10 +22,9 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & block_a, std::map <boost::shared_ptr <lambda_p::expression>, std::vector <boost::shared_ptr <lambda_p::node>>> & values_a, boost::shared_ptr <lambda_p::expression> expression_a)
-	: values (values_a),
-	errors (errors_a),
-	block (block_a)
+lambda_p_llvm_io::expression::expression (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_llvm_io::routine & routine_a, boost::shared_ptr <lambda_p::expression> expression_a)
+	: routine (routine_a),
+	errors (errors_a)
 {
 	for (auto i (expression_a->dependencies.begin ()), j (expression_a->dependencies.end ()); i != j && !(*errors) (); ++i)
 	{
@@ -60,6 +58,11 @@ void lambda_p_llvm_io::expression::operator () (lambda_p::expression * expressio
 			arguments.push_back ((*i));
 		}
 	}
+}
+
+void lambda_p_llvm_io::expression::operator () (lambda_p::parameters * parameters_a)
+{
+	assert (false);
 }
 
 void lambda_p_llvm_io::expression::operator () (lambda_p::reference * reference_a)
@@ -124,7 +127,7 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 			if (function.get () != nullptr)
 			{
 				result = true;
-				target = boost::make_shared <lambda_p_llvm::function::operation> (function);
+				target = boost::make_shared <lambda_p_llvm_io::function> (function);
 			}
 			else
 			{
@@ -132,7 +135,7 @@ bool lambda_p_llvm_io::expression::process_target (boost::shared_ptr <lambda_p::
 				if (function.get () != nullptr)
 				{
 					result = true;
-					target = boost::make_shared <lambda_p_llvm::function::operation> (boost::make_shared <lambda_p_llvm::function_pointer::node> (function->function (), false));
+					target = boost::make_shared <lambda_p_llvm_io::function> (boost::make_shared <lambda_p_llvm::function_pointer::node> (function->function (), false));
 				}
 				else
 				{

@@ -42,7 +42,6 @@
     <ClInclude Include="execution_engine\node.h" />
     <ClInclude Include="execution_engine\run_function.h" />
     <ClInclude Include="function\node.h" />
-    <ClInclude Include="function\operation.h" />
     <ClInclude Include="function_pointer\node.h" />
     <ClInclude Include="function_pointer_type\node.h" />
     <ClInclude Include="identity\operation.h" />
@@ -75,7 +74,6 @@
     <ClInclude Include="module\node.h" />
     <ClInclude Include="module\verify.h" />
     <ClInclude Include="instructions\mul.h" />
-    <ClInclude Include="operation.h" />
     <ClInclude Include="pointer_type\node.h" />
     <ClInclude Include="instructions\sdiv.h" />
     <ClInclude Include="instructions\srem.h" />
@@ -117,7 +115,6 @@
     <ClCompile Include="execution_engine\node.cpp" />
     <ClCompile Include="execution_engine\run_function.cpp" />
     <ClCompile Include="function\node.cpp" />
-    <ClCompile Include="function\operation.cpp" />
     <ClCompile Include="function_pointer\node.cpp" />
     <ClCompile Include="function_pointer_type\node.cpp" />
     <ClCompile Include="identity\operation.cpp" />
@@ -150,7 +147,6 @@
     <ClCompile Include="module\node.cpp" />
     <ClCompile Include="module\verify.cpp" />
     <ClCompile Include="instructions\mul.cpp" />
-    <ClCompile Include="operation.cpp" />
     <ClCompile Include="pointer_type\node.cpp" />
     <ClCompile Include="instructions\sdiv.cpp" />
     <ClCompile Include="instructions\srem.cpp" />
@@ -167,9 +163,6 @@
     <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
     <ClCompile Include="void_type\node.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="instructions.lp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6E7EC1DF-205B-4A75-B3F2-7364E315FABB}</ProjectGuid>

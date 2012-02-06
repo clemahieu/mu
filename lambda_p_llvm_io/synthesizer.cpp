@@ -6,12 +6,13 @@
 #include <lambda_p/cluster.h>
 #include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/cluster.h>
+#include <lambda_p_llvm_io/cluster.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
-
-void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+		
+void lambda_p_llvm_io::synthesizer::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	if (parameters.size () > 1)
 	{
@@ -21,15 +22,10 @@ void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors
 		{
 			if (two.get () != nullptr)
 			{
-				auto result (boost::make_shared <lambda_p_llvm::cluster> ());
-				for (auto i (one->routines.begin ()), j (one->routines.end ()); i != j; ++i)
-				{
-					lambda_p_llvm_io::routine routine (errors_a, *i, two, lambda_p::segment <boost::shared_ptr <lambda_p::node>> (parameters.lower + 2, parameters.source));
-					result->routines.push_back (routine.result);
-				}
+				lambda_p_llvm_io::cluster cluster (errors_a, one, two);
 				if (!(*errors_a) ())
 				{
-					results.push_back (result);
+					results.push_back (cluster.result);
 				}
 			}
 			else
@@ -50,6 +46,11 @@ void lambda_p_llvm_io::synthesizer::perform (boost::shared_ptr <lambda_p::errors
 		message << L" requires at least two arguments";
 		(*errors_a) (message.str ());
 	}
+}
+
+size_t lambda_p_llvm_io::synthesizer::count ()
+{
+	return 2;
 }
 
 std::wstring lambda_p_llvm_io::synthesizer::name ()

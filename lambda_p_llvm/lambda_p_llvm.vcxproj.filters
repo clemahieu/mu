@@ -59,10 +59,6 @@
     <ClInclude Include="module\verify.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="function\operation.h">
-      <Filter>function</Filter>
-    </ClInclude>
     <ClInclude Include="lambda\operation.h">
       <Filter>lambda</Filter>
     </ClInclude>
@@ -271,10 +267,6 @@
     </ClCompile>
     <ClCompile Include="module\verify.cpp">
       <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="operation.cpp" />
-    <ClCompile Include="function\operation.cpp">
-      <Filter>function</Filter>
     </ClCompile>
     <ClCompile Include="lambda\operation.cpp">
       <Filter>lambda</Filter>
@@ -508,8 +500,5 @@
     <Filter Include="constant_int">
       <UniqueIdentifier>{23a69bfb-2b12-4e85-a679-4831d21e6312}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="instructions.lp" />
   </ItemGroup>
 </Project>

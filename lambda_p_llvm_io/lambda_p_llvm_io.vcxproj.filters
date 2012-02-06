@@ -4,10 +4,22 @@
     <ClInclude Include="synthesizer.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="routine.h" />
+    <ClInclude Include="target.h" />
+    <ClInclude Include="function.h" />
+    <ClInclude Include="cluster.h" />
+    <ClInclude Include="cluster_types.h" />
+    <ClInclude Include="routine_types.h" />
+    <ClInclude Include="expression_types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="synthesizer.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="routine.cpp" />
+    <ClCompile Include="target.cpp" />
+    <ClCompile Include="function.cpp" />
+    <ClCompile Include="cluster.cpp" />
+    <ClCompile Include="cluster_types.cpp" />
+    <ClCompile Include="routine_types.cpp" />
+    <ClCompile Include="expression_types.cpp" />
   </ItemGroup>
 </Project>
