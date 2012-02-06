@@ -19,6 +19,7 @@
     <ClCompile Include="basic_block\insert.cpp">
       <Filter>basic_block</Filter>
     </ClCompile>
+    <ClCompile Include="instruction_package.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="basic_block\insert.h">
       <Filter>basic_block</Filter>
     </ClInclude>
+    <ClInclude Include="instruction_package.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">

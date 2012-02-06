@@ -133,6 +133,7 @@
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="basic_block\insert.cpp" />
     <ClCompile Include="extension.cpp" />
+    <ClCompile Include="instruction_package.cpp" />
     <ClCompile Include="linker\link_modules.cpp" />
     <ClCompile Include="module\add_package.cpp" />
     <ClCompile Include="module\get_package.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="basic_block\insert.h" />
     <ClInclude Include="extension.h" />
+    <ClInclude Include="instruction_package.h" />
     <ClInclude Include="linker\link_modules.h" />
     <ClInclude Include="module\add_package.h" />
     <ClInclude Include="module\get_package.h" />
