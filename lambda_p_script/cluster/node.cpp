@@ -1,4 +1,4 @@
-#include "cluster.h"
+#include "node.h"
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
@@ -7,18 +7,20 @@
 
 #include <sstream>
 
-lambda_p_script::cluster::cluster (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a)
-	: routines (routines_a)
+lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> map_a)
+	: routines (routines_a),
+	map (map_a)
 {
 }
 
-lambda_p_script::cluster::cluster (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a)
+lambda_p_script::cluster::node::node (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> map_a)
 	: names (names_a),
-	routines (routines_a)
+	routines (routines_a),
+	map (map_a)
 {
 }
 
-void lambda_p_script::cluster::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::cluster::node::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
@@ -60,7 +62,7 @@ void lambda_p_script::cluster::operator () (boost::shared_ptr <lambda_p::errors:
 	}
 }
 
-size_t lambda_p_script::cluster::count ()
+size_t lambda_p_script::cluster::node::count ()
 {
 	return 1;
 }

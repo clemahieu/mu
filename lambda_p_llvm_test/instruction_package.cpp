@@ -2,7 +2,7 @@
 
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_io/source.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/closure/create_single.h>
 #include <lambda_p_llvm/instructions/add.h>
 #include <lambda_p_llvm/basic_block/insert.h>

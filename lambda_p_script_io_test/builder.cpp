@@ -12,7 +12,7 @@
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/parameters.h>
 #include <lambda_p/segment.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 
 #include <boost/bind.hpp>
 

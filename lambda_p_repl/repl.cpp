@@ -20,7 +20,7 @@
 #include <lambda_p_script/print/operation.h>
 #include <lambda_p_io/tokens/left_square.h>
 #include <lambda_p_io/tokens/right_square.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
 

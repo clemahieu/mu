@@ -4,7 +4,7 @@
 #include <lambda_p/order.h>
 #include <lambda_p/routine.h>
 #include <lambda_p_script_io/routine.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
 
 #include <vector>
@@ -20,16 +20,16 @@ lambda_p_script_io::cluster::cluster (boost::shared_ptr <lambda_p::cluster> clus
 		auto existing (generated.find (value));
 		if (existing == generated.end ())
 		{
-			auto result (boost::make_shared <lambda_p_script::routine> ());
-			generated [value] = result;
-			lambda_p_script_io::routine routine (generated, value, result);
-			routines.push_back (result);
+			auto result_l (boost::make_shared <lambda_p_script::routine> ());
+			generated [value] = result_l;
+			lambda_p_script_io::routine routine (generated, value, result_l);
+			routines.push_back (result_l);
 		}
 		else
 		{
 			routines.push_back (existing->second);
 		}
 	}
-	auto cluster (boost::make_shared <lambda_p_script::cluster> (cluster_a->names, routines));
+	auto cluster (boost::make_shared <lambda_p_script::cluster::node> (cluster_a->names, routines, generated));
 	result = cluster;
 }

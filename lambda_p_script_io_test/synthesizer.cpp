@@ -8,7 +8,7 @@
 #include <lambda_p/reference.h>
 #include <lambda_p/parameters.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/constant.h>
 
@@ -39,7 +39,7 @@ void lambda_p_script_io_test::synthesizer::run_1 ()
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
 	auto result (boost::dynamic_pointer_cast <lambda_p_script::routine> (cl->routines [0]));
@@ -66,7 +66,7 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
 	auto result (boost::dynamic_pointer_cast <lambda_p_script::routine> (cl->routines [0]));
@@ -91,7 +91,7 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 2);
 	auto result1 (boost::dynamic_pointer_cast <lambda_p_script::routine> (cl->routines [0]));
@@ -120,7 +120,7 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 	synthesizer (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+	auto cl (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
 	auto result1 (boost::dynamic_pointer_cast <lambda_p_script::routine> (cl->routines [0]));

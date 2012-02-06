@@ -15,7 +15,10 @@ namespace lambda_p
 }
 namespace lambda_p_script
 {
-	class cluster;
+	namespace cluster
+	{
+		class node;
+	}
 	class routine;
 }
 namespace lambda_p_script_io
@@ -25,7 +28,7 @@ namespace lambda_p_script_io
 	public:
 		cluster (boost::shared_ptr <lambda_p::cluster> cluster_a);
 		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
-		boost::shared_ptr <lambda_p_script::cluster> result;
+		boost::shared_ptr <lambda_p_script::cluster::node> result;
 	};
 }
 

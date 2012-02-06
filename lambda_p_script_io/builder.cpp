@@ -37,7 +37,7 @@
 #include <lambda_p_script/analyzer/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_llvm/extension.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -65,7 +65,7 @@ void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::clus
 	synthesizer (errors, arguments, results);
 	if (results.size () == 1)
 	{
-		auto result (boost::dynamic_pointer_cast <lambda_p_script::cluster> (results [0]));
+		auto result (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 		assert (result.get () != nullptr);
 		clusters.push_back (result);
 	}

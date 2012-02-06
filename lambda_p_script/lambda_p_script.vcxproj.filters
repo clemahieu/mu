@@ -109,10 +109,15 @@
     <ClCompile Include="analyzer\node.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
-    <ClCompile Include="cluster.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="values\operation.cpp">
       <Filter>values</Filter>
+    </ClCompile>
+    <ClCompile Include="cluster\get.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
+    <ClCompile Include="cluster\node.cpp">
+      <Filter>cluster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,10 +229,15 @@
     <ClInclude Include="analyzer\node.h">
       <Filter>analyzer</Filter>
     </ClInclude>
-    <ClInclude Include="cluster.h" />
     <ClInclude Include="parameters.h" />
     <ClInclude Include="values\operation.h">
       <Filter>values</Filter>
+    </ClInclude>
+    <ClInclude Include="cluster\get.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
+    <ClInclude Include="cluster\node.h">
+      <Filter>cluster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +291,9 @@
     </Filter>
     <Filter Include="values">
       <UniqueIdentifier>{4f9ff8fd-4f83-4216-a685-974a664cfaab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cluster">
+      <UniqueIdentifier>{3e9657f1-b6f3-471d-906f-93868938e36c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

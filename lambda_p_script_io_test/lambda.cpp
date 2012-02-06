@@ -3,7 +3,7 @@
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/integer/node.h>
-#include <lambda_p_script/cluster.h>
+#include <lambda_p_script/cluster/node.h>
 
 #include <boost/bind.hpp>
 
