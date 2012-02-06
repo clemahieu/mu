@@ -38,6 +38,7 @@
 #include <lambda_p_io/ast/end.h>
 #include <lambda_p_io/ast/cluster.h>
 #include <lambda_p_llvm/value/get_type.h>
+#include <lambda_p_script_io/builder.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

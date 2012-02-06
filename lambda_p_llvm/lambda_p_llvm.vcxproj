@@ -23,7 +23,9 @@
     <ClInclude Include="apint\extension.h" />
     <ClInclude Include="apint\node.h" />
     <ClInclude Include="array_type\node.h" />
+    <ClInclude Include="basic_block\create.h" />
     <ClInclude Include="basic_block\insert.h" />
+    <ClInclude Include="basic_block\store.h" />
     <ClInclude Include="cluster.h" />
     <ClInclude Include="constants\integer.h" />
     <ClInclude Include="constant\node.h" />
@@ -96,7 +98,9 @@
     <ClCompile Include="apint\extension.cpp" />
     <ClCompile Include="apint\node.cpp" />
     <ClCompile Include="array_type\node.cpp" />
+    <ClCompile Include="basic_block\create.cpp" />
     <ClCompile Include="basic_block\insert.cpp" />
+    <ClCompile Include="basic_block\store.cpp" />
     <ClCompile Include="cluster.cpp" />
     <ClCompile Include="constants\integer.cpp" />
     <ClCompile Include="constant\node.cpp" />

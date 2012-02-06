@@ -208,6 +208,12 @@
     <ClInclude Include="basic_block\insert.h">
       <Filter>basic_block</Filter>
     </ClInclude>
+    <ClInclude Include="basic_block\store.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
+    <ClInclude Include="basic_block\create.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -415,6 +421,12 @@
       <Filter>predicate</Filter>
     </ClCompile>
     <ClCompile Include="basic_block\insert.cpp">
+      <Filter>basic_block</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_block\store.cpp">
+      <Filter>basic_block</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_block\create.cpp">
       <Filter>basic_block</Filter>
     </ClCompile>
   </ItemGroup>
