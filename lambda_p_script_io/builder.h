@@ -11,6 +11,10 @@
 
 namespace lambda_p_script
 {
+	namespace closure
+	{
+		class single;
+	}
 	namespace cluster
 	{
 		class node;
@@ -33,6 +37,8 @@ namespace lambda_p_script_io
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
+		void set_self ();
+		boost::shared_ptr <lambda_p_script::closure::single> self;
 		void operator () (boost::shared_ptr <lambda_p::cluster> cluster_a);
 		std::vector <boost::shared_ptr <lambda_p_script::cluster::node>> clusters;
 	};

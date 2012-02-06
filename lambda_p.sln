@@ -39,6 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F
 		examples\llvm.lp = examples\llvm.lp
 		examples\llvm_link.lp = examples\llvm_link.lp
 		examples\quit.lp = examples\quit.lp
+		examples\recursive.lp = examples\recursive.lp
 		examples\sha256.lp = examples\sha256.lp
 		examples\synthesize.lp = examples\synthesize.lp
 		examples\test.lp = examples\test.lp

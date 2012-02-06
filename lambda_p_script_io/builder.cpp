@@ -38,6 +38,8 @@
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_llvm/extension.h>
 #include <lambda_p_script/cluster/node.h>
+#include <lambda_p_script/cluster/get.h>
+#include <lambda_p_script/closure/single.h>
 
 #include <boost/make_shared.hpp>
 
@@ -47,6 +49,7 @@ lambda_p_script_io::builder::builder ()
 	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
 {
+	set_self ();
 }
 
 lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
@@ -55,6 +58,14 @@ lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::
 	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
 {
+	set_self ();
+}
+
+void lambda_p_script_io::builder::set_self ()
+{
+	auto get (boost::make_shared <lambda_p_script::cluster::get> ());
+	self = boost::make_shared <lambda_p_script::closure::single> (get);
+	analyzer.extensions->extensions_m [L"."] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (self);
 }
 
 void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::cluster> cluster_a)
@@ -66,28 +77,16 @@ void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::clus
 	if (results.size () == 1)
 	{
 		auto result (boost::dynamic_pointer_cast <lambda_p_script::cluster::node> (results [0]));
-		assert (result.get () != nullptr);
+		assert (result.get () != nullptr);		
+		self->closed.push_back (results [0]);
 		clusters.push_back (result);
+		set_self ();
 	}
 }
 
 boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_script_io::extensions ()
 {
 	auto result (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> (new lambda_p_io::analyzer::extensions::extensions));
-	auto package_root (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
-	auto package_script (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
-	package_root->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"script"), package_script));
-	auto package_package (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
-	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"add"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::add)));
-	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"create"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::create)));
-	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"get"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::get)));
-	package_package->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"remove"), boost::shared_ptr <lambda_p::node> (new lambda_p_script::package::remove)));	
-	package_script->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (std::wstring (L"package"), package_package));
-	auto package_integer (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	arguments.push_back (package_root);
-	auto environment (boost::shared_ptr <lambda_p_script::closure::single> (new lambda_p_script::closure::single (arguments, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::package::get_recursive))));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"~"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (environment)));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"=>"), boost::make_shared <lambda_p_script_io::lambda> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"->"), boost::make_shared <lambda_p_script_io::lambda_single> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"#"), boost::make_shared <lambda_p_script::integer::extension> ()));

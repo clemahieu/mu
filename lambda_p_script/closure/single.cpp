@@ -1,5 +1,10 @@
 #include "single.h"
 
+lambda_p_script::closure::single::single (boost::shared_ptr <lambda_p_script::operation> operation_a)
+	: operation_m (operation_a)
+{
+}
+
 lambda_p_script::closure::single::single (std::vector <boost::shared_ptr <lambda_p::node>> & closed_a, boost::shared_ptr <lambda_p_script::operation> operation_a)
 	: closed (closed_a),
 	operation_m (operation_a)
