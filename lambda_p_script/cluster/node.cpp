@@ -7,6 +7,10 @@
 
 #include <sstream>
 
+lambda_p_script::cluster::node::node ()
+{
+}
+
 lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> map_a)
 	: routines (routines_a),
 	map (map_a)

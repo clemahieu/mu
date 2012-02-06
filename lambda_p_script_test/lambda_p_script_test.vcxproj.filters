@@ -43,6 +43,9 @@
     <ClCompile Include="analyzer\analyzer.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="cluster\get.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -87,6 +90,9 @@
     <ClInclude Include="analyzer\analyzer.h">
       <Filter>analyzer</Filter>
     </ClInclude>
+    <ClInclude Include="cluster\get.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -109,6 +115,9 @@
     </Filter>
     <Filter Include="analyzer">
       <UniqueIdentifier>{11a64922-c8c3-407d-b320-9fa7d38cd245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cluster">
+      <UniqueIdentifier>{a057ffee-92f2-49ca-9445-430268897406}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -137,6 +137,7 @@
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\operation.cpp" />
     <ClCompile Include="closure\single.cpp" />
+    <ClCompile Include="cluster\get.cpp" />
     <ClCompile Include="constant.cpp" />
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="integer\equal.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\operation.h" />
     <ClInclude Include="closure\single.h" />
+    <ClInclude Include="cluster\get.h" />
     <ClInclude Include="constant.h" />
     <ClInclude Include="expression.h" />
     <ClInclude Include="integer\equal.h" />
