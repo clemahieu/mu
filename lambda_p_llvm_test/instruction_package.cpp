@@ -25,7 +25,7 @@
 void lambda_p_llvm_test::instruction_package::run ()
 {
 	run_1 ();
-	//run_2 ();
+	run_2 ();
 }
 
 void lambda_p_llvm_test::instruction_package::run_1 ()
@@ -81,7 +81,7 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] .id inserted value;; build_insert]"); 
-	source (L"[[:~; instruction insert block] .apply build_insert instruction insert block]");
+	source (L"[[:~; instruction insert block] .apply [. build_insert] instruction insert block]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
@@ -90,7 +90,6 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	auto routine1 (cluster1->routines [1]);
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
 	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	a1.push_back (routine1);
 	a1.push_back (boost::make_shared <lambda_p_llvm::instructions::add> ());
 	a1.push_back (boost::make_shared <lambda_p_llvm::basic_block::insert> ());
 	auto block (boost::make_shared <lambda_p_llvm::basic_block::node> (nullptr));

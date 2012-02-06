@@ -26,7 +26,7 @@ void lambda_p_script::reference::operator () (boost::shared_ptr <lambda_p::error
 		message << expression;
 		message << L" does not have: ";
 		message << index;
-		message << L" arguments";
+		message << L" results";
 		(*errors_a) (message.str ());
 	}
 }
