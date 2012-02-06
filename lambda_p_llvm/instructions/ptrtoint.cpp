@@ -1,7 +1,7 @@
 #include "ptrtoint.h"
 
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/type/node.h>
 
 #include <llvm/Value.h>
@@ -13,42 +13,43 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::instructions::ptrtoint::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
+void lambda_p_llvm::instructions::ptrtoint::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
-	if (check_size (errors_a, 2, parameters_a.size ()))
+	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
+	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (parameters_a [1]));
+	if (one.get () != nullptr)
 	{
-		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
-		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (parameters_a [1]));
-		if (one.get () != nullptr)
+		if (two.get () != nullptr)
 		{
-			if (two.get () != nullptr)
+			bool one_int (one->value ()->getType ()->isPointerTy ());
+			bool two_int (two->type ()->isIntegerTy ());
+			if (one_int && two_int)
 			{
-				bool one_int (one->value ()->getType ()->isPointerTy ());
-				bool two_int (two->type ()->isIntegerTy ());
-				if (one_int && two_int)
-				{
-					auto instruction (new llvm::PtrToIntInst (one->value (), two->type ()));
-					context_a->getInstList ().push_back (instruction);
-					results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
-				}
-				else
-				{
-					std::wstringstream message;
-					message << L"Arguments are not integers: ";
-					message << one_int;
-					message << L" ";
-					message << two_int;
-					(*errors_a) (message.str ());
-				}
+				auto instruction (new llvm::PtrToIntInst (one->value (), two->type ()));
+				results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
 			}
 			else
 			{
-				invalid_type (errors_a, 1);
+				std::wstringstream message;
+				message << L"Arguments are not integers: ";
+				message << one_int;
+				message << L" ";
+				message << two_int;
+				(*errors_a) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, 0);
+			invalid_type (errors_a, parameters_a [1], 1);
 		}
 	}
+	else
+	{
+		invalid_type (errors_a, parameters_a [0], 0);
+	}
+}
+
+size_t lambda_p_llvm::instructions::ptrtoint::count ()
+{
+	return 2;
 }

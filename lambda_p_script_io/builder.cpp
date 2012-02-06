@@ -30,7 +30,6 @@
 #include <lambda_p_script/package/get_recursive.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
-#include <lambda_p_llvm_io/synthesizer.h>
 #include <lambda_p/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_io/analyzer/extensions/ast.h>
@@ -115,7 +114,6 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/get"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::package::get> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/remove"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::package::remove> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/times/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::times::operation> ())));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm_io/synthesize"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm_io::synthesizer> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/analyze"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::analyzer::operation> ())));
 	return result;
 }

@@ -4,7 +4,6 @@
 #include <lambda_p_test/tests.h>
 #include <lambda_p_script_test/tests.h>
 #include <lambda_p_script_io_test/tests.h>
-#include <lambda_p_llvm_io_test/tests.h>
 
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
@@ -39,10 +38,6 @@ int main ()
 	}
 	{
 		lambda_p_repl_test::tests test;
-		test.run ();
-	}
-	{
-		lambda_p_llvm_io_test::tests test;
 		test.run ();
 	}
 

@@ -3,6 +3,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/constant/node.h>
+#include <lambda_p_llvm/context/node.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -12,12 +13,13 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::constants::integer::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, llvm::BasicBlock * & context_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
+void lambda_p_llvm::constants::integer::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
-	if (parameters_a.size () == 2)
+	auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters_a [0]));
+	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters_a [1]));
+	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters_a [2]));
+	if (context.get () != nullptr)
 	{
-		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters_a [0]));
-		auto two (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters_a [1]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
@@ -27,7 +29,7 @@ void lambda_p_llvm::constants::integer::operator () (boost::shared_ptr <lambda_p
 				{
 					if (two->value->getActiveBits () <= bits)
 					{
-						auto value (llvm::ConstantInt::get (llvm::Type::getIntNTy (context_a->getContext (), bits), llvm::APInt (bits, two->value->getLimitedValue ())));
+						auto value (llvm::ConstantInt::get (llvm::Type::getIntNTy (context->context, bits), llvm::APInt (bits, two->value->getLimitedValue ())));
 						results_a.push_back (boost::make_shared <lambda_p_llvm::constant::node> (value));
 					}
 					else
@@ -56,20 +58,21 @@ void lambda_p_llvm::constants::integer::operator () (boost::shared_ptr <lambda_p
 			}
 			else
 			{
-				invalid_type (errors_a, 1);
+				invalid_type (errors_a, parameters_a [2], 2);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, 0);
+			invalid_type (errors_a, parameters_a [1], 1);
 		}
 	}
 	else
 	{
-		std::wstringstream message;
-		message << name ();
-		message << L" expecting two arguments, have: ";
-		message << parameters_a.size ();
-		(*errors_a) (message.str ());
+		invalid_type (errors_a, parameters_a [0], 0);
 	}
+}
+
+size_t lambda_p_llvm::constants::integer::count ()
+{
+	return 3;
 }

@@ -11,7 +11,6 @@
 #include <lambda_p_llvm/module/get_package.h>
 #include <lambda_p_llvm/linker/link_modules.h>
 #include <lambda_p_llvm/compile/operation.h>
-#include <lambda_p_llvm/identity/operation.h>
 #include <lambda_p_llvm/value/get_context.h>
 #include <lambda_p_llvm/value/get_type.h>
 #include <lambda_p_llvm/integer_type/create.h>
@@ -35,6 +34,5 @@ lambda_p_llvm::api::api ()
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/create"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::module::create> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/get_function"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::module::get_function> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/get_package"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::module::get_package> ())));
-	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/identity/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::identity::operation> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/value/get_context"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::value::get_context> ())));
 }

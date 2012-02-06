@@ -59,12 +59,6 @@
     <ClInclude Include="module\verify.h">
       <Filter>module</Filter>
     </ClInclude>
-    <ClInclude Include="lambda\operation.h">
-      <Filter>lambda</Filter>
-    </ClInclude>
-    <ClInclude Include="identity\operation.h">
-      <Filter>identity</Filter>
-    </ClInclude>
     <ClInclude Include="value\get_type.h">
       <Filter>value</Filter>
     </ClInclude>
@@ -205,8 +199,11 @@
       <Filter>constant_int</Filter>
     </ClInclude>
     <ClInclude Include="cluster.h" />
-    <ClInclude Include="integer_type\from_type.h">
-      <Filter>integer_type</Filter>
+    <ClInclude Include="instruction\node.h">
+      <Filter>instruction</Filter>
+    </ClInclude>
+    <ClInclude Include="predicate\node.h">
+      <Filter>predicate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,12 +264,6 @@
     </ClCompile>
     <ClCompile Include="module\verify.cpp">
       <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="lambda\operation.cpp">
-      <Filter>lambda</Filter>
-    </ClCompile>
-    <ClCompile Include="identity\operation.cpp">
-      <Filter>identity</Filter>
     </ClCompile>
     <ClCompile Include="value\get_type.cpp">
       <Filter>value</Filter>
@@ -414,8 +405,11 @@
       <Filter>constant_int</Filter>
     </ClCompile>
     <ClCompile Include="cluster.cpp" />
-    <ClCompile Include="integer_type\from_type.cpp">
-      <Filter>integer_type</Filter>
+    <ClCompile Include="instruction\node.cpp">
+      <Filter>instruction</Filter>
+    </ClCompile>
+    <ClCompile Include="predicate\node.cpp">
+      <Filter>predicate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,12 +445,6 @@
     </Filter>
     <Filter Include="argument">
       <UniqueIdentifier>{a23c64d0-58fd-4386-b345-5d477c89df09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="lambda">
-      <UniqueIdentifier>{65cacd36-a07f-46ce-825e-589260c22485}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="identity">
-      <UniqueIdentifier>{79d379f4-7b05-4aa1-a698-27ef4f1e7a69}</UniqueIdentifier>
     </Filter>
     <Filter Include="function_pointer_type">
       <UniqueIdentifier>{2b1a3726-1fae-40b0-b8e2-330f459b2c5d}</UniqueIdentifier>
@@ -499,6 +487,12 @@
     </Filter>
     <Filter Include="constant_int">
       <UniqueIdentifier>{23a69bfb-2b12-4e85-a679-4831d21e6312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="instruction">
+      <UniqueIdentifier>{cbef114e-c606-4e37-8790-231b12174a75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="predicate">
+      <UniqueIdentifier>{d36aee22-ff77-4464-8982-460c931d6058}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
