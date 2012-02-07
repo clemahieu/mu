@@ -30,7 +30,7 @@ void lambda_p_llvm::instructions::sext::operator () (boost::shared_ptr <lambda_p
 				if (one_bits == two_bits)
 				{
 					auto instruction (new llvm::SExtInst (one->value (), two->type ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, two));
 				}
 				else
 				{

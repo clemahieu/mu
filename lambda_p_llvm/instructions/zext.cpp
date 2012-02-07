@@ -30,7 +30,7 @@ void lambda_p_llvm::instructions::zext::operator () (boost::shared_ptr <lambda_p
 				if (one_bits < two_bits)
 				{
 					auto instruction (new llvm::ZExtInst (one->value (), two->type ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, two));
 				}
 				else
 				{

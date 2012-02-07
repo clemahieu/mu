@@ -4,6 +4,7 @@
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/constant/node.h>
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/integer_type/node.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -30,7 +31,7 @@ void lambda_p_llvm::constants::integer::operator () (boost::shared_ptr <lambda_p
 					if (two->value->getActiveBits () <= bits)
 					{
 						auto value (llvm::ConstantInt::get (llvm::Type::getIntNTy (context->context, bits), llvm::APInt (bits, two->value->getLimitedValue ())));
-						results_a.push_back (boost::make_shared <lambda_p_llvm::constant::node> (value));
+						results_a.push_back (boost::make_shared <lambda_p_llvm::constant::node> (value, boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getIntNTy (context->context, bits))));
 					}
 					else
 					{

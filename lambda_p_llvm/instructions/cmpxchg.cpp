@@ -31,7 +31,7 @@ void lambda_p_llvm::instructions::cmpxchg::operator () (boost::shared_ptr <lambd
 					if (two_type && three_type)
 					{
 						auto instruction (new llvm::AtomicCmpXchgInst (one->value (), two->value (), three->value (), llvm::AtomicOrdering::Monotonic, llvm::SynchronizationScope::CrossThread));
-						results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
+						results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, two->type));
 					}
 					else
 					{

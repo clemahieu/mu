@@ -11,6 +11,7 @@
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/constant_int/node.h>
+#include <lambda_p_llvm/integer_type/node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -69,7 +70,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	function->getBasicBlockList ().push_back (bl);
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
-	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1))));
+	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	routine2->perform (b2.errors, a2, r2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);
@@ -116,7 +117,7 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	function->getBasicBlockList ().push_back (bl);
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
-	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1))));
+	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	routine2->perform (b2.errors, a2, r2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);

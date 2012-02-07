@@ -4,6 +4,8 @@
 #include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p/errors/error_list.h>
+#include <lambda_p_llvm/pointer_type/node.h>
+#include <lambda_p_llvm/integer_type/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -26,7 +28,7 @@ void lambda_p_llvm_test::basic_block::insert::run_1 ()
 	module->getFunctionList ().push_back (function);
 	auto block (boost::make_shared <lambda_p_llvm::basic_block::node> (llvm::BasicBlock::Create (context)));
 	function->getBasicBlockList ().push_back (block->block);
-	auto instruction (boost::make_shared <lambda_p_llvm::instruction::node> (new llvm::AllocaInst (llvm::Type::getInt1Ty (context))));
+	auto instruction (boost::make_shared <lambda_p_llvm::instruction::node> (new llvm::AllocaInst (llvm::Type::getInt1Ty (context)), boost::make_shared <lambda_p_llvm::pointer_type::node> (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context)))));
 	lambda_p_llvm::basic_block::insert insert;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

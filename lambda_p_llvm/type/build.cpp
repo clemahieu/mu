@@ -5,6 +5,7 @@
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/array_type/node.h>
 #include <lambda_p_llvm/void_type/node.h>
+#include <lambda_p_llvm/function_type/node.h>
 
 #include <llvm/DerivedTypes.h>
 
@@ -46,7 +47,15 @@ lambda_p_llvm::type::build::build (boost::shared_ptr <lambda_p_llvm::context::no
 					}
 					else
 					{
-						assert (false);
+						auto function_type (llvm::dyn_cast <llvm::FunctionType> (type_a));
+						if (function_type != nullptr)
+						{
+							type = boost::make_shared <lambda_p_llvm::function_type::node> (context_a, function_type);
+						}
+						else
+						{
+							assert (false);
+						}
 					}
 				}
 			}

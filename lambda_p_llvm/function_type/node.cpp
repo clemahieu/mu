@@ -1,9 +1,22 @@
 #include "node.h"
 
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/type/build.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
+
+lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::FunctionType * function_type_a)
+{
+	lambda_p_llvm::type::build build (context_a, function_type_a->getReturnType ());
+	outputs.push_back (build.type);
+	for (auto i (function_type_a->param_begin ()), j (function_type_a->param_end ()); i != j; ++i)
+	{
+		llvm::Type * type (*i);
+		lambda_p_llvm::type::build build (context_a, type);
+		parameters.push_back (build.type);
+	}
+}
 
 lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> outputs_a)
 	: parameters (parameters_a),

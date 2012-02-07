@@ -2,6 +2,7 @@
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/instruction/node.h>
+#include <lambda_p_llvm/pointer_type/node.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -17,11 +18,11 @@ void lambda_p_llvm::instructions::load::operator () (boost::shared_ptr <lambda_p
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
 	if (one.get () != nullptr)
 	{
-		bool one_ptr (one->value ()->getType ()->isPointerTy ());
-		if (one_ptr)
+		auto one_ptr (boost::dynamic_pointer_cast <lambda_p_llvm::pointer_type::node> (one->type));
+		if (one_ptr.get () != nullptr)
 		{
 			auto instruction (new llvm::LoadInst (one->value ()));
-			results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
+			results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, one_ptr->element));
 		}
 		else
 		{

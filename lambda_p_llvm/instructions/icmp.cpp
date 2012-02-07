@@ -3,6 +3,7 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/predicate/node.h>
+#include <lambda_p_llvm/integer_type/node.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -33,7 +34,7 @@ void lambda_p_llvm::instructions::icmp::operator () (boost::shared_ptr <lambda_p
 					if (one_bits == two_bits)
 					{
 						auto instruction (new llvm::ICmpInst (one->value, two->value (), three->value ()));
-						results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction));
+						results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
 					}
 					else
 					{

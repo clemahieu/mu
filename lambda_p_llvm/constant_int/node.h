@@ -13,7 +13,7 @@ namespace lambda_p_llvm
 		class node : public lambda_p_llvm::constant::node
 		{
 		public:
-			node (llvm::ConstantInt * constant_int_a);
+			node (llvm::ConstantInt * constant_int_a, boost::shared_ptr <lambda_p_llvm::type::node> type_a);
 			llvm::ConstantInt * constant_int ();
 		};
 	}

@@ -4,10 +4,15 @@
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/astring/node.h>
 #include <lambda_p_llvm/function/node.h>
+#include <lambda_p_llvm/type/build.h>
+#include <lambda_p_llvm/context/node.h>
 
 #include <llvm/Module.h>
+#include <llvm/DerivedTypes.h>
 
 #include <sstream>
+
+#include <boost/make_shared.hpp>
 
 void lambda_p_llvm::module::get_function::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
@@ -20,7 +25,8 @@ void lambda_p_llvm::module::get_function::operator () (boost::shared_ptr <lambda
 			auto function (one->module->getFunction (llvm::StringRef (two->string)));
 			if (function != nullptr)
 			{
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function)));
+				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (function->getContext ()), function->getType ());
+				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, build.type)));
 			}
 			else
 			{

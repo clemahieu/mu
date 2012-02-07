@@ -29,7 +29,7 @@ void lambda_p_llvm::instructions::or::operator () (boost::shared_ptr <lambda_p::
 				if (one_bits == two_bits)
 				{
 					auto instruction (llvm::BinaryOperator::CreateOr (one->value (), two->value ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, one->type));
 				}
 				else
 				{
