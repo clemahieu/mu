@@ -175,6 +175,7 @@
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="times\operation.cpp" />
     <ClCompile Include="unit\operation.cpp" />
+    <ClCompile Include="values\create.cpp" />
     <ClCompile Include="values\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +224,7 @@
     <ClInclude Include="routine.h" />
     <ClInclude Include="times\operation.h" />
     <ClInclude Include="unit\operation.h" />
+    <ClInclude Include="values\create.h" />
     <ClInclude Include="values\operation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

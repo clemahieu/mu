@@ -3,12 +3,16 @@
 #include <llvm/DerivedTypes.h>
 
 lambda_p_llvm::integer_type::node::node (llvm::IntegerType * type_a)
-	: lambda_p_llvm::type::node (type_a)
+	: type_m (type_a)
 {
+}
+
+llvm::Type * lambda_p_llvm::integer_type::node::type ()
+{
+	return integer_type ();
 }
 
 llvm::IntegerType * lambda_p_llvm::integer_type::node::integer_type ()
 {
-	auto result (llvm::cast <llvm::IntegerType> (type_m));
-	return result;
+	return type_m;
 }

@@ -62,12 +62,6 @@
     <ClInclude Include="value\get_type.h">
       <Filter>value</Filter>
     </ClInclude>
-    <ClInclude Include="function_pointer_type\node.h">
-      <Filter>function_pointer_type</Filter>
-    </ClInclude>
-    <ClInclude Include="function_pointer\node.h">
-      <Filter>function_pointer</Filter>
-    </ClInclude>
     <ClInclude Include="pointer_type\node.h">
       <Filter>pointer_type</Filter>
     </ClInclude>
@@ -198,7 +192,6 @@
     <ClInclude Include="constant_int\node.h">
       <Filter>constant_int</Filter>
     </ClInclude>
-    <ClInclude Include="cluster.h" />
     <ClInclude Include="instruction\node.h">
       <Filter>instruction</Filter>
     </ClInclude>
@@ -213,6 +206,15 @@
     </ClInclude>
     <ClInclude Include="basic_block\create.h">
       <Filter>basic_block</Filter>
+    </ClInclude>
+    <ClInclude Include="cluster\node.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
+    <ClInclude Include="function_type\create.h">
+      <Filter>function_type</Filter>
+    </ClInclude>
+    <ClInclude Include="function_type\node.h">
+      <Filter>function_type</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,12 +278,6 @@
     </ClCompile>
     <ClCompile Include="value\get_type.cpp">
       <Filter>value</Filter>
-    </ClCompile>
-    <ClCompile Include="function_pointer_type\node.cpp">
-      <Filter>function_pointer_type</Filter>
-    </ClCompile>
-    <ClCompile Include="function_pointer\node.cpp">
-      <Filter>function_pointer</Filter>
     </ClCompile>
     <ClCompile Include="pointer_type\node.cpp">
       <Filter>pointer_type</Filter>
@@ -413,7 +409,6 @@
     <ClCompile Include="constant_int\node.cpp">
       <Filter>constant_int</Filter>
     </ClCompile>
-    <ClCompile Include="cluster.cpp" />
     <ClCompile Include="instruction\node.cpp">
       <Filter>instruction</Filter>
     </ClCompile>
@@ -428,6 +423,15 @@
     </ClCompile>
     <ClCompile Include="basic_block\create.cpp">
       <Filter>basic_block</Filter>
+    </ClCompile>
+    <ClCompile Include="cluster\node.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
+    <ClCompile Include="function_type\create.cpp">
+      <Filter>function_type</Filter>
+    </ClCompile>
+    <ClCompile Include="function_type\node.cpp">
+      <Filter>function_type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -463,12 +467,6 @@
     </Filter>
     <Filter Include="argument">
       <UniqueIdentifier>{a23c64d0-58fd-4386-b345-5d477c89df09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="function_pointer_type">
-      <UniqueIdentifier>{2b1a3726-1fae-40b0-b8e2-330f459b2c5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="function_pointer">
-      <UniqueIdentifier>{29b15e6c-6db8-4d09-9e28-38384c883296}</UniqueIdentifier>
     </Filter>
     <Filter Include="pointer_type">
       <UniqueIdentifier>{61af682e-cde6-4d3a-a927-9447f60da2ae}</UniqueIdentifier>
@@ -511,6 +509,12 @@
     </Filter>
     <Filter Include="predicate">
       <UniqueIdentifier>{d36aee22-ff77-4464-8982-460c931d6058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cluster">
+      <UniqueIdentifier>{1b606576-f8a7-46c4-8181-a07d0739307a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function_type">
+      <UniqueIdentifier>{2b1a3726-1fae-40b0-b8e2-330f459b2c5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -13,10 +13,7 @@ namespace lambda_p_llvm
 		class node : public lambda_p::node
 		{
 		public:
-			node (llvm::Type * type_a);
-			llvm::Type * type ();
-		protected:
-			llvm::Type * type_m;
+			virtual llvm::Type * type () = 0;
 		};
 	}
 }

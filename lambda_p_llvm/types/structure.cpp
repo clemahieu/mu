@@ -22,7 +22,7 @@ void lambda_p_llvm::types::structure::perform (boost::shared_ptr <lambda_p::erro
 		auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
 		if (context.get () != nullptr)
 		{
-			std::vector <llvm::Type *> types;
+			std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> types;
 			bool good (true);
 			size_t position (1);
 			for (auto i (parameters.begin ()), j (parameters.end ()); i != j && good; ++i, ++position)
@@ -30,7 +30,7 @@ void lambda_p_llvm::types::structure::perform (boost::shared_ptr <lambda_p::erro
 				auto one (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (parameters [position]));
 				if (one.get () != nullptr)
 				{
-					types.push_back (one->type ());
+					types.push_back (one);
 				}
 				else
 				{
@@ -40,7 +40,7 @@ void lambda_p_llvm::types::structure::perform (boost::shared_ptr <lambda_p::erro
 			}
 			if (good)
 			{
-				results.push_back (boost::make_shared <lambda_p_llvm::struct_type::node> (llvm::StructType::get (context->context, types, false)));
+				results.push_back (boost::make_shared <lambda_p_llvm::struct_type::node> (context, types));
 			}
 		}
 		else

@@ -20,7 +20,7 @@ void lambda_p_llvm::types::void_c::operator () (boost::shared_ptr <lambda_p::err
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters_a [0]));
 	if (one.get () != nullptr)
 	{
-		results_a.push_back (boost::make_shared <lambda_p_llvm::void_type::node> (llvm::Type::getVoidTy (one->context)));
+		results_a.push_back (boost::make_shared <lambda_p_llvm::void_type::node> (one));
 	}
 }
 

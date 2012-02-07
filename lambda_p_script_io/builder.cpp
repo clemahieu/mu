@@ -40,6 +40,7 @@
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/cluster/get.h>
 #include <lambda_p_script/closure/single.h>
+#include <lambda_p_script/values/create.h>
 
 #include <boost/make_shared.hpp>
 
@@ -91,6 +92,7 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"->"), boost::make_shared <lambda_p_script_io::lambda_single> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"#"), boost::make_shared <lambda_p_script::integer::extension> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"`"), boost::make_shared <lambda_p_script::string::extension> ()));;
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"{"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::values::create> ())));;
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"`a"), boost::make_shared <lambda_p_script::astring::extension> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".id"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::identity::operation> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".()"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::unit::operation> ())));

@@ -3,7 +3,6 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/function/node.h>
 
 #include <llvm/Function.h>
@@ -21,35 +20,36 @@ void lambda_p_llvm::module::add_package::operator () (boost::shared_ptr <lambda_
 			auto good (true);
 			for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
 			{
-				auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (i->second));
-				if (source.get () != nullptr)
-				{
-					auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
-					if (function != nullptr)
-					{
-						llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
-					}
-				}
-				else
-				{
-					auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (i->second));
-					if (source.get () != nullptr)
-					{
-						auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
-						llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"Operation: ";
-						message << name ();
-						message << L" package item: \"";
-						message << i->first;
-						message << L"\" is not an lambda_p_llvm::function::node: ";
-						message << i->second->name ();
-						(*errors_a) (message.str ());
-					}
-				}
+				assert (false);
+				//auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (i->second));
+				//if (source.get () != nullptr)
+				//{
+				//	auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
+				//	if (function != nullptr)
+				//	{
+				//		llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
+				//	}
+				//}
+				//else
+				//{
+				//	auto source (boost::dynamic_pointer_cast <lambda_p_llvm::function::node> (i->second));
+				//	if (source.get () != nullptr)
+				//	{
+				//		auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
+				//		llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
+				//	}
+				//	else
+				//	{
+				//		std::wstringstream message;
+				//		message << L"Operation: ";
+				//		message << name ();
+				//		message << L" package item: \"";
+				//		message << i->first;
+				//		message << L"\" is not an lambda_p_llvm::function::node: ";
+				//		message << i->second->name ();
+				//		(*errors_a) (message.str ());
+				//	}
+				//}
 			}
 		}
 		else

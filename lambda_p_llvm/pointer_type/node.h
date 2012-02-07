@@ -2,6 +2,8 @@
 
 #include <lambda_p_llvm/type/node.h>
 
+#include <boost/shared_ptr.hpp>
+
 namespace llvm
 {
 	class PointerType;
@@ -13,8 +15,10 @@ namespace lambda_p_llvm
 		class node : public lambda_p_llvm::type::node
 		{
 		public:
-			node (llvm::PointerType * type_a);
+			node (boost::shared_ptr <lambda_p_llvm::type::node> element_a);
+			llvm::Type * type () override;
 			llvm::PointerType * pointer_type ();
+			boost::shared_ptr <lambda_p_llvm::type::node> element;
 		};
 	}
 }

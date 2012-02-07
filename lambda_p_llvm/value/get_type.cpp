@@ -12,7 +12,8 @@ void lambda_p_llvm::value::get_type::operator () (boost::shared_ptr <lambda_p::e
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
 	if (one.get () != nullptr)
 	{
-		results_a.push_back (boost::make_shared <lambda_p_llvm::type::node> (one->value ()->getType ()));
+		assert (false);
+		//results_a.push_back (boost::make_shared <lambda_p_llvm::type::node> (one->value ()->getType ()));
 	}
 	else
 	{

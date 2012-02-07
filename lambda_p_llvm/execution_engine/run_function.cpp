@@ -3,7 +3,6 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/execution_engine/node.h>
 #include <lambda_p_llvm/function/node.h>
-#include <lambda_p_llvm/function_pointer/node.h>
 #include <lambda_p_llvm/execution_engine/generic_value/node.h>
 
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
@@ -25,27 +24,28 @@ void lambda_p_llvm::execution_engine::run_function::perform (boost::shared_ptr <
 			}
 			else
 			{
-				auto two (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (parameters [1]));
-				if (two.get () != nullptr)
-				{
-					auto function (llvm::dyn_cast <llvm::Function> (two->value ()));
-					if (function != nullptr)
-					{
-						perform_internal (errors_a, one, function, parameters, results);
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"Function argument to operation: ";
-						message << name ();
-						message << L" can only be an llvm::Function";
-						(*errors_a) (message.str ());
-					}
-				}
-				else
-				{
-					invalid_type (errors_a, parameters [1], 1);
-				}
+				assert (false);
+				//auto two (boost::dynamic_pointer_cast <lambda_p_llvm::function_pointer::node> (parameters [1]));
+				//if (two.get () != nullptr)
+				//{
+				//	auto function (llvm::dyn_cast <llvm::Function> (two->value ()));
+				//	if (function != nullptr)
+				//	{
+				//		perform_internal (errors_a, one, function, parameters, results);
+				//	}
+				//	else
+				//	{
+				//		std::wstringstream message;
+				//		message << L"Function argument to operation: ";
+				//		message << name ();
+				//		message << L" can only be an llvm::Function";
+				//		(*errors_a) (message.str ());
+				//	}
+				//}
+				//else
+				//{
+				//	invalid_type (errors_a, parameters [1], 1);
+				//}
 			}
 		}
 		else

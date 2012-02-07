@@ -119,6 +119,9 @@
     <ClCompile Include="cluster\node.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
+    <ClCompile Include="values\create.cpp">
+      <Filter>values</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="cluster\node.h">
       <Filter>cluster</Filter>
+    </ClInclude>
+    <ClInclude Include="values\create.h">
+      <Filter>values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

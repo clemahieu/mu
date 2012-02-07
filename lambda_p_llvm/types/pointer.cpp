@@ -22,7 +22,7 @@ void lambda_p_llvm::types::pointer::operator () (boost::shared_ptr <lambda_p::er
 		auto one (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (parameters_a [0]));
 		if (one.get () != nullptr)
 		{
-			results_a.push_back (boost::make_shared <lambda_p_llvm::pointer_type::node> (llvm::PointerType::get (one->type (), 0)));
+			results_a.push_back (boost::make_shared <lambda_p_llvm::pointer_type::node> (one));
 		}
 		else
 		{
