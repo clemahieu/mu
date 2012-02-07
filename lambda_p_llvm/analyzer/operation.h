@@ -1,5 +1,6 @@
 #pragma once
 
+#include <lambda_p_llvm/analyzer/context.h>
 #include <lambda_p_script/fixed.h>
 
 namespace lambda_p
@@ -27,6 +28,7 @@ namespace lambda_p_llvm
 			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 			size_t count () override;
 			void add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a);
+			lambda_p_llvm::analyzer::context context;
 			boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions;
 		};
 	}

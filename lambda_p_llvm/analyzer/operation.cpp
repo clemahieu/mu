@@ -91,7 +91,12 @@ void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <lambda_
 		{
 			analyzer.input (*i);
 		}
-		analyzer.input (boost::make_shared <lambda_p_io::ast::end> (lambda_p::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last)));
+		lambda_p::context context;
+		if (one->expressions.size () > 0)
+		{
+			context = lambda_p::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
+		}
+		analyzer.input (boost::make_shared <lambda_p_io::ast::end> (context));
 	}
 	else
 	{

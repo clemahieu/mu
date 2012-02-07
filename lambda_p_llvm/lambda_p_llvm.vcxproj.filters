@@ -229,6 +229,12 @@
     <ClInclude Include="set_type\extract.h">
       <Filter>set_type</Filter>
     </ClInclude>
+    <ClInclude Include="synthesizer\operation.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\context.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -458,6 +464,12 @@
     <ClCompile Include="set_type\extract.cpp">
       <Filter>set_type</Filter>
     </ClCompile>
+    <ClCompile Include="synthesizer\operation.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\context.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -543,6 +555,9 @@
     </Filter>
     <Filter Include="set_type">
       <UniqueIdentifier>{c67c970c-1b8e-4168-b7f8-1632d8bb096c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synthesizer">
+      <UniqueIdentifier>{6eeb9301-9b16-44e0-bdc8-94e8d1fc9f83}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -23,6 +23,9 @@
     <ClCompile Include="function_type\create.cpp">
       <Filter>function_type</Filter>
     </ClCompile>
+    <ClCompile Include="synthesizer\operation.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -47,6 +50,9 @@
     <ClInclude Include="function_type\create.h">
       <Filter>function_type</Filter>
     </ClInclude>
+    <ClInclude Include="synthesizer\operation.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -63,6 +69,9 @@
     </Filter>
     <Filter Include="function_type">
       <UniqueIdentifier>{55a25d32-c646-4129-bc89-2c3d8101f0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synthesizer">
+      <UniqueIdentifier>{66509853-d9ae-4d04-bebb-d4106420b1d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
