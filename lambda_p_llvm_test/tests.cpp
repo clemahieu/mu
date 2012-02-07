@@ -8,6 +8,7 @@
 #include <lambda_p_llvm_test/types/integer.h>
 #include <lambda_p_llvm_test/basic_block/insert.h>
 #include <lambda_p_llvm_test/instruction_package.h>
+#include <lambda_p_llvm_test/function_type/create.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -66,6 +67,10 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		lambda_p_llvm_test::instruction_package test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::function_type::create test;
 		test.run ();
 	}
 }

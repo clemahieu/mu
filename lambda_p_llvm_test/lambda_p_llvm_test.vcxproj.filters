@@ -20,6 +20,9 @@
       <Filter>basic_block</Filter>
     </ClCompile>
     <ClCompile Include="instruction_package.cpp" />
+    <ClCompile Include="function_type\create.cpp">
+      <Filter>function_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -41,6 +44,9 @@
       <Filter>basic_block</Filter>
     </ClInclude>
     <ClInclude Include="instruction_package.h" />
+    <ClInclude Include="function_type\create.h">
+      <Filter>function_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -54,6 +60,9 @@
     </Filter>
     <Filter Include="basic_block">
       <UniqueIdentifier>{3aa9d754-9277-441c-957b-e9778643cfb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function_type">
+      <UniqueIdentifier>{55a25d32-c646-4129-bc89-2c3d8101f0c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

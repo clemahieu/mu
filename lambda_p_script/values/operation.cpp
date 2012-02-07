@@ -1,5 +1,9 @@
 #include "operation.h"
 
+lambda_p_script::values::operation::operation ()
+{
+}
+
 lambda_p_script::values::operation::operation (std::vector <boost::shared_ptr <lambda_p::node>> values_a)
 	: values (values_a)
 {
