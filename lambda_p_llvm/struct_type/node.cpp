@@ -1,9 +1,20 @@
 #include "node.h"
 
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/type/build.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
+
+lambda_p_llvm::struct_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::StructType * struct_type_a)
+{
+	for (auto i (struct_type_a->element_begin ()), j (struct_type_a->element_end ()); i != j; ++i)
+	{
+		auto type (*i);
+		lambda_p_llvm::type::build build (context_a, type);
+		elements.push_back (build.type);
+	}
+}
 
 lambda_p_llvm::struct_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> elements_a)
 	: elements (elements_a),

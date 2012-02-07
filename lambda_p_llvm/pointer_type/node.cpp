@@ -1,6 +1,14 @@
 #include "node.h"
 
+#include <lambda_p_llvm/type/build.h>
+
 #include <llvm/DerivedTypes.h>
+
+lambda_p_llvm::pointer_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::PointerType * pointer_type_a)
+{
+	lambda_p_llvm::type::build build (context_a, pointer_type_a->getElementType ());
+	element = build.type;
+}
 
 lambda_p_llvm::pointer_type::node::node (boost::shared_ptr <lambda_p_llvm::type::node> element_a)
 	: element (element_a)

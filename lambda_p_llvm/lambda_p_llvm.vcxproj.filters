@@ -216,6 +216,9 @@
     <ClInclude Include="function_type\node.h">
       <Filter>function_type</Filter>
     </ClInclude>
+    <ClInclude Include="type\build.h">
+      <Filter>type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -432,6 +435,9 @@
     </ClCompile>
     <ClCompile Include="function_type\node.cpp">
       <Filter>function_type</Filter>
+    </ClCompile>
+    <ClCompile Include="type\build.cpp">
+      <Filter>type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
