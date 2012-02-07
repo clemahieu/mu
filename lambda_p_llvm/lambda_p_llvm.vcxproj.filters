@@ -223,6 +223,12 @@
     <ClInclude Include="instructions\call.h">
       <Filter>instructions</Filter>
     </ClInclude>
+    <ClInclude Include="set_type\node.h">
+      <Filter>set_type</Filter>
+    </ClInclude>
+    <ClInclude Include="set_type\extract.h">
+      <Filter>set_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -446,6 +452,12 @@
     <ClCompile Include="instructions\call.cpp">
       <Filter>instructions</Filter>
     </ClCompile>
+    <ClCompile Include="set_type\node.cpp">
+      <Filter>set_type</Filter>
+    </ClCompile>
+    <ClCompile Include="set_type\extract.cpp">
+      <Filter>set_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -528,6 +540,9 @@
     </Filter>
     <Filter Include="function_type">
       <UniqueIdentifier>{2b1a3726-1fae-40b0-b8e2-330f459b2c5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="set_type">
+      <UniqueIdentifier>{c67c970c-1b8e-4168-b7f8-1632d8bb096c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

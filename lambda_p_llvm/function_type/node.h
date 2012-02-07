@@ -22,12 +22,12 @@ namespace lambda_p_llvm
 		{
 		public:
 			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::FunctionType * function_type_a);
-			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> outputs_a);
+			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters_a, boost::shared_ptr <lambda_p_llvm::type::node> output_a);
 			llvm::Type * type () override;
 			llvm::FunctionType * function_type ();
 			boost::shared_ptr <lambda_p_llvm::context::node> context;
 			std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters;
-			std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> outputs;
+			boost::shared_ptr <lambda_p_llvm::type::node> output;
 		};
 	}
 }

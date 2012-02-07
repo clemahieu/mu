@@ -28,6 +28,8 @@
     <ClInclude Include="basic_block\store.h" />
     <ClInclude Include="instructions\call.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="set_type\extract.h" />
+    <ClInclude Include="set_type\node.h" />
     <ClInclude Include="type\build.h" />
     <ClInclude Include="cluster\node.h" />
     <ClInclude Include="constants\integer.h" />
@@ -105,6 +107,8 @@
     <ClCompile Include="basic_block\insert.cpp" />
     <ClCompile Include="basic_block\store.cpp" />
     <ClCompile Include="instructions\call.cpp" />
+    <ClCompile Include="set_type\extract.cpp" />
+    <ClCompile Include="set_type\node.cpp" />
     <ClCompile Include="type\build.cpp" />
     <ClCompile Include="cluster\node.cpp" />
     <ClCompile Include="constants\integer.cpp" />

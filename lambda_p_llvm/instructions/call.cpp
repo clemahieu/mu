@@ -52,16 +52,7 @@ void lambda_p_llvm::instructions::call::operator () (boost::shared_ptr <lambda_p
 							}
 						}
 					}
-					auto context (boost::make_shared <lambda_p_llvm::context::node> (flat_type->getContext ()));
-					if (function_type->outputs.size () == 0)
-					{
-						results.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (llvm::CallInst::Create (one->value (), arguments), boost::make_shared <lambda_p_llvm::void_type::node> (context)));
-					}
-					else
-					{
-						lambda_p_llvm::type::build build (context, flat_type->getReturnType ());
-						results.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (llvm::CallInst::Create (one->value (), arguments), build.type));
-					}
+					results.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
 				}
 				else
 				{

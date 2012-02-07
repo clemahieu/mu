@@ -5,6 +5,7 @@
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/function_type/node.h>
+#include <lambda_p_llvm/set_type/node.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
@@ -54,7 +55,7 @@ void lambda_p_llvm::function_type::create::operator () (boost::shared_ptr <lambd
 					(*errors_a) (message.str ());
 				}
 			}
-			results_a.push_back (boost::make_shared <lambda_p_llvm::function_type::node> (context, arguments, results));
+			results_a.push_back (boost::make_shared <lambda_p_llvm::function_type::node> (context, arguments, boost::make_shared <lambda_p_llvm::set_type::node> (context, results)));
 		}
 		else
 		{

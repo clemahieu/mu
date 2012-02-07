@@ -9,7 +9,7 @@
 lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::FunctionType * function_type_a)
 {
 	lambda_p_llvm::type::build build (context_a, function_type_a->getReturnType ());
-	outputs.push_back (build.type);
+	output = build.type;
 	for (auto i (function_type_a->param_begin ()), j (function_type_a->param_end ()); i != j; ++i)
 	{
 		llvm::Type * type (*i);
@@ -18,9 +18,9 @@ lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::cont
 	}
 }
 
-lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> outputs_a)
+lambda_p_llvm::function_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> parameters_a, boost::shared_ptr <lambda_p_llvm::type::node> output_a)
 	: parameters (parameters_a),
-	outputs (outputs_a),
+	output (output_a),
 	context (context_a)
 {
 }
@@ -37,23 +37,5 @@ llvm::FunctionType * lambda_p_llvm::function_type::node::function_type ()
 	{
 		parameters_l.push_back ((*i)->type ());
 	}
-	llvm::Type * outputs_l;
-	if (outputs.size () == 0)
-	{
-		outputs_l = llvm::Type::getVoidTy (context->context);
-	}
-	else if (outputs.size () == 1)
-	{
-		outputs_l = outputs [0]->type ();
-	}
-	else
-	{
-		std::vector <llvm::Type *> components;
-		for (auto i (outputs.begin ()), j (outputs.end ()); i != j; ++i)
-		{
-			components.push_back ((*i)->type ());
-		}
-		outputs_l = llvm::StructType::get (context->context, components, false);
-	}
-	return llvm::FunctionType::get (outputs_l, parameters_l, false);
+	return llvm::FunctionType::get (output->type (), parameters_l, false);
 }
