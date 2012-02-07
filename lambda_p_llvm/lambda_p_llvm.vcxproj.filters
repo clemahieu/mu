@@ -219,6 +219,10 @@
     <ClInclude Include="type\build.h">
       <Filter>type</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="instructions\call.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -438,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="type\build.cpp">
       <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="instructions\call.cpp">
+      <Filter>instructions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
