@@ -17,6 +17,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <sstream>
+
 void lambda_p_llvm_test::synthesizer::operation::run ()
 {
 	run_1 ();
@@ -25,6 +27,7 @@ void lambda_p_llvm_test::synthesizer::operation::run ()
 	run_4 ();
 	run_5 ();
 	run_6 ();
+	run_7 ();
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_1 ()
@@ -209,6 +212,54 @@ void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 	synthesizer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
+	lambda_p_llvm::module::print print;
+	std::vector <boost::shared_ptr <lambda_p::node>> a3;
+	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	a3.push_back (module);
+	print (builder.errors, a3, r3);
+	lambda_p_llvm::module::verify verify;
+	verify (builder.errors, a3, r3);
+	assert (builder.errors->errors.empty ());
+}
+
+void lambda_p_llvm_test::synthesizer::operation::run_7 ()
+{
+	lambda_p_script_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	std::wstringstream code;
+	code << L"[.id .ast [";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [add [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [and [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [ashr [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [lshr [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [mul [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [or [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [sdiv [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [shl [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [srem [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [sub [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [udiv [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [urem [:~]]";
+	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [xor [:~]]";
+	code << L"]]";
+	source (code.str ());
+	source ();
+	assert (builder.errors->errors.empty ());
+	llvm::LLVMContext context_l;
+	std::vector <boost::shared_ptr <lambda_p::node>> a1;
+	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
+	assert (r1.size () == 1);
+	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	std::vector <boost::shared_ptr <lambda_p::node>> a2;
+	std::vector <boost::shared_ptr <lambda_p::node>> r2;
+	a2.push_back (ast);
+	a2.push_back (module);
+	lambda_p_llvm::synthesizer::operation synthesizer;
+	synthesizer.perform (builder.errors, a2, r2);
+	assert (builder.errors->errors.empty ());
+	assert (module->module->getFunctionList ().size () == 13);
 	lambda_p_llvm::module::print print;
 	std::vector <boost::shared_ptr <lambda_p::node>> a3;
 	std::vector <boost::shared_ptr <lambda_p::node>> r3;
