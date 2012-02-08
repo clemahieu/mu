@@ -11,10 +11,16 @@
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/argument/node.h>
 
 #include <llvm/Module.h>
+#include <llvm/Instructions.h>
+#include <llvm/Constants.h>
 
 #include <boost/make_shared.hpp>
+
+#include <utility>
 
 void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
@@ -37,7 +43,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 				std::vector <boost::shared_ptr <lambda_p::node>> results;
 				arguments.push_back (cluster);
 				synthesizer (errors_a, arguments, results);
-				std::vector <llvm::Function *> functions;
+				std::vector <std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>>> functions;
 				if (!(*errors_a) ())
 				{
 					auto cluster (boost::static_pointer_cast <lambda_p_script::cluster::node> (results [0]));
@@ -58,7 +64,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 									{
 										auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
 										two->module->getFunctionList ().push_back (function);
-										functions.push_back (function);
+										functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>> (function, function_type));
 									}
 									else
 									{
@@ -84,21 +90,67 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 							{
 								auto signature_routine (*i);
 								auto function (functions [position]);
-								assert (function->getBasicBlockList ().size () == 0);
-								auto block (llvm::BasicBlock::Create (function->getContext ()));
-								function->getBasicBlockList ().push_back (block);
+								assert (function.first->getBasicBlockList ().size () == 0);
+								auto block (llvm::BasicBlock::Create (function.first->getContext ()));
+								function.first->getBasicBlockList ().push_back (block);
 								analyzer.context.block->block = block;
 								std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+								{
+									auto k (function.second->parameters.begin ());
+									auto l (function.second->parameters.end ());
+									for (auto i (function.first->arg_begin ()), j (function.first->arg_end ()); i != j; ++i, ++k)
+									{
+										llvm::Argument * argument (i);
+										arguments.push_back (boost::make_shared <lambda_p_llvm::argument::node> (argument, *k));
+									}
+								}
 								std::vector <boost::shared_ptr <lambda_p::node>> results;
 								signature_routine->perform (errors_a, arguments, results);						
 								if (!(*errors_a) ())
 								{
 									if (results.size () == 0)
 									{
+										analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext ()));
+									}
+									else if (results.size () == 1)
+									{
+										auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (results [0]));
+										if (value.get () != nullptr)
+										{
+											analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), value->value ()));
+										}
+										else
+										{
+											(*errors_a) (L"Body routine didn't return a value");
+										}
 									}
 									else
 									{
-										(*errors_a) (L"Body routine returned a value");
+										std::vector <llvm::Type *> types;
+										std::vector <llvm::Value *> values;
+										for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
+										{
+											auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
+											if (value.get () != nullptr)
+											{
+												types.push_back (value->type->type ());
+												values.push_back (value->value ());
+											}
+											else
+											{
+												(*errors_a) (L"Body routine didn't return a value");
+											}
+										}
+										auto ret_type (llvm::StructType::get (two->module->getContext (), types));
+										llvm::Value * result (llvm::UndefValue::get (ret_type));
+										size_t position (0);
+										for (auto i (values.begin ()), j (values.end ()); i != j; ++i, ++position)
+										{
+											auto instruction (llvm::InsertValueInst::Create (result, *i, position));
+											result = instruction;
+											analyzer.context.block->block->getInstList ().push_back (instruction);
+										}
+										analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), result));
 									}
 								}
 							}

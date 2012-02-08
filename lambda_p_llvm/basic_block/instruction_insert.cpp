@@ -16,8 +16,10 @@ void lambda_p_llvm::basic_block::instruction_insert::operator () (boost::shared_
 	std::vector <boost::shared_ptr <lambda_p::node>> r1;
 	r1.push_back (block);
 	instruction->perform (errors_a, parameters, r1);
+	assert (r1.size () == 2);
 	lambda_p_llvm::basic_block::insert insert;
 	insert.perform (errors_a, r1, results);
+	results.push_back (r1 [1]);
 }
 
 size_t lambda_p_llvm::basic_block::instruction_insert::count ()

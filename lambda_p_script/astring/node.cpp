@@ -2,6 +2,10 @@
 
 #include <sstream>
 
+lambda_p_script::astring::node::node ()
+{
+}
+
 lambda_p_script::astring::node::node (std::string string_a)
 	: string (string_a)
 {

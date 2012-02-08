@@ -2,7 +2,7 @@
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/context/node.h>
-#include <lambda_p_script/integer/node.h>
+#include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 
 #include <llvm/DerivedTypes.h>
@@ -14,14 +14,15 @@
 void lambda_p_llvm::integer_type::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (parameters [1]));
+	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::apint::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
 		{
-			if (two->value >= llvm::IntegerType::MIN_INT_BITS && two->value <= llvm::IntegerType::MAX_INT_BITS)
+			auto bits (two->value->getLimitedValue ());
+			if (bits >= llvm::IntegerType::MIN_INT_BITS && bits <= llvm::IntegerType::MAX_INT_BITS)
 			{
-				results.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (one->context, two->value)));
+				results.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (one->context, bits)));
 			}
 			else
 			{

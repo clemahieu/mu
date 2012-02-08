@@ -30,7 +30,7 @@ void lambda_p_llvm::constant_int::create::operator () (boost::shared_ptr <lambda
 					if (three->value->getActiveBits () <= bits)
 					{
 						auto type (llvm::Type::getIntNTy (one->context, bits));
-						results.push_back (boost::make_shared <lambda_p_llvm::constant_int::node> (llvm::ConstantInt::get (type, *three->value), boost::make_shared <lambda_p_llvm::integer_type::node> (type)));
+						results.push_back (boost::make_shared <lambda_p_llvm::constant_int::node> (llvm::ConstantInt::get (one->context, llvm::APInt (bits, three->value->getLimitedValue ())), boost::make_shared <lambda_p_llvm::integer_type::node> (type)));
 					}
 					else
 					{

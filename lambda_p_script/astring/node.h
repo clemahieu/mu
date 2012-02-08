@@ -9,6 +9,7 @@ namespace lambda_p_script
 		class node : public lambda_p::node
 		{
 		public:
+			node ();
 			node (std::string string_a);
 			std::string string;
 			std::wstring name () override;

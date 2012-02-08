@@ -30,6 +30,7 @@
     <ClInclude Include="basic_block\store.h" />
     <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="instructions\call.h" />
+    <ClInclude Include="module\print.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="set_type\extract.h" />
     <ClInclude Include="set_type\node.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="basic_block\store.cpp" />
     <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="instructions\call.cpp" />
+    <ClCompile Include="module\print.cpp" />
     <ClCompile Include="set_type\extract.cpp" />
     <ClCompile Include="set_type\node.cpp" />
     <ClCompile Include="synthesizer\operation.cpp" />
