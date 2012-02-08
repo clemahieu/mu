@@ -6,10 +6,11 @@
 #include <lambda_p/expression.h>
 #include <lambda_p/reference.h>
 #include <lambda_p/expression.h>
-#include <lambda_p/parameters.h>
+#include <lambda_p_io/ast/parameters.h>
 #include <lambda_p/errors/error_list.h>
 #include <lambda_p_io/ast/cluster.h>
 #include <lambda_p_io/ast/expression.h>
+#include <lambda_p_io/ast/identifier.h>
 
 #include <boost/bind.hpp>
 
@@ -32,7 +33,7 @@ void lambda_p_io_test::builder::run_1 ()
 	assert (cluster->expressions.size () == 1);
 	auto routine (cluster->expressions [0]);
 	assert (routine->values.size () == 1);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (routine->values [0]));
+	auto parameters (boost::dynamic_pointer_cast <lambda_p_io::ast::parameters> (routine->values [0]));
 	assert (parameters != nullptr);
 	assert (routine->context == lambda_p::context (1, 1, 0, 1, 4, 3));
 }
@@ -66,34 +67,41 @@ void lambda_p_io_test::builder::run_3 ()
 	assert (cluster->expressions.size () == 1);
 	auto routine (cluster->expressions [0]);
 	assert (routine->context == lambda_p::context (1, 1, 0, 1, 25, 24));
-	assert (routine->values.size () == 3);
-	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->values [0]));
+	assert (routine->values.size () == 4);
+	auto d1 (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (routine->values [0]));
 	assert (d1.get () != nullptr);
-	auto d2 (boost::dynamic_pointer_cast <lambda_p::expression> (routine->values [1]));
+	assert (d1->context == lambda_p::context (1, 2, 1, 1, 12, 11));
+	auto d2 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (routine->values [1]));
 	assert (d2.get () != nullptr);
-	assert (d2->context == lambda_p::context (1, 16, 15, 1, 22, 21));
-	auto d3 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->values [2]));
+	assert (d2->context == lambda_p::context (1, 14, 13, 1, 14, 13));
+	auto d3 (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (routine->values [2]));
 	assert (d3.get () != nullptr);
-	auto d11 (boost::dynamic_pointer_cast <lambda_p::expression> (d1->expression));
+	assert (d3->context == lambda_p::context (1, 16, 15, 1, 22, 21));
+	auto d4 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (routine->values [3]));
+	assert (d4.get () != nullptr);
+	assert (d4->context == lambda_p::context (1, 24, 23, 1, 24, 23));
+	assert (d1->values.size () == 1);
+	auto d11 (boost::dynamic_pointer_cast <lambda_p_io::ast::parameters> (d1->values [0]));
 	assert (d11.get () != nullptr);
-	assert (d11->context == lambda_p::context (1, 2, 1, 1, 12, 11));
-	assert (d1->index == 0);
-	assert (d11->dependencies.size () == 1);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (d11->dependencies [0]));
-	assert (parameters != nullptr);
-	assert (d2->dependencies.size () == 3);
-	auto d21 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [0]));
-	assert (d21.get () != nullptr);
-	assert (d21->expression == d11);
-	assert (d21->index == 0);
-	auto d22 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [1]));
-	assert (d22.get () != nullptr);
-	assert (d22->expression == d11);
-	assert (d22->index == 1);
-	auto d23 (boost::dynamic_pointer_cast <lambda_p::reference> (d2->dependencies [2]));
-	assert (d23.get () != nullptr);
-	assert (d23->expression == d11);
-	assert (d23->index == 2);
-	assert (d3->expression == d11);
-	assert (d3->index == 2);
+	assert (d11->context == lambda_p::context (1, 3, 2, 1, 4, 3));
+	assert (d1->individual_names.size () == 3);
+	auto d12 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d1->individual_names [0]));
+	assert (d12.get () != nullptr);
+	assert (d12->context == lambda_p::context (1, 7, 6, 1, 7, 6)); 
+	auto d13 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d1->individual_names [1]));
+	assert (d13.get () != nullptr);
+	assert (d13->context == lambda_p::context (1, 9, 8, 1, 9, 8));
+	auto d14 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d1->individual_names [2]));
+	assert (d14.get () != nullptr);
+	assert (d14->context == lambda_p::context (1, 11, 10, 1, 11, 10));
+	assert (d3->values.size () == 3);
+	auto d31 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d3->values [0]));
+	assert (d31.get () != nullptr);
+	assert (d31->context == lambda_p::context (1, 17, 16, 1, 17, 16));
+	auto d32 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d3->values [1]));
+	assert (d32.get () != nullptr);
+	assert (d32->context == lambda_p::context (1, 19, 18, 1, 19, 18));
+	auto d33 (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (d3->values [2]));
+	assert (d33.get () != nullptr);
+	assert (d33->context == lambda_p::context (1, 21, 20, 1, 21, 20));
 }
