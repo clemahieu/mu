@@ -63,7 +63,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{] [{ [integer_type # d32]]] [add [constant_int # d32 # d1] [constant_int # d32 # d1]]]]");
+	source (L"[.id .ast [[fun-t [{] [{ [int-t # d32]]] [add [int-c # d32 # d1] [int-c # d32 # d1]]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -95,7 +95,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{ [integer_type # d32]] [{ [integer_type # d32]]] [:~]]]");
+	source (L"[.id .ast [[fun-t [{ [int-t # d32]] [{ [int-t # d32]]] [:~]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -127,7 +127,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{ [integer_type # d32] [integer_type # d32]] [{ [integer_type # d32]]] [add [:~]]]]");
+	source (L"[.id .ast [[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [add [:~]]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -159,7 +159,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{ ] [{ ]] [:~]]]");
+	source (L"[.id .ast [[fun-t [{ ] [{ ]] [:~]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -191,7 +191,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{ [integer_type # d32] [integer_type # d16]] [{ [integer_type # d32] [integer_type # d16]]] [:~]]]");
+	source (L"[.id .ast [[fun-t [{ [int-t # d32] [int-t # d16]] [{ [int-t # d32] [int-t # d16]]] [:~]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;

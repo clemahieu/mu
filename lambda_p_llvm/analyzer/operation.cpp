@@ -63,13 +63,13 @@ lambda_p_llvm::analyzer::operation::operation (boost::shared_ptr <lambda_p_llvm:
 	extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::add> ()));
 	auto function_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::function_type::create> ()));
 	function_type->closed.push_back (context_a);
-	extensions->extensions_m [std::wstring (L"function_type")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (function_type);
+	extensions->extensions_m [std::wstring (L"fun-t")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (function_type);
 	auto integer_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	integer_type->closed.push_back (context_a);
-	extensions->extensions_m [std::wstring (L"integer_type")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (integer_type);
+	extensions->extensions_m [std::wstring (L"int-t")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (integer_type);
 	auto constant_int (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
 	constant_int->closed.push_back (context_a);
-	extensions->extensions_m [std::wstring (L"constant_int")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (constant_int);
+	extensions->extensions_m [std::wstring (L"int-c")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (constant_int);
 	//extensions->extensions_m [std::wstring (L"and")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::and> ());
 	//extensions->extensions_m [std::wstring (L"ashr")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::ashr> ());
 	//extensions->extensions_m [std::wstring (L"bitcast")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::bitcast> ());
