@@ -46,6 +46,9 @@
     <ClCompile Include="cluster\get.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
+    <ClCompile Include="ast\extension.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -93,6 +96,9 @@
     <ClInclude Include="cluster\get.h">
       <Filter>cluster</Filter>
     </ClInclude>
+    <ClInclude Include="ast\extension.h">
+      <Filter>ast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -118,6 +124,9 @@
     </Filter>
     <Filter Include="cluster">
       <UniqueIdentifier>{a057ffee-92f2-49ca-9445-430268897406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ast">
+      <UniqueIdentifier>{6f37a7b3-b324-41e8-89e3-1fe282ddcbb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

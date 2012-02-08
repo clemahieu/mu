@@ -7,6 +7,9 @@
 #include <lambda_p/reference.h>
 #include <lambda_p/expression.h>
 #include <lambda_p/parameters.h>
+#include <lambda_p/errors/error_list.h>
+#include <lambda_p_io/ast/cluster.h>
+#include <lambda_p_io/ast/expression.h>
 
 #include <boost/bind.hpp>
 
@@ -26,12 +29,12 @@ void lambda_p_io_test::builder::run_1 ()
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	assert (cluster->routines.size () == 1);
-	auto routine (cluster->routines [0]);
-	assert (routine->body->dependencies.size () == 1);
-	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (routine->body->dependencies [0]));
+	assert (cluster->expressions.size () == 1);
+	auto routine (cluster->expressions [0]);
+	assert (routine->values.size () == 1);
+	auto parameters (boost::dynamic_pointer_cast <lambda_p::parameters> (routine->values [0]));
 	assert (parameters != nullptr);
-	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
+	assert (routine->context == lambda_p::context (1, 1, 0, 1, 4, 3));
 }
 
 void lambda_p_io_test::builder::run_2 ()
@@ -44,11 +47,11 @@ void lambda_p_io_test::builder::run_2 ()
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	assert (cluster->routines.size () == 2);
-	auto routine1 (cluster->routines [0]);
-	auto routine2 (cluster->routines [1]);
-	assert (routine1->body->context == lambda_p::context (1, 1, 0, 1, 4, 3));
-	assert (routine2->body->context == lambda_p::context (1, 5, 4, 1, 8, 7));
+	assert (cluster->expressions.size () == 2);
+	auto routine1 (cluster->expressions [0]);
+	auto routine2 (cluster->expressions [1]);
+	assert (routine1->context == lambda_p::context (1, 1, 0, 1, 4, 3));
+	assert (routine2->context == lambda_p::context (1, 5, 4, 1, 8, 7));
 }
 
 void lambda_p_io_test::builder::run_3 ()
@@ -60,16 +63,16 @@ void lambda_p_io_test::builder::run_3 ()
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
-	assert (cluster->routines.size () == 1);
-	auto routine (cluster->routines [0]);
-	assert (routine->body->context == lambda_p::context (1, 1, 0, 1, 25, 24));
-	assert (routine->body->dependencies.size () == 3);
-	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [0]));
+	assert (cluster->expressions.size () == 1);
+	auto routine (cluster->expressions [0]);
+	assert (routine->context == lambda_p::context (1, 1, 0, 1, 25, 24));
+	assert (routine->values.size () == 3);
+	auto d1 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->values [0]));
 	assert (d1.get () != nullptr);
-	auto d2 (boost::dynamic_pointer_cast <lambda_p::expression> (routine->body->dependencies [1]));
+	auto d2 (boost::dynamic_pointer_cast <lambda_p::expression> (routine->values [1]));
 	assert (d2.get () != nullptr);
 	assert (d2->context == lambda_p::context (1, 16, 15, 1, 22, 21));
-	auto d3 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->body->dependencies [2]));
+	auto d3 (boost::dynamic_pointer_cast <lambda_p::reference> (routine->values [2]));
 	assert (d3.get () != nullptr);
 	auto d11 (boost::dynamic_pointer_cast <lambda_p::expression> (d1->expression));
 	assert (d11.get () != nullptr);

@@ -122,6 +122,9 @@
     <ClCompile Include="values\create.cpp">
       <Filter>values</Filter>
     </ClCompile>
+    <ClCompile Include="ast\extension.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -245,6 +248,9 @@
     <ClInclude Include="values\create.h">
       <Filter>values</Filter>
     </ClInclude>
+    <ClInclude Include="ast\extension.h">
+      <Filter>ast</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -300,6 +306,9 @@
     </Filter>
     <Filter Include="cluster">
       <UniqueIdentifier>{3e9657f1-b6f3-471d-906f-93868938e36c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ast">
+      <UniqueIdentifier>{9ef92c71-8277-43a1-9384-181d013a3f51}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

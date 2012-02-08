@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClCompile Include="analyzer\analyzer.cpp" />
     <ClCompile Include="analyzer\expression.cpp" />
-    <ClCompile Include="analyzer\extensions\ast.cpp" />
     <ClCompile Include="ast\cluster.cpp" />
     <ClCompile Include="analyzer\extensions\extension.cpp" />
     <ClCompile Include="analyzer\extensions\extensions.cpp" />
@@ -181,7 +180,6 @@
   <ItemGroup>
     <ClInclude Include="analyzer\analyzer.h" />
     <ClInclude Include="analyzer\expression.h" />
-    <ClInclude Include="analyzer\extensions\ast.h" />
     <ClInclude Include="ast\cluster.h" />
     <ClInclude Include="analyzer\extensions\extension.h" />
     <ClInclude Include="analyzer\extensions\extensions.h" />

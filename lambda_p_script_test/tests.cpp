@@ -17,6 +17,7 @@
 #include <lambda_p_script_test/string/extension.h>
 #include <lambda_p_script_test/analyzer/analyzer.h>
 #include <lambda_p_script_test/cluster/get.h>
+#include <lambda_p_script_test/ast/extension.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -86,6 +87,10 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		lambda_p_script_test::cluster::get test;
+		test.run ();
+	}
+	{
+		lambda_p_script_test::ast::extension test;
 		test.run ();
 	}
 }

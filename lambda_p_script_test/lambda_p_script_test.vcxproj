@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ast\extension.cpp" />
     <ClCompile Include="analyzer\analyzer.cpp" />
     <ClCompile Include="call.cpp" />
     <ClCompile Include="chain\operation.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="times\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ast\extension.h" />
     <ClInclude Include="analyzer\analyzer.h" />
     <ClInclude Include="call.h" />
     <ClInclude Include="chain\operation.h" />

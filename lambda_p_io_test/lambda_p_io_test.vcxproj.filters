@@ -27,7 +27,6 @@
     <ClCompile Include="single.cpp" />
     <ClCompile Include="full.cpp" />
     <ClCompile Include="routine.cpp" />
-    <ClCompile Include="ast.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="istream_input_test.h" />
@@ -56,6 +55,5 @@
     <ClInclude Include="single.h" />
     <ClInclude Include="full.h" />
     <ClInclude Include="routine.h" />
-    <ClInclude Include="ast.h" />
   </ItemGroup>
 </Project>

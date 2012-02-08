@@ -17,7 +17,6 @@
 #include <lambda_p_io_test/single.h>
 #include <lambda_p_io_test/full.h>
 #include <lambda_p_io_test/routine.h>
-#include <lambda_p_io_test/ast.h>
 
 void lambda_p_io_test::tests::run ()
 {
@@ -87,10 +86,6 @@ void lambda_p_io_test::tests::run ()
 	}
 	{
 		routine test;
-		test.run ();
-	}
-	{
-		ast test;
 		test.run ();
 	}
 }
