@@ -10,8 +10,11 @@
 #include <lambda_p_script/routine.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/basic_block/node.h>
+#include <lambda_p_llvm/context/node.h>
 
 #include <llvm/Module.h>
+
+#include <boost/make_shared.hpp>
 
 void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
@@ -21,7 +24,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 	{
 		if (two.get () != nullptr)
 		{
-			lambda_p_llvm::analyzer::operation analyzer;
+			lambda_p_llvm::analyzer::operation analyzer (boost::make_shared <lambda_p_llvm::context::node> (two->module->getContext ()));
 			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 			std::vector <boost::shared_ptr <lambda_p::node>> results;
 			arguments.push_back (one);
@@ -74,29 +77,32 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 							}
 						}
 						size_t position (0);
-						for (auto i (cluster->routines.begin () + 1), j (cluster->routines.end () + 0); i != j && ! (*errors_a) (); ++i, ++position)
+						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)
 						{
-							auto signature_routine (*i);
-							auto function (functions [position]);
-							assert (function->getBasicBlockList ().size () == 0);
-							auto block (llvm::BasicBlock::Create (function->getContext ()));
-							function->getBasicBlockList ().push_back (block);
-							analyzer.context.block->block = block;
-							std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-							std::vector <boost::shared_ptr <lambda_p::node>> results;
-							signature_routine->perform (errors_a, arguments, results);						
-							if (!(*errors_a) ())
+							++i;
+							if (i != j)
 							{
-								if (results.size () == 0)
+								auto signature_routine (*i);
+								auto function (functions [position]);
+								assert (function->getBasicBlockList ().size () == 0);
+								auto block (llvm::BasicBlock::Create (function->getContext ()));
+								function->getBasicBlockList ().push_back (block);
+								analyzer.context.block->block = block;
+								std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+								std::vector <boost::shared_ptr <lambda_p::node>> results;
+								signature_routine->perform (errors_a, arguments, results);						
+								if (!(*errors_a) ())
 								{
-								}
-								else
-								{
-									(*errors_a) (L"Body routine returned a value");
+									if (results.size () == 0)
+									{
+									}
+									else
+									{
+										(*errors_a) (L"Body routine returned a value");
+									}
 								}
 							}
-							++i;
-							if (i == j)
+							else
 							{
 								(*errors_a) (L"Signature routine doesn't have associated body routine");
 							}

@@ -49,7 +49,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[function_type [{] [{]] []]]");
+	source (L"[.id .ast [[function_type [{] [{]] [add [constant_int # d1] [constant_int # d1]]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;

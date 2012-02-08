@@ -235,6 +235,12 @@
     <ClInclude Include="analyzer\context.h">
       <Filter>analyzer</Filter>
     </ClInclude>
+    <ClInclude Include="basic_block\instruction_insert.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_int\create.h">
+      <Filter>constant_int</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -469,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="analyzer\context.cpp">
       <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_block\instruction_insert.cpp">
+      <Filter>basic_block</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_int\create.cpp">
+      <Filter>constant_int</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

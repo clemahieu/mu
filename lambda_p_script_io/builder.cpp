@@ -116,6 +116,5 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/get"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::package::get> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/remove"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::package::remove> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/times/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::times::operation> ())));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/analyze"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::analyzer::operation> ())));
 	return result;
 }

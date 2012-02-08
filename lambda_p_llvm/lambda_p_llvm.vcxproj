@@ -26,7 +26,9 @@
     <ClInclude Include="array_type\node.h" />
     <ClInclude Include="basic_block\create.h" />
     <ClInclude Include="basic_block\insert.h" />
+    <ClInclude Include="basic_block\instruction_insert.h" />
     <ClInclude Include="basic_block\store.h" />
+    <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="instructions\call.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="set_type\extract.h" />
@@ -108,7 +110,9 @@
     <ClCompile Include="array_type\node.cpp" />
     <ClCompile Include="basic_block\create.cpp" />
     <ClCompile Include="basic_block\insert.cpp" />
+    <ClCompile Include="basic_block\instruction_insert.cpp" />
     <ClCompile Include="basic_block\store.cpp" />
+    <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="instructions\call.cpp" />
     <ClCompile Include="set_type\extract.cpp" />
     <ClCompile Include="set_type\node.cpp" />
