@@ -144,20 +144,8 @@
       <Filter>apint</Filter>
     </ClInclude>
     <ClInclude Include="extension.h" />
-    <ClInclude Include="types\integer.h">
-      <Filter>types</Filter>
-    </ClInclude>
-    <ClInclude Include="types\void_c.h">
-      <Filter>types</Filter>
-    </ClInclude>
     <ClInclude Include="void_type\node.h">
       <Filter>void_type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\pointer.h">
-      <Filter>types</Filter>
-    </ClInclude>
-    <ClInclude Include="types\structure.h">
-      <Filter>types</Filter>
     </ClInclude>
     <ClInclude Include="struct_type\node.h">
       <Filter>struct_type</Filter>
@@ -182,9 +170,6 @@
     </ClInclude>
     <ClInclude Include="instructions\icmp.h">
       <Filter>instructions</Filter>
-    </ClInclude>
-    <ClInclude Include="constants\integer.h">
-      <Filter>constants</Filter>
     </ClInclude>
     <ClInclude Include="constant\node.h">
       <Filter>constant</Filter>
@@ -389,20 +374,8 @@
       <Filter>apint</Filter>
     </ClCompile>
     <ClCompile Include="extension.cpp" />
-    <ClCompile Include="types\integer.cpp">
-      <Filter>types</Filter>
-    </ClCompile>
-    <ClCompile Include="types\void_c.cpp">
-      <Filter>types</Filter>
-    </ClCompile>
     <ClCompile Include="void_type\node.cpp">
       <Filter>void_type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\pointer.cpp">
-      <Filter>types</Filter>
-    </ClCompile>
-    <ClCompile Include="types\structure.cpp">
-      <Filter>types</Filter>
     </ClCompile>
     <ClCompile Include="struct_type\node.cpp">
       <Filter>struct_type</Filter>
@@ -427,9 +400,6 @@
     </ClCompile>
     <ClCompile Include="instructions\icmp.cpp">
       <Filter>instructions</Filter>
-    </ClCompile>
-    <ClCompile Include="constants\integer.cpp">
-      <Filter>constants</Filter>
     </ClCompile>
     <ClCompile Include="constant\node.cpp">
       <Filter>constant</Filter>
@@ -538,9 +508,6 @@
     <Filter Include="apint">
       <UniqueIdentifier>{9ef1e6f6-b799-4160-a4bb-8ac5bd565747}</UniqueIdentifier>
     </Filter>
-    <Filter Include="types">
-      <UniqueIdentifier>{930f8607-2558-4731-998f-8fd31e10a151}</UniqueIdentifier>
-    </Filter>
     <Filter Include="void_type">
       <UniqueIdentifier>{1ec6395a-d767-4dbe-b5e8-625b8dabd9db}</UniqueIdentifier>
     </Filter>
@@ -549,9 +516,6 @@
     </Filter>
     <Filter Include="array_type">
       <UniqueIdentifier>{e15f9203-1b6f-4712-8e36-67d67fc80c68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="constants">
-      <UniqueIdentifier>{dd5960da-fde1-4c67-8d54-b11bf14d9500}</UniqueIdentifier>
     </Filter>
     <Filter Include="constant">
       <UniqueIdentifier>{561d1cef-65cb-4219-96fd-cb2b2f91c3f4}</UniqueIdentifier>

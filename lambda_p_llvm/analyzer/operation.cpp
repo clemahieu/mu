@@ -28,11 +28,6 @@
 #include <lambda_p_llvm/instructions/urem.h>
 #include <lambda_p_llvm/instructions/xor.h>
 #include <lambda_p_llvm/instructions/zext.h>
-#include <lambda_p_llvm/types/integer.h>
-#include <lambda_p_llvm/types/pointer.h>
-#include <lambda_p_llvm/types/structure.h>
-#include <lambda_p_llvm/types/void_c.h>
-#include <lambda_p_llvm/constants/integer.h>
 #include <lambda_p_llvm/apint/extension.h>
 #include <lambda_p_script/string/extension.h>
 #include <lambda_p_io/ast/end.h>
@@ -74,10 +69,7 @@ lambda_p_llvm::analyzer::operation::operation (boost::shared_ptr <lambda_p_llvm:
 	extensions->extensions_m [std::wstring (L"ashr")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::ashr> ()));
 	//extensions->extensions_m [std::wstring (L"bitcast")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::bitcast> ());
 	//extensions->extensions_m [std::wstring (L"cmpxchg")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::cmpxchg> ());
-	//extensions->extensions_m [std::wstring (L"constants/integer")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::constants::integer> ());
 	//extensions->extensions_m [std::wstring (L"icmp")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::icmp> ());
-	//extensions->extensions_m [std::wstring (L"integer")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::types::integer> ());
-	//extensions->extensions_m [std::wstring (L"integer/from_type")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::types::integer> ());
 	//extensions->extensions_m [std::wstring (L"inttoptr")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::inttoptr> ());
 	//extensions->extensions_m [std::wstring (L"load")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::load> ());
 	extensions->extensions_m [std::wstring (L"lshr")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::lshr> ()));
@@ -95,7 +87,6 @@ lambda_p_llvm::analyzer::operation::operation (boost::shared_ptr <lambda_p_llvm:
 	//extensions->extensions_m [std::wstring (L"trunc")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::trunc> ());
 	extensions->extensions_m [std::wstring (L"udiv")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::udiv> ()));
 	extensions->extensions_m [std::wstring (L"urem")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::urem> ()));
-	//extensions->extensions_m [std::wstring (L"value/get_type")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::value::get_type> ());
 	//extensions->extensions_m [std::wstring (L"void")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::types::void_c> ());
 	extensions->extensions_m [std::wstring (L"xor")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::xor> ()));
 	//extensions->extensions_m [std::wstring (L"zext")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::instructions::zext> ());

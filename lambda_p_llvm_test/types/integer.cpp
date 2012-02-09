@@ -1,9 +1,9 @@
 #include "integer.h"
 
 #include <lambda_p/errors/error_list.h>
-#include <lambda_p_llvm/types/integer.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/integer_type/create.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/BasicBlock.h>
@@ -20,7 +20,7 @@ void lambda_p_llvm_test::types::integer::run ()
 
 void lambda_p_llvm_test::types::integer::run_1 ()
 {
-	lambda_p_llvm::types::integer integer;
+	lambda_p_llvm::integer_type::create integer;
 	llvm::LLVMContext context;
 	auto block (llvm::BasicBlock::Create (context));
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
