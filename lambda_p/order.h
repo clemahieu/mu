@@ -21,6 +21,7 @@ namespace lambda_p
 		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::node * node_a) override;
+		void operator () (lambda_p::routine * routine_a) override;
 		boost::shared_ptr <lambda_p::node> current;
 		std::set <boost::shared_ptr <lambda_p::expression>> already;
 		std::vector <boost::shared_ptr <lambda_p::expression>> expressions;

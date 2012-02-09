@@ -17,7 +17,7 @@ void lambda_p_script_test::cluster::get::run ()
 void lambda_p_script_test::cluster::get::run_1 ()
 {
 	auto routine (boost::make_shared <lambda_p::routine> (lambda_p::context ()));
-	auto script (boost::make_shared <lambda_p_script::routine> ());
+	auto script (boost::make_shared <lambda_p_script::routine> (boost::make_shared <lambda_p_script::remapping> ()));
 	auto cluster (boost::make_shared <lambda_p_script::cluster::node> ());
 	cluster->routines.push_back (script);
 	cluster->names [std::wstring (L"one")] = 0;

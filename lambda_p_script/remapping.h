@@ -14,7 +14,7 @@ namespace lambda_p_script
 	class remapping
 	{
 	public:
-		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> generated;
 	};
 }
 

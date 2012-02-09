@@ -4,8 +4,13 @@
 #include <lambda_p_script/operation.h>
 #include <lambda_p/errors/error_context.h>
 #include <lambda_p_script/context.h>
+#include <lambda_p/routine.h>
+#include <lambda_p_script/remapping.h>
+#include <lambda_p_script/routine.h>
 
 #include <boost/make_shared.hpp>
+
+#include <sstream>
 
 lambda_p_script::call::call (size_t results_a, lambda_p::context context_a)
 	: results (results_a),
@@ -21,25 +26,33 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 	{
 		(*(*i)) (errors_a, context_a, arguments_l);
 	}
-	std::vector <boost::shared_ptr <lambda_p::node>> results_l;
 	if (arguments_l.size () > 0)
 	{
 		auto operation (boost::dynamic_pointer_cast <lambda_p_script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-			auto segment (lambda_p::segment <boost::shared_ptr <lambda_p::node>> (1, arguments_l));
-			operation->perform (errors_l, segment, results_l);
-			std::vector <boost::shared_ptr <lambda_p::node>> & target (context_a.nodes [results]);
-			assert (target.empty () && L"Destination has already been assigned");
-			target.assign (results_l.begin (), results_l.end ());
+			(*this) (errors_a, operation, arguments_l, context_a);
 		}
 		else
 		{
-			(*errors_a) (L"First argument to call is not an operation", context);
+			std::wstringstream message;
+			message << L"First argument to call is not an operation: ";
+			message << arguments_l [0]->name ();
+			(*errors_a) (message.str (), context);
 		}
 	}
 	else
 	{
 		(*errors_a) (L"Call has no arguments", context);
 	}
+}
+
+void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_script::operation> operation_a, std::vector <boost::shared_ptr <lambda_p::node>> & arguments_a, lambda_p_script::context & context_a)
+{
+	std::vector <boost::shared_ptr <lambda_p::node>> results_l;
+	auto segment (lambda_p::segment <boost::shared_ptr <lambda_p::node>> (1, arguments_a));
+	operation_a->perform (errors_a, segment, results_l);
+	std::vector <boost::shared_ptr <lambda_p::node>> & target (context_a.nodes [results]);
+	assert (target.empty () && L"Destination has already been assigned");
+	target.assign (results_l.begin (), results_l.end ());
 }

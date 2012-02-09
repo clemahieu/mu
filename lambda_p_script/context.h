@@ -12,11 +12,13 @@ namespace lambda_p
 }
 namespace lambda_p_script
 {
+	class remapping;
 	class context
 	{
 	public:
-		context (boost::shared_ptr <lambda_p::node> parameters_a, size_t size);
+		context (boost::shared_ptr <lambda_p_script::remapping> remapping_a, boost::shared_ptr <lambda_p::node> parameters_a, size_t size);
 		boost::shared_ptr <lambda_p::node> parameters;
+		boost::shared_ptr <lambda_p_script::remapping> remapping;
 		std::vector <std::vector <boost::shared_ptr <lambda_p::node>>> nodes;
 	};
 }

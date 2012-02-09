@@ -30,7 +30,7 @@ void lambda_p_script_io_test::routine::run_1 ()
 	calls.push_back (call2);
 	auto rout (boost::make_shared <lambda_p::routine> (call2));
 	auto remapping (boost::make_shared <lambda_p_script::remapping> ());
-	auto routine (boost::make_shared <lambda_p_script::routine> ());
+	auto routine (boost::make_shared <lambda_p_script::routine> (boost::make_shared <lambda_p_script::remapping> ()));
 	lambda_p_script_io::routine r (remapping, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);

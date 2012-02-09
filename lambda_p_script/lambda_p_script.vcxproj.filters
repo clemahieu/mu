@@ -126,6 +126,7 @@
       <Filter>ast</Filter>
     </ClCompile>
     <ClCompile Include="remapping.cpp" />
+    <ClCompile Include="remap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -253,6 +254,7 @@
       <Filter>ast</Filter>
     </ClInclude>
     <ClInclude Include="remapping.h" />
+    <ClInclude Include="remap.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">

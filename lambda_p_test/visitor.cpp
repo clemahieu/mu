@@ -23,14 +23,17 @@ void lambda_p_test::visitor::run_1 ()
 	lambda_p::parameters * parameters (nullptr);
 	lambda_p::node * node (nullptr);
 	lambda_p::reference * reference (nullptr);
+	lambda_p::routine * routine (nullptr);
 	(*visitor) (expression);	
 	(*visitor) (parameters);
 	(*visitor) (node);	
 	(*visitor) (reference);
+	(*visitor) (routine);
 	assert (visitor->expressions.size () == 1);
 	assert (visitor->parameters.size () == 1);
 	assert (visitor->nodes.size () == 1);
 	assert (visitor->references.size () == 1);
+	assert (visitor->routines.size () == 1);
 }
 
 void lambda_p_test::visitor::run_2 ()
@@ -41,15 +44,17 @@ void lambda_p_test::visitor::run_2 ()
 	lambda_p::parameters * parameters (nullptr);
 	lambda_p::node * node (nullptr);
 	lambda_p::reference * reference (nullptr);
-	lambda_p::link * link (nullptr);
+	lambda_p::routine * routine (nullptr);
 	(*visitor) (expression);	
 	(*visitor) (parameters);
 	(*visitor) (node);	
 	(*visitor) (reference);
+	(*visitor) (routine);
 	assert (vis->expressions.size () == 1);
 	assert (vis->parameters.size () == 1);
 	assert (vis->nodes.size () == 1);
 	assert (vis->references.size () == 1);
+	assert (vis->routines.size () == 1);
 }
 
 void lambda_p_test::visitor::run_3 ()
@@ -60,12 +65,15 @@ void lambda_p_test::visitor::run_3 ()
 	lambda_p::parameters * parameters (new lambda_p::parameters);
 	lambda_p::node * node (new lambda_p::node);
 	lambda_p::reference * reference (new lambda_p::reference (boost::shared_ptr <lambda_p::expression> (), 0));
+	lambda_p::routine * routine (new lambda_p::routine (lambda_p::context ()));
 	(*expression) (visitor.get ());	
 	(*parameters) (visitor.get ());
 	(*node) (visitor.get ());
 	(*reference) (visitor.get ());
+	(*routine) (visitor.get ());
 	assert (vis->expressions.size () == 1);
 	assert (vis->parameters.size () == 1);
 	assert (vis->nodes.size () == 1);
 	assert (vis->references.size () == 1);
+	assert (vis->routines.size () == 1);
 }
