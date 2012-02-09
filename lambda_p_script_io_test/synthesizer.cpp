@@ -11,6 +11,7 @@
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/constant.h>
+#include <lambda_p_script/remap.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -99,9 +100,9 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <lambda_p_script::constant> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <lambda_p_script::remap> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->value));
+	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->routine));
 	assert (rout == routine2);
 }
 
@@ -127,8 +128,8 @@ void lambda_p_script_io_test::synthesizer::run_4 ()
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <lambda_p_script::constant> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <lambda_p_script::remap> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->value));
+	auto rout (boost::dynamic_pointer_cast <lambda_p::routine> (argument->routine));
 	assert (rout == routine1);
 }
