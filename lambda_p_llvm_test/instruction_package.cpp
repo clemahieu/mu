@@ -33,7 +33,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] .id inserted value]"); 
+	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
@@ -81,7 +81,7 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] .id inserted value;; build_insert]"); 
+	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
 	source (L"[[:~; instruction insert block] .apply [. build_insert] instruction insert block]");
 	source ();
 	assert (builder.errors->errors.empty ());

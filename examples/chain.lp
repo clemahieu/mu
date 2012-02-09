@@ -2,7 +2,7 @@
 	routine
 	# d10
 ]
-[.id 
+[~ 
 	[id result]
 	continue
 	[:~; value]

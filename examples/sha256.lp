@@ -1,4 +1,4 @@
-[.id
+[~
 	cluster
 	[llvm_io/synthesize
 		.llvm

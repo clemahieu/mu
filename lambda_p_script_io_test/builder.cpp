@@ -179,7 +179,7 @@ void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] .id a [a b c] c]");
+	source (L"[[:~; a b c] ~ a [a b c] c]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
@@ -207,7 +207,7 @@ void lambda_p_script_io_test::builder::run_9 ()
 	assert (c23.get () != nullptr);
 	assert (c23->expression == 0);
 	assert (c23->index == 2);
-	auto c3 (routine->calls [2]); // .id a [a b c] c
+	auto c3 (routine->calls [2]); // ~ a [a b c] c
 	assert (c3->results == 2);
 	assert (c3->arguments.size () == 4);
 	auto c31 (boost::dynamic_pointer_cast <lambda_p_script::constant> (c3->arguments [0]));
@@ -244,7 +244,7 @@ void lambda_p_script_io_test::builder::run_10 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id [. 2];; 1][;; 2]");
+	source (L"[~ [. 2];; 1][;; 2]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);

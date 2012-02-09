@@ -45,6 +45,7 @@
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/constant_int/create.h>
+#include <lambda_p_script/identity/operation.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -56,6 +57,7 @@ lambda_p_llvm::analyzer::operation::operation ()
 	context.block = boost::make_shared <lambda_p_llvm::basic_block::node> (nullptr);
 	extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <lambda_p_llvm::apint::extension> ();
 	extensions->extensions_m [std::wstring (L"{")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::values::create> ());
+	extensions->extensions_m [std::wstring (L"~")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::identity::operation> ());
 	auto function_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::function_type::create> ()));
 	function_type->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"fun-t")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (function_type);

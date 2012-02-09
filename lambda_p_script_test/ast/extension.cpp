@@ -22,7 +22,7 @@ void lambda_p_script_test::ast::extension::run_1 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast []]");
+	source (L"[~ .ast []]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
@@ -42,7 +42,7 @@ void lambda_p_script_test::ast::extension::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast thing]");
+	source (L"[~ .ast thing]");
 	source ();
 	assert (!builder.errors->errors.empty ());
 	assert (builder.clusters.empty ());
@@ -52,7 +52,7 @@ void lambda_p_script_test::ast::extension::run_3 ()
 {
 	lambda_p_script_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[]]]");
+	source (L"[~ .ast [[]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);

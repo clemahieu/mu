@@ -1,5 +1,5 @@
 [
-	.id result
+	~ result
 	[llvm/execution_engine/run_function
 		engine
 		function
