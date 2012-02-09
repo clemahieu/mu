@@ -14,6 +14,8 @@
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/argument/node.h>
 #include <lambda_p_script/remapping.h>
+#include <lambda_p_llvm/pointer_type/node.h>
+#include <lambda_p_llvm/function_type/node.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
@@ -67,7 +69,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 									{
 										auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
 										two->module->getFunctionList ().push_back (function);
-										auto fun (boost::make_shared <lambda_p_llvm::value::node> (function, function_type));
+										auto fun (boost::make_shared <lambda_p_llvm::value::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type)));
 										remap [signature_routine] = fun;
 										functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>> (function, function_type));
 									}
