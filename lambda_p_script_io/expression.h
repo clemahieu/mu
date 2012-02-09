@@ -16,6 +16,7 @@ namespace lambda_p_script
 {
 	class call;
 	class routine;
+	class remapping;
 }
 namespace lambda_p_script_io
 {
@@ -23,15 +24,14 @@ namespace lambda_p_script_io
 	class expression : public lambda_p::visitor
 	{
 	public:
-		expression (std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a);
+		expression (boost::shared_ptr <lambda_p_script::remapping> remapping_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a);
 		void operator () (lambda_p::expression * expression_a) override;
 		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::node * node_a) override;
-		void add (boost::shared_ptr <lambda_p_script::routine> routine_a);
 		boost::shared_ptr <lambda_p::node> node;
 		boost::shared_ptr <lambda_p_script::call> call_m;
-		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated;
+		boost::shared_ptr <lambda_p_script::remapping> remapping;
 		std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations;
 	};
 }

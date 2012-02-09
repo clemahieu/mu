@@ -4,23 +4,25 @@
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/routine.h>
+#include <lambda_p_script/remapping.h>
 
 #include <sstream>
 
 lambda_p_script::cluster::node::node ()
+	: remapping (new lambda_p_script::remapping)
 {
 }
 
-lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> map_a)
+lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
 	: routines (routines_a),
-	map (map_a)
+	remapping (remapping_a)
 {
 }
 
-lambda_p_script::cluster::node::node (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> map_a)
+lambda_p_script::cluster::node::node (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
 	: names (names_a),
 	routines (routines_a),
-	map (map_a)
+	remapping (remapping_a)
 {
 }
 

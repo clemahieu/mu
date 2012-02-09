@@ -17,11 +17,11 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-lambda_p_script_io::expression::expression (std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> & generated_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
+lambda_p_script_io::expression::expression (boost::shared_ptr <lambda_p_script::remapping> remapping_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
 	: node (node_a),
 	reservations (reservations_a),
 	call_m (call_a),
-	generated (generated_a)
+	remapping (remapping_a)
 {
 	(*node_a) (this);
 }
@@ -51,9 +51,4 @@ void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::node> (node));
 	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
-}
-
-void lambda_p_script_io::expression::add (boost::shared_ptr <lambda_p_script::routine> routine_a)
-{
-	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (routine_a)));
 }

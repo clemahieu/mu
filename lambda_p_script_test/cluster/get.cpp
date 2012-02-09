@@ -5,6 +5,7 @@
 #include <lambda_p_script/cluster/get.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
+#include <lambda_p_script/remapping.h>
 
 #include <boost/make_shared.hpp>
 
@@ -20,7 +21,7 @@ void lambda_p_script_test::cluster::get::run_1 ()
 	auto cluster (boost::make_shared <lambda_p_script::cluster::node> ());
 	cluster->routines.push_back (script);
 	cluster->names [std::wstring (L"one")] = 0;
-	cluster->map [routine] = script;
+	cluster->remapping->generated [routine] = script;
 	auto get (boost::make_shared <lambda_p_script::cluster::get> ());
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
