@@ -229,6 +229,9 @@
     <ClInclude Include="module\print.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="pointer_type\create.h">
+      <Filter>pointer_type</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -457,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="module\print.cpp">
       <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="pointer_type\create.cpp">
+      <Filter>pointer_type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -30,3 +30,8 @@ size_t lambda_p_llvm::basic_block::insert::count ()
 {
 	return 2;
 }
+
+std::wstring lambda_p_llvm::basic_block::insert::name ()
+{
+	return std::wstring (L"lambda_p_llvm::basic_block::insert");
+}

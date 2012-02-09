@@ -57,5 +57,5 @@ void lambda_p_llvm::instructions::store::operator () (boost::shared_ptr <lambda_
 
 size_t lambda_p_llvm::instructions::store::count ()
 {
-	return 1;
+	return 2;
 }

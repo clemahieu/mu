@@ -109,49 +109,48 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								signature_routine->perform (errors_a, arguments, results);						
 								if (!(*errors_a) ())
 								{
-									if (results.size () == 0)
+									std::vector <llvm::Type *> types;
+									std::vector <llvm::Value *> values;
+									for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
 									{
-										analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext ()));
-									}
-									else if (results.size () == 1)
-									{
-										auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (results [0]));
+										auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
 										if (value.get () != nullptr)
 										{
-											analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), value->value ()));
-										}
-										else
-										{
-											(*errors_a) (L"Body routine didn't return a value");
-										}
-									}
-									else
-									{
-										std::vector <llvm::Type *> types;
-										std::vector <llvm::Value *> values;
-										for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
-										{
-											auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
-											if (value.get () != nullptr)
+											auto value_l (value->value ());
+											if (!value_l->getType ()->isVoidTy ())
 											{
 												types.push_back (value->type->type ());
 												values.push_back (value->value ());
 											}
-											else
-											{
-												(*errors_a) (L"Body routine didn't return a value");
-											}
 										}
-										auto ret_type (llvm::StructType::get (two->module->getContext (), types));
-										llvm::Value * result (llvm::UndefValue::get (ret_type));
-										size_t position (0);
-										for (auto i (values.begin ()), j (values.end ()); i != j; ++i, ++position)
+										else
 										{
-											auto instruction (llvm::InsertValueInst::Create (result, *i, position));
-											result = instruction;
-											analyzer.context.block->block->getInstList ().push_back (instruction);
+											(*errors_a) (L"Body routine returned something that wasn't a value");
 										}
-										analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), result));
+									}
+									if (!(*errors_a) ())
+									{
+										if (values.size () == 0)
+										{
+											analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext ()));
+										}
+										else if (values.size () == 1)
+										{
+											analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), values [0]));
+										}
+										else
+										{
+											auto ret_type (llvm::StructType::get (two->module->getContext (), types));
+											llvm::Value * result (llvm::UndefValue::get (ret_type));
+											size_t position (0);
+											for (auto i (values.begin ()), j (values.end ()); i != j; ++i, ++position)
+											{
+												auto instruction (llvm::InsertValueInst::Create (result, *i, position));
+												result = instruction;
+												analyzer.context.block->block->getInstList ().push_back (instruction);
+											}
+											analyzer.context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (two->module->getContext (), result));
+										}
 									}
 								}
 							}

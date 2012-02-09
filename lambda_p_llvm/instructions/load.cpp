@@ -22,7 +22,7 @@ void lambda_p_llvm::instructions::load::operator () (boost::shared_ptr <lambda_p
 		if (one_ptr.get () != nullptr)
 		{
 			auto instruction (new llvm::LoadInst (one->value ()));
-			results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, one_ptr->element));
+			results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, one_ptr->element));
 		}
 		else
 		{
