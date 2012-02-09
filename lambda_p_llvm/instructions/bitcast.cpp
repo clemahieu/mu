@@ -22,7 +22,7 @@ void lambda_p_llvm::instructions::bitcast::operator () (boost::shared_ptr <lambd
 		if (two.get () != nullptr)
 		{
 			auto instruction (new llvm::BitCastInst (one->value (), two->type ()));
-			results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, two));
+			results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, two));
 		}
 		else
 		{

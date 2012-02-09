@@ -27,15 +27,15 @@ void lambda_p_llvm::instructions::zext::operator () (boost::shared_ptr <lambda_p
 			{
 				size_t one_bits (one->value ()->getType ()->getPrimitiveSizeInBits ());
 				size_t two_bits (two->type ()->getPrimitiveSizeInBits ());
-				if (one_bits < two_bits)
+				if (one_bits <= two_bits)
 				{
-					auto instruction (new llvm::ZExtInst (one->value (), two->type ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, two));
+					auto instruction (llvm::ZExtInst::CreateZExtOrBitCast (one->value (), two->type ()));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, two));
 				}
 				else
 				{
 					std::wstringstream message;
-					message << L"Bit width of argument two is not more than bit width of argument one: ";
+					message << L"Bit width of argument two is not greater than or equal to bit width of argument one: ";
 					message << one_bits;
 					message << L" ";
 					message << two_bits;

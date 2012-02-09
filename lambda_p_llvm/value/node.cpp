@@ -10,3 +10,8 @@ llvm::Value * lambda_p_llvm::value::node::value ()
 {
 	return value_m;
 }
+
+std::wstring lambda_p_llvm::value::node::name ()
+{
+	return std::wstring (L"lambda_p_llvm::value::node");
+}

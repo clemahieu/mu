@@ -34,7 +34,7 @@ void lambda_p_llvm::instructions::icmp::operator () (boost::shared_ptr <lambda_p
 					if (one_bits == two_bits)
 					{
 						auto instruction (new llvm::ICmpInst (one->value, two->value (), three->value ()));
-						results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
+						results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
 					}
 					else
 					{
@@ -75,4 +75,9 @@ void lambda_p_llvm::instructions::icmp::operator () (boost::shared_ptr <lambda_p
 size_t lambda_p_llvm::instructions::icmp::count ()
 {
 	return 3;
+}
+
+std::wstring lambda_p_llvm::instructions::icmp::name ()
+{
+	return std::wstring (L"lambda_p_llvm::instructions::icmp");
 }

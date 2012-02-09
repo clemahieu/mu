@@ -11,7 +11,7 @@ lambda_p_llvm::basic_block::instruction_insert::instruction_insert (boost::share
 {
 }
 
-void lambda_p_llvm::basic_block::instruction_insert::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::basic_block::instruction_insert::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
 	std::vector <boost::shared_ptr <lambda_p::node>> r1;
 	r1.push_back (block);
@@ -20,9 +20,4 @@ void lambda_p_llvm::basic_block::instruction_insert::operator () (boost::shared_
 	lambda_p_llvm::basic_block::insert insert;
 	insert.perform (errors_a, r1, results);
 	results.push_back (r1 [1]);
-}
-
-size_t lambda_p_llvm::basic_block::instruction_insert::count ()
-{
-	return 2;
 }

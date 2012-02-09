@@ -27,15 +27,15 @@ void lambda_p_llvm::instructions::trunc::operator () (boost::shared_ptr <lambda_
 			{
 				size_t one_bits (one->value ()->getType ()->getPrimitiveSizeInBits ());
 				size_t two_bits (two->type ()->getPrimitiveSizeInBits ());
-				if (one_bits > two_bits)
+				if (one_bits >= two_bits)
 				{
-					auto instruction (new llvm::TruncInst (one->value (), two->type ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::value::node> (instruction, two));
+					auto instruction (llvm::TruncInst::CreateTruncOrBitCast (one->value (), two->type ()));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, two));
 				}
 				else
 				{
 					std::wstringstream message;
-					message << L"Bit width of argument two is not less than bit width of argument one: ";
+					message << L"Bit width of argument two is not less than or equal to bit width of argument one: ";
 					message << one_bits;
 					message << L" ";
 					message << two_bits;

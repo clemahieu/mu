@@ -27,15 +27,15 @@ void lambda_p_llvm::instructions::sext::operator () (boost::shared_ptr <lambda_p
 			{
 				size_t one_bits (one->value ()->getType ()->getPrimitiveSizeInBits ());
 				size_t two_bits (two->type ()->getPrimitiveSizeInBits ());
-				if (one_bits == two_bits)
+				if (one_bits <= two_bits)
 				{
-					auto instruction (new llvm::SExtInst (one->value (), two->type ()));
+					auto instruction (llvm::SExtInst::CreateSExtOrBitCast (one->value (), two->type ()));
 					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, two));
 				}
 				else
 				{
 					std::wstringstream message;
-					message << L"Bit width of argument two is not less than bit width of argument one: ";
+					message << L"Bit width of argument two is not greater than or equal to bit width of argument one: ";
 					message << one_bits;
 					message << L" ";
 					message << two_bits;
