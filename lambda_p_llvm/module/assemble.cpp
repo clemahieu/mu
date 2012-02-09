@@ -19,7 +19,7 @@ void lambda_p_llvm::module::assemble::operator () (boost::shared_ptr <lambda_p::
 		if (two.get () != nullptr)
 		{			
 			llvm::SMDiagnostic diagnostic;
-			llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, one->context));
+			llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, *one->context));
 			if (module != nullptr)
 			{
 				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::module::node (module)));

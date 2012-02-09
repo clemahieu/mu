@@ -10,7 +10,7 @@ void lambda_p_llvm::module::create::operator () (boost::shared_ptr <lambda_p::er
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::module::node (new llvm::Module (llvm::StringRef (), one->context))));
+		results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::module::node (new llvm::Module (llvm::StringRef (), *one->context))));
 	}
 	else
 	{

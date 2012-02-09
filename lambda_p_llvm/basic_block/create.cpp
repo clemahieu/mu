@@ -12,7 +12,7 @@ void lambda_p_llvm::basic_block::create::operator () (boost::shared_ptr <lambda_
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::make_shared <lambda_p_llvm::basic_block::node> (llvm::BasicBlock::Create (one->context)));
+		results.push_back (boost::make_shared <lambda_p_llvm::basic_block::node> (llvm::BasicBlock::Create (*one->context)));
 	}
 	else
 	{

@@ -28,7 +28,7 @@ void lambda_p_llvm::instructions::store::operator () (boost::shared_ptr <lambda_
 				if (ptr->getElementType () == one->value ()->getType ())
 				{
 					auto instruction (new llvm::StoreInst (one->value (), two->value ()));
-					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, boost::make_shared <lambda_p_llvm::void_type::node> (boost::make_shared <lambda_p_llvm::context::node> (instruction->getContext ()))));
+					results_a.push_back (boost::make_shared <lambda_p_llvm::instruction::node> (instruction, boost::make_shared <lambda_p_llvm::void_type::node> (boost::make_shared <lambda_p_llvm::context::node> (&instruction->getContext ()))));
 				}
 				else
 				{

@@ -1,6 +1,6 @@
 #include "node.h"
 
-lambda_p_llvm::context::node::node (llvm::LLVMContext & context_a)
+lambda_p_llvm::context::node::node (llvm::LLVMContext * context_a)
 	: context (context_a)
 {
 }

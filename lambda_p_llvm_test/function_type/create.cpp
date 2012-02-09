@@ -25,7 +25,7 @@ void lambda_p_llvm_test::function_type::create::run ()
 void lambda_p_llvm_test::function_type::create::run_1 ()
 {
 	llvm::LLVMContext context_l;
-	auto context (boost::make_shared <lambda_p_llvm::context::node> (context_l));
+	auto context (boost::make_shared <lambda_p_llvm::context::node> (&context_l));
 	lambda_p_llvm::function_type::create create;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -47,7 +47,7 @@ void lambda_p_llvm_test::function_type::create::run_1 ()
 void lambda_p_llvm_test::function_type::create::run_2 ()
 {
 	llvm::LLVMContext context_l;
-	auto context (boost::make_shared <lambda_p_llvm::context::node> (context_l));
+	auto context (boost::make_shared <lambda_p_llvm::context::node> (&context_l));
 	lambda_p_llvm::function_type::create create;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -73,7 +73,7 @@ void lambda_p_llvm_test::function_type::create::run_2 ()
 void lambda_p_llvm_test::function_type::create::run_3 ()
 {
 	llvm::LLVMContext context_l;
-	auto context (boost::make_shared <lambda_p_llvm::context::node> (context_l));
+	auto context (boost::make_shared <lambda_p_llvm::context::node> (&context_l));
 	lambda_p_llvm::function_type::create create;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -102,7 +102,7 @@ void lambda_p_llvm_test::function_type::create::run_3 ()
 void lambda_p_llvm_test::function_type::create::run_4 ()
 {
 	llvm::LLVMContext context_l;
-	auto context (boost::make_shared <lambda_p_llvm::context::node> (context_l));
+	auto context (boost::make_shared <lambda_p_llvm::context::node> (&context_l));
 	lambda_p_llvm::function_type::create create;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
@@ -125,7 +125,7 @@ void lambda_p_llvm_test::function_type::create::run_4 ()
 void lambda_p_llvm_test::function_type::create::run_5 ()
 {
 	llvm::LLVMContext context_l;
-	auto context (boost::make_shared <lambda_p_llvm::context::node> (context_l));
+	auto context (boost::make_shared <lambda_p_llvm::context::node> (&context_l));
 	lambda_p_llvm::function_type::create create;
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;

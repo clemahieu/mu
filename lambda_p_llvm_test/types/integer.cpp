@@ -26,7 +26,7 @@ void lambda_p_llvm_test::types::integer::run_1 ()
 	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
 	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (boost::make_shared <lambda_p_llvm::context::node> (context));
+	arguments.push_back (boost::make_shared <lambda_p_llvm::context::node> (&context));
 	arguments.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 16)));
 	integer (errors, arguments, results);
 	assert (errors->errors.empty ());

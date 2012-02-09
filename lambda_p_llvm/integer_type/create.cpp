@@ -22,7 +22,7 @@ void lambda_p_llvm::integer_type::create::operator () (boost::shared_ptr <lambda
 			auto bits (two->value->getLimitedValue ());
 			if (bits >= llvm::IntegerType::MIN_INT_BITS && bits <= llvm::IntegerType::MAX_INT_BITS)
 			{
-				results.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (one->context, bits)));
+				results.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (*one->context, bits)));
 			}
 			else
 			{

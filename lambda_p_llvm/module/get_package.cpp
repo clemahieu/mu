@@ -29,7 +29,7 @@ void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_
 				llvm::Function * function (i);
 				auto name (i->getNameStr ());
 				std::wstring wname (name.begin (), name.end ());
-				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (function->getContext ()), function->getType ()); 
+				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (&function->getContext ()), function->getType ()); 
 				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, build.type));
 				name.append (two->string);
 				function->setName (name);

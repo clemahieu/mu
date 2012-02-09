@@ -25,7 +25,7 @@ void lambda_p_llvm::module::get_function::operator () (boost::shared_ptr <lambda
 			auto function (one->module->getFunction (llvm::StringRef (two->string)));
 			if (function != nullptr)
 			{
-				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (function->getContext ()), function->getType ());
+				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (&function->getContext ()), function->getType ());
 				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, build.type)));
 			}
 			else

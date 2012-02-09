@@ -12,7 +12,7 @@ void lambda_p_llvm::value::get_context::operator () (boost::shared_ptr <lambda_p
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::make_shared <lambda_p_llvm::context::node> (one->value ()->getContext ()));
+		results.push_back (boost::make_shared <lambda_p_llvm::context::node> (&one->value ()->getContext ()));
 	}
 	else
 	{

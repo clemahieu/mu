@@ -34,6 +34,6 @@ llvm::StructType * lambda_p_llvm::struct_type::node::struct_type ()
 	{
 		elements_l.push_back ((*i)->type ());
 	}
-	auto result (llvm::StructType::get (context->context, elements_l, false));
+	auto result (llvm::StructType::get (*context->context, elements_l, false));
 	return result;
 }

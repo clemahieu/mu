@@ -37,6 +37,8 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		llvm::LLVMContext context;
+		llvm::LLVMContext & c2 (context);
+		llvm::LLVMContext * c3 (&c2);
 	}
 	{
 		lambda_p_llvm_test::module::get_package test;
