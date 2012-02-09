@@ -13,6 +13,7 @@
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/argument/node.h>
+#include <lambda_p_script/remapping.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
@@ -50,6 +51,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 					auto cluster (boost::static_pointer_cast <lambda_p_script::cluster::node> (results [0]));
 					if (!cluster->routines.empty ())
 					{
+						std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> remap;
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i)
 						{
 							auto signature_routine (*i);
@@ -65,6 +67,8 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 									{
 										auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
 										two->module->getFunctionList ().push_back (function);
+										auto fun (boost::make_shared <lambda_p_llvm::value::node> (function, function_type));
+										remap [signature_routine] = fun;
 										functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>> (function, function_type));
 									}
 									else
@@ -83,6 +87,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								(*errors_a) (L"Signature doesn't have an associated routine");
 							}
 						}
+						cluster->remapping->remap (remap);
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)
 						{

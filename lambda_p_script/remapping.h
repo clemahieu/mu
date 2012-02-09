@@ -7,6 +7,7 @@
 namespace lambda_p
 {
 	class routine;
+	class node;
 }
 namespace lambda_p_script
 {
@@ -14,6 +15,7 @@ namespace lambda_p_script
 	class remapping
 	{
 	public:
+		void remap (std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> & remap_a);
 		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> generated;
 	};
 }

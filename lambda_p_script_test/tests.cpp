@@ -18,6 +18,7 @@
 #include <lambda_p_script_test/analyzer/analyzer.h>
 #include <lambda_p_script_test/cluster/get.h>
 #include <lambda_p_script_test/ast/extension.h>
+#include <lambda_p_script_test/remapping.h>
 
 void lambda_p_script_test::tests::run ()
 {
@@ -39,6 +40,10 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		routine test;
+		test.run ();
+	}
+	{
+		remapping test;
 		test.run ();
 	}
 	{
