@@ -9,6 +9,7 @@
 #include <lambda_p_io/ast/cluster.h>
 #include <lambda_p_llvm/module/print.h>
 #include <lambda_p_llvm/module/verify.h>
+#include <lambda_p_io/builder.h>
 
 #include <boost/bind.hpp>
 
@@ -32,17 +33,14 @@ void lambda_p_llvm_test::synthesizer::operation::run ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_1 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast []]");
+	source (L"");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -64,17 +62,14 @@ void lambda_p_llvm_test::synthesizer::operation::run_1 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[fun-t [{] [{ [int-t # d32]]] [add [int-c # d32 # d1] [int-c # d32 # d1]]]]");
+	source (L"[fun-t [{] [{ [int-t # d32]]] [add [int-c # d32 # d1] [int-c # d32 # d1]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -96,17 +91,14 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[fun-t [{ [int-t # d32]] [{ [int-t # d32]]] [:~]]]");
+	source (L"[fun-t [{ [int-t # d32]] [{ [int-t # d32]]] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -128,17 +120,14 @@ void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [add [:~]]]]");
+	source (L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [add [:~]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -160,17 +149,14 @@ void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[fun-t [{ ] [{ ]] [:~]]]");
+	source (L"[fun-t [{ ] [{ ]] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -192,17 +178,14 @@ void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[.id .ast [[fun-t [{ [int-t # d32] [int-t # d16]] [{ [int-t # d32] [int-t # d16]]] [:~]]]");
+	source (L"[fun-t [{ [int-t # d32] [int-t # d16]] [{ [int-t # d32] [int-t # d16]]] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
@@ -224,10 +207,9 @@ void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_7 ()
 {
-	lambda_p_script_io::builder builder;
+	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[.id .ast [";
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [add [:~]]";
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [and [:~]]";
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [ashr [:~]]";
@@ -241,16 +223,12 @@ void lambda_p_llvm_test::synthesizer::operation::run_7 ()
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [udiv [:~]]";
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [urem [:~]]";
 	code << L"[fun-t [{ [int-t # d32] [int-t # d32]] [{ [int-t # d32]]] [xor [:~]]";
-	code << L"]]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	builder.clusters [0]->routines [0]->perform (builder.errors, a1, r1);
-	assert (r1.size () == 1);
-	auto ast (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <lambda_p::node>> a2;
 	std::vector <boost::shared_ptr <lambda_p::node>> r2;
