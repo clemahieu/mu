@@ -22,7 +22,7 @@ lambda_p_script_io::cluster::cluster (boost::shared_ptr <lambda_p::cluster> clus
 		auto existing (remapping->generated.find (value));
 		if (existing == remapping->generated.end ())
 		{
-			auto result_l (boost::make_shared <lambda_p_script::routine> ());
+			auto result_l (boost::make_shared <lambda_p_script::routine> (remapping));
 			remapping->generated [value] = result_l;
 			lambda_p_script_io::routine routine (remapping, value, result_l);
 			routines.push_back (result_l);

@@ -13,6 +13,8 @@
 #include <lambda_p_script/parameters.h>
 #include <lambda_p/segment.h>
 #include <lambda_p_script/cluster/node.h>
+#include <lambda_p_script/remapping.h>
+#include <lambda_p/routine.h>
 
 #include <boost/bind.hpp>
 
@@ -28,6 +30,7 @@ void lambda_p_script_io_test::builder::run ()
 	run_8 ();
 	run_9 ();
 	run_10 ();
+	run_11 ();
 }
 
 void lambda_p_script_io_test::builder::run_1 ()
@@ -256,4 +259,23 @@ void lambda_p_script_io_test::builder::run_10 ()
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == cluster->routines [1]);
+}
+
+void lambda_p_script_io_test::builder::run_11 ()
+{
+	lambda_p_script_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[2 ;; 1][~ 1;; 2]");
+	source ();
+	assert (builder.errors->errors.empty ());
+	assert (builder.clusters.size () == 1);
+	auto cluster (builder.clusters [0]);
+	assert (cluster->routines.size () == 2);
+	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	cluster->routines [0]->perform (builder.errors, arguments, results);
+	assert (builder.errors->errors.empty ());
+	assert (results.size () == 1);
+	auto routine (boost::dynamic_pointer_cast <lambda_p::routine> (results [0]));
+	assert (cluster->remapping->generated [routine] == cluster->routines [0]);
 }

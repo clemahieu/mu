@@ -16,6 +16,7 @@ namespace lambda_p
 }
 namespace lambda_p_script
 {
+	class operation;
 	class context;
 	class node;
 	class call
@@ -26,5 +27,6 @@ namespace lambda_p_script
 		size_t results;
 		std::vector <boost::shared_ptr <lambda_p_script::node>> arguments;
 		void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::context & context);
+		void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_script::operation> operation_a, std::vector <boost::shared_ptr <lambda_p::node>> & arguments_a, lambda_p_script::context & context_a);
 	};
 }
