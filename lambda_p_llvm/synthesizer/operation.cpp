@@ -30,13 +30,14 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 	{
 		if (two.get () != nullptr)
 		{
-			lambda_p_llvm::analyzer::operation analyzer (boost::make_shared <lambda_p_llvm::context::node> (&two->module->getContext ()));
+			lambda_p_llvm::analyzer::operation analyzer;
 			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 			std::vector <boost::shared_ptr <lambda_p::node>> results;
 			arguments.push_back (one);
 			analyzer (errors_a, arguments, results);
 			if (!(*errors_a) ())
 			{
+				analyzer.context.context_m->context = &two->module->getContext ();
 				auto cluster (boost::static_pointer_cast <lambda_p::cluster> (results [0]));
 				lambda_p_script_io::synthesizer synthesizer;
 				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
