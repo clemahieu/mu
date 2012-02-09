@@ -35,27 +35,10 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 		}
 		else
 		{
-			auto routine (boost::dynamic_pointer_cast <lambda_p::routine> (arguments_l [0]));
-			if (routine.get () != nullptr)
-			{
-				auto existing (context_a.remapping->generated.find (routine));
-				if (existing != context_a.remapping->generated.end ())
-				{
-					auto target (existing->second);
-					(*this) (errors_a, target, arguments_l, context_a);
-				}
-				else
-				{
-					(*errors_a) (L"Routine target has no remapping");
-				}
-			}
-			else
-			{
-				std::wstringstream message;
-				message << L"First argument to call is not an operation: ";
-				message << arguments_l [0]->name ();
-				(*errors_a) (message.str (), context);
-			}
+			std::wstringstream message;
+			message << L"First argument to call is not an operation: ";
+			message << arguments_l [0]->name ();
+			(*errors_a) (message.str (), context);
 		}
 	}
 	else

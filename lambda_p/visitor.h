@@ -4,9 +4,9 @@ namespace lambda_p
 {
 	class reference;
 	class node;
-	class link;
 	class expression;
 	class parameters;
+	class routine;
 	class visitor
 	{
 	public:
@@ -14,6 +14,7 @@ namespace lambda_p
 		virtual void operator () (lambda_p::parameters * parameters_a) = 0;
 		virtual void operator () (lambda_p::reference * reference_a) = 0;
 		virtual void operator () (lambda_p::node * node_a) = 0;
+		virtual void operator () (lambda_p::routine * routine_a) = 0;
 	};
 }
 

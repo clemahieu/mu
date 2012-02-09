@@ -29,6 +29,7 @@ namespace lambda_p_script_io
 		void operator () (lambda_p::parameters * parameters_a) override;
 		void operator () (lambda_p::reference * reference_a) override;
 		void operator () (lambda_p::node * node_a) override;
+		void operator () (lambda_p::routine * routine_a) override;
 		boost::shared_ptr <lambda_p::node> node;
 		boost::shared_ptr <lambda_p_script::call> call_m;
 		boost::shared_ptr <lambda_p_script::remapping> remapping;

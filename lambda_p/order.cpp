@@ -44,3 +44,8 @@ void lambda_p::order::operator () (lambda_p::node * node_a)
 {
 
 }
+
+void lambda_p::order::operator() (lambda_p::routine * routine_a)
+{
+
+}

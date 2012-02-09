@@ -13,6 +13,7 @@
 #include <lambda_p_script_io/routine.h>
 #include <lambda_p/cluster.h>
 #include <lambda_p_script/parameters.h>
+#include <lambda_p_script/remap.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -31,7 +32,7 @@ void lambda_p_script_io::expression::operator () (lambda_p::expression * set_a)
 	auto value (boost::static_pointer_cast <lambda_p::expression> (node));
 	auto existing (reservations.find (value));
 	assert (existing != reservations.end ());
-	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::expression> (new lambda_p_script::expression (existing->second)));
+	call_m->arguments.push_back (boost::make_shared <lambda_p_script::expression> (existing->second));
 }
 
 void lambda_p_script_io::expression::operator () (lambda_p::parameters * parameters_a)
@@ -44,11 +45,17 @@ void lambda_p_script_io::expression::operator () (lambda_p::reference * referenc
 	auto value (boost::static_pointer_cast <lambda_p::reference> (node));
 	auto existing (reservations.find (value->expression));
 	assert (existing != reservations.end ());
-	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::reference> (new lambda_p_script::reference (existing->second, value->index)));
+	call_m->arguments.push_back (boost::make_shared <lambda_p_script::reference> (existing->second, value->index));
 }
 
 void lambda_p_script_io::expression::operator () (lambda_p::node * node_a)
 {
 	auto value (boost::static_pointer_cast <lambda_p::node> (node));
-	call_m->arguments.push_back (boost::shared_ptr <lambda_p_script::constant> (new lambda_p_script::constant (value)));
+	call_m->arguments.push_back (boost::make_shared <lambda_p_script::constant> (value));
+}
+
+void lambda_p_script_io::expression::operator () (lambda_p::routine * routine_a)
+{
+	auto value (boost::static_pointer_cast <lambda_p::routine> (node));
+	call_m->arguments.push_back (boost::make_shared <lambda_p_script::remap> (value));
 }
