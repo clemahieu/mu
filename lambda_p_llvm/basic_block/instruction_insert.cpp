@@ -6,7 +6,7 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm::basic_block::instruction_insert::instruction_insert (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <lambda_p_script::fixed> instruction_a)
+lambda_p_llvm::basic_block::instruction_insert::instruction_insert (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <lambda_p_script::operation> instruction_a)
 	: block (block_a),
 	instruction (instruction_a)
 {
