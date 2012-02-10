@@ -7,9 +7,9 @@
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/instruction/node.h>
-#include <lambda_p_llvm/void_type/node.h>
 #include <lambda_p_llvm/type/build.h>
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/void_type/node.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>

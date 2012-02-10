@@ -2,8 +2,8 @@
 
 #include <lambda_p/errors/error_target.h>
 #include <lambda_p_llvm/instruction/node.h>
-#include <lambda_p_llvm/void_type/node.h>
 #include <lambda_p_llvm/context/node.h>
+#include <lambda_p_llvm/void_type/node.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>

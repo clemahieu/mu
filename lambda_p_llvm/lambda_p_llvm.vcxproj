@@ -32,9 +32,9 @@
     <ClInclude Include="instructions\call.h" />
     <ClInclude Include="module\print.h" />
     <ClInclude Include="pointer_type\create.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="set_type\extract.h" />
     <ClInclude Include="set_type\node.h" />
+    <ClInclude Include="struct_type\create.h" />
     <ClInclude Include="synthesizer\operation.h" />
     <ClInclude Include="type\build.h" />
     <ClInclude Include="cluster\node.h" />
@@ -115,6 +115,7 @@
     <ClCompile Include="pointer_type\create.cpp" />
     <ClCompile Include="set_type\extract.cpp" />
     <ClCompile Include="set_type\node.cpp" />
+    <ClCompile Include="struct_type\create.cpp" />
     <ClCompile Include="synthesizer\operation.cpp" />
     <ClCompile Include="type\build.cpp" />
     <ClCompile Include="cluster\node.cpp" />

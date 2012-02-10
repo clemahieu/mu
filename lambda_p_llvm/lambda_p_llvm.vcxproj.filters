@@ -144,9 +144,6 @@
       <Filter>apint</Filter>
     </ClInclude>
     <ClInclude Include="extension.h" />
-    <ClInclude Include="void_type\node.h">
-      <Filter>void_type</Filter>
-    </ClInclude>
     <ClInclude Include="struct_type\node.h">
       <Filter>struct_type</Filter>
     </ClInclude>
@@ -204,7 +201,6 @@
     <ClInclude Include="type\build.h">
       <Filter>type</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="instructions\call.h">
       <Filter>instructions</Filter>
     </ClInclude>
@@ -231,6 +227,12 @@
     </ClInclude>
     <ClInclude Include="pointer_type\create.h">
       <Filter>pointer_type</Filter>
+    </ClInclude>
+    <ClInclude Include="struct_type\create.h">
+      <Filter>struct_type</Filter>
+    </ClInclude>
+    <ClInclude Include="void_type\node.h">
+      <Filter>void_type</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +379,6 @@
       <Filter>apint</Filter>
     </ClCompile>
     <ClCompile Include="extension.cpp" />
-    <ClCompile Include="void_type\node.cpp">
-      <Filter>void_type</Filter>
-    </ClCompile>
     <ClCompile Include="struct_type\node.cpp">
       <Filter>struct_type</Filter>
     </ClCompile>
@@ -464,6 +463,12 @@
     <ClCompile Include="pointer_type\create.cpp">
       <Filter>pointer_type</Filter>
     </ClCompile>
+    <ClCompile Include="struct_type\create.cpp">
+      <Filter>struct_type</Filter>
+    </ClCompile>
+    <ClCompile Include="void_type\node.cpp">
+      <Filter>void_type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -514,9 +519,6 @@
     <Filter Include="apint">
       <UniqueIdentifier>{9ef1e6f6-b799-4160-a4bb-8ac5bd565747}</UniqueIdentifier>
     </Filter>
-    <Filter Include="void_type">
-      <UniqueIdentifier>{1ec6395a-d767-4dbe-b5e8-625b8dabd9db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="struct_type">
       <UniqueIdentifier>{708a5760-fe3d-4239-87f1-cc7adf1ecfb2}</UniqueIdentifier>
     </Filter>
@@ -546,6 +548,9 @@
     </Filter>
     <Filter Include="synthesizer">
       <UniqueIdentifier>{6eeb9301-9b16-44e0-bdc8-94e8d1fc9f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="void_type">
+      <UniqueIdentifier>{98f744bb-e7a3-448a-8f59-a184dee5d418}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
