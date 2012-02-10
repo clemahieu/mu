@@ -4,7 +4,6 @@
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p/errors/error_target.h>
-#include <lambda_p_script/remapping.h>
 
 void lambda_p_script::cluster::get::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
@@ -14,8 +13,8 @@ void lambda_p_script::cluster::get::operator () (boost::shared_ptr <lambda_p::er
 	{
 		if (two.get () != nullptr)
 		{
-			auto existing (one->remapping->generated.find (two));
-			if (existing != one->remapping->generated.end ())
+			auto existing (one->mapping.find (two));
+			if (existing != one->mapping.end ())
 			{
 				results.push_back (existing->second);
 			}

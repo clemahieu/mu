@@ -4,25 +4,24 @@
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p_script/remapping.h>
 
 #include <sstream>
+#include <set>
 
 lambda_p_script::cluster::node::node ()
-	: remapping (new lambda_p_script::remapping)
 {
 }
 
-lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
+lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a)
 	: routines (routines_a),
-	remapping (remapping_a)
+	mapping (mapping_a)
 {
 }
 
-lambda_p_script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
+lambda_p_script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a)
 	: names (names_a),
 	routines (routines_a),
-	remapping (remapping_a)
+	mapping (mapping_a)
 {
 }
 
@@ -34,7 +33,7 @@ void lambda_p_script::cluster::node::operator () (boost::shared_ptr <lambda_p::e
 		auto existing (names.find (one->string));
 		if (existing != names.end ())
 		{
-			results.push_back (remapping->generated [existing->second]);
+			results.push_back (mapping [existing->second]);
 		}
 		else
 		{
@@ -71,4 +70,25 @@ void lambda_p_script::cluster::node::operator () (boost::shared_ptr <lambda_p::e
 size_t lambda_p_script::cluster::node::count ()
 {
 	return 1;
+}
+
+void lambda_p_script::cluster::node::remap (std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> & remap_a)
+{
+	std::set <boost::shared_ptr <lambda_p::routine>> unmapped;
+	for (auto i (mapping.begin ()), j (mapping.end ()); i != j; ++i)
+	{
+		auto new_l (remap_a.find (i->second));
+		if (new_l == remap_a.end ())
+		{
+			unmapped.insert (i->first);
+		}
+		else
+		{
+			i->second = new_l->second;
+		}
+	}
+	for (auto i (unmapped.begin ()), j (unmapped.end ()); i != j; ++i)
+	{
+		mapping.erase (*i);
+	}
 }

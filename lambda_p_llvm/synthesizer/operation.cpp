@@ -13,7 +13,6 @@
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/argument/node.h>
-#include <lambda_p_script/remapping.h>
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/function_type/node.h>
 
@@ -89,7 +88,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								(*errors_a) (L"Signature doesn't have an associated routine");
 							}
 						}
-						cluster->remapping->remap (remap);
+						cluster->remap (remap);
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)
 						{

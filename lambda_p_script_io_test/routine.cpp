@@ -10,7 +10,7 @@
 #include <lambda_p_script/parameters.h>
 #include <lambda_p/parameters.h>
 #include <lambda_p/routine.h>
-#include <lambda_p_script/remapping.h>
+#include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -29,8 +29,8 @@ void lambda_p_script_io_test::routine::run_1 ()
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
 	auto rout (boost::make_shared <lambda_p::routine> (call2));
-	auto remapping (boost::make_shared <lambda_p_script::remapping> ());
-	auto routine (boost::make_shared <lambda_p_script::routine> (boost::make_shared <lambda_p_script::remapping> ()));
+	auto remapping (boost::make_shared <lambda_p_script::cluster::node> ());
+	auto routine (boost::make_shared <lambda_p_script::routine> (boost::make_shared <lambda_p_script::cluster::node> ()));
 	lambda_p_script_io::routine r (remapping, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);

@@ -9,8 +9,8 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_script::routine::routine (boost::shared_ptr <lambda_p_script::remapping> remapping_a)
-	: remapping (remapping_a)
+lambda_p_script::routine::routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a)
+	: cluster (cluster_a)
 {
 }
 
@@ -19,7 +19,7 @@ void lambda_p_script::routine::perform (boost::shared_ptr <lambda_p::errors::err
 	size_t size (calls.size ());
 	std::vector <boost::shared_ptr <lambda_p::node>> values_l (parameters.begin (), parameters.end ());
 	auto values (boost::make_shared <lambda_p_script::values::operation> (values_l));
-	lambda_p_script::context context (remapping, values, size);
+	lambda_p_script::context context (cluster, values, size);
 	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*errors_a) (); ++i)
 	{
 		(*(*i)) (errors_a, context);

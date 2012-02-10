@@ -146,7 +146,6 @@
     <ClCompile Include="package\get.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="reference.cpp" />
-    <ClCompile Include="remapping.cpp" />
     <ClCompile Include="routine.cpp" />
     <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="tests.cpp" />
@@ -169,7 +168,6 @@
     <ClInclude Include="package\get.h" />
     <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="reference.h" />
-    <ClInclude Include="remapping.h" />
     <ClInclude Include="routine.h" />
     <ClInclude Include="string\extension.h" />
     <ClInclude Include="tests.h" />

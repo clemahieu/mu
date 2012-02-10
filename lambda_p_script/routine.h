@@ -13,14 +13,17 @@ namespace lambda_p
 namespace lambda_p_script
 {
 	class call;
-	class remapping;
+	namespace cluster
+	{
+		class node;
+	}
 	class routine : public lambda_p_script::operation
 	{
 	public:
-		routine (boost::shared_ptr <lambda_p_script::remapping> remapping_a);
+		routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a);
 		void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 		std::wstring name () override;
-		boost::shared_ptr <lambda_p_script::remapping> remapping;
+		boost::shared_ptr <lambda_p_script::cluster::node> cluster;
 		std::vector <boost::shared_ptr <lambda_p_script::call>> calls;
 	};
 }

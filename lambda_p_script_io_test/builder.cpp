@@ -13,7 +13,6 @@
 #include <lambda_p_script/parameters.h>
 #include <lambda_p/segment.h>
 #include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/remapping.h>
 #include <lambda_p/routine.h>
 
 #include <boost/bind.hpp>

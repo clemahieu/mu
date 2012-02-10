@@ -18,11 +18,11 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-lambda_p_script_io::expression::expression (boost::shared_ptr <lambda_p_script::remapping> remapping_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
+lambda_p_script_io::expression::expression (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, std::map <boost::shared_ptr <lambda_p::expression>, size_t> & reservations_a, boost::shared_ptr <lambda_p_script::call> call_a, boost::shared_ptr <lambda_p::node> node_a)
 	: node (node_a),
 	reservations (reservations_a),
 	call_m (call_a),
-	remapping (remapping_a)
+	cluster (cluster_a)
 {
 	(*node_a) (this);
 }

@@ -148,7 +148,6 @@
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="print\operation.cpp" />
     <ClCompile Include="remap.cpp" />
-    <ClCompile Include="remapping.cpp" />
     <ClCompile Include="string\extension.cpp" />
     <ClCompile Include="exec\operation.cpp" />
     <ClCompile Include="if_c\operation.cpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="parameters.h" />
     <ClInclude Include="print\operation.h" />
     <ClInclude Include="remap.h" />
-    <ClInclude Include="remapping.h" />
     <ClInclude Include="string\extension.h" />
     <ClInclude Include="exec\operation.h" />
     <ClInclude Include="if_c\operation.h" />

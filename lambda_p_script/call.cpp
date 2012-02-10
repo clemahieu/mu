@@ -5,7 +5,6 @@
 #include <lambda_p/errors/error_context.h>
 #include <lambda_p_script/context.h>
 #include <lambda_p/routine.h>
-#include <lambda_p_script/remapping.h>
 #include <lambda_p_script/routine.h>
 
 #include <boost/make_shared.hpp>

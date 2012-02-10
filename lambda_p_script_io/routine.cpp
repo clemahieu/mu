@@ -8,7 +8,7 @@
 #include <lambda_p/order.h>
 #include <lambda_p/routine.h>
 
-lambda_p_script_io::routine::routine (boost::shared_ptr <lambda_p_script::remapping> remapping_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a)
+lambda_p_script_io::routine::routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a)
 {
 	lambda_p::order order (routine_a->body);
 	size_t open (0);
@@ -20,7 +20,7 @@ lambda_p_script_io::routine::routine (boost::shared_ptr <lambda_p_script::remapp
 		auto item (*i);
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)
 		{
-			lambda_p_script_io::expression expression (remapping_a, reservations, call_l, *k);
+			lambda_p_script_io::expression expression (cluster_a, reservations, call_l, *k);
 		}
 	}
 }
