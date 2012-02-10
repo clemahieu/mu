@@ -15,6 +15,7 @@
 #include <lambda_p_llvm/argument/node.h>
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/function_type/node.h>
+#include <lambda_p_llvm/cluster/node.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
@@ -24,7 +25,7 @@
 
 #include <utility>
 
-void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
@@ -89,6 +90,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 							}
 						}
 						cluster->remap (remap);
+						results_a.push_back (boost::make_shared <lambda_p_llvm::cluster::node> ());
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)
 						{
