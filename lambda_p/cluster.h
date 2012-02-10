@@ -14,7 +14,7 @@ namespace lambda_p
 	class cluster : public lambda_p::node
 	{
 	public:
-		std::map <std::wstring, size_t> names;
+		std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names;
 		std::vector <boost::shared_ptr <lambda_p::routine>> routines;
 		std::wstring name () override;
 	};

@@ -70,7 +70,7 @@ void lambda_p_io::analyzer::expression::operator () (lambda_p_io::ast::identifie
 			}
 			else
 			{
-				self->dependencies.push_back (routine.analyzer.cluster->routines [routine_l->second]);
+				self->dependencies.push_back (routine_l->second);
 			}
 		}
 		else

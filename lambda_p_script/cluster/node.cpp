@@ -19,7 +19,7 @@ lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_s
 {
 }
 
-lambda_p_script::cluster::node::node (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
+lambda_p_script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a)
 	: names (names_a),
 	routines (routines_a),
 	remapping (remapping_a)
@@ -34,7 +34,7 @@ void lambda_p_script::cluster::node::operator () (boost::shared_ptr <lambda_p::e
 		auto existing (names.find (one->string));
 		if (existing != names.end ())
 		{
-			results.push_back (routines [existing->second]);
+			results.push_back (remapping->generated [existing->second]);
 		}
 		else
 		{

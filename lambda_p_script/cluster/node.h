@@ -22,10 +22,10 @@ namespace lambda_p_script
 		public:
 			node ();
 			node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a);
-			node (std::map <std::wstring, size_t> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a);
+			node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, boost::shared_ptr <lambda_p_script::remapping> remapping_a);
 			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
 			size_t count () override;
-			std::map <std::wstring, size_t> names;		
+			std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names;		
 			boost::shared_ptr <lambda_p_script::remapping> remapping;
 			std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
 		};
