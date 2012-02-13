@@ -51,10 +51,10 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 				if (!(*errors_a) ())
 				{
 					auto cluster (boost::static_pointer_cast <lambda_p_script::cluster::node> (results [0]));
+					auto result (boost::make_shared <lambda_p_llvm::cluster::node> ());
+					results_a.push_back (result);
 					if (!cluster->routines.empty ())
 					{
-						auto result (boost::make_shared <lambda_p_llvm::cluster::node> ());
-						results_a.push_back (result);
 						std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> remap;
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i)
 						{
@@ -92,7 +92,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								(*errors_a) (L"Signature doesn't have an associated routine");
 							}
 						}
-						result->set_names (cluster->names, remap);
+						result->set_names (cluster, remap);
 						cluster->remap (remap);
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)

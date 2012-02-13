@@ -10,11 +10,16 @@
 #include <lambda_p_llvm/module/print.h>
 #include <lambda_p_llvm/module/verify.h>
 #include <lambda_p_io/builder.h>
+#include <lambda_p_llvm/cluster/node.h>
+#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/type/node.h>
 
 #include <boost/bind.hpp>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
+#include <llvm/DerivedTypes.h>
+#include <llvm/Function.h>
 
 #include <boost/make_shared.hpp>
 
@@ -62,6 +67,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_1 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 0);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_2 ()
@@ -91,6 +101,16 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
+	auto routine (cluster->routines [0]);
+	assert (routine->value()->getType ()->isPointerTy ());
+	auto ptr (llvm::dyn_cast <llvm::PointerType> (routine->value ()->getType ()));
+	assert (ptr != nullptr);
+	assert (ptr->getElementType ()->isFunctionTy ());
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_3 ()
@@ -120,6 +140,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_4 ()
@@ -149,6 +174,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_5 ()
@@ -178,6 +208,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_6 ()
@@ -207,6 +242,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_7 ()
@@ -236,6 +276,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_7 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_8 ()
@@ -265,6 +310,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_8 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_9 ()
@@ -326,6 +376,11 @@ void lambda_p_llvm_test::synthesizer::operation::run_9 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 31);
+	assert (cluster->names.size () == 0);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_10 ()
@@ -358,6 +413,19 @@ void lambda_p_llvm_test::synthesizer::operation::run_10 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 2);
+	assert (cluster->names.size () == 2);
+	auto rout1 (cluster->routines [0]);
+	auto rout2 (cluster->routines [1]);
+	auto n1 (cluster->names.find (std::wstring (L"1")));
+	auto n2 (cluster->names.find (std::wstring (L"2")));
+	assert (n1 != cluster->names.end ());
+	assert (n2 != cluster->names.end ());
+	assert (n1->second == rout1);
+	assert (n2->second == rout2);
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_11 ()
@@ -390,4 +458,17 @@ void lambda_p_llvm_test::synthesizer::operation::run_11 ()
 	lambda_p_llvm::module::verify verify;
 	verify (builder.errors, a3, r3);
 	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 2);
+	assert (cluster->names.size () == 2);
+	auto rout1 (cluster->routines [0]);
+	auto rout2 (cluster->routines [1]);
+	auto n1 (cluster->names.find (std::wstring (L"1")));
+	auto n2 (cluster->names.find (std::wstring (L"2")));
+	assert (n1 != cluster->names.end ());
+	assert (n2 != cluster->names.end ());
+	assert (n1->second == rout1);
+	assert (n2->second == rout2);
 }

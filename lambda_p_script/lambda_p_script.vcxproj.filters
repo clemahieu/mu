@@ -297,9 +297,6 @@
     <Filter Include="print">
       <UniqueIdentifier>{212268bc-d870-4f42-a920-4bcfcc302eed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="vector">
-      <UniqueIdentifier>{e2a8f1da-1abc-4e92-9718-4c4f1b706eaf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="analyzer">
       <UniqueIdentifier>{53cf8524-cabc-4072-81fd-f27021947e8b}</UniqueIdentifier>
     </Filter>
