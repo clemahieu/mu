@@ -134,6 +134,7 @@
     <ClCompile Include="analyzer\node.cpp" />
     <ClCompile Include="astring\extension.cpp" />
     <ClCompile Include="astring\node.cpp" />
+    <ClCompile Include="ast\read_from_file.cpp" />
     <ClCompile Include="bool_c\create.cpp" />
     <ClCompile Include="chain\operation.cpp" />
     <ClCompile Include="closure\apply.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="analyzer\node.h" />
     <ClInclude Include="astring\extension.h" />
     <ClInclude Include="astring\node.h" />
+    <ClInclude Include="ast\read_from_file.h" />
     <ClInclude Include="bool_c\create.h" />
     <ClInclude Include="chain\operation.h" />
     <ClInclude Include="closure\apply.h" />

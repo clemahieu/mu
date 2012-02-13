@@ -13,6 +13,7 @@ namespace lambda_p_llvm
 		class node : public lambda_p::node
 		{
 		public:
+			std::wstring name () override;
 			virtual llvm::Type * type () = 0;
 		};
 	}

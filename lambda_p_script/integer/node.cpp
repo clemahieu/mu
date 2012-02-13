@@ -11,6 +11,11 @@ lambda_p_script::integer::node::node (unsigned long long value_a)
 {
 }
 
+std::wstring lambda_p_script::integer::node::name ()
+{
+	return std::wstring (L"lambda_p_script::integer::node");
+}
+
 std::wstring lambda_p_script::integer::node::debug ()
 {
 	std::wstringstream result;

@@ -14,6 +14,7 @@ namespace lambda_p_llvm
 		{
 		public:
 			node (llvm::IntegerType * type_a);
+			std::wstring name () override;
 			llvm::Type * type () override;
 			llvm::IntegerType * integer_type ();
 			llvm::IntegerType * type_m;

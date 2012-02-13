@@ -51,3 +51,8 @@ size_t lambda_p_llvm::integer_type::create::count ()
 {
 	return 2;
 }
+
+std::wstring lambda_p_llvm::integer_type::create::name ()
+{
+	return std::wstring (L"lambda_p_llvm::integer_type::create");
+}

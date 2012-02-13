@@ -67,3 +67,8 @@ size_t lambda_p_llvm::instructions::sext::count ()
 {
 	return 2;
 }
+
+std::wstring lambda_p_llvm::instructions::sext::name ()
+{
+	return std::wstring (L"lambda_p_llvm::instructions::sext");
+}
