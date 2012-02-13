@@ -234,6 +234,12 @@
     <ClInclude Include="void_type\node.h">
       <Filter>void_type</Filter>
     </ClInclude>
+    <ClInclude Include="cluster\get.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
+    <ClInclude Include="cluster\index.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -468,6 +474,12 @@
     </ClCompile>
     <ClCompile Include="void_type\node.cpp">
       <Filter>void_type</Filter>
+    </ClCompile>
+    <ClCompile Include="cluster\get.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
+    <ClCompile Include="cluster\index.cpp">
+      <Filter>cluster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

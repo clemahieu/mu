@@ -28,6 +28,8 @@
     <ClInclude Include="basic_block\insert.h" />
     <ClInclude Include="basic_block\instruction_insert.h" />
     <ClInclude Include="basic_block\store.h" />
+    <ClInclude Include="cluster\get.h" />
+    <ClInclude Include="cluster\index.h" />
     <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="instructions\call.h" />
     <ClInclude Include="module\print.h" />
@@ -109,6 +111,8 @@
     <ClCompile Include="basic_block\insert.cpp" />
     <ClCompile Include="basic_block\instruction_insert.cpp" />
     <ClCompile Include="basic_block\store.cpp" />
+    <ClCompile Include="cluster\get.cpp" />
+    <ClCompile Include="cluster\index.cpp" />
     <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="instructions\call.cpp" />
     <ClCompile Include="module\print.cpp" />

@@ -16,3 +16,8 @@ void lambda_p_llvm::cluster::node::set_names (boost::shared_ptr <lambda_p_script
 		}
 	}
 }
+
+std::wstring lambda_p_llvm::cluster::node::name ()
+{
+	return std::wstring (L"lambda_p_llvm::cluster::node");
+}
