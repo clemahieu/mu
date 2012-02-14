@@ -2,6 +2,7 @@
 
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/instruction/node.h>
+#include <lambda_p/errors/error_target.h>
 
 #include <llvm/BasicBlock.h>
 
@@ -13,7 +14,14 @@ void lambda_p_llvm::basic_block::insert::operator () (boost::shared_ptr <lambda_
 	{
 		if (two.get () != nullptr)
 		{
-			one->block->getInstList ().push_back (two->instruction ());
+			if (one->block != nullptr)
+			{
+				one->block->getInstList ().push_back (two->instruction ());
+			}
+			else
+			{
+				(*errors_a) (L"Block is not set");
+			}
 		}
 		else
 		{

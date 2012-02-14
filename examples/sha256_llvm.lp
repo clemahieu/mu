@@ -1,7 +1,5 @@
-[fun-t
-	[{[i32]]
-	[{[i32]]
-]
+[~ [i32]]
+[~ [i32]]
 [xor
 	value
 	[sext
@@ -11,10 +9,8 @@
 	[:~; value]
 ;; not]
 
-[fun-t
-	[{[i32][i32][i32]]
-	[{[i32]]
-]
+[~ [i32][i32][i32]]
+[~ [i32]]
 [xor
 	[and x y]
 	[and
@@ -24,10 +20,8 @@
 	[:~ ; x y z]
 ;; ch]
 
-[fun-t
-	[{[i32][i32][i32]]
-	[{[i32]]
-]
+[~ [i32][i32][i32]]
+[~ [i32]]
 [xor
 	[xor
 		[and x y]
@@ -37,20 +31,16 @@
 	[:~ ; x y z]
 ;; maj]
 
-[fun-t
-	[{[i32][i32]]
-	[{[i32]]
-]
+[~ [i32][i32]]
+[~ [i32]]
 [or
 	[lshr value count]
 	[shl value [sub [#i 32 d32] count]]
 	[:~; value count]
 ;; rotr]
 
-[fun-t
-	[{[i32]]
-	[{[i32]]
-]
+[~ [i32]]
+[~ [i32]]
 [xor
 	[xor
 		[call rotr x [#i 32 d2]]
@@ -60,10 +50,8 @@
 	[:~; x]
 ;; sigma1]
 
-[fun-t
-	[{[i32]]
-	[{[i32]]
-]
+[~ [i32]]
+[~ [i32]]
 [xor
 	[xor
 		[call rotr x [#i 32 d6]]
@@ -73,10 +61,8 @@
 	[:~; x]
 ;; sigma2]
 
-[fun-t
-	[{[i32]]
-	[{[i32]]
-]
+[~ [i32]]
+[~ [i32]]
 [xor
 	[xor
 		[call rotr x [#i 32 d7]]
@@ -86,10 +72,8 @@
 	[:~; x]
 ;; sigma3]
 
-[fun-t
-	[{[i32]]
-	[{[i32]]
-]
+[~ [i32]]
+[~ [i32]]
 [xor
 	[xor
 		[call rotr x [#i 32 d17]]
