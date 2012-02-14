@@ -32,7 +32,10 @@
     <ClInclude Include="cluster\index.h" />
     <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="constant_int\extension.h" />
+    <ClInclude Include="global_value\node.h" />
+    <ClInclude Include="global_value\set_linkage.h" />
     <ClInclude Include="instructions\call.h" />
+    <ClInclude Include="linkage_types\node.h" />
     <ClInclude Include="module\merge.h" />
     <ClInclude Include="module\print.h" />
     <ClInclude Include="pointer_type\create.h" />
@@ -118,7 +121,10 @@
     <ClCompile Include="cluster\index.cpp" />
     <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="constant_int\extension.cpp" />
+    <ClCompile Include="global_value\node.cpp" />
+    <ClCompile Include="global_value\set_linkage.cpp" />
     <ClCompile Include="instructions\call.cpp" />
+    <ClCompile Include="linkage_types\node.cpp" />
     <ClCompile Include="module\merge.cpp" />
     <ClCompile Include="module\print.cpp" />
     <ClCompile Include="pointer_type\create.cpp" />

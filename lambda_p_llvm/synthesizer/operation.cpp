@@ -102,7 +102,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 												auto function_type (boost::dynamic_pointer_cast <lambda_p_llvm::function_type::node> (r3 [0]));
 												if (function_type.get () != nullptr)
 												{
-													auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
+													auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::PrivateLinkage));
 													two->module->getFunctionList ().push_back (function);
 													auto fun (boost::make_shared <lambda_p_llvm::function::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type)));
 													result->routines.push_back (fun);

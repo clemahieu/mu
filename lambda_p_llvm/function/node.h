@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/global_value/node.h>
 
 namespace llvm
 {
@@ -10,7 +10,7 @@ namespace lambda_p_llvm
 {
 	namespace function
 	{
-		class node : public lambda_p_llvm::value::node
+		class node : public lambda_p_llvm::global_value::node
 		{
 		public:
 			node (llvm::Function * function_a, boost::shared_ptr <lambda_p_llvm::type::node> type_a);

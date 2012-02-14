@@ -249,6 +249,15 @@
     <ClInclude Include="value\set_name.h">
       <Filter>value</Filter>
     </ClInclude>
+    <ClInclude Include="global_value\node.h">
+      <Filter>global_value</Filter>
+    </ClInclude>
+    <ClInclude Include="global_value\set_linkage.h">
+      <Filter>global_value</Filter>
+    </ClInclude>
+    <ClInclude Include="linkage_types\node.h">
+      <Filter>linkage_types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -499,6 +508,15 @@
     <ClCompile Include="value\set_name.cpp">
       <Filter>value</Filter>
     </ClCompile>
+    <ClCompile Include="global_value\node.cpp">
+      <Filter>global_value</Filter>
+    </ClCompile>
+    <ClCompile Include="global_value\set_linkage.cpp">
+      <Filter>global_value</Filter>
+    </ClCompile>
+    <ClCompile Include="linkage_types\node.cpp">
+      <Filter>linkage_types</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -581,6 +599,12 @@
     </Filter>
     <Filter Include="void_type">
       <UniqueIdentifier>{98f744bb-e7a3-448a-8f59-a184dee5d418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="global_value">
+      <UniqueIdentifier>{c5a34a99-5db2-4981-91f7-af5509330b3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="linkage_types">
+      <UniqueIdentifier>{33e56c84-4247-405b-9034-ca943da6df90}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -52,6 +52,7 @@
 #include <lambda_p_llvm/struct_type/create.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/constant_int/extension.h>
+#include <lambda_p_llvm/linkage_types/node.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
