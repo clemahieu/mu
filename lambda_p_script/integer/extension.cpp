@@ -70,21 +70,36 @@ boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::cor
 	}
 	if (base != 0)
 	{
-		wchar_t * next;
 		wchar_t const * string_l (string.c_str () + 1);
-		errno = 0;
-		unsigned long number = std::wcstol (string_l, &next, base);
-		if (errno == ERANGE)
-		{
-			std::wstringstream message;
-			message << L"Overflow while parsing: ";
-			message << string;
-			(*errors_a) (message.str ());
-		}
-		else
-		{
-			result = boost::make_shared <lambda_p_script::integer::node> (number);
-		}
+		result = core (errors_a, string_l, base);
+	}
+	return result;
+}
+
+boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core_d (boost::shared_ptr <lambda_p::errors::error_target> errors_a, wchar_t const * string_a)
+{
+	auto result (core (errors_a, string_a, 10));
+	return result;
+}
+
+boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core (boost::shared_ptr <lambda_p::errors::error_target> errors_a, wchar_t const * string_a, size_t base_a)
+{
+	boost::shared_ptr <lambda_p_script::integer::node> result;
+	wchar_t * next;
+	errno = 0;
+	unsigned long number = std::wcstol (string_a, &next, base_a);
+	if (errno == ERANGE)
+	{
+		std::wstringstream message;
+		message << L"Overflow while parsing: ";
+		message << string_a;
+		message << L" in base: ";
+		message << base_a;
+		(*errors_a) (message.str ());
+	}
+	else
+	{
+		result = boost::make_shared <lambda_p_script::integer::node> (number);
 	}
 	return result;
 }

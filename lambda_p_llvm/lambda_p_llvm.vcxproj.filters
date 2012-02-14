@@ -240,6 +240,9 @@
     <ClInclude Include="cluster\index.h">
       <Filter>cluster</Filter>
     </ClInclude>
+    <ClInclude Include="constant_int\extension.h">
+      <Filter>constant_int</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -480,6 +483,9 @@
     </ClCompile>
     <ClCompile Include="cluster\index.cpp">
       <Filter>cluster</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_int\extension.cpp">
+      <Filter>constant_int</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
