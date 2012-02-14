@@ -388,8 +388,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_10 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[fun-t [{ ] [{ [ptr [fun-t [{ ] [{ ]]]] ;; 1] [~ 2]";
-	code << L"[fun-t [{ ] [{ ] ;; 2] [~]";
+	code << L"[fun-t [{ ] [{ [ptr [fun-t [{ ] [{ ]]]]] [~ 2 ;; 1]";
+	code << L"[fun-t [{ ] [{ ]] [~ ;; 2]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -433,8 +433,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_11 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[fun-t [{ ] [{ [int-t # d32]] ;; 1] [call 2 [{]]";
-	code << L"[fun-t [{ ] [{ [int-t # d32]] ;; 2] [int-c # d32 # d42]";
+	code << L"[fun-t [{ ] [{ [int-t # d32]]] [call 2 [{] ;; 1]";
+	code << L"[fun-t [{ ] [{ [int-t # d32]]] [int-c # d32 # d42 ;; 2]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());

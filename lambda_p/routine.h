@@ -15,6 +15,7 @@ namespace lambda_p
 		routine (boost::shared_ptr <lambda_p::expression> body_a);
 		void operator () (lambda_p::visitor * visitor_a) override;
 		std::wstring name () override;
+		lambda_p::context context;
 		boost::shared_ptr <lambda_p::expression> body;
 	};
 }

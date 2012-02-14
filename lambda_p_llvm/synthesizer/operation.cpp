@@ -24,6 +24,7 @@
 #include <boost/make_shared.hpp>
 
 #include <utility>
+#include <set>
 
 void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
 {
@@ -58,6 +59,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 						std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> remap;
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i)
 						{
+							boost::shared_ptr <lambda_p_llvm::value::node> fun;
 							auto signature_routine (*i);
 							std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 							std::vector <boost::shared_ptr <lambda_p::node>> results;
@@ -71,9 +73,8 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 									{
 										auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
 										two->module->getFunctionList ().push_back (function);
-										auto fun (boost::make_shared <lambda_p_llvm::value::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type)));
+										fun = boost::make_shared <lambda_p_llvm::value::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type));
 										result->routines.push_back (fun);
-										remap [signature_routine] = fun;
 										functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>> (function, function_type));
 									}
 									else
@@ -87,7 +88,12 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								}
 							}
 							++i;
-							if (i == j)
+							if (i != j)
+							{
+								auto body_routine (*i);
+								remap [body_routine] = fun;
+							}
+							else
 							{
 								(*errors_a) (L"Signature doesn't have an associated routine");
 							}

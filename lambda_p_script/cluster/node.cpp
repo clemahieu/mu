@@ -4,6 +4,8 @@
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/routine.h>
+#include <lambda_p/routine.h>
+#include <lambda_p/expression.h>
 
 #include <sstream>
 #include <set>

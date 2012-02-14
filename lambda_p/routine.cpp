@@ -5,6 +5,7 @@
 #include <lambda_p/visitor.h>
 
 lambda_p::routine::routine (lambda_p::context context_a)
+	: context (context_a)
 {
 }
 

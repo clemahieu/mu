@@ -1,7 +1,7 @@
 [fun-t
 	[{[i32]]
 	[{[i32]]
-;; not]
+]
 [xor
 	value
 	[sext
@@ -9,12 +9,12 @@
 		[i32]
 	]
 	[:~; value]
-]
+;; not]
 
 [fun-t
 	[{[i32][i32][i32]]
 	[{[i32]]
-;; ch]
+]
 [xor
 	[and x y]
 	[and
@@ -22,12 +22,12 @@
 		z
 	]
 	[:~ ; x y z]
-]
+;; ch]
 
 [fun-t
 	[{[i32][i32][i32]]
 	[{[i32]]
-;; maj]
+]
 [xor
 	[xor
 		[and x y]
@@ -35,22 +35,22 @@
 	]
 	[and y z]
 	[:~ ; x y z]
-]
+;; maj]
 
 [fun-t
 	[{[i32][i32]]
 	[{[i32]]
-;; rotr]
+]
 [or
 	[lshr value count]
 	[shl value [sub [#i 32 d32] count]]
 	[:~; value count]
-]
+;; rotr]
 
 [fun-t
 	[{[i32]]
 	[{[i32]]
-;; sigma1]
+]
 [xor
 	[xor
 		[call rotr x [#i 32 d2]]
@@ -58,12 +58,12 @@
 	]
 	[call rotr x [#i 32 d22]]
 	[:~; x]
-]
+;; sigma1]
 
 [fun-t
 	[{[i32]]
 	[{[i32]]
-;; sigma2]
+]
 [xor
 	[xor
 		[call rotr x [#i 32 d6]]
@@ -71,12 +71,12 @@
 	]
 	[call rotr x [#i 32 d25]]
 	[:~; x]
-]
+;; sigma2]
 
 [fun-t
 	[{[i32]]
 	[{[i32]]
-;; sigma3]
+]
 [xor
 	[xor
 		[call rotr x [#i 32 d7]]
@@ -84,12 +84,12 @@
 	]
 	[lshr x [#i 32 d3]]
 	[:~; x]
-]
+;; sigma3]
 
 [fun-t
 	[{[i32]]
 	[{[i32]]
-;; sigma4]
+]
 [xor
 	[xor
 		[call rotr x [#i 32 d17]]
@@ -97,4 +97,4 @@
 	]
 	[lshr x [#i 32 d10]]
 	[:~; x]
-]
+;; sigma4]

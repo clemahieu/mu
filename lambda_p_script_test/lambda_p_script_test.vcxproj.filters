@@ -49,6 +49,9 @@
     <ClCompile Include="ast\extension.cpp">
       <Filter>ast</Filter>
     </ClCompile>
+    <ClCompile Include="cluster\node.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="ast\extension.h">
       <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="cluster\node.h">
+      <Filter>cluster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
