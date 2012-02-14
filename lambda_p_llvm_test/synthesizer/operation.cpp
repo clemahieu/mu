@@ -11,7 +11,7 @@
 #include <lambda_p_llvm/module/verify.h>
 #include <lambda_p_io/builder.h>
 #include <lambda_p_llvm/cluster/node.h>
-#include <lambda_p_llvm/value/node.h>
+#include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm/type/node.h>
 
 #include <boost/bind.hpp>

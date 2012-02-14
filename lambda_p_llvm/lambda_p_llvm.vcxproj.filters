@@ -243,6 +243,9 @@
     <ClInclude Include="constant_int\extension.h">
       <Filter>constant_int</Filter>
     </ClInclude>
+    <ClInclude Include="module\merge.h">
+      <Filter>module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -486,6 +489,9 @@
     </ClCompile>
     <ClCompile Include="constant_int\extension.cpp">
       <Filter>constant_int</Filter>
+    </ClCompile>
+    <ClCompile Include="module\merge.cpp">
+      <Filter>module</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

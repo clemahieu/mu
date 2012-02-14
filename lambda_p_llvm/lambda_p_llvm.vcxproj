@@ -33,6 +33,7 @@
     <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="constant_int\extension.h" />
     <ClInclude Include="instructions\call.h" />
+    <ClInclude Include="module\merge.h" />
     <ClInclude Include="module\print.h" />
     <ClInclude Include="pointer_type\create.h" />
     <ClInclude Include="set_type\extract.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="constant_int\extension.cpp" />
     <ClCompile Include="instructions\call.cpp" />
+    <ClCompile Include="module\merge.cpp" />
     <ClCompile Include="module\print.cpp" />
     <ClCompile Include="pointer_type\create.cpp" />
     <ClCompile Include="set_type\extract.cpp" />

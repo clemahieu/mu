@@ -43,6 +43,7 @@
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_script/values/create.h>
 #include <lambda_p_script/ast/read_from_file.h>
+#include <lambda_p_llvm/module/merge.h>
 
 #include <boost/make_shared.hpp>
 
@@ -120,6 +121,7 @@ boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> lambda_p_scrip
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/remove"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::package::remove> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/times/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::times::operation> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/analyzer/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::analyzer::operation> ())));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/merge"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::module::merge> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/operation"), boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::synthesizer::operation> ())));
 	return result;
 }

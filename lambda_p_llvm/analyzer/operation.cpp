@@ -76,7 +76,7 @@ lambda_p_llvm::analyzer::operation::operation ()
 	auto i1_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i1_type->closed.push_back (context.context_m);
 	i1_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 1)));
-	extensions->extensions_m [std::wstring (L"i8")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (i1_type);
+	extensions->extensions_m [std::wstring (L"i1")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (i1_type);
 	auto i8_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i8_type->closed.push_back (context.context_m);
 	i8_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 8)));

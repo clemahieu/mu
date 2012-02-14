@@ -18,6 +18,7 @@
 #include <lambda_p_llvm/cluster/node.h>
 #include <lambda_p_script/values/operation.h>
 #include <lambda_p_llvm/function_type/create.h>
+#include <lambda_p_llvm/function/node.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
@@ -103,7 +104,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 												{
 													auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::ExternalLinkage));
 													two->module->getFunctionList ().push_back (function);
-													auto fun (boost::make_shared <lambda_p_llvm::value::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type)));
+													auto fun (boost::make_shared <lambda_p_llvm::function::node> (function, boost::make_shared <lambda_p_llvm::pointer_type::node> (function_type)));
 													result->routines.push_back (fun);
 													functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>> (function, function_type));
 													auto body_routine (*i);
