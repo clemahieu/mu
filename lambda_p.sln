@@ -35,17 +35,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F
 		examples\chain.lp = examples\chain.lp
 		examples\compile.lp = examples\compile.lp
 		examples\exec.lp = examples\exec.lp
-		examples\instruction.lp = examples\instruction.lp
 		examples\llvm.lp = examples\llvm.lp
-		examples\llvm_ast.lp = examples\llvm_ast.lp
-		examples\llvm_link.lp = examples\llvm_link.lp
 		examples\quit.lp = examples\quit.lp
 		examples\recursive.lp = examples\recursive.lp
 		examples\sha256.lp = examples\sha256.lp
 		examples\sha256_llvm.lp = examples\sha256_llvm.lp
-		examples\synthesize.lp = examples\synthesize.lp
 		examples\test.lp = examples\test.lp
-		examples\times.lp = examples\times.lp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_test_entry", "lambda_p_test_entry\lambda_p_test_entry.vcxproj", "{3B93F5FC-8121-44E1-840C-36571BDA8BF9}"

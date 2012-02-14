@@ -1,23 +1,18 @@
 [~
-	[llvm/compile/operation
-		[.() cluster]
-		module2
+	[llvm/module/print name
+		module
+	; text]
+	[llvm/compile/operation name
+		module
 		`a temp/sha256
 	]
-	[llvm/module/merge
-		module2
-		module
-	]
-	[llvm/module/assemble 
-		context
-		`a
-			|!|
-				define void @_start ()
-				{
-					ret void
-				}
-			!
-	; module2]
+	[llvm/value/set_name
+		[llvm/cluster/get
+			cluster
+			` _start
+		]
+		`a _start
+	;; name]
 	[llvm/synthesizer/operation
 		[script/ast/read_from_file ` examples/sha256_llvm.lp]
 		module

@@ -246,6 +246,9 @@
     <ClInclude Include="module\merge.h">
       <Filter>module</Filter>
     </ClInclude>
+    <ClInclude Include="value\set_name.h">
+      <Filter>value</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -492,6 +495,9 @@
     </ClCompile>
     <ClCompile Include="module\merge.cpp">
       <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="value\set_name.cpp">
+      <Filter>value</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

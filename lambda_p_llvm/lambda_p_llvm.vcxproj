@@ -101,6 +101,7 @@
     <ClInclude Include="value\get_context.h" />
     <ClInclude Include="value\get_type.h" />
     <ClInclude Include="value\node.h" />
+    <ClInclude Include="value\set_name.h" />
     <ClInclude Include="void_type\node.h" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +187,7 @@
     <ClCompile Include="value\get_context.cpp" />
     <ClCompile Include="value\get_type.cpp" />
     <ClCompile Include="value\node.cpp" />
+    <ClCompile Include="value\set_name.cpp" />
     <ClCompile Include="void_type\node.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
