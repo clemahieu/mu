@@ -36,7 +36,7 @@ void lambda_p_llvm::compile::operation::operator () (boost::shared_ptr <lambda_p
 				obj_name.append (".obj");
 				bool link (false);
 				{
-					llvm::raw_fd_ostream raw (obj_name.c_str (), error_info);
+					llvm::raw_fd_ostream raw (obj_name.c_str (), error_info, llvm::raw_fd_ostream::F_Binary);
 					llvm::formatted_raw_ostream stream (raw);
 					if (error_info.empty ())
 					{
