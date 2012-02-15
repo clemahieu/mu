@@ -1,16 +1,23 @@
 [~
-	[llvm/module/print name
+	[llvm/module/print
+		[.() name linkage]
 		module
 	; text]
-	[llvm/compile/operation name
+	[llvm/compile/operation
+		[.() name linkage]
 		module
 		`a temp/sha256
 	]
+	[llvm/global_value/set_linkage
+		function
+		llvm/linkage_types/external
+	;; linkage]
 	[llvm/value/set_name
 		[llvm/cluster/get
 			cluster
 			` _start
-		]
+		; function]
+		function
 		`a _start
 	;; name]
 	[llvm/synthesizer/operation
