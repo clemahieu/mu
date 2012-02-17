@@ -1,21 +1,16 @@
 #pragma once
 
-#include <lambda_p_script/fixed.h>
+#include <lambda_p/node.h>
+#include <lambda_p_io/analyzer/analyzer.h>
 
-namespace lambda_p
-{
-	class cluster;
-}
 namespace lambda_p_script
 {
 	namespace analyzer
 	{
-		class node : public lambda_p_script::fixed
+		class node : public lambda_p::node
 		{
 		public:
-			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
-			size_t count () override;
-			void add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a);
+			lambda_p_io::analyzer::analyzer analyzer;
 		};
 	}
 }

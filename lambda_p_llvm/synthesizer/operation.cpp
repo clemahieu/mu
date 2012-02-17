@@ -37,7 +37,6 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 	{
 		if (two.get () != nullptr)
 		{
-			lambda_p_llvm::analyzer::operation analyzer;
 			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
 			std::vector <boost::shared_ptr <lambda_p::node>> results;
 			arguments.push_back (one);

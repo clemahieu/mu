@@ -15,7 +15,6 @@
 #include <lambda_p_script_test/package/get_recursive.h>
 #include <lambda_p_script_test/chain/operation.h>
 #include <lambda_p_script_test/string/extension.h>
-#include <lambda_p_script_test/analyzer/analyzer.h>
 #include <lambda_p_script_test/cluster/get.h>
 #include <lambda_p_script_test/ast/extension.h>
 #include <lambda_p_script_test/cluster/node.h>
@@ -80,10 +79,6 @@ void lambda_p_script_test::tests::run ()
 	}
 	{
 		lambda_p_script_test::string::extension test;
-		test.run ();
-	}
-	{
-		lambda_p_script_test::analyzer::analyzer test;
 		test.run ();
 	}
 	{

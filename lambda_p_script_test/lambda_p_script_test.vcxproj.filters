@@ -40,9 +40,6 @@
     <ClCompile Include="string\extension.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\analyzer.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="cluster\get.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
@@ -92,9 +89,6 @@
     </ClInclude>
     <ClInclude Include="string\extension.h">
       <Filter>string</Filter>
-    </ClInclude>
-    <ClInclude Include="analyzer\analyzer.h">
-      <Filter>analyzer</Filter>
     </ClInclude>
     <ClInclude Include="cluster\get.h">
       <Filter>cluster</Filter>

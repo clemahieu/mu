@@ -106,9 +106,6 @@
     <ClCompile Include="print\operation.cpp">
       <Filter>print</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\node.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="values\operation.cpp">
       <Filter>values</Filter>
@@ -128,6 +125,9 @@
     <ClCompile Include="remap.cpp" />
     <ClCompile Include="ast\read_from_file.cpp">
       <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\node.cpp">
+      <Filter>analyzer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +236,6 @@
     <ClInclude Include="print\operation.h">
       <Filter>print</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\node.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
     <ClInclude Include="parameters.h" />
     <ClInclude Include="values\operation.h">
       <Filter>values</Filter>
@@ -258,6 +255,9 @@
     <ClInclude Include="remap.h" />
     <ClInclude Include="ast\read_from_file.h">
       <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\node.h">
+      <Filter>analyzer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

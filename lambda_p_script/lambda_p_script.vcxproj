@@ -130,8 +130,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ast\extension.cpp" />
     <ClCompile Include="analyzer\node.cpp" />
+    <ClCompile Include="ast\extension.cpp" />
     <ClCompile Include="astring\extension.cpp" />
     <ClCompile Include="astring\node.cpp" />
     <ClCompile Include="ast\read_from_file.cpp" />
@@ -182,8 +182,8 @@
     <ClCompile Include="values\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ast\extension.h" />
     <ClInclude Include="analyzer\node.h" />
+    <ClInclude Include="ast\extension.h" />
     <ClInclude Include="astring\extension.h" />
     <ClInclude Include="astring\node.h" />
     <ClInclude Include="ast\read_from_file.h" />
