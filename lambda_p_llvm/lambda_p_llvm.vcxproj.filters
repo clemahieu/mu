@@ -258,6 +258,30 @@
     <ClInclude Include="linkage_types\node.h">
       <Filter>linkage_types</Filter>
     </ClInclude>
+    <ClInclude Include="synthesizer\create.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\merge.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="function\create.h">
+      <Filter>function</Filter>
+    </ClInclude>
+    <ClInclude Include="module\add_function.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="synthesizer\add.h">
+      <Filter>synthesizer</Filter>
+    </ClInclude>
+    <ClInclude Include="constant\create_from_string.h">
+      <Filter>constant</Filter>
+    </ClInclude>
+    <ClInclude Include="module\add_global_variable.h">
+      <Filter>module</Filter>
+    </ClInclude>
+    <ClInclude Include="global_variable\node.h">
+      <Filter>global_variable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -517,6 +541,30 @@
     <ClCompile Include="linkage_types\node.cpp">
       <Filter>linkage_types</Filter>
     </ClCompile>
+    <ClCompile Include="synthesizer\create.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\merge.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="function\create.cpp">
+      <Filter>function</Filter>
+    </ClCompile>
+    <ClCompile Include="module\add_function.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="synthesizer\add.cpp">
+      <Filter>synthesizer</Filter>
+    </ClCompile>
+    <ClCompile Include="constant\create_from_string.cpp">
+      <Filter>constant</Filter>
+    </ClCompile>
+    <ClCompile Include="module\add_global_variable.cpp">
+      <Filter>module</Filter>
+    </ClCompile>
+    <ClCompile Include="global_variable\node.cpp">
+      <Filter>global_variable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -605,6 +653,9 @@
     </Filter>
     <Filter Include="linkage_types">
       <UniqueIdentifier>{33e56c84-4247-405b-9034-ca943da6df90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="global_variable">
+      <UniqueIdentifier>{8197cf27-d517-4173-8beb-78be05aa9617}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -32,6 +32,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_llvm", "lambda_p_l
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}"
 	ProjectSection(SolutionItems) = preProject
+		examples\bits.lp = examples\bits.lp
 		examples\chain.lp = examples\chain.lp
 		examples\compile.lp = examples\compile.lp
 		examples\exec.lp = examples\exec.lp

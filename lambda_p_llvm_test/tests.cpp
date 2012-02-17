@@ -10,6 +10,7 @@
 #include <lambda_p_llvm_test/instruction_package.h>
 #include <lambda_p_llvm_test/function_type/create.h>
 #include <lambda_p_llvm_test/synthesizer/operation.h>
+#include <lambda_p_llvm_test/function/create.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -78,6 +79,10 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		lambda_p_llvm_test::synthesizer::operation test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::function::create test;
 		test.run ();
 	}
 }
