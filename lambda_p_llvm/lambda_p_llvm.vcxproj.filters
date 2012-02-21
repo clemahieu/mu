@@ -282,6 +282,18 @@
     <ClInclude Include="global_variable\node.h">
       <Filter>global_variable</Filter>
     </ClInclude>
+    <ClInclude Include="global_variable\create_set.h">
+      <Filter>global_variable</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_string\extension.h">
+      <Filter>constant_string</Filter>
+    </ClInclude>
+    <ClInclude Include="apint\create.h">
+      <Filter>apint</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_string\create.h">
+      <Filter>constant_string</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -565,6 +577,18 @@
     <ClCompile Include="global_variable\node.cpp">
       <Filter>global_variable</Filter>
     </ClCompile>
+    <ClCompile Include="global_variable\create_set.cpp">
+      <Filter>global_variable</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_string\extension.cpp">
+      <Filter>constant_string</Filter>
+    </ClCompile>
+    <ClCompile Include="apint\create.cpp">
+      <Filter>apint</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_string\create.cpp">
+      <Filter>constant_string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -653,6 +677,9 @@
     </Filter>
     <Filter Include="linkage_types">
       <UniqueIdentifier>{33e56c84-4247-405b-9034-ca943da6df90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="constant_string">
+      <UniqueIdentifier>{1e1d504b-b08c-4a34-b748-aa929072146b}</UniqueIdentifier>
     </Filter>
     <Filter Include="global_variable">
       <UniqueIdentifier>{8197cf27-d517-4173-8beb-78be05aa9617}</UniqueIdentifier>

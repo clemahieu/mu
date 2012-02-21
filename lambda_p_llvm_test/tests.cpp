@@ -11,6 +11,7 @@
 #include <lambda_p_llvm_test/function_type/create.h>
 #include <lambda_p_llvm_test/synthesizer/operation.h>
 #include <lambda_p_llvm_test/function/create.h>
+#include <lambda_p_llvm_test/constant_string/extension.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -51,6 +52,10 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		lambda_p_llvm_test::linker::link_modules test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::constant_string::extension test;
 		test.run ();
 	}
 	{

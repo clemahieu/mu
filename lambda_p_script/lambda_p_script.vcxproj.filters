@@ -129,6 +129,9 @@
     <ClCompile Include="analyzer\node.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
+    <ClCompile Include="astring\truncate.cpp">
+      <Filter>astring</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -258,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="analyzer\node.h">
       <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="astring\truncate.h">
+      <Filter>astring</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

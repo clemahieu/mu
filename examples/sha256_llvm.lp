@@ -67,5 +67,5 @@
 [~ ]
 [~ ]
 [call
-	abort
+	wprintf [` |%|Hello world!%]
 ;; _start]

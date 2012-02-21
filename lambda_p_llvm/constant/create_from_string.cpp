@@ -4,6 +4,7 @@
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/constant/node.h>
 #include <lambda_p_llvm/array_type/node.h>
+#include <lambda_p_llvm/integer_type/node.h>
 
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
@@ -26,7 +27,7 @@ void lambda_p_llvm::constant::create_from_string::operator () (boost::shared_ptr
 			{
 				elements.push_back (llvm::ConstantInt::get (type, llvm::APInt (bits, *i)));
 			}
-			auto array_type (boost::make_shared <lambda_p_llvm::array_type::node> (type, elements.size ()));
+			auto array_type (boost::make_shared <lambda_p_llvm::array_type::node> (boost::make_shared <lambda_p_llvm::integer_type::node> (type), elements.size ()));
 			auto constant (llvm::ConstantArray::get (array_type->array_type (), elements));
 			results.push_back (boost::make_shared <lambda_p_llvm::constant::node> (constant, array_type));
 		}
@@ -44,4 +45,9 @@ void lambda_p_llvm::constant::create_from_string::operator () (boost::shared_ptr
 size_t lambda_p_llvm::constant::create_from_string::count ()
 {
 	return 2;
+}
+
+std::wstring lambda_p_llvm::constant::create_from_string::name ()
+{
+	return std::wstring (L"lambda_p_llvm::constant::create_from_string");
 }

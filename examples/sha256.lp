@@ -13,6 +13,11 @@
 		module
 		synthesizer
 	;; abort]
+	[add_wprintf
+		context
+		module
+		synthesizer
+	;; wprintf]
 	[add_bits
 		synthesizer
 		module
@@ -25,7 +30,7 @@
 		bits
 	;; added_bits]
 	[add_sha256
-		[.() added_bits abort]
+		[.() added_bits abort wprintf]
 		synthesizer
 		module
 	; sha256]
@@ -41,31 +46,53 @@
 	linkage
 	name
 	[llvm/global_value/set_linkage
-		abort_function
+		function
 		llvm/linkage_types/external
 	;; linkage]
 	[llvm/function/create
-		[llvm/function_type/create
-			context
-			[{ ]
-			[{ ]
-		]
-	; abort_function]
+		function_type
+	; function]
 	[llvm/value/set_name
-		abort_function
-		`a abort
+		function
+		[script/astring/truncate function_name]
 	;; name]
 	[llvm/synthesizer/add
 		synthesizer
-		` abort
-		abort_function
+		function_name
+		function
 		[llvm/module/add_function
 			module
-			abort_function
+			function
 		]
 	;; add]
+	[:~; context module synthesizer function_name function_type]
+;; add_function]
+
+[add_function
+	context
+	module
+	synthesizer
+	` abort
+	[llvm/function_type/create
+		context
+		[{ ]
+		[{ ]
+	]
 	[:~; context module synthesizer]
 ;; add_abort]
+
+[add_function
+	context
+	module
+	synthesizer
+	` wprintf
+	[llvm/function_type/create
+		context
+		[{ [llvm/pointer_type/create [llvm/integer_type/create context [llvm/apint/create # d16]]]]
+		[{ ]
+	]
+	[:~; context module synthesizer]
+;; add_wprintf]
 
 [synthesizer
 	[script/ast/read_from_file ` examples/bits.lp]

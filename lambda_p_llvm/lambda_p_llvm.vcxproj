@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="analyzer\context.h" />
     <ClInclude Include="analyzer\operation.h" />
+    <ClInclude Include="apint\create.h" />
     <ClInclude Include="apint\extension.h" />
     <ClInclude Include="apint\node.h" />
     <ClInclude Include="array_type\node.h" />
@@ -33,9 +34,12 @@
     <ClInclude Include="constant\create_from_string.h" />
     <ClInclude Include="constant_int\create.h" />
     <ClInclude Include="constant_int\extension.h" />
+    <ClInclude Include="constant_string\create.h" />
+    <ClInclude Include="constant_string\extension.h" />
     <ClInclude Include="function\create.h" />
     <ClInclude Include="global_value\node.h" />
     <ClInclude Include="global_value\set_linkage.h" />
+    <ClInclude Include="global_variable\create_set.h" />
     <ClInclude Include="global_variable\node.h" />
     <ClInclude Include="instructions\call.h" />
     <ClInclude Include="linkage_types\node.h" />
@@ -118,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer\context.cpp" />
     <ClCompile Include="analyzer\operation.cpp" />
+    <ClCompile Include="apint\create.cpp" />
     <ClCompile Include="apint\extension.cpp" />
     <ClCompile Include="apint\node.cpp" />
     <ClCompile Include="array_type\node.cpp" />
@@ -130,9 +135,12 @@
     <ClCompile Include="constant\create_from_string.cpp" />
     <ClCompile Include="constant_int\create.cpp" />
     <ClCompile Include="constant_int\extension.cpp" />
+    <ClCompile Include="constant_string\create.cpp" />
+    <ClCompile Include="constant_string\extension.cpp" />
     <ClCompile Include="function\create.cpp" />
     <ClCompile Include="global_value\node.cpp" />
     <ClCompile Include="global_value\set_linkage.cpp" />
+    <ClCompile Include="global_variable\create_set.cpp" />
     <ClCompile Include="global_variable\node.cpp" />
     <ClCompile Include="instructions\call.cpp" />
     <ClCompile Include="linkage_types\node.cpp" />

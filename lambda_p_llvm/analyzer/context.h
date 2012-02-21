@@ -12,12 +12,17 @@ namespace lambda_p_llvm
 	{
 		class node;
 	}
+	namespace module
+	{
+		class node;
+	}
 	namespace analyzer
 	{
 		class context
 		{
 		public:
 			boost::shared_ptr <lambda_p_llvm::context::node> context_m;
+			boost::shared_ptr <lambda_p_llvm::module::node> module;
 			boost::shared_ptr <lambda_p_llvm::basic_block::node> block;
 		};
 	}

@@ -44,6 +44,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 			if (!(*errors_a) ())
 			{
 				analyzer.context.context_m->context = &two->module->getContext ();
+				analyzer.context.module->module = two->module;
 				auto cluster (boost::static_pointer_cast <lambda_p::cluster> (results [0]));
 				lambda_p_script_io::synthesizer synthesizer;
 				std::vector <boost::shared_ptr <lambda_p::node>> arguments;

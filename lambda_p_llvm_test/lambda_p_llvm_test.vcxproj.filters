@@ -29,6 +29,9 @@
     <ClCompile Include="function\create.cpp">
       <Filter>function</Filter>
     </ClCompile>
+    <ClCompile Include="constant_string\extension.cpp">
+      <Filter>constant_string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -59,6 +62,9 @@
     <ClInclude Include="function\create.h">
       <Filter>function</Filter>
     </ClInclude>
+    <ClInclude Include="constant_string\extension.h">
+      <Filter>constant_string</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -81,6 +87,9 @@
     </Filter>
     <Filter Include="function">
       <UniqueIdentifier>{3049b787-b11b-4489-b6d2-10fce8cc5230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="constant_string">
+      <UniqueIdentifier>{f622e980-5e79-4ffe-bcbd-b98e7931927d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

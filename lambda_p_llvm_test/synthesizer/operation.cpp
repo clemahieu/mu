@@ -38,7 +38,7 @@ void lambda_p_llvm_test::synthesizer::operation::run ()
 	run_9 ();
 	run_10 ();
 	run_11 ();
-	//run_12 ();
+	run_12 ();
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_1 ()
@@ -478,7 +478,9 @@ void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[add [#i 32 d1] [#i 32 d1]]");
+	std::wstringstream code;
+	code << L"[~ ] [~ [ptr [i16]]] [~ [` test_string]]";
+	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -492,23 +494,4 @@ void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 	lambda_p_llvm::synthesizer::operation synthesizer;
 	synthesizer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
-	assert (module->module->getFunctionList ().size () == 1);
-	lambda_p_llvm::module::print print;
-	std::vector <boost::shared_ptr <lambda_p::node>> a3;
-	std::vector <boost::shared_ptr <lambda_p::node>> r3;
-	a3.push_back (module);
-	print (builder.errors, a3, r3);
-	lambda_p_llvm::module::verify verify;
-	verify (builder.errors, a3, r3);
-	assert (builder.errors->errors.empty ());
-	assert (r2.size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	auto routine (cluster->routines [0]);
-	assert (routine->value()->getType ()->isPointerTy ());
-	auto ptr (llvm::dyn_cast <llvm::PointerType> (routine->value ()->getType ()));
-	assert (ptr != nullptr);
-	assert (ptr->getElementType ()->isFunctionTy ());
 }
