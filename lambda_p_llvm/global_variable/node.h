@@ -15,7 +15,6 @@ namespace lambda_p_llvm
 		public:
 			node (llvm::GlobalVariable * value_a, boost::shared_ptr <lambda_p_llvm::type::node> type_a);
 			llvm::GlobalVariable * global_variable ();
-			boost::shared_ptr <lambda_p_llvm::type::node> type;
 		};
 	}
 }

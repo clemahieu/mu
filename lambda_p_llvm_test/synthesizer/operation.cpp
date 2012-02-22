@@ -79,7 +79,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 {
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~] [~ [i32]] [add [#i 32 d1] [#i 32 d1]]");
+	source (L"[~] [~ [i32]] [add #i 32 d1 #i 32 d1]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -435,7 +435,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_11 ()
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [i32]] [call 2 ;; 1]";
-	code << L"[~ ] [~ [i32]] [#i 32 d42 ;; 2]";
+	code << L"[~ ] [~ [i32]] [~ #i 32 d42 ;; 2]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -479,7 +479,7 @@ void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 	lambda_p_io::builder builder;
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[~ ] [~ [ptr [i16]]] [~ [` test_string]]";
+	code << L"[~ ] [~ [ptr [i16]]] [~ ` test_string]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());

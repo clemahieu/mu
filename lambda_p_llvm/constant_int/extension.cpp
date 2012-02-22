@@ -43,10 +43,12 @@ void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <lam
 					auto number (lambda_p_script::integer::core (errors_a, number_identifier->string));
 					if (number.get () != nullptr)
 					{
-						auto result (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
-						result->closed.push_back (context);
-						result->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, bits->value)));
-						result->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (bits->value, number->value)));
+						auto node (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
+						node->closed.push_back (context);
+						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, bits->value)));
+						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (bits->value, number->value)));
+						auto result (boost::make_shared <lambda_p::expression> (number_identifier->context));
+						result->dependencies.push_back (node);
 						expression_a.self->dependencies.push_back (result);
 					}
 					else

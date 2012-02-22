@@ -12,6 +12,9 @@
 #include <lambda_p_llvm_test/synthesizer/operation.h>
 #include <lambda_p_llvm_test/function/create.h>
 #include <lambda_p_llvm_test/constant_string/extension.h>
+#include <lambda_p_llvm_test/instructions/call.h>
+#include <lambda_p_llvm_test/constant_string/create.h>
+#include <lambda_p_llvm_test/global_variable/create_set.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -83,11 +86,23 @@ void lambda_p_llvm_test::tests::run ()
 		test.run ();
 	}
 	{
+		lambda_p_llvm_test::constant_string::create test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::global_variable::create_set test;
+		test.run ();
+	}
+	{
 		lambda_p_llvm_test::synthesizer::operation test;
 		test.run ();
 	}
 	{
 		lambda_p_llvm_test::function::create test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::instructions::call test;
 		test.run ();
 	}
 }

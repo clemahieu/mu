@@ -7,10 +7,14 @@
 #include <lambda_p_llvm/global_variable/create_set.h>
 #include <lambda_p_llvm/constant/create_from_string.h>
 #include <lambda_p_llvm/global_variable/node.h>
+#include <lambda_p_llvm/pointer_type/node.h>
+#include <lambda_p_llvm/array_type/node.h>
 
 #include <boost/make_shared.hpp>
 
 #include <llvm/Module.h>
+#include <llvm/Constants.h>
+#include <llvm/DerivedTypes.h>
 
 void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
 {
@@ -28,6 +32,7 @@ void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <lam
 				v1.push_back (boost::make_shared <lambda_p_script::string::node> (three->string));
 				std::vector <boost::shared_ptr <lambda_p::node>> v2;
 				lambda_p_llvm::constant::create_from_string create;
+				v2.push_back (two);
 				create.perform (errors_a, v1, v2);
 				std::vector <boost::shared_ptr <lambda_p::node>> v3;
 				lambda_p_llvm::global_variable::create_set set;
@@ -35,7 +40,11 @@ void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <lam
 				if (! (*errors_a) ())
 				{
 					auto global (boost::static_pointer_cast <lambda_p_llvm::global_variable::node> (v3 [0]));
-					two->module->getGlobalList ().push_back (global->global_variable ());
+					auto var (global->global_variable ());
+					auto pointer_type (boost::static_pointer_cast <lambda_p_llvm::pointer_type::node> (global->type));
+					auto array_type (boost::static_pointer_cast <lambda_p_llvm::array_type::node> (pointer_type->element));
+					auto result (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantExpr::getBitCast (var, llvm::PointerType::get (array_type->element->type (), 0)), boost::make_shared <lambda_p_llvm::pointer_type::node> (array_type->element)));
+					results.push_back (result);
 				}
 			}
 			else

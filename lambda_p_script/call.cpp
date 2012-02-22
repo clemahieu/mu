@@ -30,19 +30,19 @@ void lambda_p_script::call::operator () (boost::shared_ptr <lambda_p::errors::er
 		auto operation (boost::dynamic_pointer_cast <lambda_p_script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-			(*this) (errors_a, operation, arguments_l, context_a);
+			(*this) (errors_l, operation, arguments_l, context_a);
 		}
 		else
 		{
 			std::wstringstream message;
 			message << L"First argument to call is not an operation: ";
 			message << arguments_l [0]->name ();
-			(*errors_a) (message.str (), context);
+			(*errors_l) (message.str ());
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Call has no arguments", context);
+		(*errors_l) (L"Call has no arguments");
 	}
 }
 

@@ -28,10 +28,12 @@ void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <
 		auto identifier (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [position]));
 		if (identifier.get () != nullptr)
 		{
-			auto result (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_string::create> ()));
-			result->closed.push_back (context);
-			result->closed.push_back (module);
-			result->closed.push_back (boost::make_shared <lambda_p_script::string::node> (identifier->string));
+			auto node (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_string::create> ()));
+			node->closed.push_back (context);
+			node->closed.push_back (module);
+			node->closed.push_back (boost::make_shared <lambda_p_script::string::node> (identifier->string));
+			auto result (boost::make_shared <lambda_p::expression> (identifier->context));
+			result->dependencies.push_back (node);
 			expression_a.self->dependencies.push_back (result);
 		}
 		else

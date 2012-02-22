@@ -14,6 +14,7 @@ namespace lambda_p_llvm
 		{
 		public:
 			node (llvm::ConstantInt * constant_int_a, boost::shared_ptr <lambda_p_llvm::type::node> type_a);
+			std::wstring name () override;
 			llvm::ConstantInt * constant_int ();
 		};
 	}

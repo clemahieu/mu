@@ -12,3 +12,8 @@ llvm::ConstantInt * lambda_p_llvm::constant_int::node::constant_int ()
 	auto result (llvm::cast <llvm::ConstantInt> (value_m));
 	return result;
 }
+
+std::wstring lambda_p_llvm::constant_int::node::name ()
+{
+	return std::wstring (L"lambda_p_llvm::constant_int::node");
+}

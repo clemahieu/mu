@@ -85,6 +85,7 @@ void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::clus
 		self->closed.push_back (results [0]);
 		clusters.push_back (result);
 		set_self ();
+		fwprintf (stderr, L"");
 	}
 }
 

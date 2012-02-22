@@ -1,9 +1,14 @@
 [~	
 	[llvm/compile/operation
-		[.() verify]
+		[.() verify print]
 		module
 		`a temp/sha256
 	]
+	[script/print/operation
+		[llvm/module/print
+			module
+		]		
+	;; print]
 	[llvm/module/verify
 		[.() sha256]
 		module
@@ -18,6 +23,11 @@
 		module
 		synthesizer
 	;; wprintf]
+	[add_exit
+		context
+		module
+		synthesizer
+	;; exit]
 	[add_bits
 		synthesizer
 		module
@@ -30,7 +40,7 @@
 		bits
 	;; added_bits]
 	[add_sha256
-		[.() added_bits abort wprintf]
+		[.() added_bits abort wprintf exit]
 		synthesizer
 		module
 	; sha256]
@@ -67,6 +77,19 @@
 	;; add]
 	[:~; context module synthesizer function_name function_type]
 ;; add_function]
+
+[add_function
+	context
+	module
+	synthesizer
+	` exit
+	[llvm/function_type/create
+		context
+		[{ ]
+		[{ ]
+	]
+	[:~; context module synthesizer]
+;; add_exit]
 
 [add_function
 	context

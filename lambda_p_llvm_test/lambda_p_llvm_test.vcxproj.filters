@@ -32,6 +32,15 @@
     <ClCompile Include="constant_string\extension.cpp">
       <Filter>constant_string</Filter>
     </ClCompile>
+    <ClCompile Include="instructions\call.cpp">
+      <Filter>instructions</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_string\create.cpp">
+      <Filter>constant_string</Filter>
+    </ClCompile>
+    <ClCompile Include="global_variable\create_set.cpp">
+      <Filter>global_variable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -65,6 +74,15 @@
     <ClInclude Include="constant_string\extension.h">
       <Filter>constant_string</Filter>
     </ClInclude>
+    <ClInclude Include="instructions\call.h">
+      <Filter>instructions</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_string\create.h">
+      <Filter>constant_string</Filter>
+    </ClInclude>
+    <ClInclude Include="global_variable\create_set.h">
+      <Filter>global_variable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -90,6 +108,12 @@
     </Filter>
     <Filter Include="constant_string">
       <UniqueIdentifier>{f622e980-5e79-4ffe-bcbd-b98e7931927d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="instructions">
+      <UniqueIdentifier>{7dc111a6-0d07-4004-a51b-9d9260ba725e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="global_variable">
+      <UniqueIdentifier>{541bf7a7-158b-4b0a-bb1f-4adb2d4ced74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
