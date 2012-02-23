@@ -161,11 +161,6 @@
 [~ ]
 [~ ]
 [call
-	exit
-	#i 32 d0
-	[call
-		wprintf
-		` |%|Hello world!%
-		:-[null [ptr [i16]]]
-	]
+	wprintf
+	` |%|Hello world!%
 ;; entry]

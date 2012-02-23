@@ -137,7 +137,7 @@
 	; start]
 	[llvm/value/set_name
 		start
-		`a WinMain
+		`a main
 	]
 	[llvm/global_value/set_linkage
 		start
