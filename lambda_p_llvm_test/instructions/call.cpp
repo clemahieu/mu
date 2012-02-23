@@ -24,6 +24,7 @@ void lambda_p_llvm_test::instructions::call::run ()
 	run_1 ();
 	run_2 ();
 	run_3 ();
+	run_4 ();
 }
 
 void lambda_p_llvm_test::instructions::call::run_1 ()
@@ -85,36 +86,8 @@ void lambda_p_llvm_test::instructions::call::run_4 ()
 	auto ctx (boost::make_shared <lambda_p_llvm::context::node> (&context));
 	auto type (boost::make_shared <lambda_p_llvm::pointer_type::node> (boost::make_shared <lambda_p_llvm::function_type::node> (ctx, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> (), boost::make_shared <lambda_p_llvm::void_type::node> (ctx))));
 	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	a1.push_back (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	std::vector <boost::shared_ptr <lambda_p::node>> r1;
 	lambda_p_llvm::instructions::call call;
 	call.perform (errors, a1, r1);
-	assert (errors->errors.empty ());
-	assert (r1.size () == 1);
-	llvm::Module module (llvm::StringRef (), context);
-	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto block (llvm::BasicBlock::Create (context, llvm::Twine (), function));
-	block->getInstList ().push_back (boost::static_pointer_cast <lambda_p_llvm::instruction::node> (r1 [0])->instruction ());
-}
-
-void lambda_p_llvm_test::instructions::call::run_5 ()
-{
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
-	llvm::LLVMContext context;
-	auto ctx (boost::make_shared <lambda_p_llvm::context::node> (&context));
-	auto return_l (boost::make_shared <lambda_p_llvm::set_type::node> (ctx));
-	return_l->elements.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context)));
-	return_l->elements.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context)));
-	auto type (boost::make_shared <lambda_p_llvm::pointer_type::node> (boost::make_shared <lambda_p_llvm::function_type::node> (ctx, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> (), return_l)));
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	a1.push_back (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
-	lambda_p_llvm::instructions::call call;
-	call.perform (errors, a1, r1);
-	assert (errors->errors.empty ());
-	assert (r1.size () == 1);
-	llvm::Module module (llvm::StringRef (), context);
-	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto block (llvm::BasicBlock::Create (context, llvm::Twine (), function));
-	block->getInstList ().push_back (boost::static_pointer_cast <lambda_p_llvm::instruction::node> (r1 [0])->instruction ());
+	assert (!errors->errors.empty ());
 }

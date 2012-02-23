@@ -300,6 +300,9 @@
     <ClInclude Include="null\create.h">
       <Filter>null</Filter>
     </ClInclude>
+    <ClInclude Include="ccall\operation.h">
+      <Filter>ccall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -601,6 +604,9 @@
     <ClCompile Include="null\create.cpp">
       <Filter>null</Filter>
     </ClCompile>
+    <ClCompile Include="ccall\operation.cpp">
+      <Filter>ccall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -698,6 +704,9 @@
     </Filter>
     <Filter Include="null">
       <UniqueIdentifier>{5d2cc4f8-6230-4094-ba6e-0f6b607141a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ccall">
+      <UniqueIdentifier>{aca14e5b-7e6e-442c-a460-c088bf705678}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

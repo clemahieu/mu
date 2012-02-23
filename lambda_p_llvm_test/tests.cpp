@@ -15,6 +15,7 @@
 #include <lambda_p_llvm_test/instructions/call.h>
 #include <lambda_p_llvm_test/constant_string/create.h>
 #include <lambda_p_llvm_test/global_variable/create_set.h>
+#include <lambda_p_llvm_test/ccall/operation.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -103,6 +104,10 @@ void lambda_p_llvm_test::tests::run ()
 	}
 	{
 		lambda_p_llvm_test::instructions::call test;
+		test.run ();
+	}
+	{
+		lambda_p_llvm_test::ccall::operation test;
 		test.run ();
 	}
 }

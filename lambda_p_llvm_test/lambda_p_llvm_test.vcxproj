@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="basic_block\insert.cpp" />
+    <ClCompile Include="ccall\operation.cpp" />
     <ClCompile Include="constant_string\create.cpp" />
     <ClCompile Include="constant_string\extension.cpp" />
     <ClCompile Include="extension.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="analyzer.h" />
     <ClInclude Include="basic_block\insert.h" />
+    <ClInclude Include="ccall\operation.h" />
     <ClInclude Include="constant_string\create.h" />
     <ClInclude Include="constant_string\extension.h" />
     <ClInclude Include="extension.h" />

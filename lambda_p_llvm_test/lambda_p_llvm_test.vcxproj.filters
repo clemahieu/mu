@@ -41,6 +41,9 @@
     <ClCompile Include="global_variable\create_set.cpp">
       <Filter>global_variable</Filter>
     </ClCompile>
+    <ClCompile Include="ccall\operation.cpp">
+      <Filter>ccall</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -83,6 +86,9 @@
     <ClInclude Include="global_variable\create_set.h">
       <Filter>global_variable</Filter>
     </ClInclude>
+    <ClInclude Include="ccall\operation.h">
+      <Filter>ccall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -114,6 +120,9 @@
     </Filter>
     <Filter Include="global_variable">
       <UniqueIdentifier>{541bf7a7-158b-4b0a-bb1f-4adb2d4ced74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ccall">
+      <UniqueIdentifier>{a801bbac-dea1-414a-bbb3-8c035d5c9871}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
