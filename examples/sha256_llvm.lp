@@ -64,21 +64,19 @@
 	[:~; x]
 ;; sigma4]
 
-[~ [i1] [i32]]
-[~ [i32]]
-[ccall
-	x
-	sigma3
-	sigma4
-	y
-	[:~; x y]
-;; choose]
-
 [~ ]
 [~ ]
 [call
 	exit
 	#i 32 d0
+;; ex]
+
+[~ ]
+[~ ]
+[ccall
+	#i 1 d0
+	abort
+	ex
 	:[[call
 		wprintf
 		` |%|Hello world!%
