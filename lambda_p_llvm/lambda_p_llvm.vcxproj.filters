@@ -297,6 +297,9 @@
     <ClInclude Include="basic_block\split_return.h">
       <Filter>basic_block</Filter>
     </ClInclude>
+    <ClInclude Include="null\create.h">
+      <Filter>null</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -595,6 +598,9 @@
     <ClCompile Include="basic_block\split_return.cpp">
       <Filter>basic_block</Filter>
     </ClCompile>
+    <ClCompile Include="null\create.cpp">
+      <Filter>null</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -689,6 +695,9 @@
     </Filter>
     <Filter Include="global_variable">
       <UniqueIdentifier>{8197cf27-d517-4173-8beb-78be05aa9617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="null">
+      <UniqueIdentifier>{5d2cc4f8-6230-4094-ba6e-0f6b607141a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -85,7 +85,7 @@
 	` exit
 	[llvm/function_type/create
 		context
-		[{ ]
+		[{ [llvm/integer_type/create context [llvm/apint/create # d32]]]
 		[{ ]
 	]
 	[:~; context module synthesizer]

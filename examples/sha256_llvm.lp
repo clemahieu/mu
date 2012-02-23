@@ -68,8 +68,10 @@
 [~ ]
 [call
 	exit
-	[call
+	#i 32 d0
+	:[[call
 		wprintf
 		` |%|Hello world!%
-	]	
+		:-[null [ptr [i16]]]
+	]:]	
 ;; _start]

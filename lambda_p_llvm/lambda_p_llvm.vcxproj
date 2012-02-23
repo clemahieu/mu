@@ -48,6 +48,7 @@
     <ClInclude Include="module\add_global_variable.h" />
     <ClInclude Include="module\merge.h" />
     <ClInclude Include="module\print.h" />
+    <ClInclude Include="null\create.h" />
     <ClInclude Include="pointer_type\create.h" />
     <ClInclude Include="set_type\extract.h" />
     <ClInclude Include="set_type\node.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="module\add_global_variable.cpp" />
     <ClCompile Include="module\merge.cpp" />
     <ClCompile Include="module\print.cpp" />
+    <ClCompile Include="null\create.cpp" />
     <ClCompile Include="pointer_type\create.cpp" />
     <ClCompile Include="set_type\extract.cpp" />
     <ClCompile Include="set_type\node.cpp" />
