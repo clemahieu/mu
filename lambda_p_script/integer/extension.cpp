@@ -87,7 +87,7 @@ boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::cor
 	boost::shared_ptr <lambda_p_script::integer::node> result;
 	wchar_t * next;
 	errno = 0;
-	unsigned long number = std::wcstol (string_a, &next, base_a);
+	unsigned long number = std::wcstoul (string_a, &next, base_a);
 	if (errno == ERANGE)
 	{
 		std::wstringstream message;

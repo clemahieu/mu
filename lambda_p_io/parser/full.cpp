@@ -29,7 +29,7 @@ lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::divider * token)
 {
-	unexpected_token (token);
+	unexpected_token (token, parser.context);
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::identifier * token)
@@ -52,7 +52,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::identifier * t
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::left_square * token)
 {
-	unexpected_token (token);
+	unexpected_token (token, parser.context);
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square * token)
@@ -73,19 +73,19 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square *
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::stream_end * token)
 {
-	unexpected_token (token);
+	unexpected_token (token, lambda_p::context (first.first, parser.context.last));
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::parameters * token)
 {
-	unexpected_token (token);
+	unexpected_token (token, parser.context);
 }
 
-void lambda_p_io::parser::full::unexpected_token (lambda_p_io::tokens::token * token)
+void lambda_p_io::parser::full::unexpected_token (lambda_p_io::tokens::token * token, lambda_p::context context_a)
 {
     std::wstringstream message;
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str (), parser.context);
+	(*parser.errors) (message.str (), context_a);
     parser.state.push (boost::shared_ptr <lambda_p_io::tokens::visitor> (new lambda_p_io::parser::error));
 }

@@ -133,11 +133,11 @@
 	; cluster]
 	[llvm/cluster/get
 		cluster
-		` _start
+		` entry
 	; start]
 	[llvm/value/set_name
 		start
-		`a _start
+		`a WinMain
 	]
 	[llvm/global_value/set_linkage
 		start

@@ -26,5 +26,5 @@ void lambda_p_io_test::values::run_1 ()
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (errors->errors [0]);
-	assert (e1.second == lambda_p::context (1, 8, 7, 1, 8, 7));
+	assert (e1.second == lambda_p::context (1, 1, 0, 1, 8, 7));
 }

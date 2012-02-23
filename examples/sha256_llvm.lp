@@ -64,6 +64,93 @@
 	[:~; x]
 ;; sigma4]
 
+[~ [ptr [i32]]]
+[~ ]
+[~
+	[store
+		#i 32 h6a09e667
+		[call
+			index
+			destination
+			#i 64 d0
+		]
+	]
+	[store
+		#i 32 hbb67ae85
+		[call
+			index
+			destination
+			#i 64 d1
+		]
+	]
+	[store
+		#i 32 h3c6ef372
+		[call
+			index
+			destination
+			#i 64 d2
+		]
+	]
+	[store
+		#i 32 ha54ff53a
+		[call
+			index
+			destination
+			#i 64 d3
+		]
+	]
+	[store
+		#i 32 h510e527f
+		[call
+			index
+			destination
+			#i 64 d4
+		]
+	]
+	[store
+		#i 32 h9b05688c
+		[call
+			index
+			destination
+			#i 64 d5
+		]
+	]
+	[store
+		#i 32 h1f83d9ab
+		[call
+			index
+			destination
+			#i 64 d6
+		]
+	]
+	[store
+		#i 32 h5be0cd19
+		[call
+			index
+			destination
+			#i 64 d7
+		]
+	]
+	[:~; destination]
+;; initialize_hash]
+
+[~ [ptr [i32]] [i64]]
+[~ [ptr [i32]]]
+[inttoptr
+	[add
+		[ptrtoint
+			value
+			[i64]
+		]
+		[mul
+			#i 64 d4
+			position
+		]
+	]
+	[ptr [i32]]
+	[:~; value position]
+;; index]
+
 [~ ]
 [~ ]
 [call
@@ -73,13 +160,12 @@
 
 [~ ]
 [~ ]
-[ccall
-	#i 1 d0
-	abort
-	ex
-	:[[call
+[call
+	exit
+	#i 32 d0
+	[call
 		wprintf
 		` |%|Hello world!%
 		:-[null [ptr [i16]]]
-	]:]	
-;; _start]
+	]
+;; entry]
