@@ -40,32 +40,28 @@ void lambda_p_llvm::instructions::call::perform (boost::shared_ptr <lambda_p::er
 						auto value (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (*i));
 						if (value.get () != nullptr)
 						{
-							auto void_type (boost::dynamic_pointer_cast <lambda_p_llvm::void_type::node> (value->type));
-							if (void_type.get () == nullptr)
+							auto expected (flat_type->getParamType (position));
+							auto actual (value->type->type ());
+							if (actual == expected)
 							{
-								auto expected (flat_type->getParamType (position));
-								auto actual (value->type->type ());
-								if (actual == expected)
+								arguments.push_back (value->value ());
+							}
+							else
+							{
+								std::string expected_str;
+								std::string actual_str;
 								{
-									arguments.push_back (value->value ());
+									llvm::raw_string_ostream expected_stream (expected_str);
+									expected->print (expected_stream);
+									llvm::raw_string_ostream actual_stream (actual_str);
+									actual->print (actual_stream);
 								}
-								else
-								{
-									std::string expected_str;
-									std::string actual_str;
-									{
-										llvm::raw_string_ostream expected_stream (expected_str);
-										expected->print (expected_stream);
-										llvm::raw_string_ostream actual_stream (actual_str);
-										actual->print (actual_stream);
-									}
-									std::wstringstream message;
-									message << L"Expected type: ";
-									message << std::wstring (expected_str.begin (), expected_str.end ());
-									message << L" does match actual type: ";
-									message << std::wstring (actual_str.begin (), actual_str.end ());
-									(*errors_a) (message.str ());
-								}
+								std::wstringstream message;
+								message << L"Expected type: ";
+								message << std::wstring (expected_str.begin (), expected_str.end ());
+								message << L" does match actual type: ";
+								message << std::wstring (actual_str.begin (), actual_str.end ());
+								(*errors_a) (message.str ());
 							}
 						}
 					}

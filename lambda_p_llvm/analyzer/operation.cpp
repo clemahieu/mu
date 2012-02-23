@@ -55,6 +55,7 @@
 #include <lambda_p_llvm/linkage_types/node.h>
 #include <lambda_p_llvm/constant_string/extension.h>
 #include <lambda_p_llvm/module/node.h>
+#include <lambda_p_llvm/basic_block/split_return.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -108,7 +109,7 @@ lambda_p_llvm::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"and")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::and> ()));
 	extensions->extensions_m [std::wstring (L"ashr")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::ashr> ()));
 	extensions->extensions_m [std::wstring (L"bitcast")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::bitcast> ()));
-	extensions->extensions_m [std::wstring (L"call")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::call> ()));
+	extensions->extensions_m [std::wstring (L"call")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::split_return> (context.block, boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::call> ())));
 	extensions->extensions_m [std::wstring (L"cmpxchg")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::cmpxchg> ()));
 	extensions->extensions_m [std::wstring (L"eq")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::predicate::node> (llvm::CmpInst::Predicate::ICMP_EQ));
 	extensions->extensions_m [std::wstring (L"icmp")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::icmp> ()));

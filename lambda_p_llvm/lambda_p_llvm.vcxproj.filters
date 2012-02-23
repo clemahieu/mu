@@ -294,6 +294,9 @@
     <ClInclude Include="constant_string\create.h">
       <Filter>constant_string</Filter>
     </ClInclude>
+    <ClInclude Include="basic_block\split_return.h">
+      <Filter>basic_block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -588,6 +591,9 @@
     </ClCompile>
     <ClCompile Include="constant_string\create.cpp">
       <Filter>constant_string</Filter>
+    </ClCompile>
+    <ClCompile Include="basic_block\split_return.cpp">
+      <Filter>basic_block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

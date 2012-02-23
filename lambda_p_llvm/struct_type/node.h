@@ -22,6 +22,7 @@ namespace lambda_p_llvm
 		{
 		public:
 			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, llvm::StructType * struct_type_a);
+			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a);
 			node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> elements_a);
 			llvm::Type * type () override;
 			llvm::StructType * struct_type ();

@@ -16,6 +16,11 @@ lambda_p_llvm::struct_type::node::node (boost::shared_ptr <lambda_p_llvm::contex
 	}
 }
 
+lambda_p_llvm::struct_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a)
+	: context (context_a)
+{
+}
+
 lambda_p_llvm::struct_type::node::node (boost::shared_ptr <lambda_p_llvm::context::node> context_a, std::vector <boost::shared_ptr <lambda_p_llvm::type::node>> elements_a)
 	: elements (elements_a),
 	context (context_a)

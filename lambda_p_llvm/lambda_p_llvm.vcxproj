@@ -28,6 +28,7 @@
     <ClInclude Include="basic_block\create.h" />
     <ClInclude Include="basic_block\insert.h" />
     <ClInclude Include="basic_block\instruction_insert.h" />
+    <ClInclude Include="basic_block\split_return.h" />
     <ClInclude Include="basic_block\store.h" />
     <ClInclude Include="cluster\get.h" />
     <ClInclude Include="cluster\index.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="basic_block\create.cpp" />
     <ClCompile Include="basic_block\insert.cpp" />
     <ClCompile Include="basic_block\instruction_insert.cpp" />
+    <ClCompile Include="basic_block\split_return.cpp" />
     <ClCompile Include="basic_block\store.cpp" />
     <ClCompile Include="cluster\get.cpp" />
     <ClCompile Include="cluster\index.cpp" />

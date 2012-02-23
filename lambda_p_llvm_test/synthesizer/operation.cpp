@@ -39,6 +39,8 @@ void lambda_p_llvm_test::synthesizer::operation::run ()
 	run_10 ();
 	run_11 ();
 	run_12 ();
+	run_13 ();
+	run_14 ();
 }
 
 void lambda_p_llvm_test::synthesizer::operation::run_1 ()
@@ -494,4 +496,99 @@ void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 	lambda_p_llvm::synthesizer::operation synthesizer;
 	synthesizer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
+}
+
+void lambda_p_llvm_test::synthesizer::operation::run_13 ()
+{
+	lambda_p_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	std::wstringstream code;
+	code << L"[~ ] [~ ] [call 2 [call 2];; 1]";
+	code << L"[~ ] [~ ] [~ ;; 2]";
+	source (code.str ());
+	source ();
+	assert (builder.errors->errors.empty ());
+	llvm::LLVMContext context_l;
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
+	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	std::vector <boost::shared_ptr <lambda_p::node>> a2;
+	std::vector <boost::shared_ptr <lambda_p::node>> r2;
+	a2.push_back (ast);
+	a2.push_back (module);
+	lambda_p_llvm::synthesizer::operation synthesizer;
+	synthesizer.perform (builder.errors, a2, r2);
+	assert (builder.errors->errors.empty ());
+	assert (module->module->getFunctionList ().size () == 2);
+	lambda_p_llvm::module::print print;
+	std::vector <boost::shared_ptr <lambda_p::node>> a3;
+	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	a3.push_back (module);
+	print (builder.errors, a3, r3);
+	lambda_p_llvm::module::verify verify;
+	verify (builder.errors, a3, r3);
+	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 2);
+	assert (cluster->names.size () == 2);
+	auto rout1 (cluster->routines [0]);
+	auto rout2 (cluster->routines [1]);
+	auto n1 (cluster->names.find (std::wstring (L"1")));
+	auto n2 (cluster->names.find (std::wstring (L"2")));
+	assert (n1 != cluster->names.end ());
+	assert (n2 != cluster->names.end ());
+	assert (n1->second == rout1);
+	assert (n2->second == rout2);
+}
+
+void lambda_p_llvm_test::synthesizer::operation::run_14 ()
+{
+	lambda_p_io::builder builder;
+	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	std::wstringstream code;
+	code << L"[~ ] [~ ] [call 3 [call 2];; 1]";
+	code << L"[~ ] [~ [i16] [i16]] [~ #i 16 d0 #i 16 d0;; 2]";
+	code << L"[~ [i16] [i16]] [~ ] [~ ;; 3]";
+	source (code.str ());
+	source ();
+	assert (builder.errors->errors.empty ());
+	llvm::LLVMContext context_l;
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
+	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	std::vector <boost::shared_ptr <lambda_p::node>> a2;
+	std::vector <boost::shared_ptr <lambda_p::node>> r2;
+	a2.push_back (ast);
+	a2.push_back (module);
+	lambda_p_llvm::synthesizer::operation synthesizer;
+	synthesizer.perform (builder.errors, a2, r2);
+	assert (builder.errors->errors.empty ());
+	assert (module->module->getFunctionList ().size () == 3);
+	lambda_p_llvm::module::print print;
+	std::vector <boost::shared_ptr <lambda_p::node>> a3;
+	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	a3.push_back (module);
+	print (builder.errors, a3, r3);
+	lambda_p_llvm::module::verify verify;
+	verify (builder.errors, a3, r3);
+	assert (builder.errors->errors.empty ());
+	assert (r2.size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <lambda_p_llvm::cluster::node> (r2 [0]));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 3);
+	assert (cluster->names.size () == 3);
+	auto rout1 (cluster->routines [0]);
+	auto rout2 (cluster->routines [1]);
+	auto rout3 (cluster->routines [2]);
+	auto n1 (cluster->names.find (std::wstring (L"1")));
+	auto n2 (cluster->names.find (std::wstring (L"2")));
+	auto n3 (cluster->names.find (std::wstring (L"3")));
+	assert (n1 != cluster->names.end ());
+	assert (n2 != cluster->names.end ());
+	assert (n3 != cluster->names.end ());
+	assert (n1->second == rout1);
+	assert (n2->second == rout2);
+	assert (n3->second == rout3);
 }
