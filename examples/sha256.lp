@@ -18,6 +18,11 @@
 		module
 		synthesizer
 	;; abort]
+	[add_assert
+		context
+		module
+		synthesizer
+	;; assert]
 	[add_wprintf
 		context
 		module
@@ -40,7 +45,7 @@
 		bits
 	;; added_bits]
 	[add_sha256
-		[.() added_bits abort wprintf exit]
+		[.() added_bits abort wprintf exit assert]
 		synthesizer
 		module
 	; sha256]
@@ -103,6 +108,19 @@
 	]
 	[:~; context module synthesizer]
 ;; add_abort]
+
+[add_function
+	context
+	module
+	synthesizer
+	` assert
+	[llvm/function_type/create
+		context
+		[{ [llvm/integer_type/create context [llvm/apint/create # d1]]]
+		[{ ]
+	]
+	[:~; context module synthesizer]
+;; add_assert]
 
 [add_function
 	context

@@ -14,8 +14,6 @@ using namespace lambda_p_test;
 
 int main ()
 {
-	wprintf (L"Hello world!");
-	exit (0);
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeAllAsmPrinters();
 	{
