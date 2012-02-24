@@ -34,15 +34,15 @@
 #include <mu/core/routine.h>
 #include <mu/script/routine.h>
 #include <mu/script/ast/extension.h>
-#include <lambda_p_llvm/analyzer/operation.h>
-#include <lambda_p_llvm/synthesizer/operation.h>
-#include <lambda_p_llvm/extension.h>
+#include <mu/llvm_/analyzer/operation.h>
+#include <mu/llvm_/synthesizer/operation.h>
+#include <mu/llvm_/extension.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/cluster/get.h>
 #include <mu/script/closure/single.h>
 #include <mu/script/values/create.h>
 #include <mu/script/ast/read_from_file.h>
-#include <lambda_p_llvm/module/merge.h>
+#include <mu/llvm_/module/merge.h>
 #include <mu/script/astring/truncate.h>
 
 #include <boost/make_shared.hpp>
@@ -109,7 +109,7 @@ boost::shared_ptr <mu::io::analyzer::extensions::extensions> mu::script_io::exte
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".apply"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::create_single> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::create> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".ast"), boost::make_shared <mu::script::ast::extension> ()));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".llvm"), boost::make_shared <lambda_p_llvm::extension> ()));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".llvm"), boost::make_shared <mu::llvm_::extension> ()));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"?"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::hole> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"if"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::hole> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/integer/equal"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::integer::equal> ())));
@@ -121,8 +121,8 @@ boost::shared_ptr <mu::io::analyzer::extensions::extensions> mu::script_io::exte
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/get"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::get> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/package/remove"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::remove> ())));
 	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"script/times/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::times::operation> ())));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/analyzer/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::analyzer::operation> ())));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/merge"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::module::merge> ())));
-	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::synthesizer::operation> ())));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/analyzer/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::analyzer::operation> ())));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/merge"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::merge> ())));
+	result->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::operation> ())));
 	return result;
 }

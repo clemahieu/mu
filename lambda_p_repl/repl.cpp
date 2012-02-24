@@ -15,7 +15,7 @@
 #include <mu/io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
 #include <mu/io/analyzer/extensions/global.h>
-#include <lambda_p_llvm/api.h>
+#include <mu/llvm_/api.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/print/operation.h>
 #include <mu/io/tokens/left_square.h>
@@ -58,7 +58,7 @@ void lambda_p_repl::repl::iteration ()
 	std::wcout << L"lp> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
 	mu::script_io::builder builder;
-	lambda_p_llvm::api api;
+	mu::llvm_::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
 	auto quit (boost::shared_ptr <mu::core::node> (new lambda_p_repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
