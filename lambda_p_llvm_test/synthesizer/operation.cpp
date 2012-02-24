@@ -4,8 +4,8 @@
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/routine.h>
 #include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/module/print.h>
 #include <lambda_p_llvm/module/verify.h>

@@ -3,7 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/context/node.h>
-#include <lambda_p_script/string/node.h>
+#include <mu/script/string/node.h>
 #include <lambda_p_llvm/global_variable/create_set.h>
 #include <lambda_p_llvm/constant/create_from_string.h>
 #include <lambda_p_llvm/global_variable/node.h>
@@ -20,7 +20,7 @@ void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <mu:
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
-	auto three (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [2]));
+	auto three (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [2]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -29,7 +29,7 @@ void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <mu:
 			{		
 				std::vector <boost::shared_ptr <mu::core::node>> v1;
 				v1.push_back (one);
-				v1.push_back (boost::make_shared <lambda_p_script::string::node> (three->string));
+				v1.push_back (boost::make_shared <mu::script::string::node> (three->string));
 				std::vector <boost::shared_ptr <mu::core::node>> v2;
 				lambda_p_llvm::constant::create_from_string create;
 				v2.push_back (two);

@@ -2,12 +2,12 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
-#include <lambda_p_script/integer/extension.h>
+#include <mu/script/integer/extension.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/expression.h>
-#include <lambda_p_script/integer/node.h>
+#include <mu/script/integer/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
-#include <lambda_p_script/ast/extension.h>
+#include <mu/script/ast/extension.h>
 #include <mu/io/ast/cluster.h>
 
 #include <boost/make_shared.hpp>

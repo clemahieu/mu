@@ -1,13 +1,13 @@
 #include "operation.h"
 
-#include <lambda_p_script/times/operation.h>
+#include <mu/script/times/operation.h>
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/integer/subtract.h>
-#include <lambda_p_script/integer/node.h>
+#include <mu/script/integer/subtract.h>
+#include <mu/script/integer/node.h>
 #include <lambda_p_script_io/builder.h>
 #include <mu/io/source.h>
-#include <lambda_p_script/routine.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/routine.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
 
@@ -20,15 +20,15 @@ void lambda_p_script_test::times::operation::run ()
 void lambda_p_script_test::times::operation::run_1 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::times::operation times;
+	mu::script::times::operation times;
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-	auto n1 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (0)));
+	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (0)));
 	arguments.push_back (n1);
-	auto n2 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::subtract));
+	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::integer::subtract));
 	arguments.push_back (n2);
-	auto n3 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (5)));
+	auto n3 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
 	arguments.push_back (n3);
-	auto n4 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (1)));
+	auto n4 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (1)));
 	arguments.push_back (n4);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	times.perform (errors, arguments, results);
@@ -45,31 +45,31 @@ void lambda_p_script_test::times::operation::run_2 ()
 	source (L"[[:~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	source ();
 	assert (builder.errors->errors.empty ());
-	lambda_p_script::times::operation times;
+	mu::script::times::operation times;
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
-	auto n1 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (2)));
+	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (2)));
 	arguments.push_back (n1);
 	auto n2 (cluster->routines [0]);
 	arguments.push_back (n2);
-	auto n3 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::subtract));
+	auto n3 (boost::shared_ptr <mu::core::node> (new mu::script::integer::subtract));
 	arguments.push_back (n3);
-	auto n4 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (5)));
+	auto n4 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
 	arguments.push_back (n4);
-	auto n5 (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (1)));
+	auto n5 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (1)));
 	arguments.push_back (n5);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	times.perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 3);
-	auto r1 (boost::dynamic_pointer_cast <lambda_p_script::integer::subtract> (results [0]));
+	auto r1 (boost::dynamic_pointer_cast <mu::script::integer::subtract> (results [0]));
 	assert (r1.get () != nullptr);
-	auto r2 (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [1]));
+	auto r2 (boost::dynamic_pointer_cast <mu::script::integer::node> (results [1]));
 	assert (r2.get () != nullptr);
 	assert (r2->value == 3);
-	auto r3 (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [2]));
+	auto r3 (boost::dynamic_pointer_cast <mu::script::integer::node> (results [2]));
 	assert (r3.get () != nullptr);
 	assert (r3->value == 1);
 }

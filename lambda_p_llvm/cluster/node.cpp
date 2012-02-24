@@ -2,9 +2,9 @@
 
 #include <mu/core/routine.h>
 #include <lambda_p_llvm/function/node.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/cluster/node.h>
 
-void lambda_p_llvm::cluster::node::set_names (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a)
+void lambda_p_llvm::cluster::node::set_names (boost::shared_ptr <mu::script::cluster::node> cluster_a, std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a)
 {
 	for (auto i (cluster_a->names.begin ()), j (cluster_a->names.end ()); i != j; ++i)
 	{

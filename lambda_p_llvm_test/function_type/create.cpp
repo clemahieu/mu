@@ -4,7 +4,7 @@
 #include <lambda_p_llvm/function_type/create.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/context/node.h>
-#include <lambda_p_script/values/operation.h>
+#include <mu/script/values/operation.h>
 #include <lambda_p_llvm/integer_type/node.h>
 #include <lambda_p_llvm/set_type/node.h>
 
@@ -31,8 +31,8 @@ void lambda_p_llvm_test::function_type::create::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (context);
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
 	create (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -53,10 +53,10 @@ void lambda_p_llvm_test::function_type::create::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (context);
-	auto args (boost::make_shared <lambda_p_script::values::operation> ());
+	auto args (boost::make_shared <mu::script::values::operation> ());
 	args->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (args);
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
 	create (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -79,11 +79,11 @@ void lambda_p_llvm_test::function_type::create::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (context);
-	auto args (boost::make_shared <lambda_p_script::values::operation> ());
+	auto args (boost::make_shared <mu::script::values::operation> ());
 	args->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	args->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (args);
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
 	create (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -108,8 +108,8 @@ void lambda_p_llvm_test::function_type::create::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (context);
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
-	auto res (boost::make_shared <lambda_p_script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
+	auto res (boost::make_shared <mu::script::values::operation> ());
 	res->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (res);
 	create (errors, arguments, results);
@@ -131,8 +131,8 @@ void lambda_p_llvm_test::function_type::create::run_5 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (context);
-	arguments.push_back (boost::make_shared <lambda_p_script::values::operation> ());
-	auto res (boost::make_shared <lambda_p_script::values::operation> ());
+	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
+	auto res (boost::make_shared <mu::script::values::operation> ());
 	res->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	res->values.push_back (boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (res);

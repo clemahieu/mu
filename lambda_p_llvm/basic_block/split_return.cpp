@@ -13,7 +13,7 @@
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
 
-lambda_p_llvm::basic_block::split_return::split_return (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <lambda_p_script::operation> next_a)
+lambda_p_llvm::basic_block::split_return::split_return (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> next_a)
 	: next (next_a),
 	block (block_a)
 {

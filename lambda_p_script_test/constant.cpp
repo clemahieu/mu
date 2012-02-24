@@ -1,10 +1,10 @@
 #include "constant.h"
 
 #include <mu/core/node.h>
-#include <lambda_p_script/constant.h>
+#include <mu/script/constant.h>
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/context.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/context.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -17,8 +17,8 @@ void lambda_p_script_test::constant::run_1 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
-	lambda_p_script::constant constant (node);
-	lambda_p_script::context context (boost::make_shared <lambda_p_script::cluster::node> (), boost::make_shared <mu::core::node> (), 0);
+	mu::script::constant constant (node);
+	mu::script::context context (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 0);
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	constant (errors, context, target);
 	assert (errors->errors.empty ());

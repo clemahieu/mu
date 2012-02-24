@@ -2,7 +2,7 @@
 
 #include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_script/astring/node.h>
+#include <mu/script/astring/node.h>
 
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/Support/TargetRegistry.h>
@@ -17,7 +17,7 @@
 void lambda_p_llvm::compile::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto module (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
-	auto name (boost::dynamic_pointer_cast <lambda_p_script::astring::node> (parameters [1]));
+	auto name (boost::dynamic_pointer_cast <mu::script::astring::node> (parameters [1]));
 	if (module.get () != nullptr)
 	{
 		if (name.get () != nullptr)

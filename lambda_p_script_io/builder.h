@@ -9,19 +9,22 @@
 
 #include <vector>
 
-namespace lambda_p_script
+namespace mu
 {
-	namespace closure
+	namespace script
 	{
-		class single;
-	}
-	namespace cluster
-	{
-		class node;
-	}
-	namespace exec
-	{
-		class operation;
+		namespace closure
+		{
+			class single;
+		}
+		namespace cluster
+		{
+			class node;
+		}
+		namespace exec
+		{
+			class operation;
+		}
 	}
 }
 namespace lambda_p_script_io
@@ -38,9 +41,9 @@ namespace lambda_p_script_io
 		mu::io::parser::parser parser;
 		mu::io::lexer::lexer lexer;
 		void set_self ();
-		boost::shared_ptr <lambda_p_script::closure::single> self;
+		boost::shared_ptr <mu::script::closure::single> self;
 		void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
-		std::vector <boost::shared_ptr <lambda_p_script::cluster::node>> clusters;
+		std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
 	};
 }
 

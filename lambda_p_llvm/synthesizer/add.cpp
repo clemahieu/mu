@@ -3,14 +3,14 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
-#include <lambda_p_script/string/node.h>
+#include <mu/script/string/node.h>
 
 #include <boost/make_shared.hpp>
 
 void lambda_p_llvm::synthesizer::add::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::synthesizer::operation> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [1]));
+	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)

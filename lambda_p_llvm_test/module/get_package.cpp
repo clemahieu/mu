@@ -4,8 +4,8 @@
 #include <lambda_p_llvm/function/node.h>
 #include <mu/core/errors/error_list.h>
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_script/package/node.h>
-#include <lambda_p_script/astring/node.h>
+#include <mu/script/package/node.h>
+#include <mu/script/astring/node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -30,12 +30,12 @@ void lambda_p_llvm_test::module::get_package::run_1 ()
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	arguments.push_back (module);
-	arguments.push_back (boost::shared_ptr <lambda_p_script::astring::node> (new lambda_p_script::astring::node (std::string (".suffix"))));
+	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	get.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto package (boost::dynamic_pointer_cast <lambda_p_script::package::node> (results [0]));
+	auto package (boost::dynamic_pointer_cast <mu::script::package::node> (results [0]));
 	assert (package.get () != nullptr);
 	assert (package->items.size () == 2);
 	assert (package->items.find (L"a") != package->items.end ());

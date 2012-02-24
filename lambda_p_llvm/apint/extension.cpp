@@ -2,12 +2,12 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
-#include <lambda_p_script/integer/extension.h>
+#include <mu/script/integer/extension.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/core/expression.h>
 #include <lambda_p_llvm/apint/node.h>
-#include <lambda_p_script/integer/node.h>
+#include <mu/script/integer/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -20,7 +20,7 @@ void lambda_p_llvm::apint::extension::operator () (boost::shared_ptr <mu::core::
 		auto value (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [position]));
 		if (value.get () != nullptr)
 		{
-			auto result (lambda_p_script::integer::core (errors_a, value->string));
+			auto result (mu::script::integer::core (errors_a, value->string));
 			if (result.get () != nullptr)
 			{
 				expression_a.self->dependencies.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, result->value)));

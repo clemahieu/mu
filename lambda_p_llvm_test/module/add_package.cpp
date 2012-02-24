@@ -3,7 +3,7 @@
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/module/get_package.h>
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/astring/node.h>
+#include <mu/script/astring/node.h>
 #include <lambda_p_llvm/module/add_package.h>
 
 #include <llvm/LLVMContext.h>
@@ -34,7 +34,7 @@ void lambda_p_llvm_test::module::add_package::run_1 ()
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	arguments.push_back (module);
-	arguments.push_back (boost::shared_ptr <lambda_p_script::astring::node> (new lambda_p_script::astring::node (std::string (".suffix"))));
+	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	get.perform (errors, arguments, results);
 	assert (errors->errors.empty ());

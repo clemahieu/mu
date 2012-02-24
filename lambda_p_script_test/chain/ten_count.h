@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p_script/fixed.h>
+#include <mu/script/fixed.h>
 
 namespace lambda_p_script_test
 {
 	namespace chain
 	{
-		class ten_count : public lambda_p_script::fixed
+		class ten_count : public mu::script::fixed
 		{
 		public:
 			ten_count ();

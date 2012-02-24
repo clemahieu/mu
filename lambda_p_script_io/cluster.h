@@ -15,13 +15,13 @@ namespace mu
 			class error_target;
 		}
 	}
-}
-namespace lambda_p_script
-{
-	class routine;
-	namespace cluster
+	namespace script
 	{
-		class node;
+		class routine;
+		namespace cluster
+		{
+			class node;
+		}
 	}
 }
 namespace lambda_p_script_io
@@ -30,8 +30,8 @@ namespace lambda_p_script_io
 	{
 	public:
 		cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
-		std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
-		boost::shared_ptr <lambda_p_script::cluster::node> result;
+		std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::routine>> generated;
+		boost::shared_ptr <mu::script::cluster::node> result;
 	};
 }
 

@@ -1,9 +1,9 @@
 #include "operation.h"
 
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/chain/operation.h>
+#include <mu/script/chain/operation.h>
 #include <lambda_p_script_test/chain/ten_count.h>
-#include <lambda_p_script/integer/node.h>
+#include <mu/script/integer/node.h>
 
 void lambda_p_script_test::chain::operation::run ()
 {
@@ -13,8 +13,8 @@ void lambda_p_script_test::chain::operation::run ()
 void lambda_p_script_test::chain::operation::run_1 ()
 {
 	auto operation (boost::shared_ptr <mu::core::node> (new lambda_p_script_test::chain::ten_count));
-	auto count (boost::shared_ptr <lambda_p_script::integer::node> (new lambda_p_script::integer::node (50)));
-	lambda_p_script::chain::operation chain;
+	auto count (boost::shared_ptr <mu::script::integer::node> (new mu::script::integer::node (50)));
+	mu::script::chain::operation chain;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
@@ -23,6 +23,6 @@ void lambda_p_script_test::chain::operation::run_1 ()
 	chain.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (results [0]));
+	auto result (boost::dynamic_pointer_cast <mu::script::integer::node> (results [0]));
 	assert (result->value == 40);
 }

@@ -1,9 +1,9 @@
 #include "operation.h"
 
-#include <lambda_p_script/closure/operation.h>
-#include <lambda_p_script/identity/operation.h>
+#include <mu/script/closure/operation.h>
+#include <mu/script/identity/operation.h>
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/closure/hole.h>
+#include <mu/script/closure/hole.h>
 
 void lambda_p_script_test::closure::operation::run ()
 {
@@ -17,7 +17,7 @@ void lambda_p_script_test::closure::operation::run ()
 void lambda_p_script_test::closure::operation::run_1 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::closure::operation closure (0, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::operation closure (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	closure (errors, arguments, results);
@@ -28,7 +28,7 @@ void lambda_p_script_test::closure::operation::run_1 ()
 void lambda_p_script_test::closure::operation::run_2 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::closure::operation closure (1, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::operation closure (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
@@ -42,7 +42,7 @@ void lambda_p_script_test::closure::operation::run_2 ()
 void lambda_p_script_test::closure::operation::run_3 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::operation closure (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n1);
@@ -59,17 +59,17 @@ void lambda_p_script_test::closure::operation::run_3 ()
 void lambda_p_script_test::closure::operation::run_4 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::operation closure (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n1);
-	auto n2 (boost::shared_ptr <mu::core::node> (new lambda_p_script::closure::hole));
+	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	closure (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::closure::operation> (results [0]));
+	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));
 	assert (result.get () != nullptr);
 	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
@@ -84,9 +84,9 @@ void lambda_p_script_test::closure::operation::run_4 ()
 void lambda_p_script_test::closure::operation::run_5 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	lambda_p_script::closure::operation closure (2, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::operation closure (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-	auto n1 (boost::shared_ptr <mu::core::node> (new lambda_p_script::closure::hole));
+	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	arguments.push_back (n1);
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
@@ -94,7 +94,7 @@ void lambda_p_script_test::closure::operation::run_5 ()
 	closure (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
-	auto result (boost::dynamic_pointer_cast <lambda_p_script::closure::operation> (results [0]));
+	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));
 	assert (result.get () != nullptr);
 	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	std::vector <boost::shared_ptr <mu::core::node>> args2;

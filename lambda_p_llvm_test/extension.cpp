@@ -5,7 +5,7 @@
 #include <mu/io/builder.h>
 #include <mu/io/ast/expression.h>
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
 

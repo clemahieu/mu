@@ -6,8 +6,8 @@
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_script_io/synthesizer.h>
 #include <mu/core/cluster.h>
-#include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/routine.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/context/node.h>
@@ -16,7 +16,7 @@
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/cluster/node.h>
-#include <lambda_p_script/values/operation.h>
+#include <mu/script/values/operation.h>
 #include <lambda_p_llvm/function_type/create.h>
 #include <lambda_p_llvm/function/node.h>
 
@@ -54,7 +54,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <mu::
 				std::vector <std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>>> functions;
 				if (!(*errors_a) ())
 				{
-					auto cluster (boost::static_pointer_cast <lambda_p_script::cluster::node> (results [0]));
+					auto cluster (boost::static_pointer_cast <mu::script::cluster::node> (results [0]));
 					auto result (boost::make_shared <lambda_p_llvm::cluster::node> ());
 					results_a.push_back (result);
 					if (!cluster->routines.empty ())
@@ -80,12 +80,12 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <mu::
 										++i;
 										if (i != j)
 										{
-											auto arguments (boost::make_shared <lambda_p_script::values::operation> ());
+											auto arguments (boost::make_shared <mu::script::values::operation> ());
 											for (auto i (r1.begin ()), j (r1.end ()); i != j; ++i)
 											{
 												arguments->values.push_back (*i);
 											}
-											auto results (boost::make_shared <lambda_p_script::values::operation> ());
+											auto results (boost::make_shared <mu::script::values::operation> ());
 											for (auto i (r2.begin ()), j (r2.end ()); i != j; ++i)
 											{
 												results->values.push_back (*i);

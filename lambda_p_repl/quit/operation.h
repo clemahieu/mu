@@ -1,13 +1,13 @@
 #pragma once
 
-#include <lambda_p_script/fixed.h>
+#include <mu/script/fixed.h>
 
 namespace lambda_p_repl
 {
 	class repl;
 	namespace quit
 	{
-		class operation : public lambda_p_script::fixed
+		class operation : public mu::script::fixed
 		{
 		public:
 			operation (lambda_p_repl::repl & repl_a);

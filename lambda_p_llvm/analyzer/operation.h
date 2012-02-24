@@ -1,7 +1,7 @@
 #pragma once
 
 #include <lambda_p_llvm/analyzer/context.h>
-#include <lambda_p_script/fixed.h>
+#include <mu/script/fixed.h>
 
 namespace mu
 {
@@ -20,7 +20,7 @@ namespace mu
 		}
 	}
 }
-namespace lambda_p_script
+namespace script
 {
 	class routine;
 }
@@ -36,7 +36,7 @@ namespace lambda_p_llvm
 	}
 	namespace analyzer
 	{
-		class operation : public lambda_p_script::fixed
+		class operation : public mu::script::fixed
 		{
 		public:
 			operation ();

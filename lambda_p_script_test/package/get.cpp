@@ -1,9 +1,9 @@
 #include "get.h"
 
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/package/get.h>
-#include <lambda_p_script/package/node.h>
-#include <lambda_p_script/string/node.h>
+#include <mu/script/package/get.h>
+#include <mu/script/package/node.h>
+#include <mu/script/string/node.h>
 
 void lambda_p_script_test::package::get::run ()
 {
@@ -13,9 +13,9 @@ void lambda_p_script_test::package::get::run ()
 void lambda_p_script_test::package::get::run_1 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	auto data (boost::shared_ptr <lambda_p_script::package::node> (new lambda_p_script::package::node));
-	auto name (boost::shared_ptr <lambda_p_script::string::node> (new lambda_p_script::string::node (std::wstring (L"test"))));
-	lambda_p_script::package::get get;
+	auto data (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
+	auto name (boost::shared_ptr <mu::script::string::node> (new mu::script::string::node (std::wstring (L"test"))));
+	mu::script::package::get get;
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	data->items [std::wstring (L"test")] = node;
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;

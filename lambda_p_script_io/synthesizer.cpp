@@ -4,8 +4,8 @@
 #include <mu/core/routine.h>
 #include <mu/core/cluster.h>
 #include <lambda_p_script_io/routine.h>
-#include <lambda_p_script/routine.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/routine.h>
+#include <mu/script/cluster/node.h>
 #include <lambda_p_script_io/cluster.h>
 
 #include <boost/make_shared.hpp>

@@ -10,17 +10,17 @@
 #include <lambda_p_repl/cli_stream.h>
 #include <lambda_p_script_io/builder.h>
 #include <mu/io/source.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/routine.h>
 #include <mu/io/lexer/error.h>
 #include <mu/io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/api.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <lambda_p_script/print/operation.h>
+#include <mu/script/print/operation.h>
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
-#include <lambda_p_script/cluster/node.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -82,7 +82,7 @@ void lambda_p_repl::repl::iteration ()
 				routine->perform (errors, arguments, results);
 				if (errors->errors.empty ())
 				{
-					lambda_p_script::print::operation print;
+					mu::script::print::operation print;
 					std::vector <boost::shared_ptr <mu::core::node>> print_results;
 					print.perform (errors, results, print_results);
 				}

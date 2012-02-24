@@ -13,7 +13,7 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_llvm::ccall::operation::operation (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <lambda_p_script::operation> call_a)
+lambda_p_llvm::ccall::operation::operation (boost::shared_ptr <lambda_p_llvm::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> call_a)
 	: block (block_a),
 	call (call_a)
 {

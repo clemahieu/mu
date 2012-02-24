@@ -1,7 +1,7 @@
 #include "create.h"
 
 #include <mu/core/errors/error_target.h>
-#include <lambda_p_script/values/operation.h>
+#include <mu/script/values/operation.h>
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/function_type/node.h>
@@ -18,8 +18,8 @@
 void lambda_p_llvm::function_type::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 {
 	auto context (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
-	auto one (boost::dynamic_pointer_cast <lambda_p_script::values::operation> (parameters [1]));
-	auto two (boost::dynamic_pointer_cast <lambda_p_script::values::operation> (parameters [2]));
+	auto one (boost::dynamic_pointer_cast <mu::script::values::operation> (parameters [1]));
+	auto two (boost::dynamic_pointer_cast <mu::script::values::operation> (parameters [2]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)

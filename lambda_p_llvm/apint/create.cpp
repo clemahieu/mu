@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <lambda_p_script/integer/node.h>
+#include <mu/script/integer/node.h>
 #include <lambda_p_llvm/apint/node.h>
 
 #include <boost/make_shared.hpp>
@@ -9,7 +9,7 @@
 
 void lambda_p_llvm::apint::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
 		results.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, one->value)));

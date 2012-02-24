@@ -30,23 +30,23 @@
 #include <lambda_p_llvm/instructions/xor.h>
 #include <lambda_p_llvm/instructions/zext.h>
 #include <lambda_p_llvm/apint/extension.h>
-#include <lambda_p_script/string/extension.h>
+#include <mu/script/string/extension.h>
 #include <mu/io/ast/end.h>
 #include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/value/get_type.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
-#include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/routine.h>
 #include <lambda_p_llvm/basic_block/instruction_insert.h>
-#include <lambda_p_script/values/create.h>
+#include <mu/script/values/create.h>
 #include <lambda_p_llvm/function_type/create.h>
 #include <lambda_p_llvm/integer_type/create.h>
-#include <lambda_p_script/closure/single.h>
+#include <mu/script/closure/single.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/constant_int/create.h>
-#include <lambda_p_script/identity/operation.h>
+#include <mu/script/identity/operation.h>
 #include <lambda_p_llvm/predicate/node.h>
 #include <lambda_p_llvm/pointer_type/create.h>
 #include <lambda_p_llvm/struct_type/create.h>
@@ -73,38 +73,38 @@ lambda_p_llvm::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <lambda_p_llvm::apint::extension> ();
 	extensions->extensions_m [std::wstring (L"#i")] = boost::make_shared <lambda_p_llvm::constant_int::extension> (context.context_m);
 	extensions->extensions_m [std::wstring (L"`")] = boost::make_shared <lambda_p_llvm::constant_string::extension> (context.context_m, context.module);
-	extensions->extensions_m [std::wstring (L"{")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::values::create> ());
-	extensions->extensions_m [std::wstring (L"~")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_script::identity::operation> ());
-	auto function_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::function_type::create> ()));
+	extensions->extensions_m [std::wstring (L"{")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::values::create> ());
+	extensions->extensions_m [std::wstring (L"~")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::identity::operation> ());
+	auto function_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::function_type::create> ()));
 	function_type->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"fun-t")] = boost::make_shared <mu::io::analyzer::extensions::global> (function_type);
-	auto integer_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto integer_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	integer_type->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"int-t")] = boost::make_shared <mu::io::analyzer::extensions::global> (integer_type);
-	auto i1_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto i1_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i1_type->closed.push_back (context.context_m);
 	i1_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 1)));
 	extensions->extensions_m [std::wstring (L"i1")] = boost::make_shared <mu::io::analyzer::extensions::global> (i1_type);
-	auto i8_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto i8_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i8_type->closed.push_back (context.context_m);
 	i8_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 8)));
 	extensions->extensions_m [std::wstring (L"i8")] = boost::make_shared <mu::io::analyzer::extensions::global> (i8_type);
-	auto i16_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto i16_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i16_type->closed.push_back (context.context_m);
 	i16_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 16)));
 	extensions->extensions_m [std::wstring (L"i16")] = boost::make_shared <mu::io::analyzer::extensions::global> (i16_type);
-	auto i32_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto i32_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i32_type->closed.push_back (context.context_m);
 	i32_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 32)));
 	extensions->extensions_m [std::wstring (L"i32")] = boost::make_shared <mu::io::analyzer::extensions::global> (i32_type);
-	auto i64_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
+	auto i64_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::integer_type::create> ()));
 	i64_type->closed.push_back (context.context_m);
 	i64_type->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, 64)));
 	extensions->extensions_m [std::wstring (L"i64")] = boost::make_shared <mu::io::analyzer::extensions::global> (i64_type);
-	auto struct_type (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::struct_type::create> ()));
+	auto struct_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::struct_type::create> ()));
 	struct_type->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"struct-t")] = boost::make_shared <mu::io::analyzer::extensions::global> (struct_type);
-	auto constant_int (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
+	auto constant_int (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
 	constant_int->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"int-c")] = boost::make_shared <mu::io::analyzer::extensions::global> (constant_int);	
 	extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::add> ()));

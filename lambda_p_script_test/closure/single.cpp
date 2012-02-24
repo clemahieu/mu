@@ -1,8 +1,8 @@
 #include "single.h"
 
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/closure/single.h>
-#include <lambda_p_script/identity/operation.h>
+#include <mu/script/closure/single.h>
+#include <mu/script/identity/operation.h>
 
 void lambda_p_script_test::closure::single::run ()
 {
@@ -14,7 +14,7 @@ void lambda_p_script_test::closure::single::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> closed;
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	closed.push_back (n1);
-	lambda_p_script::closure::single single (closed, boost::shared_ptr <lambda_p_script::operation> (new lambda_p_script::identity::operation));
+	mu::script::closure::single single (closed, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);

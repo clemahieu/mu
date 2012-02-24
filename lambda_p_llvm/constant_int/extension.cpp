@@ -2,13 +2,13 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
-#include <lambda_p_script/integer/extension.h>
+#include <mu/script/integer/extension.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/core/expression.h>
 #include <lambda_p_llvm/value/node.h>
-#include <lambda_p_script/integer/node.h>
-#include <lambda_p_script/closure/single.h>
+#include <mu/script/integer/node.h>
+#include <mu/script/closure/single.h>
 #include <lambda_p_llvm/constant_int/create.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/context/node.h>
@@ -37,13 +37,13 @@ void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <mu:
 			if (number_identifier.get () != nullptr)
 			{
 				auto characters (bits_identifier->string.c_str ());
-				auto bits (lambda_p_script::integer::core_d (errors_a, characters));
+				auto bits (mu::script::integer::core_d (errors_a, characters));
 				if (bits.get () != nullptr)
 				{
-					auto number (lambda_p_script::integer::core (errors_a, number_identifier->string));
+					auto number (mu::script::integer::core (errors_a, number_identifier->string));
 					if (number.get () != nullptr)
 					{
-						auto node (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
+						auto node (boost::make_shared <mu::script::closure::single> (boost::make_shared <lambda_p_llvm::constant_int::create> ()));
 						node->closed.push_back (context);
 						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, bits->value)));
 						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (bits->value, number->value)));

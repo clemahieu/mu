@@ -2,12 +2,12 @@
 
 #include <lambda_p_script_io/builder.h>
 #include <mu/io/source.h>
-#include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/closure/create_single.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/closure/create_single.h>
 #include <lambda_p_llvm/instructions/add.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/routine.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/constant_int/node.h>
@@ -40,7 +40,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	auto cluster1 (builder.clusters [0]);
 	assert (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
-	lambda_p_script::closure::create_single create;
+	mu::script::closure::create_single create;
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	a1.push_back (routine1);

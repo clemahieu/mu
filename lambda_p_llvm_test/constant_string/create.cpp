@@ -2,7 +2,7 @@
 
 #include <mu/core/errors/error_list.h>
 #include <lambda_p_llvm/constant_string/create.h>
-#include <lambda_p_script/string/node.h>
+#include <mu/script/string/node.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/global_variable/node.h>
@@ -30,7 +30,7 @@ void lambda_p_llvm_test::constant_string::create::run_1 ()
 	auto module (new llvm::Module (llvm::StringRef (), context));
 	a1.push_back (boost::make_shared <lambda_p_llvm::context::node> (&context));
 	a1.push_back (boost::make_shared <lambda_p_llvm::module::node> (module));
-	a1.push_back (boost::make_shared <lambda_p_script::string::node> (std::wstring (L"test string")));
+	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"test string")));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	lambda_p_llvm::constant_string::create create;
 	create.perform (errors, a1, r1);

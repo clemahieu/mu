@@ -1,8 +1,8 @@
 #include "node.h"
 
 #include <mu/core/errors/error_list.h>
-#include <lambda_p_script/cluster/node.h>
-#include <lambda_p_script/routine.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/routine.h>
 #include <mu/core/routine.h>
 
 #include <boost/make_shared.hpp>
@@ -17,14 +17,14 @@ void lambda_p_script_test::cluster::node::run ()
 
 void lambda_p_script_test::cluster::node::run_1 ()
 {
-	lambda_p_script::cluster::node cluster;
+	mu::script::cluster::node cluster;
 	std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> remap;
 	cluster.remap (remap);
 }
 
 void lambda_p_script_test::cluster::node::run_2 ()
 {
-	lambda_p_script::cluster::node cluster;
+	mu::script::cluster::node cluster;
 	auto routine (boost::make_shared <mu::core::routine> (mu::core::context ()));
 	std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> remap;
 	auto node (boost::make_shared <mu::core::node> ());
@@ -35,7 +35,7 @@ void lambda_p_script_test::cluster::node::run_2 ()
 
 void lambda_p_script_test::cluster::node::run_3 ()
 {
-	lambda_p_script::cluster::node cluster;
+	mu::script::cluster::node cluster;
 	auto routine (boost::make_shared <mu::core::routine> (mu::core::context ()));
 	std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> remap;
 	auto node (boost::make_shared <mu::core::node> ());
@@ -45,7 +45,7 @@ void lambda_p_script_test::cluster::node::run_3 ()
 
 void lambda_p_script_test::cluster::node::run_4 ()
 {
-	lambda_p_script::cluster::node cluster;
+	mu::script::cluster::node cluster;
 	auto routine (boost::make_shared <mu::core::routine> (mu::core::context ()));
 	std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> remap;
 	auto node (boost::make_shared <mu::core::node> ());

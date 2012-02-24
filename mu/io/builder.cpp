@@ -3,7 +3,7 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-#include <lambda_p_script/ast/extension.h>
+#include <mu/script/ast/extension.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/ast/node.h>

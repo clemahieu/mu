@@ -1,7 +1,7 @@
 #include "print.h"
 
 #include <lambda_p_llvm/module/node.h>
-#include <lambda_p_script/astring/node.h>
+#include <mu/script/astring/node.h>
 
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Assembly/AssemblyAnnotationWriter.h>
@@ -14,7 +14,7 @@ void lambda_p_llvm::module::print::operator () (boost::shared_ptr <mu::core::err
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		auto result (boost::make_shared <lambda_p_script::astring::node> ());
+		auto result (boost::make_shared <mu::script::astring::node> ());
 		llvm::raw_string_ostream stream (result->string);
 		llvm::AssemblyAnnotationWriter annotation;
 		one->module->print (stream, &annotation);
