@@ -7,13 +7,13 @@
 #include <boost/bind.hpp>
 #include <mu/core/errors/error_list.h>
 #include <mu/core/errors/error.h>
-#include <lambda_p_repl/cli_stream.h>
+#include <mu/repl/cli_stream.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/routine.h>
 #include <mu/io/lexer/error.h>
 #include <mu/io/parser/error.h>
-#include <lambda_p_repl/quit/operation.h>
+#include <mu/repl/quit/operation.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/api.h>
 #include <mu/io/analyzer/extensions/extensions.h>
@@ -24,23 +24,23 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_repl::repl::repl ()
+mu::repl::repl::repl ()
 	: stop_m (false)
 {
 }
 
-void lambda_p_repl::repl::reset ()
+void mu::repl::repl::reset ()
 {
 	stop_m = false;
 }
 
-void lambda_p_repl::repl::run ()
+void mu::repl::repl::run ()
 {
 	run_loop ();
 	std::cout << "Exiting";
 }
 
-void lambda_p_repl::repl::run_loop ()
+void mu::repl::repl::run_loop ()
 {
 	while (!stop_m)
 	{
@@ -48,19 +48,19 @@ void lambda_p_repl::repl::run_loop ()
 	}
 }
 
-void lambda_p_repl::repl::stop ()
+void mu::repl::repl::stop ()
 {
 	stop_m = true;
 }
 
-void lambda_p_repl::repl::iteration ()
+void mu::repl::repl::iteration ()
 {
 	std::wcout << L"lp> ";
-	boost::shared_ptr <mu::io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
+	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
 	mu::script_io::builder builder;
 	mu::llvm_::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
-	auto quit (boost::shared_ptr <mu::core::node> (new lambda_p_repl::quit::operation (*this)));
+	auto quit (boost::shared_ptr <mu::core::node> (new mu::repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	builder.parser (new mu::io::tokens::left_square (), mu::core::context ());
@@ -109,7 +109,7 @@ void lambda_p_repl::repl::iteration ()
 	}
 }
 
-void lambda_p_repl::repl::print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a)
+void mu::repl::repl::print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a)
 {
 	for (auto i (errors_a->errors.begin ()), j (errors_a->errors.end ()); i != j; ++i)
 	{
