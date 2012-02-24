@@ -26,6 +26,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core_test", "mu\core_test\core_test.vcxproj", "{92FA64F4-0618-4602-B59C-7B12016BDC03}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_entry", "mu\test_entry\test_entry.vcxproj", "{3B93F5FC-8121-44E1-840C-36571BDA8BF9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92FA64F4-0618-4602-B59C-7B12016BDC03} = {92FA64F4-0618-4602-B59C-7B12016BDC03}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script", "mu\script\script.vcxproj", "{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}"
 EndProject
@@ -40,6 +43,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "llvm_", "mu\llvm_\llvm_.vcxproj", "{6E7EC1DF-205B-4A75-B3F2-7364E315FABB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_entry", "mu\repl_entry\repl_entry.vcxproj", "{59E61827-D9B0-4840-B2ED-3FA75EFD3ECC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F} = {0365160D-8CA1-4266-8803-22A0B49A5A7F}
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
+		{7AB695DE-E9F4-4848-9E48-C1A4FC05B295} = {7AB695DE-E9F4-4848-9E48-C1A4FC05B295}
+		{6E7EC1DF-205B-4A75-B3F2-7364E315FABB} = {6E7EC1DF-205B-4A75-B3F2-7364E315FABB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_test", "mu\repl_test\repl_test.vcxproj", "{B625C2F2-EFC9-4809-A2CA-7145A7446E58}"
 EndProject
