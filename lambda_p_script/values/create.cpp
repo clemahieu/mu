@@ -4,9 +4,9 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_script::values::create::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::values::create::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	std::vector <boost::shared_ptr <lambda_p::node>> values;
+	std::vector <boost::shared_ptr <mu::core::node>> values;
 	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
 	{
 		values.push_back (*i);

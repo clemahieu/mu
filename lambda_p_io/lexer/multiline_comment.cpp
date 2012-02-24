@@ -2,7 +2,7 @@
 
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/lexer/error.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 
 lambda_p_io::lexer::multiline_comment::multiline_comment (lambda_p_io::lexer::lexer & lexer_a)
 	: have_colon (false),
@@ -45,7 +45,7 @@ void lambda_p_io::lexer::multiline_comment::lex (wchar_t character)
 	}
 	else
 	{
-		(*lexer.errors) (L"End of stream inside multiline comment", lambda_p::context (lexer.position, lexer.position));
+		(*lexer.errors) (L"End of stream inside multiline comment", mu::core::context (lexer.position, lexer.position));
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

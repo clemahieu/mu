@@ -4,13 +4,16 @@
 
 #include <map>
 
-namespace lambda_p
+namespace mu
 {
-	class cluster;
-	class routine;
-	namespace errors
+	namespace core
 	{
-		class error_target;
+		class cluster;
+		class routine;
+		namespace errors
+		{
+			class error_target;
+		}
 	}
 }
 namespace lambda_p_script
@@ -26,8 +29,8 @@ namespace lambda_p_script_io
 	class cluster
 	{
 	public:
-		cluster (boost::shared_ptr <lambda_p::cluster> cluster_a);
-		std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
+		cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
+		std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <lambda_p_script::routine>> generated;
 		boost::shared_ptr <lambda_p_script::cluster::node> result;
 	};
 }

@@ -30,20 +30,20 @@ void lambda_p_io::lexer::begin::lex (wchar_t character)
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::complex_identifier (lexer)));
 		break;
 	case L';':
-		lexer.target (new lambda_p_io::tokens::divider, lambda_p::context (lexer.position, lexer.position));
+		lexer.target (new lambda_p_io::tokens::divider, mu::core::context (lexer.position, lexer.position));
 		break;
 	case L':':
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::control (lexer, lexer.position)));
 		break;
 	case L'[':
-		lexer.target (new lambda_p_io::tokens::left_square, lambda_p::context (lexer.position, lexer.position));
+		lexer.target (new lambda_p_io::tokens::left_square, mu::core::context (lexer.position, lexer.position));
 		break;
 	case L']':
-		lexer.target (new lambda_p_io::tokens::right_square, lambda_p::context (lexer.position, lexer.position));
+		lexer.target (new lambda_p_io::tokens::right_square, mu::core::context (lexer.position, lexer.position));
 		break;
 	case L'\uffff':
 		lexer.state.pop ();
-		lexer.target (new lambda_p_io::tokens::stream_end, lambda_p::context (lexer.position, lexer.position));
+		lexer.target (new lambda_p_io::tokens::stream_end, mu::core::context (lexer.position, lexer.position));
 		break;
 	default:
 		auto state (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::identifier (lexer, lexer.position)));

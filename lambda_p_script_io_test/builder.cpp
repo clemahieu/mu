@@ -11,9 +11,9 @@
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/parameters.h>
-#include <lambda_p/segment.h>
+#include <core/segment.h>
 #include <lambda_p_script/cluster/node.h>
-#include <lambda_p/routine.h>
+#include <core/routine.h>
 
 #include <boost/bind.hpp>
 
@@ -53,11 +53,11 @@ void lambda_p_script_io_test::builder::run_2 ()
 	source ();
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
-	auto n2 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
+	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
@@ -74,8 +74,8 @@ void lambda_p_script_io_test::builder::run_3 ()
 	source ();
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
 	routine->perform (builder.errors, arguments, results);
@@ -92,8 +92,8 @@ void lambda_p_script_io_test::builder::run_4 ()
 	source ();
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 0);
@@ -110,10 +110,10 @@ void lambda_p_script_io_test::builder::run_5 ()
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
@@ -133,10 +133,10 @@ void lambda_p_script_io_test::builder::run_6 ()
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
@@ -156,10 +156,10 @@ void lambda_p_script_io_test::builder::run_7 ()
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	auto n1 (boost::shared_ptr <lambda_p_script::identity::operation> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	routine->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
@@ -224,14 +224,14 @@ void lambda_p_script_io_test::builder::run_9 ()
 	auto c34 (boost::dynamic_pointer_cast <lambda_p_script::reference> (c3->arguments [3]));
 	assert (c34->index == 2);
 	assert (c34->expression == 0);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	auto n1 (boost::shared_ptr <lambda_p::node> (new lambda_p_script::identity::operation));
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto n1 (boost::shared_ptr <mu::core::node> (new lambda_p_script::identity::operation));
 	arguments.push_back (n1);
-	auto n2 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
+	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
-	auto n3 (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
+	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n3);
 	routine->perform (errors, arguments, results);
 	assert (errors->errors.empty ());
@@ -252,8 +252,8 @@ void lambda_p_script_io_test::builder::run_10 ()
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 2);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	cluster->routines [0]->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
@@ -270,8 +270,8 @@ void lambda_p_script_io_test::builder::run_11 ()
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	assert (cluster->routines.size () == 2);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	cluster->routines [0]->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);

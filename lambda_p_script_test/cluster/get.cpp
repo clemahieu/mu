@@ -1,7 +1,7 @@
 #include "get.h"
 
-#include <lambda_p/errors/error_list.h>
-#include <lambda_p/routine.h>
+#include <core/errors/error_list.h>
+#include <core/routine.h>
 #include <lambda_p_script/cluster/get.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
@@ -16,16 +16,16 @@ void lambda_p_script_test::cluster::get::run ()
 
 void lambda_p_script_test::cluster::get::run_1 ()
 {
-	auto routine (boost::make_shared <lambda_p::routine> (lambda_p::context ()));
+	auto routine (boost::make_shared <mu::core::routine> (mu::core::context ()));
 	auto script (boost::make_shared <lambda_p_script::routine> (boost::make_shared <lambda_p_script::cluster::node> ()));
 	auto cluster (boost::make_shared <lambda_p_script::cluster::node> ());
 	cluster->routines.push_back (script);
 	cluster->names [std::wstring (L"one")] = routine;
 	cluster->mapping [routine] = script;
 	auto get (boost::make_shared <lambda_p_script::cluster::get> ());
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (cluster);
 	arguments.push_back (routine);
 	get->perform (errors, arguments, results);

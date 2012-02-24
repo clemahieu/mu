@@ -1,6 +1,6 @@
 #include "add_package.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/function/node.h>
@@ -9,7 +9,7 @@
 
 #include <sstream>
 
-void lambda_p_llvm::module::add_package::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::module::add_package::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::package::node> (parameters [1]));

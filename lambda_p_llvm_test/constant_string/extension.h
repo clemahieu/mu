@@ -2,9 +2,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class cluster;
+	namespace core
+	{
+		class cluster;
+	}
 }
 namespace lambda_p_llvm_test
 {
@@ -15,7 +18,7 @@ namespace lambda_p_llvm_test
 		public:
 			void run ();
 			void run_1 ();
-			void junk (boost::shared_ptr <lambda_p::cluster> cluster_a);
+			void junk (boost::shared_ptr <mu::core::cluster> cluster_a);
 		};
 	}
 }

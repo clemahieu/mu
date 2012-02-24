@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_llvm/function/create.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm/function_type/node.h>
@@ -22,10 +22,10 @@ void lambda_p_llvm_test::function::create::run_1 ()
 {
 	llvm::LLVMContext context;
 	lambda_p_llvm::function::create create;
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <lambda_p_llvm::function_type::node> (boost::make_shared <lambda_p_llvm::context::node> (&context), llvm::FunctionType::get (llvm::Type::getVoidTy (context), false)));
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	create (errors, a1, r1);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

@@ -4,14 +4,14 @@
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_script/string/node.h>
 
 #include <sstream>
 
-void lambda_p_script::string::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > data_position)
@@ -24,7 +24,7 @@ void lambda_p_script::string::extension::operator () (boost::shared_ptr <lambda_
 		}
 		else
 		{
-			(*errors_a) (L"String extension requires its argument to be an identifier", lambda_p::context (expression_a.expression_m->values [data_position - 1]->context.first, expression_a.expression_m->values [data_position]->context.last));
+			(*errors_a) (L"String extension requires its argument to be an identifier", mu::core::context (expression_a.expression_m->values [data_position - 1]->context.first, expression_a.expression_m->values [data_position]->context.last));
 		}
 	}
 	else

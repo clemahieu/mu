@@ -4,12 +4,15 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class cluster;
-	namespace errors
+	namespace core
 	{
-		class error_list;
+		class cluster;
+		namespace errors
+		{
+			class error_list;
+		}
 	}
 }
 namespace lambda_p_io_test
@@ -18,9 +21,9 @@ namespace lambda_p_io_test
 	{
 	public:
 		analyzer_result ();
-		void operator () (boost::shared_ptr <lambda_p::cluster> cluster_a);
-		std::vector <boost::shared_ptr <lambda_p::cluster>> clusters;
-		boost::shared_ptr <lambda_p::errors::error_list> errors;
+		void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
+		std::vector <boost::shared_ptr <mu::core::cluster>> clusters;
+		boost::shared_ptr <mu::core::errors::error_list> errors;
 	};
 }
 

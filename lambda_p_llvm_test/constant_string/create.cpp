@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_llvm/constant_string/create.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_llvm/context/node.h>
@@ -24,14 +24,14 @@ void lambda_p_llvm_test::constant_string::create::run ()
 
 void lambda_p_llvm_test::constant_string::create::run_1 ()
 {
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
 	a1.push_back (boost::make_shared <lambda_p_llvm::context::node> (&context));
 	a1.push_back (boost::make_shared <lambda_p_llvm::module::node> (module));
 	a1.push_back (boost::make_shared <lambda_p_script::string::node> (std::wstring (L"test string")));
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	lambda_p_llvm::constant_string::create create;
 	create.perform (errors, a1, r1);
 	assert (errors->errors.empty ());

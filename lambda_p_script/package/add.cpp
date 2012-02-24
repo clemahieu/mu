@@ -2,11 +2,11 @@
 
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_script/string/node.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 
 #include <sstream>
 
-void lambda_p_script::package::add::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::package::add::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::package::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [1]));
@@ -17,7 +17,7 @@ void lambda_p_script::package::add::operator () (boost::shared_ptr <lambda_p::er
 			auto existing (one->items.find (two->string));
 			if (existing != one->items.end ())
 			{
-				one->items.insert (std::map <std::wstring, boost::shared_ptr <lambda_p::node>>::value_type (two->string, parameters [2]));
+				one->items.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (two->string, parameters [2]));
 			}
 			else
 			{

@@ -21,7 +21,7 @@ namespace lambda_p_script
 	{
 	public:
 		routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a);
-		void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
+		void perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 		std::wstring name () override;
 		boost::shared_ptr <lambda_p_script::cluster::node> cluster;
 		std::vector <boost::shared_ptr <lambda_p_script::call>> calls;

@@ -15,8 +15,8 @@ namespace lambda_p_llvm
 		class run_function : public lambda_p_script::operation
 		{
 		public:
-			void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
-			void perform_internal (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_llvm::execution_engine::node> one, llvm::Function * function, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results);
+			void perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
+			void perform_internal (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <lambda_p_llvm::execution_engine::node> one, llvm::Function * function, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results);
 			std::wstring name () override;
 		};
 	}

@@ -1,6 +1,6 @@
 #include "extension.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_io/builder.h>
 #include <lambda_p_io/source.h>
 #include <lambda_p_llvm/constant_string/extension.h>
@@ -9,7 +9,7 @@
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p_io/analyzer/analyzer.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
@@ -39,7 +39,7 @@ void lambda_p_llvm_test::constant_string::extension::run_1 ()
 	assert (expression->values.size () == 2);
 	lambda_p_io::analyzer::analyzer analyzer (boost::bind (&lambda_p_llvm_test::constant_string::extension::junk, this, _1), builder.errors);
 	lambda_p_io::analyzer::routine rout (analyzer, expression.get ());
-	auto self (boost::make_shared <lambda_p::expression> (lambda_p::context ()));
+	auto self (boost::make_shared <mu::core::expression> (mu::core::context ()));
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <lambda_p_llvm::context::node> (&context));
 	auto module (boost::make_shared <lambda_p_llvm::module::node> (new llvm::Module (llvm::StringRef (""), context)));
@@ -48,7 +48,7 @@ void lambda_p_llvm_test::constant_string::extension::run_1 ()
 	assert (builder.errors->errors.empty ());
 }
 
-void lambda_p_llvm_test::constant_string::extension::junk (boost::shared_ptr <lambda_p::cluster> cluster_a)
+void lambda_p_llvm_test::constant_string::extension::junk (boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 
 }

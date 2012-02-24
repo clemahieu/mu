@@ -1,11 +1,11 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/cluster.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_script_io/synthesizer.h>
-#include <lambda_p/cluster.h>
+#include <core/cluster.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_llvm/function_type/node.h>
@@ -29,7 +29,7 @@
 #include <utility>
 #include <set>
 
-void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
+void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
@@ -37,18 +37,18 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 	{
 		if (two.get () != nullptr)
 		{
-			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-			std::vector <boost::shared_ptr <lambda_p::node>> results;
+			std::vector <boost::shared_ptr <mu::core::node>> arguments;
+			std::vector <boost::shared_ptr <mu::core::node>> results;
 			arguments.push_back (one);
 			analyzer (errors_a, arguments, results);
 			if (!(*errors_a) ())
 			{
 				analyzer.context.context_m->context = &two->module->getContext ();
 				analyzer.context.module->module = two->module;
-				auto cluster (boost::static_pointer_cast <lambda_p::cluster> (results [0]));
+				auto cluster (boost::static_pointer_cast <mu::core::cluster> (results [0]));
 				lambda_p_script_io::synthesizer synthesizer;
-				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-				std::vector <boost::shared_ptr <lambda_p::node>> results;
+				std::vector <boost::shared_ptr <mu::core::node>> arguments;
+				std::vector <boost::shared_ptr <mu::core::node>> results;
 				arguments.push_back (cluster);
 				synthesizer (errors_a, arguments, results);
 				std::vector <std::pair <llvm::Function *, boost::shared_ptr <lambda_p_llvm::function_type::node>>> functions;
@@ -59,12 +59,12 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 					results_a.push_back (result);
 					if (!cluster->routines.empty ())
 					{
-						std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> remap;
+						std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> remap;
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i)
 						{
 							auto argument_routine (*i);
-							std::vector <boost::shared_ptr <lambda_p::node>> a1;
-							std::vector <boost::shared_ptr <lambda_p::node>> r1;
+							std::vector <boost::shared_ptr <mu::core::node>> a1;
+							std::vector <boost::shared_ptr <mu::core::node>> r1;
 							argument_routine->perform (errors_a, a1, r1);
 							if (!(*errors_a) ())
 							{
@@ -72,8 +72,8 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 								if (i != j)
 								{
 									auto result_routine (*i);
-									std::vector <boost::shared_ptr <lambda_p::node>> a2;
-									std::vector <boost::shared_ptr <lambda_p::node>> r2;
+									std::vector <boost::shared_ptr <mu::core::node>> a2;
+									std::vector <boost::shared_ptr <mu::core::node>> r2;
 									result_routine->perform (errors_a, a2, r2);
 									if (!(*errors_a) ())
 									{
@@ -91,8 +91,8 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 												results->values.push_back (*i);
 											}
 											auto function_type_create (boost::make_shared <lambda_p_llvm::function_type::create> ());
-											std::vector <boost::shared_ptr <lambda_p::node>> a3;
-											std::vector <boost::shared_ptr <lambda_p::node>> r3;
+											std::vector <boost::shared_ptr <mu::core::node>> a3;
+											std::vector <boost::shared_ptr <mu::core::node>> r3;
 											a3.push_back (analyzer.context.context_m);
 											a3.push_back (arguments);
 											a3.push_back (results);
@@ -141,7 +141,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 							auto block (llvm::BasicBlock::Create (function.first->getContext ()));
 							function.first->getBasicBlockList ().push_back (block);
 							analyzer.context.block->block = block;
-							std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+							std::vector <boost::shared_ptr <mu::core::node>> arguments;
 							{
 								auto k (function.second->parameters.begin ());
 								auto l (function.second->parameters.end ());
@@ -151,7 +151,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <lamb
 									arguments.push_back (boost::make_shared <lambda_p_llvm::argument::node> (argument, *k));
 								}
 							}
-							std::vector <boost::shared_ptr <lambda_p::node>> results;
+							std::vector <boost::shared_ptr <mu::core::node>> results;
 							signature_routine->perform (errors_a, arguments, results);						
 							if (!(*errors_a) ())
 							{

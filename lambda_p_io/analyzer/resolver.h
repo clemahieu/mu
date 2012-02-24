@@ -2,10 +2,13 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class expression;
-	class node;
+	namespace core
+	{
+		class expression;
+		class node;
+	}
 }
 namespace lambda_p_io
 {
@@ -14,9 +17,9 @@ namespace lambda_p_io
 		class resolver
 		{
 		public:
-			resolver (boost::shared_ptr <lambda_p::expression> unresolved_a, size_t position_a);
-			void operator () (boost::shared_ptr <lambda_p::node> node_a);
-			boost::shared_ptr <lambda_p::expression> unresolved;
+			resolver (boost::shared_ptr <mu::core::expression> unresolved_a, size_t position_a);
+			void operator () (boost::shared_ptr <mu::core::node> node_a);
+			boost::shared_ptr <mu::core::expression> unresolved;
 			size_t position;
 		};
 	}

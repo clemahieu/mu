@@ -1,12 +1,12 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 namespace lambda_p_script
 {
 	namespace integer
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
 			node ();

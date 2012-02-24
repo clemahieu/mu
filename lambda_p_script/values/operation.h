@@ -10,10 +10,10 @@ namespace lambda_p_script
 		{
 		public:
 			operation ();
-			operation (std::vector <boost::shared_ptr <lambda_p::node>> values_a);
-			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
+			operation (std::vector <boost::shared_ptr <mu::core::node>> values_a);
+			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 			size_t count () override;
-			std::vector <boost::shared_ptr <lambda_p::node>> values;
+			std::vector <boost::shared_ptr <mu::core::node>> values;
 		};
 	}
 }

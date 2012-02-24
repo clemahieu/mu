@@ -7,7 +7,7 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::lexer::identifier::identifier (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a)
+lambda_p_io::lexer::identifier::identifier (lambda_p_io::lexer::lexer & lexer_a, mu::core::position first_a)
 	: lexer (lexer_a),
 	lookahead (false),
 	first (first_a),
@@ -30,7 +30,7 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 				break;
 			default:
 				lambda_p_io::tokens::identifier * identifier = new lambda_p_io::tokens::identifier (string);
-				lexer.target (identifier, lambda_p::context (first, last));
+				lexer.target (identifier, mu::core::context (first, last));
 				lexer.state.pop ();
 				auto state (boost::make_shared <lambda_p_io::lexer::control> (lexer, lookahead_first));
 				lexer.state.push (state);
@@ -54,7 +54,7 @@ void lambda_p_io::lexer::identifier::lex (wchar_t character)
 			case L'\uffff':
 				{
 					lambda_p_io::tokens::identifier * identifier = new lambda_p_io::tokens::identifier (string);
-					lexer.target (identifier, lambda_p::context (first, last));
+					lexer.target (identifier, mu::core::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
 					state->lex (character);

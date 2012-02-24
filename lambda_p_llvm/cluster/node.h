@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <map>
 #include <vector>
@@ -26,10 +26,10 @@ namespace lambda_p_llvm
 	}
 	namespace cluster
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
-			void set_names (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> & remap_a);
+			void set_names (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a);
 			std::wstring name () override;
 			std::map <std::wstring, boost::shared_ptr <lambda_p_llvm::function::node>> names;
 			std::vector <boost::shared_ptr <lambda_p_llvm::function::node>> routines;

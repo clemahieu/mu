@@ -16,7 +16,7 @@
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/tokens/parameters.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 
 lambda_p_io::parser::finished::finished (lambda_p_io::parser::parser & parser_a)
 	: parser (parser_a)

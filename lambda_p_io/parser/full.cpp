@@ -10,20 +10,20 @@
 #include <lambda_p_io/parser/error.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/tokens/parameters.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names_a, lambda_p::context first_a)
+lambda_p_io::parser::full::full (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, std::vector <boost::shared_ptr <lambda_p_io::ast::identifier>> names_a, mu::core::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
 	names (names_a),
 	first (first_a),
-	full_name (new lambda_p_io::ast::identifier (lambda_p::context (), std::wstring ()))
+	full_name (new lambda_p_io::ast::identifier (mu::core::context (), std::wstring ()))
 {
 }
 
@@ -67,13 +67,13 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::right_square *
 	else
 	{
 		parser.state.pop ();
-		target (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (first.first, parser.context.last), values, names, full_name));
+		target (boost::make_shared <lambda_p_io::ast::expression> (mu::core::context (first.first, parser.context.last), values, names, full_name));
 	}
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::stream_end * token)
 {
-	unexpected_token (token, lambda_p::context (first.first, parser.context.last));
+	unexpected_token (token, mu::core::context (first.first, parser.context.last));
 }
 
 void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::parameters * token)
@@ -81,7 +81,7 @@ void lambda_p_io::parser::full::operator () (lambda_p_io::tokens::parameters * t
 	unexpected_token (token, parser.context);
 }
 
-void lambda_p_io::parser::full::unexpected_token (lambda_p_io::tokens::token * token, lambda_p::context context_a)
+void lambda_p_io::parser::full::unexpected_token (lambda_p_io::tokens::token * token, mu::core::context context_a)
 {
     std::wstringstream message;
 	message << L"Unexpected token while parsing full name: ";

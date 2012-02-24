@@ -13,14 +13,14 @@ lambda_p_script::closure::operation::operation (size_t count_a, boost::shared_pt
 	}
 }
 
-lambda_p_script::closure::operation::operation (boost::shared_ptr <lambda_p_script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <lambda_p::node>> & closed_a)
+lambda_p_script::closure::operation::operation (boost::shared_ptr <lambda_p_script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
 	: open (open_a),
 	closed (closed_a),
 	operation_m (operation_a)
 {
 }
 
-void lambda_p_script::closure::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::closure::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	std::vector <size_t> open_l;
 	for (size_t position (0), end (parameters.size ()); position != end; ++position)

@@ -1,8 +1,8 @@
 #include "cluster.h"
 
-#include <lambda_p/cluster.h>
-#include <lambda_p/order.h>
-#include <lambda_p/routine.h>
+#include <core/cluster.h>
+#include <core/order.h>
+#include <core/routine.h>
 #include <lambda_p_script_io/routine.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
@@ -11,7 +11,7 @@
 
 #include <boost/make_shared.hpp>
 
-lambda_p_script_io::cluster::cluster (boost::shared_ptr <lambda_p::cluster> cluster_a)
+lambda_p_script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 	auto cluster (boost::make_shared <lambda_p_script::cluster::node> ());
 	cluster->names = cluster_a->names;

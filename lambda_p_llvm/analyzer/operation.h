@@ -3,9 +3,12 @@
 #include <lambda_p_llvm/analyzer/context.h>
 #include <lambda_p_script/fixed.h>
 
-namespace lambda_p
+namespace mu
 {
-	class cluster;
+	namespace core
+	{
+		class cluster;
+	}
 }
 namespace lambda_p_io
 {
@@ -37,9 +40,9 @@ namespace lambda_p_llvm
 		{
 		public:
 			operation ();
-			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
+			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 			size_t count () override;
-			void add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a);
+			void add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a);
 			lambda_p_llvm::analyzer::context context;
 			boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions;
 		};

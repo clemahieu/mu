@@ -5,10 +5,13 @@
 #include <map>
 #include <vector>
 
-namespace lambda_p
+namespace mu
 {
-	class routine;
-	class expression;
+	namespace core
+	{
+		class routine;
+		class expression;
+	}
 }
 namespace lambda_p_script
 {
@@ -24,8 +27,8 @@ namespace lambda_p_script_io
 	class routine
 	{
 	public:
-		routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <lambda_p::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a);
-		std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
+		routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a);
+		std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
 	};
 }
 

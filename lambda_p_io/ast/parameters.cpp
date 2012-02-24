@@ -2,7 +2,7 @@
 
 #include <lambda_p_io/ast/visitor.h>
 
-lambda_p_io::ast::parameters::parameters (lambda_p::context context_a)
+lambda_p_io::ast::parameters::parameters (mu::core::context context_a)
 	: lambda_p_io::ast::node (context_a)
 {
 }

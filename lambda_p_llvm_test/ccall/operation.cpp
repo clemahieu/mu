@@ -1,6 +1,6 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_llvm/ccall/operation.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/basic_block/split_return.h>
@@ -37,7 +37,7 @@ void lambda_p_llvm_test::ccall::operation::run ()
 
 void lambda_p_llvm_test::ccall::operation::run_1 ()
 {
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <lambda_p_llvm::module::node> (&module));
@@ -46,8 +46,8 @@ void lambda_p_llvm_test::ccall::operation::run_1 ()
 	auto block (llvm::BasicBlock::Create (context, llvm::Twine (), function));
 	auto bl (boost::make_shared <lambda_p_llvm::basic_block::node> (block));
 	lambda_p_llvm::ccall::operation ccall (bl, boost::make_shared <lambda_p_llvm::basic_block::split_return> (bl, boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (bl, boost::make_shared <lambda_p_llvm::instructions::call> ())));
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	auto bool_l (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context))));
 	a1.push_back (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
@@ -61,8 +61,8 @@ void lambda_p_llvm_test::ccall::operation::run_1 ()
 	assert (r1.size () == 0);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context));
 	lambda_p_llvm::module::print print;
-	std::vector <boost::shared_ptr <lambda_p::node>> a3;
-	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	std::vector <boost::shared_ptr <mu::core::node>> a3;
+	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
 	print (errors, a3, r3);
 	lambda_p_llvm::module::verify verify;
@@ -72,7 +72,7 @@ void lambda_p_llvm_test::ccall::operation::run_1 ()
 
 void lambda_p_llvm_test::ccall::operation::run_2 ()
 {
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <lambda_p_llvm::module::node> (&module));
@@ -81,8 +81,8 @@ void lambda_p_llvm_test::ccall::operation::run_2 ()
 	auto block (llvm::BasicBlock::Create (context, llvm::Twine (), function));
 	auto bl (boost::make_shared <lambda_p_llvm::basic_block::node> (block));
 	lambda_p_llvm::ccall::operation ccall (bl, boost::make_shared <lambda_p_llvm::basic_block::split_return> (bl, boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (bl, boost::make_shared <lambda_p_llvm::instructions::call> ())));
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	auto bool_l (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context))));
 	a1.push_back (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt1Ty (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
@@ -98,8 +98,8 @@ void lambda_p_llvm_test::ccall::operation::run_2 ()
 	assert (value.get () != nullptr);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context, value->value ()));
 	lambda_p_llvm::module::print print;
-	std::vector <boost::shared_ptr <lambda_p::node>> a3;
-	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	std::vector <boost::shared_ptr <mu::core::node>> a3;
+	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
 	print (errors, a3, r3);
 	lambda_p_llvm::module::verify verify;
@@ -109,7 +109,7 @@ void lambda_p_llvm_test::ccall::operation::run_2 ()
 
 void lambda_p_llvm_test::ccall::operation::run_3 ()
 {
-	auto errors (boost::make_shared <lambda_p::errors::error_list> ());
+	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <lambda_p_llvm::module::node> (&module));
@@ -121,8 +121,8 @@ void lambda_p_llvm_test::ccall::operation::run_3 ()
 	auto block (llvm::BasicBlock::Create (context, llvm::Twine (), function));
 	auto bl (boost::make_shared <lambda_p_llvm::basic_block::node> (block));
 	lambda_p_llvm::ccall::operation ccall (bl, boost::make_shared <lambda_p_llvm::basic_block::split_return> (bl, boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (bl, boost::make_shared <lambda_p_llvm::instructions::call> ())));
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	auto bool_l (boost::make_shared <lambda_p_llvm::value::node> (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt1Ty (context))));
 	a1.push_back (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (result_type->type (), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
@@ -143,8 +143,8 @@ void lambda_p_llvm_test::ccall::operation::run_3 ()
 	result = llvm::InsertValueInst::Create (result, value2->value (), 1, llvm::Twine (), bl->block);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context, result));
 	lambda_p_llvm::module::print print;
-	std::vector <boost::shared_ptr <lambda_p::node>> a3;
-	std::vector <boost::shared_ptr <lambda_p::node>> r3;
+	std::vector <boost::shared_ptr <mu::core::node>> a3;
+	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
 	print (errors, a3, r3);
 	lambda_p_llvm::module::verify verify;

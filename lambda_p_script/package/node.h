@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <map>
 
@@ -10,10 +10,10 @@ namespace lambda_p_script
 {
 	namespace package
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
-			std::map <std::wstring, boost::shared_ptr <lambda_p::node>> items;
+			std::map <std::wstring, boost::shared_ptr <mu::core::node>> items;
 			std::wstring debug () override;
 		};
 	}

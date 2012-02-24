@@ -51,7 +51,7 @@ void lambda_p_script_io_test::lambda::run_3 ()
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());
 	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == lambda_p::context (1, 2, 1, 1, 9, 8));
+	assert (e1.second == mu::core::context (1, 2, 1, 1, 9, 8));
 }
 
 void lambda_p_script_io_test::lambda::run_4 ()
@@ -63,7 +63,7 @@ void lambda_p_script_io_test::lambda::run_4 ()
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());
 	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == lambda_p::context (1, 2, 1, 1, 3, 2));
+	assert (e1.second == mu::core::context (1, 2, 1, 1, 3, 2));
 }
 
 void lambda_p_script_io_test::lambda::run_5 ()

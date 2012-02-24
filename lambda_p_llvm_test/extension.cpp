@@ -1,7 +1,7 @@
 #include "extension.h"
 
-#include <lambda_p/expression.h>
-#include <lambda_p/routine.h>
+#include <core/expression.h>
+#include <core/routine.h>
 #include <lambda_p_io/builder.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_script_io/builder.h>

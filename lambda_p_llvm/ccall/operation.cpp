@@ -1,6 +1,6 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 #include <lambda_p_llvm/basic_block/node.h>
@@ -19,7 +19,7 @@ lambda_p_llvm::ccall::operation::operation (boost::shared_ptr <lambda_p_llvm::ba
 {
 }
 
-void lambda_p_llvm::ccall::operation::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::ccall::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 2)
 	{
@@ -45,8 +45,8 @@ void lambda_p_llvm::ccall::operation::perform (boost::shared_ptr <lambda_p::erro
 								auto end_block (llvm::BasicBlock::Create (context, llvm::Twine (), block->block->getParent ()));
 								block->block->getInstList ().push_back (llvm::BranchInst::Create (true_block, false_block, one->value ()));
 								block->block = true_block;
-								std::vector <boost::shared_ptr <lambda_p::node>> a1;
-								std::vector <boost::shared_ptr <lambda_p::node>> r1;
+								std::vector <boost::shared_ptr <mu::core::node>> a1;
+								std::vector <boost::shared_ptr <mu::core::node>> r1;
 								a1.push_back (two);
 								for (auto i (parameters.begin () + 3), j (parameters.end () + 0); i != j; ++i)
 								{
@@ -55,8 +55,8 @@ void lambda_p_llvm::ccall::operation::perform (boost::shared_ptr <lambda_p::erro
 								call->perform (errors_a, a1, r1);
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
-								std::vector <boost::shared_ptr <lambda_p::node>> a2;
-								std::vector <boost::shared_ptr <lambda_p::node>> r2;
+								std::vector <boost::shared_ptr <mu::core::node>> a2;
+								std::vector <boost::shared_ptr <mu::core::node>> r2;
 								a2.push_back (three);
 								for (auto i (parameters.begin () + 3), j (parameters.end () + 0); i != j; ++i)
 								{

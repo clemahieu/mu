@@ -1,11 +1,11 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/integer/node.h>
 
 #include <sstream>
 
-void lambda_p_script::times::operation::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::times::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 1)
 	{
@@ -15,10 +15,10 @@ void lambda_p_script::times::operation::perform (boost::shared_ptr <lambda_p::er
 		{
 			if (two.get () != nullptr)
 			{
-				std::vector <boost::shared_ptr <lambda_p::node>> results_l (parameters.begin () + 2, parameters.end ());
+				std::vector <boost::shared_ptr <mu::core::node>> results_l (parameters.begin () + 2, parameters.end ());
 				for (size_t i (0), j (one->value); i != j; ++i)
 				{
-					std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+					std::vector <boost::shared_ptr <mu::core::node>> arguments;
 					arguments.swap (results_l);
 					two->perform (errors_a, arguments, results_l);
 				}

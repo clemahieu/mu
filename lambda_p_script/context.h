@@ -1,14 +1,17 @@
 #pragma once
 
-#include <lambda_p/segment.h>
+#include <core/segment.h>
 
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class node;
+	namespace core
+	{
+		class node;
+	}
 }
 namespace lambda_p_script
 {
@@ -19,10 +22,10 @@ namespace lambda_p_script
 	class context
 	{
 	public:
-		context (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <lambda_p::node> parameters_a, size_t size);
-		boost::shared_ptr <lambda_p::node> parameters;
+		context (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <mu::core::node> parameters_a, size_t size);
+		boost::shared_ptr <mu::core::node> parameters;
 		boost::shared_ptr <lambda_p_script::cluster::node> cluster;
-		std::vector <std::vector <boost::shared_ptr <lambda_p::node>>> nodes;
+		std::vector <std::vector <boost::shared_ptr <mu::core::node>>> nodes;
 	};
 }
 

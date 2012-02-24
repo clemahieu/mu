@@ -31,7 +31,7 @@
 #include <lambda_p_script/package/get_recursive.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
-#include <lambda_p/routine.h>
+#include <core/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/ast/extension.h>
 #include <lambda_p_llvm/analyzer/operation.h>
@@ -48,7 +48,7 @@
 #include <boost/make_shared.hpp>
 
 lambda_p_script_io::builder::builder ()
-	: errors (new lambda_p::errors::error_list),
+	: errors (new mu::core::errors::error_list),
 	analyzer (boost::bind (&lambda_p_script_io::builder::operator(), this, _1), errors, lambda_p_script_io::extensions ()),
 	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
@@ -57,7 +57,7 @@ lambda_p_script_io::builder::builder ()
 }
 
 lambda_p_script_io::builder::builder (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
-	: errors (new lambda_p::errors::error_list),
+	: errors (new mu::core::errors::error_list),
 	analyzer (boost::bind (&lambda_p_script_io::builder::operator(), this, _1), errors, extensions_a),
 	parser (errors, boost::bind (&lambda_p_io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&lambda_p_io::parser::parser::operator (), &parser, _1, _2))
@@ -72,10 +72,10 @@ void lambda_p_script_io::builder::set_self ()
 	analyzer.extensions->extensions_m [L"."] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (self);
 }
 
-void lambda_p_script_io::builder::operator () (boost::shared_ptr <lambda_p::cluster> cluster_a)
+void lambda_p_script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> cluster_a)
 {
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (cluster_a);
 	synthesizer (errors, arguments, results);
 	if (results.size () == 1)

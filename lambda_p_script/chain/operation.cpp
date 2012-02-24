@@ -1,20 +1,20 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/bool_c/node.h>
 
-void lambda_p_script::chain::operation::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::chain::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{
 		auto one (boost::dynamic_pointer_cast <lambda_p_script::operation> (parameters [0]));
 		if (one.get () != nullptr)
 		{
-			std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
+			std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
 			bool end (false);
 			while (!end)
 			{
-				std::vector <boost::shared_ptr <lambda_p::node>> results_l;
+				std::vector <boost::shared_ptr <mu::core::node>> results_l;
 				one->perform (errors_a, arguments, results_l);
 				if (results_l.size () > 0)
 				{

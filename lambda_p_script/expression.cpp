@@ -7,9 +7,9 @@ lambda_p_script::expression::expression (size_t index_a)
 {
 }
 
-void lambda_p_script::expression::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::context & context, std::vector <boost::shared_ptr <lambda_p::node>> & target)
+void lambda_p_script::expression::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_script::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target)
 {
 	assert (context.nodes.size () > index);
-	std::vector <boost::shared_ptr <lambda_p::node>> & source (context.nodes [index]);
+	std::vector <boost::shared_ptr <mu::core::node>> & source (context.nodes [index]);
 	target.insert (target.end (), source.begin (), source.end ());
 }

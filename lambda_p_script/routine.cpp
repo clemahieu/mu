@@ -1,6 +1,6 @@
 #include "routine.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/context.h>
 #include <lambda_p_script/operation.h>
 #include <lambda_p_script/call.h>
@@ -14,10 +14,10 @@ lambda_p_script::routine::routine (boost::shared_ptr <lambda_p_script::cluster::
 {
 }
 
-void lambda_p_script::routine::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::routine::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	size_t size (calls.size ());
-	std::vector <boost::shared_ptr <lambda_p::node>> values_l (parameters.begin (), parameters.end ());
+	std::vector <boost::shared_ptr <mu::core::node>> values_l (parameters.begin (), parameters.end ());
 	auto values (boost::make_shared <lambda_p_script::values::operation> (values_l));
 	lambda_p_script::context context (cluster, values, size);
 	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*errors_a) (); ++i)

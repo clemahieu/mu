@@ -2,11 +2,14 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	namespace errors
+	namespace core
 	{
-		class error_list;
+		namespace errors
+		{
+			class error_list;
+		}
 	}
 }
 namespace lambda_p_repl
@@ -20,7 +23,7 @@ namespace lambda_p_repl
 		void stop ();
 		void reset ();
 	private:
-		void print_errors (boost::shared_ptr <lambda_p::errors::error_list> errors_a);
+		void print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a);
 		void run_loop ();
 		void iteration ();
 		bool stop_m;

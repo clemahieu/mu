@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_script/string/node.h>
@@ -16,7 +16,7 @@
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
 
-void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::context::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
@@ -27,14 +27,14 @@ void lambda_p_llvm::constant_string::create::operator () (boost::shared_ptr <lam
 		{
 			if (three.get () != nullptr)
 			{		
-				std::vector <boost::shared_ptr <lambda_p::node>> v1;
+				std::vector <boost::shared_ptr <mu::core::node>> v1;
 				v1.push_back (one);
 				v1.push_back (boost::make_shared <lambda_p_script::string::node> (three->string));
-				std::vector <boost::shared_ptr <lambda_p::node>> v2;
+				std::vector <boost::shared_ptr <mu::core::node>> v2;
 				lambda_p_llvm::constant::create_from_string create;
 				v2.push_back (two);
 				create.perform (errors_a, v1, v2);
-				std::vector <boost::shared_ptr <lambda_p::node>> v3;
+				std::vector <boost::shared_ptr <mu::core::node>> v3;
 				lambda_p_llvm::global_variable::create_set set;
 				set.perform (errors_a, v2, v3);
 				if (! (*errors_a) ())

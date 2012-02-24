@@ -1,11 +1,11 @@
 #include "extension.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_script/integer/extension.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/closure/single.h>
@@ -23,7 +23,7 @@ lambda_p_llvm::constant_int::extension::extension (boost::shared_ptr <lambda_p_l
 {
 }
 
-void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	auto bits_position (expression_a.position + 1);
 	auto number_position (expression_a.position + 2);
@@ -47,7 +47,7 @@ void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <lam
 						node->closed.push_back (context);
 						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (64, bits->value)));
 						node->closed.push_back (boost::make_shared <lambda_p_llvm::apint::node> (new llvm::APInt (bits->value, number->value)));
-						auto result (boost::make_shared <lambda_p::expression> (number_identifier->context));
+						auto result (boost::make_shared <mu::core::expression> (number_identifier->context));
 						result->dependencies.push_back (node);
 						expression_a.self->dependencies.push_back (result);
 					}

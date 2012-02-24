@@ -2,7 +2,7 @@
 
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/analyzer/analyzer.h>
-#include <lambda_p/routine.h>
+#include <core/routine.h>
 #include <lambda_p_io/analyzer/extensions/extensions.h>
 #include <lambda_p_io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/instructions/add.h>
@@ -147,7 +147,7 @@ lambda_p_llvm::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"zext")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (boost::make_shared <lambda_p_llvm::basic_block::instruction_insert> (context.block, boost::make_shared <lambda_p_llvm::instructions::zext> ()));
 }
 
-void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (parameters [0]));
 	if (one.get () != nullptr)
@@ -158,10 +158,10 @@ void lambda_p_llvm::analyzer::operation::operator () (boost::shared_ptr <lambda_
 		{
 			analyzer.input (*i);
 		}
-		lambda_p::context context;
+		mu::core::context context;
 		if (one->expressions.size () > 0)
 		{
-			context = lambda_p::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
+			context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
 		}
 		analyzer.input (boost::make_shared <lambda_p_io::ast::end> (context));
 	}
@@ -176,7 +176,7 @@ size_t lambda_p_llvm::analyzer::operation::count ()
 	return 1;
 }
 
-void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <lambda_p::node>> * results, boost::shared_ptr <lambda_p::cluster> cluster_a)
+void lambda_p_llvm::analyzer::operation::add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 	results->push_back (cluster_a);
 }

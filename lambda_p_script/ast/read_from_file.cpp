@@ -1,6 +1,6 @@
 #include "read_from_file.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_io/lexer/istream_input.h>
 #include <lambda_p_io/builder.h>
@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-void lambda_p_script::ast::read_from_file::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 	if (one.get () != nullptr)

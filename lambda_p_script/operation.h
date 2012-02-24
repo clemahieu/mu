@@ -1,28 +1,31 @@
 #pragma once
 
-#include <lambda_p/node.h>
-#include <lambda_p/segment.h>
+#include <core/node.h>
+#include <core/segment.h>
 
 #include <boost/shared_ptr.hpp>
 
 #include <vector>
 
-namespace lambda_p
+namespace mu
 {
-	class node;
-	namespace errors
+	namespace core
 	{
-		class error_target;
+		class node;
+		namespace errors
+		{
+			class error_target;
+		}
 	}
 }
 namespace lambda_p_script
 {
-	class operation : public lambda_p::node
+	class operation : public mu::core::node
 	{
 	public:
-		virtual void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) = 0;
-		bool check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, size_t expected);
-		void invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::node> node_a, size_t position);
+		virtual void perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) = 0;
+		bool check_count (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, size_t expected);
+		void invalid_type (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::core::node> node_a, size_t position);
 	};
 }
 

@@ -1,11 +1,11 @@
 #include "node.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p/routine.h>
-#include <lambda_p/expression.h>
+#include <core/routine.h>
+#include <core/expression.h>
 
 #include <sstream>
 #include <set>
@@ -14,20 +14,20 @@ lambda_p_script::cluster::node::node ()
 {
 }
 
-lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a)
+lambda_p_script::cluster::node::node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
 	: routines (routines_a),
 	mapping (mapping_a)
 {
 }
 
-lambda_p_script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a)
+lambda_p_script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
 	: names (names_a),
 	routines (routines_a),
 	mapping (mapping_a)
 {
 }
 
-void lambda_p_script::cluster::node::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::cluster::node::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
@@ -74,9 +74,9 @@ size_t lambda_p_script::cluster::node::count ()
 	return 1;
 }
 
-void lambda_p_script::cluster::node::remap (std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> & remap_a)
+void lambda_p_script::cluster::node::remap (std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a)
 {
-	std::set <boost::shared_ptr <lambda_p::routine>> unmapped;
+	std::set <boost::shared_ptr <mu::core::routine>> unmapped;
 	for (auto i (mapping.begin ()), j (mapping.end ()); i != j; ++i)
 	{
 		auto new_l (remap_a.find (i->second));

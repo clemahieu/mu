@@ -1,24 +1,24 @@
 #pragma once
 
-#include <lambda_p/visitor.h>
+#include <core/visitor.h>
 
 #include <vector>
 
 namespace lambda_p_test
 {
-	class test_visitor : public lambda_p::visitor
+	class test_visitor : public mu::core::visitor
 	{
 	public:
-		void operator () (lambda_p::expression * expression_a) override;
-		void operator () (lambda_p::parameters * parameters_a) override;
-		void operator () (lambda_p::reference * reference_a) override;
-		void operator () (lambda_p::node * node_a) override;
-		void operator () (lambda_p::routine * routine_a) override;
-		std::vector <lambda_p::expression *> expressions;
-		std::vector <lambda_p::parameters *> parameters;
-		std::vector <lambda_p::reference *> references;
-		std::vector <lambda_p::node *> nodes;
-		std::vector <lambda_p::routine *> routines;
+		void operator () (mu::core::expression * expression_a) override;
+		void operator () (mu::core::parameters * parameters_a) override;
+		void operator () (mu::core::reference * reference_a) override;
+		void operator () (mu::core::node * node_a) override;
+		void operator () (mu::core::routine * routine_a) override;
+		std::vector <mu::core::expression *> expressions;
+		std::vector <mu::core::parameters *> parameters;
+		std::vector <mu::core::reference *> references;
+		std::vector <mu::core::node *> nodes;
+		std::vector <mu::core::routine *> routines;
 	};
 }
 

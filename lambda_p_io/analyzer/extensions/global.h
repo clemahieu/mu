@@ -4,9 +4,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class node;
+	namespace core
+	{
+		class node;
+	}
 }
 namespace lambda_p_io
 {
@@ -17,9 +20,9 @@ namespace lambda_p_io
 			class global : public lambda_p_io::analyzer::extensions::extension
 			{
 			public:
-				global (boost::shared_ptr <lambda_p::node> node_a);
-				boost::shared_ptr <lambda_p::node> node;
-				void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
+				global (boost::shared_ptr <mu::core::node> node_a);
+				boost::shared_ptr <mu::core::node> node;
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
 			};
 		}
 	}

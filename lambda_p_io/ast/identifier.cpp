@@ -2,7 +2,7 @@
 
 #include <lambda_p_io/ast/visitor.h>
 
-lambda_p_io::ast::identifier::identifier (lambda_p::context context_a, std::wstring string_a)
+lambda_p_io::ast::identifier::identifier (mu::core::context context_a, std::wstring string_a)
 	: string (string_a),
 	lambda_p_io::ast::node (context_a)
 {

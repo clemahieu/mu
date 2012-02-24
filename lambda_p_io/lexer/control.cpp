@@ -1,6 +1,6 @@
 #include <lambda_p_io/lexer/control.h>
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/lexer/multiline_comment.h>
 #include <lambda_p_io/lexer/singleline_comment.h>
@@ -9,7 +9,7 @@
 #include <lambda_p_io/lexer/hex_code.h>
 #include <lambda_p_io/lexer/identifier.h>
 
-lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a, lambda_p::position first_a)
+lambda_p_io::lexer::control::control (lambda_p_io::lexer::lexer & lexer_a, mu::core::position first_a)
 	: lexer (lexer_a),
 	first (first_a)
 {
@@ -22,7 +22,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		switch (character)
 		{
 		case L'~':
-			lexer.target (new lambda_p_io::tokens::parameters, lambda_p::context (first, lexer.position));
+			lexer.target (new lambda_p_io::tokens::parameters, mu::core::context (first, lexer.position));
 			lexer.state.pop ();
 			break;
 		case L'[':
@@ -54,7 +54,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 		default:
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
-			(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
+			(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
 			lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 			break;
 		}
@@ -62,7 +62,7 @@ void lambda_p_io::lexer::control::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of stream when parsing control character");
-		(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
+		(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
 		lexer.state.push (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 	}
 }

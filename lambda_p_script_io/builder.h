@@ -4,7 +4,7 @@
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/parser/parser.h>
 #include <lambda_p_io/analyzer/analyzer.h>
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_script_io/synthesizer.h>
 
 #include <vector>
@@ -32,14 +32,14 @@ namespace lambda_p_script_io
 	public:
 		builder ();
 		builder (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a);
-		boost::shared_ptr <lambda_p::errors::error_list> errors;
+		boost::shared_ptr <mu::core::errors::error_list> errors;
 		lambda_p_script_io::synthesizer synthesizer;
 		lambda_p_io::analyzer::analyzer analyzer;
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
 		void set_self ();
 		boost::shared_ptr <lambda_p_script::closure::single> self;
-		void operator () (boost::shared_ptr <lambda_p::cluster> cluster_a);
+		void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
 		std::vector <boost::shared_ptr <lambda_p_script::cluster::node>> clusters;
 	};
 }

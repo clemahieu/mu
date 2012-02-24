@@ -3,7 +3,7 @@
 #include <lambda_p_script/closure/operation.h>
 #include <lambda_p_script/integer/node.h>
 
-void lambda_p_script::closure::create::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::closure::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto operation (boost::dynamic_pointer_cast <lambda_p_script::operation> (parameters [0]));
 	auto count (boost::dynamic_pointer_cast <lambda_p_script::integer::node> (parameters [1]));
@@ -11,7 +11,7 @@ void lambda_p_script::closure::create::operator () (boost::shared_ptr <lambda_p:
 	{
 		if (count.get () != nullptr)
 		{
-			results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::closure::operation (count->value, operation)));
+			results.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::closure::operation (count->value, operation)));
 		}
 		else
 		{

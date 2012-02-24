@@ -1,17 +1,17 @@
 #include "extension.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_script/integer/extension.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_script/integer/node.h>
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::apint::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_llvm::apint::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	auto position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > position)

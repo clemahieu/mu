@@ -1,9 +1,9 @@
 #include "operation.h"
 
 #include <lambda_p_script/bool_c/node.h>
-#include <lambda_p/segment.h>
+#include <core/segment.h>
 
-void lambda_p_script::if_c::operation::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::if_c::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_script::bool_c::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::fixed> (parameters [1]));
@@ -14,7 +14,7 @@ void lambda_p_script::if_c::operation::operator () (boost::shared_ptr <lambda_p:
 		{
 			if (three.get () != nullptr)
 			{
-				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+				std::vector <boost::shared_ptr <mu::core::node>> arguments;
 				if (one->value)
 				{
 					(*two) (errors_a, arguments, results);

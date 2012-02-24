@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 namespace llvm
 {
@@ -10,7 +10,7 @@ namespace lambda_p_llvm
 {
 	namespace execution_engine
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
 			node (llvm::ExecutionEngine * engine_a);

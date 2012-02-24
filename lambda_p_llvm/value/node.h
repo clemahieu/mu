@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -16,7 +16,7 @@ namespace lambda_p_llvm
 	}
 	namespace value
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
 			node (llvm::Value * value_a, boost::shared_ptr <lambda_p_llvm::type::node> type_a);

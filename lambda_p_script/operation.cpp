@@ -1,10 +1,10 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 
 #include <sstream>
 
-bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, size_t expected)
+bool lambda_p_script::operation::check_count (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, size_t expected)
 {
 	bool result (parameters.size () == expected);
 	if (!result)
@@ -21,7 +21,7 @@ bool lambda_p_script::operation::check_count (boost::shared_ptr <lambda_p::error
 	return result;
 }
 
-void lambda_p_script::operation::invalid_type (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p::node> node_a, size_t position)
+void lambda_p_script::operation::invalid_type (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::core::node> node_a, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";

@@ -2,7 +2,7 @@
 
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/module/get_package.h>
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_script/astring/node.h>
 #include <lambda_p_llvm/module/add_package.h>
 
@@ -31,18 +31,18 @@ void lambda_p_llvm_test::module::add_package::run_1 ()
 	assert (!function2->isDeclaration ());
 	module->module->getFunctionList ().push_back (function2);
 	lambda_p_llvm::module::get_package get;
-	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	arguments.push_back (module);
 	arguments.push_back (boost::shared_ptr <lambda_p_script::astring::node> (new lambda_p_script::astring::node (std::string (".suffix"))));
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	get.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 	auto mod1 (boost::shared_ptr <lambda_p_llvm::module::node> (new lambda_p_llvm::module::node (new llvm::Module (llvm::StringRef ("test"), context))));
-	std::vector <boost::shared_ptr <lambda_p::node>> args1;
+	std::vector <boost::shared_ptr <mu::core::node>> args1;
 	args1.push_back (mod1);
 	args1.push_back (results [0]);
-	std::vector <boost::shared_ptr <lambda_p::node>> res1;
+	std::vector <boost::shared_ptr <mu::core::node>> res1;
 	lambda_p_llvm::module::add_package add;
 	add.perform (errors, args1, res1);
 	assert (errors->errors.empty ());

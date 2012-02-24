@@ -1,6 +1,6 @@
 #include "run_function.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/execution_engine/node.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm/execution_engine/generic_value/node.h>
@@ -10,7 +10,7 @@
 
 #include <sstream>
 
-void lambda_p_llvm::execution_engine::run_function::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::execution_engine::run_function::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 1)
 	{
@@ -68,7 +68,7 @@ std::wstring lambda_p_llvm::execution_engine::run_function::name ()
 	return std::wstring (L"lambda_p_llvm::execution_engine::run_function");
 }
 
-void lambda_p_llvm::execution_engine::run_function::perform_internal (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_llvm::execution_engine::node> one, llvm::Function * function, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::execution_engine::run_function::perform_internal (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <lambda_p_llvm::execution_engine::node> one, llvm::Function * function, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	bool good (true);
 	std::vector <llvm::GenericValue> arguments;
@@ -94,5 +94,5 @@ void lambda_p_llvm::execution_engine::run_function::perform_internal (boost::sha
 		}
 	}
 	auto result (one->engine->runFunction (function, arguments));
-	results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::generic_value::node (result)));
+	results.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_llvm::execution_engine::generic_value::node (result)));
 }

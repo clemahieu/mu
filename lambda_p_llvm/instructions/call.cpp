@@ -4,7 +4,7 @@
 #include <lambda_p_llvm/type/node.h>
 #include <lambda_p_script/values/operation.h>
 #include <lambda_p_llvm/pointer_type/node.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/function_type/node.h>
 #include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/type/build.h>
@@ -19,7 +19,7 @@
 
 #include <sstream>
 
-void lambda_p_llvm::instructions::call::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::instructions::call::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{

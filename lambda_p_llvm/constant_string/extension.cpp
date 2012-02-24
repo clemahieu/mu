@@ -1,6 +1,6 @@
 #include "extension.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
@@ -9,7 +9,7 @@
 #include <lambda_p_llvm/constant_string/create.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/context/node.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 
 #include <boost/make_shared.hpp>
 
@@ -19,7 +19,7 @@ lambda_p_llvm::constant_string::extension::extension (boost::shared_ptr <lambda_
 {
 }
 
-void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	auto position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
@@ -32,7 +32,7 @@ void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <
 			node->closed.push_back (context);
 			node->closed.push_back (module);
 			node->closed.push_back (boost::make_shared <lambda_p_script::string::node> (identifier->string));
-			auto result (boost::make_shared <lambda_p::expression> (identifier->context));
+			auto result (boost::make_shared <mu::core::expression> (identifier->context));
 			result->dependencies.push_back (node);
 			expression_a.self->dependencies.push_back (result);
 		}

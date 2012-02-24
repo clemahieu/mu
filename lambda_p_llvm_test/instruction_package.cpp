@@ -41,8 +41,8 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	assert (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
 	lambda_p_script::closure::create_single create;
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	a1.push_back (routine1);
 	a1.push_back (boost::make_shared <lambda_p_llvm::instructions::add> ());
 	a1.push_back (boost::make_shared <lambda_p_llvm::basic_block::insert> ());
@@ -68,8 +68,8 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	auto bl (llvm::BasicBlock::Create (context));
 	block->block = bl;
 	function->getBasicBlockList ().push_back (bl);
-	std::vector <boost::shared_ptr <lambda_p::node>> a2;
-	std::vector <boost::shared_ptr <lambda_p::node>> r2;
+	std::vector <boost::shared_ptr <mu::core::node>> a2;
+	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	routine2->perform (b2.errors, a2, r2);
 	assert (b2.errors->errors.empty ());
@@ -89,8 +89,8 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	auto cluster1 (builder.clusters [0]);
 	assert (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
-	std::vector <boost::shared_ptr <lambda_p::node>> a1;
-	std::vector <boost::shared_ptr <lambda_p::node>> r1;
+	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	a1.push_back (boost::make_shared <lambda_p_llvm::instructions::add> ());
 	a1.push_back (boost::make_shared <lambda_p_llvm::basic_block::insert> ());
 	auto block (boost::make_shared <lambda_p_llvm::basic_block::node> (nullptr));
@@ -115,8 +115,8 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	auto bl (llvm::BasicBlock::Create (context));
 	block->block = bl;
 	function->getBasicBlockList ().push_back (bl);
-	std::vector <boost::shared_ptr <lambda_p::node>> a2;
-	std::vector <boost::shared_ptr <lambda_p::node>> r2;
+	std::vector <boost::shared_ptr <mu::core::node>> a2;
+	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <lambda_p_llvm::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <lambda_p_llvm::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	routine2->perform (b2.errors, a2, r2);
 	assert (b2.errors->errors.empty ());

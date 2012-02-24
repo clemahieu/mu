@@ -1,6 +1,6 @@
 #include "create_jit.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/execution_engine/node.h>
 
@@ -8,7 +8,7 @@
 
 #include <sstream>
 
-void lambda_p_llvm::execution_engine::create_jit::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::execution_engine::create_jit::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
 	if (one.get () != nullptr)
@@ -20,7 +20,7 @@ void lambda_p_llvm::execution_engine::create_jit::operator () (boost::shared_ptr
 		auto engine (builder.create ());
 		if (engine != nullptr && errors_l.empty ())
 		{
-			results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::execution_engine::node (engine)));
+			results.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_llvm::execution_engine::node (engine)));
 		}
 		else
 		{

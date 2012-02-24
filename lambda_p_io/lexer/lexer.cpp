@@ -13,7 +13,7 @@
 
 #include <boost/circular_buffer.hpp>
 
-lambda_p_io::lexer::lexer::lexer (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::function < void (lambda_p_io::tokens::token *, lambda_p::context)> target_a)
+lambda_p_io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function < void (lambda_p_io::tokens::token *, mu::core::context)> target_a)
 	: target (target_a),
 	errors (errors_a)
 {

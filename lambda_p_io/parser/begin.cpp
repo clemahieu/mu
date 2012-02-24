@@ -9,7 +9,7 @@
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/tokens/right_square.h>
 #include <lambda_p_io/tokens/parameters.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/end.h>
 
 #include <boost/make_shared.hpp>

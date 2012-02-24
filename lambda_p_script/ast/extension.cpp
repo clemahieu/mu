@@ -1,15 +1,15 @@
 #include "extension.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/analyzer/expression.h>
 #include <lambda_p_io/ast/expression.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_io/ast/cluster.h>
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_script::ast::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::ast::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	size_t position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
@@ -24,7 +24,7 @@ void lambda_p_script::ast::extension::operator () (boost::shared_ptr <lambda_p::
 	}
 }
 
-boost::shared_ptr <lambda_p_io::ast::cluster> lambda_p_script::ast::extension::core (boost::shared_ptr <lambda_p::errors::error_target> errors_a, boost::shared_ptr <lambda_p_io::ast::node> node_a)
+boost::shared_ptr <lambda_p_io::ast::cluster> lambda_p_script::ast::extension::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <lambda_p_io::ast::node> node_a)
 {
 	auto result (boost::make_shared <lambda_p_io::ast::cluster> ());
 	auto value (boost::dynamic_pointer_cast <lambda_p_io::ast::expression> (node_a));

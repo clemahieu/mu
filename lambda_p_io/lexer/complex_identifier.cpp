@@ -3,7 +3,7 @@
 #include <lambda_p_io/tokens/identifier.h>
 #include <lambda_p_io/lexer/lexer.h>
 #include <lambda_p_io/lexer/error.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 
 lambda_p_io::lexer::complex_identifier::complex_identifier (lambda_p_io::lexer::lexer & lexer_a)
 	: have_end_token (false),
@@ -57,14 +57,14 @@ void lambda_p_io::lexer::complex_identifier::lex (wchar_t character)
 		{
 			data.resize (data.size () - end_token.size ());
 			lambda_p_io::tokens::identifier * token (new lambda_p_io::tokens::identifier (data));
-			lexer.target (token, lambda_p::context (first, lexer.position));
+			lexer.target (token, mu::core::context (first, lexer.position));
 			lexer.state.pop ();
 		}
 	}
 	else
 	{
 		std::wstring message (L"End of file while parsing complex identifier");
-		(*lexer.errors) (message, lambda_p::context (lexer.position, lexer.position));
+		(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
 		auto error (boost::shared_ptr <lambda_p_io::lexer::state> (new lambda_p_io::lexer::error));
 		lexer.state.push (error);
 	}

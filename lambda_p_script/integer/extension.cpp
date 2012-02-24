@@ -4,16 +4,16 @@
 #include <lambda_p_io/analyzer/routine.h>
 #include <lambda_p_io/analyzer/analyzer.h>
 #include <lambda_p_io/ast/expression.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
-#include <lambda_p/expression.h>
+#include <core/expression.h>
 #include <lambda_p_script/integer/node.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_script::integer::extension::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_script::integer::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
 {
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -40,7 +40,7 @@ void lambda_p_script::integer::extension::operator () (boost::shared_ptr <lambda
 	}
 }
 
-boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core (boost::shared_ptr <lambda_p::errors::error_target> errors_a, std::wstring & string)
+boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::wstring & string)
 {
 	boost::shared_ptr <lambda_p_script::integer::node> result;
 	int base (0);
@@ -76,13 +76,13 @@ boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::cor
 	return result;
 }
 
-boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core_d (boost::shared_ptr <lambda_p::errors::error_target> errors_a, wchar_t const * string_a)
+boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core_d (boost::shared_ptr <mu::core::errors::error_target> errors_a, wchar_t const * string_a)
 {
 	auto result (core (errors_a, string_a, 10));
 	return result;
 }
 
-boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core (boost::shared_ptr <lambda_p::errors::error_target> errors_a, wchar_t const * string_a, size_t base_a)
+boost::shared_ptr <lambda_p_script::integer::node> lambda_p_script::integer::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, wchar_t const * string_a, size_t base_a)
 {
 	boost::shared_ptr <lambda_p_script::integer::node> result;
 	wchar_t * next;

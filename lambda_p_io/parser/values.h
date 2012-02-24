@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/context.h>
+#include <core/context.h>
 #include <lambda_p_io/tokens/visitor.h>
 
 #include <boost/function.hpp>
@@ -30,7 +30,7 @@ namespace lambda_p_io
 			void subexpression (boost::shared_ptr <lambda_p_io::ast::node> node_a);
 			std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_m;
 			lambda_p_io::parser::parser & parser;
-			lambda_p::context first;
+			mu::core::context first;
 			boost::function <void (boost::shared_ptr <lambda_p_io::ast::node>)> target;
 		};
 	}

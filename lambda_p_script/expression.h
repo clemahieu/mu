@@ -10,7 +10,7 @@ namespace lambda_p_script
 	public:
 		expression (size_t index_a);
 		size_t index;
-		void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_script::context & context, std::vector <boost::shared_ptr <lambda_p::node>> & target) override;
+		void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_script::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
 	};
 }
 

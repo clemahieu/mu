@@ -1,11 +1,11 @@
 #include "visitor.h"
 
 #include <lambda_p_test/test_visitor.h>
-#include <lambda_p/expression.h>
-#include <lambda_p/node.h>
-#include <lambda_p/reference.h>
-#include <lambda_p/routine.h>
-#include <lambda_p/parameters.h>
+#include <core/expression.h>
+#include <core/node.h>
+#include <core/reference.h>
+#include <core/routine.h>
+#include <core/parameters.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -19,11 +19,11 @@ void lambda_p_test::visitor::run ()
 void lambda_p_test::visitor::run_1 ()
 {
 	boost::shared_ptr <lambda_p_test::test_visitor> visitor (new lambda_p_test::test_visitor);
-	lambda_p::expression * expression (nullptr);
-	lambda_p::parameters * parameters (nullptr);
-	lambda_p::node * node (nullptr);
-	lambda_p::reference * reference (nullptr);
-	lambda_p::routine * routine (nullptr);
+	mu::core::expression * expression (nullptr);
+	mu::core::parameters * parameters (nullptr);
+	mu::core::node * node (nullptr);
+	mu::core::reference * reference (nullptr);
+	mu::core::routine * routine (nullptr);
 	(*visitor) (expression);	
 	(*visitor) (parameters);
 	(*visitor) (node);	
@@ -39,12 +39,12 @@ void lambda_p_test::visitor::run_1 ()
 void lambda_p_test::visitor::run_2 ()
 {
 	boost::shared_ptr <lambda_p_test::test_visitor> vis (new lambda_p_test::test_visitor);	
-	boost::shared_ptr <lambda_p::visitor> visitor (vis);
-	lambda_p::expression * expression (nullptr);
-	lambda_p::parameters * parameters (nullptr);
-	lambda_p::node * node (nullptr);
-	lambda_p::reference * reference (nullptr);
-	lambda_p::routine * routine (nullptr);
+	boost::shared_ptr <mu::core::visitor> visitor (vis);
+	mu::core::expression * expression (nullptr);
+	mu::core::parameters * parameters (nullptr);
+	mu::core::node * node (nullptr);
+	mu::core::reference * reference (nullptr);
+	mu::core::routine * routine (nullptr);
 	(*visitor) (expression);	
 	(*visitor) (parameters);
 	(*visitor) (node);	
@@ -60,12 +60,12 @@ void lambda_p_test::visitor::run_2 ()
 void lambda_p_test::visitor::run_3 ()
 {
 	boost::shared_ptr <lambda_p_test::test_visitor> vis (new lambda_p_test::test_visitor);	
-	boost::shared_ptr <lambda_p::visitor> visitor (vis);
-	lambda_p::expression * expression (new lambda_p::expression (lambda_p::context ()));
-	lambda_p::parameters * parameters (new lambda_p::parameters);
-	lambda_p::node * node (new lambda_p::node);
-	lambda_p::reference * reference (new lambda_p::reference (boost::shared_ptr <lambda_p::expression> (), 0));
-	lambda_p::routine * routine (new lambda_p::routine (lambda_p::context ()));
+	boost::shared_ptr <mu::core::visitor> visitor (vis);
+	mu::core::expression * expression (new mu::core::expression (mu::core::context ()));
+	mu::core::parameters * parameters (new mu::core::parameters);
+	mu::core::node * node (new mu::core::node);
+	mu::core::reference * reference (new mu::core::reference (boost::shared_ptr <mu::core::expression> (), 0));
+	mu::core::routine * routine (new mu::core::routine (mu::core::context ()));
 	(*expression) (visitor.get ());	
 	(*parameters) (visitor.get ());
 	(*node) (visitor.get ());

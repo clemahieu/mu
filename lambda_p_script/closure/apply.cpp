@@ -1,12 +1,12 @@
 #include "apply.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/closure/operation.h>
 #include <lambda_p_script/closure/hole.h>
 
 #include <sstream>
 
-void lambda_p_script::closure::apply::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::closure::apply::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{
@@ -26,7 +26,7 @@ void lambda_p_script::closure::apply::perform (boost::shared_ptr <lambda_p::erro
 				{
 					open_l.push_back (operation->open [position - 1]);
 				}
-				results.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::closure::operation (operation->operation_m, open_l, operation->closed)));
+				results.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::closure::operation (operation->operation_m, open_l, operation->closed)));
 			}
 		}
 		else

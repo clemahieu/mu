@@ -4,13 +4,16 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class set;
-	class expression;
-	namespace errors
+	namespace core
 	{
-		class error_target;
+		class set;
+		class expression;
+		namespace errors
+		{
+			class error_target;
+		}
 	}
 }
 namespace lambda_p_io
@@ -21,14 +24,14 @@ namespace lambda_p_io
 		class expression : public lambda_p_io::ast::visitor
 		{
 		public:
-			expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <lambda_p::expression> self_a);
+			expression (lambda_p_io::analyzer::routine & routine_a, lambda_p_io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a);
 			void operator () (lambda_p_io::ast::parameters * parameters_a) override;
 			void operator () (lambda_p_io::ast::expression * expression_a) override;
 			void operator () (lambda_p_io::ast::identifier * identifier_a) override;
 			void operator () (lambda_p_io::ast::end * end_a) override;
 			lambda_p_io::analyzer::routine & routine;
 			lambda_p_io::ast::expression * expression_m;
-			boost::shared_ptr <lambda_p::expression> self;
+			boost::shared_ptr <mu::core::expression> self;
 			size_t position;
 		};
 	}

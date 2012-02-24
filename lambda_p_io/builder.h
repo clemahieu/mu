@@ -8,11 +8,14 @@
 
 #include <vector>
 
-namespace lambda_p
+namespace mu
 {
-	namespace errors
+	namespace core
 	{
-		class error_list;
+		namespace errors
+		{
+			class error_list;
+		}
 	}
 }
 namespace lambda_p_io
@@ -26,7 +29,7 @@ namespace lambda_p_io
 	{
 	public:
 		builder ();
-		boost::shared_ptr <lambda_p::errors::error_list> errors;
+		boost::shared_ptr <mu::core::errors::error_list> errors;
 		lambda_p_io::parser::parser parser;
 		lambda_p_io::lexer::lexer lexer;
 		void add (boost::shared_ptr <lambda_p_io::ast::node> node_a);

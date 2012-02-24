@@ -4,9 +4,9 @@
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/reference.h>
-#include <lambda_p/node.h>
-#include <lambda_p/expression.h>
-#include <lambda_p/reference.h>
+#include <core/node.h>
+#include <core/expression.h>
+#include <core/reference.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/cluster/node.h>
 
@@ -21,9 +21,9 @@ void lambda_p_script_io_test::call::run ()
 
 void lambda_p_script_io_test::call::run_1 ()
 {
-	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
-	boost::shared_ptr <lambda_p::node> node (new lambda_p::node);
+	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::core::node> node (new mu::core::node);
 	auto remapping (boost::make_shared <lambda_p_script::cluster::node> ());
 	lambda_p_script_io::expression expression (remapping, reservations, target, node);
 	assert (target->arguments.size () == 1);
@@ -34,10 +34,10 @@ void lambda_p_script_io_test::call::run_1 ()
 
 void lambda_p_script_io_test::call::run_2 ()
 {
-	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
-	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
-	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
+	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
+	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	auto remapping (boost::make_shared <lambda_p_script::cluster::node> ());
 	lambda_p_script_io::expression expression (remapping, reservations, target, parameters);
 	assert (target->arguments.size () == 1);
@@ -48,11 +48,11 @@ void lambda_p_script_io_test::call::run_2 ()
 
 void lambda_p_script_io_test::call::run_3 ()
 {
-	std::map <boost::shared_ptr <lambda_p::expression>, size_t> reservations;
-	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, lambda_p::context ()));
-	boost::shared_ptr <lambda_p::expression> parameters (new lambda_p::expression (lambda_p::context ()));
-	reservations.insert (std::map <boost::shared_ptr <lambda_p::expression>, size_t>::value_type (parameters, 0));
-	boost::shared_ptr <lambda_p::reference> reference (new lambda_p::reference (parameters, 0));
+	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
+	boost::shared_ptr <lambda_p_script::call> target (new lambda_p_script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
+	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
+	boost::shared_ptr <mu::core::reference> reference (new mu::core::reference (parameters, 0));
 	auto remapping (boost::make_shared <lambda_p_script::cluster::node> ());
 	lambda_p_script_io::expression expression (remapping, reservations, target, reference);
 	assert (target->arguments.size () == 1);

@@ -9,7 +9,7 @@ namespace lambda_p_io
 		class parameters : public lambda_p_io::ast::node
 		{
 		public:
-			parameters (lambda_p::context context_a);
+			parameters (mu::core::context context_a);
 			std::wstring name () override;
 			void operator () (lambda_p_io::ast::visitor * visitor_a) override;
 		};

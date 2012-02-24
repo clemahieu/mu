@@ -9,7 +9,7 @@ namespace lambda_p_script
 		class extension : public lambda_p_io::analyzer::extensions::extension
 		{
 		public:
-			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
+			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
 		};
 	}
 }

@@ -9,14 +9,14 @@
 #include <lambda_p_io/tokens/stream_end.h>
 #include <lambda_p_io/parser/full.h>
 #include <lambda_p_io/tokens/parameters.h>
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_io/ast/identifier.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-lambda_p_io::parser::single::single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, lambda_p::context first_a)
+lambda_p_io::parser::single::single (lambda_p_io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <lambda_p_io::ast::expression>)> target_a, std::vector <boost::shared_ptr <lambda_p_io::ast::node>> values_a, mu::core::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
@@ -43,12 +43,12 @@ void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::left_square 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::right_square * token)
 {
 	parser.state.pop ();
-	target (boost::make_shared <lambda_p_io::ast::expression> (lambda_p::context (first.first, parser.context.last), values, names));
+	target (boost::make_shared <lambda_p_io::ast::expression> (mu::core::context (first.first, parser.context.last), values, names));
 }
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::stream_end * token)
 {
-	unexpected_token (token, lambda_p::context (first.first, parser.context.last));
+	unexpected_token (token, mu::core::context (first.first, parser.context.last));
 }
 
 void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::parameters * token)
@@ -56,7 +56,7 @@ void lambda_p_io::parser::single::operator () (lambda_p_io::tokens::parameters *
 	unexpected_token (token, parser.context);
 }
 
-void lambda_p_io::parser::single::unexpected_token (lambda_p_io::tokens::token * token, lambda_p::context context_a)
+void lambda_p_io::parser::single::unexpected_token (lambda_p_io::tokens::token * token, mu::core::context context_a)
 {
     std::wstringstream message;
 	message << L"Unexpected token while parsing individual names: ";

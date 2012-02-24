@@ -1,6 +1,6 @@
 #include "segment.h"
 
-#include <lambda_p/segment.h>
+#include <core/segment.h>
 
 #include <assert.h>
 
@@ -17,7 +17,7 @@ void lambda_p_test::segment::run_1 ()
 	{
 		values [i] = i;
 	}
-	lambda_p::segment <size_t> segment (1, values);
+	mu::core::segment <size_t> segment (1, values);
 	auto i (segment.begin ());
 	assert (*i == 1);
 	++i;
@@ -38,7 +38,7 @@ void lambda_p_test::segment::run_1 ()
 void lambda_p_test::segment::run_2 ()
 {
 	std::vector <size_t> values (5);
-	lambda_p::segment <size_t> segment (values);
+	mu::core::segment <size_t> segment (values);
 	for (auto i (segment.begin ()), j (segment.end ()); i != j; ++i)
 	{
 		auto val (*i);

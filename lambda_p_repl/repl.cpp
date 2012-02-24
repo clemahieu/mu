@@ -5,8 +5,8 @@
 #include <sstream>
 
 #include <boost/bind.hpp>
-#include <lambda_p/errors/error_list.h>
-#include <lambda_p/errors/error.h>
+#include <core/errors/error_list.h>
+#include <core/errors/error.h>
 #include <lambda_p_repl/cli_stream.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_io/source.h>
@@ -60,10 +60,10 @@ void lambda_p_repl::repl::iteration ()
 	lambda_p_script_io::builder builder;
 	lambda_p_llvm::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
-	auto quit (boost::shared_ptr <lambda_p::node> (new lambda_p_repl::quit::operation (*this)));
+	auto quit (boost::shared_ptr <mu::core::node> (new lambda_p_repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::global (quit))));
 	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	builder.parser (new lambda_p_io::tokens::left_square (), lambda_p::context ());
+	builder.parser (new lambda_p_io::tokens::left_square (), mu::core::context ());
 	source (stream);
 	source (L']');
 	source ();
@@ -75,15 +75,15 @@ void lambda_p_repl::repl::iteration ()
 			auto cluster (builder.clusters [0]);
 			if (cluster->routines.size () > 0)
 			{
-				auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-				std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-				std::vector <boost::shared_ptr <lambda_p::node>> results;
+				auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+				std::vector <boost::shared_ptr <mu::core::node>> arguments;
+				std::vector <boost::shared_ptr <mu::core::node>> results;
 				auto routine (cluster->routines [0]);
 				routine->perform (errors, arguments, results);
 				if (errors->errors.empty ())
 				{
 					lambda_p_script::print::operation print;
-					std::vector <boost::shared_ptr <lambda_p::node>> print_results;
+					std::vector <boost::shared_ptr <mu::core::node>> print_results;
 					print.perform (errors, results, print_results);
 				}
 				else
@@ -109,7 +109,7 @@ void lambda_p_repl::repl::iteration ()
 	}
 }
 
-void lambda_p_repl::repl::print_errors (boost::shared_ptr <lambda_p::errors::error_list> errors_a)
+void lambda_p_repl::repl::print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a)
 {
 	for (auto i (errors_a->errors.begin ()), j (errors_a->errors.end ()); i != j; ++i)
 	{

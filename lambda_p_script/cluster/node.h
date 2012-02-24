@@ -8,9 +8,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace lambda_p
+namespace mu
 {
-	class routine;
+	namespace core
+	{
+		class routine;
+	}
 }
 namespace lambda_p_script
 {
@@ -21,13 +24,13 @@ namespace lambda_p_script
 		{
 		public:
 			node ();
-			node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a);
-			node (std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping_a);
-			void operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
+			node (std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a);
+			node (std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names_a, std::vector <boost::shared_ptr <lambda_p_script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a);
+			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 			size_t count () override;
-			void remap (std::map <boost::shared_ptr <lambda_p::node>, boost::shared_ptr <lambda_p::node>> & remap_a);
-			std::map <std::wstring, boost::shared_ptr <lambda_p::routine>> names;
-			std::map <boost::shared_ptr <lambda_p::routine>, boost::shared_ptr <lambda_p::node>> mapping;
+			void remap (std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a);
+			std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names;
+			std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping;
 			std::vector <boost::shared_ptr <lambda_p_script::routine>> routines;
 		};
 	}

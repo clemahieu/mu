@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/struct_type/node.h>
@@ -11,7 +11,7 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::struct_type::create::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::struct_type::create::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{

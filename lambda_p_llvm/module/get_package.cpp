@@ -1,6 +1,6 @@
 #include "get_package.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_llvm/function/node.h>
@@ -15,7 +15,7 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_script::astring::node> (parameters [1]));
@@ -30,7 +30,7 @@ void lambda_p_llvm::module::get_package::operator () (boost::shared_ptr <lambda_
 				auto name (i->getNameStr ());
 				std::wstring wname (name.begin (), name.end ());
 				lambda_p_llvm::type::build build (boost::make_shared <lambda_p_llvm::context::node> (&function->getContext ()), function->getType ()); 
-				package->items [wname] = boost::shared_ptr <lambda_p::node> (new lambda_p_llvm::function::node (function, build.type));
+				package->items [wname] = boost::shared_ptr <mu::core::node> (new lambda_p_llvm::function::node (function, build.type));
 				name.append (two->string);
 				function->setName (name);
 			}

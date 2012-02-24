@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <vector>
 
@@ -11,7 +11,7 @@ namespace lambda_p_io
 	namespace ast
 	{
 		class expression;
-		class cluster : public lambda_p::node
+		class cluster : public mu::core::node
 		{
 		public:
 			std::vector <boost::shared_ptr <lambda_p_io::ast::expression>> expressions;

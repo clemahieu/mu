@@ -1,6 +1,6 @@
 #include "equal.h"
 
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_script/integer/equal.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/bool_c/node.h>
@@ -15,11 +15,11 @@ void lambda_p_script_test::integer::equal::run ()
 void lambda_p_script_test::integer::equal::run_1 ()
 {
 	lambda_p_script::integer::equal equal;
-	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::node (3)));
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::node (5)));
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (3)));
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (5)));
 	equal (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -31,11 +31,11 @@ void lambda_p_script_test::integer::equal::run_1 ()
 void lambda_p_script_test::integer::equal::run_2 ()
 {
 	lambda_p_script::integer::equal equal;
-	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::node (3)));
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::node (3)));
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (3)));
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (3)));
 	equal (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -47,11 +47,11 @@ void lambda_p_script_test::integer::equal::run_2 ()
 void lambda_p_script_test::integer::equal::run_3 ()
 {
 	lambda_p_script::integer::equal equal;
-	auto errors (boost::shared_ptr <lambda_p::errors::error_list> (new lambda_p::errors::error_list));
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p_script::integer::node (3)));
-	arguments.push_back (boost::shared_ptr <lambda_p::node> (new lambda_p::node));
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new lambda_p_script::integer::node (3)));
+	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	equal (errors, arguments, results);
 	assert (!errors->errors.empty ());
 }

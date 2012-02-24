@@ -1,6 +1,6 @@
 #include "operation.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_io/lexer/istream_input.h>
 #include <lambda_p_script_io/builder.h>
@@ -18,7 +18,7 @@ lambda_p_script::exec::operation::operation (boost::shared_ptr <lambda_p_io::ana
 {
 }
 
-void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::exec::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{
@@ -45,7 +45,7 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <lambda_p::err
 						if (cluster->routines.size () > 0)
 						{
 							auto routine (cluster->routines [0]);
-							std::vector <boost::shared_ptr <lambda_p::node>> arguments (parameters.begin () + 1, parameters.end ());
+							std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
 							routine->perform (errors_a, arguments, results);
 						}
 						else

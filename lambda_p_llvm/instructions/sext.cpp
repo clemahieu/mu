@@ -1,6 +1,6 @@
 #include "sext.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/type/node.h>
 
@@ -13,7 +13,7 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_llvm::instructions::sext::operator () (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters_a, std::vector <boost::shared_ptr <lambda_p::node>> & results_a)
+void lambda_p_llvm::instructions::sext::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 {
 	auto one (boost::dynamic_pointer_cast <lambda_p_llvm::value::node> (parameters_a [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::type::node> (parameters_a [1]));

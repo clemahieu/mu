@@ -1,6 +1,6 @@
 #include "split_return.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/function_type/node.h>
@@ -19,9 +19,9 @@ lambda_p_llvm::basic_block::split_return::split_return (boost::shared_ptr <lambd
 {
 }
 
-void lambda_p_llvm::basic_block::split_return::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_llvm::basic_block::split_return::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	std::vector <boost::shared_ptr <lambda_p::node>> results_l;
+	std::vector <boost::shared_ptr <mu::core::node>> results_l;
 	next->perform (errors_a, parameters, results_l);
 	if (!(*errors_a) ())
 	{

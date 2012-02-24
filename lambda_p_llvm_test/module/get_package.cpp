@@ -2,7 +2,7 @@
 
 #include <lambda_p_llvm/module/get_package.h>
 #include <lambda_p_llvm/function/node.h>
-#include <lambda_p/errors/error_list.h>
+#include <core/errors/error_list.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_script/astring/node.h>
@@ -27,11 +27,11 @@ void lambda_p_llvm_test::module::get_package::run_1 ()
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b"));
 	module->module->getFunctionList ().push_back (function2);
 	lambda_p_llvm::module::get_package get;
-	boost::shared_ptr <lambda_p::errors::error_list> errors (new lambda_p::errors::error_list);
-	std::vector <boost::shared_ptr <lambda_p::node>> arguments;
+	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
+	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	arguments.push_back (module);
 	arguments.push_back (boost::shared_ptr <lambda_p_script::astring::node> (new lambda_p_script::astring::node (std::string (".suffix"))));
-	std::vector <boost::shared_ptr <lambda_p::node>> results;
+	std::vector <boost::shared_ptr <mu::core::node>> results;
 	get.perform (errors, arguments, results);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);

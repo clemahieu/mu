@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <string>
 
@@ -8,7 +8,7 @@ namespace lambda_p_script
 {
 	namespace string
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
 			 node (std::wstring string_a);

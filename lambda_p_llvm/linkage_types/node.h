@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p/node.h>
+#include <core/node.h>
 
 #include <llvm/GlobalValue.h>
 
@@ -8,7 +8,7 @@ namespace lambda_p_llvm
 {
 	namespace linkage_types
 	{
-		class node : public lambda_p::node
+		class node : public mu::core::node
 		{
 		public:
 			node (llvm::GlobalValue::LinkageTypes type_a);

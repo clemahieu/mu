@@ -24,7 +24,7 @@ namespace lambda_p_script
 		public:
 			operation (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a);
 			boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions;
-			void perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results) override;
+			void perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 			std::wstring name () override;
 		};
 	}

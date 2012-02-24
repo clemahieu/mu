@@ -19,7 +19,7 @@ void lambda_p_script_test::string::extension::run_1 ()
 	source (L"[` ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == lambda_p::context (1, 2, 1, 1, 2, 1));
+	assert (e1.second == mu::core::context (1, 2, 1, 1, 2, 1));
 }
 
 void lambda_p_script_test::string::extension::run_2 ()
@@ -29,7 +29,7 @@ void lambda_p_script_test::string::extension::run_2 ()
 	source (L"[`[] ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == lambda_p::context (1, 2, 1, 1, 4, 3));
+	assert (e1.second == mu::core::context (1, 2, 1, 1, 4, 3));
 }
 
 void lambda_p_script_test::string::extension::run_3 ()

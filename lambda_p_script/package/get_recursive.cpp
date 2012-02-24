@@ -1,13 +1,13 @@
 #include "get_recursive.h"
 
-#include <lambda_p/errors/error_target.h>
+#include <core/errors/error_target.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/package/get.h>
 
 #include <sstream>
 
-void lambda_p_script::package::get_recursive::perform (boost::shared_ptr <lambda_p::errors::error_target> errors_a, lambda_p::segment <boost::shared_ptr <lambda_p::node>> parameters, std::vector <boost::shared_ptr <lambda_p::node>> & results)
+void lambda_p_script::package::get_recursive::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	if (parameters.size () > 0)
 	{
@@ -18,8 +18,8 @@ void lambda_p_script::package::get_recursive::perform (boost::shared_ptr <lambda
 		for (; i != j && good; ++i)
 		{
 			lambda_p_script::package::get get;
-			std::vector <boost::shared_ptr <lambda_p::node>> arguments;
-			std::vector <boost::shared_ptr <lambda_p::node>> results_l;
+			std::vector <boost::shared_ptr <mu::core::node>> arguments;
+			std::vector <boost::shared_ptr <mu::core::node>> results_l;
 			arguments.push_back (node);
 			arguments.push_back (*i);
 			get (errors_a, arguments, results_l);
