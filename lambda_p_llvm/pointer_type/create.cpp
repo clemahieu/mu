@@ -1,6 +1,6 @@
 #include "create.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/pointer_type/node.h>

@@ -2,7 +2,7 @@
 
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/instruction/node.h>
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 
 #include <llvm/BasicBlock.h>
 

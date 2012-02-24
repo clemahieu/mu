@@ -1,13 +1,13 @@
 #include "lambda.h"
 
-#include <io/analyzer/expression.h>
-#include <io/ast/expression.h>
-#include <core/errors/error_list.h>
-#include <io/analyzer/routine.h>
-#include <io/analyzer/analyzer.h>
-#include <core/expression.h>
-#include <core/routine.h>
-#include <io/ast/end.h>
+#include <mu/io/analyzer/expression.h>
+#include <mu/io/ast/expression.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/io/analyzer/routine.h>
+#include <mu/io/analyzer/analyzer.h>
+#include <mu/core/expression.h>
+#include <mu/core/routine.h>
+#include <mu/io/ast/end.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

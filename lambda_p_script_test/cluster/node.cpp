@@ -1,9 +1,9 @@
 #include "node.h"
 
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
-#include <core/routine.h>
+#include <mu/core/routine.h>
 
 #include <boost/make_shared.hpp>
 

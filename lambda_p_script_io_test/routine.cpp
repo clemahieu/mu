@@ -1,15 +1,15 @@
 #include "routine.h"
 
 #include <lambda_p_script_io/routine.h>
-#include <core/expression.h>
+#include <mu/core/expression.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/parameters.h>
-#include <core/parameters.h>
-#include <core/routine.h>
+#include <mu/core/parameters.h>
+#include <mu/core/routine.h>
 #include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>

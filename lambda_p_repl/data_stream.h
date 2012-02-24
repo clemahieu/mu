@@ -1,6 +1,6 @@
 #pragma once
 
-#include <io/lexer/character_stream.h>
+#include <mu/io/lexer/character_stream.h>
 
 #include <string>
 #include <sstream>

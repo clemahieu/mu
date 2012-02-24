@@ -2,16 +2,16 @@
 
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/call.h>
-#include <core/reference.h>
+#include <mu/core/reference.h>
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/constant.h>
-#include <core/expression.h>
-#include <core/reference.h>
-#include <core/routine.h>
+#include <mu/core/expression.h>
+#include <mu/core/reference.h>
+#include <mu/core/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script_io/synthesizer.h>
 #include <lambda_p_script_io/routine.h>
-#include <core/cluster.h>
+#include <mu/core/cluster.h>
 #include <lambda_p_script/parameters.h>
 #include <lambda_p_script/remap.h>
 

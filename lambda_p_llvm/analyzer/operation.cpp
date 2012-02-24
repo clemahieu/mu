@@ -1,10 +1,10 @@
 #include "operation.h"
 
-#include <io/ast/expression.h>
-#include <io/analyzer/analyzer.h>
-#include <core/routine.h>
-#include <io/analyzer/extensions/extensions.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/analyzer/analyzer.h>
+#include <mu/core/routine.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/instructions/add.h>
 #include <lambda_p_llvm/instructions/and.h>
 #include <lambda_p_llvm/instructions/ashr.h>
@@ -31,8 +31,8 @@
 #include <lambda_p_llvm/instructions/zext.h>
 #include <lambda_p_llvm/apint/extension.h>
 #include <lambda_p_script/string/extension.h>
-#include <io/ast/end.h>
-#include <io/ast/cluster.h>
+#include <mu/io/ast/end.h>
+#include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/value/get_type.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_llvm/basic_block/insert.h>

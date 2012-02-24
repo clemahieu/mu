@@ -1,6 +1,6 @@
 #include "api.h"
 
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/context/create.h>
 #include <lambda_p_llvm/module/add_package.h>
 #include <lambda_p_llvm/module/assemble.h>

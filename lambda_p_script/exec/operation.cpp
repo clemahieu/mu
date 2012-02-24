@@ -1,10 +1,10 @@
 #include "operation.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
-#include <io/lexer/istream_input.h>
+#include <mu/io/lexer/istream_input.h>
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster/node.h>
 

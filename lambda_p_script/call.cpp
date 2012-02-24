@@ -2,9 +2,9 @@
 
 #include <lambda_p_script/node.h>
 #include <lambda_p_script/operation.h>
-#include <core/errors/error_context.h>
+#include <mu/core/errors/error_context.h>
 #include <lambda_p_script/context.h>
-#include <core/routine.h>
+#include <mu/core/routine.h>
 #include <lambda_p_script/routine.h>
 
 #include <boost/make_shared.hpp>

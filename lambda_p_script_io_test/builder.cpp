@@ -1,7 +1,7 @@
 #include "builder.h"
 
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/integer/node.h>
@@ -11,9 +11,9 @@
 #include <lambda_p_script/reference.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/parameters.h>
-#include <core/segment.h>
+#include <mu/core/segment.h>
 #include <lambda_p_script/cluster/node.h>
-#include <core/routine.h>
+#include <mu/core/routine.h>
 
 #include <boost/bind.hpp>
 

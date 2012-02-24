@@ -1,6 +1,6 @@
 #include "run_function.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/execution_engine/node.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm/execution_engine/generic_value/node.h>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <io/analyzer/extensions/extension.h>
+#include <mu/io/analyzer/extensions/extension.h>
 
 namespace lambda_p_script
 {

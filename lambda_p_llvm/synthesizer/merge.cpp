@@ -2,8 +2,8 @@
 
 #include <boost/make_shared.hpp>
 
-#include <io/analyzer/extensions/extensions.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_llvm/cluster/node.h>

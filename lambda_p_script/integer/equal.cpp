@@ -1,6 +1,6 @@
 #include "equal.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/bool_c/node.h>
 

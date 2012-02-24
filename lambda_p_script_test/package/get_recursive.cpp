@@ -3,7 +3,7 @@
 #include <lambda_p_script/package/get_recursive.h>
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_script/string/node.h>
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 
 void lambda_p_script_test::package::get_recursive::run ()
 {

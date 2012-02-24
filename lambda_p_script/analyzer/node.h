@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/node.h>
-#include <io/analyzer/analyzer.h>
+#include <mu/core/node.h>
+#include <mu/io/analyzer/analyzer.h>
 
 namespace lambda_p_script
 {

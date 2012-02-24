@@ -1,12 +1,12 @@
 #include "synthesizer.h"
 
 #include <lambda_p_script_io/synthesizer.h>
-#include <core/errors/error_list.h>
-#include <core/routine.h>
-#include <core/cluster.h>
-#include <core/expression.h>
-#include <core/reference.h>
-#include <core/parameters.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/core/routine.h>
+#include <mu/core/cluster.h>
+#include <mu/core/expression.h>
+#include <mu/core/reference.h>
+#include <mu/core/parameters.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/call.h>

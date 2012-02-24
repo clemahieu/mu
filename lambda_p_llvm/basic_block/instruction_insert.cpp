@@ -1,6 +1,6 @@
 #include "instruction_insert.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
 

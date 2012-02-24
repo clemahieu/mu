@@ -1,10 +1,10 @@
 #include "analyzer.h"
 
-#include <core/expression.h>
-#include <core/routine.h>
-#include <io/builder.h>
-#include <io/ast/expression.h>
-#include <io/ast/cluster.h>
+#include <mu/core/expression.h>
+#include <mu/core/routine.h>
+#include <mu/io/builder.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 
 #include <boost/bind.hpp>

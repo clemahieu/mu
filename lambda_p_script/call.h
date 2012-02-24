@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/context.h>
+#include <mu/core/context.h>
 
 #include <boost/shared_ptr.hpp>
 

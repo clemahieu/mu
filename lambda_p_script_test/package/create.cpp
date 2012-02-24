@@ -2,7 +2,7 @@
 
 #include <lambda_p_script/package/create.h>
 #include <lambda_p_script/package/node.h>
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 
 void lambda_p_script_test::package::create::run ()
 {

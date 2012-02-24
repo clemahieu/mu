@@ -3,7 +3,7 @@
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/instruction/node.h>
 #include <lambda_p_llvm/basic_block/insert.h>
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_llvm/pointer_type/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 

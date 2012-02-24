@@ -5,21 +5,21 @@
 #include <sstream>
 
 #include <boost/bind.hpp>
-#include <core/errors/error_list.h>
-#include <core/errors/error.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/core/errors/error.h>
 #include <lambda_p_repl/cli_stream.h>
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 #include <lambda_p_script/routine.h>
-#include <io/lexer/error.h>
-#include <io/parser/error.h>
+#include <mu/io/lexer/error.h>
+#include <mu/io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/api.h>
-#include <io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
-#include <io/tokens/left_square.h>
-#include <io/tokens/right_square.h>
+#include <mu/io/tokens/left_square.h>
+#include <mu/io/tokens/right_square.h>
 #include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>

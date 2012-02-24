@@ -1,6 +1,6 @@
 #include "create_jit.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/execution_engine/node.h>
 

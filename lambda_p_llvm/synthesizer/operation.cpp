@@ -1,11 +1,11 @@
 #include "operation.h"
 
-#include <core/errors/error_target.h>
-#include <io/ast/cluster.h>
+#include <mu/core/errors/error_target.h>
+#include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_script_io/synthesizer.h>
-#include <core/cluster.h>
+#include <mu/core/cluster.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_llvm/function_type/node.h>

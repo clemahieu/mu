@@ -1,6 +1,6 @@
 #include "segment.h"
 
-#include <core/segment.h>
+#include <mu/core/segment.h>
 
 #include <assert.h>
 

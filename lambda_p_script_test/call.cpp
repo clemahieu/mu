@@ -2,8 +2,8 @@
 
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/constant.h>
-#include <core/node.h>
-#include <core/errors/error_list.h>
+#include <mu/core/node.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_script/context.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/cluster/node.h>

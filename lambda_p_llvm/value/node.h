@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/node.h>
+#include <mu/core/node.h>
 
 #include <boost/shared_ptr.hpp>
 

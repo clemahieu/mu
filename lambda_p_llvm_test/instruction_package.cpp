@@ -1,15 +1,15 @@
 #include "instruction_package.h"
 
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/closure/create_single.h>
 #include <lambda_p_llvm/instructions/add.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_script/routine.h>
-#include <io/analyzer/extensions/extensions.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/constant_int/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 

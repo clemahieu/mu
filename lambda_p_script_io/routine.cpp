@@ -1,12 +1,12 @@
 #include "routine.h"
 
 #include <lambda_p_script/routine.h>
-#include <core/expression.h>
+#include <mu/core/expression.h>
 #include <lambda_p_script_io/expression.h>
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/identity/operation.h>
-#include <core/order.h>
-#include <core/routine.h>
+#include <mu/core/order.h>
+#include <mu/core/routine.h>
 
 lambda_p_script_io::routine::routine (boost::shared_ptr <lambda_p_script::cluster::node> cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <lambda_p_script::routine> result_a)
 {

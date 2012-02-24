@@ -4,10 +4,10 @@
 
 #include <lambda_p_script/integer/extension.h>
 #include <lambda_p_script/string/extension.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/unit/operation.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/global.h>
 #include <lambda_p_script/closure/apply.h>
 #include <lambda_p_script/closure/create.h>
 #include <lambda_p_script/closure/create_single.h>
@@ -29,9 +29,9 @@
 #include <lambda_p_script/package/node.h>
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_script/package/get_recursive.h>
-#include <io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
-#include <core/routine.h>
+#include <mu/core/routine.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/ast/extension.h>
 #include <lambda_p_llvm/analyzer/operation.h>

@@ -1,6 +1,6 @@
 #include "operation.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 #include <lambda_p_llvm/basic_block/node.h>

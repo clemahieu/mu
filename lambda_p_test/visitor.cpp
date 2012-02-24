@@ -1,11 +1,11 @@
 #include "visitor.h"
 
 #include <lambda_p_test/test_visitor.h>
-#include <core/expression.h>
-#include <core/node.h>
-#include <core/reference.h>
-#include <core/routine.h>
-#include <core/parameters.h>
+#include <mu/core/expression.h>
+#include <mu/core/node.h>
+#include <mu/core/reference.h>
+#include <mu/core/routine.h>
+#include <mu/core/parameters.h>
 
 #include <boost/shared_ptr.hpp>
 

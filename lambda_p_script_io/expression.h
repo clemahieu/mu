@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/visitor.h>
+#include <mu/core/visitor.h>
 
 #include <boost/shared_ptr.hpp>
 

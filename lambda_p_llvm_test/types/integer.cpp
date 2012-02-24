@@ -1,6 +1,6 @@
 #include "integer.h"
 
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/integer_type/create.h>

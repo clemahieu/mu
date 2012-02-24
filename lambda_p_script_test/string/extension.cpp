@@ -1,7 +1,7 @@
 #include "extension.h"
 
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 
 #include <boost/bind.hpp>
 

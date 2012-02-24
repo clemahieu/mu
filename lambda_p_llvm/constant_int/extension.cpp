@@ -1,18 +1,18 @@
 #include "extension.h"
 
-#include <core/errors/error_target.h>
-#include <io/analyzer/expression.h>
+#include <mu/core/errors/error_target.h>
+#include <mu/io/analyzer/expression.h>
 #include <lambda_p_script/integer/extension.h>
-#include <io/ast/expression.h>
-#include <io/ast/identifier.h>
-#include <core/expression.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/ast/identifier.h>
+#include <mu/core/expression.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_llvm/constant_int/create.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/context/node.h>
-#include <io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/global.h>
 
 #include <sstream>
 

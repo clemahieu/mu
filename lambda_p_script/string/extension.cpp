@@ -1,12 +1,12 @@
 #include "extension.h"
 
-#include <io/analyzer/expression.h>
-#include <io/analyzer/routine.h>
-#include <io/analyzer/analyzer.h>
-#include <io/ast/expression.h>
-#include <core/errors/error_target.h>
-#include <io/ast/identifier.h>
-#include <core/expression.h>
+#include <mu/io/analyzer/expression.h>
+#include <mu/io/analyzer/routine.h>
+#include <mu/io/analyzer/analyzer.h>
+#include <mu/io/ast/expression.h>
+#include <mu/core/errors/error_target.h>
+#include <mu/io/ast/identifier.h>
+#include <mu/core/expression.h>
 #include <lambda_p_script/string/node.h>
 
 #include <sstream>

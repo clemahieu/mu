@@ -1,11 +1,11 @@
 #include "node.h"
 
-#include <core/errors/error_target.h>
+#include <mu/core/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script/routine.h>
-#include <core/routine.h>
-#include <core/expression.h>
+#include <mu/core/routine.h>
+#include <mu/core/expression.h>
 
 #include <sstream>
 #include <set>

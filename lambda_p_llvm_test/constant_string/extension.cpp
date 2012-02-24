@@ -1,18 +1,18 @@
 #include "extension.h"
 
-#include <core/errors/error_list.h>
-#include <io/builder.h>
-#include <io/source.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/io/builder.h>
+#include <mu/io/source.h>
 #include <lambda_p_llvm/constant_string/extension.h>
-#include <io/ast/cluster.h>
-#include <io/ast/expression.h>
-#include <io/analyzer/expression.h>
-#include <io/analyzer/routine.h>
-#include <io/analyzer/analyzer.h>
-#include <core/expression.h>
+#include <mu/io/ast/cluster.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/analyzer/expression.h>
+#include <mu/io/analyzer/routine.h>
+#include <mu/io/analyzer/analyzer.h>
+#include <mu/core/expression.h>
 #include <lambda_p_llvm/context/node.h>
 #include <lambda_p_llvm/module/node.h>
-#include <io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/extensions.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

@@ -1,6 +1,6 @@
 #include "node.h"
 
-#include <core/routine.h>
+#include <mu/core/routine.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_script/cluster/node.h>
 

@@ -2,7 +2,7 @@
 
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/module/get_package.h>
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_script/astring/node.h>
 #include <lambda_p_llvm/module/add_package.h>
 

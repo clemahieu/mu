@@ -1,6 +1,6 @@
 #include "operation.h"
 
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_llvm/ccall/operation.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_llvm/basic_block/split_return.h>

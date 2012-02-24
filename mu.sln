@@ -74,11 +74,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_script_io_test", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "environment", "environment\environment.vcxproj", "{29B8EEB4-3638-44BC-BE55-4550AEDDA03C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "core\core.vcxproj", "{BF0B29D9-E099-454D-A28C-3625309A182D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core", "mu\core\core.vcxproj", "{BF0B29D9-E099-454D-A28C-3625309A182D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io", "io\io.vcxproj", "{0365160D-8CA1-4266-8803-22A0B49A5A7F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io", "mu\io\io.vcxproj", "{0365160D-8CA1-4266-8803-22A0B49A5A7F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io_test", "io_test\io_test.vcxproj", "{499674EB-0500-4F97-97F3-1E7E5B28B011}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io_test", "mu\io_test\io_test.vcxproj", "{499674EB-0500-4F97-97F3-1E7E5B28B011}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

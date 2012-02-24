@@ -1,11 +1,11 @@
 #include "operation.h"
 
 #include <lambda_p_script/times/operation.h>
-#include <core/errors/error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <lambda_p_script/integer/subtract.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script_io/builder.h>
-#include <io/source.h>
+#include <mu/io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster/node.h>
 

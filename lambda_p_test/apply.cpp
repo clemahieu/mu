@@ -1,8 +1,8 @@
 #include "apply.h"
 
-#include <core/apply.h>
-#include <core/node.h>
-#include <core/segment.h>
+#include <mu/core/apply.h>
+#include <mu/core/node.h>
+#include <mu/core/segment.h>
 
 #include <boost/make_shared.hpp>
 

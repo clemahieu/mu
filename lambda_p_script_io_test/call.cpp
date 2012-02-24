@@ -4,9 +4,9 @@
 #include <lambda_p_script/call.h>
 #include <lambda_p_script/expression.h>
 #include <lambda_p_script/reference.h>
-#include <core/node.h>
-#include <core/expression.h>
-#include <core/reference.h>
+#include <mu/core/node.h>
+#include <mu/core/expression.h>
+#include <mu/core/reference.h>
 #include <lambda_p_script/constant.h>
 #include <lambda_p_script/cluster/node.h>
 
