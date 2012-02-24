@@ -1,10 +1,10 @@
 #include "extension.h"
 
 #include <core/errors/error_target.h>
-#include <lambda_p_io/analyzer/expression.h>
+#include <io/analyzer/expression.h>
 #include <lambda_p_script/integer/extension.h>
-#include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/ast/identifier.h>
+#include <io/ast/expression.h>
+#include <io/ast/identifier.h>
 #include <core/expression.h>
 #include <lambda_p_llvm/value/node.h>
 #include <lambda_p_script/integer/node.h>
@@ -12,7 +12,7 @@
 #include <lambda_p_llvm/constant_int/create.h>
 #include <lambda_p_llvm/apint/node.h>
 #include <lambda_p_llvm/context/node.h>
-#include <lambda_p_io/analyzer/extensions/global.h>
+#include <io/analyzer/extensions/global.h>
 
 #include <sstream>
 
@@ -23,17 +23,17 @@ lambda_p_llvm::constant_int::extension::extension (boost::shared_ptr <lambda_p_l
 {
 }
 
-void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_llvm::constant_int::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto bits_position (expression_a.position + 1);
 	auto number_position (expression_a.position + 2);
 	if (expression_a.expression_m->values.size () > number_position)
 	{
 		expression_a.position = number_position;
-		auto bits_identifier (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [bits_position]));
+		auto bits_identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [bits_position]));
 		if (bits_identifier.get () != nullptr)
 		{
-			auto number_identifier (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [number_position]));
+			auto number_identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [number_position]));
 			if (number_identifier.get () != nullptr)
 			{
 				auto characters (bits_identifier->string.c_str ());

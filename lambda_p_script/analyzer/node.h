@@ -1,7 +1,7 @@
 #pragma once
 
 #include <core/node.h>
-#include <lambda_p_io/analyzer/analyzer.h>
+#include <io/analyzer/analyzer.h>
 
 namespace lambda_p_script
 {
@@ -10,7 +10,7 @@ namespace lambda_p_script
 		class node : public mu::core::node
 		{
 		public:
-			lambda_p_io::analyzer::analyzer analyzer;
+			mu::io::analyzer::analyzer analyzer;
 		};
 	}
 }

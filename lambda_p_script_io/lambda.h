@@ -1,6 +1,6 @@
 #pragma once
 
-#include <lambda_p_io/analyzer/extensions/extension.h>
+#include <io/analyzer/extensions/extension.h>
 
 #include <boost/shared_ptr.hpp>
 
@@ -13,11 +13,11 @@ namespace mu
 }
 namespace lambda_p_script_io
 {
-	class lambda : public lambda_p_io::analyzer::extensions::extension
+	class lambda : public mu::io::analyzer::extensions::extension
 	{
 	public:
-		void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
-		void add (lambda_p_io::analyzer::expression & expression_a, boost::shared_ptr <mu::core::cluster> cluster_a);
+		void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a) override;
+		void add (mu::io::analyzer::expression & expression_a, boost::shared_ptr <mu::core::cluster> cluster_a);
 	};
 }
 

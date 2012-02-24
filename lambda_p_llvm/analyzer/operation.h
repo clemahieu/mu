@@ -9,14 +9,14 @@ namespace mu
 	{
 		class cluster;
 	}
-}
-namespace lambda_p_io
-{
-	namespace analyzer
+	namespace io
 	{
-		namespace extensions
+		namespace analyzer
 		{
-			class extensions;
+			namespace extensions
+			{
+				class extensions;
+			}
 		}
 	}
 }
@@ -44,7 +44,7 @@ namespace lambda_p_llvm
 			size_t count () override;
 			void add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a);
 			lambda_p_llvm::analyzer::context context;
-			boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions;
+			boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 		};
 	}
 }

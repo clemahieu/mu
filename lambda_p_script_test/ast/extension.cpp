@@ -3,9 +3,9 @@
 #include <core/expression.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/ast/identifier.h>
-#include <lambda_p_io/ast/cluster.h>
+#include <io/ast/expression.h>
+#include <io/ast/identifier.h>
+#include <io/ast/cluster.h>
 #include <core/errors/error_list.h>
 #include <lambda_p_script/cluster/node.h>
 
@@ -21,7 +21,7 @@ void lambda_p_script_test::ast::extension::run ()
 void lambda_p_script_test::ast::extension::run_1 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast []]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -33,7 +33,7 @@ void lambda_p_script_test::ast::extension::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	routine->perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->expressions.size () == 0);
 }
@@ -41,7 +41,7 @@ void lambda_p_script_test::ast::extension::run_1 ()
 void lambda_p_script_test::ast::extension::run_2 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast thing]");
 	source ();
 	assert (!builder.errors->errors.empty ());
@@ -51,7 +51,7 @@ void lambda_p_script_test::ast::extension::run_2 ()
 void lambda_p_script_test::ast::extension::run_3 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast [[]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -63,7 +63,7 @@ void lambda_p_script_test::ast::extension::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	routine->perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
-	auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (r1 [0]));
+	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->expressions.size () == 1);
 	auto expression (cl->expressions [0]);

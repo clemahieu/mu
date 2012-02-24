@@ -1,15 +1,15 @@
 #include "operation.h"
 
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script_io/builder.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p_io/ast/cluster.h>
+#include <io/ast/cluster.h>
 #include <lambda_p_llvm/module/print.h>
 #include <lambda_p_llvm/module/verify.h>
-#include <lambda_p_io/builder.h>
+#include <io/builder.h>
 #include <lambda_p_llvm/cluster/node.h>
 #include <lambda_p_llvm/function/node.h>
 #include <lambda_p_llvm/type/node.h>
@@ -45,8 +45,8 @@ void lambda_p_llvm_test::synthesizer::operation::run ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_1 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -79,8 +79,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_1 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~] [~ [i32]] [add #i 32 d1 #i 32 d1]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -118,8 +118,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_2 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32]] [~ [i32]] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -152,8 +152,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_3 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i32]] [~ [i32]] [add [:~]]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -186,8 +186,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_4 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ ] [~ ] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -220,8 +220,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_5 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i16]] [~ [i32] [i16]] [:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -254,8 +254,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_6 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_7 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [store [:~]]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -288,8 +288,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_7 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_8 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [~ [store [:~]] [store [:~]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -322,8 +322,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_8 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_9 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ [i32] [i32]] [~ [i32]] [add [:~]]";
 	code << L"[~ [i32] [i32]] [~ [i32]] [and [:~]]";
@@ -388,8 +388,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_9 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_10 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [fun-t [{ ] [{ ]]]] [~ 2 ;; 1]";
 	code << L"[~ ] [~ ] [~ ;; 2]";
@@ -433,8 +433,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_10 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_11 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [i32]] [call 2 ;; 1]";
 	code << L"[~ ] [~ [i32]] [~ #i 32 d42 ;; 2]";
@@ -478,8 +478,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_11 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [i16]]] [~ ` test_string]";
 	source (code.str ());
@@ -500,8 +500,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_12 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_13 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 2 [call 2];; 1]";
 	code << L"[~ ] [~ ] [~ ;; 2]";
@@ -545,8 +545,8 @@ void lambda_p_llvm_test::synthesizer::operation::run_13 ()
 
 void lambda_p_llvm_test::synthesizer::operation::run_14 ()
 {
-	lambda_p_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::builder builder;
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 3 [call 2];; 1]";
 	code << L"[~ ] [~ [i16] [i16]] [~ #i 16 d0 #i 16 d0;; 2]";

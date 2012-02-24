@@ -5,7 +5,7 @@
 #include <lambda_p_script/integer/subtract.h>
 #include <lambda_p_script/integer/node.h>
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster/node.h>
 
@@ -41,7 +41,7 @@ void lambda_p_script_test::times::operation::run_1 ()
 void lambda_p_script_test::times::operation::run_2 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	source ();
 	assert (builder.errors->errors.empty ());

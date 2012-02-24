@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="lexer">
+      <UniqueIdentifier>{8607f79a-a815-4685-8223-38579524c6fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="parser">
+      <UniqueIdentifier>{0f222fde-f80d-46f1-aab8-551077cb08f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tokens">
+      <UniqueIdentifier>{09551674-bb99-4e2e-9651-42734041793b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ast">
+      <UniqueIdentifier>{0a9fdc4a-1610-4d4a-bf60-0bab99ed3ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{e887e47c-e469-4e40-aa07-7c5db0e09a41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer\extensions">
+      <UniqueIdentifier>{c2581f0e-2fe9-437d-b38a-659e97cbb409}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="lexer\begin.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\character_stream.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\complex_identifier.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\control.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\error.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\identifier.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\istream_input.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\lexer.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\multiline_comment.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\singleline_comment.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\token_vector.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\wistream_input.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\error.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\finished.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\parser.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\divider.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\identifier.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\left_square.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\right_square.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\stream_end.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\token.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\expression.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\node.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\identifier.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\visitor.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\visitor.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\state.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\analyzer.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\values.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\single.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\routine.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\expression.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="source.cpp" />
+    <ClCompile Include="parser\full.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\resolver.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\parameters.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="tokens\parameters.cpp">
+      <Filter>tokens</Filter>
+    </ClCompile>
+    <ClCompile Include="builder.cpp" />
+    <ClCompile Include="analyzer\extensions\extension.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\extensions\global.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\extensions\extensions.cpp">
+      <Filter>analyzer\extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="lexer\hex_code.cpp">
+      <Filter>lexer</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\end.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="ast\cluster.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
+    <ClCompile Include="parser\begin.cpp">
+      <Filter>parser</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lexer\begin.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\character_stream.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\complex_identifier.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\control.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\error.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\identifier.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\istream_input.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\lexer.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\multiline_comment.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\singleline_comment.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\token_vector.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\wistream_input.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\error.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\finished.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\parser.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\divider.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\identifier.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\left_square.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\right_square.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\stream_end.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\token.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\expression.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\node.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\identifier.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\visitor.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\visitor.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\state.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\analyzer.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\values.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\single.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\routine.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\expression.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="source.h" />
+    <ClInclude Include="parser\full.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\resolver.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\parameters.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="tokens\parameters.h">
+      <Filter>tokens</Filter>
+    </ClInclude>
+    <ClInclude Include="builder.h" />
+    <ClInclude Include="analyzer\extensions\extension.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\global.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\extensions\extensions.h">
+      <Filter>analyzer\extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="lexer\hex_code.h">
+      <Filter>lexer</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\end.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\cluster.h">
+      <Filter>ast</Filter>
+    </ClInclude>
+    <ClInclude Include="parser\begin.h">
+      <Filter>parser</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -19,7 +19,7 @@ void lambda_p_script_io_test::lambda::run ()
 void lambda_p_script_io_test::lambda::run_1 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[[~ # d42]]]");
 	source ();
 	assert (builder.clusters.size () == 1);
@@ -32,7 +32,7 @@ void lambda_p_script_io_test::lambda::run_1 ()
 void lambda_p_script_io_test::lambda::run_2 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[[]]]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -45,7 +45,7 @@ void lambda_p_script_io_test::lambda::run_2 ()
 void lambda_p_script_io_test::lambda::run_3 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=> thing]");
 	source ();
 	assert (builder.clusters.empty ());
@@ -57,7 +57,7 @@ void lambda_p_script_io_test::lambda::run_3 ()
 void lambda_p_script_io_test::lambda::run_4 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>]");
 	source ();
 	assert (builder.clusters.empty ());
@@ -69,7 +69,7 @@ void lambda_p_script_io_test::lambda::run_4 ()
 void lambda_p_script_io_test::lambda::run_5 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[]]");
 	source ();
 	assert (builder.errors->errors.empty ());

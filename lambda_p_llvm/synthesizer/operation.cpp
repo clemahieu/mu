@@ -1,7 +1,7 @@
 #include "operation.h"
 
 #include <core/errors/error_target.h>
-#include <lambda_p_io/ast/cluster.h>
+#include <io/ast/cluster.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 #include <lambda_p_script_io/synthesizer.h>
@@ -31,7 +31,7 @@
 
 void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 {
-	auto one (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <lambda_p_llvm::module::node> (parameters [1]));
 	if (one.get () != nullptr)
 	{

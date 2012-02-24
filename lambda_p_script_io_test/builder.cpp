@@ -1,7 +1,7 @@
 #include "builder.h"
 
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/identity/operation.h>
 #include <lambda_p_script/integer/node.h>
@@ -35,7 +35,7 @@ void lambda_p_script_io_test::builder::run ()
 void lambda_p_script_io_test::builder::run_1 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -48,7 +48,7 @@ void lambda_p_script_io_test::builder::run_1 ()
 void lambda_p_script_io_test::builder::run_2 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source ();
 	auto cluster (builder.clusters [0]);
@@ -69,7 +69,7 @@ void lambda_p_script_io_test::builder::run_2 ()
 void lambda_p_script_io_test::builder::run_3 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source ();
 	auto cluster (builder.clusters [0]);
@@ -87,7 +87,7 @@ void lambda_p_script_io_test::builder::run_3 ()
 void lambda_p_script_io_test::builder::run_4 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source ();
 	auto cluster (builder.clusters [0]);
@@ -102,7 +102,7 @@ void lambda_p_script_io_test::builder::run_4 ()
 void lambda_p_script_io_test::builder::run_5 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~] # d4]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -125,7 +125,7 @@ void lambda_p_script_io_test::builder::run_5 ()
 void lambda_p_script_io_test::builder::run_6 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~] ` testing]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -148,7 +148,7 @@ void lambda_p_script_io_test::builder::run_6 ()
 void lambda_p_script_io_test::builder::run_7 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~] ` |%|string with spaces%]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -171,7 +171,7 @@ void lambda_p_script_io_test::builder::run_7 ()
 void lambda_p_script_io_test::builder::run_8 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; #] ;; 1]");
 	source ();
 	assert (!builder.errors->errors.empty ());
@@ -180,7 +180,7 @@ void lambda_p_script_io_test::builder::run_8 ()
 void lambda_p_script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; a b c] ~ a [a b c] c]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -245,7 +245,7 @@ void lambda_p_script_io_test::builder::run_9 ()
 void lambda_p_script_io_test::builder::run_10 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [. 2];; 1][;; 2]");
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -263,7 +263,7 @@ void lambda_p_script_io_test::builder::run_10 ()
 void lambda_p_script_io_test::builder::run_11 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[2 ;; 1][~ 1;; 2]");
 	source ();
 	assert (builder.errors->errors.empty ());

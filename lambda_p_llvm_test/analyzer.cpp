@@ -2,9 +2,9 @@
 
 #include <core/expression.h>
 #include <core/routine.h>
-#include <lambda_p_io/builder.h>
-#include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/ast/cluster.h>
+#include <io/builder.h>
+#include <io/ast/expression.h>
+#include <io/ast/cluster.h>
 #include <lambda_p_llvm/analyzer/operation.h>
 
 #include <boost/bind.hpp>
@@ -16,8 +16,8 @@ void lambda_p_llvm_test::analyzer::run ()
 
 void lambda_p_llvm_test::analyzer::run_1 ()
 {
-	//lambda_p_io::builder builder;
-	//lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	//mu::io::builder builder;
+	//mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	//source (L"[.ast [[# d32 add and ashr bitcast cmpxchg icmp integer inttoptr load lshr mul or pointer ptrtoint sdiv sext shl srem store structure sub trunc udiv urem void xor zext]]]");
 	//source ();
 	//assert (builder.errors->errors.empty ());
@@ -26,7 +26,7 @@ void lambda_p_llvm_test::analyzer::run_1 ()
 	//assert (cluster->routines.size () == 1);
 	//auto routine (cluster->routines [0]);
 	//assert (routine->body->dependencies.size () == 1);
-	//auto cl (boost::dynamic_pointer_cast <lambda_p_io::ast::cluster> (routine->body->dependencies [0]));
+	//auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (routine->body->dependencies [0]));
 	//assert (cl != nullptr);
 	//assert (cl->expressions.size () == 1);
 	//lambda_p_llvm::analyzer::operation analyzer;

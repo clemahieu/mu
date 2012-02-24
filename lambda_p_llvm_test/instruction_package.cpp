@@ -1,15 +1,15 @@
 #include "instruction_package.h"
 
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script/cluster/node.h>
 #include <lambda_p_script/closure/create_single.h>
 #include <lambda_p_llvm/instructions/add.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p_io/analyzer/extensions/extensions.h>
-#include <lambda_p_io/analyzer/extensions/global.h>
+#include <io/analyzer/extensions/extensions.h>
+#include <io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/constant_int/node.h>
 #include <lambda_p_llvm/integer_type/node.h>
 
@@ -32,7 +32,7 @@ void lambda_p_llvm_test::instruction_package::run ()
 void lambda_p_llvm_test::instruction_package::run_1 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -51,8 +51,8 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	create.perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
 	lambda_p_script_io::builder b2;
-	lambda_p_io::source s2 (boost::bind (&lambda_p_io::lexer::lexer::operator(), &b2.lexer, _1));
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (r1 [0]);
+	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
+	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (r1 [0]);
 	s2 (L"[[:~; number] add [add number number] [add [add number number] number]]");
 	s2 ();
 	assert (b2.errors->errors.empty ());
@@ -80,7 +80,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 void lambda_p_llvm_test::instruction_package::run_2 ()
 {
 	lambda_p_script_io::builder builder;
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
 	source (L"[[:~; instruction insert block] .apply build_insert instruction insert block]");
 	source ();
@@ -98,8 +98,8 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	routine1->perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
 	lambda_p_script_io::builder b2;
-	lambda_p_io::source s2 (boost::bind (&lambda_p_io::lexer::lexer::operator(), &b2.lexer, _1));
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (r1 [0]);
+	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
+	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (r1 [0]);
 	s2 (L"[[:~; number] add [add number number] [add [add number number] number]]");
 	s2 ();
 	assert (b2.errors->errors.empty ());

@@ -1,15 +1,15 @@
 #pragma once
 
-#include <lambda_p_io/analyzer/extensions/extension.h>
+#include <io/analyzer/extensions/extension.h>
 
 namespace lambda_p_llvm
 {
 	namespace apint
 	{
-		class extension : public lambda_p_io::analyzer::extensions::extension
+		class extension : public mu::io::analyzer::extensions::extension
 		{
 		public:
-			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a) override;
+			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a) override;
 		};
 	}
 }

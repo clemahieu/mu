@@ -1,9 +1,9 @@
 #include "extension.h"
 
 #include <core/errors/error_target.h>
-#include <lambda_p_io/analyzer/expression.h>
-#include <lambda_p_io/ast/expression.h>
-#include <lambda_p_io/ast/identifier.h>
+#include <io/analyzer/expression.h>
+#include <io/ast/expression.h>
+#include <io/ast/identifier.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_script/closure/single.h>
 #include <lambda_p_llvm/constant_string/create.h>
@@ -19,13 +19,13 @@ lambda_p_llvm::constant_string::extension::extension (boost::shared_ptr <lambda_
 {
 }
 
-void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, lambda_p_io::analyzer::expression & expression_a)
+void lambda_p_llvm::constant_string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
 	{
 		expression_a.position = position;
-		auto identifier (boost::dynamic_pointer_cast <lambda_p_io::ast::identifier> (expression_a.expression_m->values [position]));
+		auto identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [position]));
 		if (identifier.get () != nullptr)
 		{
 			auto node (boost::make_shared <lambda_p_script::closure::single> (boost::make_shared <lambda_p_llvm::constant_string::create> ()));

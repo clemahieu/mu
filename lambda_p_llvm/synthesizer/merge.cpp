@@ -2,8 +2,8 @@
 
 #include <boost/make_shared.hpp>
 
-#include <lambda_p_io/analyzer/extensions/extensions.h>
-#include <lambda_p_io/analyzer/extensions/global.h>
+#include <io/analyzer/extensions/extensions.h>
+#include <io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_script/string/node.h>
 #include <lambda_p_llvm/cluster/node.h>
@@ -24,7 +24,7 @@ void lambda_p_llvm::synthesizer::merge::operator () (boost::shared_ptr <mu::core
 				{
 					std::wstring name (two->string.begin (), two->string.end ());
 					name.append (i->first);
-					one->analyzer.extensions->extensions_m [name] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (i->second);
+					one->analyzer.extensions->extensions_m [name] = boost::make_shared <mu::io::analyzer::extensions::global> (i->second);
 				}
 			}
 			else

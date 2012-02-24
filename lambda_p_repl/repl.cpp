@@ -9,17 +9,17 @@
 #include <core/errors/error.h>
 #include <lambda_p_repl/cli_stream.h>
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script/routine.h>
-#include <lambda_p_io/lexer/error.h>
-#include <lambda_p_io/parser/error.h>
+#include <io/lexer/error.h>
+#include <io/parser/error.h>
 #include <lambda_p_repl/quit/operation.h>
-#include <lambda_p_io/analyzer/extensions/global.h>
+#include <io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/api.h>
-#include <lambda_p_io/analyzer/extensions/extensions.h>
+#include <io/analyzer/extensions/extensions.h>
 #include <lambda_p_script/print/operation.h>
-#include <lambda_p_io/tokens/left_square.h>
-#include <lambda_p_io/tokens/right_square.h>
+#include <io/tokens/left_square.h>
+#include <io/tokens/right_square.h>
 #include <lambda_p_script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
@@ -56,14 +56,14 @@ void lambda_p_repl::repl::stop ()
 void lambda_p_repl::repl::iteration ()
 {
 	std::wcout << L"lp> ";
-	boost::shared_ptr <lambda_p_io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
+	boost::shared_ptr <mu::io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
 	lambda_p_script_io::builder builder;
 	lambda_p_llvm::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
 	auto quit (boost::shared_ptr <mu::core::node> (new lambda_p_repl::quit::operation (*this)));
-	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <lambda_p_io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <lambda_p_io::analyzer::extensions::extension> (new lambda_p_io::analyzer::extensions::global (quit))));
-	lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
-	builder.parser (new lambda_p_io::tokens::left_square (), mu::core::context ());
+	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L".quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
+	builder.parser (new mu::io::tokens::left_square (), mu::core::context ());
 	source (stream);
 	source (L']');
 	source ();

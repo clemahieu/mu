@@ -1,7 +1,7 @@
 #include "add.h"
 
-#include <lambda_p_io/analyzer/extensions/extensions.h>
-#include <lambda_p_io/analyzer/extensions/global.h>
+#include <io/analyzer/extensions/extensions.h>
+#include <io/analyzer/extensions/global.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_script/string/node.h>
 
@@ -15,7 +15,7 @@ void lambda_p_llvm::synthesizer::add::operator () (boost::shared_ptr <mu::core::
 	{
 		if (two.get () != nullptr)
 		{
-			one->analyzer.extensions->extensions_m [two->string] = boost::make_shared <lambda_p_io::analyzer::extensions::global> (parameters [2]);
+			one->analyzer.extensions->extensions_m [two->string] = boost::make_shared <mu::io::analyzer::extensions::global> (parameters [2]);
 		}
 		else
 		{

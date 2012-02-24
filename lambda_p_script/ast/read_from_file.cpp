@@ -2,9 +2,9 @@
 
 #include <core/errors/error_list.h>
 #include <lambda_p_script/string/node.h>
-#include <lambda_p_io/lexer/istream_input.h>
-#include <lambda_p_io/builder.h>
-#include <lambda_p_io/ast/cluster.h>
+#include <io/lexer/istream_input.h>
+#include <io/builder.h>
+#include <io/ast/cluster.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -23,9 +23,9 @@ void lambda_p_script::ast::read_from_file::operator () (boost::shared_ptr <mu::c
 		stream.open (path.string ());
 		if (stream.is_open ())
 		{
-			auto input (boost::shared_ptr <lambda_p_io::lexer::istream_input> (new lambda_p_io::lexer::istream_input (stream)));
-			lambda_p_io::builder builder;
-			lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+			auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
+			mu::io::builder builder;
+			mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 			source (input);
 			source ();
 			if (builder.errors->errors.empty ())

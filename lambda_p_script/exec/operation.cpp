@@ -2,9 +2,9 @@
 
 #include <core/errors/error_target.h>
 #include <lambda_p_script/string/node.h>
-#include <lambda_p_io/lexer/istream_input.h>
+#include <io/lexer/istream_input.h>
 #include <lambda_p_script_io/builder.h>
-#include <lambda_p_io/source.h>
+#include <io/source.h>
 #include <lambda_p_script/routine.h>
 #include <lambda_p_script/cluster/node.h>
 
@@ -13,7 +13,7 @@
 
 #include <sstream>
 
-lambda_p_script::exec::operation::operation (boost::shared_ptr <lambda_p_io::analyzer::extensions::extensions> extensions_a)
+lambda_p_script::exec::operation::operation (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: extensions (extensions_a)
 {
 }
@@ -32,9 +32,9 @@ void lambda_p_script::exec::operation::perform (boost::shared_ptr <mu::core::err
 			stream.open (path.string ());
 			if (stream.is_open ())
 			{
-				auto input (boost::shared_ptr <lambda_p_io::lexer::istream_input> (new lambda_p_io::lexer::istream_input (stream)));
+				auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
 				lambda_p_script_io::builder builder (extensions);
-				lambda_p_io::source source (boost::bind (&lambda_p_io::lexer::lexer::operator(), &builder.lexer, _1));
+				mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 				source (input);
 				source ();
 				if (builder.errors->errors.empty ())
