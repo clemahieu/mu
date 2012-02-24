@@ -57,7 +57,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_entry", "mu\test_entry
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script", "mu\script\script.vcxproj", "{7AB695DE-E9F4-4848-9E48-C1A4FC05B295}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lambda_p_script_io_test", "lambda_p_script_io_test\lambda_p_script_io_test.vcxproj", "{5D0D3CA2-0061-4CA6-8E3E-34B5AF4B7117}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script_io_test", "mu\script_io_test\script_io_test.vcxproj", "{5D0D3CA2-0061-4CA6-8E3E-34B5AF4B7117}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

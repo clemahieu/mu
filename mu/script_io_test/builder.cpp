@@ -17,7 +17,7 @@
 
 #include <boost/bind.hpp>
 
-void lambda_p_script_io_test::builder::run ()
+void mu::script_io_test::builder::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -32,7 +32,7 @@ void lambda_p_script_io_test::builder::run ()
 	run_11 ();
 }
 
-void lambda_p_script_io_test::builder::run_1 ()
+void mu::script_io_test::builder::run_1 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -45,7 +45,7 @@ void lambda_p_script_io_test::builder::run_1 ()
 	auto routine (cluster->routines [0]);
 }
 
-void lambda_p_script_io_test::builder::run_2 ()
+void mu::script_io_test::builder::run_2 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -66,7 +66,7 @@ void lambda_p_script_io_test::builder::run_2 ()
 	assert (results [1] == n2);
 }
 
-void lambda_p_script_io_test::builder::run_3 ()
+void mu::script_io_test::builder::run_3 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -84,7 +84,7 @@ void lambda_p_script_io_test::builder::run_3 ()
 	assert (results [0] == n1);
 }
 
-void lambda_p_script_io_test::builder::run_4 ()
+void mu::script_io_test::builder::run_4 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -99,7 +99,7 @@ void lambda_p_script_io_test::builder::run_4 ()
 	assert (results.size () == 0);
 }
 
-void lambda_p_script_io_test::builder::run_5 ()
+void mu::script_io_test::builder::run_5 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -122,7 +122,7 @@ void lambda_p_script_io_test::builder::run_5 ()
 	assert (number->value == 4);
 }
 
-void lambda_p_script_io_test::builder::run_6 ()
+void mu::script_io_test::builder::run_6 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -145,7 +145,7 @@ void lambda_p_script_io_test::builder::run_6 ()
 	assert (data->string == std::wstring (L"testing"));
 }
 
-void lambda_p_script_io_test::builder::run_7 ()
+void mu::script_io_test::builder::run_7 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -168,7 +168,7 @@ void lambda_p_script_io_test::builder::run_7 ()
 	assert (data->string == std::wstring (L"string with spaces"));
 }
 
-void lambda_p_script_io_test::builder::run_8 ()
+void mu::script_io_test::builder::run_8 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -177,7 +177,7 @@ void lambda_p_script_io_test::builder::run_8 ()
 	assert (!builder.errors->errors.empty ());
 }
 
-void lambda_p_script_io_test::builder::run_9 ()
+void mu::script_io_test::builder::run_9 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -242,7 +242,7 @@ void lambda_p_script_io_test::builder::run_9 ()
 	assert (results [3] == n3);
 }
 
-void lambda_p_script_io_test::builder::run_10 ()
+void mu::script_io_test::builder::run_10 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -260,7 +260,7 @@ void lambda_p_script_io_test::builder::run_10 ()
 	assert (results [0] == cluster->routines [1]);
 }
 
-void lambda_p_script_io_test::builder::run_11 ()
+void mu::script_io_test::builder::run_11 ()
 {
 	lambda_p_script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));

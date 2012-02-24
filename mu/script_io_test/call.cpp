@@ -12,14 +12,14 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_script_io_test::call::run ()
+void mu::script_io_test::call::run ()
 {
 	run_1 ();
 	run_2 ();
 	run_3 ();
 }
 
-void lambda_p_script_io_test::call::run_1 ()
+void mu::script_io_test::call::run_1 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
 	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));
@@ -32,7 +32,7 @@ void lambda_p_script_io_test::call::run_1 ()
 	assert (added->value == node);
 }
 
-void lambda_p_script_io_test::call::run_2 ()
+void mu::script_io_test::call::run_2 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
 	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));
@@ -46,7 +46,7 @@ void lambda_p_script_io_test::call::run_2 ()
 	assert (added->index == 0);
 }
 
-void lambda_p_script_io_test::call::run_3 ()
+void mu::script_io_test::call::run_3 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
 	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));

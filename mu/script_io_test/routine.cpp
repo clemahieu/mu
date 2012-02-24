@@ -14,12 +14,12 @@
 
 #include <boost/make_shared.hpp>
 
-void lambda_p_script_io_test::routine::run ()
+void mu::script_io_test::routine::run ()
 {
 	run_1 ();
 }
 
-void lambda_p_script_io_test::routine::run_1 ()
+void mu::script_io_test::routine::run_1 ()
 {
 	std::vector <boost::shared_ptr <mu::core::expression>> calls;
 	auto call1 (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context ())));

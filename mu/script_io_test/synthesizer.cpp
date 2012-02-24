@@ -18,7 +18,7 @@
 
 #include <vector>
 
-void lambda_p_script_io_test::synthesizer::run ()
+void mu::script_io_test::synthesizer::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -26,7 +26,7 @@ void lambda_p_script_io_test::synthesizer::run ()
 	run_4 ();
 }
 
-void lambda_p_script_io_test::synthesizer::run_1 ()
+void mu::script_io_test::synthesizer::run_1 ()
 {
 	lambda_p_script_io::synthesizer synthesizer;
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine (mu::core::context (1, 1, 0, 1, 1, 0))));
@@ -48,7 +48,7 @@ void lambda_p_script_io_test::synthesizer::run_1 ()
 	assert (result->calls.size () == 1);
 }
 
-void lambda_p_script_io_test::synthesizer::run_2 ()
+void mu::script_io_test::synthesizer::run_2 ()
 {
 	// [[:~]]
 	lambda_p_script_io::synthesizer synthesizer;
@@ -75,7 +75,7 @@ void lambda_p_script_io_test::synthesizer::run_2 ()
 	assert (result->calls.size () == 2);
 }
 
-void lambda_p_script_io_test::synthesizer::run_3 ()
+void mu::script_io_test::synthesizer::run_3 ()
 {
 	//[a][;;a]
 	lambda_p_script_io::synthesizer synthesizer;
@@ -106,7 +106,7 @@ void lambda_p_script_io_test::synthesizer::run_3 ()
 	assert (rout == routine2);
 }
 
-void lambda_p_script_io_test::synthesizer::run_4 ()
+void mu::script_io_test::synthesizer::run_4 ()
 {
 	//[a;;a]
 	lambda_p_script_io::synthesizer synthesizer;
