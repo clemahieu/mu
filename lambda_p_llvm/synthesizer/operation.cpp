@@ -4,7 +4,7 @@
 #include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/module/node.h>
 #include <lambda_p_llvm/analyzer/operation.h>
-#include <lambda_p_script_io/synthesizer.h>
+#include <mu/script_io/synthesizer.h>
 #include <mu/core/cluster.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/routine.h>
@@ -46,7 +46,7 @@ void lambda_p_llvm::synthesizer::operation::operator () (boost::shared_ptr <mu::
 				analyzer.context.context_m->context = &two->module->getContext ();
 				analyzer.context.module->module = two->module;
 				auto cluster (boost::static_pointer_cast <mu::core::cluster> (results [0]));
-				lambda_p_script_io::synthesizer synthesizer;
+				mu::script_io::synthesizer synthesizer;
 				std::vector <boost::shared_ptr <mu::core::node>> arguments;
 				std::vector <boost::shared_ptr <mu::core::node>> results;
 				arguments.push_back (cluster);

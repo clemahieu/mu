@@ -1,6 +1,6 @@
 #include "synthesizer.h"
 
-#include <lambda_p_script_io/synthesizer.h>
+#include <mu/script_io/synthesizer.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/core/routine.h>
 #include <mu/core/cluster.h>
@@ -28,7 +28,7 @@ void mu::script_io_test::synthesizer::run ()
 
 void mu::script_io_test::synthesizer::run_1 ()
 {
-	lambda_p_script_io::synthesizer synthesizer;
+	mu::script_io::synthesizer synthesizer;
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine (mu::core::context (1, 1, 0, 1, 1, 0))));
 	routine->body = boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context (1, 1, 0, 1, 2, 1)));
 	auto cluster (boost::make_shared <mu::core::cluster> ());
@@ -51,7 +51,7 @@ void mu::script_io_test::synthesizer::run_1 ()
 void mu::script_io_test::synthesizer::run_2 ()
 {
 	// [[:~]]
-	lambda_p_script_io::synthesizer synthesizer;
+	mu::script_io::synthesizer synthesizer;
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine (mu::core::context (1, 1, 0, 1, 1, 0))));
 	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context (1, 1, 0, 1, 6, 5))));
 	routine->body = root;
@@ -78,7 +78,7 @@ void mu::script_io_test::synthesizer::run_2 ()
 void mu::script_io_test::synthesizer::run_3 ()
 {
 	//[a][;;a]
-	lambda_p_script_io::synthesizer synthesizer;
+	mu::script_io::synthesizer synthesizer;
 	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
 	auto routine2 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -109,7 +109,7 @@ void mu::script_io_test::synthesizer::run_3 ()
 void mu::script_io_test::synthesizer::run_4 ()
 {
 	//[a;;a]
-	lambda_p_script_io::synthesizer synthesizer;
+	mu::script_io::synthesizer synthesizer;
 	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;

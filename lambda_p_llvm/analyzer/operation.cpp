@@ -34,7 +34,7 @@
 #include <mu/io/ast/end.h>
 #include <mu/io/ast/cluster.h>
 #include <lambda_p_llvm/value/get_type.h>
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <lambda_p_llvm/basic_block/insert.h>
 #include <lambda_p_llvm/basic_block/node.h>
 #include <mu/script/cluster/node.h>

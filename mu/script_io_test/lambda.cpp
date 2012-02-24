@@ -1,6 +1,6 @@
 #include "lambda.h"
 
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <mu/script/routine.h>
 #include <mu/script/integer/node.h>
 #include <mu/script/cluster/node.h>
@@ -18,7 +18,7 @@ void mu::script_io_test::lambda::run ()
 
 void mu::script_io_test::lambda::run_1 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[[~ # d42]]]");
 	source ();
@@ -31,7 +31,7 @@ void mu::script_io_test::lambda::run_1 ()
 
 void mu::script_io_test::lambda::run_2 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[[]]]");
 	source ();
@@ -44,7 +44,7 @@ void mu::script_io_test::lambda::run_2 ()
 
 void mu::script_io_test::lambda::run_3 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=> thing]");
 	source ();
@@ -56,7 +56,7 @@ void mu::script_io_test::lambda::run_3 ()
 
 void mu::script_io_test::lambda::run_4 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>]");
 	source ();
@@ -68,7 +68,7 @@ void mu::script_io_test::lambda::run_4 ()
 
 void mu::script_io_test::lambda::run_5 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[=>[]]");
 	source ();

@@ -1,7 +1,7 @@
 #include "operation.h"
 
 #include <mu/io/source.h>
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <lambda_p_llvm/synthesizer/operation.h>
 #include <lambda_p_llvm/module/node.h>
 #include <mu/script/cluster/node.h>

@@ -3,7 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/routine.h>
 #include <mu/script/cluster/node.h>
@@ -33,7 +33,7 @@ void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::
 			if (stream.is_open ())
 			{
 				auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-				lambda_p_script_io::builder builder (extensions);
+				mu::script_io::builder builder (extensions);
 				mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 				source (input);
 				source ();

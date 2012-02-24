@@ -1,6 +1,6 @@
 #include "instruction_package.h"
 
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/closure/create_single.h>
@@ -31,7 +31,7 @@ void lambda_p_llvm_test::instruction_package::run ()
 
 void lambda_p_llvm_test::instruction_package::run_1 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	source ();
@@ -50,7 +50,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 	a1.push_back (block);
 	create.perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
-	lambda_p_script_io::builder b2;
+	mu::script_io::builder b2;
 	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (r1 [0]);
 	s2 (L"[[:~; number] add [add number number] [add [add number number] number]]");
@@ -79,7 +79,7 @@ void lambda_p_llvm_test::instruction_package::run_1 ()
 
 void lambda_p_llvm_test::instruction_package::run_2 ()
 {
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
 	source (L"[[:~; instruction insert block] .apply build_insert instruction insert block]");
@@ -97,7 +97,7 @@ void lambda_p_llvm_test::instruction_package::run_2 ()
 	a1.push_back (block);
 	routine1->perform (builder.errors, a1, r1);
 	assert (r1.size () == 1);
-	lambda_p_script_io::builder b2;
+	mu::script_io::builder b2;
 	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (r1 [0]);
 	s2 (L"[[:~; number] add [add number number] [add [add number number] number]]");

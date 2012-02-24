@@ -2,7 +2,7 @@
 #include <lambda_p_repl_test/tests.h>
 #include <mu/io_test/tests.h>
 #include <mu/core_test/tests.h>
-#include <lambda_p_script_test/tests.h>
+#include <mu/script_test/tests.h>
 #include <mu/script_io_test/tests.h>
 
 #include <llvm/ExecutionEngine/JIT.h>
@@ -23,7 +23,7 @@ int main ()
 		test.run ();
 	}
 	{
-		lambda_p_script_test::tests test;
+		mu::script_test::tests test;
 		test.run ();
 	}
 	{

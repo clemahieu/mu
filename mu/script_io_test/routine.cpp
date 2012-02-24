@@ -1,6 +1,6 @@
 #include "routine.h"
 
-#include <lambda_p_script_io/routine.h>
+#include <mu/script_io/routine.h>
 #include <mu/core/expression.h>
 #include <mu/script/routine.h>
 #include <mu/script/reference.h>
@@ -31,7 +31,7 @@ void mu::script_io_test::routine::run_1 ()
 	auto rout (boost::make_shared <mu::core::routine> (call2));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	auto routine (boost::make_shared <mu::script::routine> (boost::make_shared <mu::script::cluster::node> ()));
-	lambda_p_script_io::routine r (remapping, rout, routine);
+	mu::script_io::routine r (remapping, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 0);

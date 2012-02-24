@@ -8,7 +8,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/core/errors/error.h>
 #include <lambda_p_repl/cli_stream.h>
-#include <lambda_p_script_io/builder.h>
+#include <mu/script_io/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/routine.h>
 #include <mu/io/lexer/error.h>
@@ -57,7 +57,7 @@ void lambda_p_repl::repl::iteration ()
 {
 	std::wcout << L"lp> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new lambda_p_repl::cli_stream (std::wcin));
-	lambda_p_script_io::builder builder;
+	mu::script_io::builder builder;
 	lambda_p_llvm::api api;
 	builder.analyzer.extensions->extensions_m.insert (api.extensions.begin (), api.extensions.end ());
 	auto quit (boost::shared_ptr <mu::core::node> (new lambda_p_repl::quit::operation (*this)));
