@@ -1,7 +1,10 @@
 #include "get_named.h"
 
+#include <mu/core/errors/error_target.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/string/node.h>
+
+#include <sstream>
 
 void mu::script::cluster::get_named::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
@@ -11,7 +14,18 @@ void mu::script::cluster::get_named::operator () (boost::shared_ptr <mu::core::e
 	{
 		if (two.get () != nullptr)
 		{
-
+			auto existing (one->names.find (two->string));
+			if (existing != one->names.end ())
+			{
+				results.push_back (one->mapping [existing->second]);
+			}
+			else
+			{
+				std::wstringstream message;
+				message << L"Unable to get routine named: ";
+				message << two->string;
+				(*errors_a) (message.str ());
+			}
 		}
 		else
 		{

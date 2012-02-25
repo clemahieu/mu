@@ -21,7 +21,7 @@ void mu::core_test::filesystem_test::run_2 ()
 {
 	auto path (boost::filesystem::initial_path ());
 	path /= L"examples";
-	path /= L"test.lp";
+	path /= L"test.mu";
 	std::ifstream stream;
 	std::string str (path.string ());
 	stream.open (str);

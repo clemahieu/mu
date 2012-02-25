@@ -3,16 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F5C04DF-031F-43B6-AFD0-12E4A2A3FED6}"
 	ProjectSection(SolutionItems) = preProject
-		examples\bits.lp = examples\bits.lp
-		examples\chain.lp = examples\chain.lp
-		examples\compile.lp = examples\compile.lp
-		examples\exec.lp = examples\exec.lp
-		examples\llvm.lp = examples\llvm.lp
-		examples\quit.lp = examples\quit.lp
-		examples\recursive.lp = examples\recursive.lp
-		examples\sha256.lp = examples\sha256.lp
-		examples\sha256_llvm.lp = examples\sha256_llvm.lp
-		examples\test.lp = examples\test.lp
+		examples\bits.mu = examples\bits.mu
+		examples\chain.mu = examples\chain.mu
+		examples\compile.mu = examples\compile.mu
+		examples\exec.mu = examples\exec.mu
+		examples\llvm.mu = examples\llvm.mu
+		examples\quit.mu = examples\quit.mu
+		examples\recursive.mu = examples\recursive.mu
+		examples\sha256.mu = examples\sha256.mu
+		examples\sha256_llvm.mu = examples\sha256_llvm.mu
+		examples\test.mu = examples\test.mu
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "environment", "environment\environment.vcxproj", "{29B8EEB4-3638-44BC-BE55-4550AEDDA03C}"
@@ -65,6 +65,14 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_test", "mu\repl_test\repl_test.vcxproj", "{B625C2F2-EFC9-4809-A2CA-7145A7446E58}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl", "mu\repl\repl.vcxproj", "{CEB0251F-5844-4E27-B668-052435A452DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{21D81738-D93C-45CC-BD4A-7617221367A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "llvm", "llvm", "{7EA26B68-35EB-4A3E-A66D-E5D0288A299A}"
+	ProjectSection(SolutionItems) = preProject
+		libs\llvm\core.mu = libs\llvm\core.mu
+		libs\llvm\libc.mu = libs\llvm\libc.mu
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,5 +204,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7EA26B68-35EB-4A3E-A66D-E5D0288A299A} = {21D81738-D93C-45CC-BD4A-7617221367A4}
 	EndGlobalSection
 EndGlobal

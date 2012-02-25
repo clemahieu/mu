@@ -55,7 +55,7 @@ void mu::repl::repl::stop ()
 
 void mu::repl::repl::iteration ()
 {
-	std::wcout << L"lp> ";
+	std::wcout << L"mu> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
 	mu::script_io::builder builder;
 	mu::llvm_::api api;

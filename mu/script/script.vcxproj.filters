@@ -126,9 +126,14 @@
     <ClCompile Include="astring\truncate.cpp">
       <Filter>astring</Filter>
     </ClCompile>
-    <ClCompile Include="load\operation.cpp" />
     <ClCompile Include="cluster\get_named.cpp">
       <Filter>cluster</Filter>
+    </ClCompile>
+    <ClCompile Include="load\operation.cpp">
+      <Filter>load</Filter>
+    </ClCompile>
+    <ClCompile Include="load\create_get.cpp">
+      <Filter>load</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,9 +262,14 @@
     <ClInclude Include="astring\truncate.h">
       <Filter>astring</Filter>
     </ClInclude>
-    <ClInclude Include="load\operation.h" />
     <ClInclude Include="cluster\get_named.h">
       <Filter>cluster</Filter>
+    </ClInclude>
+    <ClInclude Include="load\operation.h">
+      <Filter>load</Filter>
+    </ClInclude>
+    <ClInclude Include="load\create_get.h">
+      <Filter>load</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
