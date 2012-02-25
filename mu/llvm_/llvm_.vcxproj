@@ -41,6 +41,7 @@
     <ClInclude Include="function\create.h" />
     <ClInclude Include="global_value\node.h" />
     <ClInclude Include="global_value\set_linkage.h" />
+    <ClInclude Include="global_variable\create.h" />
     <ClInclude Include="global_variable\create_set.h" />
     <ClInclude Include="global_variable\node.h" />
     <ClInclude Include="instructions\call.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="function\create.cpp" />
     <ClCompile Include="global_value\node.cpp" />
     <ClCompile Include="global_value\set_linkage.cpp" />
+    <ClCompile Include="global_variable\create.cpp" />
     <ClCompile Include="global_variable\create_set.cpp" />
     <ClCompile Include="global_variable\node.cpp" />
     <ClCompile Include="instructions\call.cpp" />

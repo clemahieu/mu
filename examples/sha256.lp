@@ -59,6 +59,33 @@
 [.()
 	add
 	linkage
+	named
+	[llvm/global_value/set_linkage
+		function
+		llvm/linkage_types/external
+	;; linkage]
+	[llvm/global_variable/create
+		type
+	; variable]
+	[llvm/value/set_name
+		variable
+		[script/astring/truncate name]
+	;; named]
+	[llvm/synthesizer/add
+		synthesizer
+		name
+		variable
+		[llvm/module/add_global_variable
+			module
+			variable
+		]
+	;; add]
+	[:~; context module synthesizer name type]
+;; add_variable]
+
+[.()
+	add
+	linkage
 	name
 	[llvm/global_value/set_linkage
 		function

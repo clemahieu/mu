@@ -30,6 +30,8 @@
 #include <mu/llvm_/synthesizer/add.h>
 #include <mu/llvm_/apint/create.h>
 #include <mu/llvm_/pointer_type/create.h>
+#include <mu/llvm_/global_variable/create.h>
+#include <mu/llvm_/module/add_global_variable.h>
 
 #include <boost/make_shared.hpp>
 
@@ -45,10 +47,12 @@ mu::llvm_::api::api ()
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/function/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::function::create> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/function_type/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::function_type::create> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/global_value/set_linkage"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::global_value::set_linkage> ())));
+	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/global_variable/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::global_variable::create> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/integer_type/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::integer_type::create> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/linkage_types/external"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::linkage_types::node> (llvm::GlobalValue::ExternalLinkage))));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/linker/link_modules"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::linker::link_modules> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/add_function"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::add_function> ())));
+	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/add_global_variable"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::add_global_variable> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/add_package"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::add_package> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/assemble"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::assemble> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::create> ())));

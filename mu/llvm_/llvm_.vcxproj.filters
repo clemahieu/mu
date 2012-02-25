@@ -303,6 +303,9 @@
     <ClInclude Include="ccall\operation.h">
       <Filter>ccall</Filter>
     </ClInclude>
+    <ClInclude Include="global_variable\create.h">
+      <Filter>global_variable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -606,6 +609,9 @@
     </ClCompile>
     <ClCompile Include="ccall\operation.cpp">
       <Filter>ccall</Filter>
+    </ClCompile>
+    <ClCompile Include="global_variable\create.cpp">
+      <Filter>global_variable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
