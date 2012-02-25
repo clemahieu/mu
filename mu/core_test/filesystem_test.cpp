@@ -25,5 +25,5 @@ void mu::core_test::filesystem_test::run_2 ()
 	std::ifstream stream;
 	std::string str (path.string ());
 	stream.open (str);
-	assert (stream.is_open ());
+	assert (stream.is_open () && "Set project working directory to $(SolutionDir)");
 }
