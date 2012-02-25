@@ -126,6 +126,10 @@
     <ClCompile Include="astring\truncate.cpp">
       <Filter>astring</Filter>
     </ClCompile>
+    <ClCompile Include="load\operation.cpp" />
+    <ClCompile Include="cluster\get_named.cpp">
+      <Filter>cluster</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -253,6 +257,10 @@
     <ClInclude Include="astring\truncate.h">
       <Filter>astring</Filter>
     </ClInclude>
+    <ClInclude Include="load\operation.h" />
+    <ClInclude Include="cluster\get_named.h">
+      <Filter>cluster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -305,6 +313,9 @@
     </Filter>
     <Filter Include="ast">
       <UniqueIdentifier>{9ef92c71-8277-43a1-9384-181d013a3f51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="load">
+      <UniqueIdentifier>{0e4d03d0-fe87-4f38-a2e2-0f5e19cdd6e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

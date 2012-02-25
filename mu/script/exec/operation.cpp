@@ -7,6 +7,7 @@
 #include <mu/io/source.h>
 #include <mu/script/routine.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/load/operation.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -22,69 +23,27 @@ void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::
 {
 	if (parameters.size () > 0)
 	{
-		auto name (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
-		if (name.get () != nullptr)
-		{		
-			auto path (::boost::filesystem::initial_path ());
-			std::string relative (name->string.begin (), name->string.end ());
-			path /= relative;
-			std::ifstream stream;
-			stream.open (path.string ());
-			if (stream.is_open ())
+		std::vector <boost::shared_ptr <mu::core::node>> a1;
+		std::vector <boost::shared_ptr <mu::core::node>> r1;
+		a1.push_back (parameters [0]);
+		mu::script::load::operation load (extensions);
+		load.perform (errors_a, a1, r1);
+		if (! (*errors_a) ())
+		{
+			auto cluster (boost::static_pointer_cast <mu::script::cluster::node> (r1 [0]));
+			if (cluster->routines.size () > 0)
 			{
-				auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-				mu::script_io::builder builder (extensions);
-				mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-				source (input);
-				source ();
-				if (builder.errors->errors.empty ())
-				{
-					if (builder.clusters.size () == 1)
-					{
-						auto cluster (builder.clusters [0]);
-						if (cluster->routines.size () > 0)
-						{
-							auto routine (cluster->routines [0]);
-							std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
-							routine->perform (errors_a, arguments, results);
-						}
-						else
-						{
-							std::wstringstream message;
-							message << L"Cluster does not contain a routine: ";
-							message << cluster->routines.size ();
-							(*errors_a) (message.str ());
-						}
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"File did not contain one cluster: ";
-						message << builder.clusters.size ();
-						(*errors_a) (message.str ());
-					}
-				}
-				else
-				{
-					for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
-					{
-						(*errors_a) ((*i).first, (*i).second);
-					}
-				}
+				auto routine (cluster->routines [0]);
+				std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
+				routine->perform (errors_a, arguments, results);
 			}
 			else
 			{
 				std::wstringstream message;
-				message << L"File could not be opened: ";
-				std::string patha (path.string ());
-				std::wstring path (patha.begin (), patha.end ());
-				message << path;
+				message << L"Cluster does not contain a routine: ";
+				message << cluster->routines.size ();
 				(*errors_a) (message.str ());
 			}
-		}
-		else
-		{
-			invalid_type (errors_a, parameters [0], 0);
 		}
 	}
 	else

@@ -146,8 +146,10 @@
     <ClCompile Include="closure\create.cpp" />
     <ClCompile Include="closure\create_single.cpp" />
     <ClCompile Include="closure\single.cpp" />
+    <ClCompile Include="cluster\get_named.cpp" />
     <ClCompile Include="cluster\node.cpp" />
     <ClCompile Include="cluster\get.cpp" />
+    <ClCompile Include="load\operation.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="print\operation.cpp" />
@@ -197,8 +199,10 @@
     <ClInclude Include="closure\create.h" />
     <ClInclude Include="closure\create_single.h" />
     <ClInclude Include="closure\single.h" />
+    <ClInclude Include="cluster\get_named.h" />
     <ClInclude Include="cluster\node.h" />
     <ClInclude Include="cluster\get.h" />
+    <ClInclude Include="load\operation.h" />
     <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="parameters.h" />
     <ClInclude Include="print\operation.h" />
