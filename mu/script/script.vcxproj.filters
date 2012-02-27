@@ -156,6 +156,12 @@
     <ClCompile Include="extensions\node.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
+    <ClCompile Include="extensions\merge_cluster.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\create.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integer\node.h">
@@ -311,6 +317,12 @@
     <ClInclude Include="fixed.h" />
     <ClInclude Include="operation.h" />
     <ClInclude Include="extensions\node.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\merge_cluster.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\create.h">
       <Filter>extensions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -150,6 +150,8 @@
     <ClCompile Include="cluster\get_named.cpp" />
     <ClCompile Include="cluster\node.cpp" />
     <ClCompile Include="cluster\get.cpp" />
+    <ClCompile Include="extensions\create.cpp" />
+    <ClCompile Include="extensions\merge_cluster.cpp" />
     <ClCompile Include="extensions\node.cpp" />
     <ClCompile Include="load\operation.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
@@ -205,6 +207,8 @@
     <ClInclude Include="cluster\get_named.h" />
     <ClInclude Include="cluster\node.h" />
     <ClInclude Include="cluster\get.h" />
+    <ClInclude Include="extensions\create.h" />
+    <ClInclude Include="extensions\merge_cluster.h" />
     <ClInclude Include="extensions\node.h" />
     <ClInclude Include="load\operation.h" />
     <ClInclude Include="package\get_recursive.h" />
