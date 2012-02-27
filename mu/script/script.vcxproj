@@ -142,7 +142,6 @@
     <ClCompile Include="ast\merge.cpp" />
     <ClCompile Include="ast\read_from_file.cpp" />
     <ClCompile Include="bool_c\create.cpp" />
-    <ClCompile Include="builder\node.cpp" />
     <ClCompile Include="chain\operation.cpp" />
     <ClCompile Include="closure\apply.cpp" />
     <ClCompile Include="closure\create.cpp" />
@@ -151,6 +150,7 @@
     <ClCompile Include="cluster\get_named.cpp" />
     <ClCompile Include="cluster\node.cpp" />
     <ClCompile Include="cluster\get.cpp" />
+    <ClCompile Include="extensions\node.cpp" />
     <ClCompile Include="load\operation.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="runtime\parameters.cpp" />
@@ -197,7 +197,6 @@
     <ClInclude Include="ast\merge.h" />
     <ClInclude Include="ast\read_from_file.h" />
     <ClInclude Include="bool_c\create.h" />
-    <ClInclude Include="builder\node.h" />
     <ClInclude Include="chain\operation.h" />
     <ClInclude Include="closure\apply.h" />
     <ClInclude Include="closure\create.h" />
@@ -206,6 +205,7 @@
     <ClInclude Include="cluster\get_named.h" />
     <ClInclude Include="cluster\node.h" />
     <ClInclude Include="cluster\get.h" />
+    <ClInclude Include="extensions\node.h" />
     <ClInclude Include="load\operation.h" />
     <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="runtime\parameters.h" />

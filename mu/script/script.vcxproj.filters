@@ -124,9 +124,6 @@
     <ClCompile Include="ast\merge.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="builder\node.cpp">
-      <Filter>builder</Filter>
-    </ClCompile>
     <ClCompile Include="runtime\call.cpp">
       <Filter>runtime</Filter>
     </ClCompile>
@@ -156,6 +153,9 @@
     </ClCompile>
     <ClCompile Include="fixed.cpp" />
     <ClCompile Include="operation.cpp" />
+    <ClCompile Include="extensions\node.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integer\node.h">
@@ -281,9 +281,6 @@
     <ClInclude Include="ast\merge.h">
       <Filter>ast</Filter>
     </ClInclude>
-    <ClInclude Include="builder\node.h">
-      <Filter>builder</Filter>
-    </ClInclude>
     <ClInclude Include="runtime\call.h">
       <Filter>runtime</Filter>
     </ClInclude>
@@ -313,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="fixed.h" />
     <ClInclude Include="operation.h" />
+    <ClInclude Include="extensions\node.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -369,11 +369,11 @@
     <Filter Include="load">
       <UniqueIdentifier>{0e4d03d0-fe87-4f38-a2e2-0f5e19cdd6e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="builder">
-      <UniqueIdentifier>{47344468-65ba-4ad1-88e1-3dae79e70bdc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="runtime">
       <UniqueIdentifier>{8e96cb31-052f-4de8-a35c-db43e75c1c1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="extensions">
+      <UniqueIdentifier>{ec3259f2-3014-4c01-926c-117a6d93a963}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
