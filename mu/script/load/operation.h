@@ -21,10 +21,8 @@ namespace mu
 			class operation : public mu::script::fixed
 			{
 			public:
-				operation (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 				size_t count () override;
-				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 			};
 		}
 	}

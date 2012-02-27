@@ -8,9 +8,11 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/load/operation.h>
+#include <mu/script/extensions/node.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 #include <sstream>
 
@@ -25,8 +27,11 @@ void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::
 	{
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		std::vector <boost::shared_ptr <mu::core::node>> r1;
+		auto extensions_l (boost::make_shared <mu::script::extensions::node> ());
+		extensions_l->extensions = extensions;
+		a1.push_back (extensions_l);
 		a1.push_back (parameters [0]);
-		mu::script::load::operation load (extensions);
+		mu::script::load::operation load;
 		load.perform (errors_a, a1, r1);
 		if (! (*errors_a) ())
 		{
