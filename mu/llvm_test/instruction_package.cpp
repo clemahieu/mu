@@ -7,7 +7,7 @@
 #include <mu/llvm_/instructions/add.h>
 #include <mu/llvm_/basic_block/insert.h>
 #include <mu/llvm_/basic_block/node.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/constant_int/node.h>

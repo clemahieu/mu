@@ -5,7 +5,7 @@
 #include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/llvm_/module/print.h>
 #include <mu/llvm_/module/verify.h>

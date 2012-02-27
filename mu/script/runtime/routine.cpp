@@ -1,9 +1,9 @@
 #include "routine.h"
 
 #include <mu/core/errors/error_target.h>
-#include <mu/script/context.h>
+#include <mu/script/runtime/context.h>
 #include <mu/script/operation.h>
-#include <mu/script/call.h>
+#include <mu/script/runtime/call.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/values/operation.h>
 

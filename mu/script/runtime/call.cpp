@@ -1,11 +1,11 @@
 #include "call.h"
 
-#include <mu/script/node.h>
+#include <mu/script/runtime/node.h>
 #include <mu/script/operation.h>
 #include <mu/core/errors/error_context.h>
-#include <mu/script/context.h>
+#include <mu/script/runtime/context.h>
 #include <mu/core/routine.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 
 #include <boost/make_shared.hpp>
 

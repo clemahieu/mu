@@ -2,12 +2,12 @@
 
 #include <mu/script_io/routine.h>
 #include <mu/core/expression.h>
-#include <mu/script/routine.h>
-#include <mu/script/reference.h>
-#include <mu/script/expression.h>
-#include <mu/script/constant.h>
-#include <mu/script/call.h>
-#include <mu/script/parameters.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime/reference.h>
+#include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/constant.h>
+#include <mu/script/runtime/call.h>
+#include <mu/script/runtime/parameters.h>
 #include <mu/core/parameters.h>
 #include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>

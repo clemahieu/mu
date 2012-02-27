@@ -7,11 +7,11 @@
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/parameters.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/call.h>
-#include <mu/script/constant.h>
-#include <mu/script/remap.h>
+#include <mu/script/runtime/call.h>
+#include <mu/script/runtime/constant.h>
+#include <mu/script/runtime/remap.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

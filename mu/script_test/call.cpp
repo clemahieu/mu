@@ -1,10 +1,10 @@
 #include "call.h"
 
-#include <mu/script/call.h>
-#include <mu/script/constant.h>
+#include <mu/script/runtime/call.h>
+#include <mu/script/runtime/constant.h>
 #include <mu/core/node.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/context.h>
+#include <mu/script/runtime/context.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/cluster/node.h>
 

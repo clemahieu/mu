@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="call.cpp" />
-    <ClCompile Include="constant.cpp" />
-    <ClCompile Include="context.cpp" />
-    <ClCompile Include="expression.cpp" />
-    <ClCompile Include="node.cpp" />
-    <ClCompile Include="reference.cpp" />
-    <ClCompile Include="routine.cpp" />
     <ClCompile Include="integer\node.cpp">
       <Filter>integer</Filter>
     </ClCompile>
@@ -38,8 +31,6 @@
     <ClCompile Include="identity\operation.cpp">
       <Filter>identity</Filter>
     </ClCompile>
-    <ClCompile Include="operation.cpp" />
-    <ClCompile Include="fixed.cpp" />
     <ClCompile Include="package\node.cpp">
       <Filter>package</Filter>
     </ClCompile>
@@ -100,7 +91,6 @@
     <ClCompile Include="print\operation.cpp">
       <Filter>print</Filter>
     </ClCompile>
-    <ClCompile Include="parameters.cpp" />
     <ClCompile Include="values\operation.cpp">
       <Filter>values</Filter>
     </ClCompile>
@@ -116,7 +106,6 @@
     <ClCompile Include="ast\extension.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="remap.cpp" />
     <ClCompile Include="ast\read_from_file.cpp">
       <Filter>ast</Filter>
     </ClCompile>
@@ -132,21 +121,43 @@
     <ClCompile Include="load\operation.cpp">
       <Filter>load</Filter>
     </ClCompile>
-    <ClCompile Include="load\create_get.cpp">
-      <Filter>load</Filter>
-    </ClCompile>
     <ClCompile Include="ast\merge.cpp">
       <Filter>ast</Filter>
     </ClCompile>
+    <ClCompile Include="builder\node.cpp">
+      <Filter>builder</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\call.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\constant.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\context.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\expression.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\node.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\parameters.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\reference.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\remap.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="runtime\routine.cpp">
+      <Filter>runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="fixed.cpp" />
+    <ClCompile Include="operation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="call.h" />
-    <ClInclude Include="constant.h" />
-    <ClInclude Include="context.h" />
-    <ClInclude Include="expression.h" />
-    <ClInclude Include="node.h" />
-    <ClInclude Include="reference.h" />
-    <ClInclude Include="routine.h" />
     <ClInclude Include="integer\node.h">
       <Filter>integer</Filter>
     </ClInclude>
@@ -177,8 +188,6 @@
     <ClInclude Include="identity\operation.h">
       <Filter>identity</Filter>
     </ClInclude>
-    <ClInclude Include="operation.h" />
-    <ClInclude Include="fixed.h" />
     <ClInclude Include="package\node.h">
       <Filter>package</Filter>
     </ClInclude>
@@ -239,7 +248,6 @@
     <ClInclude Include="print\operation.h">
       <Filter>print</Filter>
     </ClInclude>
-    <ClInclude Include="parameters.h" />
     <ClInclude Include="values\operation.h">
       <Filter>values</Filter>
     </ClInclude>
@@ -255,7 +263,6 @@
     <ClInclude Include="ast\extension.h">
       <Filter>ast</Filter>
     </ClInclude>
-    <ClInclude Include="remap.h" />
     <ClInclude Include="ast\read_from_file.h">
       <Filter>ast</Filter>
     </ClInclude>
@@ -271,12 +278,41 @@
     <ClInclude Include="load\operation.h">
       <Filter>load</Filter>
     </ClInclude>
-    <ClInclude Include="load\create_get.h">
-      <Filter>load</Filter>
-    </ClInclude>
     <ClInclude Include="ast\merge.h">
       <Filter>ast</Filter>
     </ClInclude>
+    <ClInclude Include="builder\node.h">
+      <Filter>builder</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\call.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\constant.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\context.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\expression.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\node.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\parameters.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\reference.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\remap.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="runtime\routine.h">
+      <Filter>runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed.h" />
+    <ClInclude Include="operation.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -332,6 +368,12 @@
     </Filter>
     <Filter Include="load">
       <UniqueIdentifier>{0e4d03d0-fe87-4f38-a2e2-0f5e19cdd6e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="builder">
+      <UniqueIdentifier>{47344468-65ba-4ad1-88e1-3dae79e70bdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="runtime">
+      <UniqueIdentifier>{8e96cb31-052f-4de8-a35c-db43e75c1c1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

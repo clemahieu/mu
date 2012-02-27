@@ -1,9 +1,9 @@
 #include "reference.h"
 
-#include <mu/script/reference.h>
+#include <mu/script/runtime/reference.h>
 #include <mu/core/node.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/context.h>
+#include <mu/script/runtime/context.h>
 #include <mu/script/cluster/node.h>
 
 #include <boost/make_shared.hpp>

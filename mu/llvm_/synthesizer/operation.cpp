@@ -7,7 +7,7 @@
 #include <mu/script_io/synthesizer.h>
 #include <mu/core/cluster.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/llvm_/function_type/node.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/context/node.h>

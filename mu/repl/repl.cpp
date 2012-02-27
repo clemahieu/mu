@@ -10,7 +10,7 @@
 #include <mu/repl/cli_stream.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/io/lexer/error.h>
 #include <mu/io/parser/error.h>
 #include <mu/repl/quit/operation.h>

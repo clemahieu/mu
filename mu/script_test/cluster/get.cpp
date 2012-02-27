@@ -4,7 +4,7 @@
 #include <mu/core/routine.h>
 #include <mu/script/cluster/get.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
