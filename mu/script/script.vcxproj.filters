@@ -135,6 +135,9 @@
     <ClCompile Include="load\create_get.cpp">
       <Filter>load</Filter>
     </ClCompile>
+    <ClCompile Include="ast\merge.cpp">
+      <Filter>ast</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="call.h" />
@@ -270,6 +273,9 @@
     </ClInclude>
     <ClInclude Include="load\create_get.h">
       <Filter>load</Filter>
+    </ClInclude>
+    <ClInclude Include="ast\merge.h">
+      <Filter>ast</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

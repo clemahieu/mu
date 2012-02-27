@@ -45,6 +45,7 @@
     <ClInclude Include="global_variable\create_set.h" />
     <ClInclude Include="global_variable\node.h" />
     <ClInclude Include="instructions\call.h" />
+    <ClInclude Include="istore\operation.h" />
     <ClInclude Include="linkage_types\node.h" />
     <ClInclude Include="module\add_function.h" />
     <ClInclude Include="module\add_global_variable.h" />
@@ -64,7 +65,6 @@
     <ClInclude Include="constant\node.h" />
     <ClInclude Include="constant_int\node.h" />
     <ClInclude Include="context\value.h" />
-    <ClInclude Include="extension.h" />
     <ClInclude Include="function_type\create.h" />
     <ClInclude Include="instructions\add.h" />
     <ClInclude Include="api.h" />
@@ -150,6 +150,7 @@
     <ClCompile Include="global_variable\create_set.cpp" />
     <ClCompile Include="global_variable\node.cpp" />
     <ClCompile Include="instructions\call.cpp" />
+    <ClCompile Include="istore\operation.cpp" />
     <ClCompile Include="linkage_types\node.cpp" />
     <ClCompile Include="module\add_function.cpp" />
     <ClCompile Include="module\add_global_variable.cpp" />
@@ -169,7 +170,6 @@
     <ClCompile Include="constant\node.cpp" />
     <ClCompile Include="constant_int\node.cpp" />
     <ClCompile Include="context\value.cpp" />
-    <ClCompile Include="extension.cpp" />
     <ClCompile Include="function_type\create.cpp" />
     <ClCompile Include="instructions\add.cpp" />
     <ClCompile Include="api.cpp" />

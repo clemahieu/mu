@@ -143,7 +143,6 @@
     <ClInclude Include="apint\node.h">
       <Filter>apint</Filter>
     </ClInclude>
-    <ClInclude Include="extension.h" />
     <ClInclude Include="struct_type\node.h">
       <Filter>struct_type</Filter>
     </ClInclude>
@@ -306,6 +305,9 @@
     <ClInclude Include="global_variable\create.h">
       <Filter>global_variable</Filter>
     </ClInclude>
+    <ClInclude Include="istore\operation.h">
+      <Filter>istore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -450,7 +452,6 @@
     <ClCompile Include="apint\node.cpp">
       <Filter>apint</Filter>
     </ClCompile>
-    <ClCompile Include="extension.cpp" />
     <ClCompile Include="struct_type\node.cpp">
       <Filter>struct_type</Filter>
     </ClCompile>
@@ -613,6 +614,9 @@
     <ClCompile Include="global_variable\create.cpp">
       <Filter>global_variable</Filter>
     </ClCompile>
+    <ClCompile Include="istore\operation.cpp">
+      <Filter>istore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -713,6 +717,9 @@
     </Filter>
     <Filter Include="ccall">
       <UniqueIdentifier>{aca14e5b-7e6e-442c-a460-c088bf705678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="istore">
+      <UniqueIdentifier>{1d1e1e65-481d-40fd-975f-1828ef26a1ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
