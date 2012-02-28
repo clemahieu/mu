@@ -118,9 +118,6 @@
     <ClCompile Include="cluster\get_named.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
-    <ClCompile Include="load\operation.cpp">
-      <Filter>load</Filter>
-    </ClCompile>
     <ClCompile Include="ast\merge.cpp">
       <Filter>ast</Filter>
     </ClCompile>
@@ -156,12 +153,28 @@
     <ClCompile Include="extensions\node.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
-    <ClCompile Include="extensions\merge_cluster.cpp">
-      <Filter>extensions</Filter>
-    </ClCompile>
     <ClCompile Include="extensions\create.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
+    <ClCompile Include="extensions\merge_package.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="package\create_from_cluster.cpp">
+      <Filter>package</Filter>
+    </ClCompile>
+    <ClCompile Include="loads\operation.cpp">
+      <Filter>loads</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\merge_cluster.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="loadb\operation.cpp">
+      <Filter>loadb</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\merge.cpp">
+      <Filter>extensions</Filter>
+    </ClCompile>
+    <ClCompile Include="extensions\create_cluster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integer\node.h">
@@ -281,9 +294,6 @@
     <ClInclude Include="cluster\get_named.h">
       <Filter>cluster</Filter>
     </ClInclude>
-    <ClInclude Include="load\operation.h">
-      <Filter>load</Filter>
-    </ClInclude>
     <ClInclude Include="ast\merge.h">
       <Filter>ast</Filter>
     </ClInclude>
@@ -319,12 +329,28 @@
     <ClInclude Include="extensions\node.h">
       <Filter>extensions</Filter>
     </ClInclude>
-    <ClInclude Include="extensions\merge_cluster.h">
-      <Filter>extensions</Filter>
-    </ClInclude>
     <ClInclude Include="extensions\create.h">
       <Filter>extensions</Filter>
     </ClInclude>
+    <ClInclude Include="extensions\merge_package.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="package\create_from_cluster.h">
+      <Filter>package</Filter>
+    </ClInclude>
+    <ClInclude Include="loads\operation.h">
+      <Filter>loads</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\merge_cluster.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="loadb\operation.h">
+      <Filter>loadb</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\merge.h">
+      <Filter>extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="extensions\create_cluster.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -378,14 +404,17 @@
     <Filter Include="ast">
       <UniqueIdentifier>{9ef92c71-8277-43a1-9384-181d013a3f51}</UniqueIdentifier>
     </Filter>
-    <Filter Include="load">
-      <UniqueIdentifier>{0e4d03d0-fe87-4f38-a2e2-0f5e19cdd6e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="runtime">
       <UniqueIdentifier>{8e96cb31-052f-4de8-a35c-db43e75c1c1b}</UniqueIdentifier>
     </Filter>
     <Filter Include="extensions">
       <UniqueIdentifier>{ec3259f2-3014-4c01-926c-117a6d93a963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loads">
+      <UniqueIdentifier>{0e4d03d0-fe87-4f38-a2e2-0f5e19cdd6e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loadb">
+      <UniqueIdentifier>{140b7e95-e3e9-4f48-bf02-593bb27d8f3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

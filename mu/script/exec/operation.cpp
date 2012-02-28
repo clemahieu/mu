@@ -7,7 +7,7 @@
 #include <mu/io/source.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/load/operation.h>
+#include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>
 
 #include <boost/filesystem.hpp>

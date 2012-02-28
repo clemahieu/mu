@@ -67,12 +67,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_test", "mu\repl_test\r
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl", "mu\repl\repl.vcxproj", "{CEB0251F-5844-4E27-B668-052435A452DC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{21D81738-D93C-45CC-BD4A-7617221367A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{21D81738-D93C-45CC-BD4A-7617221367A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "llvm", "llvm", "{7EA26B68-35EB-4A3E-A66D-E5D0288A299A}"
 	ProjectSection(SolutionItems) = preProject
-		libs\llvm\core.mu = libs\llvm\core.mu
-		libs\llvm\libc.mu = libs\llvm\libc.mu
+		source\llvm\core.mu = source\llvm\core.mu
+		source\llvm\libc.mu = source\llvm\libc.mu
 	EndProjectSection
 EndProject
 Global

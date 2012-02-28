@@ -1,29 +1,28 @@
-#include "merge_cluster.h"
+#include "merge_package.h"
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
-#include <mu/script/cluster/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/script/package/node.h>
 #include <mu/io/analyzer/extensions/global.h>
-#include <mu/core/routine.h>
-
-#include <sstream>
+#include <mu/io/analyzer/extensions/extensions.h>
 
 #include <boost/make_shared.hpp>
 
-void mu::script::extensions::merge_cluster::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
-{	
+#include <sstream>
+
+void mu::script::extensions::merge_package::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+{
 	auto one (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
 	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
-	auto three (boost::dynamic_pointer_cast <mu::script::cluster::node> (parameters [2]));
+	auto three (boost::dynamic_pointer_cast <mu::script::package::node> (parameters [2]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
 		{
 			if (three.get () != nullptr)
 			{
-				for (auto i (three->names.begin ()), j (three->names.end ()); i != j; ++i)
+				for (auto i (three->items.begin ()), j (three->items.end ()); i != j; ++i)
 				{
 					std::wstring name (two->string.begin (), two->string.end ());
 					name.append (i->first);
@@ -57,7 +56,7 @@ void mu::script::extensions::merge_cluster::operator () (boost::shared_ptr <mu::
 	}
 }
 
-size_t mu::script::extensions::merge_cluster::count ()
+size_t mu::script::extensions::merge_package::count ()
 {
 	return 3;
 }

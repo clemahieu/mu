@@ -5,13 +5,14 @@
 #include <mu/script_io/builder.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/extensions/node.h>
+#include <mu/script/package/create_from_cluster.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 
 #include <sstream>
 
-void mu::script::load::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::loads::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
 	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
 	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
@@ -34,6 +35,7 @@ void mu::script::load::operation::operator () (boost::shared_ptr <mu::core::erro
 				{
 					if (builder.clusters.size () == 1)
 					{
+						
 						results.push_back (builder.clusters [0]);
 					}
 					else
@@ -73,7 +75,7 @@ void mu::script::load::operation::operator () (boost::shared_ptr <mu::core::erro
 	}
 }
 
-size_t mu::script::load::operation::count ()
+size_t mu::script::loads::operation::count ()
 {
 	return 2;
 }
