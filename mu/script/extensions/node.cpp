@@ -8,3 +8,8 @@ mu::script::extensions::node::node ()
 	: extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ())
 {
 }
+
+mu::script::extensions::node::node (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+	: extensions (extensions_a)
+{
+}

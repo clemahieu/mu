@@ -41,8 +41,6 @@ namespace mu
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;
-			void set_self ();
-			boost::shared_ptr <mu::script::closure::single> self;
 			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
 			std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
 		};

@@ -24,6 +24,7 @@ namespace mu
 			{
 			public:
 				node ();
+				node (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 			};
 		}

@@ -174,7 +174,9 @@
     <ClCompile Include="extensions\merge.cpp">
       <Filter>extensions</Filter>
     </ClCompile>
-    <ClCompile Include="extensions\create_cluster.cpp" />
+    <ClCompile Include="run\operation.cpp">
+      <Filter>run</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integer\node.h">
@@ -350,7 +352,9 @@
     <ClInclude Include="extensions\merge.h">
       <Filter>extensions</Filter>
     </ClInclude>
-    <ClInclude Include="extensions\create_cluster.h" />
+    <ClInclude Include="run\operation.h">
+      <Filter>run</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -415,6 +419,9 @@
     </Filter>
     <Filter Include="loadb">
       <UniqueIdentifier>{140b7e95-e3e9-4f48-bf02-593bb27d8f3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="run">
+      <UniqueIdentifier>{274ca596-04b8-4683-978a-756e4c439045}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
