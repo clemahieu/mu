@@ -30,8 +30,8 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 				case 0x6d6ecf1f10200f:
 					{
 						auto extensions_address (GetProcAddress (library, "extensions"));
-						auto extensions_function ((void * (*) ()) (extensions_address));
-						auto extensions (boost::shared_ptr <mu::script::extensions::node> ((mu::script::extensions::node *)extensions_function ()));
+						auto extensions_function ((boost::shared_ptr <mu::script::extensions::node> (*) ()) (extensions_address));
+						auto extensions (extensions_function ());
 						results.push_back (extensions);
 					}
 					break;

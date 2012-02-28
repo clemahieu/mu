@@ -49,6 +49,9 @@
     <ClCompile Include="cluster\node.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
+    <ClCompile Include="loadb\operation.cpp">
+      <Filter>loadb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -99,6 +102,9 @@
     <ClInclude Include="cluster\node.h">
       <Filter>cluster</Filter>
     </ClInclude>
+    <ClInclude Include="loadb\operation.h">
+      <Filter>loadb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -124,6 +130,9 @@
     </Filter>
     <Filter Include="ast">
       <UniqueIdentifier>{6f37a7b3-b324-41e8-89e3-1fe282ddcbb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loadb">
+      <UniqueIdentifier>{3368dc57-9c0f-4d85-935d-7887daa301e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

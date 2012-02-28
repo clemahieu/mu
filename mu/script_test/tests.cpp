@@ -18,6 +18,7 @@
 #include <mu/script_test/cluster/get.h>
 #include <mu/script_test/ast/extension.h>
 #include <mu/script_test/cluster/node.h>
+#include <mu/script_test/loadb/operation.h>
 
 void mu::script_test::tests::run ()
 {
@@ -91,6 +92,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::ast::extension test;
+		test.run ();
+	}
+	{
+		mu::script_test::loadb::operation test;
 		test.run ();
 	}
 }
