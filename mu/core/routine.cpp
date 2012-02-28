@@ -4,6 +4,10 @@
 
 #include <mu/core/visitor.h>
 
+mu::core::routine::routine ()
+{
+}
+
 mu::core::routine::routine (mu::core::context context_a)
 	: context (context_a)
 {

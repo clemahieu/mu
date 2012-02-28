@@ -29,6 +29,8 @@ namespace mu
 	namespace script_io
 	{
 		boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions ();
+		void add_loadb (boost::shared_ptr <mu::io::analyzer::extensions::extensions> result_a);
+		void add_loads (boost::shared_ptr <mu::io::analyzer::extensions::extensions> result_a);
 		class builder
 		{
 		public:

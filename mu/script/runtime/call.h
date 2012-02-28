@@ -26,6 +26,7 @@ namespace mu
 			class call
 			{
 			public:
+				call (size_t results_a);
 				call (size_t results_a, mu::core::context context_a);
 				mu::core::context context;
 				size_t results;

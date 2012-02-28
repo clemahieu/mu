@@ -11,6 +11,11 @@
 
 #include <sstream>
 
+mu::script::runtime::call::call (size_t results_a)
+	: results (results_a)
+{
+}
+
 mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 	: results (results_a),
 	context (context_a)
