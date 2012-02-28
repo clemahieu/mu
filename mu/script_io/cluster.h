@@ -17,7 +17,10 @@ namespace mu
 	}
 	namespace script
 	{
-		class routine;
+		namespace runtime
+		{
+			class routine;
+		}
 		namespace cluster
 		{
 			class node;
@@ -29,7 +32,7 @@ namespace mu
 		{
 		public:
 			cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
-			std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::routine>> generated;
+			std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> generated;
 			boost::shared_ptr <mu::script::cluster::node> result;
 		};
 	}

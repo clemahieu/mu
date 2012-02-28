@@ -43,7 +43,7 @@ void mu::script_io_test::synthesizer::run_1 ()
 	auto cl (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
-	auto result (boost::dynamic_pointer_cast <mu::script::routine> (cl->routines [0]));
+	auto result (boost::dynamic_pointer_cast <mu::script::runtime::routine> (cl->routines [0]));
 	assert (result.get () != nullptr);
 	assert (result->calls.size () == 1);
 }
@@ -70,7 +70,7 @@ void mu::script_io_test::synthesizer::run_2 ()
 	auto cl (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
-	auto result (boost::dynamic_pointer_cast <mu::script::routine> (cl->routines [0]));
+	auto result (boost::dynamic_pointer_cast <mu::script::runtime::routine> (cl->routines [0]));
 	assert (result.get () != nullptr);
 	assert (result->calls.size () == 2);
 }
@@ -95,12 +95,12 @@ void mu::script_io_test::synthesizer::run_3 ()
 	auto cl (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 2);
-	auto result1 (boost::dynamic_pointer_cast <mu::script::routine> (cl->routines [0]));
-	auto result2 (boost::dynamic_pointer_cast <mu::script::routine> (cl->routines [1]));
+	auto result1 (boost::dynamic_pointer_cast <mu::script::runtime::routine> (cl->routines [0]));
+	auto result2 (boost::dynamic_pointer_cast <mu::script::runtime::routine> (cl->routines [1]));
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <mu::script::remap> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::remap> (call->arguments [0]));
 	assert (argument.get () != nullptr);
 	auto rout (boost::dynamic_pointer_cast <mu::core::routine> (argument->routine));
 	assert (rout == routine2);
@@ -124,11 +124,11 @@ void mu::script_io_test::synthesizer::run_4 ()
 	auto cl (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));
 	assert (cl.get () != nullptr);
 	assert (cl->routines.size () == 1);
-	auto result1 (boost::dynamic_pointer_cast <mu::script::routine> (cl->routines [0]));
+	auto result1 (boost::dynamic_pointer_cast <mu::script::runtime::routine> (cl->routines [0]));
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <mu::script::remap> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::remap> (call->arguments [0]));
 	assert (argument.get () != nullptr);
 	auto rout (boost::dynamic_pointer_cast <mu::core::routine> (argument->routine));
 	assert (rout == routine1);

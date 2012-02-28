@@ -5,7 +5,7 @@
 
 #include <sstream>
 
-void mu::script::parameters::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target)
+void mu::script::runtime::parameters::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target)
 {
 	target.push_back (context.parameters);
 }

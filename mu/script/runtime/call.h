@@ -19,17 +19,20 @@ namespace mu
 	namespace script
 	{
 		class operation;
-		class context;
-		class node;
-		class call
+		namespace runtime
 		{
-		public:
-			call (size_t results_a, mu::core::context context_a);
-			mu::core::context context;
-			size_t results;
-			std::vector <boost::shared_ptr <mu::script::node>> arguments;
-			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::context & context);
-			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::context & context_a);
-		};
+			class context;
+			class node;
+			class call
+			{
+			public:
+				call (size_t results_a, mu::core::context context_a);
+				mu::core::context context;
+				size_t results;
+				std::vector <boost::shared_ptr <mu::script::runtime::node>> arguments;
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context);
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::context & context_a);
+			};
+		}
 	}
 }

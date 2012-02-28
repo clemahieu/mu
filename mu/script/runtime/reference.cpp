@@ -5,13 +5,13 @@
 
 #include <sstream>
 
-mu::script::reference::reference (size_t expression_a, size_t index_a)
+mu::script::runtime::reference::reference (size_t expression_a, size_t index_a)
 	: expression (expression_a),
 	index (index_a)
 {
 }
 
-void mu::script::reference::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target)
+void mu::script::runtime::reference::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target)
 {
 	assert (context.nodes.size () > expression);
 	std::vector <boost::shared_ptr <mu::core::node>> & source (context.nodes [expression]);

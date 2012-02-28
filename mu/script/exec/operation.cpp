@@ -31,7 +31,7 @@ void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::
 		extensions_l->extensions = extensions;
 		a1.push_back (extensions_l);
 		a1.push_back (parameters [0]);
-		mu::script::load::operation load;
+		mu::script::loads::operation load;
 		load.perform (errors_a, a1, r1);
 		if (! (*errors_a) ())
 		{

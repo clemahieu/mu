@@ -10,13 +10,16 @@ namespace mu
 	}
 	namespace script
 	{
-		class remap : public mu::script::node
+		namespace runtime
 		{
-		public:
-			remap (boost::shared_ptr <mu::core::routine> routine_a);
-			void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
-			boost::shared_ptr <mu::core::routine> routine;
-		};
+			class remap : public mu::script::runtime::node
+			{
+			public:
+				remap (boost::shared_ptr <mu::core::routine> routine_a);
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
+				boost::shared_ptr <mu::core::routine> routine;
+			};
+		}
 	}
 }
 

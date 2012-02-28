@@ -192,36 +192,36 @@ void mu::script_io_test::builder::run_9 ()
 	auto c1 (routine->calls [0]); // [:~; a b c]
 	assert (c1->results == 0);
 	assert (c1->arguments.size () == 1);
-	auto c11 (boost::dynamic_pointer_cast <mu::script::parameters> (c1->arguments [0]));
+	auto c11 (boost::dynamic_pointer_cast <mu::script::runtime::parameters> (c1->arguments [0]));
 	assert (c11.get () != nullptr);
 	auto c2 (routine->calls [1]); // [a b c]
 	assert (c2->results == 1);
 	assert (c2->arguments.size () == 3);
-	auto c21 (boost::dynamic_pointer_cast <mu::script::reference> (c2->arguments [0]));
+	auto c21 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c2->arguments [0]));
 	assert (c21.get () != nullptr);
 	assert (c21->expression == 0);
 	assert (c21->index == 0);
-	auto c22 (boost::dynamic_pointer_cast <mu::script::reference> (c2->arguments [1]));
+	auto c22 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c2->arguments [1]));
 	assert (c22.get () != nullptr);
 	assert (c22->expression == 0);
 	assert (c22->index == 1);
-	auto c23 (boost::dynamic_pointer_cast <mu::script::reference> (c2->arguments [2]));
+	auto c23 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c2->arguments [2]));
 	assert (c23.get () != nullptr);
 	assert (c23->expression == 0);
 	assert (c23->index == 2);
 	auto c3 (routine->calls [2]); // ~ a [a b c] c
 	assert (c3->results == 2);
 	assert (c3->arguments.size () == 4);
-	auto c31 (boost::dynamic_pointer_cast <mu::script::constant> (c3->arguments [0]));
+	auto c31 (boost::dynamic_pointer_cast <mu::script::runtime::constant> (c3->arguments [0]));
 	assert (c31.get () != nullptr);
-	auto c32 (boost::dynamic_pointer_cast <mu::script::reference> (c3->arguments [1]));
+	auto c32 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c3->arguments [1]));
 	assert (c32.get () != nullptr);
 	assert (c32->expression == 0);
 	assert (c32->index == 0);
-	auto c33 (boost::dynamic_pointer_cast <mu::script::expression> (c3->arguments [2]));
+	auto c33 (boost::dynamic_pointer_cast <mu::script::runtime::expression> (c3->arguments [2]));
 	assert (c33.get () != nullptr);
 	assert (c33->index == 1);
-	auto c34 (boost::dynamic_pointer_cast <mu::script::reference> (c3->arguments [3]));
+	auto c34 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c3->arguments [3]));
 	assert (c34->index == 2);
 	assert (c34->expression == 0);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -275,6 +275,6 @@ void mu::script_io_test::builder::run_11 ()
 	cluster->routines [0]->perform (builder.errors, arguments, results);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
-	auto r (boost::dynamic_pointer_cast <mu::script::routine> (results [0]));
+	auto r (boost::dynamic_pointer_cast <mu::script::runtime::routine> (results [0]));
 	assert (r.get () != nullptr);
 }

@@ -30,18 +30,18 @@ void mu::script_io_test::routine::run_1 ()
 	calls.push_back (call2);
 	auto rout (boost::make_shared <mu::core::routine> (call2));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
-	auto routine (boost::make_shared <mu::script::routine> (boost::make_shared <mu::script::cluster::node> ()));
+	auto routine (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
 	mu::script_io::routine r (remapping, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 0);
 	assert (c1->arguments.size () == 1);
-	auto a1 (boost::dynamic_pointer_cast <mu::script::parameters> (c1->arguments [0]));
+	auto a1 (boost::dynamic_pointer_cast <mu::script::runtime::parameters> (c1->arguments [0]));
 	assert (a1.get () != nullptr);
 	auto c2 (routine->calls [1]);
 	assert (c2->results == 1);
 	assert (c2->arguments.size () == 1);
-	auto a2 (boost::dynamic_pointer_cast <mu::script::expression> (c2->arguments [0]));
+	auto a2 (boost::dynamic_pointer_cast <mu::script::runtime::expression> (c2->arguments [0]));
 	assert (a2.get () != nullptr);
 	assert (a2->index == 0);
 }

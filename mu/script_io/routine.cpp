@@ -8,14 +8,14 @@
 #include <mu/core/order.h>
 #include <mu/core/routine.h>
 
-mu::script_io::routine::routine (boost::shared_ptr <mu::script::cluster::node> cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::script::routine> result_a)
+mu::script_io::routine::routine (boost::shared_ptr <mu::script::cluster::node> cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::script::runtime::routine> result_a)
 {
 	mu::core::order order (routine_a->body);
 	size_t open (0);
 	for (auto i (order.expressions.begin ()), j (order.expressions.end ()); i != j; ++i, ++open)
 	{
 		reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (*i, open));
-		auto call_l (boost::shared_ptr <mu::script::call> (new mu::script::call (open, (*i)->context)));
+		auto call_l (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (open, (*i)->context)));
 		result_a->calls.push_back (call_l);
 		auto item (*i);
 		for (auto k (item->dependencies.begin ()), l (item->dependencies.end ()); k != l; ++k)

@@ -17,8 +17,8 @@ void mu::script_test::constant::run_1 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
-	mu::script::constant constant (node);
-	mu::script::context context (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 0);
+	mu::script::runtime::constant constant (node);
+	mu::script::runtime::context context (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 0);
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	constant (errors, context, target);
 	assert (errors->errors.empty ());

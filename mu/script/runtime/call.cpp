@@ -11,13 +11,13 @@
 
 #include <sstream>
 
-mu::script::call::call (size_t results_a, mu::core::context context_a)
+mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 	: results (results_a),
 	context (context_a)
 {
 }
 
-void mu::script::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::context & context_a)
+void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
 	auto errors_l (boost::make_shared <mu::core::errors::error_context> (errors_a, context));
@@ -46,7 +46,7 @@ void mu::script::call::operator () (boost::shared_ptr <mu::core::errors::error_t
 	}
 }
 
-void mu::script::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::context & context_a)
+void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> results_l;
 	auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_a));

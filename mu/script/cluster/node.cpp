@@ -14,13 +14,13 @@ mu::script::cluster::node::node ()
 {
 }
 
-mu::script::cluster::node::node (std::vector <boost::shared_ptr <mu::script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
+mu::script::cluster::node::node (std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
 	: routines (routines_a),
 	mapping (mapping_a)
 {
 }
 
-mu::script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names_a, std::vector <boost::shared_ptr <mu::script::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
+mu::script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names_a, std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
 	: names (names_a),
 	routines (routines_a),
 	mapping (mapping_a)

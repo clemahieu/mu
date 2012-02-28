@@ -17,7 +17,7 @@ void mu::script_test::cluster::get::run ()
 void mu::script_test::cluster::get::run_1 ()
 {
 	auto routine (boost::make_shared <mu::core::routine> (mu::core::context ()));
-	auto script (boost::make_shared <mu::script::routine> (boost::make_shared <mu::script::cluster::node> ()));
+	auto script (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
 	auto cluster (boost::make_shared <mu::script::cluster::node> ());
 	cluster->routines.push_back (script);
 	cluster->names [std::wstring (L"one")] = routine;

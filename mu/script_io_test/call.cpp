@@ -22,12 +22,12 @@ void mu::script_io_test::call::run ()
 void mu::script_io_test::call::run_1 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script_io::expression expression (remapping, reservations, target, node);
 	assert (target->arguments.size () == 1);
-	auto added (boost::dynamic_pointer_cast <mu::script::constant> (target->arguments [0]));
+	auto added (boost::dynamic_pointer_cast <mu::script::runtime::constant> (target->arguments [0]));
 	assert (added.get () != nullptr);
 	assert (added->value == node);
 }
@@ -35,13 +35,13 @@ void mu::script_io_test::call::run_1 ()
 void mu::script_io_test::call::run_2 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
 	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script_io::expression expression (remapping, reservations, target, parameters);
 	assert (target->arguments.size () == 1);
-	auto added (boost::dynamic_pointer_cast <mu::script::expression> (target->arguments [0]));
+	auto added (boost::dynamic_pointer_cast <mu::script::runtime::expression> (target->arguments [0]));
 	assert (added.get () != nullptr);
 	assert (added->index == 0);
 }
@@ -49,14 +49,14 @@ void mu::script_io_test::call::run_2 ()
 void mu::script_io_test::call::run_3 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::call> target (new mu::script::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
 	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	boost::shared_ptr <mu::core::reference> reference (new mu::core::reference (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script_io::expression expression (remapping, reservations, target, reference);
 	assert (target->arguments.size () == 1);
-	auto added (boost::dynamic_pointer_cast <mu::script::reference> (target->arguments [0]));
+	auto added (boost::dynamic_pointer_cast <mu::script::runtime::reference> (target->arguments [0]));
 	assert (added.get () != nullptr);
 	assert (added->expression == 0);
 	assert (added->index == 0);

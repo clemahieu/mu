@@ -18,11 +18,11 @@ void mu::script_test::call::run ()
 void mu::script_test::call::run_1 ()
 {
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	boost::shared_ptr <mu::script::call> call (new mu::script::call (1, mu::core::context ()));
-	mu::script::context context (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 2);
-	call->arguments.push_back (boost::shared_ptr <mu::script::constant> (new mu::script::constant (boost::shared_ptr <mu::core::node> (new mu::script::identity::operation))));
+	boost::shared_ptr <mu::script::runtime::call> call (new mu::script::runtime::call (1, mu::core::context ()));
+	mu::script::runtime::context context (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 2);
+	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (boost::shared_ptr <mu::core::node> (new mu::script::identity::operation))));
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
-	call->arguments.push_back (boost::shared_ptr <mu::script::constant> (new mu::script::constant (node)));
+	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (node)));
 	(*call) (errors, context);
 	assert (context.nodes [1].size () == 1);
 	assert (context.nodes [1] [0] == node);

@@ -21,7 +21,7 @@ mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a
 		auto existing (generated.find (value));
 		if (existing == generated.end ())
 		{
-			auto result_l (boost::make_shared <mu::script::routine> (cluster));
+			auto result_l (boost::make_shared <mu::script::runtime::routine> (cluster));
 			cluster->mapping [value] = result_l;
 			generated [value] = result_l;
 			mu::script_io::routine routine (cluster, value, result_l);
