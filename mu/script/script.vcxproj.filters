@@ -142,9 +142,6 @@
     <ClCompile Include="runtime\reference.cpp">
       <Filter>runtime</Filter>
     </ClCompile>
-    <ClCompile Include="runtime\remap.cpp">
-      <Filter>runtime</Filter>
-    </ClCompile>
     <ClCompile Include="runtime\routine.cpp">
       <Filter>runtime</Filter>
     </ClCompile>
@@ -318,9 +315,6 @@
       <Filter>runtime</Filter>
     </ClInclude>
     <ClInclude Include="runtime\reference.h">
-      <Filter>runtime</Filter>
-    </ClInclude>
-    <ClInclude Include="runtime\remap.h">
       <Filter>runtime</Filter>
     </ClInclude>
     <ClInclude Include="runtime\routine.h">

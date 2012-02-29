@@ -11,7 +11,6 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/call.h>
 #include <mu/script/runtime/constant.h>
-#include <mu/script/runtime/remap.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -100,10 +99,10 @@ void mu::script_io_test::synthesizer::run_3 ()
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::remap> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::constant> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <mu::core::routine> (argument->routine));
-	assert (rout == routine2);
+	auto rout (boost::dynamic_pointer_cast <mu::script::runtime::routine> (argument->value));
+	assert (rout == result2);
 }
 
 void mu::script_io_test::synthesizer::run_4 ()
@@ -128,8 +127,8 @@ void mu::script_io_test::synthesizer::run_4 ()
 	assert (result1->calls.size () == 1);
 	auto call (result1->calls [0]);
 	assert (call->arguments.size () == 1);
-	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::remap> (call->arguments [0]));
+	auto argument (boost::dynamic_pointer_cast <mu::script::runtime::constant> (call->arguments [0]));
 	assert (argument.get () != nullptr);
-	auto rout (boost::dynamic_pointer_cast <mu::core::routine> (argument->routine));
-	assert (rout == routine1);
+	auto rout (boost::dynamic_pointer_cast <mu::script::runtime::routine> (argument->value));
+	assert (rout == result1);
 }

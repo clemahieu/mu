@@ -8,7 +8,6 @@
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/parameters.h>
 #include <mu/core/routine.h>
-#include <mu/script/runtime/remap.h>
 #include <mu/script/cluster/node.h>
 
 #include <boost/make_shared.hpp>
@@ -69,9 +68,8 @@ void mu::script_test::routine::run_4 ()
 	mu::script::runtime::routine routine (remapping);
 	auto routine1 (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
 	auto r (boost::make_shared <mu::core::routine> (mu::core::context ()));
-	remapping->mapping [r] = routine1;
 	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
-	call->arguments.push_back (boost::make_shared <mu::script::runtime::remap> (r));
+	call->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (routine1));
 	routine.calls.push_back (call);
 	auto call1 (boost::make_shared <mu::script::runtime::call> (0, mu::core::context ()));
 	call1->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (boost::make_shared <mu::script::identity::operation> ()));
