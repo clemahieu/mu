@@ -60,7 +60,6 @@ void mu::llvm_::synthesizer::operation::operator () (boost::shared_ptr <mu::core
 					results_a.push_back (result);
 					if (!cluster->routines.empty ())
 					{
-						std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::llvm_::function::node>> remap;
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i)
 						{
 							auto argument_routine (*i);
@@ -109,7 +108,7 @@ void mu::llvm_::synthesizer::operation::operator () (boost::shared_ptr <mu::core
 													result->routines.push_back (fun);
 													functions.push_back (std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>> (function, function_type));
 													auto body_routine (*i);
-													remap [body_routine] = fun;
+													analyzer.address->remap [body_routine] = fun;
 												}
 												else
 												{
@@ -131,9 +130,9 @@ void mu::llvm_::synthesizer::operation::operator () (boost::shared_ptr <mu::core
 						}
 						for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
 						{
-							auto existing (remap.find (i->second));
-							assert (existing != remap.end ());
-							analyzer.address->remap [i->first] = existing->second;
+							auto existing (analyzer.address->remap.find (i->second));
+							assert (existing != analyzer.address->remap.end ());
+							result->names [i->first] = existing->second;
 						}
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)

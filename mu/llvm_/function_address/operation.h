@@ -6,6 +6,13 @@
 
 namespace mu
 {
+	namespace script
+	{
+		namespace runtime
+		{
+			class routine;
+		}
+	}
 	namespace llvm_
 	{
 		namespace function
@@ -19,7 +26,7 @@ namespace mu
 			public:
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 				size_t count () override;
-				std::map <std::wstring, boost::shared_ptr <mu::llvm_::function::node>> remap;
+				std::map <boost::shared_ptr <mu::script::runtime::routine>, boost::shared_ptr <mu::llvm_::function::node>> remap;
 			};
 		}
 	}
