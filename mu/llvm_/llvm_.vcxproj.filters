@@ -308,6 +308,9 @@
     <ClInclude Include="istore\operation.h">
       <Filter>istore</Filter>
     </ClInclude>
+    <ClInclude Include="function_address\operation.h">
+      <Filter>function_address</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -617,6 +620,9 @@
     <ClCompile Include="istore\operation.cpp">
       <Filter>istore</Filter>
     </ClCompile>
+    <ClCompile Include="function_address\operation.cpp">
+      <Filter>function_address</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="context">
@@ -720,6 +726,9 @@
     </Filter>
     <Filter Include="istore">
       <UniqueIdentifier>{1d1e1e65-481d-40fd-975f-1828ef26a1ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="function_address">
+      <UniqueIdentifier>{2642413f-541b-45a4-9d55-dc85e1c21ac8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -29,6 +29,10 @@ namespace mu
 		{
 			class node;
 		}
+		namespace function_address
+		{
+			class operation;
+		}
 		namespace analyzer
 		{
 			class operation : public mu::script::fixed
@@ -39,6 +43,7 @@ namespace mu
 				size_t count () override;
 				void add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a);
 				mu::llvm_::analyzer::context context;
+				boost::shared_ptr <mu::llvm_::function_address::operation> address;
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 			};
 		}

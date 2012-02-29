@@ -58,6 +58,7 @@
 #include <mu/llvm_/basic_block/split_return.h>
 #include <mu/llvm_/null/create.h>
 #include <mu/llvm_/ccall/operation.h>
+#include <mu/llvm_/function_address/operation.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -65,11 +66,13 @@
 #include <llvm/ADT/APInt.h>
 
 mu::llvm_::analyzer::operation::operation ()
-	: extensions (new mu::io::analyzer::extensions::extensions)
+	: extensions (new mu::io::analyzer::extensions::extensions),
+	address (boost::make_shared <mu::llvm_::function_address::operation> ())
 {
 	context.context_m = boost::make_shared <mu::llvm_::context::node> (nullptr);
 	context.module = boost::make_shared <mu::llvm_::module::node> (nullptr);
 	context.block = boost::make_shared <mu::llvm_::basic_block::node> (nullptr);
+	extensions->extensions_m [std::wstring (L"&")] = boost::make_shared <mu::io::analyzer::extensions::global> (address);
 	extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <mu::llvm_::apint::extension> ();
 	extensions->extensions_m [std::wstring (L"#i")] = boost::make_shared <mu::llvm_::constant_int::extension> (context.context_m);
 	extensions->extensions_m [std::wstring (L"`")] = boost::make_shared <mu::llvm_::constant_string::extension> (context.context_m, context.module);

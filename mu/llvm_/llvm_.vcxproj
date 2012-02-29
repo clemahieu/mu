@@ -39,6 +39,7 @@
     <ClInclude Include="constant_string\create.h" />
     <ClInclude Include="constant_string\extension.h" />
     <ClInclude Include="function\create.h" />
+    <ClInclude Include="function_address\operation.h" />
     <ClInclude Include="global_value\node.h" />
     <ClInclude Include="global_value\set_linkage.h" />
     <ClInclude Include="global_variable\create.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="constant_string\create.cpp" />
     <ClCompile Include="constant_string\extension.cpp" />
     <ClCompile Include="function\create.cpp" />
+    <ClCompile Include="function_address\operation.cpp" />
     <ClCompile Include="global_value\node.cpp" />
     <ClCompile Include="global_value\set_linkage.cpp" />
     <ClCompile Include="global_variable\create.cpp" />
