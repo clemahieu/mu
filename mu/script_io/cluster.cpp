@@ -18,6 +18,9 @@ mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
 		process_routine (*i);
+		auto existing (generated.find (*i));
+		assert (existing != generated.end ());
+		result->routines.push_back (existing->second);
 	}
 }
 
@@ -29,11 +32,6 @@ void mu::script_io::cluster::process_routine (boost::shared_ptr <mu::core::routi
 		auto result_l (boost::make_shared <mu::script::runtime::routine> (result));
 		result->mapping [routine_a] = result_l;
 		generated [routine_a] = result_l;
-		mu::script_io::routine routine (result, routine_a, result_l);
-		result->routines.push_back (result_l);
-	}
-	else
-	{
-		result->routines.push_back (existing->second);
+		mu::script_io::routine routine (*this, routine_a, result_l);
 	}
 }

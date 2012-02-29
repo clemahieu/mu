@@ -8,7 +8,7 @@
 #include <mu/core/order.h>
 #include <mu/core/routine.h>
 
-mu::script_io::routine::routine (boost::shared_ptr <mu::script::cluster::node> cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::script::runtime::routine> result_a)
+mu::script_io::routine::routine (mu::script_io::cluster & cluster_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::script::runtime::routine> result_a)
 {
 	mu::core::order order (routine_a->body);
 	size_t open (0);

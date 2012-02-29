@@ -13,12 +13,13 @@
 #include <mu/script_io/routine.h>
 #include <mu/core/cluster.h>
 #include <mu/script/runtime/parameters.h>
-#include <mu/script/runtime/remap.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/script_io/cluster.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-mu::script_io::expression::expression (boost::shared_ptr <mu::script::cluster::node> cluster_a, std::map <boost::shared_ptr <mu::core::expression>, size_t> & reservations_a, boost::shared_ptr <mu::script::runtime::call> call_a, boost::shared_ptr <mu::core::node> node_a)
+mu::script_io::expression::expression (mu::script_io::cluster & cluster_a, std::map <boost::shared_ptr <mu::core::expression>, size_t> & reservations_a, boost::shared_ptr <mu::script::runtime::call> call_a, boost::shared_ptr <mu::core::node> node_a)
 	: node (node_a),
 	reservations (reservations_a),
 	call_m (call_a),
@@ -57,5 +58,8 @@ void mu::script_io::expression::operator () (mu::core::node * node_a)
 void mu::script_io::expression::operator () (mu::core::routine * routine_a)
 {
 	auto value (boost::static_pointer_cast <mu::core::routine> (node));
-	call_m->arguments.push_back (boost::make_shared <mu::script::runtime::remap> (value));
+	cluster.process_routine (value);
+	auto existing (cluster.generated.find (value));
+	assert (existing != cluster.generated.end ());
+	call_m->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (existing->second));
 }

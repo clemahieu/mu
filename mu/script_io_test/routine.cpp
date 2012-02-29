@@ -11,6 +11,8 @@
 #include <mu/core/parameters.h>
 #include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script_io/cluster.h>
+#include <mu/core/cluster.h>
 
 #include <boost/make_shared.hpp>
 
@@ -29,9 +31,9 @@ void mu::script_io_test::routine::run_1 ()
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
 	auto rout (boost::make_shared <mu::core::routine> (call2));
-	auto remapping (boost::make_shared <mu::script::cluster::node> ());
+	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
 	auto routine (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
-	mu::script_io::routine r (remapping, rout, routine);
+	mu::script_io::routine r (cluster, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);
 	assert (c1->results == 0);

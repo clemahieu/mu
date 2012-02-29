@@ -9,6 +9,8 @@
 #include <mu/core/reference.h>
 #include <mu/script/runtime/constant.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script_io/cluster.h>
+#include <mu/core/cluster.h>
 
 #include <boost/make_shared.hpp>
 
@@ -25,7 +27,8 @@ void mu::script_io_test::call::run_1 ()
 	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
-	mu::script_io::expression expression (remapping, reservations, target, node);
+	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
+	mu::script_io::expression expression (cluster, reservations, target, node);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <mu::script::runtime::constant> (target->arguments [0]));
 	assert (added.get () != nullptr);
@@ -39,7 +42,8 @@ void mu::script_io_test::call::run_2 ()
 	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
-	mu::script_io::expression expression (remapping, reservations, target, parameters);
+	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
+	mu::script_io::expression expression (cluster, reservations, target, parameters);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <mu::script::runtime::expression> (target->arguments [0]));
 	assert (added.get () != nullptr);
@@ -54,7 +58,8 @@ void mu::script_io_test::call::run_3 ()
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	boost::shared_ptr <mu::core::reference> reference (new mu::core::reference (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
-	mu::script_io::expression expression (remapping, reservations, target, reference);
+	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
+	mu::script_io::expression expression (cluster, reservations, target, reference);
 	assert (target->arguments.size () == 1);
 	auto added (boost::dynamic_pointer_cast <mu::script::runtime::reference> (target->arguments [0]));
 	assert (added.get () != nullptr);
