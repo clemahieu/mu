@@ -15,9 +15,7 @@
 #include <mu/script_test/package/get_recursive.h>
 #include <mu/script_test/chain/operation.h>
 #include <mu/script_test/string/extension.h>
-#include <mu/script_test/cluster/get.h>
 #include <mu/script_test/ast/extension.h>
-#include <mu/script_test/cluster/node.h>
 #include <mu/script_test/loadb/operation.h>
 #include <mu/script_test/loads/operation.h>
 
@@ -81,14 +79,6 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::string::extension test;
-		test.run ();
-	}
-	{
-		mu::script_test::cluster::node test;
-		test.run ();
-	}
-	{
-		mu::script_test::cluster::get test;
 		test.run ();
 	}
 	{

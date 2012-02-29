@@ -6,7 +6,7 @@
 #include <mu/script/cluster/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
-#include <mu/core/routine.h>
+#include <mu/script/runtime/routine.h>
 
 #include <sstream>
 

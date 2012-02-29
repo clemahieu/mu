@@ -94,9 +94,6 @@
     <ClCompile Include="values\operation.cpp">
       <Filter>values</Filter>
     </ClCompile>
-    <ClCompile Include="cluster\get.cpp">
-      <Filter>cluster</Filter>
-    </ClCompile>
     <ClCompile Include="cluster\node.cpp">
       <Filter>cluster</Filter>
     </ClCompile>
@@ -268,9 +265,6 @@
     </ClInclude>
     <ClInclude Include="values\operation.h">
       <Filter>values</Filter>
-    </ClInclude>
-    <ClInclude Include="cluster\get.h">
-      <Filter>cluster</Filter>
     </ClInclude>
     <ClInclude Include="cluster\node.h">
       <Filter>cluster</Filter>

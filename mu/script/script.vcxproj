@@ -149,7 +149,6 @@
     <ClCompile Include="closure\single.cpp" />
     <ClCompile Include="cluster\get_named.cpp" />
     <ClCompile Include="cluster\node.cpp" />
-    <ClCompile Include="cluster\get.cpp" />
     <ClCompile Include="extensions\create.cpp" />
     <ClCompile Include="extensions\merge.cpp" />
     <ClCompile Include="extensions\merge_cluster.cpp" />
@@ -210,7 +209,6 @@
     <ClInclude Include="closure\single.h" />
     <ClInclude Include="cluster\get_named.h" />
     <ClInclude Include="cluster\node.h" />
-    <ClInclude Include="cluster\get.h" />
     <ClInclude Include="extensions\create.h" />
     <ClInclude Include="extensions\merge.h" />
     <ClInclude Include="extensions\merge_cluster.h" />

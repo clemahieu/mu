@@ -128,8 +128,8 @@ void mu::llvm_::synthesizer::operation::operator () (boost::shared_ptr <mu::core
 								}
 							}
 						}
-						result->set_names (cluster, remap);
-						cluster->remap (remap);
+						assert (false);//result->set_names (cluster, remap);
+						//cluster->remap (remap);
 						size_t position (0);
 						for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j && ! (*errors_a) (); ++i, ++position)
 						{

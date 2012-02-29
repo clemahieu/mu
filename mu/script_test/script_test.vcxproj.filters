@@ -40,14 +40,8 @@
     <ClCompile Include="string\extension.cpp">
       <Filter>string</Filter>
     </ClCompile>
-    <ClCompile Include="cluster\get.cpp">
-      <Filter>cluster</Filter>
-    </ClCompile>
     <ClCompile Include="ast\extension.cpp">
       <Filter>ast</Filter>
-    </ClCompile>
-    <ClCompile Include="cluster\node.cpp">
-      <Filter>cluster</Filter>
     </ClCompile>
     <ClCompile Include="loadb\operation.cpp">
       <Filter>loadb</Filter>
@@ -96,14 +90,8 @@
     <ClInclude Include="string\extension.h">
       <Filter>string</Filter>
     </ClInclude>
-    <ClInclude Include="cluster\get.h">
-      <Filter>cluster</Filter>
-    </ClInclude>
     <ClInclude Include="ast\extension.h">
       <Filter>ast</Filter>
-    </ClInclude>
-    <ClInclude Include="cluster\node.h">
-      <Filter>cluster</Filter>
     </ClInclude>
     <ClInclude Include="loadb\operation.h">
       <Filter>loadb</Filter>

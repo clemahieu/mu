@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/string/node.h>
+#include <mu/script/runtime/routine.h>
 
 #include <sstream>
 
@@ -17,7 +18,7 @@ void mu::script::cluster::get_named::operator () (boost::shared_ptr <mu::core::e
 			auto existing (one->names.find (two->string));
 			if (existing != one->names.end ())
 			{
-				results.push_back (one->mapping [existing->second]);
+				results.push_back (existing->second);
 			}
 			else
 			{

@@ -14,16 +14,14 @@ mu::script::cluster::node::node ()
 {
 }
 
-mu::script::cluster::node::node (std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
-	: routines (routines_a),
-	mapping (mapping_a)
+mu::script::cluster::node::node (std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a)
+	: routines (routines_a)
 {
 }
 
-mu::script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names_a, std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a, std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::core::node>> mapping_a)
+mu::script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names_a, std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a)
 	: names (names_a),
-	routines (routines_a),
-	mapping (mapping_a)
+	routines (routines_a)
 {
 }
 
@@ -35,7 +33,7 @@ void mu::script::cluster::node::operator () (boost::shared_ptr <mu::core::errors
 		auto existing (names.find (one->string));
 		if (existing != names.end ())
 		{
-			results.push_back (mapping [existing->second]);
+			results.push_back (existing->second);
 		}
 		else
 		{
@@ -72,25 +70,4 @@ void mu::script::cluster::node::operator () (boost::shared_ptr <mu::core::errors
 size_t mu::script::cluster::node::count ()
 {
 	return 1;
-}
-
-void mu::script::cluster::node::remap (std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a)
-{
-	std::set <boost::shared_ptr <mu::core::routine>> unmapped;
-	for (auto i (mapping.begin ()), j (mapping.end ()); i != j; ++i)
-	{
-		auto new_l (remap_a.find (i->second));
-		if (new_l == remap_a.end ())
-		{
-			unmapped.insert (i->first);
-		}
-		else
-		{
-			i->second = new_l->second;
-		}
-	}
-	for (auto i (unmapped.begin ()), j (unmapped.end ()); i != j; ++i)
-	{
-		mapping.erase (*i);
-	}
 }

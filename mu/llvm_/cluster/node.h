@@ -27,7 +27,6 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				void set_names (boost::shared_ptr <mu::script::cluster::node> cluster_a, std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> & remap_a);
 				std::wstring name () override;
 				std::map <std::wstring, boost::shared_ptr <mu::llvm_::function::node>> names;
 				std::vector <boost::shared_ptr <mu::llvm_::function::node>> routines;
