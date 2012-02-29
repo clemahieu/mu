@@ -43,7 +43,7 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 			else
 			{
 				std::wstringstream message;
-				message << L"Library did not have version function";
+				message << L"Library did not have version function: ";
 				message << path.wstring ();
 				(*errors_a) (message.str ());
 			}

@@ -1,1 +1,1 @@
-[thing]
+[script/identity [thing] [~ ` hello]]

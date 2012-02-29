@@ -35,7 +35,7 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 				if (cluster->routines.size () > 0)
 				{
 					auto routine (cluster->routines [0]);
-					std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
+					std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
 					routine->perform (errors_a, arguments, results);
 				}
 				else
@@ -60,4 +60,9 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 		message << L" requires at least two arguments";
 		(*errors_a) (message.str ());
 	}
+}
+
+std::wstring mu::script::run::operation::name ()
+{
+	return std::wstring (L"mu::script::run::operation");
 }

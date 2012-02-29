@@ -56,3 +56,8 @@ size_t mu::script::extensions::merge::count ()
 {
 	return 3;
 }
+
+std::wstring mu::script::extensions::merge::name ()
+{
+	return std::wstring (L"mu::script::extensions::merge");
+}

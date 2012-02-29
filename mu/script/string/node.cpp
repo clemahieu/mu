@@ -15,3 +15,8 @@ std::wstring mu::script::string::node::debug ()
 	result << L"\"";
 	return result.str ();
 }
+
+std::wstring mu::script::string::node::name ()
+{
+	return std::wstring (L"mu::script::string::node");
+}

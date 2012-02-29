@@ -111,24 +111,6 @@ boost::shared_ptr <mu::io::analyzer::extensions::extensions> mu::script_io::exte
 	result->extensions_m [std::wstring (L".apply")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::create_single> ());
 	result->extensions_m [std::wstring (L".create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::create> ());	
 	result->extensions_m [std::wstring (L".synthesize")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script_io::synthesizer> ());
-	//result->extensions_m [std::wstring (L"?")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::closure::hole> ());
-	//result->extensions_m [std::wstring (L"script/ast/read_from_file")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::ast::read_from_file> ());
-	//result->extensions_m [std::wstring (L"script/ast/merge")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::ast::merge> ());
-	//result->extensions_m [std::wstring (L"script/astring/truncate")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::astring::truncate> ());
-	//result->extensions_m [std::wstring (L"script/bool_c/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::bool_c::create> ());
-	//result->extensions_m [std::wstring (L"script/bool_c/equal")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::bool_c::equal> ());
-	//result->extensions_m [std::wstring (L"script/chain/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::chain::operation> ());
-	//result->extensions_m [std::wstring (L"script/cluster/get_named")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::cluster::get_named> ());
-	//result->extensions_m [std::wstring (L"script/extensions/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::extensions::create> ());
-	//result->extensions_m [std::wstring (L"script/extensions/merge_package")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::extensions::merge_package> ());
-	//result->extensions_m [std::wstring (L"script/integer/equal")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::integer::equal> ());
-	//result->extensions_m [std::wstring (L"script/integer/subtract")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::integer::subtract> ());
-	//result->extensions_m [std::wstring (L"script/print/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::print::operation> ());
-	//result->extensions_m [std::wstring (L"script/package/add")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::add> ());
-	//result->extensions_m [std::wstring (L"script/package/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::create> ());
-	//result->extensions_m [std::wstring (L"script/package/get")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::get> ());
-	//result->extensions_m [std::wstring (L"script/package/remove")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::package::remove> ());
-	//result->extensions_m [std::wstring (L"script/times/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::times::operation> ());
 	return result;
 }
 
