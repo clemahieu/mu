@@ -7,11 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0F
 		examples\chain.mu = examples\chain.mu
 		examples\compile.mu = examples\compile.mu
 		examples\exec.mu = examples\exec.mu
+		examples\include.mu = examples\include.mu
 		examples\llvm.mu = examples\llvm.mu
 		examples\quit.mu = examples\quit.mu
 		examples\recursive.mu = examples\recursive.mu
 		examples\sha256.mu = examples\sha256.mu
 		examples\sha256_llvm.mu = examples\sha256_llvm.mu
+		examples\stage1.mu = examples\stage1.mu
+		examples\stage2.mu = examples\stage2.mu
 		examples\test.mu = examples\test.mu
 	EndProjectSection
 EndProject

@@ -147,6 +147,7 @@
     <ClCompile Include="expression.cpp" />
     <ClCompile Include="integer\equal.cpp" />
     <ClCompile Include="loadb\operation.cpp" />
+    <ClCompile Include="loads\operation.cpp" />
     <ClCompile Include="package\create.cpp" />
     <ClCompile Include="package\get.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="expression.h" />
     <ClInclude Include="integer\equal.h" />
     <ClInclude Include="loadb\operation.h" />
+    <ClInclude Include="loads\operation.h" />
     <ClInclude Include="package\create.h" />
     <ClInclude Include="package\get.h" />
     <ClInclude Include="package\get_recursive.h" />

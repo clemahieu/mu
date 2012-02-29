@@ -52,6 +52,9 @@
     <ClCompile Include="loadb\operation.cpp">
       <Filter>loadb</Filter>
     </ClCompile>
+    <ClCompile Include="loads\operation.cpp">
+      <Filter>loads</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -105,6 +108,9 @@
     <ClInclude Include="loadb\operation.h">
       <Filter>loadb</Filter>
     </ClInclude>
+    <ClInclude Include="loads\operation.h">
+      <Filter>loads</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -133,6 +139,9 @@
     </Filter>
     <Filter Include="loadb">
       <UniqueIdentifier>{3368dc57-9c0f-4d85-935d-7887daa301e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="loads">
+      <UniqueIdentifier>{eafe9bb6-c873-48b8-8945-adf4bbf4bb1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

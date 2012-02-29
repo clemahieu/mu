@@ -9,6 +9,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 #include <sstream>
 
@@ -24,7 +25,7 @@ void mu::script::loads::operation::operator () (boost::shared_ptr <mu::core::err
 			path /= std::string (file->string.begin (), file->string.end ());
 			std::ifstream stream;
 			stream.open (path.string ());
-			if (stream.is_open ())
+			if (stream.is_open ())		
 			{
 				auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
 				mu::script_io::builder builder (extensions->extensions);
@@ -35,7 +36,7 @@ void mu::script::loads::operation::operator () (boost::shared_ptr <mu::core::err
 				{
 					if (builder.clusters.size () == 1)
 					{
-						
+						auto result (boost::make_shared <mu::script::extensions::node> ());
 						results.push_back (builder.clusters [0]);
 					}
 					else

@@ -19,6 +19,7 @@
 #include <mu/script_test/ast/extension.h>
 #include <mu/script_test/cluster/node.h>
 #include <mu/script_test/loadb/operation.h>
+#include <mu/script_test/loads/operation.h>
 
 void mu::script_test::tests::run ()
 {
@@ -96,6 +97,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::loadb::operation test;
+		test.run ();
+	}
+	{
+		mu::script_test::loads::operation test;
 		test.run ();
 	}
 }
