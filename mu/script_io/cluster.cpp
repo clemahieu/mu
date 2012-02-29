@@ -12,25 +12,28 @@
 #include <boost/make_shared.hpp>
 
 mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
+	: result (boost::make_shared <mu::script::cluster::node> ())
 {
-	auto cluster (boost::make_shared <mu::script::cluster::node> ());
-	cluster->names = cluster_a->names;
+	result->names = cluster_a->names;
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
-		auto value (*i);
-		auto existing (generated.find (value));
-		if (existing == generated.end ())
-		{
-			auto result_l (boost::make_shared <mu::script::runtime::routine> (cluster));
-			cluster->mapping [value] = result_l;
-			generated [value] = result_l;
-			mu::script_io::routine routine (cluster, value, result_l);
-			cluster->routines.push_back (result_l);
-		}
-		else
-		{
-			cluster->routines.push_back (existing->second);
-		}
+		process_routine (*i);
 	}
-	result = cluster;
+}
+
+void mu::script_io::cluster::process_routine (boost::shared_ptr <mu::core::routine> routine_a)
+{
+	auto existing (generated.find (routine_a));
+	if (existing == generated.end ())
+	{
+		auto result_l (boost::make_shared <mu::script::runtime::routine> (result));
+		result->mapping [routine_a] = result_l;
+		generated [routine_a] = result_l;
+		mu::script_io::routine routine (result, routine_a, result_l);
+		result->routines.push_back (result_l);
+	}
+	else
+	{
+		result->routines.push_back (existing->second);
+	}
 }

@@ -32,6 +32,7 @@ namespace mu
 		{
 		public:
 			cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
+			void process_routine (boost::shared_ptr <mu::core::routine> routine_a);
 			std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> generated;
 			boost::shared_ptr <mu::script::cluster::node> result;
 		};
