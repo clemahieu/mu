@@ -171,6 +171,9 @@
     <ClCompile Include="run\operation.cpp">
       <Filter>run</Filter>
     </ClCompile>
+    <ClCompile Include="load\operation.cpp">
+      <Filter>load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="integer\node.h">
@@ -343,6 +346,9 @@
     <ClInclude Include="run\operation.h">
       <Filter>run</Filter>
     </ClInclude>
+    <ClInclude Include="load\operation.h">
+      <Filter>load</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="integer">
@@ -410,6 +416,9 @@
     </Filter>
     <Filter Include="run">
       <UniqueIdentifier>{274ca596-04b8-4683-978a-756e4c439045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="load">
+      <UniqueIdentifier>{2713fac5-a5be-41ba-8bea-9fe1c2b0c754}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

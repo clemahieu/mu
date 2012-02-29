@@ -156,6 +156,7 @@
     <ClCompile Include="extensions\node.cpp" />
     <ClCompile Include="loadb\operation.cpp" />
     <ClCompile Include="loads\operation.cpp" />
+    <ClCompile Include="load\operation.cpp" />
     <ClCompile Include="package\create_from_cluster.cpp" />
     <ClCompile Include="package\get_recursive.cpp" />
     <ClCompile Include="runtime\parameters.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="extensions\node.h" />
     <ClInclude Include="loadb\operation.h" />
     <ClInclude Include="loads\operation.h" />
+    <ClInclude Include="load\operation.h" />
     <ClInclude Include="package\create_from_cluster.h" />
     <ClInclude Include="package\get_recursive.h" />
     <ClInclude Include="runtime\parameters.h" />

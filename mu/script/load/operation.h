@@ -6,7 +6,7 @@ namespace mu
 {
 	namespace script
 	{
-		namespace loads
+		namespace load
 		{
 			class operation : public mu::script::fixed
 			{

@@ -7,7 +7,7 @@
 #include <mu/io/source.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/loads/operation.h>
+#include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
 
 #include <boost/filesystem.hpp>
@@ -27,7 +27,7 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 			std::vector <boost::shared_ptr <mu::core::node>> r1;
 			a1.push_back (extensions);
 			a1.push_back (parameters [1]);
-			mu::script::loads::operation load;
+			mu::script::load::operation load;
 			load.perform (errors_a, a1, r1);
 			if (! (*errors_a) ())
 			{
