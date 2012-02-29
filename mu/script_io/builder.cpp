@@ -149,7 +149,7 @@ void mu::script_io::add_loadb (boost::shared_ptr <mu::io::analyzer::extensions::
 void mu::script_io::add_loads (boost::shared_ptr <mu::io::analyzer::extensions::extensions> result_a)
 {
 	auto extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ());
-	extensions->extensions_m [std::wstring (L"merge")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::extensions::merge_cluster> ());
+	extensions->extensions_m [std::wstring (L"merge")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::extensions::merge> ());
 	auto closure (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::script::loads::operation> ()));
 	closure->closed.push_back (boost::make_shared <mu::script::extensions::node> (result_a));
 	extensions->extensions_m [std::wstring (L"loads")] = boost::make_shared <mu::io::analyzer::extensions::global> (closure);

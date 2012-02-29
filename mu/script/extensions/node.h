@@ -26,6 +26,7 @@ namespace mu
 				node ();
 				node (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
+				std::wstring name () override;
 			};
 		}
 	}

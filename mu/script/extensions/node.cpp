@@ -13,3 +13,8 @@ mu::script::extensions::node::node (boost::shared_ptr <mu::io::analyzer::extensi
 	: extensions (extensions_a)
 {
 }
+
+std::wstring mu::script::extensions::node::name ()
+{
+	return std::wstring (L"mu::script::extensions::node");
+}
