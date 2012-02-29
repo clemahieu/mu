@@ -6,6 +6,9 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
+#include <mu/io/analyzer/extensions/global.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/script/runtime/routine.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -37,7 +40,12 @@ void mu::script::loads::operation::operator () (boost::shared_ptr <mu::core::err
 					if (builder.clusters.size () == 1)
 					{
 						auto result (boost::make_shared <mu::script::extensions::node> ());
-						results.push_back (builder.clusters [0]);
+						auto cluster (builder.clusters [0]);
+						for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
+						{
+							result->extensions->extensions_m [i->first] = boost::make_shared <mu::io::analyzer::extensions::global> (i->second);
+						}
+						results.push_back (result);
 					}
 					else
 					{

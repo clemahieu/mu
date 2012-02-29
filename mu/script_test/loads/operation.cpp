@@ -10,7 +10,7 @@
 
 void mu::script_test::loads::operation::run ()
 {
-	//run_1 ();
+	run_1 ();
 }
 
 void mu::script_test::loads::operation::run_1 ()
