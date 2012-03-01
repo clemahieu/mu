@@ -12,9 +12,21 @@
 
 #include <boost/make_shared.hpp>
 
+mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::script_io::reference> reference_a)
+	: result (boost::make_shared <mu::script::cluster::node> ()),
+	reference (reference_a)
+{
+	process_cluster (cluster_a);
+}
+
 mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
 	: result (boost::make_shared <mu::script::cluster::node> ()),
 	reference (boost::make_shared <mu::script_io::script> (*this))
+{
+	process_cluster (cluster_a);
+}
+
+void mu::script_io::cluster::process_cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{

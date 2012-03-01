@@ -34,8 +34,9 @@ namespace mu
 		public:
 			cluster (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::script_io::reference> reference_a);
 			cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
-			boost::shared_ptr <mu::script_io::reference> reference;
+			void process_cluster (boost::shared_ptr <mu::core::cluster> cluster_a);
 			boost::shared_ptr <mu::script::runtime::routine> process_routine (boost::shared_ptr <mu::core::routine> routine_a);
+			boost::shared_ptr <mu::script_io::reference> reference;
 			std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> generated;
 			boost::shared_ptr <mu::script::cluster::node> result;
 		};

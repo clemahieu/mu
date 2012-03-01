@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="analyzer\context.h" />
     <ClInclude Include="analyzer\operation.h" />
+    <ClInclude Include="analyzer\reference.h" />
     <ClInclude Include="apint\create.h" />
     <ClInclude Include="apint\extension.h" />
     <ClInclude Include="apint\node.h" />
@@ -122,6 +123,7 @@
   <ItemGroup>
     <ClCompile Include="analyzer\context.cpp" />
     <ClCompile Include="analyzer\operation.cpp" />
+    <ClCompile Include="analyzer\reference.cpp" />
     <ClCompile Include="apint\create.cpp" />
     <ClCompile Include="apint\extension.cpp" />
     <ClCompile Include="apint\node.cpp" />

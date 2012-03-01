@@ -296,6 +296,9 @@
     <ClInclude Include="istore\operation.h">
       <Filter>istore</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer\reference.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -592,6 +595,9 @@
     </ClCompile>
     <ClCompile Include="istore\operation.cpp">
       <Filter>istore</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\reference.cpp">
+      <Filter>analyzer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
