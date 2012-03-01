@@ -13,21 +13,18 @@
 #include <boost/make_shared.hpp>
 
 mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
-	: result (boost::make_shared <mu::script::cluster::node> ())
+	: result (boost::make_shared <mu::script::cluster::node> ()),
+	reference (boost::make_shared <mu::script_io::script> (*this))
 {
-	std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> remapping;
-	mu::script_io::script script (*this);
-	reference = &script;
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
 		auto routine (process_routine (*i));
-		remapping [*i] = routine;
 		result->routines.push_back (routine);
 	}
 	for (auto i (cluster_a->names.begin ()), j (cluster_a->names.end ()); i != j; ++i)
 	{
-		auto existing (remapping.find (i->second));
-		assert (existing != remapping.end ());
+		auto existing (generated.find (i->second));
+		assert (existing != generated.end ());
 		result->names [i->first] = existing->second;
 	}
 }
