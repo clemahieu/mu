@@ -7,23 +7,38 @@
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/script/string/node.h>
 
 #include <boost/make_shared.hpp>
 
 void mu::script::loads::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	mu::script::load::operation load;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	load.perform (errors_a, parameters, r1);
-	if (!(*errors_a) ())
+	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
+	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
+	if (extensions.get () != nullptr)
 	{
-		auto result (boost::make_shared <mu::script::extensions::node> ());
-		auto cluster (boost::static_pointer_cast <mu::script::cluster::node> (r1 [0]));
-		for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
+		if (file.get () != nullptr)
 		{
-			result->extensions->extensions_m [i->first] = boost::make_shared <mu::io::analyzer::extensions::global> (i->second);
+			mu::script::load::operation load;
+			auto cluster (load.core (errors_a, extensions, file));
+			if (!(*errors_a) ())
+			{
+				auto result (boost::make_shared <mu::script::extensions::node> ());
+				for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
+				{
+					result->extensions->extensions_m [i->first] = boost::make_shared <mu::io::analyzer::extensions::global> (i->second);
+				}
+				results.push_back (result);
+			}
 		}
-		results.push_back (result);
+		else
+		{
+			invalid_type (errors_a, parameters [1], 1);
+		}
+	}
+	else
+	{
+		invalid_type (errors_a, parameters [0], 0);
 	}
 }
 

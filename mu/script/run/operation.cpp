@@ -21,30 +21,33 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 	if (parameters.size () > 1)
 	{
 		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
+		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
 		if (extensions.get () != nullptr)
 		{
-			std::vector <boost::shared_ptr <mu::core::node>> a1;
-			std::vector <boost::shared_ptr <mu::core::node>> r1;
-			a1.push_back (extensions);
-			a1.push_back (parameters [1]);
-			mu::script::load::operation load;
-			load.perform (errors_a, a1, r1);
-			if (! (*errors_a) ())
+			if (file.get () != nullptr)
 			{
-				auto cluster (boost::static_pointer_cast <mu::script::cluster::node> (r1 [0]));
-				if (cluster->routines.size () > 0)
+				mu::script::load::operation load;
+				auto cluster (load.core (errors_a, extensions, file));
+				if (! (*errors_a) ())
 				{
-					auto routine (cluster->routines [0]);
-					std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
-					routine->perform (errors_a, arguments, results);
+					if (cluster->routines.size () > 0)
+					{
+						auto routine (cluster->routines [0]);
+						std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
+						routine->perform (errors_a, arguments, results);
+					}
+					else
+					{
+						std::wstringstream message;
+						message << L"Cluster does not contain a routine: ";
+						message << cluster->routines.size ();
+						(*errors_a) (message.str ());
+					}
 				}
-				else
-				{
-					std::wstringstream message;
-					message << L"Cluster does not contain a routine: ";
-					message << cluster->routines.size ();
-					(*errors_a) (message.str ());
-				}
+			}
+			else
+			{
+				invalid_type (errors_a, parameters [1], 1);
 			}
 		}
 		else
