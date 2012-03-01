@@ -22,18 +22,14 @@
 #include <mu/llvm_/linkage_types/node.h>
 #include <mu/llvm_/global_value/set_linkage.h>
 #include <mu/llvm_/module/verify.h>
-#include <mu/llvm_/synthesizer/create.h>
-#include <mu/llvm_/synthesizer/merge.h>
 #include <mu/llvm_/function/create.h>
 #include <mu/llvm_/function_type/create.h>
 #include <mu/llvm_/module/add_function.h>
-#include <mu/llvm_/synthesizer/add.h>
 #include <mu/llvm_/apint/create.h>
 #include <mu/llvm_/pointer_type/create.h>
 #include <mu/llvm_/global_variable/create.h>
 #include <mu/llvm_/module/add_global_variable.h>
 #include <mu/llvm_/analyzer/operation.h>
-#include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/module/merge.h>
 
 #include <boost/make_shared.hpp>
@@ -66,10 +62,6 @@ mu::llvm_::api::api ()
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/print"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::print> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/module/verify"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::verify> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/pointer_type/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::pointer_type::create> ())));
-	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/add"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::add> ())));
-	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/create"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::create> ())));
-	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/merge"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::merge> ())));
-	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/synthesizer/operation"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::operation> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/value/get_context"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::get_context> ())));
 	extensions.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"llvm/value/set_name"), boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::set_name> ())));
 }

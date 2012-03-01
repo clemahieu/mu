@@ -2,7 +2,7 @@
 
 #include <mu/io/source.h>
 #include <mu/script_io/builder.h>
-#include <mu/llvm_/synthesizer/operation.h>
+#include <mu/llvm_/analyzer/operation.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
@@ -13,6 +13,7 @@
 #include <mu/llvm_/cluster/node.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/type/node.h>
+#include <mu/llvm_/context/node.h>
 
 #include <boost/bind.hpp>
 
@@ -56,10 +57,11 @@ void mu::llvm_test::synthesizer::operation::run_1 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 0);
 	mu::llvm_::module::print print;
@@ -90,10 +92,11 @@ void mu::llvm_test::synthesizer::operation::run_2 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -129,10 +132,11 @@ void mu::llvm_test::synthesizer::operation::run_3 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -163,10 +167,11 @@ void mu::llvm_test::synthesizer::operation::run_4 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -197,10 +202,11 @@ void mu::llvm_test::synthesizer::operation::run_5 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -231,10 +237,11 @@ void mu::llvm_test::synthesizer::operation::run_6 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -265,10 +272,11 @@ void mu::llvm_test::synthesizer::operation::run_7 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -299,10 +307,11 @@ void mu::llvm_test::synthesizer::operation::run_8 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -365,10 +374,11 @@ void mu::llvm_test::synthesizer::operation::run_9 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 31);
 	mu::llvm_::module::print print;
@@ -402,10 +412,11 @@ void mu::llvm_test::synthesizer::operation::run_10 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -447,10 +458,11 @@ void mu::llvm_test::synthesizer::operation::run_11 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -491,10 +503,11 @@ void mu::llvm_test::synthesizer::operation::run_12 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 }
 
@@ -514,10 +527,11 @@ void mu::llvm_test::synthesizer::operation::run_13 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -560,10 +574,11 @@ void mu::llvm_test::synthesizer::operation::run_14 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	a2.push_back (ast);
+	a2.push_back (boost::make_shared <mu::llvm_::context::node> (&context_l));
 	a2.push_back (module);
-	mu::llvm_::synthesizer::operation synthesizer;
-	synthesizer.perform (builder.errors, a2, r2);
+	a2.push_back (ast);
+	mu::llvm_::analyzer::operation analyzer;
+	analyzer.perform (builder.errors, a2, r2);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 3);
 	mu::llvm_::module::print print;

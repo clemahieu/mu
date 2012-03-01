@@ -209,9 +209,6 @@
     <ClInclude Include="set_type\extract.h">
       <Filter>set_type</Filter>
     </ClInclude>
-    <ClInclude Include="synthesizer\operation.h">
-      <Filter>synthesizer</Filter>
-    </ClInclude>
     <ClInclude Include="analyzer\context.h">
       <Filter>analyzer</Filter>
     </ClInclude>
@@ -257,20 +254,11 @@
     <ClInclude Include="linkage_types\node.h">
       <Filter>linkage_types</Filter>
     </ClInclude>
-    <ClInclude Include="synthesizer\create.h">
-      <Filter>synthesizer</Filter>
-    </ClInclude>
-    <ClInclude Include="synthesizer\merge.h">
-      <Filter>synthesizer</Filter>
-    </ClInclude>
     <ClInclude Include="function\create.h">
       <Filter>function</Filter>
     </ClInclude>
     <ClInclude Include="module\add_function.h">
       <Filter>module</Filter>
-    </ClInclude>
-    <ClInclude Include="synthesizer\add.h">
-      <Filter>synthesizer</Filter>
     </ClInclude>
     <ClInclude Include="constant\create_from_string.h">
       <Filter>constant</Filter>
@@ -307,9 +295,6 @@
     </ClInclude>
     <ClInclude Include="istore\operation.h">
       <Filter>istore</Filter>
-    </ClInclude>
-    <ClInclude Include="function_address\operation.h">
-      <Filter>function_address</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -521,9 +506,6 @@
     <ClCompile Include="set_type\extract.cpp">
       <Filter>set_type</Filter>
     </ClCompile>
-    <ClCompile Include="synthesizer\operation.cpp">
-      <Filter>synthesizer</Filter>
-    </ClCompile>
     <ClCompile Include="analyzer\context.cpp">
       <Filter>analyzer</Filter>
     </ClCompile>
@@ -569,20 +551,11 @@
     <ClCompile Include="linkage_types\node.cpp">
       <Filter>linkage_types</Filter>
     </ClCompile>
-    <ClCompile Include="synthesizer\create.cpp">
-      <Filter>synthesizer</Filter>
-    </ClCompile>
-    <ClCompile Include="synthesizer\merge.cpp">
-      <Filter>synthesizer</Filter>
-    </ClCompile>
     <ClCompile Include="function\create.cpp">
       <Filter>function</Filter>
     </ClCompile>
     <ClCompile Include="module\add_function.cpp">
       <Filter>module</Filter>
-    </ClCompile>
-    <ClCompile Include="synthesizer\add.cpp">
-      <Filter>synthesizer</Filter>
     </ClCompile>
     <ClCompile Include="constant\create_from_string.cpp">
       <Filter>constant</Filter>
@@ -619,9 +592,6 @@
     </ClCompile>
     <ClCompile Include="istore\operation.cpp">
       <Filter>istore</Filter>
-    </ClCompile>
-    <ClCompile Include="function_address\operation.cpp">
-      <Filter>function_address</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -700,9 +670,6 @@
     <Filter Include="set_type">
       <UniqueIdentifier>{c67c970c-1b8e-4168-b7f8-1632d8bb096c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="synthesizer">
-      <UniqueIdentifier>{6eeb9301-9b16-44e0-bdc8-94e8d1fc9f83}</UniqueIdentifier>
-    </Filter>
     <Filter Include="void_type">
       <UniqueIdentifier>{98f744bb-e7a3-448a-8f59-a184dee5d418}</UniqueIdentifier>
     </Filter>
@@ -726,9 +693,6 @@
     </Filter>
     <Filter Include="istore">
       <UniqueIdentifier>{1d1e1e65-481d-40fd-975f-1828ef26a1ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="function_address">
-      <UniqueIdentifier>{2642413f-541b-45a4-9d55-dc85e1c21ac8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

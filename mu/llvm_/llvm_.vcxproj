@@ -39,7 +39,6 @@
     <ClInclude Include="constant_string\create.h" />
     <ClInclude Include="constant_string\extension.h" />
     <ClInclude Include="function\create.h" />
-    <ClInclude Include="function_address\operation.h" />
     <ClInclude Include="global_value\node.h" />
     <ClInclude Include="global_value\set_linkage.h" />
     <ClInclude Include="global_variable\create.h" />
@@ -57,10 +56,6 @@
     <ClInclude Include="set_type\extract.h" />
     <ClInclude Include="set_type\node.h" />
     <ClInclude Include="struct_type\create.h" />
-    <ClInclude Include="synthesizer\add.h" />
-    <ClInclude Include="synthesizer\create.h" />
-    <ClInclude Include="synthesizer\merge.h" />
-    <ClInclude Include="synthesizer\operation.h" />
     <ClInclude Include="type\build.h" />
     <ClInclude Include="cluster\node.h" />
     <ClInclude Include="constant\node.h" />
@@ -145,7 +140,6 @@
     <ClCompile Include="constant_string\create.cpp" />
     <ClCompile Include="constant_string\extension.cpp" />
     <ClCompile Include="function\create.cpp" />
-    <ClCompile Include="function_address\operation.cpp" />
     <ClCompile Include="global_value\node.cpp" />
     <ClCompile Include="global_value\set_linkage.cpp" />
     <ClCompile Include="global_variable\create.cpp" />
@@ -163,10 +157,6 @@
     <ClCompile Include="set_type\extract.cpp" />
     <ClCompile Include="set_type\node.cpp" />
     <ClCompile Include="struct_type\create.cpp" />
-    <ClCompile Include="synthesizer\add.cpp" />
-    <ClCompile Include="synthesizer\create.cpp" />
-    <ClCompile Include="synthesizer\merge.cpp" />
-    <ClCompile Include="synthesizer\operation.cpp" />
     <ClCompile Include="type\build.cpp" />
     <ClCompile Include="cluster\node.cpp" />
     <ClCompile Include="constant\node.cpp" />

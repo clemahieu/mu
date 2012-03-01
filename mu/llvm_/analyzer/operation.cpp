@@ -58,7 +58,6 @@
 #include <mu/llvm_/basic_block/split_return.h>
 #include <mu/llvm_/null/create.h>
 #include <mu/llvm_/ccall/operation.h>
-#include <mu/llvm_/function_address/operation.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/script_io/cluster.h>
@@ -68,6 +67,7 @@
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/argument/node.h>
+#include <mu/llvm_/cluster/node.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -79,13 +79,11 @@
 #include <llvm/Constants.h>
 
 mu::llvm_::analyzer::operation::operation ()
-	: extensions (new mu::io::analyzer::extensions::extensions),
-	address (boost::make_shared <mu::llvm_::function_address::operation> ())
+	: extensions (new mu::io::analyzer::extensions::extensions)
 {
 	context.context_m = boost::make_shared <mu::llvm_::context::node> (nullptr);
 	context.module = boost::make_shared <mu::llvm_::module::node> (nullptr);
 	context.block = boost::make_shared <mu::llvm_::basic_block::node> (nullptr);
-	extensions->extensions_m [std::wstring (L"&")] = boost::make_shared <mu::io::analyzer::extensions::global> (address);
 	extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <mu::llvm_::apint::extension> ();
 	extensions->extensions_m [std::wstring (L"#i")] = boost::make_shared <mu::llvm_::constant_int::extension> (context.context_m);
 	extensions->extensions_m [std::wstring (L"`")] = boost::make_shared <mu::llvm_::constant_string::extension> (context.context_m, context.module);
@@ -165,24 +163,25 @@ mu::llvm_::analyzer::operation::operation ()
 
 void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [0]));
-	if (one.get () != nullptr)
+	auto context_l (boost::dynamic_pointer_cast <mu::llvm_::context::node> (parameters [0]));
+	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [1]));
+	auto cluster (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [2]));
+	if (context_l.get () != nullptr)
 	{
-		std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
-		std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
-		auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, errors_a, &functions, &types, _1));
-		mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+		if (module.get () != nullptr)
 		{
-			auto i (one->expressions.begin ());
-			auto j (one->expressions.end ());
-			while (i != j && ! (*errors_a) ())
+			if (cluster.get () != nullptr)
 			{
-				auto value (*i);
-				if (value->individual_names.empty () && value->full_name->string.empty ())
+				context.context_m->context = context_l->context;
+				context.module->module = module->module;
+				std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
+				std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
+				auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, errors_a, &functions, &types, _1));
 				{
-					analyzer.input (*i);
-					++i;
-					if (i != j)
+					mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+					auto i (cluster->expressions.begin ());
+					auto j (cluster->expressions.end ());
+					while (i != j && ! (*errors_a) ())
 					{
 						auto value (*i);
 						if (value->individual_names.empty () && value->full_name->string.empty ())
@@ -191,58 +190,71 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 							++i;
 							if (i != j)
 							{
-								++i;
+								auto value (*i);
+								if (value->individual_names.empty () && value->full_name->string.empty ())
+								{
+									analyzer.input (*i);
+									++i;
+									if (i != j)
+									{
+										++i;
+									}
+									else
+									{
+										(*errors_a) (L"There is not a body routine for every argument/result pair");
+									}
+								}
+								else
+								{
+									(*errors_a) (L"Result routines cannot have names");
+								}
 							}
 							else
 							{
-								(*errors_a) (L"There is not a body routine for every argument/result pair");
+								(*errors_a) (L"There is not a result routine for every argument routine");
 							}
 						}
 						else
 						{
-							(*errors_a) (L"Result routines cannot have names");
+							(*errors_a) (L"Argument routines cannot have names");
 						}
 					}
-					else
+					mu::core::context context;
+					if (cluster->expressions.size () > 0)
 					{
-						(*errors_a) (L"There is not a result routine for every argument routine");
+						context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
 					}
+					analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 				}
-				else
 				{
-					(*errors_a) (L"Argument routines cannot have names");
+					auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, errors_a, &results, &functions, _1));
+					mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+					auto i (cluster->expressions.begin ());
+					auto j (cluster->expressions.end ());
+					size_t position (0);
+					while (i != j && ! (*errors_a) ())
+					{
+						++i;
+						++i;
+						analyzer.input (*i);
+						++i;
+					}
+					mu::core::context context;
+					if (cluster->expressions.size () > 0)
+					{
+						context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
+					}
+					analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 				}
 			}
-		}
-		{
-			mu::core::context context;
-			if (one->expressions.size () > 0)
+			else
 			{
-				context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
-			}
-			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
-		}
-		{
-			auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, errors_a, &functions, _1));
-			mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
-			auto i (one->expressions.begin ());
-			auto j (one->expressions.end ());
-			size_t position (0);
-			while (i != j && ! (*errors_a) ())
-			{
-				++i;
-				++i;
-				analyzer.input (*i);
-				++i;
+				invalid_type (errors_a, parameters [2], 2);
 			}
 		}
+		else
 		{
-			mu::core::context context;
-			if (one->expressions.size () > 0)
-			{
-				context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
-			}
-			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
+			invalid_type (errors_a, parameters [1], 1);
 		}
 	}
 	else
@@ -253,17 +265,27 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 
 size_t mu::llvm_::analyzer::operation::count ()
 {
-	return 1;
+	return 3;
 }
 
-void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
+void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 	mu::script_io::cluster cluster (cluster_a);
+	std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> script_mapping;
+	for (size_t i (0), j (cluster_a->routines.size ()); i != j; ++i)
+	{
+		script_mapping [cluster_a->routines [i]] = cluster.result->routines [i];
+	}
 	size_t position (0);
+	std::map <boost::shared_ptr <mu::script::runtime::routine>, boost::shared_ptr <mu::llvm_::function::node>> function_mapping;
+	auto result (boost::make_shared <mu::llvm_::cluster::node> ());
 	for (auto i (cluster.result->routines.begin ()), j (cluster.result->routines.end ()); i != j; ++i, ++position)
 	{
 		auto signature_routine (*i);
 		auto function ((*functions) [position]);
+		auto function_node (boost::make_shared <mu::llvm_::function::node> (function.first, function.second));
+		function_mapping [signature_routine] = function_node;
+		result->routines.push_back (function_node);
 		assert (function.first->getBasicBlockList ().size () == 0);
 		auto block (llvm::BasicBlock::Create (function.first->getContext ()));
 		function.first->getBasicBlockList ().push_back (block);
@@ -327,6 +349,15 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 			}
 		}
 	}
+	for (auto i (cluster_a->names.begin ()), j (cluster_a->names.end ()); i != j; ++i)
+	{
+		auto existing_script (script_mapping.find (i->second));
+		assert (existing_script != script_mapping.end ());
+		auto existing_function (function_mapping.find (existing_script->second));
+		assert (existing_function != function_mapping.end ());
+		result->names [i->first] = existing_function->second;
+	}
+	results->push_back (result);
 }
 
 void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a)
