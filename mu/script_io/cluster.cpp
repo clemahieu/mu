@@ -17,11 +17,9 @@ mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a
 	std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> remapping;
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
-		process_routine (*i);
-		auto existing (generated.find (*i));
-		assert (existing != generated.end ());
-		remapping [*i] = existing->second;
-		result->routines.push_back (existing->second);
+		auto routine (process_routine (*i));
+		remapping [*i] = routine;
+		result->routines.push_back (routine);
 	}
 	for (auto i (cluster_a->names.begin ()), j (cluster_a->names.end ()); i != j; ++i)
 	{
@@ -31,13 +29,19 @@ mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a
 	}
 }
 
-void mu::script_io::cluster::process_routine (boost::shared_ptr <mu::core::routine> routine_a)
+boost::shared_ptr <mu::script::runtime::routine> mu::script_io::cluster::process_routine (boost::shared_ptr <mu::core::routine> routine_a)
 {
+	boost::shared_ptr <mu::script::runtime::routine> result_l;
 	auto existing (generated.find (routine_a));
 	if (existing == generated.end ())
 	{
-		auto result_l (boost::make_shared <mu::script::runtime::routine> (result));
+		result_l = boost::make_shared <mu::script::runtime::routine> (result);
 		generated [routine_a] = result_l;
 		mu::script_io::routine routine (*this, routine_a, result_l);
 	}
+	else
+	{
+		result_l = existing->second;
+	}
+	return result_l;
 }

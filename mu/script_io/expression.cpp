@@ -58,8 +58,6 @@ void mu::script_io::expression::operator () (mu::core::node * node_a)
 void mu::script_io::expression::operator () (mu::core::routine * routine_a)
 {
 	auto value (boost::static_pointer_cast <mu::core::routine> (node));
-	cluster.process_routine (value);
-	auto existing (cluster.generated.find (value));
-	assert (existing != cluster.generated.end ());
-	call_m->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (existing->second));
+	auto routine (cluster.process_routine (value));
+	call_m->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (routine));
 }
