@@ -15,6 +15,7 @@
 #include <mu/script/runtime/parameters.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script_io/cluster.h>
+#include <mu/script_io/reference.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -58,6 +59,6 @@ void mu::script_io::expression::operator () (mu::core::node * node_a)
 void mu::script_io::expression::operator () (mu::core::routine * routine_a)
 {
 	auto value (boost::static_pointer_cast <mu::core::routine> (node));
-	auto routine (cluster.process_routine (value));
+	auto routine ((*cluster.reference) (value));
 	call_m->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (routine));
 }

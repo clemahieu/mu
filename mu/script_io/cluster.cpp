@@ -6,6 +6,7 @@
 #include <mu/script_io/routine.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/script_io/script.h>
 
 #include <vector>
 
@@ -15,6 +16,8 @@ mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a
 	: result (boost::make_shared <mu::script::cluster::node> ())
 {
 	std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> remapping;
+	mu::script_io::script script (*this);
+	reference = &script;
 	for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
 	{
 		auto routine (process_routine (*i));
