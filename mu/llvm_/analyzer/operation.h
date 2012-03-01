@@ -3,6 +3,10 @@
 #include <mu/llvm_/analyzer/context.h>
 #include <mu/script/fixed.h>
 
+namespace llvm
+{
+	class Function;
+}
 namespace mu
 {
 	namespace core
@@ -33,6 +37,14 @@ namespace mu
 		{
 			class operation;
 		}
+		namespace function
+		{
+			class node;
+		}
+		namespace function_type
+		{
+			class node;
+		}
 		namespace analyzer
 		{
 			class operation : public mu::script::fixed
@@ -41,7 +53,8 @@ namespace mu
 				operation ();
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
 				size_t count () override;
-				void add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a);
+				void finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a);
+				void finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a);
 				mu::llvm_::analyzer::context context;
 				boost::shared_ptr <mu::llvm_::function_address::operation> address;
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;

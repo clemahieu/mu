@@ -59,11 +59,24 @@
 #include <mu/llvm_/null/create.h>
 #include <mu/llvm_/ccall/operation.h>
 #include <mu/llvm_/function_address/operation.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/ast/identifier.h>
+#include <mu/script_io/cluster.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/values/operation.h>
+#include <mu/llvm_/function_type/node.h>
+#include <mu/llvm_/pointer_type/node.h>
+#include <mu/llvm_/function/node.h>
+#include <mu/llvm_/argument/node.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
 #include <llvm/ADT/APInt.h>
+#include <llvm/Function.h>
+#include <llvm/Module.h>
+#include <llvm/BasicBlock.h>
+#include <llvm/Constants.h>
 
 mu::llvm_::analyzer::operation::operation ()
 	: extensions (new mu::io::analyzer::extensions::extensions),
@@ -155,18 +168,82 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 	auto one (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [0]));
 	if (one.get () != nullptr)
 	{
-		auto function (boost::bind (&mu::llvm_::analyzer::operation::add, this, &results, _1));
+		std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
+		std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
+		auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, errors_a, &functions, &types, _1));
 		mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
-		for (auto i (one->expressions.begin ()), j (one->expressions.end ()); i != j; ++i)
 		{
-			analyzer.input (*i);
+			auto i (one->expressions.begin ());
+			auto j (one->expressions.end ());
+			while (i != j && ! (*errors_a) ())
+			{
+				auto value (*i);
+				if (value->individual_names.empty () && value->full_name->string.empty ())
+				{
+					analyzer.input (*i);
+					++i;
+					if (i != j)
+					{
+						auto value (*i);
+						if (value->individual_names.empty () && value->full_name->string.empty ())
+						{
+							analyzer.input (*i);
+							++i;
+							if (i != j)
+							{
+								++i;
+							}
+							else
+							{
+								(*errors_a) (L"There is not a body routine for every argument/result pair");
+							}
+						}
+						else
+						{
+							(*errors_a) (L"Result routines cannot have names");
+						}
+					}
+					else
+					{
+						(*errors_a) (L"There is not a result routine for every argument routine");
+					}
+				}
+				else
+				{
+					(*errors_a) (L"Argument routines cannot have names");
+				}
+			}
 		}
-		mu::core::context context;
-		if (one->expressions.size () > 0)
 		{
-			context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
+			mu::core::context context;
+			if (one->expressions.size () > 0)
+			{
+				context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
+			}
+			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}
-		analyzer.input (boost::make_shared <mu::io::ast::end> (context));
+		{
+			auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, errors_a, &functions, _1));
+			mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+			auto i (one->expressions.begin ());
+			auto j (one->expressions.end ());
+			size_t position (0);
+			while (i != j && ! (*errors_a) ())
+			{
+				++i;
+				++i;
+				analyzer.input (*i);
+				++i;
+			}
+		}
+		{
+			mu::core::context context;
+			if (one->expressions.size () > 0)
+			{
+				context = mu::core::context (one->expressions [one->expressions.size () - 1]->context.last, one->expressions [one->expressions.size () - 1]->context.last);
+			}
+			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
+		}
 	}
 	else
 	{
@@ -179,7 +256,131 @@ size_t mu::llvm_::analyzer::operation::count ()
 	return 1;
 }
 
-void mu::llvm_::analyzer::operation::add (std::vector <boost::shared_ptr <mu::core::node>> * results, boost::shared_ptr <mu::core::cluster> cluster_a)
+void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
 {
-	results->push_back (cluster_a);
+	mu::script_io::cluster cluster (cluster_a);
+	size_t position (0);
+	for (auto i (cluster.result->routines.begin ()), j (cluster.result->routines.end ()); i != j; ++i, ++position)
+	{
+		auto signature_routine (*i);
+		auto function ((*functions) [position]);
+		assert (function.first->getBasicBlockList ().size () == 0);
+		auto block (llvm::BasicBlock::Create (function.first->getContext ()));
+		function.first->getBasicBlockList ().push_back (block);
+		context.block->block = block;
+		std::vector <boost::shared_ptr <mu::core::node>> arguments;
+		{
+			auto k (function.second->parameters.begin ());
+			auto l (function.second->parameters.end ());
+			for (auto i (function.first->arg_begin ()), j (function.first->arg_end ()); i != j; ++i, ++k)
+			{
+				llvm::Argument * argument (i);
+				arguments.push_back (boost::make_shared <mu::llvm_::argument::node> (argument, *k));
+			}
+		}
+		std::vector <boost::shared_ptr <mu::core::node>> results;
+		signature_routine->perform (errors_a, arguments, results);						
+		if (!(*errors_a) ())
+		{
+			std::vector <llvm::Type *> types;
+			std::vector <llvm::Value *> values;
+			for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
+			{
+				auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
+				if (value.get () != nullptr)
+				{
+					auto value_l (value->value ());
+					if (!value_l->getType ()->isVoidTy ())
+					{
+						types.push_back (value->type->type ());
+						values.push_back (value->value ());
+					}
+				}
+				else
+				{
+					(*errors_a) (L"Body routine returned something that wasn't a value");
+				}
+			}
+			if (!(*errors_a) ())
+			{
+				if (values.size () == 0)
+				{
+					context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (context.module->module->getContext ()));
+				}
+				else if (values.size () == 1)
+				{
+					context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (context.module->module->getContext (), values [0]));
+				}
+				else
+				{
+					auto ret_type (llvm::StructType::get (context.module->module->getContext (), types));
+					llvm::Value * result (llvm::UndefValue::get (ret_type));
+					size_t position (0);
+					for (auto i (values.begin ()), j (values.end ()); i != j; ++i, ++position)
+					{
+						auto instruction (llvm::InsertValueInst::Create (result, *i, position));
+						result = instruction;
+						context.block->block->getInstList ().push_back (instruction);
+					}
+					context.block->block->getInstList ().push_back (llvm::ReturnInst::Create (context.module->module->getContext (), result));
+				}
+			}
+		}
+	}
+}
+
+void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a)
+{
+	mu::script_io::cluster cluster (cluster_a);
+	assert (cluster.result->routines.size () % 2 == 0);
+	assert (cluster.result->names.empty ());	
+	for (auto i (cluster.result->routines.begin ()), j (cluster.result->routines.end ()); i != j; ++i)
+	{
+		std::vector <boost::shared_ptr <mu::core::node>> a1;
+		std::vector <boost::shared_ptr <mu::core::node>> r1;
+		(*i)->perform (errors_a, a1, r1);
+		if (!(*errors_a) ())
+		{
+			++i;
+			std::vector <boost::shared_ptr <mu::core::node>> a2;
+			std::vector <boost::shared_ptr <mu::core::node>> r2;
+			(*i)->perform (errors_a, a2, r2);
+			if (!(*errors_a) ())
+			{
+				auto arguments (boost::make_shared <mu::script::values::operation> ());
+				for (auto i (r1.begin ()), j (r1.end ()); i != j; ++i)
+				{
+					arguments->values.push_back (*i);
+				}
+				auto results (boost::make_shared <mu::script::values::operation> ());
+				for (auto i (r2.begin ()), j (r2.end ()); i != j; ++i)
+				{
+					results->values.push_back (*i);
+				}
+				auto function_type_create (boost::make_shared <mu::llvm_::function_type::create> ());
+				std::vector <boost::shared_ptr <mu::core::node>> a3;
+				std::vector <boost::shared_ptr <mu::core::node>> r3;
+				a3.push_back (context.context_m);
+				a3.push_back (arguments);
+				a3.push_back (results);
+				function_type_create->perform (errors_a, a3, r3);
+				if (!(*errors_a) ())
+				{
+					auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (r3 [0]));
+					if (function_type.get () != nullptr)
+					{
+						auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::PrivateLinkage));
+						context.module->module->getFunctionList ().push_back (function);
+						functions->push_back (std::pair <llvm::Function *, boost::shared_ptr <mu::llvm_::function_type::node>> (function, function_type));
+						auto fun (boost::make_shared <mu::llvm_::function::node> (function, boost::make_shared <mu::llvm_::pointer_type::node> (function_type)));
+						types->push_back (fun);
+					}
+					else
+					{
+						(*errors_a) (L"Signature routine did not return a function_type");
+					}
+				}
+			}
+		}
+	}
 }
