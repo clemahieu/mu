@@ -271,12 +271,12 @@ size_t mu::llvm_::analyzer::operation::count ()
 }
 
 void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
-{
-	mu::script_io::cluster cluster (cluster_a);
+{	
 	for (size_t i (0), j (cluster_a->routines.size ()); i != j; ++i)
 	{
-		reference_m->script_mapping [cluster_a->routines [i]] = cluster.result->routines [i];
+		reference_m->mapping [cluster_a->routines [i]] = (*functions) [i].first;
 	}
+	mu::script_io::cluster cluster (cluster_a, reference_m);
 	size_t position (0);
 	auto result (boost::make_shared <mu::llvm_::cluster::node> ());
 	for (auto i (cluster.result->routines.begin ()), j (cluster.result->routines.end ()); i != j; ++i, ++position)
@@ -284,7 +284,6 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 		auto signature_routine (*i);
 		auto function ((*functions) [position]);
 		auto function_node (function.first);
-		reference_m->function_mapping [signature_routine] = function_node;
 		result->routines.push_back (function_node);
 		assert (function_node->function ()->getBasicBlockList ().size () == 0);
 		auto block (llvm::BasicBlock::Create (function_node->function ()->getContext ()));
@@ -351,18 +350,16 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 	}
 	for (auto i (cluster_a->names.begin ()), j (cluster_a->names.end ()); i != j; ++i)
 	{
-		auto existing_script (reference_m->script_mapping.find (i->second));
-		assert (existing_script != reference_m->script_mapping.end ());
-		auto existing_function (reference_m->function_mapping.find (existing_script->second));
-		assert (existing_function != reference_m->function_mapping.end ());
-		result->names [i->first] = existing_function->second;
+		auto existing (reference_m->mapping.find (i->second));
+		assert (existing != reference_m->mapping.end ());
+		result->names [i->first] = existing->second;
 	}
 	results->push_back (result);
 }
 
 void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a)
 {
-	mu::script_io::cluster cluster (cluster_a, reference_m);
+	mu::script_io::cluster cluster (cluster_a);
 	assert (cluster.result->routines.size () % 2 == 0);
 	assert (cluster.result->names.empty ());	
 	for (auto i (cluster.result->routines.begin ()), j (cluster.result->routines.end ()); i != j; ++i)
@@ -402,8 +399,8 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 					{
 						auto function (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::PrivateLinkage));
 						context.module->module->getFunctionList ().push_back (function);
-						functions->push_back (std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>> (boost::make_shared <llvm_::function::node> (function, function_type), function_type));
 						auto fun (boost::make_shared <mu::llvm_::function::node> (function, boost::make_shared <mu::llvm_::pointer_type::node> (function_type)));
+						functions->push_back (std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>> (fun, function_type));
 						types->push_back (fun);
 					}
 					else
@@ -412,6 +409,6 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 					}
 				}
 			}
-		}
+		}	
 	}
 }

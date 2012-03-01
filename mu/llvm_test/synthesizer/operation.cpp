@@ -37,11 +37,11 @@ void mu::llvm_test::synthesizer::operation::run ()
 	run_7 ();
 	run_8 ();
 	run_9 ();
-	//run_10 ();
-	//run_11 ();
+	run_10 ();
+	run_11 ();
 	run_12 ();
-	//run_13 ();
-	//run_14 ();
+	run_13 ();
+	run_14 ();
 }
 
 void mu::llvm_test::synthesizer::operation::run_1 ()
