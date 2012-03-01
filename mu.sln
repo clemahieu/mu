@@ -85,6 +85,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{EB50CA
 		mu\source\script.mu = mu\source\script.mu
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "llvm_binary", "mu\llvm_binary\llvm_binary.vcxproj", "{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0365160D-8CA1-4266-8803-22A0B49A5A7F} = {0365160D-8CA1-4266-8803-22A0B49A5A7F}
+		{2C963EBA-31F9-446C-9572-62A87D1E1FF5} = {2C963EBA-31F9-446C-9572-62A87D1E1FF5}
+		{BF0B29D9-E099-454D-A28C-3625309A182D} = {BF0B29D9-E099-454D-A28C-3625309A182D}
+		{7AB695DE-E9F4-4848-9E48-C1A4FC05B295} = {7AB695DE-E9F4-4848-9E48-C1A4FC05B295}
+		{6E7EC1DF-205B-4A75-B3F2-7364E315FABB} = {6E7EC1DF-205B-4A75-B3F2-7364E315FABB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -234,6 +243,13 @@ Global
 		{63C5591F-DDCF-4E18-AA33-7D34D842E6E9}.Release|Win32.ActiveCfg = Release|Win32
 		{63C5591F-DDCF-4E18-AA33-7D34D842E6E9}.Release|Win32.Build.0 = Release|Win32
 		{63C5591F-DDCF-4E18-AA33-7D34D842E6E9}.Release|x64.ActiveCfg = Release|Win32
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Debug|Win32.Build.0 = Debug|Win32
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Debug|x64.ActiveCfg = Debug|x64
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Debug|x64.Build.0 = Debug|x64
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Release|Win32.ActiveCfg = Release|Win32
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Release|Win32.Build.0 = Release|Win32
+		{C21A7EDB-6FDC-4BD3-AD20-5A1B6CB71670}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

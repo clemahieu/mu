@@ -1,1 +1,1 @@
-[.quit ;; thing]
+[quit ;; thing]

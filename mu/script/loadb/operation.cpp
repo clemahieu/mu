@@ -30,9 +30,19 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 				case 0x6d6ecf1f10200f:
 					{
 						auto extensions_address (GetProcAddress (library, "extensions"));
-						auto extensions_function ((boost::shared_ptr <mu::script::extensions::node> (*) ()) (extensions_address));
-						auto extensions (extensions_function ());
-						results.push_back (extensions);
+						if (extensions_address != nullptr)
+						{
+							auto extensions_function ((boost::shared_ptr <mu::script::extensions::node> (*) ()) (extensions_address));
+							auto extensions (extensions_function ());
+							results.push_back (extensions);
+						}
+						else
+						{
+							std::wstringstream message;
+							message << L"Function: 'extensions' does not exist in library: ";
+							message << path.string ().c_str ();
+							(*errors_a) (message.str ());
+						}
 					}
 					break;
 				default:
