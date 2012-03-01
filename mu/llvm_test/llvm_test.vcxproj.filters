@@ -11,7 +11,6 @@
     <ClCompile Include="linker\link_modules.cpp">
       <Filter>linker</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer.cpp" />
     <ClCompile Include="extension.cpp" />
     <ClCompile Include="types\integer.cpp">
       <Filter>types</Filter>
@@ -22,9 +21,6 @@
     <ClCompile Include="instruction_package.cpp" />
     <ClCompile Include="function_type\create.cpp">
       <Filter>function_type</Filter>
-    </ClCompile>
-    <ClCompile Include="synthesizer\operation.cpp">
-      <Filter>synthesizer</Filter>
     </ClCompile>
     <ClCompile Include="function\create.cpp">
       <Filter>function</Filter>
@@ -44,6 +40,9 @@
     <ClCompile Include="ccall\operation.cpp">
       <Filter>ccall</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\operation.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -56,7 +55,6 @@
     <ClInclude Include="linker\link_modules.h">
       <Filter>linker</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer.h" />
     <ClInclude Include="extension.h" />
     <ClInclude Include="types\integer.h">
       <Filter>types</Filter>
@@ -67,9 +65,6 @@
     <ClInclude Include="instruction_package.h" />
     <ClInclude Include="function_type\create.h">
       <Filter>function_type</Filter>
-    </ClInclude>
-    <ClInclude Include="synthesizer\operation.h">
-      <Filter>synthesizer</Filter>
     </ClInclude>
     <ClInclude Include="function\create.h">
       <Filter>function</Filter>
@@ -89,6 +84,9 @@
     <ClInclude Include="ccall\operation.h">
       <Filter>ccall</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer\operation.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="module">
@@ -106,9 +104,6 @@
     <Filter Include="function_type">
       <UniqueIdentifier>{55a25d32-c646-4129-bc89-2c3d8101f0c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="synthesizer">
-      <UniqueIdentifier>{66509853-d9ae-4d04-bebb-d4106420b1d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="function">
       <UniqueIdentifier>{3049b787-b11b-4489-b6d2-10fce8cc5230}</UniqueIdentifier>
     </Filter>
@@ -123,6 +118,9 @@
     </Filter>
     <Filter Include="ccall">
       <UniqueIdentifier>{a801bbac-dea1-414a-bbb3-8c035d5c9871}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{66509853-d9ae-4d04-bebb-d4106420b1d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -3,13 +3,12 @@
 #include <mu/llvm_test/module/get_package.h>
 #include <mu/llvm_test/module/add_package.h>
 #include <mu/llvm_test/linker/link_modules.h>
-#include <mu/llvm_test/analyzer.h>
 #include <mu/llvm_test/extension.h>
 #include <mu/llvm_test/types/integer.h>
 #include <mu/llvm_test/basic_block/insert.h>
 #include <mu/llvm_test/instruction_package.h>
 #include <mu/llvm_test/function_type/create.h>
-#include <mu/llvm_test/synthesizer/operation.h>
+#include <mu/llvm_test/analyzer/operation.h>
 #include <mu/llvm_test/function/create.h>
 #include <mu/llvm_test/constant_string/extension.h>
 #include <mu/llvm_test/instructions/call.h>
@@ -63,10 +62,6 @@ void mu::llvm_test::tests::run ()
 		test.run ();
 	}
 	{
-		analyzer test;
-		test.run ();
-	}
-	{
 		extension test;
 		test.run ();
 	}
@@ -95,7 +90,7 @@ void mu::llvm_test::tests::run ()
 		test.run ();
 	}
 	{
-		mu::llvm_test::synthesizer::operation test;
+		mu::llvm_test::analyzer::operation test;
 		test.run ();
 	}
 	{

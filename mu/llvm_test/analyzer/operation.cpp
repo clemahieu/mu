@@ -26,7 +26,7 @@
 
 #include <sstream>
 
-void mu::llvm_test::synthesizer::operation::run ()
+void mu::llvm_test::analyzer::operation::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -44,7 +44,7 @@ void mu::llvm_test::synthesizer::operation::run ()
 	run_14 ();
 }
 
-void mu::llvm_test::synthesizer::operation::run_1 ()
+void mu::llvm_test::analyzer::operation::run_1 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -79,7 +79,7 @@ void mu::llvm_test::synthesizer::operation::run_1 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_2 ()
+void mu::llvm_test::analyzer::operation::run_2 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -119,7 +119,7 @@ void mu::llvm_test::synthesizer::operation::run_2 ()
 	assert (ptr->getElementType ()->isFunctionTy ());
 }
 
-void mu::llvm_test::synthesizer::operation::run_3 ()
+void mu::llvm_test::analyzer::operation::run_3 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -154,7 +154,7 @@ void mu::llvm_test::synthesizer::operation::run_3 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_4 ()
+void mu::llvm_test::analyzer::operation::run_4 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -189,7 +189,7 @@ void mu::llvm_test::synthesizer::operation::run_4 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_5 ()
+void mu::llvm_test::analyzer::operation::run_5 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -224,7 +224,7 @@ void mu::llvm_test::synthesizer::operation::run_5 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_6 ()
+void mu::llvm_test::analyzer::operation::run_6 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -259,7 +259,7 @@ void mu::llvm_test::synthesizer::operation::run_6 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_7 ()
+void mu::llvm_test::analyzer::operation::run_7 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -294,7 +294,7 @@ void mu::llvm_test::synthesizer::operation::run_7 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_8 ()
+void mu::llvm_test::analyzer::operation::run_8 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -329,7 +329,7 @@ void mu::llvm_test::synthesizer::operation::run_8 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_9 ()
+void mu::llvm_test::analyzer::operation::run_9 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -396,7 +396,7 @@ void mu::llvm_test::synthesizer::operation::run_9 ()
 	assert (cluster->names.size () == 0);
 }
 
-void mu::llvm_test::synthesizer::operation::run_10 ()
+void mu::llvm_test::analyzer::operation::run_10 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -442,7 +442,7 @@ void mu::llvm_test::synthesizer::operation::run_10 ()
 	assert (n2->second == rout2);
 }
 
-void mu::llvm_test::synthesizer::operation::run_11 ()
+void mu::llvm_test::analyzer::operation::run_11 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -488,7 +488,7 @@ void mu::llvm_test::synthesizer::operation::run_11 ()
 	assert (n2->second == rout2);
 }
 
-void mu::llvm_test::synthesizer::operation::run_12 ()
+void mu::llvm_test::analyzer::operation::run_12 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -511,7 +511,7 @@ void mu::llvm_test::synthesizer::operation::run_12 ()
 	assert (builder.errors->errors.empty ());
 }
 
-void mu::llvm_test::synthesizer::operation::run_13 ()
+void mu::llvm_test::analyzer::operation::run_13 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -557,7 +557,7 @@ void mu::llvm_test::synthesizer::operation::run_13 ()
 	assert (n2->second == rout2);
 }
 
-void mu::llvm_test::synthesizer::operation::run_14 ()
+void mu::llvm_test::analyzer::operation::run_14 ()
 {
 	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));

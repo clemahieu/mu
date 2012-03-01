@@ -4,7 +4,7 @@ namespace mu
 {
 	namespace llvm_test
 	{
-		namespace synthesizer
+		namespace analyzer
 		{
 			class operation
 			{
