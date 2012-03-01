@@ -68,6 +68,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_entry", "mu\repl_entry
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl_test", "mu\repl_test\repl_test.vcxproj", "{B625C2F2-EFC9-4809-A2CA-7145A7446E58}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CEB0251F-5844-4E27-B668-052435A452DC} = {CEB0251F-5844-4E27-B668-052435A452DC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "repl", "mu\repl\repl.vcxproj", "{CEB0251F-5844-4E27-B668-052435A452DC}"
 EndProject
