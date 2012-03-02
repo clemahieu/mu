@@ -9,6 +9,7 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
+#include <mu/script/analyzer/operation.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -27,21 +28,26 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 			if (file.get () != nullptr)
 			{
 				mu::script::load::operation load;
-				auto cluster (load.core (errors_a, extensions, file));
+				auto ast (load.core (errors_a, file));
 				if (! (*errors_a) ())
 				{
-					if (cluster->routines.size () > 0)
+					mu::script::analyzer::operation analyzer;
+					auto cluster (analyzer.core (errors_a, extensions, ast));
+					if (! (*errors_a) ())
 					{
-						auto routine (cluster->routines [0]);
-						std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
-						routine->perform (errors_a, arguments, results);
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"Cluster does not contain a routine: ";
-						message << cluster->routines.size ();
-						(*errors_a) (message.str ());
+						if (cluster->routines.size () > 0)
+						{
+							auto routine (cluster->routines [0]);
+							std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
+							routine->perform (errors_a, arguments, results);
+						}
+						else
+						{
+							std::wstringstream message;
+							message << L"Cluster does not contain a routine: ";
+							message << cluster->routines.size ();
+							(*errors_a) (message.str ());
+						}
 					}
 				}
 			}

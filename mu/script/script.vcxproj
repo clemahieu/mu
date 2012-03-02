@@ -134,7 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="analyzer\node.cpp" />
+    <ClCompile Include="analyzer\operation.cpp" />
     <ClCompile Include="astring\truncate.cpp" />
     <ClCompile Include="ast\extension.cpp" />
     <ClCompile Include="astring\extension.cpp" />
@@ -195,7 +195,7 @@
     <ClCompile Include="values\operation.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="analyzer\node.h" />
+    <ClInclude Include="analyzer\operation.h" />
     <ClInclude Include="astring\truncate.h" />
     <ClInclude Include="ast\extension.h" />
     <ClInclude Include="astring\extension.h" />

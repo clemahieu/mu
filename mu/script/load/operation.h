@@ -4,13 +4,20 @@
 
 namespace mu
 {
+	namespace core
+	{
+		class cluster;
+	}
+	namespace io
+	{
+		namespace ast
+		{
+			class cluster;
+		}
+	}
 	namespace script
 	{
 		namespace string
-		{
-			class node;
-		}
-		namespace extensions
 		{
 			class node;
 		}
@@ -24,7 +31,7 @@ namespace mu
 			{
 			public:
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
-				boost::shared_ptr <mu::script::cluster::node> core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file);
+				boost::shared_ptr <mu::io::ast::cluster> core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::string::node> file);
 				size_t count () override;
 			};
 		}

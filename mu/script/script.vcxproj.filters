@@ -106,9 +106,6 @@
     <ClCompile Include="ast\read_from_file.cpp">
       <Filter>ast</Filter>
     </ClCompile>
-    <ClCompile Include="analyzer\node.cpp">
-      <Filter>analyzer</Filter>
-    </ClCompile>
     <ClCompile Include="astring\truncate.cpp">
       <Filter>astring</Filter>
     </ClCompile>
@@ -173,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="load\operation.cpp">
       <Filter>load</Filter>
+    </ClCompile>
+    <ClCompile Include="analyzer\operation.cpp">
+      <Filter>analyzer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +281,6 @@
     <ClInclude Include="ast\read_from_file.h">
       <Filter>ast</Filter>
     </ClInclude>
-    <ClInclude Include="analyzer\node.h">
-      <Filter>analyzer</Filter>
-    </ClInclude>
     <ClInclude Include="astring\truncate.h">
       <Filter>astring</Filter>
     </ClInclude>
@@ -348,6 +345,9 @@
     </ClInclude>
     <ClInclude Include="load\operation.h">
       <Filter>load</Filter>
+    </ClInclude>
+    <ClInclude Include="analyzer\operation.h">
+      <Filter>analyzer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

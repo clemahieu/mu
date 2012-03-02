@@ -49,6 +49,9 @@
     <ClCompile Include="loads\operation.cpp">
       <Filter>loads</Filter>
     </ClCompile>
+    <ClCompile Include="analyzer\operation.cpp">
+      <Filter>analyzer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tests.h" />
@@ -99,6 +102,9 @@
     <ClInclude Include="loads\operation.h">
       <Filter>loads</Filter>
     </ClInclude>
+    <ClInclude Include="analyzer\operation.h">
+      <Filter>analyzer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="package">
@@ -130,6 +136,9 @@
     </Filter>
     <Filter Include="loads">
       <UniqueIdentifier>{eafe9bb6-c873-48b8-8945-adf4bbf4bb1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="analyzer">
+      <UniqueIdentifier>{974958c5-f292-4160-ac59-4af41cc562c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

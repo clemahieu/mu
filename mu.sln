@@ -80,8 +80,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "binary_test", "mu\binary_te
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script_binary", "mu\script_binary\script_binary.vcxproj", "{A9928F96-6965-4A18-A3AF-8F7DDD7C3690}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AB695DE-E9F4-4848-9E48-C1A4FC05B295} = {7AB695DE-E9F4-4848-9E48-C1A4FC05B295}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "script_core_binary", "mu\script_core_binary\script_core_binary.vcxproj", "{63C5591F-DDCF-4E18-AA33-7D34D842E6E9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7AB695DE-E9F4-4848-9E48-C1A4FC05B295} = {7AB695DE-E9F4-4848-9E48-C1A4FC05B295}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{EB50CA6B-AAEA-4D7A-B7AC-D784D5512BCF}"
 	ProjectSection(SolutionItems) = preProject
