@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += console
+CONFIG += static
 CONFIG -= qt
 
 SOURCES += \

@@ -1,10 +1,10 @@
 #include "routine.h"
 
 #include <mu/io_test/analyzer_result.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/io/parser/parser.h>
-#include <mu/io/lexer/lexer.h>
-#include <mu/io/analyzer/analyzer.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/io/parser.parser.h>
+#include <mu/io/lexer.lexer.h>
+#include <mu/io/analyzer.analyzer.h>
 #include <mu/io/source.h>
 
 #include <boost/shared_ptr.hpp>

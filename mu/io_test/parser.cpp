@@ -1,16 +1,16 @@
 #include "parser.h"
 
-#include <mu/io/parser/parser.h>
+#include <mu/io/parser.parser.h>
 #include <mu/io_test/parser_result.h>
-#include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/divider.h>
-#include <mu/io/tokens/identifier.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/right_square.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>
-#include <mu/io/ast/end.h>
-#include <mu/core/errors/error_list.h>
+#include <mu/io/tokens.stream_end.h>
+#include <mu/io/tokens.divider.h>
+#include <mu/io/tokens.identifier.h>
+#include <mu/io/tokens.left_square.h>
+#include <mu/io/tokens.right_square.h>
+#include <mu/io/ast.expression.h>
+#include <mu/io/ast.identifier.h>
+#include <mu/io/ast.end.h>
+#include <mu/core/errors.error_list.h>
 
 #include <boost/bind.hpp>
 

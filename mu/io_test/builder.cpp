@@ -6,11 +6,11 @@
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/expression.h>
-#include <mu/io/ast/parameters.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/io/ast/cluster.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>
+#include <mu/io/ast.parameters.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/io/ast.cluster.h>
+#include <mu/io/ast.expression.h>
+#include <mu/io/ast.identifier.h>
 
 #include <boost/bind.hpp>
 

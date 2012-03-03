@@ -1,8 +1,8 @@
 #include "hex_code.h"
 
 #include <mu/io_test/lexer_result.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/io/lexer/lexer.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/io/lexer.lexer.h>
 #include <mu/io/source.h>
 
 #include <boost/shared_ptr.hpp>

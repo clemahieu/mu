@@ -1,6 +1,6 @@
 #include "extension4.h"
 
-#include <mu/io/analyzer/expression.h>
+#include <mu/io/analyzer.expression.h>
 #include <mu/core/expression.h>
 
 void mu::io_test::extension4::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
