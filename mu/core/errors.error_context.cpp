@@ -1,4 +1,4 @@
-#include "error_context.h"
+#include "errors.error_context.h"
 
 mu::core::errors::error_context::error_context (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::core::context context_a)
 	: target (target_a),

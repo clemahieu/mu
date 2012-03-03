@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/errors/error_target.h>
+#include <mu/core/errors.error_target.h>
 
 #include <boost/shared_ptr.hpp>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/errors/error.h>
+#include <mu/core/errors.error.h>
 
 namespace mu
 {

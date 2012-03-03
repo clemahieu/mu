@@ -1,6 +1,6 @@
-#include "error_target.h"
+#include "errors.error_target.h"
 
-#include <mu/core/errors/string_error.h>
+#include <mu/core/errors.string_error.h>
 
 void mu::core::errors::error_target::operator () (std::wstring error)
 {
