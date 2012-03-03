@@ -1,8 +1,8 @@
-#include "link_modules.h"
+#include <mu/llvm_test/linker.link_modules.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/linker/link_modules.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/llvm_/module.node.h>
+#include <mu/llvm_/linker.link_modules.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Function.h>

@@ -1,9 +1,9 @@
-#include "get_package.h"
+#include <mu/llvm_test/module.get_package.h>
 
-#include <mu/llvm_/module/get_package.h>
-#include <mu/llvm_/function/node.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/llvm_/module.get_package.h>
+#include <mu/llvm_/function.node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/llvm_/module.node.h>
 #include <mu/script/package/node.h>
 #include <mu/script/astring/node.h>
 

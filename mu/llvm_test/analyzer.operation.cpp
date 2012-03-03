@@ -1,19 +1,19 @@
-#include "operation.h"
+#include <mu/llvm_test/analyzer.operation.h>
 
 #include <mu/io/source.h>
 #include <mu/script_io/builder.h>
-#include <mu/llvm_/analyzer/operation.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/llvm_/analyzer.operation.h>
+#include <mu/llvm_/module.node.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
-#include <mu/io/ast/cluster.h>
-#include <mu/llvm_/module/print.h>
-#include <mu/llvm_/module/verify.h>
+#include <mu/io/ast.cluster.h>
+#include <mu/llvm_/module.print.h>
+#include <mu/llvm_/module.verify.h>
 #include <mu/io/builder.h>
-#include <mu/llvm_/cluster/node.h>
-#include <mu/llvm_/function/node.h>
-#include <mu/llvm_/type/node.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/cluster.node.h>
+#include <mu/llvm_/function.node.h>
+#include <mu/llvm_/type.node.h>
+#include <mu/llvm_/context.node.h>
 
 #include <boost/bind.hpp>
 
@@ -365,7 +365,7 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	code << L"[~ [i32] [i32]] [~ [i32]] [urem [:~]]";
 	code << L"[~ [i32] [i32]] [~ [i32]] [xor [:~]]";
 	code << L"[~ [i32]] [~ [i64]] [zext [:~] [i64]]";
-	source (code.str ());
+    source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;

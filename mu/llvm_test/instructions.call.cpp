@@ -1,16 +1,16 @@
-#include "call.h"
+#include <mu/llvm_test/instructions.call.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/llvm_/instructions/call.h>
-#include <mu/llvm_/value/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/context/node.h>
-#include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/void_type/node.h>
-#include <mu/llvm_/set_type/node.h>
-#include <mu/llvm_/instruction/node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/llvm_/instructions.call.h>
+#include <mu/llvm_/value.node.h>
+#include <mu/llvm_/pointer_type.node.h>
+#include <mu/llvm_/context.node.h>
+#include <mu/llvm_/function_type.node.h>
+#include <mu/llvm_/integer_type.node.h>
+#include <mu/llvm_/constant_int.node.h>
+#include <mu/llvm_/void_type.node.h>
+#include <mu/llvm_/set_type.node.h>
+#include <mu/llvm_/instruction.node.h>
 
 #include <boost/make_shared.hpp>
 

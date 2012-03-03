@@ -1,20 +1,20 @@
 #include "tests.h"
 
-#include <mu/llvm_test/module/get_package.h>
-#include <mu/llvm_test/module/add_package.h>
-#include <mu/llvm_test/linker/link_modules.h>
+#include <mu/llvm_test/module.get_package.h>
+#include <mu/llvm_test/module.add_package.h>
+#include <mu/llvm_test/linker.link_modules.h>
 #include <mu/llvm_test/extension.h>
-#include <mu/llvm_test/types/integer.h>
-#include <mu/llvm_test/basic_block/insert.h>
+#include <mu/llvm_test/types.integer.h>
+#include <mu/llvm_test/basic_block.insert.h>
 #include <mu/llvm_test/instruction_package.h>
-#include <mu/llvm_test/function_type/create.h>
-#include <mu/llvm_test/analyzer/operation.h>
-#include <mu/llvm_test/function/create.h>
-#include <mu/llvm_test/constant_string/extension.h>
-#include <mu/llvm_test/instructions/call.h>
-#include <mu/llvm_test/constant_string/create.h>
-#include <mu/llvm_test/global_variable/create_set.h>
-#include <mu/llvm_test/ccall/operation.h>
+#include <mu/llvm_test/function_type.create.h>
+#include <mu/llvm_test/analyzer.operation.h>
+#include <mu/llvm_test/function.create.h>
+#include <mu/llvm_test/constant_string.extension.h>
+#include <mu/llvm_test/instructions.call.h>
+#include <mu/llvm_test/constant_string.create.h>
+#include <mu/llvm_test/global_variable.create_set.h>
+#include <mu/llvm_test/ccall.operation.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

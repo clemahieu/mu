@@ -1,12 +1,12 @@
-#include "create_set.h"
+#include <mu/llvm_test/global_variable.create_set.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/llvm_/global_variable/create_set.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/global_variable/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/llvm_/global_variable.create_set.h>
+#include <mu/llvm_/constant_int.node.h>
+#include <mu/llvm_/integer_type.node.h>
+#include <mu/llvm_/global_variable.node.h>
+#include <mu/llvm_/pointer_type.node.h>
+#include <mu/llvm_/module.node.h>
 
 #include <boost/make_shared.hpp>
 
