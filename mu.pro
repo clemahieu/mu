@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     mu/core \
-    mu/core_test
+    mu/core_test \
+    mu/io

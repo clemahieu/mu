@@ -1,7 +1,7 @@
 #include "source.h"
 
-#include <mu/io/lexer/character_stream.h>
-#include <mu/io/lexer/wistream_input.h>
+#include <mu/io/lexer.character_stream.h>
+#include <mu/io/lexer.wistream_input.h>
 
 #include <sstream>
 
