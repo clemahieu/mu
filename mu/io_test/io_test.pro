@@ -59,7 +59,8 @@ SOURCES += \
     analyzer_result.cpp
 
 INCLUDEPATH += \
-    $(BASE)
+    $(BASE) \
+    $(BASE)/boost
 
 QMAKE_CXXFLAGS += \
     -std=c++0x

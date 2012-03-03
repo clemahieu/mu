@@ -98,7 +98,8 @@ HEADERS += \
     lexer.lexer.h
 
 INCLUDEPATH += \
-    $(BASE)
+    $(BASE) \
+    $(BASE)/boost
 
 QMAKE_CXXFLAGS += \
     -std=c++0x
