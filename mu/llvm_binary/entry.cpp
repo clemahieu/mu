@@ -38,9 +38,9 @@
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
 
-boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
+extern "C" boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
 
-boost::shared_ptr <mu::script::extensions::node> extensions ()
+extern "C" boost::shared_ptr <mu::script::extensions::node> extensions ()
 {
 	llvm::InitializeNativeTarget ();
     llvm::InitializeNativeTargetAsmPrinter ();

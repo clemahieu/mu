@@ -11,9 +11,9 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
-boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
+extern "C" boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
 
-boost::shared_ptr <mu::script::extensions::node> extensions ()
+extern "C" boost::shared_ptr <mu::script::extensions::node> extensions ()
 {
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	result->extensions->extensions_m [std::wstring (L"~")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::identity::operation> ());

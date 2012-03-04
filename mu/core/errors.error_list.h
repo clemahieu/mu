@@ -19,6 +19,7 @@ namespace mu
 				std::vector <std::pair <boost::shared_ptr <mu::core::errors::error>, mu::core::context>> errors;
 				void operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a) override;
 				bool operator () () override;
+                void print () override;
 			};
 		}
 	}

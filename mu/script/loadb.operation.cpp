@@ -4,7 +4,7 @@
 #include <mu/script/string.node.h>
 #include <mu/script/extensions.node.h>
 
-//#include <Windows.h>
+#include <dlfcn.h>
 
 #include <sstream>
 
@@ -12,16 +12,15 @@
 
 void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-    assert (false);
-/*	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
+    auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{		
 		auto path (boost::filesystem::initial_path ());
 		path /= std::string (one->string.begin (), one->string.end ());
-		auto library (LoadLibrary (path.string ().c_str ()));
+        auto library (dlopen (path.string ().c_str (), RTLD_NOW));
 		if (library != NULL)
 		{
-			auto version_address (GetProcAddress (library, "version_554bc0f73fa23e91"));
+            auto version_address (dlsym (library, "version_554bc0f73fa23e91"));
 			if (version_address != NULL)
 			{
 				auto version_pointer ((boost::uint64_t *) (version_address));
@@ -30,7 +29,7 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 				{
 				case 0x6d6ecf1f10200f:
 					{
-						auto extensions_address (GetProcAddress (library, "extensions"));
+                        auto extensions_address (dlsym (library, "extensions"));
 						if (extensions_address != nullptr)
 						{
 							auto extensions_function ((boost::shared_ptr <mu::script::extensions::node> (*) ()) (extensions_address));
@@ -72,7 +71,7 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 	else
 	{
 		invalid_type (errors_a, parameters [0], 0);
-    }*/
+    }
 }
 
 size_t mu::script::loadb::operation::count ()

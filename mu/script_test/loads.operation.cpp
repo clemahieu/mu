@@ -22,6 +22,7 @@ void mu::script_test::loads::operation::run_1 ()
 	a1.push_back (boost::make_shared <mu::script::extensions::node> ());
 	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"source_test.mu")));
 	loads.perform (errors, a1, r1);
+    errors->print ();
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);
 	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (r1 [0]));
