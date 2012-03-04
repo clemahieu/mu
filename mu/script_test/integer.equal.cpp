@@ -1,9 +1,9 @@
-#include "equal.h"
+#include <mu/script_test/integer.equal.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/integer/equal.h>
-#include <mu/script/integer/node.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/integer.equal.h>
+#include <mu/script/integer.node.h>
+#include <mu/script/bool_c.node.h>
 
 void mu::script_test::integer::equal::run ()
 {

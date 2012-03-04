@@ -1,10 +1,10 @@
-#include "operation.h"
+#include <mu/script_test/loads.operation.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/loads/operation.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/string/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/loads.operation.h>
+#include <mu/script/extensions.node.h>
+#include <mu/script/string.node.h>
+#include <mu/io/analyzer.extensions.extensions.h>
 
 #include <boost/make_shared.hpp>
 

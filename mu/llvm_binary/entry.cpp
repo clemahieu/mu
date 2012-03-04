@@ -1,8 +1,8 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/global.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/script/extensions.node.h>
+#include <mu/io/analyzer.extensions.global.h>
 #include <mu/llvm_/analyzer/operation.h>
 #include <mu/llvm_/apint/create.h>
 #include <mu/llvm_/cluster/get.h>

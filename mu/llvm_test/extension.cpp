@@ -5,7 +5,7 @@
 #include <mu/io/builder.h>
 #include <mu/io/ast.expression.h>
 #include <mu/script_io/builder.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/bind.hpp>
 

@@ -1,10 +1,10 @@
 #include "constant.h"
 
 #include <mu/core/node.h>
-#include <mu/script/runtime/constant.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/script/runtime/context.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/runtime.constant.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/runtime.context.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/make_shared.hpp>
 

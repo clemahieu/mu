@@ -1,8 +1,8 @@
-#include "create_single.h"
+#include <mu/script/closure.create_single.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/closure/operation.h>
-#include <mu/script/closure/single.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/closure.operation.h>
+#include <mu/script/closure.single.h>
 
 #include <sstream>
 

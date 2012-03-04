@@ -1,15 +1,16 @@
-#include "read_from_file.h"
+#include <mu/script/ast.read_from_file.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/string/node.h>
-#include <mu/io/lexer/istream_input.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/string.node.h>
+#include <mu/io/lexer.istream_input.h>
 #include <mu/io/builder.h>
-#include <mu/io/ast/cluster.h>
+#include <mu/io/ast.cluster.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 
 #include <sstream>
+#include <fstream>
 
 void mu::script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
@@ -20,7 +21,7 @@ void mu::script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::
 		std::string relative (one->string.begin (), one->string.end ());
 		path /= relative;
 		std::ifstream stream;
-		stream.open (path.string ());
+        stream.open (path.string ().c_str ());
 		if (stream.is_open ())
 		{
 			auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));

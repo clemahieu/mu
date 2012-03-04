@@ -1,9 +1,9 @@
-#include "operation.h"
+#include <mu/script_test/closure.operation.h>
 
-#include <mu/script/closure/operation.h>
-#include <mu/script/identity/operation.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/script/closure/hole.h>
+#include <mu/script/closure.operation.h>
+#include <mu/script/identity.operation.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/closure.hole.h>
 
 void mu::script_test::closure::operation::run ()
 {

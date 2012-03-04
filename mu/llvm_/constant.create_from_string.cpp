@@ -1,6 +1,6 @@
 #include <mu/llvm_/constant.create_from_string.h>
 
-#include <mu/script/string/node.h>
+#include <mu/script/string.node.h>
 #include <mu/llvm_/context.node.h>
 #include <mu/llvm_/constant.node.h>
 #include <mu/llvm_/array_type.node.h>

@@ -1,2 +1,2 @@
-#include "node.h"
+#include <mu/script/runtime.node.h>
 

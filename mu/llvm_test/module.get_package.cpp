@@ -4,8 +4,8 @@
 #include <mu/llvm_/function.node.h>
 #include <mu/core/errors.error_list.h>
 #include <mu/llvm_/module.node.h>
-#include <mu/script/package/node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/package.node.h>
+#include <mu/script/astring.node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

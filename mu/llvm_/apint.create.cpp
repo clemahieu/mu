@@ -1,6 +1,6 @@
 #include <mu/llvm_/apint.create.h>
 
-#include <mu/script/integer/node.h>
+#include <mu/script/integer.node.h>
 #include <mu/llvm_/apint.node.h>
 
 #include <boost/make_shared.hpp>

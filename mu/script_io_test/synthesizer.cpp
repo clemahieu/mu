@@ -1,16 +1,16 @@
 #include "synthesizer.h"
 
 #include <mu/script_io/synthesizer.h>
-#include <mu/core/errors/error_list.h>
+#include <mu/core/errors.error_list.h>
 #include <mu/core/routine.h>
 #include <mu/core/cluster.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/parameters.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/runtime/call.h>
-#include <mu/script/runtime/constant.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/runtime.call.h>
+#include <mu/script/runtime.constant.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

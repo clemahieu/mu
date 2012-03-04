@@ -1,8 +1,8 @@
-#include "equal.h"
+#include <mu/script/integer.equal.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/integer/node.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/integer.node.h>
+#include <mu/script/bool_c.node.h>
 
 void mu::script::integer::equal::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

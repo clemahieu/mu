@@ -1,9 +1,9 @@
-#include "get_recursive.h"
+#include <mu/script/package.get_recursive.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/package/node.h>
-#include <mu/script/string/node.h>
-#include <mu/script/package/get.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/package.node.h>
+#include <mu/script/string.node.h>
+#include <mu/script/package.get.h>
 
 #include <sstream>
 

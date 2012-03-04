@@ -1,7 +1,7 @@
 #include "value.set_name.h"
 
 #include <mu/llvm_/value.node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring.node.h>
 
 #include <llvm/Value.h>
 #include <llvm/ADT/Twine.h>

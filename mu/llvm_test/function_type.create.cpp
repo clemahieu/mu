@@ -4,7 +4,7 @@
 #include <mu/llvm_/function_type.create.h>
 #include <mu/llvm_/function_type.node.h>
 #include <mu/llvm_/context.node.h>
-#include <mu/script/values/operation.h>
+#include <mu/script/values.operation.h>
 #include <mu/llvm_/integer_type.node.h>
 #include <mu/llvm_/set_type.node.h>
 

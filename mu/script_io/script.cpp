@@ -1,7 +1,7 @@
 #include "script.h"
 
 #include <mu/script_io/cluster.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime.routine.h>
 
 mu::script_io::script::script (mu::script_io::cluster & cluster_a)
 	: cluster (cluster_a)

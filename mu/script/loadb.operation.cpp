@@ -1,10 +1,10 @@
-#include "operation.h"
+#include <mu/script/loadb.operation.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/string/node.h>
-#include <mu/script/extensions/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/string.node.h>
+#include <mu/script/extensions.node.h>
 
-#include <Windows.h>
+//#include <Windows.h>
 
 #include <sstream>
 
@@ -12,7 +12,8 @@
 
 void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
+    assert (false);
+/*	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
 	if (one.get () != nullptr)
 	{		
 		auto path (boost::filesystem::initial_path ());
@@ -71,7 +72,7 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 	else
 	{
 		invalid_type (errors_a, parameters [0], 0);
-	}
+    }*/
 }
 
 size_t mu::script::loadb::operation::count ()

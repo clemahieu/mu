@@ -15,3 +15,10 @@ SOURCES += \
     file_stream.cpp \
     data_stream.cpp \
     cli_stream.cpp
+
+INCLUDEPATH += \
+    $(BASE) \
+    $(BASE)/boost
+
+QMAKE_CXXFLAGS += \
+    -std=c++0x

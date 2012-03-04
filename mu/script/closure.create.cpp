@@ -1,7 +1,7 @@
-#include "create.h"
+#include <mu/script/closure.create.h>
 
-#include <mu/script/closure/operation.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/closure.operation.h>
+#include <mu/script/integer.node.h>
 
 void mu::script::closure::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

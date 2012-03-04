@@ -1,13 +1,13 @@
-#include "operation.h"
+#include <mu/script_test/times.operation.h>
 
-#include <mu/script/times/operation.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/script/integer/subtract.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/times.operation.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/integer.subtract.h>
+#include <mu/script/integer.node.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/bind.hpp>
 

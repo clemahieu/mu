@@ -1,7 +1,7 @@
-#include "ten_count.h"
+#include <mu/script_test/chain.ten_count.h>
 
-#include <mu/script/integer/node.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/script/integer.node.h>
+#include <mu/script/bool_c.node.h>
 
 mu::script_test::chain::ten_count::ten_count ()
 	: count_m (10)

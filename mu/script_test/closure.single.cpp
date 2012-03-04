@@ -1,8 +1,8 @@
-#include "single.h"
+#include <mu/script_test/closure.single.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/closure/single.h>
-#include <mu/script/identity/operation.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/closure.single.h>
+#include <mu/script/identity.operation.h>
 
 void mu::script_test::closure::single::run ()
 {

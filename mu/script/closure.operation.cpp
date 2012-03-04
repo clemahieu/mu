@@ -1,6 +1,6 @@
-#include "operation.h"
+#include <mu/script/closure.operation.h>
 
-#include <mu/script/closure/hole.h>
+#include <mu/script/closure.hole.h>
 
 mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a)
 	: closed (count_a),

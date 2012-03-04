@@ -1,8 +1,8 @@
-#include "create_from_cluster.h"
+#include <mu/script/package.create_from_cluster.h>
 
-#include <mu/script/cluster/node.h>
-#include <mu/script/package/node.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/package.node.h>
+#include <mu/script/runtime.routine.h>
 
 #include <boost/make_shared.hpp>
 

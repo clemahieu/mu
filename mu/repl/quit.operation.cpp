@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/repl/quit.operation.h>
 
 #include <mu/repl/repl.h>
 

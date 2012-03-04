@@ -1,13 +1,13 @@
-#include "extension.h"
+#include <mu/script_test/ast.extension.h>
 
 #include <mu/core/expression.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime.routine.h>
 #include <mu/script_io/builder.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>
-#include <mu/io/ast/cluster.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/script/cluster/node.h>
+#include <mu/io/ast.expression.h>
+#include <mu/io/ast.identifier.h>
+#include <mu/io/ast.cluster.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/bind.hpp>
 

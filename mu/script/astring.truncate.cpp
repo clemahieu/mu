@@ -1,7 +1,7 @@
-#include "truncate.h"
+#include <mu/script/astring.truncate.h>
 
-#include <mu/script/string/node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/string.node.h>
+#include <mu/script/astring.node.h>
 
 #include <boost/make_shared.hpp>
 

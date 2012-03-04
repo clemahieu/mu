@@ -1,7 +1,7 @@
-#include "reference.h"
+#include <mu/script/runtime.reference.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/runtime/context.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/runtime.context.h>
 
 #include <sstream>
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/io/analyzer/extensions/extension.h>
+#include <mu/io/analyzer.extensions.extension.h>
 
 #include <boost/shared_ptr.hpp>
 

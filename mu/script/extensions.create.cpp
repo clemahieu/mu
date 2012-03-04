@@ -1,6 +1,6 @@
-#include "create.h"
+#include <mu/script/extensions.create.h>
 
-#include <mu/script/extensions/node.h>
+#include <mu/script/extensions.node.h>
 
 #include <boost/make_shared.hpp>
 

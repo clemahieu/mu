@@ -11,7 +11,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::llvm_::type::build::build (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::Type const * type_a)
+mu::llvm_::type::build::build (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::Type * type_a)
 {
 	if (type_a->isVoidTy ())
 	{

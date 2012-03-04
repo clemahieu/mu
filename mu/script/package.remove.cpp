@@ -1,8 +1,8 @@
-#include "remove.h"
+#include <mu/script/package.remove.h>
 
-#include <mu/script/package/node.h>
-#include <mu/script/string/node.h>
-#include <mu/core/errors/error_target.h>
+#include <mu/script/package.node.h>
+#include <mu/script/string.node.h>
+#include <mu/core/errors.error_target.h>
 
 #include <sstream>
 

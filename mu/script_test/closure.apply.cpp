@@ -1,9 +1,9 @@
-#include "apply.h"
+#include <mu/script_test/closure.apply.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/closure/operation.h>
-#include <mu/script/closure/apply.h>
-#include <mu/script/identity/operation.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/closure.operation.h>
+#include <mu/script/closure.apply.h>
+#include <mu/script/identity.operation.h>
 
 void mu::script_test::closure::apply::run ()
 {

@@ -1,10 +1,10 @@
 #include "routine.h"
 
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime.routine.h>
 #include <mu/core/expression.h>
 #include <mu/script_io/expression.h>
-#include <mu/script/runtime/call.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/runtime.call.h>
+#include <mu/script/identity.operation.h>
 #include <mu/core/order.h>
 #include <mu/core/routine.h>
 

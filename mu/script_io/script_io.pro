@@ -23,3 +23,10 @@ SOURCES += \
     expression.cpp \
     cluster.cpp \
     builder.cpp
+
+INCLUDEPATH += \
+    $(BASE) \
+    $(BASE)/boost
+
+QMAKE_CXXFLAGS += \
+    -std=c++0x

@@ -1,15 +1,15 @@
-#include "operation.h"
+#include <mu/script/exec.operation.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/string/node.h>
-#include <mu/io/lexer/istream_input.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/string.node.h>
+#include <mu/io/lexer.istream_input.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/loads/operation.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/run/operation.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/loads.operation.h>
+#include <mu/script/extensions.node.h>
+#include <mu/script/run.operation.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>

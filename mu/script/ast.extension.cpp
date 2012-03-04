@@ -1,11 +1,11 @@
-#include "extension.h"
+#include <mu/script/ast.extension.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/io/analyzer/expression.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/io/analyzer.expression.h>
+#include <mu/io/ast.expression.h>
+#include <mu/io/ast.identifier.h>
 #include <mu/core/expression.h>
-#include <mu/io/ast/cluster.h>
+#include <mu/io/ast.cluster.h>
 
 #include <boost/make_shared.hpp>
 

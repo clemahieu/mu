@@ -1,7 +1,7 @@
-#include "operation.h"
+#include <mu/script/times.operation.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/integer/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/integer.node.h>
 
 #include <sstream>
 

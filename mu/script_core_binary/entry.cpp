@@ -1,12 +1,12 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/string/extension.h>
-#include <mu/script/astring/extension.h>
-#include <mu/script/integer/extension.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/script/identity/operation.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/script/extensions.node.h>
+#include <mu/script/string.extension.h>
+#include <mu/script/astring.extension.h>
+#include <mu/script/integer.extension.h>
+#include <mu/io/analyzer.extensions.global.h>
+#include <mu/script/identity.operation.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>

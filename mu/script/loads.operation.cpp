@@ -1,16 +1,16 @@
-#include "operation.h"
+#include <mu/script/loads.operation.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/load/operation.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/string/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/load.operation.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/extensions.node.h>
+#include <mu/io/analyzer.extensions.global.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/script/string.node.h>
 #include <mu/script_io/builder.h>
 #include <mu/script_io/cluster.h>
-#include <mu/script/analyzer/operation.h>
+#include <mu/script/analyzer.operation.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>

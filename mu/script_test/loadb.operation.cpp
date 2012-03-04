@@ -1,12 +1,12 @@
-#include "operation.h"
+#include <mu/script_test/loadb.operation.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/loadb/operation.h>
-#include <mu/script/string/node.h>
-#include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/script/identity/operation.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/loadb.operation.h>
+#include <mu/script/string.node.h>
+#include <mu/script/extensions.node.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/io/analyzer.extensions.global.h>
+#include <mu/script/identity.operation.h>
 
 #include <boost/make_shared.hpp>
 

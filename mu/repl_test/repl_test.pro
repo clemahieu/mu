@@ -11,3 +11,10 @@ SOURCES += \
     tests.cpp \
     file_stream_test.cpp \
     api_test.cpp
+
+INCLUDEPATH += \
+    $(BASE) \
+    $(BASE)/boost
+
+QMAKE_CXXFLAGS += \
+    -std=c++0x

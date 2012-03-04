@@ -1,8 +1,8 @@
-#include "create.h"
+#include <mu/script_test/package.create.h>
 
-#include <mu/script/package/create.h>
-#include <mu/script/package/node.h>
-#include <mu/core/errors/error_list.h>
+#include <mu/script/package.create.h>
+#include <mu/script/package.node.h>
+#include <mu/core/errors.error_list.h>
 
 void mu::script_test::package::create::run ()
 {

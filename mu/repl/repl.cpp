@@ -5,21 +5,21 @@
 #include <sstream>
 
 #include <boost/bind.hpp>
-#include <mu/core/errors/error_list.h>
-#include <mu/core/errors/error.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/core/errors.error.h>
 #include <mu/repl/cli_stream.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/io/lexer/error.h>
-#include <mu/io/parser/error.h>
-#include <mu/repl/quit/operation.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/print/operation.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/right_square.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/io/lexer.error.h>
+#include <mu/io/parser.error.h>
+#include <mu/repl/quit.operation.h>
+#include <mu/io/analyzer.extensions.global.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/script/print.operation.h>
+#include <mu/io/tokens.left_square.h>
+#include <mu/io/tokens.right_square.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/make_shared.hpp>
 

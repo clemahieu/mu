@@ -1,6 +1,6 @@
-#include "create.h"
+#include <mu/script/package.create.h>
 
-#include <mu/script/package/node.h>
+#include <mu/script/package.node.h>
 
 void mu::script::package::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

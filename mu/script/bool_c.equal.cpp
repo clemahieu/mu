@@ -1,6 +1,6 @@
-#include "equal.h"
+#include <mu/script/bool_c.equal.h>
 
-#include <mu/script/bool_c/node.h>
+#include <mu/script/bool_c.node.h>
 
 void mu::script::bool_c::equal::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

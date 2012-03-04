@@ -1,4 +1,4 @@
-#include "tests.h"
+#include <mu/script_io_test/tests.h>
 
 #include <mu/script_io_test/synthesizer.h>
 #include <mu/script_io_test/call.h>

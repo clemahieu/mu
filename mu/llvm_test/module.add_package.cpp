@@ -3,7 +3,7 @@
 #include <mu/llvm_/module.node.h>
 #include <mu/llvm_/module.get_package.h>
 #include <mu/core/errors.error_list.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring.node.h>
 #include <mu/llvm_/module.add_package.h>
 
 #include <llvm/LLVMContext.h>

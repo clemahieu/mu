@@ -1,7 +1,7 @@
 #include <mu/llvm_/module.print.h>
 
 #include <mu/llvm_/module.node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring.node.h>
 
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Assembly/AssemblyAnnotationWriter.h>

@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/script_test/string.extension.h>
 
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>

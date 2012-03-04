@@ -1,6 +1,6 @@
-#include "merge.h"
+#include <mu/script/ast.merge.h>
 
-#include <mu/io/ast/cluster.h>
+#include <mu/io/ast.cluster.h>
 
 #include <boost/make_shared.hpp>
 

@@ -1,17 +1,19 @@
-#include "extension.h"
+#include <mu/script/integer.extension.h>
 
-#include <mu/io/analyzer/expression.h>
-#include <mu/io/analyzer/routine.h>
-#include <mu/io/analyzer/analyzer.h>
-#include <mu/io/ast/expression.h>
-#include <mu/core/errors/error_target.h>
-#include <mu/io/ast/identifier.h>
+#include <mu/io/analyzer.expression.h>
+#include <mu/io/analyzer.routine.h>
+#include <mu/io/analyzer.analyzer.h>
+#include <mu/io/ast.expression.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/io/ast.identifier.h>
 #include <mu/core/expression.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/integer.node.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
+
+#include <errno.h>
 
 void mu::script::integer::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {
@@ -86,7 +88,7 @@ boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (boost::
 {
 	boost::shared_ptr <mu::script::integer::node> result;
 	wchar_t * next;
-	errno = 0;
+    errno = 0;
 	unsigned long number = std::wcstoul (string_a, &next, base_a);
 	if (errno == ERANGE)
 	{

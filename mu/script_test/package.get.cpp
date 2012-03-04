@@ -1,9 +1,9 @@
-#include "get.h"
+#include <mu/script_test/package.get.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/package/get.h>
-#include <mu/script/package/node.h>
-#include <mu/script/string/node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/package.get.h>
+#include <mu/script/package.node.h>
+#include <mu/script/string.node.h>
 
 void mu::script_test::package::get::run ()
 {

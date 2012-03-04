@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/runtime/node.h>
+#include <mu/script/runtime.node.h>
 
 namespace mu
 {

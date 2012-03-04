@@ -4,8 +4,8 @@
 #include <mu/core/order.h>
 #include <mu/core/routine.h>
 #include <mu/script_io/routine.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/runtime.routine.h>
 #include <mu/script_io/script.h>
 
 #include <vector>

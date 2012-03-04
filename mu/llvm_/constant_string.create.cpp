@@ -3,7 +3,7 @@
 #include <mu/core/errors.error_target.h>
 #include <mu/llvm_/module.node.h>
 #include <mu/llvm_/context.node.h>
-#include <mu/script/string/node.h>
+#include <mu/script/string.node.h>
 #include <mu/llvm_/global_variable.create_set.h>
 #include <mu/llvm_/constant.create_from_string.h>
 #include <mu/llvm_/global_variable.node.h>

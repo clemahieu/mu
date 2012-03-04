@@ -4,8 +4,8 @@
 #include <mu/io/analyzer.expression.h>
 #include <mu/io/ast.expression.h>
 #include <mu/io/ast.identifier.h>
-#include <mu/script/string/node.h>
-#include <mu/script/closure/single.h>
+#include <mu/script/string.node.h>
+#include <mu/script/closure.single.h>
 #include <mu/llvm_/constant_string.create.h>
 #include <mu/llvm_/module.node.h>
 #include <mu/llvm_/context.node.h>

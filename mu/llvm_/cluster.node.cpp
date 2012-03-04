@@ -2,7 +2,7 @@
 
 #include <mu/core/routine.h>
 #include <mu/llvm_/function.node.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster.node.h>
 
 std::wstring mu::llvm_::cluster::node::name ()
 {

@@ -1,14 +1,14 @@
-#include "routine.h"
+#include <mu/script_test/routine.h>
 
-#include <mu/script/runtime/routine.h>
-#include <mu/core/errors/error_list.h>
-#include <mu/script/runtime/call.h>
-#include <mu/script/identity/operation.h>
-#include <mu/script/runtime/constant.h>
-#include <mu/script/runtime/expression.h>
-#include <mu/script/runtime/parameters.h>
+#include <mu/script/runtime.routine.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/runtime.call.h>
+#include <mu/script/identity.operation.h>
+#include <mu/script/runtime.constant.h>
+#include <mu/script/runtime.expression.h>
+#include <mu/script/runtime.parameters.h>
 #include <mu/core/routine.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster.node.h>
 
 #include <boost/make_shared.hpp>
 

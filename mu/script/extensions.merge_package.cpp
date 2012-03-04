@@ -1,11 +1,11 @@
-#include "merge_package.h"
+#include <mu/script/extensions.merge_package.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/string/node.h>
-#include <mu/script/package/node.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/extensions.node.h>
+#include <mu/script/string.node.h>
+#include <mu/script/package.node.h>
+#include <mu/io/analyzer.extensions.global.h>
+#include <mu/io/analyzer.extensions.extensions.h>
 
 #include <boost/make_shared.hpp>
 

@@ -2,13 +2,13 @@
 
 #include <mu/core/errors.error_target.h>
 #include <mu/io/analyzer.expression.h>
-#include <mu/script/integer/extension.h>
+#include <mu/script/integer.extension.h>
 #include <mu/io/ast.expression.h>
 #include <mu/io/ast.identifier.h>
 #include <mu/core/expression.h>
 #include <mu/llvm_/value.node.h>
-#include <mu/script/integer/node.h>
-#include <mu/script/closure/single.h>
+#include <mu/script/integer.node.h>
+#include <mu/script/closure.single.h>
 #include <mu/llvm_/constant_int.create.h>
 #include <mu/llvm_/apint.node.h>
 #include <mu/llvm_/context.node.h>

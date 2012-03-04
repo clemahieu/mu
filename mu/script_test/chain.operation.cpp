@@ -1,9 +1,9 @@
-#include "operation.h"
+#include <mu/script_test/chain.operation.h>
 
-#include <mu/core/errors/error_list.h>
-#include <mu/script/chain/operation.h>
-#include <mu/script_test/chain/ten_count.h>
-#include <mu/script/integer/node.h>
+#include <mu/core/errors.error_list.h>
+#include <mu/script/chain.operation.h>
+#include <mu/script_test/chain.ten_count.h>
+#include <mu/script/integer.node.h>
 
 void mu::script_test::chain::operation::run ()
 {

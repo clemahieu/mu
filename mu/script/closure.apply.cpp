@@ -1,8 +1,8 @@
-#include "apply.h"
+#include <mu/script/closure.apply.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/closure/operation.h>
-#include <mu/script/closure/hole.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/closure.operation.h>
+#include <mu/script/closure.hole.h>
 
 #include <sstream>
 

@@ -2,7 +2,7 @@
 
 #include <mu/core/errors.error_target.h>
 #include <mu/llvm_/module.node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring.node.h>
 
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/Support/TargetRegistry.h>

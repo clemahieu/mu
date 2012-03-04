@@ -1,7 +1,7 @@
-#include "operation.h"
+#include <mu/script/chain.operation.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/bool_c.node.h>
 
 void mu::script::chain::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

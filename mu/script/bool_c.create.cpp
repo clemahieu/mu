@@ -1,8 +1,8 @@
-#include "create.h"
+#include <mu/script/bool_c.create.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/string/node.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/string.node.h>
+#include <mu/script/bool_c.node.h>
 
 #include <sstream>
 

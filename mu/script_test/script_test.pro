@@ -47,3 +47,10 @@ SOURCES += \
     call.cpp \
     ast.extension.cpp \
     analyzer.operation.cpp
+
+INCLUDEPATH += \
+    $(BASE) \
+    $(BASE)/boost
+
+QMAKE_CXXFLAGS += \
+    -std=c++0x

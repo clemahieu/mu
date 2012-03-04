@@ -1,9 +1,9 @@
-#include "merge.h"
+#include <mu/script/extensions.merge.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/string/node.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/extensions.node.h>
+#include <mu/io/analyzer.extensions.extensions.h>
+#include <mu/script/string.node.h>
 
 #include <sstream>
 

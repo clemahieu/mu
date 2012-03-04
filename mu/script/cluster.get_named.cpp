@@ -1,9 +1,9 @@
-#include "get_named.h"
+#include <mu/script/cluster.get_named.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/string/node.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/core/errors.error_target.h>
+#include <mu/script/cluster.node.h>
+#include <mu/script/string.node.h>
+#include <mu/script/runtime.routine.h>
 
 #include <sstream>
 
