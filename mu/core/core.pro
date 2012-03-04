@@ -1,6 +1,7 @@
 TEMPLATE = lib
 CONFIG += static
 CONFIG -= qt
+TARGET = mu_core
 
 SOURCES += main.cpp \
     routine.cpp \

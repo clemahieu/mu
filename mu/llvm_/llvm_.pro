@@ -1,6 +1,7 @@
 TEMPLATE = lib
 CONFIG += static
 CONFIG -= qt
+TARGET = mu_llvm_
 
 HEADERS += \
     void_type.node.h \

@@ -1,6 +1,7 @@
 TEMPLATE = lib
 CONFIG += static
 CONFIG -= qt
+TARGET = mu_script_io_test
 
 HEADERS += \
     tests.h \

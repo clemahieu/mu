@@ -1,6 +1,7 @@
 TEMPLATE = lib
 CONFIG += static
 CONFIG -= qt
+TARGET = mu_io_test
 
 HEADERS += \
     wistream_input_test.h \
