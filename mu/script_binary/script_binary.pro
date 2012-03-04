@@ -1,0 +1,2 @@
+SOURCES += \
+    entry.cpp

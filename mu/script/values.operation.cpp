@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script/values.operation.h>
 
 mu::script::values::operation::operation ()
 {
