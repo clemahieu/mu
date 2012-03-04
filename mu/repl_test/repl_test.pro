@@ -1,3 +1,7 @@
+TEMPLATE = lib
+CONFIG += static
+CONFIG -= qt
+
 HEADERS += \
     tests.h \
     file_stream_test.h \

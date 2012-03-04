@@ -1,3 +1,7 @@
+TEMPLATE = lib
+CONFIG += static
+CONFIG -= qt
+
 HEADERS += \
     times.operation.h \
     tests.h \
