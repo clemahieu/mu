@@ -1,5 +1,7 @@
 #pragma once
 
+#include <wchar.h>
+
 namespace mu
 {
 	namespace io

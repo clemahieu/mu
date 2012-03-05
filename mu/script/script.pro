@@ -28,8 +28,8 @@ HEADERS += \
     package.create_from_cluster.h \
     package.add.h \
     operation.h \
-    loads.operation.h \
     loadb.operation.h \
+    loads.operation.h \
     load.operation.h \
     integer.subtract.h \
     integer.node.h \
@@ -90,7 +90,6 @@ SOURCES += \
     package.add.cpp \
     operation.cpp \
     loads.operation.cpp \
-    loadb.operation.cpp \
     load.operation.cpp \
     integer.subtract.cpp \
     integer.node.cpp \
@@ -124,6 +123,13 @@ SOURCES += \
     ast.merge.cpp \
     ast.extension.cpp \
     analyzer.operation.cpp
+
+win32 {
+    SOURCES += loadbwindows.operation.cpp
+}
+!win32 {
+    SOURCES += loadbunix.operation.cpp
+}
 
 INCLUDEPATH += \
     $(BASE) \
