@@ -13,7 +13,7 @@
 int main ()
 {
 	llvm::InitializeNativeTarget ();
-    llvm::InitializeNativeTargetAsmPrinter ();
+	llvm::InitializeAllAsmPrinters();
 	{
 		mu::core_test::tests test;
 		test.run ();

@@ -1,11 +1,11 @@
-#include <mu/llvm_test/extension.h>
+#include "extension.h"
 
 #include <mu/core/expression.h>
 #include <mu/core/routine.h>
 #include <mu/io/builder.h>
-#include <mu/io/ast.expression.h>
+#include <mu/io/ast/expression.h>
 #include <mu/script_io/builder.h>
-#include <mu/script/cluster.node.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
 

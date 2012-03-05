@@ -1,7 +1,7 @@
 #include "source.h"
 
-#include <mu/io/lexer.character_stream.h>
-#include <mu/io/lexer.wistream_input.h>
+#include <mu/io/lexer/character_stream.h>
+#include <mu/io/lexer/wistream_input.h>
 
 #include <sstream>
 
@@ -49,7 +49,7 @@ void mu::io::source::operator << (boost::shared_ptr <mu::io::lexer::character_st
 	}
 }
 
-void mu::io::source::operator () (std::wstring string)
+void mu::io::source::operator () (std::wstring & string)
 {
 	std::wstringstream stream (string);
 	boost::shared_ptr <mu::io::lexer::wistream_input> input (new mu::io::lexer::wistream_input (stream));

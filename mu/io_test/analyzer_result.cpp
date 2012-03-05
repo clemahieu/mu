@@ -1,6 +1,6 @@
 #include "analyzer_result.h"
 
-#include <mu/core/errors.error_list.h>
+#include <mu/core/errors/error_list.h>
 
 mu::io_test::analyzer_result::analyzer_result ()
 	: errors (new mu::core::errors::error_list)

@@ -1,6 +1,6 @@
 #include "istream_input_test.h"
 
-#include <mu/io/lexer.istream_input.h>
+#include <mu/io/lexer/istream_input.h>
 
 #include <sstream>
 

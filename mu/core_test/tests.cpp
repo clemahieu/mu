@@ -18,10 +18,10 @@ void mu::core_test::tests::run ()
 		filesystem_test test;
 		test.run ();
 	}
-/*	{
+	{
 		directory_iterator_test test;
 		test.run ();
-    }*/
+	}
 	{
 		visitor test;
 		test.run ();

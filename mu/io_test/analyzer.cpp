@@ -1,16 +1,16 @@
 #include "analyzer.h"
 
-#include <mu/io/analyzer.analyzer.h>
+#include <mu/io/analyzer/analyzer.h>
 #include <mu/io_test/analyzer_result.h>
-#include <mu/io/ast.expression.h>
-#include <mu/io/ast.identifier.h>
-#include <mu/io/ast.parameters.h>
+#include <mu/io/ast/expression.h>
+#include <mu/io/ast/identifier.h>
+#include <mu/io/ast/parameters.h>
 #include <mu/core/node.h>
-#include <mu/core/errors.error_list.h>
+#include <mu/core/errors/error_list.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/routine.h>
-#include <mu/io/ast.end.h>
+#include <mu/io/ast/end.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

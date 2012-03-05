@@ -17,7 +17,7 @@ namespace mu
 			source (boost::function <void (wchar_t char_a)> target_a);
 			void operator () ();
 			void operator () (wchar_t char_a);
-            void operator () (std::wstring string);
+			void operator () (std::wstring & string);
 			void operator () (wchar_t const * string);
 			void operator () (boost::shared_ptr <mu::io::lexer::character_stream> source);
 			void operator << (boost::shared_ptr <mu::io::lexer::character_stream> source);

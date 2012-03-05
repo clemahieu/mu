@@ -1,17 +1,17 @@
-#include <mu/llvm_test/instruction_package.h>
+#include "instruction_package.h"
 
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/cluster.node.h>
-#include <mu/script/closure.create_single.h>
-#include <mu/llvm_/instructions.add.h>
-#include <mu/llvm_/basic_block.insert.h>
-#include <mu/llvm_/basic_block.node.h>
-#include <mu/script/runtime.routine.h>
-#include <mu/io/analyzer.extensions.extensions.h>
-#include <mu/io/analyzer.extensions.global.h>
-#include <mu/llvm_/constant_int.node.h>
-#include <mu/llvm_/integer_type.node.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/closure/create_single.h>
+#include <mu/llvm_/instructions/add.h>
+#include <mu/llvm_/basic_block/insert.h>
+#include <mu/llvm_/basic_block/node.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/analyzer/extensions/global.h>
+#include <mu/llvm_/constant_int/node.h>
+#include <mu/llvm_/integer_type/node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

@@ -19,7 +19,7 @@ namespace mu
 			std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names;
 			std::vector <boost::shared_ptr <mu::core::routine>> routines;
 			std::wstring name () override;
-        };
+		};
 	}
 }
 

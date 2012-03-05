@@ -16,7 +16,3 @@ xcuserdata/
 llvm/
 boost/
 temp/
-debug/
-*.pdb
-Makefile*
-*.autosave

@@ -1,14 +1,14 @@
 #include "call.h"
 
 #include <mu/script_io/expression.h>
-#include <mu/script/runtime.call.h>
-#include <mu/script/runtime.expression.h>
-#include <mu/script/runtime.reference.h>
+#include <mu/script/runtime/call.h>
+#include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/reference.h>
 #include <mu/core/node.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
-#include <mu/script/runtime.constant.h>
-#include <mu/script/cluster.node.h>
+#include <mu/script/runtime/constant.h>
+#include <mu/script/cluster/node.h>
 #include <mu/script_io/cluster.h>
 #include <mu/core/cluster.h>
 

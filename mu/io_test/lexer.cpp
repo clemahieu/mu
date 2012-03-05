@@ -1,16 +1,16 @@
 #include "lexer.h"
 
 #include <mu/io_test/lexer_result.h>
-#include <mu/io/lexer.lexer.h>
+#include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
-#include <mu/io/tokens.token.h>
-#include <mu/io/tokens.left_square.h>
-#include <mu/io/tokens.right_square.h>
-#include <mu/io/tokens.divider.h>
-#include <mu/io/tokens.identifier.h>
-#include <mu/io/tokens.stream_end.h>
-#include <mu/io/tokens.parameters.h>
-#include <mu/core/errors.error_list.h>
+#include <mu/io/tokens/token.h>
+#include <mu/io/tokens/left_square.h>
+#include <mu/io/tokens/right_square.h>
+#include <mu/io/tokens/divider.h>
+#include <mu/io/tokens/identifier.h>
+#include <mu/io/tokens/stream_end.h>
+#include <mu/io/tokens/parameters.h>
+#include <mu/core/errors/error_list.h>
 
 #include <boost/bind.hpp>
 

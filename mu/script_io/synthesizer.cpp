@@ -4,8 +4,8 @@
 #include <mu/core/routine.h>
 #include <mu/core/cluster.h>
 #include <mu/script_io/routine.h>
-#include <mu/script/runtime.routine.h>
-#include <mu/script/cluster.node.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/script/cluster/node.h>
 #include <mu/script_io/cluster.h>
 
 #include <boost/make_shared.hpp>

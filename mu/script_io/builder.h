@@ -1,10 +1,10 @@
 #pragma once
 
 #include <mu/io/source.h>
-#include <mu/io/lexer.lexer.h>
-#include <mu/io/parser.parser.h>
-#include <mu/io/analyzer.analyzer.h>
-#include <mu/core/errors.error_list.h>
+#include <mu/io/lexer/lexer.h>
+#include <mu/io/parser/parser.h>
+#include <mu/io/analyzer/analyzer.h>
+#include <mu/core/errors/error_list.h>
 #include <mu/script_io/synthesizer.h>
 
 #include <vector>

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstring>
-
 namespace mu
 {
 	namespace core

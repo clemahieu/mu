@@ -3,7 +3,7 @@
 mu::repl::file_stream::file_stream (std::wstring name_a)
 	: input (file)
 {
-    file.open (std::string (name_a.begin (), name_a.end ()).c_str ());
+	file.open (name_a);
 }
 
 wchar_t mu::repl::file_stream::operator () ()

@@ -1,6 +1,6 @@
 #include "wistream_input_test.h"
 
-#include <mu/io/lexer.wistream_input.h>
+#include <mu/io/lexer/wistream_input.h>
 
 #include <sstream>
 

@@ -3,11 +3,12 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-#include <mu/io/analyzer.extensions.extensions.h>
-#include <mu/io/ast.cluster.h>
-#include <mu/io/ast.node.h>
-#include <mu/io/ast.expression.h>
-#include <mu/core/errors.error_list.h>
+#include <mu/script/ast/extension.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/ast/cluster.h>
+#include <mu/io/ast/node.h>
+#include <mu/io/ast/expression.h>
+#include <mu/core/errors/error_list.h>
 
 mu::io::builder::builder ()
 	: errors (new mu::core::errors::error_list),

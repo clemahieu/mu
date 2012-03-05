@@ -1,36 +1,36 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/io/analyzer.extensions.extensions.h>
-#include <mu/script/extensions.node.h>
-#include <mu/script/identity.operation.h>
-#include <mu/io/analyzer.extensions.global.h>
-#include <mu/script/ast.read_from_file.h>
-#include <mu/script/ast.merge.h>
-#include <mu/script/astring.truncate.h>
-#include <mu/script/bool_c.create.h>
-#include <mu/script/bool_c.equal.h>
-#include <mu/script/chain.operation.h>
-#include <mu/script/cluster.get_named.h>
-#include <mu/script/extensions.create.h>
-#include <mu/script/extensions.merge_package.h>
-#include <mu/script/integer.equal.h>
-#include <mu/script/integer.subtract.h>
-#include <mu/script/print.operation.h>
-#include <mu/script/package.add.h>
-#include <mu/script/package.create.h>
-#include <mu/script/package.get.h>
-#include <mu/script/package.remove.h>
-#include <mu/script/times.operation.h>
-#include <mu/script/string.extension.h>
-#include <mu/script/astring.extension.h>
-#include <mu/script/integer.extension.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/script/extensions/node.h>
+#include <mu/script/identity/operation.h>
+#include <mu/io/analyzer/extensions/global.h>
+#include <mu/script/ast/read_from_file.h>
+#include <mu/script/ast/merge.h>
+#include <mu/script/astring/truncate.h>
+#include <mu/script/bool_c/create.h>
+#include <mu/script/bool_c/equal.h>
+#include <mu/script/chain/operation.h>
+#include <mu/script/cluster/get_named.h>
+#include <mu/script/extensions/create.h>
+#include <mu/script/extensions/merge_package.h>
+#include <mu/script/integer/equal.h>
+#include <mu/script/integer/subtract.h>
+#include <mu/script/print/operation.h>
+#include <mu/script/package/add.h>
+#include <mu/script/package/create.h>
+#include <mu/script/package/get.h>
+#include <mu/script/package/remove.h>
+#include <mu/script/times/operation.h>
+#include <mu/script/string/extension.h>
+#include <mu/script/astring/extension.h>
+#include <mu/script/integer/extension.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
-extern "C" boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
+boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
 
-extern "C" boost::shared_ptr <mu::script::extensions::node> extensions ()
+boost::shared_ptr <mu::script::extensions::node> extensions ()
 {
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	result->extensions->extensions_m [std::wstring (L"identity")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::identity::operation> ());

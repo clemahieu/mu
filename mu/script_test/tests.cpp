@@ -5,20 +5,20 @@
 #include <mu/script_test/constant.h>
 #include <mu/script_test/expression.h>
 #include <mu/script_test/reference.h>
-#include <mu/script_test/integer.equal.h>
-#include <mu/script_test/closure.operation.h>
-#include <mu/script_test/package.create.h>
-#include <mu/script_test/package.get.h>
-#include <mu/script_test/closure.apply.h>
-#include <mu/script_test/times.operation.h>
-#include <mu/script_test/closure.single.h>
-#include <mu/script_test/package.get_recursive.h>
-#include <mu/script_test/chain.operation.h>
-#include <mu/script_test/string.extension.h>
-#include <mu/script_test/ast.extension.h>
-#include <mu/script_test/loadb.operation.h>
-#include <mu/script_test/loads.operation.h>
-#include <mu/script_test/analyzer.operation.h>
+#include <mu/script_test/integer/equal.h>
+#include <mu/script_test/closure/operation.h>
+#include <mu/script_test/package/create.h>
+#include <mu/script_test/package/get.h>
+#include <mu/script_test/closure/apply.h>
+#include <mu/script_test/times/operation.h>
+#include <mu/script_test/closure/single.h>
+#include <mu/script_test/package/get_recursive.h>
+#include <mu/script_test/chain/operation.h>
+#include <mu/script_test/string/extension.h>
+#include <mu/script_test/ast/extension.h>
+#include <mu/script_test/loadb/operation.h>
+#include <mu/script_test/loads/operation.h>
+#include <mu/script_test/analyzer/operation.h>
 
 void mu::script_test::tests::run ()
 {

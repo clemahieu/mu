@@ -1,7 +1,7 @@
 #pragma once
 
-#include <mu/io/lexer.character_stream.h>
-#include <mu/io/lexer.istream_input.h>
+#include <mu/io/lexer/character_stream.h>
+#include <mu/io/lexer/istream_input.h>
 
 #include <string>
 #include <fstream>

@@ -1,9 +1,9 @@
 #include "lambda.h"
 
 #include <mu/script_io/builder.h>
-#include <mu/script/runtime.routine.h>
-#include <mu/script/integer.node.h>
-#include <mu/script/cluster.node.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/script/integer/node.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
 

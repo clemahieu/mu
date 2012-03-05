@@ -1,36 +1,36 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/io/analyzer.extensions.extensions.h>
-#include <mu/script/extensions.node.h>
-#include <mu/io/analyzer.extensions.global.h>
-#include <mu/llvm_/analyzer.operation.h>
-#include <mu/llvm_/apint.create.h>
-#include <mu/llvm_/cluster.get.h>
-#include <mu/llvm_/compile.operation.h>
-#include <mu/llvm_/context.create.h>
-#include <mu/llvm_/execution_engine.create_jit.h>
-#include <mu/llvm_/execution_engine.run_function.h>
-#include <mu/llvm_/execution_engine.generic_value.create_int.h>
-#include <mu/llvm_/function.create.h>
-#include <mu/llvm_/function_type.create.h>
-#include <mu/llvm_/global_value.set_linkage.h>
-#include <mu/llvm_/global_variable.create.h>
-#include <mu/llvm_/integer_type.create.h>
-#include <mu/llvm_/linkage_types.node.h>
-#include <mu/llvm_/linker.link_modules.h>
-#include <mu/llvm_/module.add_function.h>
-#include <mu/llvm_/module.add_global_variable.h>
-#include <mu/llvm_/module.add_package.h>
-#include <mu/llvm_/module.assemble.h>
-#include <mu/llvm_/module.create.h>
-#include <mu/llvm_/module.get_function.h>
-#include <mu/llvm_/module.get_package.h>
-#include <mu/llvm_/module.merge.h>
-#include <mu/llvm_/module.print.h>
-#include <mu/llvm_/module.verify.h>
-#include <mu/llvm_/pointer_type.create.h>
-#include <mu/llvm_/value.get_context.h>
-#include <mu/llvm_/value.set_name.h>
+#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/script/extensions/node.h>
+#include <mu/io/analyzer/extensions/global.h>
+#include <mu/llvm_/analyzer/operation.h>
+#include <mu/llvm_/apint/create.h>
+#include <mu/llvm_/cluster/get.h>
+#include <mu/llvm_/compile/operation.h>
+#include <mu/llvm_/context/create.h>
+#include <mu/llvm_/execution_engine/create_jit.h>
+#include <mu/llvm_/execution_engine/run_function.h>
+#include <mu/llvm_/execution_engine/generic_value/create_int.h>
+#include <mu/llvm_/function/create.h>
+#include <mu/llvm_/function_type/create.h>
+#include <mu/llvm_/global_value/set_linkage.h>
+#include <mu/llvm_/global_variable/create.h>
+#include <mu/llvm_/integer_type/create.h>
+#include <mu/llvm_/linkage_types/node.h>
+#include <mu/llvm_/linker/link_modules.h>
+#include <mu/llvm_/module/add_function.h>
+#include <mu/llvm_/module/add_global_variable.h>
+#include <mu/llvm_/module/add_package.h>
+#include <mu/llvm_/module/assemble.h>
+#include <mu/llvm_/module/create.h>
+#include <mu/llvm_/module/get_function.h>
+#include <mu/llvm_/module/get_package.h>
+#include <mu/llvm_/module/merge.h>
+#include <mu/llvm_/module/print.h>
+#include <mu/llvm_/module/verify.h>
+#include <mu/llvm_/pointer_type/create.h>
+#include <mu/llvm_/value/get_context.h>
+#include <mu/llvm_/value/set_name.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -38,12 +38,12 @@
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
 
-extern "C" boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
+boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
 
-extern "C" boost::shared_ptr <mu::script::extensions::node> extensions ()
+boost::shared_ptr <mu::script::extensions::node> extensions ()
 {
 	llvm::InitializeNativeTarget ();
-    llvm::InitializeNativeTargetAsmPrinter ();
+	llvm::InitializeAllAsmPrinters();
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	result->extensions->extensions_m [std::wstring (L"analyzer/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::analyzer::operation> ());
 	result->extensions->extensions_m [std::wstring (L"apint/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::apint::create> ());
