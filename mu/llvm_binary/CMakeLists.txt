@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (llvm_binary)
 
-link_directories (${CMAKE_SOURCE_DIR}/llvm/lib/Debug)
+link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_library (mu_llvm_binary MODULE

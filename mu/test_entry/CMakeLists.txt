@@ -3,7 +3,7 @@ project (test_entry)
 
 link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
 if (WIN32)
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib/Debug)
+	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
 else ()
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
 endif ()
