@@ -13,6 +13,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <errno.h>
+
 void mu::script::integer::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto data_position (expression_a.position + 1);

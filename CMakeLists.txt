@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.8)
 project (mu)
 
+set (CMAKE_CXX_FLAGS "-std=c++0x")
+set (CMAKE_VERBOSE_MAKEFILE "ON")
+add_definitions (-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS)
 include_directories (${CMAKE_SOURCE_DIR})
 include_directories (${CMAKE_SOURCE_DIR}/boost)
 add_subdirectory (mu/core)
