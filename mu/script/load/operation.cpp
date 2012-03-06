@@ -17,6 +17,7 @@
 #include <boost/make_shared.hpp>
 
 #include <sstream>
+#include <fstream>
 
 void mu::script::load::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {
@@ -46,7 +47,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (boos
 	auto path (boost::filesystem::initial_path ());
 	path /= std::string (file->string.begin (), file->string.end ());
 	std::ifstream stream;
-	stream.open (path.string ());
+	stream.open (path.string ().c_str ());
 	if (stream.is_open ())		
 	{
 		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
