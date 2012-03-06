@@ -51,10 +51,15 @@ void mu::io::source::operator << (boost::shared_ptr <mu::io::lexer::character_st
 
 void mu::io::source::operator () (std::wstring & string)
 {
-    operator () (string);
+    process_string (string);
 }
 
-void mu::io::source::operator () (std::wstring const & string)
+void mu::io::source::operator ()(std::wstring const & string)
+{
+    process_string (string);
+}
+
+void mu::io::source::process_string (std::wstring const & string)
 {
 	std::wstringstream stream (string);
 	boost::shared_ptr <mu::io::lexer::wistream_input> input (new mu::io::lexer::wistream_input (stream));

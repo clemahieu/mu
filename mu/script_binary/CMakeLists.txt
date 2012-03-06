@@ -1,0 +1,12 @@
+cmake_minimum_required (VERSION 2.8)
+project (script_binary)
+
+link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
+
+add_library (mu_script_binary MODULE
+	entry.cpp)
+	
+target_link_libraries (mu_script_binary
+	mu_core
+	mu_io
+	mu_script)

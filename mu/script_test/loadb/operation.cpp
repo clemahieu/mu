@@ -31,7 +31,7 @@ void mu::script_test::loadb::operation::run_2 ()
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	auto file (boost::make_shared <mu::script::string::node> (std::wstring (L"x64/Debug/mu_binary_test.dll")));
+	auto file (boost::make_shared <mu::script::string::node> (std::wstring (L"mu/binary_test/Debug/mu_binary_test.dll")));
 	a1.push_back (file);
 	mu::script::loadb::operation loadb;
 	loadb.perform (errors, a1, r1);

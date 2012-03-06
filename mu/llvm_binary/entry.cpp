@@ -38,13 +38,21 @@
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
 
+extern "C"
+#ifdef _WIN32
+	__declspec (dllexport)
+#endif
 boost::uint64_t version_554bc0f73fa23e91 = 0x6d6ecf1f10200f;
 
-boost::shared_ptr <mu::script::extensions::node> extensions ()
+extern "C"
+#ifdef _WIN32
+	__declspec (dllexport)
+#endif
+void * extensions ()
 {
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeAllAsmPrinters();
-	auto result (boost::make_shared <mu::script::extensions::node> ());
+	auto result (new mu::script::extensions::node);
 	result->extensions->extensions_m [std::wstring (L"analyzer/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::analyzer::operation> ());
 	result->extensions->extensions_m [std::wstring (L"apint/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::apint::create> ());
 	result->extensions->extensions_m [std::wstring (L"cluster/get")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::cluster::get> ());
