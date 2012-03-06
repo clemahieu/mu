@@ -49,7 +49,7 @@ add_library (mu_llvm_ STATIC
 	global_variable/node.cpp
 	instruction/node.cpp
 	instructions/add.cpp
-	instructions/and.cpp
+	instructions/and_c.cpp
 	instructions/ashr.cpp
 	instructions/bitcast.cpp
 	instructions/call.cpp
@@ -59,7 +59,7 @@ add_library (mu_llvm_ STATIC
 	instructions/load.cpp
 	instructions/lshr.cpp
 	instructions/mul.cpp
-	instructions/or.cpp
+	instructions/or_c.cpp
 	instructions/ptrtoint.cpp
 	instructions/sdiv.cpp
 	instructions/sext.cpp
@@ -70,7 +70,7 @@ add_library (mu_llvm_ STATIC
 	instructions/trunc.cpp
 	instructions/udiv.cpp
 	instructions/urem.cpp
-	instructions/xor.cpp
+	instructions/xor_c.cpp
 	instructions/zext.cpp
 	integer_type/create.cpp
 	integer_type/node.cpp

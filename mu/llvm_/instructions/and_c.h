@@ -8,7 +8,7 @@ namespace mu
 	{
 		namespace instructions
 		{
-			class and : public mu::script::fixed
+			class and_c : public mu::script::fixed
 			{
 			public:
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;

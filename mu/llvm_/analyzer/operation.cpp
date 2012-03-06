@@ -6,7 +6,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/instructions/add.h>
-#include <mu/llvm_/instructions/and.h>
+#include <mu/llvm_/instructions/and_c.h>
 #include <mu/llvm_/instructions/ashr.h>
 #include <mu/llvm_/instructions/bitcast.h>
 #include <mu/llvm_/instructions/call.h>
@@ -16,7 +16,7 @@
 #include <mu/llvm_/instructions/load.h>
 #include <mu/llvm_/instructions/lshr.h>
 #include <mu/llvm_/instructions/mul.h>
-#include <mu/llvm_/instructions/or.h>
+#include <mu/llvm_/instructions/or_c.h>
 #include <mu/llvm_/instructions/ptrtoint.h>
 #include <mu/llvm_/instructions/sdiv.h>
 #include <mu/llvm_/instructions/sext.h>
@@ -27,7 +27,7 @@
 #include <mu/llvm_/instructions/trunc.h>
 #include <mu/llvm_/instructions/udiv.h>
 #include <mu/llvm_/instructions/urem.h>
-#include <mu/llvm_/instructions/xor.h>
+#include <mu/llvm_/instructions/xor_c.h>
 #include <mu/llvm_/instructions/zext.h>
 #include <mu/llvm_/apint/extension.h>
 #include <mu/script/string/extension.h>
@@ -124,7 +124,7 @@ mu::llvm_::analyzer::operation::operation ()
 	constant_int->closed.push_back (context.context_m);
 	extensions->extensions_m [std::wstring (L"int-c")] = boost::make_shared <mu::io::analyzer::extensions::global> (constant_int);	
 	extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::add> ()));
-	extensions->extensions_m [std::wstring (L"and")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::and> ()));
+	extensions->extensions_m [std::wstring (L"and")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::and_c> ()));
 	extensions->extensions_m [std::wstring (L"ashr")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::ashr> ()));
 	extensions->extensions_m [std::wstring (L"bitcast")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::bitcast> ()));
 	auto call (boost::make_shared <mu::llvm_::basic_block::split_return> (context.block, boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::call> ())));
@@ -139,7 +139,7 @@ mu::llvm_::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"mul")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::mul> ()));
 	extensions->extensions_m [std::wstring (L"ne")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::predicate::node> (llvm::CmpInst::Predicate::ICMP_NE));
 	extensions->extensions_m [std::wstring (L"null")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::null::create> ());
-	extensions->extensions_m [std::wstring (L"or")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::or> ()));
+	extensions->extensions_m [std::wstring (L"or")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::or_c> ()));
 	extensions->extensions_m [std::wstring (L"ptr")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::pointer_type::create> ());
 	extensions->extensions_m [std::wstring (L"ptrtoint")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::ptrtoint> ()));
 	extensions->extensions_m [std::wstring (L"sdiv")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::sdiv> ()));
@@ -159,7 +159,7 @@ mu::llvm_::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"ule")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::predicate::node> (llvm::CmpInst::Predicate::ICMP_ULE));
 	extensions->extensions_m [std::wstring (L"ult")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::predicate::node> (llvm::CmpInst::Predicate::ICMP_ULT));
 	extensions->extensions_m [std::wstring (L"urem")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::urem> ()));
-	extensions->extensions_m [std::wstring (L"xor")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::xor> ()));
+	extensions->extensions_m [std::wstring (L"xor")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::xor_c> ()));
 	extensions->extensions_m [std::wstring (L"zext")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::zext> ()));
 }
 

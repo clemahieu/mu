@@ -1,6 +1,12 @@
 cmake_minimum_required (VERSION 2.8)
 project (script)
 
+if (WIN32)
+	set (loadb_operation loadb/win32/operation.cpp)
+else ()
+	set (loadb_operation loadb/unix/operation.cpp)
+endif ()
+
 add_library (mu_script STATIC
 	fixed.cpp
 	operation.cpp
@@ -36,7 +42,7 @@ add_library (mu_script STATIC
 	integer/node.cpp
 	integer/subtract.cpp
 	load/operation.cpp
-	loadb/operation.cpp
+	${loadb_operation}
 	loads/operation.cpp
 	package/add.cpp
 	package/create.cpp

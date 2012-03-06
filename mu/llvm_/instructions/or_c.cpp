@@ -1,4 +1,4 @@
-#include "or.h"
+#include "or_c.h"
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
@@ -12,7 +12,7 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::or::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
+void mu::llvm_::instructions::or_c::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 {
 	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [0]));
 	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [1]));
@@ -62,7 +62,7 @@ void mu::llvm_::instructions::or::operator () (boost::shared_ptr <mu::core::erro
 	}
 }
 
-size_t mu::llvm_::instructions::or::count ()
+size_t mu::llvm_::instructions::or_c::count ()
 {
 	return 2;
 }
