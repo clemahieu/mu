@@ -4,7 +4,7 @@
 
 void mu::core_test::directory_iterator_test::run ()
 {
-	run_1 ();
+	//run_1 ();
 	run_2 ();
 	run_3 ();
 }

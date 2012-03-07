@@ -28,8 +28,8 @@ target_link_libraries (mu_test_entry
 
 if (NOT WIN32)
 	target_link_libraries (mu_test_entry
-	boost_filesystem
-	boost_system)
+		boost_filesystem
+		boost_system)
 endif ()
 
 if (WIN32)

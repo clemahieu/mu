@@ -51,7 +51,7 @@ extern "C"
 void * extensions ()
 {
 	llvm::InitializeNativeTarget ();
-	llvm::InitializeAllAsmPrinters();
+	llvm::InitializeNativeTargetAsmPrinter();
 	auto result (new mu::script::extensions::node);
 	result->extensions->extensions_m [std::wstring (L"analyzer/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::analyzer::operation> ());
 	result->extensions->extensions_m [std::wstring (L"apint/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::apint::create> ());

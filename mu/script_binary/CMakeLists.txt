@@ -10,3 +10,9 @@ target_link_libraries (mu_script_binary
 	mu_core
 	mu_io
 	mu_script)
+
+if (NOT WIN32)
+	target_link_libraries (mu_script_binary
+		boost_filesystem
+		boost_system)
+endif ()

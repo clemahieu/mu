@@ -12,3 +12,9 @@ target_link_libraries (mu_repl_entry
 	mu_repl
 	mu_script
 	mu_script_io)
+
+if (NOT WIN32)
+	target_link_libraries (mu_repl_entry
+		boost_filesystem
+		boost_system)
+endif ()
