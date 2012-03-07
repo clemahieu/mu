@@ -1,6 +1,8 @@
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/visitor.h>
 
+#include <iostream>
+
 mu::io::tokens::identifier::identifier (std::wstring string_a)
 	: string (string_a)
 {

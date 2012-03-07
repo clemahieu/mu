@@ -16,6 +16,7 @@ namespace mu
 				bool operator () () override;
 				void operator () (std::wstring error) override;
 				void operator () (wchar_t const * error) override;
+                void print (std::wostream & target) override;
 				boost::shared_ptr <mu::core::errors::error_target> target;
 				mu::core::context context;
 			};

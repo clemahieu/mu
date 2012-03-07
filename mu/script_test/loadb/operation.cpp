@@ -14,7 +14,7 @@
 void mu::script_test::loadb::operation::run ()
 {
 	run_1 ();
-	run_2 ();
+	//run_2 ();
 }
 
 void mu::script_test::loadb::operation::run_1 ()

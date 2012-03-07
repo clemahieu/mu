@@ -25,3 +25,8 @@ void mu::core::errors::error_context::operator () (wchar_t const * error)
 {
 	(*target) (error, context);
 }
+
+void mu::core::errors::error_context::print (std::wostream & target_a)
+{
+    target->print (target_a);
+}

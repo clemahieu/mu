@@ -22,6 +22,7 @@ namespace mu
 				virtual void operator () (wchar_t const * error);
 				void operator () (std::wstring error, mu::core::context context_a);
 				void operator () (wchar_t const * error, mu::core::context context_a);
+                virtual void print (std::wostream & target) = 0;
 			};
 		}
 	}

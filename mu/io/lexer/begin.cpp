@@ -24,6 +24,7 @@ void mu::io::lexer::begin::lex (wchar_t character)
 	case L'\n':
 	case L'\f':
 	case L'\0':
+    case L'\r':
 		// Eat whitespace
 		break;
 	case L'|':

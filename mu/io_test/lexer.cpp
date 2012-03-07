@@ -36,6 +36,7 @@ void mu::io_test::lexer::run ()
 	run_18 ();
 	run_19 ();
 	run_20 ();
+	run_21 ();
 }
 
 void mu::io_test::lexer::run_1 ()
@@ -570,4 +571,15 @@ void mu::io_test::lexer::run_20 ()
 	assert (t4.second.last.character == 8);
 	assert (t4.second.last.column == 9);
 	assert (t4.second.last.row == 1);
+}
+
+void mu::io_test::lexer::run_21 ()
+{
+	mu::io_test::lexer_result result;
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
+	source (L"\r \rthing thing\r \r[ [\r \r] ]\r \r:~ :~\r \r:a50 :a50\r \r:u00000050 :u00000050\r \r; ;\r");
+	source ();
+    assert (result.results.size () == 15);
 }

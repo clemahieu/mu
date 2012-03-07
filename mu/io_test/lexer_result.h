@@ -19,6 +19,7 @@ namespace mu
 		{
 		public:
 			void operator () (mu::io::tokens::token *, mu::core::context context_a);
+            void print (std::wostream & target);
 			std::vector <std::pair <mu::io::tokens::token *, mu::core::context>> results;
 		};
 	}
