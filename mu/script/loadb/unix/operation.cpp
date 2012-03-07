@@ -32,9 +32,10 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 						auto extensions_address (dlsym (library, "extensions"));
 						if (extensions_address != nullptr)
 						{
-							auto extensions_function ((boost::shared_ptr <mu::script::extensions::node> (*) ()) (extensions_address));
+							auto extensions_function ((mu::script::extensions::node * (*) ()) (extensions_address));
 							auto extensions (extensions_function ());
-							results.push_back (extensions);
+                            boost::shared_ptr <mu::script::extensions::node> result (extensions);
+							results.push_back (result);
 						}
 						else
 						{

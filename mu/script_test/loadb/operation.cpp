@@ -9,6 +9,7 @@
 #include <mu/script/identity/operation.h>
 
 #include <boost/make_shared.hpp>
+#include <boost/filesystem.hpp>
 
 void mu::script_test::loadb::operation::run ()
 {
@@ -31,7 +32,25 @@ void mu::script_test::loadb::operation::run_2 ()
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	auto file (boost::make_shared <mu::script::string::node> (std::wstring (L"mu/binary_test/Debug/mu_binary_test.dll")));
+    auto windows_name (std::wstring (L"mu/binary_test/Debug/mu_binary_test.dll"));
+    auto unix_name (std::wstring (L"mu/binary_test/Debug/libmu_binary_test.so"));
+    auto windows_path (boost::filesystem::initial_path() /= std::string (windows_name.begin (), windows_name.end ()));
+    auto unix_path (boost::filesystem::initial_path () /= std::string (unix_name.begin (), unix_name.end ()));
+    auto windows_exists (boost::filesystem::exists (windows_path));
+    auto unix_exists (boost::filesystem::exists (unix_path));
+    boost::shared_ptr <mu::script::string::node> file;
+    if (windows_exists)
+    {
+        file = boost::make_shared <mu::script::string::node> (windows_name);
+    }
+    else if (unix_exists)
+    {
+        file = boost::make_shared <mu::script::string::node> (unix_name);
+    }
+    else
+    {
+        assert (false && L"Unable to open windows or unix shared library");
+    }
 	a1.push_back (file);
 	mu::script::loadb::operation loadb;
 	loadb.perform (errors, a1, r1);
