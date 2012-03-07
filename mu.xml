@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="Mu Files" section="Scripts" extensions="*.mu" author="Colin LeMahieu" license="BSD">
+	<highlighting>
+		<contexts>
+			 <context name="begin" attribute="expression" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">			 
+				<RegExpr String="\[" context="expression" beginRegion="block"/>
+				<RegExpr String="\s*" context="#stay"/>
+			 </context>
+			 <context name="expression" attribute="expression" fallthroughContext="reference" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="\[" context="expression" beginRegion="block"/>
+				<RegExpr String="\]" context="#pop" endRegion="block" endRegion="block"/>
+			 </context>
+			 <context name="reference" attribute="reference" lineEndContext="#stay">
+				<RegExpr String="\[" context="expression" beginRegion="block"/>
+				<RegExpr String="\]" context="#pop#pop" endRegion="block"/>
+			 </context>
+			 <context name="error" attribute="error">
+			 </context>
+		</contexts>
+		<itemDatas>
+			<itemData name="error" defStyleNum="dsDataType" color="#f00" underline="true"/>
+			<itemData name="expression" defStyleNum="dsRegionMarker"/>
+			<itemData name="reference" defStyleNum="dsDataType" color="#0f0"/>
+		</itemDatas>
+	</highlighting>
+</language>
