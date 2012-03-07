@@ -10,10 +10,38 @@
 			 <context name="expression" attribute="expression" fallthroughContext="reference" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
 				<RegExpr String="\]" context="#pop" endRegion="block" endRegion="block"/>
+				<RegExpr String=";" context="single_declarations"/>
+				<RegExpr String=":a" context="reference" lookAhead="true"/>
 			 </context>
 			 <context name="reference" attribute="reference" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
-				<RegExpr String="\]" context="#pop#pop" endRegion="block"/>
+				<RegExpr String="\]" context="#pop" lookAhead="true"/>
+				<RegExpr String=";" context="#pop" lookAhead="true"/>
+				<RegExpr String="\s*" context="#pop"/>
+				<RegExpr String=":a" context="asciir"/>
+			 </context>
+			 <context name="asciir" attribute="reference" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="[0-9a-fA-F]{2}" context="#pop"/>
+			 </context>
+			 <context name="asciid" attribute="declaration" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="[0-9a-fA-F]{2}" context="#pop"/>
+			 </context>
+			 <context name="single_declarations" attribute="expression" fallthroughContext="declaration" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="\[" context="error"/>
+				<RegExpr String="\]" context="#pop" lookAhead="true"/>
+				<RegExpr String=";" context="full_declaration"/>
+			 </context>
+			 <context name="declaration" attribute="declaration" lineEndContext="#stay">
+				<RegExpr String="\[" context="error"/>
+				<RegExpr String="\]" context="#pop" lookAhead="true"/>
+				<RegExpr String=";" context="#pop" lookAhead="true"/>
+				<RegExpr String="\s*" context="#pop"/>
+				<RegExpr String=":a" context="asciid"/>
+			 </context>
+			 <context name="full_declaration" attribute="expression" fallthroughContext="declaration" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="\[" context="error"/>
+				<RegExpr String="\]" context="#pop" lookAhead="true"/>
+				<RegExpr String=";" context="error"/>
 			 </context>
 			 <context name="error" attribute="error">
 			 </context>
@@ -22,6 +50,7 @@
 			<itemData name="error" defStyleNum="dsDataType" color="#f00" underline="true"/>
 			<itemData name="expression" defStyleNum="dsRegionMarker"/>
 			<itemData name="reference" defStyleNum="dsDataType" color="#0f0"/>
+			<itemData name="declaration" defStyleNum="dsDataType" color="#00f"/>
 		</itemDatas>
 	</highlighting>
 </language>
