@@ -22,4 +22,5 @@ add_library (mu_script_test STATIC
 	package/get.cpp
 	package/get_recursive.cpp
 	string/extension.cpp
-	times/operation.cpp)
+	times/operation.cpp
+	type_check/operation.cpp)

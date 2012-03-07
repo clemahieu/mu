@@ -22,15 +22,20 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
         bool good (true);
         while (i != j)
         {
-			if (typeid (i->get ()) != **k)
+			std::type_info const & info (typeid (*i->get ()));
+			std::type_info const & expected (**k);
+			if (info != expected)
             {
                 good = false;
                 std::wstringstream message;
                 message << L"In operation: ";
                 message << target->name ();
-                message << L" invalid node type";
+                message << L" invalid node type: ";
+				message << info.name ();
                 message << L" at position: ";
                 message << position;
+				message << L" expecting: ";
+				message << expected.name ();
                 (*errors_a) (message.str ());
             }
 			++i;
