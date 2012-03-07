@@ -64,6 +64,7 @@ add_library (mu_script STATIC
 	string/extension.cpp
 	string/node.cpp
 	times/operation.cpp
+	type_check/operation.cpp
 	unit/operation.cpp
 	values/create.cpp
 	values/operation.cpp)
