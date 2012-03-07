@@ -1,5 +1,7 @@
 #include <mu/script/type_check/operation.h>
 
+#include <mu/core/errors/error_target.h>
+
 #include <sstream>
 #include <typeinfo>
 
@@ -20,7 +22,7 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
         bool good (true);
         while (i != j)
         {
-            if (*i != *k)
+			if (typeid (i->get ()) != **k)
             {
                 good = false;
                 std::wstringstream message;
@@ -31,10 +33,13 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
                 message << position;
                 (*errors_a) (message.str ());
             }
-            if (good)
-            {
-                (*target) (errors_a, parameters, results);
-            }
+			++i;
+			++k;
+			++position;
+        }
+        if (good)
+        {
+			target->perform (errors_a, parameters, results);
         }
     }
     else
