@@ -69,66 +69,66 @@
 [   ~
     [   store
         #i 32 h6a09e667
-        [call
-                index
-                destination
-                #i 64 d0
+        [   call
+            index
+            destination
+            #i 64 d0
         ]
     ]
     [   store
         #i 32 hbb67ae85
-        [call
-                index
-                destination
-                #i 64 d1
+        [   call
+            index
+            destination
+            #i 64 d1
         ]
     ]
     [   store
         #i 32 h3c6ef372
-        [call
-                index
-                destination
-                #i 64 d2
+        [   call
+            index
+            destination
+            #i 64 d2
         ]
     ]
     [   store
         #i 32 ha54ff53a
-        [call
-                index
-                destination
-                #i 64 d3
+        [   call
+            index
+            destination
+            #i 64 d3
         ]
     ]
     [   store
         #i 32 h510e527f
-        [call
-                index
-                destination
-                #i 64 d4
+        [   call
+            index
+            destination
+            #i 64 d4
         ]
     ]
     [   store
         #i 32 h9b05688c
-        [call
-                index
-                destination
-                #i 64 d5
+        [   call
+            index
+            destination
+            #i 64 d5
         ]
     ]
     [   store
         #i 32 h1f83d9ab
-        [call
-                index
-                destination
-                #i 64 d6
+        [   call
+            index
+            destination
+            #i 64 d6
         ]
     ]
     [   store
         #i 32 h5be0cd19
-        [call
-                index
-                destination
-                #i 64 d7
+        [   call
+            index
+            destination
+            #i 64 d7
         ]
     ]
 	[:~; destination]
