@@ -17,7 +17,7 @@
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":~" attribute="reference"/>
                 <RegExpr String=":" context="error"/>
-                <RegExpr String="~([^~]*)~" context="complex_reference"/>
+                <RegExpr String="\|([^\|]*)\|" context="complex_reference"/>
 			 </context>
 			 <context name="reference" attribute="reference" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
@@ -62,7 +62,7 @@
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
-                <RegExpr String="~([^~]*)~" context="complex_declaration"/>
+                <RegExpr String="\|([^\|]*)\|" context="complex_reference"/>
 			 </context>
 			 <context name="declaration" attribute="declaration" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
@@ -87,7 +87,7 @@
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
-                <RegExpr String="~([^~]*)~" context="complex_declaration"/>
+                <RegExpr String="\|([^\|]*)\|" context="complex_reference"/>
 			 </context>
 			 <context name="error" attribute="error">
 			 </context>

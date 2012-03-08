@@ -272,7 +272,7 @@ void mu::io_test::lexer::run_9 ()
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
-	source (L":[ a :] b");
+	source (L":{ a :} b");
 	source ();
 	assert (result.results.size () == 2);
 	auto t1 (result.results [0]);
@@ -300,7 +300,7 @@ void mu::io_test::lexer::run_10 ()
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
-	source (L":[:[ a :]:] b");
+	source (L":{:{ a :}:} b");
 	source ();
 	assert (result.results.size () == 2);
 	auto t1 (result.results [0]);

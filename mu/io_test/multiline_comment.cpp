@@ -19,7 +19,7 @@ void mu::io_test::multiline_comment::run_1 ()
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
-	source (L":[");
+	source (L":{");
 	source ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
