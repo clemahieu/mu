@@ -102,8 +102,8 @@
             <itemData name="comment" defStyleNum="dsComment" />-->
 			<itemData name="error" defStyleNum="dsDataType" color="#ff4040" underline="true"/>
 			<itemData name="expression" defStyleNum="dsRegionMarker"/>
-			<itemData name="reference" defStyleNum="dsDataType" color="#000"/>
-			<itemData name="declaration" defStyleNum="dsDataType" color="#4b0082" bold="true"/>
+			<itemData name="reference" defStyleNum="dsDataType" color="#CC5500"/>
+			<itemData name="declaration" defStyleNum="dsDataType" color="#500000" bold="true"/>
             <itemData name="complex" defStyleNum="dsDataType" color="#000"/>
             <itemData name="comment" defStyleNum="dsComment" />
 		</itemDatas>
