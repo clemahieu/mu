@@ -9,14 +9,14 @@
 			 </context>
 			 <context name="expression" attribute="expression" fallthroughContext="reference" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
-				<RegExpr String="\]" context="#pop" endRegion="block"/>
+				<RegExpr String="\]" context="#pop" endRegion="block" attribute="expression"/>
 				<RegExpr String=";" context="single_declarations"/>
 				<RegExpr String=":a" context="reference" lookAhead="true"/>
                 <RegExpr String=":u" context="reference" lookAhead="true"/>
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
-                <RegExpr String="\|([^\|]*)\|" context="complex_reference"/>
+                <RegExpr String="~([^~]*)~" context="complex_reference"/>
 			 </context>
 			 <context name="reference" attribute="reference" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
@@ -38,7 +38,7 @@
              </context>
              <context name="multiline_comment_control" attribute="comment" lineEndContext="#stay">
                 <RegExpr String="\{" context="multiline_comment" beginRegion="block"/>
-                <RegExpr String="\}" context="#pop#pop" endRegion="block"/>
+                <RegExpr String="\}" context="#pop#pop" endRegion="block" attribute="comment"/>
              </context>
 			 <context name="asciir" attribute="reference" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="[0-9a-fA-F]{2}" context="#pop"/>
