@@ -12,7 +12,7 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Support/FormattedStream.h>
 
-#include <sstream>;
+#include <sstream>
 
 void mu::llvm_::compile::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
 {

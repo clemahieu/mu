@@ -9,9 +9,13 @@
 			 </context>
 			 <context name="expression" attribute="expression" fallthroughContext="reference" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
-				<RegExpr String="\]" context="#pop" endRegion="block" endRegion="block"/>
+				<RegExpr String="\]" context="#pop" endRegion="block"/>
 				<RegExpr String=";" context="single_declarations"/>
 				<RegExpr String=":a" context="reference" lookAhead="true"/>
+                <RegExpr String=":u" context="reference" lookAhead="true"/>
+                <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":" context="error"/>
 			 </context>
 			 <context name="reference" attribute="reference" lineEndContext="#stay">
 				<RegExpr String="\[" context="expression" beginRegion="block"/>
@@ -19,17 +23,40 @@
 				<RegExpr String=";" context="#pop" lookAhead="true"/>
 				<RegExpr String="\s*" context="#pop"/>
 				<RegExpr String=":a" context="asciir"/>
+				<RegExpr String=":u" context="unicoder"/>
+                <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":" context="error"/>
 			 </context>
+             <context name="singleline_comment" attribute="comment" lineEndContext="#pop"/>
+             <context name="multiline_comment" attribute="comment" lineEndContext="#stay">
+                <RegExpr String=":" context="multiline_comment_control"/>
+             </context>
+             <context name="multiline_comment_control" attribute="comment" lineEndContext="#stay">
+                <RegExpr String="\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String="\}" context="#pop#pop" endRegion="block"/>
+             </context>
 			 <context name="asciir" attribute="reference" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="[0-9a-fA-F]{2}" context="#pop"/>
 			 </context>
 			 <context name="asciid" attribute="declaration" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="[0-9a-fA-F]{2}" context="#pop"/>
 			 </context>
+			 <context name="unicoder" attribute="reference" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="[0-9a-fA-F]{8}" context="#pop"/>
+			 </context>
+			 <context name="unicoded" attribute="declaration" fallthroughContext="error" fallthrough="true" lineEndContext="#stay">
+				<RegExpr String="[0-9a-fA-F]{8}" context="#pop"/>
+			 </context>
 			 <context name="single_declarations" attribute="expression" fallthroughContext="declaration" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
 				<RegExpr String="\]" context="#pop" lookAhead="true"/>
 				<RegExpr String=";" context="full_declaration"/>
+				<RegExpr String=":a" context="declaration" lookAhead="true"/>
+                <RegExpr String=":u" context="declaration" lookAhead="true"/>
+                <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":" context="error"/>
 			 </context>
 			 <context name="declaration" attribute="declaration" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
@@ -37,20 +64,30 @@
 				<RegExpr String=";" context="#pop" lookAhead="true"/>
 				<RegExpr String="\s*" context="#pop"/>
 				<RegExpr String=":a" context="asciid"/>
+				<RegExpr String=":u" context="unicoded"/>
+                <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":" context="error"/>
 			 </context>
 			 <context name="full_declaration" attribute="expression" fallthroughContext="declaration" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
 				<RegExpr String="\]" context="#pop" lookAhead="true"/>
 				<RegExpr String=";" context="error"/>
+				<RegExpr String=":a" context="declaration" lookAhead="true"/>
+                <RegExpr String=":u" context="declaration" lookAhead="true"/>
+                <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
+                <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":" context="error"/>
 			 </context>
 			 <context name="error" attribute="error">
 			 </context>
 		</contexts>
 		<itemDatas>
-			<itemData name="error" defStyleNum="dsDataType" color="#f00" underline="true"/>
+			<itemData name="error" defStyleNum="dsDataType" color="#ff4040" underline="true"/>
 			<itemData name="expression" defStyleNum="dsRegionMarker"/>
-			<itemData name="reference" defStyleNum="dsDataType" color="#0f0"/>
-			<itemData name="declaration" defStyleNum="dsDataType" color="#00f"/>
+			<itemData name="reference" defStyleNum="dsDataType" color="#000"/>
+			<itemData name="declaration" defStyleNum="dsDataType" color="#4b0082" bold="true"/>
+            <itemData name="comment" defStyleNum="dsComment" />
 		</itemDatas>
 	</highlighting>
 </language>
