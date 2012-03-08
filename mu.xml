@@ -15,6 +15,7 @@
                 <RegExpr String=":u" context="reference" lookAhead="true"/>
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
+                <RegExpr String=":~" attribute="reference"/>
                 <RegExpr String=":" context="error"/>
                 <RegExpr String="~([^~]*)~" context="complex_reference"/>
 			 </context>
@@ -61,6 +62,7 @@
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
+                <RegExpr String="~([^~]*)~" context="complex_declaration"/>
 			 </context>
 			 <context name="declaration" attribute="declaration" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
@@ -73,6 +75,9 @@
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
 			 </context>
+             <context name="complex_declaration" attribute="declaration" lineEndContext="#stay" dynamic="true">
+                <RegExpr String="%1" context="#pop" dynamic="true"/>
+             </context>
 			 <context name="full_declaration" attribute="expression" fallthroughContext="declaration" fallthrough="true" lineEndContext="#stay">
 				<RegExpr String="\[" context="error"/>
 				<RegExpr String="\]" context="#pop" lookAhead="true"/>
@@ -82,16 +87,24 @@
                 <RegExpr String=":\{" context="multiline_comment" beginRegion="block"/>
                 <RegExpr String=":-" context="singleline_comment"/>
                 <RegExpr String=":" context="error"/>
+                <RegExpr String="~([^~]*)~" context="complex_declaration"/>
 			 </context>
 			 <context name="error" attribute="error">
 			 </context>
 		</contexts>
 		<itemDatas>
+        <!--
 			<itemData name="error" defStyleNum="dsDataType" color="#ff4040" underline="true"/>
 			<itemData name="expression" defStyleNum="dsRegionMarker"/>
 			<itemData name="reference" defStyleNum="dsDataType" color="#0f0"/>
 			<itemData name="declaration" defStyleNum="dsDataType" color="#4b0082" bold="true"/>
             <itemData name="complex" defStyleNum="dsDataType" color="#0ff"/>
+            <itemData name="comment" defStyleNum="dsComment" />-->
+			<itemData name="error" defStyleNum="dsDataType" color="#ff4040" underline="true"/>
+			<itemData name="expression" defStyleNum="dsRegionMarker"/>
+			<itemData name="reference" defStyleNum="dsDataType" color="#000"/>
+			<itemData name="declaration" defStyleNum="dsDataType" color="#4b0082" bold="true"/>
+            <itemData name="complex" defStyleNum="dsDataType" color="#000"/>
             <itemData name="comment" defStyleNum="dsComment" />
 		</itemDatas>
 	</highlighting>
