@@ -12,11 +12,11 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script::extensions::merge_cluster::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::extensions::merge_cluster::operator () (mu::script::context & context_a)
 {	
-	auto one (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
-	auto three (boost::dynamic_pointer_cast <mu::script::cluster::node> (parameters [2]));
+	auto one (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+	auto three (boost::dynamic_pointer_cast <mu::script::cluster::node> (context_a.parameters [2]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -37,23 +37,23 @@ void mu::script::extensions::merge_cluster::operator () (boost::shared_ptr <mu::
 						std::wstringstream message;
 						message << L"Extensions already has an extension named: ";
 						message << name;
-						(*errors_a) (message.str ());
+						(*context_a.errors) (message.str ());
 					}
 				}
 			}
 			else
 			{
-				invalid_type (errors_a, parameters [2], 2);
+				invalid_type (context_a.errors, context_a.parameters [2], 2);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

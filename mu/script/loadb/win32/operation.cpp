@@ -10,9 +10,9 @@
 
 #include <boost/filesystem.hpp>
 
-void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::loadb::operation::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{		
 		auto path (boost::filesystem::initial_path ());
@@ -35,19 +35,19 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 							auto extensions_function ((mu::script::extensions::node * (*) ()) (extensions_address));
 							auto extensions (extensions_function ());
 							boost::shared_ptr <mu::script::extensions::node> result (extensions);
-							results.push_back (result);
+							context_a.results.push_back (result);
 						}
 						else
 						{
 							std::wstringstream message;
 							message << L"Function: 'extensions' does not exist in library: ";
 							message << path.string ().c_str ();
-							(*errors_a) (message.str ());
+							(*context_a.errors) (message.str ());
 						}
 					}
 					break;
 				default:
-					(*errors_a) (L"Unrecognized version number");
+					(*context_a.errors) (L"Unrecognized version number");
 					break;
 				}
 			}
@@ -56,7 +56,7 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 				std::wstringstream message;
 				message << L"Library did not have version function: ";
 				message << path.wstring ();
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
@@ -66,12 +66,12 @@ void mu::script::loadb::operation::operator () (boost::shared_ptr <mu::core::err
 			std::string patha (path.string ());
 			std::wstring path (patha.begin (), patha.end ());
 			message << path;
-			(*errors_a) (message.str ());
+			(*context_a.errors) (message.str ());
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

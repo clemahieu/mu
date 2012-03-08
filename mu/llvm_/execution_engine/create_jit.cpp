@@ -8,9 +8,9 @@
 
 #include <sstream>
 
-void mu::llvm_::execution_engine::create_jit::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
 		llvm::EngineBuilder builder (one->module);
@@ -20,7 +20,7 @@ void mu::llvm_::execution_engine::create_jit::operator () (boost::shared_ptr <mu
 		auto engine (builder.create ());
 		if (engine != nullptr && errors_l.empty ())
 		{
-			results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::node (engine)));
+			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::node (engine)));
 		}
 		else
 		{
@@ -28,12 +28,12 @@ void mu::llvm_::execution_engine::create_jit::operator () (boost::shared_ptr <mu
 			message << L"Unable to build ExecutionEngine: ";
 			std::wstring error (errors_l.begin (), errors_l.end ());
 			message << error;
-			(*errors_a) (message.str ());
+			(*context_a.errors) (message.str ());
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

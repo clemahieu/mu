@@ -3,24 +3,24 @@
 #include <mu/script/closure/operation.h>
 #include <mu/script/integer/node.h>
 
-void mu::script::closure::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::closure::create::operator () (mu::script::context & context_a)
 {
-	auto operation (boost::dynamic_pointer_cast <mu::script::operation> (parameters [0]));
-	auto count (boost::dynamic_pointer_cast <mu::script::integer::node> (parameters [1]));
+	auto operation (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters [0]));
+	auto count (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [1]));
 	if (operation.get () != nullptr)
 	{
 		if (count.get () != nullptr)
 		{
-			results.push_back (boost::shared_ptr <mu::core::node> (new mu::script::closure::operation (count->value, operation)));
+			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::script::closure::operation (count->value, operation)));
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

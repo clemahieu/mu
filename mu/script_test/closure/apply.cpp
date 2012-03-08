@@ -20,14 +20,14 @@ void mu::script_test::closure::apply::run_1 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	mu::script::closure::apply apply;
-	apply.perform (errors, arguments, results);
+	apply.perform (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto c2 (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));
 	assert (c2.get () != nullptr);	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-	(*c2) (errors, a2, r2);
+	(*c2) (mu::script::context (errors, a2, r2));
 	assert (errors->errors.empty ());
 	assert (r2.size () == 1);
 	assert (r2 [0] == n1);

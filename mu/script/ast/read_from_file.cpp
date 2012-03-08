@@ -12,9 +12,9 @@
 #include <sstream>
 #include <fstream>
 
-void mu::script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::ast::read_from_file::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{			
 		auto path (::boost::filesystem::initial_path ());
@@ -34,21 +34,21 @@ void mu::script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::
 				if (builder.clusters.size () == 1)
 				{
 					auto cluster (builder.clusters [0]);
-					results.push_back (cluster);
+					context_a.results.push_back (cluster);
 				}
 				else
 				{
 					std::wstringstream message;
 					message << L"File did not contain one cluster: ";
 					message << builder.clusters.size ();
-					(*errors_a) (message.str ());
+					(*context_a.errors) (message.str ());
 				}
 			}
 			else
 			{
 				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 				{
-					(*errors_a) ((*i).first, (*i).second);
+					(*context_a.errors) ((*i).first, (*i).second);
 				}
 			}
 		}
@@ -59,12 +59,12 @@ void mu::script::ast::read_from_file::operator () (boost::shared_ptr <mu::core::
 			std::string patha (path.string ());
 			std::wstring path (patha.begin (), patha.end ());
 			message << path;
-			(*errors_a) (message.str ());
+			(*context_a.errors) (message.str ());
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

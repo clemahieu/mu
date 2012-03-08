@@ -1,8 +1,8 @@
 #include "operation.h"
 
-void mu::script::print::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::print::operation::perform (mu::script::context & context_a)
 {
-	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
+	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i)
 	{
 		std::wcout << (*i)->debug ();
 		std::wcout << L'\n';

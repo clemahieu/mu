@@ -10,20 +10,20 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script_io::synthesizer::operator() (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script_io::synthesizer::operator() (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::core::cluster> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::core::cluster> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
 		mu::script_io::cluster cluster (one);
 		if (cluster.result.get () != nullptr)
 		{
-			results.push_back (cluster.result);
+			context_a.results.push_back (cluster.result);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

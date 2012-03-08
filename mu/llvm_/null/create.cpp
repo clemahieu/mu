@@ -7,16 +7,16 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::null::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::null::create::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (one->pointer_type ()), one));
+		context_a.results.push_back (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (one->pointer_type ()), one));
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

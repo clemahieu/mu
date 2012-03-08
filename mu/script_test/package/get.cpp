@@ -22,7 +22,7 @@ void mu::script_test::package::get::run_1 ()
 	arguments.push_back (data);
 	arguments.push_back (name);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	get (errors, arguments, results);
+	get (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == node);

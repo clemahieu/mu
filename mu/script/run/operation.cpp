@@ -17,48 +17,48 @@
 
 #include <sstream>
 
-void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::run::operation::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 1)
+	if (context_a.parameters.size () > 1)
 	{
-		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
-		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
+		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
+		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
 		if (extensions.get () != nullptr)
 		{
 			if (file.get () != nullptr)
 			{
 				mu::script::load::operation load;
-				auto ast (load.core (errors_a, file));
-				if (! (*errors_a) ())
+				auto ast (load.core (context_a.errors, file));
+				if (! (*context_a.errors) ())
 				{
 					mu::script::analyzer::operation analyzer;
-					auto cluster (analyzer.core (errors_a, extensions, ast));
-					if (! (*errors_a) ())
+					auto cluster (analyzer.core (context_a.errors, extensions, ast));
+					if (! (*context_a.errors) ())
 					{
 						if (cluster->routines.size () > 0)
 						{
 							auto routine (cluster->routines [0]);
-							std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 2, parameters.end ());
-							routine->perform (errors_a, arguments, results);
+							std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 2, context_a.parameters.end ());
+							routine->perform (mu::script::context (context_a.errors, arguments, context_a.results));
 						}
 						else
 						{
 							std::wstringstream message;
 							message << L"Cluster does not contain a routine: ";
 							message << cluster->routines.size ();
-							(*errors_a) (message.str ());
+							(*context_a.errors) (message.str ());
 						}
 					}
 				}
 			}
 			else
 			{
-				invalid_type (errors_a, parameters [1], 1);
+				invalid_type (context_a.errors, context_a.parameters [1], 1);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [0], 0);
+			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 	else
@@ -67,7 +67,7 @@ void mu::script::run::operation::perform (boost::shared_ptr <mu::core::errors::e
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least two arguments";
-		(*errors_a) (message.str ());
+		(*context_a.errors) (message.str ());
 	}
 }
 

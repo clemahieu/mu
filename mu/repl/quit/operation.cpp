@@ -7,7 +7,7 @@ mu::repl::quit::operation::operation (mu::repl::repl & repl_a)
 {
 }
 
-void mu::repl::quit::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::repl::quit::operation::operator () (mu::script::context & context_a)
 {
 	repl.stop ();
 }

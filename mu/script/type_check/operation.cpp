@@ -10,12 +10,12 @@ mu::script::type_check::operation::operation (boost::shared_ptr <mu::script::ope
 {
 }
 
-void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::type_check::operation::perform (mu::script::context & context_a)
 {
-    if (parameters.size () == type_ids.size ())
+    if (context_a.parameters.size () == type_ids.size ())
     {
-        auto i (parameters.begin ());
-        auto j (parameters.end ());
+        auto i (context_a.parameters.begin ());
+        auto j (context_a.parameters.end ());
         auto k (type_ids.begin ());
         auto l (type_ids.end ());
         size_t position (0);
@@ -36,7 +36,7 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
                 message << position;
 				message << L" expecting: ";
 				message << expected.name ();
-                (*errors_a) (message.str ());
+                (*context_a.errors) (message.str ());
             }
 			++i;
 			++k;
@@ -44,7 +44,7 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
         }
         if (good)
         {
-			target->perform (errors_a, parameters, results);
+			target->perform (context_a);
         }
     }
     else
@@ -55,7 +55,7 @@ void mu::script::type_check::operation::perform (boost::shared_ptr <mu::core::er
 		message << L" expecting: ";
 		message << type_ids.size ();
 		message << L" arguments, have: ";
-		message << parameters.size ();
-		(*errors_a) (message.str ());
+		message << context_a.parameters.size ();
+		(*context_a.errors) (message.str ());
     }
 }

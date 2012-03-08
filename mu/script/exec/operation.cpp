@@ -22,15 +22,15 @@ mu::script::exec::operation::operation (boost::shared_ptr <mu::io::analyzer::ext
 {
 }
 
-void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::exec::operation::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 0)
+	if (context_a.parameters.size () > 0)
 	{
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		a1.push_back (boost::make_shared <mu::script::extensions::node> (extensions));
-		a1.insert (a1.end (), parameters.begin (), parameters.end ());
+		a1.insert (a1.end (), context_a.parameters.begin (), context_a.parameters.end ());
 		mu::script::run::operation run;
-		run.perform (errors_a, a1, results);
+		run.perform (mu::script::context (context_a.errors, a1, context_a.results));
 	}
 	else
 	{
@@ -38,7 +38,7 @@ void mu::script::exec::operation::perform (boost::shared_ptr <mu::core::errors::
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least one argument";
-		(*errors_a) (message.str ());
+		(*context_a.errors) (message.str ());
 	}
 }
 

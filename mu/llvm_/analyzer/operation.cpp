@@ -163,11 +163,11 @@ mu::llvm_::analyzer::operation::operation ()
 	extensions->extensions_m [std::wstring (L"zext")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::basic_block::instruction_insert> (context.block, boost::make_shared <mu::llvm_::instructions::zext> ()));
 }
 
-void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	auto context_l (boost::dynamic_pointer_cast <mu::llvm_::context::node> (parameters [0]));
-	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [1]));
-	auto cluster (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [2]));
+	auto context_l (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
+	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [1]));
+	auto cluster (boost::dynamic_pointer_cast <mu::io::ast::cluster> (context_a.parameters [2]));
 	if (context_l.get () != nullptr)
 	{
 		if (module.get () != nullptr)
@@ -178,12 +178,12 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 				context.module->module = module->module;
 				std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
 				std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
-				auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, errors_a, &functions, &types, _1));
+				auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, context_a.errors, &functions, &types, _1));
 				{
-					mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+					mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
 					auto i (cluster->expressions.begin ());
 					auto j (cluster->expressions.end ());
-					while (i != j && ! (*errors_a) ())
+					while (i != j && ! (*context_a.errors) ())
 					{
 						auto value (*i);
 						if (value->individual_names.empty () && value->full_name->string.empty ())
@@ -203,22 +203,22 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 									}
 									else
 									{
-										(*errors_a) (L"There is not a body routine for every argument/result pair");
+										(*context_a.errors) (L"There is not a body routine for every argument/result pair");
 									}
 								}
 								else
 								{
-									(*errors_a) (L"Result routines cannot have names");
+									(*context_a.errors) (L"Result routines cannot have names");
 								}
 							}
 							else
 							{
-								(*errors_a) (L"There is not a result routine for every argument routine");
+								(*context_a.errors) (L"There is not a result routine for every argument routine");
 							}
 						}
 						else
 						{
-							(*errors_a) (L"Argument routines cannot have names");
+							(*context_a.errors) (L"Argument routines cannot have names");
 						}
 					}
 					mu::core::context context;
@@ -229,12 +229,12 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 					analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 				}
 				{
-					auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, errors_a, &results, &functions, _1));
-					mu::io::analyzer::analyzer analyzer (function, errors_a, extensions);
+					auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, context_a.errors, &context_a.results, &functions, _1));
+					mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
 					auto i (cluster->expressions.begin ());
 					auto j (cluster->expressions.end ());
 					size_t position (0);
-					while (i != j && ! (*errors_a) ())
+					while (i != j && ! (*context_a.errors) ())
 					{
 						++i;
 						++i;
@@ -251,17 +251,17 @@ void mu::llvm_::analyzer::operation::operator () (boost::shared_ptr <mu::core::e
 			}
 			else
 			{
-				invalid_type (errors_a, parameters [2], 2);
+				invalid_type (context_a.errors, context_a.parameters [2], 2);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 
@@ -300,7 +300,7 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 			}
 		}
 		std::vector <boost::shared_ptr <mu::core::node>> results;
-		signature_routine->perform (errors_a, arguments, results);						
+		signature_routine->perform (mu::script::context (errors_a, arguments, results));
 		if (!(*errors_a) ())
 		{
 			std::vector <llvm::Type *> types;
@@ -366,13 +366,13 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 	{
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		std::vector <boost::shared_ptr <mu::core::node>> r1;
-		(*i)->perform (errors_a, a1, r1);
+		(*i)->perform (mu::script::context (errors_a, a1, r1));
 		if (!(*errors_a) ())
 		{
 			++i;
 			std::vector <boost::shared_ptr <mu::core::node>> a2;
 			std::vector <boost::shared_ptr <mu::core::node>> r2;
-			(*i)->perform (errors_a, a2, r2);
+			(*i)->perform (mu::script::context (errors_a, a2, r2));
 			if (!(*errors_a) ())
 			{
 				auto arguments (boost::make_shared <mu::script::values::operation> ());
@@ -391,7 +391,7 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 				a3.push_back (context.context_m);
 				a3.push_back (arguments);
 				a3.push_back (results);
-				function_type_create->perform (errors_a, a3, r3);
+				function_type_create->perform (mu::script::context (errors_a, a3, r3));
 				if (!(*errors_a) ())
 				{
 					auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (r3 [0]));

@@ -14,17 +14,17 @@ mu::script::runtime::routine::routine (boost::shared_ptr <mu::script::cluster::n
 {
 }
 
-void mu::script::runtime::routine::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::runtime::routine::perform (mu::script::context & context_a)
 {
 	size_t size (calls.size ());
-	std::vector <boost::shared_ptr <mu::core::node>> values_l (parameters.begin (), parameters.end ());
+	std::vector <boost::shared_ptr <mu::core::node>> values_l (context_a.parameters.begin (), context_a.parameters.end ());
 	auto values (boost::make_shared <mu::script::values::operation> (values_l));
 	mu::script::runtime::context context (cluster, values, size);
-	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*errors_a) (); ++i)
+	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*context_a.errors) (); ++i)
 	{
-		(*(*i)) (errors_a, context);
+		(*(*i)) (context_a.errors, context);
 	}
-	results.assign (context.nodes [size - 1].begin (), context.nodes [size - 1].end ());
+	context_a.results.assign (context.nodes [size - 1].begin (), context.nodes [size - 1].end ());
 }
 
 std::wstring mu::script::runtime::routine::name ()

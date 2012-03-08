@@ -3,19 +3,19 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c/node.h>
 
-void mu::script::chain::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::chain::operation::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 0)
+	if (context_a.parameters.size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::operation> (parameters [0]));
+		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters [0]));
 		if (one.get () != nullptr)
 		{
-			std::vector <boost::shared_ptr <mu::core::node>> arguments (parameters.begin () + 1, parameters.end ());
+			std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 1, context_a.parameters.end ());
 			bool end (false);
 			while (!end)
 			{
 				std::vector <boost::shared_ptr <mu::core::node>> results_l;
-				one->perform (errors_a, arguments, results_l);
+				one->perform (mu::script::context (context_a.errors, arguments, results_l));
 				if (results_l.size () > 0)
 				{
 					auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results_l [results_l.size () - 1]));
@@ -28,25 +28,25 @@ void mu::script::chain::operation::perform (boost::shared_ptr <mu::core::errors:
 					else
 					{
 						end = true;
-						(*errors_a) (L"Last result must be a bool");
+						(*context_a.errors) (L"Last result must be a bool");
 					}
 				}
 				else
 				{
 					end = true;
-					(*errors_a) (L"Chain operation must have at least one result");
+					(*context_a.errors) (L"Chain operation must have at least one result");
 				}
 			}
-			results.insert (results.end (), arguments.begin (), arguments.end ());
+			context_a.results.insert (context_a.results.end (), arguments.begin (), arguments.end ());
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [0], 0);
+			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Chain operation must have at least one argument");
+		(*context_a.errors) (L"Chain operation must have at least one argument");
 	}
 }
 

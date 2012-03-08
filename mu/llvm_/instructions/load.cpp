@@ -13,27 +13,27 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::load::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
+void mu::llvm_::instructions::load::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [0]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
 		auto one_ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (one->type));
 		if (one_ptr.get () != nullptr)
 		{
 			auto instruction (new llvm::LoadInst (one->value ()));
-			results_a.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, one_ptr->element));
+			context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, one_ptr->element));
 		}
 		else
 		{
 			std::wstringstream message;
 			message << L"Argument is not a pointer";
-			(*errors_a) (message.str ());
+			(*context_a.errors) (message.str ());
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters_a [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

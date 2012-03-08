@@ -15,7 +15,7 @@ namespace mu
             {
 			public:
                 operation (boost::shared_ptr <mu::script::operation> target_a);
-                void perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
+                void perform (mu::script::context & context_a) override;
                 std::vector <std::type_info const *> type_ids;
                 boost::shared_ptr <mu::script::operation> target;
             };

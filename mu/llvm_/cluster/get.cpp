@@ -7,10 +7,10 @@
 
 #include <sstream>
 
-void mu::llvm_::cluster::get::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -18,24 +18,24 @@ void mu::llvm_::cluster::get::operator () (boost::shared_ptr <mu::core::errors::
 			auto existing (one->names.find (two->string));
 			if (existing != one->names.end ())
 			{
-				results.push_back (existing->second);
+				context_a.results.push_back (existing->second);
 			}
 			else
 			{
 				std::wstringstream message;
 				message << L"Cluster has no routine named: ";
 				message << two->string;
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

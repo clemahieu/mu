@@ -1,8 +1,8 @@
 #include "operation.h"
 
-void mu::script::identity::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::identity::operation::perform (mu::script::context & context_a)
 {
-	results.insert (results.end (), parameters.begin (), parameters.end ());
+	context_a.results.insert (context_a.results.end (), context_a.parameters.begin (), context_a.parameters.end ());
 }
 
 std::wstring mu::script::identity::operation::name ()

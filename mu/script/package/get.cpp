@@ -6,10 +6,10 @@
 
 #include <sstream>
 
-void mu::script::package::get::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::package::get::operator () (mu::script::context & context_a)
 {
-	auto node (boost::dynamic_pointer_cast <mu::script::package::node> (parameters [0]));
-	auto name (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [1]));
+	auto node (boost::dynamic_pointer_cast <mu::script::package::node> (context_a.parameters [0]));
+	auto name (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
 	if (node.get () != nullptr)
 	{
 		if (name.get () != nullptr)
@@ -17,24 +17,24 @@ void mu::script::package::get::operator () (boost::shared_ptr <mu::core::errors:
 			auto existing (node->items.find (name->string));
 			if (existing != node->items.end ())
 			{
-				results.push_back (existing->second);
+				context_a.results.push_back (existing->second);
 			}
 			else
 			{
 				std::wstringstream message;
 				message << L"Package does not contain item named: ";
 				message << name->string;
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

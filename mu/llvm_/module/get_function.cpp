@@ -14,10 +14,10 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::module::get_function::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::module::get_function::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::astring::node> (parameters [1]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -26,7 +26,7 @@ void mu::llvm_::module::get_function::operator () (boost::shared_ptr <mu::core::
 			if (function != nullptr)
 			{
 				mu::llvm_::type::build build (boost::make_shared <mu::llvm_::context::node> (&function->getContext ()), function->getType ());
-				results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::function::node (function, build.type)));
+				context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::function::node (function, build.type)));
 			}
 			else
 			{
@@ -34,17 +34,17 @@ void mu::llvm_::module::get_function::operator () (boost::shared_ptr <mu::core::
 				message << L"Module has no function named: ";
 				std::wstring name (two->string.begin (), two->string.end ());
 				message << name;
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

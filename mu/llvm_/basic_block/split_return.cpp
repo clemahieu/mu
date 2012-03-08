@@ -19,11 +19,11 @@ mu::llvm_::basic_block::split_return::split_return (boost::shared_ptr <mu::llvm_
 {
 }
 
-void mu::llvm_::basic_block::split_return::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::basic_block::split_return::perform (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> results_l;
-	next->perform (errors_a, parameters, results_l);
-	if (!(*errors_a) ())
+	next->perform (mu::script::context (context_a.errors, context_a.parameters, results_l));
+	if (!(*context_a.errors) ())
 	{
 		assert (results_l.size () == 1);
 		auto result (boost::static_pointer_cast <mu::llvm_::value::node> (results_l [0]));
@@ -35,7 +35,7 @@ void mu::llvm_::basic_block::split_return::perform (boost::shared_ptr <mu::core:
 				auto extract (llvm::ExtractValueInst::Create (result->value (), i));
 				block->block->getInstList ().push_back (extract);
 				auto value (boost::make_shared <mu::llvm_::value::node> (extract, set->elements [i]));
-				results.push_back (value);
+				context_a.results.push_back (value);
 			}
 		}
 		else
@@ -47,7 +47,7 @@ void mu::llvm_::basic_block::split_return::perform (boost::shared_ptr <mu::core:
 			}
 			else
 			{
-				results.push_back (result);
+				context_a.results.push_back (result);
 			}
 		}
 	}

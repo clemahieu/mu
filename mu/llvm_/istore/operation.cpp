@@ -16,11 +16,11 @@ mu::llvm_::istore::operation::operation (boost::shared_ptr <mu::llvm_::basic_blo
 {
 }
 
-void mu::llvm_::istore::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 {	
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [1]));
-	auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [2]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+	auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -42,31 +42,31 @@ void mu::llvm_::istore::operation::operator () (boost::shared_ptr <mu::core::err
 						std::vector <boost::shared_ptr <mu::core::node>> a1;
 						a1.push_back (one);
 						a1.push_back (final);
-						store.perform (errors_a, a1, results);
+						store.perform (mu::script::context (context_a.errors, a1, context_a.results));
 					}
 					else
 					{
-						(*errors_a) (L"Argument 3 is not an integer");
+						(*context_a.errors) (L"Argument 3 is not an integer");
 					}
 				}
 				else
 				{
-					(*errors_a) (L"Argument 2 is not a pointer");
+					(*context_a.errors) (L"Argument 2 is not a pointer");
 				}
 			}
 			else
 			{
-				invalid_type (errors_a, parameters [2], 2);
+				invalid_type (context_a.errors, context_a.parameters [2], 2);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else	
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

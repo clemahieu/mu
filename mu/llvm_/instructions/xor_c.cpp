@@ -12,10 +12,10 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::xor_c::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
+void mu::llvm_::instructions::xor_c::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [1]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -29,7 +29,7 @@ void mu::llvm_::instructions::xor_c::operator () (boost::shared_ptr <mu::core::e
 				if (one_bits == two_bits)
 				{
 					auto instruction (llvm::BinaryOperator::CreateXor (one->value (), two->value ()));
-					results_a.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, one->type));
+					context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, one->type));
 				}
 				else
 				{
@@ -38,7 +38,7 @@ void mu::llvm_::instructions::xor_c::operator () (boost::shared_ptr <mu::core::e
 					message << one_bits;
 					message << L" ";
 					message << two_bits;
-					(*errors_a) (message.str ());
+					(*context_a.errors) (message.str ());
 				}
 			}
 			else
@@ -48,17 +48,17 @@ void mu::llvm_::instructions::xor_c::operator () (boost::shared_ptr <mu::core::e
 				message << one_int;
 				message << L" ";
 				message << two_int;
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters_a [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters_a [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

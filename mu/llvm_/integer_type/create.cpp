@@ -11,10 +11,10 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::integer_type::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::integer_type::create::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::apint::node> (parameters [1]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::llvm_::apint::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -22,7 +22,7 @@ void mu::llvm_::integer_type::create::operator () (boost::shared_ptr <mu::core::
 			auto bits (two->value->getLimitedValue ());
 			if (bits >= llvm::IntegerType::MIN_INT_BITS && bits <= llvm::IntegerType::MAX_INT_BITS)
 			{
-				results.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (*one->context, bits)));
+				context_a.results.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (*one->context, bits)));
 			}
 			else
 			{
@@ -33,17 +33,17 @@ void mu::llvm_::integer_type::create::operator () (boost::shared_ptr <mu::core::
 				message << two->value;
 				message << L" <= ";
 				message << llvm::IntegerType::MAX_INT_BITS;
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

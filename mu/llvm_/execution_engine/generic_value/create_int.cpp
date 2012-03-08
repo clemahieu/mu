@@ -5,26 +5,26 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::execution_engine::generic_value::create_int::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::execution_engine::generic_value::create_int::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::integer::node> (parameters [1]));
+	auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
 		{
 			auto result (boost::make_shared <mu::llvm_::execution_engine::generic_value::node> ());
 			result->value.IntVal = llvm::APInt ((unsigned int) (one->value), (uint64_t) (two->value));
-			results.push_back (result);
+			context_a.results.push_back (result);
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

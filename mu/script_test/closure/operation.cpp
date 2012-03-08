@@ -20,7 +20,7 @@ void mu::script_test::closure::operation::run_1 ()
 	mu::script::closure::operation closure (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	closure (errors, arguments, results);
+	closure (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.empty ());
 }
@@ -33,7 +33,7 @@ void mu::script_test::closure::operation::run_2 ()
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	closure (errors, arguments, results);
+	closure (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == node);
@@ -49,7 +49,7 @@ void mu::script_test::closure::operation::run_3 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	closure (errors, arguments, results);
+	closure (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);
 	assert (results [0] == n1);
@@ -66,7 +66,7 @@ void mu::script_test::closure::operation::run_4 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	closure (errors, arguments, results);
+	closure (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));
@@ -75,7 +75,7 @@ void mu::script_test::closure::operation::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
 	args2.push_back (n3);
 	std::vector <boost::shared_ptr <mu::core::node>> res2;
-	(*result) (errors, args2, res2);
+	(*result) (mu::script::context (errors, args2, res2));
 	assert (res2.size () == 2);
 	assert (res2 [0] == n1);
 	assert (res2 [1] == n3);
@@ -91,7 +91,7 @@ void mu::script_test::closure::operation::run_5 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	closure (errors, arguments, results);
+	closure (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));
@@ -100,7 +100,7 @@ void mu::script_test::closure::operation::run_5 ()
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
 	args2.push_back (n3);
 	std::vector <boost::shared_ptr <mu::core::node>> res2;
-	(*result) (errors, args2, res2);
+	(*result) (mu::script::context (errors, args2, res2));
 	assert (res2.size () == 2);
 	assert (res2 [0] == n3);
 	assert (res2 [1] == n2);

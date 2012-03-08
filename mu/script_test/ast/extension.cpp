@@ -31,7 +31,7 @@ void mu::script_test::ast::extension::run_1 ()
 	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	routine->perform (builder.errors, a1, r1);
+	routine->perform (mu::script::context (builder.errors, a1, r1));
 	assert (r1.size () == 1);
 	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
 	assert (cl.get () != nullptr);
@@ -61,7 +61,7 @@ void mu::script_test::ast::extension::run_3 ()
 	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	routine->perform (builder.errors, a1, r1);
+	routine->perform (mu::script::context (builder.errors, a1, r1));
 	assert (r1.size () == 1);
 	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
 	assert (cl.get () != nullptr);

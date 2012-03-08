@@ -20,12 +20,12 @@ mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operat
 {
 }
 
-void mu::script::closure::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::closure::operation::operator () (mu::script::context & context_a)
 {
 	std::vector <size_t> open_l;
-	for (size_t position (0), end (parameters.size ()); position != end; ++position)
+	for (size_t position (0), end (context_a.parameters.size ()); position != end; ++position)
 	{
-		auto val (parameters [position]);
+		auto val (context_a.parameters [position]);
 		auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
 		if (hole.get () == nullptr)
 		{
@@ -38,11 +38,11 @@ void mu::script::closure::operation::operator () (boost::shared_ptr <mu::core::e
 	}
 	if (open_l.size () != 0)
 	{
-		results.push_back (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
+		context_a.results.push_back (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
 	}
 	else
 	{
-		operation_m->perform (errors_a, closed, results);
+		operation_m->perform (mu::script::context (context_a.errors, closed, context_a.results));
 	}
 }
 

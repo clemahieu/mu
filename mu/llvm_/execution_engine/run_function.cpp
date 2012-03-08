@@ -10,17 +10,17 @@
 
 #include <sstream>
 
-void mu::llvm_::execution_engine::run_function::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::execution_engine::run_function::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 1)
+	if (context_a.parameters.size () > 1)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::execution_engine::node> (parameters [0]));
-		auto two (boost::dynamic_pointer_cast <mu::llvm_::function::node> (parameters [1]));
+		auto one (boost::dynamic_pointer_cast <mu::llvm_::execution_engine::node> (context_a.parameters [0]));
+		auto two (boost::dynamic_pointer_cast <mu::llvm_::function::node> (context_a.parameters [1]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
 			{
-				perform_internal (errors_a, one, two->function (), parameters, results);
+				perform_internal (context_a.errors, one, two->function (), context_a.parameters, context_a.results);
 			}
 			else
 			{
@@ -50,7 +50,7 @@ void mu::llvm_::execution_engine::run_function::perform (boost::shared_ptr <mu::
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [0], 0);
+			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 	else
@@ -59,7 +59,7 @@ void mu::llvm_::execution_engine::run_function::perform (boost::shared_ptr <mu::
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least two arguments";
-		(*errors_a) (message.str ());
+		(*context_a.errors) (message.str ());
 	}
 }
 

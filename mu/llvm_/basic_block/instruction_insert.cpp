@@ -12,16 +12,16 @@ mu::llvm_::basic_block::instruction_insert::instruction_insert (boost::shared_pt
 {
 }
 
-void mu::llvm_::basic_block::instruction_insert::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::basic_block::instruction_insert::perform (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	r1.push_back (block);
-	instruction->perform (errors_a, parameters, r1);
-	if (!(*errors_a) ())
+	instruction->perform (mu::script::context (context_a.errors, context_a.parameters, r1));
+	if (!(*context_a.errors) ())
 	{
 		assert (r1.size () == 2);
 		mu::llvm_::basic_block::insert insert;
-		insert.perform (errors_a, r1, results);
-		results.push_back (r1 [1]);
+		insert.perform (mu::script::context (context_a.errors, r1, context_a.results));
+		context_a.results.push_back (r1 [1]);
 	}
 }

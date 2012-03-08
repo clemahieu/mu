@@ -19,13 +19,13 @@ mu::llvm_::ccall::operation::operation (boost::shared_ptr <mu::llvm_::basic_bloc
 {
 }
 
-void mu::llvm_::ccall::operation::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 2)
+	if (context_a.parameters.size () > 2)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [0]));
-		auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [1]));
-		auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters [2]));
+		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+		auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+		auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
@@ -48,24 +48,24 @@ void mu::llvm_::ccall::operation::perform (boost::shared_ptr <mu::core::errors::
 								std::vector <boost::shared_ptr <mu::core::node>> a1;
 								std::vector <boost::shared_ptr <mu::core::node>> r1;
 								a1.push_back (two);
-								for (auto i (parameters.begin () + 3), j (parameters.end () + 0); i != j; ++i)
+								for (auto i (context_a.parameters.begin () + 3), j (context_a.parameters.end () + 0); i != j; ++i)
 								{
 									a1.push_back (*i);
 								}
-								call->perform (errors_a, a1, r1);
+								call->perform (mu::script::context (context_a.errors, a1, r1));
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
 								std::vector <boost::shared_ptr <mu::core::node>> a2;
 								std::vector <boost::shared_ptr <mu::core::node>> r2;
 								a2.push_back (three);
-								for (auto i (parameters.begin () + 3), j (parameters.end () + 0); i != j; ++i)
+								for (auto i (context_a.parameters.begin () + 3), j (context_a.parameters.end () + 0); i != j; ++i)
 								{
 									a2.push_back (*i);
 								}
-								call->perform (errors_a, a2, r2);
+								call->perform (mu::script::context (context_a.errors, a2, r2));
 								false_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = end_block;
-								if (! (*errors_a) ())
+								if (! (*context_a.errors) ())
 								{
 									for (auto i (r1.begin ()), j (r1.end ()), k (r2.begin ()), l (r2.end ()); i != j && k != l; ++i, ++k)
 									{
@@ -81,52 +81,52 @@ void mu::llvm_::ccall::operation::perform (boost::shared_ptr <mu::core::errors::
 												phi->addIncoming (i_value->value (), true_block);
 												phi->addIncoming (k_value->value (), false_block);
 												end_block->getInstList ().push_back (phi);
-												results.push_back (boost::make_shared <mu::llvm_::value::node> (phi, i_value->type));
+												context_a.results.push_back (boost::make_shared <mu::llvm_::value::node> (phi, i_value->type));
 											}
 											else
 											{
-												(*errors_a) (L"Branch types are not the same");
+												(*context_a.errors) (L"Branch types are not the same");
 											}
 										}
 										else
 										{
-											(*errors_a) (L"Function returned a non-value");
+											(*context_a.errors) (L"Function returned a non-value");
 										}										
 									}
 								}
 							}
 							else
 							{
-								(*errors_a) (L"First ccall argument must be one bit");
+								(*context_a.errors) (L"First ccall argument must be one bit");
 							}
 						}
 						else
 						{
-							(*errors_a) (L"First ccall argument must be an integer");
+							(*context_a.errors) (L"First ccall argument must be an integer");
 						}
 					}
 					else
 					{
-						(*errors_a) (L"Branch functions must be the same type");
+						(*context_a.errors) (L"Branch functions must be the same type");
 					}
 				}
 				else
 				{
-					invalid_type (errors_a, parameters [2], 2);
+					invalid_type (context_a.errors, context_a.parameters [2], 2);
 				}
 			}
 			else
 			{
-				invalid_type (errors_a, parameters [1], 1);
+				invalid_type (context_a.errors, context_a.parameters [1], 1);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [0], 0);
+			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Ccall operation requires at least three arguments");
+		(*context_a.errors) (L"Ccall operation requires at least three arguments");
 	}
 }

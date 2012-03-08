@@ -19,20 +19,20 @@
 #include <sstream>
 #include <fstream>
 
-void mu::script::load::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::load::operation::operator () (mu::script::context & context_a)
 {
-	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (parameters [0]));
+	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 	if (file.get () != nullptr)
 	{
-		auto result (core (errors_a, file));
+		auto result (core (context_a.errors, file));
 		if (result.get () != nullptr)
 		{
-			results.push_back (result);
+			context_a.results.push_back (result);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [1], 1);
+		invalid_type (context_a.errors, context_a.parameters [1], 1);
 	}
 }
 

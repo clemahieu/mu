@@ -4,11 +4,11 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script::ast::merge::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::ast::merge::perform (mu::script::context & context_a)
 {
 	auto result (boost::make_shared <mu::io::ast::cluster> ());
 	size_t position (0);
-	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i, ++position)
+	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i, ++position)
 	{
 		auto cluster (boost::dynamic_pointer_cast <mu::io::ast::cluster> (*i));
 		if (cluster.get () != nullptr)
@@ -17,7 +17,7 @@ void mu::script::ast::merge::perform (boost::shared_ptr <mu::core::errors::error
 		}
 		else
 		{
-			invalid_type (errors_a, *i, position);
+			invalid_type (context_a.errors, *i, position);
 		}
 	}
 }

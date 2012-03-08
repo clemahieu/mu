@@ -15,24 +15,24 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::script::analyzer::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (parameters [0]));
-	auto ast (boost::dynamic_pointer_cast <mu::io::ast::cluster> (parameters [1]));
+	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
+	auto ast (boost::dynamic_pointer_cast <mu::io::ast::cluster> (context_a.parameters [1]));
 	if (extensions.get () != nullptr)
 	{
 		if (ast.get () != nullptr)
 		{
-			auto result (core (errors_a, extensions, ast));
+			auto result (core (context_a.errors, extensions, ast));
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

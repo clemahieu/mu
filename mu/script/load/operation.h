@@ -30,7 +30,7 @@ namespace mu
 			class operation : public mu::script::fixed
 			{
 			public:
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results) override;
+				void operator () (mu::script::context & context_a) override;
 				boost::shared_ptr <mu::io::ast::cluster> core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::string::node> file);
 				size_t count () override;
 			};

@@ -7,15 +7,15 @@
 
 #include <sstream>
 
-void mu::llvm_::module::merge::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::module::merge::perform (mu::script::context & context_a)
 {
-	if (parameters.size () > 0)
+	if (context_a.parameters.size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [0]));
+		auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
 		if (one.get () != nullptr)
 		{
 			size_t position (1);
-			for (auto i (parameters.begin () + 1), j (parameters.end () + 0); i != j; ++i, ++position)
+			for (auto i (context_a.parameters.begin () + 1), j (context_a.parameters.end () + 0); i != j; ++i, ++position)
 			{
 				auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (*i));
 				if (module.get () != nullptr)
@@ -25,18 +25,18 @@ void mu::llvm_::module::merge::perform (boost::shared_ptr <mu::core::errors::err
 					if (!errors.empty ())
 					{
 						std::wstring errors_l (errors.begin (), errors.end ());
-						(*errors_a) (errors_l);
+						(*context_a.errors) (errors_l);
 					}
 				}
 				else
 				{
-					invalid_type (errors_a, parameters [position], position);
+					invalid_type (context_a.errors, context_a.parameters [position], position);
 				}
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [0], 0);
+			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 	else
@@ -45,6 +45,6 @@ void mu::llvm_::module::merge::perform (boost::shared_ptr <mu::core::errors::err
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least 1 argument";
-		(*errors_a) (message.str ());
+		(*context_a.errors) (message.str ());
 	}
 }

@@ -14,10 +14,10 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::store::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
+void mu::llvm_::instructions::store::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (parameters_a [1]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
 	if (one.get () != nullptr)
 	{
 		if (two.get () != nullptr)
@@ -28,30 +28,30 @@ void mu::llvm_::instructions::store::operator () (boost::shared_ptr <mu::core::e
 				if (ptr->getElementType () == one->value ()->getType ())
 				{
 					auto instruction (new llvm::StoreInst (one->value (), two->value ()));
-					results_a.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::void_type::node> (boost::make_shared <mu::llvm_::context::node> (&instruction->getContext ()))));
+					context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::void_type::node> (boost::make_shared <mu::llvm_::context::node> (&instruction->getContext ()))));
 				}
 				else
 				{
 					std::wstringstream message;
 					message << L"Argument two is not a pointer to the type of argument one";
-					(*errors_a) (message.str ());
+					(*context_a.errors) (message.str ());
 				}
 			}
 			else
 			{
 				std::wstringstream message;
 				message << L"Argument 2 is not a pointer";
-				(*errors_a) (message.str ());
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters_a [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters_a [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

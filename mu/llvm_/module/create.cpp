@@ -5,16 +5,16 @@
 
 #include <llvm/Module.h>
 
-void mu::llvm_::module::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::module::create::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef (), *one->context))));
+		context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef (), *one->context))));
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

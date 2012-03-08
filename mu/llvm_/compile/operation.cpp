@@ -14,10 +14,10 @@
 
 #include <sstream>
 
-void mu::llvm_::compile::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::compile::operation::operator () (mu::script::context & context_a)
 {
-	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (parameters [0]));
-	auto name (boost::dynamic_pointer_cast <mu::script::astring::node> (parameters [1]));
+	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
+	auto name (boost::dynamic_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));
 	if (module.get () != nullptr)
 	{
 		if (name.get () != nullptr)
@@ -48,13 +48,13 @@ void mu::llvm_::compile::operation::operator () (boost::shared_ptr <mu::core::er
 						}
 						else
 						{
-							(*errors_a) (L"Target does not support generation of files of this file type");
+							(*context_a.errors) (L"Target does not support generation of files of this file type");
 						}
 					}
 					else
 					{
 						std::wstring message (error_info.begin (), error_info.end ());
-						(*errors_a) (message);
+						(*context_a.errors) (message);
 					}
 				}
 				if (link)
@@ -72,17 +72,17 @@ void mu::llvm_::compile::operation::operator () (boost::shared_ptr <mu::core::er
 			else
 			{
 				std::wstring message (error.begin (), error.end ());
-				(*errors_a) (message);
+				(*context_a.errors) (message);
 			}
 		}
 		else
 		{
-			invalid_type (errors_a, parameters [1], 1);
+			invalid_type (context_a.errors, context_a.parameters [1], 1);
 		}
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

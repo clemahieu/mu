@@ -33,7 +33,7 @@ void mu::llvm_test::function_type::create::run_1 ()
 	arguments.push_back (context);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-	create (errors, arguments, results);
+	create (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (results [0]));
@@ -57,7 +57,7 @@ void mu::llvm_test::function_type::create::run_2 ()
 	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (args);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-	create (errors, arguments, results);
+	create (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (results [0]));
@@ -84,7 +84,7 @@ void mu::llvm_test::function_type::create::run_3 ()
 	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (args);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-	create (errors, arguments, results);
+	create (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (results [0]));
@@ -112,7 +112,7 @@ void mu::llvm_test::function_type::create::run_4 ()
 	auto res (boost::make_shared <mu::script::values::operation> ());
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (res);
-	create (errors, arguments, results);
+	create (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (results [0]));
@@ -136,7 +136,7 @@ void mu::llvm_test::function_type::create::run_5 ()
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (res);
-	create (errors, arguments, results);
+	create (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (results [0]));

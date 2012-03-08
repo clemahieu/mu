@@ -7,16 +7,16 @@
 
 #include <llvm/ADT/APInt.h>
 
-void mu::llvm_::apint::create::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::llvm_::apint::create::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (parameters [0]));
+	auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [0]));
 	if (one.get () != nullptr)
 	{
-		results.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, one->value)));
+		context_a.results.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, one->value)));
 	}
 	else
 	{
-		invalid_type (errors_a, parameters [0], 0);
+		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

@@ -9,9 +9,9 @@ mu::script::values::operation::operation (std::vector <boost::shared_ptr <mu::co
 {
 }
 
-void mu::script::values::operation::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::values::operation::operator () (mu::script::context & context_a)
 {
-	results.insert (results.end (), values.begin (), values.end ());
+	context_a.results.insert (context_a.results.end (), values.begin (), values.end ());
 }
 
 size_t mu::script::values::operation::count ()

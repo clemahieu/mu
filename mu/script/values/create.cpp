@@ -4,12 +4,12 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script::values::create::perform (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results)
+void mu::script::values::create::perform (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> values;
-	for (auto i (parameters.begin ()), j (parameters.end ()); i != j; ++i)
+	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i)
 	{
 		values.push_back (*i);
 	}
-	results.push_back (boost::make_shared <mu::script::values::operation> (values));
+	context_a.results.push_back (boost::make_shared <mu::script::values::operation> (values));
 }

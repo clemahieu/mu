@@ -35,7 +35,7 @@ void mu::llvm_test::basic_block::insert::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (block);
 	arguments.push_back (instruction);
-	insert (errors, arguments, results);
+	insert (mu::script::context (errors, arguments, results));
 	assert (errors->errors.empty ());
 	assert (block->block->getInstList ().size () == 1);
 }
