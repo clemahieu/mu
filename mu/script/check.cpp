@@ -1,4 +1,4 @@
-#include <mu/script/type_check/check.h>
+#include <mu/script/check.h>
 
 #include <mu/core/errors/error_target.h>
 #include <sstream>

@@ -8,6 +8,7 @@ else ()
 endif ()
 
 add_library (mu_script STATIC
+	check.cpp
 	context.cpp
 	fixed.cpp
 	operation.cpp
@@ -68,7 +69,6 @@ add_library (mu_script STATIC
 	string/extension.cpp
 	string/node.cpp
 	times/operation.cpp
-	type_check/check.cpp
 	type_check/operation.cpp
 	unit/operation.cpp
 	values/create.cpp

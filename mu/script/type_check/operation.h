@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/script/operation.h>
-#include <mu/script/type_check/check.h>
+#include <mu/script/check.h>
 
 #include <vector>
 
