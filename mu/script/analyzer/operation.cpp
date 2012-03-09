@@ -11,28 +11,18 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/end.h>
+#include <mu/script/check.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
 void mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
-	auto ast (boost::dynamic_pointer_cast <mu::io::ast::cluster> (context_a.parameters [1]));
-	if (extensions.get () != nullptr)
+	if (mu::script::check <mu::script::extensions::node, mu::io::ast::cluster> () (context_a))
 	{
-		if (ast.get () != nullptr)
-		{
-			auto result (core (context_a.errors, extensions, ast));
-		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
-		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
+		auto extensions (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
+		auto ast (boost::static_pointer_cast <mu::io::ast::cluster> (context_a.parameters [1]));
+		auto result (core (context_a.errors, extensions, ast));
 	}
 }
 

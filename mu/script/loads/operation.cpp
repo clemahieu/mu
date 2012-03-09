@@ -11,32 +11,22 @@
 #include <mu/script_io/builder.h>
 #include <mu/script_io/cluster.h>
 #include <mu/script/analyzer/operation.h>
+#include <mu/script/check.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
 void mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
-	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
-	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
-	if (extensions.get () != nullptr)
+	if (mu::script::check <mu::script::extensions::node, mu::script::string::node> () (context_a))
 	{
-		if (file.get () != nullptr)
+		auto extensions (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
+		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto result (core (context_a.errors, extensions, file));
+		if (result.get () != nullptr)
 		{
-			auto result (core (context_a.errors, extensions, file));
-			if (result.get () != nullptr)
-			{
-				context_a.results.push_back (result);
-			}
+			context_a.results.push_back (result);
 		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
-		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

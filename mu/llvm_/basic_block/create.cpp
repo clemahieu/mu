@@ -2,6 +2,7 @@
 
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/basic_block/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/BasicBlock.h>
 
@@ -9,14 +10,10 @@
 
 void mu::llvm_::basic_block::create::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::context::node> () (context_a))
 	{
+		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
 		context_a.results.push_back (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (*one->context)));
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

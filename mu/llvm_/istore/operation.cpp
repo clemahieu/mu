@@ -5,6 +5,7 @@
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/llvm_/instructions/store.h>
+#include <mu/script/check.h>
 
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
@@ -18,56 +19,38 @@ mu::llvm_::istore::operation::operation (boost::shared_ptr <mu::llvm_::basic_blo
 
 void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 {	
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
-	auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
+		auto ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (two->type));
+		if (ptr != nullptr)
 		{
-			if (three.get () != nullptr)
-			{
-				auto ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (two->type));
-				if (ptr != nullptr)
-				{
-					auto offset (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node>  (three->type));
-					if (offset.get () != nullptr)
-					{			
-						auto as_int (new llvm::PtrToIntInst (three->value (), offset->integer_type ()));
-						block->block->getInstList ().push_back (as_int);
-						auto added (llvm::BinaryOperator::CreateAdd (as_int, three->value ()));
-						block->block->getInstList ().push_back (added);
-						auto final (boost::make_shared <mu::llvm_::value::node> (added, three->type));
-						mu::llvm_::instructions::store store;
-						std::vector <boost::shared_ptr <mu::core::node>> a1;
-						a1.push_back (one);
-						a1.push_back (final);
-                        auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
-						store.perform (ctx);
-					}
-					else
-					{
-						(*context_a.errors) (L"Argument 3 is not an integer");
-					}
-				}
-				else
-				{
-					(*context_a.errors) (L"Argument 2 is not a pointer");
-				}
+			auto offset (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node>  (three->type));
+			if (offset.get () != nullptr)
+			{			
+				auto as_int (new llvm::PtrToIntInst (three->value (), offset->integer_type ()));
+				block->block->getInstList ().push_back (as_int);
+				auto added (llvm::BinaryOperator::CreateAdd (as_int, three->value ()));
+				block->block->getInstList ().push_back (added);
+				auto final (boost::make_shared <mu::llvm_::value::node> (added, three->type));
+				mu::llvm_::instructions::store store;
+				std::vector <boost::shared_ptr <mu::core::node>> a1;
+				a1.push_back (one);
+				a1.push_back (final);
+                auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
+				store.perform (ctx);
 			}
 			else
 			{
-				invalid_type (context_a.errors, context_a.parameters [2], 2);
+				(*context_a.errors) (L"Argument 3 is not an integer");
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			(*context_a.errors) (L"Argument 2 is not a pointer");
 		}
-	}
-	else	
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

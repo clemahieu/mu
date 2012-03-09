@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
 #include <mu/llvm_/type/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -15,23 +16,12 @@
 
 void mu::llvm_::instructions::bitcast::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::type::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::type::node> () (context_a))
 	{
-		if (two.get () != nullptr)
-		{
-			auto instruction (new llvm::BitCastInst (one->value (), two->type ()));
-			context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, two));
-		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
-		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::llvm_::type::node> (context_a.parameters [1]));
+		auto instruction (new llvm::BitCastInst (one->value (), two->type ()));
+		context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, two));
 	}
 }
 

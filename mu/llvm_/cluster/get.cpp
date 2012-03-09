@@ -4,38 +4,28 @@
 #include <mu/llvm_/cluster/node.h>
 #include <mu/script/string/node.h>
 #include <mu/llvm_/function/node.h>
+#include <mu/script/check.h>
 
 #include <sstream>
 
 void mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::cluster::node, mu::script::string::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto existing (one->names.find (two->string));
+		if (existing != one->names.end ())
 		{
-			auto existing (one->names.find (two->string));
-			if (existing != one->names.end ())
-			{
-				context_a.results.push_back (existing->second);
-			}
-			else
-			{
-				std::wstringstream message;
-				message << L"Cluster has no routine named: ";
-				message << two->string;
-				(*context_a.errors) (message.str ());
-			}
+			context_a.results.push_back (existing->second);
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			std::wstringstream message;
+			message << L"Cluster has no routine named: ";
+			message << two->string;
+			(*context_a.errors) (message.str ());
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

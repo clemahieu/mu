@@ -69,6 +69,7 @@
 #include <mu/llvm_/argument/node.h>
 #include <mu/llvm_/cluster/node.h>
 #include <mu/llvm_/analyzer/reference.h>
+#include <mu/script/check.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -165,25 +166,28 @@ mu::llvm_::analyzer::operation::operation ()
 
 void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	auto context_l (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-	auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [1]));
-	auto cluster (boost::dynamic_pointer_cast <mu::io::ast::cluster> (context_a.parameters [2]));
-	if (context_l.get () != nullptr)
+	if (mu::script::check <mu::llvm_::context::node, mu::llvm_::module::node, mu::io::ast::cluster> () (context_a))
 	{
-		if (module.get () != nullptr)
+		auto context_l (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
+		auto module (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [1]));
+		auto cluster (boost::static_pointer_cast <mu::io::ast::cluster> (context_a.parameters [2]));
+		context.context_m->context = context_l->context;
+		context.module->module = module->module;
+		std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
+		std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
+		auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, context_a.errors, &functions, &types, _1));
 		{
-			if (cluster.get () != nullptr)
+			mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
+			auto i (cluster->expressions.begin ());
+			auto j (cluster->expressions.end ());
+			while (i != j && ! (*context_a.errors) ())
 			{
-				context.context_m->context = context_l->context;
-				context.module->module = module->module;
-				std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
-				std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
-				auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, context_a.errors, &functions, &types, _1));
+				auto value (*i);
+				if (value->individual_names.empty () && value->full_name->string.empty ())
 				{
-					mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
-					auto i (cluster->expressions.begin ());
-					auto j (cluster->expressions.end ());
-					while (i != j && ! (*context_a.errors) ())
+					analyzer.input (*i);
+					++i;
+					if (i != j)
 					{
 						auto value (*i);
 						if (value->individual_names.empty () && value->full_name->string.empty ())
@@ -192,75 +196,54 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 							++i;
 							if (i != j)
 							{
-								auto value (*i);
-								if (value->individual_names.empty () && value->full_name->string.empty ())
-								{
-									analyzer.input (*i);
-									++i;
-									if (i != j)
-									{
-										++i;
-									}
-									else
-									{
-										(*context_a.errors) (L"There is not a body routine for every argument/result pair");
-									}
-								}
-								else
-								{
-									(*context_a.errors) (L"Result routines cannot have names");
-								}
+								++i;
 							}
 							else
 							{
-								(*context_a.errors) (L"There is not a result routine for every argument routine");
+								(*context_a.errors) (L"There is not a body routine for every argument/result pair");
 							}
 						}
 						else
 						{
-							(*context_a.errors) (L"Argument routines cannot have names");
+							(*context_a.errors) (L"Result routines cannot have names");
 						}
 					}
-					mu::core::context context;
-					if (cluster->expressions.size () > 0)
+					else
 					{
-						context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
+						(*context_a.errors) (L"There is not a result routine for every argument routine");
 					}
-					analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 				}
+				else
 				{
-					auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, context_a.errors, &context_a.results, &functions, _1));
-					mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
-					auto i (cluster->expressions.begin ());
-					auto j (cluster->expressions.end ());
-					while (i != j && ! (*context_a.errors) ())
-					{
-						++i;
-						++i;
-						analyzer.input (*i);
-						++i;
-					}
-					mu::core::context context;
-					if (cluster->expressions.size () > 0)
-					{
-						context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
-					}
-					analyzer.input (boost::make_shared <mu::io::ast::end> (context));
+					(*context_a.errors) (L"Argument routines cannot have names");
 				}
 			}
-			else
+			mu::core::context context;
+			if (cluster->expressions.size () > 0)
 			{
-				invalid_type (context_a.errors, context_a.parameters [2], 2);
+				context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
 			}
+			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}
-		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, context_a.errors, &context_a.results, &functions, _1));
+			mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
+			auto i (cluster->expressions.begin ());
+			auto j (cluster->expressions.end ());
+			while (i != j && ! (*context_a.errors) ())
+			{
+				++i;
+				++i;
+				analyzer.input (*i);
+				++i;
+			}
+			mu::core::context context;
+			if (cluster->expressions.size () > 0)
+			{
+				context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
+			}
+			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

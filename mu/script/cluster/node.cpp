@@ -6,6 +6,7 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
+#include <mu/script/check.h>
 
 #include <sstream>
 #include <set>
@@ -27,9 +28,9 @@ mu::script::cluster::node::node (std::map <std::wstring, boost::shared_ptr <mu::
 
 void mu::script::cluster::node::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::script::string::node> () (context_a))
 	{
+		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 		auto existing (names.find (one->string));
 		if (existing != names.end ())
 		{
@@ -45,9 +46,9 @@ void mu::script::cluster::node::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [0]));
-		if (one.get () != nullptr)
+		if (mu::script::check <mu::script::integer::node> () (context_a))
 		{
+			auto one (boost::static_pointer_cast <mu::script::integer::node> (context_a.parameters [0]));
 			if (routines.size () > one->value)
 			{
 				context_a.results.push_back (routines [one->value]);
@@ -59,10 +60,6 @@ void mu::script::cluster::node::operator () (mu::script::context & context_a)
 				message << one->value;
 				(*context_a.errors) (message.str ());
 			}
-		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
 		}
 	}
 }

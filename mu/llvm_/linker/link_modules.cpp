@@ -2,33 +2,23 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Linker.h>
 
 void mu::llvm_::linker::link_modules::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::module::node, mu::llvm_::module::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [1]));
+		std::string message;
+		bool result (llvm::Linker::LinkModules (one->module, two->module, llvm::Linker::DestroySource, &message));
+		if (result)
 		{
-			std::string message;
-			bool result (llvm::Linker::LinkModules (one->module, two->module, llvm::Linker::DestroySource, &message));
-			if (result)
-			{
-				std::wstring message_l (message.begin (), message.end ());
-				(*context_a.errors) (message_l);
-			}
+			std::wstring message_l (message.begin (), message.end ());
+			(*context_a.errors) (message_l);
 		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
-		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

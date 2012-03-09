@@ -4,6 +4,7 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/script/astring/node.h>
 #include <mu/llvm_/module/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Assembly/Parser.h>
 #include <llvm/Support/SourceMgr.h>
@@ -12,43 +13,32 @@
 
 void mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::context::node, mu::script::astring::node> () (context_a))
 	{
-		if (two.get () != nullptr)
-		{			
-			llvm::SMDiagnostic diagnostic;
-			llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, *one->context));
-			if (module != nullptr)
-			{
-				context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (module)));
-			}
-			else
-			{
-				std::stringstream message;
-				message << L"Unable to assemble data:\n";
-				std::string msg (diagnostic.getMessage ());
-				message << msg;
-				message << ": (";
-				message << diagnostic.getLineNo ();
-				message << ",";
-				message << diagnostic.getColumnNo ();
-				message << "): ";
-				message << diagnostic.getLineContents ();
-				std::string amessage (message.str ());
-				std::wstring converted (amessage.begin (), amessage.end ());
-				(*context_a.errors) (converted);
-			}
+		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));	
+		llvm::SMDiagnostic diagnostic;
+		llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, *one->context));
+		if (module != nullptr)
+		{
+			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (module)));
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			std::stringstream message;
+			message << L"Unable to assemble data:\n";
+			std::string msg (diagnostic.getMessage ());
+			message << msg;
+			message << ": (";
+			message << diagnostic.getLineNo ();
+			message << ",";
+			message << diagnostic.getColumnNo ();
+			message << "): ";
+			message << diagnostic.getLineContents ();
+			std::string amessage (message.str ());
+			std::wstring converted (amessage.begin (), amessage.end ());
+			(*context_a.errors) (converted);
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

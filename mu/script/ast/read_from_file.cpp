@@ -5,6 +5,7 @@
 #include <mu/io/lexer/istream_input.h>
 #include <mu/io/builder.h>
 #include <mu/io/ast/cluster.h>
+#include <mu/script/check.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -14,9 +15,9 @@
 
 void mu::script::ast::read_from_file::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
-	if (one.get () != nullptr)
-	{			
+	if (mu::script::check <mu::script::string::node> () (context_a))
+	{
+		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 		auto path (::boost::filesystem::initial_path ());
 		std::string relative (one->string.begin (), one->string.end ());
 		path /= relative;
@@ -61,10 +62,6 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 			message << path;
 			(*context_a.errors) (message.str ());
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

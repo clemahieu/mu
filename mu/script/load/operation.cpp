@@ -11,6 +11,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/io/ast/cluster.h>
+#include <mu/script/check.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -21,18 +22,14 @@
 
 void mu::script::load::operation::operator () (mu::script::context & context_a)
 {
-	auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
-	if (file.get () != nullptr)
+	if (mu::script::check <mu::script::string::node> () (context_a))
 	{
+		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 		auto result (core (context_a.errors, file));
 		if (result.get () != nullptr)
 		{
 			context_a.results.push_back (result);
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [1], 1);
 	}
 }
 

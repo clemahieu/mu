@@ -4,6 +4,7 @@
 #include <mu/script/package/node.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/function/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Function.h>
 
@@ -11,54 +12,43 @@
 
 void mu::llvm_::module::add_package::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::script::package::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::module::node, mu::script::package::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters [1]));
+		auto good (true);
+		for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
 		{
-			auto good (true);
-			for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
+			auto source (boost::dynamic_pointer_cast <mu::llvm_::function::node> (i->second));
+			if (source.get () != nullptr)
+			{
+				auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
+				if (function != nullptr)
+				{
+					llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
+				}
+			}
+			else
 			{
 				auto source (boost::dynamic_pointer_cast <mu::llvm_::function::node> (i->second));
 				if (source.get () != nullptr)
 				{
 					auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
-					if (function != nullptr)
-					{
-						llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
-					}
+					llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
 				}
 				else
 				{
-					auto source (boost::dynamic_pointer_cast <mu::llvm_::function::node> (i->second));
-					if (source.get () != nullptr)
-					{
-						auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
-						llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"Operation: ";
-						message << name ();
-						message << L" package item: \"";
-						message << i->first;
-						message << L"\" is not an mu::llvm_::function::node: ";
-						message << i->second->name ();
-						(*context_a.errors) (message.str ());
-					}
+					std::wstringstream message;
+					message << L"Operation: ";
+					message << name ();
+					message << L" package item: \"";
+					message << i->first;
+					message << L"\" is not an mu::llvm_::function::node: ";
+					message << i->second->name ();
+					(*context_a.errors) (message.str ());
 				}
 			}
 		}
-		else
-		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
-		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

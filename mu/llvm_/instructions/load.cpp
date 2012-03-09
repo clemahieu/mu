@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
 #include <mu/llvm_/pointer_type/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -15,9 +16,9 @@
 
 void mu::llvm_::instructions::load::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::value::node> () (context_a))
 	{
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
 		auto one_ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (one->type));
 		if (one_ptr.get () != nullptr)
 		{
@@ -30,10 +31,6 @@ void mu::llvm_::instructions::load::operator () (mu::script::context & context_a
 			message << L"Argument is not a pointer";
 			(*context_a.errors) (message.str ());
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

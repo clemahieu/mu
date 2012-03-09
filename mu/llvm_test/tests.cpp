@@ -15,6 +15,7 @@
 #include <mu/llvm_test/constant_string/create.h>
 #include <mu/llvm_test/global_variable/create_set.h>
 #include <mu/llvm_test/ccall/operation.h>
+#include <mu/llvm_test/instructions/trunc.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -87,6 +88,10 @@ void mu::llvm_test::tests::run ()
 	}
 	{
 		mu::llvm_test::global_variable::create_set test;
+		test.run ();
+	}
+	{
+		mu::llvm_test::instructions::trunc test;
 		test.run ();
 	}
 	{

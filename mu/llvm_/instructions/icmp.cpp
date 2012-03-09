@@ -4,6 +4,7 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/llvm_/predicate/node.h>
 #include <mu/llvm_/integer_type/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -16,59 +17,41 @@
 
 void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::predicate::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
-	auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::predicate::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::predicate::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
+		bool two_int (two->value ()->getType ()->isIntegerTy ());
+		bool three_int (three->value ()->getType ()->isIntegerTy ());
+		if (two_int && three_int)
 		{
-			if (three.get () != nullptr)
+			size_t one_bits (two->value ()->getType ()->getPrimitiveSizeInBits ());
+			size_t two_bits (three->value ()->getType ()->getPrimitiveSizeInBits ());
+			if (one_bits == two_bits)
 			{
-				bool two_int (two->value ()->getType ()->isIntegerTy ());
-				bool three_int (three->value ()->getType ()->isIntegerTy ());
-				if (two_int && three_int)
-				{
-					size_t one_bits (two->value ()->getType ()->getPrimitiveSizeInBits ());
-					size_t two_bits (three->value ()->getType ()->getPrimitiveSizeInBits ());
-					if (one_bits == two_bits)
-					{
-						auto instruction (new llvm::ICmpInst (one->value, two->value (), three->value ()));
-						context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
-					}
-					else
-					{
-						std::wstringstream message;
-						message << L"Bit widths don't match: ";
-						message << one_bits;
-						message << L" ";
-						message << two_bits;
-						(*context_a.errors) (message.str ());
-					}
-				}
-				else
-				{
-					std::wstringstream message;
-					message << L"Arguments are not integers: ";
-					message << two_int;
-					message << L" ";
-					message << three_int;
-					(*context_a.errors) (message.str ());
-				}
+				auto instruction (new llvm::ICmpInst (one->value, two->value (), three->value ()));
+				context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
 			}
 			else
 			{
-				invalid_type (context_a.errors, context_a.parameters [2], 2);
+				std::wstringstream message;
+				message << L"Bit widths don't match: ";
+				message << one_bits;
+				message << L" ";
+				message << two_bits;
+				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			std::wstringstream message;
+			message << L"Arguments are not integers: ";
+			message << two_int;
+			message << L" ";
+			message << three_int;
+			(*context_a.errors) (message.str ());
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

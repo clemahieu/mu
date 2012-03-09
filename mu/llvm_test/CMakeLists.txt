@@ -15,6 +15,7 @@ add_library (mu_llvm_test STATIC
 	function_type/create.cpp
 	global_variable/create_set.cpp
 	instructions/call.cpp
+	instructions/trunc.cpp
 	linker/link_modules.cpp
 	module/add_package.cpp
 	module/get_package.cpp

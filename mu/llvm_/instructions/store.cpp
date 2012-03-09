@@ -4,6 +4,7 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/void_type/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -16,42 +17,31 @@
 
 void mu::llvm_::instructions::store::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-	auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
-	if (one.get () != nullptr)
+	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
 	{
-		if (two.get () != nullptr)
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+		auto ptr (llvm::dyn_cast <llvm::PointerType> (two->value ()->getType ()));
+		if (ptr != nullptr)
 		{
-			auto ptr (llvm::dyn_cast <llvm::PointerType> (two->value ()->getType ()));
-			if (ptr != nullptr)
+			if (ptr->getElementType () == one->value ()->getType ())
 			{
-				if (ptr->getElementType () == one->value ()->getType ())
-				{
-					auto instruction (new llvm::StoreInst (one->value (), two->value ()));
-					context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::void_type::node> (boost::make_shared <mu::llvm_::context::node> (&instruction->getContext ()))));
-				}
-				else
-				{
-					std::wstringstream message;
-					message << L"Argument two is not a pointer to the type of argument one";
-					(*context_a.errors) (message.str ());
-				}
+				auto instruction (new llvm::StoreInst (one->value (), two->value ()));
+				context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::void_type::node> (boost::make_shared <mu::llvm_::context::node> (&instruction->getContext ()))));
 			}
 			else
 			{
 				std::wstringstream message;
-				message << L"Argument 2 is not a pointer";
+				message << L"Argument two is not a pointer to the type of argument one";
 				(*context_a.errors) (message.str ());
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [1], 1);
+			std::wstringstream message;
+			message << L"Argument 2 is not a pointer";
+			(*context_a.errors) (message.str ());
 		}
-	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
 	}
 }
 

@@ -1,10 +1,14 @@
 #include "create.h"
 
 #include <mu/llvm_/context/value.h>
+#include <mu/script/check.h>
 
 void mu::llvm_::context::create::operator () (mu::script::context & context_a)
 {
-	context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::context::value));
+	if (mu::script::check <> () (context_a))
+	{
+		context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::context::value));
+	}
 }
 
 size_t mu::llvm_::context::create::count ()
