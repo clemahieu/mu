@@ -122,7 +122,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
     auto ctx2 (mu::script::context (b2.errors, a2, r2));
-	routine2->perform (ctx);
+	routine2->perform (ctx2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);
 	assert (bl->getInstList ().size () == 4);
