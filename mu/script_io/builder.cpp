@@ -79,7 +79,8 @@ void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> 
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (cluster_a);
-	synthesizer (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	synthesizer (ctx);
 	if (results.size () == 1)
 	{
 		auto result (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));

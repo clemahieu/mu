@@ -22,8 +22,8 @@ mu::io::parser::full::full (mu::io::parser::parser & parser_a, boost::function <
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	first (first_a),
-	full_name (new mu::io::ast::identifier (mu::core::context (), std::wstring ()))
+	full_name (new mu::io::ast::identifier (mu::core::context (), std::wstring ())),
+	first (first_a)
 {
 }
 

@@ -52,7 +52,8 @@ void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 								{
 									a1.push_back (*i);
 								}
-								call->perform (mu::script::context (context_a.errors, a1, r1));
+                                auto ctx (mu::script::context (context_a.errors, a1, r1));
+								call->perform (ctx);
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
 								std::vector <boost::shared_ptr <mu::core::node>> a2;
@@ -62,7 +63,8 @@ void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 								{
 									a2.push_back (*i);
 								}
-								call->perform (mu::script::context (context_a.errors, a2, r2));
+                                auto ctx2 (mu::script::context (context_a.errors, a2, r2));
+								call->perform (ctx2);
 								false_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = end_block;
 								if (! (*context_a.errors) ())

@@ -8,10 +8,10 @@
 #include <boost/make_shared.hpp>
 
 mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::core::position first_a)
-	: lexer (lexer_a),
-	lookahead (false),
+	: lookahead (false),
 	first (first_a),
-	last (first_a)
+	last (first_a),
+	lexer (lexer_a)
 {
 }
 

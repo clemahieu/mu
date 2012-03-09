@@ -18,8 +18,8 @@
 mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a)
 	: routine (routine_a),
 	expression_m (expression_a),
-	position (0),
-	self (self_a)
+	self (self_a),
+	position (0)
 {
 	if (!expression_a->full_name->string.empty ())
 	{

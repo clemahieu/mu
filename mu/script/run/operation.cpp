@@ -39,7 +39,8 @@ void mu::script::run::operation::perform (mu::script::context & context_a)
 						{
 							auto routine (cluster->routines [0]);
 							std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 2, context_a.parameters.end ());
-							routine->perform (mu::script::context (context_a.errors, arguments, context_a.results));
+                            auto ctx (mu::script::context (context_a.errors, arguments, context_a.results));
+							routine->perform (ctx);
 						}
 						else
 						{

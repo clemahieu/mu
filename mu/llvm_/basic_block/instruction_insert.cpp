@@ -16,12 +16,14 @@ void mu::llvm_::basic_block::instruction_insert::perform (mu::script::context & 
 {
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	r1.push_back (block);
-	instruction->perform (mu::script::context (context_a.errors, context_a.parameters, r1));
+    auto ctx (mu::script::context (context_a.errors, context_a.parameters, r1));
+	instruction->perform (ctx);
 	if (!(*context_a.errors) ())
 	{
 		assert (r1.size () == 2);
 		mu::llvm_::basic_block::insert insert;
-		insert.perform (mu::script::context (context_a.errors, r1, context_a.results));
+        auto ctx (mu::script::context (context_a.errors, r1, context_a.results));
+		insert.perform (ctx);
 		context_a.results.push_back (r1 [1]);
 	}
 }

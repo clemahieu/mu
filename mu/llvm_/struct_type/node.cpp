@@ -22,8 +22,8 @@ mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node>
 }
 
 mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> elements_a)
-	: elements (elements_a),
-	context (context_a)
+	: context (context_a),
+	elements (elements_a)
 {
 }
 

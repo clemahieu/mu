@@ -20,7 +20,8 @@ void mu::script_test::closure::single::run_1 ()
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	single.perform (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	single.perform (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);
 	assert (results [0] == n1);

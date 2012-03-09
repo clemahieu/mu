@@ -14,8 +14,8 @@
 #include <boost/circular_buffer.hpp>
 
 mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function < void (mu::io::tokens::token *, mu::core::context)> target_a)
-	: target (target_a),
-	errors (errors_a)
+	: errors (errors_a),
+	target (target_a)
 {
 	state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::begin (*this)));
 }

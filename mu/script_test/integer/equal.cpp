@@ -20,7 +20,8 @@ void mu::script_test::integer::equal::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
-	equal (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	equal (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results [0]));
@@ -36,7 +37,8 @@ void mu::script_test::integer::equal::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
-	equal (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	equal (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results [0]));
@@ -52,6 +54,7 @@ void mu::script_test::integer::equal::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::core::node));
-	equal (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	equal (ctx);
 	assert (!errors->errors.empty ());
 }

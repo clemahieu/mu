@@ -80,8 +80,8 @@
 #include <llvm/Constants.h>
 
 mu::llvm_::analyzer::operation::operation ()
-	: extensions (new mu::io::analyzer::extensions::extensions),
-	reference_m (boost::make_shared <mu::llvm_::analyzer::reference> ())
+	: reference_m (boost::make_shared <mu::llvm_::analyzer::reference> ()),
+	extensions (new mu::io::analyzer::extensions::extensions)
 {
 	context.context_m = boost::make_shared <mu::llvm_::context::node> (nullptr);
 	context.module = boost::make_shared <mu::llvm_::module::node> (nullptr);
@@ -233,7 +233,6 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 					mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
 					auto i (cluster->expressions.begin ());
 					auto j (cluster->expressions.end ());
-					size_t position (0);
 					while (i != j && ! (*context_a.errors) ())
 					{
 						++i;
@@ -300,7 +299,8 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 			}
 		}
 		std::vector <boost::shared_ptr <mu::core::node>> results;
-		signature_routine->perform (mu::script::context (errors_a, arguments, results));
+        auto ctx (mu::script::context (errors_a, arguments, results));
+		signature_routine->perform (ctx);
 		if (!(*errors_a) ())
 		{
 			std::vector <llvm::Type *> types;
@@ -366,13 +366,15 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 	{
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		std::vector <boost::shared_ptr <mu::core::node>> r1;
-		(*i)->perform (mu::script::context (errors_a, a1, r1));
+        auto ctx (mu::script::context (errors_a, a1, r1));
+		(*i)->perform (ctx);
 		if (!(*errors_a) ())
 		{
 			++i;
 			std::vector <boost::shared_ptr <mu::core::node>> a2;
 			std::vector <boost::shared_ptr <mu::core::node>> r2;
-			(*i)->perform (mu::script::context (errors_a, a2, r2));
+            auto ctx (mu::script::context (errors_a, a2, r2));
+			(*i)->perform (ctx);
 			if (!(*errors_a) ())
 			{
 				auto arguments (boost::make_shared <mu::script::values::operation> ());
@@ -391,7 +393,8 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 				a3.push_back (context.context_m);
 				a3.push_back (arguments);
 				a3.push_back (results);
-				function_type_create->perform (mu::script::context (errors_a, a3, r3));
+                auto ctx (mu::script::context (errors_a, a3, r3));
+				function_type_create->perform (ctx);
 				if (!(*errors_a) ())
 				{
 					auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (r3 [0]));

@@ -13,15 +13,15 @@
 #include <boost/make_shared.hpp>
 
 mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::script_io::reference> reference_a)
-	: result (boost::make_shared <mu::script::cluster::node> ()),
-	reference (reference_a)
+	: reference (reference_a),
+	result (boost::make_shared <mu::script::cluster::node> ())
 {
 	process_cluster (cluster_a);
 }
 
 mu::script_io::cluster::cluster (boost::shared_ptr <mu::core::cluster> cluster_a)
-	: result (boost::make_shared <mu::script::cluster::node> ()),
-	reference (boost::make_shared <mu::script_io::script> (*this))
+	: reference (boost::make_shared <mu::script_io::script> (*this)),
+	result (boost::make_shared <mu::script::cluster::node> ())
 {
 	process_cluster (cluster_a);
 }

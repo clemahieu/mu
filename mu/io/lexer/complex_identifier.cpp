@@ -7,9 +7,9 @@
 
 mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a)
 	: have_end_token (false),
-	lexer (lexer_a),
 	first (lexer_a.position),
-	last (lexer_a.position)
+	last (lexer_a.position),
+	lexer (lexer_a)
 {
 }
 

@@ -17,8 +17,8 @@
 
 mu::io::parser::values::values (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a)
 	: parser (parser_a),
-	target (target_a),
-	first (parser_a.context)
+	first (parser_a.context),
+	target (target_a)
 {
 }
 

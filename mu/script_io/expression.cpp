@@ -22,9 +22,9 @@
 
 mu::script_io::expression::expression (mu::script_io::cluster & cluster_a, std::map <boost::shared_ptr <mu::core::expression>, size_t> & reservations_a, boost::shared_ptr <mu::script::runtime::call> call_a, boost::shared_ptr <mu::core::node> node_a)
 	: node (node_a),
-	reservations (reservations_a),
 	call_m (call_a),
-	cluster (cluster_a)
+	cluster (cluster_a),
+	reservations (reservations_a)
 {
 	(*node_a) (this);
 }

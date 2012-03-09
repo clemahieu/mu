@@ -30,7 +30,8 @@ void mu::script::exec::operation::perform (mu::script::context & context_a)
 		a1.push_back (boost::make_shared <mu::script::extensions::node> (extensions));
 		a1.insert (a1.end (), context_a.parameters.begin (), context_a.parameters.end ());
 		mu::script::run::operation run;
-		run.perform (mu::script::context (context_a.errors, a1, context_a.results));
+        auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
+		run.perform (ctx);
 	}
 	else
 	{

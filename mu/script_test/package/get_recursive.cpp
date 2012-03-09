@@ -20,7 +20,8 @@ void mu::script_test::package::get_recursive::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	arguments.push_back (package);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	recursive.perform (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	recursive.perform (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == package);
@@ -37,7 +38,8 @@ void mu::script_test::package::get_recursive::run_2 ()
 	arguments.push_back (package);
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::string::node (std::wstring (L"a"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	recursive.perform (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	recursive.perform (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == n1);
@@ -57,7 +59,8 @@ void mu::script_test::package::get_recursive::run_3 ()
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::string::node (std::wstring (L"a"))));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::string::node (std::wstring (L"b"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	recursive.perform (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	recursive.perform (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == n1);

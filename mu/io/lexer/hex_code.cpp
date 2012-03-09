@@ -7,9 +7,9 @@
 
 mu::io::lexer::hex_code::hex_code (size_t digits_a, mu::io::lexer::identifier & identifier_a)
 	: identifier (identifier_a),
-	result (0),
 	index (0),
-	digits (digits_a)
+	digits (digits_a),
+	result (0)
 {
 	assert (digits <= 8);
 }

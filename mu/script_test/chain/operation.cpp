@@ -20,7 +20,8 @@ void mu::script_test::chain::operation::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (operation);
 	arguments.push_back (count);
-	chain.perform (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	chain.perform (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::script::integer::node> (results [0]));

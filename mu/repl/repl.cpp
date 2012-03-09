@@ -66,7 +66,6 @@ void mu::repl::repl::iteration ()
 	source ();
 	if (builder.errors->errors.empty ())
 	{
-		bool stop (false);
 		if (builder.clusters.size () == 1)
 		{
 			auto cluster (builder.clusters [0]);
@@ -76,12 +75,14 @@ void mu::repl::repl::iteration ()
 				std::vector <boost::shared_ptr <mu::core::node>> arguments;
 				std::vector <boost::shared_ptr <mu::core::node>> results;
 				auto routine (cluster->routines [0]);
-				routine->perform (mu::script::context (errors, arguments, results));
+                auto ctx1 (mu::script::context (errors, arguments, results));
+				routine->perform (ctx1);
 				if (errors->errors.empty ())
 				{
 					mu::script::print::operation print;
 					std::vector <boost::shared_ptr <mu::core::node>> print_results;
-					print.perform (mu::script::context (errors, results, print_results));
+                    auto ctx2 (mu::script::context (errors, results, print_results));
+					print.perform (ctx2);
 				}
 				else
 				{

@@ -14,8 +14,8 @@
 #include <boost/make_shared.hpp>
 
 mu::llvm_::constant_string::extension::extension (boost::shared_ptr <mu::llvm_::context::node> context_a, boost::shared_ptr <mu::llvm_::module::node> module_a)
-	: module (module_a),
-	context (context_a)
+	: context (context_a),
+	module (module_a)
 {
 }
 

@@ -19,9 +19,9 @@ mu::llvm_::function_type::node::node (boost::shared_ptr <mu::llvm_::context::nod
 }
 
 mu::llvm_::function_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> parameters_a, boost::shared_ptr <mu::llvm_::type::node> output_a)
-	: parameters (parameters_a),
-	output (output_a),
-	context (context_a)
+	: context (context_a),
+	parameters (parameters_a),
+	output (output_a)
 {
 }
 

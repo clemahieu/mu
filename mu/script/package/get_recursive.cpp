@@ -22,7 +22,8 @@ void mu::script::package::get_recursive::perform (mu::script::context & context_
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
 			arguments.push_back (node);
 			arguments.push_back (*i);
-			get (mu::script::context (context_a.errors, arguments, results_l));
+            auto ctx (mu::script::context (context_a.errors, arguments, results_l));
+			get (ctx);
 			if (results_l.size () == 1)
 			{
 				node = results_l [0];

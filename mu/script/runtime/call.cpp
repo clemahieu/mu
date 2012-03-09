@@ -17,8 +17,8 @@ mu::script::runtime::call::call (size_t results_a)
 }
 
 mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
-	: results (results_a),
-	context (context_a)
+	: context (context_a),
+	results (results_a)
 {
 }
 
@@ -55,7 +55,8 @@ void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors
 {
 	std::vector <boost::shared_ptr <mu::core::node>> results_l;
 	auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_a));
-	operation_a->perform (mu::script::context (errors_a, segment, results_l));
+    auto ctx (mu::script::context (errors_a, segment, results_l));
+	operation_a->perform (ctx);
 	std::vector <boost::shared_ptr <mu::core::node>> & target (context_a.nodes [results]);
 	assert (target.empty () && L"Destination has already been assigned");
 	target.assign (results_l.begin (), results_l.end ());

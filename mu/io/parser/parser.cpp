@@ -11,8 +11,8 @@
 #include <map>
 
 mu::io::parser::parser::parser (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a)
-	: target (target_a),
-	errors (errors_a)
+	: errors (errors_a),
+	target (target_a)
 {
 	reset ();
 }

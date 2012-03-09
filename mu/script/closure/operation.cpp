@@ -3,9 +3,9 @@
 #include <mu/script/closure/hole.h>
 
 mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a)
-	: closed (count_a),
-	open (count_a),
-	operation_m (operation_a)
+	: operation_m (operation_a),
+    open (count_a),
+	closed (count_a)
 {
 	for (size_t i (0); i != count_a; ++i)
 	{
@@ -14,9 +14,9 @@ mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu
 }
 
 mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
-	: open (open_a),
-	closed (closed_a),
-	operation_m (operation_a)
+	: operation_m (operation_a),
+	open (open_a),
+    closed (closed_a)
 {
 }
 
@@ -42,7 +42,8 @@ void mu::script::closure::operation::operator () (mu::script::context & context_
 	}
 	else
 	{
-		operation_m->perform (mu::script::context (context_a.errors, closed, context_a.results));
+        auto ctx (mu::script::context (context_a.errors, closed, context_a.results));
+		operation_m->perform (ctx);
 	}
 }
 

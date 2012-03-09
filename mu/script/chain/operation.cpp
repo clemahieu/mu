@@ -15,7 +15,8 @@ void mu::script::chain::operation::perform (mu::script::context & context_a)
 			while (!end)
 			{
 				std::vector <boost::shared_ptr <mu::core::node>> results_l;
-				one->perform (mu::script::context (context_a.errors, arguments, results_l));
+                auto ctx (mu::script::context (context_a.errors, arguments, results_l));
+				one->perform (ctx);
 				if (results_l.size () > 0)
 				{
 					auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results_l [results_l.size () - 1]));
