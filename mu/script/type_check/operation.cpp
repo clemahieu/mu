@@ -20,14 +20,16 @@ bool mu::script::type_check::check_count (boost::shared_ptr <mu::core::errors::e
 	return result;
 }
 
-void mu::script::type_check::invalid_type (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::core::node> node_a, size_t position)
+void mu::script::type_check::invalid_type (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::type_info const & actual, std::type_info const & expected, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";
 	//message << name ();
 	message << L" invalid node type:";
-	message << node_a->name ();
+	message << actual.name ();
 	message << L" at position: ";
 	message << position;
+	message << L" expecting: ";
+	message << expected.name ();
 	(*errors_a) (message.str ());
 }
