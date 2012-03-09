@@ -11,11 +11,6 @@ void mu::llvm_::context::create::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::llvm_::context::create::count ()
-{
-	return 0;
-}
-
 std::wstring mu::llvm_::context::create::name ()
 {
 	return std::wstring (L"mu::llvm_::context::create");

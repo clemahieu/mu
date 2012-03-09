@@ -49,7 +49,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
     auto ctx (mu::script::context (builder.errors, a1, r1));
-	create.perform (ctx);
+	create (ctx);
 	assert (r1.size () == 1);
 	mu::script_io::builder b2;
 	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
@@ -61,7 +61,6 @@ void mu::llvm_test::instruction_package::run_1 ()
 	auto cluster2 (b2.clusters [0]);
 	assert (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
-
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
 	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
@@ -73,7 +72,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	auto ctx2 (mu::script::context (b2.errors, a2, r2));
-    routine2->perform (ctx2);
+    (*routine2) (ctx2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);
 	assert (bl->getInstList ().size () == 4);
@@ -98,7 +97,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
     auto ctx (mu::script::context (builder.errors, a1, r1));
-	routine1->perform (ctx);
+	(*routine1) (ctx);
 	assert (r1.size () == 1);
 	mu::script_io::builder b2;
 	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
@@ -110,7 +109,6 @@ void mu::llvm_test::instruction_package::run_2 ()
 	auto cluster2 (b2.clusters [0]);
 	assert (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
-
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
 	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
@@ -122,7 +120,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
     auto ctx2 (mu::script::context (b2.errors, a2, r2));
-	routine2->perform (ctx2);
+	(*routine2) (ctx2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);
 	assert (bl->getInstList ().size () == 4);

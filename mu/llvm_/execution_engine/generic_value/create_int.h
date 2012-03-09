@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 #include <llvm/ExecutionEngine/GenericValue.h>
 
@@ -12,11 +12,10 @@ namespace mu
 		{
 			namespace generic_value
 			{
-				class create_int : public mu::script::fixed
+				class create_int : public mu::script::operation
 				{
 				public:
 					void operator () (mu::script::context & context_a) override;
-					size_t count () override;
 				};
 			}
 		}

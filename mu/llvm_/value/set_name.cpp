@@ -16,8 +16,3 @@ void mu::llvm_::value::set_name::operator () (mu::script::context & context_a)
 		one->value ()->setName (llvm::Twine (two->string));
 	}
 }
-
-size_t mu::llvm_::value::set_name::count ()
-{
-	return 2;
-}

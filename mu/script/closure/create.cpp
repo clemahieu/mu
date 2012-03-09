@@ -14,11 +14,6 @@ void mu::script::closure::create::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::script::closure::create::count ()
-{
-	return 2;
-}
-
 std::wstring mu::script::closure::create::name ()
 {
 	return std::wstring (L"mu::script::closure::create");

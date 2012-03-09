@@ -49,8 +49,3 @@ boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::c
 	}
 	return result;
 }
-
-size_t mu::script::loads::operation::count ()
-{
-	return 2;
-}

@@ -18,8 +18,3 @@ void mu::script::values::operation::operator () (mu::script::context & context_a
 		context_a.results.insert (context_a.results.end (), values.begin (), values.end ());
 	}
 }
-
-size_t mu::script::values::operation::count ()
-{
-	return 0 ;
-}

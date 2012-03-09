@@ -16,11 +16,6 @@ void mu::llvm_::module::add_function::operator () (mu::script::context & context
 	}
 }
 
-size_t mu::llvm_::module::add_function::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::module::add_function::name ()
 {
 	return std::wstring (L"mu::llvm_::module::add_function");

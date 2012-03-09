@@ -12,8 +12,3 @@ void mu::llvm_::basic_block::store::operator () (mu::script::context & context_a
 		one->block = two->block;
 	}
 }
-
-size_t mu::llvm_::basic_block::store::count ()
-{
-	return 2;
-}

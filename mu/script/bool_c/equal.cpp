@@ -13,11 +13,6 @@ void mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::script::bool_c::equal::count ()
-{
-	return 2;
-}
-
 std::wstring mu::script::bool_c::equal::name ()
 {
 	return std::wstring (L"mu::script::bool_c::equal");

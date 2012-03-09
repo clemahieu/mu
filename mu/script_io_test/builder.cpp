@@ -60,7 +60,7 @@ void mu::script_io_test::builder::run_2 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 2);
 	assert (boost::dynamic_pointer_cast <mu::script::identity::operation> (results [0]).get () != nullptr);
@@ -80,7 +80,7 @@ void mu::script_io_test::builder::run_3 ()
 	auto n1 (boost::shared_ptr <mu::script::identity::operation> (new mu::script::identity::operation));
 	arguments.push_back (n1);
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == n1);
@@ -97,7 +97,7 @@ void mu::script_io_test::builder::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 0);
 }
@@ -118,7 +118,7 @@ void mu::script_io_test::builder::run_5 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	auto number (boost::dynamic_pointer_cast <mu::script::integer::node> (results [0]));
@@ -142,7 +142,7 @@ void mu::script_io_test::builder::run_6 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	auto data (boost::dynamic_pointer_cast <mu::script::string::node> (results [0]));
@@ -166,7 +166,7 @@ void mu::script_io_test::builder::run_7 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	auto data (boost::dynamic_pointer_cast <mu::script::string::node> (results [0]));
@@ -240,7 +240,7 @@ void mu::script_io_test::builder::run_9 ()
 	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n3);
     auto ctx (mu::script::context (errors, arguments, results));
-	routine->perform (ctx);
+	(*routine) (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 4);
 	assert (results [0] == n1);
@@ -262,7 +262,7 @@ void mu::script_io_test::builder::run_10 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	cluster->routines [0]->perform (ctx);
+	(*cluster->routines [0]) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == cluster->routines [1]);
@@ -281,7 +281,7 @@ void mu::script_io_test::builder::run_11 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	cluster->routines [0]->perform (ctx);
+	(*cluster->routines [0]) (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 1);
 	auto r (boost::dynamic_pointer_cast <mu::script::runtime::routine> (results [0]));

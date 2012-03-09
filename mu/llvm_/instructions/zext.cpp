@@ -52,8 +52,3 @@ void mu::llvm_::instructions::zext::operator () (mu::script::context & context_a
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::zext::count ()
-{
-	return 2;
-}

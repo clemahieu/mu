@@ -13,11 +13,6 @@ void mu::script::integer::subtract::operator () (mu::script::context & context_a
 	}
 }
 
-size_t mu::script::integer::subtract::count ()
-{
-	return 2;
-}
-
 std::wstring mu::script::integer::subtract::name ()
 {
 	return std::wstring (L"mu::script::integer::subtract");

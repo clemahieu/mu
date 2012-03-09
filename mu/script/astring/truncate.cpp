@@ -15,8 +15,3 @@ void mu::script::astring::truncate::operator () (mu::script::context & context_a
 		context_a.results.push_back (boost::make_shared <mu::script::astring::node> (string));
 	}
 }
-
-size_t mu::script::astring::truncate::count ()
-{
-	return 1;
-}

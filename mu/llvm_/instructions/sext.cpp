@@ -53,11 +53,6 @@ void mu::llvm_::instructions::sext::operator () (mu::script::context & context_a
 	}
 }
 
-size_t mu::llvm_::instructions::sext::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::instructions::sext::name ()
 {
 	return std::wstring (L"mu::llvm_::instructions::sext");

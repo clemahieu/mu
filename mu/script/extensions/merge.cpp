@@ -35,11 +35,6 @@ void mu::script::extensions::merge::operator () (mu::script::context & context_a
 	}
 }
 
-size_t mu::script::extensions::merge::count ()
-{
-	return 3;
-}
-
 std::wstring mu::script::extensions::merge::name ()
 {
 	return std::wstring (L"mu::script::extensions::merge");

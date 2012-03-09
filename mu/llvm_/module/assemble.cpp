@@ -41,12 +41,6 @@ void mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::llvm_::module::assemble::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::module::assemble::name ()
 {
 	return std::wstring (L"mu::llvm_::module::assemble");

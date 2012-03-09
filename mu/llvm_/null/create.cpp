@@ -16,8 +16,3 @@ void mu::llvm_::null::create::operator () (mu::script::context & context_a)
 		context_a.results.push_back (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (one->pointer_type ()), one));
 	}
 }
-
-size_t mu::llvm_::null::create::count ()
-{
-	return 1;
-}

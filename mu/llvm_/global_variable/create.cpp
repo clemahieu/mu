@@ -16,8 +16,3 @@ void mu::llvm_::global_variable::create::operator () (mu::script::context & cont
 		context_a.results.push_back (boost::make_shared <mu::llvm_::global_variable::node> (new llvm::GlobalVariable (one->type (), false, llvm::GlobalValue::PrivateLinkage), one));
 	}
 }
-
-size_t mu::llvm_::global_variable::create::count ()
-{
-	return 1;
-}

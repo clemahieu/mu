@@ -37,11 +37,6 @@ void mu::llvm_::integer_type::create::operator () (mu::script::context & context
 	}
 }
 
-size_t mu::llvm_::integer_type::create::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::integer_type::create::name ()
 {
 	return std::wstring (L"mu::llvm_::integer_type::create");

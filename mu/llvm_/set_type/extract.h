@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -8,11 +8,10 @@ namespace mu
 	{
 		namespace set_type
 		{
-			class extract : public mu::script::fixed
+			class extract : public mu::script::operation
 			{
 			public:
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 			};
 		}
 	}

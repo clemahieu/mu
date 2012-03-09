@@ -64,8 +64,3 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 		}
 	}
 }
-
-size_t mu::script::ast::read_from_file::count ()
-{
-	return 1;
-}

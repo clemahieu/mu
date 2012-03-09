@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 #include <mu/llvm_/basic_block/node.h>
 
 namespace mu
@@ -9,12 +9,11 @@ namespace mu
 	{
 		namespace istore
 		{
-			class operation : public mu::script::fixed
+			class operation : public mu::script::operation
 			{
 			public:
 				operation (boost::shared_ptr <mu::llvm_::basic_block::node> block_a);
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				boost::shared_ptr <mu::llvm_::basic_block::node> block;
 			};
 		}

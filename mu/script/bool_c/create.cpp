@@ -44,11 +44,6 @@ void mu::script::bool_c::create::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::script::bool_c::create::count ()
-{
-	return 1;
-}
-
 std::wstring mu::script::bool_c::create::name ()
 {
 	return std::wstring (L"mu::script::bool_c::create");

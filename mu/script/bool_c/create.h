@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 #include <map>
 
@@ -10,12 +10,11 @@ namespace mu
 	{
 		namespace bool_c
 		{
-			class create : public mu::script::fixed
+			class create : public mu::script::operation
 			{
 			public:
 				create ();
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				std::wstring name () override;
 				std::map <std::wstring, boost::shared_ptr <mu::core::node>> values;
 			};

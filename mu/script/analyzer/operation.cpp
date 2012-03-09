@@ -26,11 +26,6 @@ void mu::script::analyzer::operation::operator () (mu::script::context & context
 	}
 }
 
-size_t mu::script::analyzer::operation::count ()
-{
-	return 2;
-}
-
 boost::shared_ptr <mu::script::cluster::node> mu::script::analyzer::operation::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast)
 {
 	boost::shared_ptr <mu::script::cluster::node> result;

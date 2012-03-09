@@ -34,11 +34,6 @@ void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 	}
 }
 
-size_t mu::llvm_::execution_engine::create_jit::count ()
-{
-	return 1;
-}
-
 std::wstring mu::llvm_::execution_engine::create_jit::name ()
 {
 	return std::wstring (L"mu::llvm_::execution_engine::create_jit");

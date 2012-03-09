@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -8,13 +8,12 @@ namespace mu
 	{
 		namespace closure
 		{
-			class operation : public mu::script::fixed
+			class operation : public mu::script::operation
 			{
 			public:
 				operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a);
 				operation (boost::shared_ptr <mu::script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a);
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				std::wstring name () override;
 				boost::shared_ptr <mu::script::operation> operation_m;
 				std::vector <size_t> open;

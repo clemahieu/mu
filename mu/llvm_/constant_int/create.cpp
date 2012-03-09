@@ -53,8 +53,3 @@ void mu::llvm_::constant_int::create::operator () (mu::script::context & context
 		}
 	}
 }
-
-size_t mu::llvm_::constant_int::create::count ()
-{
-	return 3;
-}

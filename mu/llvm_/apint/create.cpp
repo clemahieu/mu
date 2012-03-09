@@ -16,8 +16,3 @@ void mu::llvm_::apint::create::operator () (mu::script::context & context_a)
 		context_a.results.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, one->value)));
 	}
 }
-
-size_t mu::llvm_::apint::create::count ()
-{
-	return 1;
-}

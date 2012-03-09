@@ -28,7 +28,7 @@ void mu::script_test::routine::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (errors, arguments, results));
-	routine.perform (ctx);
+	routine (ctx);
 	assert (!errors->errors.empty ());
 }
 
@@ -42,7 +42,7 @@ void mu::script_test::routine::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (errors, arguments, results));
-	routine.perform (ctx);
+	routine (ctx);
 	assert (errors->errors.empty ());
 }
 
@@ -58,7 +58,7 @@ void mu::script_test::routine::run_3 ()
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (errors, arguments, results));
-	routine.perform (ctx);
+	routine (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == node);
@@ -84,7 +84,7 @@ void mu::script_test::routine::run_4 ()
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (errors, arguments, results));
-	routine.perform (ctx);
+	routine (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	assert (results [0] == id);

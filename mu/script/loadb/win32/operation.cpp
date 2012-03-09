@@ -71,8 +71,3 @@ void mu::script::loadb::operation::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::script::loadb::operation::count ()
-{
-	return 1;
-}

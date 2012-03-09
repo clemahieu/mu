@@ -10,6 +10,7 @@
 #include <mu/llvm_/type/build.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/void_type/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
@@ -19,7 +20,7 @@
 
 #include <sstream>
 
-void mu::llvm_::instructions::call::perform (mu::script::context & context_a)
+void mu::llvm_::instructions::call::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{
@@ -94,7 +95,7 @@ void mu::llvm_::instructions::call::perform (mu::script::context & context_a)
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::pointer_type::node), 0);
 		}
 	}
 	else

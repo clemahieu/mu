@@ -13,8 +13,3 @@ void mu::llvm_::global_value::set_linkage::operator () (mu::script::context & co
 		one->global_value ()->setLinkage (two->type);
 	}
 }
-
-size_t mu::llvm_::global_value::set_linkage::count ()
-{
-	return 2;
-}

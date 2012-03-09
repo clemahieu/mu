@@ -20,8 +20,3 @@ void mu::llvm_::pointer_type::create::operator () (mu::script::context & context
 		context_a.results.push_back (boost::make_shared <mu::llvm_::pointer_type::node> (one));
 	}
 }
-
-size_t mu::llvm_::pointer_type::create::count ()
-{
-	return 1;
-}

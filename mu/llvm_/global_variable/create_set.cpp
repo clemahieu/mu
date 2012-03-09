@@ -24,11 +24,6 @@ void mu::llvm_::global_variable::create_set::operator () (mu::script::context & 
 	}
 }
 
-size_t mu::llvm_::global_variable::create_set::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::global_variable::create_set::name ()
 {
 	return std::wstring (L"mu::llvm_::global_variable::create_set");

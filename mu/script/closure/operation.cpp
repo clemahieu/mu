@@ -1,6 +1,7 @@
 #include "operation.h"
 
 #include <mu/script/closure/hole.h>
+#include <mu/script/check.h>
 
 mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a)
 	: operation_m (operation_a),
@@ -22,34 +23,32 @@ mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operat
 
 void mu::script::closure::operation::operator () (mu::script::context & context_a)
 {
-	std::vector <size_t> open_l;
-	for (size_t position (0), end (context_a.parameters.size ()); position != end; ++position)
+	if (mu::script::check_count (context_a.errors, context_a.parameters, open.size ()))
 	{
-		auto val (context_a.parameters [position]);
-		auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
-		if (hole.get () == nullptr)
+		std::vector <size_t> open_l;
+		for (size_t position (0), end (context_a.parameters.size ()); position != end; ++position)
 		{
-			closed [open [position]] = val;
+			auto val (context_a.parameters [position]);
+			auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
+			if (hole.get () == nullptr)
+			{
+				closed [open [position]] = val;
+			}
+			else
+			{
+				open_l.push_back (open [position]);
+			}
+		}
+		if (open_l.size () != 0)
+		{
+			context_a.results.push_back (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
 		}
 		else
 		{
-			open_l.push_back (open [position]);
+			auto ctx (mu::script::context (context_a.errors, closed, context_a.results));
+			(*operation_m) (ctx);
 		}
 	}
-	if (open_l.size () != 0)
-	{
-		context_a.results.push_back (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
-	}
-	else
-	{
-        auto ctx (mu::script::context (context_a.errors, closed, context_a.results));
-		operation_m->perform (ctx);
-	}
-}
-
-size_t mu::script::closure::operation::count ()
-{
-	return open.size ();
 }
 
 std::wstring mu::script::closure::operation::name ()

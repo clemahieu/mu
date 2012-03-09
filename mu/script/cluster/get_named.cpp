@@ -28,8 +28,3 @@ void mu::script::cluster::get_named::operator () (mu::script::context & context_
 		}
 	}
 }
-	
-size_t mu::script::cluster::get_named::count ()
-{
-	return 2;
-}

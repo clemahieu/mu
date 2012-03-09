@@ -28,8 +28,3 @@ std::wstring mu::script::package::remove::name ()
 {
 	return std::wstring (L"mu::script::package::remove");
 }
-
-size_t mu::script::package::remove::count ()
-{
-	return 2;
-}

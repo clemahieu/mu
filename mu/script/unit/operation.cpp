@@ -1,6 +1,6 @@
 #include "operation.h"
 
-void mu::script::unit::operation::perform (mu::script::context & context_a)
+void mu::script::unit::operation::operator () (mu::script::context & context_a)
 {
 }
 

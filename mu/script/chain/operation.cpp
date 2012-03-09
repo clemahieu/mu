@@ -2,8 +2,9 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c/node.h>
+#include <mu/script/check.h>
 
-void mu::script::chain::operation::perform (mu::script::context & context_a)
+void mu::script::chain::operation::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{
@@ -16,7 +17,7 @@ void mu::script::chain::operation::perform (mu::script::context & context_a)
 			{
 				std::vector <boost::shared_ptr <mu::core::node>> results_l;
                 auto ctx (mu::script::context (context_a.errors, arguments, results_l));
-				one->perform (ctx);
+				(*one) (ctx);
 				if (results_l.size () > 0)
 				{
 					auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results_l [results_l.size () - 1]));
@@ -42,7 +43,7 @@ void mu::script::chain::operation::perform (mu::script::context & context_a)
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
 		}
 	}
 	else

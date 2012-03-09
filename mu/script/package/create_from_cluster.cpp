@@ -20,8 +20,3 @@ void mu::script::package::create_from_cluster::operator () (mu::script::context 
 		context_a.results.push_back (result);
 	}
 }
-
-size_t mu::script::package::create_from_cluster::count ()
-{
-	return 1;
-}

@@ -38,8 +38,3 @@ void mu::script::extensions::merge_package::operator () (mu::script::context & c
 		}
 	}
 }
-
-size_t mu::script::extensions::merge_package::count ()
-{
-	return 3;
-}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -13,7 +13,7 @@ namespace mu
 			{
 			public:
 				instruction_insert (boost::shared_ptr <mu::llvm_::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> instruction_a);
-				void perform (mu::script::context & context_a) override;
+				void operator () (mu::script::context & context_a) override;
 				boost::shared_ptr <mu::llvm_::basic_block::node> block;
 				boost::shared_ptr <mu::script::operation> instruction;
 			};

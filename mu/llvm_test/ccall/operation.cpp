@@ -57,7 +57,7 @@ void mu::llvm_test::ccall::operation::run_1 ()
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::void_type::node> (ctx)))));
 	a1.push_back (false_fn);
     auto ctx2 (mu::script::context (errors, a1, r1));
-	ccall.perform (ctx2);
+	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 0);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context));
@@ -95,7 +95,7 @@ void mu::llvm_test::ccall::operation::run_2 ()
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context))))));
 	a1.push_back (false_fn);
     auto ctx2 (mu::script::context (errors, a1, r1));
-	ccall.perform (ctx2);
+	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 1);
 	auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (r1 [0]));
@@ -138,7 +138,7 @@ void mu::llvm_test::ccall::operation::run_3 ()
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), result_type))));
 	a1.push_back (false_fn);
     auto ctx2 (mu::script::context (errors, a1, r1));
-	ccall.perform (ctx2);
+	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 2);
 	auto value1 (boost::dynamic_pointer_cast <mu::llvm_::value::node> (r1 [0]));

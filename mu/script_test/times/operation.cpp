@@ -32,7 +32,7 @@ void mu::script_test::times::operation::run_1 ()
 	arguments.push_back (n4);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (errors, arguments, results));
-	times.perform (ctx);
+	times (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);
 	assert (results [0] == n3);
@@ -63,7 +63,7 @@ void mu::script_test::times::operation::run_2 ()
 	arguments.push_back (n5);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
     auto ctx (mu::script::context (builder.errors, arguments, results));
-	times.perform (ctx);
+	times (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 3);
 	auto r1 (boost::dynamic_pointer_cast <mu::script::integer::subtract> (results [0]));

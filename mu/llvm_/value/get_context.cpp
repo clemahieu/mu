@@ -16,8 +16,3 @@ void mu::llvm_::value::get_context::operator () (mu::script::context & context_a
 		context_a.results.push_back (boost::make_shared <mu::llvm_::context::node> (&one->value ()->getContext ()));
 	}
 }
-
-size_t mu::llvm_::value::get_context::count ()
-{
-	return 1;
-}

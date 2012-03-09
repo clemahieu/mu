@@ -29,8 +29,3 @@ void mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::llvm_::cluster::index::count ()
-{
-	return 2;
-}

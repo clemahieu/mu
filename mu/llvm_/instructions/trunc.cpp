@@ -52,8 +52,3 @@ void mu::llvm_::instructions::trunc::operator () (mu::script::context & context_
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::trunc::count ()
-{
-	return 2;
-}

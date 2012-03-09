@@ -38,8 +38,3 @@ void mu::llvm_::instructions::inttoptr::operator () (mu::script::context & conte
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::inttoptr::count ()
-{
-	return 2;
-}

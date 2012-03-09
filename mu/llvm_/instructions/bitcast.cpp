@@ -24,8 +24,3 @@ void mu::llvm_::instructions::bitcast::operator () (mu::script::context & contex
 		context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, two));
 	}
 }
-
-size_t mu::llvm_::instructions::bitcast::count ()
-{
-	return 2;
-}

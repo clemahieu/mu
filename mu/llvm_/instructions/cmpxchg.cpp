@@ -48,8 +48,3 @@ void mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & contex
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::cmpxchg::count ()
-{
-	return 3;
-}

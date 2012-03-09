@@ -40,7 +40,7 @@ void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 				a1.push_back (one);
 				a1.push_back (final);
                 auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
-				store.perform (ctx);
+				store (ctx);
 			}
 			else
 			{
@@ -52,9 +52,4 @@ void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 			(*context_a.errors) (L"Argument 2 is not a pointer");
 		}
 	}
-}
-
-size_t mu::llvm_::istore::operation::count ()
-{
-	return 3;
 }

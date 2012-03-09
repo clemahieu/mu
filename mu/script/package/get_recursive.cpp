@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-void mu::script::package::get_recursive::perform (mu::script::context & context_a)
+void mu::script::package::get_recursive::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{

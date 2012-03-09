@@ -1,10 +1,11 @@
 #include "merge.h"
 
 #include <mu/io/ast/cluster.h>
+#include <mu/script/check.h>
 
 #include <boost/make_shared.hpp>
 
-void mu::script::ast::merge::perform (mu::script::context & context_a)
+void mu::script::ast::merge::operator () (mu::script::context & context_a)
 {
 	auto result (boost::make_shared <mu::io::ast::cluster> ());
 	size_t position (0);
@@ -17,7 +18,7 @@ void mu::script::ast::merge::perform (mu::script::context & context_a)
 		}
 		else
 		{
-			invalid_type (context_a.errors, *i, position);
+			mu::script::invalid_type (context_a.errors, typeid (**i), typeid (mu::io::ast::cluster), position);
 		}
 	}
 }

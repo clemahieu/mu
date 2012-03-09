@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 #include <vector>
 #include <map>
@@ -22,14 +22,13 @@ namespace mu
 		}
 		namespace cluster
 		{
-			class node : public mu::script::fixed
+			class node : public mu::script::operation
 			{
 			public:
 				node ();
 				node (std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a);
 				node (std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names_a, std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a);
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names;
 				std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines;
 			};

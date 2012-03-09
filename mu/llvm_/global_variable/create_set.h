@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -8,11 +8,10 @@ namespace mu
 	{
 		namespace global_variable
 		{
-			class create_set : public mu::script::fixed
+			class create_set : public mu::script::operation
 			{
 			public:
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				std::wstring name () override;
 			};
 		}

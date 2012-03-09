@@ -19,11 +19,11 @@ namespace mu
 					: target (target_a)
 				{
 				}
-                void perform (mu::script::context & context_a)
+                void operator () (mu::script::context & context_a)
 				{
 					if (mu::script::check <type1_t, type2_t, type3_t, type4_t, type5_t> () (context_a))
 					{
-						target->perform (context_a);
+						(*target) (context_a);
 					}
 				}
                 boost::shared_ptr <mu::script::operation> target;

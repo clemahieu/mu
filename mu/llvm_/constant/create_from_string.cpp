@@ -32,11 +32,6 @@ void mu::llvm_::constant::create_from_string::operator () (mu::script::context &
 	}
 }
 
-size_t mu::llvm_::constant::create_from_string::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::constant::create_from_string::name ()
 {
 	return std::wstring (L"mu::llvm_::constant::create_from_string");

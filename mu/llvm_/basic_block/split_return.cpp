@@ -19,11 +19,11 @@ mu::llvm_::basic_block::split_return::split_return (boost::shared_ptr <mu::llvm_
 {
 }
 
-void mu::llvm_::basic_block::split_return::perform (mu::script::context & context_a)
+void mu::llvm_::basic_block::split_return::operator () (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> results_l;
     auto ctx (mu::script::context (context_a.errors, context_a.parameters, results_l));
-	next->perform (ctx);
+	(*next) (ctx);
 	if (!(*context_a.errors) ())
 	{
 		assert (results_l.size () == 1);

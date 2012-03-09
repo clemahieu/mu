@@ -15,8 +15,3 @@ void mu::llvm_::module::add_global_variable::operator () (mu::script::context & 
 		one->module->getGlobalList ().push_back (two->global_variable ());
 	}
 }
-
-size_t mu::llvm_::module::add_global_variable::count ()
-{
-	return 2;
-}

@@ -1,6 +1,6 @@
 #include "operation.h"
 
-void mu::script::print::operation::perform (mu::script::context & context_a)
+void mu::script::print::operation::operator () (mu::script::context & context_a)
 {
 	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i)
 	{

@@ -70,11 +70,6 @@ void mu::llvm_::function_type::create::operator () (mu::script::context & contex
 	}
 }
 
-size_t mu::llvm_::function_type::create::count ()
-{
-	return 3;
-}
-
 std::wstring mu::llvm_::function_type::create::name ()
 {
 	return std::wstring (L"mu::llvm_::function_type::create");

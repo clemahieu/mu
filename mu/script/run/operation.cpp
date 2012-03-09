@@ -10,6 +10,7 @@
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/analyzer/operation.h>
+#include <mu/script/check.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -17,7 +18,7 @@
 
 #include <sstream>
 
-void mu::script::run::operation::perform (mu::script::context & context_a)
+void mu::script::run::operation::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 1)
 	{
@@ -40,7 +41,7 @@ void mu::script::run::operation::perform (mu::script::context & context_a)
 							auto routine (cluster->routines [0]);
 							std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 2, context_a.parameters.end ());
                             auto ctx (mu::script::context (context_a.errors, arguments, context_a.results));
-							routine->perform (ctx);
+							(*routine) (ctx);
 						}
 						else
 						{
@@ -54,12 +55,12 @@ void mu::script::run::operation::perform (mu::script::context & context_a)
 			}
 			else
 			{
-				invalid_type (context_a.errors, context_a.parameters [1], 1);
+				mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [1].get ()), typeid (mu::script::string::node), 1);
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::extensions::node), 0);
 		}
 	}
 	else

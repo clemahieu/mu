@@ -21,7 +21,7 @@ void mu::script_test::closure::apply::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	mu::script::closure::apply apply;
     auto ctx (mu::script::context (errors, arguments, results));
-	apply.perform (ctx);
+	apply (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto c2 (boost::dynamic_pointer_cast <mu::script::closure::operation> (results [0]));

@@ -19,8 +19,3 @@ std::wstring mu::script::integer::equal::name ()
 {
 	return std::wstring (L"mu::script::integer::equal");
 }
-
-size_t mu::script::integer::equal::count ()
-{
-	return 2;
-}

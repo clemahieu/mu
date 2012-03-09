@@ -6,12 +6,12 @@
 
 void mu::script::if_c::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::script::bool_c::node, mu::script::fixed, mu::script::fixed> () (context_a))
+	if (mu::script::check <mu::script::bool_c::node, mu::script::operation, mu::script::operation> () (context_a))
 	{
 		auto one (boost::static_pointer_cast <mu::script::bool_c::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::fixed> (context_a.parameters [1]));
-		auto three (boost::static_pointer_cast <mu::script::fixed> (context_a.parameters [2]));
-				std::vector <boost::shared_ptr <mu::core::node>> arguments;
+		auto two (boost::static_pointer_cast <mu::script::operation> (context_a.parameters [1]));
+		auto three (boost::static_pointer_cast <mu::script::operation> (context_a.parameters [2]));
+		std::vector <boost::shared_ptr <mu::core::node>> arguments;
 		if (one->value)
 		{
             auto ctx (mu::script::context (context_a.errors, arguments, context_a.results));
@@ -23,11 +23,6 @@ void mu::script::if_c::operation::operator () (mu::script::context & context_a)
 			(*three) (ctx);
 		}
 	}
-}
-
-size_t mu::script::if_c::operation::count ()
-{
-	return 3;
 }
 
 std::wstring mu::script::if_c::operation::name ()

@@ -22,11 +22,6 @@ void mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::llvm_::module::verify::count ()
-{
-	return 1;
-}
-
 std::wstring mu::llvm_::module::verify::name ()
 {
 	return std::wstring (L"mu::llvm_::module::verify");

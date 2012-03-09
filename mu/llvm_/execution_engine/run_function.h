@@ -17,7 +17,7 @@ namespace mu
 			class run_function : public mu::script::operation
 			{
 			public:
-				void perform (mu::script::context & context_a) override;
+				void operator () (mu::script::context & context_a) override;
 				void perform_internal (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::llvm_::execution_engine::node> one, llvm::Function * function, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results);
 				std::wstring name () override;
 			};

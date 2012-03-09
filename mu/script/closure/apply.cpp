@@ -3,10 +3,11 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/closure/operation.h>
 #include <mu/script/closure/hole.h>
+#include <mu/script/check.h>
 
 #include <sstream>
 
-void mu::script::closure::apply::perform (mu::script::context & context_a)
+void mu::script::closure::apply::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{
@@ -31,7 +32,7 @@ void mu::script::closure::apply::perform (mu::script::context & context_a)
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::closure::operation), 0);
 		}
 	}
 	else

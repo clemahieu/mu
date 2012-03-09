@@ -11,7 +11,7 @@ namespace mu
 			class get_recursive : public mu::script::operation
 			{
 			public:
-				void perform (mu::script::context & context_a) override;
+				void operator () (mu::script::context & context_a) override;
 				std::wstring name ();
 			};
 		}

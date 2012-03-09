@@ -22,11 +22,6 @@ void mu::llvm_::linker::link_modules::operator () (mu::script::context & context
 	}
 }
 
-size_t mu::llvm_::linker::link_modules::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::linker::link_modules::name ()
 {
 	return std::wstring (L"mu::llvm_::linker::link_modules");

@@ -15,8 +15,3 @@ std::wstring mu::script::package::create::name ()
 {
 	return std::wstring (L"mu::script::package::create");
 }
-
-size_t mu::script::package::create::count ()
-{
-	return 0;
-}

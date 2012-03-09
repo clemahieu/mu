@@ -38,8 +38,3 @@ void mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & conte
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::ptrtoint::count ()
-{
-	return 2;
-}

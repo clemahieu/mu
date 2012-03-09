@@ -40,11 +40,6 @@ void mu::script::extensions::merge_cluster::operator () (mu::script::context & c
 	}
 }
 
-size_t mu::script::extensions::merge_cluster::count ()
-{
-	return 3;
-}
-
 std::wstring mu::script::extensions::merge_cluster::name ()
 {
 	return std::wstring (L"mu::script::extensions::merge_cluster");

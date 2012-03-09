@@ -22,8 +22,3 @@ void mu::llvm_::module::print::operator () (mu::script::context & context_a)
 		context_a.results.push_back (result);
 	}
 }
-
-size_t mu::llvm_::module::print::count ()
-{
-	return 1;
-}

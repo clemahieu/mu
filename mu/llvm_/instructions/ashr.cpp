@@ -51,8 +51,3 @@ void mu::llvm_::instructions::ashr::operator () (mu::script::context & context_a
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::ashr::count ()
-{
-	return 2;
-}

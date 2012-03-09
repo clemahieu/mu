@@ -31,8 +31,3 @@ void mu::llvm_::set_type::extract::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::llvm_::set_type::extract::count ()
-{
-	return 2;
-}

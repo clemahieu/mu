@@ -11,12 +11,12 @@ mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::n
 {
 }
 
-void mu::script::closure::single::perform (mu::script::context & context_a)
+void mu::script::closure::single::operator () (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> closed_l (closed.begin (), closed.end ());
 	closed_l.insert (closed_l.end (), context_a.parameters.begin (), context_a.parameters.end ());
     auto ctx (mu::script::context (context_a.errors, closed_l, context_a.results));
-	operation_m->perform (ctx);
+	(*operation_m) (ctx);
 }
 
 std::wstring mu::script::closure::single::name ()

@@ -51,8 +51,3 @@ void mu::llvm_::instructions::and_c::operator () (mu::script::context & context_
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::and_c::count ()
-{
-	return 2;
-}

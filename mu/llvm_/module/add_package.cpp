@@ -52,11 +52,6 @@ void mu::llvm_::module::add_package::operator () (mu::script::context & context_
 	}
 }
 
-size_t mu::llvm_::module::add_package::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::module::add_package::name ()
 {
 	return std::wstring (L"mu::llvm_::module::add_package");

@@ -55,11 +55,6 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 	}
 }
 
-size_t mu::llvm_::instructions::icmp::count ()
-{
-	return 3;
-}
-
 std::wstring mu::llvm_::instructions::icmp::name ()
 {
 	return std::wstring (L"mu::llvm_::instructions::icmp");

@@ -16,8 +16,3 @@ void mu::llvm_::basic_block::create::operator () (mu::script::context & context_
 		context_a.results.push_back (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (*one->context)));
 	}
 }
-
-size_t mu::llvm_::basic_block::create::count ()
-{
-	return 1;
-}

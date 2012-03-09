@@ -13,7 +13,7 @@ namespace mu
 			public:
 				single (boost::shared_ptr <mu::script::operation> operation_a);
 				single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script::operation> operation_a);
-				void perform (mu::script::context & context_a) override;
+				void operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
 				boost::shared_ptr <mu::script::operation> operation_m;
 				std::vector <boost::shared_ptr <mu::core::node>> closed;

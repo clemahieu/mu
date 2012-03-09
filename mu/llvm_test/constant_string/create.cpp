@@ -34,7 +34,7 @@ void mu::llvm_test::constant_string::create::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::constant_string::create create;
     auto ctx (mu::script::context (errors, a1, r1));
-	create.perform (ctx);
+	create (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);
 	auto result (boost::dynamic_pointer_cast <mu::llvm_::value::node> (r1 [0]));

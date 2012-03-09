@@ -247,11 +247,6 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 	}
 }
 
-size_t mu::llvm_::analyzer::operation::count ()
-{
-	return 3;
-}
-
 void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
 {	
 	for (size_t i (0), j (cluster_a->routines.size ()); i != j; ++i)
@@ -283,7 +278,7 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 		}
 		std::vector <boost::shared_ptr <mu::core::node>> results;
         auto ctx (mu::script::context (errors_a, arguments, results));
-		signature_routine->perform (ctx);
+		(*signature_routine) (ctx);
 		if (!(*errors_a) ())
 		{
 			std::vector <llvm::Type *> types;
@@ -350,14 +345,14 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		std::vector <boost::shared_ptr <mu::core::node>> r1;
         auto ctx (mu::script::context (errors_a, a1, r1));
-		(*i)->perform (ctx);
+		(*(*i)) (ctx);
 		if (!(*errors_a) ())
 		{
 			++i;
 			std::vector <boost::shared_ptr <mu::core::node>> a2;
 			std::vector <boost::shared_ptr <mu::core::node>> r2;
             auto ctx (mu::script::context (errors_a, a2, r2));
-			(*i)->perform (ctx);
+			(*(*i)) (ctx);
 			if (!(*errors_a) ())
 			{
 				auto arguments (boost::make_shared <mu::script::values::operation> ());
@@ -377,7 +372,7 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 				a3.push_back (arguments);
 				a3.push_back (results);
                 auto ctx (mu::script::context (errors_a, a3, r3));
-				function_type_create->perform (ctx);
+				(*function_type_create) (ctx);
 				if (!(*errors_a) ())
 				{
 					auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (r3 [0]));

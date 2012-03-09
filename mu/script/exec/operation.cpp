@@ -22,7 +22,7 @@ mu::script::exec::operation::operation (boost::shared_ptr <mu::io::analyzer::ext
 {
 }
 
-void mu::script::exec::operation::perform (mu::script::context & context_a)
+void mu::script::exec::operation::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{
@@ -31,7 +31,7 @@ void mu::script::exec::operation::perform (mu::script::context & context_a)
 		a1.insert (a1.end (), context_a.parameters.begin (), context_a.parameters.end ());
 		mu::script::run::operation run;
         auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
-		run.perform (ctx);
+		run (ctx);
 	}
 	else
 	{

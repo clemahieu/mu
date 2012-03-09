@@ -32,8 +32,3 @@ std::wstring mu::script::package::add::name ()
 {
 	return std::wstring (L"mu::script::package::add");
 }
-
-size_t mu::script::package::add::count ()
-{
-	return 3;
-}

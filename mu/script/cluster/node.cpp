@@ -63,8 +63,3 @@ void mu::script::cluster::node::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::script::cluster::node::count ()
-{
-	return 1;
-}

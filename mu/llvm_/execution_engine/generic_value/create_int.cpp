@@ -17,8 +17,3 @@ void mu::llvm_::execution_engine::generic_value::create_int::operator () (mu::sc
 		context_a.results.push_back (result);
 	}
 }
-
-size_t mu::llvm_::execution_engine::generic_value::create_int::count ()
-{
-	return 2;
-}

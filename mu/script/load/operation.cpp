@@ -33,11 +33,6 @@ void mu::script::load::operation::operator () (mu::script::context & context_a)
 	}
 }
 
-size_t mu::script::load::operation::count ()
-{
-	return 1;
-}
-
 boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::string::node> file)
 {
 	boost::shared_ptr <mu::io::ast::cluster> result;

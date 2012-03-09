@@ -14,7 +14,7 @@ mu::script::runtime::routine::routine (boost::shared_ptr <mu::script::cluster::n
 {
 }
 
-void mu::script::runtime::routine::perform (mu::script::context & context_a)
+void mu::script::runtime::routine::operator () (mu::script::context & context_a)
 {
 	size_t size (calls.size ());
 	std::vector <boost::shared_ptr <mu::core::node>> values_l (context_a.parameters.begin (), context_a.parameters.end ());

@@ -51,8 +51,3 @@ void mu::llvm_::instructions::shl::operator () (mu::script::context & context_a)
 		}
 	}
 }
-
-size_t mu::llvm_::instructions::shl::count ()
-{
-	return 2;
-}

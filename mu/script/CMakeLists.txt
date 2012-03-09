@@ -10,7 +10,6 @@ endif ()
 add_library (mu_script STATIC
 	check.cpp
 	context.cpp
-	fixed.cpp
 	operation.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp

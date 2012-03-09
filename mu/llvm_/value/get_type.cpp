@@ -19,8 +19,3 @@ void mu::llvm_::value::get_type::operator () (mu::script::context & context_a)
 		context_a.results.push_back (build.type);
 	}
 }
-
-size_t mu::llvm_::value::get_type::count ()
-{
-	return 1;
-}

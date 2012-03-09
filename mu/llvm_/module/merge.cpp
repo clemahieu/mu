@@ -2,12 +2,13 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
+#include <mu/script/check.h>
 
 #include <llvm/Linker.h>
 
 #include <sstream>
 
-void mu::llvm_::module::merge::perform (mu::script::context & context_a)
+void mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 0)
 	{
@@ -30,13 +31,13 @@ void mu::llvm_::module::merge::perform (mu::script::context & context_a)
 				}
 				else
 				{
-					invalid_type (context_a.errors, context_a.parameters [position], position);
+					mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [position].get ()), typeid (mu::llvm_::module::node), position);
 				}
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::module::node), 0);
 		}
 	}
 	else

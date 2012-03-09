@@ -62,7 +62,7 @@ void mu::llvm_test::analyzer::operation::run_1 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 0);
 	mu::llvm_::module::print print;
@@ -100,7 +100,7 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -143,7 +143,7 @@ void mu::llvm_test::analyzer::operation::run_3 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -181,7 +181,7 @@ void mu::llvm_test::analyzer::operation::run_4 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -219,7 +219,7 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -257,7 +257,7 @@ void mu::llvm_test::analyzer::operation::run_6 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -295,7 +295,7 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -333,7 +333,7 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
@@ -403,7 +403,7 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 31);
 	mu::llvm_::module::print print;
@@ -444,7 +444,7 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -493,7 +493,7 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -541,7 +541,7 @@ void mu::llvm_test::analyzer::operation::run_12 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 }
 
@@ -566,7 +566,7 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 2);
 	mu::llvm_::module::print print;
@@ -616,7 +616,7 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
     auto ctx (mu::script::context (builder.errors, a2, r2));
-	analyzer.perform (ctx);
+	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (module->module->getFunctionList ().size () == 3);
 	mu::llvm_::module::print print;

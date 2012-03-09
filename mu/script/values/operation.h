@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -8,13 +8,12 @@ namespace mu
 	{
 		namespace values
 		{
-			class operation : public mu::script::fixed
+			class operation : public mu::script::operation
 			{
 			public:
 				operation ();
 				operation (std::vector <boost::shared_ptr <mu::core::node>> values_a);
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				std::vector <boost::shared_ptr <mu::core::node>> values;
 			};
 		}

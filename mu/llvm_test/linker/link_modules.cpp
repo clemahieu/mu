@@ -33,13 +33,13 @@ void mu::llvm_test::linker::link_modules::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> res1;
 	args1.push_back (module);
 	args1.push_back (module1);
-	link_modules.perform (mu::script::context (errors, args1, res1));
+	link_modules (mu::script::context (errors, args1, res1));
 	assert (errors->errors.empty ());
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
 	std::vector <boost::shared_ptr <mu::core::node>> res2;
 	args2.push_back (module);
 	args2.push_back (module2);
-	link_modules.perform (mu::script::context (errors, args2, res2));
+	link_modules (mu::script::context (errors, args2, res2));
 	assert (errors->errors.empty ());
 	assert (module->module->getFunction ("a") != nullptr);
 	assert (module->module->getFunction ("b") != nullptr);

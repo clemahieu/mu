@@ -6,6 +6,7 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/instructions/call.h>
 #include <mu/llvm_/basic_block/split_return.h>
+#include <mu/script/check.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/BasicBlock.h>
@@ -19,7 +20,7 @@ mu::llvm_::ccall::operation::operation (boost::shared_ptr <mu::llvm_::basic_bloc
 {
 }
 
-void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
+void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 {
 	if (context_a.parameters.size () > 2)
 	{
@@ -53,7 +54,7 @@ void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 									a1.push_back (*i);
 								}
                                 auto ctx (mu::script::context (context_a.errors, a1, r1));
-								call->perform (ctx);
+								(*call) (ctx);
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
 								std::vector <boost::shared_ptr <mu::core::node>> a2;
@@ -64,7 +65,7 @@ void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 									a2.push_back (*i);
 								}
                                 auto ctx2 (mu::script::context (context_a.errors, a2, r2));
-								call->perform (ctx2);
+								(*call) (ctx2);
 								false_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = end_block;
 								if (! (*context_a.errors) ())
@@ -114,17 +115,17 @@ void mu::llvm_::ccall::operation::perform (mu::script::context & context_a)
 				}
 				else
 				{
-					invalid_type (context_a.errors, context_a.parameters [2], 2);
+					mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [2].get ()), typeid (mu::llvm_::value::node), 2);
 				}
 			}
 			else
 			{
-				invalid_type (context_a.errors, context_a.parameters [1], 1);
+				mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [1].get ()), typeid (mu::llvm_::value::node), 1);
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, context_a.parameters [0], 0);
+			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::value::node), 0);
 		}
 	}
 	else

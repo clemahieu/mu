@@ -32,7 +32,7 @@ void mu::llvm_test::instructions::trunc::run_1 ()
 	mu::llvm_::instructions::trunc trunc;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto ctx (mu::script::context (errors, a1, r1));
-	trunc.perform (ctx);
+	trunc (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);
 	auto inst (boost::dynamic_pointer_cast <mu::llvm_::instruction::node> (r1 [0]));

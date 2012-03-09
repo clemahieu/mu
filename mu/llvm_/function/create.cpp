@@ -17,8 +17,3 @@ void mu::llvm_::function::create::operator () (mu::script::context & context_a)
 		context_a.results.push_back (boost::make_shared <mu::llvm_::function::node> (llvm::Function::Create (one->function_type (), llvm::GlobalValue::PrivateLinkage), boost::make_shared <mu::llvm_::pointer_type::node> (one)));
 	}
 }
-
-size_t mu::llvm_::function::create::count ()
-{
-	return 1;
-}

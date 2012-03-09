@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/llvm_/analyzer/context.h>
-#include <mu/script/fixed.h>
+#include <mu/script/operation.h>
 
 namespace llvm
 {
@@ -48,12 +48,11 @@ namespace mu
 		namespace analyzer
 		{
 			class reference;
-			class operation : public mu::script::fixed
+			class operation : public mu::script::operation
 			{
 			public:
 				operation ();
 				void operator () (mu::script::context & context_a) override;
-				size_t count () override;
 				void finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a);
 				void finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a);
 				mu::llvm_::analyzer::context context;

@@ -24,11 +24,6 @@ void mu::llvm_::basic_block::insert::operator () (mu::script::context & context_
 	}
 }
 
-size_t mu::llvm_::basic_block::insert::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::basic_block::insert::name ()
 {
 	return std::wstring (L"mu::llvm_::basic_block::insert");

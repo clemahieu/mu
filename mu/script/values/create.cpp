@@ -4,7 +4,7 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script::values::create::perform (mu::script::context & context_a)
+void mu::script::values::create::operator () (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> values;
 	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i)

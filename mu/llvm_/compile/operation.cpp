@@ -76,11 +76,6 @@ void mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 	}
 }
 
-size_t mu::llvm_::compile::operation::count ()
-{
-	return 2;
-}
-
 std::wstring mu::llvm_::compile::operation::name ()
 {
 	return std::wstring (L"mu::llvm_::compile::operation");
