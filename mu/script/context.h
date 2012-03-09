@@ -1,3 +1,5 @@
+#pragma once
+
 #include <mu/core/segment.h>
 
 #include <boost/shared_ptr.hpp>
