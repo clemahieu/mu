@@ -19,7 +19,7 @@ void mu::script_test::type_check::operation::run_1 ()
 {
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation type_check (identity);
+	mu::script::type_check::operation <> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	type_check.perform (mu::script::context (errors, a1, r1));
@@ -30,7 +30,7 @@ void mu::script_test::type_check::operation::run_2 ()
 {
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation type_check (identity);
+	mu::script::type_check::operation <> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
@@ -43,8 +43,7 @@ void mu::script_test::type_check::operation::run_3 ()
 {
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation type_check (identity);
-	type_check.type_ids.push_back (&typeid (mu::script::identity::operation));
+	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
@@ -57,8 +56,7 @@ void mu::script_test::type_check::operation::run_4 ()
 {
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation type_check (identity);
-	type_check.type_ids.push_back (&typeid (mu::script::identity::operation));
+	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	type_check.perform (mu::script::context (errors, a1, r1));
@@ -70,8 +68,7 @@ void mu::script_test::type_check::operation::run_5 ()
 {
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation type_check (identity);
-	type_check.type_ids.push_back (&typeid (mu::script::identity::operation));
+	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::core::node> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
