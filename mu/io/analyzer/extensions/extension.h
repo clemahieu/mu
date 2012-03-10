@@ -21,6 +21,7 @@ namespace mu
 				class extension
 				{
 				public:
+                    virtual ~extension ();
 					virtual void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a) = 0;
 				};
 			}

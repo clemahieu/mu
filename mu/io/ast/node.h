@@ -15,6 +15,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
+                virtual ~node ();
 				node (mu::core::context context_a);
 				virtual void operator () (mu::io::ast::visitor * visitor_a) = 0;
 				virtual std::wstring name () = 0;

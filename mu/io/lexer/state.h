@@ -9,6 +9,7 @@ namespace mu
 			class state
 			{
 			public:
+                virtual ~state ();
 				virtual void lex (wchar_t character) = 0;
 			};
 		}

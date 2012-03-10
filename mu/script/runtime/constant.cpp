@@ -1,4 +1,4 @@
-#include "constant.h"
+#include <mu/script/runtime/constant.h>
 
 mu::script::runtime::constant::constant (boost::shared_ptr <mu::core::node> value_a)
 	: value (value_a)

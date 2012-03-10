@@ -1,4 +1,4 @@
-#include "full.h"
+#include <mu/io/parser/full.h>
 
 #include <mu/io/parser/parser.h>
 

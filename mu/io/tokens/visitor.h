@@ -16,6 +16,7 @@ namespace mu
 			class visitor
 			{
 			public:
+                virtual ~visitor ();
 				virtual void operator () (mu::io::tokens::divider * token) = 0;
 				virtual void operator () (mu::io::tokens::identifier * token) = 0;
 				virtual void operator () (mu::io::tokens::left_square * token) = 0;

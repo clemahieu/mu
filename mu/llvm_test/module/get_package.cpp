@@ -32,7 +32,8 @@ void mu::llvm_test::module::get_package::run_1 ()
 	arguments.push_back (module);
 	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	get (mu::script::context (errors, arguments, results));
+    auto ctx (mu::script::context (errors, arguments, results));
+	get (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
 	auto package (boost::dynamic_pointer_cast <mu::script::package::node> (results [0]));

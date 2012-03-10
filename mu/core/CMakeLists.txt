@@ -12,6 +12,7 @@ add_library (mu_core STATIC
 	position.cpp
 	reference.cpp
 	routine.cpp
+    visitor.cpp
 	errors/error.cpp
 	errors/error_context.cpp
 	errors/error_list.cpp

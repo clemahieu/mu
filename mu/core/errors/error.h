@@ -26,6 +26,7 @@ namespace mu
 			class error
 			{
 			public:
+                virtual ~error ();
 				virtual error_id error_type () = 0;
 				virtual void string (std::wostream & stream) = 0;
 			};

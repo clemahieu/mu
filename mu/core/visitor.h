@@ -12,6 +12,7 @@ namespace mu
 		class visitor
 		{
 		public:
+            virtual ~visitor ();
 			virtual void operator () (mu::core::expression * expression_a) = 0;
 			virtual void operator () (mu::core::parameters * parameters_a) = 0;
 			virtual void operator () (mu::core::reference * reference_a) = 0;

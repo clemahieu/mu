@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string/node.h>
 #include <mu/script/extensions/node.h>
+#include <mu/script/check.h>
 
 #include <dlfcn.h>
 
@@ -12,9 +13,9 @@
 
 void mu::script::loadb::operation::operator () (mu::script::context & context_a)
 {
-	auto one (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
-	if (one.get () != nullptr)
-	{		
+    if (mu::script::check <mu::script::string::node> () (context_a))
+    {
+        auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
 		auto path (boost::filesystem::initial_path ());
 		path /= std::string (one->string.begin (), one->string.end ());
 		auto library (dlopen (path.string ().c_str (), RTLD_NOW));
@@ -69,13 +70,4 @@ void mu::script::loadb::operation::operator () (mu::script::context & context_a)
 			(*context_a.errors) (message.str ());
 		}
 	}
-	else
-	{
-		invalid_type (context_a.errors, context_a.parameters [0], 0);
-	}
-}
-
-size_t mu::script::loadb::operation::count ()
-{
-	return 1;
 }

@@ -1,6 +1,10 @@
-#include "extensions.h"
+#include <mu/io/analyzer/extensions/extensions.h>
 
 mu::io::analyzer::extensions::extensions::extensions ()
+{
+}
+
+mu::io::analyzer::extensions::extensions::~extensions ()
 {
 }
 

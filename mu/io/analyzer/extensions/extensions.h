@@ -16,6 +16,7 @@ namespace mu
 				class extensions
 				{
 				public:
+                    virtual ~extensions ();
 					extensions ();
 					extensions (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>> extensions_a);
 					std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>> extensions_m;
