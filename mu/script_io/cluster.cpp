@@ -47,7 +47,7 @@ boost::shared_ptr <mu::script::runtime::routine> mu::script_io::cluster::process
 	auto existing (generated.find (routine_a));
 	if (existing == generated.end ())
 	{
-		result_l = boost::make_shared <mu::script::runtime::routine> (result);
+		result_l = boost::make_shared <mu::script::runtime::routine> ();
 		generated [routine_a] = result_l;
 		mu::script_io::routine routine (*this, routine_a, result_l);
 	}

@@ -19,7 +19,7 @@ void mu::script_test::expression::run_1 ()
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
 	mu::script::runtime::expression expression (0);
-	mu::script::runtime::frame frame (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 1);
+	mu::script::runtime::frame frame (boost::make_shared <mu::core::node> (), 1);
 	frame.nodes [0].push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	expression (errors, frame, target);
@@ -34,7 +34,7 @@ void mu::script_test::expression::run_2 ()
 	boost::shared_ptr <mu::core::node> node1 (new mu::core::node);
 	boost::shared_ptr <mu::core::node> node2 (new mu::core::node);
 	mu::script::runtime::expression expression (0);
-	mu::script::runtime::frame frame (boost::make_shared <mu::script::cluster::node> (), boost::make_shared <mu::core::node> (), 1);
+	mu::script::runtime::frame frame (boost::make_shared <mu::core::node> (), 1);
 	frame.nodes [0].push_back (node1);
 	frame.nodes [0].push_back (node2);
 	std::vector <boost::shared_ptr <mu::core::node>> target;

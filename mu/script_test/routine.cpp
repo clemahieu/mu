@@ -23,7 +23,7 @@ void mu::script_test::routine::run ()
 void mu::script_test::routine::run_1 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
-	mu::script::runtime::routine routine (boost::make_shared <mu::script::cluster::node> ());
+	mu::script::runtime::routine routine;
 	routine.calls.push_back (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
@@ -35,7 +35,7 @@ void mu::script_test::routine::run_1 ()
 void mu::script_test::routine::run_2 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
-	mu::script::runtime::routine routine (boost::make_shared <mu::script::cluster::node> ());
+	mu::script::runtime::routine routine;
 	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
 	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (boost::shared_ptr <mu::core::node> (new mu::script::identity::operation))));
 	routine.calls.push_back (call);
@@ -49,7 +49,7 @@ void mu::script_test::routine::run_2 ()
 void mu::script_test::routine::run_3 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
-	mu::script::runtime::routine routine (boost::make_shared <mu::script::cluster::node> ());
+	mu::script::runtime::routine routine;
 	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
 	call->arguments.push_back (boost::make_shared <mu::script::runtime::parameters> ());
 	routine.calls.push_back (call);
@@ -68,8 +68,8 @@ void mu::script_test::routine::run_4 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
-	mu::script::runtime::routine routine (remapping);
-	auto routine1 (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
+	mu::script::runtime::routine routine;
+	auto routine1 (boost::make_shared <mu::script::runtime::routine> ());
 	auto r (boost::make_shared <mu::core::routine> (mu::core::context ()));
 	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
 	call->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (routine1));

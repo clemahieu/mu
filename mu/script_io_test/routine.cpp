@@ -32,7 +32,7 @@ void mu::script_io_test::routine::run_1 ()
 	calls.push_back (call2);
 	auto rout (boost::make_shared <mu::core::routine> (call2));
 	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
-	auto routine (boost::make_shared <mu::script::runtime::routine> (boost::make_shared <mu::script::cluster::node> ()));
+	auto routine (boost::make_shared <mu::script::runtime::routine> ());
 	mu::script_io::routine r (cluster, rout, routine);
 	assert (routine->calls.size () == 2);
 	auto c1 (routine->calls [0]);

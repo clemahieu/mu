@@ -20,10 +20,9 @@ namespace mu
 			class routine : public mu::script::operation
 			{
 			public:
-				routine (boost::shared_ptr <mu::script::cluster::node> cluster_a);
+				routine ();
 				void operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
-				boost::shared_ptr <mu::script::cluster::node> cluster;
 				std::vector <boost::shared_ptr <mu::script::runtime::call>> calls;
 			};
 		}
