@@ -4,8 +4,14 @@
 
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+
 namespace mu
 {
+    namespace code
+    {
+        class node;
+    }
 	namespace script
 	{
 		namespace bool_c

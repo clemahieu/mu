@@ -7,6 +7,7 @@
 #include <mu/llvm_/global_variable/node.h>
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/llvm_/module/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

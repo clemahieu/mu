@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_target.h>
 
 #include <typeinfo>
-#include <stack>
+#include <vector>
 
 namespace mu
 {
@@ -19,11 +19,11 @@ namespace mu
 			class trace_target : public mu::core::errors::error_target
 			{
 			public:
-				trace_target (std::stack <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error_target> target_a);				
+				trace_target (std::vector <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error_target> target_a);				
 				void operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a) override;
 				bool operator () () override;
                 void print (std::wostream & target) override;
-				std::stack <std::type_info const *> & types;
+				std::vector <std::type_info const *> & types;
 				boost::shared_ptr <mu::core::errors::error_target> target;
 			};
 		}

@@ -1,6 +1,7 @@
 #include "create.h"
 
 #include <mu/script/values/operation.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

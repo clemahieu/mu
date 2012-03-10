@@ -9,6 +9,7 @@
 #include <mu/script/runtime/parameters.h>
 #include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

@@ -4,6 +4,7 @@
 #include <mu/llvm_/execution_engine/node.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/execution_engine/generic_value/node.h>
+#include <mu/script/context.h>
 
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/GenericValue.h>

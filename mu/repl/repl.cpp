@@ -20,6 +20,7 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

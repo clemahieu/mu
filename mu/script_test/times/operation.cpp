@@ -8,6 +8,7 @@
 #include <mu/io/source.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 

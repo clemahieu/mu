@@ -6,6 +6,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/llvm_/integer_type/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

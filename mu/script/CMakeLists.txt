@@ -36,6 +36,7 @@ add_library (mu_script STATIC
 	extensions/merge_cluster.cpp
 	extensions/merge_package.cpp
 	extensions/node.cpp
+	fail/operation.cpp
 	identity/operation.cpp
 	if_c/operation.cpp
 	integer/equal.cpp

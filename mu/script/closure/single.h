@@ -2,8 +2,16 @@
 
 #include <mu/script/operation.h>
 
+#include <boost/shared_ptr.hpp>
+
+#include <vector>
+
 namespace mu
 {
+    namespace core
+    {
+        class node;
+    }
 	namespace script
 	{
 		namespace closure

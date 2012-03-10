@@ -12,6 +12,7 @@
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/constant_int/node.h>
 #include <mu/llvm_/integer_type/node.h>
+#include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

@@ -2,13 +2,13 @@
 
 #include <mu/script/runtime/frame.h>
 
-mu::script::runtime::trace_registration::trace_registration (mu::script::runtime::frame & frame_a, std::type_info const * info_a)
-	: frame (frame_a)
+mu::script::runtime::trace_registration::trace_registration (std::vector <std::type_info const *> & stack_a, std::type_info const * info_a)
+	: stack (stack_a)
 {
-	//context.trace.push (info_a);
+	stack.push_back (info_a);
 }
 
 mu::script::runtime::trace_registration::~trace_registration ()
 {
-	//context.trace.pop ();
+	stack.pop_back ();
 }

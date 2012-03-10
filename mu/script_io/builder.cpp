@@ -54,6 +54,7 @@
 #include <mu/script/extensions/merge_cluster.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/run/operation.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>

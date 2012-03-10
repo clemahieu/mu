@@ -10,6 +10,7 @@
 #include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/run/operation.h>
+#include <mu/script/context.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>

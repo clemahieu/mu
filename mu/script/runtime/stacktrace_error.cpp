@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-mu::script::runtime::stacktrace_error::stacktrace_error (std::stack <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error> error_a)
+mu::script::runtime::stacktrace_error::stacktrace_error (std::vector <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error> error_a)
 	: error (error_a)
 {
-/*	for (auto i (types_a._Get_container ().begin ()), j (types_a._Get_container ().end ()); i != j; ++i)
+	for (auto i (types_a.begin ()), j (types_a.end ()); i != j; ++i)
 	{
 		std::string name ((*i)->name ());
 		types.push_back (std::wstring (name.begin (), name.end ()));
-	}(*/
+	}
 }
 
 mu::core::errors::error_id mu::script::runtime::stacktrace_error::error_type ()

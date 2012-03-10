@@ -17,6 +17,7 @@
 #include <mu/llvm_/module/verify.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/set_type/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

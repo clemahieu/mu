@@ -2,6 +2,8 @@
 
 #include <mu/script/operation.h>
 
+#include <vector>
+
 namespace mu
 {
 	namespace script

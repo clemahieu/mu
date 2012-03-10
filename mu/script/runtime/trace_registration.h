@@ -1,5 +1,7 @@
 #include <typeinfo>
 
+#include <vector>
+
 namespace mu
 {
 	namespace script
@@ -10,9 +12,9 @@ namespace mu
 			class trace_registration
 			{
 			public:
-				trace_registration (mu::script::runtime::frame & frame_a, std::type_info const * info_a);
+				trace_registration (std::vector <std::type_info const *> & stack_a, std::type_info const * info_a);
 				~trace_registration ();
-				mu::script::runtime::frame & frame;
+				std::vector <std::type_info const *> & stack;
 			};
 		}
 	}

@@ -2,11 +2,17 @@
 
 #include <mu/script/operation.h>
 
+#include <boost/shared_ptr.hpp>
+
 namespace mu
 {
 	namespace core
 	{
 		class cluster;
+        namespace errors
+        {
+            class error_target;
+        }
 	}
 	namespace io
 	{

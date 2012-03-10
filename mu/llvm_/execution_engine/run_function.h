@@ -2,6 +2,7 @@
 
 #include <mu/script/operation.h>
 #include <mu/llvm_/execution_engine/node.h>
+#include <mu/core/segment.h>
 
 namespace llvm
 {
@@ -9,6 +10,14 @@ namespace llvm
 }
 namespace mu
 {
+    namespace core
+    {
+        class node;
+        namespace errors
+        {
+            class error_target;
+        }
+    }
 	namespace llvm_
 	{
 		namespace execution_engine

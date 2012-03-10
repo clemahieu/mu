@@ -25,6 +25,7 @@ namespace mu
 			boost::shared_ptr <mu::core::errors::error_target> errors;
 			mu::core::segment <boost::shared_ptr <mu::core::node>> parameters;
 			std::vector <boost::shared_ptr <mu::core::node>> & results;
+            std::vector <std::type_info const *> stack;
 		};
 	}
 }

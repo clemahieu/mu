@@ -5,6 +5,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/astring/node.h>
 #include <mu/llvm_/module/add_package.h>
+#include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

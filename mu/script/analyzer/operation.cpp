@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script/analyzer/operation.h>
 
 #include <mu/script/extensions/node.h>
 #include <mu/io/ast/cluster.h>

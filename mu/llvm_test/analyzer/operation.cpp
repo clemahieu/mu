@@ -14,6 +14,7 @@
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/type/node.h>
 #include <mu/llvm_/context/node.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 

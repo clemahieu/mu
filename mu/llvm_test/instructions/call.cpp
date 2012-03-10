@@ -11,6 +11,7 @@
 #include <mu/llvm_/void_type/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/instruction/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

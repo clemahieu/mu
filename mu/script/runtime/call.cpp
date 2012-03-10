@@ -6,6 +6,9 @@
 #include <mu/script/runtime/frame.h>
 #include <mu/core/routine.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/script/runtime/trace_registration.h>
+#include <mu/script/runtime/trace_target.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -22,7 +25,7 @@ mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 {
 }
 
-void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a)
+void mu::script::runtime::call::operator () (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
 	auto errors_l (boost::make_shared <mu::core::errors::error_context> (errors_a, context));
@@ -35,7 +38,9 @@ void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors
 		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-			(*this) (errors_l, operation, arguments_l, frame_a);
+            std::type_info const & type (typeid (*operation.get ()));
+            mu::script::runtime::trace_registration registration (context_a.stack, &type);
+			(*this) (boost::make_shared <mu::script::runtime::trace_target> (context_a.stack, errors_l), operation, arguments_l, frame_a);
 		}
 		else
 		{

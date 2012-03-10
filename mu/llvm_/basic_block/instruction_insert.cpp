@@ -3,8 +3,11 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/basic_block/insert.h>
 #include <mu/llvm_/basic_block/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
+
+#include <vector>
 
 mu::llvm_::basic_block::instruction_insert::instruction_insert (boost::shared_ptr <mu::llvm_::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> instruction_a)
 	: block (block_a),

@@ -4,6 +4,7 @@
 #include <mu/script/integer/equal.h>
 #include <mu/script/integer/node.h>
 #include <mu/script/bool_c/node.h>
+#include <mu/script/context.h>
 
 void mu::script_test::integer::equal::run ()
 {

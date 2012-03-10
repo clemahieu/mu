@@ -4,7 +4,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::script::runtime::trace_target::trace_target (std::stack <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error_target> target_a)
+mu::script::runtime::trace_target::trace_target (std::vector <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error_target> target_a)
 	: types (types_a),
 	target (target_a)
 {

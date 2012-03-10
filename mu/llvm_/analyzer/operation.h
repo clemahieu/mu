@@ -3,6 +3,8 @@
 #include <mu/llvm_/analyzer/context.h>
 #include <mu/script/operation.h>
 
+#include <vector>
+
 namespace llvm
 {
 	class Function;
@@ -12,6 +14,10 @@ namespace mu
 	namespace core
 	{
 		class cluster;
+        namespace errors
+        {
+            class error_target;
+        }
 	}
 	namespace io
 	{

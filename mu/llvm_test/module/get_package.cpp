@@ -6,6 +6,7 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/script/package/node.h>
 #include <mu/script/astring/node.h>
+#include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

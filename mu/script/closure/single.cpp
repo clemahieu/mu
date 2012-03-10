@@ -1,4 +1,6 @@
-#include "single.h"
+#include <mu/script/closure/single.h>
+
+#include <mu/script/context.h>
 
 mu::script::closure::single::single (boost::shared_ptr <mu::script::operation> operation_a)
 	: operation_m (operation_a)

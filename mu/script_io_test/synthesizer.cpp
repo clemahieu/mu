@@ -11,6 +11,7 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/call.h>
 #include <mu/script/runtime/constant.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

@@ -7,6 +7,10 @@ namespace mu
 	namespace core
 	{
 		class cluster;
+        namespace errors
+        {
+            class error_target;
+        }
 	}
 	namespace script
 	{

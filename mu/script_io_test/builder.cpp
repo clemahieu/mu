@@ -14,6 +14,7 @@
 #include <mu/core/segment.h>
 #include <mu/script/cluster/node.h>
 #include <mu/core/routine.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 

@@ -4,6 +4,7 @@
 #include <mu/llvm_/apint/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/integer_type/create.h>
+#include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/BasicBlock.h>

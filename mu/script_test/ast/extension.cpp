@@ -8,6 +8,7 @@
 #include <mu/io/ast/cluster.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 

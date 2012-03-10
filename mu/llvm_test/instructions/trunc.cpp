@@ -5,6 +5,7 @@
 #include <mu/llvm_/constant_int/node.h>
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/llvm_/instruction/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 

@@ -6,6 +6,7 @@
 #include <mu/script/runtime/call.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/values/operation.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -21,7 +22,7 @@ void mu::script::runtime::routine::operator () (mu::script::context & context_a)
 	mu::script::runtime::frame frame (values, size);
 	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*context_a.errors) (); ++i)
 	{
-		(*(*i)) (context_a.errors, frame);
+		(*(*i)) (context_a, context_a.errors, frame);
 	}
 	context_a.results.assign (frame.nodes [size - 1].begin (), frame.nodes [size - 1].end ());
 }

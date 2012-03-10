@@ -18,6 +18,7 @@ namespace mu
 	}
 	namespace script
 	{
+        class context;
 		class operation;
 		namespace runtime
 		{
@@ -31,7 +32,7 @@ namespace mu
 				mu::core::context context;
 				size_t results;
 				std::vector <boost::shared_ptr <mu::script::runtime::node>> arguments;
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a);
+				void operator () (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a);
 				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::frame & frame_a);
 			};
 		}

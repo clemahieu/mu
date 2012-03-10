@@ -4,6 +4,7 @@
 #include <mu/script/identity/operation.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure/hole.h>
+#include <mu/script/context.h>
 
 void mu::script_test::closure::operation::run ()
 {

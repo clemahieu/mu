@@ -7,6 +7,7 @@
 #include <mu/script/runtime/frame.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/cluster/node.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -23,7 +24,10 @@ void mu::script_test::call::run_1 ()
 	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (boost::shared_ptr <mu::core::node> (new mu::script::identity::operation))));
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (node)));
-	(*call) (errors, frame);
+    std::vector <boost::shared_ptr <mu::core::node>> a1;
+    std::vector <boost::shared_ptr <mu::core::node>> r1;
+    auto ctx (mu::script::context (errors, a1, r1));
+	(*call) (ctx, errors, frame);
 	assert (frame.nodes [1].size () == 1);
 	assert (frame.nodes [1] [0] == node);
 }
