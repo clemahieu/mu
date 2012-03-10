@@ -6,8 +6,6 @@
 #include <mu/script/runtime/frame.h>
 #include <mu/core/routine.h>
 #include <mu/script/runtime/routine.h>
-#include <mu/script/runtime/trace_registration.h>
-#include <mu/script/runtime/trace_target.h>
 #include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
@@ -38,9 +36,7 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, bo
 		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-            std::type_info const & type (typeid (*operation.get ()));
-            mu::script::runtime::trace_registration registration (context_a.stack, &type);
-			(*this) (boost::make_shared <mu::script::runtime::trace_target> (context_a.stack, errors_l), context_a.stack, operation, arguments_l, frame_a);
+			(*this) (errors_l, context_a.stack, operation, arguments_l, frame_a);
 		}
 		else
 		{

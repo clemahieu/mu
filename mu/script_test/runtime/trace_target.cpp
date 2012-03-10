@@ -1,6 +1,5 @@
 #include <mu/script_test/runtime/trace_target.h>
 
-#include <mu/script/runtime/trace_target.h>
 #include <mu/script/closure/single.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/fail/operation.h>
@@ -24,23 +23,23 @@ void mu::script_test::runtime::trace_target::run ()
 
 void mu::script_test::runtime::trace_target::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	auto extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ());
-	extensions->extensions_m [std::wstring (L"fail")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
-	mu::script_io::builder builder (extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
-	source (L"[a][b;;a][c;;b][d;;c][fail;;d]");
-	source ();
-	assert (builder.errors->errors.empty ());
-	auto cluster (builder.clusters [0]);
-	auto routine (cluster->routines [0]);
-	std::vector <std::type_info const *> stack;
-	auto ctx (mu::script::context (errors, a1, r1, stack));
-	(*routine) (ctx);
-	assert (!errors->errors.empty ());
-	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
-	assert (error.get () != nullptr);
-	assert (error->types.size () == 5);
+	//auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	//std::vector <boost::shared_ptr <mu::core::node>> a1;
+	//std::vector <boost::shared_ptr <mu::core::node>> r1;
+	//auto extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ());
+	//extensions->extensions_m [std::wstring (L"fail")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
+	//mu::script_io::builder builder (extensions);
+	//mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
+	//source (L"[a][b;;a][c;;b][d;;c][fail;;d]");
+	//source ();
+	//assert (builder.errors->errors.empty ());
+	//auto cluster (builder.clusters [0]);
+	//auto routine (cluster->routines [0]);
+	//std::vector <std::type_info const *> stack;
+	//auto ctx (mu::script::context (errors, a1, r1, stack));
+	//(*routine) (ctx);
+	//assert (!errors->errors.empty ());
+	//auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
+	//assert (error.get () != nullptr);
+	//assert (error->types.size () == 5);
 }

@@ -64,8 +64,7 @@ add_library (mu_script STATIC
 	runtime/reference.cpp
 	runtime/routine.cpp
 	runtime/stacktrace_error.cpp
-	runtime/trace_registration.cpp
-	runtime/trace_target.cpp
+	runtime/trace.cpp
 	string/extension.cpp
 	string/node.cpp
 	times/operation.cpp
