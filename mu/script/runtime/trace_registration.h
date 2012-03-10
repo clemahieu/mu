@@ -6,13 +6,13 @@ namespace mu
 	{
 		namespace runtime
 		{
-			class context;
+			class frame;
 			class trace_registration
 			{
 			public:
-				trace_registration (mu::script::runtime::context & context_a, std::type_info const * info_a);
+				trace_registration (mu::script::runtime::frame & frame_a, std::type_info const * info_a);
 				~trace_registration ();
-				mu::script::runtime::context & context;
+				mu::script::runtime::frame & frame;
 			};
 		}
 	}

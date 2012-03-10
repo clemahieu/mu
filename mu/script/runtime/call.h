@@ -21,7 +21,7 @@ namespace mu
 		class operation;
 		namespace runtime
 		{
-			class context;
+			class frame;
 			class node;
 			class call
 			{
@@ -31,8 +31,8 @@ namespace mu
 				mu::core::context context;
 				size_t results;
 				std::vector <boost::shared_ptr <mu::script::runtime::node>> arguments;
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context);
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::context & context_a);
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a);
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::frame & frame_a);
 			};
 		}
 	}

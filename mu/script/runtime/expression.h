@@ -14,7 +14,7 @@ namespace mu
 			public:
 				expression (size_t index_a);
 				size_t index;
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
+				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
 			};
 		}
 	}

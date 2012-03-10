@@ -56,8 +56,8 @@ add_library (mu_script STATIC
 	run/operation.cpp
 	runtime/call.cpp
 	runtime/constant.cpp
-	runtime/context.cpp
 	runtime/expression.cpp
+	runtime/frame.cpp
 	runtime/node.cpp
 	runtime/parameters.cpp
 	runtime/reference.cpp

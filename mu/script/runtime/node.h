@@ -18,12 +18,12 @@ namespace mu
 	{
 		namespace runtime
 		{
-			class context;
+			class frame;
 			class node
 			{
 			public:
                 virtual ~node();
-				virtual void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::context & context, std::vector <boost::shared_ptr <mu::core::node>> & target) = 0;
+				virtual void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame, std::vector <boost::shared_ptr <mu::core::node>> & target) = 0;
 			};
 		}
 	}
