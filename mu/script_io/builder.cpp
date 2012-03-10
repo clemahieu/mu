@@ -80,7 +80,8 @@ void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> 
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (cluster_a);
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	synthesizer (ctx);
 	if (results.size () == 1)
 	{

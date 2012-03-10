@@ -32,7 +32,8 @@ void mu::script_test::times::operation::run_1 ()
 	auto n4 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (1)));
 	arguments.push_back (n4);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	times (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);
@@ -63,7 +64,8 @@ void mu::script_test::times::operation::run_2 ()
 	auto n5 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (1)));
 	arguments.push_back (n5);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-    auto ctx (mu::script::context (builder.errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (builder.errors, arguments, results, stack));
 	times (ctx);
 	assert (builder.errors->errors.empty ());
 	assert (results.size () == 3);

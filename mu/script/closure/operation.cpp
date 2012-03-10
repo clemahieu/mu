@@ -45,7 +45,7 @@ void mu::script::closure::operation::operator () (mu::script::context & context_
 		}
 		else
 		{
-			auto ctx (mu::script::context (context_a.errors, closed, context_a.results));
+			auto ctx (mu::script::context (context_a.errors, closed, context_a.results, context_a.stack));
 			(*operation_m) (ctx);
 		}
 	}

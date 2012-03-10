@@ -53,7 +53,7 @@ void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								{
 									a1.push_back (*i);
 								}
-                                auto ctx (mu::script::context (context_a.errors, a1, r1));
+								auto ctx (mu::script::context (context_a.errors, a1, r1, context_a.stack));
 								(*call) (ctx);
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
@@ -64,7 +64,7 @@ void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								{
 									a2.push_back (*i);
 								}
-                                auto ctx2 (mu::script::context (context_a.errors, a2, r2));
+								auto ctx2 (mu::script::context (context_a.errors, a2, r2, context_a.stack));
 								(*call) (ctx2);
 								false_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = end_block;

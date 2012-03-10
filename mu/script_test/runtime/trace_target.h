@@ -8,6 +8,7 @@ namespace mu
         {
             class trace_target
             {
+			public:
                 void run ();
                 void run_1 ();
             };

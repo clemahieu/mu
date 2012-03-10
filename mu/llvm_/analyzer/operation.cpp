@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/llvm_/analyzer/operation.h>
 
 #include <mu/io/ast/expression.h>
 #include <mu/io/analyzer/analyzer.h>
@@ -175,7 +175,7 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 		context.module->module = module->module;
 		std::vector <boost::shared_ptr <mu::llvm_::function::node>> types;		
 		std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
-		auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, context_a.errors, &functions, &types, _1));
+		auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_types, this, &context_a.stack, context_a.errors, &functions, &types, _1));
 		{
 			mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
 			auto i (cluster->expressions.begin ());
@@ -226,7 +226,7 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}
 		{
-			auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, context_a.errors, &context_a.results, &functions, _1));
+			auto function (boost::bind (&mu::llvm_::analyzer::operation::finish_bodies, this, &context_a.stack, context_a.errors, &context_a.results, &functions, _1));
 			mu::io::analyzer::analyzer analyzer (function, context_a.errors, extensions);
 			auto i (cluster->expressions.begin ());
 			auto j (cluster->expressions.end ());
@@ -247,7 +247,7 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 	}
 }
 
-void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
+void mu::llvm_::analyzer::operation::finish_bodies (std::vector <std::type_info const *> * stack_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> * results, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a)
 {	
 	for (size_t i (0), j (cluster_a->routines.size ()); i != j; ++i)
 	{
@@ -277,7 +277,7 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 			}
 		}
 		std::vector <boost::shared_ptr <mu::core::node>> results;
-        auto ctx (mu::script::context (errors_a, arguments, results));
+        auto ctx (mu::script::context (errors_a, arguments, results, *stack_a));
 		(*signature_routine) (ctx);
 		if (!(*errors_a) ())
 		{
@@ -335,7 +335,7 @@ void mu::llvm_::analyzer::operation::finish_bodies (boost::shared_ptr <mu::core:
 	results->push_back (result);
 }
 
-void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a)
+void mu::llvm_::analyzer::operation::finish_types (std::vector <std::type_info const *> * stack_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a)
 {
 	mu::script_io::cluster cluster (cluster_a);
 	assert (cluster.result->routines.size () % 2 == 0);
@@ -344,14 +344,14 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 	{
 		std::vector <boost::shared_ptr <mu::core::node>> a1;
 		std::vector <boost::shared_ptr <mu::core::node>> r1;
-        auto ctx (mu::script::context (errors_a, a1, r1));
+        auto ctx (mu::script::context (errors_a, a1, r1, *stack_a));
 		(*(*i)) (ctx);
 		if (!(*errors_a) ())
 		{
 			++i;
 			std::vector <boost::shared_ptr <mu::core::node>> a2;
 			std::vector <boost::shared_ptr <mu::core::node>> r2;
-            auto ctx (mu::script::context (errors_a, a2, r2));
+            auto ctx (mu::script::context (errors_a, a2, r2, *stack_a));
 			(*(*i)) (ctx);
 			if (!(*errors_a) ())
 			{
@@ -371,7 +371,7 @@ void mu::llvm_::analyzer::operation::finish_types (boost::shared_ptr <mu::core::
 				a3.push_back (context.context_m);
 				a3.push_back (arguments);
 				a3.push_back (results);
-                auto ctx (mu::script::context (errors_a, a3, r3));
+                auto ctx (mu::script::context (errors_a, a3, r3, *stack_a));
 				(*function_type_create) (ctx);
 				if (!(*errors_a) ())
 				{

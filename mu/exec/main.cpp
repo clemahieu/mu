@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
 #include <mu/script/string/node.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -17,7 +18,8 @@ int main (int argc, char * argv [])
 		std::vector <boost::shared_ptr <mu::core::node>> results;
 		std::string file_name (argv [1]);
 		arguments.push_back (boost::make_shared <mu::script::string::node> (std::wstring (file_name.begin (), file_name.end ())));
-		auto ctx (mu::script::context (errors, arguments, results));
+		std::vector <std::type_info const *> stack;
+		auto ctx (mu::script::context (errors, arguments, results, stack));
         exec (ctx);
 		if (errors->errors.empty ())
 		{

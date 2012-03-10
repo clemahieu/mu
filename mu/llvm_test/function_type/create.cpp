@@ -34,7 +34,8 @@ void mu::llvm_test::function_type::create::run_1 ()
 	arguments.push_back (context);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -59,7 +60,8 @@ void mu::llvm_test::function_type::create::run_2 ()
 	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (args);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -87,7 +89,8 @@ void mu::llvm_test::function_type::create::run_3 ()
 	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (args);
 	arguments.push_back (boost::make_shared <mu::script::values::operation> ());
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -116,7 +119,8 @@ void mu::llvm_test::function_type::create::run_4 ()
 	auto res (boost::make_shared <mu::script::values::operation> ());
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	arguments.push_back (res);
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -141,7 +145,8 @@ void mu::llvm_test::function_type::create::run_5 ()
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	arguments.push_back (res);
-    auto ctx (mu::script::context (errors, arguments, results));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);

@@ -57,7 +57,8 @@ void mu::llvm_test::ccall::operation::run_1 ()
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::void_type::node> (ctx)))));
 	a1.push_back (false_fn);
-    auto ctx2 (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 0);
@@ -66,10 +67,10 @@ void mu::llvm_test::ccall::operation::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a3;
 	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
-    auto ctx3 (mu::script::context (errors, a3, r3));
+    auto ctx3 (mu::script::context (errors, a3, r3, stack));
 	print (ctx3);
 	mu::llvm_::module::verify verify;
-    auto ctx4 (mu::script::context (errors, a3, r3));
+    auto ctx4 (mu::script::context (errors, a3, r3, stack));
 	verify (ctx4);
 	assert (errors->errors.empty ());
 }
@@ -95,7 +96,8 @@ void mu::llvm_test::ccall::operation::run_2 ()
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt1Ty (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context))))));
 	a1.push_back (false_fn);
-    auto ctx2 (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 1);
@@ -106,10 +108,10 @@ void mu::llvm_test::ccall::operation::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a3;
 	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
-    auto ctx3 (mu::script::context (errors, a3, r3));
+    auto ctx3 (mu::script::context (errors, a3, r3, stack));
 	print (ctx3);
 	mu::llvm_::module::verify verify;
-    auto ctx4 (mu::script::context (errors, a3, r3));
+    auto ctx4 (mu::script::context (errors, a3, r3, stack));
 	verify (ctx4);
 	assert (errors->errors.empty ());
 }
@@ -138,7 +140,8 @@ void mu::llvm_test::ccall::operation::run_3 ()
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (result_type->type (), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), result_type))));
 	a1.push_back (false_fn);
-    auto ctx2 (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	ccall (ctx2);
 	assert (errors->errors.empty ());	
 	assert (r1.size () == 2);
@@ -154,10 +157,10 @@ void mu::llvm_test::ccall::operation::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a3;
 	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	a3.push_back (mod);
-    auto ctx3 (mu::script::context (errors, a3, r3));
+    auto ctx3 (mu::script::context (errors, a3, r3, stack));
 	print (ctx3);
 	mu::llvm_::module::verify verify;
-    auto ctx4 (mu::script::context (errors, a3, r3));
+    auto ctx4 (mu::script::context (errors, a3, r3, stack));
 	verify (ctx4);
 	assert (errors->errors.empty ());
 }

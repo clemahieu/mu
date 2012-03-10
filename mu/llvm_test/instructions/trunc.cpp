@@ -32,7 +32,8 @@ void mu::llvm_test::instructions::trunc::run_1 ()
 	a1.push_back (type);
 	mu::llvm_::instructions::trunc trunc;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	auto ctx (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+	auto ctx (mu::script::context (errors, a1, r1, stack));
 	trunc (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

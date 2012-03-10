@@ -24,7 +24,8 @@ void mu::script_test::loadb::operation::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::script::loadb::operation loadb;
-    auto ctx (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	loadb (ctx);
 	assert (!errors->errors.empty ());
 }
@@ -55,7 +56,8 @@ void mu::script_test::loadb::operation::run_2 ()
     }
 	a1.push_back (file);
 	mu::script::loadb::operation loadb;
-    auto ctx (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	loadb (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

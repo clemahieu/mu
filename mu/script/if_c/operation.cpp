@@ -14,12 +14,12 @@ void mu::script::if_c::operation::operator () (mu::script::context & context_a)
 		std::vector <boost::shared_ptr <mu::core::node>> arguments;
 		if (one->value)
 		{
-            auto ctx (mu::script::context (context_a.errors, arguments, context_a.results));
+			auto ctx (mu::script::context (context_a.errors, arguments, context_a.results, context_a.stack));
 			(*two) (ctx);
 		}
 		else
 		{
-            auto ctx (mu::script::context (context_a.errors, arguments, context_a.results));
+			auto ctx (mu::script::context (context_a.errors, arguments, context_a.results, context_a.stack));
 			(*three) (ctx);
 		}
 	}

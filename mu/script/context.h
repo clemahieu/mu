@@ -21,11 +21,11 @@ namespace mu
 		class context
 		{
 		public:
-			context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a);
+			context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a, std::vector <std::type_info const *> & stack_a);
 			boost::shared_ptr <mu::core::errors::error_target> errors;
 			mu::core::segment <boost::shared_ptr <mu::core::node>> parameters;
 			std::vector <boost::shared_ptr <mu::core::node>> & results;
-            std::vector <std::type_info const *> stack;
+            std::vector <std::type_info const *> & stack;
 		};
 	}
 }

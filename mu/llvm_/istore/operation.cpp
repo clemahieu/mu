@@ -39,7 +39,7 @@ void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 				std::vector <boost::shared_ptr <mu::core::node>> a1;
 				a1.push_back (one);
 				a1.push_back (final);
-                auto ctx (mu::script::context (context_a.errors, a1, context_a.results));
+				auto ctx (mu::script::context (context_a.errors, a1, context_a.results, context_a.stack));
 				store (ctx);
 			}
 			else

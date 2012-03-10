@@ -16,7 +16,7 @@ void mu::script::chain::operation::operator () (mu::script::context & context_a)
 			while (!end)
 			{
 				std::vector <boost::shared_ptr <mu::core::node>> results_l;
-                auto ctx (mu::script::context (context_a.errors, arguments, results_l));
+				auto ctx (mu::script::context (context_a.errors, arguments, results_l, context_a.stack));
 				(*one) (ctx);
 				if (results_l.size () > 0)
 				{

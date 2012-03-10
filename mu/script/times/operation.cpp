@@ -21,7 +21,7 @@ void mu::script::times::operation::operator () (mu::script::context & context_a)
 				{
 					std::vector <boost::shared_ptr <mu::core::node>> arguments;
 					arguments.swap (results_l);
-                    auto ctx (mu::script::context (context_a.errors, arguments, results_l));
+					auto ctx (mu::script::context (context_a.errors, arguments, results_l, context_a.stack));
 					(*two) (ctx);
 				}
 				context_a.results.insert (context_a.results.end (), results_l.begin (), results_l.end ());

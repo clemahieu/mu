@@ -31,7 +31,8 @@ void mu::llvm_test::global_variable::create_set::run_1 ()
 	a1.push_back (boost::make_shared <mu::llvm_::constant_int::node> (llvm::ConstantInt::get (llvm::Type::getInt1Ty (context), 0, false), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context))));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::global_variable::create_set create;
-    auto ctx (mu::script::context (errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

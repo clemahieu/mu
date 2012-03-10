@@ -20,6 +20,7 @@
 #include <mu/script_test/loads/operation.h>
 #include <mu/script_test/analyzer/operation.h>
 #include <mu/script_test/type_check/operation.h>
+#include <mu/script_test/runtime/trace_target.h>
 
 void mu::script_test::tests::run ()
 {
@@ -41,6 +42,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		routine test;
+		test.run ();
+	}
+	{
+		mu::script_test::runtime::trace_target test;
 		test.run ();
 	}
 	{

@@ -49,7 +49,8 @@ void mu::llvm_test::instruction_package::run_1 ()
 	a1.push_back (boost::make_shared <mu::llvm_::basic_block::insert> ());
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
-    auto ctx (mu::script::context (builder.errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	create (ctx);
 	assert (r1.size () == 1);
 	mu::script_io::builder b2;
@@ -72,7 +73,8 @@ void mu::llvm_test::instruction_package::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
-	auto ctx2 (mu::script::context (b2.errors, a2, r2));
+	std::vector <std::type_info const *> stack2;
+	auto ctx2 (mu::script::context (b2.errors, a2, r2, stack2));
     (*routine2) (ctx2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);
@@ -97,7 +99,8 @@ void mu::llvm_test::instruction_package::run_2 ()
 	a1.push_back (boost::make_shared <mu::llvm_::basic_block::insert> ());
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
-    auto ctx (mu::script::context (builder.errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	(*routine1) (ctx);
 	assert (r1.size () == 1);
 	mu::script_io::builder b2;
@@ -120,7 +123,8 @@ void mu::llvm_test::instruction_package::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
 	a2.push_back (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
-    auto ctx2 (mu::script::context (b2.errors, a2, r2));
+	std::vector <std::type_info const *> stack2;
+    auto ctx2 (mu::script::context (b2.errors, a2, r2, stack2));
 	(*routine2) (ctx2);
 	assert (b2.errors->errors.empty ());
 	assert (r2.size () == 1);

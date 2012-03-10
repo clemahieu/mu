@@ -1,8 +1,9 @@
 #include <mu/script/context.h>
 
-mu::script::context::context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
+mu::script::context::context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a, std::vector <std::type_info const *> & stack_a)
 	: errors (errors_a),
 	parameters (parameters_a),
-	results (results_a)
+	results (results_a),
+	stack (stack_a)
 {
 }

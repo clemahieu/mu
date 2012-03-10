@@ -40,7 +40,7 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, bo
 		{
             std::type_info const & type (typeid (*operation.get ()));
             mu::script::runtime::trace_registration registration (context_a.stack, &type);
-			(*this) (boost::make_shared <mu::script::runtime::trace_target> (context_a.stack, errors_l), operation, arguments_l, frame_a);
+			(*this) (boost::make_shared <mu::script::runtime::trace_target> (context_a.stack, errors_l), context_a.stack, operation, arguments_l, frame_a);
 		}
 		else
 		{
@@ -56,11 +56,11 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, bo
 	}
 }
 
-void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::frame & frame_a)
+void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::type_info const *> stack_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::frame & frame_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> results_l;
 	auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_a));
-    auto ctx (mu::script::context (errors_a, segment, results_l));
+    auto ctx (mu::script::context (errors_a, segment, results_l, stack_a));
 	(*operation_a) (ctx);
 	std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
 	assert (target.empty () && L"Destination has already been assigned");

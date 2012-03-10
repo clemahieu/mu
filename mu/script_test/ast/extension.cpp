@@ -32,7 +32,8 @@ void mu::script_test::ast::extension::run_1 ()
 	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-    auto ctx (mu::script::context (builder.errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	(*routine) (ctx);
 	assert (r1.size () == 1);
 	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
@@ -63,7 +64,8 @@ void mu::script_test::ast::extension::run_3 ()
 	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-    auto ctx (mu::script::context (builder.errors, a1, r1));
+	std::vector <std::type_info const *> stack;
+    auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	(*routine) (ctx);
 	assert (r1.size () == 1);
 	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (r1 [0]));
