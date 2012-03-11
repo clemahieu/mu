@@ -6,7 +6,7 @@
 
 mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error> error_a)
 	: error (error_a),
-	stack (context_a.stack)
+	stack (context_a.function_stack)
 {
 }
 

@@ -19,7 +19,8 @@ int main (int argc, char * argv [])
 		std::string file_name (argv [1]);
 		arguments.push_back (boost::make_shared <mu::script::string::node> (std::wstring (file_name.begin (), file_name.end ())));
 		std::vector <std::type_info const *> stack;
-		auto ctx (mu::script::context (errors, arguments, results, stack));
+		std::vector <mu::core::context> context_stack;
+		auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
         exec (ctx);
 		if (errors->errors.empty ())
 		{

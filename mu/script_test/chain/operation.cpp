@@ -22,7 +22,8 @@ void mu::script_test::chain::operation::run_1 ()
 	arguments.push_back (operation);
 	arguments.push_back (count);
 	std::vector <std::type_info const *> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
 	chain (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);

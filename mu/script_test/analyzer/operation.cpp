@@ -19,7 +19,8 @@ void mu::script_test::analyzer::operation::run_1 ()
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	mu::script::analyzer::operation analyzer;
 	std::vector <std::type_info const *> stack;
-	auto ctx (mu::script::context (errors, std::vector <boost::shared_ptr <mu::core::node>> (), std::vector <boost::shared_ptr <mu::core::node>> (), stack));
+	std::vector <mu::core::context> context_stack;
+	auto ctx (mu::script::context (errors, std::vector <boost::shared_ptr <mu::core::node>> (), std::vector <boost::shared_ptr <mu::core::node>> (), stack, context_stack));
 	auto cluster (analyzer.core (ctx, boost::make_shared <mu::script::extensions::node> (), boost::make_shared <mu::io::ast::cluster> ()));
 	assert (cluster.get () != nullptr);
 }

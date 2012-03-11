@@ -7,6 +7,7 @@
 #include <mu/core/routine.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/context.h>
+#include <mu/script/runtime/context_trace.h>
 
 #include <boost/make_shared.hpp>
 
@@ -25,8 +26,8 @@ mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 
 void mu::script::runtime::call::operator () (mu::script::context & context_a, mu::script::runtime::frame & frame_a)
 {
+	mu::script::runtime::context_trace (context_a, context);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
-	auto errors_l (boost::make_shared <mu::core::errors::error_context> (context_a.errors, context));
 	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
 		(*(*i)) (context_a.errors, frame_a, arguments_l);
@@ -38,7 +39,7 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 		{
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
 			auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_l));
-			auto ctx (mu::script::context (errors_l, segment, results_l, context_a.stack));
+			auto ctx (mu::script::context (context_a, segment, results_l));
 			(*operation) (ctx);
 			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
 			assert (target.empty () && L"Destination has already been assigned");
@@ -49,11 +50,11 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 			std::wstringstream message;
 			message << L"First argument to call is not an operation: ";
 			message << arguments_l [0]->name ();
-			(*errors_l) (message.str ());
+			context_a (message.str ());
 		}
 	}
 	else
 	{
-		(*errors_l) (L"Call has no arguments");
+		context_a (L"Call has no arguments");
 	}
 }

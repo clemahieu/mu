@@ -27,7 +27,8 @@ void mu::script_test::call::run_1 ()
     std::vector <boost::shared_ptr <mu::core::node>> a1;
     std::vector <boost::shared_ptr <mu::core::node>> r1;
 	std::vector <std::type_info const *> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
 	(*call) (ctx, frame);
 	assert (frame.nodes [1].size () == 1);
 	assert (frame.nodes [1] [0] == node);

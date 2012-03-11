@@ -37,7 +37,8 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [0]);
 	std::vector <std::type_info const *> stack;
-	auto ctx (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+	auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
 	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, errors);
 	(*routine) (ctx);
 	assert (!errors->errors.empty ());

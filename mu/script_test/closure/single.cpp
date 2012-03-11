@@ -22,7 +22,8 @@ void mu::script_test::closure::single::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	std::vector <std::type_info const *> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
 	single (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);

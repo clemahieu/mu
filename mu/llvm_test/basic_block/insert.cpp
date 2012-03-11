@@ -37,7 +37,8 @@ void mu::llvm_test::basic_block::insert::run_1 ()
 	arguments.push_back (block);
 	arguments.push_back (instruction);
 	std::vector <std::type_info const *> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
 	insert (ctx);
 	assert (errors->errors.empty ());
 	assert (block->block->getInstList ().size () == 1);

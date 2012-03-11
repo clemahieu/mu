@@ -30,7 +30,8 @@ void mu::llvm_test::types::integer::run_1 ()
 	arguments.push_back (boost::make_shared <mu::llvm_::context::node> (&context));
 	arguments.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 16)));
 	std::vector <std::type_info const *> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
 	integer (ctx);
 	assert (errors->errors.empty ());
 }

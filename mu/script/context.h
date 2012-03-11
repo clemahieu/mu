@@ -22,11 +22,12 @@ namespace mu
 		class context : public mu::core::errors::error_target
 		{
 		public:
-			context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a, std::vector <std::type_info const *> & stack_a);
+			context (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a, std::vector <std::type_info const *> & stack_a, std::vector <mu::core::context> & context_stack_a);
 			context (mu::script::context & context_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a);
 			mu::core::segment <boost::shared_ptr <mu::core::node>> parameters;
 			std::vector <boost::shared_ptr <mu::core::node>> & results;
-            std::vector <std::type_info const *> & stack;
+            std::vector <std::type_info const *> & function_stack;
+			std::vector <mu::core::context> & context_stack;
 			void operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a) override;
 			bool operator () () override;
 			void operator () (std::wstring error) override;

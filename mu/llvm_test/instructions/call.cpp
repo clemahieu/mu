@@ -41,7 +41,8 @@ void mu::llvm_test::instructions::call::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
 	std::vector <std::type_info const *> stack;
-    auto ctx2 (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack, context_stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());
 }
@@ -60,7 +61,8 @@ void mu::llvm_test::instructions::call::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
 	std::vector <std::type_info const *> stack;
-    auto ctx2 (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack, context_stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());
 }
@@ -76,7 +78,8 @@ void mu::llvm_test::instructions::call::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
 	std::vector <std::type_info const *> stack;
-    auto ctx2 (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack, context_stack));
 	call (ctx2);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);
@@ -96,7 +99,8 @@ void mu::llvm_test::instructions::call::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
 	std::vector <std::type_info const *> stack;
-    auto ctx2 (mu::script::context (errors, a1, r1, stack));
+	std::vector <mu::core::context> context_stack;
+    auto ctx2 (mu::script::context (errors, a1, r1, stack, context_stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());
 }
