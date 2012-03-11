@@ -31,7 +31,7 @@ void mu::script::exec::operation::operator () (mu::script::context & context_a)
 		a1.push_back (boost::make_shared <mu::script::extensions::node> (extensions));
 		a1.insert (a1.end (), context_a.parameters.begin (), context_a.parameters.end ());
 		mu::script::run::operation run;
-		auto ctx (mu::script::context (context_a.errors, a1, context_a.results, context_a.stack));
+		auto ctx (mu::script::context (context_a, a1, context_a.results));
 		run (ctx);
 	}
 	else
@@ -40,7 +40,7 @@ void mu::script::exec::operation::operator () (mu::script::context & context_a)
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least one argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

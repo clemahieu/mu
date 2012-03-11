@@ -20,15 +20,15 @@ namespace mu
 {
 	namespace script
 	{
-		bool check_count (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, size_t expected);
-		void invalid_type (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::type_info const & actual, std::type_info const & expected, size_t position);
+		bool check_count (mu::script::context & context_a, size_t expected);
+		void invalid_type (mu::script::context & context_a, std::type_info const & actual, std::type_info const & expected, size_t position);
 		template <typename type1_t=void, typename type2_t=void, typename type3_t=void, typename type4_t=void, typename type5_t=void>
 		class check
 		{		
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 5));
+				bool result (check_count (context_a, 5));
 				if (result)
 				{
 					bool t0 (boost::dynamic_pointer_cast <type1_t> (context_a.parameters [0]).get () != nullptr);
@@ -41,23 +41,23 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [0]), typeid (type1_t), 0);
+							invalid_type (context_a, typeid (context_a.parameters [0]), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [1]), typeid (type2_t), 1);
+							invalid_type (context_a, typeid (context_a.parameters [1]), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [2]), typeid (type3_t), 2);
+							invalid_type (context_a, typeid (context_a.parameters [2]), typeid (type3_t), 2);
 						}
 						if (!t3)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [3]), typeid (type4_t), 3);
+							invalid_type (context_a, typeid (context_a.parameters [3]), typeid (type4_t), 3);
 						}
 						if (!t4)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [4]), typeid (type5_t), 4);
+							invalid_type (context_a, typeid (context_a.parameters [4]), typeid (type5_t), 4);
 						}
 					}
 				}
@@ -70,7 +70,7 @@ namespace mu
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 4));
+				bool result (check_count (context_a, 4));
 				if (result)
 				{
 					bool t0 (boost::dynamic_pointer_cast <type1_t> (context_a.parameters [0]).get () != nullptr);
@@ -82,19 +82,19 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [0]), typeid (type1_t), 0);
+							invalid_type (context_a, typeid (context_a.parameters [0]), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [1]), typeid (type2_t), 1);
+							invalid_type (context_a, typeid (context_a.parameters [1]), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [2]), typeid (type3_t), 2);
+							invalid_type (context_a, typeid (context_a.parameters [2]), typeid (type3_t), 2);
 						}
 						if (!t3)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [3]), typeid (type4_t), 3);
+							invalid_type (context_a, typeid (context_a.parameters [3]), typeid (type4_t), 3);
 						}
 					}
 				}
@@ -107,7 +107,7 @@ namespace mu
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 3));
+				bool result (check_count (context_a, 3));
 				if (result)
 				{
 					bool t0 (boost::dynamic_pointer_cast <type1_t> (context_a.parameters [0]).get () != nullptr);
@@ -118,15 +118,15 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [0]), typeid (type1_t), 0);
+							invalid_type (context_a, typeid (context_a.parameters [0]), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [1]), typeid (type2_t), 1);
+							invalid_type (context_a, typeid (context_a.parameters [1]), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [2]), typeid (type3_t), 2);
+							invalid_type (context_a, typeid (context_a.parameters [2]), typeid (type3_t), 2);
 						}
 					}
 				}
@@ -139,7 +139,7 @@ namespace mu
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 2));
+				bool result (check_count (context_a, 2));
 				if (result)
 				{
 					bool t0 (boost::dynamic_pointer_cast <type1_t> (context_a.parameters [0]).get () != nullptr);
@@ -149,11 +149,11 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [0]), typeid (type1_t), 0);
+							invalid_type (context_a, typeid (context_a.parameters [0]), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [1]), typeid (type2_t), 1);
+							invalid_type (context_a, typeid (context_a.parameters [1]), typeid (type2_t), 1);
 						}
 					}
 				}
@@ -166,7 +166,7 @@ namespace mu
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 1));
+				bool result (check_count (context_a, 1));
 				if (result)
 				{
 					bool t0 (boost::dynamic_pointer_cast <type1_t> (context_a.parameters [0]).get () != nullptr);
@@ -175,7 +175,7 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a.errors, typeid (context_a.parameters [0]), typeid (type1_t), 0);
+							invalid_type (context_a, typeid (context_a.parameters [0]), typeid (type1_t), 0);
 						}
 					}
 				}
@@ -188,7 +188,7 @@ namespace mu
 		public:
 			bool operator () (mu::script::context & context_a)
 			{
-				bool result (check_count (context_a.errors, context_a.parameters, 0));
+				bool result (check_count (context_a, 0));
 				return result;
 			}
 		};

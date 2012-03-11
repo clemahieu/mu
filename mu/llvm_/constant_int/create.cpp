@@ -37,7 +37,7 @@ void mu::llvm_::constant_int::create::operator () (mu::script::context & context
 				message << L" does not fit in: ";
 				message << bits;
 				message << L" bits";
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		else
@@ -49,7 +49,7 @@ void mu::llvm_::constant_int::create::operator () (mu::script::context & context
 			message << llvm::IntegerType::MIN_INT_BITS;
 			message << L" and: ";
 			message << llvm::IntegerType::MAX_INT_BITS;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

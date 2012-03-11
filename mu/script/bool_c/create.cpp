@@ -39,7 +39,7 @@ void mu::script::bool_c::create::operator () (mu::script::context & context_a)
 			message << L"Cannot convert value: ";
 			message << one->string;
 			message << L" to a bool";
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script/load/operation.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
@@ -25,7 +25,7 @@ void mu::script::load::operation::operator () (mu::script::context & context_a)
 	if (mu::script::check <mu::script::string::node> () (context_a))
 	{
 		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
-		auto result (core (context_a.errors, file));
+		auto result (core (context_a, file));
 		if (result.get () != nullptr)
 		{
 			context_a.results.push_back (result);
@@ -33,7 +33,7 @@ void mu::script::load::operation::operator () (mu::script::context & context_a)
 	}
 }
 
-boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::string::node> file)
+boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::string::node> file)
 {
 	boost::shared_ptr <mu::io::ast::cluster> result;
 	auto path (boost::filesystem::initial_path ());
@@ -58,14 +58,14 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (boos
 				std::wstringstream message;
 				message << L"File did not contain one cluster: ";
 				message << builder.clusters.size ();
-				(*errors_a) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		else
 		{
 			for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 			{
-				(*errors_a) ((*i).first, (*i).second);
+				context_a ((*i).first, (*i).second);
 			}
 		}
 	}
@@ -76,7 +76,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (boos
 		std::string patha (path.string ());
 		std::wstring path (patha.begin (), patha.end ());
 		message << path;
-		(*errors_a) (message.str ());
+		context_a (message.str ());
 	}
 	return result;
 }

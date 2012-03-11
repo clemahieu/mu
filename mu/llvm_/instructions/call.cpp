@@ -38,7 +38,7 @@ void mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 					{
 						std::vector <llvm::Value *> arguments;
 						size_t position (0);
-						for (auto i (context_a.parameters.begin () + 1), j (context_a.parameters.end () + 0); i != j && !(*context_a.errors) (); ++i, ++position)
+						for (auto i (context_a.parameters.begin () + 1), j (context_a.parameters.end () + 0); i != j && !context_a (); ++i, ++position)
 						{
 							auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
 							if (value.get () != nullptr)
@@ -64,11 +64,11 @@ void mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 									message << std::wstring (expected_str.begin (), expected_str.end ());
 									message << L" does match actual type: ";
 									message << std::wstring (actual_str.begin (), actual_str.end ());
-									(*context_a.errors) (message.str ());
+									context_a (message.str ());
 								}
 							}
 						}
-						if (! (*context_a.errors) ())
+						if (! context_a ())
 						{
 							context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
 						}
@@ -80,26 +80,26 @@ void mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 						message << context_a.parameters.size () - 1;
 						message << L" does not match number of formal parameters: ";
 						message << flat_type->getNumParams ();
-						(*context_a.errors) (message.str ());
+						context_a (message.str ());
 					}
 				}
 				else
 				{
-					(*context_a.errors) (L"Can only call to a pointer to a function type");
+					context_a (L"Can only call to a pointer to a function type");
 				}
 			}
 			else
 			{
-				(*context_a.errors) (L"Can only call to a pointer type");
+				context_a (L"Can only call to a pointer type");
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::pointer_type::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::pointer_type::node), 0);
 		}
 	}
 	else
 	{
-		(*context_a.errors) (L"Call instruction must have at least one argument");
+		context_a (L"Call instruction must have at least one argument");
 	}
 }

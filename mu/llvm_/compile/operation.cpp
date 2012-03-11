@@ -47,13 +47,13 @@ void mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 					}
 					else
 					{
-						(*context_a.errors) (L"Target does not support generation of files of this file type");
+						context_a (L"Target does not support generation of files of this file type");
 					}
 				}
 				else
 				{
 					std::wstring message (error_info.begin (), error_info.end ());
-					(*context_a.errors) (message);
+					context_a (message);
 				}
 			}
 			if (link)
@@ -71,7 +71,7 @@ void mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 		else
 		{
 			std::wstring message (error.begin (), error.end ());
-			(*context_a.errors) (message);
+			context_a (message);
 		}
 	}
 }

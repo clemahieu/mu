@@ -20,9 +20,9 @@ void mu::script::runtime::routine::operator () (mu::script::context & context_a)
 	std::vector <boost::shared_ptr <mu::core::node>> values_l (context_a.parameters.begin (), context_a.parameters.end ());
 	auto values (boost::make_shared <mu::script::values::operation> (values_l));
 	mu::script::runtime::frame frame (values, size);
-	for (auto i (calls.begin ()), j (calls.end ()); i != j && !(*context_a.errors) (); ++i)
+	for (auto i (calls.begin ()), j (calls.end ()); i != j && !context_a (); ++i)
 	{
-		(*(*i)) (context_a, context_a.errors, frame);
+		(*(*i)) (context_a, frame);
 	}
 	context_a.results.assign (frame.nodes [size - 1].begin (), frame.nodes [size - 1].end ());
 }

@@ -17,7 +17,7 @@ void mu::script::closure::single::operator () (mu::script::context & context_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> closed_l (closed.begin (), closed.end ());
 	closed_l.insert (closed_l.end (), context_a.parameters.begin (), context_a.parameters.end ());
-	auto ctx (mu::script::context (context_a.errors, closed_l, context_a.results, context_a.stack));
+	auto ctx (mu::script::context (context_a, closed_l, context_a.results));
 	(*operation_m) (ctx);
 }
 

@@ -2,7 +2,7 @@
 
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
-#include <mu/core/errors/error_target.h>
+#include <mu/script/context.h>
 #include <mu/script/check.h>
 
 #include <sstream>
@@ -23,7 +23,7 @@ void mu::script::package::add::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Package already has an item named: ";
 			message << two->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

@@ -29,7 +29,7 @@ void mu::script::extensions::merge::operator () (mu::script::context & context_a
 				std::wstringstream message;
 				message << L"Extensions already contains extension named: ";
 				message << i->first;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 	}

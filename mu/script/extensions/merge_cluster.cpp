@@ -34,7 +34,7 @@ void mu::script::extensions::merge_cluster::operator () (mu::script::context & c
 				std::wstringstream message;
 				message << L"Extensions already has an extension named: ";
 				message << name;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 	}

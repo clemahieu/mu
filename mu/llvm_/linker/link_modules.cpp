@@ -17,7 +17,7 @@ void mu::llvm_::linker::link_modules::operator () (mu::script::context & context
 		if (result)
 		{
 			std::wstring message_l (message.begin (), message.end ());
-			(*context_a.errors) (message_l);
+			context_a (message_l);
 		}
 	}
 }

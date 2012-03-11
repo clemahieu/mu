@@ -53,7 +53,7 @@ void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								{
 									a1.push_back (*i);
 								}
-								auto ctx (mu::script::context (context_a.errors, a1, r1, context_a.stack));
+								auto ctx (mu::script::context (context_a, a1, r1));
 								(*call) (ctx);
 								true_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = false_block;
@@ -64,11 +64,11 @@ void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								{
 									a2.push_back (*i);
 								}
-								auto ctx2 (mu::script::context (context_a.errors, a2, r2, context_a.stack));
+								auto ctx2 (mu::script::context (context_a, a2, r2));
 								(*call) (ctx2);
 								false_block->getInstList ().push_back (llvm::BranchInst::Create (end_block));
 								block->block = end_block;
-								if (! (*context_a.errors) ())
+								if (! context_a ())
 								{
 									for (auto i (r1.begin ()), j (r1.end ()), k (r2.begin ()), l (r2.end ()); i != j && k != l; ++i, ++k)
 									{
@@ -88,48 +88,48 @@ void mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 											}
 											else
 											{
-												(*context_a.errors) (L"Branch types are not the same");
+												context_a (L"Branch types are not the same");
 											}
 										}
 										else
 										{
-											(*context_a.errors) (L"Function returned a non-value");
+											context_a (L"Function returned a non-value");
 										}										
 									}
 								}
 							}
 							else
 							{
-								(*context_a.errors) (L"First ccall argument must be one bit");
+								context_a (L"First ccall argument must be one bit");
 							}
 						}
 						else
 						{
-							(*context_a.errors) (L"First ccall argument must be an integer");
+							context_a (L"First ccall argument must be an integer");
 						}
 					}
 					else
 					{
-						(*context_a.errors) (L"Branch functions must be the same type");
+						context_a (L"Branch functions must be the same type");
 					}
 				}
 				else
 				{
-					mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [2].get ()), typeid (mu::llvm_::value::node), 2);
+					mu::script::invalid_type (context_a, typeid (*context_a.parameters [2].get ()), typeid (mu::llvm_::value::node), 2);
 				}
 			}
 			else
 			{
-				mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [1].get ()), typeid (mu::llvm_::value::node), 1);
+				mu::script::invalid_type (context_a, typeid (*context_a.parameters [1].get ()), typeid (mu::llvm_::value::node), 1);
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::value::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::value::node), 0);
 		}
 	}
 	else
 	{
-		(*context_a.errors) (L"Ccall operation requires at least three arguments");
+		context_a (L"Ccall operation requires at least three arguments");
 	}
 }

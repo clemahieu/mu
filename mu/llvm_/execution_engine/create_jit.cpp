@@ -29,7 +29,7 @@ void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 			message << L"Unable to build ExecutionEngine: ";
 			std::wstring error (errors_l.begin (), errors_l.end ());
 			message << error;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

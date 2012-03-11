@@ -19,7 +19,7 @@ void mu::script::package::remove::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Package already has no item named: ";
 			message << two->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

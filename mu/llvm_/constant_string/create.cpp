@@ -30,13 +30,13 @@ void mu::llvm_::constant_string::create::operator () (mu::script::context & cont
 		std::vector <boost::shared_ptr <mu::core::node>> v2;
 		mu::llvm_::constant::create_from_string create;
 		v2.push_back (two);
-		auto ctx (mu::script::context (context_a.errors, v1, v2, context_a.stack));
+		auto ctx (mu::script::context (context_a, v1, v2));
 		create (ctx);
 		std::vector <boost::shared_ptr <mu::core::node>> v3;
 		mu::llvm_::global_variable::create_set set;
-		auto ctx2 (mu::script::context (context_a.errors, v2, v3, context_a.stack));
+		auto ctx2 (mu::script::context (context_a, v2, v3));
 		set (ctx2);
-		if (! (*context_a.errors) ())
+		if (! context_a ())
 		{
 			auto global (boost::static_pointer_cast <mu::llvm_::global_variable::node> (v3 [0]));
 			auto var (global->global_variable ());

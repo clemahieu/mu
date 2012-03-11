@@ -19,7 +19,7 @@ void mu::script::closure::create_single::operator () (mu::script::context & cont
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
 		}
 	}
 	else
@@ -28,7 +28,7 @@ void mu::script::closure::create_single::operator () (mu::script::context & cont
 		message << L"Operation: ";
 		message << name ();
 		message << L" must have at least one argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

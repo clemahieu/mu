@@ -39,17 +39,17 @@ void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 				std::vector <boost::shared_ptr <mu::core::node>> a1;
 				a1.push_back (one);
 				a1.push_back (final);
-				auto ctx (mu::script::context (context_a.errors, a1, context_a.results, context_a.stack));
+				auto ctx (mu::script::context (context_a, a1, context_a.results));
 				store (ctx);
 			}
 			else
 			{
-				(*context_a.errors) (L"Argument 3 is not an integer");
+				context_a (L"Argument 3 is not an integer");
 			}
 		}
 		else
 		{
-			(*context_a.errors) (L"Argument 2 is not a pointer");
+			context_a (L"Argument 2 is not a pointer");
 		}
 	}
 }

@@ -23,13 +23,13 @@ mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 {
 }
 
-void mu::script::runtime::call::operator () (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame_a)
+void mu::script::runtime::call::operator () (mu::script::context & context_a, mu::script::runtime::frame & frame_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
-	auto errors_l (boost::make_shared <mu::core::errors::error_context> (errors_a, context));
+	auto errors_l (boost::make_shared <mu::core::errors::error_context> (context_a.errors, context));
 	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
-		(*(*i)) (errors_a, frame_a, arguments_l);
+		(*(*i)) (context_a.errors, frame_a, arguments_l);
 	}
 	if (arguments_l.size () > 0)
 	{

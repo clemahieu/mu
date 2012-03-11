@@ -34,7 +34,7 @@ void mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & conte
 			message << one_int;
 			message << L" ";
 			message << two_int;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

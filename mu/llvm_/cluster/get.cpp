@@ -24,7 +24,7 @@ void mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Cluster has no routine named: ";
 			message << two->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

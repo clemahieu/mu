@@ -23,7 +23,7 @@ void mu::script::package::get_recursive::operator () (mu::script::context & cont
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
 			arguments.push_back (node);
 			arguments.push_back (*i);
-			auto ctx (mu::script::context (context_a.errors, arguments, results_l, context_a.stack));
+			auto ctx (mu::script::context (context_a, arguments, results_l));
 			get (ctx);
 			if (results_l.size () == 1)
 			{
@@ -32,7 +32,7 @@ void mu::script::package::get_recursive::operator () (mu::script::context & cont
 			else
 			{
 				good = false;
-				(*context_a.errors) (L"Get operation did not return result");
+				context_a (L"Get operation did not return result");
 			}
 		}
 		context_a.results.push_back (node);
@@ -43,7 +43,7 @@ void mu::script::package::get_recursive::operator () (mu::script::context & cont
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least one argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

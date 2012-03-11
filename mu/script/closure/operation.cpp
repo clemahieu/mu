@@ -23,7 +23,7 @@ mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operat
 
 void mu::script::closure::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check_count (context_a.errors, context_a.parameters, open.size ()))
+	if (mu::script::check_count (context_a, open.size ()))
 	{
 		std::vector <size_t> open_l;
 		for (size_t position (0), end (context_a.parameters.size ()); position != end; ++position)
@@ -45,7 +45,7 @@ void mu::script::closure::operation::operator () (mu::script::context & context_
 		}
 		else
 		{
-			auto ctx (mu::script::context (context_a.errors, closed, context_a.results, context_a.stack));
+			auto ctx (mu::script::context (context_a, closed, context_a.results));
 			(*operation_m) (ctx);
 		}
 	}

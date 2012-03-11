@@ -27,7 +27,7 @@ namespace mu
 			{
 			public:
 				void operator () (mu::script::context & context_a) override;
-				void perform_internal (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::llvm_::execution_engine::node> one, llvm::Function * function, mu::core::segment <boost::shared_ptr <mu::core::node>> parameters, std::vector <boost::shared_ptr <mu::core::node>> & results);
+				void perform_internal (mu::script::context & context_a, boost::shared_ptr <mu::llvm_::execution_engine::node> one, llvm::Function * function);
 				std::wstring name () override;
 			};
 		}

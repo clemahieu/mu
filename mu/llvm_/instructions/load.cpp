@@ -29,7 +29,7 @@ void mu::llvm_::instructions::load::operator () (mu::script::context & context_a
 		{
 			std::wstringstream message;
 			message << L"Argument is not a pointer";
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

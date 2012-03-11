@@ -37,14 +37,14 @@ void mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & contex
 				message << two_type;
 				message << L" ";
 				message << three_type;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		else
 		{
 			std::wstringstream message;
 			message << L"Argument 1 is not a pointer";
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

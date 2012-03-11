@@ -26,18 +26,18 @@ void mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 					if (!errors.empty ())
 					{
 						std::wstring errors_l (errors.begin (), errors.end ());
-						(*context_a.errors) (errors_l);
+						context_a (errors_l);
 					}
 				}
 				else
 				{
-					mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [position].get ()), typeid (mu::llvm_::module::node), position);
+					mu::script::invalid_type (context_a, typeid (*context_a.parameters [position].get ()), typeid (mu::llvm_::module::node), position);
 				}
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::module::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::module::node), 0);
 		}
 	}
 	else
@@ -46,6 +46,6 @@ void mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least 1 argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }

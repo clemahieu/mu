@@ -33,7 +33,7 @@ void mu::llvm_::module::get_function::operator () (mu::script::context & context
 			message << L"Module has no function named: ";
 			std::wstring name (two->string.begin (), two->string.end ());
 			message << name;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

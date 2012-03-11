@@ -28,7 +28,7 @@ namespace mu
 			{
 			public:
 				void operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::script::extensions::node> core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file);
+				boost::shared_ptr <mu::script::extensions::node> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file);
 			};
 		}
 	}

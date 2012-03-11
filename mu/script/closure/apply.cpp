@@ -32,7 +32,7 @@ void mu::script::closure::apply::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::closure::operation), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::closure::operation), 0);
 		}
 	}
 	else
@@ -40,7 +40,7 @@ void mu::script::closure::apply::operator () (mu::script::context & context_a)
 		std::wstringstream message;
 		message << name ();
 		message << L" must have at least one argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

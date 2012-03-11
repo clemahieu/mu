@@ -21,19 +21,19 @@ void mu::script::times::operation::operator () (mu::script::context & context_a)
 				{
 					std::vector <boost::shared_ptr <mu::core::node>> arguments;
 					arguments.swap (results_l);
-					auto ctx (mu::script::context (context_a.errors, arguments, results_l, context_a.stack));
+					auto ctx (mu::script::context (context_a, arguments, results_l));
 					(*two) (ctx);
 				}
 				context_a.results.insert (context_a.results.end (), results_l.begin (), results_l.end ());
 			}
 			else
 			{
-				mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [1].get ()), typeid (mu::script::operation), 1);
+				mu::script::invalid_type (context_a, typeid (*context_a.parameters [1].get ()), typeid (mu::script::operation), 1);
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::integer::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::integer::node), 0);
 		}
 	}
 	else
@@ -41,7 +41,7 @@ void mu::script::times::operation::operator () (mu::script::context & context_a)
 		std::wstringstream message;
 		message << name ();
 		message << L" must have at least two arguments";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

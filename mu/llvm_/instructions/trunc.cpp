@@ -38,7 +38,7 @@ void mu::llvm_::instructions::trunc::operator () (mu::script::context & context_
 				message << one_bits;
 				message << L" ";
 				message << two_bits;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		else
@@ -48,7 +48,7 @@ void mu::llvm_::instructions::trunc::operator () (mu::script::context & context_
 			message << one_int;
 			message << L" ";
 			message << two_int;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

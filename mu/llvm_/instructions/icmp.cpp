@@ -40,7 +40,7 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 				message << one_bits;
 				message << L" ";
 				message << two_bits;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		else
@@ -50,7 +50,7 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 			message << two_int;
 			message << L" ";
 			message << three_int;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

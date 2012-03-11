@@ -24,7 +24,7 @@ void mu::script::cluster::get_named::operator () (mu::script::context & context_
 			std::wstringstream message;
 			message << L"Unable to get routine named: ";
 			message << two->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

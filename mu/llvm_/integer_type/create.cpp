@@ -32,7 +32,7 @@ void mu::llvm_::integer_type::create::operator () (mu::script::context & context
 			message << two->value;
 			message << L" <= ";
 			message << llvm::IntegerType::MAX_INT_BITS;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

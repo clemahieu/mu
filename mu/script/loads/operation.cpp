@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script/loads/operation.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/load/operation.h>
@@ -22,7 +22,7 @@ void mu::script::loads::operation::operator () (mu::script::context & context_a)
 	{
 		auto extensions (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
 		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
-		auto result (core (context_a.errors, extensions, file));
+		auto result (core (context_a, extensions, file));
 		if (result.get () != nullptr)
 		{
 			context_a.results.push_back (result);
@@ -30,15 +30,15 @@ void mu::script::loads::operation::operator () (mu::script::context & context_a)
 	}
 }
 
-boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file)
+boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file)
 {
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	mu::script::load::operation load;
-	auto ast (load.core (errors_a, file));
-	if (!(*errors_a) ())
+	auto ast (load.core (context_a, file));
+	if (!context_a ())
 	{
 		mu::script::analyzer::operation analyzer;
-		auto cluster (analyzer.core (errors_a, extensions, ast));
+		auto cluster (analyzer.core (context_a, extensions, ast));
 		if (cluster.get () != nullptr)
 		{
 			for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)

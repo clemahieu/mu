@@ -37,7 +37,7 @@ void mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 			message << diagnostic.getLineContents ();
 			std::string amessage (message.str ());
 			std::wstring converted (amessage.begin (), amessage.end ());
-			(*context_a.errors) (converted);
+			context_a (converted);
 		}
 	}
 }

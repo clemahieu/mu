@@ -41,7 +41,7 @@ void mu::script::cluster::node::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Cluster does not contain routine named: ";
 			message << one->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 	else
@@ -58,7 +58,7 @@ void mu::script::cluster::node::operator () (mu::script::context & context_a)
 				std::wstringstream message;
 				message << L"Cluster does not have a rounite numbered: ";
 				message << one->value;
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-#include "read_from_file.h"
+#include <mu/script/ast/read_from_file.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
@@ -42,14 +42,14 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 					std::wstringstream message;
 					message << L"File did not contain one cluster: ";
 					message << builder.clusters.size ();
-					(*context_a.errors) (message.str ());
+					context_a (message.str ());
 				}
 			}
 			else
 			{
 				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 				{
-					(*context_a.errors) ((*i).first, (*i).second);
+					context_a ((*i).first, (*i).second);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 			std::string patha (path.string ());
 			std::wstring path (patha.begin (), patha.end ());
 			message << path;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

@@ -16,7 +16,7 @@ void mu::script::chain::operation::operator () (mu::script::context & context_a)
 			while (!end)
 			{
 				std::vector <boost::shared_ptr <mu::core::node>> results_l;
-				auto ctx (mu::script::context (context_a.errors, arguments, results_l, context_a.stack));
+				auto ctx (mu::script::context (context_a, arguments, results_l));
 				(*one) (ctx);
 				if (results_l.size () > 0)
 				{
@@ -30,25 +30,25 @@ void mu::script::chain::operation::operator () (mu::script::context & context_a)
 					else
 					{
 						end = true;
-						(*context_a.errors) (L"Last result must be a bool");
+						context_a (L"Last result must be a bool");
 					}
 				}
 				else
 				{
 					end = true;
-					(*context_a.errors) (L"Chain operation must have at least one result");
+					context_a (L"Chain operation must have at least one result");
 				}
 			}
 			context_a.results.insert (context_a.results.end (), arguments.begin (), arguments.end ());
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
 		}
 	}
 	else
 	{
-		(*context_a.errors) (L"Chain operation must have at least one argument");
+		context_a (L"Chain operation must have at least one argument");
 	}
 }
 

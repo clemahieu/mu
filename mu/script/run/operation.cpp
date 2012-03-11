@@ -29,18 +29,18 @@ void mu::script::run::operation::operator () (mu::script::context & context_a)
 			if (file.get () != nullptr)
 			{
 				mu::script::load::operation load;
-				auto ast (load.core (context_a.errors, file));
-				if (! (*context_a.errors) ())
+				auto ast (load.core (context_a, file));
+				if (! context_a ())
 				{
 					mu::script::analyzer::operation analyzer;
-					auto cluster (analyzer.core (context_a.errors, extensions, ast));
-					if (! (*context_a.errors) ())
+					auto cluster (analyzer.core (context_a, extensions, ast));
+					if (! context_a ())
 					{
 						if (cluster->routines.size () > 0)
 						{
 							auto routine (cluster->routines [0]);
 							std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 2, context_a.parameters.end ());
-							auto ctx (mu::script::context (context_a.errors, arguments, context_a.results, context_a.stack));
+							auto ctx (mu::script::context (context_a, arguments, context_a.results));
 							(*routine) (ctx);
 						}
 						else
@@ -48,19 +48,19 @@ void mu::script::run::operation::operator () (mu::script::context & context_a)
 							std::wstringstream message;
 							message << L"Cluster does not contain a routine: ";
 							message << cluster->routines.size ();
-							(*context_a.errors) (message.str ());
+							context_a (message.str ());
 						}
 					}
 				}
 			}
 			else
 			{
-				mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [1].get ()), typeid (mu::script::string::node), 1);
+				mu::script::invalid_type (context_a, typeid (*context_a.parameters [1].get ()), typeid (mu::script::string::node), 1);
 			}
 		}
 		else
 		{
-			invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::script::extensions::node), 0);
+			invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::extensions::node), 0);
 		}
 	}
 	else
@@ -69,7 +69,7 @@ void mu::script::run::operation::operator () (mu::script::context & context_a)
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least two arguments";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }
 

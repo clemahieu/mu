@@ -23,7 +23,7 @@ void mu::script::package::get::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Package does not contain item named: ";
 			message << name->string;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

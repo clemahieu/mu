@@ -21,7 +21,7 @@ void mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 		{
 			size_t position (1);
 			std::vector <boost::shared_ptr <mu::llvm_::type::node>> types;
-			for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j && !(*context_a.errors) (); ++i, ++position)
+			for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j && !context_a (); ++i, ++position)
 			{
 				auto type (boost::dynamic_pointer_cast <mu::llvm_::type::node> (*i));
 				if (type.get () != nullptr)
@@ -30,17 +30,17 @@ void mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 				}
 				else
 				{
-					mu::script::invalid_type (context_a.errors, typeid (**i), typeid (mu::llvm_::type::node), position);
+					mu::script::invalid_type (context_a, typeid (**i), typeid (mu::llvm_::type::node), position);
 				}
 			}
-			if (!(*context_a.errors) ())
+			if (!context_a ())
 			{
 				context_a.results.push_back (boost::make_shared <mu::llvm_::struct_type::node> (one, types));
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a.errors, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::context::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::context::node), 0);
 		}
 	}
 	else
@@ -48,6 +48,6 @@ void mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 		std::wstringstream message;
 		message << name ();
 		message << L" requires at least one argument";
-		(*context_a.errors) (message.str ());
+		context_a (message.str ());
 	}
 }

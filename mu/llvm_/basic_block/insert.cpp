@@ -19,7 +19,7 @@ void mu::llvm_::basic_block::insert::operator () (mu::script::context & context_
 		}
 		else
 		{
-			(*context_a.errors) (L"Block is not set");
+			context_a (L"Block is not set");
 		}
 	}
 }

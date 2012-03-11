@@ -37,7 +37,7 @@ void mu::llvm_::function_type::create::operator () (mu::script::context & contex
 				std::wstringstream message;
 				message << L"Expecting type, have: ";
 				message << (*i)->name ();
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		for (auto i (two->values.begin ()), j (two->values.end ()); i != j; ++i)
@@ -52,7 +52,7 @@ void mu::llvm_::function_type::create::operator () (mu::script::context & contex
 				std::wstringstream message;
 				message << L"Expecting type, have: ";
 				message << (*i)->name ();
-				(*context_a.errors) (message.str ());
+				context_a (message.str ());
 			}
 		}
 		if (results.size () == 0)

@@ -25,7 +25,7 @@ void mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 			message << one->routines.size ();
 			message << L" routines: ";
 			message << two->value;
-			(*context_a.errors) (message.str ());
+			context_a (message.str ());
 		}
 	}
 }

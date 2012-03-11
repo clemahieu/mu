@@ -17,7 +17,7 @@ void mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 		if (error)
 		{
 			std::wstring error_info_l (error_info.begin (), error_info.end ());
-			(*context_a.errors) (error_info_l);
+			context_a (error_info_l);
 		}
 	}
 }

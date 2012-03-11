@@ -45,7 +45,7 @@ void mu::llvm_::module::add_package::operator () (mu::script::context & context_
 					message << i->first;
 					message << L"\" is not an mu::llvm_::function::node: ";
 					message << i->second->name ();
-					(*context_a.errors) (message.str ());
+					context_a (message.str ());
 				}
 			}
 		}
