@@ -7,6 +7,7 @@
 #include <mu/script/identity/operation.h>
 #include <mu/script/values/operation.h>
 #include <mu/script/context.h>
+#include <mu/script/runtime/trace.h>
 
 #include <boost/make_shared.hpp>
 
@@ -16,6 +17,7 @@ mu::script::runtime::routine::routine ()
 
 void mu::script::runtime::routine::operator () (mu::script::context & context_a)
 {
+	mu::script::runtime::trace trace (context_a, this);
 	size_t size (calls.size ());
 	std::vector <boost::shared_ptr <mu::core::node>> values_l (context_a.parameters.begin (), context_a.parameters.end ());
 	auto values (boost::make_shared <mu::script::values::operation> (values_l));

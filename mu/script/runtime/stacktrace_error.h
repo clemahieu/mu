@@ -6,24 +6,18 @@
 
 namespace mu
 {
-	namespace core
-	{
-		namespace errors
-		{
-			class error;
-		}
-	}
 	namespace script
 	{
+		class context;
 		namespace runtime
 		{
 			class stacktrace_error : public mu::core::errors::error
 			{
 			public:
-				stacktrace_error (std::vector <std::type_info const *> & types_a, boost::shared_ptr <mu::core::errors::error> error_a);
+				stacktrace_error (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error> error_a);
 				mu::core::errors::error_id error_type () override;
 				void string (std::wostream & stream) override;
-				std::vector <std::wstring> types;
+				std::vector <std::type_info const *> stack;
 				boost::shared_ptr <mu::core::errors::error> error;
 			};
 		}

@@ -21,7 +21,7 @@ add_library (mu_script_test STATIC
 	package/create.cpp
 	package/get.cpp
 	package/get_recursive.cpp
-	runtime/trace_target.cpp
+	runtime/trace.cpp
 	string/extension.cpp
 	times/operation.cpp
 	type_check/operation.cpp)

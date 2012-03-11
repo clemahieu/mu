@@ -36,7 +36,13 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (arguments_l [0]));
 		if (operation.get () != nullptr)
 		{
-			(*this) (errors_l, context_a.stack, operation, arguments_l, frame_a);
+			std::vector <boost::shared_ptr <mu::core::node>> results_l;
+			auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_l));
+			auto ctx (mu::script::context (errors_l, segment, results_l, context_a.stack));
+			(*operation) (ctx);
+			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
+			assert (target.empty () && L"Destination has already been assigned");
+			target.assign (results_l.begin (), results_l.end ());
 		}
 		else
 		{
@@ -50,15 +56,4 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 	{
 		(*errors_l) (L"Call has no arguments");
 	}
-}
-
-void mu::script::runtime::call::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <std::type_info const *> stack_a, boost::shared_ptr <mu::script::operation> operation_a, std::vector <boost::shared_ptr <mu::core::node>> & arguments_a, mu::script::runtime::frame & frame_a)
-{
-	std::vector <boost::shared_ptr <mu::core::node>> results_l;
-	auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_a));
-    auto ctx (mu::script::context (errors_a, segment, results_l, stack_a));
-	(*operation_a) (ctx);
-	std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
-	assert (target.empty () && L"Destination has already been assigned");
-	target.assign (results_l.begin (), results_l.end ());
 }
