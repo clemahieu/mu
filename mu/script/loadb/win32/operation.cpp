@@ -4,7 +4,6 @@
 #include <mu/script/string/node.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/check.h>
-#include <mu/script/debugging/mapping.h>
 
 #include <Windows.h>
 
@@ -34,14 +33,10 @@ void mu::script::loadb::operation::operator () (mu::script::context & context_a)
 						auto extensions_address (GetProcAddress (library, "extensions"));
 						if (extensions_address != nullptr)
 						{
-							auto extensions_function ((void (*) (mu::script::extensions::node **, mu::script::debugging::mapping **)) (extensions_address));
-							mu::script::extensions::node * extensions;
-							mu::script::debugging::mapping * debug_info;
-							extensions_function (&extensions, &debug_info);
+							auto extensions_function ((mu::script::extensions::node * (*) ()) (extensions_address));
+							auto extensions (extensions_function ());
 							boost::shared_ptr <mu::script::extensions::node> result (extensions);
 							context_a.results.push_back (result);
-							boost::shared_ptr <mu::script::debugging::mapping> mapping (debug_info);
-							context_a.results.push_back (mapping);
 						}
 						else
 						{
