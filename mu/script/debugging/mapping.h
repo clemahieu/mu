@@ -7,10 +7,11 @@ namespace mu
 		class operation;
 		namespace debugging
 		{
+			class operation_info;
 			class mapping
 			{
 			public:
-				virtual std::wstring stacktrace (boost::shared_ptr <mu::script::operation> operation_a) = 0;
+				virtual boost::shared_ptr <mu::script::debugging::operation_info> operation_info (boost::shared_ptr <mu::script::operation> operation_a) = 0;
 			};
 		}
 	}

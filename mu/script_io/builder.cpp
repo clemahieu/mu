@@ -1,4 +1,4 @@
-#include "builder.h"
+#include <mu/script_io/builder.h>
 
 #include <boost/bind.hpp>
 
@@ -55,6 +55,8 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/run/operation.h>
 #include <mu/script/context.h>
+#include <mu/script/debugging/flat_mapping.h>
+#include <mu/script/debugging/source_info.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
@@ -86,7 +88,24 @@ void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> 
 	if (results.size () == 1)
 	{
 		auto result (boost::dynamic_pointer_cast <mu::script::cluster::node> (results [0]));
-		assert (result.get () != nullptr);		
+		assert (result.get () != nullptr);	
+		assert (result->routines.size () == cluster_a->routines.size ());	
+		auto mapping (boost::make_shared <mu::script::debugging::flat_mapping> ());
+		assert (mappings.size () == clusters.size ());
+		{
+			auto i (cluster_a->routines.begin ());
+			auto j (cluster_a->routines.end ());
+			auto k (result->routines.begin ());
+			auto l (result->routines.end ());
+			while (i != j)
+			{
+				mapping->map [*k] = boost::make_shared <mu::script::debugging::source_info> ((*i)->context);
+				++i;
+				++k;
+				assert ((i == j) == (k == l));
+			}
+		}
+		mappings.push_back (mapping);
 		clusters.push_back (result);
 		fwprintf (stderr, L"");
 	}

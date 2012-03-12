@@ -2,6 +2,7 @@
 
 #include <mu/script/context.h>
 #include <mu/script/debugging/mapping.h>
+#include <mu/script/debugging/operation_info.h>
 
 #include <iostream>
 
@@ -10,7 +11,7 @@ mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & c
 {
 	for (auto i (context_a.function_stack.begin ()), j (context_a.function_stack.end ()); i != j; ++i)
 	{
-		stack.push_back (mapping_a.stacktrace (*i));
+		stack.push_back (mapping_a.operation_info (*i)->stacktrace_line ());
 	}
 }
 

@@ -14,6 +14,7 @@
 #include <mu/script/runtime/stacktrace_error.h>
 #include <mu/script/runtime/trace_target.h>
 #include <mu/script/debugging/flat_mapping.h>
+#include <mu/script/debugging/binary_info.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
@@ -40,9 +41,9 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	auto routine (cluster->routines [0]);
 	std::vector <boost::shared_ptr <mu::script::operation>> stack;
 	auto ctx (mu::script::context (errors, a1, r1, stack));
-	mu::script::debugging::flat_mapping mapping;
-	mapping.map [fail] = std::wstring (L"mu::script::fail::operation");
-	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, mapping, errors);
+	auto mapping (builder.mappings [0]);
+	mapping->map [fail] = boost::make_shared <mu::script::debugging::binary_info> (typeid (mu::script::fail::operation));
+	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, *mapping, errors);
 	(*routine) (ctx);
 	assert (!errors->errors.empty ());
 	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));

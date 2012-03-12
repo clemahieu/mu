@@ -25,6 +25,10 @@ namespace mu
 		{
 			class operation;
 		}
+		namespace debugging
+		{
+			class flat_mapping;
+		}
 	}
 	namespace script_io
 	{
@@ -43,6 +47,7 @@ namespace mu
 			mu::io::lexer::lexer lexer;
 			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
 			std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
+			std::vector <boost::shared_ptr <mu::script::debugging::flat_mapping>> mappings;
 		};
 	}
 }
