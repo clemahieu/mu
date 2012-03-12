@@ -31,6 +31,7 @@
 #include <mu/llvm_/pointer_type/create.h>
 #include <mu/llvm_/value/get_context.h>
 #include <mu/llvm_/value/set_name.h>
+#include <mu/script/debugging/flat_mapping.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -48,7 +49,7 @@ extern "C"
 #ifdef _WIN32
 	__declspec (dllexport)
 #endif
-void * extensions ()
+void extensions (mu::script::extensions::node ** extensions, mu::script::debugging::mapping ** debug_info_a)
 {
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
@@ -81,5 +82,7 @@ void * extensions ()
 	result->extensions->extensions_m [std::wstring (L"pointer_type/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::pointer_type::create> ());
 	result->extensions->extensions_m [std::wstring (L"value/get_context")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::get_context> ());
 	result->extensions->extensions_m [std::wstring (L"value/set_name")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::set_name> ());
-	return result;
+	*extensions = result;
+	auto debug_info (new mu::script::debugging::flat_mapping);
+	*debug_info_a = debug_info;
 }
