@@ -6,6 +6,5 @@
 
 void mu::script::fail::operation::operator () (mu::script::context & context_a)
 {
-	mu::script::runtime::trace trace (context_a, this);
     context_a (L"Failure");
 }

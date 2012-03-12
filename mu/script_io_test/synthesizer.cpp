@@ -37,9 +37,8 @@ void mu::script_io_test::synthesizer::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
 	arguments.push_back (cluster);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	synthesizer (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -67,9 +66,8 @@ void mu::script_io_test::synthesizer::run_2 ()
 	auto cluster (boost::make_shared <mu::core::cluster> ());
 	cluster->routines.push_back (routine);
 	arguments.push_back (cluster);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	synthesizer (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -95,9 +93,8 @@ void mu::script_io_test::synthesizer::run_3 ()
 	cluster->routines.push_back (routine2);
 	routine1->body->dependencies.push_back (routine2);
 	arguments.push_back (cluster);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	synthesizer (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -127,9 +124,8 @@ void mu::script_io_test::synthesizer::run_4 ()
 	cluster->routines.push_back (routine1);
 	routine1->body->dependencies.push_back (routine1);
 	arguments.push_back (cluster);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	synthesizer (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);

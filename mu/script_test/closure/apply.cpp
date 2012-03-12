@@ -21,9 +21,8 @@ void mu::script_test::closure::apply::run_1 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	mu::script::closure::apply apply;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	apply (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -31,7 +30,7 @@ void mu::script_test::closure::apply::run_1 ()
 	assert (c2.get () != nullptr);	
 	std::vector <boost::shared_ptr <mu::core::node>> a2;
 	std::vector <boost::shared_ptr <mu::core::node>> r2;
-    auto ctx2 (mu::script::context (errors, a2, r2, stack, context_stack));
+    auto ctx2 (mu::script::context (errors, a2, r2, stack));
 	(*c2) (ctx2);
 	assert (errors->errors.empty ());
 	assert (r2.size () == 1);

@@ -30,6 +30,8 @@ add_library (mu_script STATIC
 	closure/single.cpp
 	cluster/get_named.cpp
 	cluster/node.cpp
+	debugging/flat_mapping.cpp
+	debugging/mapping.cpp
 	exec/operation.cpp
 	extensions/create.cpp
 	extensions/merge.cpp
@@ -57,7 +59,6 @@ add_library (mu_script STATIC
 	run/operation.cpp
 	runtime/call.cpp
 	runtime/constant.cpp
-	runtime/context_trace.cpp
 	runtime/expression.cpp
 	runtime/frame.cpp
 	runtime/node.cpp

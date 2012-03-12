@@ -36,9 +36,8 @@ void mu::llvm_test::basic_block::insert::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (block);
 	arguments.push_back (instruction);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	insert (ctx);
 	assert (errors->errors.empty ());
 	assert (block->block->getInstList ().size () == 1);

@@ -22,9 +22,8 @@ void mu::script_test::loads::operation::run_1 ()
 	mu::script::loads::operation loads;
 	a1.push_back (boost::make_shared <mu::script::extensions::node> ());
 	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"source_test.mu")));
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	loads (ctx);
     errors->print (std::wcout);
     assert (errors->errors.empty ());

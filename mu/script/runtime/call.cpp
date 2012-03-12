@@ -7,7 +7,7 @@
 #include <mu/core/routine.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/context.h>
-#include <mu/script/runtime/context_trace.h>
+#include <mu/script/runtime/trace.h>
 
 #include <boost/make_shared.hpp>
 
@@ -26,7 +26,6 @@ mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
 
 void mu::script::runtime::call::operator () (mu::script::context & context_a, mu::script::runtime::frame & frame_a)
 {
-	mu::script::runtime::context_trace (context_a, context);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
 	for (auto i (arguments.begin ()), j (arguments.end ()); i != j; ++i)
 	{
@@ -40,7 +39,10 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
             std::vector <boost::shared_ptr <mu::core::node>> segment (arguments_l.begin () + 1, arguments_l.end () + 0);
 			auto ctx (mu::script::context (context_a, segment, results_l));
-			(*operation) (ctx);
+			{
+				mu::script::runtime::trace trace (ctx, operation);
+				(*operation) (ctx);
+			}
 			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
 			assert (target.empty () && L"Destination has already been assigned");
 			target.assign (results_l.begin (), results_l.end ());

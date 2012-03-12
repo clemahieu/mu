@@ -27,9 +27,8 @@ void mu::llvm_test::function::create::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::llvm_::function_type::node> (boost::make_shared <mu::llvm_::context::node> (&context), llvm::FunctionType::get (llvm::Type::getVoidTy (context), false)));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

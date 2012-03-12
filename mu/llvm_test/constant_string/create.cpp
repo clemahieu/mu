@@ -34,9 +34,8 @@ void mu::llvm_test::constant_string::create::run_1 ()
 	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"test string")));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::constant_string::create create;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	create (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);

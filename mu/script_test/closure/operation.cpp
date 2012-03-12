@@ -21,9 +21,8 @@ void mu::script_test::closure::operation::run_1 ()
 	mu::script::closure::operation closure (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
 	assert (results.empty ());
@@ -37,9 +36,8 @@ void mu::script_test::closure::operation::run_2 ()
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -56,9 +54,8 @@ void mu::script_test::closure::operation::run_3 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 2);
@@ -76,9 +73,8 @@ void mu::script_test::closure::operation::run_4 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -88,7 +84,7 @@ void mu::script_test::closure::operation::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
 	args2.push_back (n3);
 	std::vector <boost::shared_ptr <mu::core::node>> res2;
-    auto ctx2 (mu::script::context (errors, args2, res2, stack, context_stack));
+    auto ctx2 (mu::script::context (errors, args2, res2, stack));
 	(*result) (ctx2);
 	assert (res2.size () == 2);
 	assert (res2 [0] == n1);
@@ -105,9 +101,8 @@ void mu::script_test::closure::operation::run_5 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -117,7 +112,7 @@ void mu::script_test::closure::operation::run_5 ()
 	std::vector <boost::shared_ptr <mu::core::node>> args2;
 	args2.push_back (n3);
 	std::vector <boost::shared_ptr <mu::core::node>> res2;
-    auto ctx2 (mu::script::context (errors, args2, res2, stack, context_stack));
+    auto ctx2 (mu::script::context (errors, args2, res2, stack));
 	(*result) (ctx2);
 	assert (res2.size () == 2);
 	assert (res2 [0] == n3);

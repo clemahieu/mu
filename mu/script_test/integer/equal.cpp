@@ -21,9 +21,8 @@ void mu::script_test::integer::equal::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -40,9 +39,8 @@ void mu::script_test::integer::equal::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (errors->errors.empty ());
 	assert (results.size () == 1);
@@ -59,9 +57,8 @@ void mu::script_test::integer::equal::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::core::node));
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (!errors->errors.empty ());
 }

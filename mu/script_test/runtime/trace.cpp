@@ -13,6 +13,7 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/script/runtime/stacktrace_error.h>
 #include <mu/script/runtime/trace_target.h>
+#include <mu/script/debugging/flat_mapping.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
@@ -28,7 +29,8 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	auto extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ());
-	extensions->extensions_m [std::wstring (L"fail")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
+	auto fail (boost::make_shared <mu::script::fail::operation> ());
+	extensions->extensions_m [std::wstring (L"fail")] = boost::make_shared <mu::io::analyzer::extensions::global> (fail);
 	mu::script_io::builder builder (extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
 	source (L"[a][b;;a][c;;b][d;;c][fail;;d]");
@@ -36,13 +38,14 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	assert (builder.errors->errors.empty ());
 	auto cluster (builder.clusters [0]);
 	auto routine (cluster->routines [0]);
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-	auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
-	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, errors);
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	auto ctx (mu::script::context (errors, a1, r1, stack));
+	mu::script::debugging::flat_mapping mapping;
+	mapping.map [fail] = std::wstring (L"mu::script::fail::operation");
+	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, mapping, errors);
 	(*routine) (ctx);
 	assert (!errors->errors.empty ());
 	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
 	assert (error.get () != nullptr);
-	assert (error->stack.size () == 6);
+	assert (error->stack.size () == 5);
 }

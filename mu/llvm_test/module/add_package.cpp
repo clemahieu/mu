@@ -37,9 +37,8 @@ void mu::llvm_test::module::add_package::run_1 ()
 	arguments.push_back (module);
 	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, arguments, results, stack));
 	get (ctx);
 	assert (errors->errors.empty ());
 	auto mod1 (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test"), context))));
@@ -48,7 +47,7 @@ void mu::llvm_test::module::add_package::run_1 ()
 	args1.push_back (results [0]);
 	std::vector <boost::shared_ptr <mu::core::node>> res1;
 	mu::llvm_::module::add_package add;
-    auto ctx2 (mu::script::context (errors, args1, res1, stack, context_stack));
+    auto ctx2 (mu::script::context (errors, args1, res1, stack));
 	add (ctx2);
 	assert (errors->errors.empty ());
 	assert (res1.empty ());

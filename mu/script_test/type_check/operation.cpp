@@ -23,9 +23,8 @@ void mu::script_test::type_check::operation::run_1 ()
 	mu::script::type_check::operation <> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (errors->errors.empty ());
 }
@@ -38,9 +37,8 @@ void mu::script_test::type_check::operation::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (!errors->errors.empty ());
 	assert (r1.size () == 0);
@@ -54,9 +52,8 @@ void mu::script_test::type_check::operation::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 1);
@@ -69,9 +66,8 @@ void mu::script_test::type_check::operation::run_4 ()
 	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (!errors->errors.empty ());
 	assert (r1.size () == 0);
@@ -85,9 +81,8 @@ void mu::script_test::type_check::operation::run_5 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	a1.push_back (boost::make_shared <mu::core::node> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (!errors->errors.empty ());
 	assert (r1.size () == 0);
@@ -102,9 +97,8 @@ void mu::script_test::type_check::operation::run_6 ()
 	a1.push_back (boost::make_shared <mu::core::node> ());
 	a1.push_back (boost::make_shared <mu::core::node> ());
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <std::type_info const *> stack;
-	std::vector <mu::core::context> context_stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack, context_stack));
+	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+    auto ctx (mu::script::context (errors, a1, r1, stack));
 	type_check (ctx);
 	assert (errors->errors.empty ());
 	assert (r1.size () == 2);
