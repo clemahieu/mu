@@ -11,7 +11,7 @@ namespace mu
 		class node;
 		namespace apply
 		{
-			void merge (mu::core::segment <boost::shared_ptr <mu::core::node>> target, mu::core::segment <boost::shared_ptr <mu::core::node>> source);
+			void merge (std::vector <boost::shared_ptr <mu::core::node>> & target, std::vector <boost::shared_ptr <mu::core::node>> & source);
 		}
 	}
 }

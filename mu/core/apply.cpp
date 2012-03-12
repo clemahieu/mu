@@ -1,6 +1,6 @@
-#include "apply.h"
+#include <mu/core/apply.h>
 
-void mu::core::apply::merge (mu::core::segment <boost::shared_ptr <mu::core::node>> target, mu::core::segment <boost::shared_ptr <mu::core::node>> source)
+void mu::core::apply::merge (std::vector <boost::shared_ptr <mu::core::node>> & target, std::vector <boost::shared_ptr <mu::core::node>> & source)
 {
 	size_t position (0);
 	auto i (source.begin ());

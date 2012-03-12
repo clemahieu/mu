@@ -38,7 +38,7 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 		if (operation.get () != nullptr)
 		{
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
-			auto segment (mu::core::segment <boost::shared_ptr <mu::core::node>> (1, arguments_l));
+            std::vector <boost::shared_ptr <mu::core::node>> segment (arguments_l.begin () + 1, arguments_l.end () + 0);
 			auto ctx (mu::script::context (context_a, segment, results_l));
 			(*operation) (ctx);
 			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);

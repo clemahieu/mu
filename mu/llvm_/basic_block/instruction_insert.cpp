@@ -1,4 +1,4 @@
-#include "instruction_insert.h"
+#include <mu/llvm_/basic_block/instruction_insert.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/basic_block/insert.h>
