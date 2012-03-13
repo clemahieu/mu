@@ -205,11 +205,13 @@ void mu::script_io_test::builder::run_9 ()
 	auto c1 (routine->calls [0]); // [:~; a b c]
 	assert (c1->results == 0);
 	assert (c1->arguments.size () == 1);
+	assert (c1->context == mu::core::context (1, 2, 1, 1, 12, 11));
 	auto c11 (boost::dynamic_pointer_cast <mu::script::runtime::parameters> (c1->arguments [0]));
 	assert (c11.get () != nullptr);
 	auto c2 (routine->calls [1]); // [a b c]
 	assert (c2->results == 1);
 	assert (c2->arguments.size () == 3);
+	assert (c2->context == mu::core::context (1, 18, 17, 1, 24, 23));
 	auto c21 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c2->arguments [0]));
 	assert (c21.get () != nullptr);
 	assert (c21->expression == 0);
@@ -225,6 +227,7 @@ void mu::script_io_test::builder::run_9 ()
 	auto c3 (routine->calls [2]); // ~ a [a b c] c
 	assert (c3->results == 2);
 	assert (c3->arguments.size () == 4);
+	assert (c3->context == mu::core::context (1, 1, 0, 1, 27, 26));
 	auto c31 (boost::dynamic_pointer_cast <mu::script::runtime::constant> (c3->arguments [0]));
 	assert (c31.get () != nullptr);
 	auto c32 (boost::dynamic_pointer_cast <mu::script::runtime::reference> (c3->arguments [1]));

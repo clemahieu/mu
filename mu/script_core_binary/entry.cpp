@@ -25,11 +25,11 @@ extern "C"
 void extensions (mu::script::extensions::node ** extensions, mu::script::debugging::mapping ** debug_info_a)
 {
 	auto result (new mu::script::extensions::node);
-	result->extensions->extensions_m [std::wstring (L"~")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::identity::operation> ());
+	auto debug_info (new mu::script::debugging::flat_mapping);
+	debug_info->add_with_extensions (result, std::wstring (L"~"), boost::make_shared <mu::script::identity::operation> ());
 	result->extensions->extensions_m [std::wstring (L"`")] = boost::make_shared <mu::script::string::extension> ();
 	result->extensions->extensions_m [std::wstring (L"`a")] = boost::make_shared <mu::script::astring::extension> ();
 	result->extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <mu::script::integer::extension> ();
 	*extensions = result;
-	auto debug_info (new mu::script::debugging::flat_mapping);
 	*debug_info_a = debug_info;
 }
