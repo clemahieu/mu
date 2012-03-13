@@ -10,6 +10,10 @@ namespace mu
 	{
 		class operation;
 		class context;
+		namespace debugging
+		{
+			class call_info;
+		}
 		namespace runtime
 		{
 			class stacktrace_error : public mu::core::errors::error
@@ -18,7 +22,7 @@ namespace mu
 				stacktrace_error (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error> error_a);
 				mu::core::errors::error_id error_type () override;
 				void string (std::wostream & stream) override;
-				std::vector <std::wstring> stack;
+				std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
 				boost::shared_ptr <mu::core::errors::error> error;
 			};
 		}

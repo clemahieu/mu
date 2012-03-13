@@ -6,12 +6,9 @@
 #include <iostream>
 
 mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error> error_a)
-	: error (error_a)
+	: error (error_a),
+	stack (context_a.call_stack)
 {
-	for (auto i (context_a.call_stack.begin ()), j (context_a.call_stack.end ()); i != j; ++i)
-	{
-		stack.push_back ((*i)->stacktrace_line ());
-	}
 }
 
 mu::core::errors::error_id mu::script::runtime::stacktrace_error::error_type ()
@@ -25,7 +22,7 @@ void mu::script::runtime::stacktrace_error::string (std::wostream & stream)
 	stream << L"\n";
 	for (auto i (stack.begin ()), j (stack.end ()); i != j; ++i)
 	{
-		stream << *i;
+		stream << (*i)->stacktrace_line ();
 		stream << L"\n";
 	}
 }
