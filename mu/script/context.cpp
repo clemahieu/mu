@@ -2,17 +2,17 @@
 
 mu::script::context::context (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::vector <boost::shared_ptr <mu::core::node>> & parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a, std::vector <boost::shared_ptr <mu::script::operation>> & function_stack_a)
 	: parameters (parameters_a),
-	errors (errors_a),
 	results (results_a),
-	function_stack (function_stack_a)
+	function_stack (function_stack_a),
+	errors (errors_a)
 {
 }
 
 mu::script::context::context (mu::script::context & context_a, std::vector <boost::shared_ptr <mu::core::node>> & parameters_a, std::vector <boost::shared_ptr <mu::core::node>> & results_a)
 	: parameters (parameters_a),
-	errors (context_a.errors),
 	results (results_a),
-	function_stack (context_a.function_stack)
+	function_stack (context_a.function_stack),
+	errors (context_a.errors)
 {
 }
 

@@ -2,6 +2,10 @@
 
 #include <mu/script/debugging/operation_info.h>
 
+namespace std
+{
+    class type_info;
+}
 namespace mu
 {
 	namespace script
