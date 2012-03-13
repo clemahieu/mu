@@ -76,14 +76,13 @@ void mu::repl::repl::iteration ()
 				std::vector <boost::shared_ptr <mu::core::node>> arguments;
 				std::vector <boost::shared_ptr <mu::core::node>> results;
 				auto routine (cluster->routines [0]);
-				std::vector <boost::shared_ptr <mu::script::operation>> stack;
+				std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
                 auto ctx1 (mu::script::context (errors, arguments, results, stack));
 				(*routine) (ctx1);
 				if (errors->errors.empty ())
 				{
 					mu::script::print::operation print;
 					std::vector <boost::shared_ptr <mu::core::node>> print_results;
-					std::vector <boost::shared_ptr <mu::script::operation>> stack;
                     auto ctx2 (mu::script::context (errors, results, print_results, stack));
 					print (ctx2);
 				}

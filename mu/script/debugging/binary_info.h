@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/debugging/operation_info.h>
+#include <mu/script/debugging/call_info.h>
 
 namespace std
 {
@@ -12,7 +12,7 @@ namespace mu
 	{
 		namespace debugging
 		{
-			class binary_info : public mu::script::debugging::operation_info
+			class binary_info : public mu::script::debugging::call_info
 			{
 			public:
 				binary_info (std::type_info const & type_a);

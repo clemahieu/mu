@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/debugging/operation_info.h>
+#include <mu/script/debugging/call_info.h>
 #include <mu/core/context.h>
 
 namespace mu
@@ -9,7 +9,7 @@ namespace mu
 	{
 		namespace debugging
 		{
-			class source_info : public mu::script::debugging::operation_info
+			class source_info : public mu::script::debugging::call_info
 			{
 			public:
 				source_info (mu::core::context context_a);

@@ -1,17 +1,16 @@
 #include <mu/script/runtime/stacktrace_error.h>
 
 #include <mu/script/context.h>
-#include <mu/script/debugging/mapping.h>
-#include <mu/script/debugging/operation_info.h>
+#include <mu/script/debugging/call_info.h>
 
 #include <iostream>
 
-mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & context_a, mu::script::debugging::mapping & mapping_a, boost::shared_ptr <mu::core::errors::error> error_a)
+mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & context_a, boost::shared_ptr <mu::core::errors::error> error_a)
 	: error (error_a)
 {
-	for (auto i (context_a.function_stack.begin ()), j (context_a.function_stack.end ()); i != j; ++i)
+	for (auto i (context_a.call_stack.begin ()), j (context_a.call_stack.end ()); i != j; ++i)
 	{
-		stack.push_back (mapping_a.operation_info (*i)->stacktrace_line ());
+		stack.push_back ((*i)->stacktrace_line ());
 	}
 }
 

@@ -21,7 +21,7 @@ void mu::script_test::closure::operation::run_1 ()
 	mu::script::closure::operation closure (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
@@ -36,7 +36,7 @@ void mu::script_test::closure::operation::run_2 ()
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
@@ -54,7 +54,7 @@ void mu::script_test::closure::operation::run_3 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
@@ -73,7 +73,7 @@ void mu::script_test::closure::operation::run_4 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());
@@ -101,7 +101,7 @@ void mu::script_test::closure::operation::run_5 ()
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (n2);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	closure (ctx);
 	assert (errors->errors.empty ());

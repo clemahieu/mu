@@ -30,10 +30,8 @@ add_library (mu_script STATIC
 	closure/single.cpp
 	cluster/get_named.cpp
 	cluster/node.cpp
-	debugging/operation_info.cpp
+	debugging/call_info.cpp
 	debugging/binary_info.cpp
-	debugging/flat_mapping.cpp
-	debugging/mapping.cpp
 	debugging/source_info.cpp
 	debugging/string_info.cpp
 	exec/operation.cpp

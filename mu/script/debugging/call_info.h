@@ -8,10 +8,10 @@ namespace mu
 	{
 		namespace debugging
 		{
-			class operation_info
+			class call_info
 			{
 			public:
-				virtual ~operation_info ();
+				virtual ~call_info ();
 				virtual std::wstring stacktrace_line () = 0;
 			};
 		}

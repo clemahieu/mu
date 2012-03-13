@@ -16,7 +16,7 @@ void mu::script_test::package::create::run_1 ()
 	mu::script::package::create create;
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	create (ctx);
 	assert (errors->errors.empty ());

@@ -34,7 +34,7 @@ void mu::llvm_test::linker::link_modules::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> res1;
 	args1.push_back (module);
 	args1.push_back (module1);
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, args1, res1, stack));
 	link_modules (ctx);
 	assert (errors->errors.empty ());

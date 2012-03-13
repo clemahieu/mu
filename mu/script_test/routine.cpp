@@ -28,7 +28,7 @@ void mu::script_test::routine::run_1 ()
 	routine.calls.push_back (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	routine (ctx);
 	assert (!errors->errors.empty ());
@@ -43,7 +43,7 @@ void mu::script_test::routine::run_2 ()
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	routine (ctx);
 	assert (errors->errors.empty ());
@@ -60,7 +60,7 @@ void mu::script_test::routine::run_3 ()
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	routine (ctx);
 	assert (errors->errors.empty ());
@@ -87,7 +87,7 @@ void mu::script_test::routine::run_4 ()
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	arguments.push_back (node);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	routine (ctx);
 	assert (errors->errors.empty ());

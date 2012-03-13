@@ -21,7 +21,7 @@ void mu::script_test::integer::equal::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (errors->errors.empty ());
@@ -39,7 +39,7 @@ void mu::script_test::integer::equal::run_2 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (errors->errors.empty ());
@@ -57,7 +57,7 @@ void mu::script_test::integer::equal::run_3 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	arguments.push_back (boost::shared_ptr <mu::core::node> (new mu::core::node));
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	equal (ctx);
 	assert (!errors->errors.empty ());

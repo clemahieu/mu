@@ -21,7 +21,7 @@ void mu::script_test::closure::apply::run_1 ()
 	arguments.push_back (n1);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	mu::script::closure::apply apply;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	apply (ctx);
 	assert (errors->errors.empty ());

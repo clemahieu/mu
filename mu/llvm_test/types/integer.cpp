@@ -29,7 +29,7 @@ void mu::llvm_test::types::integer::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (boost::make_shared <mu::llvm_::context::node> (&context));
 	arguments.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 16)));
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	integer (ctx);
 	assert (errors->errors.empty ());

@@ -23,7 +23,7 @@ void mu::script_test::package::get::run_1 ()
 	arguments.push_back (data);
 	arguments.push_back (name);
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	get (ctx);
 	assert (errors->errors.empty ());

@@ -62,7 +62,7 @@ void mu::llvm_test::analyzer::operation::run_1 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -101,7 +101,7 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -145,7 +145,7 @@ void mu::llvm_test::analyzer::operation::run_3 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -184,7 +184,7 @@ void mu::llvm_test::analyzer::operation::run_4 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -223,7 +223,7 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -262,7 +262,7 @@ void mu::llvm_test::analyzer::operation::run_6 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -301,7 +301,7 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -340,7 +340,7 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -411,7 +411,7 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -453,7 +453,7 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -503,7 +503,7 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -552,7 +552,7 @@ void mu::llvm_test::analyzer::operation::run_12 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -578,7 +578,7 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());
@@ -629,7 +629,7 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	a2.push_back (module);
 	a2.push_back (ast);
 	mu::llvm_::analyzer::operation analyzer;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a2, r2, stack));
 	analyzer (ctx);
 	assert (builder.errors->errors.empty ());

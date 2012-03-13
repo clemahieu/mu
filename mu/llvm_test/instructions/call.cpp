@@ -40,7 +40,7 @@ void mu::llvm_test::instructions::call::run_1 ()
 	a1.push_back (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());
@@ -59,7 +59,7 @@ void mu::llvm_test::instructions::call::run_2 ()
 	a1.push_back (boost::make_shared <mu::llvm_::constant_int::node> (llvm::ConstantInt::get (llvm::Type::getInt16Ty (context), 0, false), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt16Ty (context))));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());
@@ -75,7 +75,7 @@ void mu::llvm_test::instructions::call::run_3 ()
 	a1.push_back (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	call (ctx2);
 	assert (errors->errors.empty ());
@@ -95,7 +95,7 @@ void mu::llvm_test::instructions::call::run_4 ()
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
 	mu::llvm_::instructions::call call;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx2 (mu::script::context (errors, a1, r1, stack));
 	call (ctx2);
 	assert (!errors->errors.empty ());

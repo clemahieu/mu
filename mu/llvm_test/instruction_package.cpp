@@ -49,7 +49,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	a1.push_back (boost::make_shared <mu::llvm_::basic_block::insert> ());
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	create (ctx);
 	assert (r1.size () == 1);
@@ -98,7 +98,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	a1.push_back (boost::make_shared <mu::llvm_::basic_block::insert> ());
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
 	a1.push_back (block);
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (builder.errors, a1, r1, stack));
 	(*routine1) (ctx);
 	assert (r1.size () == 1);

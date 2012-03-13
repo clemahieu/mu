@@ -37,7 +37,7 @@ void mu::llvm_test::module::add_package::run_1 ()
 	arguments.push_back (module);
 	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
 	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	get (ctx);
 	assert (errors->errors.empty ());

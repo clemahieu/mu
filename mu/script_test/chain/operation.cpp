@@ -21,7 +21,7 @@ void mu::script_test::chain::operation::run_1 ()
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	arguments.push_back (operation);
 	arguments.push_back (count);
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, arguments, results, stack));
 	chain (ctx);
 	assert (errors->errors.empty ());

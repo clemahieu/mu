@@ -26,7 +26,7 @@ void mu::script_test::call::run_1 ()
 	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (node)));
     std::vector <boost::shared_ptr <mu::core::node>> a1;
     std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
     auto ctx (mu::script::context (errors, a1, r1, stack));
 	(*call) (ctx, frame);
 	assert (frame.nodes [1].size () == 1);

@@ -32,7 +32,7 @@ void mu::llvm_test::instructions::trunc::run_1 ()
 	a1.push_back (type);
 	mu::llvm_::instructions::trunc trunc;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::script::operation>> stack;
+	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
 	auto ctx (mu::script::context (errors, a1, r1, stack));
 	trunc (ctx);
 	assert (errors->errors.empty ());
