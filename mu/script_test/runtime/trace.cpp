@@ -34,7 +34,7 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	extensions->extensions_m [std::wstring (L"fail")] = boost::make_shared <mu::io::analyzer::extensions::global> (fail);
 	mu::script_io::builder builder (extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
-	source (L"[a][fail;;a]");
+	source (L"[a][b;;a][c;;b][d;;c][fail;;d]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	auto cluster (builder.clusters [0]);
@@ -48,5 +48,5 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	assert (!errors->errors.empty ());
 	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
 	assert (error.get () != nullptr);
-	assert (error->stack.size () == 2);
+	assert (error->stack.size () == 5);
 }

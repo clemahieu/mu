@@ -1,7 +1,5 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 
-#include <boost/make_shared.hpp>
-
 mu::io::analyzer::extensions::extensions::extensions ()
 {
 }
