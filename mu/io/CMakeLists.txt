@@ -18,6 +18,11 @@ add_library (mu_io STATIC
 	ast/node.cpp
 	ast/parameters.cpp
 	ast/visitor.cpp
+	debugging/cluster.cpp
+	debugging/expression.cpp
+	debugging/hash.cpp
+	debugging/node.cpp
+	debugging/routine.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp
