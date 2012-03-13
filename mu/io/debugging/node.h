@@ -10,11 +10,14 @@ namespace mu
 	{
 		namespace debugging
 		{
-			class expression;
+			class routine;
 			class node
 			{
+			public:
+				node ();
+				node (mu::core::context context_a);
 				mu::core::context context;
-				mu::io::debugging::expression * expression;
+				mu::io::debugging::routine * routine;
 			};
 		}
 	}

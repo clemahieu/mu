@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/core/context.h>
+#include <mu/io/debugging/node.h>
 
 #include <vector>
 
@@ -12,10 +13,9 @@ namespace mu
 		{
 			class routine;
 			class node;
-			class expression
+			class expression : public mu::io::debugging::node
 			{
-				mu::core::context context;
-				mu::io::debugging::routine * routine;
+			public:
 				std::vector <mu::io::debugging::node *> dependencies;
 			};
 		}

@@ -25,6 +25,12 @@ namespace mu
 		{
 			class node;
 		}
+		namespace debugging
+		{
+			class cluster;
+			class node;
+			class routine;
+		}
 		namespace analyzer
 		{
 			class resolver;
@@ -43,15 +49,16 @@ namespace mu
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;
 				void operator () (mu::io::ast::end * end_a) override;
-				void mark_used (std::wstring name_a, mu::core::context context_a);
-				void back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a);
-				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, mu::core::context context_a);
+				void mark_used (std::wstring name_a, mu::io::debugging::node * node_info_a);
+				void back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, mu::io::debugging::node * node_info_a);
+				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, mu::io::debugging::routine * routine_info_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 				boost::function <void (boost::shared_ptr <mu::core::cluster>)> target;
-				std::multimap <std::wstring, mu::core::context> used_names;
+				std::multimap <std::wstring, mu::io::debugging::node *> used_names;
 				std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::core::context>> unresolved;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
 				boost::shared_ptr <mu::core::cluster> cluster;
+				mu::io::debugging::cluster * cluster_info;
 			};
 		}
 	}
