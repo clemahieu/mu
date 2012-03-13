@@ -8,6 +8,7 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/script/context.h>
 #include <mu/script/runtime/trace.h>
+#include <mu/script/debugging/source_info.h>
 
 #include <boost/make_shared.hpp>
 
@@ -39,7 +40,10 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
 			std::vector <boost::shared_ptr <mu::core::node>> results_l;
             std::vector <boost::shared_ptr <mu::core::node>> segment (arguments_l.begin () + 1, arguments_l.end () + 0);
 			auto ctx (mu::script::context (context_a, segment, results_l));
-            (*operation) (ctx);
+            {
+                mu::script::runtime::trace trace (context_a, boost::make_shared <mu::script::debugging::source_info> (context));
+                (*operation) (ctx);
+            }
 			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);
 			assert (target.empty () && L"Destination has already been assigned");
 			target.assign (results_l.begin (), results_l.end ());
