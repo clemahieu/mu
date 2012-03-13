@@ -10,6 +10,8 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/core/expression.h>
+#include <mu/io/debugging/expression.h>
+#include <mu/io/debugging/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -32,9 +34,10 @@ void mu::llvm_::constant_string::extension::operator () (boost::shared_ptr <mu::
 			node->closed.push_back (context);
 			node->closed.push_back (module);
 			node->closed.push_back (boost::make_shared <mu::script::string::node> (identifier->string));
-			auto result (boost::make_shared <mu::core::expression> (identifier->context));
+			auto result (boost::make_shared <mu::core::expression> ());
 			result->dependencies.push_back (node);
 			expression_a.self->dependencies.push_back (result);
+			expression_a.self_info->dependencies.push_back (new mu::io::debugging::node (identifier->context));
 		}
 		else
 		{

@@ -25,7 +25,7 @@ void mu::script_test::routine::run_1 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	mu::script::runtime::routine routine;
-	routine.calls.push_back (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
+	routine.calls.push_back (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0)));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
@@ -38,7 +38,7 @@ void mu::script_test::routine::run_2 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	mu::script::runtime::routine routine;
-	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
+	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0)));
 	call->arguments.push_back (boost::shared_ptr <mu::script::runtime::constant> (new mu::script::runtime::constant (boost::shared_ptr <mu::core::node> (new mu::script::identity::operation))));
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -53,7 +53,7 @@ void mu::script_test::routine::run_3 ()
 {
 	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
 	mu::script::runtime::routine routine;
-	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
+	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0)));
 	call->arguments.push_back (boost::make_shared <mu::script::runtime::parameters> ());
 	routine.calls.push_back (call);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -74,11 +74,11 @@ void mu::script_test::routine::run_4 ()
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script::runtime::routine routine;
 	auto routine1 (boost::make_shared <mu::script::runtime::routine> ());
-	auto r (boost::make_shared <mu::core::routine> (mu::core::context ()));
-	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0, mu::core::context ())));
+	auto r (boost::make_shared <mu::core::routine> ());
+	auto call (boost::shared_ptr <mu::script::runtime::call> (new mu::script::runtime::call (0)));
 	call->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (routine1));
 	routine.calls.push_back (call);
-	auto call1 (boost::make_shared <mu::script::runtime::call> (0, mu::core::context ()));
+	auto call1 (boost::make_shared <mu::script::runtime::call> (0));
 	call1->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (boost::make_shared <mu::script::identity::operation> ()));
 	auto id (boost::make_shared <mu::script::identity::operation> ());
 	call1->arguments.push_back (boost::make_shared <mu::script::runtime::constant> (id));

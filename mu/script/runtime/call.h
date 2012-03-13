@@ -28,8 +28,6 @@ namespace mu
 			{
 			public:
 				call (size_t results_a);
-				call (size_t results_a, mu::core::context context_a);
-				mu::core::context context;
 				size_t results;
 				std::vector <boost::shared_ptr <mu::script::runtime::node>> arguments;
 				void operator () (mu::script::context & context_a, mu::script::runtime::frame & frame_a);

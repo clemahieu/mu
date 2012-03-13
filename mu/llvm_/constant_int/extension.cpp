@@ -13,6 +13,8 @@
 #include <mu/llvm_/apint/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/io/analyzer/extensions/global.h>
+#include <mu/io/debugging/expression.h>
+#include <mu/io/debugging/node.h>
 
 #include <sstream>
 
@@ -47,9 +49,10 @@ void mu::llvm_::constant_int::extension::operator () (boost::shared_ptr <mu::cor
 						node->closed.push_back (context);
 						node->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, bits->value)));
 						node->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (bits->value, number->value)));
-						auto result (boost::make_shared <mu::core::expression> (number_identifier->context));
+						auto result (boost::make_shared <mu::core::expression> ());
 						result->dependencies.push_back (node);
 						expression_a.self->dependencies.push_back (result);
+						expression_a.self_info->dependencies.push_back (new mu::io::debugging::node (number_identifier->context));
 					}
 					else
 					{
