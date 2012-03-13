@@ -13,7 +13,6 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/debugging/expression.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -40,13 +39,12 @@ void mu::llvm_test::constant_string::extension::run_1 ()
 	assert (expression->values.size () == 2);
 	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::llvm_test::constant_string::extension::junk, this, _1), builder.errors);
 	mu::io::analyzer::routine rout (analyzer, expression.get ());
-	auto self (boost::make_shared <mu::core::expression> ());
+	auto self (boost::make_shared <mu::core::expression> (mu::core::context ()));
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (""), context)));
 	analyzer.extensions->extensions_m [L"`"] = boost::make_shared <mu::llvm_::constant_string::extension> (ctx, module);
-	mu::io::debugging::expression self_info;
-	mu::io::analyzer::expression exp (rout, expression.get (), self, &self_info);
+	mu::io::analyzer::expression exp (rout, expression.get (), self);
 	assert (builder.errors->errors.empty ());
 }
 

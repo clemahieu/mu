@@ -7,9 +7,15 @@ mu::core::routine::routine ()
 {
 }
 
+mu::core::routine::routine (mu::core::context context_a)
+	: context (context_a)
+{
+}
+
 mu::core::routine::routine (boost::shared_ptr <mu::core::expression> body_a)
 	: body (body_a)
 {
+
 }
 
 void mu::core::routine::operator () (mu::core::visitor * visitor_a)

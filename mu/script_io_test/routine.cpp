@@ -24,10 +24,10 @@ void mu::script_io_test::routine::run ()
 void mu::script_io_test::routine::run_1 ()
 {
 	std::vector <boost::shared_ptr <mu::core::expression>> calls;
-	auto call1 (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+	auto call1 (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context ())));
 	calls.push_back (call1);
 	call1->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
-	auto call2 (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+	auto call2 (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context ())));
 	call2->dependencies.push_back (call1);
 	calls.push_back (call2);
 	auto rout (boost::make_shared <mu::core::routine> (call2));

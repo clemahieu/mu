@@ -29,8 +29,8 @@ void mu::script_io_test::synthesizer::run ()
 void mu::script_io_test::synthesizer::run_1 ()
 {
 	mu::script_io::synthesizer synthesizer;
-	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine));
-	routine->body = boost::shared_ptr <mu::core::expression> (new mu::core::expression);
+	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine (mu::core::context (1, 1, 0, 1, 1, 0))));
+	routine->body = boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context (1, 1, 0, 1, 2, 1)));
 	auto cluster (boost::make_shared <mu::core::cluster> ());
 	cluster->routines.push_back (routine);
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -54,10 +54,10 @@ void mu::script_io_test::synthesizer::run_2 ()
 {
 	// [[:~]]
 	mu::script_io::synthesizer synthesizer;
-	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine));
-	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine (mu::core::context (1, 1, 0, 1, 1, 0))));
+	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context (1, 1, 0, 1, 6, 5))));
 	routine->body = root;
-	auto parameters (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+	auto parameters (boost::shared_ptr <mu::core::expression> (new mu::core::expression (mu::core::context (1, 2, 1, 1, 3, 2))));
 	root->dependencies.push_back (parameters);
 	parameters->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
@@ -83,8 +83,8 @@ void mu::script_io_test::synthesizer::run_3 ()
 {
 	//[a][;;a]
 	mu::script_io::synthesizer synthesizer;
-	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> ()));
-	auto routine2 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> ()));
+	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
+	auto routine2 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());
@@ -116,7 +116,7 @@ void mu::script_io_test::synthesizer::run_4 ()
 {
 	//[a;;a]
 	mu::script_io::synthesizer synthesizer;
-	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> ()));
+	auto routine1 (boost::make_shared <mu::core::routine> (boost::make_shared <mu::core::expression> (mu::core::context ())));
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
 	auto errors (boost::make_shared <mu::core::errors::error_list> ());

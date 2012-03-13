@@ -1,4 +1,4 @@
-#include <mu/io/analyzer/analyzer.h>
+#include "analyzer.h"
 
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
@@ -8,10 +8,6 @@
 #include <mu/io/analyzer/resolver.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/core/routine.h>
-#include <mu/io/debugging/cluster.h>
-#include <mu/core/expression.h>
-#include <mu/io/ast/end.h>
-#include <mu/io/debugging/routine.h>
 
 #include <sstream>
 
@@ -21,8 +17,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster),
-	cluster_info (new mu::io::debugging::cluster)
+	cluster (new mu::core::cluster)
 {
 }
 
@@ -30,8 +25,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster),
-	cluster_info (new mu::io::debugging::cluster)
+	cluster (new mu::core::cluster)
 {
 }
 
@@ -47,10 +41,6 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * paramete
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
 {
-	if (cluster->routines.empty ())
-	{
-		cluster_info->context.first = expression_a->context.first;
-	}
 	mu::io::analyzer::routine (*this, expression_a);
 }
 
@@ -61,7 +51,6 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifi
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 {	
-	cluster_info->context.last = end_a->context.last;
 	if (unresolved.empty ())
 	{
 		if (!(*errors) ())
@@ -85,21 +74,21 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 	}
 }
 
-void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, mu::io::debugging::node * node_info_a)
+void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, mu::core::context context_a)
 {
-	used_names.insert (std::multimap <std::wstring, mu::io::debugging::node *>::value_type (name_a, node_info_a));
+	used_names.insert (std::multimap <std::wstring, mu::core::context>::value_type (name_a, context_a));
 }
 
-void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, mu::io::debugging::node * node_info_a)
+void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a)
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
-		(*(i->second).first) (node_a, node_info_a);
+		(*(i->second).first) (node_a);
 	}
 	unresolved.erase (name_a);
 }
 
-void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, mu::io::debugging::routine * routine_info_a)
+void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, mu::core::context context_a)
 {
 	assert (!name_a.empty ());
 	auto keyword (extensions->extensions_m.find (name_a));
@@ -108,11 +97,11 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 		auto existing (used_names.find (name_a));
 		if (existing == used_names.end ())
 		{
-			mark_used (name_a, routine_info_a);
+			mark_used (name_a, context_a);
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = routine_a;
-			back_resolve (name_a, routine_a, routine_info_a);
+			back_resolve (name_a, routine_a);
 		}
 		else
 		{
@@ -122,7 +111,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 				message << L"Routine name: ";
 				message << name_a;
 				message << L" collides with usage at: ";
-				message << existing->second->context.string ();
+				message << existing->second.string ();
 				(*errors) (message.str ());
 			}
 		}

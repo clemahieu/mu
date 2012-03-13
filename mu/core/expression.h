@@ -14,6 +14,8 @@ namespace mu
 		class expression : public mu::core::node
 		{
 		public:
+			expression (mu::core::context context_a);
+			mu::core::context context;
 			std::vector <boost::shared_ptr <mu::core::node>> dependencies;
 			void operator () (mu::core::visitor * visitor_a) override;
 		};
