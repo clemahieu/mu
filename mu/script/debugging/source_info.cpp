@@ -1,6 +1,6 @@
 #include <mu/script/debugging/source_info.h>
 
-mu::script::debugging::source_info::source_info (mu::core::context context_a)
+mu::script::debugging::source_info::source_info (mu::io::debugging::context context_a)
 	: context (context_a)
 {
 }

@@ -15,7 +15,7 @@
 #include <boost/circular_buffer.hpp>
 #include <boost/make_shared.hpp>
 
-mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::core::context)> target_a)
+mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a)
 	: errors (boost::make_shared <mu::io::lexer::error_target> (*this, errors_a)),
 	target (target_a)
 {

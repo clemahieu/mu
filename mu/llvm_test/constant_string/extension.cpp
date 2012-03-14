@@ -45,8 +45,8 @@ void mu::llvm_test::constant_string::extension::run_1 ()
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (""), context)));
 	analyzer.extensions->extensions_m [L"`"] = boost::make_shared <mu::llvm_::constant_string::extension> (ctx, module);
-	mu::io::debugging::expression self_info;
-	mu::io::analyzer::expression exp (rout, expression.get (), self, &self_info);
+	auto self_info (boost::make_shared <mu::io::debugging::expression> ());
+	mu::io::analyzer::expression exp (rout, expression.get (), self, self_info);
 	assert (builder.errors->errors.empty ());
 }
 

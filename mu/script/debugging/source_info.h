@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/script/debugging/call_info.h>
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 namespace mu
 {
@@ -12,9 +12,9 @@ namespace mu
 			class source_info : public mu::script::debugging::call_info
 			{
 			public:
-				source_info (mu::core::context context_a);
+				source_info (mu::io::debugging::context context_a);
 				std::wstring stacktrace_line () override;
-				mu::core::context context;
+				mu::io::debugging::context context;
 			};
 		}
 	}

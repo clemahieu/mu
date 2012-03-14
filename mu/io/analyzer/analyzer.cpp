@@ -1,4 +1,4 @@
-#include "analyzer.h"
+#include <mu/io/analyzer/analyzer.h>
 
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
@@ -18,19 +18,21 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster)
+	cluster (new mu::core::cluster),
+	cluster_info (new mu::io::debugging::cluster)
 {
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster)
+	cluster (new mu::core::cluster),
+	cluster_info (new mu::io::debugging::cluster)
 {
 }
 
@@ -46,6 +48,10 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * paramete
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
 {
+	if (cluster->routines.empty ())
+	{
+		cluster_info->context.first = expression_a->context.first;
+	}
 	mu::io::analyzer::routine (*this, expression_a);
 }
 
@@ -56,11 +62,12 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifi
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 {	
+	cluster_info->context.last = end_a->context.last;
 	if (unresolved.empty ())
 	{
 		if (!(*errors) ())
 		{
-			target (cluster);
+			target (cluster, cluster_info);
 		}
 		else
 		{
@@ -79,21 +86,21 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 	}
 }
 
-void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, mu::core::context context_a)
+void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)
 {
-	used_names.insert (std::multimap <std::wstring, mu::core::context>::value_type (name_a, context_a));
+	used_names.insert (std::multimap <std::wstring, boost::shared_ptr <mu::io::debugging::node>>::value_type (name_a, node_info_a));
 }
 
-void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a)
+void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
-		(*(i->second).first) (node_a);
+		(*(i->second).first) (node_a, node_info_a);
 	}
 	unresolved.erase (name_a);
 }
 
-void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, mu::core::context context_a)
+void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::io::debugging::routine> routine_info_a)
 {
 	assert (!name_a.empty ());
 	auto keyword (extensions->extensions_m.find (name_a));
@@ -102,11 +109,14 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 		auto existing (used_names.find (name_a));
 		if (existing == used_names.end ())
 		{
-			mark_used (name_a, context_a);
+			mark_used (name_a, routine_info_a);
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = routine_a;
-			back_resolve (name_a, routine_a);
+			assert (cluster_info->names.find (name_a) == cluster_info->names.end ());
+			cluster_info->routines.push_back (routine_info_a);
+			cluster_info->names [name_a] = routine_info_a;
+			back_resolve (name_a, routine_a, routine_info_a);
 		}
 		else
 		{
@@ -116,7 +126,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 				message << L"Routine name: ";
 				message << name_a;
 				message << L" collides with usage at: ";
-				message << existing->second.string ();
+				message << existing->second->context.string ();
 				(*errors) (message.str ());
 			}
 		}

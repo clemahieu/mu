@@ -2,7 +2,7 @@
 
 #include <mu/io/ast/visitor.h>
 
-mu::io::ast::end::end (mu::core::context context_a)
+mu::io::ast::end::end (mu::io::debugging::context context_a)
 	: mu::io::ast::node (context_a)
 {
 }

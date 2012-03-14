@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 #include <mu/io/tokens/visitor.h>
 
 #include <boost/function.hpp>
@@ -23,7 +23,7 @@ namespace mu
 			class single : public mu::io::tokens::visitor
 			{
 			public:
-				single (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::core::context first_a);
+				single (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::io::debugging::context first_a);
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
@@ -35,7 +35,7 @@ namespace mu
 				boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target;
 				std::vector <boost::shared_ptr <mu::io::ast::node>> values;
 				std::vector <boost::shared_ptr <mu::io::ast::identifier>> names;			
-				mu::core::context first;
+				mu::io::debugging::context first;
 			};
 		}
 	}

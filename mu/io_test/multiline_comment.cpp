@@ -26,5 +26,5 @@ void mu::io_test::multiline_comment::run_1 ()
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 3, 2, 1, 3, 2));
+	assert (e1->context == mu::io::debugging::context (1, 3, 2, 1, 3, 2));
 }

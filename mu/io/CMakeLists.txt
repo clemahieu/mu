@@ -19,10 +19,12 @@ add_library (mu_io STATIC
 	ast/parameters.cpp
 	ast/visitor.cpp
 	debugging/cluster.cpp
+	debugging/context.cpp
 	debugging/expression.cpp
 	debugging/error.cpp
 	debugging/hash.cpp
 	debugging/node.cpp
+	debugging/position.cpp
 	debugging/routine.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp

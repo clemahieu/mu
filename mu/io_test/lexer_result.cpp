@@ -4,9 +4,9 @@
 
 #include <iostream>
 
-void mu::io_test::lexer_result::operator () (mu::io::tokens::token * token_a, mu::core::context context_a)
+void mu::io_test::lexer_result::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-	results.push_back (std::pair <mu::io::tokens::token *, mu::core::context> (token_a, context_a));
+	results.push_back (std::pair <mu::io::tokens::token *, mu::io::debugging::context> (token_a, context_a));
 }
 
 void mu::io_test::lexer_result::print (std::wostream & target)

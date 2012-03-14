@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/core/node.h>
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 #include <string>
 
@@ -16,10 +16,10 @@ namespace mu
 			{
 			public:
                 virtual ~node ();
-				node (mu::core::context context_a);
+				node (mu::io::debugging::context context_a);
 				virtual void operator () (mu::io::ast::visitor * visitor_a) = 0;
 				virtual std::wstring name () = 0;
-				mu::core::context context;
+				mu::io::debugging::context context;
 			};
 		}
 	}

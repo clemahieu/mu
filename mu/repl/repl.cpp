@@ -61,7 +61,7 @@ void mu::repl::repl::iteration ()
 	auto quit (boost::shared_ptr <mu::core::node> (new mu::repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	builder.parser (new mu::io::tokens::left_square (), mu::core::context ());
+	builder.parser (new mu::io::tokens::left_square (), mu::io::debugging::context ());
 	source (stream);
 	source (L']');
 	source ();

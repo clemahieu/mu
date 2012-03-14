@@ -4,12 +4,10 @@ project (core)
 add_library (mu_core STATIC
 	apply.cpp
 	cluster.cpp
-	context.cpp
 	expression.cpp
 	node.cpp
 	order.cpp
 	parameters.cpp
-	position.cpp
 	reference.cpp
 	routine.cpp
     visitor.cpp

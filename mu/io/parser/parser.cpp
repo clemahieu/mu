@@ -19,7 +19,7 @@ mu::io::parser::parser::parser (boost::shared_ptr <mu::core::errors::error_targe
 	reset ();
 }
 
-void mu::io::parser::parser::operator () (mu::io::tokens::token * token, mu::core::context context_a)
+void mu::io::parser::parser::operator () (mu::io::tokens::token * token, mu::io::debugging::context context_a)
 {
 	context = context_a;
 	auto state_l (state.top ());

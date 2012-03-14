@@ -25,7 +25,7 @@ void mu::script_io::lambda_single::operator () (boost::shared_ptr <mu::core::err
 		{
 			mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script_io::lambda_single::add, this, errors_a, expression_a, _1), expression_a.routine.analyzer.errors, expression_a.routine.analyzer.extensions);
 			analyzer.input (routine);
-			analyzer.input (boost::make_shared <mu::io::ast::end> (mu::core::context (expression_a.expression_m->context.last, expression_a.expression_m->context.last)));
+			analyzer.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (expression_a.expression_m->context.last, expression_a.expression_m->context.last)));
 		}
 		else
 		{

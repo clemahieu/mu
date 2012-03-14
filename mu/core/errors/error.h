@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 #include <ostream>
 

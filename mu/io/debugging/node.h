@@ -1,8 +1,10 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 #include <vector>
+
+#include <boost/shared_ptr.hpp>
 
 namespace mu
 {
@@ -10,11 +12,14 @@ namespace mu
 	{
 		namespace debugging
 		{
-			class expression;
+			class routine;
 			class node
 			{
-				mu::core::context context;
-				mu::io::debugging::expression * expression;
+			public:
+				virtual ~node ();
+				node ();
+				node (mu::io::debugging::context context_aa);
+				mu::io::debugging::context context;
 			};
 		}
 	}

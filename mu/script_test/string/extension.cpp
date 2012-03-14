@@ -21,7 +21,7 @@ void mu::script_test::string::extension::run_1 ()
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 2, 1, 1, 2, 1));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 }
 
 void mu::script_test::string::extension::run_2 ()
@@ -32,7 +32,7 @@ void mu::script_test::string::extension::run_2 ()
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 2, 1, 1, 4, 3));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 4, 3));
 }
 
 void mu::script_test::string::extension::run_3 ()

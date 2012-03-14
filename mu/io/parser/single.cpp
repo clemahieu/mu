@@ -16,7 +16,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::parser::single::single (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::core::context first_a)
+mu::io::parser::single::single (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::io::debugging::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
@@ -43,7 +43,7 @@ void mu::io::parser::single::operator () (mu::io::tokens::left_square * token)
 void mu::io::parser::single::operator () (mu::io::tokens::right_square * token)
 {
 	parser.state.pop ();
-	target (boost::make_shared <mu::io::ast::expression> (mu::core::context (first.first, parser.context.last), values, names));
+	target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.first, parser.context.last), values, names));
 }
 
 void mu::io::parser::single::operator () (mu::io::tokens::stream_end * token)

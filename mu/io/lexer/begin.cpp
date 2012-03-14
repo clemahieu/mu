@@ -31,20 +31,20 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::complex_identifier (lexer)));
 		break;
 	case L';':
-		lexer.target (new mu::io::tokens::divider, mu::core::context (lexer.position, lexer.position));
+		lexer.target (new mu::io::tokens::divider, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L':':
 		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::control (lexer, lexer.position)));
 		break;
 	case L'[':
-		lexer.target (new mu::io::tokens::left_square, mu::core::context (lexer.position, lexer.position));
+		lexer.target (new mu::io::tokens::left_square, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L']':
-		lexer.target (new mu::io::tokens::right_square, mu::core::context (lexer.position, lexer.position));
+		lexer.target (new mu::io::tokens::right_square, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L'\uffff':
 		lexer.state.pop ();
-		lexer.target (new mu::io::tokens::stream_end, mu::core::context (lexer.position, lexer.position));
+		lexer.target (new mu::io::tokens::stream_end, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	default:
 		auto state (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::identifier (lexer, lexer.position)));

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 #include <mu/io/debugging/hash.h>
+#include <mu/io/debugging/node.h>
 
 #include <vector>
 
@@ -13,13 +14,10 @@ namespace mu
 		{
 			class expression;
 			class cluster;
-			class routine
+			class routine : public mu::io::debugging::node
 			{
-				mu::core::context context;
-				mu::io::debugging::hash hash;
-				wchar_t start [4];
-				mu::io::debugging::cluster * cluster;
-				mu::io::debugging::expression * body;
+			public:
+				boost::shared_ptr <mu::io::debugging::expression> body;
 			};
 		}
 	}

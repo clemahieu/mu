@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/position.h>
+#include <mu/io/debugging/context.h>
 #include <mu/io/lexer/state.h>
 
 #include <string>
@@ -24,8 +24,8 @@ namespace mu
 				bool have_end_token;
 				boost::circular_buffer <wchar_t> last_characters;
 				bool match ();
-				mu::core::position first;
-				mu::core::position last;
+				mu::io::debugging::position first;
+				mu::io::debugging::position last;
 				mu::io::lexer::lexer & lexer;
 			};
 		}

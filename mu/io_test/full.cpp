@@ -30,7 +30,7 @@ void mu::io_test::full::run_1 ()
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 16, 15, 1, 16, 15));
+	assert (e1->context == mu::io::debugging::context (1, 16, 15, 1, 16, 15));
 }
 
 void mu::io_test::full::run_2 ()
@@ -46,7 +46,7 @@ void mu::io_test::full::run_2 ()
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 17, 16, 1, 17, 16));
+	assert (e1->context == mu::io::debugging::context (1, 17, 16, 1, 17, 16));
 }
 
 void mu::io_test::full::run_3 ()
@@ -62,5 +62,5 @@ void mu::io_test::full::run_3 ()
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 24, 23, 1, 29, 28));
+	assert (e1->context == mu::io::debugging::context (1, 24, 23, 1, 29, 28));
 }

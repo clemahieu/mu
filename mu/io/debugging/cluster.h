@@ -1,12 +1,19 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 #include <mu/io/debugging/hash.h>
 
 #include <vector>
+#include <map>
+
+#include <boost/shared_ptr.hpp>
 
 namespace mu
 {
+	namespace core
+	{
+		class routine;
+	}
 	namespace io
 	{
 		namespace debugging
@@ -14,10 +21,11 @@ namespace mu
 			class routine;
 			class cluster
 			{
-				mu::core::context context;
+			public:
+				mu::io::debugging::context context;
 				mu::io::debugging::hash hash;
-				wchar_t start [4];
-				std::vector <mu::io::debugging::routine *> routines;
+				std::map <std::wstring, boost::shared_ptr <mu::io::debugging::routine>> names;
+				std::vector <boost::shared_ptr <mu::io::debugging::routine>> routines;
 			};
 		}
 	}

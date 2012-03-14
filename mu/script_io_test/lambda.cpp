@@ -53,7 +53,7 @@ void mu::script_io_test::lambda::run_3 ()
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 2, 1, 1, 9, 8));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 9, 8));
 }
 
 void mu::script_io_test::lambda::run_4 ()
@@ -66,7 +66,7 @@ void mu::script_io_test::lambda::run_4 ()
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::core::context (1, 2, 1, 1, 3, 2));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 3, 2));
 }
 
 void mu::script_io_test::lambda::run_5 ()

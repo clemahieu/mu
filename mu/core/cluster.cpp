@@ -1,4 +1,4 @@
-#include "cluster.h"
+#include <mu/core/cluster.h>
 
 std::wstring mu::core::cluster::name ()
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 #include <vector>
 
@@ -18,9 +18,9 @@ namespace mu
 		class lexer_result
 		{
 		public:
-			void operator () (mu::io::tokens::token *, mu::core::context context_a);
+			void operator () (mu::io::tokens::token *, mu::io::debugging::context context_a);
             void print (std::wostream & target);
-			std::vector <std::pair <mu::io::tokens::token *, mu::core::context>> results;
+			std::vector <std::pair <mu::io::tokens::token *, mu::io::debugging::context>> results;
 		};
 	}
 }

@@ -17,12 +17,12 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::parser::full::full (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::core::context first_a)
+mu::io::parser::full::full (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::io::debugging::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	full_name (new mu::io::ast::identifier (mu::core::context (), std::wstring ())),
+	full_name (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
 	first (first_a)
 {
 }
@@ -67,7 +67,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 	else
 	{
 		parser.state.pop ();
-		target (boost::make_shared <mu::io::ast::expression> (mu::core::context (first.first, parser.context.last), values, names, full_name));
+		target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.first, parser.context.last), values, names, full_name));
 	}
 }
 

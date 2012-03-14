@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
@@ -41,12 +41,12 @@ namespace mu
 				friend class mu::io::lexer::singleline_comment;
 				friend class mu::io::lexer::control;
 			public:
-				lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::core::context)> target_a);
+				lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
 				void operator () (wchar_t character);
 				void reset ();
-				mu::core::position position;
+				mu::io::debugging::position position;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
-				boost::function <void (mu::io::tokens::token *, mu::core::context)> target;
+				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
 				std::stack <boost::shared_ptr <mu::io::lexer::state>> state;
 			};
 		}

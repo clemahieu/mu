@@ -7,7 +7,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::core::position first_a)
+mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
 	: lookahead (false),
 	first (first_a),
 	last (first_a),
@@ -30,7 +30,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 				break;
 			default:
 				mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
-				lexer.target (identifier, mu::core::context (first, last));
+				lexer.target (identifier, mu::io::debugging::context (first, last));
 				lexer.state.pop ();
 				auto state (boost::make_shared <mu::io::lexer::control> (lexer, lookahead_first));
 				lexer.state.push (state);
@@ -55,7 +55,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 			case L'\uffff':
 				{
 					mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
-					lexer.target (identifier, mu::core::context (first, last));
+					lexer.target (identifier, mu::io::debugging::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
 					state->lex (character);

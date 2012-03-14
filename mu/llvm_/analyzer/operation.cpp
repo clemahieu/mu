@@ -218,10 +218,10 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 					context_a (L"Argument routines cannot have names");
 				}
 			}
-			mu::core::context context;
+			mu::io::debugging::context context;
 			if (cluster->expressions.size () > 0)
 			{
-				context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
+				context = mu::io::debugging::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
 			}
 			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}
@@ -237,10 +237,10 @@ void mu::llvm_::analyzer::operation::operator () (mu::script::context & context_
 				analyzer.input (*i);
 				++i;
 			}
-			mu::core::context context;
+			mu::io::debugging::context context;
 			if (cluster->expressions.size () > 0)
 			{
-				context = mu::core::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
+				context = mu::io::debugging::context (cluster->expressions [cluster->expressions.size () - 1]->context.last, cluster->expressions [cluster->expressions.size () - 1]->context.last);
 			}
 			analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 		}

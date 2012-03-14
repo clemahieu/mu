@@ -45,12 +45,12 @@ void mu::script_io::lambda::operator () (boost::shared_ptr <mu::core::errors::er
 			}
 			if (good)
 			{
-				analyzer.input (boost::make_shared <mu::io::ast::end> (mu::core::context (expression_a.expression_m->context.last, expression_a.expression_m->context.last)));
+				analyzer.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (expression_a.expression_m->context.last, expression_a.expression_m->context.last)));
 			}
 		}
 		else
 		{
-			(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"Lambda extension requires its argument to be an expression"), mu::core::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last)));
+			(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"Lambda extension requires its argument to be an expression"), mu::io::debugging::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last)));
 		}
 	}
 	else

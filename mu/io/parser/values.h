@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/io/debugging/context.h>
 #include <mu/io/tokens/visitor.h>
 
 #include <boost/function.hpp>
@@ -32,7 +32,7 @@ namespace mu
 				void subexpression (boost::shared_ptr <mu::io::ast::node> node_a);
 				std::vector <boost::shared_ptr <mu::io::ast::node>> values_m;
 				mu::io::parser::parser & parser;
-				mu::core::context first;
+				mu::io::debugging::context first;
 				boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target;
 			};
 		}

@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/core/node.h>
 
 #include <mu/core/visitor.h>
 

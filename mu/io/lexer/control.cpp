@@ -9,7 +9,7 @@
 #include <mu/io/lexer/hex_code.h>
 #include <mu/io/lexer/identifier.h>
 
-mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::core::position first_a)
+mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
 	: first (first_a),
 	lexer (lexer_a)
 {
@@ -22,7 +22,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 		switch (character)
 		{
 		case L'~':
-			lexer.target (new mu::io::tokens::parameters, mu::core::context (first, lexer.position));
+			lexer.target (new mu::io::tokens::parameters, mu::io::debugging::context (first, lexer.position));
 			lexer.state.pop ();
 			break;
 		case L'{':
