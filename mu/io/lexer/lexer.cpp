@@ -1,7 +1,7 @@
 #include <mu/io/lexer/lexer.h>
+
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/divider.h>
-
 #include <mu/io/lexer/state.h>
 #include <mu/io/lexer/begin.h>
 #include <mu/io/lexer/error.h>
@@ -10,11 +10,13 @@
 #include <mu/io/lexer/multiline_comment.h>
 #include <mu/io/lexer/singleline_comment.h>
 #include <mu/io/lexer/complex_identifier.h>
+#include <mu/io/lexer/error_target.h>
 
 #include <boost/circular_buffer.hpp>
+#include <boost/make_shared.hpp>
 
-mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function < void (mu::io::tokens::token *, mu::core::context)> target_a)
-	: errors (errors_a),
+mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::core::context)> target_a)
+	: errors (boost::make_shared <mu::io::lexer::error_target> (*this, errors_a)),
 	target (target_a)
 {
 	state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::begin (*this)));

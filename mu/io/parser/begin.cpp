@@ -55,6 +55,6 @@ void mu::io::parser::begin::operator () (mu::io::tokens::parameters * token)
 void mu::io::parser::begin::unexpected_token (mu::io::tokens::token * token)
 {
     std::wstring message (L"At top level, expecting signature or end of stream");
-	(*parser.errors) (message, parser.context);
+	(*parser.errors) (message);
     parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
 }

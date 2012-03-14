@@ -29,7 +29,7 @@ mu::io::parser::full::full (mu::io::parser::parser & parser_a, boost::function <
 
 void mu::io::parser::full::operator () (mu::io::tokens::divider * token)
 {
-	unexpected_token (token, parser.context);
+	unexpected_token (token);
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
@@ -45,14 +45,14 @@ void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
 		message << full_name;
 		message << L" current: ";
 		message << token->string;
-		(*parser.errors) (message.str (), parser.context);
+		(*parser.errors) (message.str ());
 		parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
 	}
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::left_square * token)
 {
-	unexpected_token (token, parser.context);
+	unexpected_token (token);
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
@@ -61,7 +61,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 	{
 		std::wstringstream message;
 		message << L"Expression has no full name";
-		(*parser.errors) (message.str (), parser.context);
+		(*parser.errors) (message.str ());
 		parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
 	}
 	else
@@ -73,19 +73,19 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 
 void mu::io::parser::full::operator () (mu::io::tokens::stream_end * token)
 {
-	unexpected_token (token, mu::core::context (first.first, parser.context.last));
+	unexpected_token (token);
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::parameters * token)
 {
-	unexpected_token (token, parser.context);
+	unexpected_token (token);
 }
 
-void mu::io::parser::full::unexpected_token (mu::io::tokens::token * token, mu::core::context context_a)
+void mu::io::parser::full::unexpected_token (mu::io::tokens::token * token)
 {
     std::wstringstream message;
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str (), context_a);
+	(*parser.errors) (message.str ());
     parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
 }

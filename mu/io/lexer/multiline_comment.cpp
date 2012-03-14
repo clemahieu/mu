@@ -45,7 +45,7 @@ void mu::io::lexer::multiline_comment::lex (wchar_t character)
 	}
 	else
 	{
-		(*lexer.errors) (L"End of stream inside multiline comment", mu::core::context (lexer.position, lexer.position));
+		(*lexer.errors) (L"End of stream inside multiline comment");
 		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
 	}
 }

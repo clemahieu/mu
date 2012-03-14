@@ -1,4 +1,4 @@
-#include "single.h"
+#include <mu/io/parser/single.h>
 
 #include <mu/io/tokens/divider.h>
 #include <mu/io/tokens/identifier.h>
@@ -37,7 +37,7 @@ void mu::io::parser::single::operator () (mu::io::tokens::identifier * token)
 
 void mu::io::parser::single::operator () (mu::io::tokens::left_square * token)
 {
-	unexpected_token (token, parser.context);
+	unexpected_token (token);
 }
 
 void mu::io::parser::single::operator () (mu::io::tokens::right_square * token)
@@ -48,19 +48,19 @@ void mu::io::parser::single::operator () (mu::io::tokens::right_square * token)
 
 void mu::io::parser::single::operator () (mu::io::tokens::stream_end * token)
 {
-	unexpected_token (token, mu::core::context (first.first, parser.context.last));
+	unexpected_token (token);
 }
 
 void mu::io::parser::single::operator () (mu::io::tokens::parameters * token)
 {
-	unexpected_token (token, parser.context);
+	unexpected_token (token);
 }
 
-void mu::io::parser::single::unexpected_token (mu::io::tokens::token * token, mu::core::context context_a)
+void mu::io::parser::single::unexpected_token (mu::io::tokens::token * token)
 {
     std::wstringstream message;
 	message << L"Unexpected token while parsing individual names: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str (), context_a);
+	(*parser.errors) (message.str ());
     parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
 }

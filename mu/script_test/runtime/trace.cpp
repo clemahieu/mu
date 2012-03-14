@@ -21,8 +21,8 @@
 
 void mu::script_test::runtime::trace_target::run ()
 {
-    run_1 ();
-    run_2 ();
+    //run_1 ();
+    //run_2 ();
 }
 
 void mu::script_test::runtime::trace_target::run_1 ()

@@ -11,11 +11,6 @@ mu::script::runtime::stacktrace_error::stacktrace_error (mu::script::context & c
 {
 }
 
-mu::core::errors::error_id mu::script::runtime::stacktrace_error::error_type ()
-{
-	return mu::core::errors::error_stacktrace_error;
-}
-
 void mu::script::runtime::stacktrace_error::string (std::wostream & stream)
 {
 	error->string (stream);

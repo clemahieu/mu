@@ -47,6 +47,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expres
 	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())
 	{
 		self->dependencies.push_back (expression.self);
+		self_info->dependencies.push_back (expression.self_info);
 	}
 	else
 	{

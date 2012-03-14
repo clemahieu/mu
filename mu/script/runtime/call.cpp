@@ -19,12 +19,6 @@ mu::script::runtime::call::call (size_t results_a)
 {
 }
 
-mu::script::runtime::call::call (size_t results_a, mu::core::context context_a)
-	: context (context_a),
-	results (results_a)
-{
-}
-
 void mu::script::runtime::call::operator () (mu::script::context & context_a, mu::script::runtime::frame & frame_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments_l;
@@ -41,7 +35,7 @@ void mu::script::runtime::call::operator () (mu::script::context & context_a, mu
             std::vector <boost::shared_ptr <mu::core::node>> segment (arguments_l.begin () + 1, arguments_l.end () + 0);
 			auto ctx (mu::script::context (context_a, segment, results_l));
             {
-                mu::script::runtime::trace trace (context_a, boost::make_shared <mu::script::debugging::source_info> (context));
+                //mu::script::runtime::trace trace (context_a, boost::make_shared <mu::script::debugging::source_info> (context));
                 (*operation) (ctx);
             }
 			std::vector <boost::shared_ptr <mu::core::node>> & target (frame_a.nodes [results]);

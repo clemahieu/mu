@@ -18,16 +18,10 @@ namespace mu
 	{
 		namespace errors
 		{
-			enum error_id
-			{
-				error_string_error,
-				error_stacktrace_error
-			};
 			class error
 			{
 			public:
                 virtual ~error ();
-				virtual error_id error_type () = 0;
 				virtual void string (std::wostream & stream) = 0;
 			};
 		}

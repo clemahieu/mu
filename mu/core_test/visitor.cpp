@@ -61,11 +61,11 @@ void mu::core_test::visitor::run_3 ()
 {
 	boost::shared_ptr <mu::core_test::test_visitor> vis (new mu::core_test::test_visitor);	
 	boost::shared_ptr <mu::core::visitor> visitor (vis);
-	mu::core::expression * expression (new mu::core::expression (mu::core::context ()));
+	mu::core::expression * expression (new mu::core::expression);
 	mu::core::parameters * parameters (new mu::core::parameters);
 	mu::core::node * node (new mu::core::node);
 	mu::core::reference * reference (new mu::core::reference (boost::shared_ptr <mu::core::expression> (), 0));
-	mu::core::routine * routine (new mu::core::routine (mu::core::context ()));
+	mu::core::routine * routine (new mu::core::routine);
 	(*expression) (visitor.get ());	
 	(*parameters) (visitor.get ());
 	(*node) (visitor.get ());

@@ -1,4 +1,4 @@
-#include "values.h"
+#include <mu/io/parser/values.h>
 
 #include <mu/io/parser/parser.h>
 #include <mu/io/ast/identifier.h>
@@ -46,7 +46,7 @@ void mu::io::parser::values::operator () (mu::io::tokens::right_square * token)
 
 void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)
 {
-	(*parser.errors) (L"Unexpected end of stream while parsing expression", mu::core::context (first.first, parser.context.last));
+	(*parser.errors) (L"Unexpected end of stream while parsing expression");
 	parser.state.push (boost::make_shared <mu::io::parser::error> ());
 }
 

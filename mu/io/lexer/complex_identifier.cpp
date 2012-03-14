@@ -64,7 +64,7 @@ void mu::io::lexer::complex_identifier::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of file while parsing complex identifier");
-		(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
+		(*lexer.errors) (message);
 		auto error (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
 		lexer.state.push (error);
 	}

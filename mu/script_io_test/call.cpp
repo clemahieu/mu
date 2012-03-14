@@ -24,7 +24,7 @@ void mu::script_io_test::call::run ()
 void mu::script_io_test::call::run_1 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1));
 	boost::shared_ptr <mu::core::node> node (new mu::core::node);
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
@@ -38,8 +38,8 @@ void mu::script_io_test::call::run_1 ()
 void mu::script_io_test::call::run_2 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
-	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1));
+	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression);
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());
 	mu::script_io::cluster cluster (boost::make_shared <mu::core::cluster> ());
@@ -53,8 +53,8 @@ void mu::script_io_test::call::run_2 ()
 void mu::script_io_test::call::run_3 ()
 {
 	std::map <boost::shared_ptr <mu::core::expression>, size_t> reservations;
-	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1, mu::core::context ()));
-	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression (mu::core::context ()));
+	boost::shared_ptr <mu::script::runtime::call> target (new mu::script::runtime::call (1));
+	boost::shared_ptr <mu::core::expression> parameters (new mu::core::expression);
 	reservations.insert (std::map <boost::shared_ptr <mu::core::expression>, size_t>::value_type (parameters, 0));
 	boost::shared_ptr <mu::core::reference> reference (new mu::core::reference (parameters, 0));
 	auto remapping (boost::make_shared <mu::script::cluster::node> ());

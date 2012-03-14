@@ -20,6 +20,7 @@ add_library (mu_io STATIC
 	ast/visitor.cpp
 	debugging/cluster.cpp
 	debugging/expression.cpp
+	debugging/error.cpp
 	debugging/hash.cpp
 	debugging/node.cpp
 	debugging/routine.cpp
@@ -28,6 +29,7 @@ add_library (mu_io STATIC
 	lexer/complex_identifier.cpp
 	lexer/control.cpp
 	lexer/error.cpp
+	lexer/error_target.cpp
 	lexer/hex_code.cpp
 	lexer/identifier.cpp
 	lexer/istream_input.cpp
@@ -39,6 +41,7 @@ add_library (mu_io STATIC
 	lexer/wistream_input.cpp
 	parser/begin.cpp
 	parser/error.cpp
+	parser/error_target.cpp
 	parser/finished.cpp
 	parser/full.cpp
 	parser/parser.cpp

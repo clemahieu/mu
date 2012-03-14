@@ -54,7 +54,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 		default:
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
-			(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
+			(*lexer.errors) (message);
 			lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
 			break;
 		}
@@ -62,7 +62,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 	else
 	{
 		std::wstring message (L"End of stream when parsing control character");
-		(*lexer.errors) (message, mu::core::context (lexer.position, lexer.position));
+		(*lexer.errors) (message);
 		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
 	}
 }

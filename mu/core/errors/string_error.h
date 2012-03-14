@@ -12,7 +12,6 @@ namespace mu
 			{
 			public:
 				string_error (std::wstring message_a);
-				error_id error_type () override;
 				void string (std::wostream & stream) override;
 				std::wstring message;
 			};

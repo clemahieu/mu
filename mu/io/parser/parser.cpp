@@ -5,13 +5,15 @@
 #include <mu/io/parser/error.h>
 #include <mu/io/parser/begin.h>
 #include <mu/io/parser/finished.h>
+#include <mu/io/parser/error_target.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 #include <map>
 
 mu::io::parser::parser::parser (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a)
-	: errors (errors_a),
+	: errors (boost::make_shared <mu::io::parser::error_target> (*this, errors_a)),
 	target (target_a)
 {
 	reset ();

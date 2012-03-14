@@ -31,7 +31,7 @@ namespace mu
 				void operator () (mu::io::tokens::right_square * token) override;
 				void operator () (mu::io::tokens::stream_end * token) override;
 				void operator () (mu::io::tokens::parameters * token) override;
-				void unexpected_token (mu::io::tokens::token * token, mu::core::context context_a);
+				void unexpected_token (mu::io::tokens::token * token);
 				mu::io::parser::parser & parser;
 				boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target;
 				std::vector <boost::shared_ptr <mu::io::ast::node>> values;
