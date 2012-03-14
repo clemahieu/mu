@@ -113,9 +113,7 @@ void mu::repl::repl::print_errors (boost::shared_ptr <mu::core::errors::error_li
 {
 	for (auto i (errors_a->errors.begin ()), j (errors_a->errors.end ()); i != j; ++i)
 	{
-		std::wcout << (*i).second.string ();
-		std::wcout << L' ';
-		(*i).first->string (std::wcout);
+		(*i)->string (std::wcout);
 		std::wcout << L"\n";
 	}
 

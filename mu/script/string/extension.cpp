@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/script/string/extension.h>
 
 #include <mu/io/analyzer/expression.h>
 #include <mu/io/analyzer/routine.h>
@@ -8,8 +8,12 @@
 #include <mu/io/ast/identifier.h>
 #include <mu/core/expression.h>
 #include <mu/script/string/node.h>
+#include <mu/io/debugging/error.h>
+#include <mu/core/errors/string_error.h>
 
 #include <sstream>
+
+#include <boost/make_shared.hpp>
 
 void mu::script::string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {	
@@ -24,11 +28,11 @@ void mu::script::string::extension::operator () (boost::shared_ptr <mu::core::er
 		}
 		else
 		{
-			(*errors_a) (L"String extension requires its argument to be an identifier", mu::core::context (expression_a.expression_m->values [data_position - 1]->context.first, expression_a.expression_m->values [data_position]->context.last));
+			(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"String extension requires its argument to be an identifier"), mu::core::context (expression_a.expression_m->values [data_position - 1]->context.first, expression_a.expression_m->values [data_position]->context.last)));
 		}
 	}
 	else
 	{
-		(*errors_a) (L"String extension requires one argument", expression_a.expression_m->values [data_position - 1]->context);
+		(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"String extension requires one argument"), expression_a.expression_m->values [data_position - 1]->context));
 	}
 }

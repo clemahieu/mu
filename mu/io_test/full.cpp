@@ -5,6 +5,7 @@
 #include <mu/io/parser/parser.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
+#include <mu/io/debugging/error.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
@@ -27,8 +28,9 @@ void mu::io_test::full::run_1 ()
 	source ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
-	auto e1 (errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 16, 15, 1, 16, 15));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 16, 15, 1, 16, 15));
 }
 
 void mu::io_test::full::run_2 ()
@@ -42,8 +44,9 @@ void mu::io_test::full::run_2 ()
 	source ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
-	auto e1 (errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 17, 16, 1, 17, 16));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 17, 16, 1, 17, 16));
 }
 
 void mu::io_test::full::run_3 ()
@@ -57,6 +60,7 @@ void mu::io_test::full::run_3 ()
 	source ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
-	auto e1 (errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 24, 23, 1, 29, 28));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 24, 23, 1, 29, 28));
 }

@@ -6,6 +6,7 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/source.h>
+#include <mu/io/debugging/error.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
@@ -27,6 +28,7 @@ void mu::io_test::routine::run_1 ()
 	source ();
 	assert (result.clusters.empty ());
 	assert (!errors->errors.empty ());
-	auto e1 (errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 2, 1, 1, 11, 10));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 2, 1, 1, 11, 10));
 }

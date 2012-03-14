@@ -6,9 +6,12 @@
 #include <mu/io/builder.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
+#include <mu/io/debugging/error.h>
+#include <mu/core/errors/string_error.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 #include <sstream>
 #include <fstream>
@@ -49,7 +52,7 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 			{
 				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 				{
-					context_a ((*i).first, (*i).second);
+					context_a (*i);
 				}
 			}
 		}

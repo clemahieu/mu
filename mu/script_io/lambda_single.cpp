@@ -29,12 +29,12 @@ void mu::script_io::lambda_single::operator () (boost::shared_ptr <mu::core::err
 		}
 		else
 		{
-			(*errors_a) (L"Lambda_single extension requires its argument to be an expression", mu::core::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last));
+			(*errors_a) (L"Lambda_single extension requires its argument to be an expression");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Lambda_single extension requires one argument", expression_a.expression_m->values [lambda_position - 1]->context);
+		(*errors_a) (L"Lambda_single extension requires one argument");
 	}
 }
 

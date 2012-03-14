@@ -1,4 +1,4 @@
-#include "lambda.h"
+#include <mu/script_io/lambda.h>
 
 #include <mu/io/analyzer/expression.h>
 #include <mu/io/ast/expression.h>
@@ -8,6 +8,8 @@
 #include <mu/core/expression.h>
 #include <mu/core/routine.h>
 #include <mu/io/ast/end.h>
+#include <mu/io/debugging/error.h>
+#include <mu/core/errors/string_error.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -48,12 +50,12 @@ void mu::script_io::lambda::operator () (boost::shared_ptr <mu::core::errors::er
 		}
 		else
 		{
-			(*errors_a) (L"Lambda extension requires its argument to be an expression", mu::core::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last));
+			(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"Lambda extension requires its argument to be an expression"), mu::core::context (expression_a.expression_m->values [lambda_position - 1]->context.first, expression_a.expression_m->values [lambda_position]->context.last)));
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Lambda extension requires one argument", expression_a.expression_m->values [lambda_position - 1]->context);
+		(*errors_a) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (L"Lambda extension requires one argument"), expression_a.expression_m->values [lambda_position - 1]->context));
 	}
 }
 

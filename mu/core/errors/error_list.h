@@ -16,8 +16,8 @@ namespace mu
 			class error_list : public mu::core::errors::error_target
 			{
 			public:
-				std::vector <std::pair <boost::shared_ptr <mu::core::errors::error>, mu::core::context>> errors;
-				void operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a) override;
+				std::vector <boost::shared_ptr <mu::core::errors::error>> errors;
+				void operator () (boost::shared_ptr <mu::core::errors::error> error) override;
 				bool operator () () override;
                 void print (std::wostream & target) override;
 			};

@@ -65,7 +65,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 		{
 			for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 			{
-				context_a ((*i).first, (*i).second);
+				context_a (*i);
 			}
 		}
 	}

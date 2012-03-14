@@ -1,9 +1,10 @@
-#include "lambda.h"
+#include <mu/script_io_test/lambda.h>
 
 #include <mu/script_io/builder.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/integer/node.h>
 #include <mu/script/cluster/node.h>
+#include <mu/io/debugging/error.h>
 
 #include <boost/bind.hpp>
 
@@ -50,8 +51,9 @@ void mu::script_io_test::lambda::run_3 ()
 	source ();
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());
-	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 2, 1, 1, 9, 8));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 2, 1, 1, 9, 8));
 }
 
 void mu::script_io_test::lambda::run_4 ()
@@ -62,8 +64,9 @@ void mu::script_io_test::lambda::run_4 ()
 	source ();
 	assert (builder.clusters.empty ());
 	assert (!builder.errors->errors.empty ());
-	auto e1 (builder.errors->errors [0]);
-	assert (e1.second == mu::core::context (1, 2, 1, 1, 3, 2));
+	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
+	assert (e1.get () != nullptr);
+	assert (e1->context == mu::core::context (1, 2, 1, 1, 3, 2));
 }
 
 void mu::script_io_test::lambda::run_5 ()

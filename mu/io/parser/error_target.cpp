@@ -11,9 +11,9 @@ mu::io::parser::error_target::error_target (mu::io::parser::parser & parser_a, b
 {
 }
 
-void mu::io::parser::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a)
+void mu::io::parser::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	(*target) (boost::make_shared <mu::io::debugging::error> (error, parser.context), parser.context);
+	(*target) (boost::make_shared <mu::io::debugging::error> (error, parser.context));
 }
 
 bool mu::io::parser::error_target::operator () ()

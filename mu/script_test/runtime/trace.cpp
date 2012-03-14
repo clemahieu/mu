@@ -45,7 +45,7 @@ void mu::script_test::runtime::trace_target::run_1 ()
 	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, errors);
 	(*routine) (ctx);
 	assert (!errors->errors.empty ());
-	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
+	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0]));
 	assert (error.get () != nullptr);
 	assert (error->stack.size () == 6);
 	auto e1 (boost::dynamic_pointer_cast <mu::script::debugging::source_info> (error->stack [0]));
@@ -90,7 +90,7 @@ void mu::script_test::runtime::trace_target::run_2 ()
 	ctx.errors = boost::make_shared <mu::script::runtime::trace_target> (ctx, errors);
 	(*routine) (ctx);
 	assert (!errors->errors.empty ());
-	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0].first));
+	auto error (boost::dynamic_pointer_cast <mu::script::runtime::stacktrace_error> (errors->errors [0]));
 	assert (error.get () != nullptr);
 	assert (error->stack.size () == 6);
 	auto e1 (boost::dynamic_pointer_cast <mu::script::debugging::source_info> (error->stack [0]));

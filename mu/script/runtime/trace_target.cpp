@@ -11,9 +11,9 @@ mu::script::runtime::trace_target::trace_target (mu::script::context & context_a
 {
 }
 
-void mu::script::runtime::trace_target::operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a)
+void mu::script::runtime::trace_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	(*target) (boost::make_shared <mu::script::runtime::stacktrace_error> (context, error), context_a);
+	(*target) (boost::make_shared <mu::script::runtime::stacktrace_error> (context, error));
 }
 
 bool mu::script::runtime::trace_target::operator () ()

@@ -8,6 +8,11 @@
 #include <mu/io/analyzer/resolver.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/core/routine.h>
+#include <mu/io/debugging/cluster.h>
+#include <mu/core/expression.h>
+#include <mu/io/ast/end.h>
+#include <mu/io/debugging/routine.h>
+#include <mu/io/debugging/error.h>
 
 #include <sstream>
 
@@ -69,7 +74,7 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 			std::wstringstream message;
 			message << L"Unresolved identifier: ";
 			message << i->first;
-			(*errors) (message.str (), i->second.second);
+			(*errors) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (message.str ()), i->second.second));
 		}
 	}
 }

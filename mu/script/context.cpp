@@ -16,14 +16,19 @@ mu::script::context::context (mu::script::context & context_a, std::vector <boos
 {
 }
 
-void mu::script::context::operator () (boost::shared_ptr <mu::core::errors::error> error, mu::core::context context_a)
+void mu::script::context::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	(*errors) (error, context_a);
+	(*errors) (error);
 }
 
 bool mu::script::context::operator () ()
 {
 	return (*errors) ();
+}
+
+void mu::script::context::print (std::wostream & target)
+{
+	errors->print (target);
 }
 
 void mu::script::context::operator () (std::wstring error)
@@ -34,9 +39,4 @@ void mu::script::context::operator () (std::wstring error)
 void mu::script::context::operator () (wchar_t const * error)
 {
 	(*errors) (error);
-}
-
-void mu::script::context::print (std::wostream & target)
-{
-	errors->print (target);
 }
