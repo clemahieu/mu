@@ -23,6 +23,7 @@ add_library (mu_io STATIC
 	debugging/expression.cpp
 	debugging/error.cpp
 	debugging/hash.cpp
+	debugging/mapping.cpp
 	debugging/node.cpp
 	debugging/position.cpp
 	debugging/routine.cpp

@@ -11,6 +11,13 @@
 
 namespace mu
 {
+	namespace io
+	{
+		namespace debugging
+		{
+			class cluster;
+		}
+	}
 	namespace script
 	{
 		namespace closure
@@ -41,7 +48,7 @@ namespace mu
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;
-			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
+			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::cluster> cluster_info_a);
 			std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
 		};
 	}

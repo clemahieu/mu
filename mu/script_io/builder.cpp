@@ -62,7 +62,7 @@
 
 mu::script_io::builder::builder ()
 	: errors (new mu::core::errors::error_list),
-	analyzer (boost::bind (&mu::script_io::builder::operator(), this, _1), errors, mu::script_io::extensions ()),
+	analyzer (boost::bind (&mu::script_io::builder::operator(), this, _1, _2), errors, mu::script_io::extensions ()),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
 {
@@ -70,13 +70,13 @@ mu::script_io::builder::builder ()
 
 mu::script_io::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: errors (new mu::core::errors::error_list),
-	analyzer (boost::bind (&mu::script_io::builder::operator(), this, _1), errors, extensions_a),
+	analyzer (boost::bind (&mu::script_io::builder::operator(), this, _1, _2), errors, extensions_a),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
 {
 }
 
-void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> cluster_a)
+void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::cluster> cluster_info_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;

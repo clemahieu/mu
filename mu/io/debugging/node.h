@@ -18,7 +18,7 @@ namespace mu
 			public:
 				virtual ~node ();
 				node ();
-				node (mu::io::debugging::context context_aa);
+				node (mu::io::debugging::context context_a);
 				mu::io::debugging::context context;
 			};
 		}
