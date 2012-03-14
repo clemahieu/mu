@@ -17,6 +17,7 @@
 #include <mu/io/debugging/node.h>
 #include <mu/io/debugging/cluster.h>
 #include <mu/io/debugging/routine.h>
+#include <mu/io/debugging/mapping.h>
 
 #include <boost/make_shared.hpp>
 
@@ -29,11 +30,14 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 {
 	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a.resolve_local (expression_a->full_name->string, self, boost::make_shared <mu::io::debugging::node> (expression_a->full_name->context));
+		routine_a.resolve_local (expression_a->full_name->string, self, self_info);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		routine_a.resolve_local (expression_a->individual_names [i]->string, boost::shared_ptr <mu::core::reference> (new mu::core::reference (self, i)), boost::make_shared <mu::io::debugging::node> (expression_a->individual_names [i]->context));
+		auto reference (boost::make_shared <mu::core::reference> (self, i));
+		auto reference_info (boost::make_shared <mu::io::debugging::node> (expression_a->individual_names [i]->context));
+		routine_a.analyzer.mapping->nodes [reference] = reference_info;
+		routine_a.resolve_local (expression_a->individual_names [i]->string, reference, reference_info);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
@@ -43,14 +47,18 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::parameters * parameters_a)
 {
-	self->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
-	self_info->dependencies.push_back (boost::make_shared <mu::io::debugging::node> (parameters_a->context));
+	auto parameters_l (boost::make_shared <mu::core::parameters> ());
+	self->dependencies.push_back (parameters_l);
+	auto parameters_info (boost::make_shared <mu::io::debugging::node> (parameters_a->context));
+	self_info->dependencies.push_back (parameters_info);
+	routine.analyzer.mapping->nodes [parameters_l] = parameters_info;
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expression_a)
 {
 	auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
 	auto expression_info (boost::make_shared <mu::io::debugging::expression> ());
+	routine.analyzer.mapping->nodes [expression_l] = expression_info;
 	expression_info->context = expression_a->context;
 	mu::io::analyzer::expression expression (routine, expression_a, expression_l, expression_info);
 	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())

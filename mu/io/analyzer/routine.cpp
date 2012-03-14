@@ -13,6 +13,7 @@
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/cluster.h>
 #include <mu/io/debugging/expression.h>
+#include <mu/io/debugging/mapping.h>
 
 #include <sstream>
 
@@ -23,6 +24,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	routine_m (new mu::core::routine),
 	routine_info (new mu::io::debugging::routine)
 {
+	analyzer_a.mapping->nodes [routine_m] = routine_info;
 	routine_info->context = expression_a->context;
 	if (expression_a->individual_names.empty ())
 	{
@@ -33,6 +35,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 		}
 		auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
 		auto expression_info (boost::make_shared <mu::io::debugging::expression> ());
+		analyzer_a.mapping->nodes [expression_l] = expression_info;
 		expression_info->context = expression_a->context;
 		mu::io::analyzer::expression expression (*this, expression_a, expression_l, expression_info);
 		routine_m->body = expression_l;

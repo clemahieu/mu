@@ -27,6 +27,7 @@ namespace mu
 		}
 		namespace debugging
 		{
+			class mapping;
 			class cluster;
 			class node;
 			class routine;
@@ -42,8 +43,8 @@ namespace mu
 			class analyzer : public mu::io::ast::visitor
 			{
 			public:
-				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a);
-				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
+				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a);
+				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 				void input (boost::shared_ptr <mu::io::ast::node> node_a);
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
@@ -53,12 +54,13 @@ namespace mu
 				void back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, boost::shared_ptr <mu::io::debugging::node> node_info_a);
 				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::io::debugging::routine> routine_info_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
-				boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::cluster>)> target;
+				boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target;
 				std::multimap <std::wstring, boost::shared_ptr <mu::io::debugging::node>> used_names;
 				std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>> unresolved;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
 				boost::shared_ptr <mu::core::cluster> cluster;
 				boost::shared_ptr <mu::io::debugging::cluster> cluster_info;
+				boost::shared_ptr <mu::io::debugging::mapping> mapping;
 			};
 		}
 	}

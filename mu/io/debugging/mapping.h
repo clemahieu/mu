@@ -17,6 +17,7 @@ namespace mu
 			class node;
 			class mapping
 			{
+			public:
 				std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>> nodes;
 			};
 		}

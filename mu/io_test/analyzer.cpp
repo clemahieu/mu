@@ -14,6 +14,7 @@
 #include <mu/io/debugging/cluster.h>
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/expression.h>
+#include <mu/io/debugging/mapping.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -52,8 +53,10 @@ void mu::io_test::analyzer::run_1 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	assert (result.errors->errors.empty ());
-	assert (result.cluster_infos.size () == 1);
-	auto cluster_info (result.cluster_infos [0]);
+	assert (result.mappings.size () == 1);
+	assert (result.mappings [0]->nodes.find (cluster) != result.mappings [0]->nodes.end ());
+	auto cluster_info (boost::dynamic_pointer_cast <mu::io::debugging::cluster> (result.mappings [0]->nodes.find (cluster)->second));
+	assert (cluster_info.get () != nullptr);
 	assert (cluster_info->context == mu::io::debugging::context (1, 1, 0, 1, 3, 2));
 	assert (cluster_info->routines.size () == 1);
 	auto routine_info (cluster_info->routines [0]);
@@ -112,8 +115,10 @@ void mu::io_test::analyzer::run_4 ()
 	auto parameters (boost::dynamic_pointer_cast <mu::core::expression> (body->dependencies [0]));
 	assert (parameters.get () != nullptr);
 	assert (parameters->dependencies.empty ());
-	assert (result.cluster_infos.size () == 1);
-	auto cluster_info (result.cluster_infos [0]);
+	assert (result.mappings.size () == 1);
+	assert (result.mappings [0]->nodes.find (cluster) != result.mappings [0]->nodes.end ());
+	auto cluster_info (boost::dynamic_pointer_cast <mu::io::debugging::cluster> (result.mappings [0]->nodes.find (cluster)->second));
+	assert (cluster_info.get () != nullptr);
 	assert (cluster_info->context == mu::io::debugging::context (1, 1, 0, 1, 9, 8));
 	assert (cluster_info->routines.size () == 1);
 	auto routine_info (cluster_info->routines [0]);
@@ -123,7 +128,7 @@ void mu::io_test::analyzer::run_4 ()
 	assert (body_info->dependencies.size () == 1);
 	auto d1 (boost::dynamic_pointer_cast <mu::io::debugging::node> (body_info->dependencies [0]));
 	assert (d1.get () != nullptr);
-	assert (d1->context == mu::io::debugging::context (1, 5, 4, 1, 5, 4));
+	assert (d1->context == mu::io::debugging::context (1, 2, 1, 1, 6, 5));
 }
 
 // Test local name reference

@@ -76,7 +76,7 @@ mu::script_io::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions
 {
 }
 
-void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::cluster> cluster_info_a)
+void mu::script_io::builder::operator () (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> mapping_a)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> arguments;
 	std::vector <boost::shared_ptr <mu::core::node>> results;
