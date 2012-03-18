@@ -2,13 +2,12 @@
 
 namespace mu
 {
-	namespace script_io_test
+	namespace script_runtime_test
 	{
-		class routine
+		class tests
 		{
 		public:
 			void run ();
-			void run_1 ();
-		};
+		}
 	}
 }

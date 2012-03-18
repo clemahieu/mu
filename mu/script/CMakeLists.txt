@@ -9,8 +9,6 @@ endif ()
 
 add_library (mu_script STATIC
 	check.cpp
-	context.cpp
-	operation.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp
 	ast/merge.cpp
@@ -59,17 +57,6 @@ add_library (mu_script STATIC
 	package/remove.cpp
 	print/operation.cpp
 	run/operation.cpp
-	runtime/call.cpp
-	runtime/constant.cpp
-	runtime/expression.cpp
-	runtime/frame.cpp
-	runtime/node.cpp
-	runtime/parameters.cpp
-	runtime/reference.cpp
-	runtime/routine.cpp
-	runtime/stacktrace_error.cpp
-	runtime/trace.cpp
-	runtime/trace_target.cpp
 	string/extension.cpp
 	string/node.cpp
 	times/operation.cpp

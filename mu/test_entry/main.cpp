@@ -1,9 +1,9 @@
+#include <mu/core_test/tests.h>
+#include <mu/io_test/tests.h>
+#include <mu/script_runtime_test/tests.h>
 #include <mu/llvm_test/tests.h>
 #include <mu/repl_test/tests.h>
-#include <mu/io_test/tests.h>
-#include <mu/core_test/tests.h>
 #include <mu/script_test/tests.h>
-#include <mu/script_io_test/tests.h>
 
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
@@ -23,21 +23,21 @@ int main ()
 		test.run ();
 	}
 	{
-		mu::script_test::tests test;
+		mu::script_runtime_test::tests test;
 		test.run ();
 	}
-	{
-		mu::script_io_test::tests test;
-		test.run ();
-	}
-	{
-		mu::llvm_test::tests test;
-		test.run ();
-	}
-	{
-		mu::repl_test::tests test;
-		test.run ();
-	}
+	//{
+	//	mu::script_test::tests test;
+	//	test.run ();
+	//}
+	//{
+	//	mu::llvm_test::tests test;
+	//	test.run ();
+	//}
+	//{
+	//	mu::repl_test::tests test;
+	//	test.run ();
+	//}
 
 	for (size_t i (0); i < 1000; ++i)
 	{

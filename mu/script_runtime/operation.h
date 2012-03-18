@@ -6,13 +6,13 @@
 
 namespace mu
 {
-	namespace script
+	namespace script_runtime
 	{
         class context;
 		class operation : public mu::core::node
 		{
 		public:
-			virtual void operator () (mu::script::context & context_a) = 0;
+			virtual bool operator () (mu::script_runtime::context & context_a) = 0;
 		};
 	}
 }
