@@ -10,6 +10,8 @@ mu::script_runtime::context::context ()
 	base_begin (0),
 	base_end (0)
 {
+	push (boost::make_shared <mu::core::node> ());
+	enter ();
 }
 
 bool mu::script_runtime::context::operator () ()
@@ -20,9 +22,9 @@ bool mu::script_runtime::context::operator () ()
 		auto operation (boost::dynamic_pointer_cast <mu::script_runtime::operation> (working (0)));
 		if (operation.get () != nullptr)
 		{
-			shuffle ();
+			enter ();
 			result = (*operation) (*this);
-			unshuffle ();
+			leave ();
 		}
 		else
 		{
@@ -47,7 +49,7 @@ boost::shared_ptr <mu::core::node> mu::script_runtime::context::parameters (size
 
 size_t mu::script_runtime::context::parameters_size ()
 {
-	auto result (working_begin - base_end);
+	auto result (base_end - base_begin - 2);
 	assert (result < 32000);
 	return result;
 }
@@ -62,7 +64,7 @@ boost::shared_ptr <mu::core::node> mu::script_runtime::context::locals (size_t o
 
 size_t mu::script_runtime::context::locals_size ()
 {
-	auto result (base_end - base_begin);
+	auto result (working_begin - base_end);
 	assert (result < 32000);
 	return result;
 }
@@ -93,21 +95,22 @@ void mu::script_runtime::context::push (boost::shared_ptr <mu::core::node> node_
 	stack.push_back (node_a);
 }
 
-void mu::script_runtime::context::shuffle ()
+void mu::script_runtime::context::enter ()
 {
+	assert (stack.size () - working_begin > 0);
 	push (boost::make_shared <mu::script_runtime::location> (base_begin));
 	push (boost::make_shared <mu::script_runtime::location> (base_end));
 	base_begin = working_begin + 1;
-	base_end = stack.size () - 2;
+	base_end = stack.size ();
 	working_begin = stack.size ();
 }
 
-void mu::script_runtime::context::unshuffle ()
+void mu::script_runtime::context::leave ()
 {
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [base_end]).get () != nullptr);
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [base_end + 1]).get () != nullptr);
-	push (stack [base_end]);
-	push (stack [base_end + 1]);
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [base_end - 2]).get () != nullptr);
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [base_end - 1]).get () != nullptr);
+	push (stack [base_end - 2]);
+	push (stack [base_end - 1]);
 	base_begin = base_begin - 1;
 	base_end = base_begin;
 	while (working_begin != stack.size ())
@@ -122,4 +125,9 @@ void mu::script_runtime::context::unshuffle ()
 	base_begin = boost::static_pointer_cast <mu::script_runtime::location> (stack [working_begin])->position;
 	base_end = boost::static_pointer_cast <mu::script_runtime::location> (stack [working_begin + 1])->position;
 	drop ();
+}
+
+void mu::script_runtime::context::slide ()
+{
+	working_begin = stack.size ();
 }
