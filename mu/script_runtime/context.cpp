@@ -41,7 +41,7 @@ bool mu::script_runtime::context::operator () ()
 
 boost::shared_ptr <mu::core::node> mu::script_runtime::context::parameters (size_t offset)
 {
-	assert (base_begin + offset < base_end);
+	assert (offset < parameters_size ());
 	auto result (stack [base_begin + offset]);
 	assert (result.get () != nullptr);
 	return result;
@@ -56,7 +56,7 @@ size_t mu::script_runtime::context::parameters_size ()
 
 boost::shared_ptr <mu::core::node> mu::script_runtime::context::locals (size_t offset)
 {
-	assert (offset + base_end < working_begin);
+	assert (offset < locals_size ());
 	auto result (stack [base_end + offset]);
 	assert (result.get () != nullptr);
 	return result;
@@ -71,7 +71,7 @@ size_t mu::script_runtime::context::locals_size ()
 
 boost::shared_ptr <mu::core::node> mu::script_runtime::context::working (size_t offset)
 {
-	assert (working_begin + offset < stack.size ());
+	assert (offset < working_size ());
 	auto result (stack [working_begin + offset]);
 	assert (result.get () != nullptr);
 	return result;
