@@ -8,6 +8,6 @@ namespace mu
 		{
 		public:
 			void run ();
-		}
+		};
 	}
 }

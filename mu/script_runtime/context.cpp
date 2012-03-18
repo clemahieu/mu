@@ -6,6 +6,9 @@
 #include <boost/make_shared.hpp>
 
 mu::script_runtime::context::context ()
+	: working_begin (0),
+	base_begin (0),
+	base_end (0)
 {
 }
 
