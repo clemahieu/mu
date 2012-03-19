@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/script/integer/extension.h>
 
 #include <mu/io/analyzer/expression.h>
 #include <mu/io/analyzer/routine.h>

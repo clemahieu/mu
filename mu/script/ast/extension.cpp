@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/script/ast/extension.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>

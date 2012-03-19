@@ -1,21 +1,21 @@
-#include "get_recursive.h"
+#include <mu/script/package/get_recursive.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
 #include <mu/script/package/get.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
 #include <sstream>
 
-void mu::script::package::get_recursive::operator () (mu::script::context & context_a)
+bool mu::script::package::get_recursive::operator () (mu::script_runtime::context & context_a)
 {
-	if (context_a.parameters.size () > 0)
+	if (context_a.parameters_size () > 0)
 	{
-		auto node (context_a.parameters [0]);
+		auto node (context_a.parameters (0));
 		bool good (true);
-		auto i (context_a.parameters.begin () + 1);
-		auto j (context_a.parameters.end ());
+		auto i (context_a.parameters_begin () + 1);
+		auto j (context_a.parameters_end ());
 		for (; i != j && good; ++i)
 		{
 			mu::script::package::get get;

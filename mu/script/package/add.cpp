@@ -9,8 +9,8 @@
 
 bool mu::script::package::add::operator () (mu::script_runtime::context & context_a)
 {
-	bool result (true);
-	if (mu::script::check <mu::script::package::node, mu::script::string::node, mu::core::node> () (context_a))
+	bool result (mu::script::check <mu::script::package::node, mu::script::string::node, mu::core::node> () (context_a));
+	if (result)
 	{
 		auto one (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (0)));
 		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
@@ -28,6 +28,7 @@ bool mu::script::package::add::operator () (mu::script_runtime::context & contex
 			result = false;
 		}
 	}
+	return result;
 }
 
 std::wstring mu::script::package::add::name ()
