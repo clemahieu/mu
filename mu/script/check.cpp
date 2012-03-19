@@ -5,7 +5,7 @@
 
 bool mu::script::check_count (mu::script::context & context_a, size_t expected)
 {
-	bool result (context_a.parameters.size () == expected);
+	bool result (context_a.parameters_size () == expected);
 	if (!result)
 	{
 		std::wstringstream message;

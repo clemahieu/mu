@@ -6,7 +6,7 @@
 #include <boost/make_shared.hpp>
 
 mu::script_runtime::context::context ()
-	: working_begin (0),
+	: frame_begin (0),
 	base_begin (0),
 	base_end (0)
 {
@@ -64,7 +64,7 @@ boost::shared_ptr <mu::core::node> mu::script_runtime::context::locals (size_t o
 
 size_t mu::script_runtime::context::locals_size ()
 {
-	auto result (working_begin - base_end);
+	auto result (frame_begin - base_end);
 	assert (result < 32000);
 	return result;
 }
@@ -72,22 +72,22 @@ size_t mu::script_runtime::context::locals_size ()
 boost::shared_ptr <mu::core::node> mu::script_runtime::context::working (size_t offset)
 {
 	assert (offset < working_size ());
-	auto result (stack [working_begin + offset]);
+	auto result (stack [frame_begin + offset]);
 	assert (result.get () != nullptr);
 	return result;
 }
 
 size_t mu::script_runtime::context::working_size ()
 {
-	auto result (stack.size () - working_begin);
+	auto result (stack.size () - frame_begin);
 	assert (result < 32000);
 	return result;
 }
 
 void mu::script_runtime::context::drop ()
 {
-	assert (working_begin <= stack.size ());
-	stack.resize (working_begin);
+	assert (frame_begin <= stack.size ());
+	stack.resize (frame_begin);
 }
 
 void mu::script_runtime::context::push (boost::shared_ptr <mu::core::node> node_a)
@@ -97,12 +97,12 @@ void mu::script_runtime::context::push (boost::shared_ptr <mu::core::node> node_
 
 void mu::script_runtime::context::enter ()
 {
-	assert (stack.size () - working_begin > 0);
+	assert (stack.size () - frame_begin > 0);
 	push (boost::make_shared <mu::script_runtime::location> (base_begin));
 	push (boost::make_shared <mu::script_runtime::location> (base_end));
-	base_begin = working_begin + 1;
+	base_begin = frame_begin + 1;
 	base_end = stack.size ();
-	working_begin = stack.size ();
+	frame_begin = stack.size ();
 }
 
 void mu::script_runtime::context::leave ()
@@ -113,21 +113,57 @@ void mu::script_runtime::context::leave ()
 	push (stack [base_end - 1]);
 	base_begin = base_begin - 1;
 	base_end = base_begin;
-	while (working_begin != stack.size ())
+	while (frame_begin != stack.size ())
 	{
-		stack [base_end] = stack [working_begin];
+		stack [base_end] = stack [frame_begin];
 		++base_end;
-		++working_begin;
+		++frame_begin;
 	}
-	working_begin = base_end - 2;
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [working_begin]).get () != nullptr);
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [working_begin + 1]).get () != nullptr);
-	base_begin = boost::static_pointer_cast <mu::script_runtime::location> (stack [working_begin])->position;
-	base_end = boost::static_pointer_cast <mu::script_runtime::location> (stack [working_begin + 1])->position;
+	frame_begin = base_end - 2;
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [frame_begin]).get () != nullptr);
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [frame_begin + 1]).get () != nullptr);
+	base_begin = boost::static_pointer_cast <mu::script_runtime::location> (stack [frame_begin])->position;
+	base_end = boost::static_pointer_cast <mu::script_runtime::location> (stack [frame_begin + 1])->position;
 	drop ();
 }
 
 void mu::script_runtime::context::slide ()
 {
-	working_begin = stack.size ();
+	frame_begin = stack.size ();
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::parameters_begin ()
+{
+	mu::script_runtime::iterator result (stack, base_begin);
+	return result;
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::parameters_end ()
+{
+	mu::script_runtime::iterator result (stack, base_end - 2);
+	return result;
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::locals_begin ()
+{
+	mu::script_runtime::iterator result (stack, base_end);
+	return result;
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::locals_end ()
+{
+	mu::script_runtime::iterator result (stack, frame_begin);
+	return result;
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::working_begin ()
+{
+	mu::script_runtime::iterator result (stack, frame_begin);
+	return result;
+}
+
+mu::script_runtime::iterator mu::script_runtime::context::working_end ()
+{
+	mu::script_runtime::iterator result (stack, stack.size ());
+	return result;
 }

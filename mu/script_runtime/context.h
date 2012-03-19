@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/script_runtime/iterator.h>
+
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
@@ -18,10 +20,16 @@ namespace mu
 			context ();
 			boost::shared_ptr <mu::core::node> parameters (size_t offset);
 			size_t parameters_size ();
+			mu::script_runtime::iterator parameters_begin ();
+			mu::script_runtime::iterator parameters_end ();
 			boost::shared_ptr <mu::core::node> locals (size_t offset);
 			size_t locals_size ();
+			mu::script_runtime::iterator locals_begin ();
+			mu::script_runtime::iterator locals_end ();
 			boost::shared_ptr <mu::core::node> working (size_t offset);
 			size_t working_size ();
+			mu::script_runtime::iterator working_begin ();
+			mu::script_runtime::iterator working_end ();
 			void enter ();
 			void leave ();
 			void drop ();
@@ -31,7 +39,7 @@ namespace mu
 			std::vector <boost::shared_ptr <mu::core::node>> stack;
 			size_t base_begin;
 			size_t base_end;
-			size_t working_begin;
+			size_t frame_begin;
 		};
 	}
 }

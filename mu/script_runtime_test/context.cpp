@@ -20,12 +20,15 @@ void mu::script_runtime_test::context::run_1 ()
 {
 	mu::script_runtime::context context;
 	assert (context.stack.size () == 3);
-	assert (context.working_begin == 3);
+	assert (context.frame_begin == 3);
 	assert (context.base_begin == 1);
 	assert (context.base_end == 3);
 	assert (context.locals_size () == 0);
 	assert (context.parameters_size () == 0);
 	assert (context.working_size () == 0);
+	assert (context.locals_begin () == context.locals_end ());
+	assert (context.parameters_begin () == context.parameters_end ());
+	assert (context.working_begin () == context.working_end ());
 }
 
 void mu::script_runtime_test::context::run_2 ()
@@ -34,13 +37,17 @@ void mu::script_runtime_test::context::run_2 ()
 	auto working1 (boost::make_shared <mu::core::node> ());
 	context.push (working1);
 	assert (context.stack.size () == 4);
-	assert (context.working_begin == 3);
+	assert (context.frame_begin == 3);
 	assert (context.base_begin == 1);
 	assert (context.base_end == 3);
 	assert (context.locals_size () == 0);
 	assert (context.parameters_size () == 0);
 	assert (context.working_size () == 1);
 	assert (context.working (0) == working1);
+	assert (context.working_begin () != context.working_end ());
+	assert (++context.working_begin () == context.working_end ());
+	assert (--++context.working_begin () != context.working_end ());
+	assert (++--++context.working_begin () == context.working_end ());
 }
 
 void mu::script_runtime_test::context::run_3 ()
@@ -49,7 +56,7 @@ void mu::script_runtime_test::context::run_3 ()
 	context.push (boost::make_shared <mu::core::node> ());
 	context.drop ();
 	assert (context.stack.size () == 3);
-	assert (context.working_begin == 3);
+	assert (context.frame_begin == 3);
 	assert (context.base_begin == 1);
 	assert (context.base_end == 3);
 	assert (context.locals_size () == 0);
@@ -64,13 +71,15 @@ void mu::script_runtime_test::context::run_4 ()
 	context.push (local1);
 	context.slide ();
 	assert (context.stack.size () == 4);
-	assert (context.working_begin == 4);
+	assert (context.frame_begin == 4);
 	assert (context.base_begin == 1);
 	assert (context.base_end == 3);
 	assert (context.locals_size () == 1);
 	assert (context.parameters_size () == 0);
 	assert (context.working_size () == 0);
 	assert (context.locals (0) == local1);
+	assert (context.locals_begin () != context.locals_end ());
+	assert (++context.locals_begin () == context.locals_end ());
 }
 
 void mu::script_runtime_test::context::run_5 ()
@@ -79,7 +88,7 @@ void mu::script_runtime_test::context::run_5 ()
 	context.push (boost::make_shared <mu::core::node> ());
 	context.enter ();
 	assert (context.stack.size () == 6);
-	assert (context.working_begin == 6);
+	assert (context.frame_begin == 6);
 	assert (context.base_begin == 4);
 	assert (context.base_end == 6);
 	assert (context.locals_size () == 0);
@@ -94,7 +103,7 @@ void mu::script_runtime_test::context::run_6 ()
 	context.enter ();
 	context.leave ();
 	assert (context.stack.size () == 3);
-	assert (context.working_begin == 3);
+	assert (context.frame_begin == 3);
 	assert (context.base_begin == 1);
 	assert (context.base_end == 3);
 	assert (context.locals_size () == 0);
@@ -110,11 +119,13 @@ void mu::script_runtime_test::context::run_7 ()
 	context.push (arg1);
 	context.enter ();
 	assert (context.stack.size () == 7);
-	assert (context.working_begin == 7);
+	assert (context.frame_begin == 7);
 	assert (context.base_begin == 4);
 	assert (context.base_end == 7);
 	assert (context.locals_size () == 0);
 	assert (context.parameters_size () == 1);
 	assert (context.working_size () == 0);
 	assert (context.parameters (0) == arg1);
+	assert (context.parameters_begin () != context.parameters_end ());
+	assert (++context.parameters_begin () == context.parameters_end ());
 }

@@ -1,4 +1,4 @@
-#include "apply.h"
+#include <mu/script/closure/apply.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/closure/operation.h>
@@ -9,15 +9,15 @@
 
 void mu::script::closure::apply::operator () (mu::script::context & context_a)
 {
-	if (context_a.parameters.size () > 0)
+	if (context_a.parameters_size () > 0)
 	{
-		auto operation (boost::dynamic_pointer_cast <mu::script::closure::operation> (context_a.parameters [0]));
+		auto operation (boost::dynamic_pointer_cast <mu::script::closure::operation> (context_a.parameters (0)));
 		if (operation.get () != nullptr)
 		{			
 			std::vector <size_t> open_l;
 			for (size_t position (1), end (context_a.parameters.size ()); position != end; ++position)
 			{
-				auto val (context_a.parameters [position]);
+				auto val (context_a.parameters (position));
 				auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
 				if (hole.get () == nullptr)
 				{

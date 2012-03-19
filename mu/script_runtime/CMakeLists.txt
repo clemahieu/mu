@@ -4,4 +4,5 @@ project (script_runtime)
 add_library (mu_script_runtime STATIC
 	context.cpp
 	location.cpp
-	operation.cpp)
+	operation.cpp
+	iterator.cpp)
