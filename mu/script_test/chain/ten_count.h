@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/operation.h>
+#include <mu/script_runtime/operation.h>
 
 namespace mu
 {
@@ -8,11 +8,11 @@ namespace mu
 	{
 		namespace chain
 		{
-			class ten_count : public mu::script::operation
+			class ten_count : public mu::script_runtime::operation
 			{
 			public:
 				ten_count ();
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script_runtime::context & context_a) override;
 				size_t count_m;
 			};
 		}

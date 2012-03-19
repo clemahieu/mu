@@ -1,11 +1,11 @@
-#include "operation.h"
+#include <mu/script_test/analyzer/operation.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/analyzer/operation.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -16,12 +16,9 @@ void mu::script_test::analyzer::operation::run ()
 
 void mu::script_test::analyzer::operation::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script_runtime::context ctx (errors);
 	mu::script::analyzer::operation analyzer;
-    std::vector <boost::shared_ptr <mu::core::node>> a1;
-    std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-	auto ctx (mu::script::context (errors, a1, r1, stack));
 	auto cluster (analyzer.core (ctx, boost::make_shared <mu::script::extensions::node> (), boost::make_shared <mu::io::ast::cluster> ()));
 	assert (cluster.get () != nullptr);
 }
