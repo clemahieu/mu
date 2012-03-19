@@ -14,6 +14,7 @@ void mu::script_runtime_test::context::run ()
 	run_5 ();
 	run_6 ();
 	run_7 ();
+	run_8 ();
 }
 
 void mu::script_runtime_test::context::run_1 ()
@@ -128,4 +129,20 @@ void mu::script_runtime_test::context::run_7 ()
 	assert (context.parameters (0) == arg1);
 	assert (context.parameters_begin () != context.parameters_end ());
 	assert (++context.parameters_begin () == context.parameters_end ());
+}
+
+void mu::script_runtime_test::context::run_8 ()
+{
+	mu::script_runtime::context context;
+	context.push (boost::make_shared <mu::core::node> ());
+	auto arg1 (boost::make_shared <mu::core::node> ());
+	context.push (arg1);
+	context.enter ();
+	auto res1 (boost::make_shared <mu::core::node> ());
+	context.push (res1);
+	assert (context.working_size () == 1);
+	assert (*context.working_begin () == res1);
+	context.leave ();
+	assert (context.working_size () == 1);
+	assert (*context.working_begin () == res1);
 }

@@ -2,13 +2,14 @@
 
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 #include <mu/script/check.h>
 
 #include <sstream>
 
-void mu::script::package::add::operator () (mu::script::context & context_a)
+bool mu::script::package::add::operator () (mu::script_runtime::context & context_a)
 {
+	bool result (true);
 	if (mu::script::check <mu::script::package::node, mu::script::string::node, mu::core::node> () (context_a))
 	{
 		auto one (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (0)));
@@ -23,7 +24,8 @@ void mu::script::package::add::operator () (mu::script::context & context_a)
 			std::wstringstream message;
 			message << L"Package already has an item named: ";
 			message << two->string;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
 }

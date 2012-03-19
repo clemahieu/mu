@@ -1,9 +1,9 @@
-#include "operation.h"
+#include <mu/script/closure/operation.h>
 
 #include <mu/script/closure/hole.h>
 #include <mu/script/check.h>
 
-mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a)
+mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script_runtime::operation> operation_a)
 	: operation_m (operation_a),
     open (count_a),
 	closed (count_a)
@@ -14,21 +14,22 @@ mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu
 	}
 }
 
-mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
+mu::script::closure::operation::operation (boost::shared_ptr <mu::script_runtime::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
 	: operation_m (operation_a),
 	open (open_a),
     closed (closed_a)
 {
 }
 
-void mu::script::closure::operation::operator () (mu::script::context & context_a)
+bool mu::script::closure::operation::operator () (mu::script_runtime::context & context_a)
 {
+	bool result (true);
 	if (mu::script::check_count (context_a, open.size ()))
 	{
 		std::vector <size_t> open_l;
-		for (size_t position (0), end (context_a.parameters.size ()); position != end; ++position)
+		for (size_t position (0), end (context_a.parameters_size ()); position != end; ++position)
 		{
-			auto val (context_a.parameters [position]);
+			auto val (context_a.parameters (position));
 			auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
 			if (hole.get () == nullptr)
 			{
@@ -41,14 +42,15 @@ void mu::script::closure::operation::operator () (mu::script::context & context_
 		}
 		if (open_l.size () != 0)
 		{
-			context_a.results.push_back (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
+			context_a.push (boost::shared_ptr <mu::script::closure::operation> (new mu::script::closure::operation (operation_m, open_l, closed)));
 		}
 		else
 		{
-			auto ctx (mu::script::context (context_a, closed, context_a.results));
-			(*operation_m) (ctx);
+			context_a.push (operation_m);
+			context_a ();
 		}
 	}
+	return result;
 }
 
 std::wstring mu::script::closure::operation::name ()

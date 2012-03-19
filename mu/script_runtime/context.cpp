@@ -1,5 +1,6 @@
 #include <mu/script_runtime/context.h>
 
+#include <mu/core/errors/null.h>
 #include <mu/script_runtime/operation.h>
 #include <mu/script_runtime/location.h>
 
@@ -8,7 +9,18 @@
 mu::script_runtime::context::context ()
 	: frame_begin (0),
 	base_begin (0),
-	base_end (0)
+	base_end (0),
+	errors (boost::make_shared <mu::core::errors::null> ())
+{
+	push (boost::make_shared <mu::core::node> ());
+	enter ();
+}
+
+mu::script_runtime::context::context (mu::core::errors::errors errors_a)
+	: frame_begin (0),
+	base_begin (0),
+	base_end (0),
+	errors (errors_a)
 {
 	push (boost::make_shared <mu::core::node> ());
 	enter ();
@@ -119,12 +131,13 @@ void mu::script_runtime::context::leave ()
 		++base_end;
 		++frame_begin;
 	}
-	frame_begin = base_end - 2;
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [frame_begin]).get () != nullptr);
-	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [frame_begin + 1]).get () != nullptr);
-	base_begin = boost::static_pointer_cast <mu::script_runtime::location> (stack [frame_begin])->position;
-	base_end = boost::static_pointer_cast <mu::script_runtime::location> (stack [frame_begin + 1])->position;
-	drop ();
+	frame_begin = base_begin;
+	stack.resize (base_end);
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [stack.size () - 2]).get () != nullptr);
+	assert (boost::dynamic_pointer_cast <mu::script_runtime::location> (stack [stack.size () - 1]).get () != nullptr);
+	base_begin = boost::static_pointer_cast <mu::script_runtime::location> (stack [stack.size () - 2])->position;
+	base_end = boost::static_pointer_cast <mu::script_runtime::location> (stack [stack.size () - 1])->position;
+	stack.resize (stack.size () - 2);
 }
 
 void mu::script_runtime::context::slide ()

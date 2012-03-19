@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/script_runtime/iterator.h>
+#include <mu/core/errors/errors.h>
 
 #include <vector>
 
@@ -18,6 +19,7 @@ namespace mu
 		{
 		public:
 			context ();
+			context (mu::core::errors::errors errors_a);
 			boost::shared_ptr <mu::core::node> parameters (size_t offset);
 			size_t parameters_size ();
 			mu::script_runtime::iterator parameters_begin ();
@@ -40,6 +42,7 @@ namespace mu
 			size_t base_begin;
 			size_t base_end;
 			size_t frame_begin;
+			mu::core::errors::errors errors;
 		};
 	}
 }
