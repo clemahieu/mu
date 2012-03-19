@@ -1,10 +1,14 @@
 #include <mu/script/identity/operation.h>
 
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
-void mu::script::identity::operation::operator () (mu::script::context & context_a)
+bool mu::script::identity::operation::operator () (mu::script_runtime::context & context_a)
 {
-	context_a.results.insert (context_a.results.end (), context_a.parameters.begin (), context_a.parameters.end ());
+	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
+	{
+		context_a.push (*i);
+	}
+	return true;
 }
 
 std::wstring mu::script::identity::operation::name ()

@@ -1,4 +1,4 @@
-#include "merge_package.h"
+#include <mu/script/extensions/merge_package.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/extensions/node.h>
@@ -12,13 +12,14 @@
 
 #include <sstream>
 
-void mu::script::extensions::merge_package::operator () (mu::script::context & context_a)
+bool mu::script::extensions::merge_package::operator () (mu::script_runtime::context & context_a)
 {
-	if (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::package::node> () (context_a))
+	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::package::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
-		auto three (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters [2]));
+		auto one (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
+		auto three (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (2)));
 		for (auto i (three->items.begin ()), j (three->items.end ()); i != j; ++i)
 		{
 			std::wstring name (two->string.begin (), two->string.end ());
@@ -33,8 +34,10 @@ void mu::script::extensions::merge_package::operator () (mu::script::context & c
 				std::wstringstream message;
 				message << L"Extensions already has an extension named: ";
 				message << name;
-				context_a (message.str ());
+				context_a.errors (message.str ());
+				result = false;
 			}
 		}
 	}
+	return result;
 }

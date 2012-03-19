@@ -37,6 +37,7 @@ namespace mu
 			void drop ();
 			void slide ();
 			void push (boost::shared_ptr <mu::core::node> node_a);
+			void push (mu::script_runtime::iterator & begin_a, mu::script_runtime::iterator & end_a);
 			bool operator () ();
 			std::vector <boost::shared_ptr <mu::core::node>> stack;
 			size_t base_begin;

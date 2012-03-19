@@ -1,4 +1,4 @@
-#include "create.h"
+#include <mu/script_test/package/create.h>
 
 #include <mu/script/package/create.h>
 #include <mu/script/package/node.h>

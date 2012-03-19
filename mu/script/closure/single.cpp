@@ -1,24 +1,29 @@
 #include <mu/script/closure/single.h>
 
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
-mu::script::closure::single::single (boost::shared_ptr <mu::script::operation> operation_a)
+mu::script::closure::single::single (boost::shared_ptr <mu::script_runtime::operation> operation_a)
 	: operation_m (operation_a)
 {
 }
 
-mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script::operation> operation_a)
+mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script_runtime::operation> operation_a)
 	: operation_m (operation_a),
 	closed (closed_a)
 {
 }
 
-void mu::script::closure::single::operator () (mu::script::context & context_a)
+bool mu::script::closure::single::operator () (mu::script_runtime::context & context_a)
 {
-	std::vector <boost::shared_ptr <mu::core::node>> closed_l (closed.begin (), closed.end ());
-	closed_l.insert (closed_l.end (), context_a.parameters.begin (), context_a.parameters.end ());
-	auto ctx (mu::script::context (context_a, closed_l, context_a.results));
-	(*operation_m) (ctx);
+	bool result (true);
+	context_a.push (operation_m);
+	for (auto i (closed.begin ()), j (closed.end ()); i != j; ++i)
+	{
+		context_a.push (*i);
+	}
+	context_a.push (context_a.parameters_begin (), context_a.parameters_end ());
+	result = context_a ();
+	return result;
 }
 
 std::wstring mu::script::closure::single::name ()

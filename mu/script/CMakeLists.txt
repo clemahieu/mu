@@ -26,16 +26,9 @@ add_library (mu_script STATIC
 	closure/hole.cpp
 	closure/operation.cpp
 	closure/single.cpp
-	cluster/get_named.cpp
-	cluster/node.cpp
-	debugging/call_info.cpp
-	debugging/binary_info.cpp
-	debugging/source_info.cpp
-	debugging/string_info.cpp
 	exec/operation.cpp
 	extensions/create.cpp
 	extensions/merge.cpp
-	extensions/merge_cluster.cpp
 	extensions/merge_package.cpp
 	extensions/node.cpp
 	fail/operation.cpp
@@ -50,7 +43,6 @@ add_library (mu_script STATIC
 	loads/operation.cpp
 	package/add.cpp
 	package/create.cpp
-	package/create_from_cluster.cpp
 	package/get.cpp
 	package/get_recursive.cpp
 	package/node.cpp

@@ -15,12 +15,16 @@ bool mu::script::closure::create_single::operator () (mu::script_runtime::contex
 		auto one (boost::dynamic_pointer_cast <mu::script_runtime::operation> (context_a.parameters (0)));
 		if (one.get () != nullptr)
 		{
-			std::vector <boost::shared_ptr <mu::core::node>> closed_l (context_a.parameters_begin () + 1, context_a.parameters_end ());
+			std::vector <boost::shared_ptr <mu::core::node>> closed_l;
+			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
+			{
+				closed_l.push_back (*i);
+			}
 			context_a.push (boost::shared_ptr <mu::core::node> (new mu::script::closure::single (closed_l, one)));
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::script::operation), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::script_runtime::operation), 0);
 			result = false;
 		}
 	}

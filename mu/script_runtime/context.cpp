@@ -107,6 +107,14 @@ void mu::script_runtime::context::push (boost::shared_ptr <mu::core::node> node_
 	stack.push_back (node_a);
 }
 
+void mu::script_runtime::context::push (mu::script_runtime::iterator & begin_a, mu::script_runtime::iterator & end_a)
+{
+	for (auto current (begin_a); current != end_a; ++current)
+	{
+		push (*current);
+	}
+}
+
 void mu::script_runtime::context::enter ()
 {
 	assert (stack.size () - frame_begin > 0);

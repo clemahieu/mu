@@ -1,4 +1,4 @@
-#include "equal.h"
+#include <mu/script_test/integer/equal.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/integer/equal.h>

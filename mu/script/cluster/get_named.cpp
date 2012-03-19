@@ -12,7 +12,7 @@ bool mu::script::cluster::get_named::operator () (mu::script_runtime::context & 
 	bool result (mu::script::check <mu::script::cluster::node, mu::script::string::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::cluster::node> (context_a.parameters (0)));
+		auto one (boost::static_pointer_cast <mu::core::cluster::node> (context_a.parameters (0)));
 		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
 		auto existing (one->names.find (two->string));
 		if (existing != one->names.end ())

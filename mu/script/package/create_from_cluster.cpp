@@ -8,8 +8,8 @@
 
 bool mu::script::package::create_from_cluster::operator () (mu::script_runtime::context & context_a)
 {
-	bool result (mu::script::check <mu::script::cluster::node> () (context_a));
-	if (result)
+	bool valid (mu::script::check <mu::script::cluster::node> () (context_a));
+	if (valid)
 	{
 		auto one (boost::static_pointer_cast <mu::script::cluster::node> (context_a.parameters (0)));
 		auto result (boost::make_shared <mu::script::package::node> ());
@@ -19,5 +19,5 @@ bool mu::script::package::create_from_cluster::operator () (mu::script_runtime::
 		}
 		context_a.push (result);
 	}
-	return result;
+	return valid;
 }

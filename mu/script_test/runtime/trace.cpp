@@ -4,7 +4,7 @@
 #include <mu/script/identity/operation.h>
 #include <mu/script/fail/operation.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 #include <mu/script_io/builder.h>
 #include <mu/io/source.h>
 #include <mu/io/analyzer/extensions/extensions.h>

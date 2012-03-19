@@ -16,11 +16,12 @@
 #include <sstream>
 #include <fstream>
 
-void mu::script::ast::read_from_file::operator () (mu::script::context & context_a)
+bool mu::script::ast::read_from_file::operator () (mu::script_runtime::context & context_a)
 {
-	if (mu::script::check <mu::script::string::node> () (context_a))
+	bool result (mu::script::check <mu::script::string::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
+		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
 		auto path (::boost::filesystem::initial_path ());
 		std::string relative (one->string.begin (), one->string.end ());
 		path /= relative;
@@ -38,22 +39,24 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 				if (builder.clusters.size () == 1)
 				{
 					auto cluster (builder.clusters [0]);
-					context_a.results.push_back (cluster);
+					context_a.push (cluster);
 				}
 				else
 				{
 					std::wstringstream message;
 					message << L"File did not contain one cluster: ";
 					message << builder.clusters.size ();
-					context_a (message.str ());
+					context_a.errors (message.str ());
+					result = false;
 				}
 			}
 			else
 			{
 				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 				{
-					context_a (*i);
+					context_a.errors (*i);
 				}
+				result = false;
 			}
 		}
 		else
@@ -63,7 +66,9 @@ void mu::script::ast::read_from_file::operator () (mu::script::context & context
 			std::string patha (path.string ());
 			std::wstring path (patha.begin (), patha.end ());
 			message << path;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }
