@@ -8,8 +8,11 @@
 
 #include <sstream>
 
+#include <boost/make_shared.hpp>
+
 bool mu::script::package::get_recursive::operator () (mu::script_runtime::context & context_a)
 {
+	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
 		auto node (context_a.parameters (0));
@@ -18,24 +21,22 @@ bool mu::script::package::get_recursive::operator () (mu::script_runtime::contex
 		auto j (context_a.parameters_end ());
 		for (; i != j && good; ++i)
 		{
-			mu::script::package::get get;
-			std::vector <boost::shared_ptr <mu::core::node>> arguments;
-			std::vector <boost::shared_ptr <mu::core::node>> results_l;
-			arguments.push_back (node);
-			arguments.push_back (*i);
-			auto ctx (mu::script::context (context_a, arguments, results_l));
-			get (ctx);
-			if (results_l.size () == 1)
+			context_a.push (boost::make_shared <mu::script::package::get> ());
+			context_a.push (node);
+			context_a.push (*i);
+			context_a ();
+			if (context_a.working_size () == 1)
 			{
-				node = results_l [0];
+				node = context_a.working (0);
 			}
 			else
 			{
 				good = false;
-				context_a (L"Get operation did not return result");
+				context_a.errors (L"Get operation did not return result");
+				result = false;
 			}
 		}
-		context_a.results.push_back (node);
+		context_a.push (node);
 	}
 	else
 	{
@@ -43,8 +44,10 @@ bool mu::script::package::get_recursive::operator () (mu::script_runtime::contex
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least one argument";
-		context_a (message.str ());
+		context_a.errors (message.str ());
+		result = false;
 	}
+	return result;
 }
 
 std::wstring mu::script::package::get_recursive::name ()

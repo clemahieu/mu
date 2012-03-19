@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script/operation.h>
+#include <mu/script_runtime/operation.h>
 
 namespace mu
 {
@@ -8,10 +8,10 @@ namespace mu
 	{
 		namespace extensions
 		{
-			class merge_cluster : public mu::script::operation
+			class merge_cluster : public mu::script_runtime::operation
 			{
 			public:
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script_runtime::context & context_a) override;
 				std::wstring name () override;
 			};
 		}
