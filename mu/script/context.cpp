@@ -12,7 +12,6 @@ mu::script::context::context ()
 	base_end (0),
 	errors (boost::make_shared <mu::core::errors::null> ())
 {
-	push (boost::make_shared <mu::core::node> ());
 	enter ();
 }
 
@@ -22,7 +21,6 @@ mu::script::context::context (mu::core::errors::errors errors_a)
 	base_end (0),
 	errors (errors_a)
 {
-	push (boost::make_shared <mu::core::node> ());
 	enter ();
 }
 
@@ -34,8 +32,10 @@ bool mu::script::context::operator () ()
 		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (working (0)));
 		if (operation.get () != nullptr)
 		{
+			frame_begin++;
 			enter ();
 			result = (*operation) (*this);
+			base_begin--;
 			leave ();
 		}
 		else
@@ -117,10 +117,10 @@ void mu::script::context::reserve (size_t count_a)
 
 void mu::script::context::enter ()
 {
-	assert (stack.size () - frame_begin > 0);
+	assert (stack.size () - frame_begin >= 0);
 	push (boost::make_shared <mu::script::location> (base_begin));
 	push (boost::make_shared <mu::script::location> (base_end));
-	base_begin = frame_begin + 1;
+	base_begin = frame_begin;
 	base_end = stack.size ();
 	frame_begin = stack.size ();
 }
@@ -131,7 +131,6 @@ void mu::script::context::leave ()
 	assert (boost::dynamic_pointer_cast <mu::script::location> (stack [base_end - 1]).get () != nullptr);
 	push (stack [base_end - 2]);
 	push (stack [base_end - 1]);
-	base_begin = base_begin - 1;
 	base_end = base_begin;
 	while (frame_begin != stack.size ())
 	{
