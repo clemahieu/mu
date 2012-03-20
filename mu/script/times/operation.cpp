@@ -12,16 +12,23 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	if (context_a.parameters_size () > 1)
 	{
 		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters (0)));
-		auto two (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (1)));
+		auto two (boost::dynamic_pointer_cast <mu::core::node> (context_a.parameters (1)));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
 			{
-				context_a.push (context_a.parameters_begin () + 2, context_a.parameters_end ());
-				for (size_t i (0), j (one->value); i != j; ++i)
+				context_a.reserve (context_a.parameters_size () - 2);
+				context_a.assign (context_a.locals_begin (), context_a.parameters_begin () + 2, context_a.parameters_end ());
+				for (size_t i (0), j (one->value); i != j && result; ++i)
 				{
-					(*two) (context_a);
+					context_a.push (two);
+					context_a.push (context_a.locals_begin (), context_a.locals_end ());
+					result = context_a ();
+					result = result && context_a.locals_size () == context_a.working_size ();
+					context_a.assign (context_a.locals_begin (), context_a.working_begin (), context_a.working_end ());
+					context_a.drop ();
 				}
+				context_a.push (context_a.locals_begin (), context_a.locals_end ());
 			}
 			else
 			{
