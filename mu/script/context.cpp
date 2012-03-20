@@ -45,10 +45,12 @@ bool mu::script::context::operator () ()
 			auto routine (boost::dynamic_pointer_cast <mu::core::routine> (working (0)));
 			if (routine.get () != nullptr)
 			{
-				slide ();
-				push (boost::make_shared <mu::script::routine::operation> ());
-				push (routine);
-				push (locals_begin () + 1, locals_end ());
+				stack.resize (stack.size () + 1);
+				for (size_t i (stack.size () - 1), j (frame_begin); i != j; --i)
+				{
+					stack [i] = stack [i - 1];
+				}
+				stack [frame_begin] = boost::make_shared <mu::script::routine::operation> ();
 				result = (*this) ();
 			}
 			else

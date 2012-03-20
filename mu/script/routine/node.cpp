@@ -74,8 +74,8 @@ bool mu::script::routine::node::operator () (mu::script::context & context_a)
 					auto reference_l (boost::dynamic_pointer_cast <mu::core::reference> (*i));
 					if (reference_l.get () != nullptr)
 					{
-						assert (locals->ranges.find (expression_l) != locals->ranges.end ());
-						auto range (locals->ranges [expression_l]);
+						assert (locals->ranges.find (reference_l->expression) != locals->ranges.end ());
+						auto range (locals->ranges [reference_l->expression]);
 						assert (range.get <0> () != ~0 && range.get <0> () != ~0 - 1 && range.get <1> () != ~0 && range.get <1> () != ~0 - 1);
 						if (reference_l->index + range.get <0> () < range.get <1> ())
 						{
