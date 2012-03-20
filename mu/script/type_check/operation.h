@@ -32,7 +32,7 @@ namespace mu
 					}
 					return result;
 				}
-                boost::shared_ptr <mu::script::operation> target;
+                boost::shared_ptr <mu::script_runtime::operation> target;
             };
         }
     }

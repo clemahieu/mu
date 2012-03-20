@@ -11,6 +11,7 @@ add_library (mu_io STATIC
 	analyzer/extensions/extension.cpp
 	analyzer/extensions/extensions.cpp
 	analyzer/extensions/global.cpp
+	ast/builder.cpp
 	ast/cluster.cpp
 	ast/end.cpp
 	ast/expression.cpp

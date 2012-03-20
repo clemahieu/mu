@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script_test/loadb/operation.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/loadb/operation.h>
@@ -7,7 +7,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/identity/operation.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/filesystem.hpp>
@@ -20,19 +20,16 @@ void mu::script_test::loadb::operation::run ()
 
 void mu::script_test::loadb::operation::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	mu::script::loadb::operation loadb;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	loadb (ctx);
-	assert (!errors->errors.empty ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
+	auto valid (ctx ());
+	assert (!valid);
 }
 
 void mu::script_test::loadb::operation::run_2 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	std::vector <boost::shared_ptr <mu::core::node>> a1;
 	std::vector <boost::shared_ptr <mu::core::node>> r1;
     auto windows_name (std::wstring (L"mu/binary_test/Debug/mu_binary_test.dll"));
@@ -55,11 +52,10 @@ void mu::script_test::loadb::operation::run_2 ()
         assert (false && L"Unable to open windows or unix shared library");
     }
 	a1.push_back (file);
-	mu::script::loadb::operation loadb;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	loadb (ctx);
-	assert (errors->errors.empty ());
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
+	auto valid (ctx ());
+	assert (valid);
 	assert (r1.size () == 1);
 	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (r1 [0]));
 	assert (extensions.get () != nullptr);

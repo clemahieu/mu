@@ -17,8 +17,10 @@ target_link_libraries (mu_test_entry
 	mu_core_test
 	mu_io
 	mu_io_test
+	mu_script
 	mu_script_runtime
-	mu_script_runtime_test)
+	mu_script_runtime_test
+	mu_script_test)
 
 if (NOT WIN32)
 	target_link_libraries (mu_test_entry

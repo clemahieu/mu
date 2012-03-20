@@ -1,11 +1,11 @@
-#include "operation.h"
+#include <mu/script_test/loads/operation.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/context.h>
+#include <mu/script_runtime/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -16,19 +16,16 @@ void mu::script_test::loads::operation::run ()
 
 void mu::script_test::loads::operation::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	mu::script::loads::operation loads;
-	a1.push_back (boost::make_shared <mu::script::extensions::node> ());
-	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"source_test.mu")));
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	loads (ctx);
-    errors->print (std::wcout);
-    assert (errors->errors.empty ());
-	assert (r1.size () == 1);
-	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (r1 [0]));
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::loads::operation> ());
+	ctx.push (boost::make_shared <mu::script::extensions::node> ());
+	ctx.push (boost::make_shared <mu::script::string::node> (std::wstring (L"source_test.mu")));
+	auto valid (ctx ());
+	errors.target->print (std::wcout);
+    assert (valid);
+	assert (ctx.working_size () == 1);
+	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (ctx.working (0)));
 	assert (extensions.get () != nullptr);
 	assert (extensions->extensions->extensions_m.size () == 2);
 	auto a (extensions->extensions->extensions_m.find (std::wstring (L"a")));

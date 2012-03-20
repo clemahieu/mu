@@ -4,7 +4,6 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/parser/parser.h>
 #include <mu/io/analyzer/analyzer.h>
-#include <mu/io/ast/visitor.h>
 
 #include <vector>
 
@@ -24,21 +23,21 @@ namespace mu
 			class node;
 			class cluster;
 		}
-		class builder : public mu::io::ast::visitor
+		namespace debugging
+		{
+			class mapping;
+		}
+		class builder
 		{
 		public:
 			builder ();
 			boost::shared_ptr <mu::core::errors::error_list> errors;
+			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;
-			void add (boost::shared_ptr <mu::io::ast::node> node_a);
-			void operator () (mu::io::ast::parameters * parameters_a) override;
-			void operator () (mu::io::ast::expression * expression_a) override;
-			void operator () (mu::io::ast::identifier * identifier_a) override;
-			void operator () (mu::io::ast::end * end_a) override;
-			boost::shared_ptr <mu::io::ast::node> current;
-			boost::shared_ptr <mu::io::ast::cluster> building;
-			std::vector <boost::shared_ptr <mu::io::ast::cluster>> clusters;
+			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
+			std::vector <boost::shared_ptr <mu::core::cluster>> clusters;
+			std::vector <boost::shared_ptr <mu::io::debugging::mapping>> cluster_infos;
 		};
 	}
 }

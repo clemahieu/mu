@@ -18,88 +18,70 @@ void mu::script_test::type_check::operation::run ()
 
 void mu::script_test::type_check::operation::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (errors->errors.empty ());
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <>> (identity));
+	auto valid (ctx ());
+	assert (valid);
 }
 
 void mu::script_test::type_check::operation::run_2 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (!errors->errors.empty ());
-	assert (r1.size () == 0);
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <>> (identity));
+	ctx.push (boost::make_shared <mu::script::identity::operation> ());
+	auto valid (ctx ());
+	assert (!valid);
+	assert (ctx.working_size () == 0);
 }
 
 void mu::script_test::type_check::operation::run_3 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	a1.push_back (boost::make_shared <mu::script::identity::operation> ());
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (errors->errors.empty ());
-	assert (r1.size () == 1);
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
+	ctx.push (boost::make_shared <mu::script::identity::operation> ());
+	auto valid (ctx ());
+	assert (valid);
+	assert (ctx.working_size () == 1);
 }
 
 void mu::script_test::type_check::operation::run_4 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (!errors->errors.empty ());
-	assert (r1.size () == 0);
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
+	auto valid (ctx ());
+	assert (!valid);
+	assert (ctx.working_size () == 0);
 }
 
 void mu::script_test::type_check::operation::run_5 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <mu::script::identity::operation> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	a1.push_back (boost::make_shared <mu::core::node> ());
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (!errors->errors.empty ());
-	assert (r1.size () == 0);
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
+	ctx.push (boost::make_shared <mu::core::node> ());
+	auto valid (ctx ());
+	assert (!valid);
+	assert (ctx.working_size () == 0);
 }
 
 void mu::script_test::type_check::operation::run_6 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
-	mu::script::type_check::operation <mu::core::node, mu::core::node> type_check (identity);
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
-	a1.push_back (boost::make_shared <mu::core::node> ());
-	a1.push_back (boost::make_shared <mu::core::node> ());
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	type_check (ctx);
-	assert (errors->errors.empty ());
-	assert (r1.size () == 2);
+	mu::script_runtime::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::core::node, mu::core::node>> (identity));
+	ctx.push (boost::make_shared <mu::core::node> ());
+	ctx.push (boost::make_shared <mu::core::node> ());
+	auto valid (ctx ());
+	assert (valid);
+	assert (ctx.working_size () == 2);
 }

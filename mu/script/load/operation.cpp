@@ -3,7 +3,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
-#include <mu/io/builder.h>
+#include <mu/io/ast/builder.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
@@ -48,7 +48,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 	if (stream.is_open ())		
 	{
 		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-		mu::io::builder builder;
+		mu::io::ast::builder builder;
 		mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 		source (input);
 		source ();
