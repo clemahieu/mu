@@ -1,5 +1,6 @@
 #include <mu/script_test/tests.h>
 
+#include <mu/script_test/context.h>
 #include <mu/script_test/integer/equal.h>
 #include <mu/script_test/closure/operation.h>
 #include <mu/script_test/package/create.h>
@@ -18,6 +19,10 @@
 
 void mu::script_test::tests::run ()
 {
+	{
+		mu::script_test::context test;
+		test.run ();
+	}
 	{
 		mu::script_test::type_check::operation test;
 		test.run ();

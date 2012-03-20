@@ -3,6 +3,7 @@ project (script_test)
 
 add_library (mu_script_test STATIC
 	tests.cpp
+	context.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp
 	chain/operation.cpp

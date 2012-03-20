@@ -2,7 +2,7 @@
 
 namespace mu
 {
-	namespace script_runtime_test
+	namespace script_test
 	{
 		class context
 		{

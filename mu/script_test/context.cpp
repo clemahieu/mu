@@ -1,11 +1,11 @@
-#include <mu/script_runtime_test/context.h>
+#include <mu/script_test/context.h>
 
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 #include <mu/core/node.h>
 
 #include <boost/make_shared.hpp>
 
-void mu::script_runtime_test::context::run ()
+void mu::script_test::context::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -17,9 +17,9 @@ void mu::script_runtime_test::context::run ()
 	run_8 ();
 }
 
-void mu::script_runtime_test::context::run_1 ()
+void mu::script_test::context::run_1 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	assert (context.stack.size () == 3);
 	assert (context.frame_begin == 3);
 	assert (context.base_begin == 1);
@@ -32,9 +32,9 @@ void mu::script_runtime_test::context::run_1 ()
 	assert (context.working_begin () == context.working_end ());
 }
 
-void mu::script_runtime_test::context::run_2 ()
+void mu::script_test::context::run_2 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	auto working1 (boost::make_shared <mu::core::node> ());
 	context.push (working1);
 	assert (context.stack.size () == 4);
@@ -51,9 +51,9 @@ void mu::script_runtime_test::context::run_2 ()
 	assert (++--++context.working_begin () == context.working_end ());
 }
 
-void mu::script_runtime_test::context::run_3 ()
+void mu::script_test::context::run_3 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	context.push (boost::make_shared <mu::core::node> ());
 	context.drop ();
 	assert (context.stack.size () == 3);
@@ -65,9 +65,9 @@ void mu::script_runtime_test::context::run_3 ()
 	assert (context.working_size () == 0);
 }
 
-void mu::script_runtime_test::context::run_4 ()
+void mu::script_test::context::run_4 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	auto local1 (boost::make_shared <mu::core::node> ());
 	context.push (local1);
 	context.slide ();
@@ -83,9 +83,9 @@ void mu::script_runtime_test::context::run_4 ()
 	assert (++context.locals_begin () == context.locals_end ());
 }
 
-void mu::script_runtime_test::context::run_5 ()
+void mu::script_test::context::run_5 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	context.push (boost::make_shared <mu::core::node> ());
 	context.enter ();
 	assert (context.stack.size () == 6);
@@ -97,9 +97,9 @@ void mu::script_runtime_test::context::run_5 ()
 	assert (context.working_size () == 0);
 }
 
-void mu::script_runtime_test::context::run_6 ()
+void mu::script_test::context::run_6 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	context.push (boost::make_shared <mu::core::node> ());
 	context.enter ();
 	context.leave ();
@@ -112,9 +112,9 @@ void mu::script_runtime_test::context::run_6 ()
 	assert (context.working_size () == 0);
 }
 
-void mu::script_runtime_test::context::run_7 ()
+void mu::script_test::context::run_7 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	context.push (boost::make_shared <mu::core::node> ());
 	auto arg1 (boost::make_shared <mu::core::node> ());
 	context.push (arg1);
@@ -131,9 +131,9 @@ void mu::script_runtime_test::context::run_7 ()
 	assert (++context.parameters_begin () == context.parameters_end ());
 }
 
-void mu::script_runtime_test::context::run_8 ()
+void mu::script_test::context::run_8 ()
 {
-	mu::script_runtime::context context;
+	mu::script::context context;
 	context.push (boost::make_shared <mu::core::node> ());
 	auto arg1 (boost::make_shared <mu::core::node> ());
 	context.push (arg1);
