@@ -62,7 +62,7 @@ boost::shared_ptr <mu::core::node> mu::script::context::parameters (size_t offse
 size_t mu::script::context::parameters_size ()
 {
 	auto result (base_end - base_begin - 2);
-	assert (result < 32000);
+	assert (result < 64 * 1024);
 	return result;
 }
 
@@ -77,7 +77,7 @@ boost::shared_ptr <mu::core::node> mu::script::context::locals (size_t offset)
 size_t mu::script::context::locals_size ()
 {
 	auto result (frame_begin - base_end);
-	assert (result < 32000);
+	assert (result < 64 * 1024);
 	return result;
 }
 
@@ -92,7 +92,7 @@ boost::shared_ptr <mu::core::node> mu::script::context::working (size_t offset)
 size_t mu::script::context::working_size ()
 {
 	auto result (stack.size () - frame_begin);
-	assert (result < 32000);
+	assert (result < 64 * 1024);
 	return result;
 }
 
@@ -104,6 +104,7 @@ void mu::script::context::drop ()
 
 void mu::script::context::push (boost::shared_ptr <mu::core::node> node_a)
 {
+	assert (stack.size () < 64 * 1024 && "Stack overflow");
 	stack.push_back (node_a);
 }
 

@@ -17,16 +17,11 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 		{
 			if (two.get () != nullptr)
 			{
-				assert (false);
-				//std::vector <boost::shared_ptr <mu::core::node>> results_l (context_a.parameters.begin () + 2, context_a.parameters.end ());
-				//for (size_t i (0), j (one->value); i != j; ++i)
-				//{
-				//	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-				//	arguments.swap (results_l);
-				//	auto ctx (mu::script::context (context_a, arguments, results_l));
-				//	(*two) (ctx);
-				//}
-				//context_a.results.insert (context_a.results.end (), results_l.begin (), results_l.end ());
+				context_a.push (context_a.parameters_begin () + 2, context_a.parameters_end ());
+				for (size_t i (0), j (one->value); i != j; ++i)
+				{
+					(*two) (context_a);
+				}
 			}
 			else
 			{
