@@ -3,6 +3,8 @@
 #include <mu/core/errors/null.h>
 #include <mu/script/operation.h>
 #include <mu/script/location.h>
+#include <mu/core/routine.h>
+#include <mu/script/routine/operation.h>
 
 #include <boost/make_shared.hpp>
 
@@ -40,8 +42,19 @@ bool mu::script::context::operator () ()
 		}
 		else
 		{
-			result = false;
-			drop ();
+			auto routine (boost::dynamic_pointer_cast <mu::core::routine> (working (0)));
+			if (routine.get () != nullptr)
+			{
+				slide ();
+				push (boost::make_shared <mu::script::routine::operation> ());
+				push (locals_begin (), locals_end ());
+				result = (*this) ();
+			}
+			else
+			{
+				result = false;
+				drop ();
+			}
 		}
 	}
 	else

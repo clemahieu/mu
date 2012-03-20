@@ -3,6 +3,8 @@
 #include <mu/script/context.h>
 #include <mu/core/node.h>
 #include <mu/script/identity/operation.h>
+#include <mu/core/routine.h>
+#include <mu/core/expression.h>
 
 #include <boost/make_shared.hpp>
 
@@ -21,6 +23,7 @@ void mu::script_test::context::run ()
 	run_11 ();
 	run_12 ();
 	run_13 ();
+	//run_14 ();
 }
 
 void mu::script_test::context::run_1 ()
@@ -203,4 +206,16 @@ void mu::script_test::context::run_13 ()
 	context.push (val1);
 	context.assign (context.locals_begin (), context.working_begin (), context.working_end ());
 	assert (context.locals (0) == context.working (0));
+}
+
+void mu::script_test::context::run_14 ()
+{
+	mu::script::context context;
+	auto expression (boost::make_shared <mu::core::expression> ());
+	expression->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	auto val1 (boost::make_shared <mu::core::routine> ());
+	context.push (val1);
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 0);
 }

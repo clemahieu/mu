@@ -53,6 +53,9 @@ add_library (mu_script STATIC
 	package/node.cpp
 	package/remove.cpp
 	print/operation.cpp
+	routine/locals.cpp
+	routine/node.cpp
+	routine/operation.cpp
 	run/operation.cpp
 	string/extension.cpp
 	string/node.cpp
