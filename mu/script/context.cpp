@@ -41,13 +41,13 @@ bool mu::script::context::operator () ()
 		else
 		{
 			result = false;
+			drop ();
 		}
 	}
 	else
 	{
 		result = false;
 	}
-	drop ();
 	return result;
 }
 

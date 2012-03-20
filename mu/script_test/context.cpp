@@ -2,6 +2,7 @@
 
 #include <mu/script/context.h>
 #include <mu/core/node.h>
+#include <mu/script/identity/operation.h>
 
 #include <boost/make_shared.hpp>
 
@@ -15,6 +16,9 @@ void mu::script_test::context::run ()
 	run_6 ();
 	run_7 ();
 	run_8 ();
+	run_9 ();
+	run_10 ();
+	run_11 ();
 }
 
 void mu::script_test::context::run_1 ()
@@ -145,4 +149,37 @@ void mu::script_test::context::run_8 ()
 	context.leave ();
 	assert (context.working_size () == 1);
 	assert (*context.working_begin () == res1);
+}
+
+void mu::script_test::context::run_9 ()
+{
+	mu::script::context context;
+	auto arg1 (boost::make_shared <mu::script::identity::operation> ());
+	context.push (arg1);
+	auto arg2 (boost::make_shared <mu::script::identity::operation> ());
+	context.push (arg2);
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 1);
+	assert (context.working (0) == arg2);
+}
+
+void mu::script_test::context::run_10 ()
+{
+	mu::script::context context;
+	auto valid (context ());
+	assert (!valid);
+	assert (context.working_size () == 0);
+}
+
+void mu::script_test::context::run_11 ()
+{
+	mu::script::context context;
+	auto arg1 (boost::make_shared <mu::core::node> ());
+	context.push (arg1);
+	auto arg2 (boost::make_shared <mu::script::identity::operation> ());
+	context.push (arg2);
+	auto valid (context ());
+	assert (!valid);
+	assert (context.working_size () == 0);
 }
