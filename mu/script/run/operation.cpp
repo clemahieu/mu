@@ -4,7 +4,6 @@
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
 #include <mu/io/source.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/analyzer/operation.h>

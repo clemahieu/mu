@@ -18,6 +18,14 @@ mu::io::builder::builder ()
 {
 }
 
+mu::io::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+	: errors (new mu::core::errors::error_list),
+	analyzer (boost::bind (&mu::io::builder::add, this, _1, _2), errors, extensions_a),
+	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
+{
+}
+
 void mu::io::builder::add (boost::shared_ptr <mu::core::cluster> cluster, boost::shared_ptr <mu::io::debugging::mapping> cluster_info)
 {
 	clusters.push_back (cluster);

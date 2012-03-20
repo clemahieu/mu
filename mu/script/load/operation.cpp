@@ -4,7 +4,6 @@
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
 #include <mu/io/ast/builder.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
 #include <mu/io/analyzer/extensions/global.h>

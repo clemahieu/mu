@@ -6,9 +6,10 @@
 #include <mu/script/integer/node.h>
 #include <mu/io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/context.h>
 #include <mu/core/routine.h>
+#include <mu/script/api.h>
+#include <mu/script/extensions/node.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -40,9 +41,9 @@ void mu::script_test::times::operation::run_1 ()
 }
 
 void mu::script_test::times::operation::run_2 ()
-{
-	mu::io::builder builder;
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
+{	
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
 	source (L"[[:~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	source ();
 	assert (builder.errors->errors.empty ());

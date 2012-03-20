@@ -8,6 +8,7 @@ else ()
 endif ()
 
 add_library (mu_script STATIC
+	api.cpp
 	check.cpp
 	context.cpp
 	iterator.cpp

@@ -7,7 +7,6 @@
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/builder.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/context.h>
 #include <mu/io_test/analyzer_result.h>
 #include <mu/core/routine.h>

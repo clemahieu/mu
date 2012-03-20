@@ -3,7 +3,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/analyzer/analyzer.h>
-#include <mu/script/cluster/node.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/extensions/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>

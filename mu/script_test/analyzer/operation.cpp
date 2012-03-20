@@ -4,7 +4,6 @@
 #include <mu/script/analyzer/operation.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/extensions/node.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>

@@ -31,6 +31,7 @@ namespace mu
 		{
 		public:
 			builder ();
+			builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 			boost::shared_ptr <mu::core::errors::error_list> errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
