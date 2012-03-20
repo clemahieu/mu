@@ -16,6 +16,8 @@ namespace mu
 				void run_4 ();
 				void run_5 ();
 				void run_6 ();
+				void run_7 ();
+				void run_8 ();
 			};
 		}
 	}

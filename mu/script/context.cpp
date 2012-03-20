@@ -47,7 +47,8 @@ bool mu::script::context::operator () ()
 			{
 				slide ();
 				push (boost::make_shared <mu::script::routine::operation> ());
-				push (locals_begin (), locals_end ());
+				push (routine);
+				push (locals_begin () + 1, locals_end ());
 				result = (*this) ();
 			}
 			else
@@ -83,7 +84,6 @@ boost::shared_ptr <mu::core::node> mu::script::context::locals (size_t offset)
 {
 	assert (offset < locals_size ());
 	auto result (stack [base_end + offset]);
-	assert (result.get () != nullptr);
 	return result;
 }
 

@@ -7,7 +7,6 @@
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
-#include <mu/script/routine/expression.h>
 
 #include <boost/make_shared.hpp>
 

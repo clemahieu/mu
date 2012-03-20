@@ -10,6 +10,7 @@
 #include <mu/script/routine/locals.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/fail/operation.h>
+#include <mu/core/routine.h>
 
 #include <boost/make_shared.hpp>
 
@@ -21,6 +22,8 @@ void mu::script_test::routine::node::run ()
 	run_4 ();
 	run_5 ();
 	run_6 ();
+	run_7 ();
+	run_8 ();
 }
 
 void mu::script_test::routine::node::run_1 ()
@@ -119,4 +122,41 @@ void mu::script_test::routine::node::run_6 ()
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 0);
+}
+
+void mu::script_test::routine::node::run_7 ()
+{
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context context (errors);
+	context.push (boost::make_shared <mu::script::routine::node> ());
+	context.push (boost::make_shared <mu::script::routine::locals> ());
+	context.push (boost::make_shared <mu::script::values::operation> ());
+	auto expression (boost::make_shared <mu::core::expression> ());
+	auto expression1 (boost::make_shared <mu::core::expression> ());
+	expression->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	expression->dependencies.push_back (expression1);
+	expression1->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	context.push (expression);
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 0);
+}
+
+void mu::script_test::routine::node::run_8 ()
+{
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context context (errors);
+	auto expression (boost::make_shared <mu::core::expression> ());
+	auto expression1 (boost::make_shared <mu::core::expression> ());
+	auto routine (boost::make_shared <mu::core::routine> (expression));
+	expression->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	expression->dependencies.push_back (expression1);
+	expression1->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
+	context.push (routine);
+	auto arg1 (boost::make_shared <mu::core::node> ());
+	context.push (arg1);
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 1);
+	assert (arg1 == context.working (0));
 }

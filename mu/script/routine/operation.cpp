@@ -14,14 +14,14 @@
 bool mu::script::routine::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
-	if (context_a.working_size () > 0)
+	if (context_a.parameters_size () > 0)
 	{
-		auto routine (boost::dynamic_pointer_cast <mu::core::routine> (context_a.working (0)));
+		auto routine (boost::dynamic_pointer_cast <mu::core::routine> (context_a.parameters (0)));
 		if (routine.get () != nullptr)
 		{
 			auto locals (boost::make_shared <mu::script::routine::locals> ());
 			auto parameters (boost::make_shared <mu::script::values::operation> ());
-			for (auto i (context_a.working_begin ()), j (context_a.working_end ()); i != j; ++i)
+			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
 			{
 				parameters->values.push_back (*i);
 			}
