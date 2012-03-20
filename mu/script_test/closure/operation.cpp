@@ -96,6 +96,7 @@ void mu::script_test::closure::operation::run_5 ()
 	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (ctx.working (0)));
 	assert (result.get () != nullptr);
 	ctx.drop ();
+	ctx.push (result);
 	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	ctx.push (n3);
 	auto valid2 (ctx ());

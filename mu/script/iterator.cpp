@@ -42,8 +42,8 @@ mu::script::iterator mu::script::iterator::operator - (size_t offset)
 	return result;
 }
 			
-boost::shared_ptr <mu::core::node> mu::script::iterator::operator * ()
+boost::shared_ptr <mu::core::node> & mu::script::iterator::operator * ()
 {
-	auto result (stack [position]);
+	boost::shared_ptr <mu::core::node> & result (stack [position]);
 	return result;
 }

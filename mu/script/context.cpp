@@ -107,12 +107,11 @@ void mu::script::context::push (boost::shared_ptr <mu::core::node> node_a)
 	stack.push_back (node_a);
 }
 
-void mu::script::context::push (mu::script::iterator & begin_a, mu::script::iterator & end_a)
+void mu::script::context::reserve (size_t count_a)
 {
-	for (auto current (begin_a); current != end_a; ++current)
-	{
-		push (*current);
-	}
+	assert (working_size () == 0);
+	stack.resize (stack.size () + count_a);
+	frame_begin = stack.size ();
 }
 
 void mu::script::context::enter ()

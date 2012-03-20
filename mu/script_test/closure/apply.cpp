@@ -17,13 +17,12 @@ void mu::script_test::closure::apply::run ()
 void mu::script_test::closure::apply::run_1 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	auto c1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::operation (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation))));
-	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
-	arguments.push_back (c1);
-	arguments.push_back (n1);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::apply> ());
+	auto c1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::operation (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation))));
+	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	ctx.push (c1);
+	ctx.push (n1);
 	auto result (ctx ());
 	assert (result);
 	assert (ctx.working_size () == 1);

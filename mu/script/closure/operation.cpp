@@ -47,6 +47,7 @@ bool mu::script::closure::operation::operator () (mu::script::context & context_
 		else
 		{
 			context_a.push (operation_m);
+			context_a.push (closed.begin (), closed.end ());
 			result = context_a ();
 		}
 	}

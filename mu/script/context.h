@@ -37,7 +37,22 @@ namespace mu
 			void drop ();
 			void slide ();
 			void push (boost::shared_ptr <mu::core::node> node_a);
-			void push (mu::script::iterator & begin_a, mu::script::iterator & end_a);
+			void reserve (size_t count_a);
+			template <typename G> void push (G & begin_a, G & end_a)
+			{
+				for (auto current (begin_a); current != end_a; ++current)
+				{
+					push (*current);
+				}
+			}
+			template <typename G, typename H> void assign (H & target_a, G & begin_a, G & end_a)
+			{
+				auto target_l (target_a);
+				for (auto current (begin_a); current != end_a; ++current, ++target_l)
+				{
+					*target_l = *current;
+				}
+			}
 			bool operator () ();
 			std::vector <boost::shared_ptr <mu::core::node>> stack;
 			size_t base_begin;
