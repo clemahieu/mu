@@ -5,7 +5,7 @@
 #include <mu/script/integer/equal.h>
 #include <mu/script/integer/node.h>
 #include <mu/script/bool_c/node.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -19,7 +19,7 @@ void mu::script_test::integer::equal::run ()
 void mu::script_test::integer::equal::run_1 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
@@ -34,7 +34,7 @@ void mu::script_test::integer::equal::run_1 ()
 void mu::script_test::integer::equal::run_2 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
@@ -49,7 +49,7 @@ void mu::script_test::integer::equal::run_2 ()
 void mu::script_test::integer::equal::run_3 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::core::node));

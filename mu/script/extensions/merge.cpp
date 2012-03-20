@@ -8,7 +8,7 @@
 
 #include <sstream>
 
-bool mu::script::extensions::merge::operator () (mu::script_runtime::context & context_a)
+bool mu::script::extensions::merge::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::extensions::node> () (context_a));
 	if (result)

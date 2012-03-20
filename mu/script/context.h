@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script_runtime/iterator.h>
+#include <mu/script/iterator.h>
 #include <mu/core/errors/errors.h>
 
 #include <vector>
@@ -13,7 +13,7 @@ namespace mu
 	{
 		class node;
 	}
-	namespace script_runtime
+	namespace script
 	{
 		class context
 		{
@@ -22,22 +22,22 @@ namespace mu
 			context (mu::core::errors::errors errors_a);
 			boost::shared_ptr <mu::core::node> parameters (size_t offset);
 			size_t parameters_size ();
-			mu::script_runtime::iterator parameters_begin ();
-			mu::script_runtime::iterator parameters_end ();
+			mu::script::iterator parameters_begin ();
+			mu::script::iterator parameters_end ();
 			boost::shared_ptr <mu::core::node> locals (size_t offset);
 			size_t locals_size ();
-			mu::script_runtime::iterator locals_begin ();
-			mu::script_runtime::iterator locals_end ();
+			mu::script::iterator locals_begin ();
+			mu::script::iterator locals_end ();
 			boost::shared_ptr <mu::core::node> working (size_t offset);
 			size_t working_size ();
-			mu::script_runtime::iterator working_begin ();
-			mu::script_runtime::iterator working_end ();
+			mu::script::iterator working_begin ();
+			mu::script::iterator working_end ();
 			void enter ();
 			void leave ();
 			void drop ();
 			void slide ();
 			void push (boost::shared_ptr <mu::core::node> node_a);
-			void push (mu::script_runtime::iterator & begin_a, mu::script_runtime::iterator & end_a);
+			void push (mu::script::iterator & begin_a, mu::script::iterator & end_a);
 			bool operator () ();
 			std::vector <boost::shared_ptr <mu::core::node>> stack;
 			size_t base_begin;

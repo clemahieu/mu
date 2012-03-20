@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script_runtime/operation.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -31,11 +31,11 @@ namespace mu
 		}
 		namespace load
 		{
-			class operation : public mu::script_runtime::operation
+			class operation : public mu::script::operation
 			{
 			public:
-				bool operator () (mu::script_runtime::context & context_a) override;
-				boost::shared_ptr <mu::io::ast::cluster> core (mu::script_runtime::context & context_a, boost::shared_ptr <mu::script::string::node> file);
+				bool operator () (mu::script::context & context_a) override;
+				boost::shared_ptr <mu::io::ast::cluster> core (mu::script::context & context_a, boost::shared_ptr <mu::script::string::node> file);
 			};
 		}
 	}

@@ -4,7 +4,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure/single.h>
 #include <mu/script/identity/operation.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -19,8 +19,8 @@ void mu::script_test::closure::single::run_1 ()
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	closed.push_back (n1);
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::single> (closed, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::single> (closed, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	ctx.push (n2);
 	auto valid (ctx ());

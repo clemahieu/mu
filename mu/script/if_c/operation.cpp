@@ -4,14 +4,14 @@
 #include <mu/core/segment.h>
 #include <mu/script/check.h>
 
-bool mu::script::if_c::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::if_c::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::bool_c::node, mu::script_runtime::operation, mu::script_runtime::operation> () (context_a));
+	bool result (mu::script::check <mu::script::bool_c::node, mu::script::operation, mu::script::operation> () (context_a));
 	if (result)
 	{
 		auto one (boost::static_pointer_cast <mu::script::bool_c::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script_runtime::operation> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::script_runtime::operation> (context_a.parameters (2)));
+		auto two (boost::static_pointer_cast <mu::script::operation> (context_a.parameters (1)));
+		auto three (boost::static_pointer_cast <mu::script::operation> (context_a.parameters (2)));
 		std::vector <boost::shared_ptr <mu::core::node>> arguments;
 		if (one->value)
 		{

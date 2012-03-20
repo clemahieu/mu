@@ -3,7 +3,7 @@
 #include <mu/script/bool_c/node.h>
 #include <mu/script/check.h>
 
-bool mu::script::bool_c::equal::operator () (mu::script_runtime::context & context_a)
+bool mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::bool_c::node, mu::script::bool_c::node> () (context_a));
 	if (result)

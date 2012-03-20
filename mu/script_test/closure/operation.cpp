@@ -4,7 +4,7 @@
 #include <mu/script/identity/operation.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure/hole.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -20,8 +20,8 @@ void mu::script_test::closure::operation::run ()
 void mu::script_test::closure::operation::run_1 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (0, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::operation> (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 0);
@@ -30,8 +30,8 @@ void mu::script_test::closure::operation::run_1 ()
 void mu::script_test::closure::operation::run_2 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (1, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::operation> (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	ctx.push (node);
 	auto valid (ctx ());
@@ -43,8 +43,8 @@ void mu::script_test::closure::operation::run_2 ()
 void mu::script_test::closure::operation::run_3 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	ctx.push (n1);
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
@@ -59,8 +59,8 @@ void mu::script_test::closure::operation::run_3 ()
 void mu::script_test::closure::operation::run_4 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	ctx.push (n1);
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
@@ -84,8 +84,8 @@ void mu::script_test::closure::operation::run_4 ()
 void mu::script_test::closure::operation::run_5 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script_runtime::operation> (new mu::script::identity::operation)));
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
 	ctx.push (n1);
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));

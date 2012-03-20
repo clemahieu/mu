@@ -4,7 +4,7 @@
 #include <mu/script/package/create.h>
 #include <mu/script/package/node.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -16,7 +16,7 @@ void mu::script_test::package::create::run ()
 void mu::script_test::package::create::run_1 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::create> ());
 	auto result (ctx ());
 	assert (result);

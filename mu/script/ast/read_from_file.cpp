@@ -16,7 +16,7 @@
 #include <sstream>
 #include <fstream>
 
-bool mu::script::ast::read_from_file::operator () (mu::script_runtime::context & context_a)
+bool mu::script::ast::read_from_file::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)

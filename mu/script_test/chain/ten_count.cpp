@@ -9,7 +9,7 @@ mu::script_test::chain::ten_count::ten_count ()
 {
 }
 
-bool mu::script_test::chain::ten_count::operator () (mu::script_runtime::context & context_a)
+bool mu::script_test::chain::ten_count::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::script::integer::node> () (context_a));
 	if (valid)

@@ -1,19 +1,19 @@
 #include <mu/script/closure/single.h>
 
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
-mu::script::closure::single::single (boost::shared_ptr <mu::script_runtime::operation> operation_a)
+mu::script::closure::single::single (boost::shared_ptr <mu::script::operation> operation_a)
 	: operation_m (operation_a)
 {
 }
 
-mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script_runtime::operation> operation_a)
+mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script::operation> operation_a)
 	: operation_m (operation_a),
 	closed (closed_a)
 {
 }
 
-bool mu::script::closure::single::operator () (mu::script_runtime::context & context_a)
+bool mu::script::closure::single::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	context_a.push (operation_m);

@@ -8,7 +8,7 @@
 #include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/run/operation.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -21,7 +21,7 @@ mu::script::exec::operation::operation (boost::shared_ptr <mu::io::analyzer::ext
 {
 }
 
-bool mu::script::exec::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)

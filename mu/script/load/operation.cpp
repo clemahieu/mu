@@ -19,7 +19,7 @@
 #include <sstream>
 #include <fstream>
 
-bool mu::script::load::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::load::operation::operator () (mu::script::context & context_a)
 {
 	bool complete (mu::script::check <mu::script::string::node> () (context_a));
 	if (complete)
@@ -38,7 +38,7 @@ bool mu::script::load::operation::operator () (mu::script_runtime::context & con
 	return complete;
 }
 
-boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::script_runtime::context & context_a, boost::shared_ptr <mu::script::string::node> file)
+boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::string::node> file)
 {
 	boost::shared_ptr <mu::io::ast::cluster> result;
 	auto path (boost::filesystem::initial_path ());

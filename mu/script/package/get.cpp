@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-bool mu::script::package::get::operator () (mu::script_runtime::context & context_a)
+bool mu::script::package::get::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::package::node, mu::script::string::node> () (context_a));
 	if (result)

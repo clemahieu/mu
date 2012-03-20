@@ -6,7 +6,7 @@
 
 #include <boost/make_shared.hpp>
 
-bool mu::script::astring::truncate::operator () (mu::script_runtime::context & context_a)
+bool mu::script::astring::truncate::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)

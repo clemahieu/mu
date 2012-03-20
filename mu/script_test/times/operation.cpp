@@ -7,7 +7,7 @@
 #include <mu/io/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 #include <mu/core/routine.h>
 
 #include <boost/bind.hpp>
@@ -22,7 +22,7 @@ void mu::script_test::times::operation::run ()
 void mu::script_test::times::operation::run_1 ()
 {
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::times::operation> ());
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (0)));
 	ctx.push (n1);
@@ -47,7 +47,7 @@ void mu::script_test::times::operation::run_2 ()
 	source ();
 	assert (builder.errors->errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::times::operation> ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

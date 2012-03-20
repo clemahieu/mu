@@ -15,7 +15,7 @@
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
-bool mu::script::loads::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
 	bool complete (mu::script::check <mu::script::extensions::node, mu::script::string::node> () (context_a));
 	if (complete)
@@ -31,7 +31,7 @@ bool mu::script::loads::operation::operator () (mu::script_runtime::context & co
 	return complete;
 }
 
-boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::core (mu::script_runtime::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file)
+boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file)
 {
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	mu::script::load::operation load;

@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-bool mu::script::closure::apply::operator () (mu::script_runtime::context & context_a)
+bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)

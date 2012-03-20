@@ -9,6 +9,10 @@ endif ()
 
 add_library (mu_script STATIC
 	check.cpp
+	context.cpp
+	iterator.cpp
+	location.cpp
+	operation.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp
 	ast/merge.cpp

@@ -8,7 +8,7 @@
 #include <mu/io/builder.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/cluster/node.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 #include <mu/io_test/analyzer_result.h>
 #include <mu/core/routine.h>
 
@@ -35,7 +35,7 @@ void mu::script_test::ast::extension::run_1 ()
 	auto cluster (result.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-	mu::script_runtime::context ctx (mu::core::errors::errors (builder.errors));
+	mu::script::context ctx (mu::core::errors::errors (builder.errors));
 	ctx.push (routine);
 	auto valid (ctx ());
 	assert (valid);
@@ -69,7 +69,7 @@ void mu::script_test::ast::extension::run_3 ()
 	auto cluster (result.clusters [0]);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-	mu::script_runtime::context ctx (mu::core::errors::errors (builder.errors));
+	mu::script::context ctx (mu::core::errors::errors (builder.errors));
 	ctx.push (routine);
 	auto valid (ctx ());
 	assert (valid);

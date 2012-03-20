@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script_runtime/operation.h>
+#include <mu/script/operation.h>
 
 namespace mu
 {
@@ -8,10 +8,10 @@ namespace mu
 	{
 		namespace ast
 		{
-			class read_from_file : public mu::script_runtime::operation
+			class read_from_file : public mu::script::operation
 			{
 			public:
-				bool operator () (mu::script_runtime::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 			};
 		}
 	}

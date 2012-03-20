@@ -6,13 +6,13 @@
 
 #include <sstream>
 
-bool mu::script::times::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::times::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 1)
 	{
 		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters (0)));
-		auto two (boost::dynamic_pointer_cast <mu::script_runtime::operation> (context_a.parameters (1)));
+		auto two (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (1)));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
@@ -30,7 +30,7 @@ bool mu::script::times::operation::operator () (mu::script_runtime::context & co
 			}
 			else
 			{
-				mu::script::invalid_type (context_a, typeid (*context_a.parameters (1).get ()), typeid (mu::script_runtime::operation), 1);
+				mu::script::invalid_type (context_a, typeid (*context_a.parameters (1).get ()), typeid (mu::script::operation), 1);
 				result = false;
 			}
 		}

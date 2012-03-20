@@ -5,7 +5,7 @@
 #include <mu/script/bool_c/node.h>
 #include <mu/script/check.h>
 
-bool mu::script::integer::equal::operator () (mu::script_runtime::context & context_a)
+bool mu::script::integer::equal::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::integer::node, mu::script::integer::node> () (context_a));
 	if (result)

@@ -7,7 +7,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/identity/operation.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/filesystem.hpp>
@@ -21,7 +21,7 @@ void mu::script_test::loadb::operation::run ()
 void mu::script_test::loadb::operation::run_1 ()
 {
 	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
 	auto valid (ctx ());
 	assert (!valid);
@@ -52,7 +52,7 @@ void mu::script_test::loadb::operation::run_2 ()
         assert (false && L"Unable to open windows or unix shared library");
     }
 	a1.push_back (file);
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
 	auto valid (ctx ());
 	assert (valid);

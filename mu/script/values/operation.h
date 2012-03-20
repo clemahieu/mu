@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/script_runtime/operation.h>
+#include <mu/script/operation.h>
 
 #include <vector>
 
@@ -10,12 +10,12 @@ namespace mu
 	{
 		namespace values
 		{
-			class operation : public mu::script_runtime::operation
+			class operation : public mu::script::operation
 			{
 			public:
 				operation ();
 				operation (std::vector <boost::shared_ptr <mu::core::node>> values_a);
-				bool operator () (mu::script_runtime::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				std::vector <boost::shared_ptr <mu::core::node>> values;
 			};
 		}

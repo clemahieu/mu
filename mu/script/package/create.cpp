@@ -3,7 +3,7 @@
 #include <mu/script/package/node.h>
 #include <mu/script/check.h>
 
-bool mu::script::package::create::operator () (mu::script_runtime::context & context_a)
+bool mu::script::package::create::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <> () (context_a));
 	if (result)

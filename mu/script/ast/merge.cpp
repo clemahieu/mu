@@ -5,7 +5,7 @@
 
 #include <boost/make_shared.hpp>
 
-bool mu::script::ast::merge::operator () (mu::script_runtime::context & context_a)
+bool mu::script::ast::merge::operator () (mu::script::context & context_a)
 {
 	bool complete (true);
 	auto result (boost::make_shared <mu::io::ast::cluster> ());

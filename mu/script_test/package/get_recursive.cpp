@@ -5,7 +5,7 @@
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -20,7 +20,7 @@ void mu::script_test::package::get_recursive::run_1 ()
 {
 	auto package (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);
 	auto valid (ctx ());
@@ -35,7 +35,7 @@ void mu::script_test::package::get_recursive::run_2 ()
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	package->items [std::wstring (L"a")] = n1;
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::string::node (std::wstring (L"a"))));
@@ -53,7 +53,7 @@ void mu::script_test::package::get_recursive::run_3 ()
 	package->items [std::wstring (L"a")] = package1;
 	package1->items [std::wstring (L"b")] = n1;
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::string::node (std::wstring (L"a"))));

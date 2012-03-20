@@ -1,6 +1,5 @@
 #include <mu/core_test/tests.h>
 #include <mu/io_test/tests.h>
-#include <mu/script_runtime_test/tests.h>
 #include <mu/llvm_test/tests.h>
 #include <mu/repl_test/tests.h>
 #include <mu/script_test/tests.h>
@@ -20,10 +19,6 @@ int main ()
 	}
 	{
 		mu::io_test::tests test;
-		test.run ();
-	}
-	{
-		mu::script_runtime_test::tests test;
 		test.run ();
 	}
 	{

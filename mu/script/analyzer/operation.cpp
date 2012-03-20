@@ -14,7 +14,7 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-bool mu::script::analyzer::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::extensions::node, mu::io::ast::cluster> () (context_a));
 	if (result)
@@ -26,7 +26,7 @@ bool mu::script::analyzer::operation::operator () (mu::script_runtime::context &
 	return result;
 }
 
-boost::shared_ptr <mu::core::cluster> mu::script::analyzer::operation::core (mu::script_runtime::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast)
+boost::shared_ptr <mu::core::cluster> mu::script::analyzer::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast)
 {
 	boost::shared_ptr <mu::core::cluster> result;
 	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors.target, extensions->extensions);

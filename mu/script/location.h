@@ -4,7 +4,7 @@
 
 namespace mu
 {
-	namespace script_runtime
+	namespace script
 	{
 		class location : public mu::core::node
 		{

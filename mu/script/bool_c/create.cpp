@@ -21,7 +21,7 @@ mu::script::bool_c::create::create ()
 	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"low"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
 }
 
-bool mu::script::bool_c::create::operator () (mu::script_runtime::context & context_a)
+bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)

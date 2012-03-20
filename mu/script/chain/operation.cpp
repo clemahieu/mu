@@ -4,12 +4,12 @@
 #include <mu/script/bool_c/node.h>
 #include <mu/script/check.h>
 
-bool mu::script::chain::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script_runtime::operation> (context_a.parameters (0)));
+		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (0)));
 		if (one.get () != nullptr)
 		{
 			assert (false);
@@ -47,7 +47,7 @@ bool mu::script::chain::operation::operator () (mu::script_runtime::context & co
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::script_runtime::operation), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::script::operation), 0);
 			result = false;
 		}
 	}

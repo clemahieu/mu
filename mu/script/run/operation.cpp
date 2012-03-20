@@ -18,7 +18,7 @@
 
 #include <sstream>
 
-bool mu::script::run::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::run::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 1)

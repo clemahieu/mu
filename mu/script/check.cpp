@@ -3,7 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <sstream>
 
-bool mu::script::check_count (mu::script_runtime::context & context_a, size_t expected)
+bool mu::script::check_count (mu::script::context & context_a, size_t expected)
 {
 	bool result (context_a.parameters_size () == expected);
 	if (!result)
@@ -20,7 +20,7 @@ bool mu::script::check_count (mu::script_runtime::context & context_a, size_t ex
 	return result;
 }
 
-void mu::script::invalid_type (mu::script_runtime::context & context_a, std::type_info const & actual, std::type_info const & expected, size_t position)
+void mu::script::invalid_type (mu::script::context & context_a, std::type_info const & actual, std::type_info const & expected, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";

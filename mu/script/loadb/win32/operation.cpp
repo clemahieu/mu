@@ -11,7 +11,7 @@
 
 #include <boost/filesystem.hpp>
 
-bool mu::script::loadb::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)

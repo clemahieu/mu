@@ -4,7 +4,7 @@
 #include <mu/script/chain/operation.h>
 #include <mu/script_test/chain/ten_count.h>
 #include <mu/script/integer/node.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <boost/make_shared.hpp>
 
@@ -18,7 +18,7 @@ void mu::script_test::chain::operation::run_1 ()
 	auto operation (boost::shared_ptr <mu::core::node> (new mu::script_test::chain::ten_count));
 	auto count (boost::shared_ptr <mu::script::integer::node> (new mu::script::integer::node (50)));
 	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::script_runtime::context ctx (errors);
+	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::chain::operation> ());
 	ctx.push (operation);
 	ctx.push (count);

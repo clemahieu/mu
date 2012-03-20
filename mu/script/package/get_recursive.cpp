@@ -4,13 +4,13 @@
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
 #include <mu/script/package/get.h>
-#include <mu/script_runtime/context.h>
+#include <mu/script/context.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-bool mu::script::package::get_recursive::operator () (mu::script_runtime::context & context_a)
+bool mu::script::package::get_recursive::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)

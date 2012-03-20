@@ -3,7 +3,7 @@
 #include <mu/script/closure/hole.h>
 #include <mu/script/check.h>
 
-mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script_runtime::operation> operation_a)
+mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu::script::operation> operation_a)
 	: operation_m (operation_a),
     open (count_a),
 	closed (count_a)
@@ -14,14 +14,14 @@ mu::script::closure::operation::operation (size_t count_a, boost::shared_ptr <mu
 	}
 }
 
-mu::script::closure::operation::operation (boost::shared_ptr <mu::script_runtime::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
+mu::script::closure::operation::operation (boost::shared_ptr <mu::script::operation> operation_a, std::vector <size_t> & open_a, std::vector <boost::shared_ptr <mu::core::node>> & closed_a)
 	: operation_m (operation_a),
 	open (open_a),
     closed (closed_a)
 {
 }
 
-bool mu::script::closure::operation::operator () (mu::script_runtime::context & context_a)
+bool mu::script::closure::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (mu::script::check_count (context_a, open.size ()))

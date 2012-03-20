@@ -10,19 +10,19 @@ namespace mu
 	{
 		class node;
 	}
-	namespace script_runtime
+	namespace script
 	{
 		class iterator
 		{
 		public:
 			iterator (std::vector <boost::shared_ptr <mu::core::node>> & stack_a, size_t position_a);
-			mu::script_runtime::iterator operator ++ ();
-			mu::script_runtime::iterator operator -- ();
-			mu::script_runtime::iterator operator + (size_t offset);
-			mu::script_runtime::iterator operator - (size_t offset);
+			mu::script::iterator operator ++ ();
+			mu::script::iterator operator -- ();
+			mu::script::iterator operator + (size_t offset);
+			mu::script::iterator operator - (size_t offset);
 			boost::shared_ptr <mu::core::node> operator * ();
-			bool operator == (mu::script_runtime::iterator const & other);
-			bool operator != (mu::script_runtime::iterator const & other);
+			bool operator == (mu::script::iterator const & other);
+			bool operator != (mu::script::iterator const & other);
 			std::vector <boost::shared_ptr <mu::core::node>> & stack;
 			size_t position;
 		};
