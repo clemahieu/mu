@@ -1,4 +1,4 @@
-#include "assemble.h"
+#include <mu/llvm_/module/assemble.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/context/node.h>
@@ -11,17 +11,18 @@
 
 #include <sstream>
 
-void mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
+bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::context::node, mu::script::astring::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::context::node, mu::script::astring::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));	
+		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters (1)));	
 		llvm::SMDiagnostic diagnostic;
 		llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, *one->context));
 		if (module != nullptr)
 		{
-			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (module)));
+			context_a.push (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (module)));
 		}
 		else
 		{
@@ -37,9 +38,11 @@ void mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 			message << diagnostic.getLineContents ();
 			std::string amessage (message.str ());
 			std::wstring converted (amessage.begin (), amessage.end ());
-			context_a (converted);
+			context_a.errors (converted);
+			result = false;
 		}
 	}
+	return result;
 }
 std::wstring mu::llvm_::module::assemble::name ()
 {

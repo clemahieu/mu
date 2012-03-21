@@ -15,18 +15,22 @@ mu::llvm_::basic_block::instruction_insert::instruction_insert (boost::shared_pt
 {
 }
 
-void mu::llvm_::basic_block::instruction_insert::operator () (mu::script::context & context_a)
+bool mu::llvm_::basic_block::instruction_insert::operator () (mu::script::context & context_a)
 {
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	r1.push_back (block);
-	auto ctx (mu::script::context (context_a, context_a.parameters, r1));
-	(*instruction) (ctx);
-	if (!context_a ())
+	bool result (true);
+	context_a.push (block);
+	context_a.slide ();
+	context_a.push (instruction);
+	context_a.push (context_a.parameters_begin (), context_a.parameters_end ());
+	result = context_a ();
+	if (result)
 	{
-		assert (r1.size () == 2);
-		mu::llvm_::basic_block::insert insert;
-		auto ctx (mu::script::context (context_a, r1, context_a.results));
-		insert (ctx);
-		context_a.results.push_back (r1 [1]);
+		assert (context_a.working_size () == 1);
+		context_a.slide ();
+		context_a.push (boost::make_shared <mu::llvm_::basic_block::insert> ());
+		context_a.push (context_a.locals (0));
+		context_a.push (context_a.locals (1));
+		result = context_a ();
 	}
+	return result;
 }

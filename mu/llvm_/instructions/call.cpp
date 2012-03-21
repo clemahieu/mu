@@ -1,4 +1,4 @@
-#include "call.h"
+#include <mu/llvm_/instructions/call.h>
 
 #include <mu/llvm_/value/node.h>
 #include <mu/llvm_/type/node.h>
@@ -20,11 +20,12 @@
 
 #include <sstream>
 
-void mu::llvm_::instructions::call::operator () (mu::script::context & context_a)
+bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a)
 {
-	if (context_a.parameters.size () > 0)
+	bool result (true);
+	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
+		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
 		if (one.get () != nullptr)
 		{
 			auto pointer_type (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (one->type));
@@ -34,11 +35,11 @@ void mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 				if (function_type.get () != nullptr)
 				{
 					auto flat_type (function_type->function_type ());
-					if (flat_type->getNumParams () == context_a.parameters.size () - 1)
+					if (flat_type->getNumParams () == context_a.parameters_size () - 1)
 					{
 						std::vector <llvm::Value *> arguments;
 						size_t position (0);
-						for (auto i (context_a.parameters.begin () + 1), j (context_a.parameters.end () + 0); i != j && !context_a (); ++i, ++position)
+						for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end () + 0); i != j && !context_a (); ++i, ++position)
 						{
 							auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
 							if (value.get () != nullptr)
@@ -64,42 +65,48 @@ void mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 									message << std::wstring (expected_str.begin (), expected_str.end ());
 									message << L" does match actual type: ";
 									message << std::wstring (actual_str.begin (), actual_str.end ());
-									context_a (message.str ());
+									context_a.errors (message.str ());
+									result = false;
 								}
 							}
 						}
 						if (! context_a ())
 						{
-							context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
+							context_a.push (boost::make_shared <mu::llvm_::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
 						}
 					}
 					else
 					{
 						std::wstringstream message;
 						message << L"Number of actual arguments: ";
-						message << context_a.parameters.size () - 1;
+						message << context_a.parameters_size () - 1;
 						message << L" does not match number of formal parameters: ";
 						message << flat_type->getNumParams ();
-						context_a (message.str ());
+						context_a.errors (message.str ());
+						result = false;
 					}
 				}
 				else
 				{
-					context_a (L"Can only call to a pointer to a function type");
+					context_a.errors (L"Can only call to a pointer to a function type");
+					result = false;
 				}
 			}
 			else
 			{
-				context_a (L"Can only call to a pointer type");
+				context_a.errors (L"Can only call to a pointer type");
+				result = false;
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::llvm_::pointer_type::node), 0);
+			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::llvm_::pointer_type::node), 0);
 		}
 	}
 	else
 	{
-		context_a (L"Call instruction must have at least one argument");
+		context_a.errors (L"Call instruction must have at least one argument");
+		result = false;
 	}
+	return result;
 }

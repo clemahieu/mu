@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/llvm_/istore/operation.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/value/node.h>
@@ -17,13 +17,14 @@ mu::llvm_::istore::operation::operation (boost::shared_ptr <mu::llvm_::basic_blo
 {
 }
 
-void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
+bool mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 {	
-	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a));
+	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
-		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
+		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (2)));
 		auto ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (two->type));
 		if (ptr != nullptr)
 		{
@@ -35,21 +36,22 @@ void mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 				auto added (llvm::BinaryOperator::CreateAdd (as_int, three->value ()));
 				block->block->getInstList ().push_back (added);
 				auto final (boost::make_shared <mu::llvm_::value::node> (added, three->type));
-				mu::llvm_::instructions::store store;
-				std::vector <boost::shared_ptr <mu::core::node>> a1;
-				a1.push_back (one);
-				a1.push_back (final);
-				auto ctx (mu::script::context (context_a, a1, context_a.results));
-				store (ctx);
+				context_a.push (boost::make_shared <mu::llvm_::instructions::store> ());
+				context_a.push (one);
+				context_a.push (final);
+				valid = context_a ();
 			}
 			else
 			{
-				context_a (L"Argument 3 is not an integer");
+				context_a.errors (L"Argument 3 is not an integer");
+				valid = false;
 			}
 		}
 		else
 		{
-			context_a (L"Argument 2 is not a pointer");
+			context_a.errors (L"Argument 2 is not a pointer");
+			valid = false;
 		}
 	}
+	return valid;
 }

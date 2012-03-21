@@ -1,4 +1,4 @@
-#include "tests.h"
+#include <mu/llvm_test/tests.h>
 
 #include <mu/llvm_test/module/get_package.h>
 #include <mu/llvm_test/module/add_package.h>

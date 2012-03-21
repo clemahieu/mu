@@ -1,4 +1,4 @@
-#include "insert.h"
+#include <mu/llvm_test/basic_block/insert.h>
 
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/instruction/node.h>
@@ -30,15 +30,12 @@ void mu::llvm_test::basic_block::insert::run_1 ()
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (context)));
 	function->getBasicBlockList ().push_back (block->block);
 	auto instruction (boost::make_shared <mu::llvm_::instruction::node> (new llvm::AllocaInst (llvm::Type::getInt1Ty (context)), boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context)))));
-	mu::llvm_::basic_block::insert insert;
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-	std::vector <boost::shared_ptr <mu::core::node>> results;
-	arguments.push_back (block);
-	arguments.push_back (instruction);
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
-	insert (ctx);
-	assert (errors->errors.empty ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::llvm_::basic_block::insert> ());
+	ctx.push (block);
+	ctx.push (instruction);
+	auto valid (ctx ());
+	assert (valid);
 	assert (block->block->getInstList ().size () == 1);
 }

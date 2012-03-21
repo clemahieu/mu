@@ -1,7 +1,7 @@
-#include "extension.h"
+#include <mu/llvm_test/constant_string/extension.h>
 
 #include <mu/core/errors/error_list.h>
-#include <mu/io/builder.h>
+#include <mu/io/ast/builder.h>
 #include <mu/io/source.h>
 #include <mu/llvm_/constant_string/extension.h>
 #include <mu/io/ast/cluster.h>
@@ -28,7 +28,7 @@ void mu::llvm_test::constant_string::extension::run ()
 
 void mu::llvm_test::constant_string::extension::run_1 ()
 {
-	mu::io::builder builder;
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[` test_string]");
 	source ();

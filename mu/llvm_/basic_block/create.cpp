@@ -1,4 +1,4 @@
-#include "create.h"
+#include <mu/llvm_/basic_block/create.h>
 
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/basic_block/node.h>
@@ -8,11 +8,13 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::basic_block::create::operator () (mu::script::context & context_a)
+bool mu::llvm_::basic_block::create::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::context::node> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::context::node> () (context_a));
+	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-		context_a.results.push_back (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (*one->context)));
+		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
+		context_a.push (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (*one->context)));
 	}
+	return valid;
 }

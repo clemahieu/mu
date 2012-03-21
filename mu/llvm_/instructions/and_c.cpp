@@ -1,4 +1,4 @@
-#include "and_c.h"
+#include <mu/llvm_/instructions/and_c.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
@@ -13,12 +13,13 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::and_c::operator () (mu::script::context & context_a)
+bool mu::llvm_::instructions::and_c::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
 		bool one_int (one->value ()->getType ()->isIntegerTy ());
 		bool two_int (two->value ()->getType ()->isIntegerTy ());
 		if (one_int && two_int)
@@ -28,7 +29,7 @@ void mu::llvm_::instructions::and_c::operator () (mu::script::context & context_
 			if (one_bits == two_bits)
 			{
 				auto instruction (llvm::BinaryOperator::CreateAnd (one->value (), two->value ()));
-				context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, one->type));
+				context_a.push (boost::make_shared <mu::llvm_::instruction::node> (instruction, one->type));
 			}
 			else
 			{
@@ -37,7 +38,8 @@ void mu::llvm_::instructions::and_c::operator () (mu::script::context & context_
 				message << one_bits;
 				message << L" ";
 				message << two_bits;
-				context_a (message.str ());
+				context_a.errors (message.str ());
+				result = false;
 			}
 		}
 		else
@@ -47,7 +49,9 @@ void mu::llvm_::instructions::and_c::operator () (mu::script::context & context_
 			message << one_int;
 			message << L" ";
 			message << two_int;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }

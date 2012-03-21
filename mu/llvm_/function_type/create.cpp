@@ -1,4 +1,4 @@
-#include "create.h"
+#include <mu/llvm_/function_type/create.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/values/operation.h>
@@ -16,13 +16,14 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::function_type::create::operator () (mu::script::context & context_a)
+bool mu::llvm_::function_type::create::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::context::node, mu::script::values::operation, mu::script::values::operation> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::context::node, mu::script::values::operation, mu::script::values::operation> () (context_a));
+	if (valid)
 	{
-		auto context (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-		auto one (boost::static_pointer_cast <mu::script::values::operation> (context_a.parameters [1]));
-		auto two (boost::static_pointer_cast <mu::script::values::operation> (context_a.parameters [2]));
+		auto context (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
+		auto one (boost::static_pointer_cast <mu::script::values::operation> (context_a.parameters (1)));
+		auto two (boost::static_pointer_cast <mu::script::values::operation> (context_a.parameters (2)));
 		std::vector <boost::shared_ptr <mu::llvm_::type::node>> arguments;
 		std::vector <boost::shared_ptr <mu::llvm_::type::node>> results;
 		for (auto i (one->values.begin ()), j (one->values.end ()); i != j; ++i)
@@ -37,7 +38,8 @@ void mu::llvm_::function_type::create::operator () (mu::script::context & contex
 				std::wstringstream message;
 				message << L"Expecting type, have: ";
 				message << (*i)->name ();
-				context_a (message.str ());
+				context_a.errors (message.str ());
+				valid = false;
 			}
 		}
 		for (auto i (two->values.begin ()), j (two->values.end ()); i != j; ++i)
@@ -52,22 +54,24 @@ void mu::llvm_::function_type::create::operator () (mu::script::context & contex
 				std::wstringstream message;
 				message << L"Expecting type, have: ";
 				message << (*i)->name ();
-				context_a (message.str ());
+				context_a.errors (message.str ());
+				valid = false;
 			}
 		}
 		if (results.size () == 0)
 		{				
-			context_a.results.push_back (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, boost::make_shared <mu::llvm_::void_type::node> (context)));
+			context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, boost::make_shared <mu::llvm_::void_type::node> (context)));
 		}
 		else if (results.size () == 1)
 		{
-			context_a.results.push_back (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, results [0]));
+			context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, results [0]));
 		}
 		else
 		{
-			context_a.results.push_back (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, boost::make_shared <mu::llvm_::set_type::node> (context, results)));
+			context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments, boost::make_shared <mu::llvm_::set_type::node> (context, results)));
 		}
 	}
+	return valid;
 }
 
 std::wstring mu::llvm_::function_type::create::name ()

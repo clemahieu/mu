@@ -1,4 +1,4 @@
-#include "create.h"
+#include <mu/llvm_test/constant_string/create.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/constant_string/create.h>
@@ -25,21 +25,18 @@ void mu::llvm_test::constant_string::create::run ()
 
 void mu::llvm_test::constant_string::create::run_1 ()
 {
-	auto errors (boost::make_shared <mu::core::errors::error_list> ());
-	std::vector <boost::shared_ptr <mu::core::node>> a1;
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
-	a1.push_back (boost::make_shared <mu::llvm_::context::node> (&context));
-	a1.push_back (boost::make_shared <mu::llvm_::module::node> (module));
-	a1.push_back (boost::make_shared <mu::script::string::node> (std::wstring (L"test string")));
-	std::vector <boost::shared_ptr <mu::core::node>> r1;
-	mu::llvm_::constant_string::create create;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, a1, r1, stack));
-	create (ctx);
-	assert (errors->errors.empty ());
-	assert (r1.size () == 1);
-	auto result (boost::dynamic_pointer_cast <mu::llvm_::value::node> (r1 [0]));
+	mu::script::context ctx;
+	ctx.push (boost::make_shared <mu::llvm_::constant_string::create> ());
+	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context));
+	ctx.push (boost::make_shared <mu::llvm_::module::node> (module));
+	ctx.push (boost::make_shared <mu::script::string::node> (std::wstring (L"test string")));
+	auto valid (ctx ());
+	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto result (boost::dynamic_pointer_cast <mu::llvm_::value::node> (ctx.working (0)));
 	assert (result.get () != nullptr);
 	//assert (result->global_variable ()->isConstant ());
 	//assert (result->global_variable ()->hasInitializer ());

@@ -1,4 +1,4 @@
-#include "icmp.h"
+#include <mu/llvm_/instructions/icmp.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
@@ -15,13 +15,14 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a)
+bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::predicate::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::predicate::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::predicate::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [1]));
-		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [2]));
+		auto one (boost::static_pointer_cast <mu::llvm_::predicate::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
+		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (2)));
 		bool two_int (two->value ()->getType ()->isIntegerTy ());
 		bool three_int (three->value ()->getType ()->isIntegerTy ());
 		if (two_int && three_int)
@@ -31,7 +32,7 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 			if (one_bits == two_bits)
 			{
 				auto instruction (new llvm::ICmpInst (one->value, two->value (), three->value ()));
-				context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
+				context_a.push (boost::make_shared <mu::llvm_::instruction::node> (instruction, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (two->value ()->getContext ()))));
 			}
 			else
 			{
@@ -40,7 +41,7 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 				message << one_bits;
 				message << L" ";
 				message << two_bits;
-				context_a (message.str ());
+				context_a.errors (message.str ());
 			}
 		}
 		else
@@ -50,9 +51,10 @@ void mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 			message << two_int;
 			message << L" ";
 			message << three_int;
-			context_a (message.str ());
+			context_a.errors (message.str ());
 		}
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::instructions::icmp::name ()

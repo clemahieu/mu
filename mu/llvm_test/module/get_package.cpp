@@ -1,4 +1,4 @@
-#include "get_package.h"
+#include <mu/llvm_test/module/get_package.h>
 
 #include <mu/llvm_/module/get_package.h>
 #include <mu/llvm_/function/node.h>
@@ -12,6 +12,8 @@
 #include <llvm/Module.h>
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
+
+#include <boost/make_shared.hpp>
 
 void mu::llvm_test::module::get_package::run ()
 {
@@ -27,18 +29,15 @@ void mu::llvm_test::module::get_package::run_1 ()
 	module->module->getFunctionList ().push_back (function1);
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b"));
 	module->module->getFunctionList ().push_back (function2);
-	mu::llvm_::module::get_package get;
-	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
-	std::vector <boost::shared_ptr <mu::core::node>> arguments;
-	arguments.push_back (module);
-	arguments.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
-	std::vector <boost::shared_ptr <mu::core::node>> results;
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, arguments, results, stack));
-	get (ctx);
-	assert (errors->errors.empty ());
-	assert (results.size () == 1);
-	auto package (boost::dynamic_pointer_cast <mu::script::package::node> (results [0]));
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::llvm_::module::get_package> ());
+	ctx.push (module);
+	ctx.push (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (std::string (".suffix"))));
+	auto valid (ctx ());
+	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto package (boost::dynamic_pointer_cast <mu::script::package::node> (ctx.working (0)));
 	assert (package.get () != nullptr);
 	assert (package->items.size () == 2);
 	assert (package->items.find (L"a") != package->items.end ());

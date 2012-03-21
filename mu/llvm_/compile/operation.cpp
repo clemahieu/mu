@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/llvm_/compile/operation.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
@@ -15,12 +15,13 @@
 
 #include <sstream>
 
-void mu::llvm_::compile::operation::operator () (mu::script::context & context_a)
+bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::module::node, mu::script::astring::node> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::module::node, mu::script::astring::node> () (context_a));
+	if (valid)
 	{
-		auto module (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-		auto name (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));
+		auto module (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto name (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters (1)));
 		std::string error;
 		std::string triple (llvm::sys::getHostTriple ());
 		llvm::Target const * target (llvm::TargetRegistry::lookupTarget (triple, error));
@@ -47,13 +48,15 @@ void mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 					}
 					else
 					{
-						context_a (L"Target does not support generation of files of this file type");
+						context_a.errors (L"Target does not support generation of files of this file type");
+						valid = false;
 					}
 				}
 				else
 				{
 					std::wstring message (error_info.begin (), error_info.end ());
-					context_a (message);
+					context_a.errors (message);
+					valid = false;
 				}
 			}
 			if (link)
@@ -71,9 +74,11 @@ void mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 		else
 		{
 			std::wstring message (error.begin (), error.end ());
-			context_a (message);
+			context_a.errors (message);
+			valid = false;
 		}
 	}
+	return valid;
 }
 
 std::wstring mu::llvm_::compile::operation::name ()

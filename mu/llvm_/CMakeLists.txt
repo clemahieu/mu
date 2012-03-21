@@ -6,7 +6,6 @@ add_library (mu_llvm_ STATIC
 	api.cpp
 	analyzer/context.cpp
 	analyzer/operation.cpp
-	analyzer/reference.cpp
 	apint/create.cpp
 	apint/extension.cpp
 	apint/node.cpp

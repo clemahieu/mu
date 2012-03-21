@@ -1,4 +1,4 @@
-#include "link_modules.h"
+#include <mu/llvm_test/linker/link_modules.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/module/node.h>
@@ -13,6 +13,7 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 void mu::llvm_test::linker::link_modules::run ()
 {
@@ -29,22 +30,19 @@ void mu::llvm_test::linker::link_modules::run_1 ()
 	auto module2 (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test2"), context))));	
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b", module2->module));
 	mu::llvm_::linker::link_modules link_modules;
-	boost::shared_ptr <mu::core::errors::error_list> errors (new mu::core::errors::error_list);
-	std::vector <boost::shared_ptr <mu::core::node>> args1;
-	std::vector <boost::shared_ptr <mu::core::node>> res1;
-	args1.push_back (module);
-	args1.push_back (module1);
-	std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-    auto ctx (mu::script::context (errors, args1, res1, stack));
-	link_modules (ctx);
-	assert (errors->errors.empty ());
-	std::vector <boost::shared_ptr <mu::core::node>> args2;
-	std::vector <boost::shared_ptr <mu::core::node>> res2;
-	args2.push_back (module);
-	args2.push_back (module2);
-    auto ctx2 (mu::script::context (errors, args2, res2, stack));
-	link_modules (ctx2);
-	assert (errors->errors.empty ());
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context ctx;
+	ctx.push (boost::make_shared <mu::llvm_::linker::link_modules> ());
+	ctx.push (module);
+	ctx.push (module1);
+	auto valid (ctx ());
+	assert (valid);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::linker::link_modules> ());
+	ctx.push (module);
+	ctx.push (module2);
+	auto valid2 (ctx ());
+	assert (valid2);
 	assert (module->module->getFunction ("a") != nullptr);
 	assert (module->module->getFunction ("b") != nullptr);
 }

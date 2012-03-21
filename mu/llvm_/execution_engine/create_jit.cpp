@@ -1,4 +1,4 @@
-#include "create_jit.h"
+#include <mu/llvm_/execution_engine/create_jit.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
@@ -9,11 +9,12 @@
 
 #include <sstream>
 
-void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context & context_a)
+bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::module::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::module::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
 		llvm::EngineBuilder builder (one->module);
 		builder.setEngineKind (llvm::EngineKind::JIT);
 		std::string errors_l;
@@ -21,7 +22,7 @@ void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 		auto engine (builder.create ());
 		if (engine != nullptr && errors_l.empty ())
 		{
-			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::node (engine)));
+			context_a.push (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::node (engine)));
 		}
 		else
 		{
@@ -29,9 +30,11 @@ void mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 			message << L"Unable to build ExecutionEngine: ";
 			std::wstring error (errors_l.begin (), errors_l.end ());
 			message << error;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::execution_engine::create_jit::name ()

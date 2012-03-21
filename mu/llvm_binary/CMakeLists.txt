@@ -15,7 +15,6 @@ target_link_libraries (mu_llvm_binary
 	mu_core
 	mu_io
 	mu_script
-	mu_script_io
 	mu_llvm_)
 
 if (WIN32)

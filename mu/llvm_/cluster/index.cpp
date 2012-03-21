@@ -1,4 +1,4 @@
-#include "index.h"
+#include <mu/llvm_/cluster/index.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/cluster/node.h>
@@ -8,15 +8,16 @@
 
 #include <sstream>
 
-void mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
+bool mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::cluster::node, mu::script::integer::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::cluster::node, mu::script::integer::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::integer::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::integer::node> (context_a.parameters (1)));
 		if (one->routines.size () > two->value)
 		{
-			context_a.results.push_back (one->routines [two->value]);
+			context_a.push (one->routines [two->value]);
 		}
 		else
 		{
@@ -25,7 +26,9 @@ void mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 			message << one->routines.size ();
 			message << L" routines: ";
 			message << two->value;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }
