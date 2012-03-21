@@ -28,6 +28,7 @@
 #include <mu/script/string/extension.h>
 #include <mu/script/astring/extension.h>
 #include <mu/script/integer/extension.h>
+#include <mu/script/ast/extension.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -40,6 +41,7 @@ mu::script::extensions::node * mu::script::api::core ()
 	result->extensions->extensions_m [std::wstring (L"`")] = boost::make_shared <mu::script::string::extension> ();
 	result->extensions->extensions_m [std::wstring (L"`a")] = boost::make_shared <mu::script::astring::extension> ();
 	result->extensions->extensions_m [std::wstring (L"#")] = boost::make_shared <mu::script::integer::extension> ();
+	result->extensions->extensions_m [std::wstring (L".ast")] = boost::make_shared <mu::script::ast::extension> ();
 	return result;
 }
 
