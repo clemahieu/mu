@@ -12,38 +12,39 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (0)));
 		if (one.get () != nullptr)
 		{
-			assert (false);
-			//std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 1, context_a.parameters.end ());
-			//bool end (false);
-			//while (!end)
-			//{
-			//	std::vector <boost::shared_ptr <mu::core::node>> results_l;
-			//	auto ctx (mu::script::context (context_a, arguments, results_l));
-			//	(*one) (ctx);
-			//	if (results_l.size () > 0)
-			//	{
-			//		auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (results_l [results_l.size () - 1]));
-			//		if (val.get () != nullptr)
-			//		{
-			//			end = val->value;
-			//			arguments.swap (results_l);
-			//			arguments.resize (arguments.size () - 1);
-			//		}
-			//		else
-			//		{
-			//			end = true;
-			//			context_a.errors (L"Last result must be a bool");
-			//			result = false;
-			//		}
-			//	}
-			//	else
-			//	{
-			//		end = true;
-			//		context_a.errors (L"Chain operation must have at least one result");
-			//		result = false;
-			//	}
-			//}
-			//context_a.push (context_a.results.end (), arguments.begin (), arguments.end ());
+			context_a.reserve (context_a.parameters_size () - 1);
+			context_a.assign (context_a.locals_begin (), context_a.parameters_begin () + 1, context_a.parameters_end ());
+			bool end (false);
+			while (result && !end)
+			{
+				context_a.push (one);
+				context_a.push (context_a.locals_begin (), context_a.locals_end ());
+				result = context_a ();
+				if (result)
+				{
+					if (context_a.working_size () > 0)
+					{
+						auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (context_a.working (context_a.working_size () - 1)));
+						if (val.get () != nullptr)
+						{
+							end = val->value;
+							context_a.assign (context_a.locals_begin (), context_a.working_begin (), context_a.working_end () - 1);
+							context_a.drop ();
+						}
+						else
+						{
+							context_a.errors (L"Last result must be a bool");
+							result = false;
+						}
+					}
+					else
+					{
+						context_a.errors (L"Chain operation must have at least one result");
+						result = false;
+					}
+				}
+			}
+			context_a.push (context_a.locals_begin (), context_a.locals_end ());
 		}
 		else
 		{

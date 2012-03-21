@@ -24,16 +24,16 @@ bool mu::script::package::get_recursive::operator () (mu::script::context & cont
 			context_a.push (boost::make_shared <mu::script::package::get> ());
 			context_a.push (node);
 			context_a.push (*i);
-			context_a ();
-			if (context_a.working_size () == 1)
+			result = context_a ();
+			if (result)
 			{
 				node = context_a.working (0);
+				context_a.drop ();
 			}
 			else
 			{
 				good = false;
 				context_a.errors (L"Get operation did not return result");
-				result = false;
 			}
 		}
 		context_a.push (node);
