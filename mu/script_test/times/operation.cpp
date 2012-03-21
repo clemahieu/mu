@@ -10,6 +10,9 @@
 #include <mu/core/routine.h>
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
+#include <mu/core/expression.h>
+#include <mu/core/parameters.h>
+#include <mu/script/identity/operation.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -18,6 +21,7 @@ void mu::script_test::times::operation::run ()
 {
 	run_1 ();
 	run_2 ();
+	run_3 ();
 }
 
 void mu::script_test::times::operation::run_1 ()
@@ -41,6 +45,27 @@ void mu::script_test::times::operation::run_1 ()
 }
 
 void mu::script_test::times::operation::run_2 ()
+{	
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context ctx (errors);
+	auto expression (boost::make_shared <mu::core::expression> ());
+	expression->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
+	auto routine (boost::make_shared <mu::core::routine> (expression));
+	ctx.push (boost::make_shared <mu::script::times::operation> ());
+	ctx.push (boost::make_shared <mu::script::integer::node> (10));
+	ctx.push (boost::make_shared <mu::script::identity::operation> ());
+	auto n1 (boost::make_shared <mu::core::node> ());
+	ctx.push (n1);
+	auto n2 (boost::make_shared <mu::core::node> ());
+	ctx.push (n2);
+	auto valid (ctx ());
+	assert (valid);
+	assert (ctx.working_size () == 2);
+	assert (ctx.working (0) == n1);
+	assert (ctx.working (1) == n2);
+}
+
+void mu::script_test::times::operation::run_3 ()
 {	
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));

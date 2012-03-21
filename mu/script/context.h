@@ -20,15 +20,15 @@ namespace mu
 		public:
 			context ();
 			context (mu::core::errors::errors errors_a);
-			boost::shared_ptr <mu::core::node> parameters (size_t offset);
+			boost::shared_ptr <mu::core::node> & parameters (size_t offset);
 			size_t parameters_size ();
 			mu::script::iterator parameters_begin ();
 			mu::script::iterator parameters_end ();
-			boost::shared_ptr <mu::core::node> locals (size_t offset);
+			boost::shared_ptr <mu::core::node> & locals (size_t offset);
 			size_t locals_size ();
 			mu::script::iterator locals_begin ();
 			mu::script::iterator locals_end ();
-			boost::shared_ptr <mu::core::node> working (size_t offset);
+			boost::shared_ptr <mu::core::node> & working (size_t offset);
 			size_t working_size ();
 			mu::script::iterator working_begin ();
 			mu::script::iterator working_end ();

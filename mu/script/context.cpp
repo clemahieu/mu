@@ -67,11 +67,10 @@ bool mu::script::context::operator () ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> mu::script::context::parameters (size_t offset)
+boost::shared_ptr <mu::core::node> & mu::script::context::parameters (size_t offset)
 {
 	assert (offset < parameters_size ());
-	auto result (stack [base_begin + offset]);
-	assert (result.get () != nullptr);
+	boost::shared_ptr <mu::core::node> & result (stack [base_begin + offset]);
 	return result;
 }
 
@@ -82,10 +81,10 @@ size_t mu::script::context::parameters_size ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> mu::script::context::locals (size_t offset)
+boost::shared_ptr <mu::core::node> & mu::script::context::locals (size_t offset)
 {
 	assert (offset < locals_size ());
-	auto result (stack [base_end + offset]);
+	boost::shared_ptr <mu::core::node> & result (stack [base_end + offset]);
 	return result;
 }
 
@@ -96,11 +95,10 @@ size_t mu::script::context::locals_size ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> mu::script::context::working (size_t offset)
+boost::shared_ptr <mu::core::node> & mu::script::context::working (size_t offset)
 {
 	assert (offset < working_size ());
-	auto result (stack [frame_begin + offset]);
-	assert (result.get () != nullptr);
+	boost::shared_ptr <mu::core::node> & result (stack [frame_begin + offset]);
 	return result;
 }
 
