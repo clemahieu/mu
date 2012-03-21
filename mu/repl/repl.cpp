@@ -1,4 +1,4 @@
-#include "repl.h"
+#include <mu/repl/repl.h>
 
 #include <iostream>
 #include <string>
@@ -8,9 +8,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/core/errors/error.h>
 #include <mu/repl/cli_stream.h>
-#include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/runtime/routine.h>
 #include <mu/io/lexer/error.h>
 #include <mu/io/parser/error.h>
 #include <mu/repl/quit/operation.h>
@@ -19,8 +17,11 @@
 #include <mu/script/print/operation.h>
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/context.h>
+#include <mu/io/builder.h>
+#include <mu/script/extensions/node.h>
+#include <mu/script/api.h>
+#include <mu/core/routine.h>
 
 #include <boost/make_shared.hpp>
 
@@ -57,7 +58,7 @@ void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
-	mu::script_io::builder builder;
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	auto quit (boost::shared_ptr <mu::core::node> (new mu::repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
@@ -72,23 +73,20 @@ void mu::repl::repl::iteration ()
 			auto cluster (builder.clusters [0]);
 			if (cluster->routines.size () > 0)
 			{
-				auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-				std::vector <boost::shared_ptr <mu::core::node>> arguments;
-				std::vector <boost::shared_ptr <mu::core::node>> results;
-				auto routine (cluster->routines [0]);
-				std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-                auto ctx1 (mu::script::context (errors, arguments, results, stack));
-				(*routine) (ctx1);
-				if (errors->errors.empty ())
+				mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+				mu::script::context ctx (errors);
+				ctx.push (cluster->routines [0]);
+				auto valid (ctx ());
+				if (valid)
 				{
-					mu::script::print::operation print;
-					std::vector <boost::shared_ptr <mu::core::node>> print_results;
-                    auto ctx2 (mu::script::context (errors, results, print_results, stack));
-					print (ctx2);
+					ctx.slide ();
+					ctx.push (boost::make_shared <mu::script::print::operation> ());
+					ctx.push (ctx.locals_begin (), ctx.locals_end ());
+					auto valid (ctx ());
 				}
 				else
 				{
-					print_errors (errors);
+					errors.target->print (std::wcout);
 				}
 			}
 			else
@@ -105,16 +103,6 @@ void mu::repl::repl::iteration ()
 	}
 	else
 	{
-		print_errors (builder.errors);
+		builder.errors->print (std::wcout);
 	}
-}
-
-void mu::repl::repl::print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a)
-{
-	for (auto i (errors_a->errors.begin ()), j (errors_a->errors.end ()); i != j; ++i)
-	{
-		(*i)->string (std::wcout);
-		std::wcout << L"\n";
-	}
-
 }

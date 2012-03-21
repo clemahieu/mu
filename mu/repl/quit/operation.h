@@ -13,7 +13,7 @@ namespace mu
 			{
 			public:
 				operation (mu::repl::repl & repl_a);
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
 				mu::repl::repl & repl;
 			};

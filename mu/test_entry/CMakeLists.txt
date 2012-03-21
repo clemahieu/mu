@@ -17,6 +17,8 @@ target_link_libraries (mu_test_entry
 	mu_core_test
 	mu_io
 	mu_io_test
+	mu_repl
+	mu_repl_test
 	mu_script
 	mu_script_test)
 
