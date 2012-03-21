@@ -1,9 +1,11 @@
 #include <mu/script/exec/operation.h>
-#include <mu/script_io/builder.h>
+#include <mu/io/builder.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
 #include <mu/script/string/node.h>
 #include <mu/script/context.h>
+#include <mu/script/extensions/node.h>
+#include <mu/script/api.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -12,18 +14,16 @@ int main (int argc, char * argv [])
 {
 	if (argc == 2)
 	{
-		auto errors (boost::make_shared <mu::core::errors::error_list> ());
-		mu::script::exec::operation exec (mu::script_io::extensions ());
-		std::vector <boost::shared_ptr <mu::core::node>> arguments;
-		std::vector <boost::shared_ptr <mu::core::node>> results;
+		mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+		
 		std::string file_name (argv [1]);
-		arguments.push_back (boost::make_shared <mu::script::string::node> (std::wstring (file_name.begin (), file_name.end ())));
-		std::vector <boost::shared_ptr <mu::script::debugging::call_info>> stack;
-		auto ctx (mu::script::context (errors, arguments, results, stack));
-        exec (ctx);
-		if (errors->errors.empty ())
+		mu::script::context context;
+		context.push (boost::make_shared <mu::script::exec::operation> (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions));
+		context.push (boost::make_shared <mu::script::string::node> (std::wstring (file_name.begin (), file_name.end ())));
+        auto valid (context ());
+		if (valid)
 		{
-			for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
+			for (auto i (context.working_begin ()), j (context.working_end ()); i != j; ++i)
 			{
 				std::wcout << (*i)->debug ();
 				std::wcout << L'\n';
@@ -32,7 +32,7 @@ int main (int argc, char * argv [])
 		else
 		{
 			std::wcout << L"Error while executing file: ";
-			errors->print (std::wcout);
+			errors.target->print (std::wcout);
 		}
 	}
 	else
