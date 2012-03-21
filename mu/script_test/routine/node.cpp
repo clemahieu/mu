@@ -26,6 +26,7 @@ void mu::script_test::routine::node::run ()
 	run_8 ();
 	run_9 ();
 	run_10 ();
+	run_11 ();
 }
 
 void mu::script_test::routine::node::run_1 ()
@@ -198,6 +199,30 @@ void mu::script_test::routine::node::run_10 ()
 	expression3->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
 	expression3->dependencies.push_back (boost::make_shared <mu::core::reference> (expression1, 0));
 	expression3->dependencies.push_back (expression2);
+	auto routine (boost::make_shared <mu::core::routine> (expression3));
+	context.push (routine);
+	auto n1 (boost::make_shared <mu::core::node> ());
+	context.push (n1);
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 2);
+}
+
+void mu::script_test::routine::node::run_11 ()
+{
+	//"[[:~; 1] ~ [~ 1] 1]"
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context context (errors);
+	context.stack.reserve (100);
+	auto expression1 (boost::make_shared <mu::core::expression> ());
+	expression1->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
+	auto expression2 (boost::make_shared <mu::core::expression> ());
+	expression2->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	expression2->dependencies.push_back (boost::make_shared <mu::core::reference> (expression1, 0));
+	auto expression3 (boost::make_shared <mu::core::expression> ());
+	expression3->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	expression3->dependencies.push_back (expression2);
+	expression3->dependencies.push_back (boost::make_shared <mu::core::reference> (expression1, 0));
 	auto routine (boost::make_shared <mu::core::routine> (expression3));
 	context.push (routine);
 	auto n1 (boost::make_shared <mu::core::node> ());

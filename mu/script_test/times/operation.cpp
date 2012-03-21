@@ -69,7 +69,7 @@ void mu::script_test::times::operation::run_3 ()
 {	
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
-	source (L"[[:~; subtract number amount] ~ subtract [subtract number amount] amount]");
+	source (L"[[:~; subtract number amount] ~ [subtract number amount] amount]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
@@ -82,11 +82,11 @@ void mu::script_test::times::operation::run_3 ()
 	ctx.push (n1);
 	auto n2 (cluster->routines [0]);
 	ctx.push (n2);
-	auto n3 (boost::shared_ptr <mu::core::node> (new mu::script::integer::subtract));
+	auto n3 (boost::make_shared <mu::script::integer::subtract> ());
 	ctx.push (n3);
-	auto n4 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (5)));
+	auto n4 (boost::make_shared <mu::script::integer::node> (5));
 	ctx.push (n4);
-	auto n5 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (1)));
+	auto n5 (boost::make_shared <mu::script::integer::node> (1));
 	ctx.push (n5);
 	auto valid (ctx ());
 	assert (valid);
