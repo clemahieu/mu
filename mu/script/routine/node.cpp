@@ -39,7 +39,11 @@ bool mu::script::routine::node::operator () (mu::script::context & context_a)
 					context_a.push (parameters);
 					context_a.push (expression_l);
 					result = context_a ();
-					locals->ranges [expression_l] = boost::tuple <size_t, size_t> (context_a.base_end, context_a.base_end + context_a.working_size ());
+					locals->ranges [expression_l] = boost::tuple <size_t, size_t> (locals->frame.size (), locals->frame.size () + context_a.working_size ());
+					for (auto i (context_a.working_begin ()), j (context_a.working_end ()); i != j; ++i)
+					{
+						locals->frame.push_back (*i);
+					}
 					context_a.slide ();
 				}
 				else
@@ -67,7 +71,7 @@ bool mu::script::routine::node::operator () (mu::script::context & context_a)
 					assert (locals->ranges.find (expression_l) != locals->ranges.end ());
 					auto range (locals->ranges [expression_l]);
 					assert (range.get <0> () != ~0 && range.get <0> () != ~0 - 1 && range.get <1> () != ~0 && range.get <1> () != ~0 - 1);
-					context_a.push (context_a.stack.begin () + range.get <0> (), context_a.stack.begin () + range.get <1> ());
+					context_a.push (locals->frame.begin () + range.get <0> (), locals->frame.begin () + range.get <1> ());
 				}
 				else
 				{
@@ -79,7 +83,7 @@ bool mu::script::routine::node::operator () (mu::script::context & context_a)
 						assert (range.get <0> () != ~0 && range.get <0> () != ~0 - 1 && range.get <1> () != ~0 && range.get <1> () != ~0 - 1);
 						if (reference_l->index + range.get <0> () < range.get <1> ())
 						{
-							context_a.push (context_a.stack [reference_l->index + range.get <0> ()]);
+							context_a.push (locals->frame [reference_l->index + range.get <0> ()]);
 						}
 						else
 						{

@@ -69,7 +69,7 @@ void mu::script_test::times::operation::run_3 ()
 {	
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &builder.lexer, _1));
-	source (L"[[:~; subtract number amount] ~ [subtract number amount] amount]");
+	source (L"[[:~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
