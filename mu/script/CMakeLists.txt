@@ -46,6 +46,7 @@ add_library (mu_script STATIC
 	load/operation.cpp
 	${loadb_operation}
 	loads/operation.cpp
+	topology/operation.cpp
 	package/add.cpp
 	package/create.cpp
 	package/get.cpp

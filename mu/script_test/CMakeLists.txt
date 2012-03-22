@@ -20,4 +20,5 @@ add_library (mu_script_test STATIC
 	routine/node.cpp
 	string/extension.cpp
 	times/operation.cpp
+	topology/operation.cpp
 	type_check/operation.cpp)

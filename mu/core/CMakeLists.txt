@@ -6,7 +6,6 @@ add_library (mu_core STATIC
 	cluster.cpp
 	expression.cpp
 	node.cpp
-	order.cpp
 	parameters.cpp
 	reference.cpp
 	routine.cpp

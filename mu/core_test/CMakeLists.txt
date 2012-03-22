@@ -6,7 +6,6 @@ add_library (mu_core_test STATIC
 	directory_iterator_test.cpp
 	filesystem_test.cpp
 	list.cpp
-	order.cpp
 	segment.cpp
 	test_visitor.cpp
 	tests.cpp

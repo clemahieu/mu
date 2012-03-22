@@ -1,23 +1,23 @@
-#include <mu/core_test/order.h>
+#include <mu/script_test/topology/operation.h>
 
 #include <mu/core/errors/error_list.h>
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
-#include <mu/core/order.h>
+#include <mu/script/topology/operation.h>
 #include <mu/core/parameters.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::core_test::order::run ()
+void mu::script_test::topology::operation::run ()
 {
 	run_1 ();
 	run_2 ();
 	run_3 ();
 }
 
-void mu::core_test::order::run_1 ()
+void mu::script_test::topology::operation::run_1 ()
 {
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine));
 	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
@@ -25,7 +25,7 @@ void mu::core_test::order::run_1 ()
 	auto parameters (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
 	root->dependencies.push_back (parameters);
 	parameters->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
-	mu::core::order order (routine->body);
+	mu::script::topology::operation order (routine->body);
 	auto i (order.expressions.begin ());
 	assert (*i == parameters);
 	++i;
@@ -34,7 +34,7 @@ void mu::core_test::order::run_1 ()
 	assert (i == order.expressions.end ());
 }
 
-void mu::core_test::order::run_2 ()
+void mu::script_test::topology::operation::run_2 ()
 {
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine));
 	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
@@ -45,7 +45,7 @@ void mu::core_test::order::run_2 ()
 	auto c2 (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
 	root->dependencies.push_back (c2);
 	c2->dependencies.push_back (c1);
-	mu::core::order order (routine->body);
+	mu::script::topology::operation order (routine->body);
 	auto i (order.expressions.begin ());
 	assert (*i == c1);
 	++i;
@@ -56,7 +56,7 @@ void mu::core_test::order::run_2 ()
 	assert (i == order.expressions.end ());
 }
 
-void mu::core_test::order::run_3 ()
+void mu::script_test::topology::operation::run_3 ()
 {
 	auto routine (boost::shared_ptr <mu::core::routine> (new mu::core::routine));
 	auto root (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
@@ -65,7 +65,7 @@ void mu::core_test::order::run_3 ()
 	parameters->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
 	auto r1 (boost::shared_ptr <mu::core::reference> (new mu::core::reference (parameters, 0)));
 	root->dependencies.push_back (r1);
-	mu::core::order order (routine->body);
+	mu::script::topology::operation order (routine->body);
 	auto i (order.expressions.begin ());
 	assert (*i == parameters);
 	++i;

@@ -1,10 +1,9 @@
-#include "tests.h"
+#include <mu/core_test/tests.h>
 
 #include <mu/core_test/filesystem_test.h>
 #include <mu/core_test/directory_iterator_test.h>
 #include <mu/core_test/visitor.h>
 #include <mu/core_test/list.h>
-#include <mu/core_test/order.h>
 #include <mu/core_test/segment.h>
 #include <mu/core_test/apply.h>
 
@@ -24,10 +23,6 @@ void mu::core_test::tests::run ()
 	}
 	{
 		visitor test;
-		test.run ();
-	}
-	{
-		order test;
 		test.run ();
 	}
 	{
