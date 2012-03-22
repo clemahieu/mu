@@ -19,6 +19,7 @@ namespace mu
 		public:
 			order (boost::shared_ptr <mu::core::expression> expression_a);
 			void operator () (boost::shared_ptr <mu::core::expression> expression_a);
+			void operator () (mu::core::cluster * cluster_a) override;
 			void operator () (mu::core::expression * expression_a) override;
 			void operator () (mu::core::parameters * parameters_a) override;
 			void operator () (mu::core::reference * reference_a) override;

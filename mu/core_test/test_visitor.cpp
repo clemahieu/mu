@@ -1,5 +1,9 @@
-#include "test_visitor.h"
+#include <mu/core_test/test_visitor.h>
 
+void mu::core_test::test_visitor::operator () (mu::core::cluster * cluster_a)
+{
+	clusters.push_back (cluster_a);
+}
 
 void mu::core_test::test_visitor::operator () (mu::core::expression * expression_a)
 {

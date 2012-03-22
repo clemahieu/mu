@@ -26,13 +26,13 @@ int main ()
 		test.run ();
 	}
 	{
-		mu::llvm_test::tests test;
-		test.run ();
-	}
-	{
 		mu::repl_test::tests test;
 		test.run ();
 	}
+	//{
+	//	mu::llvm_test::tests test;
+	//	test.run ();
+	//}
 
 	for (size_t i (0); i < 1000; ++i)
 	{

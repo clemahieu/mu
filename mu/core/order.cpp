@@ -1,4 +1,4 @@
-#include "order.h"
+#include <mu/core/order.h>
 
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
@@ -6,6 +6,10 @@
 mu::core::order::order (boost::shared_ptr <mu::core::expression> call_a)
 {
 	(*this) (call_a);
+}
+
+void mu::core::order::operator() (mu::core::cluster * cluster_a)
+{
 }
 
 void mu::core::order::operator () (boost::shared_ptr <mu::core::expression> expression_a)
@@ -25,7 +29,6 @@ void mu::core::order::operator () (boost::shared_ptr <mu::core::expression> expr
 
 void mu::core::order::operator() (mu::core::parameters * parameters_a)
 {
-
 }
 
 void mu::core::order::operator () (mu::core::expression * set_a)
@@ -42,10 +45,8 @@ void mu::core::order::operator () (mu::core::reference * reference_a)
 
 void mu::core::order::operator () (mu::core::node * node_a)
 {
-
 }
 
 void mu::core::order::operator() (mu::core::routine * routine_a)
 {
-
 }
