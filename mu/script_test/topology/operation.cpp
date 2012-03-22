@@ -6,6 +6,7 @@
 #include <mu/core/reference.h>
 #include <mu/script/topology/operation.h>
 #include <mu/core/parameters.h>
+#include <mu/script/topology/node.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
@@ -26,12 +27,12 @@ void mu::script_test::topology::operation::run_1 ()
 	root->dependencies.push_back (parameters);
 	parameters->dependencies.push_back (boost::make_shared <mu::core::parameters> ());
 	mu::script::topology::operation order (routine->body);
-	auto i (order.expressions.begin ());
+	auto i (order.topology->expressions.begin ());
 	assert (*i == parameters);
 	++i;
 	assert (*i == root);
 	++i;
-	assert (i == order.expressions.end ());
+	assert (i == order.topology->expressions.end ());
 }
 
 void mu::script_test::topology::operation::run_2 ()
@@ -46,14 +47,14 @@ void mu::script_test::topology::operation::run_2 ()
 	root->dependencies.push_back (c2);
 	c2->dependencies.push_back (c1);
 	mu::script::topology::operation order (routine->body);
-	auto i (order.expressions.begin ());
+	auto i (order.topology->expressions.begin ());
 	assert (*i == c1);
 	++i;
 	assert (*i == c2);
 	++i;
 	assert (*i == root);
 	++i;
-	assert (i == order.expressions.end ());
+	assert (i == order.topology->expressions.end ());
 }
 
 void mu::script_test::topology::operation::run_3 ()
@@ -66,10 +67,10 @@ void mu::script_test::topology::operation::run_3 ()
 	auto r1 (boost::shared_ptr <mu::core::reference> (new mu::core::reference (parameters, 0)));
 	root->dependencies.push_back (r1);
 	mu::script::topology::operation order (routine->body);
-	auto i (order.expressions.begin ());
+	auto i (order.topology->expressions.begin ());
 	assert (*i == parameters);
 	++i;
 	assert (*i == root);
 	++i;
-	assert (i == order.expressions.end ());
+	assert (i == order.topology->expressions.end ());
 }

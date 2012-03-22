@@ -19,6 +19,7 @@ namespace mu
 	{
 		namespace topology
 		{
+			class node;
 			class operation : public mu::core::visitor
 			{
 			public:
@@ -32,7 +33,7 @@ namespace mu
 				void operator () (mu::core::routine * routine_a) override;
 				boost::shared_ptr <mu::core::node> current;
 				std::set <boost::shared_ptr <mu::core::expression>> already;
-				std::vector <boost::shared_ptr <mu::core::expression>> expressions;
+				boost::shared_ptr <mu::script::topology::node> topology;
 			};
 		}
 	}

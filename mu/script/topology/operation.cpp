@@ -2,8 +2,10 @@
 
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
+#include <mu/script/topology/node.h>
 
 mu::script::topology::operation::operation (boost::shared_ptr <mu::core::expression> call_a)
+	: topology (new mu::script::topology::node)
 {
 	(*this) (call_a);
 }
@@ -23,7 +25,7 @@ void mu::script::topology::operation::operator () (boost::shared_ptr <mu::core::
 			current = *i;
 			(*(*i)) (this);
 		}
-		expressions.push_back (expression_a);
+		topology->expressions.push_back (expression_a);
 	}
 }
 
