@@ -6,7 +6,7 @@ namespace mu
 	{
 		namespace topology
 		{
-			class operation
+			class core
 			{
 			public:
 				void run ();

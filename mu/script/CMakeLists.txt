@@ -61,6 +61,7 @@ add_library (mu_script STATIC
 	string/node.cpp
 	synthesizer/operation.cpp
 	times/operation.cpp
+	topology/core.cpp
 	topology/node.cpp
 	topology/operation.cpp
 	type_check/operation.cpp

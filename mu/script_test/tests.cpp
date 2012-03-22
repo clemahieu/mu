@@ -17,7 +17,7 @@
 #include <mu/script_test/analyzer/operation.h>
 #include <mu/script_test/type_check/operation.h>
 #include <mu/script_test/routine/node.h>
-#include <mu/script_test/topology/operation.h>
+#include <mu/script_test/topology/core.h>
 
 void mu::script_test::tests::run ()
 {
@@ -26,7 +26,7 @@ void mu::script_test::tests::run ()
 		test.run ();
 	}
 	{
-		mu::script_test::topology::operation test;
+		mu::script_test::topology::core test;
 		test.run ();
 	}
 	{

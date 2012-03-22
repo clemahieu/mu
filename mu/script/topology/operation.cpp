@@ -1,54 +1,27 @@
 #include <mu/script/topology/operation.h>
 
-#include <mu/core/expression.h>
-#include <mu/core/reference.h>
+#include <mu/script/check.h>
+#include <mu/script/context.h>
+#include <mu/core/routine.h>
+#include <mu/script/topology/core.h>
 #include <mu/script/topology/node.h>
 
-mu::script::topology::operation::operation (boost::shared_ptr <mu::core::expression> call_a)
-	: topology (new mu::script::topology::node)
+bool mu::script::topology::operation::operator () (mu::script::context & context_a)
 {
-	(*this) (call_a);
-}
-
-void mu::script::topology::operation::operator() (mu::core::cluster * cluster_a)
-{
-}
-
-void mu::script::topology::operation::operator () (boost::shared_ptr <mu::core::expression> expression_a)
-{
-	auto existing (already.find (expression_a));
-	if (existing == already.end ())
-	{	
-		already.insert (expression_a);
-		for (auto i (expression_a->dependencies.begin ()), j (expression_a->dependencies.end ()); i != j; ++i)
+	bool valid (mu::script::check <mu::core::routine> () (context_a));
+	if (valid)
+	{
+		auto routine (boost::static_pointer_cast <mu::core::routine> (context_a.parameters (0)));
+		mu::script::topology::core core (routine->body);
+		if (core.acyclic)
 		{
-			current = *i;
-			(*(*i)) (this);
+			context_a.push (core.topology);
 		}
-		topology->expressions.push_back (expression_a);
+		else
+		{
+			context_a.errors (L"Routine contains cycles");
+			valid = false;
+		}
 	}
-}
-
-void mu::script::topology::operation::operator() (mu::core::parameters * parameters_a)
-{
-}
-
-void mu::script::topology::operation::operator () (mu::core::expression * set_a)
-{
-	auto call_l (boost::static_pointer_cast <mu::core::expression> (current));
-	(*this) (call_l);
-}
-
-void mu::script::topology::operation::operator () (mu::core::reference * reference_a)
-{
-	auto reference_l (boost::static_pointer_cast <mu::core::reference> (current));
-	(*this) (reference_l->expression);
-}
-
-void mu::script::topology::operation::operator () (mu::core::node * node_a)
-{
-}
-
-void mu::script::topology::operation::operator() (mu::core::routine * routine_a)
-{
+	return valid;
 }
