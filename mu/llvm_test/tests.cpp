@@ -16,6 +16,7 @@
 #include <mu/llvm_test/global_variable/create_set.h>
 #include <mu/llvm_test/ccall/operation.h>
 #include <mu/llvm_test/instructions/trunc.h>
+#include <mu/llvm_test/basic_block/instruction_insert.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -72,6 +73,10 @@ void mu::llvm_test::tests::run ()
 	}
 	{
 		mu::llvm_test::basic_block::insert test;
+		test.run ();
+	}
+	{
+		mu::llvm_test::basic_block::instruction_insert test;
 		test.run ();
 	}
 	{

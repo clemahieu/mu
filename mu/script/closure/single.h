@@ -19,11 +19,11 @@ namespace mu
 			class single : public mu::script::operation
 			{
 			public:
-				single (boost::shared_ptr <mu::script::operation> operation_a);
-				single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::script::operation> operation_a);
+				single (boost::shared_ptr <mu::core::node> operation_a);
+				single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::core::node> operation_a);
 				bool operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
-				boost::shared_ptr <mu::script::operation> operation_m;
+				boost::shared_ptr <mu::core::node> operation_m;
 				std::vector <boost::shared_ptr <mu::core::node>> closed;
 			};
 		}

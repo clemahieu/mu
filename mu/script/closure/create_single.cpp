@@ -7,26 +7,19 @@
 
 #include <sstream>
 
+#include <boost/make_shared.hpp>
+
 bool mu::script::closure::create_single::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (0)));
-		if (one.get () != nullptr)
+		std::vector <boost::shared_ptr <mu::core::node>> closed_l;
+		for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
 		{
-			std::vector <boost::shared_ptr <mu::core::node>> closed_l;
-			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
-			{
-				closed_l.push_back (*i);
-			}
-			context_a.push (boost::shared_ptr <mu::core::node> (new mu::script::closure::single (closed_l, one)));
+			closed_l.push_back (*i);
 		}
-		else
-		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters (0).get ()), typeid (mu::script::operation), 0);
-			result = false;
-		}
+		context_a.push (boost::make_shared <mu::script::closure::single> (closed_l, context_a.parameters (0)));
 	}
 	else
 	{

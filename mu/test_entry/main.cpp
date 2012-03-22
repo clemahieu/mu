@@ -25,10 +25,10 @@ int main ()
 		mu::script_test::tests test;
 		test.run ();
 	}
-	//{
-	//	mu::llvm_test::tests test;
-	//	test.run ();
-	//}
+	{
+		mu::llvm_test::tests test;
+		test.run ();
+	}
 	{
 		mu::repl_test::tests test;
 		test.run ();

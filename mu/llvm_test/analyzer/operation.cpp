@@ -1,7 +1,7 @@
 #include <mu/llvm_test/analyzer/operation.h>
 
 #include <mu/io/source.h>
-#include <mu/io/builder.h>
+#include <mu/io/ast/builder.h>
 #include <mu/llvm_/analyzer/operation.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/io/ast/cluster.h>
@@ -48,7 +48,7 @@ void mu::llvm_test::analyzer::operation::run ()
 
 void mu::llvm_test::analyzer::operation::run_1 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"");
 	source ();
@@ -65,27 +65,29 @@ void mu::llvm_test::analyzer::operation::run_1 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 0);
+	assert (cluster->names.size () == 0);
 	assert (module->module->getFunctionList ().size () == 0);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
 	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 0);
-	assert (cluster->names.size () == 0);
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_2 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~] [~ [i32]] [add #i 32 d1 #i 32 d1]");
 	source ();
@@ -102,20 +104,6 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	mu::llvm_::module::print print;
-	std::vector <boost::shared_ptr <mu::core::node>> a3;
-	std::vector <boost::shared_ptr <mu::core::node>> r3;
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	assert (valid2);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
@@ -126,11 +114,27 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	auto ptr (llvm::dyn_cast <llvm::PointerType> (routine->value ()->getType ()));
 	assert (ptr != nullptr);
 	assert (ptr->getElementType ()->isFunctionTy ());
+	assert (module->module->getFunctionList ().size () == 1);
+	mu::llvm_::module::print print;
+	std::vector <boost::shared_ptr <mu::core::node>> a3;
+	std::vector <boost::shared_ptr <mu::core::node>> r3;
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_3 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32]] [~ [i32]] [:~]");
 	source ();
@@ -147,27 +151,29 @@ void mu::llvm_test::analyzer::operation::run_3 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 	assert (module->module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
 	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
 	assert (valid3);
-	assert (ctx.working_size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
 }
 
 void mu::llvm_test::analyzer::operation::run_4 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i32]] [~ [i32]] [add [:~]]");
 	source ();
@@ -184,27 +190,29 @@ void mu::llvm_test::analyzer::operation::run_4 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 	assert (module->module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
 	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
 	assert (valid3);
-	assert (ctx.working_size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
 }
 
 void mu::llvm_test::analyzer::operation::run_5 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ ] [~ ] [:~]");
 	source ();
@@ -221,26 +229,28 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 	assert (module->module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
 	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
-	assert (ctx.working_size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
 }
 
 void mu::llvm_test::analyzer::operation::run_6 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i16]] [~ [i32] [i16]] [:~]");
 	source ();
@@ -257,27 +267,29 @@ void mu::llvm_test::analyzer::operation::run_6 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
+	assert (ctx.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 1);
+	assert (cluster->names.size () == 0);
 	assert (module->module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
 	assert (valid2);
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
 	assert (valid3);
-	assert (ctx.working_size () == 1);
-	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
 }
 
 void mu::llvm_test::analyzer::operation::run_7 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [store [:~]]");
 	source ();
@@ -294,26 +306,28 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
+	assert (module->module->getFunctionList ().size () == 1);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_8 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [~ [store [:~]] [store [:~]]]");
 	source ();
@@ -330,26 +344,28 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
+	assert (module->module->getFunctionList ().size () == 1);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_9 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ [i32] [i32]] [~ [i32]] [add [:~]]";
@@ -398,26 +414,28 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 31);
 	assert (cluster->names.size () == 0);
+	assert (module->module->getFunctionList ().size () == 31);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_10 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [fun-t [{ ] [{ ]]]] [~ 2 ;; 1]";
@@ -437,16 +455,6 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
@@ -460,11 +468,23 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	assert (n2 != cluster->names.end ());
 	assert (n1->second == rout1);
 	assert (n2->second == rout2);
+	assert (module->module->getFunctionList ().size () == 2);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_11 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [i32]] [call 2 ;; 1]";
@@ -484,16 +504,6 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
@@ -507,11 +517,23 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	assert (n2 != cluster->names.end ());
 	assert (n1->second == rout1);
 	assert (n2->second == rout2);
+	assert (module->module->getFunctionList ().size () == 2);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_12 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [i16]]] [~ ` test_string]";
@@ -534,7 +556,7 @@ void mu::llvm_test::analyzer::operation::run_12 ()
 
 void mu::llvm_test::analyzer::operation::run_13 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 2 [call 2];; 1]";
@@ -554,16 +576,6 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
@@ -577,11 +589,23 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	assert (n2 != cluster->names.end ());
 	assert (n1->second == rout1);
 	assert (n2->second == rout2);
+	assert (module->module->getFunctionList ().size () == 2);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_14 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 3 [call 2];; 1]";
@@ -602,16 +626,6 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	ctx.push (ast);
 	auto valid (ctx ());
 	assert (valid);
-	assert (module->module->getFunctionList ().size () == 1);
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
-	auto valid2 (ctx ());
-	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
-	auto valid3 (ctx ());
-	assert (valid3);
 	assert (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
 	assert (cluster.get () != nullptr);
@@ -629,4 +643,16 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	assert (n1->second == rout1);
 	assert (n2->second == rout2);
 	assert (n3->second == rout3);
+	assert (module->module->getFunctionList ().size () == 3);
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
+	ctx.push (module);
+	auto valid2 (ctx ());
+	assert (ctx.working_size () == 1);
+	auto text (ctx.working (0));
+	ctx.drop ();
+	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
+	ctx.push (module);
+	auto valid3 (ctx ());
+	assert (valid3);
 }

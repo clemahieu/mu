@@ -2,6 +2,7 @@
 
 #include <mu/core/errors/error_target.h>
 #include <sstream>
+#include <mu/core/node.h>
 
 bool mu::script::check_count (mu::script::context & context_a, size_t expected)
 {
@@ -20,13 +21,13 @@ bool mu::script::check_count (mu::script::context & context_a, size_t expected)
 	return result;
 }
 
-void mu::script::invalid_type (mu::script::context & context_a, std::type_info const & actual, std::type_info const & expected, size_t position)
+void mu::script::invalid_type (mu::script::context & context_a, boost::shared_ptr <mu::core::node> node_a, std::type_info const & expected, size_t position)
 {
 	std::wstringstream message;
 	message << L"In operation: ";
 	//message << name ();
 	message << L" invalid node type:";
-	message << actual.name ();
+	message << (typeid (*node_a)).name ();
 	message << L" at position: ";
 	message << position;
 	message << L" expecting: ";

@@ -31,6 +31,8 @@ bool mu::llvm_::basic_block::instruction_insert::operator () (mu::script::contex
 		context_a.push (context_a.locals (0));
 		context_a.push (context_a.locals (1));
 		result = context_a ();
+		assert (context_a.working_size () == 0);
+		context_a.push (context_a.locals (1));
 	}
 	return result;
 }

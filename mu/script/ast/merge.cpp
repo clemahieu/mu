@@ -19,7 +19,7 @@ bool mu::script::ast::merge::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (**i), typeid (mu::io::ast::cluster), position);
+			mu::script::invalid_type (context_a, *i, typeid (mu::io::ast::cluster), position);
 			complete = false;
 		}
 	}

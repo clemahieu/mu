@@ -21,7 +21,7 @@ namespace mu
 	namespace script
 	{
 		bool check_count (mu::script::context & context_a, size_t expected);
-		void invalid_type (mu::script::context & context_a, std::type_info const & actual, std::type_info const & expected, size_t position);
+		void invalid_type (mu::script::context & context_a, boost::shared_ptr <mu::core::node> node_a, std::type_info const & expected, size_t position);
 		template <typename type1_t=void, typename type2_t=void, typename type3_t=void, typename type4_t=void, typename type5_t=void>
 		class check
 		{		
@@ -41,23 +41,23 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (0)), typeid (type1_t), 0);
+							invalid_type (context_a, context_a.parameters (0), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (1)), typeid (type2_t), 1);
+							invalid_type (context_a, context_a.parameters (1), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (2)), typeid (type3_t), 2);
+							invalid_type (context_a, context_a.parameters (2), typeid (type3_t), 2);
 						}
 						if (!t3)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (3)), typeid (type4_t), 3);
+							invalid_type (context_a, context_a.parameters (3), typeid (type4_t), 3);
 						}
 						if (!t4)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (4)), typeid (type5_t), 4);
+							invalid_type (context_a, context_a.parameters (4), typeid (type5_t), 4);
 						}
 					}
 				}
@@ -82,19 +82,19 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (0)), typeid (type1_t), 0);
+							invalid_type (context_a, context_a.parameters (0), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (1)), typeid (type2_t), 1);
+							invalid_type (context_a, context_a.parameters (1), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (2)), typeid (type3_t), 2);
+							invalid_type (context_a, context_a.parameters (2), typeid (type3_t), 2);
 						}
 						if (!t3)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (3)), typeid (type4_t), 3);
+							invalid_type (context_a, context_a.parameters (3), typeid (type4_t), 3);
 						}
 					}
 				}
@@ -118,15 +118,15 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (0)), typeid (type1_t), 0);
+							invalid_type (context_a, context_a.parameters (0), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (1)), typeid (type2_t), 1);
+							invalid_type (context_a, context_a.parameters (1), typeid (type2_t), 1);
 						}
 						if (!t2)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (2)), typeid (type3_t), 2);
+							invalid_type (context_a, context_a.parameters (2), typeid (type3_t), 2);
 						}
 					}
 				}
@@ -149,11 +149,11 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (0)), typeid (type1_t), 0);
+							invalid_type (context_a, context_a.parameters (0), typeid (type1_t), 0);
 						}
 						if (!t1)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (1)), typeid (type2_t), 1);
+							invalid_type (context_a, context_a.parameters (1), typeid (type2_t), 1);
 						}
 					}
 				}
@@ -175,7 +175,7 @@ namespace mu
 					{
 						if (!t0)
 						{
-							invalid_type (context_a, typeid (context_a.parameters (0)), typeid (type1_t), 0);
+							invalid_type (context_a, context_a.parameters (0), typeid (type1_t), 0);
 						}
 					}
 				}

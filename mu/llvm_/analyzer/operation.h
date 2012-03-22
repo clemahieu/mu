@@ -63,8 +63,8 @@ namespace mu
 			public:
 				operation ();
 				bool operator () (mu::script::context & context_a) override;
-				void finish_types (mu::script::context context_a, bool * valid_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> * types, boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a);
-				void finish_bodies (mu::script::context context_a, bool * valid_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> * functions, boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a);
+				void finish_types (mu::script::context & context_a, bool & valid_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> & functions, std::vector <boost::shared_ptr <mu::llvm_::function::node>> & types, boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a);
+				void finish_bodies (mu::script::context & context_a, bool & valid_a, std::vector <std::pair <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> & functions, boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a);
 				mu::llvm_::analyzer::context context;
 				//boost::shared_ptr <mu::llvm_::analyzer::reference> reference_m;
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;

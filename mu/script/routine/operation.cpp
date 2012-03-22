@@ -35,7 +35,7 @@ bool mu::script::routine::operation::operator () (mu::script::context & context_
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (*context_a.working (0)), typeid (mu::core::routine), 0);
+			mu::script::invalid_type (context_a, context_a.working (0), typeid (mu::core::routine), 0);
 			result = false;
 		}
 	}

@@ -8,6 +8,7 @@ add_library (mu_llvm_test STATIC
 	tests.cpp
 	analyzer/operation.cpp
 	basic_block/insert.cpp
+	basic_block/instruction_insert.cpp
 	ccall/operation.cpp
 	constant_string/create.cpp
 	constant_string/extension.cpp
