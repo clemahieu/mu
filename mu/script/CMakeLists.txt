@@ -31,6 +31,7 @@ add_library (mu_script STATIC
 	closure/hole.cpp
 	closure/operation.cpp
 	closure/single.cpp
+	cluster/node.cpp
 	exec/operation.cpp
 	extensions/create.cpp
 	extensions/merge.cpp
@@ -56,6 +57,12 @@ add_library (mu_script STATIC
 	routine/locals.cpp
 	routine/node.cpp
 	routine/operation.cpp
+	runtime/expression.cpp
+	runtime/fixed.cpp
+	runtime/locals.cpp
+	runtime/reference.cpp
+	runtime/selection.cpp
+	runtime/routine.cpp
 	run/operation.cpp
 	string/extension.cpp
 	string/node.cpp
