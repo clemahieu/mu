@@ -40,6 +40,7 @@ add_library (mu_llvm_ STATIC
 	function/create.cpp
 	function/node.cpp
 	function_type/create.cpp
+	function_type/divider.cpp
 	function_type/node.cpp
 	global_value/node.cpp
 	global_value/set_linkage.cpp
@@ -95,6 +96,7 @@ add_library (mu_llvm_ STATIC
 	set_type/node.cpp
 	struct_type/create.cpp
 	struct_type/node.cpp
+	synthesizer/operation.cpp
 	type/build.cpp
 	type/node.cpp
 	value/get_context.cpp
