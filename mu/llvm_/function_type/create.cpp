@@ -33,7 +33,7 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 			context_a.locals (1) = arguments;
 			auto results (boost::make_shared <mu::script::values::operation> ());
 			context_a.locals (2) = results;
-			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j && on_args->value; ++i)
+			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
 			{
 				auto divider (boost::dynamic_pointer_cast <mu::llvm_::function_type::divider> (*i));
 				if (divider.get () != nullptr)

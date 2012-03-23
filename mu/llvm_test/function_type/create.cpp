@@ -8,6 +8,7 @@
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/script/context.h>
+#include <mu/llvm_/function_type/divider.h>
 
 #include <boost/make_shared.hpp>
 
@@ -31,8 +32,6 @@ void mu::llvm_test::function_type::create::run_1 ()
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -53,10 +52,7 @@ void mu::llvm_test::function_type::create::run_2 ()
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
-	auto args (boost::make_shared <mu::script::values::operation> ());
-	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
-	ctx.push (args);
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -78,11 +74,8 @@ void mu::llvm_test::function_type::create::run_3 ()
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
-	auto args (boost::make_shared <mu::script::values::operation> ());
-	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
-	args->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
-	ctx.push (args);
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -106,10 +99,8 @@ void mu::llvm_test::function_type::create::run_4 ()
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
-	auto res (boost::make_shared <mu::script::values::operation> ());
-	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
-	ctx.push (res);
+	ctx.push (boost::make_shared <mu::llvm_::function_type::divider> ());
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -129,11 +120,9 @@ void mu::llvm_test::function_type::create::run_5 ()
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
-	ctx.push (boost::make_shared <mu::script::values::operation> ());
-	auto res (boost::make_shared <mu::script::values::operation> ());
-	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
-	res->values.push_back (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
-	ctx.push (res);
+	ctx.push (boost::make_shared <mu::llvm_::function_type::divider> ());
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
+	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
