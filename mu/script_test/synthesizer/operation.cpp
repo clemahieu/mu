@@ -29,6 +29,7 @@ void mu::script_test::synthesizer::operation::run ()
 	run_7 ();
 	run_8 ();
 	run_9 ();
+	run_10 ();
 }
 
 void mu::script_test::synthesizer::operation::run_1 ()
@@ -317,4 +318,35 @@ void mu::script_test::synthesizer::operation::run_9 ()
 	assert (context.working_size () == 2);
 	assert (context.working (0) == n1);
 	assert (context.working (1) == n1);
+}
+
+void mu::script_test::synthesizer::operation::run_10 ()
+{
+	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::script::context context (errors);
+	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
+	auto c (boost::make_shared <mu::core::cluster> ());
+	context.push (c);
+	auto routine1 (boost::make_shared <mu::core::routine> ());
+	c->routines.push_back (routine1);
+	auto routine2 (boost::make_shared <mu::core::routine> ());
+	c->routines.push_back (routine2);
+	auto body (boost::make_shared <mu::core::expression> ());
+	routine1->body = body;
+	body->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
+	body->dependencies.push_back (routine2);
+	auto body2 (boost::make_shared <mu::core::expression> ());
+	routine2->body = body;
+	body2->dependencies.push_back (boost::make_shared <mu::script::fail::operation> ());
+	auto valid (context ());
+	assert (valid);
+	assert (context.working_size () == 1);
+	auto cluster (boost::dynamic_pointer_cast <mu::script::cluster::node> (context.working (0)));
+	assert (cluster.get () != nullptr);
+	assert (cluster->routines.size () == 2);
+	auto r (cluster->routines [0]);
+	context.drop ();
+	context.push (r);
+	auto valid2 (context ());
+	assert (valid2);
 }

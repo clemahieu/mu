@@ -56,7 +56,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 						{
 							auto existing (routine_mapping.find (routine_l));
 							assert (existing != routine_mapping.end ());
-							expression->dependencies.push_back (existing->second);
+							expression->dependencies.push_back (boost::make_shared <mu::script::runtime::fixed> (existing->second));
 						}
 						else
 						{
