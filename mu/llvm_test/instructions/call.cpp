@@ -40,7 +40,7 @@ void mu::llvm_test::instructions::call::run_1 ()
 	ctx2.push (boost::make_shared <mu::llvm_::instructions::call> ());
 	ctx2.push (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	auto valid (ctx2 ());
-	assert (valid);
+	assert (!valid);
 }
 
 void mu::llvm_test::instructions::call::run_2 ()

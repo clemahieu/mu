@@ -48,8 +48,9 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								auto end_block (llvm::BasicBlock::Create (context, llvm::Twine (), block->block->getParent ()));
 								block->block->getInstList ().push_back (llvm::BranchInst::Create (true_block, false_block, one->value ()));
 								block->block = true_block;
+								context_a.reserve (1);
 								auto size (boost::make_shared <mu::script::integer::node> ());
-								context_a.push (size);
+								context_a.locals (0) = size;
 								context_a.push (call);
 								context_a.push (two);
 								for (auto i (context_a.parameters_begin () + 3), j (context_a.parameters_end () + 0); i != j; ++i)
@@ -73,7 +74,7 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								block->block = end_block;
 								if (valid)
 								{
-									for (auto i (context_a.locals_begin ()), j (context_a.locals_begin () + size->value), k (context_a.locals_begin () + size->value), l (context_a.locals_end ()); i != j && k != l; ++i, ++k)
+									for (auto i (context_a.locals_begin () + 1), j (context_a.locals_begin () + size->value), k (context_a.locals_begin () + 1 + size->value), l (context_a.locals_end ()); i != j && k != l; ++i, ++k)
 									{
 										auto i_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
 										auto k_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*k));

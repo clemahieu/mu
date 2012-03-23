@@ -6,9 +6,9 @@ add_library (mu_llvm_test STATIC
 	extension.cpp
 	instruction_package.cpp
 	tests.cpp
-	analyzer/operation.cpp
 	basic_block/insert.cpp
 	basic_block/instruction_insert.cpp
+	basic_block/split_return.cpp
 	ccall/operation.cpp
 	constant_string/create.cpp
 	constant_string/extension.cpp
@@ -20,4 +20,5 @@ add_library (mu_llvm_test STATIC
 	linker/link_modules.cpp
 	module/add_package.cpp
 	module/get_package.cpp
+	synthesizer/operation.cpp
 	types/integer.cpp)

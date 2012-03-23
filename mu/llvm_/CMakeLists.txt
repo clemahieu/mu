@@ -4,8 +4,6 @@ project (llvm_)
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_library (mu_llvm_ STATIC
 	api.cpp
-	analyzer/context.cpp
-	analyzer/operation.cpp
 	apint/create.cpp
 	apint/extension.cpp
 	apint/node.cpp

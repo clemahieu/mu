@@ -70,7 +70,7 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 								}
 							}
 						}
-						if (! context_a ())
+						if (result)
 						{
 							context_a.push (boost::make_shared <mu::llvm_::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
 						}

@@ -22,14 +22,14 @@ mu::llvm_::basic_block::split_return::split_return (boost::shared_ptr <mu::llvm_
 
 bool mu::llvm_::basic_block::split_return::operator () (mu::script::context & context_a)
 {
-	context_a.slide ();
 	context_a.push (next);
-	context_a.push (context_a.locals_begin (), context_a.locals_end ());
+	context_a.push (context_a.parameters_begin (), context_a.parameters_end ());
 	bool valid (context_a ());
 	if (valid)
 	{
 		assert (context_a.working_size () == 1);
 		auto result (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.working (0)));
+		context_a.slide ();
 		auto set (boost::dynamic_pointer_cast <mu::llvm_::set_type::node> (result->type));
 		if (set.get () != nullptr)
 		{

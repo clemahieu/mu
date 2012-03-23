@@ -1,8 +1,8 @@
-#include <mu/llvm_test/analyzer/operation.h>
+#include <mu/llvm_test/synthesizer/operation.h>
 
 #include <mu/io/source.h>
-#include <mu/io/ast/builder.h>
-#include <mu/llvm_/analyzer/operation.h>
+#include <mu/io/builder.h>
+#include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/llvm_/module/print.h>
@@ -28,7 +28,7 @@
 
 #include <sstream>
 
-void mu::llvm_test::analyzer::operation::run ()
+void mu::llvm_test::synthesizer::operation::run ()
 {
 	run_1 ();
 	run_2 ();
@@ -46,9 +46,9 @@ void mu::llvm_test::analyzer::operation::run ()
 	run_14 ();
 }
 
-void mu::llvm_test::analyzer::operation::run_1 ()
+void mu::llvm_test::synthesizer::operation::run_1 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"");
 	source ();
@@ -59,10 +59,9 @@ void mu::llvm_test::analyzer::operation::run_1 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -85,9 +84,9 @@ void mu::llvm_test::analyzer::operation::run_1 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_2 ()
+void mu::llvm_test::synthesizer::operation::run_2 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~] [~ [i32]] [add #i 32 d1 #i 32 d1]");
 	source ();
@@ -98,10 +97,9 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -132,9 +130,9 @@ void mu::llvm_test::analyzer::operation::run_2 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_3 ()
+void mu::llvm_test::synthesizer::operation::run_3 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32]] [~ [i32]] [:~]");
 	source ();
@@ -145,10 +143,9 @@ void mu::llvm_test::analyzer::operation::run_3 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -171,9 +168,9 @@ void mu::llvm_test::analyzer::operation::run_3 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_4 ()
+void mu::llvm_test::synthesizer::operation::run_4 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i32]] [~ [i32]] [add [:~]]");
 	source ();
@@ -184,10 +181,9 @@ void mu::llvm_test::analyzer::operation::run_4 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -210,9 +206,9 @@ void mu::llvm_test::analyzer::operation::run_4 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_5 ()
+void mu::llvm_test::synthesizer::operation::run_5 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ ] [~ ] [:~]");
 	source ();
@@ -223,10 +219,9 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -249,9 +244,9 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_6 ()
+void mu::llvm_test::synthesizer::operation::run_6 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [i16]] [~ [i32] [i16]] [:~]");
 	source ();
@@ -262,10 +257,9 @@ void mu::llvm_test::analyzer::operation::run_6 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -288,9 +282,9 @@ void mu::llvm_test::analyzer::operation::run_6 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_7 ()
+void mu::llvm_test::synthesizer::operation::run_7 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [store [:~]]");
 	source ();
@@ -301,10 +295,9 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -327,9 +320,9 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_8 ()
+void mu::llvm_test::synthesizer::operation::run_8 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ [i32] [ptr [i32]]] [~] [~ [store [:~]] [store [:~]]]");
 	source ();
@@ -340,10 +333,9 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -366,9 +358,9 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_9 ()
+void mu::llvm_test::synthesizer::operation::run_9 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ [i32] [i32]] [~ [i32]] [add [:~]]";
@@ -411,10 +403,9 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -437,9 +428,9 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_10 ()
+void mu::llvm_test::synthesizer::operation::run_10 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [fun-t [{ ] [{ ]]]] [~ 2 ;; 1]";
@@ -453,10 +444,9 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -487,9 +477,9 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_11 ()
+void mu::llvm_test::synthesizer::operation::run_11 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [i32]] [call 2 ;; 1]";
@@ -503,10 +493,9 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -537,9 +526,9 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_12 ()
+void mu::llvm_test::synthesizer::operation::run_12 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ [ptr [i16]]] [~ ` test_string]";
@@ -552,17 +541,16 @@ void mu::llvm_test::analyzer::operation::run_12 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 }
 
-void mu::llvm_test::analyzer::operation::run_13 ()
+void mu::llvm_test::synthesizer::operation::run_13 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 2 [call 2];; 1]";
@@ -576,10 +564,9 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -610,9 +597,9 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	assert (valid3);
 }
 
-void mu::llvm_test::analyzer::operation::run_14 ()
+void mu::llvm_test::synthesizer::operation::run_14 ()
 {
-	mu::io::ast::builder builder;
+	mu::io::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[~ ] [~ ] [call 3 [call 2];; 1]";
@@ -627,10 +614,9 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::analyzer::operation> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context_l));
-	ctx.push (module);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
+	ctx.push (module);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
