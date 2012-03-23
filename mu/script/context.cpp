@@ -4,7 +4,6 @@
 #include <mu/script/operation.h>
 #include <mu/script/location.h>
 #include <mu/core/routine.h>
-#include <mu/script/routine/operation.h>
 
 #include <boost/make_shared.hpp>
 
@@ -42,22 +41,8 @@ bool mu::script::context::operator () ()
 		}
 		else
 		{
-			auto routine (boost::dynamic_pointer_cast <mu::core::routine> (working (0)));
-			if (routine.get () != nullptr)
-			{
-				stack.resize (stack.size () + 1);
-				for (size_t i (stack.size () - 1), j (frame_begin); i != j; --i)
-				{
-					stack [i] = stack [i - 1];
-				}
-				stack [frame_begin] = boost::make_shared <mu::script::routine::operation> ();
-				result = (*this) ();
-			}
-			else
-			{
-				result = false;
-				drop ();
-			}
+            result = false;
+            drop ();
 		}
 	}
 	else

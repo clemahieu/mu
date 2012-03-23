@@ -17,7 +17,6 @@ add_library (mu_script_test STATIC
 	package/create.cpp
 	package/get.cpp
 	package/get_recursive.cpp
-	routine/node.cpp
 	string/extension.cpp
 	synthesizer/operation.cpp
 	times/operation.cpp

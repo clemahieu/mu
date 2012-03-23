@@ -9,6 +9,7 @@ endif ()
 
 add_library (mu_script STATIC
 	api.cpp
+	builder.cpp
 	check.cpp
 	context.cpp
 	iterator.cpp
@@ -54,9 +55,6 @@ add_library (mu_script STATIC
 	package/node.cpp
 	package/remove.cpp
 	print/operation.cpp
-	routine/locals.cpp
-	routine/node.cpp
-	routine/operation.cpp
 	runtime/expression.cpp
 	runtime/fixed.cpp
 	runtime/locals.cpp
