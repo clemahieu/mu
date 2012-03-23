@@ -4,12 +4,14 @@
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/io/ast/cluster.h>
-#include <mu/io/builder.h>
+#include <mu/script/builder.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
-#include <mu/core/routine.h>
+#include <mu/script/runtime/routine.h>
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
+#include <mu/io/source.h>
+#include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
 
@@ -22,7 +24,7 @@ void mu::script_test::ast::extension::run ()
 
 void mu::script_test::ast::extension::run_1 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast []]");
 	source ();
@@ -43,7 +45,7 @@ void mu::script_test::ast::extension::run_1 ()
 
 void mu::script_test::ast::extension::run_2 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast thing]");
 	source ();
@@ -53,7 +55,7 @@ void mu::script_test::ast::extension::run_2 ()
 
 void mu::script_test::ast::extension::run_3 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[~ .ast [[]]]");
 	source ();
