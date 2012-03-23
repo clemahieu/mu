@@ -20,7 +20,7 @@ bool mu::script::runtime::reference::operator () (mu::script::context & context_
 		auto existing (locals->expressions.find (expression));
 		if (existing != locals->expressions.end ())
 		{
-			if (existing->second.get <1> () < locals->frame.size ())
+			if (existing->second.get <1> () <= locals->frame.size ())
 			{
 				context_a.push (locals->frame.begin () + existing->second.get <0> (), locals->frame.begin () + existing->second.get <1> ());
 			}

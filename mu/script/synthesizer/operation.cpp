@@ -15,6 +15,7 @@
 #include <mu/core/reference.h>
 #include <mu/script/runtime/selection.h>
 #include <mu/script/runtime/fixed.h>
+#include <mu/core/parameters.h>
 
 #include <boost/make_shared.hpp>
 
@@ -77,7 +78,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 								}
 								else
 								{
-									auto parameters_l (boost::dynamic_pointer_cast <mu::core::expression> (*m));
+									auto parameters_l (boost::dynamic_pointer_cast <mu::core::parameters> (*m));
 									if (parameters_l.get () != nullptr)
 									{
 										expression->dependencies.push_back (boost::make_shared <mu::script::runtime::reference> (routine->parameters));
@@ -101,8 +102,11 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 		}
 		for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
 		{
-
+			auto existing (routine_mapping.find (i->second));
+			assert (existing != routine_mapping.end ());
+			result->names [i->first] = existing->second;
 		}
+		context_a.push (context_a.locals (0));
 	}
 	return valid;
 }

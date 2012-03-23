@@ -20,9 +20,9 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 		auto existing (locals->expressions.find (expression));
 		if (existing != locals->expressions.end ())
 		{
-			if (existing->second.get <1> () < locals->frame.size ())
+			if (existing->second.get <0> () + index < locals->frame.size ())
 			{
-				if (index < existing->second.get <1> ())
+				if (existing->second.get <0> () + index < existing->second.get <1> ())
 				{
 					context_a.push (*(locals->frame.begin () + existing->second.get <0> () + index));
 				}
@@ -32,7 +32,7 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 					message << L"Trying to get result at index: ";
 					message << index;
 					message << L" but there are only: ";
-					message << existing->second.get <1> ();
+					message << existing->second.get <1> () - existing->second.get <0> ();
 					message << L" nodes";
 					context_a.errors (message.str ());
 					valid = false;
@@ -43,10 +43,8 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 				if (existing->second.get <1> () != ~0)
 				{
 					std::wstringstream message;
-					message << L"Trying to get values off of frame from: ";
-					message << existing->second.get <0> ();
-					message << L" to: ";
-					message << existing->second.get <1> ();
+					message << L"Trying to select value off of frame at: ";
+					message << existing->second.get <0> () + index;
 					message << L" but only have: ";
 					message << locals->frame.size ();
 					context_a.errors (message.str ());

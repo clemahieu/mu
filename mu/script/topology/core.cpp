@@ -18,22 +18,22 @@ void mu::script::topology::core::operator() (mu::core::cluster * cluster_a)
 void mu::script::topology::core::operator () (boost::shared_ptr <mu::core::expression> expression_a)
 {
 	auto existing (already.find (expression_a));
+	if (path.find (expression_a) != path.end ())
+	{
+		acyclic = false;
+	}
+	path.insert (expression_a);
 	if (existing == already.end ())
 	{	
-		if (path.find (expression_a) != path.end ())
-		{
-			acyclic = false;
-		}
 		already.insert (expression_a);
-		path.insert (expression_a);
 		for (auto i (expression_a->dependencies.begin ()), j (expression_a->dependencies.end ()); i != j; ++i)
 		{
 			current = *i;
 			(*(*i)) (this);
 		}
-		path.erase (expression_a);
 		topology->expressions.push_back (expression_a);
 	}
+	path.erase (expression_a);
 }
 
 void mu::script::topology::core::operator() (mu::core::parameters * parameters_a)

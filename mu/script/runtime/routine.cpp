@@ -4,6 +4,7 @@
 #include <mu/script/runtime/locals.h>
 #include <mu/script/topology/node.h>
 #include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/reference.h>
 
 #include <boost/make_shared.hpp>
 
@@ -43,5 +44,9 @@ bool mu::script::runtime::routine::operator () (mu::script::context & context_a)
 		}
 		context_a.drop ();
 	}
+	assert (expressions.size () > 0);
+	context_a.push (boost::make_shared <mu::script::runtime::reference> (expressions [expressions.size () - 1]));
+	context_a.push (locals);
+	valid = valid & context_a ();
 	return valid;
 }

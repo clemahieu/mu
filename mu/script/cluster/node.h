@@ -11,14 +11,17 @@ namespace mu
 {
 	namespace script
 	{
-		class operation;
+		namespace runtime
+		{
+			class routine;
+		}
 		namespace cluster
 		{
 			class node : public mu::core::node
 			{
 			public:
-				std::map <std::wstring, boost::shared_ptr <mu::script::operation>> names;
-				std::vector <boost::shared_ptr <mu::script::operation>> routines;
+				std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names;
+				std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines;
 			};
 		}
 	}
