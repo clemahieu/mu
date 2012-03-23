@@ -246,6 +246,7 @@ void mu::llvm_test::analyzer::operation::run_5 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
+	assert (valid3);
 }
 
 void mu::llvm_test::analyzer::operation::run_6 ()
@@ -316,6 +317,7 @@ void mu::llvm_test::analyzer::operation::run_7 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -354,6 +356,7 @@ void mu::llvm_test::analyzer::operation::run_8 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -424,6 +427,7 @@ void mu::llvm_test::analyzer::operation::run_9 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -473,6 +477,7 @@ void mu::llvm_test::analyzer::operation::run_10 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -522,6 +527,7 @@ void mu::llvm_test::analyzer::operation::run_11 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -594,6 +600,7 @@ void mu::llvm_test::analyzer::operation::run_13 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
@@ -648,6 +655,7 @@ void mu::llvm_test::analyzer::operation::run_14 ()
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
+    assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();

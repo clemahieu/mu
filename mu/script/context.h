@@ -38,14 +38,14 @@ namespace mu
 			void slide ();
 			void push (boost::shared_ptr <mu::core::node> node_a);
 			void reserve (size_t count_a);
-			template <typename G> void push (G & begin_a, G & end_a)
+			template <typename G> void push (G begin_a, G end_a)
 			{
 				for (auto current (begin_a); current != end_a; ++current)
 				{
 					push (*current);
 				}
 			}
-			template <typename G, typename H> void assign (H & target_a, G & begin_a, G & end_a)
+			template <typename G, typename H> void assign (H target_a, G begin_a, G end_a)
 			{
 				auto target_l (target_a);
 				for (auto current (begin_a); current != end_a; ++current, ++target_l)

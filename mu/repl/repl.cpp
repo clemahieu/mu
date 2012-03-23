@@ -83,6 +83,7 @@ void mu::repl::repl::iteration ()
 					ctx.push (boost::make_shared <mu::script::print::operation> ());
 					ctx.push (ctx.locals_begin (), ctx.locals_end ());
 					auto valid (ctx ());
+                    assert (valid);
 				}
 				else
 				{
