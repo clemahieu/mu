@@ -74,7 +74,7 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								block->block = end_block;
 								if (valid)
 								{
-									for (auto i (context_a.locals_begin () + 1), j (context_a.locals_begin () + size->value), k (context_a.locals_begin () + 1 + size->value), l (context_a.locals_end ()); i != j && k != l; ++i, ++k)
+									for (auto i (context_a.locals_begin () + 1), j (context_a.locals_begin () + 1 + size->value), k (context_a.locals_begin () + 1 + size->value), l (context_a.locals_end ()); i != j && k != l; ++i, ++k)
 									{
 										auto i_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
 										auto k_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*k));
