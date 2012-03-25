@@ -18,6 +18,7 @@
 #include <mu/script_test/type_check/operation.h>
 #include <mu/script_test/topology/core.h>
 #include <mu/script_test/synthesizer/operation.h>
+#include <mu/script_test/cluster/remap.h>
 
 void mu::script_test::tests::run ()
 {
@@ -91,6 +92,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::loads::operation test;
+		test.run ();
+	}
+	{
+		mu::script_test::cluster::remap test;
 		test.run ();
 	}
 }

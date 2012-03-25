@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/llvm_/constant_string/extension.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
@@ -15,9 +15,10 @@
 
 #include <boost/make_shared.hpp>
 
-mu::llvm_::constant_string::extension::extension (boost::shared_ptr <mu::llvm_::context::node> context_a, boost::shared_ptr <mu::llvm_::module::node> module_a)
-	: context (context_a),
-	module (module_a)
+#include <llvm/Module.h>
+
+mu::llvm_::constant_string::extension::extension (boost::shared_ptr <mu::llvm_::module::node> module_a)
+	: module (module_a)
 {
 }
 
@@ -31,7 +32,7 @@ void mu::llvm_::constant_string::extension::operator () (boost::shared_ptr <mu::
 		if (identifier.get () != nullptr)
 		{
 			auto node (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::constant_string::create> ()));
-			node->closed.push_back (context);
+			node->closed.push_back (boost::make_shared <mu::llvm_::context::node> (&module->module->getContext ()));
 			node->closed.push_back (module);
 			node->closed.push_back (boost::make_shared <mu::script::string::node> (identifier->string));
 			auto result (boost::make_shared <mu::core::expression> ());

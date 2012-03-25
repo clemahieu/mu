@@ -12,6 +12,7 @@ namespace mu
 		class reference : public mu::core::node
 		{
 		public:
+			reference ();
 			reference (boost::shared_ptr <mu::core::expression> expression_a, size_t index_a);
 			void operator () (mu::core::visitor * visitor_a) override;
 			boost::shared_ptr <mu::core::expression> expression;

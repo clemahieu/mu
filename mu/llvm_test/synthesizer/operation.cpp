@@ -16,6 +16,9 @@
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
 #include <mu/core/errors/error_list.h>
+#include <mu/script/api.h>
+#include <mu/script/values/operation.h>
+#include <mu/llvm_/api.h>
 
 #include <boost/bind.hpp>
 
@@ -48,7 +51,12 @@ void mu::llvm_test::synthesizer::operation::run ()
 
 void mu::llvm_test::synthesizer::operation::run_1 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"");
 	source ();
@@ -57,11 +65,12 @@ void mu::llvm_test::synthesizer::operation::run_1 ()
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	context->values [1] = module;
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -86,20 +95,29 @@ void mu::llvm_test::synthesizer::operation::run_1 ()
 
 void mu::llvm_test::synthesizer::operation::run_2 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~] [~ [i32]] [add #i 32 d1 #i 32 d1]");
+	source (L"[fun-t .. [i32]] [add #i 32 d1 #i 32 d1]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -112,40 +130,49 @@ void mu::llvm_test::synthesizer::operation::run_2 ()
 	auto ptr (llvm::dyn_cast <llvm::PointerType> (routine->value ()->getType ()));
 	assert (ptr != nullptr);
 	assert (ptr->getElementType ()->isFunctionTy ());
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	mu::llvm_::module::print print;
 	std::vector <boost::shared_ptr <mu::core::node>> a3;
 	std::vector <boost::shared_ptr <mu::core::node>> r3;
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (context->values [1]);
 	auto valid2 (ctx ());
 	assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (context->values [1]);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_3 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ [i32]] [~ [i32]] [:~]");
+	source (L"[fun-t [i32] .. [i32]] [~ :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -153,37 +180,46 @@ void mu::llvm_test::synthesizer::operation::run_3 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
 	assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_4 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ [i32] [i32]] [~ [i32]] [add [:~]]");
+	source (L"[fun-t [i32] [i32] .. [i32]] [add :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;		
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -191,37 +227,46 @@ void mu::llvm_test::synthesizer::operation::run_4 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
 	assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_5 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ ] [~ ] [:~]");
+	source (L"[fun-t] [~ :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;			
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -229,37 +274,46 @@ void mu::llvm_test::synthesizer::operation::run_5 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
 	assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_6 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ [i32] [i16]] [~ [i32] [i16]] [:~]");
+	source (L"[fun-t [i32] [i16] .. [i32] [i16]] [~ :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;					
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -267,37 +321,46 @@ void mu::llvm_test::synthesizer::operation::run_6 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
 	assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_7 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ [i32] [ptr [i32]]] [~] [store [:~]]");
+	source (L"[fun-t [i32] [ptr [i32]]] [store :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));		
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;						
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -305,37 +368,46 @@ void mu::llvm_test::synthesizer::operation::run_7 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
     assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }
 
 void mu::llvm_test::synthesizer::operation::run_8 ()
 {
-	mu::io::builder builder;
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
+	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ [i32] [ptr [i32]]] [~] [~ [store [:~]] [store [:~]]]");
+	source (L"[fun-t [i32] [ptr [i32]]] [~ [store :~] [store :~]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	assert (builder.clusters.size () == 1);
 	auto ast (builder.clusters [0]);
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	auto module (new llvm::Module (llvm::StringRef (), context_l));	
+	context_p->context = &context_l;
+	module_p->module = module;						
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
-	ctx.push (module);
+	ctx.push (context);
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
@@ -343,17 +415,17 @@ void mu::llvm_test::synthesizer::operation::run_8 ()
 	assert (cluster.get () != nullptr);
 	assert (cluster->routines.size () == 1);
 	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 1);
+	assert (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid2 (ctx ());
     assert (valid2);
 	assert (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
-	ctx.push (module);
+	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
 }

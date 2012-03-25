@@ -17,6 +17,7 @@
 #include <mu/script/cluster/remap.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/argument/node.h>
+#include <mu/script/values/operation.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/tuple/tuple.hpp>
@@ -30,11 +31,14 @@
 
 bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::core::cluster, mu::llvm_::module::node> () (context_a));
+	bool valid (mu::script::check <mu::core::cluster, mu::script::values::operation> () (context_a));
 	if (valid)
 	{
 		auto cluster (boost::static_pointer_cast <mu::core::cluster> (context_a.parameters (0)));
-		auto module (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (1)));
+		auto context_l (boost::static_pointer_cast <mu::script::values::operation> (context_a.parameters (1)));
+		assert (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_l->values [1]).get () != nullptr);
+		auto module (boost::static_pointer_cast <mu::llvm_::module::node> (context_l->values [1]));
+		auto block (boost::static_pointer_cast <mu::llvm_::basic_block::node> (context_l->values [2]));
 		context_a.reserve (4);
 		auto result (boost::make_shared <mu::llvm_::cluster::node> ());
 		context_a.locals (0) = result;
@@ -56,7 +60,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 			context_a.push (type_cluster);
 			valid = context_a ();
 			assert (context_a.working_size () == 1);
-			assert (boost::dynamic_pointer_cast <mu::script::cluster::node> (context_a.working (0)).get () == nullptr);
+			assert (boost::dynamic_pointer_cast <mu::script::cluster::node> (context_a.working (0)).get () != nullptr);
 			auto cluster_l (boost::static_pointer_cast <mu::script::cluster::node> (context_a.working (0)));
 			std::vector <boost::tuple <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>>> functions;
 			context_a.slide ();
@@ -113,13 +117,15 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 							auto j (functions.end ());
 							for (auto k (body_cluster->routines.begin ()), l (body_cluster->routines.end ()); k != l; ++k)
 							{
+								result->routines.push_back ((*i).get <0> ());
 								auto llvm_block (llvm::BasicBlock::Create (module->module->getContext ()));
 								(*i).get <0> ()->function ()->getBasicBlockList ().push_back (llvm_block);
-								auto block (boost::make_shared <mu::llvm_::basic_block::node> (llvm_block));
+								block->block = llvm_block;
+								context_a.push (*k);
 								{
 									auto o ((*i).get <1> ()->parameters.begin ());
 									auto p ((*i).get <1> ()->parameters.end ());
-									for (auto m ((*i).get <0> ()->function ()->arg_begin ()), n ((*i).get <0> ()->function ()->arg_end ()); m != n; ++m)
+									for (auto m ((*i).get <0> ()->function ()->arg_begin ()), n ((*i).get <0> ()->function ()->arg_end ()); m != n; ++m, ++o)
 									{
 										llvm::Argument * argument (m);
 										context_a.push (boost::make_shared <mu::llvm_::argument::node> (argument, *o));
@@ -184,6 +190,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 								context_a.drop ();
 							}
 						}
+						context_a.push (result);
 					}
 					else
 					{
