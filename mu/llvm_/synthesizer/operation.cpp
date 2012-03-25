@@ -14,7 +14,7 @@
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
-#include <mu/script/cluster/remap.h>
+#include <mu/llvm_/cluster/remap.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/argument/node.h>
 #include <mu/script/values/operation.h>
@@ -46,7 +46,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 		context_a.locals (1) = type_cluster;
 		auto body_cluster (boost::make_shared <mu::core::cluster> ());
 		context_a.locals (2) = body_cluster;
-		auto remap (boost::make_shared <mu::script::cluster::remap> ());
+		auto remap (boost::make_shared <mu::llvm_::cluster::remap> ());
 		context_a.locals (3) = remap;
 		if (cluster->routines.size () % 2 == 0)
 		{

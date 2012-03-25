@@ -19,6 +19,7 @@ add_library (mu_llvm_ STATIC
 	cluster/get.cpp
 	cluster/index.cpp
 	cluster/node.cpp
+	cluster/remap.cpp
 	compile/operation.cpp
 	constant/create_from_string.cpp
 	constant/node.cpp

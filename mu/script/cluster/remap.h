@@ -2,8 +2,6 @@
 
 #include <mu/script/operation.h>
 
-#include <map>
-
 namespace mu
 {
 	namespace core
@@ -25,7 +23,7 @@ namespace mu
 				void operator () (boost::shared_ptr <mu::core::routine> source, boost::shared_ptr <mu::core::routine> target);
 				void operator () (boost::shared_ptr <mu::core::expression> source, boost::shared_ptr <mu::core::expression> target);
 				void operator () (boost::shared_ptr <mu::core::reference> source, boost::shared_ptr <mu::core::reference> target);
-				std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::core::node>> mapping;
+				virtual boost::shared_ptr <mu::core::node> operator () (boost::shared_ptr <mu::core::node> node_a) = 0;
 			};
 		}
 	}

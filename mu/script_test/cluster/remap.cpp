@@ -1,6 +1,6 @@
 #include <mu/script_test/cluster/remap.h>
 
-#include <mu/script/cluster/remap.h>
+#include <mu/script/cluster/remap_node.h>
 #include <mu/script/context.h>
 #include <mu/core/cluster.h>
 #include <mu/core/routine.h>
@@ -25,7 +25,7 @@ void mu::script_test::cluster::remap::run_1 ()
 	routine->body = body;
 	auto fail (boost::make_shared <mu::script::fail::operation> ());
 	body->dependencies.push_back (fail);
-	auto remap (boost::make_shared <mu::script::cluster::remap> ());
+	auto remap (boost::make_shared <mu::script::cluster::remap_node> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	remap->mapping [fail] = identity;
 	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());

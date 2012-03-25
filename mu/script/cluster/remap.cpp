@@ -43,16 +43,7 @@ void mu::script::cluster::remap::operator () (boost::shared_ptr <mu::core::expre
 {
 	for (auto i (source->dependencies.begin ()), j (source->dependencies.end ()); i != j; ++i)
 	{
-		boost::shared_ptr <mu::core::node> value;
-		auto existing (mapping.find (*i));
-		if (existing != mapping.end ())
-		{
-			value = existing->second;
-		}
-		else
-		{
-			value = *i;
-		}
+		auto value ((*this) (*i));
 		auto reference (boost::dynamic_pointer_cast <mu::core::reference> (value));
 		auto expression (boost::dynamic_pointer_cast <mu::core::expression> (value));
 		auto routine (boost::dynamic_pointer_cast <mu::core::routine> (value));
