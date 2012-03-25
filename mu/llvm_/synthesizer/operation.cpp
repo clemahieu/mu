@@ -115,7 +115,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 							context_a.slide ();
 							auto i (functions.begin ());
 							auto j (functions.end ());
-							for (auto k (body_cluster->routines.begin ()), l (body_cluster->routines.end ()); k != l; ++k)
+							for (auto k (body_cluster->routines.begin ()), l (body_cluster->routines.end ()); k != l; ++k, ++i)
 							{
 								result->routines.push_back ((*i).get <0> ());
 								auto llvm_block (llvm::BasicBlock::Create (module->module->getContext ()));

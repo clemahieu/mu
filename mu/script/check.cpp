@@ -11,7 +11,7 @@ bool mu::script::check_count (mu::script::context & context_a, size_t expected)
 	{
 		std::wstringstream message;
 		message << L"In operation: ";
-		//message << name ();
+		message << (typeid (*context_a.stack [context_a.base_begin - 1])).name ();
 		message << L" expecting: ";
 		message << expected;
 		message << L" arguments, have: ";
@@ -25,7 +25,7 @@ void mu::script::invalid_type (mu::script::context & context_a, boost::shared_pt
 {
 	std::wstringstream message;
 	message << L"In operation: ";
-	//message << name ();
+	message << (typeid (*context_a.stack [context_a.base_begin - 1])).name ();
 	message << L" invalid node type:";
 	message << (typeid (*node_a)).name ();
 	message << L" at position: ";
