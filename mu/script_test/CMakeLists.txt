@@ -12,6 +12,7 @@ add_library (mu_script_test STATIC
 	closure/operation.cpp
 	closure/single.cpp
 	cluster/remap.cpp
+	debugging/trace_types.cpp
 	integer/equal.cpp
 	loadb/operation.cpp
 	loads/operation.cpp
