@@ -9,8 +9,7 @@ add_executable (mu_exec
 target_link_libraries (mu_exec
 	mu_core
 	mu_io
-	mu_script
-	mu_script_io)
+	mu_script)
 
 if (NOT WIN32)
 	target_link_libraries (mu_exec

@@ -6,13 +6,14 @@ add_library (mu_core STATIC
 	cluster.cpp
 	expression.cpp
 	node.cpp
-	order.cpp
 	parameters.cpp
 	reference.cpp
 	routine.cpp
     visitor.cpp
 	errors/error.cpp
+	errors/errors.cpp
 	errors/error_context.cpp
 	errors/error_list.cpp
 	errors/error_target.cpp
-	errors/string_error.cpp)
+	errors/string_error.cpp
+	errors/null.cpp)

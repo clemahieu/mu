@@ -36,9 +36,9 @@ namespace mu
 			class operation : public mu::script::operation
 			{
 			public:
-				void operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::script::cluster::node> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast);
-				void build (boost::shared_ptr <mu::script::cluster::node> * result_a, boost::shared_ptr <mu::core::cluster> cluster_a);
+				bool operator () (mu::script::context & context_a) override;
+				boost::shared_ptr <mu::core::cluster> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast);
+				void build (boost::shared_ptr <mu::core::cluster> * result_a, boost::shared_ptr <mu::core::cluster> cluster_a);
 			};
 		}
 	}

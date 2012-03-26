@@ -1,15 +1,27 @@
 #include <mu/script/runtime/expression.h>
 
-#include <mu/script/runtime/frame.h>
+#include <mu/script/context.h>
+#include <mu/script/check.h>
+#include <mu/script/runtime/locals.h>
+#include <mu/script/runtime/reference.h>
 
-mu::script::runtime::expression::expression (size_t index_a)
-	: index (index_a)
+bool mu::script::runtime::expression::operator () (mu::script::context & context_a)
 {
-}
-
-void mu::script::runtime::expression::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame, std::vector <boost::shared_ptr <mu::core::node>> & target)
-{
-	assert (frame.nodes.size () > index);
-	std::vector <boost::shared_ptr <mu::core::node>> & source (frame.nodes [index]);
-	target.insert (target.end (), source.begin (), source.end ());
+	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
+	if (valid)
+	{
+		for (auto i (dependencies.begin ()), j (dependencies.end ()); i != j; ++i)
+		{
+			context_a.push (*i);
+			context_a.push (context_a.parameters (0));
+			valid = valid && context_a ();
+			context_a.slide ();
+		}
+		if (valid)
+		{
+			context_a.push (context_a.locals_begin (), context_a.locals_end ());
+			valid = context_a ();
+		}
+	}
+	return valid;
 }

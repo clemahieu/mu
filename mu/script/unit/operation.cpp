@@ -1,7 +1,8 @@
-#include "operation.h"
+#include <mu/script/unit/operation.h>
 
-void mu::script::unit::operation::operator () (mu::script::context & context_a)
+bool mu::script::unit::operation::operator () (mu::script::context & context_a)
 {
+	return true;
 }
 
 std::wstring mu::script::unit::operation::name ()

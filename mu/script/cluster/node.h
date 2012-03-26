@@ -1,19 +1,14 @@
 #pragma once
 
-#include <mu/script/operation.h>
+#include <mu/core/node.h>
 
-#include <vector>
 #include <map>
-#include <set>
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 
 namespace mu
 {
-	namespace core
-	{
-		class routine;
-	}
 	namespace script
 	{
 		namespace runtime
@@ -22,13 +17,9 @@ namespace mu
 		}
 		namespace cluster
 		{
-			class node : public mu::script::operation
+			class node : public mu::core::node
 			{
 			public:
-				node ();
-				node (std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a);
-				node (std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names_a, std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines_a);
-				void operator () (mu::script::context & context_a) override;
 				std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names;
 				std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines;
 			};

@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/script/times/operation.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer/node.h>
@@ -6,34 +6,40 @@
 
 #include <sstream>
 
-void mu::script::times::operation::operator () (mu::script::context & context_a)
+bool mu::script::times::operation::operator () (mu::script::context & context_a)
 {
-	if (context_a.parameters.size () > 1)
+	bool result (true);
+	if (context_a.parameters_size () > 1)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters [0]));
-		auto two (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters [1]));
+		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters (0)));
+		auto two (boost::dynamic_pointer_cast <mu::core::node> (context_a.parameters (1)));
 		if (one.get () != nullptr)
 		{
 			if (two.get () != nullptr)
 			{
-				std::vector <boost::shared_ptr <mu::core::node>> results_l (context_a.parameters.begin () + 2, context_a.parameters.end ());
-				for (size_t i (0), j (one->value); i != j; ++i)
+				context_a.reserve (context_a.parameters_size () - 2);
+				context_a.assign (context_a.locals_begin (), context_a.parameters_begin () + 2, context_a.parameters_end ());
+				for (size_t i (0), j (one->value); i != j && result; ++i)
 				{
-					std::vector <boost::shared_ptr <mu::core::node>> arguments;
-					arguments.swap (results_l);
-					auto ctx (mu::script::context (context_a, arguments, results_l));
-					(*two) (ctx);
+					context_a.push (two);
+					context_a.push (context_a.locals_begin (), context_a.locals_end ());
+					result = context_a ();
+					result = result && context_a.locals_size () == context_a.working_size ();
+					context_a.assign (context_a.locals_begin (), context_a.working_begin (), context_a.working_end ());
+					context_a.drop ();
 				}
-				context_a.results.insert (context_a.results.end (), results_l.begin (), results_l.end ());
+				context_a.push (context_a.locals_begin (), context_a.locals_end ());
 			}
 			else
 			{
-				mu::script::invalid_type (context_a, typeid (*context_a.parameters [1].get ()), typeid (mu::script::operation), 1);
+				mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::operation), 1);
+				result = false;
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::integer::node), 0);
+			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::script::integer::node), 0);
+			result = false;
 		}
 	}
 	else
@@ -41,8 +47,10 @@ void mu::script::times::operation::operator () (mu::script::context & context_a)
 		std::wstringstream message;
 		message << name ();
 		message << L" must have at least two arguments";
-		context_a (message.str ());
+		context_a.errors (message.str ());
+		result = false;
 	}
+	return result;
 }
 
 std::wstring mu::script::times::operation::name ()

@@ -1,4 +1,4 @@
-#include "create.h"
+#include <mu/llvm_/pointer_type/create.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/context/node.h>
@@ -12,11 +12,13 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::pointer_type::create::operator () (mu::script::context & context_a)
+bool mu::llvm_::pointer_type::create::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::type::node> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::type::node> () (context_a));
+	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::type::node> (context_a.parameters [0]));
-		context_a.results.push_back (boost::make_shared <mu::llvm_::pointer_type::node> (one));
+		auto one (boost::static_pointer_cast <mu::llvm_::type::node> (context_a.parameters (0)));
+		context_a.push (boost::make_shared <mu::llvm_::pointer_type::node> (one));
 	}
+	return valid;
 }

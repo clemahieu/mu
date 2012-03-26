@@ -15,7 +15,7 @@ namespace mu
 			public:
 				operation ();
 				operation (std::vector <boost::shared_ptr <mu::core::node>> values_a);
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				std::vector <boost::shared_ptr <mu::core::node>> values;
 			};
 		}

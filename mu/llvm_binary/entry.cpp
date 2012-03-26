@@ -3,7 +3,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/extensions/node.h>
 #include <mu/io/analyzer/extensions/global.h>
-#include <mu/llvm_/analyzer/operation.h>
+#include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/apint/create.h>
 #include <mu/llvm_/cluster/get.h>
 #include <mu/llvm_/compile/operation.h>
@@ -53,7 +53,6 @@ void * extensions ()
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
 	auto result (new mu::script::extensions::node);
-	result->extensions->extensions_m [std::wstring (L"analyzer/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::analyzer::operation> ());
 	result->extensions->extensions_m [std::wstring (L"apint/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::apint::create> ());
 	result->extensions->extensions_m [std::wstring (L"cluster/get")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::cluster::get> ());
 	result->extensions->extensions_m [std::wstring (L"compile/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::compile::operation> ());
@@ -79,6 +78,7 @@ void * extensions ()
 	result->extensions->extensions_m [std::wstring (L"module/print")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::print> ());
 	result->extensions->extensions_m [std::wstring (L"module/verify")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::module::verify> ());
 	result->extensions->extensions_m [std::wstring (L"pointer_type/create")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::pointer_type::create> ());
+	result->extensions->extensions_m [std::wstring (L"synthesizer/operation")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	result->extensions->extensions_m [std::wstring (L"value/get_context")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::get_context> ());
 	result->extensions->extensions_m [std::wstring (L"value/set_name")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::llvm_::value::set_name> ());
 	return result;

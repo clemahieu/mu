@@ -2,32 +2,32 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/load/operation.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/extensions/node.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/runtime/routine.h>
 #include <mu/script/string/node.h>
-#include <mu/script_io/builder.h>
-#include <mu/script_io/cluster.h>
+#include <mu/core/cluster.h>
 #include <mu/script/analyzer/operation.h>
 #include <mu/script/check.h>
+#include <mu/core/routine.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
-void mu::script::loads::operation::operator () (mu::script::context & context_a)
+bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::script::extensions::node, mu::script::string::node> () (context_a))
+	bool complete (mu::script::check <mu::script::extensions::node, mu::script::string::node> () (context_a));
+	if (complete)
 	{
-		auto extensions (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
-		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto extensions (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
+		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
 		auto result (core (context_a, extensions, file));
 		if (result.get () != nullptr)
 		{
-			context_a.results.push_back (result);
+			context_a.push (result);
 		}
 	}
+	return complete;
 }
 
 boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file)

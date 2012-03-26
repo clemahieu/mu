@@ -22,9 +22,7 @@ target_link_libraries (mu_test_entry
 	mu_repl
 	mu_repl_test
 	mu_script
-	mu_script_test
-	mu_script_io
-	mu_script_io_test)
+	mu_script_test)
 
 if (NOT WIN32)
 	target_link_libraries (mu_test_entry

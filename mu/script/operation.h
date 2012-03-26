@@ -12,7 +12,7 @@ namespace mu
 		class operation : public mu::core::node
 		{
 		public:
-			virtual void operator () (mu::script::context & context_a) = 0;
+			virtual bool operator () (mu::script::context & context_a) = 0;
 		};
 	}
 }

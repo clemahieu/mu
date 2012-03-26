@@ -1,4 +1,4 @@
-#include "create_single.h"
+#include <mu/script/closure/create_single.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/closure/operation.h>
@@ -7,20 +7,19 @@
 
 #include <sstream>
 
-void mu::script::closure::create_single::operator () (mu::script::context & context_a)
+#include <boost/make_shared.hpp>
+
+bool mu::script::closure::create_single::operator () (mu::script::context & context_a)
 {
-	if (context_a.parameters.size () > 0)
+	bool result (true);
+	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters [0]));
-		if (one.get () != nullptr)
+		std::vector <boost::shared_ptr <mu::core::node>> closed_l;
+		for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
 		{
-			std::vector <boost::shared_ptr <mu::core::node>> closed_l (context_a.parameters.begin () + 1, context_a.parameters.end ());
-			context_a.results.push_back (boost::shared_ptr <mu::core::node> (new mu::script::closure::single (closed_l, one)));
+			closed_l.push_back (*i);
 		}
-		else
-		{
-			mu::script::invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::operation), 0);
-		}
+		context_a.push (boost::make_shared <mu::script::closure::single> (closed_l, context_a.parameters (0)));
 	}
 	else
 	{
@@ -28,8 +27,10 @@ void mu::script::closure::create_single::operator () (mu::script::context & cont
 		message << L"Operation: ";
 		message << name ();
 		message << L" must have at least one argument";
-		context_a (message.str ());
+		context_a.errors (message.str ());
+		result = false;
 	}
+	return result;
 }
 
 std::wstring mu::script::closure::create_single::name ()

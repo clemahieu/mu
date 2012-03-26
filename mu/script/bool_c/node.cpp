@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/script/bool_c/node.h>
 
 mu::script::bool_c::node::node ()
 {

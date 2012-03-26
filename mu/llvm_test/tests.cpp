@@ -1,4 +1,4 @@
-#include "tests.h"
+#include <mu/llvm_test/tests.h>
 
 #include <mu/llvm_test/module/get_package.h>
 #include <mu/llvm_test/module/add_package.h>
@@ -8,7 +8,7 @@
 #include <mu/llvm_test/basic_block/insert.h>
 #include <mu/llvm_test/instruction_package.h>
 #include <mu/llvm_test/function_type/create.h>
-#include <mu/llvm_test/analyzer/operation.h>
+#include <mu/llvm_test/synthesizer/operation.h>
 #include <mu/llvm_test/function/create.h>
 #include <mu/llvm_test/constant_string/extension.h>
 #include <mu/llvm_test/instructions/call.h>
@@ -16,6 +16,8 @@
 #include <mu/llvm_test/global_variable/create_set.h>
 #include <mu/llvm_test/ccall/operation.h>
 #include <mu/llvm_test/instructions/trunc.h>
+#include <mu/llvm_test/basic_block/instruction_insert.h>
+#include <mu/llvm_test/basic_block/split_return.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -75,6 +77,14 @@ void mu::llvm_test::tests::run ()
 		test.run ();
 	}
 	{
+		mu::llvm_test::basic_block::split_return test;
+		test.run ();
+	}
+	{
+		mu::llvm_test::basic_block::instruction_insert test;
+		test.run ();
+	}
+	{
 		mu::llvm_test::instruction_package test;
 		test.run ();
 	}
@@ -95,10 +105,6 @@ void mu::llvm_test::tests::run ()
 		test.run ();
 	}
 	{
-		mu::llvm_test::analyzer::operation test;
-		test.run ();
-	}
-	{
 		mu::llvm_test::function::create test;
 		test.run ();
 	}
@@ -108,6 +114,10 @@ void mu::llvm_test::tests::run ()
 	}
 	{
 		mu::llvm_test::ccall::operation test;
+		test.run ();
+	}
+	{
+		mu::llvm_test::synthesizer::operation test;
 		test.run ();
 	}
 }

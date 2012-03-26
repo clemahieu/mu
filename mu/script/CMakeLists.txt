@@ -8,8 +8,12 @@ else ()
 endif ()
 
 add_library (mu_script STATIC
+	api.cpp
+	builder.cpp
 	check.cpp
 	context.cpp
+	iterator.cpp
+	location.cpp
 	operation.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp
@@ -28,16 +32,12 @@ add_library (mu_script STATIC
 	closure/hole.cpp
 	closure/operation.cpp
 	closure/single.cpp
-	cluster/get_named.cpp
 	cluster/node.cpp
-	debugging/call_info.cpp
-	debugging/binary_info.cpp
-	debugging/source_info.cpp
-	debugging/string_info.cpp
+	cluster/remap.cpp
+	cluster/remap_node.cpp
 	exec/operation.cpp
 	extensions/create.cpp
 	extensions/merge.cpp
-	extensions/merge_cluster.cpp
 	extensions/merge_package.cpp
 	extensions/node.cpp
 	fail/operation.cpp
@@ -52,27 +52,25 @@ add_library (mu_script STATIC
 	loads/operation.cpp
 	package/add.cpp
 	package/create.cpp
-	package/create_from_cluster.cpp
 	package/get.cpp
 	package/get_recursive.cpp
 	package/node.cpp
 	package/remove.cpp
 	print/operation.cpp
-	run/operation.cpp
-	runtime/call.cpp
-	runtime/constant.cpp
 	runtime/expression.cpp
-	runtime/frame.cpp
-	runtime/node.cpp
-	runtime/parameters.cpp
+	runtime/fixed.cpp
+	runtime/locals.cpp
 	runtime/reference.cpp
+	runtime/selection.cpp
 	runtime/routine.cpp
-	runtime/stacktrace_error.cpp
-	runtime/trace.cpp
-	runtime/trace_target.cpp
+	run/operation.cpp
 	string/extension.cpp
 	string/node.cpp
+	synthesizer/operation.cpp
 	times/operation.cpp
+	topology/core.cpp
+	topology/node.cpp
+	topology/operation.cpp
 	type_check/operation.cpp
 	unit/operation.cpp
 	values/create.cpp

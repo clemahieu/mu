@@ -1,4 +1,4 @@
-#include "create_from_string.h"
+#include <mu/llvm_/constant/create_from_string.h>
 
 #include <mu/script/string/node.h>
 #include <mu/llvm_/context/node.h>
@@ -13,12 +13,13 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::constant::create_from_string::operator () (mu::script::context & context_a)
+bool mu::llvm_::constant::create_from_string::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::context::node, mu::script::string::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::context::node, mu::script::string::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
 		size_t bits (sizeof (wchar_t) * 8);
 		auto type (llvm::Type::getIntNTy (*one->context, bits));
 		std::vector <llvm::Constant *> elements;
@@ -28,8 +29,9 @@ void mu::llvm_::constant::create_from_string::operator () (mu::script::context &
 		}
 		auto array_type (boost::make_shared <mu::llvm_::array_type::node> (boost::make_shared <mu::llvm_::integer_type::node> (type), elements.size ()));
 		auto constant (llvm::ConstantArray::get (array_type->array_type (), elements));
-		context_a.results.push_back (boost::make_shared <mu::llvm_::constant::node> (constant, array_type));
+		context_a.push (boost::make_shared <mu::llvm_::constant::node> (constant, array_type));
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::constant::create_from_string::name ()

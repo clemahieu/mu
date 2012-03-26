@@ -1,4 +1,4 @@
-#include "create_set.h"
+#include <mu/llvm_/global_variable/create_set.h>
 
 #include <mu/llvm_/constant/node.h>
 #include <mu/llvm_/global_variable/node.h>
@@ -12,16 +12,18 @@
 #include <llvm/GlobalVariable.h>
 #include <llvm/Module.h>
 
-void mu::llvm_::global_variable::create_set::operator () (mu::script::context & context_a)
+bool mu::llvm_::global_variable::create_set::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::module::node, mu::llvm_::constant::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::module::node, mu::llvm_::constant::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::llvm_::constant::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::llvm_::constant::node> (context_a.parameters (1)));
 		auto result (boost::make_shared <mu::llvm_::global_variable::node> (new llvm::GlobalVariable (two->type->type (), true, llvm::GlobalValue::LinkageTypes::PrivateLinkage, two->constant ()), boost::make_shared <mu::llvm_::pointer_type::node> (two->type)));
 		one->module->getGlobalList ().push_back (result->global_variable ());
-		context_a.results.push_back (result);
+		context_a.push (result);
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::global_variable::create_set::name ()

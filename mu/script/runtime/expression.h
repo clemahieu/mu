@@ -1,6 +1,8 @@
 #pragma once
 
-#include <mu/script/runtime/node.h>
+#include <mu/script/operation.h>
+
+#include <vector>
 
 namespace mu
 {
@@ -8,13 +10,12 @@ namespace mu
 	{
 		namespace runtime
 		{
-			// Internal node to link all values of an expression, e.g. the expression [c] that references the `c' in some other [a; b; c]
-			class expression : public mu::script::runtime::node
+			class reference;
+			class expression : public mu::script::operation
 			{
 			public:
-				expression (size_t index_a);
-				size_t index;
-				void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame, std::vector <boost::shared_ptr <mu::core::node>> & target) override;
+				bool operator () (mu::script::context & context_a) override;
+				std::vector <boost::shared_ptr <mu::script::operation>> dependencies;
 			};
 		}
 	}

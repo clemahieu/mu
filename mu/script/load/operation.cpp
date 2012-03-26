@@ -3,13 +3,11 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
-#include <mu/io/builder.h>
-#include <mu/script/cluster/node.h>
+#include <mu/io/ast/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/script/runtime/routine.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
 
@@ -20,17 +18,23 @@
 #include <sstream>
 #include <fstream>
 
-void mu::script::load::operation::operator () (mu::script::context & context_a)
+bool mu::script::load::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::script::string::node> () (context_a))
+	bool complete (mu::script::check <mu::script::string::node> () (context_a));
+	if (complete)
 	{
-		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
+		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
 		auto result (core (context_a, file));
 		if (result.get () != nullptr)
 		{
-			context_a.results.push_back (result);
+			context_a.push (result);
+		}
+		else
+		{
+			complete = false;
 		}
 	}
+	return complete;
 }
 
 boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::string::node> file)
@@ -43,7 +47,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 	if (stream.is_open ())		
 	{
 		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-		mu::io::builder builder;
+		mu::io::ast::builder builder;
 		mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 		source (input);
 		source ();
@@ -58,14 +62,14 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 				std::wstringstream message;
 				message << L"File did not contain one cluster: ";
 				message << builder.clusters.size ();
-				context_a (message.str ());
+				context_a.errors (message.str ());
 			}
 		}
 		else
 		{
 			for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
 			{
-				context_a (*i);
+				context_a.errors (*i);
 			}
 		}
 	}
@@ -76,7 +80,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 		std::string patha (path.string ());
 		std::wstring path (patha.begin (), patha.end ());
 		message << path;
-		context_a (message.str ());
+		context_a.errors (message.str ());
 	}
 	return result;
 }

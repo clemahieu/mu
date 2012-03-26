@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/script/extensions/node.h>
 
 #include <mu/io/analyzer/extensions/extensions.h>
 

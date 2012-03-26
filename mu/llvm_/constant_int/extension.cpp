@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/llvm_/constant_int/extension.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>

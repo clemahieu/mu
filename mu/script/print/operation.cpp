@@ -2,13 +2,15 @@
 
 #include <mu/script/context.h>
 
-void mu::script::print::operation::operator () (mu::script::context & context_a)
+bool mu::script::print::operation::operator () (mu::script::context & context_a)
 {
-	for (auto i (context_a.parameters.begin ()), j (context_a.parameters.end ()); i != j; ++i)
+	bool result (true);
+	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 	{
 		std::wcout << (*i)->debug ();
 		std::wcout << L'\n';
 	}
+	return result;
 }
 
 std::wstring mu::script::print::operation::name ()

@@ -27,7 +27,7 @@ namespace mu
 			class operation : public mu::script::operation
 			{
 			public:
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				boost::shared_ptr <mu::script::extensions::node> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file);
 			};
 		}

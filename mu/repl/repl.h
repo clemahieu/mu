@@ -22,7 +22,6 @@ namespace mu
 			void stop ();
 			void reset ();
 		private:
-			void print_errors (boost::shared_ptr <mu::core::errors::error_list> errors_a);
 			void run_loop ();
 			void iteration ();
 			bool stop_m;

@@ -1,10 +1,6 @@
-#include "tests.h"
+#include <mu/script_test/tests.h>
 
-#include <mu/script_test/routine.h>
-#include <mu/script_test/call.h>
-#include <mu/script_test/constant.h>
-#include <mu/script_test/expression.h>
-#include <mu/script_test/reference.h>
+#include <mu/script_test/context.h>
 #include <mu/script_test/integer/equal.h>
 #include <mu/script_test/closure/operation.h>
 #include <mu/script_test/package/create.h>
@@ -20,36 +16,26 @@
 #include <mu/script_test/loads/operation.h>
 #include <mu/script_test/analyzer/operation.h>
 #include <mu/script_test/type_check/operation.h>
-#include <mu/script_test/runtime/trace.h>
+#include <mu/script_test/topology/core.h>
+#include <mu/script_test/synthesizer/operation.h>
+#include <mu/script_test/cluster/remap.h>
 
 void mu::script_test::tests::run ()
 {
 	{
-		reference test;
+		mu::script_test::context test;
 		test.run ();
 	}
 	{
-		expression test;
-		test.run ();
-	}
-	{
-		constant test;
-		test.run ();
-	}
-	{
-		call test;
-		test.run ();
-	}
-	{
-		routine test;
-		test.run ();
-	}
-	{
-		mu::script_test::runtime::trace_target test;
+		mu::script_test::topology::core test;
 		test.run ();
 	}
 	{
 		mu::script_test::type_check::operation test;
+		test.run ();
+	}
+	{
+		mu::script_test::synthesizer::operation test;
 		test.run ();
 	}
 	{
@@ -106,6 +92,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::loads::operation test;
+		test.run ();
+	}
+	{
+		mu::script_test::cluster::remap test;
 		test.run ();
 	}
 }

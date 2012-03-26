@@ -10,8 +10,7 @@ target_link_libraries (mu_repl_entry
 	mu_core
 	mu_io
 	mu_repl
-	mu_script
-	mu_script_io)
+	mu_script)
 
 if (NOT WIN32)
 	target_link_libraries (mu_repl_entry

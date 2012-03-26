@@ -28,7 +28,7 @@ namespace mu
 			public:
 				operation (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
 			};
 		}

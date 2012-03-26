@@ -21,17 +21,18 @@ mu::script::bool_c::create::create ()
 	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"low"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
 }
 
-void mu::script::bool_c::create::operator () (mu::script::context & context_a)
+bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::script::string::node> () (context_a))
+	bool result (mu::script::check <mu::script::string::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [0]));
+		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
 		std::wstring lower;
 		std::transform (one->string.begin (), one->string.end (), lower.begin (), ::tolower);
 		auto existing (values.find (lower));
 		if (existing != values.end ())
 		{
-			context_a.results.push_back (existing->second);
+			context_a.push (existing->second);
 		}
 		else
 		{
@@ -39,9 +40,11 @@ void mu::script::bool_c::create::operator () (mu::script::context & context_a)
 			message << L"Cannot convert value: ";
 			message << one->string;
 			message << L" to a bool";
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }
 
 std::wstring mu::script::bool_c::create::name ()

@@ -1,4 +1,4 @@
-#include "get_package.h"
+#include <mu/llvm_/module/get_package.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
@@ -16,12 +16,13 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::module::get_package::operator () (mu::script::context & context_a)
+bool mu::llvm_::module::get_package::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::module::node, mu::script::astring::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::module::node, mu::script::astring::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters (1)));
 		auto package (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
 		for (auto i (one->module->getFunctionList ().begin ()), j (one->module->getFunctionList ().end ()); i != j; ++i)
 		{
@@ -33,8 +34,9 @@ void mu::llvm_::module::get_package::operator () (mu::script::context & context_
 			name.append (two->string);
 			function->setName (name);
 		}
-		context_a.results.push_back (package);
+		context_a.push (package);
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::module::get_package::name ()

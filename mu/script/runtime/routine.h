@@ -4,26 +4,24 @@
 
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace script
 	{
-		namespace cluster
+		namespace topology
 		{
 			class node;
 		}
 		namespace runtime
 		{
-			class call;
+			class expression;
 			class routine : public mu::script::operation
 			{
 			public:
-				routine ();
-				void operator () (mu::script::context & context_a) override;
-				std::wstring name () override;
-				std::vector <boost::shared_ptr <mu::script::runtime::call>> calls;
+				routine (boost::shared_ptr <mu::script::runtime::expression> parameters_a);
+				bool operator () (mu::script::context & context_a) override;
+				boost::shared_ptr <mu::script::runtime::expression> parameters;
+				std::vector <boost::shared_ptr <mu::script::runtime::expression>> expressions;
 			};
 		}
 	}

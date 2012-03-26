@@ -1,32 +1,54 @@
 #include <mu/script/runtime/reference.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/runtime/frame.h>
+#include <mu/script/context.h>
+#include <mu/script/runtime/locals.h>
+#include <mu/script/check.h>
 
 #include <sstream>
 
-mu::script::runtime::reference::reference (size_t expression_a, size_t index_a)
-	: expression (expression_a),
-	index (index_a)
+mu::script::runtime::reference::reference (boost::shared_ptr <mu::script::runtime::expression> expression_a)
+	: expression (expression_a)
 {
 }
 
-void mu::script::runtime::reference::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::script::runtime::frame & frame, std::vector <boost::shared_ptr <mu::core::node>> & target)
+bool mu::script::runtime::reference::operator () (mu::script::context & context_a)
 {
-	assert (frame.nodes.size () > expression);
-	std::vector <boost::shared_ptr <mu::core::node>> & source (frame.nodes [expression]);
-	if (source.size () > index)
+	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
+	if (valid)
 	{
-		target.push_back (source [index]);
+		auto locals (boost::static_pointer_cast <mu::script::runtime::locals> (context_a.parameters (0)));
+		auto existing (locals->expressions.find (expression));
+		if (existing != locals->expressions.end ())
+		{
+			if (existing->second.get <1> () <= locals->frame.size ())
+			{
+				context_a.push (locals->frame.begin () + existing->second.get <0> (), locals->frame.begin () + existing->second.get <1> ());
+			}
+			else
+			{
+				if (existing->second.get <1> () != ~0)
+				{
+					std::wstringstream message;
+					message << L"Trying to get values off of frame from: ";
+					message << existing->second.get <0> ();
+					message << L" to: ";
+					message << existing->second.get <1> ();
+					message << L" but only have: ";
+					message << locals->frame.size ();
+					context_a.errors (message.str ());
+				}
+				else
+				{
+					// Poisoned arguments aren't an error condition of *this* reference
+				}
+				valid = false;
+			}
+		}
+		else
+		{
+			context_a.errors (L"Expression is not mapped");
+			valid = false;
+		}
 	}
-	else
-	{
-		std::wstringstream message;
-		message << L"Expression at index: ";
-		message << expression;
-		message << L" does not have: ";
-		message << index;
-		message << L" results";
-		(*errors_a) (message.str ());
-	}
+	return valid;
 }

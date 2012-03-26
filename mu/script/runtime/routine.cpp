@@ -1,34 +1,52 @@
 #include <mu/script/runtime/routine.h>
 
-#include <mu/core/errors/error_target.h>
-#include <mu/script/runtime/frame.h>
-#include <mu/script/operation.h>
-#include <mu/script/runtime/call.h>
-#include <mu/script/identity/operation.h>
-#include <mu/script/values/operation.h>
 #include <mu/script/context.h>
-#include <mu/script/runtime/trace.h>
+#include <mu/script/runtime/locals.h>
+#include <mu/script/topology/node.h>
+#include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/reference.h>
 
 #include <boost/make_shared.hpp>
 
-mu::script::runtime::routine::routine ()
+mu::script::runtime::routine::routine (boost::shared_ptr <mu::script::runtime::expression> parameters_a)
+	: parameters (parameters_a)
 {
 }
 
-void mu::script::runtime::routine::operator () (mu::script::context & context_a)
+bool mu::script::runtime::routine::operator () (mu::script::context & context_a)
 {
-	size_t size (calls.size ());
-	std::vector <boost::shared_ptr <mu::core::node>> values_l (context_a.parameters.begin (), context_a.parameters.end ());
-	auto values (boost::make_shared <mu::script::values::operation> (values_l));
-	mu::script::runtime::frame frame (values, size);
-	for (auto i (calls.begin ()), j (calls.end ()); i != j && !context_a (); ++i)
+	bool valid (true);
+	context_a.reserve (1);
+	auto locals (boost::make_shared <mu::script::runtime::locals> ());
+	context_a.locals (0) = locals;
+	locals->expressions [parameters] = boost::tuple <size_t, size_t> (locals->frame.size (), locals->frame.size () + context_a.parameters_size ());
+	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 	{
-		(*(*i)) (context_a, frame);
+		locals->frame.push_back (*i);
 	}
-	context_a.results.assign (frame.nodes [size - 1].begin (), frame.nodes [size - 1].end ());
-}
-
-std::wstring mu::script::runtime::routine::name ()
-{
-	return std::wstring (L"mu::script::runtime::routine");
+	for (auto i (expressions.begin ()), j (expressions.end ()); i != j; ++i)
+	{
+		context_a.push (*i);
+		context_a.push (locals);
+		auto valid_l (context_a ());
+		valid = valid && valid_l;
+		if (valid_l)
+		{
+			locals->expressions [*i] = boost::tuple <size_t, size_t> (locals->frame.size (), locals->frame.size () + context_a.working_size ());
+			for (auto k (context_a.working_begin ()), l (context_a.working_end ()); k != l; ++k)
+			{
+				locals->frame.push_back (*k);
+			}
+		}
+		else
+		{
+			locals->expressions [*i] = boost::tuple <size_t, size_t> (~0, ~0);
+		}
+		context_a.drop ();
+	}
+	assert (expressions.size () > 0);
+	context_a.push (boost::make_shared <mu::script::runtime::reference> (expressions [expressions.size () - 1]));
+	context_a.push (locals);
+	valid = valid & context_a ();
+	return valid;
 }

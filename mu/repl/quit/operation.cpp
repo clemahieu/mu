@@ -1,4 +1,4 @@
-#include "operation.h"
+#include <mu/repl/quit/operation.h>
 
 #include <mu/script/check.h>
 
@@ -9,12 +9,14 @@ mu::repl::quit::operation::operation (mu::repl::repl & repl_a)
 {
 }
 
-void mu::repl::quit::operation::operator () (mu::script::context & context_a)
+bool mu::repl::quit::operation::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <> () (context_a))
+	bool result (mu::script::check <> () (context_a));
+	if (result)
 	{
 		repl.stop ();
 	}
+	return result;
 }
 
 std::wstring mu::repl::quit::operation::name ()

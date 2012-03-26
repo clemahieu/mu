@@ -1,4 +1,4 @@
-#include "ptrtoint.h"
+#include <mu/llvm_/instructions/ptrtoint.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/instruction/node.h>
@@ -14,18 +14,19 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & context_a)
+bool mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::value::node, mu::llvm_::type::node> () (context_a))
+	bool valid (mu::script::check <mu::llvm_::value::node, mu::llvm_::type::node> () (context_a));
+	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::llvm_::type::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::llvm_::type::node> (context_a.parameters (1)));
 		bool one_int (one->value ()->getType ()->isPointerTy ());
 		bool two_int (two->type ()->isIntegerTy ());
 		if (one_int && two_int)
 		{
 			auto instruction (new llvm::PtrToIntInst (one->value (), two->type ()));
-			context_a.results.push_back (boost::make_shared <mu::llvm_::instruction::node> (instruction, two));
+			context_a.push (boost::make_shared <mu::llvm_::instruction::node> (instruction, two));
 		}
 		else
 		{
@@ -34,7 +35,9 @@ void mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & conte
 			message << one_int;
 			message << L" ";
 			message << two_int;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			valid = false;
 		}
 	}
+	return valid;
 }

@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/script/package/node.h>
 
 #include <sstream>
 

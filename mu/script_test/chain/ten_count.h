@@ -12,7 +12,7 @@ namespace mu
 			{
 			public:
 				ten_count ();
-				void operator () (mu::script::context & context_a) override;
+				bool operator () (mu::script::context & context_a) override;
 				size_t count_m;
 			};
 		}

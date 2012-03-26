@@ -1,16 +1,15 @@
-#include "operation.h"
+#include <mu/script/run/operation.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
-#include <mu/script_io/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/cluster/node.h>
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/analyzer/operation.h>
 #include <mu/script/check.h>
+#include <mu/core/cluster.h>
+#include <mu/core/routine.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -18,12 +17,13 @@
 
 #include <sstream>
 
-void mu::script::run::operation::operator () (mu::script::context & context_a)
+bool mu::script::run::operation::operator () (mu::script::context & context_a)
 {
-	if (context_a.parameters.size () > 1)
+	bool result (true);
+	if (context_a.parameters_size () > 1)
 	{
-		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters [0]));
-		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
+		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
 		if (extensions.get () != nullptr)
 		{
 			if (file.get () != nullptr)
@@ -39,28 +39,31 @@ void mu::script::run::operation::operator () (mu::script::context & context_a)
 						if (cluster->routines.size () > 0)
 						{
 							auto routine (cluster->routines [0]);
-							std::vector <boost::shared_ptr <mu::core::node>> arguments (context_a.parameters.begin () + 2, context_a.parameters.end ());
-							auto ctx (mu::script::context (context_a, arguments, context_a.results));
-							(*routine) (ctx);
+							context_a.push (routine);
+							context_a.push (context_a.parameters_begin () + 2, context_a.parameters_end ());
+							result = context_a ();
 						}
 						else
 						{
 							std::wstringstream message;
 							message << L"Cluster does not contain a routine: ";
 							message << cluster->routines.size ();
-							context_a (message.str ());
+							context_a.errors (message.str ());
+							result = false;
 						}
 					}
 				}
 			}
 			else
 			{
-				mu::script::invalid_type (context_a, typeid (*context_a.parameters [1].get ()), typeid (mu::script::string::node), 1);
+				mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::string::node), 1);
+				result = false;
 			}
 		}
 		else
 		{
-			invalid_type (context_a, typeid (*context_a.parameters [0].get ()), typeid (mu::script::extensions::node), 0);
+			invalid_type (context_a, context_a.parameters (0), typeid (mu::script::extensions::node), 0);
+			result = false;
 		}
 	}
 	else
@@ -69,8 +72,10 @@ void mu::script::run::operation::operator () (mu::script::context & context_a)
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least two arguments";
-		context_a (message.str ());
+		context_a.errors (message.str ());
+		result = false;
 	}
+	return result;
 }
 
 std::wstring mu::script::run::operation::name ()

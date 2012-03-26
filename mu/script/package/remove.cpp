@@ -1,4 +1,4 @@
-#include "remove.h"
+#include <mu/script/package/remove.h>
 
 #include <mu/script/package/node.h>
 #include <mu/script/string/node.h>
@@ -7,21 +7,24 @@
 
 #include <sstream>
 
-void mu::script::package::remove::operator () (mu::script::context & context_a)
+bool mu::script::package::remove::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::script::package::node, mu::script::string::node> () (context_a))
+	bool result (mu::script::check <mu::script::package::node, mu::script::string::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
 		auto count (one->items.erase (two->string));
 		if (count == 0)
 		{
 			std::wstringstream message;
 			message << L"Package already has no item named: ";
 			message << two->string;
-			context_a (message.str ());
+			context_a.errors (message.str ());
+			result = false;
 		}
 	}
+	return result;
 }
 
 std::wstring mu::script::package::remove::name ()

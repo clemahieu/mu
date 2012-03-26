@@ -1,4 +1,4 @@
-#include "add_package.h"
+#include <mu/llvm_/module/add_package.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/package/node.h>
@@ -10,12 +10,13 @@
 
 #include <sstream>
 
-void mu::llvm_::module::add_package::operator () (mu::script::context & context_a)
+bool mu::llvm_::module::add_package::operator () (mu::script::context & context_a)
 {
-	if (mu::script::check <mu::llvm_::module::node, mu::script::package::node> () (context_a))
+	bool result (mu::script::check <mu::llvm_::module::node, mu::script::package::node> () (context_a));
+	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters [0]));
-		auto two (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters [1]));
+		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto two (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (1)));
 		auto good (true);
 		for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
 		{
@@ -45,11 +46,13 @@ void mu::llvm_::module::add_package::operator () (mu::script::context & context_
 					message << i->first;
 					message << L"\" is not an mu::llvm_::function::node: ";
 					message << i->second->name ();
-					context_a (message.str ());
+					context_a.errors (message.str ());
+					result = false;
 				}
 			}
 		}
 	}
+	return result;
 }
 
 std::wstring mu::llvm_::module::add_package::name ()

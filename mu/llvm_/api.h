@@ -6,23 +6,22 @@
 
 namespace mu
 {
-	namespace io
+	namespace script
 	{
-		namespace analyzer
+		namespace extensions
 		{
-			namespace extensions
-			{
-				class extension;
-			}
+			class node;
+		}
+		namespace values
+		{
+			class operation;
 		}
 	}
 	namespace llvm_
 	{
-		class api
+		namespace api
 		{
-		public:
-			api ();
-			std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>> extensions;
+			void binding (mu::script::extensions::node *& result_a, mu::script::values::operation *& context_a);
 		};
 	}
 }

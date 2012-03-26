@@ -1,7 +1,7 @@
-#include "builder.h"
+#include <mu/io_test/builder.h>
 
 #include <mu/io/source.h>
-#include <mu/io/builder.h>
+#include <mu/io/ast/builder.h>
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
@@ -23,7 +23,7 @@ void mu::io_test::builder::run ()
 
 void mu::io_test::builder::run_1 ()
 {
-	mu::io::builder builder;
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source ();
@@ -40,7 +40,7 @@ void mu::io_test::builder::run_1 ()
 
 void mu::io_test::builder::run_2 ()
 {
-	mu::io::builder builder;
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[:~]");
 	source (L"[:~]");
@@ -57,7 +57,7 @@ void mu::io_test::builder::run_2 ()
 
 void mu::io_test::builder::run_3 ()
 {
-	mu::io::builder builder;
+	mu::io::ast::builder builder;
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[[:~; a b c] a [a b c] c]");
 	source ();

@@ -1,8 +1,12 @@
 #include <mu/script_test/string/extension.h>
 
-#include <mu/script_io/builder.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/io/builder.h>
+#include <mu/io/analyzer/analyzer.h>
 #include <mu/io/source.h>
 #include <mu/io/debugging/error.h>
+#include <mu/script/api.h>
+#include <mu/script/extensions/node.h>
 
 #include <boost/bind.hpp>
 
@@ -15,7 +19,7 @@ void mu::script_test::string::extension::run ()
 
 void mu::script_test::string::extension::run_1 ()
 {
-	mu::script_io::builder builder;
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[` ;; 1]");
 	assert (!builder.errors->errors.empty ());
@@ -26,7 +30,7 @@ void mu::script_test::string::extension::run_1 ()
 
 void mu::script_test::string::extension::run_2 ()
 {
-	mu::script_io::builder builder;
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[`[] ;; 1]");
 	assert (!builder.errors->errors.empty ());
@@ -37,7 +41,7 @@ void mu::script_test::string::extension::run_2 ()
 
 void mu::script_test::string::extension::run_3 ()
 {
-	mu::script_io::builder builder;
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	source (L"[` a ;; 1]");
 	assert (builder.errors->errors.empty ());

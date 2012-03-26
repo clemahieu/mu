@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/llvm_/global_value/node.h>
 
 #include <llvm/GlobalValue.h>
 
