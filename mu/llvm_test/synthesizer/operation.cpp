@@ -47,6 +47,7 @@ void mu::llvm_test::synthesizer::operation::run ()
 	run_12 ();
 	run_13 ();
 	run_14 ();
+	run_15 ();
 }
 
 void mu::llvm_test::synthesizer::operation::run_1 ()
@@ -104,7 +105,7 @@ void mu::llvm_test::synthesizer::operation::run_2 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t .. [i32]] [add #i 32 d1 #i 32 d1]");
+	source (L"[fun-t .. i32] [add #i 32 d1 #i 32 d1]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -159,7 +160,7 @@ void mu::llvm_test::synthesizer::operation::run_3 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t [i32] .. [i32]] [~ :~]");
+	source (L"[fun-t i32 .. i32] [~ :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -206,7 +207,7 @@ void mu::llvm_test::synthesizer::operation::run_4 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t [i32] [i32] .. [i32]] [add :~]");
+	source (L"[fun-t i32 i32 .. i32] [add :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -300,7 +301,7 @@ void mu::llvm_test::synthesizer::operation::run_6 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t [i32] [i16] .. [i32] [i16]] [~ :~]");
+	source (L"[fun-t i32 i16 .. i32 i16] [~ :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -347,7 +348,7 @@ void mu::llvm_test::synthesizer::operation::run_7 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t [i32] [ptr [i32]]] [store :~]");
+	source (L"[fun-t i32 [ptr i32]] [store :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -394,7 +395,7 @@ void mu::llvm_test::synthesizer::operation::run_8 ()
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fun-t [i32] [ptr [i32]]] [~ [store :~] [store :~]]");
+	source (L"[fun-t i32 [ptr i32]] [~ [store :~] [store :~]]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
@@ -442,37 +443,37 @@ void mu::llvm_test::synthesizer::operation::run_9 ()
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[fun-t [i32] [i32] .. [i32]] [add :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [and :~]";
-	code << L"[fun-t [i32] .. [i32]] [bitcast :~ [i32]]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [ashr :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp eq :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp ne :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp sge :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp sgt :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp sle :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp slt :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp uge :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp ugt :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp ule :~]";
-	code << L"[fun-t [i32] [i32] .. [i1]] [icmp ult :~]";
-	code << L"[fun-t [i64] .. [ptr [i8]]] [inttoptr :~ [ptr [i8]]]";
-	code << L"[fun-t [ptr [i32]] .. [i32]] [load :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [lshr :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [mul :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [or :~]";
-	code << L"[fun-t [ptr [i8]] .. [i64]] [ptrtoint :~ [i64]]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [sdiv :~]";
-	code << L"[fun-t [i32] .. [i64]] [sext :~ [i64]]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [shl :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [srem :~]";
-	code << L"[fun-t [i32] [ptr [i32]]] [store :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [sub :~]";
-	code << L"[fun-t [i32] .. [i16]] [trunc :~ [i16]]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [udiv :~]";
-	code << L"[fun-t [i32] [i32] ..[i32]] [urem :~]";
-	code << L"[fun-t [i32] [i32] .. [i32]] [xor :~]";
-	code << L"[fun-t [i32] .. [i64]] [zext :~ [i64]]";
+	code << L"[fun-t i32 i32 .. i32] [add :~]";
+	code << L"[fun-t i32 i32 .. i32] [and :~]";
+	code << L"[fun-t i32 .. i32] [bitcast :~ i32]";
+	code << L"[fun-t i32 i32 .. i32] [ashr :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp eq :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp ne :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp sge :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp sgt :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp sle :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp slt :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp uge :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp ugt :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp ule :~]";
+	code << L"[fun-t i32 i32 .. i1] [icmp ult :~]";
+	code << L"[fun-t i64 .. [ptr i8]] [inttoptr :~ [ptr i8]]";
+	code << L"[fun-t [ptr i32] .. i32] [load :~]";
+	code << L"[fun-t i32 i32 .. i32] [lshr :~]";
+	code << L"[fun-t i32 i32 .. i32] [mul :~]";
+	code << L"[fun-t i32 i32 .. i32] [or :~]";
+	code << L"[fun-t [ptr i8] .. i64] [ptrtoint :~ i64]";
+	code << L"[fun-t i32 i32 .. i32] [sdiv :~]";
+	code << L"[fun-t i32 .. i64] [sext :~ i64]";
+	code << L"[fun-t i32 i32 .. i32] [shl :~]";
+	code << L"[fun-t i32 i32 .. i32] [srem :~]";
+	code << L"[fun-t i32 [ptr i32]] [store :~]";
+	code << L"[fun-t i32 i32 .. i32] [sub :~]";
+	code << L"[fun-t i32 .. i16] [trunc :~ i16]";
+	code << L"[fun-t i32 i32 .. i32] [udiv :~]";
+	code << L"[fun-t i32 i32 .. i32] [urem :~]";
+	code << L"[fun-t i32 i32 .. i32] [xor :~]";
+	code << L"[fun-t i32 .. i64] [zext :~ i64]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -579,8 +580,8 @@ void mu::llvm_test::synthesizer::operation::run_11 ()
 	mu::io::builder builder (extensions->extensions);
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[fun-t .. [i32]] [call 2 ;; 1]";
-	code << L"[fun-t .. [i32]] [~ #i 32 d42 ;; 2]";
+	code << L"[fun-t .. i32] [call 2 ;; 1]";
+	code << L"[fun-t .. i32] [~ #i 32 d42 ;; 2]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -641,7 +642,7 @@ void mu::llvm_test::synthesizer::operation::run_12 ()
 	module_p->module = module;		
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
-	code << L"[fun-t .. [ptr [i16]]] [~ ` test_string]";
+	code << L"[fun-t .. [ptr i16]] [~ ` test_string]";
 	source (code.str ());
 	source ();
 	assert (builder.clusters.size () == 1);
@@ -727,8 +728,8 @@ void mu::llvm_test::synthesizer::operation::run_14 ()
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	std::wstringstream code;
 	code << L"[fun-t] [call 3 [call 2];; 1]";
-	code << L"[fun-t .. [i16] [i16]] [~ #i 16 d0 #i 16 d0;; 2]";
-	code << L"[fun-t [i16] [i16]] [~ ;; 3]";
+	code << L"[fun-t .. i16 i16] [~ #i 16 d0 #i 16 d0;; 2]";
+	code << L"[fun-t i16 i16] [~ ;; 3]";
 	source (code.str ());
 	source ();
 	assert (builder.errors->errors.empty ());
@@ -775,4 +776,30 @@ void mu::llvm_test::synthesizer::operation::run_14 ()
 	ctx.push (module_p);
 	auto valid3 (ctx ());
 	assert (valid3);
+}
+
+void mu::llvm_test::synthesizer::operation::run_15 ()
+{
+	mu::script::extensions::node * extensions_ptr;
+	mu::script::values::operation * context_ptr;
+	mu::llvm_::api::binding (extensions_ptr, context_ptr);
+	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
+	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
+	mu::io::builder builder (extensions->extensions);
+	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
+	source (L"[fun-t add] [~]");
+	source ();
+	assert (builder.errors->errors.empty ());
+	llvm::LLVMContext context_l;
+	assert (builder.clusters.size () == 1);
+	auto ast (builder.clusters [0]);
+	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
+	context->values [1] = module;
+	mu::core::errors::errors errors (builder.errors);
+	mu::script::context ctx (errors);
+	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
+	ctx.push (ast);
+	ctx.push (context);
+	auto valid (ctx ());
+	assert (!valid);
 }

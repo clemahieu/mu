@@ -75,19 +75,19 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 					if (valid_l)
 					{
 						assert (context_a.working_size () == 1);
-					}
-					auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (context_a.working (0)));
-					if (function_type.get () != nullptr)
-					{
-						auto function (boost::make_shared <mu::llvm_::function::node> (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::PrivateLinkage), boost::make_shared <mu::llvm_::pointer_type::node> (function_type)));
-						module->module->getFunctionList ().push_back (function->function ());
-						remap->mapping [*k] = function;
-						functions.push_back (boost::tuple <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>> (function, function_type));
-					}
-					else
-					{
-						valid = false;
-						context_a.errors (L"Type routine returned something that wasn't a function type");
+						auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (context_a.working (0)));
+						if (function_type.get () != nullptr)
+						{
+							auto function (boost::make_shared <mu::llvm_::function::node> (llvm::Function::Create (function_type->function_type (), llvm::GlobalValue::PrivateLinkage), boost::make_shared <mu::llvm_::pointer_type::node> (function_type)));
+							module->module->getFunctionList ().push_back (function->function ());
+							remap->mapping [*k] = function;
+							functions.push_back (boost::tuple <boost::shared_ptr <mu::llvm_::function::node>, boost::shared_ptr <mu::llvm_::function_type::node>> (function, function_type));
+						}
+						else
+						{
+							valid = false;
+							context_a.errors (L"Type routine returned something that wasn't a function type");
+						}
 					}
 					context_a.drop ();
 				}

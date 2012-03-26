@@ -75,6 +75,7 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/function_type/divider.h>
+#include <mu/core/expression.h>
 
 #include <boost/make_shared.hpp>
 
@@ -102,23 +103,33 @@ void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::scrip
 	auto i1_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::integer_type::create> ()));
 	i1_type->closed.push_back (ctx);
 	i1_type->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 1)));
-	results->extensions->extensions_m [std::wstring (L"i1")] = boost::make_shared <mu::io::analyzer::extensions::global> (i1_type);
+	auto i1_call (boost::make_shared <mu::core::expression> ());
+	i1_call->dependencies.push_back (i1_type);
+	results->extensions->extensions_m [std::wstring (L"i1")] = boost::make_shared <mu::io::analyzer::extensions::global> (i1_call);
 	auto i8_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::integer_type::create> ()));
 	i8_type->closed.push_back (ctx);
 	i8_type->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 8)));
-	results->extensions->extensions_m [std::wstring (L"i8")] = boost::make_shared <mu::io::analyzer::extensions::global> (i8_type);
+	auto i8_call (boost::make_shared <mu::core::expression> ());
+	i8_call->dependencies.push_back (i8_type);
+	results->extensions->extensions_m [std::wstring (L"i8")] = boost::make_shared <mu::io::analyzer::extensions::global> (i8_call);
 	auto i16_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::integer_type::create> ()));
 	i16_type->closed.push_back (ctx);
 	i16_type->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 16)));
-	results->extensions->extensions_m [std::wstring (L"i16")] = boost::make_shared <mu::io::analyzer::extensions::global> (i16_type);
+	auto i16_call (boost::make_shared <mu::core::expression> ());
+	i16_call->dependencies.push_back (i16_type);
+	results->extensions->extensions_m [std::wstring (L"i16")] = boost::make_shared <mu::io::analyzer::extensions::global> (i16_call);
 	auto i32_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::integer_type::create> ()));
 	i32_type->closed.push_back (ctx);
 	i32_type->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 32)));
-	results->extensions->extensions_m [std::wstring (L"i32")] = boost::make_shared <mu::io::analyzer::extensions::global> (i32_type);
+	auto i32_call (boost::make_shared <mu::core::expression> ());
+	i32_call->dependencies.push_back (i32_type);
+	results->extensions->extensions_m [std::wstring (L"i32")] = boost::make_shared <mu::io::analyzer::extensions::global> (i32_call);
 	auto i64_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::integer_type::create> ()));
 	i64_type->closed.push_back (ctx);
 	i64_type->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 64)));
-	results->extensions->extensions_m [std::wstring (L"i64")] = boost::make_shared <mu::io::analyzer::extensions::global> (i64_type);
+	auto i64_call (boost::make_shared <mu::core::expression> ());
+	i64_call->dependencies.push_back (i64_type);
+	results->extensions->extensions_m [std::wstring (L"i64")] = boost::make_shared <mu::io::analyzer::extensions::global> (i64_call);
 	auto struct_type (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::struct_type::create> ()));
 	struct_type->closed.push_back (ctx);
 	results->extensions->extensions_m [std::wstring (L"struct-t")] = boost::make_shared <mu::io::analyzer::extensions::global> (struct_type);
