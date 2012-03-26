@@ -105,6 +105,20 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 					context_a.slide ();
 					context_a.push (boost::make_shared <mu::script::synthesizer::operation> ());
 					context_a.push (remapped_cluster);
+					{
+						assert (body_cluster->routines.size () == functions.size ());
+						std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::llvm_::function::node>> routines;
+						for (size_t i (0), j (body_cluster->routines.size ()); i != j; ++i)
+						{
+							routines [body_cluster->routines [i]] = functions [i].get <0> ();
+						}
+						for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
+						{
+							auto existing (routines.find (i->second));
+							assert (existing != routines.end ());
+							result->names [i->first] = existing->second;
+						}
+					}
 					valid = context_a ();
 					if (valid)
 					{

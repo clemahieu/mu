@@ -5,7 +5,7 @@
 
 boost::shared_ptr <mu::core::node> mu::llvm_::cluster::remap::operator () (boost::shared_ptr <mu::core::node> node_a)
 {
-	boost::shared_ptr <mu::core::node> result;
+	boost::shared_ptr <mu::core::node> result (node_a);
 	auto routine (boost::dynamic_pointer_cast <mu::core::routine> (node_a));
 	if (routine.get () != nullptr)
 	{
