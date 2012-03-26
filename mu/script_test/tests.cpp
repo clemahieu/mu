@@ -22,6 +22,7 @@
 #include <mu/script_test/debugging/trace_types.h>
 #include <mu/script_test/frame.h>
 #include <mu/script_test/debugging/trace_target.h>
+#include <mu/script_test/synthesizer/operationd.h>
 
 void mu::script_test::tests::run ()
 {
@@ -51,6 +52,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::synthesizer::operation test;
+		test.run ();
+	}
+	{
+		mu::script_test::synthesizer::operationd test;
 		test.run ();
 	}
 	{

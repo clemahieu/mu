@@ -23,6 +23,7 @@ add_library (mu_script_test STATIC
 	package/get_recursive.cpp
 	string/extension.cpp
 	synthesizer/operation.cpp
+	synthesizer/operationd.cpp
 	times/operation.cpp
 	topology/core.cpp
 	type_check/operation.cpp)
