@@ -53,4 +53,5 @@ void mu::script_test::debugging::trace_types::run_2 ()
 	assert (context.working_size () == 1);
 	auto trace (boost::dynamic_pointer_cast <mu::script::values::operation> (context.working (0)));
 	assert (trace != nullptr);
+	assert (trace->values.size () == 3);
 }
