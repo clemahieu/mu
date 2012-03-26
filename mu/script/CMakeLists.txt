@@ -12,6 +12,7 @@ add_library (mu_script STATIC
 	builder.cpp
 	check.cpp
 	context.cpp
+	frame.cpp
 	iterator.cpp
 	location.cpp
 	operation.cpp

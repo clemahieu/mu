@@ -20,11 +20,16 @@
 #include <mu/script_test/synthesizer/operation.h>
 #include <mu/script_test/cluster/remap.h>
 #include <mu/script_test/debugging/trace_types.h>
+#include <mu/script_test/frame.h>
 
 void mu::script_test::tests::run ()
 {
 	{
 		mu::script_test::context test;
+		test.run ();
+	}
+	{
+		mu::script_test::frame test;
 		test.run ();
 	}
 	{
