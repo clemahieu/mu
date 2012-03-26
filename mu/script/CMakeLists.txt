@@ -35,6 +35,8 @@ add_library (mu_script STATIC
 	cluster/node.cpp
 	cluster/remap.cpp
 	cluster/remap_node.cpp
+	debugging/trace_error.cpp
+	debugging/trace_target.cpp
 	debugging/trace_types.cpp
 	exec/operation.cpp
 	extensions/create.cpp
