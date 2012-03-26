@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/node.h>
+
 #include <boost/shared_ptr.hpp>
 
 #include <map>
@@ -15,7 +17,7 @@ namespace mu
 		namespace debugging
 		{
 			class node;
-			class mapping
+			class mapping : public mu::core::node
 			{
 			public:
 				std::map <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>> nodes;

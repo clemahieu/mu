@@ -21,6 +21,7 @@
 #include <mu/script_test/cluster/remap.h>
 #include <mu/script_test/debugging/trace_types.h>
 #include <mu/script_test/frame.h>
+#include <mu/script_test/debugging/trace_target.h>
 
 void mu::script_test::tests::run ()
 {
@@ -30,6 +31,14 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::frame test;
+		test.run ();
+	}
+	{
+		mu::script_test::debugging::trace_types test;
+		test.run ();
+	}
+	{
+		mu::script_test::debugging::trace_target test;
 		test.run ();
 	}
 	{
