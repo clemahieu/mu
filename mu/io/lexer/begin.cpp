@@ -43,8 +43,12 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		lexer.target (new mu::io::tokens::right_square, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L'\uffff':
-		lexer.state.pop ();
-		lexer.target (new mu::io::tokens::stream_end, mu::io::debugging::context (lexer.position, lexer.position));
+		{
+			lexer.state.pop ();
+			auto end (new mu::io::tokens::stream_end);
+			lexer.hash.Final (end->hash.value.bytes);
+			lexer.target (end, mu::io::debugging::context (lexer.position, lexer.position));
+		}
 		break;
 	default:
 		auto state (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::identifier (lexer, lexer.position)));

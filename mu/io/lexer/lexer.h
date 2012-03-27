@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/io/debugging/context.h>
+#include <mu/io/debugging/hash.h>
 
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
