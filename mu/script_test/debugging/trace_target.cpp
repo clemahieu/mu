@@ -30,9 +30,8 @@ void mu::script_test::debugging::trace_target::run_1 ()
 	context.errors = errors;
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fail]");
-	source ();
+	builder (L"[fail]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

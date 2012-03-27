@@ -31,3 +31,8 @@ void mu::io::builder::add (boost::shared_ptr <mu::core::cluster> cluster, boost:
 	clusters.push_back (cluster);
 	cluster_infos.push_back (cluster_info);
 }
+
+void mu::io::builder::operator () (wchar_t char_a)
+{
+	lexer (char_a);
+}

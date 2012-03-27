@@ -47,3 +47,8 @@ void mu::io::ast::builder::operator () (mu::io::ast::end * end_a)
 	clusters.push_back (building);
 	building.reset (new mu::io::ast::cluster);
 }
+
+void mu::io::ast::builder::operator () (wchar_t char_a)
+{
+	lexer (char_a);
+}

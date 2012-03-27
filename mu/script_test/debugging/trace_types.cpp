@@ -41,9 +41,8 @@ void mu::script_test::debugging::trace_types::run_2 ()
 	mu::script::context context (errors);
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"trace"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::debugging::trace_types> ());
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[trace :~]");
-	source ();
+	builder (L"[trace :~]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

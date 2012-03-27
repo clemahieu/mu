@@ -1,4 +1,4 @@
-#include "routine.h"
+#include <mu/io_test/routine.h>
 
 #include <mu/io_test/analyzer_result.h>
 #include <mu/core/errors/error_list.h>
@@ -23,9 +23,8 @@ void mu::io_test::routine::run_1 ()
 	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), errors);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
-	source (L"[unresolved ;; 1]");
-	source ();
+	lexer (L"[unresolved ;; 1]");
+	lexer ();
 	assert (result.clusters.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));

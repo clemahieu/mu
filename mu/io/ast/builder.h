@@ -23,10 +23,12 @@ namespace mu
 		{
 			class node;
 			class cluster;
-			class builder : public mu::io::ast::visitor
+			class builder : public mu::io::ast::visitor, mu::io::source
 			{
 			public:
+				using mu::io::source::operator ();
 				builder ();
+				void operator () (wchar_t char_a) override;
 				boost::shared_ptr <mu::core::errors::error_list> errors;
 				mu::io::parser::parser parser;
 				mu::io::lexer::lexer lexer;

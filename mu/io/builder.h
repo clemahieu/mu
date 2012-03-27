@@ -27,11 +27,13 @@ namespace mu
 		{
 			class mapping;
 		}
-		class builder
+		class builder : mu::io::source
 		{
 		public:
+			using mu::io::source::operator ();
 			builder ();
 			builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
+			void operator () (wchar_t char_a) override;
 			boost::shared_ptr <mu::core::errors::error_list> errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;

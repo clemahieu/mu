@@ -14,16 +14,14 @@ namespace mu
 		class source
 		{
 		public:
-			source (boost::function <void (wchar_t char_a)> target_a);
 			void operator () ();
-			void operator () (wchar_t char_a);
+			virtual void operator () (wchar_t char_a) = 0;
 			void operator () (std::wstring & string);
 			void operator () (std::wstring const & string);
 			void operator () (wchar_t const * string);
 			void operator () (boost::shared_ptr <mu::io::lexer::character_stream> source);
             void operator << (boost::shared_ptr <mu::io::lexer::character_stream> source);
             void process_string (std::wstring const & string);
-			boost::function <void (wchar_t char_a)> target;
 		};
 	}
 }

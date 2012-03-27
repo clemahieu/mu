@@ -37,9 +37,8 @@ void mu::llvm_test::instruction_package::run ()
 void mu::llvm_test::instruction_package::run_1 ()
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
-	source ();
+	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster1 (builder.clusters [0]);
@@ -57,10 +56,9 @@ void mu::llvm_test::instruction_package::run_1 ()
 	assert (valid);
 	assert (ctx.working_size () == 1);
 	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
-	s2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
-	s2 ();
+	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
+	b2 ();
 	assert (b2.errors->errors.empty ());
 	assert (b2.clusters.size () == 1);
 	auto cluster2 (b2.clusters [0]);
@@ -85,10 +83,9 @@ void mu::llvm_test::instruction_package::run_1 ()
 void mu::llvm_test::instruction_package::run_2 ()
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
-	source (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
-	source ();
+	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
+	builder (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster1 (builder.clusters [0]);
@@ -105,10 +102,9 @@ void mu::llvm_test::instruction_package::run_2 ()
 	assert (valid);
 	assert (ctx.working_size () == 1);
 	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source s2 (boost::bind (&mu::io::lexer::lexer::operator(), &b2.lexer, _1));
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
-	s2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
-	s2 ();
+	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
+	b2 ();
 	assert (b2.errors->errors.empty ());
 	assert (b2.clusters.size () == 1);
 	auto cluster2 (b2.clusters [0]);

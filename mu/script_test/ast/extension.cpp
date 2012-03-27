@@ -25,9 +25,8 @@ void mu::script_test::ast::extension::run ()
 void mu::script_test::ast::extension::run_1 ()
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ .ast []]");
-	source ();
+	builder (L"[~ .ast []]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -46,9 +45,8 @@ void mu::script_test::ast::extension::run_1 ()
 void mu::script_test::ast::extension::run_2 ()
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ .ast thing]");
-	source ();
+	builder (L"[~ .ast thing]");
+	builder ();
 	assert (!builder.errors->errors.empty ());
 	assert (builder.clusters.empty ());
 }
@@ -56,9 +54,8 @@ void mu::script_test::ast::extension::run_2 ()
 void mu::script_test::ast::extension::run_3 ()
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[~ .ast [[]]]");
-	source ();
+	builder (L"[~ .ast [[]]]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

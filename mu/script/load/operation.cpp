@@ -48,9 +48,8 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 	{
 		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
 		mu::io::ast::builder builder;
-		mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-		source (input);
-		source ();
+		builder (input);
+		builder ();
 		if (builder.errors->errors.empty ())
 		{
 			if (builder.clusters.size () == 1)

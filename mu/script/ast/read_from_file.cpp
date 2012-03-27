@@ -31,9 +31,8 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 		{
 			auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
 			mu::io::builder builder;
-			mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-			source (input);
-			source ();
+			builder (input);
+			builder ();
 			if (builder.errors->errors.empty ())
 			{
 				if (builder.clusters.size () == 1)

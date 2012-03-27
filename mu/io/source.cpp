@@ -5,19 +5,9 @@
 
 #include <sstream>
 
-mu::io::source::source (boost::function <void (wchar_t char_a)> target_a)
-	: target (target_a)
-{
-}
-
 void mu::io::source::operator () ()
 {
-	target (L'\uffff');
-}
-
-void mu::io::source::operator () (wchar_t char_a)
-{
-	target (char_a);
+	(*this) (L'\uffff');
 }
 
 void mu::io::source::operator () (boost::shared_ptr <mu::io::lexer::character_stream> source_a)
@@ -44,7 +34,7 @@ void mu::io::source::operator << (boost::shared_ptr <mu::io::lexer::character_st
 	wchar_t last_char (source_a->operator() ());
 	while (last_char != L'\uffff')
 	{		
-		target (last_char);
+		(*this) (last_char);
 		last_char = source_a->operator () ();
 	}
 }

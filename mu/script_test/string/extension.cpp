@@ -20,8 +20,7 @@ void mu::script_test::string::extension::run ()
 void mu::script_test::string::extension::run_1 ()
 {
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[` ;; 1]");
+	builder (L"[` ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
@@ -31,8 +30,7 @@ void mu::script_test::string::extension::run_1 ()
 void mu::script_test::string::extension::run_2 ()
 {
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[`[] ;; 1]");
+	builder (L"[`[] ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
 	assert (e1.get () != nullptr);
@@ -42,7 +40,6 @@ void mu::script_test::string::extension::run_2 ()
 void mu::script_test::string::extension::run_3 ()
 {
 	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[` a ;; 1]");
+	builder (L"[` a ;; 1]");
 	assert (builder.errors->errors.empty ());
 }

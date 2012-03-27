@@ -1,4 +1,4 @@
-#include "begin.h"
+#include <mu/io_test/begin.h>
 
 #include <mu/io_test/parser_result.h>
 #include <mu/core/errors/error_list.h>
@@ -21,9 +21,8 @@ void mu::io_test::begin::run_1 ()
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator (), &lexer, _1));
-	source (L"thing");
-	source ();
+	lexer (L"thing");
+	lexer ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));

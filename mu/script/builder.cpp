@@ -45,3 +45,8 @@ void mu::script::builder::add (boost::shared_ptr <mu::core::cluster> cluster, bo
 	assert (boost::dynamic_pointer_cast <mu::io::debugging::mapping> (context.working (1)) != nullptr);
 	cluster_infos.push_back (boost::static_pointer_cast <mu::io::debugging::mapping> (context.working (1)));
 }
+
+void mu::script::builder::operator () (wchar_t char_a)
+{
+	lexer (char_a);
+}

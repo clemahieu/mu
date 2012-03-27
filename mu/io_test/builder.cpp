@@ -24,9 +24,8 @@ void mu::io_test::builder::run ()
 void mu::io_test::builder::run_1 ()
 {
 	mu::io::ast::builder builder;
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
-	source ();
+	builder (L"[:~]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -41,10 +40,9 @@ void mu::io_test::builder::run_1 ()
 void mu::io_test::builder::run_2 ()
 {
 	mu::io::ast::builder builder;
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[:~]");
-	source (L"[:~]");
-	source ();
+	builder (L"[:~]");
+	builder (L"[:~]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -58,9 +56,8 @@ void mu::io_test::builder::run_2 ()
 void mu::io_test::builder::run_3 ()
 {
 	mu::io::ast::builder builder;
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[[:~; a b c] a [a b c] c]");
-	source ();
+	builder (L"[[:~; a b c] a [a b c] c]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

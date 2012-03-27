@@ -29,9 +29,8 @@ void mu::llvm_test::constant_string::extension::run ()
 void mu::llvm_test::constant_string::extension::run_1 ()
 {
 	mu::io::ast::builder builder;
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[` test_string]");
-	source ();
+	builder (L"[` test_string]");
+	builder ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);

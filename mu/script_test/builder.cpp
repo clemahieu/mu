@@ -24,9 +24,8 @@ void mu::script_test::builder::run_1 ()
 {
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[fail]");
-	source ();
+	builder (L"[fail]");
+	builder ();
 	assert (builder.clusters.size () == 1);
 	assert (builder.cluster_infos.size () == 1);
 	auto cluster (builder.clusters [0]);
@@ -45,9 +44,8 @@ void mu::script_test::builder::run_2 ()
 {
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
-	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[  [1]] [ \n  [2];;1] [  \n\n [3];;2] [ \n  [4];;3] [\nfail;;4]");
-	source ();
+	builder (L"[  [1]] [ \n  [2];;1] [  \n\n [3];;2] [ \n  [4];;3] [\nfail;;4]");
+	builder ();
 	assert (builder.clusters.size () == 1);
 	assert (builder.cluster_infos.size () == 1);
 	auto cluster (builder.clusters [0]);
