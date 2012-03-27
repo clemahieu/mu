@@ -5,6 +5,8 @@
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
 
+#include <cryptopp/sha.h>
+
 #include <stack>
 
 namespace mu
@@ -45,6 +47,7 @@ namespace mu
 				void operator () (wchar_t character);
 				void reset ();
 				mu::io::debugging::position position;
+				CryptoPP::SHA256 hash;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
 				std::stack <boost::shared_ptr <mu::io::lexer::state>> state;

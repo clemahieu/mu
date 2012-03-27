@@ -10,11 +10,12 @@ namespace mu
 		{
 			class hash
 			{
+			public:
 				union
 				{
-					uint64_t int64s [2];
-					uint32_t int32s [4];
-					uint8_t bytes [16];
+					uint64_t int64s [4];
+					uint32_t int32s [8];
+					uint8_t bytes [32];
 				} value;
 			};
 		}

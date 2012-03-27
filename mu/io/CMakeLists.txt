@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (io)
 
+include_directories (${CMAKE_SOURCE_DIR}/cryptopp)
+
 add_library (mu_io STATIC
 	builder.cpp
 	source.cpp
@@ -31,12 +33,6 @@ add_library (mu_io STATIC
 	debugging/stream.cpp
 	debugging/file_stream.cpp
 	debugging/string_stream.cpp
-	hashing/cpu.cpp
-	hashing/iterhash.cpp
-	hashing/misc.cpp
-	hashing/pch.cpp
-	hashing/sha.cpp
-	hashing/simple.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp

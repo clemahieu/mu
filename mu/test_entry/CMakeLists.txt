@@ -7,6 +7,7 @@ if (WIN32)
 else ()
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
 endif ()
+link_directories (${CMAKE_SOURCE_DIR}/cryptopp/x64/Output/Debug)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_executable (mu_test_entry
@@ -75,3 +76,6 @@ else ()
 	        LLVMAsmPrinter
         	LLVMMCParser)
 endif ()
+
+target_link_libraries (mu_test_entry
+	cryptlib.lib)

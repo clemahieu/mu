@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/io/debugging/hash.h>
+
 namespace mu
 {
 	namespace io
@@ -9,7 +11,7 @@ namespace mu
 			class stream
 			{
 			public:
-
+				mu::io::debugging::hash hash;
 			};
 		}
 	}

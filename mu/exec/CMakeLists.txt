@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 project (exec)
 
 link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
+link_directories (${CMAKE_SOURCE_DIR}/cryptopp/x64/Output/Debug)
 
 add_executable (mu_exec
 	main.cpp)
@@ -16,3 +17,6 @@ if (NOT WIN32)
 		boost_filesystem
 		boost_system)
 endif ()
+
+target_link_libraries (mu_exec
+	cryptlib.lib)
