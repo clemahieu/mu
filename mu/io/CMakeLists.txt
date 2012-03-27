@@ -4,6 +4,7 @@ project (io)
 add_library (mu_io STATIC
 	builder.cpp
 	source.cpp
+	MurmurHash3.cpp
 	analyzer/analyzer.cpp
 	analyzer/expression.cpp
 	analyzer/resolver.cpp
@@ -28,6 +29,9 @@ add_library (mu_io STATIC
 	debugging/node.cpp
 	debugging/position.cpp
 	debugging/routine.cpp
+	debugging/stream.cpp
+	debugging/file_stream.cpp
+	debugging/string_stream.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp
