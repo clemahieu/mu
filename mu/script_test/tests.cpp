@@ -23,6 +23,7 @@
 #include <mu/script_test/frame.h>
 #include <mu/script_test/debugging/trace_target.h>
 #include <mu/script_test/synthesizer/operationd.h>
+#include <mu/script_test/builder.h>
 
 void mu::script_test::tests::run ()
 {
@@ -120,6 +121,10 @@ void mu::script_test::tests::run ()
 	}
 	{
 		mu::script_test::debugging::trace_types test;
+		test.run ();
+	}
+	{
+		mu::script_test::builder test;
 		test.run ();
 	}
 }
