@@ -41,7 +41,7 @@ void mu::io::parser::values::operator () (mu::io::tokens::left_square * token)
 void mu::io::parser::values::operator () (mu::io::tokens::right_square * token)
 {
 	parser.state.pop ();
-	target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.first, parser.context.last), values_m));
+	target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.stream, first.first, parser.context.last), values_m));
 }
 
 void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)

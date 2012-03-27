@@ -57,7 +57,7 @@ void mu::io::lexer::complex_identifier::lex (wchar_t character)
 		{
 			data.resize (data.size () - end_token.size ());
 			mu::io::tokens::identifier * token (new mu::io::tokens::identifier (data));
-			lexer.target (token, mu::io::debugging::context (first, lexer.position));
+			lexer.target (token, mu::io::debugging::context (lexer.stream, first, lexer.position));
 			lexer.state.pop ();
 		}
 	}

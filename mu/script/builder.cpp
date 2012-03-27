@@ -13,40 +13,47 @@
 #include <mu/script/synthesizer/operationd.h>
 #include <mu/script/cluster/node.h>
 #include <mu/io/debugging/mapping.h>
+#include <mu/io/debugging/stream.h>
 
 mu::script::builder::builder ()
-: errors (new mu::core::errors::error_list),
-analyzer (boost::bind (&mu::script::builder::add, this, _1, _2), errors),
-parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
+	: errors (new mu::core::errors::error_list),
+	analyzer (boost::bind (&mu::script::builder::add, this, _1, _2), errors),
+	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
+	stream (new mu::io::debugging::stream),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream)
 {
 }
 
 mu::script::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
-: errors (new mu::core::errors::error_list),
-analyzer (boost::bind (&mu::script::builder::add, this, _1, _2), errors, extensions_a),
-parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
+	: errors (new mu::core::errors::error_list),
+	analyzer (boost::bind (&mu::script::builder::add, this, _1, _2), errors, extensions_a),
+	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
+	stream (new mu::io::debugging::stream),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream)
 {
 }
 
-void mu::script::builder::add (boost::shared_ptr <mu::core::cluster> cluster, boost::shared_ptr <mu::io::debugging::mapping> cluster_info)
+void mu::script::builder::add (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a)
 {
+	assert (cluster == nullptr);
+	assert (cluster_info == nullptr);
     mu::core::errors::errors errors_l (errors);
     mu::script::context context (errors_l);
     context.push (boost::make_shared <mu::script::synthesizer::operationd> ());
-    context.push (cluster);
-	context.push (cluster_info);
+    context.push (cluster_a);
+	context.push (cluster_info_a);
     auto valid (context ());
     assert (valid);
     assert (context.working_size () == 2);
     assert (boost::dynamic_pointer_cast <mu::script::cluster::node> (context.working (0)).get () != nullptr);
-    clusters.push_back (boost::static_pointer_cast <mu::script::cluster::node> (context.working (0)));
+    cluster = boost::static_pointer_cast <mu::script::cluster::node> (context.working (0));
 	assert (boost::dynamic_pointer_cast <mu::io::debugging::mapping> (context.working (1)) != nullptr);
-	cluster_infos.push_back (boost::static_pointer_cast <mu::io::debugging::mapping> (context.working (1)));
+	cluster_info = boost::static_pointer_cast <mu::io::debugging::mapping> (context.working (1));
 }
 
 void mu::script::builder::operator () (wchar_t char_a)
 {
+	assert (cluster == nullptr);
+	assert (cluster_info == nullptr);
 	lexer (char_a);
 }

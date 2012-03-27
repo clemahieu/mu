@@ -37,6 +37,7 @@ namespace mu
 			boost::shared_ptr <mu::core::errors::error_list> errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
+			boost::shared_ptr <mu::io::debugging::stream> stream;
 			mu::io::lexer::lexer lexer;
 			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
 			boost::shared_ptr <mu::core::cluster> cluster;

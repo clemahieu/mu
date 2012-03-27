@@ -37,7 +37,7 @@ boost::shared_ptr <mu::core::cluster> mu::script::analyzer::operation::core (mu:
 	if (ast->expressions.size () > 0)
 	{
 		auto last (ast->expressions [ast->expressions.size () - 1]);
-		context = mu::io::debugging::context (last->context.last, last->context.last);
+		context = mu::io::debugging::context (last->context.stream, last->context.last, last->context.last);
 	}
 	analyzer.input (boost::make_shared <mu::io::ast::end> (context));
 	return result;

@@ -40,10 +40,11 @@ namespace mu
 			boost::shared_ptr <mu::core::errors::error_list> errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
+			boost::shared_ptr <mu::io::debugging::stream> stream;
 			mu::io::lexer::lexer lexer;
 			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
-			std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
-			std::vector <boost::shared_ptr <mu::io::debugging::mapping>> cluster_infos;
+			boost::shared_ptr <mu::script::cluster::node> cluster;
+			boost::shared_ptr <mu::io::debugging::mapping> cluster_info;
         };
     }
 }

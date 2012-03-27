@@ -9,11 +9,13 @@
 #include <mu/io/ast/node.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
+#include <mu/io/debugging/stream.h>
 
 mu::io::ast::builder::builder ()
 	: errors (new mu::core::errors::error_list),
 	parser (errors, boost::bind (&mu::io::ast::builder::add, this, _1)),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
+	stream (new mu::io::debugging::stream),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream),
 	cluster (new mu::io::ast::cluster)
 {
 }
@@ -49,4 +51,8 @@ void mu::io::ast::builder::operator () (mu::io::ast::end * end_a)
 void mu::io::ast::builder::operator () (wchar_t char_a)
 {
 	lexer (char_a);
+	if (char_a == '\uffff')
+	{
+		lexer.hash.Final (stream->hash.value.bytes);
+	}
 }

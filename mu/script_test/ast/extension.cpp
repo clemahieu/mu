@@ -28,8 +28,8 @@ void mu::script_test::ast::extension::run_1 ()
 	builder (L"[~ .ast []]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
+	assert (cluster != nullptr);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	mu::script::context ctx (mu::core::errors::errors (builder.errors));
@@ -48,7 +48,7 @@ void mu::script_test::ast::extension::run_2 ()
 	builder (L"[~ .ast thing]");
 	builder ();
 	assert (!builder.errors->errors.empty ());
-	assert (builder.clusters.empty ());
+	assert (builder.cluster == nullptr);
 }
 
 void mu::script_test::ast::extension::run_3 ()
@@ -57,8 +57,8 @@ void mu::script_test::ast::extension::run_3 ()
 	builder (L"[~ .ast [[]]]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
+	assert (cluster != nullptr);
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	mu::script::context ctx (mu::core::errors::errors (builder.errors));

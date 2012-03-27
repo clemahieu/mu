@@ -55,7 +55,7 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 {
 	if (cluster->routines.empty ())
 	{
-		cluster_info->context.first = expression_a->context.first;
+		cluster_info->context = expression_a->context;
 	}
 	mu::io::analyzer::routine (*this, expression_a);
 }

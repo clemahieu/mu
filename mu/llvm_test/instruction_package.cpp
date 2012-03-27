@@ -40,8 +40,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster1 (builder.clusters [0]);
+	auto cluster1 (builder.cluster);
 	assert (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
 	mu::core::errors::errors errors (builder.errors);
@@ -60,8 +59,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	assert (b2.errors->errors.empty ());
-	assert (b2.clusters.size () == 1);
-	auto cluster2 (b2.clusters [0]);
+	auto cluster2 (b2.cluster);
 	assert (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
 	llvm::LLVMContext context;
@@ -87,8 +85,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	builder (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster1 (builder.clusters [0]);
+	auto cluster1 (builder.cluster);
 	assert (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
 	mu::core::errors::errors errors (builder.errors);
@@ -106,8 +103,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	assert (b2.errors->errors.empty ());
-	assert (b2.clusters.size () == 1);
-	auto cluster2 (b2.clusters [0]);
+	auto cluster2 (b2.cluster);
 	assert (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
 	llvm::LLVMContext context;

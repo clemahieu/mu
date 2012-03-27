@@ -67,7 +67,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 	else
 	{
 		parser.state.pop ();
-		target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.first, parser.context.last), values, names, full_name));
+		target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.stream, first.first, parser.context.last), values, names, full_name));
 	}
 }
 

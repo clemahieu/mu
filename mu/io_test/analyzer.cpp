@@ -15,6 +15,7 @@
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/expression.h>
 #include <mu/io/debugging/mapping.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -45,9 +46,10 @@ void mu::io_test::analyzer::run_1 ()
 	// []
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 2, 1), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (stream, 1, 1, 0, 1, 2, 1), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
 	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (1, 3, 2, 1, 3, 2)));
+	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (stream, 1, 3, 2, 1, 3, 2)));
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	assert (cluster->routines.size () == 1);
@@ -57,12 +59,12 @@ void mu::io_test::analyzer::run_1 ()
 	assert (result.mappings [0]->nodes.find (cluster) != result.mappings [0]->nodes.end ());
 	auto cluster_info (boost::dynamic_pointer_cast <mu::io::debugging::cluster> (result.mappings [0]->nodes.find (cluster)->second));
 	assert (cluster_info.get () != nullptr);
-	assert (cluster_info->context == mu::io::debugging::context (1, 1, 0, 1, 3, 2));
+	assert (cluster_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 3, 2));
 	assert (cluster_info->routines.size () == 1);
 	auto routine_info (cluster_info->routines [0]);
-	assert (routine_info->context == mu::io::debugging::context (1, 1, 0, 1, 2, 1));
+	assert (routine_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 2, 1));
 	auto body_info (routine_info->body);
-	assert (body_info->context == mu::io::debugging::context (1, 1, 0, 1, 2, 1));
+	assert (body_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 2, 1));
 	assert (body_info->dependencies.size () == 0);
 }
 
@@ -98,13 +100,14 @@ void mu::io_test::analyzer::run_4 ()
 	// [[;;~]~]
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 8, 7), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 2, 1, 1, 6, 5), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (1, 5, 4, 1, 5, 4), std::wstring (L"~"));
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (stream, 1, 1, 0, 1, 8, 7), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (stream, 1, 2, 1, 1, 6, 5), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (stream, 1, 5, 4, 1, 5, 4), std::wstring (L"~"));
 	expression->values.push_back (expression1);
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (1, 7, 6, 1, 7, 6), std::wstring (L"~"))));
+	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (stream, 1, 7, 6, 1, 7, 6), std::wstring (L"~"))));
 	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (1, 9, 8, 1, 9, 8)));
+	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context (stream, 1, 9, 8, 1, 9, 8)));
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	assert (cluster->routines.size () == 1);
@@ -119,16 +122,16 @@ void mu::io_test::analyzer::run_4 ()
 	assert (result.mappings [0]->nodes.find (cluster) != result.mappings [0]->nodes.end ());
 	auto cluster_info (boost::dynamic_pointer_cast <mu::io::debugging::cluster> (result.mappings [0]->nodes.find (cluster)->second));
 	assert (cluster_info.get () != nullptr);
-	assert (cluster_info->context == mu::io::debugging::context (1, 1, 0, 1, 9, 8));
+	assert (cluster_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 9, 8));
 	assert (cluster_info->routines.size () == 1);
 	auto routine_info (cluster_info->routines [0]);
-	assert (routine_info->context == mu::io::debugging::context (1, 1, 0, 1, 8, 7));
+	assert (routine_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 8, 7));
 	auto body_info (routine_info->body);
-	assert (body_info->context == mu::io::debugging::context (1, 1, 0, 1, 8, 7));
+	assert (body_info->context == mu::io::debugging::context (stream, 1, 1, 0, 1, 8, 7));
 	assert (body_info->dependencies.size () == 1);
 	auto d1 (boost::dynamic_pointer_cast <mu::io::debugging::node> (body_info->dependencies [0]));
 	assert (d1.get () != nullptr);
-	assert (d1->context == mu::io::debugging::context (1, 2, 1, 1, 6, 5));
+	assert (d1->context == mu::io::debugging::context (stream, 1, 2, 1, 1, 6, 5));
 }
 
 // Test local name reference

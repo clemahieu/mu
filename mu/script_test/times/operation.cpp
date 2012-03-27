@@ -76,8 +76,8 @@ void mu::script_test::times::operation::run_3 ()
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::times::operation> ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
+	assert (cluster != nullptr);
 	assert (cluster->routines.size () == 1);
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (2)));
 	ctx.push (n1);

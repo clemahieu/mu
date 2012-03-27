@@ -8,6 +8,7 @@
 #include <mu/io/debugging/mapping.h>
 #include <mu/script/cluster/node.h>
 #include <mu/io/debugging/node.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/make_shared.hpp>
 
@@ -45,7 +46,7 @@ void mu::script_test::synthesizer::operationd::run_2 ()
 	context.push (c);
 	auto mapping (boost::make_shared <mu::io::debugging::mapping> ());
 	context.push (mapping);
-	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (1, 1, 0, 1, 2, 1)));
+	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (boost::make_shared <mu::io::debugging::stream> (), 1, 1, 0, 1, 2, 1)));
 	mapping->nodes [c] = c_context;
 	auto valid (context ());
 	assert (valid);
@@ -70,7 +71,7 @@ void mu::script_test::synthesizer::operationd::run_3 ()
 	context.push (c);
 	auto mapping (boost::make_shared <mu::io::debugging::mapping> ());
 	context.push (mapping);
-	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (1, 1, 0, 1, 2, 1)));
+	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (boost::make_shared <mu::io::debugging::stream> (), 1, 1, 0, 1, 2, 1)));
 	mapping->nodes [c] = c_context;
 	auto valid (context ());
 	assert (valid);

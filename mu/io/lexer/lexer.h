@@ -49,11 +49,12 @@ namespace mu
 				friend class mu::io::lexer::control;
 			public:
 				using mu::io::source::operator ();
-				lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
+				lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a, boost::shared_ptr <mu::io::debugging::stream> stream_a);
 				void operator () (wchar_t char_a) override;
 				void reset ();
 				mu::io::debugging::position position;
 				CryptoPP::SHA256 hash;
+				boost::shared_ptr <mu::io::debugging::stream> stream;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
 				std::stack <boost::shared_ptr <mu::io::lexer::state>> state;
