@@ -5,12 +5,14 @@
 #include <mu/script/context.h>
 #include <mu/script/values/operation.h>
 #include <mu/script/debugging/trace_error.h>
+#include <mu/io/debugging/mapping.h>
 
 #include <boost/make_shared.hpp>
 
-mu::script::debugging::trace_target::trace_target (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::script::context & context_a)
+mu::script::debugging::trace_target::trace_target (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::script::context & context_a, boost::shared_ptr <mu::io::debugging::mapping> mapping_a)
 	: target (target_a),
-	context (context_a)
+	context (context_a),
+	mapping (mapping_a)
 {
 }
 
@@ -18,6 +20,7 @@ void mu::script::debugging::trace_target::operator () (boost::shared_ptr <mu::co
 {
 	mu::script::frame frame (context);
 	context.push (boost::make_shared <mu::script::debugging::trace_types> ());
+	context.push (mapping);
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 1);

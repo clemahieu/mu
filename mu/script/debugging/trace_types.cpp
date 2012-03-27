@@ -5,14 +5,17 @@
 #include <mu/script/values/operation.h>
 #include <mu/script/string/node.h>
 #include <mu/script/location.h>
+#include <mu/io/debugging/mapping.h>
+#include <mu/io/debugging/node.h>
 
 #include <boost/make_shared.hpp>
 
 bool mu::script::debugging::trace_types::operator () (mu::script::context & context_a)
 {
-	auto valid (mu::script::check <> () (context_a));
+	auto valid (mu::script::check <mu::io::debugging::mapping> () (context_a));
 	if (valid)
 	{
+		auto mapping (boost::static_pointer_cast <mu::io::debugging::mapping> (context_a.parameters (0)));
 		auto result (boost::make_shared <mu::script::values::operation> ());
 		size_t current_base_begin (context_a.base_begin);
 		size_t current_base_end (context_a.base_end);
@@ -23,6 +26,12 @@ bool mu::script::debugging::trace_types::operator () (mu::script::context & cont
 			auto name_p (typeid (*op).name ());
 			std::string name_a (name_p);
 			std::wstring name (name_a.begin (), name_a.end ());
+			auto existing (mapping->nodes.find (op));
+			if (existing != mapping->nodes.end ())
+			{
+				name.push_back (L' ');
+				name.append (existing->second->context.string ());
+			}
 			result->values.push_back (boost::make_shared <mu::script::string::node> (name));
 			auto prev_begin (boost::dynamic_pointer_cast <mu::script::location> (context_a.stack [current_base_end - 2]));
 			auto prev_end (boost::dynamic_pointer_cast <mu::script::location> (context_a.stack [current_base_end - 1]));

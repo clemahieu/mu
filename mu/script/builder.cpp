@@ -10,8 +10,9 @@
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
-#include <mu/script/synthesizer/operation.h>
+#include <mu/script/synthesizer/operationd.h>
 #include <mu/script/cluster/node.h>
+#include <mu/io/debugging/mapping.h>
 
 mu::script::builder::builder ()
 : errors (new mu::core::errors::error_list),
@@ -33,11 +34,14 @@ void mu::script::builder::add (boost::shared_ptr <mu::core::cluster> cluster, bo
 {
     mu::core::errors::errors errors_l (errors);
     mu::script::context context (errors_l);
-    context.push (boost::make_shared <mu::script::synthesizer::operation> ());
+    context.push (boost::make_shared <mu::script::synthesizer::operationd> ());
     context.push (cluster);
+	context.push (cluster_info);
     auto valid (context ());
     assert (valid);
-    assert (context.working_size () == 1);
+    assert (context.working_size () == 2);
     assert (boost::dynamic_pointer_cast <mu::script::cluster::node> (context.working (0)).get () != nullptr);
     clusters.push_back (boost::static_pointer_cast <mu::script::cluster::node> (context.working (0)));
+	assert (boost::dynamic_pointer_cast <mu::io::debugging::mapping> (context.working (1)) != nullptr);
+	cluster_infos.push_back (boost::static_pointer_cast <mu::io::debugging::mapping> (context.working (1)));
 }

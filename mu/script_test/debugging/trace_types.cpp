@@ -10,6 +10,7 @@
 #include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/io/debugging/mapping.h>
 
 #include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
@@ -25,6 +26,7 @@ void mu::script_test::debugging::trace_types::run_1 ()
 	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::debugging::trace_types> ());
+	context.push (boost::make_shared <mu::io::debugging::mapping> ());
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 1);
@@ -40,7 +42,7 @@ void mu::script_test::debugging::trace_types::run_2 ()
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"trace"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::debugging::trace_types> ());
 	mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
-	source (L"[trace]");
+	source (L"[trace :~]");
 	source ();
 	assert (builder.errors->errors.empty ());
 	assert (builder.clusters.size () == 1);
@@ -48,6 +50,7 @@ void mu::script_test::debugging::trace_types::run_2 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	context.push (routine);
+	context.push (boost::make_shared <mu::io::debugging::mapping> ());
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 1);

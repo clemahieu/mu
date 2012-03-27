@@ -40,6 +40,7 @@ namespace mu
 			mu::io::lexer::lexer lexer;
 			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
 			std::vector <boost::shared_ptr <mu::script::cluster::node>> clusters;
+			std::vector <boost::shared_ptr <mu::io::debugging::mapping>> cluster_infos;
         };
     }
 }
