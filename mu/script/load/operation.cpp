@@ -10,6 +10,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
+#include <mu/io/debugging/file_stream.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -47,7 +48,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 	if (stream.is_open ())		
 	{
 		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-		mu::io::ast::builder builder;
+		mu::io::ast::builder builder (boost::make_shared <mu::io::debugging::file_stream> (path.wstring ()));;
 		builder (input);
 		builder ();
 		if (builder.errors->errors.empty ())

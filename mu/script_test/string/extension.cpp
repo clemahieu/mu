@@ -7,8 +7,10 @@
 #include <mu/io/debugging/error.h>
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 void mu::script_test::string::extension::run ()
 {
@@ -19,7 +21,8 @@ void mu::script_test::string::extension::run ()
 
 void mu::script_test::string::extension::run_1 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[` ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
@@ -29,7 +32,8 @@ void mu::script_test::string::extension::run_1 ()
 
 void mu::script_test::string::extension::run_2 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[`[] ;; 1]");
 	assert (!builder.errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (builder.errors->errors [0]));
@@ -39,7 +43,8 @@ void mu::script_test::string::extension::run_2 ()
 
 void mu::script_test::string::extension::run_3 ()
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[` a ;; 1]");
 	assert (builder.errors->errors.empty ());
 }

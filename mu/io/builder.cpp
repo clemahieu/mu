@@ -11,21 +11,21 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/debugging/stream.h>
 
-mu::io::builder::builder ()
+mu::io::builder::builder (boost::shared_ptr <mu::io::debugging::stream> stream_a)
 	: errors (new mu::core::errors::error_list),
 	analyzer (boost::bind (&mu::io::builder::add, this, _1, _2), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-	stream (new mu::io::debugging::stream),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream)
+	stream (stream_a),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream_a)
 {
 }
 
-mu::io::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::io::builder::builder (boost::shared_ptr <mu::io::debugging::stream> stream_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: errors (new mu::core::errors::error_list),
 	analyzer (boost::bind (&mu::io::builder::add, this, _1, _2), errors, extensions_a),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-	stream (new mu::io::debugging::stream),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream)
+	stream (stream_a),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream_a)
 {
 }
 

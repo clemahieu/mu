@@ -27,7 +27,7 @@ namespace mu
 			{
 			public:
 				using mu::io::source::operator ();
-				builder ();
+				builder (boost::shared_ptr <mu::io::debugging::stream> stream_a);
 				void operator () (wchar_t char_a) override;
 				boost::shared_ptr <mu::core::errors::error_list> errors;
 				mu::io::parser::parser parser;

@@ -11,8 +11,10 @@
 #include <mu/io/ast/cluster.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 void mu::io_test::builder::run ()
 {
@@ -23,7 +25,8 @@ void mu::io_test::builder::run ()
 
 void mu::io_test::builder::run_1 ()
 {
-	mu::io::ast::builder builder;
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::ast::builder builder (stream);
 	builder (L"[:~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -38,7 +41,8 @@ void mu::io_test::builder::run_1 ()
 
 void mu::io_test::builder::run_2 ()
 {
-	mu::io::ast::builder builder;
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::ast::builder builder (stream);
 	builder (L"[:~]");
 	builder (L"[:~]");
 	builder ();
@@ -53,7 +57,8 @@ void mu::io_test::builder::run_2 ()
 
 void mu::io_test::builder::run_3 ()
 {
-	mu::io::ast::builder builder;
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::ast::builder builder (stream);
 	builder (L"[[:~; a b c] a [a b c] c]");
 	builder ();
 	assert (builder.errors->errors.empty ());

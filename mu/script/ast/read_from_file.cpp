@@ -8,6 +8,7 @@
 #include <mu/script/check.h>
 #include <mu/io/debugging/error.h>
 #include <mu/core/errors/string_error.h>
+#include <mu/io/debugging/file_stream.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -30,7 +31,7 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 		if (stream.is_open ())
 		{
 			auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
-			mu::io::builder builder;
+			mu::io::builder builder (boost::make_shared <mu::io::debugging::file_stream> (path.wstring ()));
 			builder (input);
 			builder ();
 			if (builder.errors->errors.empty ())

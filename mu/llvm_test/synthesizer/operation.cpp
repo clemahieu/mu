@@ -19,6 +19,7 @@
 #include <mu/script/api.h>
 #include <mu/script/values/operation.h>
 #include <mu/llvm_/api.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 
@@ -57,7 +58,8 @@ void mu::llvm_test::synthesizer::operation::run_1 ()
 	mu::llvm_::api::binding (extensions_ptr, context_ptr);
 	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -102,7 +104,8 @@ void mu::llvm_test::synthesizer::operation::run_2 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t .. i32] [add #i 32 d1 #i 32 d1]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -156,7 +159,8 @@ void mu::llvm_test::synthesizer::operation::run_3 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t i32 .. i32] [~ :~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -202,7 +206,8 @@ void mu::llvm_test::synthesizer::operation::run_4 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t i32 i32 .. i32] [add :~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -247,8 +252,9 @@ void mu::llvm_test::synthesizer::operation::run_5 ()
 	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
-	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));	
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t] [~ :~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -294,7 +300,8 @@ void mu::llvm_test::synthesizer::operation::run_6 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t i32 i16 .. i32 i16] [~ :~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -340,7 +347,8 @@ void mu::llvm_test::synthesizer::operation::run_7 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t i32 [ptr i32]] [store :~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -386,7 +394,8 @@ void mu::llvm_test::synthesizer::operation::run_8 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t i32 [ptr i32]] [~ [store :~] [store :~]]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -432,7 +441,8 @@ void mu::llvm_test::synthesizer::operation::run_9 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	std::wstringstream code;
 	code << L"[fun-t i32 i32 .. i32] [add :~]";
 	code << L"[fun-t i32 i32 .. i32] [and :~]";
@@ -510,7 +520,8 @@ void mu::llvm_test::synthesizer::operation::run_10 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	std::wstringstream code;
 	code << L"[fun-t .. [ptr [fun-t]]] [~ 2 ;; 1]";
 	code << L"[fun-t] [~ ;; 2]";
@@ -567,7 +578,8 @@ void mu::llvm_test::synthesizer::operation::run_11 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	std::wstringstream code;
 	code << L"[fun-t .. i32] [call 2 ;; 1]";
 	code << L"[fun-t .. i32] [~ #i 32 d42 ;; 2]";
@@ -624,7 +636,8 @@ void mu::llvm_test::synthesizer::operation::run_12 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	llvm::LLVMContext context_l;
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
@@ -653,7 +666,8 @@ void mu::llvm_test::synthesizer::operation::run_13 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	std::wstringstream code;
 	code << L"[fun-t] [call 2 [call 2];; 1]";
 	code << L"[fun-t] [~ ;; 2]";
@@ -710,7 +724,8 @@ void mu::llvm_test::synthesizer::operation::run_14 ()
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
 	auto context_p (boost::static_pointer_cast <mu::llvm_::context::node> (context->values [0]));
 	auto module_p (boost::static_pointer_cast <mu::llvm_::module::node> (context->values [1]));
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	std::wstringstream code;
 	code << L"[fun-t] [call 3 [call 2];; 1]";
 	code << L"[fun-t .. i16 i16] [~ #i 16 d0 #i 16 d0;; 2]";
@@ -770,7 +785,8 @@ void mu::llvm_test::synthesizer::operation::run_15 ()
 	mu::llvm_::api::binding (extensions_ptr, context_ptr);
 	boost::shared_ptr <mu::script::extensions::node> extensions (extensions_ptr);
 	boost::shared_ptr <mu::script::values::operation> context (context_ptr);
-	mu::io::builder builder (extensions->extensions);
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::builder builder (stream, extensions->extensions);
 	builder (L"[fun-t add] [~]");
 	builder ();
 	assert (builder.errors->errors.empty ());

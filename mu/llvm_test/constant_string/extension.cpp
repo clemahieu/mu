@@ -14,6 +14,7 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/debugging/expression.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -28,7 +29,8 @@ void mu::llvm_test::constant_string::extension::run ()
 
 void mu::llvm_test::constant_string::extension::run_1 ()
 {
-	mu::io::ast::builder builder;
+	auto stream (boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::ast::builder builder (stream);
 	builder (L"[` test_string]");
 	builder ();
 	assert (builder.errors->errors.empty ());

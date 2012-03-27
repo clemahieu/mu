@@ -11,11 +11,11 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/debugging/stream.h>
 
-mu::io::ast::builder::builder ()
+mu::io::ast::builder::builder (boost::shared_ptr <mu::io::debugging::stream> stream_a)
 	: errors (new mu::core::errors::error_list),
 	parser (errors, boost::bind (&mu::io::ast::builder::add, this, _1)),
-	stream (new mu::io::debugging::stream),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream),
+	stream (stream_a),
+	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream_a),
 	cluster (new mu::io::ast::cluster)
 {
 }
