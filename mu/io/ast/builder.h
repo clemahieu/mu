@@ -38,8 +38,7 @@ namespace mu
 				void operator () (mu::io::ast::identifier * identifier_a) override;
 				void operator () (mu::io::ast::end * end_a) override;
 				boost::shared_ptr <mu::io::ast::node> current;
-				boost::shared_ptr <mu::io::ast::cluster> building;
-				std::vector <boost::shared_ptr <mu::io::ast::cluster>> clusters;
+				boost::shared_ptr <mu::io::ast::cluster> cluster;
 			};
 		}
 	}

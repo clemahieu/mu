@@ -32,8 +32,7 @@ void mu::llvm_test::constant_string::extension::run_1 ()
 	builder (L"[` test_string]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
 	assert (cluster->expressions.size () == 1);
 	auto expression (cluster->expressions [0]);
 	assert (expression->values.size () == 2);

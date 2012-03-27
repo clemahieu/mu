@@ -52,17 +52,7 @@ boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::
 		builder ();
 		if (builder.errors->errors.empty ())
 		{
-			if (builder.clusters.size () == 1)
-			{
-				result = builder.clusters [0];
-			}
-			else
-			{
-				std::wstringstream message;
-				message << L"File did not contain one cluster: ";
-				message << builder.clusters.size ();
-				context_a.errors (message.str ());
-			}
+			result = builder.cluster;
 		}
 		else
 		{

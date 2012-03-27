@@ -67,9 +67,9 @@ void mu::repl::repl::iteration ()
 	builder ();
 	if (builder.errors->errors.empty ())
 	{
-		if (builder.clusters.size () == 1)
+		if (builder.cluster != nullptr)
 		{
-			auto cluster (builder.clusters [0]);
+			auto cluster (builder.cluster);
 			if (cluster->routines.size () > 0)
 			{
 				mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
@@ -97,8 +97,7 @@ void mu::repl::repl::iteration ()
 		}
 		else
 		{
-			std::wcout << L"Input was not one cluster: ";
-			std::wcout << builder.clusters.size ();
+			std::wcout << L"Input was not a cluster";
 		}
 	}
 	else

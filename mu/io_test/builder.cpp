@@ -27,8 +27,7 @@ void mu::io_test::builder::run_1 ()
 	builder (L"[:~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
 	assert (cluster->expressions.size () == 1);
 	auto routine (cluster->expressions [0]);
 	assert (routine->values.size () == 1);
@@ -44,8 +43,7 @@ void mu::io_test::builder::run_2 ()
 	builder (L"[:~]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
 	assert (cluster->expressions.size () == 2);
 	auto routine1 (cluster->expressions [0]);
 	auto routine2 (cluster->expressions [1]);
@@ -59,8 +57,7 @@ void mu::io_test::builder::run_3 ()
 	builder (L"[[:~; a b c] a [a b c] c]");
 	builder ();
 	assert (builder.errors->errors.empty ());
-	assert (builder.clusters.size () == 1);
-	auto cluster (builder.clusters [0]);
+	auto cluster (builder.cluster);
 	assert (cluster->expressions.size () == 1);
 	auto routine (cluster->expressions [0]);
 	assert (routine->context == mu::io::debugging::context (1, 1, 0, 1, 25, 24));

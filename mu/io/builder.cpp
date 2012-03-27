@@ -26,13 +26,17 @@ mu::io::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::exten
 {
 }
 
-void mu::io::builder::add (boost::shared_ptr <mu::core::cluster> cluster, boost::shared_ptr <mu::io::debugging::mapping> cluster_info)
+void mu::io::builder::add (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a)
 {
-	clusters.push_back (cluster);
-	cluster_infos.push_back (cluster_info);
+	assert (cluster == nullptr);
+	assert (cluster_info == nullptr);
+	cluster =  cluster_a;
+	cluster_info = cluster_info_a;
 }
 
 void mu::io::builder::operator () (wchar_t char_a)
 {
+	assert (cluster == nullptr);
+	assert (cluster_info == nullptr);
 	lexer (char_a);
 }

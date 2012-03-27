@@ -35,16 +35,15 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 			builder ();
 			if (builder.errors->errors.empty ())
 			{
-				if (builder.clusters.size () == 1)
+				if (builder.cluster != nullptr)
 				{
-					auto cluster (builder.clusters [0]);
+					auto cluster (builder.cluster);
 					context_a.push (cluster);
 				}
 				else
 				{
 					std::wstringstream message;
-					message << L"File did not contain one cluster: ";
-					message << builder.clusters.size ();
+					message << L"File did not contain a cluster";
 					context_a.errors (message.str ());
 					result = false;
 				}

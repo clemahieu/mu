@@ -14,7 +14,7 @@ mu::io::ast::builder::builder ()
 	: errors (new mu::core::errors::error_list),
 	parser (errors, boost::bind (&mu::io::ast::builder::add, this, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
-	building (new mu::io::ast::cluster)
+	cluster (new mu::io::ast::cluster)
 {
 }
 
@@ -33,7 +33,7 @@ void mu::io::ast::builder::operator () (mu::io::ast::parameters * parameters_a)
 void mu::io::ast::builder::operator () (mu::io::ast::expression * expression_a)
 {
 	auto current_l (boost::static_pointer_cast <mu::io::ast::expression> (current));
-	building->expressions.push_back (current_l);
+	cluster->expressions.push_back (current_l);
 }
 
 void mu::io::ast::builder::operator () (mu::io::ast::identifier * identifier_a)
@@ -44,8 +44,6 @@ void mu::io::ast::builder::operator () (mu::io::ast::identifier * identifier_a)
 
 void mu::io::ast::builder::operator () (mu::io::ast::end * end_a)
 {
-	clusters.push_back (building);
-	building.reset (new mu::io::ast::cluster);
 }
 
 void mu::io::ast::builder::operator () (wchar_t char_a)
