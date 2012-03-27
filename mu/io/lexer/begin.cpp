@@ -46,7 +46,6 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		{
 			lexer.state.pop ();
 			auto end (new mu::io::tokens::stream_end);
-			lexer.hash.Final (end->hash.value.bytes);
 			lexer.target (end, mu::io::debugging::context (lexer.position, lexer.position));
 		}
 		break;

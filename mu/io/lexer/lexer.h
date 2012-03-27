@@ -21,6 +21,10 @@ namespace mu
 	}
 	namespace io
 	{
+		namespace debugging
+		{
+			class stream;
+		}
 		namespace tokens
 		{
 			class token;

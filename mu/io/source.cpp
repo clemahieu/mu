@@ -1,4 +1,4 @@
-#include "source.h"
+#include <mu/io/source.h>
 
 #include <mu/io/lexer/character_stream.h>
 #include <mu/io/lexer/wistream_input.h>

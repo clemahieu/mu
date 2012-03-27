@@ -594,7 +594,8 @@ void mu::io_test::lexer::run_22 ()
 	source (L"abc");
 	source ();
     assert (result.results.size () == 2);
-	auto end (dynamic_cast <mu::io::tokens::stream_end *> (result.results [1].first));
+	byte fin2 [32];
+	lexer.hash.Final (fin2);
 	CryptoPP::SHA256 hash;	
 	uint32_t val;
 	val = L'a';
@@ -609,6 +610,6 @@ void mu::io_test::lexer::run_22 ()
 	hash.Final (fin);
 	for (size_t i (0); i < 32; ++i)
 	{
-		assert (fin [i] == end->hash.value.bytes [i]);
+		assert (fin [i] == fin2 [i]);
 	}
 }
