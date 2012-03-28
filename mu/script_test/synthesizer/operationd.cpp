@@ -25,7 +25,7 @@ void mu::script_test::synthesizer::operationd::run_1 ()
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operationd> ());
 	context.push (boost::make_shared <mu::core::cluster> ());
-	context.push (boost::make_shared <mu::io::debugging::mapping> ());
+	context.push (boost::make_shared <mu::io::debugging::mapping> (boost::make_shared <mu::io::debugging::stream> ()));
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 2);
@@ -44,9 +44,9 @@ void mu::script_test::synthesizer::operationd::run_2 ()
 	context.push (boost::make_shared <mu::script::synthesizer::operationd> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
 	context.push (c);
-	auto mapping (boost::make_shared <mu::io::debugging::mapping> ());
+	auto mapping (boost::make_shared <mu::io::debugging::mapping> (boost::make_shared <mu::io::debugging::stream> ()));
 	context.push (mapping);
-	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (boost::make_shared <mu::io::debugging::stream> (), 1, 1, 0, 1, 2, 1)));
+	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (1, 1, 0, 1, 2, 1)));
 	mapping->nodes [c] = c_context;
 	auto valid (context ());
 	assert (valid);
@@ -69,9 +69,9 @@ void mu::script_test::synthesizer::operationd::run_3 ()
 	context.push (boost::make_shared <mu::script::synthesizer::operationd> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
 	context.push (c);
-	auto mapping (boost::make_shared <mu::io::debugging::mapping> ());
+	auto mapping (boost::make_shared <mu::io::debugging::mapping> (boost::make_shared <mu::io::debugging::stream> ()));
 	context.push (mapping);
-	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (boost::make_shared <mu::io::debugging::stream> (), 1, 1, 0, 1, 2, 1)));
+	auto c_context (boost::make_shared <mu::io::debugging::node> (mu::io::debugging::context (1, 1, 0, 1, 2, 1)));
 	mapping->nodes [c] = c_context;
 	auto valid (context ());
 	assert (valid);

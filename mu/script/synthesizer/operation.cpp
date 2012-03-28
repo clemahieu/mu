@@ -5,6 +5,7 @@
 #include <mu/script/synthesizer/operationd.h>
 #include <mu/core/cluster.h>
 #include <mu/io/debugging/mapping.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/make_shared.hpp>
 
@@ -15,7 +16,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 	{
 		context_a.push (boost::make_shared <mu::script::synthesizer::operationd> ());
 		context_a.push (context_a.parameters (0));
-		context_a.push (boost::make_shared <mu::io::debugging::mapping> ());
+		context_a.push (boost::make_shared <mu::io::debugging::mapping> (boost::make_shared <mu::io::debugging::stream> ()));
 		valid = context_a ();
 		if (valid)
 		{

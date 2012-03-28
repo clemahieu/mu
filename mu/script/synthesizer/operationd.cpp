@@ -30,7 +30,7 @@ bool mu::script::synthesizer::operationd::operator () (mu::script::context & con
 		context_a.reserve (2);
 		auto result (boost::make_shared <mu::script::cluster::node> ());
 		context_a.locals (0) = result;
-		auto result_debugging (boost::make_shared <mu::io::debugging::mapping> ());
+		auto result_debugging (boost::make_shared <mu::io::debugging::mapping> (cluster_mapping->stream));
 		context_a.locals (1) = result_debugging;
 		map (cluster_mapping, result_debugging, cluster, result);
 		std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::script::runtime::routine>> routine_mapping;

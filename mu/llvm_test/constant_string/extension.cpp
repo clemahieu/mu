@@ -29,8 +29,7 @@ void mu::llvm_test::constant_string::extension::run ()
 
 void mu::llvm_test::constant_string::extension::run_1 ()
 {
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::io::ast::builder builder (stream);
+	mu::io::ast::builder builder;
 	builder (L"[` test_string]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -38,7 +37,7 @@ void mu::llvm_test::constant_string::extension::run_1 ()
 	assert (cluster->expressions.size () == 1);
 	auto expression (cluster->expressions [0]);
 	assert (expression->values.size () == 2);
-	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::llvm_test::constant_string::extension::junk, this, _1), builder.errors);
+	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::llvm_test::constant_string::extension::junk, this, _1), builder.errors, boost::make_shared <mu::io::debugging::stream> ());
 	mu::io::analyzer::routine rout (analyzer, expression.get ());
 	auto self (boost::make_shared <mu::core::expression> ());
 	llvm::LLVMContext context;

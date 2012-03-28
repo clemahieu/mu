@@ -13,7 +13,7 @@ mu::io::lexer::error_target::error_target (mu::io::lexer::lexer & lexer_a, boost
 
 void mu::io::lexer::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	(*target) (boost::make_shared <mu::io::debugging::error> (error, mu::io::debugging::context (lexer.stream, lexer.position, lexer.position)));
+	(*target) (boost::make_shared <mu::io::debugging::error> (error, mu::io::debugging::context (lexer.position, lexer.position)));
 }
 
 bool mu::io::lexer::error_target::operator () ()

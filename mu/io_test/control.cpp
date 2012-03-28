@@ -21,28 +21,26 @@ void mu::io_test::control::run_1 ()
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2), stream);
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":");
 	lexer ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::io::debugging::context (stream, 1, 2, 1, 1, 2, 1));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 }
 
 void mu::io_test::control::run_2 ()
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2), stream);
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":0");
 	lexer ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::io::debugging::context (stream, 1, 2, 1, 1, 2, 1));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 }

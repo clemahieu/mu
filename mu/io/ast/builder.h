@@ -27,11 +27,10 @@ namespace mu
 			{
 			public:
 				using mu::io::source::operator ();
-				builder (boost::shared_ptr <mu::io::debugging::stream> stream_a);
+				builder ();
 				void operator () (wchar_t char_a) override;
 				boost::shared_ptr <mu::core::errors::error_list> errors;
 				mu::io::parser::parser parser;
-				boost::shared_ptr <mu::io::debugging::stream> stream;
 				mu::io::lexer::lexer lexer;
 				void add (boost::shared_ptr <mu::io::ast::node> node_a);
 				void operator () (mu::io::ast::parameters * parameters_a) override;

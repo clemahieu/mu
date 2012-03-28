@@ -21,16 +21,16 @@ void mu::io_test::routine::run ()
 void mu::io_test::routine::run_1 ()
 {
 	mu::io_test::analyzer_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), errors);
-	mu::io::parser::parser parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1));
 	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2), stream);
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), errors, stream);
+	mu::io::parser::parser parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1));
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[unresolved ;; 1]");
 	lexer ();
 	assert (result.clusters.empty ());
 	assert (!errors->errors.empty ());
 	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
 	assert (e1.get () != nullptr);
-	assert (e1->context == mu::io::debugging::context (stream, 1, 2, 1, 1, 11, 10));
+	assert (e1->context == mu::io::debugging::context (1, 2, 1, 1, 11, 10));
 }

@@ -12,8 +12,10 @@
 #include <mu/script/extensions/node.h>
 #include <mu/io/source.h>
 #include <mu/script/cluster/node.h>
+#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
+#include <boost/make_shared.hpp>
 
 void mu::script_test::ast::extension::run ()
 {
@@ -24,7 +26,7 @@ void mu::script_test::ast::extension::run ()
 
 void mu::script_test::ast::extension::run_1 ()
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[~ .ast []]");
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -44,7 +46,7 @@ void mu::script_test::ast::extension::run_1 ()
 
 void mu::script_test::ast::extension::run_2 ()
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[~ .ast thing]");
 	builder ();
 	assert (!builder.errors->errors.empty ());
@@ -53,7 +55,7 @@ void mu::script_test::ast::extension::run_2 ()
 
 void mu::script_test::ast::extension::run_3 ()
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[~ .ast [[]]]");
 	builder ();
 	assert (builder.errors->errors.empty ());

@@ -30,7 +30,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 				break;
 			default:
 				mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
-				lexer.target (identifier, mu::io::debugging::context (lexer.stream, first, last));
+				lexer.target (identifier, mu::io::debugging::context (first, last));
 				lexer.state.pop ();
 				auto state (boost::make_shared <mu::io::lexer::control> (lexer, lookahead_first));
 				lexer.state.push (state);
@@ -55,7 +55,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 			case L'\uffff':
 				{
 					mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
-					lexer.target (identifier, mu::io::debugging::context (lexer.stream, first, last));
+					lexer.target (identifier, mu::io::debugging::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
 					state->lex (character);
