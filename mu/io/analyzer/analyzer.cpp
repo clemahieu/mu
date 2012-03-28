@@ -10,7 +10,6 @@
 #include <mu/core/routine.h>
 #include <mu/io/debugging/cluster.h>
 #include <mu/core/expression.h>
-#include <mu/io/ast/end.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/error.h>
@@ -90,10 +89,6 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
 {
 	(*errors) (L"Analyzer not expecting identifiers");
-}
-
-void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
-{	
 }
 
 void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)

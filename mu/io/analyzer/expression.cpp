@@ -111,11 +111,6 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 	}
 }
 
-void mu::io::analyzer::expression::operator () (mu::io::ast::end * end_a)
-{	
-	(*routine.analyzer.errors) (L"Expression not expecting end");
-}
-
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)
 {
 	(*routine.analyzer.errors) (L"Expression not expecting cluster");

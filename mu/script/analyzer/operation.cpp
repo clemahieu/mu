@@ -7,7 +7,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/expression.h>
-#include <mu/io/ast/end.h>
 #include <mu/script/check.h>
 #include <mu/io/debugging/stream.h>
 

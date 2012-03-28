@@ -1,4 +1,4 @@
-#include "analyzer.h"
+#include <mu/io_test/analyzer.h>
 
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io_test/analyzer_result.h>
@@ -10,7 +10,6 @@
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/routine.h>
-#include <mu/io/ast/end.h>
 #include <mu/io/debugging/cluster.h>
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/expression.h>

@@ -50,7 +50,6 @@ namespace mu
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;
-				void operator () (mu::io::ast::end * end_a) override;
 				void mark_used (std::wstring name_a, boost::shared_ptr <mu::io::debugging::node> node_info_a);
 				void back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, boost::shared_ptr <mu::io::debugging::node> node_info_a);
 				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::io::debugging::routine> routine_info_a);

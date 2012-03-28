@@ -18,7 +18,6 @@ namespace mu
 				virtual void operator () (mu::io::ast::parameters * parameters_a) = 0;
 				virtual void operator () (mu::io::ast::expression * expression_a) = 0;
 				virtual void operator () (mu::io::ast::identifier * identifier_a) = 0;
-				virtual void operator () (mu::io::ast::end * end_a) = 0;
 			};
 		}
 	}

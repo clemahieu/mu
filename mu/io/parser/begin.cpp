@@ -10,7 +10,6 @@
 #include <mu/io/tokens/right_square.h>
 #include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/io/ast/end.h>
 #include <mu/io/tokens/stream_end.h>
 
 #include <boost/make_shared.hpp>

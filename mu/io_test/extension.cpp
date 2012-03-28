@@ -1,9 +1,8 @@
-#include "extension.h"
+#include <mu/io_test/extension.h>
 
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io_test/analyzer_result.h>
 #include <mu/io/ast/expression.h>
-#include <mu/io/ast/end.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io_test/extension1.h>
 #include <mu/io_test/extension2.h>

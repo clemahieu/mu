@@ -9,7 +9,6 @@
 #include <mu/io/tokens/right_square.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
-#include <mu/io/ast/end.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/debugging/stream.h>
 #include <mu/io/ast/cluster.h>

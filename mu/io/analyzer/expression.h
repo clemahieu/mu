@@ -32,7 +32,6 @@ namespace mu
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;
-				void operator () (mu::io::ast::end * end_a) override;
 				mu::io::analyzer::routine & routine;
 				mu::io::ast::expression * expression_m;
 				boost::shared_ptr <mu::core::expression> self;
