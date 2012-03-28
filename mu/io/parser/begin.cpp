@@ -11,12 +11,12 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/end.h>
+#include <mu/io/tokens/stream_end.h>
 
 #include <boost/make_shared.hpp>
 
-mu::io::parser::begin::begin (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a)
-	: parser (parser_a),
-	target (target_a)
+mu::io::parser::begin::begin (mu::io::parser::parser & parser_a)
+	: parser (parser_a)
 {
 }
 
@@ -32,7 +32,7 @@ void mu::io::parser::begin::operator () (mu::io::tokens::identifier * token)
 
 void mu::io::parser::begin::operator () (mu::io::tokens::left_square * token)
 {
-    boost::shared_ptr <mu::io::tokens::visitor> new_state (new mu::io::parser::values (parser, target));
+    boost::shared_ptr <mu::io::tokens::visitor> new_state (new mu::io::parser::values (parser, parser));
     parser.state.push (new_state);
 }
 
@@ -43,8 +43,7 @@ void mu::io::parser::begin::operator () (mu::io::tokens::right_square * token)
 
 void mu::io::parser::begin::operator () (mu::io::tokens::stream_end * token)
 {
-	target (boost::make_shared <mu::io::ast::end> (parser.context));
-	parser.state.pop ();
+	parser.finish ();
 }
 
 void mu::io::parser::begin::operator () (mu::io::tokens::parameters * token)

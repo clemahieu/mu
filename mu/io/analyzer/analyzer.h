@@ -45,7 +45,8 @@ namespace mu
 			public:
 				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::debugging::stream> stream_a);
 				analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a, boost::shared_ptr <mu::io::debugging::stream> stream_a);
-				void input (boost::shared_ptr <mu::io::ast::node> node_a);
+				void input (boost::shared_ptr <mu::io::ast::cluster> node_a);
+				void operator () (mu::io::ast::cluster * cluster_a) override;
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;

@@ -29,10 +29,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	if (expression_a->individual_names.empty ())
 	{
 		auto name (expression_a->full_name->string);
-		if (!name.empty ())
-		{
-			expression_a->full_name->string.clear ();
-		}
+		expression_a->full_name->string.clear ();
 		auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
 		auto expression_info (boost::make_shared <mu::io::debugging::expression> ());
 		analyzer_a.mapping->nodes [expression_l] = expression_info;

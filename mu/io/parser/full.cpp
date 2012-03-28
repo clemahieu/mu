@@ -12,18 +12,20 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/identifier.h>
+#include <mu/io/ast/cluster.h>
+#include <mu/io/parser/target.h>
 
 #include <sstream>
 
 #include <boost/make_shared.hpp>
 
-mu::io::parser::full::full (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::io::debugging::context first_a)
+mu::io::parser::full::full (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::io::debugging::context first_a)
 	: parser (parser_a),
-	target (target_a),
 	values (values_a),
 	names (names_a),
 	full_name (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
-	first (first_a)
+	first (first_a),
+	target (target_a)
 {
 }
 

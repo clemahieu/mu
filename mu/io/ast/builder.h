@@ -23,7 +23,7 @@ namespace mu
 		{
 			class node;
 			class cluster;
-			class builder : public mu::io::ast::visitor, mu::io::source
+			class builder : mu::io::source
 			{
 			public:
 				using mu::io::source::operator ();
@@ -32,12 +32,7 @@ namespace mu
 				boost::shared_ptr <mu::core::errors::error_list> errors;
 				mu::io::parser::parser parser;
 				mu::io::lexer::lexer lexer;
-				void add (boost::shared_ptr <mu::io::ast::node> node_a);
-				void operator () (mu::io::ast::parameters * parameters_a) override;
-				void operator () (mu::io::ast::expression * expression_a) override;
-				void operator () (mu::io::ast::identifier * identifier_a) override;
-				void operator () (mu::io::ast::end * end_a) override;
-				boost::shared_ptr <mu::io::ast::node> current;
+				void add (boost::shared_ptr <mu::io::ast::cluster> node_a);
 				boost::shared_ptr <mu::io::ast::cluster> cluster;
 			};
 		}

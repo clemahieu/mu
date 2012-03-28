@@ -18,7 +18,7 @@ namespace mu
 			class begin : public mu::io::tokens::visitor
 			{
 			public:
-				begin (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a);
+				begin (mu::io::parser::parser & parser_a);
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
@@ -27,7 +27,6 @@ namespace mu
 				void operator () (mu::io::tokens::parameters * token) override;
 				void unexpected_token (mu::io::tokens::token * token);
 				mu::io::parser::parser & parser;
-				boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target;
 			};
 		}
 	}

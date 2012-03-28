@@ -15,6 +15,7 @@
 #include <mu/core/routine.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/debugging/stream.h>
+#include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -38,8 +39,9 @@ void mu::io_test::extension::run_1 ()
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), result.errors, extensions, stream);
 	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context ()));
+	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	cl->expressions.push_back (expression);
+	analyzer_l.input (cl);
 	assert (result.errors->errors.empty ());
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
@@ -57,8 +59,9 @@ void mu::io_test::extension::run_2 ()
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), result.errors, extensions, stream);
 	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context ()));
+	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	cl->expressions.push_back (expression);
+	analyzer_l.input (cl);
 	assert (result.errors->errors.empty ());
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
@@ -76,8 +79,9 @@ void mu::io_test::extension::run_3 ()
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1, _2), result.errors, extensions, stream);
 	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context ()));
+	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	cl->expressions.push_back (expression);
+	analyzer_l.input (cl);
 	assert (result.errors->errors.empty ());
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
@@ -96,8 +100,9 @@ void mu::io_test::extension::run_4 ()
 	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
 	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
 	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b"))));
-	analyzer_l.input (expression);
-	analyzer_l.input (boost::make_shared <mu::io::ast::end> (mu::io::debugging::context ()));
+	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	cl->expressions.push_back (expression);
+	analyzer_l.input (cl);
 	assert (result.errors->errors.empty ());
 	assert (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);

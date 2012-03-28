@@ -1,4 +1,4 @@
-#include "expression.h"
+#include <mu/io/ast/expression.h>
 
 #include <mu/io/ast/visitor.h>
 #include <mu/io/ast/identifier.h>

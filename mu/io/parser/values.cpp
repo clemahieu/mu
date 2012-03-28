@@ -11,11 +11,12 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/ast/parameters.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-mu::io::parser::values::values (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::node>)> target_a)
+mu::io::parser::values::values (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a)
 	: parser (parser_a),
 	first (parser_a.context),
 	target (target_a)
@@ -35,7 +36,7 @@ void mu::io::parser::values::operator () (mu::io::tokens::identifier * token)
 
 void mu::io::parser::values::operator () (mu::io::tokens::left_square * token)
 {
-	parser.state.push (boost::make_shared <mu::io::parser::values> (parser, boost::bind (&mu::io::parser::values::subexpression, this, _1)));
+	parser.state.push (boost::make_shared <mu::io::parser::values> (parser, *this));
 }
 
 void mu::io::parser::values::operator () (mu::io::tokens::right_square * token)
@@ -55,7 +56,7 @@ void mu::io::parser::values::operator () (mu::io::tokens::parameters * token)
 	values_m.push_back (boost::make_shared <mu::io::ast::parameters> (parser.context));
 }
 
-void mu::io::parser::values::subexpression (boost::shared_ptr <mu::io::ast::node> node_a)
+void mu::io::parser::values::operator () (boost::shared_ptr <mu::io::ast::expression> expression_a)
 {
-	values_m.push_back (node_a);
+	values_m.push_back (expression_a);
 }

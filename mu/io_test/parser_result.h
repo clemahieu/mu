@@ -10,7 +10,7 @@ namespace mu
 	{
 		namespace ast
 		{
-			class node;
+			class cluster;
 		}
 	}
 	namespace io_test
@@ -18,8 +18,8 @@ namespace mu
 		class parser_result
 		{
 		public:
-			void operator () (boost::shared_ptr <mu::io::ast::node> result_a);
-			std::vector <boost::shared_ptr <mu::io::ast::node>> results;
+			void operator () (boost::shared_ptr <mu::io::ast::cluster> result_a);
+			std::vector <boost::shared_ptr <mu::io::ast::cluster>> results;
 		};
 	}
 }

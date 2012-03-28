@@ -11,6 +11,7 @@
 #include <mu/io/debugging/cluster.h>
 #include <mu/core/expression.h>
 #include <mu/io/ast/end.h>
+#include <mu/io/ast/cluster.h>
 #include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/error.h>
 #include <mu/io/debugging/mapping.h>
@@ -41,33 +42,13 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	mapping->nodes [cluster] = cluster_info;
 }
 
-void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::node> node_a)
+void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster> node_a)
 {
-	(*node_a) (this);
-}
-
-void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * parameters_a)
-{
-	(*errors) (L"Analyzer not expecting parameters");
-}
-
-void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
-{
-	if (cluster->routines.empty ())
+	cluster_info->context = node_a->context;
+	for (auto i (node_a->expressions.begin ()), j (node_a->expressions.end ()); i != j; ++i)
 	{
-		cluster_info->context = expression_a->context;
+		(**i) (this);
 	}
-	mu::io::analyzer::routine (*this, expression_a);
-}
-
-void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
-{
-	(*errors) (L"Analyzer not expecting identifiers");
-}
-
-void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
-{	
-	cluster_info->context.last = end_a->context.last;
 	if (unresolved.empty ())
 	{
 		if (!(*errors) ())
@@ -89,6 +70,30 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
 			(*errors) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (message.str ()), i->second.second));
 		}
 	}
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::cluster * cluster_a)
+{
+	(*errors) (L"Analyzer not expecting cluster");
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * parameters_a)
+{
+	(*errors) (L"Analyzer not expecting parameters");
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
+{
+	mu::io::analyzer::routine (*this, expression_a);
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
+{
+	(*errors) (L"Analyzer not expecting identifiers");
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::end * end_a)
+{	
 }
 
 void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)

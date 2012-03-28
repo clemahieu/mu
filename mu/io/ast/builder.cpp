@@ -19,32 +19,9 @@ mu::io::ast::builder::builder ()
 {
 }
 
-void mu::io::ast::builder::add (boost::shared_ptr <mu::io::ast::node> node_a)
+void mu::io::ast::builder::add (boost::shared_ptr <mu::io::ast::cluster> node_a)
 {
-	current = node_a;
-	(*node_a) (this);
-}
-
-void mu::io::ast::builder::operator () (mu::io::ast::parameters * parameters_a)
-{
-	boost::shared_ptr <mu::core::errors::error_target> errors_l (errors);
-	(*errors_l) (L"Expecting only expressions or end of ast");
-}
-
-void mu::io::ast::builder::operator () (mu::io::ast::expression * expression_a)
-{
-	auto current_l (boost::static_pointer_cast <mu::io::ast::expression> (current));
-	cluster->expressions.push_back (current_l);
-}
-
-void mu::io::ast::builder::operator () (mu::io::ast::identifier * identifier_a)
-{
-	boost::shared_ptr <mu::core::errors::error_target> errors_l (errors);
-	(*errors_l) (L"Expecting only expressions or end of ast");
-}
-
-void mu::io::ast::builder::operator () (mu::io::ast::end * end_a)
-{
+	cluster = node_a;
 }
 
 void mu::io::ast::builder::operator () (wchar_t char_a)

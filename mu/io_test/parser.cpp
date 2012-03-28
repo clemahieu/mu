@@ -1,4 +1,4 @@
-#include "parser.h"
+#include <mu/io_test/parser.h>
 
 #include <mu/io/parser/parser.h>
 #include <mu/io_test/parser_result.h>
@@ -12,6 +12,7 @@
 #include <mu/io/ast/end.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/debugging/stream.h>
+#include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
@@ -24,7 +25,6 @@ void mu::io_test::parser::run ()
 	run_4 ();
 	run_5 ();
 	run_6 ();
-	run_7 ();
 }
 
 void mu::io_test::parser::run_1 ()
@@ -34,7 +34,7 @@ void mu::io_test::parser::run_1 ()
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (0, 0, 0, 0, 0, 0));
 	assert (result.results.size () == 1);
-	auto end (boost::dynamic_pointer_cast <mu::io::ast::end> (result.results [0]));
+	assert (result.results [0]->expressions.size () == 0);
 	assert (errors->errors.empty ());
 }
 
@@ -44,10 +44,12 @@ void mu::io_test::parser::run_2 ()
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
-	parser (new mu::io::tokens::right_square, mu::io::debugging::context ( 1, 2, 1, 1, 2, 1));
+	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
+	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 3, 2, 1, 3, 2));
 	assert (result.results.size () == 1);
 	auto n1 (result.results [0]);
-	auto e1 (boost::dynamic_pointer_cast <mu::io::ast::expression> (n1));
+	assert (n1->expressions.size () == 1);
+	auto e1 (n1->expressions [0]);
 	assert (e1.get () != nullptr);
 	assert (e1->values.empty ());
 	assert (e1->full_name->string.empty ());
@@ -63,7 +65,10 @@ void mu::io_test::parser::run_3 ()
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 2, 1, 1, 3, 2));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 4, 3, 1, 4, 3));
-	auto e1 (boost::dynamic_pointer_cast <mu::io::ast::expression> (result.results [0]));
+	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 5, 4, 1, 5, 4));
+	assert (result.results.size () == 1);
+	assert (result.results [0]->expressions.size () == 1);
+	auto e1 (result.results [0]->expressions [0]);
 	assert (e1->context == mu::io::debugging::context (1, 1, 0, 1, 4, 3));
 	assert (e1->values.size () == 1);
 	auto i1 (boost::dynamic_pointer_cast <mu::io::ast::identifier> (e1->values [0]));
@@ -82,7 +87,10 @@ void mu::io_test::parser::run_4 ()
 	parser (new mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 	parser (new mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 3, 2, 1, 4, 3));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 5, 4, 1, 5, 4));
-	auto e1 (boost::dynamic_pointer_cast <mu::io::ast::expression> (result.results [0]));
+	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 6, 5, 1, 6, 5));
+	assert (result.results.size () == 1);
+	assert (result.results [0]->expressions.size () == 1);
+	auto e1 (result.results [0]->expressions [0]);
 	assert (e1->values.empty ());
 	assert (e1->individual_names.size () == 1);
 	assert (e1->context == mu::io::debugging::context (1, 1, 0, 1, 5, 4));
@@ -101,7 +109,10 @@ void mu::io_test::parser::run_5 ()
 	parser (new mu::io::tokens::divider, mu::io::debugging::context (1, 3, 2, 1, 3, 2));
 	parser (new mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 4, 3, 1, 5, 4));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 6, 5, 1, 6, 5));
-	auto e1 (boost::dynamic_pointer_cast <mu::io::ast::expression> (result.results [0]));
+	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 7, 6, 1, 7, 6));
+	assert (result.results.size () == 1);
+	assert (result.results [0]->expressions.size () == 1);
+	auto e1 (result.results [0]->expressions [0]);
 	assert (e1->values.empty ());
 	assert (e1->individual_names.empty ());
 	assert (e1->full_name->string == std::wstring (L"t1"));
@@ -117,7 +128,10 @@ void mu::io_test::parser::run_6 ()
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 3, 2, 1, 3, 2));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 4, 3, 1, 4, 3));
-	auto e1 (boost::dynamic_pointer_cast <mu::io::ast::expression> (result.results [0]));
+	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 5, 4, 1, 5, 4));
+	assert (result.results.size () == 1);
+	assert (result.results [0]->expressions.size () == 1);
+	auto e1 (result.results [0]->expressions [0]);
 	assert (e1->values.size () == 1);
 	assert (e1->individual_names.empty ());
 	assert (e1->full_name->string.empty ());
@@ -127,15 +141,4 @@ void mu::io_test::parser::run_6 ()
 	assert (e2->individual_names.empty ());
 	assert (e2->full_name->string.empty ());
 	assert (e2->context == mu::io::debugging::context (1, 2, 1, 1, 3, 2));
-}
-
-void mu::io_test::parser::run_7 ()
-{
-	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
-	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
-	assert (errors->errors.empty ());
-	assert (result.results.size () == 1);
-	auto end (boost::dynamic_pointer_cast <mu::io::ast::end> (result.results [0]));
 }

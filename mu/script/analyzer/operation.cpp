@@ -30,17 +30,7 @@ boost::shared_ptr <mu::core::cluster> mu::script::analyzer::operation::core (mu:
 {
 	boost::shared_ptr <mu::core::cluster> result;
 	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors.target, extensions->extensions, boost::make_shared <mu::io::debugging::stream> ());
-	for (auto i (ast->expressions.begin ()), j (ast->expressions.end ()); i != j; ++i)
-	{
-		analyzer.input (*i);
-	}
-	mu::io::debugging::context context;
-	if (ast->expressions.size () > 0)
-	{
-		auto last (ast->expressions [ast->expressions.size () - 1]);
-		context = mu::io::debugging::context (last->context.last, last->context.last);
-	}
-	analyzer.input (boost::make_shared <mu::io::ast::end> (context));
+	analyzer.input (ast);
 	return result;
 }
 

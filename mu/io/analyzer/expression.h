@@ -28,6 +28,7 @@ namespace mu
 			{
 			public:
 				expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a, boost::shared_ptr <mu::io::debugging::expression> self_info_a);
+				void operator () (mu::io::ast::cluster * cluster_a) override;
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;

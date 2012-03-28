@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/node.h>
+#include <mu/io/ast/node.h>
 
 #include <vector>
 
@@ -13,9 +13,13 @@ namespace mu
 		namespace ast
 		{
 			class expression;
-			class cluster : public mu::core::node
+			class cluster : public mu::io::ast::node
 			{
 			public:
+				cluster ();
+				cluster (mu::io::debugging::context context_a);
+				void operator () (mu::io::ast::visitor * visitor_a) override;
+				std::wstring name () override;
 				std::vector <boost::shared_ptr <mu::io::ast::expression>> expressions;
 			};
 		}

@@ -20,10 +20,11 @@ namespace mu
 		namespace parser
 		{
 			class parser;
+			class target;
 			class single : public mu::io::tokens::visitor
 			{
 			public:
-				single (mu::io::parser::parser & parser_a, boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::io::debugging::context first_a);
+				single (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, mu::io::debugging::context first_a);
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
@@ -32,7 +33,7 @@ namespace mu
 				void operator () (mu::io::tokens::parameters * token) override;
 				void unexpected_token (mu::io::tokens::token * token);
 				mu::io::parser::parser & parser;
-				boost::function <void (boost::shared_ptr <mu::io::ast::expression>)> target;
+				mu::io::parser::target & target;
 				std::vector <boost::shared_ptr <mu::io::ast::node>> values;
 				std::vector <boost::shared_ptr <mu::io::ast::identifier>> names;			
 				mu::io::debugging::context first;
