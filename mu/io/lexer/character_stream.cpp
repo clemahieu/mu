@@ -1,1 +1,1 @@
-#include "character_stream.h"
+#include <mu/io/lexer/character_stream.h>

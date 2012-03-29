@@ -1,4 +1,4 @@
-#include "parameters.h"
+#include <mu/core/parameters.h>
 
 #include <mu/core/visitor.h>
 
