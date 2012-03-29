@@ -23,8 +23,7 @@ void mu::script_test::builder::run ()
 
 void mu::script_test::builder::run_1 ()
 {
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::script::builder builder (stream);
+	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
 	builder (L"[fail]");
 	builder ();
@@ -42,8 +41,7 @@ void mu::script_test::builder::run_1 ()
 
 void mu::script_test::builder::run_2 ()
 {
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::script::builder builder (stream);
+	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
 	builder (L"[  [1]] [ \n  [2];;1] [  \n\n [3];;2] [ \n  [4];;3] [\nfail;;4]");
 	builder ();

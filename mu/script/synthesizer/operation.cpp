@@ -16,7 +16,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 	{
 		context_a.push (boost::make_shared <mu::script::synthesizer::operationd> ());
 		context_a.push (context_a.parameters (0));
-		context_a.push (boost::make_shared <mu::io::debugging::mapping> (boost::make_shared <mu::io::debugging::stream> ()));
+		context_a.push (boost::make_shared <mu::io::debugging::mapping> ());
 		valid = context_a ();
 		if (valid)
 		{

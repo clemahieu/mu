@@ -59,7 +59,7 @@ void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
-	mu::io::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	auto quit (boost::shared_ptr <mu::core::node> (new mu::repl::quit::operation (*this)));
 	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
 	builder.parser (new mu::io::tokens::left_square (), mu::io::debugging::context ());

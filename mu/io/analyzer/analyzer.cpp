@@ -19,30 +19,31 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::debugging::stream> stream_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
 	cluster (new mu::core::cluster),
 	cluster_info (new mu::io::debugging::cluster),
-	mapping (new mu::io::debugging::mapping (stream_a))
+	mapping (new mu::io::debugging::mapping)
 {
 	mapping->nodes [cluster] = cluster_info;
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a, boost::shared_ptr <mu::io::debugging::stream> stream_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
 	cluster (new mu::core::cluster),
 	cluster_info (new mu::io::debugging::cluster),
-	mapping (new mu::io::debugging::mapping (stream_a))
+	mapping (new mu::io::debugging::mapping)
 {
 	mapping->nodes [cluster] = cluster_info;
 }
 
 void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster> node_a)
 {
+	mapping->stream = node_a->stream;
 	cluster_info->context = node_a->context;
 	for (auto i (node_a->expressions.begin ()), j (node_a->expressions.end ()); i != j; ++i)
 	{
@@ -69,6 +70,7 @@ void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster>
 			(*errors) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (message.str ()), i->second.second));
 		}
 	}
+	mapping.reset (new mu::io::debugging::mapping);
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::cluster * cluster_a)

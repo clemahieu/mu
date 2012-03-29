@@ -28,7 +28,7 @@ bool mu::script::analyzer::operation::operator () (mu::script::context & context
 boost::shared_ptr <mu::core::cluster> mu::script::analyzer::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast)
 {
 	boost::shared_ptr <mu::core::cluster> result;
-	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors.target, extensions->extensions, boost::make_shared <mu::io::debugging::stream> ());
+	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors.target, extensions->extensions);
 	analyzer.input (ast);
 	return result;
 }

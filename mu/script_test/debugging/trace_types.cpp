@@ -28,7 +28,7 @@ void mu::script_test::debugging::trace_types::run_1 ()
 	mu::script::context context (errors);
 	auto stream (boost::make_shared <mu::io::debugging::stream> ());
 	context.push (boost::make_shared <mu::script::debugging::trace_types> ());
-	context.push (boost::make_shared <mu::io::debugging::mapping> (stream));
+	context.push (boost::make_shared <mu::io::debugging::mapping> ());
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 1);
@@ -41,8 +41,7 @@ void mu::script_test::debugging::trace_types::run_2 ()
 {
 	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	mu::script::context context (errors);
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::script::builder builder (stream);
+	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"trace"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::debugging::trace_types> ());
 	builder (L"[trace :~]");
 	builder ();
@@ -51,7 +50,7 @@ void mu::script_test::debugging::trace_types::run_2 ()
 	assert (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	context.push (routine);
-	context.push (boost::make_shared <mu::io::debugging::mapping> (stream));
+	context.push (boost::make_shared <mu::io::debugging::mapping> ());
 	auto valid (context ());
 	assert (valid);
 	assert (context.working_size () == 1);

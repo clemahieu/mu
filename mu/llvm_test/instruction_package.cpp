@@ -37,7 +37,7 @@ void mu::llvm_test::instruction_package::run ()
 
 void mu::llvm_test::instruction_package::run_1 ()
 {
-	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	builder ();
 	assert (builder.errors->errors.empty ());
@@ -55,7 +55,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
-	mu::script::builder b2 (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
@@ -81,7 +81,7 @@ void mu::llvm_test::instruction_package::run_1 ()
 
 void mu::llvm_test::instruction_package::run_2 ()
 {
-	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
 	builder (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
 	builder ();
@@ -99,7 +99,7 @@ void mu::llvm_test::instruction_package::run_2 ()
 	auto valid (ctx ());
 	assert (valid);
 	assert (ctx.working_size () == 1);
-	mu::script::builder b2 (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();

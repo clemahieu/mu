@@ -27,10 +27,9 @@ void mu::script_test::debugging::trace_target::run ()
 void mu::script_test::debugging::trace_target::run_1 ()
 {
 	mu::script::context context;
-	auto stream (boost::make_shared <mu::io::debugging::stream> ());
-	mu::core::errors::errors errors (boost::make_shared <mu::script::debugging::trace_target> (boost::make_shared <mu::core::errors::error_list> (), context, boost::make_shared <mu::io::debugging::mapping> (stream)));
+	mu::core::errors::errors errors (boost::make_shared <mu::script::debugging::trace_target> (boost::make_shared <mu::core::errors::error_list> (), context, boost::make_shared <mu::io::debugging::mapping> ()));
 	context.errors = errors;
-	mu::script::builder builder (stream);
+	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
 	builder (L"[fail]");
 	builder ();

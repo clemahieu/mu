@@ -70,7 +70,7 @@ void mu::script_test::times::operation::run_2 ()
 
 void mu::script_test::times::operation::run_3 ()
 {	
-	mu::script::builder builder (boost::make_shared <mu::io::debugging::stream> (), boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
 	builder (L"[[~ :~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	builder ();
 	assert (builder.errors->errors.empty ());
