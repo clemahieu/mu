@@ -13,8 +13,8 @@ ipch/
 .DS_Store
 xcuserdata/
 .metadata/
-llvm/
-boost/
+llvm
+boost
 temp/
 debug/
-cryptopp/
+cryptopp
