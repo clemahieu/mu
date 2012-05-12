@@ -43,7 +43,6 @@ namespace mu
 			mu::io::lexer::lexer lexer;
 			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
 			boost::shared_ptr <mu::script::cluster::node> cluster;
-			boost::shared_ptr <mu::io::debugging::mapping> cluster_info;
         };
     }
 }
