@@ -93,9 +93,9 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifi
 	(*errors) (L"Analyzer not expecting identifiers");
 }
 
-void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)
+void mu::io::analyzer::analyzer::mark_used (std::wstring name_a)
 {
-	used_names.insert (std::multimap <std::wstring, boost::shared_ptr <mu::io::debugging::node>>::value_type (name_a, node_info_a));
+	used_names.insert (std::set <std::wstring>::value_type (name_a));
 }
 
 void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a)
@@ -116,7 +116,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 		auto existing (used_names.find (name_a));
 		if (existing == used_names.end ())
 		{
-			mark_used (name_a, routine_info_a);
+			mark_used (name_a);
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = routine_a;
@@ -127,15 +127,11 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 		}
 		else
 		{
-			for (; existing != used_names.end () && existing->first == name_a; ++existing)
-			{
-				std::wstringstream message;
-				message << L"Routine name: ";
-				message << name_a;
-				message << L" collides with usage at: ";
-				message << existing->second->context.string ();
-				(*errors) (message.str ());
-			}
+			std::wstringstream message;
+			message << L"Routine name: ";
+			message << name_a;
+			message << L" has already been used";
+			(*errors) (message.str ());
 		}
 	}
 	else
