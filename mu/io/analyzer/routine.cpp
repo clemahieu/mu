@@ -53,7 +53,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	}
 }
 
-void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::shared_ptr <mu::core::node> node, boost::shared_ptr <mu::io::debugging::node> node_info_a)
+void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::shared_ptr <mu::core::node> node)
 {
 	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
@@ -62,7 +62,7 @@ void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::s
 			if (declarations.find (identifier) == declarations.end ())
 			{
 				analyzer.mark_used (identifier);
-				declarations.insert (std::map <std::wstring, std::pair <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>>>::value_type (identifier, std::pair <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>> (node, node_info_a)));
+				declarations.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (identifier, node));
 				analyzer.back_resolve (identifier, node);
 			}
 			else

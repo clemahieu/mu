@@ -30,14 +30,14 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 {
 	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a.resolve_local (expression_a->full_name->string, self, self_info);
+		routine_a.resolve_local (expression_a->full_name->string, self);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
 		auto reference (boost::make_shared <mu::core::reference> (self, i));
 		auto reference_info (boost::make_shared <mu::io::debugging::node> (expression_a->individual_names [i]->context));
 		routine_a.analyzer.mapping->nodes [reference] = reference_info;
-		routine_a.resolve_local (expression_a->individual_names [i]->string, reference, reference_info);
+		routine_a.resolve_local (expression_a->individual_names [i]->string, reference);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
@@ -98,8 +98,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 		else
 		{
 			assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
-			self->dependencies.push_back (local->second.first);
-			self_info->dependencies.push_back (local->second.second);
+			self->dependencies.push_back (local->second);
 		}
 	}
 	else
