@@ -21,22 +21,15 @@
 
 mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a)
 	: analyzer (analyzer_a),
-	routine_m (new mu::core::routine),
-	routine_info (new mu::io::debugging::routine)
+	routine_m (new mu::core::routine)
 {
-	analyzer_a.mapping->nodes [routine_m] = routine_info;
-	routine_info->context = expression_a->context;
 	if (expression_a->individual_names.empty ())
 	{
 		auto name (expression_a->full_name->string);
 		expression_a->full_name->string.clear ();
 		auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
-		auto expression_info (boost::make_shared <mu::io::debugging::expression> ());
-		analyzer_a.mapping->nodes [expression_l] = expression_info;
-		expression_info->context = expression_a->context;
-		mu::io::analyzer::expression expression (*this, expression_a, expression_l, expression_info);
+		mu::io::analyzer::expression expression (*this, expression_a, expression_l);
 		routine_m->body = expression_l;
-		routine_info->body = expression_info;
 		if (!name.empty ())
 		{
 			analyzer.resolve_routine (name, routine_m);
@@ -44,7 +37,6 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 		else
 		{
 			analyzer.cluster->routines.push_back (routine_m);
-			analyzer.cluster_info->routines.push_back (routine_info);
 		}
 	}
 	else

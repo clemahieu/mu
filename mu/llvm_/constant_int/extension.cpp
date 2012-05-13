@@ -52,7 +52,6 @@ void mu::llvm_::constant_int::extension::operator () (boost::shared_ptr <mu::cor
 						auto result (boost::make_shared <mu::core::expression> ());
 						result->dependencies.push_back (node);
 						expression_a.self->dependencies.push_back (result);
-						expression_a.self_info->dependencies.push_back (boost::make_shared <mu::io::debugging::node> (number_identifier->context));
 					}
 					else
 					{

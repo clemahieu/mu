@@ -21,12 +21,11 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a, boost::shared_ptr <mu::io::debugging::expression> self_info_a)
+mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a)
 	: routine (routine_a),
 	expression_m (expression_a),
 	self (self_a),
-	position (0),
-	self_info (self_info_a)
+	position (0)
 {
 	if (!expression_a->full_name->string.empty ())
 	{
@@ -36,7 +35,6 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 	{
 		auto reference (boost::make_shared <mu::core::reference> (self, i));
 		auto reference_info (boost::make_shared <mu::io::debugging::node> (expression_a->individual_names [i]->context));
-		routine_a.analyzer.mapping->nodes [reference] = reference_info;
 		routine_a.resolve_local (expression_a->individual_names [i]->string, reference);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
@@ -50,21 +48,15 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::parameters * parame
 	auto parameters_l (boost::make_shared <mu::core::parameters> ());
 	self->dependencies.push_back (parameters_l);
 	auto parameters_info (boost::make_shared <mu::io::debugging::node> (parameters_a->context));
-	self_info->dependencies.push_back (parameters_info);
-	routine.analyzer.mapping->nodes [parameters_l] = parameters_info;
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expression_a)
 {
 	auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
-	auto expression_info (boost::make_shared <mu::io::debugging::expression> ());
-	routine.analyzer.mapping->nodes [expression_l] = expression_info;
-	expression_info->context = expression_a->context;
-	mu::io::analyzer::expression expression (routine, expression_a, expression_l, expression_info);
+	mu::io::analyzer::expression expression (routine, expression_a, expression_l);
 	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())
 	{
 		self->dependencies.push_back (expression.self);
-		self_info->dependencies.push_back (expression.self_info);
 	}
 	else
 	{
@@ -84,15 +76,11 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 			if (routine_l == routine.analyzer.cluster->names.end ())
 			{
 				self->dependencies.push_back (boost::shared_ptr <mu::core::expression> ());
-				self_info->dependencies.push_back (boost::shared_ptr <mu::io::debugging::node> ());
 				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context> (boost::shared_ptr <mu::io::analyzer::resolver> (new mu::io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
 			}
 			else
 			{
 				self->dependencies.push_back (routine_l->second);
-				auto routine_info (routine.analyzer.cluster_info->names.find (identifier_a->string));
-				assert (routine_info != routine.analyzer.cluster_info->names.end ());
-				self_info->dependencies.push_back (routine_info->second);
 			}
 		}
 		else

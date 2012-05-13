@@ -39,7 +39,6 @@ namespace mu
 				mu::io::analyzer::analyzer & analyzer;
 				void resolve_local (std::wstring, boost::shared_ptr <mu::core::node> node_a);
 				boost::shared_ptr <mu::core::routine> routine_m;
-				boost::shared_ptr <mu::io::debugging::routine> routine_info;
 				std::map <std::wstring, boost::shared_ptr <mu::core::node>> declarations;
 			};
 		}
