@@ -19,7 +19,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
@@ -30,7 +30,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	mapping->nodes [cluster] = cluster_info;
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
@@ -53,7 +53,7 @@ void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster>
 	{
 		if (!(*errors) ())
 		{
-			target (cluster, mapping);
+			target (cluster);
 		}
 		else
 		{

@@ -27,9 +27,8 @@ namespace mu
 		{
 		public:
 			analyzer_result ();
-			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a, boost::shared_ptr <mu::io::debugging::mapping> cluster_info_a);
+			void operator () (boost::shared_ptr <mu::core::cluster> cluster_a);
 			std::vector <boost::shared_ptr <mu::core::cluster>> clusters;
-			std::vector <boost::shared_ptr <mu::io::debugging::mapping>> mappings;
 			boost::shared_ptr <mu::core::errors::error_list> errors;
 		};
 	}

@@ -38,9 +38,8 @@ namespace mu
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;
-			void add (boost::shared_ptr <mu::core::cluster>, boost::shared_ptr <mu::io::debugging::mapping>);
+			void add (boost::shared_ptr <mu::core::cluster>);
 			boost::shared_ptr <mu::core::cluster> cluster;
-			boost::shared_ptr <mu::io::debugging::mapping> cluster_info;
 		};
 	}
 }
