@@ -107,7 +107,7 @@ void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::share
 	unresolved.erase (name_a);
 }
 
-void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::io::debugging::routine> routine_info_a)
+void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a)
 {
 	assert (!name_a.empty ());
 	auto keyword (extensions->extensions_m.find (name_a));
@@ -121,8 +121,6 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = routine_a;
 			assert (cluster_info->names.find (name_a) == cluster_info->names.end ());
-			cluster_info->routines.push_back (routine_info_a);
-			cluster_info->names [name_a] = routine_info_a;
 			back_resolve (name_a, routine_a);
 		}
 		else

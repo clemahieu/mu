@@ -52,7 +52,7 @@ namespace mu
 				void operator () (mu::io::ast::identifier * identifier_a) override;
 				void mark_used (std::wstring name_a);
 				void back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a);
-				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a, boost::shared_ptr <mu::io::debugging::routine> routine_info_a);
+				void resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a);
 				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
 				boost::function <void (boost::shared_ptr <mu::core::cluster>)> target;
 				std::set <std::wstring> used_names;

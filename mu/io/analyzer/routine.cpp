@@ -39,7 +39,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 		routine_info->body = expression_info;
 		if (!name.empty ())
 		{
-			analyzer.resolve_routine (name, routine_m, routine_info);
+			analyzer.resolve_routine (name, routine_m);
 		}
 		else
 		{
