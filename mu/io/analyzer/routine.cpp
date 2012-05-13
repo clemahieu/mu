@@ -63,7 +63,7 @@ void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::s
 			{
 				analyzer.mark_used (identifier, node_info_a);
 				declarations.insert (std::map <std::wstring, std::pair <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>>>::value_type (identifier, std::pair <boost::shared_ptr <mu::core::node>, boost::shared_ptr <mu::io::debugging::node>> (node, node_info_a)));
-				analyzer.back_resolve (identifier, node, node_info_a);
+				analyzer.back_resolve (identifier, node);
 			}
 			else
 			{

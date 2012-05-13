@@ -98,7 +98,7 @@ void mu::io::analyzer::analyzer::mark_used (std::wstring name_a, boost::shared_p
 	used_names.insert (std::multimap <std::wstring, boost::shared_ptr <mu::io::debugging::node>>::value_type (name_a, node_info_a));
 }
 
-void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)
+void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a)
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
@@ -123,7 +123,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 			assert (cluster_info->names.find (name_a) == cluster_info->names.end ());
 			cluster_info->routines.push_back (routine_info_a);
 			cluster_info->names [name_a] = routine_info_a;
-			back_resolve (name_a, routine_a, routine_info_a);
+			back_resolve (name_a, routine_a);
 		}
 		else
 		{

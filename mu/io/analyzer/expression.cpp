@@ -85,7 +85,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 			{
 				self->dependencies.push_back (boost::shared_ptr <mu::core::expression> ());
 				self_info->dependencies.push_back (boost::shared_ptr <mu::io::debugging::node> ());
-				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context> (boost::shared_ptr <mu::io::analyzer::resolver> (new mu::io::analyzer::resolver (self, self_info, self->dependencies.size () - 1)), identifier_a->context)));
+				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context> (boost::shared_ptr <mu::io::analyzer::resolver> (new mu::io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
 			}
 			else
 			{
