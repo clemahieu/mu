@@ -102,7 +102,7 @@ void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::share
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
-		(*(i->second).first) (node_a, node_info_a);
+		(*(i->second).first) (node_a);
 	}
 	unresolved.erase (name_a);
 }

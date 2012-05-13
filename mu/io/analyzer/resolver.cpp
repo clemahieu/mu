@@ -12,11 +12,10 @@ mu::io::analyzer::resolver::resolver (boost::shared_ptr <mu::core::expression> u
 	assert (unresolved_info_a->dependencies [position_a] == nullptr);
 }
 
-void mu::io::analyzer::resolver::operator () (boost::shared_ptr <mu::core::node> node_a, boost::shared_ptr <mu::io::debugging::node> node_info_a)
+void mu::io::analyzer::resolver::operator () (boost::shared_ptr <mu::core::node> node_a)
 {
 	assert (unresolved->dependencies [position].get () == nullptr);
 	assert (unresolved_info->dependencies [position] == nullptr);
 	unresolved->dependencies [position] = node_a;
-	unresolved_info->dependencies [position] = node_info_a;
 
 }
