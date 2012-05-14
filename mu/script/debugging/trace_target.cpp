@@ -5,28 +5,26 @@
 #include <mu/script/context.h>
 #include <mu/script/values/operation.h>
 #include <mu/script/debugging/trace_error.h>
-#include <mu/io/debugging/mapping.h>
 
 #include <boost/make_shared.hpp>
 
-mu::script::debugging::trace_target::trace_target (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::script::context & context_a, boost::shared_ptr <mu::io::debugging::mapping> mapping_a)
+mu::script::debugging::trace_target::trace_target (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::script::context & context_a)
 	: target (target_a),
-	context (context_a),
-	mapping (mapping_a)
+	context (context_a)
 {
 }
 
 void mu::script::debugging::trace_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	mu::script::frame frame (context);
-	context.push (boost::make_shared <mu::script::debugging::trace_types> ());
-	context.push (mapping);
-	auto valid (context ());
-	assert (valid);
-	assert (context.working_size () == 1);
-	assert (boost::dynamic_pointer_cast <mu::script::values::operation> (context.working (0)));
-	auto values (boost::static_pointer_cast <mu::script::values::operation> (context.working (0)));
-	(*target) (boost::make_shared <mu::script::debugging::trace_error> (values, error));
+	//mu::script::frame frame (context);
+	//context.push (boost::make_shared <mu::script::debugging::trace_types> ());
+	//auto valid (context ());
+	//assert (valid);
+	//assert (context.working_size () == 1);
+	//assert (boost::dynamic_pointer_cast <mu::script::values::operation> (context.working (0)));
+	//auto values (boost::static_pointer_cast <mu::script::values::operation> (context.working (0)));
+	//(*target) (boost::make_shared <mu::script::debugging::trace_error> (values, error));
+	(*target) (error);
 }
 
 bool mu::script::debugging::trace_target::operator () ()

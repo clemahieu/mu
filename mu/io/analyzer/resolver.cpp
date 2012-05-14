@@ -1,7 +1,6 @@
 #include <mu/io/analyzer/resolver.h>
 
 #include <mu/core/expression.h>
-#include <mu/io/debugging/expression.h>
 
 mu::io::analyzer::resolver::resolver (boost::shared_ptr <mu::core::expression> unresolved_a, size_t position_a)
 	: unresolved (unresolved_a),

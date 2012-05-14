@@ -8,12 +8,9 @@
 #include <mu/io/analyzer/resolver.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/core/routine.h>
-#include <mu/io/debugging/cluster.h>
 #include <mu/core/expression.h>
 #include <mu/io/ast/cluster.h>
-#include <mu/io/debugging/routine.h>
 #include <mu/io/debugging/error.h>
-#include <mu/io/debugging/mapping.h>
 
 #include <sstream>
 
@@ -23,8 +20,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster),
-	cluster_info (new mu::io::debugging::cluster)
+	cluster (new mu::core::cluster)
 {
 }
 
@@ -32,14 +28,12 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster),
-	cluster_info (new mu::io::debugging::cluster)
+	cluster (new mu::core::cluster)
 {
 }
 
 void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster> node_a)
 {
-	cluster_info->context = node_a->context;
 	for (auto i (node_a->expressions.begin ()), j (node_a->expressions.end ()); i != j; ++i)
 	{
 		(**i) (this);
@@ -114,7 +108,6 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::sh
 			assert (cluster->names.find (name_a) == cluster->names.end ());
 			cluster->routines.push_back (routine_a);
 			cluster->names [name_a] = routine_a;
-			assert (cluster_info->names.find (name_a) == cluster_info->names.end ());
 			back_resolve (name_a, routine_a);
 		}
 		else

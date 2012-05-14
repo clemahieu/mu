@@ -59,7 +59,6 @@ namespace mu
 				std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>> unresolved;
 				boost::shared_ptr <mu::core::errors::error_target> errors;
 				boost::shared_ptr <mu::core::cluster> cluster;
-				boost::shared_ptr <mu::io::debugging::cluster> cluster_info;
 			};
 		}
 	}

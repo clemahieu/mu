@@ -20,15 +20,11 @@ add_library (mu_io STATIC
 	ast/node.cpp
 	ast/parameters.cpp
 	ast/visitor.cpp
-	debugging/cluster.cpp
 	debugging/context.cpp
-	debugging/expression.cpp
 	debugging/error.cpp
 	debugging/hash.cpp
-	debugging/mapping.cpp
 	debugging/node.cpp
 	debugging/position.cpp
-	debugging/routine.cpp
 	debugging/stream.cpp
 	debugging/file_stream.cpp
 	debugging/string_stream.cpp

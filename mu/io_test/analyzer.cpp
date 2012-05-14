@@ -10,10 +10,6 @@
 #include <mu/core/expression.h>
 #include <mu/core/reference.h>
 #include <mu/core/routine.h>
-#include <mu/io/debugging/cluster.h>
-#include <mu/io/debugging/routine.h>
-#include <mu/io/debugging/expression.h>
-#include <mu/io/debugging/mapping.h>
 #include <mu/io/debugging/stream.h>
 #include <mu/io/ast/cluster.h>
 

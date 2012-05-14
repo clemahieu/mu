@@ -13,7 +13,6 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/debugging/expression.h>
 #include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>

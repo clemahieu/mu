@@ -2,7 +2,6 @@
 
 #include <mu/io/analyzer/expression.h>
 #include <mu/core/expression.h>
-#include <mu/io/debugging/expression.h>
 #include <mu/io/ast/expression.h>
 
 #include <boost/make_shared.hpp>
