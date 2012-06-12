@@ -1,6 +1,4 @@
-#include <mu/io_test/complex_identifier.h>
-
-#include <mu/io_test/lexer_result.h>
+#include <mu/test_entry/io/lexer_result.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
@@ -9,12 +7,9 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::complex_identifier::run ()
-{
-	run_1 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::complex_identifier::run_1 ()
+TEST (io_test, complex_identifier1)
 {	
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));

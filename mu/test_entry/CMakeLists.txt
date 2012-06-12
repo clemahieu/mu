@@ -19,7 +19,32 @@ add_executable (mu_test_entry
 	core/list.cpp
 	core/segment.cpp
 	core/test_visitor.cpp
-	core/visitor.cpp)
+	core/visitor.cpp
+	io/analyzer_result.cpp
+	io/analyzer.cpp
+	io/begin.cpp
+	io/builder.cpp
+	io/complex_identifier.cpp
+	io/control.cpp
+	io/extension.cpp
+	io/extension1.cpp
+	io/extension2.cpp
+	io/extension3.cpp
+	io/extension4.cpp
+	io/full.cpp
+	io/hex_code.cpp
+	io/istream_input_test.cpp
+	io/lexer_result.cpp
+	io/lexer.cpp
+	io/multiline_comment.cpp
+	io/parser_result.cpp
+	io/parser.cpp
+	io/routine.cpp
+	io/single.cpp
+	io/source_result.cpp
+	io/source.cpp
+	io/values.cpp
+	io/wistream_input_test.cpp)
     
 target_link_libraries (mu_test_entry
     gtest)
@@ -27,7 +52,6 @@ target_link_libraries (mu_test_entry
 target_link_libraries (mu_test_entry
 	mu_core
 	mu_io
-	mu_io_test
 	mu_llvm_
 	mu_llvm_test
 	mu_repl

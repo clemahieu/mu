@@ -1,4 +1,4 @@
-#include <mu/io_test/analyzer_result.h>
+#include <mu/test_entry/io/analyzer_result.h>
 
 #include <mu/core/errors/error_list.h>
 

@@ -1,4 +1,3 @@
-#include <mu/io_test/tests.h>
 #include <mu/llvm_test/tests.h>
 #include <mu/repl_test/tests.h>
 #include <mu/script_test/tests.h>
@@ -16,10 +15,6 @@ int main (int argc, char** argv)
 	llvm::InitializeNativeTargetAsmPrinter();
     testing::InitGoogleTest(&argc, argv);
     auto result (RUN_ALL_TESTS());
-	{
-		mu::io_test::tests test;
-		test.run ();
-	}
 	{
 		mu::script_test::tests test;
 		test.run ();

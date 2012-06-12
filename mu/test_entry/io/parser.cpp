@@ -1,7 +1,5 @@
-#include <mu/io_test/parser.h>
-
 #include <mu/io/parser/parser.h>
-#include <mu/io_test/parser_result.h>
+#include <mu/test_entry/io/parser_result.h>
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/tokens/divider.h>
 #include <mu/io/tokens/identifier.h>
@@ -15,17 +13,9 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::parser::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-	run_4 ();
-	run_5 ();
-	run_6 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::parser::run_1 ()
+TEST (io_test, parser1)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -36,7 +26,7 @@ void mu::io_test::parser::run_1 ()
 	assert (errors->errors.empty ());
 }
 
-void mu::io_test::parser::run_2 ()
+TEST (io_test, parser2)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -55,7 +45,7 @@ void mu::io_test::parser::run_2 ()
 	assert (e1->context == mu::io::debugging::context (1, 1, 0, 1, 2, 1));	
 }
 
-void mu::io_test::parser::run_3 ()
+TEST (io_test, parser3)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -76,7 +66,7 @@ void mu::io_test::parser::run_3 ()
 	assert (e1->individual_names.empty ());
 }
 
-void mu::io_test::parser::run_4 ()
+TEST (io_test, parser4)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -97,7 +87,7 @@ void mu::io_test::parser::run_4 ()
 	assert (e1->full_name->string.empty ());
 }
 
-void mu::io_test::parser::run_5 ()
+TEST (io_test, parser5)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -117,7 +107,7 @@ void mu::io_test::parser::run_5 ()
 	assert (e1->context == mu::io::debugging::context (1, 1, 0, 1, 6, 5));
 }
 
-void mu::io_test::parser::run_6 ()
+TEST (io_test, parser6)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));

@@ -1,7 +1,5 @@
-#include <mu/io_test/analyzer.h>
-
 #include <mu/io/analyzer/analyzer.h>
-#include <mu/io_test/analyzer_result.h>
+#include <mu/test_entry/io/analyzer_result.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/io/ast/parameters.h>
@@ -15,28 +13,10 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::analyzer::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-	run_4 ();
-	run_5 ();
-	run_6 ();
-	run_7 ();
-	run_8 ();
-	run_9 ();
-	run_10 ();
-	run_11 ();
-	run_12 ();
-	run_13 ();
-	run_14 ();
-	run_15 ();
-	run_16 ();
-}
+#include <gtest/gtest.h>
 
 //Test empty expression
-void mu::io_test::analyzer::run_1 ()
+TEST (io_test, analyzer1)
 {
 	// []
 	mu::io_test::analyzer_result result;
@@ -53,7 +33,7 @@ void mu::io_test::analyzer::run_1 ()
 }
 
 // Test failure, cannot name top level expression
-void mu::io_test::analyzer::run_2 ()
+TEST (io_test, analyzer2)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -67,7 +47,7 @@ void mu::io_test::analyzer::run_2 ()
 }
 
 // Test undeclared identifier
-void mu::io_test::analyzer::run_3 ()
+TEST (io_test, analyzer3)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -81,7 +61,7 @@ void mu::io_test::analyzer::run_3 ()
 }
 
 // Test full name reference
-void mu::io_test::analyzer::run_4 ()
+TEST (io_test, analyzer4)
 {
 	// [[;;~]~]
 	mu::io_test::analyzer_result result;
@@ -107,7 +87,7 @@ void mu::io_test::analyzer::run_4 ()
 }
 
 // Test local name reference
-void mu::io_test::analyzer::run_5 ()
+TEST (io_test, analyzer5)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -131,7 +111,7 @@ void mu::io_test::analyzer::run_5 ()
 }
 
 // Test out of order name reference
-void mu::io_test::analyzer::run_6 ()
+TEST (io_test, analyzer6)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -157,7 +137,7 @@ void mu::io_test::analyzer::run_6 ()
 }
 
 // Test out of order full name reference
-void mu::io_test::analyzer::run_7 ()
+TEST (io_test, analyzer7)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -180,7 +160,7 @@ void mu::io_test::analyzer::run_7 ()
 }
 
 // Test failure of cyclic reference
-void mu::io_test::analyzer::run_8 ()
+TEST (io_test, analyzer8)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -214,7 +194,7 @@ void mu::io_test::analyzer::run_8 ()
 }
 
 // Test parameters
-void mu::io_test::analyzer::run_9 ()
+TEST (io_test, analyzer9)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -234,7 +214,7 @@ void mu::io_test::analyzer::run_9 ()
 }
 
 // Resolve multiple identifiers while another remains unresolved
-void mu::io_test::analyzer::run_10 ()
+TEST (io_test, analyzer10)
 {
 	// [[unresolved; a] [:~; b] [:~; c] [:~; unresolved] a]
 	mu::io_test::analyzer_result result;
@@ -266,7 +246,7 @@ void mu::io_test::analyzer::run_10 ()
 }
 
 // With more than one unresolved identifier, resolve lesser then greater
-void mu::io_test::analyzer::run_11 ()
+TEST (io_test, analyzer11)
 {
 	// [[un1 un2] [:~; un1] [:~; un2]]
 	mu::io_test::analyzer_result result;
@@ -293,7 +273,7 @@ void mu::io_test::analyzer::run_11 ()
 }
 
 //Test local naming after routine name declared
-void mu::io_test::analyzer::run_12 ()
+TEST (io_test, analyzer12)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -312,7 +292,7 @@ void mu::io_test::analyzer::run_12 ()
 }
 
 //Test routine name declaration after local naming
-void mu::io_test::analyzer::run_13 ()
+TEST (io_test, analyzer13)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -331,7 +311,7 @@ void mu::io_test::analyzer::run_13 ()
 }
 
 //Test routine name collision
-void mu::io_test::analyzer::run_14 ()
+TEST (io_test, analyzer14)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -347,7 +327,7 @@ void mu::io_test::analyzer::run_14 ()
 }
 
 //Test no collision between local names in different routines
-void mu::io_test::analyzer::run_15 ()
+TEST (io_test, analyzer15)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
@@ -369,7 +349,7 @@ void mu::io_test::analyzer::run_15 ()
 }
 
 //Test duplicate local name
-void mu::io_test::analyzer::run_16 ()
+TEST (io_test, analyzer16)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);

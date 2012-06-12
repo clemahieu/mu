@@ -1,13 +1,11 @@
-#include <mu/io_test/extension.h>
-
 #include <mu/io/analyzer/analyzer.h>
-#include <mu/io_test/analyzer_result.h>
+#include <mu/test_entry/io/analyzer_result.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io_test/extension1.h>
-#include <mu/io_test/extension2.h>
-#include <mu/io_test/extension3.h>
-#include <mu/io_test/extension4.h>
+#include <mu/test_entry/io/extension1.h>
+#include <mu/test_entry/io/extension2.h>
+#include <mu/test_entry/io/extension3.h>
+#include <mu/test_entry/io/extension4.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/expression.h>
@@ -20,15 +18,9 @@
 
 #include <map>
 
-void mu::io_test::extension::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-	run_4 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::extension::run_1 ()
+TEST (io_test, extension1)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
@@ -47,7 +39,7 @@ void mu::io_test::extension::run_1 ()
 	assert (routine->dependencies.size () == 0);
 }
 
-void mu::io_test::extension::run_2 ()
+TEST (io_test, extension2)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
@@ -66,7 +58,7 @@ void mu::io_test::extension::run_2 ()
 	assert (routine->dependencies.size () == 1);
 }
 
-void mu::io_test::extension::run_3 ()
+TEST (io_test, extension3)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
@@ -85,7 +77,7 @@ void mu::io_test::extension::run_3 ()
 	assert (routine->dependencies.size () == 2);
 }
 
-void mu::io_test::extension::run_4 ()
+TEST (io_test, extension4)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));

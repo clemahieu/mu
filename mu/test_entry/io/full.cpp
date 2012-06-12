@@ -1,6 +1,4 @@
-#include <mu/io_test/full.h>
-
-#include <mu/io_test/parser_result.h>
+#include <mu/test_entry/io/parser_result.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/parser/parser.h>
 #include <mu/io/lexer/lexer.h>
@@ -10,14 +8,9 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::full::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::full::run_1 ()
+TEST (io_test, full1)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -29,7 +22,7 @@ void mu::io_test::full::run_1 ()
 	assert (!errors->errors.empty ());
 }
 
-void mu::io_test::full::run_2 ()
+TEST (io_test, full2)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -41,7 +34,7 @@ void mu::io_test::full::run_2 ()
 	assert (!errors->errors.empty ());
 }
 
-void mu::io_test::full::run_3 ()
+TEST (io_test, full3)
 {
 	mu::io_test::parser_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));

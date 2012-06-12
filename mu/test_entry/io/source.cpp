@@ -1,15 +1,10 @@
-#include <mu/io_test/source.h>
-
-#include <mu/io_test/source_result.h>
+#include <mu/test_entry/io/source_result.h>
 
 #include <boost/bind.hpp>
 
-void mu::io_test::source::run ()
-{
-	run_1 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::source::run_1 ()
+TEST (io_test, source1)
 {
 	mu::io_test::source_result result;
 	result (L'a');

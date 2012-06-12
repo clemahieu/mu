@@ -1,6 +1,4 @@
-#include <mu/io_test/lexer.h>
-
-#include <mu/io_test/lexer_result.h>
+#include <mu/test_entry/io/lexer_result.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
 #include <mu/io/tokens/token.h>
@@ -15,32 +13,9 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::lexer::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-	run_4 ();
-	run_5 ();
-	run_6 ();
-	run_7 ();
-	run_8 ();
-	run_9 ();
-	run_10 ();
-	run_11 ();
-	run_12 ();
-	run_13 ();
-	run_14 ();
-	run_15 ();
-	run_16 ();
-	run_17 ();
-	run_18 ();
-	run_19 ();
-	run_20 ();
-	run_21 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::lexer::run_1 ()
+TEST (io_test, lexer1)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -49,7 +24,7 @@ void mu::io_test::lexer::run_1 ()
 	assert (result.results.empty ());
 }
 
-void mu::io_test::lexer::run_2 ()
+TEST (io_test, lexer2)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -67,7 +42,7 @@ void mu::io_test::lexer::run_2 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_3 ()
+TEST (io_test, lexer3)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -120,7 +95,7 @@ void mu::io_test::lexer::run_3 ()
 	assert (t5.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_4 ()
+TEST (io_test, lexer4)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -148,7 +123,7 @@ void mu::io_test::lexer::run_4 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_5 ()
+TEST (io_test, lexer5)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -176,7 +151,7 @@ void mu::io_test::lexer::run_5 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_6 ()
+TEST (io_test, lexer6)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -204,7 +179,7 @@ void mu::io_test::lexer::run_6 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_7 ()
+TEST (io_test, lexer7)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -232,7 +207,7 @@ void mu::io_test::lexer::run_7 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_8 ()
+TEST (io_test, lexer8)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -259,7 +234,7 @@ void mu::io_test::lexer::run_8 ()
 	assert (t2.second.last.row == 2);
 }
 
-void mu::io_test::lexer::run_9 ()
+TEST (io_test, lexer9)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -286,7 +261,7 @@ void mu::io_test::lexer::run_9 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_10 ()
+TEST (io_test, lexer10)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -313,7 +288,7 @@ void mu::io_test::lexer::run_10 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_11 ()
+TEST (io_test, lexer11)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -331,7 +306,7 @@ void mu::io_test::lexer::run_11 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_12 ()
+TEST (io_test, lexer12)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -358,7 +333,7 @@ void mu::io_test::lexer::run_12 ()
 	assert (t2.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_13 ()
+TEST (io_test, lexer13)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -379,7 +354,7 @@ void mu::io_test::lexer::run_13 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_14 ()
+TEST (io_test, lexer14)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -400,7 +375,7 @@ void mu::io_test::lexer::run_14 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_15 ()
+TEST (io_test, lexer15)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -421,7 +396,7 @@ void mu::io_test::lexer::run_15 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_16 ()
+TEST (io_test, lexer16)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -442,7 +417,7 @@ void mu::io_test::lexer::run_16 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_17 ()
+TEST (io_test, lexer17)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -463,7 +438,7 @@ void mu::io_test::lexer::run_17 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_18 ()
+TEST (io_test, lexer18)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -484,7 +459,7 @@ void mu::io_test::lexer::run_18 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_19 ()
+TEST (io_test, lexer19)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -505,7 +480,7 @@ void mu::io_test::lexer::run_19 ()
 	assert (t1.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_20 ()
+TEST (io_test, lexer20)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -554,7 +529,7 @@ void mu::io_test::lexer::run_20 ()
 	assert (t4.second.last.row == 1);
 }
 
-void mu::io_test::lexer::run_21 ()
+TEST (io_test, lexer21)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));

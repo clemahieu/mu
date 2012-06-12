@@ -1,5 +1,3 @@
-#include <mu/io_test/builder.h>
-
 #include <mu/io/source.h>
 #include <mu/io/ast/builder.h>
 #include <mu/core/routine.h>
@@ -10,19 +8,14 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>s
+#include <mu/io/ast/identifier.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::builder::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::builder::run_1 ()
+TEST (io_test, builder1)
 {
 	mu::io::ast::builder builder;
 	builder (L"[:~]");
@@ -37,7 +30,7 @@ void mu::io_test::builder::run_1 ()
 	assert (routine->context == mu::io::debugging::context (1, 1, 0, 1, 4, 3));
 }
 
-void mu::io_test::builder::run_2 ()
+TEST (io_test, builder2)
 {
 	mu::io::ast::builder builder;
 	builder (L"[:~]");
@@ -52,7 +45,7 @@ void mu::io_test::builder::run_2 ()
 	assert (routine2->context == mu::io::debugging::context (1, 5, 4, 1, 8, 7));
 }
 
-void mu::io_test::builder::run_3 ()
+TEST (io_test, builder3)
 {
 	mu::io::ast::builder builder;
 	builder (L"[[:~; a b c] a [a b c] c]");

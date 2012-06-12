@@ -1,6 +1,4 @@
-#include <mu/io_test/control.h>
-
-#include <mu/io_test/lexer_result.h>
+#include <mu/test_entry/io/lexer_result.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
@@ -9,13 +7,9 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::control::run ()
-{
-	run_1 ();
-	run_2 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::control::run_1 ()
+TEST (io_test, control1)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
@@ -26,7 +20,7 @@ void mu::io_test::control::run_1 ()
 	assert (!errors->errors.empty ());
 }
 
-void mu::io_test::control::run_2 ()
+TEST (io_test, control2)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));

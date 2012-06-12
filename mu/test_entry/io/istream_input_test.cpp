@@ -1,12 +1,12 @@
-#include "istream_input_test.h"
-
 #include <mu/io/lexer/istream_input.h>
 
 #include <sstream>
 
 #include <assert.h>
 
-void mu::io_test::istream_input_test::run ()
+#include <gtest/gtest.h>
+
+TEST (io_test, istream_input_test1)
 {
 	std::stringstream str ("");
 	mu::io::lexer::istream_input input (str);

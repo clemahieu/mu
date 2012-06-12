@@ -1,6 +1,4 @@
-#include <mu/io_test/multiline_comment.h>
-
-#include <mu/io_test/lexer_result.h>
+#include <mu/test_entry/io/lexer_result.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
@@ -9,17 +7,25 @@
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
 
-void mu::io_test::multiline_comment::run ()
-{
-	run_1 ();
-}
+#include <gtest/gtest.h>
 
-void mu::io_test::multiline_comment::run_1 ()
+TEST (io_test, hex_code1)
 {
 	mu::io_test::lexer_result result;
 	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":{");
+	lexer (L":aq");
+	lexer ();
+	assert (result.results.empty ());
+	assert (!errors->errors.empty ());
+}
+
+TEST (io_test, hex_code2)
+{
+	mu::io_test::lexer_result result;
+	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+	lexer (L":uq");
 	lexer ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());

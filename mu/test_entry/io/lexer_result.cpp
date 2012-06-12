@@ -1,4 +1,4 @@
-#include "lexer_result.h"
+#include <mu/test_entry/io/lexer_result.h>
 
 #include <mu/io/tokens/token.h>
 
