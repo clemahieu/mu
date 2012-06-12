@@ -1,4 +1,4 @@
-#include <mu/core_test/test_visitor.h>
+#include <mu/test_entry/core/test_visitor.h>
 
 void mu::core_test::test_visitor::operator () (mu::core::cluster * cluster_a)
 {

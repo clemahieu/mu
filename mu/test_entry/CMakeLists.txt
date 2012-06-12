@@ -7,15 +7,25 @@ if (WIN32)
 else ()
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
 endif ()
-link_directories (${CMAKE_SOURCE_DIR}/cryptopp/x64/Output/Debug)
+
+link_directories (${CMAKE_SOURCE_DIR}/googletest)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_executable (mu_test_entry
-	main.cpp)
+	main.cpp
+	core/apply.cpp
+	core/directory_iterator_test.cpp
+	core/filesystem_test.cpp
+	core/list.cpp
+	core/segment.cpp
+	core/test_visitor.cpp
+	core/visitor.cpp)
+    
+target_link_libraries (mu_test_entry
+    gtest)
 
 target_link_libraries (mu_test_entry
 	mu_core
-	mu_core_test
 	mu_io
 	mu_io_test
 	mu_llvm_

@@ -1,6 +1,4 @@
-#include <mu/core_test/visitor.h>
-
-#include <mu/core_test/test_visitor.h>
+#include <mu/test_entry/core/test_visitor.h>
 #include <mu/core/expression.h>
 #include <mu/core/node.h>
 #include <mu/core/reference.h>
@@ -10,14 +8,9 @@
 
 #include <boost/shared_ptr.hpp>
 
-void mu::core_test::visitor::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-}
+#include <gtest/gtest.h>
 
-void mu::core_test::visitor::run_1 ()
+TEST (core_test, visitor1)
 {
 	boost::shared_ptr <mu::core_test::test_visitor> visitor (new mu::core_test::test_visitor);
 	mu::core::cluster * cluster (nullptr);
@@ -32,15 +25,15 @@ void mu::core_test::visitor::run_1 ()
 	(*visitor) (node);	
 	(*visitor) (reference);
 	(*visitor) (routine);
-	assert (visitor->clusters.size () == 1);
-	assert (visitor->expressions.size () == 1);
-	assert (visitor->parameters.size () == 1);
-	assert (visitor->nodes.size () == 1);
-	assert (visitor->references.size () == 1);
-	assert (visitor->routines.size () == 1);
+	EXPECT_EQ (visitor->clusters.size (), 1);
+	EXPECT_EQ (visitor->expressions.size (), 1);
+	EXPECT_EQ (visitor->parameters.size (), 1);
+	EXPECT_EQ (visitor->nodes.size (), 1);
+	EXPECT_EQ (visitor->references.size (), 1);
+	EXPECT_EQ (visitor->routines.size (), 1);
 }
 
-void mu::core_test::visitor::run_2 ()
+TEST (core_test, visitor2)
 {
 	boost::shared_ptr <mu::core_test::test_visitor> vis (new mu::core_test::test_visitor);	
 	boost::shared_ptr <mu::core::visitor> visitor (vis);
@@ -56,15 +49,15 @@ void mu::core_test::visitor::run_2 ()
 	(*visitor) (node);	
 	(*visitor) (reference);
 	(*visitor) (routine);
-	assert (vis->clusters.size () == 1);
-	assert (vis->expressions.size () == 1);
-	assert (vis->parameters.size () == 1);
-	assert (vis->nodes.size () == 1);
-	assert (vis->references.size () == 1);
-	assert (vis->routines.size () == 1);
+	EXPECT_EQ (vis->clusters.size (), 1);
+	EXPECT_EQ (vis->expressions.size (), 1);
+	EXPECT_EQ (vis->parameters.size (), 1);
+	EXPECT_EQ (vis->nodes.size (), 1);
+	EXPECT_EQ (vis->references.size (), 1);
+	EXPECT_EQ (vis->routines.size (), 1);
 }
 
-void mu::core_test::visitor::run_3 ()
+TEST (core_test, visitor3)
 {
 	boost::shared_ptr <mu::core_test::test_visitor> vis (new mu::core_test::test_visitor);	
 	boost::shared_ptr <mu::core::visitor> visitor (vis);
@@ -80,10 +73,10 @@ void mu::core_test::visitor::run_3 ()
 	(*node) (visitor.get ());
 	(*reference) (visitor.get ());
 	(*routine) (visitor.get ());
-	assert (vis->clusters.size () == 1);
-	assert (vis->expressions.size () == 1);
-	assert (vis->parameters.size () == 1);
-	assert (vis->nodes.size () == 1);
-	assert (vis->references.size () == 1);
-	assert (vis->routines.size () == 1);
+	EXPECT_EQ (vis->clusters.size (), 1);
+	EXPECT_EQ (vis->expressions.size (), 1);
+	EXPECT_EQ (vis->parameters.size (), 1);
+	EXPECT_EQ (vis->nodes.size (), 1);
+	EXPECT_EQ (vis->references.size (), 1);
+	EXPECT_EQ (vis->routines.size (), 1);
 }

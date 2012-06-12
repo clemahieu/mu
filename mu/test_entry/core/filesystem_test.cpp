@@ -1,23 +1,17 @@
-#include "filesystem_test.h"
-
 #include <boost/filesystem.hpp>
 
 #include <fstream>
 
-void mu::core_test::filesystem_test::run ()
-{
-	run_1 ();
-	run_2 ();
-}
+#include <gtest/gtest.h>
 
-void mu::core_test::filesystem_test::run_1 ()
+TEST (core_test, filesystem_test1)
 {
 	auto path (::boost::filesystem::initial_path ());
 	path /= L"test";
 	path /= L"test";
 }
 
-void mu::core_test::filesystem_test::run_2 ()
+TEST (core_test, filesystem_test2)
 {
 	auto path (boost::filesystem::initial_path ());
 	path /= L"examples";
@@ -25,5 +19,5 @@ void mu::core_test::filesystem_test::run_2 ()
 	std::ifstream stream;
 	std::string str (path.string ());
 	stream.open (str.c_str ());
-	assert (stream.is_open () && "Set project working directory to $(SolutionDir)");
+	EXPECT_EQ (stream.is_open (), true);
 }

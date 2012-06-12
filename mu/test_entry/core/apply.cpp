@@ -1,58 +1,50 @@
-#include "apply.h"
-
 #include <mu/core/apply.h>
 #include <mu/core/node.h>
 #include <mu/core/segment.h>
 
+#include <gtest/gtest.h>
+
 #include <boost/make_shared.hpp>
 
-void mu::core_test::apply::run ()
-{
-	run_1 ();
-	run_2 ();
-	run_3 ();
-	run_4 ();
-}
-
-void mu::core_test::apply::run_1 ()
+TEST (core_test, apply1)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	std::vector <boost::shared_ptr <mu::core::node>> source;
 	mu::core::apply::merge (target, source);
-	assert (target.size () == 0);
-	assert (source.size () == 0);
+	EXPECT_EQ (target.size (), 0);
+	EXPECT_EQ (source.size (), 0);
 }
 
-void mu::core_test::apply::run_2 ()
+TEST (core_test, apply2)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	target.push_back (boost::make_shared <mu::core::node> ());
 	std::vector <boost::shared_ptr <mu::core::node>> source;
 	mu::core::apply::merge (target, source);
-	assert (target.size () == 1);
-	assert (source.size () == 0);
+	EXPECT_EQ (target.size (), 1);
+	EXPECT_EQ (source.size (), 0);
 }
 
-void mu::core_test::apply::run_3 ()
+TEST (core_test, apply3)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	std::vector <boost::shared_ptr <mu::core::node>> source;
 	source.push_back (boost::make_shared <mu::core::node> ());
 	mu::core::apply::merge (target, source);
-	assert (target.size () == 1);
-	assert (source.size () == 1);
-	assert (target [0] == source [0]);
+	EXPECT_EQ (target.size (), 1);
+	EXPECT_EQ (source.size (), 1);
+	EXPECT_EQ (target [0], source [0]);
 }
 
-void mu::core_test::apply::run_4 ()
+TEST (core_test, apply4)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> target;
 	std::vector <boost::shared_ptr <mu::core::node>> source;
 	source.push_back (boost::shared_ptr <mu::core::node> ());
 	source.push_back (boost::make_shared <mu::core::node> ());
 	mu::core::apply::merge (target, source);
-	assert (target.size () == 2);
-	assert (source.size () == 2);
-	assert (target [0].get () == nullptr);
-	assert (target [1] == source [1]);
+	EXPECT_EQ (target.size (), 2);
+	EXPECT_EQ (source.size (), 2);
+	EXPECT_EQ (target [0].get (), nullptr);
+	EXPECT_EQ (target [1], source [1]);
 }
