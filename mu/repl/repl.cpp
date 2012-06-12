@@ -22,7 +22,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/api.h>
 #include <mu/core/routine.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/make_shared.hpp>
 

@@ -10,7 +10,6 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
-#include <mu/io/debugging/file_stream.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>

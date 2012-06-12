@@ -17,7 +17,6 @@
 #include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
-#include <mu/io/debugging/stream.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

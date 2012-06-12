@@ -5,7 +5,6 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
 #include <mu/io/debugging/error.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>

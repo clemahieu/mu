@@ -1,7 +1,5 @@
 #include <mu/io/debugging/context.h>
 
-#include <mu/io/debugging/stream.h>
-
 #include <sstream>
 
 #include <boost/make_shared.hpp>

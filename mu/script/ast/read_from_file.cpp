@@ -8,7 +8,6 @@
 #include <mu/script/check.h>
 #include <mu/io/debugging/error.h>
 #include <mu/core/errors/string_error.h>
-#include <mu/io/debugging/file_stream.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>

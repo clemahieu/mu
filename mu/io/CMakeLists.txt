@@ -24,9 +24,6 @@ add_library (mu_io STATIC
 	debugging/error.cpp
 	debugging/hash.cpp
 	debugging/position.cpp
-	debugging/stream.cpp
-	debugging/file_stream.cpp
-	debugging/string_stream.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp

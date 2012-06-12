@@ -10,7 +10,6 @@
 #include <mu/script/fail/operation.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

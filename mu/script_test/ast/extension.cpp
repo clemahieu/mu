@@ -12,7 +12,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/io/source.h>
 #include <mu/script/cluster/node.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

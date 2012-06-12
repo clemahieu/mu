@@ -9,7 +9,6 @@
 #include <mu/io/ast/node.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/debugging/stream.h>
 
 mu::io::builder::builder ()
 	: errors (new mu::core::errors::error_list),

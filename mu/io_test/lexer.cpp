@@ -11,7 +11,6 @@
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>

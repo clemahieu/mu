@@ -12,7 +12,6 @@
 #include <mu/script/context.h>
 #include <mu/script/synthesizer/operation.h>
 #include <mu/script/cluster/node.h>
-#include <mu/io/debugging/stream.h>
 
 mu::script::builder::builder ()
 	: errors (new mu::core::errors::error_list),

@@ -19,7 +19,6 @@
 #include <mu/script/api.h>
 #include <mu/script/values/operation.h>
 #include <mu/llvm_/api.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 

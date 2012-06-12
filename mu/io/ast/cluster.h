@@ -22,7 +22,6 @@ namespace mu
 			public:
 				cluster ();
 				cluster (mu::io::debugging::context context_a);
-				boost::shared_ptr <mu::io::debugging::stream> stream;
 				void operator () (mu::io::ast::visitor * visitor_a) override;
 				std::wstring name () override;
 				std::vector <boost::shared_ptr <mu::io::ast::expression>> expressions;

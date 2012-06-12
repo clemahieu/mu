@@ -13,7 +13,6 @@
 #include <mu/core/expression.h>
 #include <mu/core/routine.h>
 #include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/debugging/stream.h>
 #include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>

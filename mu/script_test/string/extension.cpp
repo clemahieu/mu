@@ -7,7 +7,6 @@
 #include <mu/io/debugging/error.h>
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
-#include <mu/io/debugging/stream.h>
 
 #include <boost/bind.hpp>
 #include <boost/make_shared.hpp>
