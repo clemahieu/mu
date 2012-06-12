@@ -76,6 +76,3 @@ else ()
 	        LLVMAsmPrinter
         	LLVMMCParser)
 endif ()
-
-target_link_libraries (mu_test_entry
-	cryptlib.lib)

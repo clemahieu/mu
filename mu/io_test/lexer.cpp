@@ -39,7 +39,6 @@ void mu::io_test::lexer::run ()
 	run_19 ();
 	run_20 ();
 	run_21 ();
-	run_22 ();
 }
 
 void mu::io_test::lexer::run_1 ()
@@ -564,32 +563,4 @@ void mu::io_test::lexer::run_21 ()
 	lexer (L"\r \rthing thing\r \r[ [\r \r] ]\r \r:~ :~\r \r:a50 :a50\r \r:u00000050 :u00000050\r \r; ;\r");
 	lexer ();
     assert (result.results.size () == 15);
-}
-
-void mu::io_test::lexer::run_22 ()
-{
-	mu::io_test::lexer_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L"abc");
-	lexer ();
-    assert (result.results.size () == 2);
-	byte fin2 [32];
-	lexer.hash.Final (fin2);
-	CryptoPP::SHA256 hash;	
-	uint32_t val;
-	val = L'a';
-	hash.Update ((byte *)&val, 4);
-	val = L'b';
-	hash.Update ((byte *)&val, 4);
-	val = L'c';
-	hash.Update ((byte *)&val, 4);
-	val = L'\uffff';
-	hash.Update ((byte *)&val, 4);
-	byte fin [32];
-	hash.Final (fin);
-	for (size_t i (0); i < 32; ++i)
-	{
-		assert (fin [i] == fin2 [i]);
-	}
 }

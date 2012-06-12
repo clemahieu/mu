@@ -13,7 +13,6 @@
 #include <mu/core/errors/error_context.h>
 #include <mu/core/parameters.h>
 #include <mu/io/ast/parameters.h>
-#include <mu/io/debugging/node.h>
 
 #include <boost/make_shared.hpp>
 
@@ -30,7 +29,6 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
 		auto reference (boost::make_shared <mu::core::reference> (self, i));
-		auto reference_info (boost::make_shared <mu::io::debugging::node> (expression_a->individual_names [i]->context));
 		routine_a.resolve_local (expression_a->individual_names [i]->string, reference);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
@@ -43,7 +41,6 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::parameters * parame
 {
 	auto parameters_l (boost::make_shared <mu::core::parameters> ());
 	self->dependencies.push_back (parameters_l);
-	auto parameters_info (boost::make_shared <mu::io::debugging::node> (parameters_a->context));
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expression_a)

@@ -29,7 +29,6 @@ namespace mu
 			void run_19 ();
 			void run_20 ();
 			void run_21 ();
-			void run_22 ();
 		};
 	}
 }

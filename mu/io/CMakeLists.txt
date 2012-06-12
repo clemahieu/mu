@@ -23,7 +23,6 @@ add_library (mu_io STATIC
 	debugging/context.cpp
 	debugging/error.cpp
 	debugging/hash.cpp
-	debugging/node.cpp
 	debugging/position.cpp
 	debugging/stream.cpp
 	debugging/file_stream.cpp

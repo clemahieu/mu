@@ -24,9 +24,6 @@ mu::io::lexer::lexer::lexer (boost::shared_ptr <mu::core::errors::error_target> 
 
 void mu::io::lexer::lexer::operator () (wchar_t character)
 {
-	uint32_t character_l (0);
-	character_l = character;
-	hash.Update ((byte *)&character_l, 4);
 	auto state_l (state.top ());
 	state_l->lex (character);
 	++position.character;
@@ -48,5 +45,4 @@ void mu::io::lexer::lexer::reset ()
 		state.pop ();
 	}
 	state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::begin (*this)));
-	hash.Restart ();
 }
