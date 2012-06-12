@@ -21,8 +21,6 @@ add_library (mu_io STATIC
 	ast/parameters.cpp
 	ast/visitor.cpp
 	debugging/context.cpp
-	debugging/error.cpp
-	debugging/hash.cpp
 	debugging/position.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp

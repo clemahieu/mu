@@ -4,7 +4,6 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
-#include <mu/io/debugging/error.h>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
@@ -24,7 +23,4 @@ void mu::io_test::multiline_comment::run_1 ()
 	lexer ();
 	assert (result.results.empty ());
 	assert (!errors->errors.empty ());
-	auto e1 (boost::dynamic_pointer_cast <mu::io::debugging::error> (errors->errors [0]));
-	assert (e1.get () != nullptr);
-	assert (e1->context == mu::io::debugging::context (1, 3, 2, 1, 3, 2));
 }

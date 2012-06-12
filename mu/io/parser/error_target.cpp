@@ -1,6 +1,5 @@
 #include <mu/io/parser/error_target.h>
 
-#include <mu/io/debugging/error.h>
 #include <mu/io/parser/parser.h>
 
 #include <boost/make_shared.hpp>
@@ -13,7 +12,7 @@ mu::io::parser::error_target::error_target (mu::io::parser::parser & parser_a, b
 
 void mu::io::parser::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
 {
-	(*target) (boost::make_shared <mu::io::debugging::error> (error, parser.context));
+	(*target) (error);
 }
 
 bool mu::io::parser::error_target::operator () ()

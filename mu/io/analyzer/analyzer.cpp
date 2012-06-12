@@ -10,7 +10,6 @@
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/io/ast/cluster.h>
-#include <mu/io/debugging/error.h>
 
 #include <sstream>
 
@@ -56,7 +55,7 @@ void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster>
 			std::wstringstream message;
 			message << L"Unresolved identifier: ";
 			message << i->first;
-			(*errors) (boost::make_shared <mu::io::debugging::error> (boost::make_shared <mu::core::errors::string_error> (message.str ()), i->second.second));
+			(*errors) (boost::make_shared <mu::core::errors::string_error> (message.str ()));
 		}
 	}
 }
