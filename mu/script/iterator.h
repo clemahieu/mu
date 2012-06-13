@@ -21,8 +21,8 @@ namespace mu
 			mu::script::iterator operator + (size_t offset);
 			mu::script::iterator operator - (size_t offset);
 			boost::shared_ptr <mu::core::node> & operator * ();
-			bool operator == (mu::script::iterator const & other);
-			bool operator != (mu::script::iterator const & other);
+			bool operator == (mu::script::iterator const & other) const;
+			bool operator != (mu::script::iterator const & other) const;
 			std::vector <boost::shared_ptr <mu::core::node>> & stack;
 			size_t position;
 		};

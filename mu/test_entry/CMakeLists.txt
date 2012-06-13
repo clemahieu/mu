@@ -44,7 +44,31 @@ add_executable (mu_test_entry
 	io/source_result.cpp
 	io/source.cpp
 	io/values.cpp
-	io/wistream_input_test.cpp)
+	io/wistream_input_test.cpp
+	script/builder.cpp
+	script/context.cpp
+	script/frame.cpp
+	script/analyzer/operation.cpp
+	script/ast/extension.cpp
+	script/chain/operation.cpp
+	script/chain/ten_count.cpp
+	script/closure/apply.cpp
+	script/closure/operation.cpp
+	script/closure/single.cpp
+	script/cluster/remap.cpp
+	script/debugging/trace_target.cpp
+	script/debugging/trace_types.cpp
+	script/integer/equal.cpp
+	script/loadb/operation.cpp
+	script/loads/operation.cpp
+	script/package/create.cpp
+	script/package/get_recursive.cpp
+	script/package/get.cpp
+	script/string/extension.cpp
+	script/synthesizer/operation.cpp
+	script/times/operation.cpp
+	script/topology/core.cpp
+	script/type_check/operation.cpp)
     
 target_link_libraries (mu_test_entry
     gtest)
@@ -56,8 +80,7 @@ target_link_libraries (mu_test_entry
 	mu_llvm_test
 	mu_repl
 	mu_repl_test
-	mu_script
-	mu_script_test)
+	mu_script)
 
 if (NOT WIN32)
 	target_link_libraries (mu_test_entry

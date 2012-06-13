@@ -18,13 +18,13 @@ mu::script::iterator mu::script::iterator::operator -- ()
 	return *this;
 }
 
-bool mu::script::iterator::operator == (mu::script::iterator const & other)
+bool mu::script::iterator::operator == (mu::script::iterator const & other) const
 {
 	bool result ((&other.stack == &stack) && (other.position == position));
 	return result;
 }
 
-bool mu::script::iterator::operator != (mu::script::iterator const & other)
+bool mu::script::iterator::operator != (mu::script::iterator const & other) const
 {
 	bool result (!(*this == other));
 	return result;
