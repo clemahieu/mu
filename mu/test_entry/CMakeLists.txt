@@ -68,7 +68,26 @@ add_executable (mu_test_entry
 	script/synthesizer/operation.cpp
 	script/times/operation.cpp
 	script/topology/core.cpp
-	script/type_check/operation.cpp)
+	script/type_check/operation.cpp
+	repl/file_stream_test.cpp
+	llvm_/extension.cpp
+	llvm_/instruction_package.cpp
+	llvm_/basic_block/insert.cpp
+	llvm_/basic_block/instruction_insert.cpp
+	llvm_/basic_block/split_return.cpp
+	llvm_/ccall/operation.cpp
+	llvm_/constant_string/create.cpp
+	llvm_/constant_string/extension.cpp
+	llvm_/function/create.cpp
+	llvm_/function_type/create.cpp
+	llvm_/global_variable/create_set.cpp
+	llvm_/instructions/call.cpp
+	llvm_/instructions/trunc.cpp
+	llvm_/linker/link_modules.cpp
+	llvm_/module/add_package.cpp
+	llvm_/module/get_package.cpp
+	llvm_/synthesizer/operation.cpp
+	llvm_/types/integer.cpp)
     
 target_link_libraries (mu_test_entry
     gtest)
@@ -77,9 +96,7 @@ target_link_libraries (mu_test_entry
 	mu_core
 	mu_io
 	mu_llvm_
-	mu_llvm_test
 	mu_repl
-	mu_repl_test
 	mu_script)
 
 if (NOT WIN32)

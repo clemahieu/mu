@@ -20,7 +20,7 @@ mu::io::debugging::context::context (size_t first_row, size_t first_column, size
 {
 }
 
-bool mu::io::debugging::context::operator == (mu::io::debugging::context const & other)
+bool mu::io::debugging::context::operator == (mu::io::debugging::context const & other) const
 {
 	bool result (first == other.first && last == other.last);
 	return result;
