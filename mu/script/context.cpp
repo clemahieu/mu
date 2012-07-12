@@ -30,7 +30,8 @@ bool mu::script::context::operator () ()
 	bool result (true);
 	if (working_size () > 0)
 	{
-		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (working (0)));
+        auto item (working (0));
+		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (item));
 		if (operation.get () != nullptr)
 		{
 			frame_begin++;

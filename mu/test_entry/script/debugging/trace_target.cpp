@@ -32,7 +32,7 @@ TEST (script_test, trace_target1)
 	auto routine (cluster->routines [0]);
 	context.push (routine);
 	auto valid (context ());
-	EXPECT_EQ (!valid, false);
+	EXPECT_EQ (!valid, true);
 	EXPECT_EQ (context.working_size (), 0);
 	std::wstringstream message;
 	errors.print (message);

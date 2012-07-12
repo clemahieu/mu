@@ -47,5 +47,5 @@ TEST (script_test, integer_equal3)
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	auto valid (ctx ());
-	EXPECT_EQ (!valid, false);
+	EXPECT_EQ (!valid, true);
 }

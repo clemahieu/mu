@@ -190,6 +190,8 @@ TEST (script_test, context13)
 	EXPECT_EQ (context.locals (0), context.working (0));
 }
 
+/*
+mu::core::routine isn't an operation anymore
 TEST (script_test, context14)
 {
 	mu::script::context context;
@@ -200,4 +202,4 @@ TEST (script_test, context14)
 	auto valid (context ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (context.working_size (), 0);
-}
+}*/

@@ -18,7 +18,7 @@ TEST (script_test, loadb1)
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
 	auto valid (ctx ());
-	EXPECT_EQ (!valid, false);
+	EXPECT_EQ (!valid, true);
 }
 
 TEST (script_test, loadb2)
@@ -43,7 +43,7 @@ TEST (script_test, loadb2)
     }
     else
     {
-        EXPECT_EQ (false, true);
+        ASSERT_EQ (false, true);
     }
 	a1.push_back (file);
 	mu::script::context ctx (errors);

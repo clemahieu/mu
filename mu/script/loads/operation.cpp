@@ -35,7 +35,7 @@ boost::shared_ptr <mu::script::extensions::node> mu::script::loads::operation::c
 	auto result (boost::make_shared <mu::script::extensions::node> ());
 	mu::script::load::operation load;
 	auto ast (load.core (context_a, file));
-	if (!context_a ())
+	if (ast.get () != nullptr)
 	{
 		mu::script::analyzer::operation analyzer;
 		auto cluster (analyzer.core (context_a, extensions, ast));
