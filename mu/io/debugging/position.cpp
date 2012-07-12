@@ -14,7 +14,7 @@ mu::io::debugging::position::position (size_t row_a, size_t column_a, size_t cha
 {
 }
 
-bool mu::io::debugging::position::operator == (mu::io::debugging::position const & other)
+bool mu::io::debugging::position::operator == (mu::io::debugging::position const & other) const
 {
 	bool result (row == other.row && column == other.column && character == other.character);
 	return result;
