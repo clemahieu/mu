@@ -8,6 +8,6 @@ TEST (io_test, source1)
 {
 	mu::io_test::source_result result;
 	result (L'a');
-	assert (result.results.size () == 1);
-	assert (result.results [0] == L'a');
+	EXPECT_EQ (result.results.size (), 1);
+	EXPECT_EQ (result.results [0], L'a');
 }

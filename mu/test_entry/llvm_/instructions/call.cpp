@@ -34,7 +34,7 @@ TEST (llvm_test, instructions_call1)
 	ctx2.push (boost::make_shared <mu::llvm_::instructions::call> ());
 	ctx2.push (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	auto valid (ctx2 ());
-	assert (!valid);
+	EXPECT_EQ (!valid, true);
 }
 
 TEST (llvm_test, instructions_call2)
@@ -50,7 +50,7 @@ TEST (llvm_test, instructions_call2)
 	ctx2.push (boost::make_shared <mu::llvm_::value::node> (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
 	ctx2.push (boost::make_shared <mu::llvm_::constant_int::node> (llvm::ConstantInt::get (llvm::Type::getInt16Ty (context), 0, false), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt16Ty (context))));
 	auto valid (ctx2 ());
-	assert (!valid);
+	EXPECT_EQ (!valid, true);
 }
 
 TEST (llvm_test, instructions_call3)
@@ -80,5 +80,5 @@ TEST (llvm_test, instructions_call4)
 	mu::script::context ctx2;
 	ctx2.push (boost::make_shared <mu::llvm_::instructions::call> ());
 	auto valid (ctx2 ());
-	assert (!valid);
+	EXPECT_EQ (!valid, true);
 }

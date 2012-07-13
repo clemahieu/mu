@@ -31,10 +31,10 @@ TEST (llvm_test, constant_string_create1)
 	ctx.push (boost::make_shared <mu::llvm_::module::node> (module));
 	ctx.push (boost::make_shared <mu::script::string::node> (std::wstring (L"test string")));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto result (boost::dynamic_pointer_cast <mu::llvm_::value::node> (ctx.working (0)));
-	assert (result.get () != nullptr);
+	EXPECT_NE (result.get (), nullptr);
 	//assert (result->global_variable ()->isConstant ());
 	//assert (result->global_variable ()->hasInitializer ());
 	//auto initializer (result->global_variable ()->getInitializer ());
@@ -44,7 +44,7 @@ TEST (llvm_test, constant_string_create1)
 	//auto elements (array->getType ()->getNumElements ());
 	//assert (elements == 11);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (result->type));
-	assert (type.get () != nullptr);
+	EXPECT_NE (type.get (), nullptr);
 	auto element_type (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node> (type->element));
-	assert (element_type.get () != nullptr);
+	EXPECT_NE (element_type.get (), nullptr);
 }

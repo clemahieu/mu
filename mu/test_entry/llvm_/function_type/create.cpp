@@ -26,14 +26,14 @@ TEST (llvm_test, function_type_create1)
 	ctx.push (boost::make_shared <mu::llvm_::function_type::create> ());
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (ctx.working (0)));
-	assert (type.get () != nullptr);
-	assert (type->parameters.size () == 0);
+	EXPECT_NE (type.get (), nullptr);
+	EXPECT_EQ (type->parameters.size (), 0);
 	auto return_type (type->function_type ()->getReturnType ());
-	assert (return_type == llvm::Type::getVoidTy (context_l));
-	assert (type->function_type ()->getNumParams () == 0);
+	EXPECT_EQ (return_type, llvm::Type::getVoidTy (context_l));
+	EXPECT_EQ (type->function_type ()->getNumParams (), 0);
 }
 
 TEST (llvm_test, function_type_create2)
@@ -47,16 +47,16 @@ TEST (llvm_test, function_type_create2)
 	ctx.push (context);
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (ctx.working (0)));
-	assert (type.get () != nullptr);
-	assert (type->parameters.size () == 1);
+	EXPECT_NE (type.get (), nullptr);
+	EXPECT_EQ (type->parameters.size (), 1);
 	auto return_type (type->function_type ()->getReturnType ());
-	assert (return_type == llvm::Type::getVoidTy (context_l));
-	assert (type->function_type ()->getNumParams () == 1);
+	EXPECT_EQ (return_type, llvm::Type::getVoidTy (context_l));
+	EXPECT_EQ (type->function_type ()->getNumParams (), 1);
 	auto arg1 (type->function_type ()->getParamType (0));
-	assert (arg1 == llvm::Type::getInt1Ty (context_l));
+	EXPECT_EQ (arg1, llvm::Type::getInt1Ty (context_l));
 }
 
 TEST (llvm_test, function_type_create3)
@@ -70,18 +70,18 @@ TEST (llvm_test, function_type_create3)
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (ctx.working (0)));
-	assert (type.get () != nullptr);
-	assert (type->parameters.size () == 2);
+	EXPECT_NE (type.get (), nullptr);
+	EXPECT_EQ (type->parameters.size (), 2);
 	auto return_type (type->function_type ()->getReturnType ());
-	assert (return_type == llvm::Type::getVoidTy (context_l));
-	assert (type->function_type ()->getNumParams () == 2);
+	EXPECT_EQ (return_type, llvm::Type::getVoidTy (context_l));
+	EXPECT_EQ (type->function_type ()->getNumParams (), 2);
 	auto arg1 (type->function_type ()->getParamType (0));
-	assert (arg1 == llvm::Type::getInt1Ty (context_l));
+	EXPECT_EQ (arg1, llvm::Type::getInt1Ty (context_l));
 	auto arg2 (type->function_type ()->getParamType (1));
-	assert (arg2 == llvm::Type::getInt8Ty (context_l));
+	EXPECT_EQ (arg2, llvm::Type::getInt8Ty (context_l));
 }
 
 TEST (llvm_test, function_type_create4)
@@ -95,13 +95,13 @@ TEST (llvm_test, function_type_create4)
 	ctx.push (boost::make_shared <mu::llvm_::function_type::divider> ());
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (ctx.working (0)));
-	assert (type.get () != nullptr);
-	assert (type->function_type ()->getNumParams () == 0);
+	EXPECT_NE (type.get (), nullptr);
+	EXPECT_EQ (type->function_type ()->getNumParams (), 0);
 	auto return_type (type->function_type ()->getReturnType ());
-	assert (return_type == llvm::Type::getInt1Ty (context_l));
+	EXPECT_EQ (return_type, llvm::Type::getInt1Ty (context_l));
 }
 
 TEST (llvm_test, function_type_create5)
@@ -117,18 +117,18 @@ TEST (llvm_test, function_type_create5)
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 1)));
 	ctx.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (context_l, 8)));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (ctx.working (0)));
-	assert (type.get () != nullptr);
-	assert (type->function_type ()->getNumParams () == 0);
+	EXPECT_NE (type.get (), nullptr);
+	EXPECT_EQ (type->function_type ()->getNumParams (), 0);
 	auto return_type (boost::dynamic_pointer_cast <mu::llvm_::set_type::node> (type->output));
-	assert (return_type->elements.size () == 2);
-	assert (return_type->elements [0]->type () == llvm::Type::getInt1Ty (context_l));
-	assert (return_type->elements [1]->type () == llvm::Type::getInt8Ty (context_l));
+	EXPECT_EQ (return_type->elements.size (), 2);
+	EXPECT_EQ (return_type->elements [0]->type (), llvm::Type::getInt1Ty (context_l));
+	EXPECT_EQ (return_type->elements [1]->type (), llvm::Type::getInt8Ty (context_l));
 	auto struct_type (llvm::dyn_cast <llvm::StructType> (return_type->type ()));
-	assert (struct_type != nullptr);
-	assert (struct_type->getNumElements () == 2);
-	assert (struct_type->getElementType (0) == llvm::Type::getInt1Ty (context_l));
-	assert (struct_type->getElementType (1) == llvm::Type::getInt8Ty (context_l));
+	EXPECT_NE (struct_type, nullptr);
+	EXPECT_EQ (struct_type->getNumElements (), 2);
+	EXPECT_EQ (struct_type->getElementType (0), llvm::Type::getInt1Ty (context_l));
+	EXPECT_EQ (struct_type->getElementType (1), llvm::Type::getInt8Ty (context_l));
 }

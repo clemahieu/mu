@@ -31,12 +31,12 @@ TEST (io_test, extension1)
 	auto cl (boost::make_shared <mu::io::ast::cluster> ());
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	assert (result.errors->errors.empty ());
-	assert (result.clusters.size () == 1);
+	EXPECT_EQ (result.errors->errors.empty (), true);
+	EXPECT_EQ (result.clusters.size (), 1);
 	auto cluster (result.clusters [0]);
-	assert (cluster->routines.size () == 1);
+	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	assert (routine->dependencies.size () == 0);
+	EXPECT_EQ (routine->dependencies.size (), 0);
 }
 
 TEST (io_test, extension2)
@@ -50,12 +50,12 @@ TEST (io_test, extension2)
 	auto cl (boost::make_shared <mu::io::ast::cluster> ());
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	assert (result.errors->errors.empty ());
-	assert (result.clusters.size () == 1);
+	EXPECT_EQ (result.errors->errors.empty (), true);
+	EXPECT_EQ (result.clusters.size (), 1);
 	auto cluster (result.clusters [0]);
-	assert (cluster->routines.size () == 1);
+	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	assert (routine->dependencies.size () == 1);
+	EXPECT_EQ (routine->dependencies.size (), 1);
 }
 
 TEST (io_test, extension3)
@@ -69,12 +69,12 @@ TEST (io_test, extension3)
 	auto cl (boost::make_shared <mu::io::ast::cluster> ());
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	assert (result.errors->errors.empty ());
-	assert (result.clusters.size () == 1);
+	EXPECT_EQ (result.errors->errors.empty (), true);
+	EXPECT_EQ (result.clusters.size (), 1);
 	auto cluster (result.clusters [0]);
-	assert (cluster->routines.size () == 1);
+	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	assert (routine->dependencies.size () == 2);
+	EXPECT_EQ (routine->dependencies.size (), 2);
 }
 
 TEST (io_test, extension4)
@@ -89,10 +89,10 @@ TEST (io_test, extension4)
 	auto cl (boost::make_shared <mu::io::ast::cluster> ());
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	assert (result.errors->errors.empty ());
-	assert (result.clusters.size () == 1);
+	EXPECT_EQ (result.errors->errors.empty (), true);
+	EXPECT_EQ (result.clusters.size (), 1);
 	auto cluster (result.clusters [0]);
-	assert (cluster->routines.size () == 1);
+	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	assert (routine->dependencies.size () == 1);
+	EXPECT_EQ (routine->dependencies.size (), 1);
 }

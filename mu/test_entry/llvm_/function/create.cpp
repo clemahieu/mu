@@ -24,10 +24,10 @@ TEST (llvm_test, function_create1)
 	ctx.push (boost::make_shared <mu::llvm_::function::create> ());
 	ctx.push (boost::make_shared <mu::llvm_::function_type::node> (boost::make_shared <mu::llvm_::context::node> (&context), llvm::FunctionType::get (llvm::Type::getVoidTy (context), false)));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto function (boost::dynamic_pointer_cast <mu::llvm_::function::node> (ctx.working (0)));
-	assert (function.get () != nullptr);
+	EXPECT_NE (function.get (), nullptr);
 	auto ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (function->type));
-	assert (ptr.get () != nullptr);
+	EXPECT_NE (ptr.get (), nullptr);
 }

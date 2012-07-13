@@ -52,19 +52,19 @@ TEST (llvm_test, ccall_operation1)
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::void_type::node> (ctx)))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
-    assert (valid);
-	assert (ctx2.working_size () == 0);
+    EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx2.working_size (), 0);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context));
 	ctx2.drop ();
 	ctx2.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx2.push (mod);
 	auto valid2 (ctx2 ());
-	assert (valid2);
+	EXPECT_EQ (valid2, true);
 	ctx2.drop ();
 	ctx2.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx2.push (mod);
 	auto valid3 (ctx2 ());
-	assert (valid3);
+	EXPECT_EQ (valid3, true);
 }
 
 TEST (llvm_test, ccall_operation2)
@@ -88,21 +88,21 @@ TEST (llvm_test, ccall_operation2)
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context))))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
-    assert (valid);
-	assert (ctx2.working_size () == 1);
+    EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx2.working_size (), 1);
 	auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (ctx2.working (0)));
-	assert (value.get () != nullptr);
+	EXPECT_NE (value.get (), nullptr);
 	bl->block->getInstList ().push_back (llvm::ReturnInst::Create (context, value->value ()));
 	ctx2.drop ();
 	ctx2.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx2.push (mod);
 	auto valid2 (ctx2 ());
-	assert (valid2);
+	EXPECT_EQ (valid2, true);
 	ctx2.drop ();
 	ctx2.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx2.push (mod);
 	auto valid3 (ctx2 ());
-	assert (valid3);
+	EXPECT_EQ (valid3, true);
 }
 
 TEST (llvm_test, ccall_operation3)
@@ -129,12 +129,12 @@ TEST (llvm_test, ccall_operation3)
 	auto false_fn (boost::make_shared <mu::llvm_::function::node> (false_function, boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), result_type))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
-	assert (valid);
-	assert (ctx2.working_size () == 2);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx2.working_size (), 2);
 	auto value1 (boost::dynamic_pointer_cast <mu::llvm_::value::node> (ctx2.working (0)));
-	assert (value1.get () != nullptr);
+	EXPECT_NE (value1.get (), nullptr);
 	auto value2 (boost::dynamic_pointer_cast <mu::llvm_::value::node> (ctx2.working (1)));
-	assert (value2.get () != nullptr);
+	EXPECT_NE (value2.get (), nullptr);
 	llvm::Value * result (llvm::ConstantAggregateZero::get (result_type->type ()));
 	result = llvm::InsertValueInst::Create (result, value1->value (), 0, llvm::Twine (), bl->block);
 	result = llvm::InsertValueInst::Create (result, value2->value (), 1, llvm::Twine (), bl->block);
@@ -143,10 +143,10 @@ TEST (llvm_test, ccall_operation3)
 	ctx2.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx2.push (mod);
 	auto valid2 (ctx2 ());
-	assert (valid2);
+	EXPECT_EQ (valid2, true);
 	ctx2.drop ();
 	ctx2.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx2.push (mod);
 	auto valid3 (ctx2 ());
-	assert (valid3);
+	EXPECT_EQ (valid3, true);
 }

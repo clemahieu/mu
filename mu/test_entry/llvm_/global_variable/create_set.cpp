@@ -28,12 +28,12 @@ TEST (llvm_test, global_variable_create_set1)
 	ctx.push (module);
 	ctx.push (boost::make_shared <mu::llvm_::constant_int::node> (llvm::ConstantInt::get (llvm::Type::getInt1Ty (context), 0, false), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context))));
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto result (boost::dynamic_pointer_cast <mu::llvm_::global_variable::node> (ctx.working (0)));
-	assert (result.get () != nullptr);
+	EXPECT_NE (result.get (), nullptr);
 	auto type (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (result->type));
-	assert (type.get () != nullptr);
+	EXPECT_NE (type.get (), nullptr);
 	auto element_type (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node> (type->element));
-	assert (element_type.get () != nullptr);
+	EXPECT_NE (element_type.get (), nullptr);
 }

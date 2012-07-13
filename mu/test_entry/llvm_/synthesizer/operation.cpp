@@ -41,10 +41,10 @@ TEST (llvm_test, synthesizer_operation1)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_EQ (builder.errors->errors.empty (), true);
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_NE (ast, nullptr);
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	context->values [1] = module;
 	mu::core::errors::errors errors (builder.errors);
@@ -53,25 +53,25 @@ TEST (llvm_test, synthesizer_operation1)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 0);
-	assert (cluster->names.size () == 0);
-	assert (module->module->getFunctionList ().size () == 0);
+	EXPECT_NE (cluster.get (), nullptr);
+	EXPECT_EQ (cluster->routines.size (), 0);
+	EXPECT_EQ (cluster->names.size (), 0);
+	EXPECT_EQ (module->module->getFunctionList ().size (), 0);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid2, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_EQ (valid3, true);
 }
 
 TEST (llvm_test, synthesizer_operation2)

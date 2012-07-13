@@ -26,5 +26,5 @@ TEST (llvm_test, integer1)
 	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context));
 	ctx.push (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 16)));
 	auto valid (ctx ());
-	assert (valid);
+	EXPECT_EQ (valid, true);
 }

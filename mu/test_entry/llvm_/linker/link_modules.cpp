@@ -33,13 +33,13 @@ TEST (llvm_test, link_modules1)
 	ctx.push (module);
 	ctx.push (module1);
 	auto valid (ctx ());
-	assert (valid);
+	EXPECT_EQ (valid, true);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::linker::link_modules> ());
 	ctx.push (module);
 	ctx.push (module2);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (module->module->getFunction ("a") != nullptr);
-	assert (module->module->getFunction ("b") != nullptr);
+	EXPECT_EQ (valid2, true);
+	EXPECT_NE (module->module->getFunction ("a"), nullptr);
+	EXPECT_NE (module->module->getFunction ("b"), nullptr);
 }

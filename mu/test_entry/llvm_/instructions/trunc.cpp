@@ -29,10 +29,10 @@ TEST (llvm_test, instructions_trunc1)
 	ctx.push (value);
 	ctx.push (type);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto inst (boost::dynamic_pointer_cast <mu::llvm_::instruction::node> (ctx.working (0)));
-	assert (inst.get () != nullptr);
+	EXPECT_NE (inst.get (), nullptr);
 	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage));
 	module.getFunctionList ().push_back (function);
 	auto block (llvm::BasicBlock::Create (context));

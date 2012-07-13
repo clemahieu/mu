@@ -11,5 +11,5 @@ TEST (io_test, wistream_input_test1)
 	std::wstringstream stream (L"");
 	mu::io::lexer::wistream_input input (stream);
 	wchar_t val (input ());
-	assert (val == L'\uffff');
+	EXPECT_EQ (val, L'\uffff');
 }

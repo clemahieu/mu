@@ -20,8 +20,8 @@ TEST (io_test, full1)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2;]");
 	lexer ();
-	assert (result.results.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.results.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }
 
 TEST (io_test, full2)
@@ -32,8 +32,8 @@ TEST (io_test, full2)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2; [");
 	lexer ();
-	assert (result.results.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.results.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }
 
 TEST (io_test, full3)
@@ -44,6 +44,6 @@ TEST (io_test, full3)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2; thing3 thing4");
 	lexer ();
-	assert (result.results.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.results.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }

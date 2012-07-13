@@ -22,6 +22,6 @@ TEST (io_test, routine1)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[unresolved ;; 1]");
 	lexer ();
-	assert (result.clusters.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.clusters.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }

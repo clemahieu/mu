@@ -18,8 +18,8 @@ TEST (io_test, control1)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":");
 	lexer ();
-	assert (result.results.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.results.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }
 
 TEST (io_test, control2)
@@ -29,6 +29,6 @@ TEST (io_test, control2)
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":0");
 	lexer ();
-	assert (result.results.empty ());
-	assert (!errors->errors.empty ());
+	EXPECT_EQ (result.results.empty (), true);
+	EXPECT_EQ (!errors->errors.empty (), true);
 }
