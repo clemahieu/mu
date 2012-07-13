@@ -17,19 +17,21 @@ TEST (core_test, directory_iterator_test1)
     EXPECT_EQ (failed, false);
 }
 
+// Test iterating a file, which should fail
 TEST (core_test, directory_iterator_test2)
 {
     auto failed (false);
-	auto path (boost::filesystem::initial_path () /= L"examples/test.lp");
+	auto path (boost::filesystem::initial_path () /= L"examples/test.mu");
 	try
 	{
 		boost::filesystem3::directory_iterator i (path);
+        EXPECT_EQ (false, true);
 	}
 	catch (boost::filesystem3::filesystem_error & error)
 	{
 		failed = true;
 	}
-    EXPECT_EQ (failed, false);
+    EXPECT_EQ (failed, true);
 }
 
 TEST (core_test, directory_iterator_test3)

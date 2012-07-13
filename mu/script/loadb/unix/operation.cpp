@@ -13,6 +13,7 @@
 
 bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 {
+    auto valid (false);
     if (mu::script::check <mu::script::string::node> () (context_a))
     {
         auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
@@ -37,6 +38,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 							auto extensions (extensions_function ());
                             boost::shared_ptr <mu::script::extensions::node> result (extensions);
 							context_a.push (result);
+                            valid = true;
 						}
 						else
 						{
@@ -70,4 +72,6 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 			context_a.errors (message.str ());
 		}
 	}
+    
+    return valid;
 }
