@@ -86,10 +86,10 @@ TEST (llvm_test, synthesizer_operation2)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t .. i32] [add #i 32 d1 #i 32 d1]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_EQ (builder.errors->errors.empty (), true);
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_NE (ast, nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;
@@ -99,18 +99,18 @@ TEST (llvm_test, synthesizer_operation2)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_EQ (valid, true);
+	EXPECT_EQ (ctx.working_size (), 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
+	EXPECT_NE (cluster.get (), nullptr);
+	EXPECT_EQ (cluster->routines.size (), 1);
+	EXPECT_EQ (cluster->names.size (), 0);
 	auto routine (cluster->routines [0]);
-	assert (routine->value()->getType ()->isPointerTy ());
+	EXPECT_EQ (routine->value()->getType ()->isPointerTy (), true);
 	auto ptr (llvm::dyn_cast <llvm::PointerType> (routine->value ()->getType ()));
-	assert (ptr != nullptr);
-	assert (ptr->getElementType ()->isFunctionTy ());
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_NE (ptr, nullptr);
+	EXPECT_EQ (ptr->getElementType ()->isFunctionTy (), true);
+	EXPECT_EQ (module->getFunctionList ().size (), 1);
 	mu::llvm_::module::print print;
 	std::vector <boost::shared_ptr <mu::core::node>> a3;
 	std::vector <boost::shared_ptr <mu::core::node>> r3;
@@ -118,14 +118,14 @@ TEST (llvm_test, synthesizer_operation2)
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (context->values [1]);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (context->values [1]);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation3)
@@ -140,10 +140,10 @@ TEST (llvm_test, synthesizer_operation3)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t i32 .. i32] [~ :~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
@@ -153,25 +153,25 @@ TEST (llvm_test, synthesizer_operation3)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation4)
@@ -186,10 +186,10 @@ TEST (llvm_test, synthesizer_operation4)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t i32 i32 .. i32] [add :~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
@@ -199,25 +199,25 @@ TEST (llvm_test, synthesizer_operation4)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation5)
@@ -232,10 +232,10 @@ TEST (llvm_test, synthesizer_operation5)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t] [~ :~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
@@ -245,25 +245,25 @@ TEST (llvm_test, synthesizer_operation5)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation6)
@@ -278,10 +278,10 @@ TEST (llvm_test, synthesizer_operation6)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t i32 i16 .. i32 i16] [~ :~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;					
@@ -291,25 +291,25 @@ TEST (llvm_test, synthesizer_operation6)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-	assert (valid2);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation7)
@@ -324,10 +324,10 @@ TEST (llvm_test, synthesizer_operation7)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t i32 [ptr i32]] [store :~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;						
@@ -337,25 +337,25 @@ TEST (llvm_test, synthesizer_operation7)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation8)
@@ -370,10 +370,10 @@ TEST (llvm_test, synthesizer_operation8)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t i32 [ptr i32]] [~ [store :~] [store :~]]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;						
@@ -383,25 +383,25 @@ TEST (llvm_test, synthesizer_operation8)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 1);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 1);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 1);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 1);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation9)
@@ -448,10 +448,10 @@ TEST (llvm_test, synthesizer_operation9)
 	code << L"[fun-t i32 .. i64] [zext :~ i64]";
 	builder (code.str ());
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;					
@@ -461,25 +461,25 @@ TEST (llvm_test, synthesizer_operation9)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 31);
-	assert (cluster->names.size () == 0);
-	assert (module->getFunctionList ().size () == 31);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 31);
+	EXPECT_TRUE (cluster->names.size () == 0);
+	EXPECT_TRUE (module->getFunctionList ().size () == 31);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation10)
@@ -497,10 +497,10 @@ TEST (llvm_test, synthesizer_operation10)
 	code << L"[fun-t] [~ ;; 2]";
 	builder (code.str ());
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;				
@@ -510,33 +510,33 @@ TEST (llvm_test, synthesizer_operation10)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 2);
-	assert (cluster->names.size () == 2);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 2);
+	EXPECT_TRUE (cluster->names.size () == 2);
 	auto rout1 (cluster->routines [0]);
 	auto rout2 (cluster->routines [1]);
 	auto n1 (cluster->names.find (std::wstring (L"1")));
 	auto n2 (cluster->names.find (std::wstring (L"2")));
-	assert (n1 != cluster->names.end ());
-	assert (n2 != cluster->names.end ());
-	assert (n1->second == rout1);
-	assert (n2->second == rout2);
-	assert (module->getFunctionList ().size () == 2);
+	EXPECT_TRUE (n1 != cluster->names.end ());
+	EXPECT_TRUE (n2 != cluster->names.end ());
+	EXPECT_TRUE (n1->second == rout1);
+	EXPECT_TRUE (n2->second == rout2);
+	EXPECT_TRUE (module->getFunctionList ().size () == 2);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation11)
@@ -554,10 +554,10 @@ TEST (llvm_test, synthesizer_operation11)
 	code << L"[fun-t .. i32] [~ #i 32 d42 ;; 2]";
 	builder (code.str ());
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
@@ -567,33 +567,33 @@ TEST (llvm_test, synthesizer_operation11)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 2);
-	assert (cluster->names.size () == 2);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 2);
+	EXPECT_TRUE (cluster->names.size () == 2);
 	auto rout1 (cluster->routines [0]);
 	auto rout2 (cluster->routines [1]);
 	auto n1 (cluster->names.find (std::wstring (L"1")));
 	auto n2 (cluster->names.find (std::wstring (L"2")));
-	assert (n1 != cluster->names.end ());
-	assert (n2 != cluster->names.end ());
-	assert (n1->second == rout1);
-	assert (n2->second == rout2);
-	assert (module->getFunctionList ().size () == 2);
+	EXPECT_TRUE (n1 != cluster->names.end ());
+	EXPECT_TRUE (n2 != cluster->names.end ());
+	EXPECT_TRUE (n1->second == rout1);
+	EXPECT_TRUE (n2->second == rout2);
+	EXPECT_TRUE (module->getFunctionList ().size () == 2);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation12)
@@ -615,14 +615,14 @@ TEST (llvm_test, synthesizer_operation12)
 	builder (code.str ());
 	builder ();
 	auto ast (builder.cluster);
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::synthesizer::operation> ());
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
+	EXPECT_TRUE (valid);
 }
 
 TEST (llvm_test, synthesizer_operation13)
@@ -640,10 +640,10 @@ TEST (llvm_test, synthesizer_operation13)
 	code << L"[fun-t] [~ ;; 2]";
 	builder (code.str ());
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
@@ -653,33 +653,33 @@ TEST (llvm_test, synthesizer_operation13)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 2);
-	assert (cluster->names.size () == 2);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 2);
+	EXPECT_TRUE (cluster->names.size () == 2);
 	auto rout1 (cluster->routines [0]);
 	auto rout2 (cluster->routines [1]);
 	auto n1 (cluster->names.find (std::wstring (L"1")));
 	auto n2 (cluster->names.find (std::wstring (L"2")));
-	assert (n1 != cluster->names.end ());
-	assert (n2 != cluster->names.end ());
-	assert (n1->second == rout1);
-	assert (n2->second == rout2);
-	assert (module->getFunctionList ().size () == 2);
+	EXPECT_TRUE (n1 != cluster->names.end ());
+	EXPECT_TRUE (n2 != cluster->names.end ());
+	EXPECT_TRUE (n1->second == rout1);
+	EXPECT_TRUE (n2->second == rout2);
+	EXPECT_TRUE (module->getFunctionList ().size () == 2);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation14)
@@ -698,10 +698,10 @@ TEST (llvm_test, synthesizer_operation14)
 	code << L"[fun-t i16 i16] [~ ;; 3]";
 	builder (code.str ());
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
@@ -711,37 +711,37 @@ TEST (llvm_test, synthesizer_operation14)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (valid);
-	assert (ctx.working_size () == 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cluster (boost::dynamic_pointer_cast <mu::llvm_::cluster::node> (ctx.working (0)));
-	assert (cluster.get () != nullptr);
-	assert (cluster->routines.size () == 3);
-	assert (cluster->names.size () == 3);
+	EXPECT_TRUE (cluster.get () != nullptr);
+	EXPECT_TRUE (cluster->routines.size () == 3);
+	EXPECT_TRUE (cluster->names.size () == 3);
 	auto rout1 (cluster->routines [0]);
 	auto rout2 (cluster->routines [1]);
 	auto rout3 (cluster->routines [2]);
 	auto n1 (cluster->names.find (std::wstring (L"1")));
 	auto n2 (cluster->names.find (std::wstring (L"2")));
 	auto n3 (cluster->names.find (std::wstring (L"3")));
-	assert (n1 != cluster->names.end ());
-	assert (n2 != cluster->names.end ());
-	assert (n3 != cluster->names.end ());
-	assert (n1->second == rout1);
-	assert (n2->second == rout2);
-	assert (n3->second == rout3);
-	assert (module->getFunctionList ().size () == 3);
+	EXPECT_TRUE (n1 != cluster->names.end ());
+	EXPECT_TRUE (n2 != cluster->names.end ());
+	EXPECT_TRUE (n3 != cluster->names.end ());
+	EXPECT_TRUE (n1->second == rout1);
+	EXPECT_TRUE (n2->second == rout2);
+	EXPECT_TRUE (n3->second == rout3);
+	EXPECT_TRUE (module->getFunctionList ().size () == 3);
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::print> ());
 	ctx.push (module_p);
 	auto valid2 (ctx ());
-    assert (valid2);
-	assert (ctx.working_size () == 1);
+    EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto text (ctx.working (0));
 	ctx.drop ();
 	ctx.push (boost::make_shared <mu::llvm_::module::verify> ());
 	ctx.push (module_p);
 	auto valid3 (ctx ());
-	assert (valid3);
+	EXPECT_TRUE (valid3);
 }
 
 TEST (llvm_test, synthesizer_operation15)
@@ -754,10 +754,10 @@ TEST (llvm_test, synthesizer_operation15)
 	mu::io::builder builder (extensions->extensions);
 	builder (L"[fun-t add] [~]");
 	builder ();
-	assert (builder.errors->errors.empty ());
+	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
-	assert (ast != nullptr);
+	EXPECT_TRUE (ast != nullptr);
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context_l)));	
 	context->values [1] = module;
 	mu::core::errors::errors errors (builder.errors);
@@ -766,5 +766,5 @@ TEST (llvm_test, synthesizer_operation15)
 	ctx.push (ast);
 	ctx.push (context);
 	auto valid (ctx ());
-	assert (!valid);
+	EXPECT_TRUE (!valid);
 }
