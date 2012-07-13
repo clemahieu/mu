@@ -8,9 +8,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, package_create1)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::create> ());
 	auto result (ctx ());

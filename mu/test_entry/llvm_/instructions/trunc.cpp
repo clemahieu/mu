@@ -14,6 +14,8 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, instructions_trunc1)
 {
 	llvm::LLVMContext context;
@@ -21,7 +23,7 @@ TEST (llvm_test, instructions_trunc1)
 	auto value (boost::make_shared <mu::llvm_::constant_int::node> (constant, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
 	auto type (boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt16Ty (context)));
 	llvm::Module module (llvm::StringRef (), context);
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::instructions::trunc> ());
 	ctx.push (value);

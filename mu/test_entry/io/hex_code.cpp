@@ -9,10 +9,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (io_test, hex_code1)
 {
 	mu::io_test::lexer_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":aq");
 	lexer ();
@@ -23,7 +25,7 @@ TEST (io_test, hex_code1)
 TEST (io_test, hex_code2)
 {
 	mu::io_test::lexer_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":uq");
 	lexer ();

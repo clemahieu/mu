@@ -25,6 +25,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::repl::repl::repl ()
 	: stop_m (false)
 {
@@ -72,7 +74,7 @@ void mu::repl::repl::iteration ()
 			auto cluster (builder.cluster);
 			if (cluster->routines.size () > 0)
 			{
-				mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+				mu::core::errors::errors errors (new (GC) mu::core::errors::error_list ());
 				mu::script::context ctx (errors);
 				ctx.push (cluster->routines [0]);
 				auto valid (ctx ());

@@ -16,7 +16,7 @@
 
 #include <gc_cpp.h>
 
-void mu::script::string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::string::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > data_position)

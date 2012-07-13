@@ -13,8 +13,10 @@
 #include <mu/script/synthesizer/operation.h>
 #include <mu/script/cluster/node.h>
 
+#include <gc_cpp.h>
+
 mu::script::builder::builder ()
-	: errors (new mu::core::errors::error_list),
+	: errors (new (GC) mu::core::errors::error_list),
 	analyzer (boost::bind (&mu::script::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))
@@ -22,7 +24,7 @@ mu::script::builder::builder ()
 }
 
 mu::script::builder::builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
-	: errors (new mu::core::errors::error_list),
+	: errors (new (GC) mu::core::errors::error_list),
 	analyzer (boost::bind (&mu::script::builder::add, this, _1), errors, extensions_a),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2))

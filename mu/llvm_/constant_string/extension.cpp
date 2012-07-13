@@ -20,7 +20,7 @@ mu::llvm_::constant_string::extension::extension (boost::shared_ptr <mu::llvm_::
 {
 }
 
-void mu::llvm_::constant_string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())

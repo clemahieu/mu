@@ -20,9 +20,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, instructions_call1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	std::vector <boost::shared_ptr <mu::llvm_::type::node>> arguments;
@@ -37,7 +39,7 @@ TEST (llvm_test, instructions_call1)
 
 TEST (llvm_test, instructions_call2)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	std::vector <boost::shared_ptr <mu::llvm_::type::node>> arguments;
@@ -53,7 +55,7 @@ TEST (llvm_test, instructions_call2)
 
 TEST (llvm_test, instructions_call3)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	auto type (boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context)))));
@@ -71,7 +73,7 @@ TEST (llvm_test, instructions_call3)
 
 TEST (llvm_test, instructions_call4)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
 	auto type (boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::function_type::node> (ctx, std::vector <boost::shared_ptr <mu::llvm_::type::node>> (), boost::make_shared <mu::llvm_::void_type::node> (ctx))));

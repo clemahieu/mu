@@ -8,9 +8,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, closure_operation1)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::operation> (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto valid (ctx ());
@@ -20,7 +22,7 @@ TEST (script_test, closure_operation1)
 
 TEST (script_test, closure_operation2)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::operation> (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
@@ -33,7 +35,7 @@ TEST (script_test, closure_operation2)
 
 TEST (script_test, closure_operation3)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
@@ -49,7 +51,7 @@ TEST (script_test, closure_operation3)
 
 TEST (script_test, closure_operation4)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
@@ -74,7 +76,7 @@ TEST (script_test, closure_operation4)
 
 TEST (script_test, closure_operation5)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));

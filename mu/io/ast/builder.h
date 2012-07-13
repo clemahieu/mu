@@ -29,7 +29,7 @@ namespace mu
 				using mu::io::source::operator ();
 				builder ();
 				void operator () (wchar_t char_a) override;
-				boost::shared_ptr <mu::core::errors::error_list> errors;
+				mu::core::errors::error_list * errors;
 				mu::io::parser::parser parser;
 				mu::io::lexer::lexer lexer;
 				void add (boost::shared_ptr <mu::io::ast::cluster> node_a);

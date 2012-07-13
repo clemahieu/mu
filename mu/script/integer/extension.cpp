@@ -15,7 +15,7 @@
 
 #include <errno.h>
 
-void mu::script::integer::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::integer::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -42,7 +42,7 @@ void mu::script::integer::extension::operator () (boost::shared_ptr <mu::core::e
 	}
 }
 
-boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, std::wstring & string)
+boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (mu::core::errors::error_target * errors_a, std::wstring & string)
 {
 	boost::shared_ptr <mu::script::integer::node> result;
 	int base (0);
@@ -78,13 +78,13 @@ boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (boost::
 	return result;
 }
 
-boost::shared_ptr <mu::script::integer::node> mu::script::integer::core_d (boost::shared_ptr <mu::core::errors::error_target> errors_a, wchar_t const * string_a)
+boost::shared_ptr <mu::script::integer::node> mu::script::integer::core_d (mu::core::errors::error_target * errors_a, wchar_t const * string_a)
 {
 	auto result (core (errors_a, string_a, 10));
 	return result;
 }
 
-boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, wchar_t const * string_a, size_t base_a)
+boost::shared_ptr <mu::script::integer::node> mu::script::integer::core (mu::core::errors::error_target * errors_a, wchar_t const * string_a, size_t base_a)
 {
 	boost::shared_ptr <mu::script::integer::node> result;
 	wchar_t * next;

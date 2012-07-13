@@ -9,7 +9,7 @@
 
 #include <boost/make_shared.hpp>
 
-void mu::script::ast::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	size_t position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
@@ -24,7 +24,7 @@ void mu::script::ast::extension::operator () (boost::shared_ptr <mu::core::error
 	}
 }
 
-boost::shared_ptr <mu::io::ast::cluster> mu::script::ast::extension::core (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::ast::node> node_a)
+boost::shared_ptr <mu::io::ast::cluster> mu::script::ast::extension::core (mu::core::errors::error_target * errors_a, boost::shared_ptr <mu::io::ast::node> node_a)
 {
 	auto result (boost::make_shared <mu::io::ast::cluster> ());
 	auto value (boost::dynamic_pointer_cast <mu::io::ast::expression> (node_a));

@@ -79,6 +79,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::script::values::operation *& context)
 {
 	results = new mu::script::extensions::node;

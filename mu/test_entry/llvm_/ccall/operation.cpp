@@ -29,9 +29,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, ccall_operation1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <mu::llvm_::module::node> (&module));
@@ -67,7 +69,7 @@ TEST (llvm_test, ccall_operation1)
 
 TEST (llvm_test, ccall_operation2)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <mu::llvm_::module::node> (&module));
@@ -105,7 +107,7 @@ TEST (llvm_test, ccall_operation2)
 
 TEST (llvm_test, ccall_operation3)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	llvm::Module module (llvm::StringRef (), context);
 	auto mod (boost::make_shared <mu::llvm_::module::node> (&module));

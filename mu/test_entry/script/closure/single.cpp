@@ -8,12 +8,14 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, closure_single1)
 {
 	std::vector <boost::shared_ptr <mu::core::node>> closed;
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	closed.push_back (n1);
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::closure::single> (closed, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
 	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));

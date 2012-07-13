@@ -1,6 +1,6 @@
 #include <mu/core/errors/errors.h>
 
-mu::core::errors::errors::errors (boost::shared_ptr <mu::core::errors::error_target> target_a)
+mu::core::errors::errors::errors (mu::core::errors::error_target * target_a)
 	: target (target_a)
 {
 }

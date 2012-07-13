@@ -11,7 +11,7 @@
 
 #include <sstream>
 
-void mu::script::astring::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::astring::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;

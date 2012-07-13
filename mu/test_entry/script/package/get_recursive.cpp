@@ -9,10 +9,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, package_get_recursive1)
 {
 	auto package (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);
@@ -27,7 +29,7 @@ TEST (script_test, package_get_recursive2)
 	auto package (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	package->items [std::wstring (L"a")] = n1;
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);
@@ -45,7 +47,7 @@ TEST (script_test, package_get_recursive3)
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
 	package->items [std::wstring (L"a")] = package1;
 	package1->items [std::wstring (L"b")] = n1;
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::package::get_recursive> ());
 	ctx.push (package);

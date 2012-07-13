@@ -9,9 +9,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, integer_equal1)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
@@ -26,7 +28,7 @@ TEST (script_test, integer_equal1)
 
 TEST (script_test, integer_equal2)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));
@@ -41,7 +43,7 @@ TEST (script_test, integer_equal2)
 
 TEST (script_test, integer_equal3)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::integer::equal> ());
 	ctx.push (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (3)));

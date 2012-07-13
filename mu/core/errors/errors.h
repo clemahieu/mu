@@ -11,13 +11,13 @@ namespace mu
 			class errors : public mu::core::errors::error_target
 			{
 			public:
-				errors (boost::shared_ptr <mu::core::errors::error_target> target_a);
+				errors (mu::core::errors::error_target * target_a);
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
                 void print (std::wostream & target) override;
 				void operator () (std::wstring error) override;
 				void operator () (wchar_t const * error) override;
-				boost::shared_ptr <mu::core::errors::error_target> target;
+				mu::core::errors::error_target * target;
 			};
 		}
 	}

@@ -47,11 +47,11 @@ namespace mu
 				friend class mu::io::lexer::control;
 			public:
 				using mu::io::source::operator ();
-				lexer (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
+				lexer (mu::core::errors::error_target * errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
 				void operator () (wchar_t char_a) override;
 				void reset ();
 				mu::io::debugging::position position;
-				boost::shared_ptr <mu::core::errors::error_target> errors;
+				mu::core::errors::error_target * errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
 				std::stack <boost::shared_ptr <mu::io::lexer::state>> state;
 			};

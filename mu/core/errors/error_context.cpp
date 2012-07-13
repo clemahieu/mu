@@ -1,6 +1,6 @@
 #include <mu/core/errors/error_context.h>
 
-mu::core::errors::error_context::error_context (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::io::debugging::context context_a)
+mu::core::errors::error_context::error_context (mu::core::errors::error_target * target_a, mu::io::debugging::context context_a)
 	: target (target_a),
 	context (context_a)
 {

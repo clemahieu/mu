@@ -16,10 +16,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, global_variable_create_set1)
 {
 	llvm::LLVMContext context;
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (), context)));
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::global_variable::create_set> ());

@@ -6,9 +6,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, type_check_operation1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <>> (identity));
@@ -18,7 +20,7 @@ TEST (script_test, type_check_operation1)
 
 TEST (script_test, type_check_operation2)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <>> (identity));
@@ -30,7 +32,7 @@ TEST (script_test, type_check_operation2)
 
 TEST (script_test, type_check_operation3)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
@@ -42,7 +44,7 @@ TEST (script_test, type_check_operation3)
 
 TEST (script_test, type_check_operation4)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
@@ -53,7 +55,7 @@ TEST (script_test, type_check_operation4)
 
 TEST (script_test, type_check_operation5)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::script::identity::operation>> (identity));
@@ -65,7 +67,7 @@ TEST (script_test, type_check_operation5)
 
 TEST (script_test, type_check_operation6)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::type_check::operation <mu::core::node, mu::core::node>> (identity));

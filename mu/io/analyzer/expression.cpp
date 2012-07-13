@@ -16,6 +16,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a)
 	: routine (routine_a),
 	expression_m (expression_a),
@@ -86,7 +88,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 	{
 		assert (routine.declarations.find (identifier_a->string) == routine.declarations.end ());
 		assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
-		auto errors_l (boost::make_shared <mu::core::errors::error_context> (routine.analyzer.errors, identifier_a->context));
+		auto errors_l (new (GC) mu::core::errors::error_context (routine.analyzer.errors, identifier_a->context));
 		(*keyword->second) (errors_l, *this);
 	}
 }

@@ -19,9 +19,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, times_operation1)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::times::operation> ());
 	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::integer::node (0)));
@@ -41,7 +43,7 @@ TEST (script_test, times_operation1)
 
 TEST (script_test, times_operation2)
 {	
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	auto expression (boost::make_shared <mu::core::expression> ());
 	expression->dependencies.push_back (boost::make_shared <mu::core::parameters> ());

@@ -18,9 +18,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, synthesizer_operation1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	context.push (boost::make_shared <mu::core::cluster> ());
@@ -34,7 +36,7 @@ TEST (script_test, synthesizer_operation1)
 
 TEST (script_test, synthesizer_operation2)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -67,7 +69,7 @@ TEST (script_test, synthesizer_operation2)
 
 TEST (script_test, synthesizer_operation3)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -121,7 +123,7 @@ TEST (script_test, synthesizer_operation3)
 
 TEST (script_test, synthesizer_operation4)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -141,7 +143,7 @@ TEST (script_test, synthesizer_operation4)
 
 TEST (script_test, synthesizer_operation5)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -173,7 +175,7 @@ TEST (script_test, synthesizer_operation5)
 
 TEST (script_test, synthesizer_operation6)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -202,7 +204,7 @@ TEST (script_test, synthesizer_operation6)
 
 TEST (script_test, synthesizer_operation7)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -234,7 +236,7 @@ TEST (script_test, synthesizer_operation7)
 
 TEST (script_test, synthesizer_operation8)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -271,7 +273,7 @@ TEST (script_test, synthesizer_operation8)
 
 TEST (script_test, synthesizer_operation9)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());
@@ -308,7 +310,7 @@ TEST (script_test, synthesizer_operation9)
 
 TEST (script_test, synthesizer_operation10)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto c (boost::make_shared <mu::core::cluster> ());

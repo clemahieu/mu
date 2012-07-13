@@ -26,9 +26,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, split_return1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (boost::make_shared <mu::script::synthesizer::operation> ());
 	auto cluster (boost::make_shared <mu::core::cluster> ());

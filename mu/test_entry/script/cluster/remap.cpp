@@ -11,6 +11,8 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, remap1)
 {
 	auto cluster (boost::make_shared <mu::core::cluster> ());
@@ -23,7 +25,7 @@ TEST (script_test, remap1)
 	auto remap (boost::make_shared <mu::script::cluster::remap_node> ());
 	auto identity (boost::make_shared <mu::script::identity::operation> ());
 	remap->mapping [fail] = identity;
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (remap);
 	context.push (cluster);

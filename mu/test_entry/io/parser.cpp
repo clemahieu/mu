@@ -15,10 +15,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (io_test, parser1)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::stream_end, mu::io::debugging::context (0, 0, 0, 0, 0, 0));
 	assert (result.results.size () == 1);
@@ -29,7 +31,7 @@ TEST (io_test, parser1)
 TEST (io_test, parser2)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::right_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -48,7 +50,7 @@ TEST (io_test, parser2)
 TEST (io_test, parser3)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 2, 1, 1, 3, 2));
@@ -69,7 +71,7 @@ TEST (io_test, parser3)
 TEST (io_test, parser4)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -90,7 +92,7 @@ TEST (io_test, parser4)
 TEST (io_test, parser5)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -110,7 +112,7 @@ TEST (io_test, parser5)
 TEST (io_test, parser6)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new mu::io::tokens::left_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));

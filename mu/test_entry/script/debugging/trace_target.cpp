@@ -17,10 +17,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, trace_target1)
 {
 	mu::script::context context;
-	mu::core::errors::errors errors (boost::make_shared <mu::script::debugging::trace_target> (boost::make_shared <mu::core::errors::error_list> (), context));
+	mu::core::errors::errors errors (new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	context.errors = errors;
 	mu::script::builder builder;
 	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());

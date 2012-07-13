@@ -23,7 +23,7 @@ mu::llvm_::constant_int::extension::extension (boost::shared_ptr <mu::llvm_::con
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
+void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto bits_position (expression_a.position + 1);
 	auto number_position (expression_a.position + 2);

@@ -9,9 +9,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, package_get1)
 {
-	mu::core::errors::errors errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto data (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
 	auto name (boost::shared_ptr <mu::script::string::node> (new mu::script::string::node (std::wstring (L"test"))));
 	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));

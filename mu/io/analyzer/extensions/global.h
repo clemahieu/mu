@@ -21,7 +21,7 @@ namespace mu
 				public:
 					global (boost::shared_ptr <mu::core::node> node_a);
 					boost::shared_ptr <mu::core::node> node;
-					void operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a) override;
+					void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a) override;
 				};
 			}
 		}

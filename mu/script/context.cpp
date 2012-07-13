@@ -7,19 +7,21 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::script::context::context ()
-	: frame_begin (0),
-	base_begin (0),
+	: base_begin (0),
 	base_end (0),
-	errors (boost::make_shared <mu::core::errors::null> ())
+	frame_begin (0),
+	errors (new (GC) mu::core::errors::null ())
 {
 	enter ();
 }
 
 mu::script::context::context (mu::core::errors::errors errors_a)
-	: frame_begin (0),
-	base_begin (0),
+	: base_begin (0),
 	base_end (0),
+	frame_begin (0),
 	errors (errors_a)
 {
 	enter ();

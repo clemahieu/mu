@@ -14,6 +14,8 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, module_add_package1)
 {	
 	llvm::LLVMContext context;
@@ -28,7 +30,7 @@ TEST (llvm_test, module_add_package1)
 	assert (!function2->isDeclaration ());
 	module->module->getFunctionList ().push_back (function2);
 	mu::llvm_::module::get_package get;
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::module::get_package> ());
 	ctx.push (module);

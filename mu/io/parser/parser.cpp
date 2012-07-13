@@ -13,10 +13,12 @@
 
 #include <map>
 
-mu::io::parser::parser::parser (boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::function <void (boost::shared_ptr <mu::io::ast::cluster>)> target_a)
-	: errors (boost::make_shared <mu::io::parser::error_target> (*this, errors_a)),
-	target (target_a),
-	cluster (new mu::io::ast::cluster)
+#include <gc_cpp.h>
+
+mu::io::parser::parser::parser (mu::core::errors::error_target * errors_a, boost::function <void (boost::shared_ptr <mu::io::ast::cluster>)> target_a)
+	: cluster (new mu::io::ast::cluster),
+	errors (new (GC) mu::io::parser::error_target (*this, errors_a)),
+	target (target_a)
 {
 	reset ();
 }

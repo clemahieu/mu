@@ -16,6 +16,8 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, insert1)
 {
 	llvm::LLVMContext context;
@@ -25,7 +27,7 @@ TEST (llvm_test, insert1)
 	auto block (boost::make_shared <mu::llvm_::basic_block::node> (llvm::BasicBlock::Create (context)));
 	function->getBasicBlockList ().push_back (block->block);
 	auto instruction (boost::make_shared <mu::llvm_::instruction::node> (new llvm::AllocaInst (llvm::Type::getInt1Ty (context)), boost::make_shared <mu::llvm_::pointer_type::node> (boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt1Ty (context)))));
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::llvm_::basic_block::insert> ());
 	ctx.push (block);

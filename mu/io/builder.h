@@ -34,7 +34,7 @@ namespace mu
 			builder ();
 			builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
 			void operator () (wchar_t char_a) override;
-			boost::shared_ptr <mu::core::errors::error_list> errors;
+			mu::core::errors::error_list * errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;

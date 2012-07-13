@@ -12,9 +12,11 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (script_test, loadb1)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (boost::make_shared <mu::script::loadb::operation> ());
 	auto valid (ctx ());
@@ -23,7 +25,7 @@ TEST (script_test, loadb1)
 
 TEST (script_test, loadb2)
 {
-	mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
     auto windows_name (std::wstring (L"mu/binary_test/Debug/mu_binary_test.dll"));
     auto unix_name (std::wstring (L"mu/binary_test/Debug/libmu_binary_test.so"));
     auto osx_name (std::wstring (L"mu/binary_test/libmu_binary_test.so"));

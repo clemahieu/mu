@@ -10,10 +10,12 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (io_test, full1)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2;]");
@@ -25,7 +27,7 @@ TEST (io_test, full1)
 TEST (io_test, full2)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2; [");
@@ -37,7 +39,7 @@ TEST (io_test, full2)
 TEST (io_test, full3)
 {
 	mu::io_test::parser_result result;
-	auto errors (boost::shared_ptr <mu::core::errors::error_list> (new mu::core::errors::error_list));
+	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
 	lexer (L"[thing; thing2; thing3 thing4");

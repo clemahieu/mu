@@ -17,7 +17,7 @@
 
 #include <gc_cpp.h>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, mu::core::errors::error_target * errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
@@ -25,7 +25,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <
 {
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, mu::core::errors::error_target * errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
