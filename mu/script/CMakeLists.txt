@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (script)
 
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+
 if (WIN32)
 	set (loadb_operation loadb/win32/operation.cpp)
 else ()

@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-void mu::core::errors::error_list::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::core::errors::error_list::operator () (mu::core::errors::error * error)
 {
 	errors.push_back (error);
 }

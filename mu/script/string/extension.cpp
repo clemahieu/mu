@@ -14,6 +14,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 void mu::script::string::extension::operator () (boost::shared_ptr <mu::core::errors::error_target> errors_a, mu::io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
@@ -27,11 +29,11 @@ void mu::script::string::extension::operator () (boost::shared_ptr <mu::core::er
 		}
 		else
 		{
-			(*errors_a) (boost::make_shared <mu::core::errors::string_error> (L"String extension requires its argument to be an identifier"));
+			(*errors_a) (new (GC) mu::core::errors::string_error (L"String extension requires its argument to be an identifier"));
 		}
 	}
 	else
 	{
-		(*errors_a) (boost::make_shared <mu::core::errors::string_error> (L"String extension requires one argument"));
+		(*errors_a) (new (GC) mu::core::errors::string_error (L"String extension requires one argument"));
 	}
 }

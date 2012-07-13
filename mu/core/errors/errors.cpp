@@ -5,7 +5,7 @@ mu::core::errors::errors::errors (boost::shared_ptr <mu::core::errors::error_tar
 {
 }
 
-void mu::core::errors::errors::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::core::errors::errors::operator () (mu::core::errors::error * error)
 {
 	(*target) (error);
 }

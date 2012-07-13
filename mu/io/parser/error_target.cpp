@@ -10,7 +10,7 @@ mu::io::parser::error_target::error_target (mu::io::parser::parser & parser_a, b
 {
 }
 
-void mu::io::parser::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::io::parser::error_target::operator () (mu::core::errors::error * error)
 {
 	(*target) (error);
 }

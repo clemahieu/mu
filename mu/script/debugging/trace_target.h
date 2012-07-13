@@ -15,7 +15,7 @@ namespace mu
 			{
 			public:
 				trace_target (boost::shared_ptr <mu::core::errors::error_target> target_a, mu::script::context & context_a);
-				void operator () (boost::shared_ptr <mu::core::errors::error> error) override;
+				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
                 void print (std::wostream & target) override;
 				boost::shared_ptr <mu::core::errors::error_target> target;

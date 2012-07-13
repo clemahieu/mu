@@ -7,8 +7,11 @@ if (WIN32)
 else ()
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
 endif ()
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
 
 link_directories (${CMAKE_SOURCE_DIR}/googletest)
+
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_executable (mu_test_entry
@@ -104,6 +107,9 @@ if (NOT WIN32)
 		boost_filesystem
 		boost_system)
 endif ()
+
+target_link_libraries (mu_test_entry
+    gc)
 
 if (WIN32)
 	target_link_libraries (mu_test_entry

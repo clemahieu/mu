@@ -5,8 +5,11 @@
 
 #include <iostream>
 
+#include <gc.h>
+
 int main (int argc, char** argv)
 {
+    GC_INIT ();
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
     testing::InitGoogleTest(&argc, argv);

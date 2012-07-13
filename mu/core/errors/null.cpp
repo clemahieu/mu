@@ -5,7 +5,7 @@ mu::core::errors::null::null ()
 {
 }
 
-void mu::core::errors::null::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::core::errors::null::operator () (mu::core::errors::error * error)
 {
 	had_error = true;
 }

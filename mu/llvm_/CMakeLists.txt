@@ -2,6 +2,9 @@ cmake_minimum_required (VERSION 2.8)
 project (llvm_)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
+
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+
 add_library (mu_llvm_ STATIC
 	api.cpp
 	apint/create.cpp

@@ -10,7 +10,7 @@ mu::io::lexer::error_target::error_target (mu::io::lexer::lexer & lexer_a, boost
 {
 }
 
-void mu::io::lexer::error_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::io::lexer::error_target::operator () (mu::core::errors::error * error)
 {
 	(*target) (error);
 }

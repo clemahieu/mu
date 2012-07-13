@@ -15,6 +15,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, boost::shared_ptr <mu::core::errors::error_target> errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
@@ -55,7 +57,7 @@ void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster>
 			std::wstringstream message;
 			message << L"Unresolved identifier: ";
 			message << i->first;
-			(*errors) (boost::make_shared <mu::core::errors::string_error> (message.str ()));
+			(*errors) (new (GC) mu::core::errors::string_error (message.str ()));
 		}
 	}
 }

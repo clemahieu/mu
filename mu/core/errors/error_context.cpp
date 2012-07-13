@@ -6,7 +6,7 @@ mu::core::errors::error_context::error_context (boost::shared_ptr <mu::core::err
 {
 }
 
-void mu::core::errors::error_context::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::core::errors::error_context::operator () (mu::core::errors::error * error)
 {
 	(*target) (error);
 }

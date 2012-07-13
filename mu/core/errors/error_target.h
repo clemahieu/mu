@@ -17,7 +17,7 @@ namespace mu
 			{
 			public:
                 virtual ~error_target ();
-				virtual void operator () (boost::shared_ptr <mu::core::errors::error> error) = 0;
+				virtual void operator () (mu::core::errors::error * error) = 0;
 				virtual bool operator () () = 0;
                 virtual void print (std::wostream & target) = 0;
 				virtual void operator () (std::wstring error);

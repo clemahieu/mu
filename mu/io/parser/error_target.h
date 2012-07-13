@@ -11,7 +11,7 @@ namespace mu
 			{
 			public:
 				error_target (mu::io::parser::parser & parser_a, boost::shared_ptr <mu::core::errors::error_target> target_a);
-				void operator () (boost::shared_ptr <mu::core::errors::error> error) override;
+				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
                 void print (std::wostream & target) override;
 				mu::io::parser::parser & parser;

@@ -14,7 +14,7 @@ mu::script::debugging::trace_target::trace_target (boost::shared_ptr <mu::core::
 {
 }
 
-void mu::script::debugging::trace_target::operator () (boost::shared_ptr <mu::core::errors::error> error)
+void mu::script::debugging::trace_target::operator () (mu::core::errors::error * error)
 {
 	//mu::script::frame frame (context);
 	//context.push (boost::make_shared <mu::script::debugging::trace_types> ());
