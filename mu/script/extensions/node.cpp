@@ -4,12 +4,14 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::script::extensions::node::node ()
-	: extensions (boost::make_shared <mu::io::analyzer::extensions::extensions> ())
+	: extensions (new (GC) mu::io::analyzer::extensions::extensions)
 {
 }
 
-mu::script::extensions::node::node (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::script::extensions::node::node (mu::io::analyzer::extensions::extensions * extensions_a)
 	: extensions (extensions_a)
 {
 }

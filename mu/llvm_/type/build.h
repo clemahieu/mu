@@ -20,8 +20,8 @@ namespace mu
 			class build
 			{
 			public:
-				build (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::Type * type_a);
-				boost::shared_ptr <mu::llvm_::type::node> type;
+				build (mu::llvm_::context::node * context_a, llvm::Type * type_a);
+				mu::llvm_::type::node * type;
 			};
 		}
 	}

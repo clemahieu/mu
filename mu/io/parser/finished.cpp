@@ -18,6 +18,8 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_target.h>
 
+#include <gc_cpp.h>
+
 mu::io::parser::finished::finished (mu::io::parser::parser & parser_a)
 	: parser (parser_a)
 {
@@ -57,5 +59,5 @@ void mu::io::parser::finished::add_error (mu::io::tokens::token * token)
 {
     std::wstring message (L"Token received after parser is finished");
 	(*parser.errors) (message);
-	parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
+	parser.state.push (new (GC) mu::io::parser::error);
 }

@@ -22,7 +22,7 @@ namespace mu
 				create ();
 				bool operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
-				std::map <std::wstring, boost::shared_ptr <mu::core::node>> values;
+				std::map <std::wstring, mu::core::node *> values;
 			};
 		}
 	}

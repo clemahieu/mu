@@ -37,9 +37,9 @@ namespace mu
 			public:
 				routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a);
 				mu::io::analyzer::analyzer & analyzer;
-				void resolve_local (std::wstring, boost::shared_ptr <mu::core::node> node_a);
-				boost::shared_ptr <mu::core::routine> routine_m;
-				std::map <std::wstring, boost::shared_ptr <mu::core::node>> declarations;
+				void resolve_local (std::wstring, mu::core::node * node_a);
+				mu::core::routine * routine_m;
+				std::map <std::wstring, mu::core::node *> declarations;
 			};
 		}
 	}

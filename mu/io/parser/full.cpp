@@ -19,13 +19,15 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::parser::full::full (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::io::debugging::context first_a)
+#include <gc_cpp.h>
+
+mu::io::parser::full::full (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <mu::io::ast::node *> values_a, std::vector <mu::io::ast::identifier *> names_a, mu::io::debugging::context first_a)
 	: parser (parser_a),
+	target (target_a),
 	values (values_a),
 	names (names_a),
 	full_name (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
-	first (first_a),
-	target (target_a)
+	first (first_a)
 {
 }
 
@@ -38,7 +40,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
 {
 	if (full_name->string.empty ())
 	{
-		full_name = boost::make_shared <mu::io::ast::identifier> (parser.context, token->string);
+		full_name = new (GC) mu::io::ast::identifier (parser.context, token->string);
 	}
 	else
 	{		
@@ -48,7 +50,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
 		message << L" current: ";
 		message << token->string;
 		(*parser.errors) (message.str ());
-		parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
+		parser.state.push (new (GC) mu::io::parser::error);
 	}
 }
 
@@ -64,12 +66,12 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 		std::wstringstream message;
 		message << L"Expression has no full name";
 		(*parser.errors) (message.str ());
-		parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
+		parser.state.push (new (GC) mu::io::parser::error);
 	}
 	else
 	{
 		parser.state.pop ();
-		target (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (first.first, parser.context.last), values, names, full_name));
+		target (new (GC) mu::io::ast::expression (mu::io::debugging::context (first.first, parser.context.last), values, names, full_name));
 	}
 }
 
@@ -89,5 +91,5 @@ void mu::io::parser::full::unexpected_token (mu::io::tokens::token * token)
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
 	(*parser.errors) (message.str ());
-    parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
+    parser.state.push (new (GC) mu::io::parser::error);
 }

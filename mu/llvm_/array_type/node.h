@@ -21,11 +21,11 @@ namespace mu
 			class node : public mu::llvm_::type::node
 			{
 			public:
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::ArrayType * array_type_a);
-				node (boost::shared_ptr <mu::llvm_::type::node> element_a, size_t count_a);
+				node (mu::llvm_::context::node * context_a, llvm::ArrayType * array_type_a);
+				node (mu::llvm_::type::node * element_a, size_t count_a);
 				llvm::Type * type () override;
 				llvm::ArrayType * array_type ();
-				boost::shared_ptr <mu::llvm_::type::node> element;
+				mu::llvm_::type::node * element;
 				size_t count;
 			};
 		}

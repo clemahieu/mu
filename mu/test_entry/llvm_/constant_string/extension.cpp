@@ -20,7 +20,9 @@
 
 #include <gtest/gtest.h>
 
-static void junk (boost::shared_ptr <mu::core::cluster> cluster_a)
+#include <gc_cpp.h>
+
+static void junk (mu::core::cluster * cluster_a)
 {
 
 }
@@ -36,12 +38,12 @@ TEST (llvm_test, constant_string_extension1)
 	auto expression (cluster->expressions [0]);
 	EXPECT_EQ (expression->values.size (), 2);
 	mu::io::analyzer::analyzer analyzer (boost::bind (&junk, _1), builder.errors);
-	mu::io::analyzer::routine rout (analyzer, expression.get ());
-	auto self (boost::make_shared <mu::core::expression> ());
+	mu::io::analyzer::routine rout (analyzer, expression);
+	auto self (new (GC) mu::core::expression);
 	llvm::LLVMContext context;
-	auto ctx (boost::make_shared <mu::llvm_::context::node> (&context));
-	auto module (boost::make_shared <mu::llvm_::module::node> (new llvm::Module (llvm::StringRef (""), context)));
-	analyzer.extensions->extensions_m [L"`"] = boost::make_shared <mu::llvm_::constant_string::extension> (module);
-	mu::io::analyzer::expression exp (rout, expression.get (), self);
+	auto ctx (new (GC) mu::llvm_::context::node (&context));
+	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
+	analyzer.extensions->extensions_m [L"`"] = new (GC) mu::llvm_::constant_string::extension (module);
+	mu::io::analyzer::expression exp (rout, expression, self);
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 }

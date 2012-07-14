@@ -20,19 +20,19 @@ TEST (llvm_test, instructions_trunc1)
 {
 	llvm::LLVMContext context;
 	auto constant (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), 0xffffffff, false));
-	auto value (boost::make_shared <mu::llvm_::constant_int::node> (constant, boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
-	auto type (boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt16Ty (context)));
+	auto value (new (GC) mu::llvm_::constant_int::node (constant, new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (context))));
+	auto type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt16Ty (context)));
 	llvm::Module module (llvm::StringRef (), context);
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::instructions::trunc> ());
+	ctx.push (new (GC) mu::llvm_::instructions::trunc);
 	ctx.push (value);
 	ctx.push (type);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto inst (boost::dynamic_pointer_cast <mu::llvm_::instruction::node> (ctx.working (0)));
-	EXPECT_NE (inst.get (), nullptr);
+	auto inst (dynamic_cast <mu::llvm_::instruction::node *> (ctx.working (0)));
+	EXPECT_NE (inst, nullptr);
 	auto function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage));
 	module.getFunctionList ().push_back (function);
 	auto block (llvm::BasicBlock::Create (context));

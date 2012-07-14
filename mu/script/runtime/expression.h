@@ -15,7 +15,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				std::vector <boost::shared_ptr <mu::script::operation>> dependencies;
+				std::vector <mu::script::operation *> dependencies;
 			};
 		}
 	}

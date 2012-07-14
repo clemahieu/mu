@@ -40,7 +40,7 @@ TEST (io_test, parser2)
 	auto n1 (result.results [0]);
 	EXPECT_EQ (n1->expressions.size (), 1);
 	auto e1 (n1->expressions [0]);
-	EXPECT_NE (e1.get (), nullptr);
+	EXPECT_NE (e1, nullptr);
 	EXPECT_EQ (e1->values.empty (), true);
 	EXPECT_EQ (e1->full_name->string.empty (), true);
 	EXPECT_EQ (e1->individual_names.empty (), true);
@@ -61,7 +61,7 @@ TEST (io_test, parser3)
 	auto e1 (result.results [0]->expressions [0]);
 	EXPECT_EQ (e1->context, mu::io::debugging::context (1, 1, 0, 1, 4, 3));
 	EXPECT_EQ (e1->values.size (), 1);
-	auto i1 (boost::dynamic_pointer_cast <mu::io::ast::identifier> (e1->values [0]));
+	auto i1 (dynamic_cast <mu::io::ast::identifier*> (e1->values [0]));
 	EXPECT_EQ (i1->string, std::wstring (L"t1"));
 	EXPECT_EQ (i1->context, mu::io::debugging::context (1, 2, 1, 1, 3, 2));
 	EXPECT_EQ (e1->full_name->string.empty (), true);
@@ -126,7 +126,7 @@ TEST (io_test, parser6)
 	EXPECT_EQ (e1->individual_names.empty (), true);
 	EXPECT_EQ (e1->full_name->string.empty (), true);
 	EXPECT_EQ (e1->context, mu::io::debugging::context (1, 1, 0, 1, 4, 3));
-	auto e2 (boost::dynamic_pointer_cast <mu::io::ast::expression> (e1->values [0]));
+	auto e2 (dynamic_cast <mu::io::ast::expression *> (e1->values [0]));
 	EXPECT_EQ (e2->values.empty (), true);
 	EXPECT_EQ (e2->individual_names.empty (), true);
 	EXPECT_EQ (e2->full_name->string.empty (), true);

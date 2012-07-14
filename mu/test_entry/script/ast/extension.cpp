@@ -31,8 +31,8 @@ TEST (script_test, extension1)
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (ctx.working (0)));
-	EXPECT_NE (cl.get (), nullptr);
+	auto cl (dynamic_cast <mu::io::ast::cluster *> (ctx.working (0)));
+	EXPECT_NE (cl, nullptr);
 	EXPECT_EQ (cl->expressions.size (), 0);
 }
 
@@ -60,8 +60,8 @@ TEST (script_test, extension3)
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto cl (boost::dynamic_pointer_cast <mu::io::ast::cluster> (ctx.working (0)));
-	EXPECT_NE (cl.get (), nullptr);
+	auto cl (dynamic_cast <mu::io::ast::cluster *> (ctx.working (0)));
+	EXPECT_NE (cl, nullptr);
 	EXPECT_EQ (cl->expressions.size (), 1);
 	auto expression (cl->expressions [0]);
 }

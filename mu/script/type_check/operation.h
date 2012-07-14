@@ -15,7 +15,7 @@ namespace mu
             class operation: public mu::script::operation
             {
 			public:
-                operation (boost::shared_ptr <mu::script::operation> target_a)
+                operation (mu::script::operation * target_a)
 					: target (target_a)
 				{
 				}
@@ -32,7 +32,7 @@ namespace mu
 					}
 					return result;
 				}
-                boost::shared_ptr <mu::script::operation> target;
+                mu::script::operation * target;
             };
         }
     }

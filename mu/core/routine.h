@@ -14,10 +14,10 @@ namespace mu
 		{
 		public:
 			routine ();
-			routine (boost::shared_ptr <mu::core::expression> body_a);
+			routine (mu::core::expression * body_a);
 			void operator () (mu::core::visitor * visitor_a) override;
 			std::wstring name () override;
-			boost::shared_ptr <mu::core::expression> body;
+			mu::core::expression * body;
 		};
 	}
 }

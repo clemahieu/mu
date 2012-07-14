@@ -5,9 +5,9 @@
 
 #include <sstream>
 
-mu::script::runtime::selection::selection (boost::shared_ptr <mu::script::runtime::expression> expression_a, size_t index_a)
-	: index (index_a),
-	expression (expression_a)
+mu::script::runtime::selection::selection (mu::script::runtime::expression * expression_a, size_t index_a)
+	: expression (expression_a),
+    index (index_a)	
 {
 }
 
@@ -16,7 +16,7 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
 	if (valid)
 	{
-		auto locals (boost::static_pointer_cast <mu::script::runtime::locals> (context_a.parameters (0)));
+		auto locals (static_cast <mu::script::runtime::locals *> (context_a.parameters (0)));
 		auto existing (locals->expressions.find (expression));
 		if (existing != locals->expressions.end ())
 		{

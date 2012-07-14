@@ -4,13 +4,13 @@
 
 #include <llvm/DerivedTypes.h>
 
-mu::llvm_::pointer_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::PointerType * pointer_type_a)
+mu::llvm_::pointer_type::node::node (mu::llvm_::context::node * context_a, llvm::PointerType * pointer_type_a)
 {
 	mu::llvm_::type::build build (context_a, pointer_type_a->getElementType ());
 	element = build.type;
 }
 
-mu::llvm_::pointer_type::node::node (boost::shared_ptr <mu::llvm_::type::node> element_a)
+mu::llvm_::pointer_type::node::node (mu::llvm_::type::node * element_a)
 	: element (element_a)
 {
 }

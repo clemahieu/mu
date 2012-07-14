@@ -30,9 +30,9 @@ namespace mu
 				void operator () (mu::io::tokens::right_square * token) override;
 				void operator () (mu::io::tokens::stream_end * token) override;
 				void operator () (mu::io::tokens::parameters * token) override;
-				void operator () (boost::shared_ptr <mu::io::ast::expression> expression_a) override;
+				void operator () (mu::io::ast::expression * expression_a) override;
 				mu::io::parser::target & target;
-				std::vector <boost::shared_ptr <mu::io::ast::node>> values_m;
+				std::vector <mu::io::ast::node *> values_m;
 				mu::io::parser::parser & parser;
 				mu::io::debugging::context first;
 			};

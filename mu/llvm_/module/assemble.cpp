@@ -11,18 +11,20 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::llvm_::context::node, mu::script::astring::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::astring::node> (context_a.parameters (1)));	
+		auto one (static_cast <mu::llvm_::context::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::astring::node *> (context_a.parameters (1)));	
 		llvm::SMDiagnostic diagnostic;
 		llvm::Module * module (llvm::ParseAssemblyString (two->string.c_str (), nullptr, diagnostic, *one->context));
 		if (module != nullptr)
 		{
-			context_a.push (boost::shared_ptr <mu::core::node> (new mu::llvm_::module::node (module)));
+			context_a.push (new (GC) mu::llvm_::module::node (module));
 		}
 		else
 		{

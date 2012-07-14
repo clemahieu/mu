@@ -15,15 +15,15 @@
 
 TEST (script_test, remap1)
 {
-	auto cluster (boost::make_shared <mu::core::cluster> ());
-	auto routine (boost::make_shared <mu::core::routine> ());
+	auto cluster (new (GC) mu::core::cluster);
+	auto routine (new (GC) mu::core::routine);
 	cluster->routines.push_back (routine);
-	auto body (boost::make_shared <mu::core::expression> ());
+	auto body (new (GC) mu::core::expression);
 	routine->body = body;
-	auto fail (boost::make_shared <mu::script::fail::operation> ());
+	auto fail (new (GC) mu::script::fail::operation);
 	body->dependencies.push_back (fail);
-	auto remap (boost::make_shared <mu::script::cluster::remap_node> ());
-	auto identity (boost::make_shared <mu::script::identity::operation> ());
+	auto remap (new (GC) mu::script::cluster::remap_node);
+	auto identity (new (GC) mu::script::identity::operation);
 	remap->mapping [fail] = identity;
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
@@ -31,8 +31,8 @@ TEST (script_test, remap1)
 	context.push (cluster);
 	auto valid (context ());
 	EXPECT_EQ (context.working_size (), 1);
-	auto cl (boost::dynamic_pointer_cast <mu::core::cluster> (context.working (0)));
-	EXPECT_NE (cl.get (), nullptr);
+	auto cl (dynamic_cast <mu::core::cluster *> (context.working (0)));
+	EXPECT_NE (cl, nullptr);
 	EXPECT_EQ (cl->routines.size (), 1);
 	EXPECT_EQ (cl->routines [0]->body->dependencies.size (), 1);
 	EXPECT_EQ (cl->routines [0]->body->dependencies [0], identity);

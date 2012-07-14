@@ -15,7 +15,7 @@ namespace mu
 			class target
 			{
 			public:
-				virtual void operator () (boost::shared_ptr <mu::io::ast::expression> expression_a) = 0;
+				virtual void operator () (mu::io::ast::expression * expression_a) = 0;
 			};
 		}
 	}

@@ -13,14 +13,16 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::llvm_::value::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::llvm_::value::node *> (context_a.parameters (1)));
+		auto three (static_cast <mu::llvm_::value::node *> (context_a.parameters (1)));
 		auto ptr (llvm::dyn_cast <llvm::PointerType> (one->value ()->getType ()));
 		if (ptr != nullptr)
 		{
@@ -29,7 +31,7 @@ bool mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & contex
 			if (two_type && three_type)
 			{
 				auto instruction (new llvm::AtomicCmpXchgInst (one->value (), two->value (), three->value (), llvm::AtomicOrdering::Monotonic, llvm::SynchronizationScope::CrossThread));
-				context_a.push (boost::make_shared <mu::llvm_::value::node> (instruction, two->type));
+				context_a.push (new (GC) mu::llvm_::value::node (instruction, two->type));
 			}
 			else
 			{

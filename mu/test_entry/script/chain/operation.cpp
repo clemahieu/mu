@@ -12,16 +12,16 @@
 
 TEST (script_test, chain_operation1)
 {
-	auto operation (boost::shared_ptr <mu::core::node> (new mu::script_test::chain::ten_count));
-	auto count (boost::shared_ptr <mu::script::integer::node> (new mu::script::integer::node (50)));
+	auto operation (new (GC) mu::script_test::chain::ten_count);
+	auto count (new (GC) mu::script::integer::node (50));
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::chain::operation> ());
+	ctx.push (new (GC) mu::script::chain::operation);
 	ctx.push (operation);
 	ctx.push (count);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto result (boost::dynamic_pointer_cast <mu::script::integer::node> (ctx.working (0)));
+	auto result (dynamic_cast <mu::script::integer::node *> (ctx.working (0)));
 	EXPECT_EQ (result->value, 40);
 }

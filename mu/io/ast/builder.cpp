@@ -20,7 +20,7 @@ mu::io::ast::builder::builder ()
 {
 }
 
-void mu::io::ast::builder::add (boost::shared_ptr <mu::io::ast::cluster> node_a)
+void mu::io::ast::builder::add (mu::io::ast::cluster * node_a)
 {
 	cluster = node_a;
 }

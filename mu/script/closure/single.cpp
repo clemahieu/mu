@@ -2,12 +2,12 @@
 
 #include <mu/script/context.h>
 
-mu::script::closure::single::single (boost::shared_ptr <mu::core::node> operation_a)
+mu::script::closure::single::single (mu::core::node * operation_a)
 	: operation_m (operation_a)
 {
 }
 
-mu::script::closure::single::single (std::vector <boost::shared_ptr <mu::core::node>> & closed_a, boost::shared_ptr <mu::core::node> operation_a)
+mu::script::closure::single::single (std::vector <mu::core::node *> & closed_a, mu::core::node * operation_a)
 	: operation_m (operation_a),
 	closed (closed_a)
 {

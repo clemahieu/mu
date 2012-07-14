@@ -15,6 +15,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a)
 	: analyzer (analyzer_a),
 	routine_m (new mu::core::routine)
@@ -23,7 +25,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	{
 		auto name (expression_a->full_name->string);
 		expression_a->full_name->string.clear ();
-		auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+		auto expression_l (new (GC) mu::core::expression);
 		mu::io::analyzer::expression expression (*this, expression_a, expression_l);
 		routine_m->body = expression_l;
 		if (!name.empty ())
@@ -41,7 +43,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	}
 }
 
-void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::shared_ptr <mu::core::node> node)
+void mu::io::analyzer::routine::resolve_local (std::wstring identifier, mu::core::node * node)
 {
 	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
@@ -50,7 +52,7 @@ void mu::io::analyzer::routine::resolve_local (std::wstring identifier, boost::s
 			if (declarations.find (identifier) == declarations.end ())
 			{
 				analyzer.mark_used (identifier);
-				declarations.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (identifier, node));
+				declarations.insert (std::map <std::wstring, mu::core::node *>::value_type (identifier, node));
 				analyzer.back_resolve (identifier, node);
 			}
 			else

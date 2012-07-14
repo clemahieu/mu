@@ -12,8 +12,8 @@ bool mu::llvm_::basic_block::insert::operator () (mu::script::context & context_
 	bool result (mu::script::check <mu::llvm_::basic_block::node, mu::llvm_::instruction::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::basic_block::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::llvm_::instruction::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::llvm_::basic_block::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::llvm_::instruction::node *> (context_a.parameters (1)));
 		if (one->block != nullptr)
 		{
 			one->block->getInstList ().push_back (two->instruction ());

@@ -21,21 +21,21 @@ TEST (llvm_test, link_modules1)
 {
 	llvm::LLVMContext context;
 	std::vector <llvm::Type *> types;
-	auto module (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test1"), context))));	
-	auto module1 (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test1"), context))));	
+	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test1"), context)));	
+	auto module1 (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test1"), context)));	
 	auto function1 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "a", module1->module));
-	auto module2 (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test2"), context))));	
+	auto module2 (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test2"), context)));	
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b", module2->module));
 	mu::llvm_::linker::link_modules link_modules;
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx;
-	ctx.push (boost::make_shared <mu::llvm_::linker::link_modules> ());
+	ctx.push (new (GC) mu::llvm_::linker::link_modules);
 	ctx.push (module);
 	ctx.push (module1);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	ctx.drop ();
-	ctx.push (boost::make_shared <mu::llvm_::linker::link_modules> ());
+	ctx.push (new (GC) mu::llvm_::linker::link_modules);
 	ctx.push (module);
 	ctx.push (module2);
 	auto valid2 (ctx ());

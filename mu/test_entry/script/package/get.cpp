@@ -14,12 +14,12 @@
 TEST (script_test, package_get1)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
-	auto data (boost::shared_ptr <mu::script::package::node> (new mu::script::package::node));
-	auto name (boost::shared_ptr <mu::script::string::node> (new mu::script::string::node (std::wstring (L"test"))));
-	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	auto data (new (GC) mu::script::package::node);
+	auto name (new (GC) mu::script::string::node (std::wstring (L"test")));
+	auto node (new (GC) mu::core::node);
 	data->items [std::wstring (L"test")] = node;
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::package::get> ());
+	ctx.push (new (GC) mu::script::package::get);
 	ctx.push (data);
 	ctx.push (name);
 	auto valid (ctx ());

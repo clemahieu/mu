@@ -28,7 +28,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::script::extensions::node> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::script::string::node> file);
+				mu::script::extensions::node * core (mu::script::context & context_a, mu::script::extensions::node * extensions, mu::script::string::node * file);
 			};
 		}
 	}

@@ -19,7 +19,7 @@
 TEST (llvm_test, module_add_package1)
 {	
 	llvm::LLVMContext context;
-	auto module (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test"), context))));	
+	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test"), context)));	
 	std::vector <llvm::Type *> types;
 	auto function1 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "a"));
 	function1->getBasicBlockList ().push_back (llvm::BasicBlock::Create (context));
@@ -32,14 +32,14 @@ TEST (llvm_test, module_add_package1)
 	mu::llvm_::module::get_package get;
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::llvm_::module::get_package> ());
+	ctx.push (new (GC) mu::llvm_::module::get_package);
 	ctx.push (module);
-	ctx.push (boost::make_shared <mu::script::astring::node> (std::string (".suffix")));
+	ctx.push (new (GC) mu::script::astring::node (std::string (".suffix")));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
-	auto mod1 (boost::shared_ptr <mu::llvm_::module::node> (new mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test"), context))));
+	auto mod1 (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test"), context)));
 	ctx.slide ();
-	ctx.push (boost::make_shared <mu::llvm_::module::add_package> ());
+	ctx.push (new (GC) mu::llvm_::module::add_package);
 	ctx.push (mod1);
 	ctx.push (ctx.locals (0));
 	auto valid2 (ctx ());

@@ -16,7 +16,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
     auto valid (false);
     if (mu::script::check <mu::script::string::node> () (context_a))
     {
-        auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
+        auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		auto path (boost::filesystem::initial_path ());
 		path /= std::string (one->string.begin (), one->string.end ());
 		auto library (dlopen (path.string ().c_str (), RTLD_NOW));
@@ -36,7 +36,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 						{
 							auto extensions_function ((mu::script::extensions::node * (*) ()) (extensions_address));
 							auto extensions (extensions_function ());
-                            boost::shared_ptr <mu::script::extensions::node> result (extensions);
+                            mu::script::extensions::node * result (extensions);
 							context_a.push (result);
                             valid = true;
 						}

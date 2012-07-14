@@ -15,14 +15,16 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 //Test empty expression
 TEST (io_test, analyzer1)
 {
 	// []
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 2, 1), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 2, 1), std::vector <mu::io::ast::node *> ()));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -37,9 +39,9 @@ TEST (io_test, analyzer2)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"a")));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.empty (), true);
@@ -51,9 +53,9 @@ TEST (io_test, analyzer3)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.empty (), true);
@@ -66,12 +68,12 @@ TEST (io_test, analyzer4)
 	// [[;;~]~]
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 8, 7), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (1, 2, 1, 1, 6, 5), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (1, 5, 4, 1, 5, 4), std::wstring (L"~"));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 8, 7), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 2, 1, 1, 6, 5), std::vector <mu::io::ast::node *> ()));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (1, 5, 4, 1, 5, 4), std::wstring (L"~"));
 	expression->values.push_back (expression1);
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (1, 7, 6, 1, 7, 6), std::wstring (L"~"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 9, 8)));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (1, 7, 6, 1, 7, 6), std::wstring (L"~")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 9, 8)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -81,8 +83,8 @@ TEST (io_test, analyzer4)
 	auto routine (cluster->routines [0]);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 1);
-	auto parameters (boost::dynamic_pointer_cast <mu::core::expression> (body->dependencies [0]));
-    EXPECT_NE (parameters.get (), nullptr);
+	auto parameters (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
+    EXPECT_NE (parameters, nullptr);
     EXPECT_EQ (parameters->dependencies.empty (), true);
 }
 
@@ -91,12 +93,12 @@ TEST (io_test, analyzer5)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression1->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"~")));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -105,8 +107,8 @@ TEST (io_test, analyzer5)
     EXPECT_EQ (result.errors->errors.empty (), true);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 1);
-	auto parameters (boost::dynamic_pointer_cast <mu::core::reference> (body->dependencies [0]));
-    EXPECT_NE (parameters.get (), nullptr);
+	auto parameters (dynamic_cast <mu::core::reference *> (body->dependencies [0]));
+    EXPECT_NE (parameters, nullptr);
     EXPECT_EQ (parameters->index, 0);
 }
 
@@ -115,12 +117,12 @@ TEST (io_test, analyzer6)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression1->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"~")));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~"))));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -128,10 +130,10 @@ TEST (io_test, analyzer6)
     EXPECT_EQ (result.errors->errors.empty (), true);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 1);
-	auto reference (boost::dynamic_pointer_cast <mu::core::reference> (body->dependencies [0]));
-    EXPECT_NE (reference.get (), nullptr);
-	auto call (boost::dynamic_pointer_cast <mu::core::expression> (reference->expression));
-    EXPECT_NE (call.get (), nullptr);
+	auto reference (dynamic_cast <mu::core::reference *> (body->dependencies [0]));
+    EXPECT_NE (reference, nullptr);
+	auto call (dynamic_cast <mu::core::expression *> (reference->expression));
+    EXPECT_NE (call, nullptr);
     EXPECT_EQ (call->dependencies.empty (), true);
     EXPECT_EQ (reference->index, 0);
 }
@@ -141,12 +143,12 @@ TEST (io_test, analyzer7)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"~"));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~"))));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~"));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -154,8 +156,8 @@ TEST (io_test, analyzer7)
     EXPECT_EQ (result.errors->errors.empty (), true);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 1);
-	auto parameters (boost::dynamic_pointer_cast <mu::core::expression> (body->dependencies [0]));
-    EXPECT_NE (parameters.get (), nullptr);
+	auto parameters (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
+    EXPECT_NE (parameters, nullptr);
     EXPECT_EQ (parameters->dependencies.empty (), true);
 }
 
@@ -164,18 +166,18 @@ TEST (io_test, analyzer8)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto expression2 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (expression1);
 	expression->values.push_back (expression2);
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b"))));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"a"));
-	expression2->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"b"));
-	expression1->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b"))));
-	expression2->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b")));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"));
+	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b"));
+	expression1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b")));
+	expression2->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (!result.clusters.empty (), true);
@@ -183,10 +185,10 @@ TEST (io_test, analyzer8)
 	auto cluster (result.clusters [0]);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 2);
-	auto d1 (boost::dynamic_pointer_cast <mu::core::expression> (body->dependencies [0]));
-    EXPECT_NE (d1.get (), nullptr);
-	auto d2 (boost::dynamic_pointer_cast <mu::core::expression> (body->dependencies [1]));
-    EXPECT_NE (d2.get (), nullptr);
+	auto d1 (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
+    EXPECT_NE (d1, nullptr);
+	auto d2 (dynamic_cast <mu::core::expression *> (body->dependencies [1]));
+    EXPECT_NE (d2, nullptr);
     EXPECT_EQ (d1->dependencies.size (), 1);
     EXPECT_EQ (d2->dependencies.size (), 1);
     EXPECT_EQ (d1->dependencies [0], d2);
@@ -198,10 +200,10 @@ TEST (io_test, analyzer9)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto parameters (boost::shared_ptr <mu::io::ast::parameters> (new mu::io::ast::parameters (mu::io::debugging::context ())));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
 	expression->values.push_back (parameters);
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -209,8 +211,8 @@ TEST (io_test, analyzer9)
     EXPECT_EQ (result.errors->errors.empty (), true);
 	auto body (cluster->routines [0]->body);
     EXPECT_EQ (body->dependencies.size (), 1);
-	auto params (boost::dynamic_pointer_cast <mu::core::node> (body->dependencies [0]));
-    EXPECT_NE (params.get (), nullptr);
+	auto params (dynamic_cast <mu::core::node *> (body->dependencies [0]));
+    EXPECT_NE (params, nullptr);
 }
 
 // Resolve multiple identifiers while another remains unresolved
@@ -219,26 +221,26 @@ TEST (io_test, analyzer10)
 	// [[unresolved; a] [:~; b] [:~; c] [:~; unresolved] a]
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto parameters (boost::shared_ptr <mu::io::ast::parameters> (new mu::io::ast::parameters (mu::io::debugging::context ())));
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto e1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e1);
-	e1->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"unresolved"))));
-	e1->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"a")));
-	auto e2 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"unresolved")));
+	e1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
-	e2->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"b")));
-	auto e3 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	e2->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b")));
+	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
-	e3->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"c")));
-	auto e4 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	e3->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"c")));
+	auto e4 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e4);
 	e4->values.push_back (parameters);
-	e4->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"unresolved")));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));	
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	e4->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"unresolved")));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));	
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -251,21 +253,21 @@ TEST (io_test, analyzer11)
 	// [[un1 un2] [:~; un1] [:~; un2]]
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto parameters (boost::shared_ptr <mu::io::ast::parameters> (new mu::io::ast::parameters (mu::io::debugging::context ())));
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	auto e1 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e1);
-	e1->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un1"))));
-	e1->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un2"))));
-	auto e2 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un1")));
+	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un2")));
+	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
-	e2->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"un1")));
-	auto e3 (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
+	e2->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un1")));
+	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
-	e3->individual_names.push_back (boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"un2")));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	e3->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un2")));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (result.clusters.size (), 1);
@@ -277,14 +279,14 @@ TEST (io_test, analyzer12)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	auto expression2 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression2->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
 	expression1->values.push_back (expression2);
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
@@ -296,14 +298,14 @@ TEST (io_test, analyzer13)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression2 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression2->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression2);
-	auto expression1 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
@@ -315,11 +317,11 @@ TEST (io_test, analyzer14)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
@@ -331,17 +333,17 @@ TEST (io_test, analyzer15)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	auto expression2 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression2->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"3"));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"3"));
 	expression->values.push_back (expression2);
-	expression->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	auto expression3 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression3->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"3"));
+	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression3->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"3"));
 	expression1->values.push_back (expression3);
-	expression1->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
@@ -353,15 +355,15 @@ TEST (io_test, analyzer16)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	auto expression2 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression2->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression2);
-	auto expression3 (boost::make_shared <mu::io::ast::expression> (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ()));
-	expression3->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"2"));
+	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression3->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression3);
-	expression->full_name = boost::make_shared <mu::io::ast::identifier> (mu::io::debugging::context (), std::wstring (L"1"));
-	auto cl (boost::make_shared <mu::io::ast::cluster> (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
+	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
+	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
     EXPECT_EQ (!result.errors->errors.empty (), true);

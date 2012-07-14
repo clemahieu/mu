@@ -17,7 +17,7 @@ namespace mu
 			class node : public mu::llvm_::type::node
 			{
 			public:
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a);
+				node (mu::llvm_::context::node * context_a);
 				llvm::Type * type () override;
 				llvm::Type * type_m;
 			};

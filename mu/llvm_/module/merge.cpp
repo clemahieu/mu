@@ -13,14 +13,14 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 	bool valid (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
+		if (one != nullptr)
 		{
 			size_t position (1);
 			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end () + 0); i != j; ++i, ++position)
 			{
-				auto module (boost::dynamic_pointer_cast <mu::llvm_::module::node> (*i));
-				if (module.get () != nullptr)
+				auto module (dynamic_cast <mu::llvm_::module::node *> (*i));
+				if (module != nullptr)
 				{
 					std::string errors;
 					llvm::Linker::LinkModules (one->module, module->module, llvm::Linker::DestroySource, &errors);

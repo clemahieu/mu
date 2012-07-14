@@ -15,7 +15,9 @@
 
 #include <sstream>
 
-mu::script::exec::operation::operation (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+#include <gc_cpp.h>
+
+mu::script::exec::operation::operation (mu::io::analyzer::extensions::extensions * extensions_a)
 	: extensions (extensions_a)
 {
 }
@@ -25,8 +27,8 @@ bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		context_a.push (boost::make_shared <mu::script::run::operation> ());
-		context_a.push (boost::make_shared <mu::script::extensions::node> (extensions));
+		context_a.push (new (GC) mu::script::run::operation);
+		context_a.push (new (GC) mu::script::extensions::node (extensions));
 		for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 		{
 			context_a.push (*i);

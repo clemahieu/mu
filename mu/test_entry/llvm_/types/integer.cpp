@@ -22,9 +22,9 @@ TEST (llvm_test, integer1)
 	auto block (llvm::BasicBlock::Create (context));
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx;
-	ctx.push (boost::make_shared <mu::llvm_::integer_type::create> ());
-	ctx.push (boost::make_shared <mu::llvm_::context::node> (&context));
-	ctx.push (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, 16)));
+	ctx.push (new (GC) mu::llvm_::integer_type::create);
+	ctx.push (new (GC) mu::llvm_::context::node (&context));
+	ctx.push (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 16)));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 }

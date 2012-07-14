@@ -22,11 +22,11 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
 	bool result (true);
 	if (context_a.parameters_size () > 1)
 	{
-		auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
-		auto file (boost::dynamic_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
-		if (extensions.get () != nullptr)
+		auto extensions (dynamic_cast <mu::script::extensions::node *> (context_a.parameters (0)));
+		auto file (dynamic_cast <mu::script::string::node *> (context_a.parameters (1)));
+		if (extensions != nullptr)
 		{
-			if (file.get () != nullptr)
+			if (file != nullptr)
 			{
 				mu::script::load::operation load;
 				auto ast (load.core (context_a, file));

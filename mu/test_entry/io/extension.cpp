@@ -20,15 +20,17 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (io_test, extension1)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
-	extensions->extensions_m [std::wstring (L"a")] = boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io_test::extension1);
+	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
+	extensions->extensions_m [std::wstring (L"a")] = new (GC) mu::io_test::extension1;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
 	EXPECT_EQ (result.errors->errors.empty (), true);
@@ -42,12 +44,12 @@ TEST (io_test, extension1)
 TEST (io_test, extension2)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
-	extensions->extensions_m [std::wstring (L"a")] = boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io_test::extension2);
+	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
+	extensions->extensions_m [std::wstring (L"a")] = new (GC) mu::io_test::extension2;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
 	EXPECT_EQ (result.errors->errors.empty (), true);
@@ -61,12 +63,12 @@ TEST (io_test, extension2)
 TEST (io_test, extension3)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
-	extensions->extensions_m [std::wstring (L"a")] = boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io_test::extension3);
+	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
+	extensions->extensions_m [std::wstring (L"a")] = new (GC) mu::io_test::extension3;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
 	EXPECT_EQ (result.errors->errors.empty (), true);
@@ -80,13 +82,13 @@ TEST (io_test, extension3)
 TEST (io_test, extension4)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (boost::shared_ptr <mu::io::analyzer::extensions::extensions> (new mu::io::analyzer::extensions::extensions));
-	extensions->extensions_m [std::wstring (L"a")] = boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io_test::extension4);
+	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
+	extensions->extensions_m [std::wstring (L"a")] = new (GC) mu::io_test::extension4;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
-	auto expression (boost::shared_ptr <mu::io::ast::expression> (new mu::io::ast::expression (mu::io::debugging::context (), std::vector <boost::shared_ptr <mu::io::ast::node>> ())));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a"))));
-	expression->values.push_back (boost::shared_ptr <mu::io::ast::identifier> (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b"))));
-	auto cl (boost::make_shared <mu::io::ast::cluster> ());
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
+	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b")));
+	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
 	EXPECT_EQ (result.errors->errors.empty (), true);

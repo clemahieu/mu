@@ -60,9 +60,9 @@ void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
 	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	auto quit (boost::shared_ptr <mu::core::node> (new mu::repl::quit::operation (*this)));
-	builder.analyzer.extensions->extensions_m.insert (std::map <std::wstring, boost::shared_ptr <mu::io::analyzer::extensions::extension>>::value_type (std::wstring (L"quit"), boost::shared_ptr <mu::io::analyzer::extensions::extension> (new mu::io::analyzer::extensions::global (quit))));
+	mu::io::builder builder (mu::script::api::core ()->extensions);
+	auto quit (new (GC) mu::repl::quit::operation (*this));
+	builder.analyzer.extensions->extensions_m [std::wstring (L"quit")] = new (GC) mu::io::analyzer::extensions::global (quit);
 	builder.parser (new mu::io::tokens::left_square (), mu::io::debugging::context ());
 	builder (stream);
 	builder (L']');
@@ -81,7 +81,7 @@ void mu::repl::repl::iteration ()
 				if (valid)
 				{
 					ctx.slide ();
-					ctx.push (boost::make_shared <mu::script::print::operation> ());
+					ctx.push (new (GC) mu::script::print::operation);
 					ctx.push (ctx.locals_begin (), ctx.locals_end ());
 					auto valid (ctx ());
                     assert (valid);

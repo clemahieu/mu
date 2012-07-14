@@ -23,18 +23,18 @@ namespace mu
 			class core : public mu::core::visitor
 			{
 			public:
-				core (boost::shared_ptr <mu::core::expression> expression_a);
-				void operator () (boost::shared_ptr <mu::core::expression> expression_a);
+				core (mu::core::expression * expression_a);
+                void perform (mu::core::expression * expression_a);
 				void operator () (mu::core::cluster * cluster_a) override;
 				void operator () (mu::core::expression * expression_a) override;
 				void operator () (mu::core::parameters * parameters_a) override;
 				void operator () (mu::core::reference * reference_a) override;
 				void operator () (mu::core::node * node_a) override;
 				void operator () (mu::core::routine * routine_a) override;
-				boost::shared_ptr <mu::core::node> current;
-				std::set <boost::shared_ptr <mu::core::expression>> already;
-				std::set <boost::shared_ptr <mu::core::expression>> path;
-				boost::shared_ptr <mu::script::topology::node> topology;
+				mu::core::node * current;
+				std::set <mu::core::expression *> already;
+				std::set <mu::core::expression *> path;
+				mu::script::topology::node * topology;
 				bool acyclic;
 			};
 		}

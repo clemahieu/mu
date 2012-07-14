@@ -5,18 +5,20 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::script::frame::frame (mu::script::context & context_a)
 	: context (context_a)
 {
-	context_a.stack.push_back (boost::make_shared <mu::script::location> (context_a.frame_begin));
+	context_a.stack.push_back (new (GC) mu::script::location (context_a.frame_begin));
 	context_a.slide ();
 }
 
 mu::script::frame::~frame ()
 {
-	assert (boost::dynamic_pointer_cast <mu::script::location> (context.stack [context.frame_begin - 1]) != nullptr);
+	assert (dynamic_cast <mu::script::location *> (context.stack [context.frame_begin - 1]) != nullptr);
 	context.drop ();
-	auto location (boost::static_pointer_cast <mu::script::location> (context.stack [context.frame_begin - 1]));
+	auto location (static_cast <mu::script::location *> (context.stack [context.frame_begin - 1]));
 	context.frame_begin = location->position;
 	context.stack.resize (context.stack.size () - 1);
 }

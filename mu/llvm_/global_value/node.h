@@ -19,7 +19,7 @@ namespace mu
 			class node : public mu::llvm_::value::node
 			{
 			public:
-				node (llvm::GlobalValue * value_a, boost::shared_ptr <mu::llvm_::type::node> type_a);
+				node (llvm::GlobalValue * value_a, mu::llvm_::type::node * type_a);
 				llvm::GlobalValue * global_value ();
 			};
 		}

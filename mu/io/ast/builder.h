@@ -32,8 +32,8 @@ namespace mu
 				mu::core::errors::error_list * errors;
 				mu::io::parser::parser parser;
 				mu::io::lexer::lexer lexer;
-				void add (boost::shared_ptr <mu::io::ast::cluster> node_a);
-				boost::shared_ptr <mu::io::ast::cluster> cluster;
+				void add (mu::io::ast::cluster * node_a);
+				mu::io::ast::cluster * cluster;
 			};
 		}
 	}

@@ -37,8 +37,8 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::core::cluster> core (mu::script::context & context_a, boost::shared_ptr <mu::script::extensions::node> extensions, boost::shared_ptr <mu::io::ast::cluster> ast);
-				void build (boost::shared_ptr <mu::core::cluster> * result_a, boost::shared_ptr <mu::core::cluster> cluster_a);
+				mu::core::cluster * core (mu::script::context & context_a, mu::script::extensions::node * extensions, mu::io::ast::cluster * ast);
+				void build (mu::core::cluster ** result_a, mu::core::cluster * cluster_a);
 			};
 		}
 	}

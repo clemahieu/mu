@@ -2,7 +2,7 @@
 
 #include <llvm/Function.h>
 
-mu::llvm_::function::node::node (llvm::Function * function_a, boost::shared_ptr <mu::llvm_::type::node> type_a)
+mu::llvm_::function::node::node (llvm::Function * function_a, mu::llvm_::type::node * type_a)
 	: mu::llvm_::global_value::node (function_a, type_a)
 {
 }

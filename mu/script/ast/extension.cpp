@@ -9,6 +9,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	size_t position (expression_a.position + 1);
@@ -24,19 +26,19 @@ void mu::script::ast::extension::operator () (mu::core::errors::error_target * e
 	}
 }
 
-boost::shared_ptr <mu::io::ast::cluster> mu::script::ast::extension::core (mu::core::errors::error_target * errors_a, boost::shared_ptr <mu::io::ast::node> node_a)
+mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error_target * errors_a, mu::io::ast::node * node_a)
 {
-	auto result (boost::make_shared <mu::io::ast::cluster> ());
-	auto value (boost::dynamic_pointer_cast <mu::io::ast::expression> (node_a));
-	if (value.get () != nullptr)
+	auto result (new (GC) mu::io::ast::cluster);
+	auto value (dynamic_cast <mu::io::ast::expression *> (node_a));
+	if (value != nullptr)
 	{
 		if (value->full_name->string.empty () && value->individual_names.empty ())
 		{
 			bool good (true);
 			for (auto i (value->values.begin ()), j (value->values.end ()); i != j && good; ++i)
 			{
-				auto expression (boost::dynamic_pointer_cast <mu::io::ast::expression> (*i));
-				if (expression.get () != nullptr)
+				auto expression (dynamic_cast <mu::io::ast::expression *> (*i));
+				if (expression != nullptr)
 				{
 					result->expressions.push_back (expression);
 				}

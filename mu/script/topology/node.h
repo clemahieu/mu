@@ -19,7 +19,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:				
-				std::vector <boost::shared_ptr <mu::core::expression>> expressions;
+				std::vector <mu::core::expression *> expressions;
 			};
 		}
 	}

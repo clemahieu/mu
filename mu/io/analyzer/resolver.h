@@ -21,9 +21,9 @@ namespace mu
 			class resolver
 			{
 			public:
-				resolver (boost::shared_ptr <mu::core::expression> unresolved_a, size_t position_a);
-				void operator () (boost::shared_ptr <mu::core::node> node_a);
-				boost::shared_ptr <mu::core::expression> unresolved;
+				resolver (mu::core::expression * unresolved_a, size_t position_a);
+				void operator () (mu::core::node * node_a);
+				mu::core::expression * unresolved;
 				size_t position;
 			};
 		}

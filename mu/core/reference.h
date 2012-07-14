@@ -13,9 +13,9 @@ namespace mu
 		{
 		public:
 			reference ();
-			reference (boost::shared_ptr <mu::core::expression> expression_a, size_t index_a);
+			reference (mu::core::expression * expression_a, size_t index_a);
 			void operator () (mu::core::visitor * visitor_a) override;
-			boost::shared_ptr <mu::core::expression> expression;
+			mu::core::expression * expression;
 			size_t index;
 		};
 	}

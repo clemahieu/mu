@@ -5,12 +5,14 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::script::extensions::create::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <> () (context_a));
 	if (result)
 	{
-		context_a.push (boost::make_shared <mu::script::extensions::node> ());
+		context_a.push (new (GC) mu::script::extensions::node);
 	}
 	return result;
 }

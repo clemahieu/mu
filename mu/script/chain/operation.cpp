@@ -9,8 +9,8 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::operation> (context_a.parameters (0)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::script::operation *> (context_a.parameters (0)));
+		if (one != nullptr)
 		{
 			context_a.reserve (context_a.parameters_size () - 1);
 			context_a.assign (context_a.locals_begin (), context_a.parameters_begin () + 1, context_a.parameters_end ());
@@ -24,8 +24,8 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 				{
 					if (context_a.working_size () > 0)
 					{
-						auto val (boost::dynamic_pointer_cast <mu::script::bool_c::node> (context_a.working (context_a.working_size () - 1)));
-						if (val.get () != nullptr)
+						auto val (dynamic_cast <mu::script::bool_c::node *> (context_a.working (context_a.working_size () - 1)));
+						if (val != nullptr)
 						{
 							end = val->value;
 							context_a.assign (context_a.locals_begin (), context_a.working_begin (), context_a.working_end () - 1);

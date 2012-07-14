@@ -8,13 +8,15 @@
 
 #include <llvm/ADT/APInt.h>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::apint::create::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::script::integer::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::script::integer::node> (context_a.parameters (0)));
-		context_a.push (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, one->value)));
+		auto one (static_cast <mu::script::integer::node *> (context_a.parameters (0)));
+		context_a.push (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, one->value)));
 	}
 	return valid;
 }

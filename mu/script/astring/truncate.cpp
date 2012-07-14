@@ -6,14 +6,16 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::script::astring::truncate::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
+		auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		std::string string (one->string.begin (), one->string.end ());
-		context_a.push (boost::make_shared <mu::script::astring::node> (string));
+		context_a.push (new (GC) mu::script::astring::node (string));
 	}
 	return result;
 }

@@ -20,8 +20,8 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				std::map <std::wstring, boost::shared_ptr <mu::script::runtime::routine>> names;
-				std::vector <boost::shared_ptr <mu::script::runtime::routine>> routines;
+				std::map <std::wstring, mu::script::runtime::routine *> names;
+				std::vector <mu::script::runtime::routine *> routines;
 			};
 		}
 	}

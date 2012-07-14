@@ -11,9 +11,9 @@ namespace mu
 			class fixed : public mu::script::operation
 			{
 			public:
-				fixed (boost::shared_ptr <mu::core::node> node_a);
+				fixed (mu::core::node * node_a);
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::core::node> node;
+				mu::core::node * node;
 			};
 		}
 	}

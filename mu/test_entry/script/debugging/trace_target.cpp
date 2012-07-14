@@ -25,7 +25,7 @@ TEST (script_test, trace_target1)
 	mu::core::errors::errors errors (new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	context.errors = errors;
 	mu::script::builder builder;
-	builder.analyzer.extensions->extensions_m [L"fail"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::fail::operation> ());
+	builder.analyzer.extensions->extensions_m [L"fail"] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation);
 	builder (L"[fail]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);

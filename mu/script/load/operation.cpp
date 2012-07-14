@@ -23,9 +23,9 @@ bool mu::script::load::operation::operator () (mu::script::context & context_a)
 	bool complete (mu::script::check <mu::script::string::node> () (context_a));
 	if (complete)
 	{
-		auto file (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
+		auto file (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		auto result (core (context_a, file));
-		if (result.get () != nullptr)
+		if (result != nullptr)
 		{
 			context_a.push (result);
 		}
@@ -37,9 +37,9 @@ bool mu::script::load::operation::operator () (mu::script::context & context_a)
 	return complete;
 }
 
-boost::shared_ptr <mu::io::ast::cluster> mu::script::load::operation::core (mu::script::context & context_a, boost::shared_ptr <mu::script::string::node> file)
+mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & context_a, mu::script::string::node * file)
 {
-	boost::shared_ptr <mu::io::ast::cluster> result;
+	mu::io::ast::cluster * result;
 	auto path (boost::filesystem::initial_path ());
 	path /= std::string (file->string.begin (), file->string.end ());
 	std::ifstream stream;

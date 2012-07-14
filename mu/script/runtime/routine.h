@@ -18,10 +18,10 @@ namespace mu
 			class routine : public mu::script::operation
 			{
 			public:
-				routine (boost::shared_ptr <mu::script::runtime::expression> parameters_a);
+				routine (mu::script::runtime::expression * parameters_a);
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::script::runtime::expression> parameters;
-				std::vector <boost::shared_ptr <mu::script::runtime::expression>> expressions;
+				mu::script::runtime::expression * parameters;
+				std::vector <mu::script::runtime::expression *> expressions;
 			};
 		}
 	}

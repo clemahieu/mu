@@ -13,9 +13,9 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::extensions::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters (2)));
+		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
+		auto three (static_cast <mu::script::extensions::node *> (context_a.parameters (2)));
 		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
 		{
 			std::wstring name (two->string.begin (), two->string.end ());

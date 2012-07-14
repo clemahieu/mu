@@ -9,12 +9,14 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::llvm_::module::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
 		llvm::EngineBuilder builder (one->module);
 		builder.setEngineKind (llvm::EngineKind::JIT);
 		std::string errors_l;
@@ -22,7 +24,7 @@ bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 		auto engine (builder.create ());
 		if (engine != nullptr && errors_l.empty ())
 		{
-			context_a.push (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::node (engine)));
+			context_a.push (new (GC) mu::llvm_::execution_engine::node (engine));
 		}
 		else
 		{

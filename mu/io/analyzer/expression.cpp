@@ -18,7 +18,7 @@
 
 #include <gc_cpp.h>
 
-mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, boost::shared_ptr <mu::core::expression> self_a)
+mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, mu::core::expression * self_a)
 	: routine (routine_a),
 	expression_m (expression_a),
 	self (self_a),
@@ -30,24 +30,25 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		auto reference (boost::make_shared <mu::core::reference> (self, i));
+		auto reference (new (GC) mu::core::reference (self, i));
 		routine_a.resolve_local (expression_a->individual_names [i]->string, reference);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
-		(*expression_a->values [position]) (this);
+        auto value (expression_a->values [position]);
+		(*value) (this);
 	}
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::parameters * parameters_a)
 {
-	auto parameters_l (boost::make_shared <mu::core::parameters> ());
+	auto parameters_l (new (GC) mu::core::parameters);
 	self->dependencies.push_back (parameters_l);
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expression_a)
 {
-	auto expression_l (boost::shared_ptr <mu::core::expression> (new mu::core::expression));
+	auto expression_l (new (GC) mu::core::expression);
 	mu::io::analyzer::expression expression (routine, expression_a, expression_l);
 	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())
 	{
@@ -70,8 +71,8 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 			auto routine_l (routine.analyzer.cluster->names.find (identifier_a->string));
 			if (routine_l == routine.analyzer.cluster->names.end ())
 			{
-				self->dependencies.push_back (boost::shared_ptr <mu::core::expression> ());
-				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <boost::shared_ptr <mu::io::analyzer::resolver>, mu::io::debugging::context> (boost::shared_ptr <mu::io::analyzer::resolver> (new mu::io::analyzer::resolver (self, self->dependencies.size () - 1)), identifier_a->context)));
+				self->dependencies.push_back (nullptr);
+				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context> (new (GC) mu::io::analyzer::resolver (self, self->dependencies.size () - 1), identifier_a->context)));
 			}
 			else
 			{

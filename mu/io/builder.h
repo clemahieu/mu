@@ -32,14 +32,14 @@ namespace mu
 		public:
 			using mu::io::source::operator ();
 			builder ();
-			builder (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
+			builder (mu::io::analyzer::extensions::extensions * extensions_a);
 			void operator () (wchar_t char_a) override;
 			mu::core::errors::error_list * errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;
-			void add (boost::shared_ptr <mu::core::cluster>);
-			boost::shared_ptr <mu::core::cluster> cluster;
+			void add (mu::core::cluster *);
+			mu::core::cluster * cluster;
 		};
 	}
 }

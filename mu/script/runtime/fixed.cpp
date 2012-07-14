@@ -3,7 +3,7 @@
 #include <mu/script/check.h>
 #include <mu/script/runtime/locals.h>
 
-mu::script::runtime::fixed::fixed (boost::shared_ptr <mu::core::node> node_a)
+mu::script::runtime::fixed::fixed (mu::core::node * node_a)
 	: node (node_a)
 {
 }

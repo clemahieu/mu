@@ -14,7 +14,7 @@ namespace mu
 		class expression : public mu::core::node
 		{
 		public:
-			std::vector <boost::shared_ptr <mu::core::node>> dependencies;
+			std::vector <mu::core::node *> dependencies;
 			void operator () (mu::core::visitor * visitor_a) override;
 		};
 	}

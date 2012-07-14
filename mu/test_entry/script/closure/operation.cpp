@@ -14,7 +14,7 @@ TEST (script_test, closure_operation1)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (0, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
+	ctx.push (new (GC) mu::script::closure::operation (0, new (GC) mu::script::identity::operation));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 0);
@@ -24,8 +24,8 @@ TEST (script_test, closure_operation2)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (1, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
-	auto node (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	ctx.push (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity::operation));
+	auto node (new (GC) mu::core::node);
 	ctx.push (node);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
@@ -37,10 +37,10 @@ TEST (script_test, closure_operation3)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
-	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	auto n1 (new (GC) mu::core::node);
 	ctx.push (n1);
-	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	auto n2 (new (GC) mu::core::node);
 	ctx.push (n2);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
@@ -53,19 +53,19 @@ TEST (script_test, closure_operation4)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
-	auto n1 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	auto n1 (new (GC) mu::core::node);
 	ctx.push (n1);
-	auto n2 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
+	auto n2 (new (GC) mu::script::closure::hole);
 	ctx.push (n2);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	assert (ctx.working_size () == 1);
-	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (ctx.working (0)));
-	EXPECT_NE (result.get (), nullptr);
+	auto result (dynamic_cast <mu::script::closure::operation *> (ctx.working (0)));
+	EXPECT_NE (result, nullptr);
 	ctx.drop ();
 	ctx.push (result);
-	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	auto n3 (new (GC) mu::core::node);
 	ctx.push (n3);
 	auto valid2 (ctx ());
 	EXPECT_EQ (valid2, true);
@@ -78,19 +78,19 @@ TEST (script_test, closure_operation5)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::operation> (2, boost::shared_ptr <mu::script::operation> (new mu::script::identity::operation)));
-	auto n1 (boost::shared_ptr <mu::core::node> (new mu::script::closure::hole));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	auto n1 (new (GC) mu::script::closure::hole);
 	ctx.push (n1);
-	auto n2 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	auto n2 (new (GC) mu::core::node);
 	ctx.push (n2);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto result (boost::dynamic_pointer_cast <mu::script::closure::operation> (ctx.working (0)));
-	EXPECT_NE (result.get (), nullptr);
+	auto result (dynamic_cast <mu::script::closure::operation *> (ctx.working (0)));
+	EXPECT_NE (result, nullptr);
 	ctx.drop ();
 	ctx.push (result);
-	auto n3 (boost::shared_ptr <mu::core::node> (new mu::core::node));
+	auto n3 (new (GC) mu::core::node);
 	ctx.push (n3);
 	auto valid2 (ctx ());
 	EXPECT_EQ (valid2, true);

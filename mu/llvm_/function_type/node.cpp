@@ -6,7 +6,7 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
 
-mu::llvm_::function_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::FunctionType * function_type_a)
+mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, llvm::FunctionType * function_type_a)
 {
 	mu::llvm_::type::build build (context_a, function_type_a->getReturnType ());
 	output = build.type;
@@ -18,7 +18,7 @@ mu::llvm_::function_type::node::node (boost::shared_ptr <mu::llvm_::context::nod
 	}
 }
 
-mu::llvm_::function_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> parameters_a, boost::shared_ptr <mu::llvm_::type::node> output_a)
+mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> parameters_a, mu::llvm_::type::node * output_a)
 	: context (context_a),
 	parameters (parameters_a),
 	output (output_a)

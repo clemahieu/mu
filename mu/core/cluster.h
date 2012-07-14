@@ -17,8 +17,8 @@ namespace mu
 		{
 		public:
 			void operator () (mu::core::visitor * visitor_a) override;
-			std::map <std::wstring, boost::shared_ptr <mu::core::routine>> names;
-			std::vector <boost::shared_ptr <mu::core::routine>> routines;
+			std::map <std::wstring, mu::core::routine *> names;
+			std::vector <mu::core::routine *> routines;
 			std::wstring name () override;
 		};
 	}

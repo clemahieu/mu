@@ -15,13 +15,13 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 	bool result (mu::script::check <mu::llvm_::module::node, mu::script::package::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::package::node *> (context_a.parameters (1)));
 		auto good (true);
 		for (auto i (two->items.begin ()), j (two->items.end ()); i != j && good; ++i)
 		{
-			auto source (boost::dynamic_pointer_cast <mu::llvm_::function::node> (i->second));
-			if (source.get () != nullptr)
+			auto source (dynamic_cast <mu::llvm_::function::node *> (i->second));
+			if (source != nullptr)
 			{
 				auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
 				if (function != nullptr)
@@ -31,8 +31,8 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 			}
 			else
 			{
-				auto source (boost::dynamic_pointer_cast <mu::llvm_::function::node> (i->second));
-				if (source.get () != nullptr)
+				auto source (dynamic_cast <mu::llvm_::function::node *> (i->second));
+				if (source != nullptr)
 				{
 					auto function (llvm::dyn_cast <llvm::Function> (source->value ()));
 					llvm::Function::Create (function->getFunctionType (), llvm::GlobalValue::ExternalLinkage, function->getName (), one->module);

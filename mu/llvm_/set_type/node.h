@@ -11,9 +11,9 @@ namespace mu
 			class node : public mu::llvm_::struct_type::node
 			{
 			public:			
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a);
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> elements_a);
-				node (boost::shared_ptr <mu::llvm_::struct_type::node> struct_a);
+				node (mu::llvm_::context::node * context_a);
+				node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> elements_a);
+				node (mu::llvm_::struct_type::node * struct_a);
 			};
 		}
 	}

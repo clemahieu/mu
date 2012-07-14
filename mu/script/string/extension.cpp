@@ -22,10 +22,10 @@ void mu::script::string::extension::operator () (mu::core::errors::error_target 
 	if (expression_a.expression_m->values.size () > data_position)
 	{
 		expression_a.position = data_position;
-		auto data (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [data_position]));
-		if (data.get () != nullptr)
+		auto data (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [data_position]));
+		if (data != nullptr)
 		{
-			expression_a.self->dependencies.push_back (boost::shared_ptr <mu::script::string::node> (new mu::script::string::node (data->string)));
+			expression_a.self->dependencies.push_back (new (GC) mu::script::string::node (data->string));
 		}
 		else
 		{

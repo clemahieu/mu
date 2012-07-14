@@ -11,17 +11,19 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 void mu::script::astring::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {	
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
 	if (expression_a.expression_m->values.size () > data_position)
 	{
-		auto data (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [data_position]));
-		if (data.get () != nullptr)
+		auto data (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [data_position]));
+		if (data != nullptr)
 		{
 			std::string string_l (data->string.begin (), data->string.end ());
-			expression_a.self->dependencies.push_back (boost::shared_ptr <mu::script::astring::node> (new mu::script::astring::node (string_l)));
+			expression_a.self->dependencies.push_back (new (GC) mu::script::astring::node (string_l));
 		}
 		else
 		{

@@ -65,7 +65,7 @@ TEST (core_test, visitor3)
 	mu::core::expression * expression (new mu::core::expression);
 	mu::core::parameters * parameters (new mu::core::parameters);
 	mu::core::node * node (new mu::core::node);
-	mu::core::reference * reference (new mu::core::reference (boost::shared_ptr <mu::core::expression> (), 0));
+	mu::core::reference * reference (new mu::core::reference (nullptr, 0));
 	mu::core::routine * routine (new mu::core::routine);
 	(*cluster) (visitor.get ());
 	(*expression) (visitor.get ());	

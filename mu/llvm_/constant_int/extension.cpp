@@ -18,7 +18,9 @@
 
 #include <boost/make_shared.hpp>
 
-mu::llvm_::constant_int::extension::extension (boost::shared_ptr <mu::llvm_::context::node> context_a)
+#include <gc_cpp.h>
+
+mu::llvm_::constant_int::extension::extension (mu::llvm_::context::node * context_a)
 	: context (context_a)
 {
 }
@@ -30,24 +32,24 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 	if (expression_a.expression_m->values.size () > number_position)
 	{
 		expression_a.position = number_position;
-		auto bits_identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [bits_position]));
-		if (bits_identifier.get () != nullptr)
+		auto bits_identifier (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [bits_position]));
+		if (bits_identifier != nullptr)
 		{
-			auto number_identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [number_position]));
-			if (number_identifier.get () != nullptr)
+			auto number_identifier (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [number_position]));
+			if (number_identifier != nullptr)
 			{
 				auto characters (bits_identifier->string.c_str ());
 				auto bits (mu::script::integer::core_d (errors_a, characters));
-				if (bits.get () != nullptr)
+				if (bits != nullptr)
 				{
 					auto number (mu::script::integer::core (errors_a, number_identifier->string));
-					if (number.get () != nullptr)
+					if (number != nullptr)
 					{
-						auto node (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::constant_int::create> ()));
+						auto node (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_int::create));
 						node->closed.push_back (context);
-						node->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, bits->value)));
-						node->closed.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (bits->value, number->value)));
-						auto result (boost::make_shared <mu::core::expression> ());
+						node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, bits->value)));
+						node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (bits->value, number->value)));
+						auto result (new (GC) mu::core::expression);
 						result->dependencies.push_back (node);
 						expression_a.self->dependencies.push_back (result);
 					}

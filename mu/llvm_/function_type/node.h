@@ -23,13 +23,13 @@ namespace mu
 			class node : public mu::llvm_::type::node
 			{
 			public:
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::FunctionType * function_type_a);
-				node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> parameters_a, boost::shared_ptr <mu::llvm_::type::node> output_a);
+				node (mu::llvm_::context::node * context_a, llvm::FunctionType * function_type_a);
+				node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> parameters_a, mu::llvm_::type::node * output_a);
 				llvm::Type * type () override;
 				llvm::FunctionType * function_type ();
-				boost::shared_ptr <mu::llvm_::context::node> context;
-				std::vector <boost::shared_ptr <mu::llvm_::type::node>> parameters;
-				boost::shared_ptr <mu::llvm_::type::node> output;
+				mu::llvm_::context::node * context;
+				std::vector <mu::llvm_::type::node *> parameters;
+				mu::llvm_::type::node * output;
 			};
 		}
 	}

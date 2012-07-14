@@ -11,19 +11,21 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
 {
 	auto position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > position)
 	{
 		expression_a.position = position;
-		auto value (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [position]));
-		if (value.get () != nullptr)
+		auto value (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [position]));
+		if (value != nullptr)
 		{
 			auto result (mu::script::integer::core (errors_a, value->string));
-			if (result.get () != nullptr)
+			if (result != nullptr)
 			{
-				expression_a.self->dependencies.push_back (boost::make_shared <mu::llvm_::apint::node> (new llvm::APInt (64, result->value)));
+				expression_a.self->dependencies.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, result->value)));
 			}
 		}
 		else

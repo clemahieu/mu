@@ -20,19 +20,21 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::llvm_::value::node *> (context_a.parameters (0)));
+		if (one != nullptr)
 		{
-			auto pointer_type (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (one->type));
-			if (pointer_type.get () != nullptr)
+			auto pointer_type (dynamic_cast <mu::llvm_::pointer_type::node *> (one->type));
+			if (pointer_type != nullptr)
 			{
-				auto function_type (boost::dynamic_pointer_cast <mu::llvm_::function_type::node> (pointer_type->element));
-				if (function_type.get () != nullptr)
+				auto function_type (dynamic_cast <mu::llvm_::function_type::node *> (pointer_type->element));
+				if (function_type != nullptr)
 				{
 					auto flat_type (function_type->function_type ());
 					if (flat_type->getNumParams () == context_a.parameters_size () - 1)
@@ -41,8 +43,8 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 						size_t position (0);
 						for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end () + 0); i != j && !context_a (); ++i, ++position)
 						{
-							auto value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
-							if (value.get () != nullptr)
+							auto value (dynamic_cast <mu::llvm_::value::node *> (*i));
+							if (value != nullptr)
 							{
 								auto expected (flat_type->getParamType (position));
 								auto actual (value->type->type ());
@@ -72,7 +74,7 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 						}
 						if (result)
 						{
-							context_a.push (boost::make_shared <mu::llvm_::instruction::node> (llvm::CallInst::Create (one->value (), arguments), function_type->output));
+							context_a.push (new (GC) mu::llvm_::instruction::node (llvm::CallInst::Create (one->value (), arguments), function_type->output));
 						}
 					}
 					else

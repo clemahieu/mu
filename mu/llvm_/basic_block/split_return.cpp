@@ -14,7 +14,9 @@
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
 
-mu::llvm_::basic_block::split_return::split_return (boost::shared_ptr <mu::llvm_::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> next_a)
+#include <gc_cpp.h>
+
+mu::llvm_::basic_block::split_return::split_return (mu::llvm_::basic_block::node * block_a, mu::script::operation * next_a)
 	: next (next_a),
 	block (block_a)
 {
@@ -28,23 +30,23 @@ bool mu::llvm_::basic_block::split_return::operator () (mu::script::context & co
 	if (valid)
 	{
 		assert (context_a.working_size () == 1);
-		auto result (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.working (0)));
+		auto result (static_cast <mu::llvm_::value::node *> (context_a.working (0)));
 		context_a.slide ();
-		auto set (boost::dynamic_pointer_cast <mu::llvm_::set_type::node> (result->type));
-		if (set.get () != nullptr)
+		auto set (dynamic_cast <mu::llvm_::set_type::node *> (result->type));
+		if (set != nullptr)
 		{
 			for (size_t i (0), j (set->elements.size ()); i != j; ++i)
 			{
 				auto extract (llvm::ExtractValueInst::Create (result->value (), i));
 				block->block->getInstList ().push_back (extract);
-				auto value (boost::make_shared <mu::llvm_::value::node> (extract, set->elements [i]));
+				auto value (new (GC) mu::llvm_::value::node (extract, set->elements [i]));
 				context_a.push (value);
 			}
 		}
 		else
 		{
-			auto void_l (boost::dynamic_pointer_cast <mu::llvm_::void_type::node> (result->type));
-			if (void_l.get () != nullptr)
+			auto void_l (dynamic_cast <mu::llvm_::void_type::node *> (result->type));
+			if (void_l != nullptr)
 			{
 				// Don't return anything for void
 			}

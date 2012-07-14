@@ -20,15 +20,15 @@ namespace mu
 		public:
 			context ();
 			context (mu::core::errors::errors errors_a);
-			boost::shared_ptr <mu::core::node> & parameters (size_t offset);
+			mu::core::node * & parameters (size_t offset);
 			size_t parameters_size ();
 			mu::script::iterator parameters_begin ();
 			mu::script::iterator parameters_end ();
-			boost::shared_ptr <mu::core::node> & locals (size_t offset);
+			mu::core::node * & locals (size_t offset);
 			size_t locals_size ();
 			mu::script::iterator locals_begin ();
 			mu::script::iterator locals_end ();
-			boost::shared_ptr <mu::core::node> & working (size_t offset);
+			mu::core::node * & working (size_t offset);
 			size_t working_size ();
 			mu::script::iterator working_begin ();
 			mu::script::iterator working_end ();
@@ -36,7 +36,7 @@ namespace mu
 			void leave ();
 			void drop ();
 			void slide ();
-			void push (boost::shared_ptr <mu::core::node> node_a);
+			void push (mu::core::node * node_a);
 			void reserve (size_t count_a);
 			template <typename G> void push (G begin_a, G end_a)
 			{
@@ -54,7 +54,7 @@ namespace mu
 				}
 			}
 			bool operator () ();
-			std::vector <boost::shared_ptr <mu::core::node>> stack;
+			std::vector <mu::core::node *> stack;
 			size_t base_begin;
 			size_t base_end;
 			size_t frame_begin;

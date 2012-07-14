@@ -11,16 +11,18 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::execution_engine::run_function::operator () (mu::script::context & context_a)
 {
 	bool valid (true);
 	if (context_a.parameters_size () > 1)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::execution_engine::node> (context_a.parameters (0)));
-		auto two (boost::dynamic_pointer_cast <mu::llvm_::function::node> (context_a.parameters (1)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::llvm_::execution_engine::node *> (context_a.parameters (0)));
+		auto two (dynamic_cast <mu::llvm_::function::node *> (context_a.parameters (1)));
+		if (one != nullptr)
 		{
-			if (two.get () != nullptr)
+			if (two != nullptr)
 			{
 				perform_internal (context_a, one, two->function ());
 			}
@@ -72,14 +74,14 @@ std::wstring mu::llvm_::execution_engine::run_function::name ()
 	return std::wstring (L"mu::llvm_::execution_engine::run_function");
 }
 
-void mu::llvm_::execution_engine::run_function::perform_internal (mu::script::context & context_a, boost::shared_ptr <mu::llvm_::execution_engine::node> one, llvm::Function * function)
+void mu::llvm_::execution_engine::run_function::perform_internal (mu::script::context & context_a, mu::llvm_::execution_engine::node * one, llvm::Function * function)
 {
 	bool good (true);
 	std::vector <llvm::GenericValue> arguments;
 	for (auto i (context_a.parameters_begin () + 2), j (context_a.parameters_end ()); i != j && good; ++i)
 	{
-		auto value (boost::dynamic_pointer_cast <mu::llvm_::execution_engine::generic_value::node> (*i));
-		if (value.get () != nullptr)
+		auto value (dynamic_cast <mu::llvm_::execution_engine::generic_value::node *> (*i));
+		if (value != nullptr)
 		{
 			arguments.push_back (value->value);
 		}
@@ -95,5 +97,5 @@ void mu::llvm_::execution_engine::run_function::perform_internal (mu::script::co
 		}
 	}
 	auto result (one->engine->runFunction (function, arguments));
-	context_a.push (boost::shared_ptr <mu::core::node> (new mu::llvm_::execution_engine::generic_value::node (result)));
+	context_a.push (new (GC) mu::llvm_::execution_engine::generic_value::node (result));
 }

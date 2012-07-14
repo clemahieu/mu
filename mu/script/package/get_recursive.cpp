@@ -10,6 +10,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::script::package::get_recursive::operator () (mu::script::context & context_a)
 {
 	bool result (true);
@@ -21,7 +23,7 @@ bool mu::script::package::get_recursive::operator () (mu::script::context & cont
 		auto j (context_a.parameters_end ());
 		for (; i != j && good; ++i)
 		{
-			context_a.push (boost::make_shared <mu::script::package::get> ());
+			context_a.push (new (GC) mu::script::package::get);
 			context_a.push (node);
 			context_a.push (*i);
 			result = context_a ();

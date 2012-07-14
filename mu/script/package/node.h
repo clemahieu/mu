@@ -15,7 +15,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				std::map <std::wstring, boost::shared_ptr <mu::core::node>> items;
+				std::map <std::wstring, mu::core::node *> items;
 				std::wstring debug () override;
 			};
 		}

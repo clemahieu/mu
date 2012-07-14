@@ -18,25 +18,27 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::function_type::create::operator () (mu::script::context & context_a)
 {
 	bool valid (true);
 	if (context_a.parameters_size ())
 	{
-		auto context (boost::dynamic_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
-		if (context.get () != nullptr)
+		auto context (dynamic_cast <mu::llvm_::context::node *> (context_a.parameters (0)));
+		if (context != nullptr)
 		{
 			context_a.reserve (3);
-			auto on_args (boost::make_shared <mu::script::bool_c::node> (true));
+			auto on_args (new (GC) mu::script::bool_c::node (true));
 			context_a.locals (0) = on_args;
-			auto arguments (boost::make_shared <mu::script::values::operation> ());
+			auto arguments (new (GC) mu::script::values::operation);
 			context_a.locals (1) = arguments;
-			auto results (boost::make_shared <mu::script::values::operation> ());
+			auto results (new (GC) mu::script::values::operation);
 			context_a.locals (2) = results;
 			for (auto i (context_a.parameters_begin () + 1), j (context_a.parameters_end ()); i != j; ++i)
 			{
-				auto divider (boost::dynamic_pointer_cast <mu::llvm_::function_type::divider> (*i));
-				if (divider.get () != nullptr)
+				auto divider (dynamic_cast <mu::llvm_::function_type::divider *> (*i));
+				if (divider != nullptr)
 				{
 					if (!on_args->value)
 					{
@@ -62,11 +64,11 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 			}
 			if (valid)
 			{
-				std::vector <boost::shared_ptr <mu::llvm_::type::node>> arguments_l;
+				std::vector <mu::llvm_::type::node *> arguments_l;
 				for (auto i (arguments->values.begin ()), j (arguments->values.end ()); i != j; ++i)
 				{
-					auto type (boost::dynamic_pointer_cast <mu::llvm_::type::node> (*i));
-					if (type.get () != nullptr)
+					auto type (dynamic_cast <mu::llvm_::type::node *> (*i));
+					if (type != nullptr)
 					{
 						arguments_l.push_back (type);
 					}
@@ -75,11 +77,11 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 						valid = false;
 					}
 				}
-				std::vector <boost::shared_ptr <mu::llvm_::type::node>> results_l;
+				std::vector <mu::llvm_::type::node *> results_l;
 				for (auto i (results->values.begin ()), j (results->values.end ()); i != j; ++i)
 				{
-					auto type (boost::dynamic_pointer_cast <mu::llvm_::type::node> (*i));
-					if (type.get () != nullptr)
+					auto type (dynamic_cast <mu::llvm_::type::node *> (*i));
+					if (type != nullptr)
 					{
 						results_l.push_back (type);
 					}
@@ -92,15 +94,15 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 				{
 					if (results_l.size () == 0)
 					{				
-						context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments_l, boost::make_shared <mu::llvm_::void_type::node> (context)));
+						context_a.push (new (GC) mu::llvm_::function_type::node (context, arguments_l, new (GC) mu::llvm_::void_type::node (context)));
 					}
 					else if (results_l.size () == 1)
 					{
-						context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments_l, results_l [0]));
+						context_a.push (new (GC) mu::llvm_::function_type::node (context, arguments_l, results_l [0]));
 					}
 					else
 					{
-						context_a.push (boost::make_shared <mu::llvm_::function_type::node> (context, arguments_l, boost::make_shared <mu::llvm_::set_type::node> (context, results_l)));
+						context_a.push (new (GC) mu::llvm_::function_type::node (context, arguments_l, new (GC) mu::llvm_::set_type::node (context, results_l)));
 					}
 				}
 			}

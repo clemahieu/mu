@@ -7,20 +7,22 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
-		auto operation (boost::dynamic_pointer_cast <mu::script::closure::operation> (context_a.parameters (0)));
-		if (operation.get () != nullptr)
+		auto operation (dynamic_cast <mu::script::closure::operation *> (context_a.parameters (0)));
+		if (operation != nullptr)
 		{			
 			std::vector <size_t> open_l;
 			for (size_t position (1), end (context_a.parameters_size ()); position != end; ++position)
 			{
 				auto val (context_a.parameters (position));
-				auto hole (boost::dynamic_pointer_cast <mu::script::closure::hole> (val));
-				if (hole.get () == nullptr)
+				auto hole (dynamic_cast <mu::script::closure::hole *> (val));
+				if (hole == nullptr)
 				{
 					operation->closed [operation->open [position - 1]] = val;
 				}
@@ -28,7 +30,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 				{
 					open_l.push_back (operation->open [position - 1]);
 				}
-				context_a.push (boost::shared_ptr <mu::core::node> (new mu::script::closure::operation (operation->operation_m, open_l, operation->closed)));
+				context_a.push (new (GC) mu::script::closure::operation (operation->operation_m, open_l, operation->closed));
 			}
 		}
 		else

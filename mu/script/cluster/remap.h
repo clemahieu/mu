@@ -19,11 +19,11 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				void operator () (boost::shared_ptr <mu::core::cluster> source, boost::shared_ptr <mu::core::cluster> target);
-				void operator () (boost::shared_ptr <mu::core::routine> source, boost::shared_ptr <mu::core::routine> target);
-				void operator () (boost::shared_ptr <mu::core::expression> source, boost::shared_ptr <mu::core::expression> target);
-				void operator () (boost::shared_ptr <mu::core::reference> source, boost::shared_ptr <mu::core::reference> target);
-				virtual boost::shared_ptr <mu::core::node> operator () (boost::shared_ptr <mu::core::node> node_a) = 0;
+				void operator () (mu::core::cluster * source, mu::core::cluster * target);
+				void operator () (mu::core::routine * source, mu::core::routine * target);
+				void operator () (mu::core::expression * source, mu::core::expression * target);
+				void operator () (mu::core::reference * source, mu::core::reference * target);
+				virtual mu::core::node * operator () (mu::core::node * node_a) = 0;
 			};
 		}
 	}

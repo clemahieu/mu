@@ -7,18 +7,20 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 mu::script::bool_c::create::create ()
 {
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"true"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (true))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"false"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"yes"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (true))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"no"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"1"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (true))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"0"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"on"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (true))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"off"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"high"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (true))));
-	values.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (std::wstring (L"low"), boost::shared_ptr <mu::core::node> (new mu::script::bool_c::node (false))));
+	values [std::wstring (L"true")] = new (GC) mu::script::bool_c::node (true);
+	values [std::wstring (L"false")] = new (GC) mu::script::bool_c::node (false);
+	values [std::wstring (L"yes")] = new (GC) mu::script::bool_c::node (true);
+	values [std::wstring (L"no")] = new (GC) mu::script::bool_c::node (false);
+	values [std::wstring (L"1")] = new (GC) mu::script::bool_c::node (true);
+	values [std::wstring (L"0")] = new (GC) mu::script::bool_c::node (false);
+	values [std::wstring (L"on")] = new (GC) mu::script::bool_c::node (true);
+	values [std::wstring (L"off")] = new (GC) mu::script::bool_c::node (false);
+	values [std::wstring (L"high")] = new (GC) mu::script::bool_c::node (true);
+	values [std::wstring (L"low")] = new (GC) mu::script::bool_c::node (false);
 }
 
 bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
@@ -26,7 +28,7 @@ bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
 	bool result (mu::script::check <mu::script::string::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (0)));
+		auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		std::wstring lower;
 		std::transform (one->string.begin (), one->string.end (), lower.begin (), ::tolower);
 		auto existing (values.find (lower));

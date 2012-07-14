@@ -17,8 +17,8 @@ namespace mu
 			class remap : public mu::script::cluster::remap
 			{
 			public:
-				boost::shared_ptr <mu::core::node> operator () (boost::shared_ptr <mu::core::node> node_a) override;
-				std::map <boost::shared_ptr <mu::core::routine>, boost::shared_ptr <mu::llvm_::function::node>> mapping;
+				mu::core::node * operator () (mu::core::node * node_a) override;
+				std::map <mu::core::routine *, mu::llvm_::function::node *> mapping;
 			};
 		}
 	}

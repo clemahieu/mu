@@ -13,8 +13,8 @@ bool mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 	bool result (mu::script::check <mu::llvm_::cluster::node, mu::script::string::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::cluster::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::llvm_::cluster::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto existing (one->names.find (two->string));
 		if (existing != one->names.end ())
 		{

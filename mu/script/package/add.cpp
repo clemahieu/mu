@@ -12,12 +12,12 @@ bool mu::script::package::add::operator () (mu::script::context & context_a)
 	bool result (mu::script::check <mu::script::package::node, mu::script::string::node, mu::core::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::script::package::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto existing (one->items.find (two->string));
 		if (existing != one->items.end ())
 		{
-			one->items.insert (std::map <std::wstring, boost::shared_ptr <mu::core::node>>::value_type (two->string, context_a.parameters (2)));
+			one->items [two->string] = context_a.parameters (2);
 		}
 		else
 		{

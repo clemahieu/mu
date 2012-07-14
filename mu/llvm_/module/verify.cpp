@@ -12,7 +12,7 @@ bool mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 	bool valid (mu::script::check <mu::llvm_::module::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
+		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
 		std::string error_info;
 		auto error (llvm::verifyModule (*one->module, llvm::VerifierFailureAction::ReturnStatusAction, &error_info));
 		if (error)

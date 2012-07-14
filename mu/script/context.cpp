@@ -33,8 +33,8 @@ bool mu::script::context::operator () ()
 	if (working_size () > 0)
 	{
         auto item (working (0));
-		auto operation (boost::dynamic_pointer_cast <mu::script::operation> (item));
-		if (operation.get () != nullptr)
+		auto operation (dynamic_cast <mu::script::operation *> (item));
+		if (operation != nullptr)
 		{
 			frame_begin++;
 			enter ();
@@ -56,10 +56,10 @@ bool mu::script::context::operator () ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> & mu::script::context::parameters (size_t offset)
+mu::core::node * & mu::script::context::parameters (size_t offset)
 {
 	assert (offset < parameters_size ());
-	boost::shared_ptr <mu::core::node> & result (stack [base_begin + offset]);
+	mu::core::node * & result (stack [base_begin + offset]);
 	return result;
 }
 
@@ -70,10 +70,10 @@ size_t mu::script::context::parameters_size ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> & mu::script::context::locals (size_t offset)
+mu::core::node * & mu::script::context::locals (size_t offset)
 {
 	assert (offset < locals_size ());
-	boost::shared_ptr <mu::core::node> & result (stack [base_end + offset]);
+	mu::core::node * & result (stack [base_end + offset]);
 	return result;
 }
 
@@ -84,10 +84,10 @@ size_t mu::script::context::locals_size ()
 	return result;
 }
 
-boost::shared_ptr <mu::core::node> & mu::script::context::working (size_t offset)
+mu::core::node * & mu::script::context::working (size_t offset)
 {
 	assert (offset < working_size ());
-	boost::shared_ptr <mu::core::node> & result (stack [frame_begin + offset]);
+	mu::core::node * & result (stack [frame_begin + offset]);
 	return result;
 }
 
@@ -104,7 +104,7 @@ void mu::script::context::drop ()
 	stack.resize (frame_begin);
 }
 
-void mu::script::context::push (boost::shared_ptr <mu::core::node> node_a)
+void mu::script::context::push (mu::core::node * node_a)
 {
 	assert (stack.size () < 64 * 1024 && "Stack overflow");
 	stack.push_back (node_a);
@@ -120,8 +120,8 @@ void mu::script::context::reserve (size_t count_a)
 void mu::script::context::enter ()
 {
 	assert (stack.size () - frame_begin >= 0);
-	push (boost::make_shared <mu::script::location> (base_begin));
-	push (boost::make_shared <mu::script::location> (base_end));
+	push (new (GC) mu::script::location (base_begin));
+	push (new (GC) mu::script::location (base_end));
 	base_begin = frame_begin;
 	base_end = stack.size ();
 	frame_begin = stack.size ();
@@ -129,8 +129,8 @@ void mu::script::context::enter ()
 
 void mu::script::context::leave ()
 {
-	assert (boost::dynamic_pointer_cast <mu::script::location> (stack [base_end - 2]).get () != nullptr);
-	assert (boost::dynamic_pointer_cast <mu::script::location> (stack [base_end - 1]).get () != nullptr);
+	assert (dynamic_cast <mu::script::location *> (stack [base_end - 2]) != nullptr);
+	assert (dynamic_cast <mu::script::location *> (stack [base_end - 1]) != nullptr);
 	push (stack [base_end - 2]);
 	push (stack [base_end - 1]);
 	base_end = base_begin;
@@ -142,10 +142,10 @@ void mu::script::context::leave ()
 	}
 	frame_begin = base_begin;
 	stack.resize (base_end);
-	assert (boost::dynamic_pointer_cast <mu::script::location> (stack [stack.size () - 2]).get () != nullptr);
-	assert (boost::dynamic_pointer_cast <mu::script::location> (stack [stack.size () - 1]).get () != nullptr);
-	base_begin = boost::static_pointer_cast <mu::script::location> (stack [stack.size () - 2])->position;
-	base_end = boost::static_pointer_cast <mu::script::location> (stack [stack.size () - 1])->position;
+	assert (dynamic_cast <mu::script::location *> (stack [stack.size () - 2]) != nullptr);
+	assert (dynamic_cast <mu::script::location *> (stack [stack.size () - 1]) != nullptr);
+	base_begin = static_cast <mu::script::location *> (stack [stack.size () - 2])->position;
+	base_end = static_cast <mu::script::location *> (stack [stack.size () - 1])->position;
 	stack.resize (stack.size () - 2);
 }
 

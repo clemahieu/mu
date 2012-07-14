@@ -12,17 +12,19 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::integer_type::create::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::llvm_::context::node, mu::llvm_::apint::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::llvm_::apint::node> (context_a.parameters (1)));
+		auto one (static_cast <mu::llvm_::context::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::llvm_::apint::node *> (context_a.parameters (1)));
 		auto bits (two->value->getLimitedValue ());
 		if (bits >= llvm::IntegerType::MIN_INT_BITS && bits <= llvm::IntegerType::MAX_INT_BITS)
 		{
-			context_a.push (boost::make_shared <mu::llvm_::integer_type::node> (llvm::IntegerType::get (*one->context, bits)));
+			context_a.push (new (GC) mu::llvm_::integer_type::node (llvm::IntegerType::get (*one->context, bits)));
 		}
 		else
 		{

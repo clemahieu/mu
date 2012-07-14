@@ -12,14 +12,16 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::script::extensions::merge_package::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::package::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::script::extensions::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::script::string::node> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::script::package::node> (context_a.parameters (2)));
+		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
+		auto three (static_cast <mu::script::package::node *> (context_a.parameters (2)));
 		for (auto i (three->items.begin ()), j (three->items.end ()); i != j; ++i)
 		{
 			std::wstring name (two->string.begin (), two->string.end ());
@@ -27,7 +29,7 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 			auto existing (one->extensions->extensions_m.find (name));
 			if (existing == one->extensions->extensions_m.end ())
 			{
-				one->extensions->extensions_m [name] = boost::make_shared <mu::io::analyzer::extensions::global> (i->second);
+				one->extensions->extensions_m [name] = new (GC) mu::io::analyzer::extensions::global (i->second);
 			}
 			else
 			{

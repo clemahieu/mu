@@ -15,7 +15,9 @@
 
 #include <llvm/Module.h>
 
-mu::llvm_::constant_string::extension::extension (boost::shared_ptr <mu::llvm_::module::node> module_a)
+#include <gc_cpp.h>
+
+mu::llvm_::constant_string::extension::extension (mu::llvm_::module::node * module_a)
 	: module (module_a)
 {
 }
@@ -26,14 +28,14 @@ void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error
 	if (position < expression_a.expression_m->values.size ())
 	{
 		expression_a.position = position;
-		auto identifier (boost::dynamic_pointer_cast <mu::io::ast::identifier> (expression_a.expression_m->values [position]));
-		if (identifier.get () != nullptr)
+		auto identifier (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [position]));
+		if (identifier != nullptr)
 		{
-			auto node (boost::make_shared <mu::script::closure::single> (boost::make_shared <mu::llvm_::constant_string::create> ()));
-			node->closed.push_back (boost::make_shared <mu::llvm_::context::node> (&module->module->getContext ()));
+			auto node (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_string::create ()));
+			node->closed.push_back (new (GC) mu::llvm_::context::node (&module->module->getContext ()));
 			node->closed.push_back (module);
-			node->closed.push_back (boost::make_shared <mu::script::string::node> (identifier->string));
-			auto result (boost::make_shared <mu::core::expression> ());
+			node->closed.push_back (new (GC) mu::script::string::node (identifier->string));
+			auto result (new (GC) mu::core::expression);
 			result->dependencies.push_back (node);
 			expression_a.self->dependencies.push_back (result);
 		}

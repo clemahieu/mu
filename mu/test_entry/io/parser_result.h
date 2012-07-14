@@ -18,8 +18,8 @@ namespace mu
 		class parser_result
 		{
 		public:
-			void operator () (boost::shared_ptr <mu::io::ast::cluster> result_a);
-			std::vector <boost::shared_ptr <mu::io::ast::cluster>> results;
+			void operator () (mu::io::ast::cluster * result_a);
+			std::vector <mu::io::ast::cluster *> results;
 		};
 	}
 }

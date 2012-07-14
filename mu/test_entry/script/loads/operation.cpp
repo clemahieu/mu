@@ -15,15 +15,15 @@ TEST (script_test, loads1)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::loads::operation> ());
-	ctx.push (boost::make_shared <mu::script::extensions::node> ());
-	ctx.push (boost::make_shared <mu::script::string::node> (std::wstring (L"source_test.mu")));
+	ctx.push (new (GC) mu::script::loads::operation);
+	ctx.push (new (GC) mu::script::extensions::node);
+	ctx.push (new (GC) mu::script::string::node (std::wstring (L"source_test.mu")));
 	auto valid (ctx ());
 	errors.target->print (std::wcout);
     EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	auto extensions (boost::dynamic_pointer_cast <mu::script::extensions::node> (ctx.working (0)));
-	EXPECT_NE (extensions.get (), nullptr);
+	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
+	EXPECT_NE (extensions, nullptr);
 	EXPECT_EQ (extensions->extensions->extensions_m.size (), 2);
 	auto a (extensions->extensions->extensions_m.find (std::wstring (L"a")));
 	EXPECT_NE (a, extensions->extensions->extensions_m.end ());

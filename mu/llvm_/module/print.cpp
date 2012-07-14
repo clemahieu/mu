@@ -10,13 +10,15 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::module::print::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::llvm_::module::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::module::node> (context_a.parameters (0)));
-		auto result (boost::make_shared <mu::script::astring::node> ());
+		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
+		auto result (new (GC) mu::script::astring::node);
 		llvm::raw_string_ostream stream (result->string);
 		llvm::AssemblyAnnotationWriter annotation;
 		one->module->print (stream, &annotation);

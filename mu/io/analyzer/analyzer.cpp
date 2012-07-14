@@ -17,23 +17,23 @@
 
 #include <gc_cpp.h>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, mu::core::errors::error_target * errors_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a)
 	: extensions (new mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster)
+	cluster (new (GC) mu::core::cluster)
 {
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (boost::shared_ptr <mu::core::cluster>)> target_a, mu::core::errors::error_target * errors_a, boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a, mu::io::analyzer::extensions::extensions * extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
-	cluster (new mu::core::cluster)
+	cluster (new (GC) mu::core::cluster)
 {
 }
 
-void mu::io::analyzer::analyzer::input (boost::shared_ptr <mu::io::ast::cluster> node_a)
+void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 {
 	for (auto i (node_a->expressions.begin ()), j (node_a->expressions.end ()); i != j; ++i)
 	{
@@ -87,7 +87,7 @@ void mu::io::analyzer::analyzer::mark_used (std::wstring name_a)
 	used_names.insert (std::set <std::wstring>::value_type (name_a));
 }
 
-void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::shared_ptr <mu::core::node> node_a)
+void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, mu::core::node * node_a)
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
@@ -96,7 +96,7 @@ void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, boost::share
 	unresolved.erase (name_a);
 }
 
-void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, boost::shared_ptr <mu::core::routine> routine_a)
+void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, mu::core::routine * routine_a)
 {
 	assert (!name_a.empty ());
 	auto keyword (extensions->extensions_m.find (name_a));

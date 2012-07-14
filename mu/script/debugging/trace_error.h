@@ -17,10 +17,10 @@ namespace mu
 			class trace_error : public mu::core::errors::error
 			{
 			public:				
-				trace_error (boost::shared_ptr <mu::script::values::operation> trace_a, boost::shared_ptr <mu::core::errors::error> error_a);
+				trace_error (mu::script::values::operation * trace_a, mu::core::errors::error * error_a);
 				void string (std::wostream & stream) override;
-				boost::shared_ptr <mu::script::values::operation> trace;
-				boost::shared_ptr <mu::core::errors::error> error;
+				mu::script::values::operation * trace;
+				mu::core::errors::error * error;
 			};
 		}
 	}

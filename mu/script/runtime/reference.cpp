@@ -6,7 +6,7 @@
 
 #include <sstream>
 
-mu::script::runtime::reference::reference (boost::shared_ptr <mu::script::runtime::expression> expression_a)
+mu::script::runtime::reference::reference (mu::script::runtime::expression * expression_a)
 	: expression (expression_a)
 {
 }
@@ -16,7 +16,7 @@ bool mu::script::runtime::reference::operator () (mu::script::context & context_
 	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
 	if (valid)
 	{
-		auto locals (boost::static_pointer_cast <mu::script::runtime::locals> (context_a.parameters (0)));
+		auto locals (static_cast <mu::script::runtime::locals *> (context_a.parameters (0)));
 		auto existing (locals->expressions.find (expression));
 		if (existing != locals->expressions.end ())
 		{

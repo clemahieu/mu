@@ -6,7 +6,7 @@
 
 #include <boost/make_shared.hpp>
 
-mu::io::analyzer::extensions::global::global (boost::shared_ptr <mu::core::node> node_a)
+mu::io::analyzer::extensions::global::global (mu::core::node * node_a)
 	: node (node_a)
 {
 }

@@ -14,6 +14,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::io::parser::begin::begin (mu::io::parser::parser & parser_a)
 	: parser (parser_a)
 {
@@ -31,7 +33,7 @@ void mu::io::parser::begin::operator () (mu::io::tokens::identifier * token)
 
 void mu::io::parser::begin::operator () (mu::io::tokens::left_square * token)
 {
-    boost::shared_ptr <mu::io::tokens::visitor> new_state (new mu::io::parser::values (parser, parser));
+    auto new_state (new (GC) mu::io::parser::values (parser, parser));
     parser.state.push (new_state);
 }
 
@@ -54,5 +56,5 @@ void mu::io::parser::begin::unexpected_token (mu::io::tokens::token * token)
 {
     std::wstring message (L"At top level, expecting signature or end of stream");
 	(*parser.errors) (message);
-    parser.state.push (boost::shared_ptr <mu::io::tokens::visitor> (new mu::io::parser::error));
+    parser.state.push (new (GC) mu::io::parser::error);
 }

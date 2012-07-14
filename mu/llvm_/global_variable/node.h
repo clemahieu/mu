@@ -15,7 +15,7 @@ namespace mu
 			class node : public mu::llvm_::global_value::node
 			{
 			public:
-				node (llvm::GlobalVariable * value_a, boost::shared_ptr <mu::llvm_::type::node> type_a);
+				node (llvm::GlobalVariable * value_a, mu::llvm_::type::node * type_a);
 				llvm::GlobalVariable * global_variable ();
 			};
 		}

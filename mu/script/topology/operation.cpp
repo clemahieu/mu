@@ -11,7 +11,7 @@ bool mu::script::topology::operation::operator () (mu::script::context & context
 	bool valid (mu::script::check <mu::core::routine> () (context_a));
 	if (valid)
 	{
-		auto routine (boost::static_pointer_cast <mu::core::routine> (context_a.parameters (0)));
+		auto routine (static_cast <mu::core::routine *> (context_a.parameters (0)));
 		mu::script::topology::core core (routine->body);
 		if (core.acyclic)
 		{

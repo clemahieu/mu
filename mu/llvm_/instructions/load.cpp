@@ -14,17 +14,19 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::instructions::load::operator () (mu::script::context & context_a)
 {
 	bool result (mu::script::check <mu::llvm_::value::node> () (context_a));
 	if (result)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
-		auto one_ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (one->type));
-		if (one_ptr.get () != nullptr)
+		auto one (static_cast <mu::llvm_::value::node *> (context_a.parameters (0)));
+		auto one_ptr (dynamic_cast <mu::llvm_::pointer_type::node *> (one->type));
+		if (one_ptr != nullptr)
 		{
 			auto instruction (new llvm::LoadInst (one->value ()));
-			context_a.push (boost::make_shared <mu::llvm_::instruction::node> (instruction, one_ptr->element));
+			context_a.push (new (GC) mu::llvm_::instruction::node (instruction, one_ptr->element));
 		}
 		else
 		{

@@ -7,7 +7,7 @@ mu::core::routine::routine ()
 {
 }
 
-mu::core::routine::routine (boost::shared_ptr <mu::core::expression> body_a)
+mu::core::routine::routine (mu::core::expression * body_a)
 	: body (body_a)
 {
 }

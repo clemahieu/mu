@@ -6,7 +6,7 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
 
-mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, llvm::StructType * struct_type_a)
+mu::llvm_::struct_type::node::node (mu::llvm_::context::node * context_a, llvm::StructType * struct_type_a)
 {
 	for (auto i (struct_type_a->element_begin ()), j (struct_type_a->element_end ()); i != j; ++i)
 	{
@@ -16,12 +16,12 @@ mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node>
 	}
 }
 
-mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a)
+mu::llvm_::struct_type::node::node (mu::llvm_::context::node * context_a)
 	: context (context_a)
 {
 }
 
-mu::llvm_::struct_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a, std::vector <boost::shared_ptr <mu::llvm_::type::node>> elements_a)
+mu::llvm_::struct_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> elements_a)
 	: context (context_a),
 	elements (elements_a)
 {

@@ -24,8 +24,8 @@ namespace mu
 			{
 			public:
 				node ();
-				node (boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions_a);
-				boost::shared_ptr <mu::io::analyzer::extensions::extensions> extensions;
+				node (mu::io::analyzer::extensions::extensions * extensions_a);
+				mu::io::analyzer::extensions::extensions * extensions;
 				std::wstring name () override;
 			};
 		}

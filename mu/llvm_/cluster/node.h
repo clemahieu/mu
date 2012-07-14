@@ -28,8 +28,8 @@ namespace mu
 			{
 			public:
 				std::wstring name () override;
-				std::map <std::wstring, boost::shared_ptr <mu::llvm_::function::node>> names;
-				std::vector <boost::shared_ptr <mu::llvm_::function::node>> routines;
+				std::map <std::wstring, mu::llvm_::function::node *> names;
+				std::vector <mu::llvm_::function::node *> routines;
 			};
 		}
 	}

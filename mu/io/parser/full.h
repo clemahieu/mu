@@ -25,7 +25,7 @@ namespace mu
 			class full : public mu::io::tokens::visitor
 			{
 			public:
-				full (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <boost::shared_ptr <mu::io::ast::node>> values_a, std::vector <boost::shared_ptr <mu::io::ast::identifier>> names_a, mu::io::debugging::context first_a);
+				full (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <mu::io::ast::node *> values_a, std::vector <mu::io::ast::identifier *> names_a, mu::io::debugging::context first_a);
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
@@ -35,9 +35,9 @@ namespace mu
 				void unexpected_token (mu::io::tokens::token * token);
 				mu::io::parser::parser & parser;
 				mu::io::parser::target & target;
-				std::vector <boost::shared_ptr <mu::io::ast::node>> values;
-				std::vector <boost::shared_ptr <mu::io::ast::identifier>> names;
-				boost::shared_ptr <mu::io::ast::identifier> full_name;			
+				std::vector <mu::io::ast::node *> values;
+				std::vector <mu::io::ast::identifier *> names;
+				mu::io::ast::identifier * full_name;			
 				mu::io::debugging::context first;
 			};
 		}

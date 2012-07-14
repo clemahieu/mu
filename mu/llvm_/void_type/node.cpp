@@ -4,7 +4,7 @@
 
 #include <llvm/DerivedTypes.h>
 
-mu::llvm_::void_type::node::node (boost::shared_ptr <mu::llvm_::context::node> context_a)
+mu::llvm_::void_type::node::node (mu::llvm_::context::node * context_a)
 	: type_m (llvm::Type::getVoidTy (*context_a->context))
 {
 }

@@ -12,6 +12,8 @@
 
 #include <boost/make_shared.hpp>
 
+#include <gc_cpp.h>
+
 mu::llvm_::istore::operation::operation (boost::shared_ptr <mu::llvm_::basic_block::node> block_a)
 	: block (block_a)
 {
@@ -22,21 +24,21 @@ bool mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 	bool valid (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::llvm_::value::node> (context_a.parameters (2)));
-		auto ptr (boost::dynamic_pointer_cast <mu::llvm_::pointer_type::node> (two->type));
+		auto one (static_cast <mu::llvm_::value::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::llvm_::value::node *> (context_a.parameters (1)));
+		auto three (static_cast <mu::llvm_::value::node *> (context_a.parameters (2)));
+		auto ptr (dynamic_cast <mu::llvm_::pointer_type::node *> (two->type));
 		if (ptr != nullptr)
 		{
-			auto offset (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node>  (three->type));
-			if (offset.get () != nullptr)
+			auto offset (dynamic_cast <mu::llvm_::integer_type::node *>  (three->type));
+			if (offset != nullptr)
 			{			
 				auto as_int (new llvm::PtrToIntInst (three->value (), offset->integer_type ()));
 				block->block->getInstList ().push_back (as_int);
 				auto added (llvm::BinaryOperator::CreateAdd (as_int, three->value ()));
 				block->block->getInstList ().push_back (added);
-				auto final (boost::make_shared <mu::llvm_::value::node> (added, three->type));
-				context_a.push (boost::make_shared <mu::llvm_::instructions::store> ());
+				auto final (new (GC) mu::llvm_::value::node (added, three->type));
+				context_a.push (new (GC) mu::llvm_::instructions::store);
 				context_a.push (one);
 				context_a.push (final);
 				valid = context_a ();

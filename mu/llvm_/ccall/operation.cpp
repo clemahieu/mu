@@ -15,7 +15,9 @@
 
 #include <boost/make_shared.hpp>
 
-mu::llvm_::ccall::operation::operation (boost::shared_ptr <mu::llvm_::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> call_a)
+#include <gc_cpp.h>
+
+mu::llvm_::ccall::operation::operation (mu::llvm_::basic_block::node * block_a, mu::script::operation * call_a)
 	: block (block_a),
 	call (call_a)
 {
@@ -26,19 +28,19 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 	bool valid (true);
 	if (context_a.parameters_size () > 2)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters (0)));
-		auto two (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters (1)));
-		auto three (boost::dynamic_pointer_cast <mu::llvm_::value::node> (context_a.parameters (2)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::llvm_::value::node *> (context_a.parameters (0)));
+		auto two (dynamic_cast <mu::llvm_::value::node *> (context_a.parameters (1)));
+		auto three (dynamic_cast <mu::llvm_::value::node *> (context_a.parameters (2)));
+		if (one != nullptr)
 		{
-			if (two.get () != nullptr)
+			if (two != nullptr)
 			{
-				if (three.get () != nullptr)
+				if (three != nullptr)
 				{
 					if (two->type->type () == three->type->type ())
 					{
-						auto bool_type (boost::dynamic_pointer_cast <mu::llvm_::integer_type::node> (one->type));
-						if (bool_type.get () != nullptr)
+						auto bool_type (dynamic_cast <mu::llvm_::integer_type::node *> (one->type));
+						if (bool_type != nullptr)
 						{
 							if (bool_type->integer_type ()->getBitWidth () == 1)
 							{
@@ -49,7 +51,7 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								block->block->getInstList ().push_back (llvm::BranchInst::Create (true_block, false_block, one->value ()));
 								block->block = true_block;
 								context_a.reserve (1);
-								auto size (boost::make_shared <mu::script::integer::node> ());
+								auto size (new (GC) mu::script::integer::node);
 								context_a.locals (0) = size;
 								context_a.push (call);
 								context_a.push (two);
@@ -76,9 +78,9 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 								{
 									for (auto i (context_a.locals_begin () + 1), j (context_a.locals_begin () + 1 + size->value), k (context_a.locals_begin () + 1 + size->value), l (context_a.locals_end ()); i != j && k != l; ++i, ++k)
 									{
-										auto i_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*i));
-										auto k_value (boost::dynamic_pointer_cast <mu::llvm_::value::node> (*k));
-										if (i_value.get () != nullptr && k_value.get () != nullptr)
+										auto i_value (dynamic_cast <mu::llvm_::value::node *> (*i));
+										auto k_value (dynamic_cast <mu::llvm_::value::node *> (*k));
+										if (i_value != nullptr && k_value != nullptr)
 										{
 											auto i_type (i_value->type->type ());
 											auto k_type (k_value->type->type ());
@@ -88,7 +90,7 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 												phi->addIncoming (i_value->value (), true_block);
 												phi->addIncoming (k_value->value (), false_block);
 												end_block->getInstList ().push_back (phi);
-												context_a.push (boost::make_shared <mu::llvm_::value::node> (phi, i_value->type));
+												context_a.push (new (GC) mu::llvm_::value::node (phi, i_value->type));
 											}
 											else
 											{

@@ -11,11 +11,11 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	bool result (true);
 	if (context_a.parameters_size () > 1)
 	{
-		auto one (boost::dynamic_pointer_cast <mu::script::integer::node> (context_a.parameters (0)));
-		auto two (boost::dynamic_pointer_cast <mu::core::node> (context_a.parameters (1)));
-		if (one.get () != nullptr)
+		auto one (dynamic_cast <mu::script::integer::node *> (context_a.parameters (0)));
+		auto two (dynamic_cast <mu::core::node *> (context_a.parameters (1)));
+		if (one != nullptr)
 		{
-			if (two.get () != nullptr)
+			if (two != nullptr)
 			{
 				context_a.reserve (context_a.parameters_size () - 2);
 				context_a.assign (context_a.locals_begin (), context_a.parameters_begin () + 2, context_a.parameters_end ());

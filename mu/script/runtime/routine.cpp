@@ -8,7 +8,9 @@
 
 #include <boost/make_shared.hpp>
 
-mu::script::runtime::routine::routine (boost::shared_ptr <mu::script::runtime::expression> parameters_a)
+#include <gc_cpp.h>
+
+mu::script::runtime::routine::routine (mu::script::runtime::expression * parameters_a)
 	: parameters (parameters_a)
 {
 }
@@ -17,7 +19,7 @@ bool mu::script::runtime::routine::operator () (mu::script::context & context_a)
 {
 	bool valid (true);
 	context_a.reserve (1);
-	auto locals (boost::make_shared <mu::script::runtime::locals> ());
+	auto locals (new (GC) mu::script::runtime::locals);
 	context_a.locals (0) = locals;
 	locals->expressions [parameters] = boost::tuple <size_t, size_t> (locals->frame.size (), locals->frame.size () + context_a.parameters_size ());
 	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
@@ -45,7 +47,7 @@ bool mu::script::runtime::routine::operator () (mu::script::context & context_a)
 		context_a.drop ();
 	}
 	assert (expressions.size () > 0);
-	context_a.push (boost::make_shared <mu::script::runtime::reference> (expressions [expressions.size () - 1]));
+	context_a.push (new (GC) mu::script::runtime::reference (expressions [expressions.size () - 1]));
 	context_a.push (locals);
 	valid = valid & context_a ();
 	return valid;

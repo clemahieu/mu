@@ -28,6 +28,8 @@
 
 #include <gtest/gtest.h>
 
+#include <gc_cpp.h>
+
 TEST (llvm_test, instruction_package1)
 {
 	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
@@ -39,17 +41,17 @@ TEST (llvm_test, instruction_package1)
 	auto routine1 (cluster1->routines [0]);
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
-	ctx.push (boost::make_shared <mu::script::closure::create_single> ());
+	ctx.push (new (GC) mu::script::closure::create_single);
 	ctx.push (routine1);
-	ctx.push (boost::make_shared <mu::llvm_::instructions::add> ());
-	ctx.push (boost::make_shared <mu::llvm_::basic_block::insert> ());
-	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
+	ctx.push (new (GC) mu::llvm_::instructions::add);
+	ctx.push (new (GC) mu::llvm_::basic_block::insert);
+	auto block (new (GC) mu::llvm_::basic_block::node (nullptr));
 	ctx.push (block);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
+	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
@@ -65,7 +67,7 @@ TEST (llvm_test, instruction_package1)
 	function->getBasicBlockList ().push_back (bl);
 	ctx.drop ();
 	ctx.push (routine2);
-	ctx.push (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
+	ctx.push (new (GC) mu::llvm_::constant::node (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (context))));
 	auto valid2 (ctx ());
 	EXPECT_EQ (valid2, true);
 	EXPECT_EQ (ctx.working_size (), 1);
@@ -85,15 +87,15 @@ TEST (llvm_test, instruction_package2)
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (routine1);
-	ctx.push (boost::make_shared <mu::llvm_::instructions::add> ());
-	ctx.push (boost::make_shared <mu::llvm_::basic_block::insert> ());
-	auto block (boost::make_shared <mu::llvm_::basic_block::node> (nullptr));
+	ctx.push (new (GC) mu::llvm_::instructions::add);
+	ctx.push (new (GC) mu::llvm_::basic_block::insert);
+	auto block (new (GC) mu::llvm_::basic_block::node (nullptr));
 	ctx.push (block);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = boost::make_shared <mu::io::analyzer::extensions::global> (ctx.working (0));
+	mu::script::builder b2 (mu::script::api::core ()->extensions);
+	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
@@ -109,7 +111,7 @@ TEST (llvm_test, instruction_package2)
 	function->getBasicBlockList ().push_back (bl);
 	ctx.drop ();
 	ctx.push (routine2);
-	ctx.push (boost::make_shared <mu::llvm_::constant::node> (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), boost::make_shared <mu::llvm_::integer_type::node> (llvm::Type::getInt32Ty (context))));
+	ctx.push (new (GC) mu::llvm_::constant::node (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (context))));
 	auto valid2 (ctx ());
 	EXPECT_EQ (valid2, true);
 	EXPECT_EQ (ctx.working_size (), 1);

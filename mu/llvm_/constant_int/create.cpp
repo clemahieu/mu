@@ -14,21 +14,23 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 bool mu::llvm_::constant_int::create::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::llvm_::context::node, mu::llvm_::apint::node, mu::llvm_::apint::node> () (context_a));
 	if (valid)
 	{
-		auto one (boost::static_pointer_cast <mu::llvm_::context::node> (context_a.parameters (0)));
-		auto two (boost::static_pointer_cast <mu::llvm_::apint::node> (context_a.parameters (1)));
-		auto three (boost::static_pointer_cast <mu::llvm_::apint::node> (context_a.parameters (2)));
+		auto one (static_cast <mu::llvm_::context::node *> (context_a.parameters (0)));
+		auto two (static_cast <mu::llvm_::apint::node *> (context_a.parameters (1)));
+		auto three (static_cast <mu::llvm_::apint::node *> (context_a.parameters (2)));
 		auto bits (two->value->getLimitedValue ());
 		if (bits >= llvm::IntegerType::MIN_INT_BITS && bits <= llvm::IntegerType::MAX_INT_BITS)
 		{
 			if (three->value->getActiveBits () <= bits)
 			{
 				auto type (llvm::Type::getIntNTy (*one->context, bits));
-				context_a.push (boost::make_shared <mu::llvm_::constant_int::node> (llvm::ConstantInt::get (*one->context, llvm::APInt (bits, three->value->getLimitedValue ())), boost::make_shared <mu::llvm_::integer_type::node> (type)));
+				context_a.push (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::get (*one->context, llvm::APInt (bits, three->value->getLimitedValue ())), new (GC) mu::llvm_::integer_type::node (type)));
 			}
 			else
 			{

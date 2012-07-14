@@ -12,10 +12,10 @@ namespace mu
 			class split_return : public mu::script::operation
 			{
 			public:
-				split_return (boost::shared_ptr <mu::llvm_::basic_block::node> block_a, boost::shared_ptr <mu::script::operation> next_a);
+				split_return (mu::llvm_::basic_block::node * block_a, mu::script::operation * next_a);
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::script::operation> next;
-				boost::shared_ptr <mu::llvm_::basic_block::node> block;
+				mu::script::operation * next;
+				mu::llvm_::basic_block::node * block;
 			};
 		}
 	}
