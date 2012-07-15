@@ -101,13 +101,13 @@ TEST (io_test, lexer4)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L"||");
+	lexer (L"{}");
 	lexer ();
-	EXPECT_EQ (result.results.size (), 2);
+	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
-	EXPECT_NE (t1i, nullptr);
+	ASSERT_TRUE (t1i != nullptr);
 	EXPECT_EQ (t1i->string.size (), 0);
 	EXPECT_EQ (t1.second.first.character, 0);
 	EXPECT_EQ (t1.second.first.column, 1);
@@ -115,7 +115,7 @@ TEST (io_test, lexer4)
 	EXPECT_EQ (t1.second.last.character, 1);
 	EXPECT_EQ (t1.second.last.column, 2);
 	EXPECT_EQ (t1.second.last.row, 1);
-	EXPECT_NE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first), nullptr);
+	ASSERT_TRUE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first) != nullptr);
 	EXPECT_EQ (t2.second.first.character, 2);
 	EXPECT_EQ (t2.second.first.column, 3);
 	EXPECT_EQ (t2.second.first.row, 1);
@@ -129,13 +129,13 @@ TEST (io_test, lexer5)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L"|a|a");
+	lexer (L"{a}a");
 	lexer ();
-	EXPECT_EQ (result.results.size (), 2);
+	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
-	EXPECT_NE (t1i, nullptr);
+	ASSERT_TRUE (t1i != nullptr);
 	EXPECT_EQ (t1i->string.size (), 0);
 	EXPECT_EQ (t1.second.first.character, 0);
 	EXPECT_EQ (t1.second.first.column, 1);
@@ -157,42 +157,14 @@ TEST (io_test, lexer6)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L"|a||;[]:a");
+	lexer (L"{a}{};[]:a");
 	lexer ();
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
 	EXPECT_NE (t1i, nullptr);
-	EXPECT_EQ (t1i->string, std::wstring (L"|;[]:"));
-	EXPECT_EQ (t1.second.first.character, 0);
-	EXPECT_EQ (t1.second.first.column, 1);
-	EXPECT_EQ (t1.second.first.row, 1);
-	EXPECT_EQ (t1.second.last.character, 8);
-	EXPECT_EQ (t1.second.last.column, 9);
-	EXPECT_EQ (t1.second.last.row, 1);
-	EXPECT_NE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first), nullptr);
-	EXPECT_EQ (t2.second.first.character, 9);
-	EXPECT_EQ (t2.second.first.column, 10);
-	EXPECT_EQ (t2.second.first.row, 1);
-	EXPECT_EQ (t2.second.last.character, 9);
-	EXPECT_EQ (t2.second.last.column, 10);
-	EXPECT_EQ (t2.second.last.row, 1);
-}
-
-TEST (io_test, lexer7)
-{
-	mu::io_test::lexer_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L"|:a||;[]:a");
-	lexer ();
-	EXPECT_EQ (result.results.size (), 2);
-	auto t1 (result.results [0]);
-	auto t2 (result.results [1]);
-	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
-	EXPECT_NE (t1i, nullptr);
-	EXPECT_EQ (t1i->string, std::wstring (L"|;[]"));
+	EXPECT_EQ (t1i->string, std::wstring (L"{};[]:"));
 	EXPECT_EQ (t1.second.first.character, 0);
 	EXPECT_EQ (t1.second.first.column, 1);
 	EXPECT_EQ (t1.second.first.row, 1);
@@ -205,6 +177,34 @@ TEST (io_test, lexer7)
 	EXPECT_EQ (t2.second.first.row, 1);
 	EXPECT_EQ (t2.second.last.character, 10);
 	EXPECT_EQ (t2.second.last.column, 11);
+	EXPECT_EQ (t2.second.last.row, 1);
+}
+
+TEST (io_test, lexer7)
+{
+	mu::io_test::lexer_result result;
+	auto errors (new (GC) mu::core::errors::error_list);
+	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+	lexer (L"{:a}{};[]:a");
+	lexer ();
+	ASSERT_TRUE (result.results.size () == 2);
+	auto t1 (result.results [0]);
+	auto t2 (result.results [1]);
+	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
+	ASSERT_TRUE (t1i != nullptr);
+	EXPECT_EQ (t1i->string, std::wstring (L"{};[]"));
+	EXPECT_EQ (t1.second.first.character, 0);
+	EXPECT_EQ (t1.second.first.column, 1);
+	EXPECT_EQ (t1.second.first.row, 1);
+	EXPECT_EQ (t1.second.last.character, 10);
+	EXPECT_EQ (t1.second.last.column, 11);
+	EXPECT_EQ (t1.second.last.row, 1);
+	ASSERT_TRUE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first) != nullptr);
+	EXPECT_EQ (t2.second.first.character, 11);
+	EXPECT_EQ (t2.second.first.column, 12);
+	EXPECT_EQ (t2.second.first.row, 1);
+	EXPECT_EQ (t2.second.last.character, 11);
+	EXPECT_EQ (t2.second.last.column, 12);
 	EXPECT_EQ (t2.second.last.row, 1);
 }
 

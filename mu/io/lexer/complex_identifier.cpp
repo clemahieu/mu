@@ -40,7 +40,7 @@ void mu::io::lexer::complex_identifier::lex (wchar_t character)
 		{
 			switch (character)
 			{
-			case L'|':
+			case L'}':
 				have_end_token = true;
 				last_characters.resize (end_token.size ());
 				break;

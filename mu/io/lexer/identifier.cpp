@@ -49,7 +49,8 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 			case L'\0':
             case L'\r':
 			case L';':
-			case L'|':
+			case L'{':
+            case L'}':
 			case L'[':
 			case L']':
 			case L'\uffff':

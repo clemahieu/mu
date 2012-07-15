@@ -29,7 +29,7 @@ void mu::io::lexer::begin::lex (wchar_t character)
     case L'\r':
 		// Eat whitespace
 		break;
-	case L'|':
+	case L'{':
 		lexer.state.push (new (GC) mu::io::lexer::complex_identifier (lexer));
 		break;
 	case L';':
