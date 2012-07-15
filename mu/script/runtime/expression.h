@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace script
@@ -15,7 +17,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				std::vector <mu::script::operation *> dependencies;
+				std::vector <mu::script::operation *, gc_allocator <mu::script::operation *>> dependencies;
 			};
 		}
 	}

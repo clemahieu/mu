@@ -2,8 +2,10 @@
 
 #include <mu/core/errors/error_list.h>
 
+#include <gc_cpp.h>
+
 mu::io_test::analyzer_result::analyzer_result ()
-	: errors (new mu::core::errors::error_list)
+	: errors (new (GC) mu::core::errors::error_list)
 {
 }
 

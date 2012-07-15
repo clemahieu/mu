@@ -51,7 +51,7 @@ void * extensions ()
 {
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
-	auto result (new mu::script::extensions::node);
+	auto result (new (GC) mu::script::extensions::node);
 	result->extensions->extensions_m [std::wstring (L"apint/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::apint::create);
 	result->extensions->extensions_m [std::wstring (L"cluster/get")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::cluster::get);
 	result->extensions->extensions_m [std::wstring (L"compile/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::compile::operation);

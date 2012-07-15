@@ -4,8 +4,10 @@
 #include <mu/core/reference.h>
 #include <mu/script/topology/node.h>
 
+#include <gc_cpp.h>
+
 mu::script::topology::core::core (mu::core::expression * call_a)
-	: topology (new mu::script::topology::node),
+	: topology (new (GC) mu::script::topology::node),
 	acyclic (true)
 {
     perform (call_a);

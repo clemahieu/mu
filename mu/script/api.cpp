@@ -35,7 +35,7 @@
 
 mu::script::extensions::node * mu::script::api::core ()
 {
-	auto result (new mu::script::extensions::node);
+	auto result (new (GC) mu::script::extensions::node);
 	result->extensions->extensions_m [std::wstring (L"~")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
 	result->extensions->extensions_m [std::wstring (L"`")] = new (GC) mu::script::string::extension;
 	result->extensions->extensions_m [std::wstring (L"`a")] = new (GC) mu::script::astring::extension;
@@ -47,7 +47,7 @@ mu::script::extensions::node * mu::script::api::core ()
 
 mu::script::extensions::node * mu::script::api::full ()
 {
-	auto result (new mu::script::extensions::node);
+	auto result (new (GC) mu::script::extensions::node);
 	result->extensions->extensions_m [std::wstring (L"identity")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
 	result->extensions->extensions_m [std::wstring (L"ast/read_from_file")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::read_from_file);
 	result->extensions->extensions_m [std::wstring (L"ast/merge")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::merge);

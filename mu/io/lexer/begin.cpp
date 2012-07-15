@@ -33,21 +33,21 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		lexer.state.push (new (GC) mu::io::lexer::complex_identifier (lexer));
 		break;
 	case L';':
-		lexer.target (new mu::io::tokens::divider, mu::io::debugging::context (lexer.position, lexer.position));
+		lexer.target (new (GC) mu::io::tokens::divider, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L':':
 		lexer.state.push (new (GC) mu::io::lexer::control (lexer, lexer.position));
 		break;
 	case L'[':
-		lexer.target (new mu::io::tokens::left_square, mu::io::debugging::context (lexer.position, lexer.position));
+		lexer.target (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L']':
-		lexer.target (new mu::io::tokens::right_square, mu::io::debugging::context (lexer.position, lexer.position));
+		lexer.target (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L'\uffff':
 		{
 			lexer.state.pop ();
-			auto end (new mu::io::tokens::stream_end);
+			auto end (new (GC) mu::io::tokens::stream_end);
 			lexer.target (end, mu::io::debugging::context (lexer.position, lexer.position));
 		}
 		break;

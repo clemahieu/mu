@@ -24,7 +24,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 		switch (character)
 		{
 		case L'~':
-			lexer.target (new mu::io::tokens::parameters, mu::io::debugging::context (first, lexer.position));
+			lexer.target (new (GC) mu::io::tokens::parameters, mu::io::debugging::context (first, lexer.position));
 			lexer.state.pop ();
 			break;
 		case L'{':

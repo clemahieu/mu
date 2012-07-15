@@ -81,8 +81,8 @@
 
 void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::script::values::operation *& context)
 {
-	results = new mu::script::extensions::node;
-	context = new mu::script::values::operation;
+	results = new (GC) mu::script::extensions::node;
+	context = new (GC) mu::script::values::operation;
 	auto ctx (new (GC) mu::llvm_::context::node (nullptr));
 	context->values.push_back (ctx);
 	auto module (new (GC) mu::llvm_::module::node (nullptr));

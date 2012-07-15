@@ -17,7 +17,7 @@
 
 mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a)
 	: analyzer (analyzer_a),
-	routine_m (new mu::core::routine)
+	routine_m (new (GC) mu::core::routine)
 {
 	if (expression_a->individual_names.empty ())
 	{

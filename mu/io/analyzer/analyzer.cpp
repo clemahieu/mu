@@ -16,7 +16,7 @@
 #include <gc_cpp.h>
 
 mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a)
-	: extensions (new mu::io::analyzer::extensions::extensions),
+	: extensions (new (GC) mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
 	cluster (new (GC) mu::core::cluster)

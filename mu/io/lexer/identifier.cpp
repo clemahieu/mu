@@ -29,7 +29,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 				lexer.state.push (new (GC) mu::io::lexer::hex_code (2, *this));
 				break;
 			default:
-				mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
+				mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (string);
 				lexer.target (identifier, mu::io::debugging::context (first, last));
 				lexer.state.pop ();
 				auto state (new (GC) mu::io::lexer::control (lexer, lookahead_first));
@@ -54,7 +54,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 			case L']':
 			case L'\uffff':
 				{
-					mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
+					mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (string);
 					lexer.target (identifier, mu::io::debugging::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());

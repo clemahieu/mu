@@ -24,7 +24,7 @@ mu::io::parser::full::full (mu::io::parser::parser & parser_a, mu::io::parser::t
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	full_name (new mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
+	full_name (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
 	first (first_a)
 {
 }

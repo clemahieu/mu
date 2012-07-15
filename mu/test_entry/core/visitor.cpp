@@ -61,12 +61,12 @@ TEST (core_test, visitor3)
 {
 	auto vis (new (GC) mu::core_test::test_visitor);	
     mu::core::visitor * visitor (vis);
-	mu::core::cluster * cluster (new mu::core::cluster);
-	mu::core::expression * expression (new mu::core::expression);
-	mu::core::parameters * parameters (new mu::core::parameters);
-	mu::core::node * node (new mu::core::node);
-	mu::core::reference * reference (new mu::core::reference (nullptr, 0));
-	mu::core::routine * routine (new mu::core::routine);
+	mu::core::cluster * cluster (new (GC) mu::core::cluster);
+	mu::core::expression * expression (new (GC) mu::core::expression);
+	mu::core::parameters * parameters (new (GC) mu::core::parameters);
+	mu::core::node * node (new (GC) mu::core::node);
+	mu::core::reference * reference (new (GC) mu::core::reference (nullptr, 0));
+	mu::core::routine * routine (new (GC) mu::core::routine);
 	(*cluster) (visitor);
 	(*expression) (visitor);	
 	(*parameters) (visitor);
