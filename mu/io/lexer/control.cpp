@@ -34,7 +34,55 @@ void mu::io::lexer::control::lex (wchar_t character)
 		case L'-':
 			lexer.state.pop ();
 			lexer.state.push (new (GC) mu::io::lexer::singleline_comment (lexer));
-			break;
+                break;
+        case L'{':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'{');
+        }
+            break;
+        case L'}':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'}');
+        }
+            break;
+        case L'[':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'[');
+        }
+            break;
+        case L']':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L']');
+        }
+            break;
+        case L':':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L':');
+        }
+            break;
+        case L';':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L';');
+        }
+            break;
 		case L'a':
 			{
 				lexer.state.pop ();
@@ -44,6 +92,46 @@ void mu::io::lexer::control::lex (wchar_t character)
 				identifier->lex (L'a');
 			}
 			break;
+        case L' ':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L' ');
+        }
+            break;
+        case L'\0':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'\0');
+        }
+            break;
+        case L'\t':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'\t');
+        }
+            break;
+        case L'\f':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'\f');
+        }
+            break;
+        case L'\r':
+        {
+            lexer.state.pop ();
+            auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
+            lexer.state.push (identifier);
+            identifier->add (L'\r');
+        }
+            break;
 		case L'u':
 			{
 				lexer.state.pop ();
