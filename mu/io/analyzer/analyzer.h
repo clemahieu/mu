@@ -56,7 +56,7 @@ namespace mu
 				mu::io::analyzer::extensions::extensions * extensions;
 				boost::function <void (mu::core::cluster *)> target;
 				std::set <std::wstring> used_names;
-				std::multimap <std::wstring, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>> unresolved;
+				std::multimap <std::wstring, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>, std::less <std::wstring>, gc_allocator <std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>>> unresolved;
 				mu::core::errors::error_target * errors;
 				mu::core::cluster * cluster;
 			};

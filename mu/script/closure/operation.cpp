@@ -16,7 +16,7 @@ mu::script::closure::operation::operation (size_t count_a, mu::script::operation
 	}
 }
 
-mu::script::closure::operation::operation (mu::script::operation * operation_a, std::vector <size_t> & open_a, std::vector <mu::core::node *> & closed_a)
+mu::script::closure::operation::operation (mu::script::operation * operation_a, std::vector <size_t> & open_a, std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & closed_a)
 	: operation_m (operation_a),
 	open (open_a),
     closed (closed_a)

@@ -35,7 +35,8 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 {
 	for (auto i (node_a->expressions.begin ()), j (node_a->expressions.end ()); i != j; ++i)
 	{
-		(**i) (this);
+        auto value (*i);
+		(*value) (this);
 	}
 	if (unresolved.empty ())
 	{

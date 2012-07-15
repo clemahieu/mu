@@ -40,7 +40,7 @@ bool mu::script::load::operation::operator () (mu::script::context & context_a)
 
 mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & context_a, mu::script::string::node * file)
 {
-	mu::io::ast::cluster * result;
+	mu::io::ast::cluster * result (nullptr);
 	auto path (boost::filesystem::initial_path ());
 	path /= std::string (file->string.begin (), file->string.end ());
 	std::ifstream stream;
