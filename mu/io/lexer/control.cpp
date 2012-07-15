@@ -27,7 +27,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 			lexer.target (new (GC) mu::io::tokens::parameters, mu::io::debugging::context (first, lexer.position));
 			lexer.state.pop ();
 			break;
-		case L'{':
+		case L'(':
 			lexer.state.pop ();
 			lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
 			break;

@@ -235,17 +235,18 @@ TEST (io_test, lexer8)
 	EXPECT_EQ (t2.second.last.row, 2);
 }
 
+//Testing single multiline comments
 TEST (io_test, lexer9)
 {
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":{ a :} b");
+	lexer (L":( a :) b");
 	lexer ();
-	EXPECT_EQ (result.results.size (), 2);
+	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
-	EXPECT_EQ (t1i->string, std::wstring (L"b"));
+	EXPECT_TRUE (t1i->string == std::wstring (L"b"));
 	EXPECT_EQ (t1.second.first.character, 8);
 	EXPECT_EQ (t1.second.first.column, 9);
 	EXPECT_EQ (t1.second.first.row, 1);
@@ -253,7 +254,7 @@ TEST (io_test, lexer9)
 	EXPECT_EQ (t1.second.last.column, 9);
 	EXPECT_EQ (t1.second.last.row, 1);
 	auto t2 (result.results [1]);
-	EXPECT_NE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first), nullptr);
+	ASSERT_TRUE (dynamic_cast <mu::io::tokens::stream_end *> (t2.first) != nullptr);
 	EXPECT_EQ (t2.second.first.character, 9);
 	EXPECT_EQ (t2.second.first.column, 10);
 	EXPECT_EQ (t2.second.first.row, 1);
@@ -262,14 +263,15 @@ TEST (io_test, lexer9)
 	EXPECT_EQ (t2.second.last.row, 1);
 }
 
+//Testing nested multiline comments
 TEST (io_test, lexer10)
 {
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":{:{ a :}:} b");
+	lexer (L":(:( a :):) b");
 	lexer ();
-	EXPECT_EQ (result.results.size (), 2);
+	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
 	EXPECT_EQ (t1i->string, std::wstring (L"b"));
@@ -295,7 +297,7 @@ TEST (io_test, lexer11)
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
 	lexer (L":~");
-	EXPECT_EQ (result.results.size (), 1);
+	ASSERT_TRUE (result.results.size () == 1);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::parameters *> (t1.first));
 	EXPECT_NE (t1i, nullptr);

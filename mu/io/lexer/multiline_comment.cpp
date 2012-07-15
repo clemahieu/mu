@@ -20,10 +20,10 @@ void mu::io::lexer::multiline_comment::lex (wchar_t character)
 		{
 			switch (character)
 			{
-			case L'}':
+			case L')':
 				lexer.state.pop ();
 				break;
-			case L'{':
+			case L'(':
 				have_colon = false;
 				lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
 				break;
