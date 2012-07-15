@@ -13,7 +13,6 @@
 #include <mu/io/lexer/error_target.h>
 
 #include <boost/circular_buffer.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gc_cpp.h>
 
@@ -46,5 +45,5 @@ void mu::io::lexer::lexer::reset ()
 	{
 		state.pop ();
 	}
-	state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::begin (*this)));
+	state.push (new (GC) mu::io::lexer::begin (*this));
 }

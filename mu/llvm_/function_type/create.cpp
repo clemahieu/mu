@@ -16,8 +16,6 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::function_type::create::operator () (mu::script::context & context_a)
@@ -64,7 +62,7 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 			}
 			if (valid)
 			{
-				std::vector <mu::llvm_::type::node *> arguments_l;
+				std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> arguments_l;
 				for (auto i (arguments->values.begin ()), j (arguments->values.end ()); i != j; ++i)
 				{
 					auto type (dynamic_cast <mu::llvm_::type::node *> (*i));
@@ -77,7 +75,7 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 						valid = false;
 					}
 				}
-				std::vector <mu::llvm_::type::node *> results_l;
+				std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> results_l;
 				for (auto i (results->values.begin ()), j (results->values.end ()); i != j; ++i)
 				{
 					auto type (dynamic_cast <mu::llvm_::type::node *> (*i));

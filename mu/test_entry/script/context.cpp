@@ -4,8 +4,6 @@
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

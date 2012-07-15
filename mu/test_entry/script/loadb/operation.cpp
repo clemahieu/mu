@@ -7,7 +7,6 @@
 #include <mu/script/identity/operation.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
 #include <boost/filesystem.hpp>
 
 #include <gtest/gtest.h>

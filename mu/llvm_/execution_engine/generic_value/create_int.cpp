@@ -4,8 +4,6 @@
 #include <mu/llvm_/execution_engine/generic_value/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::execution_engine::generic_value::create_int::operator () (mu::script::context & context_a)

@@ -5,8 +5,7 @@
 #include <mu/script/identity/operation.h>
 #include <mu/io/analyzer/extensions/global.h>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <gc_cpp.h>
 
 extern "C"
 #ifdef _WIN32
@@ -21,6 +20,6 @@ __declspec (dllexport)
 void * extensions ()
 {
 	auto result (new mu::script::extensions::node);
-	result->extensions->extensions_m [std::wstring (L"identity")] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::identity::operation> ());
+	result->extensions->extensions_m [std::wstring (L"identity")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
 	return result;
 }

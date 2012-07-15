@@ -5,8 +5,6 @@
 #include <mu/script/location.h>
 #include <mu/core/routine.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::script::context::context ()

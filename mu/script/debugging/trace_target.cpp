@@ -6,8 +6,6 @@
 #include <mu/script/values/operation.h>
 #include <mu/script/debugging/trace_error.h>
 
-#include <boost/make_shared.hpp>
-
 mu::script::debugging::trace_target::trace_target (mu::core::errors::error_target * target_a, mu::script::context & context_a)
 	: target (target_a),
 	context (context_a)

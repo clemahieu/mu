@@ -14,8 +14,6 @@
 #include <mu/core/parameters.h>
 #include <mu/io/ast/parameters.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, mu::core::expression * self_a)

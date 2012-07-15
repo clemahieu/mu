@@ -6,6 +6,8 @@
 
 #include <vector>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
     namespace core
@@ -20,11 +22,11 @@ namespace mu
 			{
 			public:
 				single (mu::core::node * operation_a);
-				single (std::vector <mu::core::node *> & closed_a, mu::core::node * operation_a);
+				single (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & closed_a, mu::core::node * operation_a);
 				bool operator () (mu::script::context & context_a) override;
 				std::wstring name () override;
 				mu::core::node * operation_m;
-				std::vector <mu::core::node *> closed;
+				std::vector <mu::core::node *, gc_allocator <mu::core::node *>> closed;
 			};
 		}
 	}

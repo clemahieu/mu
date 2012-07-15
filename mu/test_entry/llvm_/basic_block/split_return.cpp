@@ -15,8 +15,6 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/core/parameters.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
 #include <llvm/Function.h>

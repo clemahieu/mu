@@ -12,9 +12,9 @@ namespace mu
 			class operation : public mu::script::operation
 			{
 			public:
-				operation (boost::shared_ptr <mu::llvm_::basic_block::node> block_a);
+				operation (mu::llvm_::basic_block::node * block_a);
 				bool operator () (mu::script::context & context_a) override;
-				boost::shared_ptr <mu::llvm_::basic_block::node> block;
+				mu::llvm_::basic_block::node * block;
 			};
 		}
 	}

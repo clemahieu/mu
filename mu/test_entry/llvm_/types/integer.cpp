@@ -8,8 +8,6 @@
 #include <llvm/BasicBlock.h>
 #include <llvm/DerivedTypes.h>
 
-#include <boost/make_shared.hpp>
-
 #include <vector>
 
 #include <gtest/gtest.h>

@@ -7,7 +7,7 @@ mu::script::closure::single::single (mu::core::node * operation_a)
 {
 }
 
-mu::script::closure::single::single (std::vector <mu::core::node *> & closed_a, mu::core::node * operation_a)
+mu::script::closure::single::single (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & closed_a, mu::core::node * operation_a)
 	: operation_m (operation_a),
 	closed (closed_a)
 {

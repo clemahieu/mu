@@ -14,7 +14,6 @@
 #include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gc_cpp.h>
 
@@ -44,7 +43,8 @@ void mu::io::parser::values::operator () (mu::io::tokens::left_square * token)
 void mu::io::parser::values::operator () (mu::io::tokens::right_square * token)
 {
 	parser.state.pop ();
-	target (new (GC) mu::io::ast::expression (mu::io::debugging::context (first.first, parser.context.last), values_m));
+    auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (first.first, parser.context.last), values_m));
+	target (expression);
 }
 
 void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)

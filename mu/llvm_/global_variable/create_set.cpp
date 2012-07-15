@@ -7,8 +7,6 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/GlobalVariable.h>
 #include <llvm/Module.h>
 

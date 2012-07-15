@@ -7,6 +7,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -32,8 +34,8 @@ namespace mu
 				void operator () (mu::core::node * node_a) override;
 				void operator () (mu::core::routine * routine_a) override;
 				mu::core::node * current;
-				std::set <mu::core::expression *> already;
-				std::set <mu::core::expression *> path;
+				std::set <mu::core::expression *, std::less <mu::core::expression *>, gc_allocator <mu::core::expression *>> already;
+				std::set <mu::core::expression *, std::less <mu::core::expression *>, gc_allocator <mu::core::expression *>> path;
 				mu::script::topology::node * topology;
 				bool acyclic;
 			};

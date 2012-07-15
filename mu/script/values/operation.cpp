@@ -6,7 +6,7 @@ mu::script::values::operation::operation ()
 {
 }
 
-mu::script::values::operation::operation (std::vector <mu::core::node *> values_a)
+mu::script::values::operation::operation (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> values_a)
 	: values (values_a)
 {
 }

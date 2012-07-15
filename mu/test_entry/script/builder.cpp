@@ -10,7 +10,6 @@
 #include <mu/io/analyzer/extensions/global.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 

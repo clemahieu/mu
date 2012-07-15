@@ -4,8 +4,6 @@
 #include <mu/llvm_/global_variable/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/GlobalVariable.h>
 
 #include <gc_cpp.h>

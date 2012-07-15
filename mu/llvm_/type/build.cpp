@@ -9,8 +9,6 @@
 
 #include <llvm/DerivedTypes.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::llvm_::type::build::build (mu::llvm_::context::node * context_a, llvm::Type * type_a)

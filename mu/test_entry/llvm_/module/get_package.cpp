@@ -11,8 +11,6 @@
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

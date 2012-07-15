@@ -4,6 +4,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -11,7 +13,7 @@ namespace mu
 		class node;
 		namespace apply
 		{
-			void merge (std::vector <boost::shared_ptr <mu::core::node>> & target, std::vector <boost::shared_ptr <mu::core::node>> & source);
+			void merge (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & target, std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & source);
 		}
 	}
 }

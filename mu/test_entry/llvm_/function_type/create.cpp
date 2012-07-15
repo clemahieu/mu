@@ -8,8 +8,6 @@
 #include <mu/script/context.h>
 #include <mu/llvm_/function_type/divider.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/DerivedTypes.h>
 #include <llvm/LLVMContext.h>
 

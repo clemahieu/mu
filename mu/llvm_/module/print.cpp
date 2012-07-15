@@ -8,8 +8,6 @@
 #include <llvm/Assembly/AssemblyAnnotationWriter.h>
 #include <llvm/Module.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::module::print::operator () (mu::script::context & context_a)

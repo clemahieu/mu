@@ -4,8 +4,6 @@
 #include <mu/llvm_/apint/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/ADT/APInt.h>
 
 #include <gc_cpp.h>

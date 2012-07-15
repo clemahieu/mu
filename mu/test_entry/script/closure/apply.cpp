@@ -5,8 +5,6 @@
 #include <mu/script/identity/operation.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

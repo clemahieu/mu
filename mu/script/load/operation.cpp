@@ -13,10 +13,11 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <sstream>
 #include <fstream>
+
+#include <gc_cpp.h>
 
 bool mu::script::load::operation::operator () (mu::script::context & context_a)
 {
@@ -46,7 +47,7 @@ mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & 
 	stream.open (path.string ().c_str ());
 	if (stream.is_open ())		
 	{
-		auto input (boost::shared_ptr <mu::io::lexer::istream_input> (new mu::io::lexer::istream_input (stream)));
+		auto input (new (GC) mu::io::lexer::istream_input (stream));
 		mu::io::ast::builder builder;
 		builder (input);
 		builder ();

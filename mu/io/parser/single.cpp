@@ -16,11 +16,9 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
-mu::io::parser::single::single (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <mu::io::ast::node *> values_a, mu::io::debugging::context first_a)
+mu::io::parser::single::single (mu::io::parser::parser & parser_a, mu::io::parser::target & target_a, std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> values_a, mu::io::debugging::context first_a)
 	: parser (parser_a),
 	target (target_a),
 	values (values_a),

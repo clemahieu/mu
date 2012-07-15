@@ -2,8 +2,6 @@
 
 #include <mu/io/lexer/lexer.h>
 
-#include <boost/make_shared.hpp>
-
 mu::io::lexer::error_target::error_target (mu::io::lexer::lexer & lexer_a, mu::core::errors::error_target * target_a)
 	: lexer (lexer_a),
 	target (target_a)

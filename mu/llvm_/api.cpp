@@ -77,8 +77,6 @@
 #include <mu/llvm_/function_type/divider.h>
 #include <mu/core/expression.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::script::values::operation *& context)

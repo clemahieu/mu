@@ -4,8 +4,6 @@
 #include <mu/script/astring/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::script::astring::truncate::operator () (mu::script::context & context_a)

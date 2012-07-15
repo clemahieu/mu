@@ -2,8 +2,6 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 mu::io::debugging::context::context ()
 {
 }

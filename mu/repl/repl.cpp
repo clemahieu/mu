@@ -23,8 +23,6 @@
 #include <mu/script/api.h>
 #include <mu/core/routine.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::repl::repl::repl ()
@@ -59,7 +57,7 @@ void mu::repl::repl::stop ()
 void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
-	boost::shared_ptr <mu::io::lexer::character_stream> stream (new mu::repl::cli_stream (std::wcin));
+	auto stream (new (GC) mu::repl::cli_stream (std::wcin));
 	mu::io::builder builder (mu::script::api::core ()->extensions);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	builder.analyzer.extensions->extensions_m [std::wstring (L"quit")] = new (GC) mu::io::analyzer::extensions::global (quit);

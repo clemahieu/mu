@@ -10,6 +10,8 @@
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/lexer/state.h>
 
+#include <gc_cpp.h>
+
 mu::io::lexer::begin::begin (mu::io::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
 {
@@ -28,13 +30,13 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		// Eat whitespace
 		break;
 	case L'|':
-		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::complex_identifier (lexer)));
+		lexer.state.push (new (GC) mu::io::lexer::complex_identifier (lexer));
 		break;
 	case L';':
 		lexer.target (new mu::io::tokens::divider, mu::io::debugging::context (lexer.position, lexer.position));
 		break;
 	case L':':
-		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::control (lexer, lexer.position)));
+		lexer.state.push (new (GC) mu::io::lexer::control (lexer, lexer.position));
 		break;
 	case L'[':
 		lexer.target (new mu::io::tokens::left_square, mu::io::debugging::context (lexer.position, lexer.position));
@@ -50,7 +52,7 @@ void mu::io::lexer::begin::lex (wchar_t character)
 		}
 		break;
 	default:
-		auto state (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::identifier (lexer, lexer.position)));
+		auto state (new (GC) mu::io::lexer::identifier (lexer, lexer.position));
 		lexer.state.push (state);
 		state->lex (character);
 		break;

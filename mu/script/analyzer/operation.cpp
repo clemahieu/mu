@@ -10,7 +10,6 @@
 #include <mu/script/check.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 bool mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {

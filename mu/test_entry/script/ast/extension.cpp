@@ -12,13 +12,12 @@
 #include <mu/script/cluster/node.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 
 TEST (script_test, extension1)
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[~ .ast []]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
@@ -38,7 +37,7 @@ TEST (script_test, extension1)
 
 TEST (script_test, extension2)
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[~ .ast thing]");
 	builder ();
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
@@ -47,7 +46,7 @@ TEST (script_test, extension2)
 
 TEST (script_test, extension3)
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[~ .ast [[]]]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);

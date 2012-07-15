@@ -8,18 +8,19 @@
 #include <mu/script/api.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
+
+#include <gc_cpp.h>
 
 int main (int argc, char * argv [])
 {
 	if (argc == 2)
 	{
-		mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
+		mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 		
 		std::string file_name (argv [1]);
 		mu::script::context context;
-		context.push (boost::make_shared <mu::script::exec::operation> (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions));
-		context.push (boost::make_shared <mu::script::string::node> (std::wstring (file_name.begin (), file_name.end ())));
+		context.push (new (GC) mu::script::exec::operation (mu::script::api::core ()->extensions));
+		context.push (new (GC) mu::script::string::node (std::wstring (file_name.begin (), file_name.end ())));
         auto valid (context ());
 		if (valid)
 		{

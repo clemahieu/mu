@@ -31,9 +31,6 @@
 #include <mu/script/ast/extension.h>
 #include <mu/script/closure/create_single.h>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::script::extensions::node * mu::script::api::core ()

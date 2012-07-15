@@ -6,13 +6,12 @@
 #include <mu/script/extensions/node.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 
 TEST (script_test, string_extension1)
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[` ;; 1]");
 	builder ();
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
@@ -20,7 +19,7 @@ TEST (script_test, string_extension1)
 
 TEST (script_test, string_extension2)
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[`[] ;; 1]");
 	builder ();
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
@@ -28,7 +27,7 @@ TEST (script_test, string_extension2)
 
 TEST (script_test, string_extension3)
 {
-	mu::io::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::io::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[` a ;; 1]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);

@@ -16,8 +16,6 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::llvm_::constant_int::extension::extension (mu::llvm_::context::node * context_a)

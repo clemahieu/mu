@@ -11,7 +11,6 @@
 #include <mu/script/check.h>
 #include <mu/core/routine.h>
 
-#include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
 #include <gc_cpp.h>

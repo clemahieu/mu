@@ -11,7 +11,6 @@
 #include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 
@@ -23,7 +22,7 @@ TEST (io_test, analyzer1)
 	// []
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 2, 1), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 2, 1), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
@@ -39,7 +38,7 @@ TEST (io_test, analyzer2)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
@@ -53,7 +52,7 @@ TEST (io_test, analyzer3)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
@@ -68,8 +67,8 @@ TEST (io_test, analyzer4)
 	// [[;;~]~]
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 8, 7), std::vector <mu::io::ast::node *> ()));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 2, 1, 1, 6, 5), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 1, 0, 1, 8, 7), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (1, 2, 1, 1, 6, 5), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (1, 5, 4, 1, 5, 4), std::wstring (L"~"));
 	expression->values.push_back (expression1);
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (1, 7, 6, 1, 7, 6), std::wstring (L"~")));
@@ -93,8 +92,8 @@ TEST (io_test, analyzer5)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
@@ -117,8 +116,8 @@ TEST (io_test, analyzer6)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
@@ -143,8 +142,8 @@ TEST (io_test, analyzer7)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~"));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"~")));
 	expression->values.push_back (expression1);
@@ -166,9 +165,9 @@ TEST (io_test, analyzer8)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (expression1);
 	expression->values.push_back (expression2);
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
@@ -200,7 +199,7 @@ TEST (io_test, analyzer9)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
 	expression->values.push_back (parameters);
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
@@ -222,20 +221,20 @@ TEST (io_test, analyzer10)
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
 	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e1);
 	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"unresolved")));
 	e1->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"a")));
-	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
 	e2->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"b")));
-	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
 	e3->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"c")));
-	auto e4 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e4 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e4);
 	e4->values.push_back (parameters);
 	e4->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"unresolved")));
@@ -254,16 +253,16 @@ TEST (io_test, analyzer11)
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
 	auto parameters (new (GC) mu::io::ast::parameters (mu::io::debugging::context ()));
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto e1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e1);
 	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un1")));
 	e1->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un2")));
-	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e2);
 	e2->values.push_back (parameters);
 	e2->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un1")));
-	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto e3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (e3);
 	e3->values.push_back (parameters);
 	e3->individual_names.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"un2")));
@@ -279,10 +278,10 @@ TEST (io_test, analyzer12)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
 	expression1->values.push_back (expression2);
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
@@ -298,12 +297,12 @@ TEST (io_test, analyzer13)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression2);
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
@@ -317,9 +316,9 @@ TEST (io_test, analyzer14)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
@@ -333,13 +332,13 @@ TEST (io_test, analyzer15)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"3"));
 	expression->values.push_back (expression2);
 	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));
-	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression1 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression3->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"3"));
 	expression1->values.push_back (expression3);
 	expression1->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
@@ -355,11 +354,11 @@ TEST (io_test, analyzer16)
 {
 	mu::io_test::analyzer_result result;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors);
-	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
-	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
+	auto expression2 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression2->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression2);
-	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *> ()));
+	auto expression3 (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression3->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"2"));
 	expression->values.push_back (expression3);
 	expression->full_name = new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring (L"1"));

@@ -10,9 +10,8 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
+#include <gc_allocator.h>
 
 bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_a)
 {
@@ -23,7 +22,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 		if (one != nullptr)
 		{
 			size_t position (1);
-			std::vector <mu::llvm_::type::node *> types;
+			std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> types;
 			for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j && valid; ++i, ++position)
 			{
 				auto type (dynamic_cast <mu::llvm_::type::node *> (*i));

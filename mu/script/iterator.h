@@ -4,6 +4,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -15,7 +17,7 @@ namespace mu
 		class iterator
 		{
 		public:
-			iterator (std::vector <mu::core::node *> & stack_a, size_t position_a);
+			iterator (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & stack_a, size_t position_a);
 			mu::script::iterator operator ++ ();
 			mu::script::iterator operator -- ();
 			mu::script::iterator operator + (size_t offset);
@@ -23,7 +25,7 @@ namespace mu
 			mu::core::node * & operator * ();
 			bool operator == (mu::script::iterator const & other) const;
 			bool operator != (mu::script::iterator const & other) const;
-			std::vector <mu::core::node *> & stack;
+			std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & stack;
 			size_t position;
 		};
 	}

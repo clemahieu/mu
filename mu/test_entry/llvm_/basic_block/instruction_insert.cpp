@@ -6,8 +6,6 @@
 #include <mu/llvm_/instructions/add.h>
 #include <mu/llvm_/integer_type/node.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/LLVMContext.h>
 #include <llvm/BasicBlock.h>
 #include <llvm/Module.h>

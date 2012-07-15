@@ -3,14 +3,12 @@
 #include <mu/script/values/operation.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::script::values::create::operator () (mu::script::context & context_a)
 {
 	bool result (true);
-	std::vector <mu::core::node *> values;
+	std::vector <mu::core::node *, gc_allocator <mu::core::node *>> values;
 	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 	{
 		values.push_back (*i);

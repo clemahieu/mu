@@ -1,7 +1,6 @@
 #include <mu/script/builder.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <mu/script/ast/extension.h>
 #include <mu/io/analyzer/extensions/extensions.h>

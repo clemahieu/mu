@@ -53,7 +53,7 @@ namespace mu
 				mu::io::debugging::position position;
 				mu::core::errors::error_target * errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
-				std::stack <boost::shared_ptr <mu::io::lexer::state>> state;
+				std::stack <mu::io::lexer::state *> state;
 			};
 		}
 	}

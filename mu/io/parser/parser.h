@@ -9,6 +9,9 @@
 #include <stack>
 #include <vector>
 #include <map>
+#include <deque>
+
+#include <gc_allocator.h>
 
 namespace mu
 {
@@ -48,7 +51,7 @@ namespace mu
 				mu::io::ast::cluster * cluster;
 				mu::core::errors::error_target * errors;
 				boost::function <void (mu::io::ast::cluster *)> target;
-				std::stack <mu::io::tokens::visitor *> state;
+				std::stack <mu::io::tokens::visitor *, std::deque <mu::io::tokens::visitor *, gc_allocator <mu::io::tokens::visitor *>>> state;
 			};
 		}
 	}

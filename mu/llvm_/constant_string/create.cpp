@@ -11,8 +11,6 @@
 #include <mu/llvm_/array_type/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Module.h>
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>

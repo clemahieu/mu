@@ -10,7 +10,6 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/script/values/operation.h>
 
-#include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
 #include <sstream>

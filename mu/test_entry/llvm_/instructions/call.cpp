@@ -11,8 +11,6 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Constants.h>
 #include <llvm/LLVMContext.h>
 #include <llvm/DerivedTypes.h>
@@ -21,13 +19,14 @@
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>
+#include <gc_allocator.h>
 
 TEST (llvm_test, instructions_call1)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
-	std::vector <mu::llvm_::type::node *> arguments;
+	std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> arguments;
 	arguments.push_back (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)));
 	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, arguments, new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)))));
 	mu::script::context ctx2 (errors);
@@ -42,7 +41,7 @@ TEST (llvm_test, instructions_call2)
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
-	std::vector <mu::llvm_::type::node *> arguments;
+	std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> arguments;
 	arguments.push_back (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)));
 	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, arguments, new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)))));
 	mu::script::context ctx2 (errors);
@@ -58,7 +57,7 @@ TEST (llvm_test, instructions_call3)
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
-	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)))));
+	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)))));
 	mu::script::context ctx2;
 	ctx2.push (new (GC) mu::llvm_::instructions::call);
 	ctx2.push (new (GC) mu::llvm_::value::node (llvm::ConstantPointerNull::get (type->pointer_type ()), type));
@@ -76,7 +75,7 @@ TEST (llvm_test, instructions_call4)
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
-	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::void_type::node (ctx))));
+	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::void_type::node (ctx))));
 	mu::script::context ctx2;
 	ctx2.push (new (GC) mu::llvm_::instructions::call);
 	auto valid (ctx2 ());

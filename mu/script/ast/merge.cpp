@@ -3,12 +3,12 @@
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
+#include <gc_cpp.h>
 
 bool mu::script::ast::merge::operator () (mu::script::context & context_a)
 {
 	bool complete (true);
-	auto result (boost::make_shared <mu::io::ast::cluster> ());
+	auto result (new (GC) mu::io::ast::cluster);
 	size_t position (0);
 	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i, ++position)
 	{

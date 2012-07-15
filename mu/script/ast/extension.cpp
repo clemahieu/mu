@@ -7,8 +7,6 @@
 #include <mu/core/expression.h>
 #include <mu/io/ast/cluster.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)

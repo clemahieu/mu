@@ -2,8 +2,6 @@
 
 #include <mu/io/analyzer/extensions/extensions.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::script::extensions::node::node ()

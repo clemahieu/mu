@@ -13,8 +13,6 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a)

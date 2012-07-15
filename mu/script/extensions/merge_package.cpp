@@ -8,8 +8,6 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <sstream>
 
 #include <gc_cpp.h>

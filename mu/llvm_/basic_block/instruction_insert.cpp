@@ -5,8 +5,6 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <vector>
 
 #include <gc_cpp.h>

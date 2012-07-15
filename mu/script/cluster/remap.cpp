@@ -7,8 +7,6 @@
 #include <mu/core/routine.h>
 #include <mu/core/reference.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::script::cluster::remap::operator () (mu::script::context & context_a)

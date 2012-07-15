@@ -25,13 +25,12 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/Function.h>
 
-#include <boost/make_shared.hpp>
-
 #include <sstream>
 
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>
+#include <gc_allocator.h>
 
 TEST (llvm_test, synthesizer_operation1)
 {
@@ -114,8 +113,8 @@ TEST (llvm_test, synthesizer_operation2)
 	EXPECT_EQ (ptr->getElementType ()->isFunctionTy (), true);
 	EXPECT_EQ (module->getFunctionList ().size (), 1);
 	mu::llvm_::module::print print;
-	std::vector <mu::core::node *> a3;
-	std::vector <mu::core::node *> r3;
+	std::vector <mu::core::node *, gc_allocator <mu::core::node *>> a3;
+	std::vector <mu::core::node *, gc_allocator <mu::core::node *>> r3;
 	ctx.drop ();
 	ctx.push (new (GC) mu::llvm_::module::print);
 	ctx.push (context->values [1]);

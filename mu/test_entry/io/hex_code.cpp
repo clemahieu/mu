@@ -3,9 +3,7 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/source.h>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 

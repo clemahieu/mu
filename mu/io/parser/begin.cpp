@@ -12,8 +12,6 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/io/tokens/stream_end.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::io::parser::begin::begin (mu::io::parser::parser & parser_a)

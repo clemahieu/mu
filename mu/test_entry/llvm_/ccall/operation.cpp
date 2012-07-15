@@ -17,8 +17,6 @@
 #include <mu/llvm_/set_type/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/LLVMContext.h>
 #include <llvm/BasicBlock.h>
 #include <llvm/Module.h>
@@ -46,10 +44,10 @@ TEST (llvm_test, ccall_operation1)
 	auto bool_l (new (GC) mu::llvm_::value::node (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))));
 	ctx2.push (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::void_type::node (ctx)))));
+	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::void_type::node (ctx)))));
 	ctx2.push (true_fn);
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::void_type::node (ctx)))));
+	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::void_type::node (ctx)))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
     EXPECT_EQ (valid, true);
@@ -82,10 +80,10 @@ TEST (llvm_test, ccall_operation2)
 	auto bool_l (new (GC) mu::llvm_::value::node (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))));
 	ctx2.push (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt1Ty (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))))));
+	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))))));
 	ctx2.push (true_fn);
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getInt1Ty (context), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))))));
+	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
     EXPECT_EQ (valid, true);
@@ -123,10 +121,10 @@ TEST (llvm_test, ccall_operation3)
 	auto bool_l (new (GC) mu::llvm_::value::node (llvm::ConstantInt::get (context, llvm::APInt (1, 0)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context))));
 	ctx2.push (bool_l);
 	auto true_function (llvm::Function::Create (llvm::FunctionType::get (result_type->type (), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), result_type))));
+	auto true_fn (new (GC) mu::llvm_::function::node (true_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), result_type))));
 	ctx2.push (true_fn);
 	auto false_function (llvm::Function::Create (llvm::FunctionType::get (result_type->type (), false), llvm::GlobalValue::ExternalLinkage, llvm::Twine (), &module));
-	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *> (), result_type))));
+	auto false_fn (new (GC) mu::llvm_::function::node (false_function, new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), result_type))));
 	ctx2.push (false_fn);
 	auto valid (ctx2 ());
 	EXPECT_EQ (valid, true);

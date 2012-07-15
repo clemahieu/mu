@@ -6,8 +6,6 @@
 
 #include <llvm/BasicBlock.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::basic_block::create::operator () (mu::script::context & context_a)

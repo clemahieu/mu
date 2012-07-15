@@ -9,8 +9,6 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Instructions.h>
 #include <llvm/BasicBlock.h>
 

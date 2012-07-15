@@ -9,6 +9,8 @@
 #include <mu/io/lexer/hex_code.h>
 #include <mu/io/lexer/identifier.h>
 
+#include <gc_cpp.h>
+
 mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
 	: first (first_a),
 	lexer (lexer_a)
@@ -27,16 +29,16 @@ void mu::io::lexer::control::lex (wchar_t character)
 			break;
 		case L'{':
 			lexer.state.pop ();
-			lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::multiline_comment (lexer)));
+			lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
 			break;
 		case L'-':
 			lexer.state.pop ();
-			lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::singleline_comment (lexer)));
+			lexer.state.push (new (GC) mu::io::lexer::singleline_comment (lexer));
 			break;
 		case L'a':
 			{
 				lexer.state.pop ();
-				auto identifier (boost::shared_ptr <mu::io::lexer::identifier> (new mu::io::lexer::identifier (lexer, first)));
+				auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
 				lexer.state.push (identifier);
 				identifier->lex (L':');
 				identifier->lex (L'a');
@@ -45,7 +47,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 		case L'u':
 			{
 				lexer.state.pop ();
-				auto identifier (boost::shared_ptr <mu::io::lexer::identifier> (new mu::io::lexer::identifier (lexer, first)));
+				auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
 				lexer.state.push (identifier);
 				identifier->lex (L':');
 				identifier->lex (L'u');
@@ -55,7 +57,7 @@ void mu::io::lexer::control::lex (wchar_t character)
 			std::wstring message (L"Unknown token: :");
 			message.push_back (character);
 			(*lexer.errors) (message);
-			lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
+			lexer.state.push (new (GC) mu::io::lexer::error);
 			break;
 		}
 	}
@@ -63,6 +65,6 @@ void mu::io::lexer::control::lex (wchar_t character)
 	{
 		std::wstring message (L"End of stream when parsing control character");
 		(*lexer.errors) (message);
-		lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
+		lexer.state.push (new (GC) mu::io::lexer::error);
 	}
 }

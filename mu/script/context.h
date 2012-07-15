@@ -54,7 +54,7 @@ namespace mu
 				}
 			}
 			bool operator () ();
-			std::vector <mu::core::node *> stack;
+			std::vector <mu::core::node *, gc_allocator <mu::core::node *>> stack;
 			size_t base_begin;
 			size_t base_end;
 			size_t frame_begin;

@@ -5,6 +5,8 @@
 #include <mu/io/lexer/error.h>
 #include <mu/io/lexer/identifier.h>
 
+#include <gc_cpp.h>
+
 mu::io::lexer::hex_code::hex_code (size_t digits_a, mu::io::lexer::identifier & identifier_a)
 	: identifier (identifier_a),
 	index (0),
@@ -79,7 +81,7 @@ void mu::io::lexer::hex_code::lex (wchar_t character)
 			std::wstring message (L"Invalid hex digit: ");
 			message.push_back (character);
 			(*identifier.lexer.errors) (message);
-			identifier.lexer.state.push (boost::shared_ptr <mu::io::lexer::error> (new mu::io::lexer::error));
+			identifier.lexer.state.push (new (GC) mu::io::lexer::error);
 			break;
 	}
 }

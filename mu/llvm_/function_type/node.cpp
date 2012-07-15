@@ -18,7 +18,7 @@ mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, llvm
 	}
 }
 
-mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> parameters_a, mu::llvm_::type::node * output_a)
+mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node*>> parameters_a, mu::llvm_::type::node * output_a)
 	: context (context_a),
 	parameters (parameters_a),
 	output (output_a)

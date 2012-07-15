@@ -2,8 +2,6 @@
 
 #include <mu/io/parser/parser.h>
 
-#include <boost/make_shared.hpp>
-
 mu::io::parser::error_target::error_target (mu::io::parser::parser & parser_a, mu::core::errors::error_target * target_a)
 	: parser (parser_a),
 	target (target_a)

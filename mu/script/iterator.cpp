@@ -1,6 +1,6 @@
 #include <mu/script/iterator.h>
 
-mu::script::iterator::iterator (std::vector <mu::core::node *> & stack_a, size_t position_a)
+mu::script::iterator::iterator (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & stack_a, size_t position_a)
 	: stack (stack_a),
 	position (position_a)
 {

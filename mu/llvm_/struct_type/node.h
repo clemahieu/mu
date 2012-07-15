@@ -6,6 +6,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace llvm
 {
 	class StructType;
@@ -25,11 +27,11 @@ namespace mu
 			public:
 				node (mu::llvm_::context::node * context_a, llvm::StructType * struct_type_a);
 				node (mu::llvm_::context::node * context_a);
-				node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *> elements_a);
+				node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> elements_a);
 				llvm::Type * type () override;
 				llvm::StructType * struct_type ();
 				mu::llvm_::context::node * context;
-				std::vector <mu::llvm_::type::node *> elements;
+				std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> elements;
 			};
 		}
 	}

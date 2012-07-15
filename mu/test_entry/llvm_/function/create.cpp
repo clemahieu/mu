@@ -7,8 +7,6 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/LLVMContext.h>
 #include <llvm/DerivedTypes.h>
 

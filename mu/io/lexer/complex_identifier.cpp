@@ -5,6 +5,8 @@
 #include <mu/io/lexer/error.h>
 #include <mu/core/errors/error_target.h>
 
+#include <gc_cpp.h>
+
 mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a)
 	: have_end_token (false),
 	first (lexer_a.position),
@@ -65,7 +67,7 @@ void mu::io::lexer::complex_identifier::lex (wchar_t character)
 	{
 		std::wstring message (L"End of file while parsing complex identifier");
 		(*lexer.errors) (message);
-		auto error (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::error));
+		auto error (new (GC) mu::io::lexer::error);
 		lexer.state.push (error);
 	}
 }

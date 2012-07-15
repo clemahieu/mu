@@ -19,7 +19,6 @@
 #include <mu/llvm_/argument/node.h>
 #include <mu/script/values/operation.h>
 
-#include <boost/make_shared.hpp>
 #include <boost/tuple/tuple.hpp>
 
 #include <llvm/Function.h>
@@ -64,7 +63,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 			assert (context_a.working_size () == 1);
 			assert (dynamic_cast <mu::script::cluster::node *> (context_a.working (0)) != nullptr);
 			auto cluster_l (static_cast <mu::script::cluster::node *> (context_a.working (0)));
-			std::vector <boost::tuple <mu::llvm_::function::node *, mu::llvm_::function_type::node *>> functions;
+			std::vector <boost::tuple <mu::llvm_::function::node *, mu::llvm_::function_type::node *>, gc_allocator <boost::tuple <mu::llvm_::function::node *, mu::llvm_::function_type::node *>>> functions;
 			context_a.slide ();
 			{
 				auto k (body_cluster->routines.begin ());
@@ -109,7 +108,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 					context_a.push (remapped_cluster);
 					{
 						assert (body_cluster->routines.size () == functions.size ());
-						std::map <mu::core::routine *, mu::llvm_::function::node *> routines;
+						std::map <mu::core::routine *, mu::llvm_::function::node *, std::less <mu::core::routine *>, gc_allocator <std::pair <mu::core::routine *, mu::llvm_::function::node *>>> routines;
 						for (size_t i (0), j (body_cluster->routines.size ()); i != j; ++i)
 						{
 							routines [body_cluster->routines [i]] = functions [i].get <0> ();

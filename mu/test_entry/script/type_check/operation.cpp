@@ -2,8 +2,6 @@
 #include <mu/script/type_check/operation.h>
 #include <mu/script/identity/operation.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

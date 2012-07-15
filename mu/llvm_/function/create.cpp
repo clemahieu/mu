@@ -5,8 +5,6 @@
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Function.h>
 
 #include <gc_cpp.h>

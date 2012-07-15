@@ -9,7 +9,6 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 
-#include <boost/make_shared.hpp>
 #include <boost/bind.hpp>
 
 #include <gtest/gtest.h>

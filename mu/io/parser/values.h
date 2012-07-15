@@ -8,6 +8,8 @@
 
 #include <vector>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace io
@@ -32,7 +34,7 @@ namespace mu
 				void operator () (mu::io::tokens::parameters * token) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				mu::io::parser::target & target;
-				std::vector <mu::io::ast::node *> values_m;
+				std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> values_m;
 				mu::io::parser::parser & parser;
 				mu::io::debugging::context first;
 			};

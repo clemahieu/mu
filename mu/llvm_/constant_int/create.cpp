@@ -7,8 +7,6 @@
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>
 

@@ -5,7 +5,7 @@
 #include <mu/io/lexer/hex_code.h>
 #include <mu/io/lexer/control.h>
 
-#include <boost/make_shared.hpp>
+#include <gc_cpp.h>
 
 mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
 	: lookahead (false),
@@ -23,16 +23,16 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 		switch (character)
 		{
 			case L'u':
-				lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::hex_code (8, *this)));
+				lexer.state.push (new (GC) mu::io::lexer::hex_code (8, *this));
 				break;
 			case L'a':
-				lexer.state.push (boost::shared_ptr <mu::io::lexer::state> (new mu::io::lexer::hex_code (2, *this)));
+				lexer.state.push (new (GC) mu::io::lexer::hex_code (2, *this));
 				break;
 			default:
 				mu::io::tokens::identifier * identifier = new mu::io::tokens::identifier (string);
 				lexer.target (identifier, mu::io::debugging::context (first, last));
 				lexer.state.pop ();
-				auto state (boost::make_shared <mu::io::lexer::control> (lexer, lookahead_first));
+				auto state (new (GC) mu::io::lexer::control (lexer, lookahead_first));
 				lexer.state.push (state);
 				state->lex (character);
 				break;

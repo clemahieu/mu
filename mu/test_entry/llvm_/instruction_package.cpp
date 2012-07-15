@@ -24,7 +24,6 @@
 #include <llvm/Constants.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <gtest/gtest.h>
 
@@ -32,7 +31,7 @@
 
 TEST (llvm_test, instruction_package1)
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
@@ -50,7 +49,7 @@ TEST (llvm_test, instruction_package1)
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
-	mu::script::builder b2 (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
 	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
@@ -76,7 +75,7 @@ TEST (llvm_test, instruction_package1)
 
 TEST (llvm_test, instruction_package2)
 {
-	mu::script::builder builder (boost::shared_ptr <mu::script::extensions::node> (mu::script::api::core ())->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
 	builder (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
 	builder ();

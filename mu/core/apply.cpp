@@ -1,6 +1,6 @@
 #include <mu/core/apply.h>
 
-void mu::core::apply::merge (std::vector <boost::shared_ptr <mu::core::node>> & target, std::vector <boost::shared_ptr <mu::core::node>> & source)
+void mu::core::apply::merge (std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & target, std::vector <mu::core::node *, gc_allocator <mu::core::node *>> & source)
 {
 	size_t position (0);
 	auto i (source.begin ());
@@ -8,7 +8,7 @@ void mu::core::apply::merge (std::vector <boost::shared_ptr <mu::core::node>> & 
 	while (i != j)
 	{
 		auto val (*i);
-		if (val.get () != nullptr)
+		if (val != nullptr)
 		{
 			bool assigned (false);
 			while (!assigned)
@@ -17,7 +17,7 @@ void mu::core::apply::merge (std::vector <boost::shared_ptr <mu::core::node>> & 
 				{
 					target.resize (position + 1);
 				}
-				if (target [position].get () == nullptr)
+				if (target [position] == nullptr)
 				{
 					target [position] = val;
 					++i;

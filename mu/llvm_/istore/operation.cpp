@@ -10,11 +10,9 @@
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
-mu::llvm_::istore::operation::operation (boost::shared_ptr <mu::llvm_::basic_block::node> block_a)
+mu::llvm_::istore::operation::operation (mu::llvm_::basic_block::node * block_a)
 	: block (block_a)
 {
 }

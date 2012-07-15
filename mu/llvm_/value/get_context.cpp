@@ -6,8 +6,6 @@
 
 #include <llvm/Value.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::value::get_context::operator () (mu::script::context & context_a)

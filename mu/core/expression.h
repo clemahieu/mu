@@ -7,6 +7,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -14,7 +16,7 @@ namespace mu
 		class expression : public mu::core::node
 		{
 		public:
-			std::vector <mu::core::node *> dependencies;
+			std::vector <mu::core::node *, gc_allocator <mu::core::node *>> dependencies;
 			void operator () (mu::core::visitor * visitor_a) override;
 		};
 	}

@@ -17,8 +17,6 @@
 #include <mu/script/runtime/fixed.h>
 #include <mu/core/parameters.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::script::synthesizer::operation::operator () (mu::script::context & context_a)
@@ -30,7 +28,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 		context_a.reserve (1);
 		auto result (new (GC) mu::script::cluster::node);
 		context_a.locals (0) = result;
-		std::map <mu::core::routine *, mu::script::runtime::routine *> routine_mapping;
+		std::map <mu::core::routine *, mu::script::runtime::routine *, std::less <mu::core::routine *>, gc_allocator <std::pair <mu::core::routine *, mu::script::runtime::routine *>>> routine_mapping;
 		for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j; ++i)
 		{
 			auto parameters (new (GC) mu::script::runtime::expression);
@@ -46,7 +44,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 			valid = valid && topology.acyclic;
 			if (topology.acyclic)
 			{
-				std::map <mu::core::expression *, mu::script::runtime::expression *> expression_mapping;
+				std::map <mu::core::expression *, mu::script::runtime::expression *, std::less <mu::core::expression *>, gc_allocator <std::pair <mu::core::expression *, mu::script::runtime::expression *>>> expression_mapping;
 				for (auto k (topology.topology->expressions.begin ()), l (topology.topology->expressions.end ()); k != l; ++k)
 				{
 					auto expression (new (GC) mu::script::runtime::expression);

@@ -6,6 +6,8 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -19,7 +21,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:				
-				std::vector <mu::core::expression *> expressions;
+				std::vector <mu::core::expression *, gc_allocator <mu::core::expression *>> expressions;
 			};
 		}
 	}

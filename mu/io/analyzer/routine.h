@@ -8,6 +8,8 @@
 #include <map>
 #include <utility>
 
+#include <gc_allocator.h>
+
 namespace mu
 {
 	namespace core
@@ -39,7 +41,7 @@ namespace mu
 				mu::io::analyzer::analyzer & analyzer;
 				void resolve_local (std::wstring, mu::core::node * node_a);
 				mu::core::routine * routine_m;
-				std::map <std::wstring, mu::core::node *> declarations;
+				std::map <std::wstring, mu::core::node *, std::less <std::wstring>, gc_allocator <std::pair <std::wstring, mu::core::node *>>> declarations;
 			};
 		}
 	}

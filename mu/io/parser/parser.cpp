@@ -9,7 +9,6 @@
 #include <mu/io/ast/cluster.h>
 
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <map>
 

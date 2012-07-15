@@ -11,7 +11,6 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
-#include <boost/make_shared.hpp>
 
 #include <sstream>
 

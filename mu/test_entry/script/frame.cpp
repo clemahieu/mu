@@ -2,8 +2,6 @@
 #include <mu/script/frame.h>
 #include <mu/core/node.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

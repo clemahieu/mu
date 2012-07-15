@@ -11,8 +11,6 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/core/expression.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Module.h>
 
 #include <gc_cpp.h>

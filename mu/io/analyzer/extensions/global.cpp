@@ -4,8 +4,6 @@
 #include <mu/core/expression.h>
 #include <mu/io/ast/expression.h>
 
-#include <boost/make_shared.hpp>
-
 mu::io::analyzer::extensions::global::global (mu::core::node * node_a)
 	: node (node_a)
 {

@@ -16,8 +16,6 @@
 #include <llvm/Instructions.h>
 #include <llvm/Support/raw_ostream.h>
 
-#include <boost/make_shared.hpp>
-
 #include <sstream>
 
 #include <gc_cpp.h>

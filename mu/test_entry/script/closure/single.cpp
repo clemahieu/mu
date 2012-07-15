@@ -4,15 +4,13 @@
 #include <mu/script/identity/operation.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>
 
 TEST (script_test, closure_single1)
 {
-	std::vector <mu::core::node *> closed;
+	std::vector <mu::core::node *, gc_allocator <mu::core::node *>> closed;
 	auto n1 (new (GC) mu::core::node);
 	closed.push_back (n1);
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);

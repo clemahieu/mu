@@ -6,8 +6,6 @@
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/reference.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::script::runtime::routine::routine (mu::script::runtime::expression * parameters_a)

@@ -5,12 +5,14 @@
 
 #include <sstream>
 
+#include <gc_cpp.h>
+
 void mu::io::source::operator () ()
 {
 	(*this) (L'\uffff');
 }
 
-void mu::io::source::operator () (boost::shared_ptr <mu::io::lexer::character_stream> source_a)
+void mu::io::source::operator () (mu::io::lexer::character_stream * source_a)
 {
 	wchar_t last_char (L' ');
 	while (last_char != L'\uffff')
@@ -29,7 +31,7 @@ void mu::io::source::operator () (boost::shared_ptr <mu::io::lexer::character_st
 	}
 }
 
-void mu::io::source::operator << (boost::shared_ptr <mu::io::lexer::character_stream> source_a)
+void mu::io::source::operator << (mu::io::lexer::character_stream * source_a)
 {
 	wchar_t last_char (source_a->operator() ());
 	while (last_char != L'\uffff')
@@ -52,7 +54,7 @@ void mu::io::source::operator ()(std::wstring const & string)
 void mu::io::source::process_string (std::wstring const & string)
 {
 	std::wstringstream stream (string);
-	boost::shared_ptr <mu::io::lexer::wistream_input> input (new mu::io::lexer::wistream_input (stream));
+	auto input (new (GC) mu::io::lexer::wistream_input (stream));
 	operator << (input);    
 }
 

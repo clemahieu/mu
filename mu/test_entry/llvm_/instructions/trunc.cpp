@@ -5,8 +5,6 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/script/context.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/LLVMContext.h>
 #include <llvm/Constants.h>
 #include <llvm/DerivedTypes.h>

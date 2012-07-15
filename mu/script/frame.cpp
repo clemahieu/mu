@@ -3,8 +3,6 @@
 #include <mu/script/context.h>
 #include <mu/script/location.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::script::frame::frame (mu::script::context & context_a)

@@ -9,8 +9,6 @@
 #include <mu/llvm_/apint/node.h>
 #include <mu/script/integer/node.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)

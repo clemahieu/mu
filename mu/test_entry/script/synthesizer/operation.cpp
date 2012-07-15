@@ -14,8 +14,6 @@
 #include <mu/script/fail/operation.h>
 #include <mu/core/reference.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>
@@ -323,7 +321,7 @@ TEST (script_test, synthesizer_operation10)
 	routine1->body = body;
 	body->dependencies.push_back (new (GC) mu::script::identity::operation);
 	body->dependencies.push_back (routine2);
-	auto body2 (boost::make_shared <mu::core::expression> ());
+	auto body2 (new (GC) mu::core::expression);
 	routine2->body = body;
 	body2->dependencies.push_back (new (GC) mu::script::fail::operation);
 	auto valid (context ());

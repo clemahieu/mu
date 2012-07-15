@@ -6,9 +6,6 @@
 #include <mu/core/parameters.h>
 #include <mu/script/topology/node.h>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>

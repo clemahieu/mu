@@ -11,8 +11,6 @@
 
 #include <sstream>
 
-#include <boost/make_shared.hpp>
-
 #include <errno.h>
 
 #include <gc_cpp.h>

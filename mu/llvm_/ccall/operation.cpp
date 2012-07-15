@@ -13,8 +13,6 @@
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 mu::llvm_::ccall::operation::operation (mu::llvm_::basic_block::node * block_a, mu::script::operation * call_a)

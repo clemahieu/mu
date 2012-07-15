@@ -6,8 +6,6 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/script/check.h>
 
-#include <boost/make_shared.hpp>
-
 #include <llvm/Instructions.h>
 
 #include <gc_cpp.h>

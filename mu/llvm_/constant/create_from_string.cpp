@@ -11,8 +11,6 @@
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
 
-#include <boost/make_shared.hpp>
-
 #include <gc_cpp.h>
 
 bool mu::llvm_::constant::create_from_string::operator () (mu::script::context & context_a)
