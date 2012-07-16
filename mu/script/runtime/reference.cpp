@@ -28,7 +28,7 @@ bool mu::script::runtime::reference::operator () (mu::script::context & context_
 			{
 				if (existing->second.get <1> () != ~0)
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"Trying to get values off of frame from: ";
 					message << existing->second.get <0> ();
 					message << L" to: ";
@@ -46,7 +46,7 @@ bool mu::script::runtime::reference::operator () (mu::script::context & context_
 		}
 		else
 		{
-			context_a.errors (L"Expression is not mapped");
+			context_a.errors (U"Expression is not mapped");
 			valid = false;
 		}
 	}

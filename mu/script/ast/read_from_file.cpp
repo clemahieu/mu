@@ -42,7 +42,7 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 				}
 				else
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"File did not contain a cluster";
 					context_a.errors (message.str ());
 					result = false;
@@ -59,10 +59,10 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"File could not be opened: ";
 			std::string patha (path.string ());
-			std::wstring path (patha.begin (), patha.end ());
+			mu::string path (patha.begin (), patha.end ());
 			message << path;
 			context_a.errors (message.str ());
 			result = false;

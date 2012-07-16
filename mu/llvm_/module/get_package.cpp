@@ -28,7 +28,7 @@ bool mu::llvm_::module::get_package::operator () (mu::script::context & context_
 		{
 			llvm::Function * function (i);
 			auto name (i->getNameStr ());
-			std::wstring wname (name.begin (), name.end ());
+			mu::string wname (name.begin (), name.end ());
 			mu::llvm_::type::build build (new (GC) mu::llvm_::context::node (&function->getContext ()), function->getType ()); 
 			package->items [wname] = new (GC) mu::llvm_::function::node (function, build.type);
 			name.append (two->string);
@@ -39,7 +39,7 @@ bool mu::llvm_::module::get_package::operator () (mu::script::context & context_
 	return result;
 }
 
-std::wstring mu::llvm_::module::get_package::name ()
+mu::string mu::llvm_::module::get_package::name ()
 {
-	return std::wstring (L"mu::llvm_::module::get_package");
+	return mu::string (U"mu::llvm_::module::get_package");
 }

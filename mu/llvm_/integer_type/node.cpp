@@ -17,7 +17,7 @@ llvm::IntegerType * mu::llvm_::integer_type::node::integer_type ()
 	return type_m;
 }
 
-std::wstring mu::llvm_::integer_type::node::name ()
+mu::string mu::llvm_::integer_type::node::name ()
 {
-	return std::wstring (L"mu::llvm_::integer_type::node");
+	return mu::string (U"mu::llvm_::integer_type::node");
 }

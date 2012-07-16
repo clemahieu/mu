@@ -13,10 +13,10 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				node (std::wstring string_a);
-				std::wstring name () override;
-				std::wstring debug () override;
-				std::wstring string;
+				node (mu::string string_a);
+				mu::string name () override;
+				mu::string debug () override;
+				mu::string string;
 			};
 		}
 	}

@@ -11,7 +11,7 @@ bool mu::script::identity::operation::operator () (mu::script::context & context
 	return true;
 }
 
-std::wstring mu::script::identity::operation::name ()
+mu::string mu::script::identity::operation::name ()
 {
-	return std::wstring (L"mu::script::identity::operation");
+	return mu::string (U"mu::script::identity::operation");
 }

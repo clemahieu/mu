@@ -20,8 +20,8 @@ bool mu::io::lexer::complex_identifier::match ()
 	bool result (last_characters.size () == end_token.size ());
 	if (result)
 	{
-		boost::circular_buffer <wchar_t>::const_iterator i = last_characters.begin ();
-		std::wstring::const_iterator j = end_token.begin ();
+		boost::circular_buffer <char32_t>::const_iterator i = last_characters.begin ();
+		mu::string::const_iterator j = end_token.begin ();
 		while (result && i != last_characters.end () && j != end_token.end ())
 		{
 			result = *i == *j;
@@ -32,9 +32,9 @@ bool mu::io::lexer::complex_identifier::match ()
 	return result;
 }
 
-void mu::io::lexer::complex_identifier::lex (wchar_t character)
+void mu::io::lexer::complex_identifier::lex (char32_t character)
 {
-	if (character != L'\uffff')
+	if (character != U'\U0000FFFF')
 	{
 		if (!have_end_token)
 		{
@@ -65,7 +65,7 @@ void mu::io::lexer::complex_identifier::lex (wchar_t character)
 	}
 	else
 	{
-		std::wstring message (L"End of file while parsing complex identifier");
+		mu::string message (U"End of file while parsing complex identifier");
 		(*lexer.errors) (message);
 		auto error (new (GC) mu::io::lexer::error);
 		lexer.state.push (error);

@@ -5,6 +5,6 @@
 
 bool mu::script::fail::operation::operator () (mu::script::context & context_a)
 {
-	context_a.errors (L"Failure");
+	context_a.errors (U"Failure");
 	return false;
 }

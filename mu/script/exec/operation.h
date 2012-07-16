@@ -29,7 +29,7 @@ namespace mu
 				operation (mu::io::analyzer::extensions::extensions * extensions_a);
 				mu::io::analyzer::extensions::extensions * extensions;
 				bool operator () (mu::script::context & context_a) override;
-				std::wstring name () override;
+				mu::string name () override;
 			};
 		}
 	}

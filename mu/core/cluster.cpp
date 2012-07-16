@@ -7,7 +7,7 @@ void mu::core::cluster::operator () (mu::core::visitor * visitor_a)
 	(*visitor_a) (this);
 }
 
-std::wstring mu::core::cluster::name ()
+mu::string mu::core::cluster::name ()
 {
-	return std::wstring (L"mu::core::cluster");
+	return mu::string (U"mu::core::cluster");
 }

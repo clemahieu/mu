@@ -17,7 +17,7 @@ bool mu::script::package::remove::operator () (mu::script::context & context_a)
 		auto count (one->items.erase (two->string));
 		if (count == 0)
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Package already has no item named: ";
 			message << two->string;
 			context_a.errors (message.str ());
@@ -27,7 +27,7 @@ bool mu::script::package::remove::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::package::remove::name ()
+mu::string mu::script::package::remove::name ()
 {
-	return std::wstring (L"mu::script::package::remove");
+	return mu::string (U"mu::script::package::remove");
 }

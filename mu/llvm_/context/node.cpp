@@ -5,7 +5,7 @@ mu::llvm_::context::node::node (llvm::LLVMContext * context_a)
 {
 }
 
-std::wstring mu::llvm_::context::node::name ()
+mu::string mu::llvm_::context::node::name ()
 {
-	return std::wstring (L"mu::llvm_::context::node");
+	return mu::string (U"mu::llvm_::context::node");
 }

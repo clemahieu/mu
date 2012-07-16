@@ -21,8 +21,8 @@ namespace mu
 			public:
 				create ();
 				bool operator () (mu::script::context & context_a) override;
-				std::wstring name () override;
-				std::map <std::wstring, mu::core::node *> values;
+				mu::string name () override;
+				std::map <mu::string, mu::core::node *> values;
 			};
 		}
 	}

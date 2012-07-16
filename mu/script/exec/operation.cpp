@@ -36,7 +36,7 @@ bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least one argument";
@@ -46,7 +46,7 @@ bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::exec::operation::name ()
+mu::string mu::script::exec::operation::name ()
 {
-	return std::wstring (L"mu::script::exec::operation");
+	return mu::string (U"mu::script::exec::operation");
 }

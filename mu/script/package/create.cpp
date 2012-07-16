@@ -15,7 +15,7 @@ bool mu::script::package::create::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::package::create::name ()
+mu::string mu::script::package::create::name ()
 {
-	return std::wstring (L"mu::script::package::create");
+	return mu::string (U"mu::script::package::create");
 }

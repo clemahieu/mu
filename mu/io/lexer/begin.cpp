@@ -17,7 +17,7 @@ mu::io::lexer::begin::begin (mu::io::lexer::lexer & lexer_a)
 {
 }
 
-void mu::io::lexer::begin::lex (wchar_t character)
+void mu::io::lexer::begin::lex (char32_t character)
 {
 	switch (character)
 	{

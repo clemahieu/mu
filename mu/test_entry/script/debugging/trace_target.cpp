@@ -24,8 +24,8 @@ TEST (script_test, trace_target1)
 	mu::core::errors::errors errors (new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	context.errors = errors;
 	mu::script::builder builder;
-	builder.analyzer.extensions->extensions_m [L"fail"] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation);
-	builder (L"[fail]");
+	builder.analyzer.extensions->extensions_m [U"fail"] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation);
+	builder (U"[fail]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster (builder.cluster);
@@ -35,7 +35,7 @@ TEST (script_test, trace_target1)
 	auto valid (context ());
 	EXPECT_EQ (!valid, true);
 	EXPECT_EQ (context.working_size (), 0);
-	std::wstringstream message;
+	mu::stringstream message;
 	errors.print (message);
-	std::wstring mess (message.str ());
+	mu::string mess (message.str ());
 }

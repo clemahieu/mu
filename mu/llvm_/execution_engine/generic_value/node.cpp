@@ -11,9 +11,9 @@ mu::llvm_::execution_engine::generic_value::node::node (llvm::GenericValue & val
 {
 }
 
-std::wstring mu::llvm_::execution_engine::generic_value::node::debug ()
+mu::string mu::llvm_::execution_engine::generic_value::node::debug ()
 {
 	auto string (value.IntVal.toString (16, false));
-	std::wstring value (string.begin (), string.end ());
+	mu::string value (string.begin (), string.end ());
 	return value;
 }

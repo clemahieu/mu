@@ -21,7 +21,7 @@ bool mu::script::package::get::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Package does not contain item named: ";
 			message << name->string;
 			context_a.errors (message.str ());
@@ -31,7 +31,7 @@ bool mu::script::package::get::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::package::get::name ()
+mu::string mu::script::package::get::name ()
 {
-	return std::wstring (L"mu::script::package::get");
+	return mu::string (U"mu::script::package::get");
 }

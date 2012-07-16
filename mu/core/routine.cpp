@@ -17,7 +17,7 @@ void mu::core::routine::operator () (mu::core::visitor * visitor_a)
 	(*visitor_a) (this);
 }
 
-std::wstring mu::core::routine::name ()
+mu::string mu::core::routine::name ()
 {
-	return std::wstring (L"mu::core::routine");
+	return mu::string (U"mu::core::routine");
 }

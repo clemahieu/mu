@@ -12,8 +12,8 @@ namespace mu
 		{
 		public:
 			using mu::io::source::operator ();
-			void operator () (wchar_t char_a) override;
-			std::vector <wchar_t> results;
+			void operator () (char32_t char_a) override;
+			std::vector <char32_t> results;
 		};
 	}
 }

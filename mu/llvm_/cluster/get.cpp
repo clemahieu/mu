@@ -22,7 +22,7 @@ bool mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Cluster has no routine named: ";
 			message << two->string;
 			context_a.errors (message.str ());

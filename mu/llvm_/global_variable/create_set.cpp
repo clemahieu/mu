@@ -26,7 +26,7 @@ bool mu::llvm_::global_variable::create_set::operator () (mu::script::context & 
 	return result;
 }
 
-std::wstring mu::llvm_::global_variable::create_set::name ()
+mu::string mu::llvm_::global_variable::create_set::name ()
 {
-	return std::wstring (L"mu::llvm_::global_variable::create_set");
+	return mu::string (U"mu::llvm_::global_variable::create_set");
 }

@@ -1,9 +1,10 @@
-#include "left_square.h"
+#include <mu/io/tokens/left_square.h>
+
 #include <mu/io/tokens/visitor.h>
 
-std::wstring mu::io::tokens::left_square::token_name ()
+mu::string mu::io::tokens::left_square::token_name ()
 {
-	return std::wstring (L"left square");
+	return mu::string (U"left square");
 }
 
 void mu::io::tokens::left_square::operator () (mu::io::tokens::visitor * visitor_a)

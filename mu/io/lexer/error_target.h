@@ -15,7 +15,7 @@ namespace mu
 				error_target (mu::io::lexer::lexer & lexer_a, mu::core::errors::error_target * target_a);
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
-                void print (std::wostream & target) override;
+                void print (mu::ostream & target) override;
 				mu::io::lexer::lexer & lexer;
 				mu::core::errors::error_target * target;
 			};

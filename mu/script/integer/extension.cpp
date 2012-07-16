@@ -33,16 +33,16 @@ void mu::script::integer::extension::operator () (mu::core::errors::error_target
 		}
 		else
 		{
-			(*errors_a) (L"Number extension requires its argument to be an identifier");
+			(*errors_a) (U"Number extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Number extension requires one argument");
+		(*errors_a) (U"Number extension requires one argument");
 	}
 }
 
-mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, std::wstring & string)
+mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, mu::string & string)
 {
 	mu::script::integer::node * result (nullptr);
 	int base (0);
@@ -62,7 +62,7 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 			base = 2;
 			break;
 		default:
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Unexpected base prefix: ";
 			message << base_char;
 			message << L" when trying to parse number: ";
@@ -72,29 +72,30 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 	}
 	if (base != 0)
 	{
-		wchar_t const * string_l (string.c_str () + 1);
+        std::wstring string_l (string.begin () + 1, string.end ());
+		//char32_t const * string_l (string.c_str () + 1);
 		result = core (errors_a, string_l, base);
 	}
 	return result;
 }
 
-mu::script::integer::node * mu::script::integer::core_d (mu::core::errors::error_target * errors_a, wchar_t const * string_a)
+mu::script::integer::node * mu::script::integer::core_d (mu::core::errors::error_target * errors_a, std::wstring string_a)
 {
 	auto result (core (errors_a, string_a, 10));
 	return result;
 }
 
-mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, wchar_t const * string_a, size_t base_a)
+mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, std::wstring string_a, size_t base_a)
 {
 	mu::script::integer::node * result (nullptr);
 	wchar_t * next;
 	errno = 0;
-	unsigned long number = std::wcstoul (string_a, &next, base_a);
+	unsigned long number = std::wcstoul (string_a.c_str (), &next, base_a);
 	if (errno == ERANGE)
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Overflow while parsing: ";
-		message << string_a;
+		message << mu::string (string_a.begin (), string_a.end ());
 		message << L" in base: ";
 		message << base_a;
 		(*errors_a) (message.str ());

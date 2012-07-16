@@ -92,13 +92,13 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 											}
 											else
 											{
-												context_a.errors (L"Branch types are not the same");
+												context_a.errors (U"Branch types are not the same");
 												valid = false;
 											}
 										}
 										else
 										{
-											context_a.errors (L"Function returned a non-value");
+											context_a.errors (U"Function returned a non-value");
 											valid = false;
 										}										
 									}
@@ -106,19 +106,19 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 							}
 							else
 							{
-								context_a.errors (L"First ccall argument must be one bit");
+								context_a.errors (U"First ccall argument must be one bit");
 								valid = false;
 							}
 						}
 						else
 						{
-							context_a.errors (L"First ccall argument must be an integer");
+							context_a.errors (U"First ccall argument must be an integer");
 							valid = false;
 						}
 					}
 					else
 					{
-						context_a.errors (L"Branch functions must be the same type");
+						context_a.errors (U"Branch functions must be the same type");
 						valid = false;
 					}
 				}
@@ -142,7 +142,7 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		context_a.errors (L"Ccall operation requires at least three arguments");
+		context_a.errors (U"Ccall operation requires at least three arguments");
 		valid = false;
 	}
 	return valid;

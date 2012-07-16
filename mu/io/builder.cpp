@@ -35,7 +35,7 @@ void mu::io::builder::add (mu::core::cluster * cluster_a)
 	cluster =  cluster_a;
 }
 
-void mu::io::builder::operator () (wchar_t char_a)
+void mu::io::builder::operator () (char32_t char_a)
 {
 	assert (cluster == nullptr);
 	lexer (char_a);

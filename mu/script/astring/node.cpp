@@ -11,16 +11,16 @@ mu::script::astring::node::node (std::string string_a)
 {
 }
 
-std::wstring mu::script::astring::node::name ()
+mu::string mu::script::astring::node::name ()
 {
-	return std::wstring (L"mu::script::astring::node");
+	return mu::string (U"mu::script::astring::node");
 }
 
-std::wstring mu::script::astring::node::debug ()
+mu::string mu::script::astring::node::debug ()
 {
-	std::wstringstream message;
+	mu::stringstream message;
 	message << L"\"";
-	std::wstring string_l (string.begin (), string.end ());
+	mu::string string_l (string.begin (), string.end ());
 	message << string_l;
 	message << L"\"";
 	return message.str ();

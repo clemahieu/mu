@@ -97,7 +97,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 			}
 			else
 			{
-				context_a.errors (L"Routine has cycles");
+				context_a.errors (U"Routine has cycles");
 			}
 		}
 		for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)

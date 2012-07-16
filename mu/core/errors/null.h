@@ -14,9 +14,9 @@ namespace mu
 				null ();
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
-                void print (std::wostream & target) override;
-				void operator () (std::wstring error) override;
-				void operator () (wchar_t const * error) override;
+                void print (mu::ostream & target) override;
+				void operator () (mu::string error) override;
+				void operator () (char32_t const * error) override;
 				bool had_error;
 			};
 		}

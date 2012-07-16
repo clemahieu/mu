@@ -12,22 +12,22 @@ mu::io::lexer::multiline_comment::multiline_comment (mu::io::lexer::lexer & lexe
 {
 }
 
-void mu::io::lexer::multiline_comment::lex (wchar_t character)
+void mu::io::lexer::multiline_comment::lex (char32_t character)
 {	
-	if (character != L'\uffff')
+	if (character != U'\U0000ffff')
 	{
 		if (have_colon)
 		{
 			switch (character)
 			{
-			case L')':
+			case U')':
 				lexer.state.pop ();
 				break;
-			case L'(':
+			case U'(':
 				have_colon = false;
 				lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
 				break;
-			case L':':
+			case U':':
 				// Remain in have_colon state
 				break;
 			default:
@@ -39,7 +39,7 @@ void mu::io::lexer::multiline_comment::lex (wchar_t character)
 		{
 			switch (character)
 			{
-			case L':':
+			case U':':
 				have_colon = true;
 				break;
 			}
@@ -47,7 +47,7 @@ void mu::io::lexer::multiline_comment::lex (wchar_t character)
 	}
 	else
 	{
-		(*lexer.errors) (L"End of stream inside multiline comment");
+		(*lexer.errors) (U"End of stream inside multiline comment");
 		lexer.state.push (new (GC) mu::io::lexer::error);
 	}
 }

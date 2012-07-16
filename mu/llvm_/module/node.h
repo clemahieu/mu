@@ -16,7 +16,7 @@ namespace mu
 			{
 			public:
 				node (llvm::Module * module_a);
-				std::wstring debug () override;
+				mu::string debug () override;
 				llvm::Module * module;
 			};
 		}

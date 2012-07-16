@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/types.h>
+
 #include <map>
 
 #include <boost/shared_ptr.hpp>
@@ -20,8 +22,8 @@ namespace mu
 				public:
                     virtual ~extensions ();
 					extensions ();
-					extensions (std::map <std::wstring, mu::io::analyzer::extensions::extension *, std::less <std::wstring>, gc_allocator <std::pair <std::wstring, mu::io::analyzer::extensions::extension *>>> extensions_a);
-					std::map <std::wstring, mu::io::analyzer::extensions::extension *, std::less <std::wstring>, gc_allocator <std::pair <std::wstring, mu::io::analyzer::extensions::extension *>>> extensions_m;
+					extensions (std::map <mu::string, mu::io::analyzer::extensions::extension *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::io::analyzer::extensions::extension *>>> extensions_a);
+					std::map <mu::string, mu::io::analyzer::extensions::extension *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::io::analyzer::extensions::extension *>>> extensions_m;
 				};
 			}
 		}

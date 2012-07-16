@@ -16,7 +16,7 @@ bool mu::core::errors::error_context::operator () ()
 	return (*target) ();
 }
 
-void mu::core::errors::error_context::print (std::wostream & target_a)
+void mu::core::errors::error_context::print (mu::ostream & target_a)
 {
     target->print (target_a);
 }

@@ -27,11 +27,11 @@ void mu::script::astring::extension::operator () (mu::core::errors::error_target
 		}
 		else
 		{
-			(*errors_a) (L"AString extension requires its argument to be an identifier");
+			(*errors_a) (U"AString extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"AString extension requires one argument");
+		(*errors_a) (U"AString extension requires one argument");
 	}
 }

@@ -44,7 +44,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
 						}
 						else
 						{
-							std::wstringstream message;
+							mu::stringstream message;
 							message << L"Cluster does not contain a routine: ";
 							message << cluster->routines.size ();
 							context_a.errors (message.str ());
@@ -67,7 +67,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Operation ";
 		message << name ();
 		message << L" requires at least two arguments";
@@ -77,7 +77,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::run::operation::name ()
+mu::string mu::script::run::operation::name ()
 {
-	return std::wstring (L"mu::script::run::operation");
+	return mu::string (U"mu::script::run::operation");
 }

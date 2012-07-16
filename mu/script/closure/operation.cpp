@@ -56,7 +56,7 @@ bool mu::script::closure::operation::operator () (mu::script::context & context_
 	return result;
 }
 
-std::wstring mu::script::closure::operation::name ()
+mu::string mu::script::closure::operation::name ()
 {
-	return std::wstring (L"mu::script::closure::operation");
+	return mu::string (U"mu::script::closure::operation");
 }

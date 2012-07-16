@@ -29,7 +29,7 @@ static void junk (mu::core::cluster * cluster_a)
 TEST (llvm_test, constant_string_extension1)
 {
 	mu::io::ast::builder builder;
-	builder (L"[` test_string]");
+	builder (U"[` test_string]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster (builder.cluster);
@@ -42,7 +42,7 @@ TEST (llvm_test, constant_string_extension1)
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
-	analyzer.extensions->extensions_m [L"`"] = new (GC) mu::llvm_::constant_string::extension (module);
+	analyzer.extensions->extensions_m [U"`"] = new (GC) mu::llvm_::constant_string::extension (module);
 	mu::io::analyzer::expression exp (rout, expression, self);
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 }

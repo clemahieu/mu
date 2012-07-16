@@ -7,15 +7,15 @@ mu::io::lexer::singleline_comment::singleline_comment (mu::io::lexer::lexer & le
 {
 }
 
-void mu::io::lexer::singleline_comment::lex (wchar_t character)
+void mu::io::lexer::singleline_comment::lex (char32_t character)
 {
 	switch (character)
 	{
-	case L'\n':
-	case L'\f':
+	case U'\n':
+	case U'\f':
 		lexer.state.pop ();
 		break;
-	case L'\uffff':
+	case U'\U0000FFFF':
 		lexer.state.pop ();
 		lexer (character);
 		break;

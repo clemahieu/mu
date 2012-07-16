@@ -16,7 +16,7 @@ TEST (io_test, control1)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":");
+	lexer (U":");
 	lexer ();
 	EXPECT_TRUE (result.results.empty ());
 	EXPECT_TRUE (!errors->errors.empty ());
@@ -28,7 +28,7 @@ TEST (io_test, control2)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":0");
+	lexer (U":0");
 	lexer ();
 	EXPECT_TRUE (result.results.empty ());
 	EXPECT_TRUE (!errors->errors.empty ());
@@ -40,14 +40,14 @@ TEST (io_test, control3)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":{");
+    lexer (U":{");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"{"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"{"));
 }
 
 // Testing control character }
@@ -56,14 +56,14 @@ TEST (io_test, control4)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":}");
+    lexer (U":}");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"}"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"}"));
 }
 
 // Testing control character [
@@ -72,14 +72,14 @@ TEST (io_test, control5)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":[");
+    lexer (U":[");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"["));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"["));
 }
 
 // Testing control character ]
@@ -88,14 +88,14 @@ TEST (io_test, control6)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":]");
+    lexer (U":]");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"]"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"]"));
 }
 
 // Testing control character :
@@ -104,14 +104,14 @@ TEST (io_test, control7)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L"::");
+    lexer (U"::");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L":"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U":"));
 }
 
 // Testing control character ;
@@ -120,14 +120,14 @@ TEST (io_test, control8)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":;");
+    lexer (U":;");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L";"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U";"));
 }
 
 // Testing control character (space)
@@ -136,14 +136,14 @@ TEST (io_test, control9)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L": ");
+    lexer (U": ");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L" "));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U" "));
 }
 
 // Testing control character \0
@@ -152,8 +152,8 @@ TEST (io_test, control10)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L':');
-    lexer (L'\0');
+    lexer (U':');
+    lexer (U'\0');
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
@@ -170,14 +170,14 @@ TEST (io_test, control11)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":\t");
+    lexer (U":\t");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"\t"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"\t"));
 }
 
 // Testing control character \f
@@ -186,14 +186,14 @@ TEST (io_test, control12)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":\f");
+    lexer (U":\f");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"\f"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"\f"));
 }
 
 // Testing control character \r
@@ -202,12 +202,12 @@ TEST (io_test, control13)
     mu::io_test ::lexer_result result;
     auto errors (new (GC) mu::core::errors::error_list);
     mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-    lexer (L":\r");
+    lexer (U":\r");
     lexer ();
     EXPECT_TRUE (errors->errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
-    EXPECT_TRUE (result_identifier1->string == std::wstring (L"\r"));
+    EXPECT_TRUE (result_identifier1->string == mu::string (U"\r"));
 }

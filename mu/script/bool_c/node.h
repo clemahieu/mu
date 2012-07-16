@@ -13,7 +13,7 @@ namespace mu
 			public:
 				node ();
 				node (bool value_a);
-				std::wstring debug () override;
+				mu::string debug () override;
 				bool value;
 			};
 		}

@@ -19,7 +19,7 @@ bool mu::script::integer::equal::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::integer::equal::name ()
+mu::string mu::script::integer::equal::name ()
 {
-	return std::wstring (L"mu::script::integer::equal");
+	return mu::string (U"mu::script::integer::equal");
 }

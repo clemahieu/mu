@@ -17,7 +17,7 @@ bool mu::script::integer::subtract::operator () (mu::script::context & context_a
 	return result;
 }
 
-std::wstring mu::script::integer::subtract::name ()
+mu::string mu::script::integer::subtract::name ()
 {
-	return std::wstring (L"mu::script::integer::subtract");
+	return mu::string (U"mu::script::integer::subtract");
 }

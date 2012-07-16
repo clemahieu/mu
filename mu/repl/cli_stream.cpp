@@ -6,7 +6,7 @@ mu::repl::cli_stream::cli_stream (std::wistream & source_a)
 {
 }
 
-wchar_t mu::repl::cli_stream::operator () ()
+char32_t mu::repl::cli_stream::operator () ()
 {	
 	wchar_t result (source.get ());
 	if (result == L'\n')

@@ -5,7 +5,7 @@ bool mu::script::unit::operation::operator () (mu::script::context & context_a)
 	return true;
 }
 
-std::wstring mu::script::unit::operation::name ()
+mu::string mu::script::unit::operation::name ()
 {
-	return std::wstring (L"mu::script::unit::operation");
+	return mu::string (U"mu::script::unit::operation");
 }

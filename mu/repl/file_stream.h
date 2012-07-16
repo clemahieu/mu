@@ -14,7 +14,7 @@ namespace mu
 		{
 		public:
 			file_stream (std::wstring name_a);
-			wchar_t operator () ();
+			char32_t operator () ();
 			std::fstream file;
 			mu::io::lexer::istream_input input;
 		};

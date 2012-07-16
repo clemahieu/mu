@@ -16,7 +16,7 @@ namespace mu
 			routine ();
 			routine (mu::core::expression * body_a);
 			void operator () (mu::core::visitor * visitor_a) override;
-			std::wstring name () override;
+            mu::string name () override;
 			mu::core::expression * body;
 		};
 	}

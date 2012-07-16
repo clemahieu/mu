@@ -60,7 +60,7 @@ void mu::io::parser::single::operator () (mu::io::tokens::parameters * token)
 
 void mu::io::parser::single::unexpected_token (mu::io::tokens::token * token)
 {
-    std::wstringstream message;
+    mu::stringstream message;
 	message << L"Unexpected token while parsing individual names: ";
 	message << token->token_name ();
 	(*parser.errors) (message.str ());

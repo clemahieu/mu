@@ -17,7 +17,7 @@ bool mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 		auto error (llvm::verifyModule (*one->module, llvm::VerifierFailureAction::ReturnStatusAction, &error_info));
 		if (error)
 		{
-			std::wstring error_info_l (error_info.begin (), error_info.end ());
+			mu::string error_info_l (error_info.begin (), error_info.end ());
 			context_a.errors (error_info_l);
 			valid = false;
 		}
@@ -25,7 +25,7 @@ bool mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 	return valid;
 }
 
-std::wstring mu::llvm_::module::verify::name ()
+mu::string mu::llvm_::module::verify::name ()
 {
-	return std::wstring (L"mu::llvm_::module::verify");
+	return mu::string (U"mu::llvm_::module::verify");
 }

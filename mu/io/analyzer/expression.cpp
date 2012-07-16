@@ -70,7 +70,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 			if (routine_l == routine.analyzer.cluster->names.end ())
 			{
 				self->dependencies.push_back (nullptr);
-				routine.analyzer.unresolved.insert (std::multimap <std::wstring, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context> (new (GC) mu::io::analyzer::resolver (self, self->dependencies.size () - 1), identifier_a->context)));
+				routine.analyzer.unresolved.insert (std::multimap <mu::string, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>>::value_type (identifier_a->string, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context> (new (GC) mu::io::analyzer::resolver (self, self->dependencies.size () - 1), identifier_a->context)));
 			}
 			else
 			{
@@ -94,5 +94,5 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)
 {
-	(*routine.analyzer.errors) (L"Expression not expecting cluster");
+	(*routine.analyzer.errors) (U"Expression not expecting cluster");
 }

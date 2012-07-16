@@ -13,7 +13,7 @@ llvm::ConstantInt * mu::llvm_::constant_int::node::constant_int ()
 	return result;
 }
 
-std::wstring mu::llvm_::constant_int::node::name ()
+mu::string mu::llvm_::constant_int::node::name ()
 {
-	return std::wstring (L"mu::llvm_::constant_int::node");
+	return mu::string (U"mu::llvm_::constant_int::node");
 }

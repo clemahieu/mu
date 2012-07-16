@@ -1,12 +1,12 @@
-#include "data_stream.h"
+#include <mu/repl/data_stream.h>
 
-mu::repl::data_stream::data_stream (std::wstring string_a)
+mu::repl::data_stream::data_stream (mu::string string_a)
 	: string (string_a)
 {
 }
 
-wchar_t mu::repl::data_stream::operator () ()
+char32_t mu::repl::data_stream::operator () ()
 {
-	wchar_t result (string.get ());
+	char32_t result (string.get ());
 	return result;
 }

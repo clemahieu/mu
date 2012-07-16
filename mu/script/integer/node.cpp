@@ -11,14 +11,14 @@ mu::script::integer::node::node (unsigned long long value_a)
 {
 }
 
-std::wstring mu::script::integer::node::name ()
+mu::string mu::script::integer::node::name ()
 {
-	return std::wstring (L"mu::script::integer::node");
+	return mu::string (U"mu::script::integer::node");
 }
 
-std::wstring mu::script::integer::node::debug ()
+mu::string mu::script::integer::node::debug ()
 {
-	std::wstringstream result;
+	mu::stringstream result;
 	result << value;
 	return result.str ();
 }

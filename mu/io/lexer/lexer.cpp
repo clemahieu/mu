@@ -23,7 +23,7 @@ mu::io::lexer::lexer::lexer (mu::core::errors::error_target * errors_a, boost::f
 	reset ();
 }
 
-void mu::io::lexer::lexer::operator () (wchar_t character)
+void mu::io::lexer::lexer::operator () (char32_t character)
 {
 	auto state_l (state.top ());
 	state_l->lex (character);

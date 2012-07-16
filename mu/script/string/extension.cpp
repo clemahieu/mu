@@ -27,11 +27,11 @@ void mu::script::string::extension::operator () (mu::core::errors::error_target 
 		}
 		else
 		{
-			(*errors_a) (new (GC) mu::core::errors::string_error (L"String extension requires its argument to be an identifier"));
+			(*errors_a) (U"String extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (new (GC) mu::core::errors::string_error (L"String extension requires one argument"));
+		(*errors_a) (U"String extension requires one argument");
 	}
 }

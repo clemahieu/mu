@@ -43,13 +43,13 @@ bool mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 			}
 			else
 			{
-				context_a.errors (L"Argument 3 is not an integer");
+				context_a.errors (U"Argument 3 is not an integer");
 				valid = false;
 			}
 		}
 		else
 		{
-			context_a.errors (L"Argument 2 is not a pointer");
+			context_a.errors (U"Argument 2 is not a pointer");
 			valid = false;
 		}
 	}

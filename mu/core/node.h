@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -12,8 +12,8 @@ namespace mu
 		public:
 			virtual ~node ();
 			virtual void operator () (mu::core::visitor * visitor_a);
-			virtual std::wstring name ();
-			virtual std::wstring debug ();
+			virtual mu::string name ();
+			virtual mu::string debug ();
 		};
 	}
 }

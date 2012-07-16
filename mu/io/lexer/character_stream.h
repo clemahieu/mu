@@ -11,7 +11,7 @@ namespace mu
 			class character_stream : public mu::core::node
 			{
 			public:
-				virtual wchar_t operator () () = 0;
+				virtual char32_t operator () () = 0;
 			};
 		}
 	}

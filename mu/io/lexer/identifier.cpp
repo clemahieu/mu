@@ -15,17 +15,17 @@ mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::d
 {
 }
 
-void mu::io::lexer::identifier::lex (wchar_t character)
+void mu::io::lexer::identifier::lex (char32_t character)
 {				
 	if (lookahead)
 	{
 		lookahead = false;
 		switch (character)
 		{
-			case L'u':
+			case U'u':
 				lexer.state.push (new (GC) mu::io::lexer::hex_code (8, *this));
 				break;
-			case L'a':
+			case U'a':
 				lexer.state.push (new (GC) mu::io::lexer::hex_code (2, *this));
 				break;
 			default:
@@ -42,18 +42,18 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 	{
 		switch (character)
 		{
-			case L' ':
-			case L'\t':
-			case L'\n':
-			case L'\f':
-			case L'\0':
-            case L'\r':
-			case L';':
-			case L'{':
-            case L'}':
-			case L'[':
-			case L']':
-			case L'\uffff':
+			case U' ':
+			case U'\t':
+			case U'\n':
+			case U'\f':
+			case U'\0':
+            case U'\r':
+			case U';':
+			case U'{':
+            case U'}':
+			case U'[':
+			case U']':
+			case U'\U0000ffff':
 				{
 					mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (string);
 					lexer.target (identifier, mu::io::debugging::context (first, last));
@@ -73,7 +73,7 @@ void mu::io::lexer::identifier::lex (wchar_t character)
 	}
 }
 
-void mu::io::lexer::identifier::add (wchar_t character)
+void mu::io::lexer::identifier::add (char32_t character)
 {
 	last = lexer.position;
 	string.push_back (character);

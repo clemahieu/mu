@@ -32,7 +32,7 @@
 TEST (llvm_test, instruction_package1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
+	builder (U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster1 (builder.cluster);
@@ -50,8 +50,8 @@ TEST (llvm_test, instruction_package1)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
-	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
+	b2.analyzer.extensions->extensions_m [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
+	b2 (U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
 	auto cluster2 (b2.cluster);
@@ -76,8 +76,8 @@ TEST (llvm_test, instruction_package1)
 TEST (llvm_test, instruction_package2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (L"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
-	builder (L"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
+	builder (U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"); 
+	builder (U"[[~ :~; instruction insert block] .apply build_insert instruction insert block]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster1 (builder.cluster);
@@ -94,8 +94,8 @@ TEST (llvm_test, instruction_package2)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	b2.analyzer.extensions->extensions_m [std::wstring (L"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
-	b2 (L"[[~ :~; number] add [add number number] [add [add number number] number]]");
+	b2.analyzer.extensions->extensions_m [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
+	b2 (U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
 	auto cluster2 (b2.cluster);

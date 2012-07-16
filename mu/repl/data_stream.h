@@ -12,9 +12,9 @@ namespace mu
 		class data_stream : public mu::io::lexer::character_stream
 		{
 		public:
-			data_stream (std::wstring string_a);
-			wchar_t operator () ();
-			std::wstringstream string;
+			data_stream (mu::string string_a);
+			char32_t operator () ();
+			mu::stringstream string;
 		};
 	}
 }

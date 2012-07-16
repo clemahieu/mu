@@ -19,7 +19,7 @@ bool mu::llvm_::linker::link_modules::operator () (mu::script::context & context
 		bool result (llvm::Linker::LinkModules (one->module, two->module, llvm::Linker::DestroySource, &message));
 		if (result)
 		{
-			std::wstring message_l (message.begin (), message.end ());
+			mu::string message_l (message.begin (), message.end ());
 			context_a.errors (message_l);
 			valid = false;
 		}
@@ -27,7 +27,7 @@ bool mu::llvm_::linker::link_modules::operator () (mu::script::context & context
 	return valid;
 }
 
-std::wstring mu::llvm_::linker::link_modules::name ()
+mu::string mu::llvm_::linker::link_modules::name ()
 {
-	return std::wstring (L"mu::llvm_::linker::link_modules");
+	return mu::string (U"mu::llvm_::linker::link_modules");
 }

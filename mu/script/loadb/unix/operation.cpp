@@ -42,7 +42,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 						}
 						else
 						{
-							std::wstringstream message;
+							mu::stringstream message;
 							message << L"Function: 'extensions' does not exist in library: ";
 							message << path.string ().c_str ();
 							context_a.errors (message.str ());
@@ -50,24 +50,25 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 					}
 					break;
 				default:
-					context_a.errors (L"Unrecognized version number");
+					context_a.errors (U"Unrecognized version number");
 					break;
 				}
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Library did not have version function: ";
-				message << path.wstring ();
+                auto str (path.wstring ());
+				message << mu::string (str.begin (), str.end ());;
 				context_a.errors (message.str ());
 			}
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Library could not be loaded: ";
 			std::string patha (path.string ());
-			std::wstring path (patha.begin (), patha.end ());
+			mu::string path (patha.begin (), patha.end ());
 			message << path;
 			context_a.errors (message.str ());
 		}

@@ -21,7 +21,7 @@ bool mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Cluster only has: ";
 			message << one->routines.size ();
 			message << L" routines: ";

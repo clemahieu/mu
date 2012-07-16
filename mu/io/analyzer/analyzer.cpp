@@ -46,15 +46,15 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 		}
 		else
 		{
-			(*errors) (L"Not generating cluster due to other errors");
+			(*errors) (U"Not generating cluster due to other errors");
 		}
 	}
 	else
 	{
 		for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
 		{
-			std::wstringstream message;
-			message << L"Unresolved identifier: ";
+            mu::stringstream message;
+			message << U"Unresolved identifier: ";
 			message << i->first;
 			(*errors) (new (GC) mu::core::errors::string_error (message.str ()));
 		}
@@ -63,12 +63,12 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::cluster * cluster_a)
 {
-	(*errors) (L"Analyzer not expecting cluster");
+	(*errors) (U"Analyzer not expecting cluster");
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * parameters_a)
 {
-	(*errors) (L"Analyzer not expecting parameters");
+	(*errors) (U"Analyzer not expecting parameters");
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
@@ -78,15 +78,15 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
 {
-	(*errors) (L"Analyzer not expecting identifiers");
+	(*errors) (U"Analyzer not expecting identifiers");
 }
 
-void mu::io::analyzer::analyzer::mark_used (std::wstring name_a)
+void mu::io::analyzer::analyzer::mark_used (mu::string name_a)
 {
-	used_names.insert (std::set <std::wstring>::value_type (name_a));
+	used_names.insert (std::set <mu::string>::value_type (name_a));
 }
 
-void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, mu::core::node * node_a)
+void mu::io::analyzer::analyzer::back_resolve (mu::string name_a, mu::core::node * node_a)
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
@@ -95,7 +95,7 @@ void mu::io::analyzer::analyzer::back_resolve (std::wstring name_a, mu::core::no
 	unresolved.erase (name_a);
 }
 
-void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, mu::core::routine * routine_a)
+void mu::io::analyzer::analyzer::resolve_routine (mu::string name_a, mu::core::routine * routine_a)
 {
 	assert (!name_a.empty ());
 	auto keyword (extensions->extensions_m.find (name_a));
@@ -112,7 +112,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, mu::core:
 		}
 		else
 		{
-			std::wstringstream message;
+            mu::stringstream message;
 			message << L"Routine name: ";
 			message << name_a;
 			message << L" has already been used";
@@ -121,7 +121,7 @@ void mu::io::analyzer::analyzer::resolve_routine (std::wstring name_a, mu::core:
 	}
 	else
 	{
-		std::wstringstream message;
+        mu::stringstream message;
 		message << L"Routine named: ";
 		message << name_a;
 		message << L" is a keyword";

@@ -14,7 +14,7 @@ bool mu::core::errors::error_list::operator () ()
 	return !errors.empty ();
 }
 
-void mu::core::errors::error_list::print (std::wostream & target)
+void mu::core::errors::error_list::print (mu::ostream & target)
 {
     for (auto i (errors.begin ()), j (errors.end ()); i != j; ++i)
     {

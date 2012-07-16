@@ -20,7 +20,7 @@ void mu::script::ast::extension::operator () (mu::core::errors::error_target * e
 	}
 	else
 	{
-		(*errors_a) (L"AST extension requires at least one argument");
+		(*errors_a) (U"AST extension requires at least one argument");
 	}
 }
 
@@ -43,18 +43,18 @@ mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error
 				else
 				{
 					good = false;
-					(*errors_a) (L"AST argument must only contain expressions");
+					(*errors_a) (U"AST argument must only contain expressions");
 				}
 			}
 		}
 		else
 		{
-			(*errors_a) (L"AST extension requires top level to not be named");
+			(*errors_a) (U"AST extension requires top level to not be named");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"AST extension requires argument to be an expression");
+		(*errors_a) (U"AST extension requires argument to be an expression");
 	}
 	return result;
 }

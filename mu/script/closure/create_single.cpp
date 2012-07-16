@@ -23,7 +23,7 @@ bool mu::script::closure::create_single::operator () (mu::script::context & cont
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Operation: ";
 		message << name ();
 		message << L" must have at least one argument";
@@ -33,7 +33,7 @@ bool mu::script::closure::create_single::operator () (mu::script::context & cont
 	return result;
 }
 
-std::wstring mu::script::closure::create_single::name ()
+mu::string mu::script::closure::create_single::name ()
 {
-	return std::wstring (L"mu::script::closure::create_single");
+	return mu::string (U"mu::script::closure::create_single");
 }

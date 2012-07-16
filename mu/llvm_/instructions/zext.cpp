@@ -34,7 +34,7 @@ bool mu::llvm_::instructions::zext::operator () (mu::script::context & context_a
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Bit width of argument two is not greater than or equal to bit width of argument one: ";
 				message << one_bits;
 				message << L" ";
@@ -45,7 +45,7 @@ bool mu::llvm_::instructions::zext::operator () (mu::script::context & context_a
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Arguments are not integers: ";
 			message << one_int;
 			message << L" ";

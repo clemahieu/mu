@@ -9,8 +9,7 @@
 #pragma once
 
 #include <mu/io/debugging/context.h>
-
-#include <ostream>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -22,7 +21,7 @@ namespace mu
 			{
 			public:
                 virtual ~error ();
-				virtual void string (std::wostream & stream) = 0;
+				virtual void string (mu::ostream & stream) = 0;
 			};
 		}
 	}

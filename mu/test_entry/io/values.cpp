@@ -16,7 +16,7 @@ TEST (io_test, values1)
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
-	lexer (L"[ thing");
+	lexer (U"[ thing");
 	lexer ();
 	EXPECT_EQ (result.results.empty (), true);
 	EXPECT_EQ (!errors->errors.empty (), true);

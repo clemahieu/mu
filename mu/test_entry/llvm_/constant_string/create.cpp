@@ -27,7 +27,7 @@ TEST (llvm_test, constant_string_create1)
 	ctx.push (new (GC) mu::llvm_::constant_string::create);
 	ctx.push (new (GC) mu::llvm_::context::node (&context));
 	ctx.push (new (GC) mu::llvm_::module::node (module));
-	ctx.push (new (GC) mu::script::string::node (std::wstring (L"test string")));
+	ctx.push (new (GC) mu::script::string::node (mu::string (U"test string")));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);

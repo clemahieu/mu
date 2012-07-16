@@ -30,9 +30,9 @@ bool mu::llvm_::module::get_function::operator () (mu::script::context & context
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Module has no function named: ";
-			std::wstring name (two->string.begin (), two->string.end ());
+			mu::string name (two->string.begin (), two->string.end ());
 			message << name;
 			context_a.errors (message.str ());
 			result = false;
@@ -41,7 +41,7 @@ bool mu::llvm_::module::get_function::operator () (mu::script::context & context
 	return result;
 }
 
-std::wstring mu::llvm_::module::get_function::name ()
+mu::string mu::llvm_::module::get_function::name ()
 {
-	return std::wstring (L"mu::llvm_::module::get_function");
+	return mu::string (U"mu::llvm_::module::get_function");
 }

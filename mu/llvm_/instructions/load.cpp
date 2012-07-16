@@ -28,7 +28,7 @@ bool mu::llvm_::instructions::load::operator () (mu::script::context & context_a
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Argument is not a pointer";
 			context_a.errors (message.str ());
 			result = false;

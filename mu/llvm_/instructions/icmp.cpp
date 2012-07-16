@@ -36,7 +36,7 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Bit widths don't match: ";
 				message << one_bits;
 				message << L" ";
@@ -46,7 +46,7 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Arguments are not integers: ";
 			message << two_int;
 			message << L" ";
@@ -57,7 +57,7 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 	return result;
 }
 
-std::wstring mu::llvm_::instructions::icmp::name ()
+mu::string mu::llvm_::instructions::icmp::name ()
 {
-	return std::wstring (L"mu::llvm_::instructions::icmp");
+	return mu::string (U"mu::llvm_::instructions::icmp");
 }

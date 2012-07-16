@@ -33,7 +33,7 @@ bool mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & contex
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Argument one is not a pointer to the type of argument two and three: ";
 				message << two_type;
 				message << L" ";
@@ -44,7 +44,7 @@ bool mu::llvm_::instructions::cmpxchg::operator () (mu::script::context & contex
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Argument 1 is not a pointer";
 			context_a.errors (message.str ());
 			result = false;

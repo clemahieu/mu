@@ -26,7 +26,7 @@ bool mu::script::closure::single::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::closure::single::name ()
+mu::string mu::script::closure::single::name ()
 {
-	return std::wstring (L"mu::script::closure::single");
+	return mu::string (U"mu::script::closure::single");
 }

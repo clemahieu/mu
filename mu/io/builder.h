@@ -33,7 +33,7 @@ namespace mu
 			using mu::io::source::operator ();
 			builder ();
 			builder (mu::io::analyzer::extensions::extensions * extensions_a);
-			void operator () (wchar_t char_a) override;
+			void operator () (char32_t char_a) override;
 			mu::core::errors::error_list * errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;

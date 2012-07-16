@@ -33,7 +33,7 @@ bool mu::llvm_::instructions::xor_c::operator () (mu::script::context & context_
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Bit widths don't match: ";
 				message << one_bits;
 				message << L" ";
@@ -44,7 +44,7 @@ bool mu::llvm_::instructions::xor_c::operator () (mu::script::context & context_
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Arguments are not integers: ";
 			message << one_int;
 			message << L" ";

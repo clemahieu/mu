@@ -19,7 +19,7 @@ bool mu::repl::quit::operation::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::repl::quit::operation::name ()
+mu::string mu::repl::quit::operation::name ()
 {
-	return std::wstring (L"mu::repl::quit::operation");
+	return mu::string (U"mu::repl::quit::operation");
 }

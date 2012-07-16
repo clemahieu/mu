@@ -15,17 +15,17 @@ bool mu::core::errors::null::operator () ()
 	return had_error;
 }
 
-void mu::core::errors::null::print (std::wostream & target)
+void mu::core::errors::null::print (mu::ostream & target)
 {
 	had_error = true;
 }
 
-void mu::core::errors::null::operator () (std::wstring error)
+void mu::core::errors::null::operator () (mu::string error)
 {
 	had_error = true;
 }
 
-void mu::core::errors::null::operator () (wchar_t const * error)
+void mu::core::errors::null::operator () (char32_t const * error)
 {
 	had_error = true;
 }

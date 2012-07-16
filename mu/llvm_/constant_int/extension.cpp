@@ -36,7 +36,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 			auto number_identifier (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [number_position]));
 			if (number_identifier != nullptr)
 			{
-				auto characters (bits_identifier->string.c_str ());
+                std::wstring characters (bits_identifier->string.begin (), bits_identifier->string.end ());
 				auto bits (mu::script::integer::core_d (errors_a, characters));
 				if (bits != nullptr)
 				{
@@ -53,31 +53,31 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 					}
 					else
 					{
-						std::wstringstream message;
+						mu::stringstream message;
 						message << L"Unable to parse number: ";
 						message << number;
 					}
 				}
 				else
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"Unable to parse bits number: ";
-					message << characters;
+					message << bits_identifier->string;
 					(*errors_a) (message.str ());
 				}
 			}
 			else
 			{
-				(*errors_a) (L"Constant_int requires the second argument to be an identifier");
+				(*errors_a) (U"Constant_int requires the second argument to be an identifier");
 			}
 		}
 		else
 		{
-			(*errors_a) (L"Constant_int requires the first argument to be an identifier");
+			(*errors_a) (U"Constant_int requires the first argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Constant_int extension requires two arguments");
+		(*errors_a) (U"Constant_int extension requires two arguments");
 	}
 }

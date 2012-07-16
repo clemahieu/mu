@@ -26,7 +26,7 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 					llvm::Linker::LinkModules (one->module, module->module, llvm::Linker::DestroySource, &errors);
 					if (!errors.empty ())
 					{
-						std::wstring errors_l (errors.begin (), errors.end ());
+						mu::string errors_l (errors.begin (), errors.end ());
 						context_a.errors (errors_l);
 						valid = false;
 					}
@@ -44,7 +44,7 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least 1 argument";

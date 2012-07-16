@@ -27,8 +27,8 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				std::wstring name () override;
-				std::map <std::wstring, mu::llvm_::function::node *> names;
+				mu::string name () override;
+				std::map <mu::string, mu::llvm_::function::node *> names;
 				std::vector <mu::llvm_::function::node *> routines;
 			};
 		}

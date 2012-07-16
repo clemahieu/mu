@@ -9,7 +9,7 @@ mu::script::debugging::trace_error::trace_error (mu::script::values::operation *
 {
 }
 
-void mu::script::debugging::trace_error::string (std::wostream & stream)
+void mu::script::debugging::trace_error::string (mu::ostream & stream)
 {
 	error->string (stream);
 	stream << L'\n';

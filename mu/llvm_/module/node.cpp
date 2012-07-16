@@ -9,11 +9,11 @@ mu::llvm_::module::node::node (llvm::Module * module_a)
 {
 }
 
-std::wstring mu::llvm_::module::node::debug ()
+mu::string mu::llvm_::module::node::debug ()
 {
-	std::wstringstream result;
+	mu::stringstream result;
 	result << L"mu::llvm_::module ";
-	std::wstring module_name (module->getModuleIdentifier ().begin (), module->getModuleIdentifier ().end ());
+	mu::string module_name (module->getModuleIdentifier ().begin (), module->getModuleIdentifier ().end ());
 	result << module_name;
 	return result.str ();
 }

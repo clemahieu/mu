@@ -48,7 +48,7 @@ namespace mu
 			public:
 				using mu::io::source::operator ();
 				lexer (mu::core::errors::error_target * errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
-				void operator () (wchar_t char_a) override;
+				void operator () (char32_t char_a) override;
 				void reset ();
 				mu::io::debugging::position position;
 				mu::core::errors::error_target * errors;

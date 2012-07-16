@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -12,7 +12,7 @@ namespace mu
 			class token
 			{
 			public:
-				virtual std::wstring token_name () = 0;
+				virtual mu::string token_name () = 0;
 				virtual void operator () (mu::io::tokens::visitor * visitor_a) = 0;
 			};
 		}

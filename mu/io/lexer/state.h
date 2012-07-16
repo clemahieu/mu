@@ -10,7 +10,7 @@ namespace mu
 			{
 			public:
                 virtual ~state ();
-				virtual void lex (wchar_t character) = 0;
+				virtual void lex (char32_t character) = 0;
 			};
 		}
 	}

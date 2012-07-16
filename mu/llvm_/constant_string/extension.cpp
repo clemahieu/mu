@@ -39,11 +39,11 @@ void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error
 		}
 		else
 		{
-			(*errors_a) (L"Constant_string extension requires its argument to be an identifer");
+			(*errors_a) (U"Constant_string extension requires its argument to be an identifer");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"Constant_string extension requires one argument");
+		(*errors_a) (U"Constant_string extension requires one argument");
 	}
 }

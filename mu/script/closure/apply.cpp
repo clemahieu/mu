@@ -41,7 +41,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << name ();
 		message << L" must have at least one argument";
 		context_a.errors (message.str ());
@@ -50,7 +50,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::closure::apply::name ()
+mu::string mu::script::closure::apply::name ()
 {
-	return std::wstring (L"mu::script::closure::apply");
+	return mu::string (U"mu::script::closure::apply");
 }

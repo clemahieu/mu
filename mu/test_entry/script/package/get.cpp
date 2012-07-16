@@ -13,9 +13,9 @@ TEST (script_test, package_get1)
 {
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	auto data (new (GC) mu::script::package::node);
-	auto name (new (GC) mu::script::string::node (std::wstring (L"test")));
+	auto name (new (GC) mu::script::string::node (mu::string (U"test")));
 	auto node (new (GC) mu::core::node);
-	data->items [std::wstring (L"test")] = node;
+	data->items [mu::string (U"test")] = node;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get);
 	ctx.push (data);

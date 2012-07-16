@@ -21,7 +21,7 @@ namespace mu
 				std::vector <mu::core::errors::error *, gc_allocator <mu::core::errors::error>> errors;
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
-                void print (std::wostream & target) override;
+                void print (mu::ostream & target) override;
 			};
 		}
 	}

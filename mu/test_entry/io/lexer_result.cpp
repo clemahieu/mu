@@ -13,7 +13,8 @@ void mu::io_test::lexer_result::print (std::wostream & target)
 {
     for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
     {
-        target << i->first->token_name ();
+        std::wstring str (i->first->token_name ().begin (), i->first->token_name().end ());
+        target << str;
         target << L' ';
     }
 }

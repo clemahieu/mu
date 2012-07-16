@@ -30,7 +30,7 @@ bool mu::llvm_::instructions::ptrtoint::operator () (mu::script::context & conte
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Arguments are not integers: ";
 			message << one_int;
 			message << L" ";

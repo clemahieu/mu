@@ -41,7 +41,7 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 					if (!on_args->value)
 					{
 						valid = false;
-						context_a.errors (L"Divider can only be used once in function_type create");
+						context_a.errors (U"Divider can only be used once in function_type create");
 					}
 					else
 					{
@@ -107,18 +107,18 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 		}
 		else
 		{
-			context_a.errors (L"Function_type create requires argument one to be a context");
+			context_a.errors (U"Function_type create requires argument one to be a context");
 		}
 	}
 	else
 	{
-		context_a.errors (L"Function_type create requires at least one argument");
+		context_a.errors (U"Function_type create requires at least one argument");
 		valid = false;
 	}
 	return valid;
 }
 
-std::wstring mu::llvm_::function_type::create::name ()
+mu::string mu::llvm_::function_type::create::name ()
 {
-	return std::wstring (L"mu::llvm_::function_type::create");
+	return mu::string (U"mu::llvm_::function_type::create");
 }

@@ -20,7 +20,7 @@ bool mu::llvm_::module::add_function::operator () (mu::script::context & context
 	return result;
 }
 
-std::wstring mu::llvm_::module::add_function::name ()
+mu::string mu::llvm_::module::add_function::name ()
 {
-	return std::wstring (L"mu::llvm_::module::add_function");
+	return mu::string (U"mu::llvm_::module::add_function");
 }

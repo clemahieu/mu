@@ -25,7 +25,7 @@ namespace mu
 				cluster ();
 				cluster (mu::io::debugging::context context_a);
 				void operator () (mu::io::ast::visitor * visitor_a) override;
-				std::wstring name () override;
+				mu::string name () override;
 				std::vector <mu::io::ast::expression *, gc_allocator <mu::io::ast::expression *>> expressions;
 			};
 		}

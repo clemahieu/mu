@@ -19,7 +19,7 @@ bool mu::script::topology::operation::operator () (mu::script::context & context
 		}
 		else
 		{
-			context_a.errors (L"Routine contains cycles");
+			context_a.errors (U"Routine contains cycles");
 			valid = false;
 		}
 	}

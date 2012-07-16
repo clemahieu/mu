@@ -57,7 +57,7 @@ void mu::io::parser::finished::operator () (mu::io::tokens::parameters * token)
 
 void mu::io::parser::finished::add_error (mu::io::tokens::token * token)
 {
-    std::wstring message (L"Token received after parser is finished");
+    mu::string message (U"Token received after parser is finished");
 	(*parser.errors) (message);
 	parser.state.push (new (GC) mu::io::parser::error);
 }

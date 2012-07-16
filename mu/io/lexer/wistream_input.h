@@ -1,8 +1,7 @@
 #pragma once
 
 #include <mu/io/lexer/character_stream.h>
-
-#include <istream>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -14,9 +13,9 @@ namespace mu
 			{
 			public:
 				wistream_input(std::wistream & source_a);
-				wchar_t operator () ();
+				char32_t operator () () override;
 			private:
-				std::wistream & source;
+                std::wistream & source;
 			};
 		}
 	}

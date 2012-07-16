@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mu/core/types.h>
 #include <mu/io/debugging/context.h>
 #include <mu/io/ast/visitor.h>
 
@@ -39,9 +40,9 @@ namespace mu
 			public:
 				routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a);
 				mu::io::analyzer::analyzer & analyzer;
-				void resolve_local (std::wstring, mu::core::node * node_a);
+				void resolve_local (mu::string, mu::core::node * node_a);
 				mu::core::routine * routine_m;
-				std::map <std::wstring, mu::core::node *, std::less <std::wstring>, gc_allocator <std::pair <std::wstring, mu::core::node *>>> declarations;
+				std::map <mu::string, mu::core::node *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::core::node *>>> declarations;
 			};
 		}
 	}

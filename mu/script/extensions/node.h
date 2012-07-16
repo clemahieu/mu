@@ -26,7 +26,7 @@ namespace mu
 				node ();
 				node (mu::io::analyzer::extensions::extensions * extensions_a);
 				mu::io::analyzer::extensions::extensions * extensions;
-				std::wstring name () override;
+				mu::string name () override;
 			};
 		}
 	}

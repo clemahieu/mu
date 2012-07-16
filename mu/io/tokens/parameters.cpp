@@ -1,9 +1,10 @@
-#include "parameters.h"
+#include <mu/io/tokens/parameters.h>
+
 #include <mu/io/tokens/visitor.h>
 
-std::wstring mu::io::tokens::parameters::token_name ()
+mu::string mu::io::tokens::parameters::token_name ()
 {
-	return std::wstring (L"parameters");
+	return mu::string (U"parameters");
 }
 
 void mu::io::tokens::parameters::operator () (mu::io::tokens::visitor * visitor_a)

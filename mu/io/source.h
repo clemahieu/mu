@@ -1,7 +1,6 @@
 #pragma once
 
-#include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -15,13 +14,13 @@ namespace mu
 		{
 		public:
 			void operator () ();
-			virtual void operator () (wchar_t char_a) = 0;
-			void operator () (std::wstring & string);
-			void operator () (std::wstring const & string);
-			void operator () (wchar_t const * string);
+			virtual void operator () (char32_t char_a) = 0;
+			void operator () (mu::string & string);
+			void operator () (mu::string const & string);
+			void operator () (char32_t const * string);
 			void operator () (mu::io::lexer::character_stream * source);
             void operator << (mu::io::lexer::character_stream * source);
-            void process_string (std::wstring const & string);
+            void process_string (mu::string const & string);
 		};
 	}
 }

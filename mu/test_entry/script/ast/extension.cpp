@@ -18,7 +18,7 @@
 TEST (script_test, extension1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (L"[~ .ast []]");
+	builder (U"[~ .ast []]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster (builder.cluster);
@@ -38,7 +38,7 @@ TEST (script_test, extension1)
 TEST (script_test, extension2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (L"[~ .ast thing]");
+	builder (U"[~ .ast thing]");
 	builder ();
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
 	EXPECT_EQ (builder.cluster, nullptr);
@@ -47,7 +47,7 @@ TEST (script_test, extension2)
 TEST (script_test, extension3)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (L"[~ .ast [[]]]");
+	builder (U"[~ .ast [[]]]");
 	builder ();
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster (builder.cluster);

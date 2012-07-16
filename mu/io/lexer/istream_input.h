@@ -14,7 +14,7 @@ namespace mu
 			{
 			public:
 				istream_input (std::istream & source_a);
-				wchar_t operator () ();
+				char32_t operator () () override;
 			private:
 				std::istream & source;
 			};

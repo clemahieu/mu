@@ -3,7 +3,7 @@
 #include <mu/core/routine.h>
 #include <mu/llvm_/function/node.h>
 
-std::wstring mu::llvm_::cluster::node::name ()
+mu::string mu::llvm_::cluster::node::name ()
 {
-	return std::wstring (L"mu::llvm_::cluster::node");
+	return mu::string (U"mu::llvm_::cluster::node");
 }

@@ -14,7 +14,7 @@ namespace mu
 				error_context (mu::core::errors::error_target * target_a, mu::io::debugging::context context_a);
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;
-                void print (std::wostream & target) override;
+                void print (mu::ostream & target) override;
 				mu::core::errors::error_target * target;
 				mu::io::debugging::context context;
 			};

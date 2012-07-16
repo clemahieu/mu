@@ -16,7 +16,7 @@ namespace mu
 			{
 			public:
 				node (llvm::ConstantInt * constant_int_a, mu::llvm_::type::node * type_a);
-				std::wstring name () override;
+				mu::string name () override;
 				llvm::ConstantInt * constant_int ();
 			};
 		}

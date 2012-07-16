@@ -42,7 +42,7 @@ bool mu::script::context::operator () ()
 		}
 		else
 		{
-			errors (L"First node in expression is not an operation");
+			errors (U"First node in expression is not an operation");
             result = false;
             drop ();
 		}

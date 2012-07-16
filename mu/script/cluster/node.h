@@ -20,7 +20,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				std::map <std::wstring, mu::script::runtime::routine *> names;
+				std::map <mu::string, mu::script::runtime::routine *> names;
 				std::vector <mu::script::runtime::routine *> routines;
 			};
 		}

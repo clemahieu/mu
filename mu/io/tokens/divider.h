@@ -20,7 +20,7 @@ namespace mu
 		{
 			class divider : public mu::io::tokens::token
 			{
-				std::wstring token_name () override;
+				mu::string token_name () override;
 				void operator () (mu::io::tokens::visitor * visitor_a) override;
 			};
 		}

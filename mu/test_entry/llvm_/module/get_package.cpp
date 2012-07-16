@@ -35,13 +35,13 @@ TEST (llvm_test, module_get_package1)
 	auto package (dynamic_cast <mu::script::package::node *> (ctx.working (0)));
 	EXPECT_NE (package, nullptr);
 	EXPECT_EQ (package->items.size (), 2);
-	EXPECT_NE (package->items.find (L"a"), package->items.end ());
-	auto f1 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (L"a")->second));
+	EXPECT_NE (package->items.find (U"a"), package->items.end ());
+	auto f1 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (U"a")->second));
 	EXPECT_NE (f1, nullptr);
 	EXPECT_EQ (f1->value (), function1);
 	EXPECT_EQ (function1->getNameStr (), std::string ("a.suffix"));
-	EXPECT_NE (package->items.find (L"b"), package->items.end ());
-	auto f2 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (L"b")->second));
+	EXPECT_NE (package->items.find (U"b"), package->items.end ());
+	auto f2 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (U"b")->second));
 	EXPECT_NE (f2, nullptr);
 	EXPECT_EQ (f2->value (), function2);
 	EXPECT_EQ (function2->getNameStr (), std::string ("b.suffix"));

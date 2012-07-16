@@ -14,7 +14,7 @@ namespace mu
 			{
 			public:
 				control (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a);
-				void lex (wchar_t character) override;
+				void lex (char32_t character) override;
 				mu::io::debugging::position first;
 				mu::io::lexer::lexer & lexer;
 			};

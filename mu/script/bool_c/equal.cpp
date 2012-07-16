@@ -17,7 +17,7 @@ bool mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::bool_c::equal::name ()
+mu::string mu::script::bool_c::equal::name ()
 {
-	return std::wstring (L"mu::script::bool_c::equal");
+	return mu::string (U"mu::script::bool_c::equal");
 }

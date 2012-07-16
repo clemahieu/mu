@@ -12,7 +12,7 @@ namespace mu
 			{
 			public:
 				parameters (mu::io::debugging::context context_a);
-				std::wstring name () override;
+				mu::string name () override;
 				void operator () (mu::io::ast::visitor * visitor_a) override;
 			};
 		}

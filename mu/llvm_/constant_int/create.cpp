@@ -32,7 +32,7 @@ bool mu::llvm_::constant_int::create::operator () (mu::script::context & context
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Number: ";
 				message << three->value->getLimitedValue ();
 				message << L" does not fit in: ";
@@ -44,7 +44,7 @@ bool mu::llvm_::constant_int::create::operator () (mu::script::context & context
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Number of bits: ";
 			message << bits;
 			message << L" is not between: ";

@@ -52,7 +52,7 @@ TEST (io_test, parser3)
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
-	parser (new (GC) mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 2, 1, 1, 3, 2));
+	parser (new (GC) mu::io::tokens::identifier (mu::string (U"t1")), mu::io::debugging::context (1, 2, 1, 1, 3, 2));
 	parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (1, 4, 3, 1, 4, 3));
 	parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context (1, 5, 4, 1, 5, 4));
 	EXPECT_EQ (result.results.size (), 1);
@@ -61,7 +61,7 @@ TEST (io_test, parser3)
 	EXPECT_EQ (e1->context, mu::io::debugging::context (1, 1, 0, 1, 4, 3));
 	EXPECT_EQ (e1->values.size (), 1);
 	auto i1 (dynamic_cast <mu::io::ast::identifier*> (e1->values [0]));
-	EXPECT_EQ (i1->string, std::wstring (L"t1"));
+	EXPECT_EQ (i1->string, mu::string (U"t1"));
 	EXPECT_EQ (i1->context, mu::io::debugging::context (1, 2, 1, 1, 3, 2));
 	EXPECT_EQ (e1->full_name->string.empty (), true);
 	EXPECT_EQ (e1->individual_names.empty (), true);
@@ -74,7 +74,7 @@ TEST (io_test, parser4)
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
-	parser (new (GC) mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 3, 2, 1, 4, 3));
+	parser (new (GC) mu::io::tokens::identifier (mu::string (U"t1")), mu::io::debugging::context (1, 3, 2, 1, 4, 3));
 	parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (1, 5, 4, 1, 5, 4));
 	parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context (1, 6, 5, 1, 6, 5));
 	EXPECT_EQ (result.results.size (), 1);
@@ -84,7 +84,7 @@ TEST (io_test, parser4)
 	EXPECT_EQ (e1->individual_names.size (), 1);
 	EXPECT_EQ (e1->context, mu::io::debugging::context (1, 1, 0, 1, 5, 4));
 	auto i1 (e1->individual_names [0]);
-	EXPECT_EQ (i1->string, std::wstring (L"t1"));
+	EXPECT_EQ (i1->string, mu::string (U"t1"));
 	EXPECT_EQ (e1->full_name->string.empty (), true);
 }
 
@@ -96,7 +96,7 @@ TEST (io_test, parser5)
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
 	parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context (1, 3, 2, 1, 3, 2));
-	parser (new (GC) mu::io::tokens::identifier (std::wstring (L"t1")), mu::io::debugging::context (1, 4, 3, 1, 5, 4));
+	parser (new (GC) mu::io::tokens::identifier (mu::string (U"t1")), mu::io::debugging::context (1, 4, 3, 1, 5, 4));
 	parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (1, 6, 5, 1, 6, 5));
 	parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context (1, 7, 6, 1, 7, 6));
 	EXPECT_EQ (result.results.size (), 1);
@@ -104,7 +104,7 @@ TEST (io_test, parser5)
 	auto e1 (result.results [0]->expressions [0]);
 	EXPECT_EQ (e1->values.empty (), true);
 	EXPECT_EQ (e1->individual_names.empty (), true);
-	EXPECT_EQ (e1->full_name->string, std::wstring (L"t1"));
+	EXPECT_EQ (e1->full_name->string, mu::string (U"t1"));
 	EXPECT_EQ (e1->context, mu::io::debugging::context (1, 1, 0, 1, 6, 5));
 }
 

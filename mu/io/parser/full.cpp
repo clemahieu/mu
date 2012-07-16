@@ -24,7 +24,7 @@ mu::io::parser::full::full (mu::io::parser::parser & parser_a, mu::io::parser::t
 	target (target_a),
 	values (values_a),
 	names (names_a),
-	full_name (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), std::wstring ())),
+	full_name (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string ())),
 	first (first_a)
 {
 }
@@ -42,7 +42,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
 	}
 	else
 	{		
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Expressions can only have one full name, previously: ";
 		message << full_name;
 		message << L" current: ";
@@ -61,7 +61,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 {
 	if (full_name->string.empty ())
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Expression has no full name";
 		(*parser.errors) (message.str ());
 		parser.state.push (new (GC) mu::io::parser::error);
@@ -85,7 +85,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::parameters * token)
 
 void mu::io::parser::full::unexpected_token (mu::io::tokens::token * token)
 {
-    std::wstringstream message;
+    mu::stringstream message;
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
 	(*parser.errors) (message.str ());

@@ -28,7 +28,7 @@ namespace mu
 			public:
 				using mu::io::source::operator ();
 				builder ();
-				void operator () (wchar_t char_a) override;
+				void operator () (char32_t char_a) override;
 				mu::core::errors::error_list * errors;
 				mu::io::parser::parser parser;
 				mu::io::lexer::lexer lexer;

@@ -16,54 +16,54 @@ mu::io::lexer::hex_code::hex_code (size_t digits_a, mu::io::lexer::identifier & 
 	assert (digits <= 8);
 }
 
-void mu::io::lexer::hex_code::lex (wchar_t character)
+void mu::io::lexer::hex_code::lex (char32_t character)
 {
 	++index;
 	switch (character)
 	{		
-		case L'a':
-		case L'b':
-		case L'c':
-		case L'd':
-		case L'e':
-		case L'f':
-		case L'A':
-		case L'B':
-		case L'C':
-		case L'D':
-		case L'E':
-		case L'F':
-		case L'0':
-		case L'1':
-		case L'2':
-		case L'3':
-		case L'4':
-		case L'5':
-		case L'6':
-		case L'7':
-		case L'8':
-		case L'9':
+		case U'a':
+		case U'b':
+		case U'c':
+		case U'd':
+		case U'e':
+		case U'f':
+		case U'A':
+		case U'B':
+		case U'C':
+		case U'D':
+		case U'E':
+		case U'F':
+		case U'0':
+		case U'1':
+		case U'2':
+		case U'3':
+		case U'4':
+		case U'5':
+		case U'6':
+		case U'7':
+		case U'8':
+		case U'9':
 		{
 			unsigned long character_l (character);
 			switch (character_l)
 			{
-				case L'a':
-				case L'b':
-				case L'c':
-				case L'd':
-				case L'e':
-				case L'f':
+				case U'a':
+				case U'b':
+				case U'c':
+				case U'd':
+				case U'e':
+				case U'f':
 					character_l -= 0x20;
 					break;
 			}
 			switch (character_l)
 			{
-				case L'A':
-				case L'B':
-				case L'C':
-				case L'D':
-				case L'E':
-				case L'F':
+				case U'A':
+				case U'B':
+				case U'C':
+				case U'D':
+				case U'E':
+				case U'F':
 					character_l -= 0x7;
 					break;
 			}
@@ -78,7 +78,7 @@ void mu::io::lexer::hex_code::lex (wchar_t character)
 		}
 		break;
 		default:
-			std::wstring message (L"Invalid hex digit: ");
+			mu::string message (U"Invalid hex digit: ");
 			message.push_back (character);
 			(*identifier.lexer.errors) (message);
 			identifier.lexer.state.push (new (GC) mu::io::lexer::error);

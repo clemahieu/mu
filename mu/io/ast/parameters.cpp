@@ -7,9 +7,9 @@ mu::io::ast::parameters::parameters (mu::io::debugging::context context_a)
 {
 }
 
-std::wstring mu::io::ast::parameters::name ()
+mu::string mu::io::ast::parameters::name ()
 {
-	return std::wstring (L"parameters");
+	return mu::string (U"parameters");
 }
 
 void mu::io::ast::parameters::operator () (mu::io::ast::visitor * visitor_a)

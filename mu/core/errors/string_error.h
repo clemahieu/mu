@@ -11,9 +11,9 @@ namespace mu
 			class string_error : public mu::core::errors::error
 			{
 			public:
-				string_error (std::wstring message_a);
-				void string (std::wostream & stream) override;
-				std::wstring message;
+				string_error (mu::string message_a);
+				void string (mu::ostream & stream) override;
+				mu::string message;
 			};
 		}
 	}

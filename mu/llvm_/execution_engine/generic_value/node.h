@@ -17,7 +17,7 @@ namespace mu
 				public:
 					node ();
 					node (llvm::GenericValue & value_a);
-					std::wstring debug () override;
+					mu::string debug () override;
 					llvm::GenericValue value;
 				};
 			}

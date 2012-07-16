@@ -35,6 +35,7 @@ add_library (mu_io STATIC
 	lexer/multiline_comment.cpp
 	lexer/singleline_comment.cpp
 	lexer/state.cpp
+    lexer/stream_input.cpp
 	lexer/token_vector.cpp
 	lexer/wistream_input.cpp
 	parser/begin.cpp

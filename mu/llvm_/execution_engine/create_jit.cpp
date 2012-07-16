@@ -28,9 +28,9 @@ bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Unable to build ExecutionEngine: ";
-			std::wstring error (errors_l.begin (), errors_l.end ());
+			mu::string error (errors_l.begin (), errors_l.end ());
 			message << error;
 			context_a.errors (message.str ());
 			result = false;
@@ -39,7 +39,7 @@ bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 	return result;
 }
 
-std::wstring mu::llvm_::execution_engine::create_jit::name ()
+mu::string mu::llvm_::execution_engine::create_jit::name ()
 {
-	return std::wstring (L"mu::llvm_::execution_engine::create_jit");
+	return mu::string (U"mu::llvm_::execution_engine::create_jit");
 }

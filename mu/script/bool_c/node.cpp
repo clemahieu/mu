@@ -9,8 +9,8 @@ mu::script::bool_c::node::node (bool value_a)
 {
 }
 
-std::wstring mu::script::bool_c::node::debug ()
+mu::string mu::script::bool_c::node::debug ()
 {
-	std::wstring result (value ? std::wstring (L"true") : std::wstring (L"false"));
+	mu::string result (value ? mu::string (U"true") : mu::string (U"false"));
 	return result;
 }

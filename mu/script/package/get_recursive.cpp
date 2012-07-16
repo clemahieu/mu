@@ -33,14 +33,14 @@ bool mu::script::package::get_recursive::operator () (mu::script::context & cont
 			else
 			{
 				good = false;
-				context_a.errors (L"Get operation did not return result");
+				context_a.errors (U"Get operation did not return result");
 			}
 		}
 		context_a.push (node);
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << L"Operation: ";
 		message << name ();
 		message << L" requires at least one argument";
@@ -50,7 +50,7 @@ bool mu::script::package::get_recursive::operator () (mu::script::context & cont
 	return result;
 }
 
-std::wstring mu::script::package::get_recursive::name ()
+mu::string mu::script::package::get_recursive::name ()
 {
-	return std::wstring (L"mu::script::package::get_recursive");
+	return mu::string (U"mu::script::package::get_recursive");
 }

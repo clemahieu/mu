@@ -31,7 +31,7 @@ bool mu::script::debugging::trace_target::operator () ()
 	return result;
 }
 
-void mu::script::debugging::trace_target::print (std::wostream & target_a)
+void mu::script::debugging::trace_target::print (mu::ostream & target_a)
 {
 	target->print (target_a);
 }

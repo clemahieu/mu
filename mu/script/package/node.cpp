@@ -2,9 +2,9 @@
 
 #include <sstream>
 
-std::wstring mu::script::package::node::debug ()
+mu::string mu::script::package::node::debug ()
 {
-	std::wstringstream contents;
+	mu::stringstream contents;
 	contents << L"mu::script::package::node:";
 	for (auto i (items.begin ()), j (items.end ()); i != j; ++i)
 	{

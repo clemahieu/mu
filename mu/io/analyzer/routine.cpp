@@ -37,11 +37,11 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	}
 	else
 	{
-		(*analyzer_a.errors) (L"Routines cannot have individual names");
+		(*analyzer_a.errors) (U"Routines cannot have individual names");
 	}
 }
 
-void mu::io::analyzer::routine::resolve_local (std::wstring identifier, mu::core::node * node)
+void mu::io::analyzer::routine::resolve_local (mu::string identifier, mu::core::node * node)
 {
 	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
 	{
@@ -50,33 +50,33 @@ void mu::io::analyzer::routine::resolve_local (std::wstring identifier, mu::core
 			if (declarations.find (identifier) == declarations.end ())
 			{
 				analyzer.mark_used (identifier);
-				declarations.insert (std::map <std::wstring, mu::core::node *>::value_type (identifier, node));
+				declarations.insert (std::map <mu::string, mu::core::node *>::value_type (identifier, node));
 				analyzer.back_resolve (identifier, node);
 			}
 			else
 			{
-				std::wstringstream message;
-				message << L"The identifier: ";
+				mu::stringstream message;
+				message << U"The identifier: ";
 				message << identifier;
-				message << L" collides with another local declaration";
+				message << U" collides with another local declaration";
 				(*analyzer.errors) (message.str ());
 			}
 		}
 		else
 		{
-			std::wstringstream message;
-			message << L"The identifier: ";
+			mu::stringstream message;
+			message << U"The identifier: ";
 			message << identifier;
-			message << L" collides with a routine name in the cluster";
+			message << U" collides with a routine name in the cluster";
 			(*analyzer.errors) (message.str ());
 		}
 	}
 	else
 	{
-		std::wstringstream message;
-		message << L"The identifier: ";
+		mu::stringstream message;
+		message << U"The identifier: ";
 		message << identifier;
-		message << L" is a keyword";
+		message << U" is a keyword";
 		(*analyzer.errors) (message.str ());
 	}
 }

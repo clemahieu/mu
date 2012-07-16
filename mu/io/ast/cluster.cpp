@@ -17,7 +17,7 @@ void mu::io::ast::cluster::operator () (mu::io::ast::visitor * visitor_a)
 	(*visitor_a) (this);
 }
 
-std::wstring mu::io::ast::cluster::name ()
+mu::string mu::io::ast::cluster::name ()
 {
-	return std::wstring (L"cluster");
+	return mu::string (U"cluster");
 }

@@ -28,11 +28,11 @@ void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * 
 		}
 		else
 		{
-			(*errors_a) (L"APInt requires its argument to be an identifier");
+			(*errors_a) (U"APInt requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (L"APInt extension requires at least one argument");
+		(*errors_a) (U"APInt extension requires at least one argument");
 	}
 }

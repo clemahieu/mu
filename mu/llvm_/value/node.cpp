@@ -11,7 +11,7 @@ llvm::Value * mu::llvm_::value::node::value ()
 	return value_m;
 }
 
-std::wstring mu::llvm_::value::node::name ()
+mu::string mu::llvm_::value::node::name ()
 {
-	return std::wstring (L"mu::llvm_::value::node");
+	return mu::string (U"mu::llvm_::value::node");
 }

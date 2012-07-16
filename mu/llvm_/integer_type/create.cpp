@@ -26,7 +26,7 @@ bool mu::llvm_::integer_type::create::operator () (mu::script::context & context
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Bits is not within bounds: ";
 			message << llvm::IntegerType::MIN_INT_BITS;
 			message << L" <= ";
@@ -40,7 +40,7 @@ bool mu::llvm_::integer_type::create::operator () (mu::script::context & context
 	return valid;
 }
 
-std::wstring mu::llvm_::integer_type::create::name ()
+mu::string mu::llvm_::integer_type::create::name ()
 {
-	return std::wstring (L"mu::llvm_::integer_type::create");
+	return mu::string (U"mu::llvm_::integer_type::create");
 }

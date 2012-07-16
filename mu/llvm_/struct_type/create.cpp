@@ -48,7 +48,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << name ();
 		message << L" requires at least one argument";
 		context_a.errors (message.str ());

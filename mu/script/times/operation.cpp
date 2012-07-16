@@ -44,7 +44,7 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		std::wstringstream message;
+		mu::stringstream message;
 		message << name ();
 		message << L" must have at least two arguments";
 		context_a.errors (message.str ());
@@ -53,7 +53,7 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::times::operation::name ()
+mu::string mu::script::times::operation::name ()
 {
-	return std::wstring (L"mu::script::times::operation");
+	return mu::string (U"mu::script::times::operation");
 }

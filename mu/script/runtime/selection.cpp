@@ -28,7 +28,7 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 				}
 				else
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"Trying to get result at index: ";
 					message << index;
 					message << L" but there are only: ";
@@ -42,7 +42,7 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 			{
 				if (existing->second.get <1> () != ~0)
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"Trying to select value off of frame at: ";
 					message << existing->second.get <0> () + index;
 					message << L" but only have: ";
@@ -58,7 +58,7 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 		}
 		else
 		{
-			context_a.errors (L"Expression is not mapped");
+			context_a.errors (U"Expression is not mapped");
 			valid = false;
 		}
 	}

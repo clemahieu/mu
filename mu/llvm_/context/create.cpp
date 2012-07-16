@@ -15,7 +15,7 @@ bool mu::llvm_::context::create::operator () (mu::script::context & context_a)
 	return valid;
 }
 
-std::wstring mu::llvm_::context::create::name ()
+mu::string mu::llvm_::context::create::name ()
 {
-	return std::wstring (L"mu::llvm_::context::create");
+	return mu::string (U"mu::llvm_::context::create");
 }

@@ -18,7 +18,7 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 		auto three (static_cast <mu::script::extensions::node *> (context_a.parameters (2)));
 		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
 		{
-			std::wstring name (two->string.begin (), two->string.end ());
+			mu::string name (two->string.begin (), two->string.end ());
 			name.append (i->first);
 			auto existing (one->extensions->extensions_m.find (name));
 			if (existing == one->extensions->extensions_m.end ())
@@ -27,7 +27,7 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Extensions already contains extension named: ";
 				message << i->first;
 				context_a.errors (message.str ());
@@ -38,7 +38,7 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 	return result;
 }
 
-std::wstring mu::script::extensions::merge::name ()
+mu::string mu::script::extensions::merge::name ()
 {
-	return std::wstring (L"mu::script::extensions::merge");
+	return mu::string (U"mu::script::extensions::merge");
 }

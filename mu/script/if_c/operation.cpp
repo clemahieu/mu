@@ -30,7 +30,7 @@ bool mu::script::if_c::operation::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::if_c::operation::name ()
+mu::string mu::script::if_c::operation::name ()
 {
-	return std::wstring (L"mu::script::if_c::operation");
+	return mu::string (U"mu::script::if_c::operation");
 }

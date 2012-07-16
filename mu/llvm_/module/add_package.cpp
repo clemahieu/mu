@@ -39,7 +39,7 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 				}
 				else
 				{
-					std::wstringstream message;
+					mu::stringstream message;
 					message << L"Operation: ";
 					message << name ();
 					message << L" package item: \"";
@@ -55,7 +55,7 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 	return result;
 }
 
-std::wstring mu::llvm_::module::add_package::name ()
+mu::string mu::llvm_::module::add_package::name ()
 {
-	return std::wstring (L"mu::llvm_::module::add_package");
+	return mu::string (U"mu::llvm_::module::add_package");
 }

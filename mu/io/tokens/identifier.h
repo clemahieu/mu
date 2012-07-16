@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include <mu/io/tokens/token.h>
 
 namespace mu
@@ -13,10 +11,10 @@ namespace mu
 			class identifier : public mu::io::tokens::token
 			{	
 			public:
-				identifier (std::wstring string_a);
-				std::wstring token_name () override;
+				identifier (mu::string string_a);
+				mu::string token_name () override;
 				void operator () (mu::io::tokens::visitor * visitor_a) override;
-				std::wstring string;
+				mu::string string;
 			};
 		}
 	}

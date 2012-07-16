@@ -26,12 +26,12 @@ TEST (script_test, package_get_recursive2)
 {
 	auto package (new (GC) mu::script::package::node);
 	auto n1 (new (GC) mu::core::node);
-	package->items [std::wstring (L"a")] = n1;
+	package->items [mu::string (U"a")] = n1;
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get_recursive);
 	ctx.push (package);
-	ctx.push (new (GC) mu::script::string::node (std::wstring (L"a")));
+	ctx.push (new (GC) mu::script::string::node (mu::string (U"a")));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
@@ -43,14 +43,14 @@ TEST (script_test, package_get_recursive3)
 	auto package (new (GC) mu::script::package::node);
 	auto package1 (new (GC) mu::script::package::node);
 	auto n1 (new (GC) mu::core::node);
-	package->items [std::wstring (L"a")] = package1;
-	package1->items [std::wstring (L"b")] = n1;
+	package->items [mu::string (U"a")] = package1;
+	package1->items [mu::string (U"b")] = n1;
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get_recursive);
 	ctx.push (package);
-	ctx.push (new (GC) mu::script::string::node (std::wstring (L"a")));
-	ctx.push (new (GC) mu::script::string::node (std::wstring (L"b")));
+	ctx.push (new (GC) mu::script::string::node (mu::string (U"a")));
+	ctx.push (new (GC) mu::script::string::node (mu::string (U"b")));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);

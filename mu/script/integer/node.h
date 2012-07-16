@@ -13,8 +13,8 @@ namespace mu
 			public:
 				node ();
 				node (unsigned long long value_a);
-				std::wstring name () override;
-				std::wstring debug () override;
+				mu::string name () override;
+				mu::string debug () override;
 				unsigned long long value;
 			};
 		}

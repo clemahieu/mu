@@ -60,11 +60,11 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 										llvm::raw_string_ostream actual_stream (actual_str);
 										actual->print (actual_stream);
 									}
-									std::wstringstream message;
+									mu::stringstream message;
 									message << L"Expected type: ";
-									message << std::wstring (expected_str.begin (), expected_str.end ());
+									message << mu::string (expected_str.begin (), expected_str.end ());
 									message << L" does match actual type: ";
-									message << std::wstring (actual_str.begin (), actual_str.end ());
+									message << mu::string (actual_str.begin (), actual_str.end ());
 									context_a.errors (message.str ());
 									result = false;
 								}
@@ -77,7 +77,7 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 					}
 					else
 					{
-						std::wstringstream message;
+						mu::stringstream message;
 						message << L"Number of actual arguments: ";
 						message << context_a.parameters_size () - 1;
 						message << L" does not match number of formal parameters: ";
@@ -88,13 +88,13 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 				}
 				else
 				{
-					context_a.errors (L"Can only call to a pointer to a function type");
+					context_a.errors (U"Can only call to a pointer to a function type");
 					result = false;
 				}
 			}
 			else
 			{
-				context_a.errors (L"Can only call to a pointer type");
+				context_a.errors (U"Can only call to a pointer type");
 				result = false;
 			}
 		}
@@ -105,7 +105,7 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 	}
 	else
 	{
-		context_a.errors (L"Call instruction must have at least one argument");
+		context_a.errors (U"Call instruction must have at least one argument");
 		result = false;
 	}
 	return result;

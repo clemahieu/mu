@@ -16,17 +16,17 @@ bool mu::core::errors::errors::operator () ()
 	return result;
 }
 
-void mu::core::errors::errors::print (std::wostream & target_a)
+void mu::core::errors::errors::print (mu::ostream & target_a)
 {
 	target->print (target_a);
 }
 
-void mu::core::errors::errors::operator () (std::wstring error)
+void mu::core::errors::errors::operator () (mu::string error)
 {
 	(*target) (error);
 }
 
-void mu::core::errors::errors::operator () (wchar_t const * error)
+void mu::core::errors::errors::operator () (char32_t const * error)
 {
 	(*target) (error);
 }

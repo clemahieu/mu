@@ -16,7 +16,7 @@ namespace mu
 			{
 			public:
 				node (llvm::IntegerType * type_a);
-				std::wstring name () override;
+				mu::string name () override;
 				llvm::Type * type () override;
 				llvm::IntegerType * integer_type ();
 				llvm::IntegerType * type_m;

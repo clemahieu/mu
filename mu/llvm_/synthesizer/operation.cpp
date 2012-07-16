@@ -87,7 +87,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 						else
 						{
 							valid = false;
-							context_a.errors (L"Type routine returned something that wasn't a function type");
+							context_a.errors (U"Type routine returned something that wasn't a function type");
 						}
 					}
 					context_a.drop ();
@@ -167,7 +167,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 										}
 										else
 										{
-											context_a.errors (L"Body routine returned something that wasn't a value");
+											context_a.errors (U"Body routine returned something that wasn't a value");
 											valid_l = false;
 											valid = false;
 										}
@@ -200,7 +200,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 								}
 								else
 								{
-									context_a.errors (L"Error running body routine");
+									context_a.errors (U"Error running body routine");
 								}
 								context_a.drop ();
 							}
@@ -209,18 +209,18 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 					}
 					else
 					{
-						context_a.errors (L"Unable to synthesize body routines");
+						context_a.errors (U"Unable to synthesize body routines");
 					}
 				}
 				else
 				{
-					context_a.errors (L"Unable to remap cluster");
+					context_a.errors (U"Unable to remap cluster");
 				}
 			}
 		}
 		else
 		{
-			context_a.errors (L"Cluster does not contain a signature routine for every body routine");
+			context_a.errors (U"Cluster does not contain a signature routine for every body routine");
 			valid = false;
 		}
 	}

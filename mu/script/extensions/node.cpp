@@ -14,7 +14,7 @@ mu::script::extensions::node::node (mu::io::analyzer::extensions::extensions * e
 {
 }
 
-std::wstring mu::script::extensions::node::name ()
+mu::string mu::script::extensions::node::name ()
 {
-	return std::wstring (L"mu::script::extensions::node");
+	return mu::string (U"mu::script::extensions::node");
 }

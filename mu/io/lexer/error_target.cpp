@@ -19,7 +19,7 @@ bool mu::io::lexer::error_target::operator () ()
 	return result;
 }
 
-void mu::io::lexer::error_target::print (std::wostream & target_a)
+void mu::io::lexer::error_target::print (mu::ostream & target_a)
 {
 	target->print (target_a);
 }

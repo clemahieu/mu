@@ -20,14 +20,14 @@ bool mu::llvm_::basic_block::insert::operator () (mu::script::context & context_
 		}
 		else
 		{
-			context_a.errors (L"Block is not set");
+			context_a.errors (U"Block is not set");
 			result = false;
 		}
 	}
 	return result;
 }
 
-std::wstring mu::llvm_::basic_block::insert::name ()
+mu::string mu::llvm_::basic_block::insert::name ()
 {
-	return std::wstring (L"mu::llvm_::basic_block::insert");
+	return mu::string (U"mu::llvm_::basic_block::insert");
 }

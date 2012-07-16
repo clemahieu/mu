@@ -48,13 +48,13 @@ bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 					}
 					else
 					{
-						context_a.errors (L"Target does not support generation of files of this file type");
+						context_a.errors (U"Target does not support generation of files of this file type");
 						valid = false;
 					}
 				}
 				else
 				{
-					std::wstring message (error_info.begin (), error_info.end ());
+					mu::string message (error_info.begin (), error_info.end ());
 					context_a.errors (message);
 					valid = false;
 				}
@@ -73,7 +73,7 @@ bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 		}
 		else
 		{
-			std::wstring message (error.begin (), error.end ());
+			mu::string message (error.begin (), error.end ());
 			context_a.errors (message);
 			valid = false;
 		}
@@ -81,7 +81,7 @@ bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 	return valid;
 }
 
-std::wstring mu::llvm_::compile::operation::name ()
+mu::string mu::llvm_::compile::operation::name ()
 {
-	return std::wstring (L"mu::llvm_::compile::operation");
+	return mu::string (U"mu::llvm_::compile::operation");
 }

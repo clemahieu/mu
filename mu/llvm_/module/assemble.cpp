@@ -39,14 +39,15 @@ bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 			message << "): ";
 			message << diagnostic.getLineContents ();
 			std::string amessage (message.str ());
-			std::wstring converted (amessage.begin (), amessage.end ());
+			mu::string converted (amessage.begin (), amessage.end ());
 			context_a.errors (converted);
 			result = false;
 		}
 	}
 	return result;
 }
-std::wstring mu::llvm_::module::assemble::name ()
+
+mu::string mu::llvm_::module::assemble::name ()
 {
-	return std::wstring (L"mu::llvm_::module::assemble");
+	return mu::string (U"mu::llvm_::module::assemble");
 }

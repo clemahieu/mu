@@ -24,7 +24,7 @@ void mu::io::ast::builder::add (mu::io::ast::cluster * node_a)
 	cluster = node_a;
 }
 
-void mu::io::ast::builder::operator () (wchar_t char_a)
+void mu::io::ast::builder::operator () (char32_t char_a)
 {
 	lexer (char_a);
 }

@@ -14,7 +14,7 @@ TEST (io_test, hex_code1)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":aq");
+	lexer (U":aq");
 	lexer ();
 	EXPECT_EQ (result.results.empty (), true);
 	EXPECT_EQ (!errors->errors.empty (), true);
@@ -25,7 +25,7 @@ TEST (io_test, hex_code2)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (L":uq");
+	lexer (U":uq");
 	lexer ();
 	EXPECT_EQ (result.results.empty (), true);
 	EXPECT_EQ (!errors->errors.empty (), true);

@@ -15,7 +15,7 @@ TEST (script_test, loads1)
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::loads::operation);
 	ctx.push (new (GC) mu::script::extensions::node);
-	ctx.push (new (GC) mu::script::string::node (std::wstring (L"source_test.mu")));
+	ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
 	auto valid (ctx ());
 	errors.target->print (std::wcout);
     EXPECT_EQ (valid, true);
@@ -23,8 +23,8 @@ TEST (script_test, loads1)
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
 	EXPECT_NE (extensions, nullptr);
 	EXPECT_EQ (extensions->extensions->extensions_m.size (), 2);
-	auto a (extensions->extensions->extensions_m.find (std::wstring (L"a")));
+	auto a (extensions->extensions->extensions_m.find (mu::string (U"a")));
 	EXPECT_NE (a, extensions->extensions->extensions_m.end ());
-	auto b (extensions->extensions->extensions_m.find (std::wstring (L"b")));
+	auto b (extensions->extensions->extensions_m.find (mu::string (U"b")));
 	EXPECT_EQ (b, extensions->extensions->extensions_m.end ());
 }

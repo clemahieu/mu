@@ -19,9 +19,9 @@ namespace mu
 		{
 		public:
 			void operator () (mu::core::visitor * visitor_a) override;
-			std::map <std::wstring, mu::core::routine *, std::less <std::wstring>, gc_allocator <std::pair <std::wstring, mu::core::routine *>>> names;
+			std::map <mu::string, mu::core::routine *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::core::routine *>>> names;
 			std::vector <mu::core::routine *, gc_allocator <mu::core::routine *>> routines;
-			std::wstring name () override;
+            mu::string name () override;
 		};
 	}
 }

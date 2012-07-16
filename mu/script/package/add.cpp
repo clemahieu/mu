@@ -21,7 +21,7 @@ bool mu::script::package::add::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			std::wstringstream message;
+			mu::stringstream message;
 			message << L"Package already has an item named: ";
 			message << two->string;
 			context_a.errors (message.str ());
@@ -31,7 +31,7 @@ bool mu::script::package::add::operator () (mu::script::context & context_a)
 	return result;
 }
 
-std::wstring mu::script::package::add::name ()
+mu::string mu::script::package::add::name ()
 {
-	return std::wstring (L"mu::script::package::add");
+	return mu::string (U"mu::script::package::add");
 }

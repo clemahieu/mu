@@ -2,8 +2,7 @@
 
 #include <mu/io/debugging/position.h>
 #include <mu/io/lexer/state.h>
-
-#include <string>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -16,9 +15,9 @@ namespace mu
 			{
 			public:
 				identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a);
-				void lex (wchar_t character) override;
-				void add (wchar_t character);
-				std::wstring string;
+				void lex (char32_t character) override;
+				void add (char32_t character);
+				mu::string string;
 				bool lookahead;
 				mu::io::debugging::position lookahead_first;
 				mu::io::debugging::position first;

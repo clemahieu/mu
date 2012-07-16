@@ -33,13 +33,13 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 						}
 						else
 						{
-							context_a.errors (L"Last result must be a bool");
+							context_a.errors (U"Last result must be a bool");
 							result = false;
 						}
 					}
 					else
 					{
-						context_a.errors (L"Chain operation must have at least one result");
+						context_a.errors (U"Chain operation must have at least one result");
 						result = false;
 					}
 				}
@@ -54,13 +54,13 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 	}
 	else
 	{
-		context_a.errors (L"Chain operation must have at least one argument");
+		context_a.errors (U"Chain operation must have at least one argument");
 		result = false;
 	}
 	return result;
 }
 
-std::wstring mu::script::chain::operation::name ()
+mu::string mu::script::chain::operation::name ()
 {
-	return std::wstring (L"mu::script::chain::operation");
+	return mu::string (U"mu::script::chain::operation");
 }

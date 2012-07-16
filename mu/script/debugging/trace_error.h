@@ -18,7 +18,7 @@ namespace mu
 			{
 			public:				
 				trace_error (mu::script::values::operation * trace_a, mu::core::errors::error * error_a);
-				void string (std::wostream & stream) override;
+				void string (mu::ostream & stream) override;
 				mu::script::values::operation * trace;
 				mu::core::errors::error * error;
 			};

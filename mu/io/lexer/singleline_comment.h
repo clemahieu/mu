@@ -13,7 +13,7 @@ namespace mu
 			{
 			public:
 				singleline_comment (mu::io::lexer::lexer & lexer_a);
-				void lex (wchar_t character) override;
+				void lex (char32_t character) override;
 				mu::io::lexer::lexer & lexer;
 			};
 		}

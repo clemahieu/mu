@@ -12,7 +12,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				std::wstring name ();
+				mu::string name ();
 			};
 		}
 	}

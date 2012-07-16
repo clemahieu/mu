@@ -22,7 +22,7 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 		auto three (static_cast <mu::script::package::node *> (context_a.parameters (2)));
 		for (auto i (three->items.begin ()), j (three->items.end ()); i != j; ++i)
 		{
-			std::wstring name (two->string.begin (), two->string.end ());
+			mu::string name (two->string.begin (), two->string.end ());
 			name.append (i->first);
 			auto existing (one->extensions->extensions_m.find (name));
 			if (existing == one->extensions->extensions_m.end ())
@@ -31,7 +31,7 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 			}
 			else
 			{
-				std::wstringstream message;
+				mu::stringstream message;
 				message << L"Extensions already has an extension named: ";
 				message << name;
 				context_a.errors (message.str ());

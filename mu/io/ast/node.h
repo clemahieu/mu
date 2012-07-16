@@ -18,7 +18,7 @@ namespace mu
                 virtual ~node ();
 				node (mu::io::debugging::context context_a);
 				virtual void operator () (mu::io::ast::visitor * visitor_a) = 0;
-				virtual std::wstring name () = 0;
+				virtual mu::string name () = 0;
 				mu::io::debugging::context context;
 			};
 		}
