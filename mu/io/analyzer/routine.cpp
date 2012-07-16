@@ -43,7 +43,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 
 void mu::io::analyzer::routine::resolve_local (mu::string identifier, mu::core::node * node)
 {
-	if (analyzer.extensions->extensions_m.find (identifier) == analyzer.extensions->extensions_m.end ())
+	if ((*analyzer.extensions) [identifier] == nullptr)
 	{
 		if (analyzer.cluster->names.find (identifier) == analyzer.cluster->names.end ())
 		{

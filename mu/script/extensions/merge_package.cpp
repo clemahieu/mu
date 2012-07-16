@@ -24,10 +24,10 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 		{
 			mu::string name (two->string.begin (), two->string.end ());
 			name.append (i->first);
-			auto existing (one->extensions->extensions_m.find (name));
-			if (existing == one->extensions->extensions_m.end ())
+			auto existing ((*one->extensions) [name]);
+			if (existing == nullptr)
 			{
-				one->extensions->extensions_m [name] = new (GC) mu::io::analyzer::extensions::global (i->second);
+				(*one->extensions) [name] = new (GC) mu::io::analyzer::extensions::global (i->second);
 			}
 			else
 			{

@@ -60,7 +60,7 @@ void mu::repl::repl::iteration ()
 	auto stream (new (GC) mu::repl::cli_stream (std::wcin));
 	mu::io::builder builder (mu::script::api::core ()->extensions);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
-	builder.analyzer.extensions->extensions_m [mu::string (U"quit")] = new (GC) mu::io::analyzer::extensions::global (quit);
+	(*builder.analyzer.extensions) [mu::string (U"quit")] = new (GC) mu::io::analyzer::extensions::global (quit);
 	builder.parser (new (GC) mu::io::tokens::left_square (), mu::io::debugging::context ());
 	builder (stream);
 	builder (L']');

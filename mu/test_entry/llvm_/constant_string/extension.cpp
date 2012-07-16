@@ -42,7 +42,7 @@ TEST (llvm_test, constant_string_extension1)
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
-	analyzer.extensions->extensions_m [U"`"] = new (GC) mu::llvm_::constant_string::extension (module);
+	(*analyzer.extensions) [U"`"] = new (GC) mu::llvm_::constant_string::extension (module);
 	mu::io::analyzer::expression exp (rout, expression, self);
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 }

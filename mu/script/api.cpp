@@ -36,34 +36,34 @@
 mu::script::extensions::node * mu::script::api::core ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	result->extensions->extensions_m [mu::string (U"~")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
-	result->extensions->extensions_m [mu::string (U"`")] = new (GC) mu::script::string::extension;
-	result->extensions->extensions_m [mu::string (U"`a")] = new (GC) mu::script::astring::extension;
-	result->extensions->extensions_m [mu::string (U"#")] = new (GC) mu::script::integer::extension;
-	result->extensions->extensions_m [mu::string (U".ast")] = new (GC) mu::script::ast::extension;
-	result->extensions->extensions_m [mu::string (U".apply")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::closure::create_single);
+	(*result->extensions) [mu::string (U"~")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
+	(*result->extensions) [mu::string (U"`")] = new (GC) mu::script::string::extension;
+	(*result->extensions) [mu::string (U"`a")] = new (GC) mu::script::astring::extension;
+	(*result->extensions) [mu::string (U"#")] = new (GC) mu::script::integer::extension;
+	(*result->extensions) [mu::string (U".ast")] = new (GC) mu::script::ast::extension;
+	(*result->extensions) [mu::string (U".apply")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::closure::create_single);
 	return result;
 }
 
 mu::script::extensions::node * mu::script::api::full ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	result->extensions->extensions_m [mu::string (U"identity")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
-	result->extensions->extensions_m [mu::string (U"ast/read_from_file")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::read_from_file);
-	result->extensions->extensions_m [mu::string (U"ast/merge")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::merge);
-	result->extensions->extensions_m [mu::string (U"astring/truncate")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::astring::truncate);
-	result->extensions->extensions_m [mu::string (U"bool_c/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::create);
-	result->extensions->extensions_m [mu::string (U"bool_c/equal")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::equal);
-	result->extensions->extensions_m [mu::string (U"chain/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::chain::operation);
-	result->extensions->extensions_m [mu::string (U"extensions/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::create);
-	result->extensions->extensions_m [mu::string (U"extensions/merge_package")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::merge_package);
-	result->extensions->extensions_m [mu::string (U"integer/equal")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::equal);
-	result->extensions->extensions_m [mu::string (U"integer/subtract")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::subtract);
-	result->extensions->extensions_m [mu::string (U"print/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::print::operation);
-	result->extensions->extensions_m [mu::string (U"package/add")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::add);
-	result->extensions->extensions_m [mu::string (U"package/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::create);
-	result->extensions->extensions_m [mu::string (U"package/get")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::get);
-	result->extensions->extensions_m [mu::string (U"package/remove")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::remove);
-	result->extensions->extensions_m [mu::string (U"times/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::times::operation);
+	(*result->extensions) [mu::string (U"identity")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
+	(*result->extensions) [mu::string (U"ast/read_from_file")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::read_from_file);
+	(*result->extensions) [mu::string (U"ast/merge")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::merge);
+	(*result->extensions) [mu::string (U"astring/truncate")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::astring::truncate);
+	(*result->extensions) [mu::string (U"bool_c/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::create);
+	(*result->extensions) [mu::string (U"bool_c/equal")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::equal);
+	(*result->extensions) [mu::string (U"chain/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::chain::operation);
+	(*result->extensions) [mu::string (U"extensions/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::create);
+	(*result->extensions) [mu::string (U"extensions/merge_package")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::merge_package);
+	(*result->extensions) [mu::string (U"integer/equal")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::equal);
+	(*result->extensions) [mu::string (U"integer/subtract")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::subtract);
+	(*result->extensions) [mu::string (U"print/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::print::operation);
+	(*result->extensions) [mu::string (U"package/add")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::add);
+	(*result->extensions) [mu::string (U"package/create")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::create);
+	(*result->extensions) [mu::string (U"package/get")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::get);
+	(*result->extensions) [mu::string (U"package/remove")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::remove);
+	(*result->extensions) [mu::string (U"times/operation")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::times::operation);
 	return result;
 }

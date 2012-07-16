@@ -25,7 +25,7 @@ TEST (io_test, extension1)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	extensions->extensions_m [mu::string (U"a")] = new (GC) mu::io_test::extension1;
+	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension1;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -44,7 +44,7 @@ TEST (io_test, extension2)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	extensions->extensions_m [mu::string (U"a")] = new (GC) mu::io_test::extension2;
+	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension2;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -63,7 +63,7 @@ TEST (io_test, extension3)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	extensions->extensions_m [mu::string (U"a")] = new (GC) mu::io_test::extension3;
+	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension3;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -82,7 +82,7 @@ TEST (io_test, extension4)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	extensions->extensions_m [mu::string (U"a")] = new (GC) mu::io_test::extension4;
+	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension4;
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));

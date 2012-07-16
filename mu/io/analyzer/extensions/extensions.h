@@ -23,6 +23,8 @@ namespace mu
                     virtual ~extensions ();
 					extensions ();
 					extensions (std::map <mu::string, mu::io::analyzer::extensions::extension *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::io::analyzer::extensions::extension *>>> extensions_a);
+                    mu::io::analyzer::extensions::extension * & operator [] (mu::string const & string);
+                private:
 					std::map <mu::string, mu::io::analyzer::extensions::extension *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::io::analyzer::extensions::extension *>>> extensions_m;
 				};
 			}

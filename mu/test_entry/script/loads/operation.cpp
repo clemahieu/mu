@@ -22,9 +22,8 @@ TEST (script_test, loads1)
 	EXPECT_EQ (ctx.working_size (), 1);
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
 	EXPECT_NE (extensions, nullptr);
-	EXPECT_EQ (extensions->extensions->extensions_m.size (), 2);
-	auto a (extensions->extensions->extensions_m.find (mu::string (U"a")));
-	EXPECT_NE (a, extensions->extensions->extensions_m.end ());
-	auto b (extensions->extensions->extensions_m.find (mu::string (U"b")));
-	EXPECT_EQ (b, extensions->extensions->extensions_m.end ());
+	auto a ((*extensions->extensions) [mu::string (U"a")]);
+	EXPECT_NE (a, nullptr);
+	auto b ((*extensions->extensions) [mu::string (U"b")]);
+	EXPECT_EQ (b, nullptr);
 }

@@ -98,8 +98,8 @@ void mu::io::analyzer::analyzer::back_resolve (mu::string name_a, mu::core::node
 void mu::io::analyzer::analyzer::resolve_routine (mu::string name_a, mu::core::routine * routine_a)
 {
 	assert (!name_a.empty ());
-	auto keyword (extensions->extensions_m.find (name_a));
-	if (keyword == extensions->extensions_m.end ())
+	auto keyword ((*extensions) [name_a]);
+	if (keyword == nullptr)
 	{
 		auto existing (used_names.find (name_a));
 		if (existing == used_names.end ())

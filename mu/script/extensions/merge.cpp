@@ -16,14 +16,14 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
 		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto three (static_cast <mu::script::extensions::node *> (context_a.parameters (2)));
-		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
+/*		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
 		{
 			mu::string name (two->string.begin (), two->string.end ());
 			name.append (i->first);
-			auto existing (one->extensions->extensions_m.find (name));
-			if (existing == one->extensions->extensions_m.end ())
+			auto existing ((*one->extensions) [name]);
+			if (existing == nullptr)
 			{
-				one->extensions->extensions_m [name] = i->second;
+				(*one->extensions) [name] = i->second;
 			}
 			else
 			{
@@ -33,7 +33,7 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 				context_a.errors (message.str ());
 				result = false;
 			}
-		}
+		}*/
 	}
 	return result;
 }

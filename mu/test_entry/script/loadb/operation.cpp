@@ -60,10 +60,9 @@ TEST (script_test, loadb2)
     auto ext (ctx.working (0));
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ext));
 	ASSERT_NE (extensions, nullptr);
-	EXPECT_EQ (extensions->extensions->extensions_m.size (), 1);
-	auto existing (extensions->extensions->extensions_m.find (mu::string (U"identity")));
-	EXPECT_NE (existing, extensions->extensions->extensions_m.end ());
-	auto value (dynamic_cast <mu::io::analyzer::extensions::global *> (existing->second));
+	auto existing ((*extensions->extensions) [mu::string (U"identity")]);
+	EXPECT_NE (existing, nullptr);
+	auto value (dynamic_cast <mu::io::analyzer::extensions::global *> (existing));
 	EXPECT_NE (value, nullptr);
 	auto identity (dynamic_cast <mu::script::identity::operation *> (value->node));
 	EXPECT_NE (identity, nullptr);

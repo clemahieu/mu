@@ -50,7 +50,7 @@ TEST (llvm_test, instruction_package1)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	b2.analyzer.extensions->extensions_m [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
+	(*b2.analyzer.extensions) [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
 	b2 (U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
@@ -94,7 +94,7 @@ TEST (llvm_test, instruction_package2)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	b2.analyzer.extensions->extensions_m [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
+	(*b2.analyzer.extensions) [mu::string (U"add")] = new (GC) mu::io::analyzer::extensions::global (ctx.working (0));
 	b2 (U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	b2 ();
 	EXPECT_EQ (b2.errors->errors.empty (), true);
