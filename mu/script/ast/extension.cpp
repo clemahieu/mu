@@ -9,8 +9,9 @@
 
 #include <gc_cpp.h>
 
-void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
+    assert (remaining.empty ());
 	size_t position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
 	{
@@ -22,6 +23,11 @@ void mu::script::ast::extension::operator () (mu::core::errors::error_target * e
 	{
 		(*errors_a) (U"AST extension requires at least one argument");
 	}
+}
+
+bool mu::script::ast::extension::operator () ()
+{
+    return false;
 }
 
 mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error_target * errors_a, mu::io::ast::node * node_a)

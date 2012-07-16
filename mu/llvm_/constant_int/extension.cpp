@@ -23,8 +23,9 @@ mu::llvm_::constant_int::extension::extension (mu::llvm_::context::node * contex
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
+void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
+    assert (remaining.empty ());
 	auto bits_position (expression_a.position + 1);
 	auto number_position (expression_a.position + 2);
 	if (expression_a.expression_m->values.size () > number_position)
@@ -80,4 +81,9 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 	{
 		(*errors_a) (U"Constant_int extension requires two arguments");
 	}
+}
+
+bool mu::llvm_::constant_int::extension::operator () ()
+{
+    return false;
 }

@@ -13,8 +13,9 @@
 
 #include <gc_cpp.h>
 
-void mu::script::astring::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
+void mu::script::astring::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {	
+    assert (remaining.empty ());
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
 	if (expression_a.expression_m->values.size () > data_position)
@@ -34,4 +35,9 @@ void mu::script::astring::extension::operator () (mu::core::errors::error_target
 	{
 		(*errors_a) (U"AString extension requires one argument");
 	}
+}
+
+bool mu::script::astring::extension::operator () ()
+{
+    return false;
 }

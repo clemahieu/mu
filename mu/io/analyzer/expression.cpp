@@ -60,7 +60,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expres
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identifier_a)
 {
-	auto keyword ((*routine.analyzer.extensions) [identifier_a->string]);
+	auto keyword ((*routine.analyzer.extensions) (identifier_a->string));
 	if (keyword == nullptr)
 	{
 		auto local (routine.declarations.find (identifier_a->string));
@@ -88,7 +88,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 		assert (routine.declarations.find (identifier_a->string) == routine.declarations.end ());
 		assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
 		auto errors_l (new (GC) mu::core::errors::error_context (routine.analyzer.errors, identifier_a->context));
-		(*keyword) (errors_l, *this);
+		(*keyword) (errors_l, *this, mu::string ());
 	}
 }
 

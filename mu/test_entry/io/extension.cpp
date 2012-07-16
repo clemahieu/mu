@@ -12,6 +12,7 @@
 #include <mu/core/routine.h>
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
+#include <mu/core/errors/error.h>
 
 #include <boost/bind.hpp>
 
@@ -25,15 +26,15 @@ TEST (io_test, extension1)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension1;
+	(*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension1);
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_EQ (result.errors->errors.empty (), true);
-	EXPECT_EQ (result.clusters.size (), 1);
+	EXPECT_TRUE (result.errors->errors.empty ());
+	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
@@ -44,15 +45,15 @@ TEST (io_test, extension2)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension2;
+	(*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension2);
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_EQ (result.errors->errors.empty (), true);
-	EXPECT_EQ (result.clusters.size (), 1);
+	EXPECT_TRUE (result.errors->errors.empty ());
+	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
@@ -63,15 +64,15 @@ TEST (io_test, extension3)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension3;
+	(*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension3);
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_EQ (result.errors->errors.empty (), true);
-	EXPECT_EQ (result.clusters.size (), 1);
+	EXPECT_TRUE (result.errors->errors.empty ());
+	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
@@ -82,7 +83,7 @@ TEST (io_test, extension4)
 {	
 	mu::io_test::analyzer_result result;
 	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	(*extensions) [mu::string (U"a")] = new (GC) mu::io_test::extension4;
+	(*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension4);
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -90,8 +91,8 @@ TEST (io_test, extension4)
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_EQ (result.errors->errors.empty (), true);
-	EXPECT_EQ (result.clusters.size (), 1);
+	EXPECT_TRUE (result.errors->errors.empty ());
+	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);

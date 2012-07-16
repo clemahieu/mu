@@ -11,8 +11,9 @@
 
 #include <gc_cpp.h>
 
-void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a)
+void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
+    assert (remaining.empty ());
 	auto position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > position)
 	{
@@ -35,4 +36,9 @@ void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * 
 	{
 		(*errors_a) (U"APInt extension requires at least one argument");
 	}
+}
+
+bool mu::llvm_::apint::extension::operator () ()
+{
+    return false;
 }

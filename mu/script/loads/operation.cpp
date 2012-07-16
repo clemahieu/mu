@@ -44,7 +44,7 @@ mu::script::extensions::node * mu::script::loads::operation::core (mu::script::c
 		{
 			for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
 			{
-				(*result->extensions) [i->first] = new (GC) mu::io::analyzer::extensions::global (i->second);
+				(*result->extensions) (i->first, new (GC) mu::io::analyzer::extensions::global (i->second));
 			}
 		}
 	}

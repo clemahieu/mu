@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -22,7 +22,8 @@ namespace mu
 				{
 				public:
                     virtual ~extension ();
-					virtual void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a) = 0;
+                    virtual bool operator () () = 0;
+					virtual void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) = 0;
 				};
 			}
 		}

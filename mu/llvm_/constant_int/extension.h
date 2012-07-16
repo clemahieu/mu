@@ -16,7 +16,8 @@ namespace mu
 			{
 			public:
 				extension (mu::llvm_::context::node * context_a);
-				void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a) override;
+                bool operator () () override;
+				void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
 				mu::llvm_::context::node * context;
 			};
 		}

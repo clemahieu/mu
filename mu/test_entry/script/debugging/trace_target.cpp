@@ -24,12 +24,12 @@ TEST (script_test, trace_target1)
 	mu::core::errors::errors errors (new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	context.errors = errors;
 	mu::script::builder builder;
-	(*builder.analyzer.extensions) [U"fail"] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation);
+	(*builder.analyzer.extensions) (mu::string (U"fail"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation));
 	builder (U"[fail]");
 	builder ();
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	ASSERT_TRUE (builder.errors->errors.empty ());
 	auto cluster (builder.cluster);
-	EXPECT_EQ (cluster->routines.size (), 1);
+	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	context.push (routine);
 	auto valid (context ());
