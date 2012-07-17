@@ -34,6 +34,7 @@ add_executable (mu_test_entry
 	io/extension2.cpp
 	io/extension3.cpp
 	io/extension4.cpp
+    io/extension5.cpp
 	io/full.cpp
 	io/hex_code.cpp
 	io/istream_input_test.cpp

@@ -1,4 +1,4 @@
-#include "extension4.h"
+#include <mu/test_entry/io/extension4.h>
 
 #include <mu/io/analyzer/expression.h>
 #include <mu/core/expression.h>
