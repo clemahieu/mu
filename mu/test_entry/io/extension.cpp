@@ -129,3 +129,16 @@ TEST (io_test, extension6)
     auto exists ((*extensions) (mu::string (U"a")));
     EXPECT_TRUE (exists == nullptr);
 }
+
+// Check that an extension can be inserted dominated by a non-owning extension
+TEST (io_test, extension7)
+{	
+	mu::io_test::analyzer_result result;
+	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
+	auto failed ((*extensions) (mu::string (U"ab"), new (GC) mu::io_test::extension5));
+    EXPECT_TRUE (!failed);
+    auto failed2 ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension1));
+    EXPECT_TRUE (!failed2);
+    auto exists ((*extensions) (mu::string (U"a")));
+    EXPECT_TRUE (exists != nullptr);
+}

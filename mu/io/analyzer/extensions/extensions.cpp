@@ -1,5 +1,8 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 
+#include <mu/io/analyzer/extensions/extension.h>
+#include <boost/algorithm/string.hpp>
+
 mu::io::analyzer::extensions::extensions::extensions ()
 {
 }
@@ -26,8 +29,23 @@ mu::io::analyzer::extensions::extension * mu::io::analyzer::extensions::extensio
 
 bool mu::io::analyzer::extensions::extensions::operator () (mu::string const & string, mu::io::analyzer::extensions::extension * extension)
 {
-    auto existing (extensions_m.find (string));
-    bool result (existing != extensions_m.end ());
+    auto existing (extensions_m.lower_bound (string));
+    bool result (false);
+    if ((*extension) ())
+    {
+        if (existing != extensions_m.end ())
+        {
+            result = boost::starts_with (existing->first, string);
+        }
+    }
+    if (existing != extensions_m.begin ())
+    {
+        --existing;
+        if ((*existing->second) ())
+        {
+            result = boost::starts_with (string, existing->first);
+        }
+    }
     if (!result)
     {
         extensions_m [string] = extension;
