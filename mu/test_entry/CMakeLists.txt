@@ -73,7 +73,6 @@ add_executable (mu_test_entry
 	script/times/operation.cpp
 	script/topology/core.cpp
 	script/type_check/operation.cpp
-	repl/file_stream_test.cpp
 	llvm_/extension.cpp
 	llvm_/instruction_package.cpp
 	llvm_/basic_block/insert.cpp

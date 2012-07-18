@@ -12,6 +12,7 @@ namespace mu
 		{
 		public:
 			cli_stream (std::wistream & source_a);
+            bool operator () (size_t first, size_t last, mu::string & target) override;
 			char32_t operator () () override;
 			std::wistream & source;
 			bool end;

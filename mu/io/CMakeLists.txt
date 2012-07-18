@@ -25,6 +25,7 @@ add_library (mu_io STATIC
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp
+    lexer/context.cpp
 	lexer/control.cpp
 	lexer/error.cpp
 	lexer/error_target.cpp

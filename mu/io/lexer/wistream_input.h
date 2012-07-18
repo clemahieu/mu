@@ -13,6 +13,7 @@ namespace mu
 			{
 			public:
 				wistream_input(std::wistream & source_a);
+                bool operator () (size_t first, size_t last, mu::string & target) override;
 				char32_t operator () () override;
 			private:
                 std::wistream & source;

@@ -11,6 +11,7 @@ namespace mu
 			class character_stream : public mu::core::node
 			{
 			public:
+                virtual bool operator () (size_t first, size_t last, mu::string & target) = 0;
 				virtual char32_t operator () () = 0;
 			};
 		}

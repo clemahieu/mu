@@ -10,9 +10,12 @@ namespace mu
 {
 	namespace io
 	{
+        namespace lexer
+        {
+            class character_stream;
+        }
 		namespace debugging
 		{
-			class stream;
 			class context
 			{
 			public:

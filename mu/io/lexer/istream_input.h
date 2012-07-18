@@ -14,6 +14,7 @@ namespace mu
 			{
 			public:
 				istream_input (std::istream & source_a);
+                bool operator () (size_t first, size_t last, mu::string & target) override;
 				char32_t operator () () override;
 			private:
 				std::istream & source;

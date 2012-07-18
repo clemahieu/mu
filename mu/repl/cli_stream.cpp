@@ -19,3 +19,9 @@ char32_t mu::repl::cli_stream::operator () ()
 	}
 	return result;
 }
+
+bool mu::repl::cli_stream::operator () (size_t first, size_t last, mu::string & target)
+{
+    bool result (true);
+    return result;
+}
