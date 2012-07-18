@@ -17,13 +17,13 @@ char32_t mu::io::lexer::stream_input::operator () ()
 	return result;
 }
 
-bool mu::io::lexer::stream_input::operator () (size_t const first, size_t const last, mu::string & target)
+bool mu::io::lexer::stream_input::operator () (size_t const first, size_t const size, mu::string & target)
 {
-    bool result (false);
     auto original (source.tellg ());
     source.seekg (first, std::ios_base::beg);
-    std::vector <char32_t> data (last - first + 1);
-    source.read (data.data (), last - first + 1);
+    std::vector <char32_t> data (size);
+    source.read (data.data (), size);
+    bool result (source.fail () || source.eof ());
     source.seekg (original);
     target.assign (data.begin (), data.end ());
     return result;
