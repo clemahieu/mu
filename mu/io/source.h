@@ -18,8 +18,7 @@ namespace mu
 			void operator () (mu::string & string);
 			void operator () (mu::string const & string);
 			void operator () (char32_t const * string);
-			void operator () (mu::io::lexer::character_stream * source);
-            void operator << (mu::io::lexer::character_stream * source);
+            void operator () (mu::io::lexer::character_stream * source);
             void process_string (mu::string const & string);
 		};
 	}
