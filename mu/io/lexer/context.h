@@ -11,6 +11,7 @@ namespace mu
             class character_stream;
             class context
             {
+            public:
                 mu::io::debugging::context context;
                 char32_t character;
             };            
