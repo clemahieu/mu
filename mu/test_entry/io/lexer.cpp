@@ -16,22 +16,12 @@
 
 #include <gc_cpp.h>
 
-TEST (io_test, lexer1)
-{
-	mu::io_test::lexer_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"");
-	EXPECT_EQ (result.results.empty (), true);
-}
-
 TEST (io_test, lexer2)
 {
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"");
-	lexer ();
+	mu::io::process (lexer, U"");
 	EXPECT_EQ (result.results.size (), 1);
 	auto t1 (result.results [0]);
 	EXPECT_NE (dynamic_cast <mu::io::tokens::stream_end *> (t1.first), nullptr);
@@ -48,8 +38,7 @@ TEST (io_test, lexer3)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"a[];");
-	lexer ();
+	mu::io::process (lexer, U"a[];");
 	EXPECT_EQ (result.results.size (), 5);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
@@ -101,8 +90,7 @@ TEST (io_test, lexer4)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"{}");
-	lexer ();
+	mu::io::process (lexer, U"{}");
 	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
@@ -129,8 +117,7 @@ TEST (io_test, lexer5)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"{a}a");
-	lexer ();
+	mu::io::process (lexer, U"{a}a");
 	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
@@ -157,8 +144,7 @@ TEST (io_test, lexer6)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"{a}{};[]:a");
-	lexer ();
+	mu::io::process (lexer, U"{a}{};[]:a");
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
@@ -185,8 +171,7 @@ TEST (io_test, lexer7)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"{:a}{};[]:a");
-	lexer ();
+	mu::io::process (lexer, U"{:a}{};[]:a");
 	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t2 (result.results [1]);
@@ -213,8 +198,7 @@ TEST (io_test, lexer8)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":- a\nb");
-	lexer ();
+	mu::io::process (lexer, U":- a\nb");
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
@@ -241,8 +225,7 @@ TEST (io_test, lexer9)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":( a :) b");
-	lexer ();
+	mu::io::process (lexer, U":( a :) b");
 	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
@@ -269,8 +252,7 @@ TEST (io_test, lexer10)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":(:( a :):) b");
-	lexer ();
+	mu::io::process (lexer, U":(:( a :):) b");
 	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1.first));
@@ -296,8 +278,8 @@ TEST (io_test, lexer11)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":~");
-	ASSERT_TRUE (result.results.size () == 1);
+	mu::io::process (lexer, U":~");
+	ASSERT_TRUE (result.results.size () == 2);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::parameters *> (t1.first));
 	EXPECT_NE (t1i, nullptr);
@@ -314,8 +296,8 @@ TEST (io_test, lexer12)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":~]");
-	EXPECT_EQ (result.results.size (), 2);
+	mu::io::process (lexer, U":~]");
+	EXPECT_EQ (result.results.size (), 3);
 	auto t1 (result.results [0]);
 	auto t1i (dynamic_cast <mu::io::tokens::parameters *> (t1.first));
 	EXPECT_NE (t1i, nullptr);
@@ -341,8 +323,7 @@ TEST (io_test, lexer13)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":a20");
-	lexer ();
+	mu::io::process (lexer, U":a20");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -362,8 +343,7 @@ TEST (io_test, lexer14)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"thing:a20");
-	lexer ();
+	mu::io::process (lexer, U"thing:a20");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -383,8 +363,7 @@ TEST (io_test, lexer15)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":a20thing");
-	lexer ();
+	mu::io::process (lexer, U":a20thing");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -404,8 +383,7 @@ TEST (io_test, lexer16)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":u00000020");
-	lexer ();
+	mu::io::process (lexer, U":u00000020");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -425,8 +403,7 @@ TEST (io_test, lexer17)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"thing:u00000020");
-	lexer ();
+	mu::io::process (lexer, U"thing:u00000020");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -446,8 +423,7 @@ TEST (io_test, lexer18)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":u00000020thing");
-	lexer ();
+	mu::io::process (lexer, U":u00000020thing");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -467,8 +443,7 @@ TEST (io_test, lexer19)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U":a7C:a3A:a3b:a5b:a5d");
-	lexer ();
+	mu::io::process (lexer, U":a7C:a3A:a3b:a5b:a5d");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 2);
 	auto t1 (result.results [0]);
@@ -488,8 +463,7 @@ TEST (io_test, lexer20)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"thing:~a");
-	lexer ();
+	mu::io::process (lexer, U"thing:~a");
 	EXPECT_EQ (errors->errors.empty (), true);
 	EXPECT_EQ (result.results.size (), 4);
 	auto t1 (result.results [0]);
@@ -537,7 +511,6 @@ TEST (io_test, lexer21)
 	mu::io_test::lexer_result result;
 	auto errors (new (GC) mu::core::errors::error_list);
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
-	lexer (U"\r \rthing thing\r \r[ [\r \r] ]\r \r:~ :~\r \r:a50 :a50\r \r:u00000050 :u00000050\r \r; ;\r");
-	lexer ();
+	mu::io::process (lexer, U"\r \rthing thing\r \r[ [\r \r] ]\r \r:~ :~\r \r:a50 :a50\r \r:u00000050 :u00000050\r \r; ;\r");
     EXPECT_EQ (result.results.size (), 15);
 }

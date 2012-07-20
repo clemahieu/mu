@@ -10,6 +10,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
+#include <mu/io/source.cpp>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -47,10 +48,8 @@ mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & 
 	stream.open (path.string ().c_str ());
 	if (stream.is_open ())		
 	{
-		auto input (new (GC) mu::io::lexer::istream_input (stream));
 		mu::io::ast::builder builder;
-		builder (input);
-		builder ();
+        mu::io::process (builder, stream);
 		if (builder.errors->errors.empty ())
 		{
 			result = builder.cluster;

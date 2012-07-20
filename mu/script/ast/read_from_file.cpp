@@ -7,6 +7,7 @@
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
 #include <mu/core/errors/string_error.h>
+#include <mu/io/source.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -29,10 +30,8 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 		stream.open (path.string ().c_str ());
 		if (stream.is_open ())
 		{
-			auto input (new (GC) mu::io::lexer::istream_input (stream));
 			mu::io::builder builder;
-			builder (input);
-			builder ();
+            mu::io::process (builder, stream);
 			if (builder.errors->errors.empty ())
 			{
 				if (builder.cluster != nullptr)

@@ -40,8 +40,7 @@ TEST (llvm_test, synthesizer_operation1)
 	auto extensions (extensions_ptr);
 	auto context (context_ptr);
 	mu::io::builder builder (extensions->extensions);
-	builder (U"");
-	builder ();
+	mu::io::process (builder, U"");
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -85,8 +84,7 @@ TEST (llvm_test, synthesizer_operation2)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t .. i32] [add #i 32 d1 #i 32 d1]");
-	builder ();
+	mu::io::process (builder, U"[fun-t .. i32] [add #i 32 d1 #i 32 d1]");
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -139,8 +137,7 @@ TEST (llvm_test, synthesizer_operation3)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t i32 .. i32] [~ :~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t i32 .. i32] [~ :~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -185,8 +182,7 @@ TEST (llvm_test, synthesizer_operation4)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t i32 i32 .. i32] [add :~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t i32 i32 .. i32] [add :~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -231,8 +227,7 @@ TEST (llvm_test, synthesizer_operation5)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));	
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t] [~ :~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t] [~ :~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -277,8 +272,7 @@ TEST (llvm_test, synthesizer_operation6)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t i32 i16 .. i32 i16] [~ :~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t i32 i16 .. i32 i16] [~ :~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -323,8 +317,7 @@ TEST (llvm_test, synthesizer_operation7)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t i32 [ptr i32]] [store :~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t i32 [ptr i32]] [store :~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -369,8 +362,7 @@ TEST (llvm_test, synthesizer_operation8)
 	auto context_p (static_cast <mu::llvm_::context::node *> (context->values [0]));
 	auto module_p (static_cast <mu::llvm_::module::node *> (context->values [1]));
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t i32 [ptr i32]] [~ [store :~] [store :~]]");
-	builder ();
+	mu::io::process (builder, U"[fun-t i32 [ptr i32]] [~ [store :~] [store :~]]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -447,8 +439,7 @@ TEST (llvm_test, synthesizer_operation9)
 	code << U"[fun-t i32 i32 .. i32] [urem :~]";
 	code << U"[fun-t i32 i32 .. i32] [xor :~]";
 	code << U"[fun-t i32 .. i64] [zext :~ i64]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -496,8 +487,7 @@ TEST (llvm_test, synthesizer_operation10)
 	mu::stringstream code;
 	code << U"[fun-t .. [ptr [fun-t]]] [~ 2 ;; 1]";
 	code << U"[fun-t] [~ ;; 2]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -553,8 +543,7 @@ TEST (llvm_test, synthesizer_operation11)
 	mu::stringstream code;
 	code << U"[fun-t .. i32] [call 2 ;; 1]";
 	code << U"[fun-t .. i32] [~ #i 32 d42 ;; 2]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -613,8 +602,7 @@ TEST (llvm_test, synthesizer_operation12)
 	module_p->module = module;		
 	mu::stringstream code;
 	code << U"[fun-t .. [ptr i16]] [~ ` test_string]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	auto ast (builder.cluster);
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
@@ -639,8 +627,7 @@ TEST (llvm_test, synthesizer_operation13)
 	mu::stringstream code;
 	code << U"[fun-t] [call 2 [call 2];; 1]";
 	code << U"[fun-t] [~ ;; 2]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -697,8 +684,7 @@ TEST (llvm_test, synthesizer_operation14)
 	code << U"[fun-t] [call 3 [call 2];; 1]";
 	code << U"[fun-t .. i16 i16] [~ #i 16 d0 #i 16 d0;; 2]";
 	code << U"[fun-t i16 i16] [~ ;; 3]";
-	builder (code.str ());
-	builder ();
+	mu::io::process (builder, code.str ());
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);
@@ -753,8 +739,7 @@ TEST (llvm_test, synthesizer_operation15)
 	auto extensions (extensions_ptr);
 	auto context (context_ptr);
 	mu::io::builder builder (extensions->extensions);
-	builder (U"[fun-t add] [~]");
-	builder ();
+	mu::io::process (builder, U"[fun-t add] [~]");
 	EXPECT_TRUE (builder.errors->errors.empty ());
 	llvm::LLVMContext context_l;
 	auto ast (builder.cluster);

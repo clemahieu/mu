@@ -25,8 +25,7 @@ TEST (script_test, trace_target1)
 	context.errors = errors;
 	mu::script::builder builder;
 	(*builder.analyzer.extensions) (mu::string (U"fail"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation));
-	builder (U"[fail]");
-	builder ();
+	mu::io::process (builder, U"[fail]");
 	ASSERT_TRUE (builder.errors->errors.empty ());
 	auto cluster (builder.cluster);
 	ASSERT_TRUE (cluster->routines.size () == 1);

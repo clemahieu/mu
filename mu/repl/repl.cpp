@@ -21,6 +21,7 @@
 #include <mu/io/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/api.h>
+#include <mu/io/lexer/stream_input.h>
 #include <mu/core/routine.h>
 
 #include <gc_cpp.h>
@@ -57,14 +58,15 @@ void mu::repl::repl::stop ()
 void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
-	auto stream (new (GC) mu::repl::cli_stream (std::wcin));
 	mu::io::builder builder (mu::script::api::core ()->extensions);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	(*builder.analyzer.extensions) (mu::string (U"quit"), new (GC) mu::io::analyzer::extensions::global (quit));
-	builder.parser (new (GC) mu::io::tokens::left_square (), mu::io::debugging::context ());
-	builder (stream);
-	builder (L']');
-	builder ();
+    std::wstring line;
+    line.push_back (L'[');
+    std::wcin >> line;
+    line.push_back (L']');
+    mu::string text (line.begin (), line.end ());
+    mu::io::process (builder, text);
 	if (builder.errors->errors.empty ())
 	{
 		if (builder.cluster != nullptr)

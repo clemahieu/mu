@@ -1,18 +1,15 @@
 #pragma once
 
-#include <mu/io/source.h>
-
 #include <vector>
 
 namespace mu
 {
 	namespace io_test
 	{
-		class source_result : mu::io::source
+		class source_result
 		{
 		public:
-			using mu::io::source::operator ();
-			void operator () (char32_t char_a) override;
+			void operator () (char32_t char_a);
 			std::vector <char32_t> results;
 		};
 	}

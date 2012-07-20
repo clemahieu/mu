@@ -1,7 +1,6 @@
 #pragma once
 
 #include <mu/io/debugging/context.h>
-#include <mu/io/source.h>
 
 #include <boost/function.hpp>
 #include <boost/shared_ptr.hpp>
@@ -37,7 +36,7 @@ namespace mu
 			class singleline_comment;
 			class control;
 			class error;
-			class lexer : mu::io::source
+			class lexer
 			{
 				friend class mu::io::lexer::begin;
 				friend class mu::io::lexer::complex_identifier;
@@ -46,9 +45,8 @@ namespace mu
 				friend class mu::io::lexer::singleline_comment;
 				friend class mu::io::lexer::control;
 			public:
-				using mu::io::source::operator ();
 				lexer (mu::core::errors::error_target * errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
-				void operator () (char32_t char_a) override;
+				void operator () (char32_t char_a);
 				void reset ();
 				mu::io::debugging::position position;
 				mu::core::errors::error_target * errors;

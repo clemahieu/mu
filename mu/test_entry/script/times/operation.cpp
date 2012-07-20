@@ -64,8 +64,7 @@ TEST (script_test, times_operation2)
 TEST (script_test, times_operation3)
 {	
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	builder (U"[[~ :~; subtract number amount] ~ subtract [subtract number amount] amount]");
-	builder ();
+	mu::io::process (builder, U"[[~ :~; subtract number amount] ~ subtract [subtract number amount] amount]");
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);

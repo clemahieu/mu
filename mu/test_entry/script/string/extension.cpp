@@ -12,23 +12,20 @@
 TEST (script_test, string_extension1)
 {
 	mu::io::builder builder (mu::script::api::core ()->extensions);
-	builder (U"[` ;; 1]");
-	builder ();
+	mu::io::process (builder, U"[` ;; 1]");
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
 }
 
 TEST (script_test, string_extension2)
 {
 	mu::io::builder builder (mu::script::api::core ()->extensions);
-	builder (U"[`[] ;; 1]");
-	builder ();
+	mu::io::process (builder, U"[`[] ;; 1]");
 	EXPECT_EQ (!builder.errors->errors.empty (), true);
 }
 
 TEST (script_test, string_extension3)
 {
 	mu::io::builder builder (mu::script::api::core ()->extensions);
-	builder (U"[` a ;; 1]");
-	builder ();
+	mu::io::process (builder, U"[` a ;; 1]");
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 }

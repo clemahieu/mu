@@ -3,7 +3,6 @@
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/parser/parser.h>
 #include <mu/io/lexer/lexer.h>
-#include <mu/io/source.h>
 
 namespace mu
 {
@@ -30,13 +29,12 @@ namespace mu
         {
             class node;
         }
-        class builder : mu::io::source
+        class builder
         {
         public:
-			using mu::io::source::operator ();
 			builder ();
 			builder (mu::io::analyzer::extensions::extensions * extensions_a);
-			void operator () (char32_t char_a) override;
+			void operator () (char32_t char_a);
 			mu::core::errors::error_list * errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;

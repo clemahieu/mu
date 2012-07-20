@@ -29,8 +29,7 @@ static void junk (mu::core::cluster * cluster_a)
 TEST (llvm_test, constant_string_extension1)
 {
 	mu::io::ast::builder builder;
-	builder (U"[` test_string]");
-	builder ();
+	mu::io::process (builder, U"[` test_string]");
 	EXPECT_EQ (builder.errors->errors.empty (), true);
 	auto cluster (builder.cluster);
 	EXPECT_EQ (cluster->expressions.size (), 1);

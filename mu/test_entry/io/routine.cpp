@@ -18,8 +18,7 @@ TEST (io_test, routine1)
 	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), errors);
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1));
 	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2));
-	lexer (U"[unresolved ;; 1]");
-	lexer ();
+	mu::io::process (lexer, U"[unresolved ;; 1]");
 	EXPECT_EQ (result.clusters.empty (), true);
 	EXPECT_EQ (!errors->errors.empty (), true);
 }
