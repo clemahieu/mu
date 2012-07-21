@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/io/debugging/context.h>
+#include <mu/io/debugging/position.h>
 
 namespace mu
 {
@@ -12,8 +12,9 @@ namespace mu
             class context
             {
             public:
-                mu::io::debugging::context context;
+                mu::io::debugging::position position;
                 char32_t character;
+                
             };            
         }
     }
