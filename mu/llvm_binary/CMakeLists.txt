@@ -65,7 +65,6 @@ else ()
         	LLVMX86AsmPrinter
 	        LLVMAsmPrinter
         	LLVMMCParser)
-    add_definitions ("-Wl,-E")
 endif ()
 
 target_link_libraries (mu_llvm_binary

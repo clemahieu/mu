@@ -12,10 +12,6 @@ target_link_libraries (mu_binary_test
 	mu_core
 	mu_io
 	mu_script)
-    
-if (NOT WIN32)
-    set (CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -E")
-endif (NOT WIN32)
 
 target_link_libraries (mu_binary_test
     gc)

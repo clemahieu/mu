@@ -15,8 +15,7 @@ target_link_libraries (mu_script_binary
 if (NOT WIN32)
 	target_link_libraries (mu_script_binary
 		boost_filesystem
-		boost_system)
-    add_definitions ("-Wl,-E")    
+		boost_system)   
 endif ()
 
 target_link_libraries (mu_script_binary
