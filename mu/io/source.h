@@ -19,7 +19,7 @@ namespace mu
         {
             mu::io::lexer::context context;
             char32_t last_char (U' ');
-            while (last_char != L'\uffff')
+            while (last_char != U'\U0000FFFF')
             {		
                 last_char = source_a ();
                 context.character = last_char;

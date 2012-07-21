@@ -3,6 +3,10 @@ project (repl_entry)
 
 link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
 
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+
 add_executable (mu_repl_entry
 	main.cpp)
 
@@ -17,3 +21,7 @@ if (NOT WIN32)
 		boost_filesystem
 		boost_system)
 endif ()
+
+
+target_link_libraries (mu_repl_entry
+    gc)

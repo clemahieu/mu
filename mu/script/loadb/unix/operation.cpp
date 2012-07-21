@@ -19,7 +19,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
         auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		auto path (boost::filesystem::initial_path ());
 		path /= std::string (one->string.begin (), one->string.end ());
-		auto library (dlopen (path.string ().c_str (), RTLD_NOW));
+		auto library (dlopen (path.string ().c_str (), RTLD_NOW | RTLD_GLOBAL));
 		if (library != NULL)
 		{
 			auto version_address (dlsym (library, "version_554bc0f73fa23e91"));

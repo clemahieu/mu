@@ -20,13 +20,14 @@ int main (int argc, char * argv [])
 		std::string file_name (argv [1]);
 		mu::script::context context;
 		context.push (new (GC) mu::script::exec::operation (mu::script::api::core ()->extensions));
-		context.push (new (GC) mu::script::string::node (std::wstring (file_name.begin (), file_name.end ())));
+		context.push (new (GC) mu::script::string::node (mu::string (file_name.begin (), file_name.end ())));
         auto valid (context ());
 		if (valid)
 		{
 			for (auto i (context.working_begin ()), j (context.working_end ()); i != j; ++i)
 			{
-				std::wcout << (*i)->debug ();
+                auto str ((*i)->debug ());
+				std::wcout << std::wstring (str.begin (), str.end ());
 				std::wcout << L'\n';
 			}
 		}

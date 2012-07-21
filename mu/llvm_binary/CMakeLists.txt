@@ -1,6 +1,10 @@
 cmake_minimum_required (VERSION 2.8)
 project (llvm_binary)
 
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+
 if (WIN32)
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
 else ()
@@ -61,4 +65,8 @@ else ()
         	LLVMX86AsmPrinter
 	        LLVMAsmPrinter
         	LLVMMCParser)
+    add_definitions ("-Wl,-E")
 endif ()
+
+target_link_libraries (mu_llvm_binary
+    gc)

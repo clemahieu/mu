@@ -20,6 +20,6 @@ __declspec (dllexport)
 void * extensions ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	result->extensions->extensions_m [std::wstring (L"identity")] = new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation);
+	(*result->extensions) (mu::string (U"identity"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation));
 	return result;
 }

@@ -62,10 +62,11 @@ void mu::repl::repl::iteration ()
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	(*builder.analyzer.extensions) (mu::string (U"quit"), new (GC) mu::io::analyzer::extensions::global (quit));
     std::wstring line;
-    line.push_back (L'[');
     std::wcin >> line;
-    line.push_back (L']');
-    mu::string text (line.begin (), line.end ());
+    mu::string text;
+    text.push_back (U'[');
+    text.append (line.begin (), line.end ());
+    text.push_back (U']');
     mu::io::process (builder, text);
 	if (builder.errors->errors.empty ())
 	{
@@ -104,7 +105,12 @@ void mu::repl::repl::iteration ()
 	}
 	else
 	{
-        std::wcout << L"Error";
-		//builder.errors->print (std::wcout);
+        std::wcout << L"Error\n";
+        mu::stringstream stream;
+		builder.errors->print (stream);
+        mu::string const & str (stream.str ());
+        std::wstring string (str.begin (), str.end ());
+        std::wcout << string;    
+        std::wcout << L'\n';
 	}
 }
