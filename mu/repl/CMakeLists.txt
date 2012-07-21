@@ -3,8 +3,16 @@ project (repl)
 
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
-add_library (mu_repl STATIC
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
+
+add_library (mu_repl SHARED
 	cli_stream.cpp
 	data_stream.cpp
 	repl.cpp
 	quit/operation.cpp)
+    
+target_link_libraries (mu_repl
+    gc
+    mu_core
+    mu_script)

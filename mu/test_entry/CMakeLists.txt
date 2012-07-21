@@ -1,17 +1,17 @@
 cmake_minimum_required (VERSION 2.8)
 project (test_entry)
 
+include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+
 link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+link_directories (${CMAKE_SOURCE_DIR}/googletest)
+
 if (WIN32)
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
 else ()
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
 endif ()
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
-link_directories (${CMAKE_SOURCE_DIR}/googletest)
-
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 add_executable (mu_test_entry

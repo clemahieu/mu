@@ -58,8 +58,6 @@ TEST (script_test, loadb2)
 	ASSERT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
     auto ext (ctx.working (0));
-    std::type_info const & t1 (typeid (mu::script::extensions::node));
-    std::type_info const & t2 (typeid (*ext));
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ext));
 	ASSERT_NE (extensions, nullptr);
 	auto existing ((*extensions->extensions) (mu::string (U"identity")));

@@ -4,6 +4,7 @@ project (binary_test)
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
 link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
 
 add_library (mu_binary_test SHARED
 	entry.cpp)

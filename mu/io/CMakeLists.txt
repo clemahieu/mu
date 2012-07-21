@@ -3,7 +3,9 @@ project (io)
 
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
-add_library (mu_io STATIC
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+
+add_library (mu_io SHARED
 	builder.cpp
 	source.cpp
 	analyzer/analyzer.cpp
@@ -55,3 +57,7 @@ add_library (mu_io STATIC
 	tokens/stream_end.cpp
 	tokens/token.cpp
 	tokens/visitor.cpp)
+    
+target_link_libraries (mu_io
+    gc
+    mu_core)
