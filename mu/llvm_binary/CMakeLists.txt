@@ -12,7 +12,7 @@ else ()
 endif ()
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
-add_library (mu_llvm_binary MODULE
+add_library (mu_llvm_binary SHARED
 	entry.cpp)
 	
 target_link_libraries (mu_llvm_binary

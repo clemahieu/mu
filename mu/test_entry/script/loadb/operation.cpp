@@ -27,10 +27,13 @@ TEST (script_test, loadb2)
 	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
     auto windows_name (mu::string (U"mu/binary_test/Debug/mu_binary_test.dll"));
     auto unix_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.so"));
+    auto osx_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.dylib"));
     auto windows_path (boost::filesystem::initial_path() /= std::string (windows_name.begin (), windows_name.end ()));
     auto unix_path (boost::filesystem::initial_path () /= std::string (unix_name.begin (), unix_name.end ()));
+    auto osx_path (boost::filesystem::initial_path () /= std::string (osx_name.begin (), osx_name.end ()));
     auto windows_exists (boost::filesystem::exists (windows_path));
     auto unix_exists (boost::filesystem::exists (unix_path));
+    auto osx_exists (boost::filesystem::exists (osx_path));
     mu::script::string::node * file;
     if (windows_exists)
     {
@@ -39,6 +42,10 @@ TEST (script_test, loadb2)
     else if (unix_exists)
     {
         file = new (GC) mu::script::string::node (unix_name);
+    }
+    else if (osx_exists)
+    {
+        file = new (GC) mu::script::string::node (osx_name);
     }
     else
     {
