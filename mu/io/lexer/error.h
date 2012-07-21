@@ -13,7 +13,7 @@ namespace mu
 			class error : public mu::io::lexer::state
 			{
 			public:
-				void lex (char32_t character) override;
+				void lex (mu::io::lexer::context const & context_a) override;
 			};
 		}
 	}

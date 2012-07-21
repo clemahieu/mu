@@ -4,6 +4,7 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/lexer/error.h>
 #include <mu/io/lexer/identifier.h>
+#include <mu/io/lexer/context.h>
 
 #include <gc_cpp.h>
 
@@ -16,10 +17,10 @@ mu::io::lexer::hex_code::hex_code (size_t digits_a, mu::io::lexer::identifier & 
 	assert (digits <= 8);
 }
 
-void mu::io::lexer::hex_code::lex (char32_t character)
+void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
 {
 	++index;
-	switch (character)
+	switch (context_a.character)
 	{		
 		case U'a':
 		case U'b':
@@ -44,7 +45,7 @@ void mu::io::lexer::hex_code::lex (char32_t character)
 		case U'8':
 		case U'9':
 		{
-			unsigned long character_l (character);
+			unsigned long character_l (context_a.character);
 			switch (character_l)
 			{
 				case U'a':
@@ -72,14 +73,17 @@ void mu::io::lexer::hex_code::lex (char32_t character)
 			result = result | bits;
 			if (index == digits)
 			{
-				identifier.add (result);
+                mu::io::lexer::context context;
+                context.position = context_a.position;
+                context.character = result;
+				identifier.add (context);
 				identifier.lexer.state.pop ();
 			}
 		}
 		break;
 		default:
 			mu::string message (U"Invalid hex digit: ");
-			message.push_back (character);
+			message.push_back (context_a.character);
 			(*identifier.lexer.errors) (message);
 			identifier.lexer.state.push (new (GC) mu::io::lexer::error);
 			break;

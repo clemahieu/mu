@@ -15,12 +15,12 @@ mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::d
 {
 }
 
-void mu::io::lexer::identifier::lex (char32_t character)
+void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 {				
 	if (lookahead)
 	{
 		lookahead = false;
-		switch (character)
+		switch (context_a.character)
 		{
 			case U'u':
 				lexer.state.push (new (GC) mu::io::lexer::hex_code (8, *this));
@@ -34,13 +34,13 @@ void mu::io::lexer::identifier::lex (char32_t character)
 				lexer.state.pop ();
 				auto state (new (GC) mu::io::lexer::control (lexer, lookahead_first));
 				lexer.state.push (state);
-				state->lex (character);
+				state->lex (context_a);
 				break;
 		}
 	}
 	else
 	{
-		switch (character)
+		switch (context_a.character)
 		{
 			case U' ':
 			case U'\t':
@@ -59,22 +59,22 @@ void mu::io::lexer::identifier::lex (char32_t character)
 					lexer.target (identifier, mu::io::debugging::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
-					state->lex (character);
+					state->lex (context_a);
 				}
 				break;
 			case L':':
-				lookahead_first = lexer.position;
+				lookahead_first = context_a.position;
 				lookahead = true;
 				break;
 			default:
-				add (character);
+				add (context_a);
 				break;
 		}
 	}
 }
 
-void mu::io::lexer::identifier::add (char32_t character)
+void mu::io::lexer::identifier::add (mu::io::lexer::context const & context_a)
 {
-	last = lexer.position;
-	string.push_back (character);
+	last = context_a.position;
+	string.push_back (context_a.character);
 }

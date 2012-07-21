@@ -13,7 +13,7 @@ namespace mu
 			{
 			public:		
 				begin (mu::io::lexer::lexer & lexer_a);
-				void lex (char32_t character) override;
+				void lex (mu::io::lexer::context const & context_a) override;
 				mu::io::lexer::lexer & lexer;
 			};
 		}

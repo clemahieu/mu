@@ -46,8 +46,8 @@ void mu::script::builder::add (mu::core::cluster * cluster_a)
     cluster = static_cast <mu::script::cluster::node *> (context.working (0));
 }
 
-void mu::script::builder::operator () (char32_t char_a)
+void mu::script::builder::operator () (mu::io::lexer::context const & context_a)
 {
 	assert (cluster == nullptr);
-	lexer (char_a);
+	lexer (context_a);
 }

@@ -15,8 +15,8 @@ namespace mu
 			{
 			public:
 				identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a);
-				void lex (char32_t character) override;
-				void add (char32_t character);
+				void lex (mu::io::lexer::context const & context_a) override;
+				void add (mu::io::lexer::context const & context_a);
 				mu::string string;
 				bool lookahead;
 				mu::io::debugging::position lookahead_first;

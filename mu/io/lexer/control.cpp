@@ -8,6 +8,7 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/lexer/hex_code.h>
 #include <mu/io/lexer/identifier.h>
+#include <mu/io/lexer/context.h>
 
 #include <gc_cpp.h>
 
@@ -17,14 +18,14 @@ mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::io::debuggi
 {
 }
 
-void mu::io::lexer::control::lex (char32_t character)
+void mu::io::lexer::control::lex (mu::io::lexer::context const & context_a)
 {
-	if (character != L'\uffff')
+	if (context_a.character != U'\U0000FFFF')
 	{
-		switch (character)
+		switch (context_a.character)
 		{
 		case U'~':
-			lexer.target (new (GC) mu::io::tokens::parameters, mu::io::debugging::context (first, lexer.position));
+			lexer.target (new (GC) mu::io::tokens::parameters, mu::io::debugging::context (first, context_a.position));
 			lexer.state.pop ();
 			break;
 		case U'(':
@@ -40,7 +41,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'{');
+            identifier->add (mu::io::lexer::context (context_a.position, U'{'));
         }
             break;
         case U'}':
@@ -48,7 +49,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'}');
+            identifier->add (mu::io::lexer::context (context_a.position, U'}'));
         }
             break;
         case U'[':
@@ -56,7 +57,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'[');
+            identifier->add (mu::io::lexer::context (context_a.position, U'['));
         }
             break;
         case U']':
@@ -64,7 +65,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L']');
+            identifier->add (mu::io::lexer::context (context_a.position, U']'));
         }
             break;
         case U':':
@@ -72,7 +73,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L':');
+            identifier->add (mu::io::lexer::context (context_a.position, U':'));
         }
             break;
         case U';':
@@ -80,7 +81,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L';');
+            identifier->add (mu::io::lexer::context (context_a.position, U';'));
         }
             break;
 		case U'a':
@@ -88,8 +89,11 @@ void mu::io::lexer::control::lex (char32_t character)
 				lexer.state.pop ();
 				auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
 				lexer.state.push (identifier);
-				identifier->lex (L':');
-				identifier->lex (L'a');
+                mu::io::lexer::context context;
+                context.character = U':';
+                context.position = first;
+				identifier->lex (context);
+				identifier->lex (context_a);
 			}
 			break;
         case U' ':
@@ -97,7 +101,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L' ');
+            identifier->add (mu::io::lexer::context (context_a.position, U' '));
         }
             break;
         case U'\0':
@@ -105,7 +109,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'\0');
+            identifier->add (mu::io::lexer::context (context_a.position, U'\0'));
         }
             break;
         case U'\t':
@@ -113,7 +117,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'\t');
+            identifier->add (mu::io::lexer::context (context_a.position, U'\t'));
         }
             break;
         case U'\f':
@@ -121,7 +125,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'\f');
+            identifier->add (mu::io::lexer::context (context_a.position, U'\f'));
         }
             break;
         case U'\r':
@@ -129,7 +133,7 @@ void mu::io::lexer::control::lex (char32_t character)
             lexer.state.pop ();
             auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
             lexer.state.push (identifier);
-            identifier->add (L'\r');
+            identifier->add (mu::io::lexer::context (context_a.position, U'\r'));
         }
             break;
 		case U'u':
@@ -137,13 +141,16 @@ void mu::io::lexer::control::lex (char32_t character)
 				lexer.state.pop ();
 				auto identifier (new (GC) mu::io::lexer::identifier (lexer, first));
 				lexer.state.push (identifier);
-				identifier->lex (L':');
-				identifier->lex (L'u');
+                mu::io::lexer::context context;
+                context.character = U':';
+                context.position = first;
+				identifier->lex (context);
+				identifier->lex (context_a);
 			}
 			break;
 		default:
 			mu::string message (U"Unknown token: :");
-			message.push_back (character);
+			message.push_back (context_a.character);
 			(*lexer.errors) (message);
 			lexer.state.push (new (GC) mu::io::lexer::error);
 			break;

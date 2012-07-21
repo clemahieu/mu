@@ -23,17 +23,17 @@ namespace mu
             {		
                 last_char = source_a ();
                 context.character = last_char;
+                target_a (context);
                 ++context.position.character;
                 if (last_char == U'\n')
                 {
-                    context.position.column = 0;
+                    context.position.column = 1;
                     ++context.position.row;
                 }
                 else
                 {
-                    ++context.position.row;
+                    ++context.position.column;
                 }
-                target_a (context.character);
             }
         }
         template <typename T>

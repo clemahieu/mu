@@ -6,11 +6,12 @@ namespace mu
 	{
 		namespace lexer
 		{
+            class context;
 			class state
 			{
 			public:
                 virtual ~state ();
-				virtual void lex (char32_t character) = 0;
+				virtual void lex (mu::io::lexer::context const & context_a) = 0;
 			};
 		}
 	}

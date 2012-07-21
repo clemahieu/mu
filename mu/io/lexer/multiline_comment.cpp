@@ -3,6 +3,7 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/lexer/error.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/io/lexer/context.h>
 
 #include <gc_cpp.h>
 
@@ -12,13 +13,13 @@ mu::io::lexer::multiline_comment::multiline_comment (mu::io::lexer::lexer & lexe
 {
 }
 
-void mu::io::lexer::multiline_comment::lex (char32_t character)
+void mu::io::lexer::multiline_comment::lex (mu::io::lexer::context const & context_a)
 {	
-	if (character != U'\U0000ffff')
+	if (context_a.character != U'\U0000ffff')
 	{
 		if (have_colon)
 		{
-			switch (character)
+			switch (context_a.character)
 			{
 			case U')':
 				lexer.state.pop ();
@@ -37,7 +38,7 @@ void mu::io::lexer::multiline_comment::lex (char32_t character)
 		}
 		else
 		{
-			switch (character)
+			switch (context_a.character)
 			{
 			case U':':
 				have_colon = true;

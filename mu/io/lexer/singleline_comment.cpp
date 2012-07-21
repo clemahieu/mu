@@ -1,15 +1,16 @@
 #include <mu/io/lexer/singleline_comment.h>
 
 #include <mu/io/lexer/lexer.h>
+#include <mu/io/lexer/context.h>
 
 mu::io::lexer::singleline_comment::singleline_comment (mu::io::lexer::lexer & lexer_a)
 	: lexer (lexer_a)
 {
 }
 
-void mu::io::lexer::singleline_comment::lex (char32_t character)
+void mu::io::lexer::singleline_comment::lex (mu::io::lexer::context const & context_a)
 {
-	switch (character)
+	switch (context_a.character)
 	{
 	case U'\n':
 	case U'\f':
@@ -17,7 +18,7 @@ void mu::io::lexer::singleline_comment::lex (char32_t character)
 		break;
 	case U'\U0000FFFF':
 		lexer.state.pop ();
-		lexer (character);
+		lexer (context_a);
 		break;
 	default:
 		// Eat comment

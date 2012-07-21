@@ -4,13 +4,13 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/lexer/error.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/io/lexer/context.h>
 
 #include <gc_cpp.h>
 
-mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a)
+mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
 	: have_end_token (false),
-	first (lexer_a.position),
-	last (lexer_a.position),
+	first (first_a),
 	lexer (lexer_a)
 {
 }
@@ -32,34 +32,33 @@ bool mu::io::lexer::complex_identifier::match ()
 	return result;
 }
 
-void mu::io::lexer::complex_identifier::lex (char32_t character)
+void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & context_a)
 {
-	if (character != U'\U0000FFFF')
+	if (context_a.character != U'\U0000FFFF')
 	{
 		if (!have_end_token)
 		{
-			switch (character)
+			switch (context_a.character)
 			{
 			case L'}':
 				have_end_token = true;
 				last_characters.resize (end_token.size ());
 				break;
 			default:
-				end_token.push_back (character);
+				end_token.push_back (context_a.character);
 				break;
 			}
 		}
 		else
 		{		
-			last_characters.push_back (character);
-			last = lexer.position;
-			data.push_back (character);
+			last_characters.push_back (context_a.character);
+			data.push_back (context_a.character);
 		}
 		if (have_end_token && match ())
 		{
 			data.resize (data.size () - end_token.size ());
 			mu::io::tokens::identifier * token (new (GC) mu::io::tokens::identifier (data));
-			lexer.target (token, mu::io::debugging::context (first, lexer.position));
+			lexer.target (token, mu::io::debugging::context (first, context_a.position));
 			lexer.state.pop ();
 		}
 	}

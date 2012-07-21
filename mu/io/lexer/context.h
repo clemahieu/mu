@@ -12,9 +12,10 @@ namespace mu
             class context
             {
             public:
+                context ();
+                context (mu::io::debugging::position position_a, char32_t character_a);
                 mu::io::debugging::position position;
                 char32_t character;
-                
             };            
         }
     }

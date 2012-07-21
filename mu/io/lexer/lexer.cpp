@@ -11,6 +11,7 @@
 #include <mu/io/lexer/singleline_comment.h>
 #include <mu/io/lexer/complex_identifier.h>
 #include <mu/io/lexer/error_target.h>
+#include <mu/io/lexer/context.h>
 
 #include <boost/circular_buffer.hpp>
 
@@ -23,20 +24,10 @@ mu::io::lexer::lexer::lexer (mu::core::errors::error_target * errors_a, boost::f
 	reset ();
 }
 
-void mu::io::lexer::lexer::operator () (char32_t character)
+void mu::io::lexer::lexer::operator () (mu::io::lexer::context const & context_a)
 {
 	auto state_l (state.top ());
-	state_l->lex (character);
-	++position.character;
-	if (character == L'\n')
-	{
-		++position.row;
-		position.column = 1;
-	}
-	else
-	{
-		++position.column;
-	}
+	state_l->lex (context_a);
 }
 
 void mu::io::lexer::lexer::reset ()

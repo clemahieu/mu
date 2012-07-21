@@ -26,12 +26,16 @@ namespace mu
 		{
 			class mapping;
 		}
+        namespace lexer
+        {
+            class context;
+        }
 		class builder
 		{
 		public:
 			builder ();
 			builder (mu::io::analyzer::extensions::extensions * extensions_a);
-			void operator () (char32_t char_a);
+			void operator () (mu::io::lexer::context const & context_a);
 			mu::core::errors::error_list * errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;

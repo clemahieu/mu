@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/io/debugging/context.h>
+#include <mu/io/lexer/context.h>
 #include <mu/io/lexer/state.h>
 
 namespace mu
@@ -14,7 +14,7 @@ namespace mu
 			{
 			public:
 				control (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a);
-				void lex (char32_t character) override;
+				void lex (mu::io::lexer::context const & context_a) override;
 				mu::io::debugging::position first;
 				mu::io::lexer::lexer & lexer;
 			};
