@@ -5,6 +5,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 mu::script::frame::frame (mu::script::context & context_a)
 	: context (context_a)
 {

@@ -2,6 +2,8 @@
 
 #include <mu/io/ast/visitor.h>
 
+#include <cstddef>
+
 namespace mu
 {
 	namespace core

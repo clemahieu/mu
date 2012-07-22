@@ -9,6 +9,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 mu::llvm_::basic_block::instruction_insert::instruction_insert (mu::llvm_::basic_block::node * block_a, mu::script::operation * instruction_a)
 	: block (block_a),
 	instruction (instruction_a)

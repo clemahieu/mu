@@ -8,6 +8,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 mu::script::runtime::routine::routine (mu::script::runtime::expression * parameters_a)
 	: parameters (parameters_a)
 {

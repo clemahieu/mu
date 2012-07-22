@@ -3,6 +3,8 @@
 #include <mu/io/analyzer/expression.h>
 #include <mu/core/expression.h>
 
+#include <assert.h>
+
 void mu::io_test::extension4::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());

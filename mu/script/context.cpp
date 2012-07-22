@@ -7,6 +7,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 mu::script::context::context ()
 	: base_begin (0),
 	base_end (0),

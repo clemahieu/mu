@@ -9,6 +9,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 bool mu::script::cluster::remap::operator () (mu::script::context & context_a)
 {
 	bool valid (mu::script::check <mu::core::cluster> () (context_a));

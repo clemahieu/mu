@@ -2,6 +2,8 @@
 
 #include <mu/script/context.h>
 
+#include <iostream>
+
 bool mu::script::print::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);

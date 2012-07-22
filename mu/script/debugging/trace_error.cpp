@@ -3,6 +3,8 @@
 #include <mu/script/values/operation.h>
 #include <mu/script/string/node.h>
 
+#include <assert.h>
+
 mu::script::debugging::trace_error::trace_error (mu::script::values::operation * trace_a, mu::core::errors::error * error_a)
 	: trace (trace_a),
 	error (error_a)
