@@ -2,8 +2,6 @@
 
 #include <mu/script/operation.h>
 
-#include <boost/shared_ptr.hpp>
-
 #include <vector>
 
 #include <gc_allocator.h>

@@ -3,8 +3,6 @@
 #include <mu/io/debugging/context.h>
 #include <mu/core/node.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace core

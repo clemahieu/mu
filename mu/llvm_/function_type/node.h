@@ -4,8 +4,6 @@
 
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
-
 #include <gc_allocator.h>
 
 namespace llvm

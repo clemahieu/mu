@@ -2,8 +2,6 @@
 
 #include <mu/io/ast/visitor.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace core

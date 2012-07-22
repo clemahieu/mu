@@ -2,8 +2,6 @@
 
 #include <mu/io/analyzer/extensions/extension.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace core

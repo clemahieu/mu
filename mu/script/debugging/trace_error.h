@@ -2,8 +2,6 @@
 
 #include <mu/core/errors/error.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace script

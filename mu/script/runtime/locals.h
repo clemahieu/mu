@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/tuple/tuple.hpp>
 
 namespace mu

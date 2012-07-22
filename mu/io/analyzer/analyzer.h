@@ -4,7 +4,6 @@
 #include <mu/core/cluster.h>
 #include <mu/io/ast/visitor.h>
 
-#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 
 #include <set>

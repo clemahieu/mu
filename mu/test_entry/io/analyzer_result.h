@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace core

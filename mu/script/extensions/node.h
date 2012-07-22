@@ -2,8 +2,6 @@
 
 #include <mu/core/node.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace io

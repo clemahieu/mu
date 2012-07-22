@@ -2,8 +2,6 @@
 
 #include <mu/llvm_/type/node.h>
 
-#include <boost/shared_ptr.hpp>
-
 namespace llvm
 {
 	class PointerType;

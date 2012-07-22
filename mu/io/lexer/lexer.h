@@ -3,7 +3,6 @@
 #include <mu/io/debugging/context.h>
 
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
 
 #include <stack>
 
