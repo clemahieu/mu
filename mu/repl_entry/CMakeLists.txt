@@ -22,6 +22,5 @@ if (NOT WIN32)
 		boost_system)
 endif ()
 
-
 target_link_libraries (mu_repl_entry
     gc)

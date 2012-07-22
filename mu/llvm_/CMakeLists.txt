@@ -4,15 +4,6 @@ project (llvm_)
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
-
-if (WIN32)
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
-else ()
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
-endif ()
-
 add_library (mu_llvm_ STATIC
 	api.cpp
 	apint/create.cpp
@@ -114,54 +105,3 @@ add_library (mu_llvm_ STATIC
 	value/node.cpp
 	value/set_name.cpp
 	void_type/node.cpp)
-    
-target_link_libraries (mu_llvm_
-    mu_core
-    mu_io
-    mu_script)
-
-if (WIN32)
-	target_link_libraries (mu_llvm_
-	        LLVMCore.lib
-        	LLVMSupport.lib
-	        LLVMExecutionEngine.lib
-	        LLVMTarget.lib
-	        LLVMJIT.lib
-	        LLVMMC.lib
-	        LLVMCodeGen.lib
-	        LLVMAnalysis.lib
-	        LLVMX86Info.lib
-        	LLVMTransformUtils.lib
-	        LLVMX86CodeGen.lib
-        	LLVMSelectionDAG.lib
-	        LLVMX86Utils.lib
-        	LLVMScalarOpts.lib
-	        LLVMX86Desc.lib
-        	LLVMAsmParser.lib
-	        LLVMLinker.lib
-        	LLVMX86AsmPrinter.lib
-	        LLVMAsmPrinter.lib
-        	LLVMMCParser.lib)
-else ()
-	target_link_libraries (mu_llvm_
-	        LLVMCore
-        	LLVMSupport
-	        LLVMExecutionEngine
-	        LLVMTarget
-	        LLVMJIT
-	        LLVMMC
-	        LLVMCodeGen
-	        LLVMAnalysis
-	        LLVMX86Info
-        	LLVMTransformUtils
-	        LLVMX86CodeGen
-        	LLVMSelectionDAG
-	        LLVMX86Utils
-        	LLVMScalarOpts
-	        LLVMX86Desc
-        	LLVMAsmParser
-	        LLVMLinker
-        	LLVMX86AsmPrinter
-	        LLVMAsmPrinter
-        	LLVMMCParser)
-endif ()

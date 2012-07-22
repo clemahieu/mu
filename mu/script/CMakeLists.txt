@@ -9,10 +9,7 @@ else ()
 	set (loadb_operation loadb/unix/operation.cpp)
 endif ()
 
-link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
-add_library (mu_script SHARED
+add_library (mu_script STATIC
 	api.cpp
 	builder.cpp
 	check.cpp
@@ -84,13 +81,3 @@ add_library (mu_script SHARED
 	unit/operation.cpp
 	values/create.cpp
 	values/operation.cpp)
-
-if (NOT WIN32)
-	target_link_libraries (mu_script
-		boost_filesystem
-		boost_system)
-endif ()
-    
-target_link_libraries (mu_script
-    mu_core
-    mu_io)

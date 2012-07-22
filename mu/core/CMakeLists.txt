@@ -3,9 +3,7 @@ project (core)
 
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
-add_library (mu_core SHARED
+add_library (mu_core STATIC
 	apply.cpp
 	cluster.cpp
 	expression.cpp
@@ -21,6 +19,3 @@ add_library (mu_core SHARED
 	errors/error_target.cpp
 	errors/string_error.cpp
 	errors/null.cpp)
-    
-target_link_libraries (mu_core
-    gc)
