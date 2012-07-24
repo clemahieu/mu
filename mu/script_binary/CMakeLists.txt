@@ -4,7 +4,7 @@ project (script_binary)
 link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
 link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
 
-add_library (mu_script_binary MODULE
+add_library (mu_script_binary SHARED
 	entry.cpp)
 
 target_link_libraries (mu_script_binary

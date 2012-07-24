@@ -5,7 +5,7 @@ include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
 link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
 
-add_library (mu_binary_test MODULE
+add_library (mu_binary_test SHARED
 	entry.cpp)
 
 target_link_libraries (mu_binary_test
