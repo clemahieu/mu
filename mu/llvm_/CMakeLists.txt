@@ -4,7 +4,17 @@ project (llvm_)
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
 include_directories (${CMAKE_SOURCE_DIR}/gc/include)
 
-add_library (mu_llvm_ STATIC
+link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
+link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
+
+if (WIN32)
+	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
+else ()
+	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib)
+endif ()
+
+
+add_library (mu_llvm_ SHARED
 	api.cpp
 	apint/create.cpp
 	apint/extension.cpp
@@ -105,3 +115,17 @@ add_library (mu_llvm_ STATIC
 	value/node.cpp
 	value/set_name.cpp
 	void_type/node.cpp)
+    
+target_link_libraries (mu_llvm_
+    gc
+    mu_core
+    mu_io
+    mu_script)
+
+if (WIN32)
+	target_link_libraries (mu_llvm_
+        LLVM-3.0.dll)
+else ()
+	target_link_libraries (mu_llvm_
+        LLVM-3.0)
+endif ()

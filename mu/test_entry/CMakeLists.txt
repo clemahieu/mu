@@ -10,7 +10,7 @@ link_directories (${CMAKE_SOURCE_DIR}/googletest)
 if (WIN32)
 	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
 else ()
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug/lib)
+	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib)
 endif ()
 
 include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
@@ -102,57 +102,15 @@ target_link_libraries (mu_test_entry
 	mu_repl
 	mu_script)
 
-if (NOT WIN32)
-	target_link_libraries (mu_test_entry
-		boost_filesystem
-		boost_system)
-endif ()
-
 target_link_libraries (mu_test_entry
     gc)
 
 if (WIN32)
 	target_link_libraries (mu_test_entry
-	        LLVMCore.lib
-        	LLVMSupport.lib
-	        LLVMExecutionEngine.lib
-	        LLVMTarget.lib
-	        LLVMJIT.lib
-	        LLVMMC.lib
-	        LLVMCodeGen.lib
-	        LLVMAnalysis.lib
-	        LLVMX86Info.lib
-        	LLVMTransformUtils.lib
-	        LLVMX86CodeGen.lib
-        	LLVMSelectionDAG.lib
-	        LLVMX86Utils.lib
-        	LLVMScalarOpts.lib
-	        LLVMX86Desc.lib
-        	LLVMAsmParser.lib
-	        LLVMLinker.lib
-        	LLVMX86AsmPrinter.lib
-	        LLVMAsmPrinter.lib
-        	LLVMMCParser.lib)
+        LLVM-3.0.dll)
 else ()
 	target_link_libraries (mu_test_entry
-	        LLVMCore
-        	LLVMSupport
-	        LLVMExecutionEngine
-	        LLVMTarget
-	        LLVMJIT
-	        LLVMMC
-	        LLVMCodeGen
-	        LLVMAnalysis
-	        LLVMX86Info
-        	LLVMTransformUtils
-	        LLVMX86CodeGen
-        	LLVMSelectionDAG
-	        LLVMX86Utils
-        	LLVMScalarOpts
-	        LLVMX86Desc
-        	LLVMAsmParser
-	        LLVMLinker
-        	LLVMX86AsmPrinter
-	        LLVMAsmPrinter
-        	LLVMMCParser)
+        LLVM-3.0
+		boost_filesystem
+		boost_system)
 endif ()
