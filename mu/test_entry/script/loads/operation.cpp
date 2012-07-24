@@ -18,12 +18,12 @@ TEST (script_test, loads1)
 	ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
 	auto valid (ctx ());
 	errors.target->print (std::wcout);
-    EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+    EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
-	EXPECT_NE (extensions, nullptr);
+	EXPECT_TRUE (extensions != nullptr);
 	auto a ((*extensions->extensions) (mu::string (U"a")));
-	EXPECT_NE (a, nullptr);
+	EXPECT_TRUE (a != nullptr);
 	auto b ((*extensions->extensions) (mu::string (U"b")));
-	EXPECT_EQ (b, nullptr);
+	EXPECT_TRUE (b != nullptr);
 }
