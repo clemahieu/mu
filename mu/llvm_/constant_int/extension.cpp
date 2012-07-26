@@ -23,7 +23,7 @@ mu::llvm_::constant_int::extension::extension (mu::llvm_::context::node * contex
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	auto bits_position (expression_a.position + 1);
@@ -64,22 +64,22 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 					mu::stringstream message;
 					message << L"Unable to parse bits number: ";
 					message << bits_identifier->string;
-					(*errors_a) (message.str ());
+					errors_a (message.str ());
 				}
 			}
 			else
 			{
-				(*errors_a) (U"Constant_int requires the second argument to be an identifier");
+				errors_a (U"Constant_int requires the second argument to be an identifier");
 			}
 		}
 		else
 		{
-			(*errors_a) (U"Constant_int requires the first argument to be an identifier");
+			errors_a (U"Constant_int requires the first argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (U"Constant_int extension requires two arguments");
+		errors_a (U"Constant_int extension requires two arguments");
 	}
 }
 

@@ -20,13 +20,11 @@
 
 TEST (script_test, trace_target1)
 {
-	mu::script::context context;
-	mu::core::errors::errors errors (new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
-	context.errors = errors;
+	mu::script::context context (*new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	mu::script::builder builder;
 	(*builder.analyzer.extensions) (mu::string (U"fail"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::fail::operation));
 	mu::io::process (builder, U"[fail]");
-	ASSERT_TRUE (builder.errors->errors.empty ());
+	ASSERT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
 	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
@@ -35,6 +33,6 @@ TEST (script_test, trace_target1)
 	EXPECT_EQ (!valid, true);
 	EXPECT_EQ (context.working_size (), 0);
 	mu::stringstream message;
-	errors.print (message);
+	context.errors.print (message);
 	mu::string mess (message.str ());
 }

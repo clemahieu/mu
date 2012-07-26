@@ -68,14 +68,15 @@ void mu::repl::repl::iteration ()
     text.append (line.begin (), line.end ());
     text.push_back (U']');
     mu::io::process (builder, text);
-	if (builder.errors->errors.empty ())
+	if (builder.errors.errors.empty ())
 	{
 		if (builder.cluster != nullptr)
 		{
 			auto cluster (builder.cluster);
 			if (cluster->routines.size () > 0)
 			{
-				mu::core::errors::errors errors (new (GC) mu::core::errors::error_list ());
+                mu::core::errors::error_list errors_l;
+				mu::core::errors::errors errors (errors_l);
 				mu::script::context ctx (errors);
 				ctx.push (cluster->routines [0]);
 				auto valid (ctx ());
@@ -89,7 +90,7 @@ void mu::repl::repl::iteration ()
 				}
 				else
 				{
-					errors.target->print (std::wcout);
+					errors.target.print (std::wcout);
 				}
 			}
 			else
@@ -107,7 +108,7 @@ void mu::repl::repl::iteration ()
 	{
         std::wcout << L"Error\n";
         mu::stringstream stream;
-		builder.errors->print (stream);
+		builder.errors.print (stream);
         mu::string const & str (stream.str ());
         std::wstring string (str.begin (), str.end ());
         std::wcout << string;    

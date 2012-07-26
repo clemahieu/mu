@@ -18,7 +18,7 @@ TEST (io_test, builder1)
 {
 	mu::io::ast::builder builder;
     mu::io::process (builder, U"[:~]");
-    EXPECT_EQ (builder.errors->errors.empty (), true);
+    EXPECT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
     EXPECT_EQ (cluster->expressions.size (), 1);
 	auto routine (cluster->expressions [0]);
@@ -32,7 +32,7 @@ TEST (io_test, builder2)
 {
 	mu::io::ast::builder builder;
     mu::io::process (builder, U"[:~][:~]");
-    EXPECT_EQ (builder.errors->errors.empty (), true);
+    EXPECT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
     EXPECT_EQ (cluster->expressions.size (), 2);
 	auto routine1 (cluster->expressions [0]);
@@ -45,7 +45,7 @@ TEST (io_test, builder3)
 {
 	mu::io::ast::builder builder;
     mu::io::process (builder, U"[[:~; a b c] a [a b c] c]");
-    EXPECT_EQ (builder.errors->errors.empty (), true);
+    EXPECT_EQ (builder.errors.errors.empty (), true);
 	auto cluster (builder.cluster);
     EXPECT_EQ (cluster->expressions.size (), 1);
 	auto routine (cluster->expressions [0]);

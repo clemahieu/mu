@@ -35,7 +35,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 	}
 	else
 	{
-		(*analyzer_a.errors) (U"Routines cannot have individual names");
+		analyzer_a.errors (U"Routines cannot have individual names");
 	}
-    analyzer.names.free_locals (analyzer.errors);
+    analyzer.names.free_locals ();
 }

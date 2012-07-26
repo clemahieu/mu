@@ -23,7 +23,7 @@ namespace mu
 				public:
                     virtual ~extension ();
                     virtual bool operator () () = 0;
-					virtual void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) = 0;
+					virtual void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) = 0;
 				};
 			}
 		}

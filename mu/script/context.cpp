@@ -13,7 +13,7 @@ mu::script::context::context ()
 	: base_begin (0),
 	base_end (0),
 	frame_begin (0),
-	errors (new (GC) mu::core::errors::null ())
+	errors (*new (GC) mu::core::errors::null ())
 {
 	enter ();
 }

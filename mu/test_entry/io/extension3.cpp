@@ -5,7 +5,7 @@
 
 #include <assert.h>
 
-void mu::io_test::extension3::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::io_test::extension3::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	expression_a.self->dependencies.push_back (nullptr);

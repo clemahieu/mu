@@ -50,13 +50,13 @@ mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & 
 	{
 		mu::io::ast::builder builder;
         mu::io::process (builder, stream);
-		if (builder.errors->errors.empty ())
+		if (builder.errors.errors.empty ())
 		{
 			result = builder.cluster;
 		}
 		else
 		{
-			for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
+			for (auto i (builder.errors.errors.begin ()), j (builder.errors.errors.end ()); i != j; ++i)
 			{
 				context_a.errors (*i);
 			}

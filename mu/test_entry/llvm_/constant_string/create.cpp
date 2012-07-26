@@ -20,7 +20,7 @@
 
 TEST (llvm_test, constant_string_create1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
 	mu::script::context ctx;

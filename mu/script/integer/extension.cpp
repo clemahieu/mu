@@ -15,7 +15,7 @@
 
 #include <gc_cpp.h>
 
-void mu::script::integer::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::script::integer::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	auto data_position (expression_a.position + 1);
@@ -34,12 +34,12 @@ void mu::script::integer::extension::operator () (mu::core::errors::error_target
 		}
 		else
 		{
-			(*errors_a) (U"Number extension requires its argument to be an identifier");
+			errors_a (U"Number extension requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (U"Number extension requires one argument");
+		errors_a (U"Number extension requires one argument");
 	}
 }
 
@@ -48,7 +48,7 @@ bool mu::script::integer::extension::operator () ()
     return false;
 }
 
-mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, mu::string & string)
+mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, mu::string & string)
 {
 	mu::script::integer::node * result (nullptr);
 	int base (0);
@@ -73,7 +73,7 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 			message << base_char;
 			message << L" when trying to parse number: ";
 			message << string;
-			(*errors_a) (message.str ());
+			errors_a (message.str ());
 		break;
 	}
 	if (base != 0)
@@ -85,13 +85,13 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 	return result;
 }
 
-mu::script::integer::node * mu::script::integer::core_d (mu::core::errors::error_target * errors_a, std::wstring string_a)
+mu::script::integer::node * mu::script::integer::core_d (mu::core::errors::error_target & errors_a, std::wstring string_a)
 {
 	auto result (core (errors_a, string_a, 10));
 	return result;
 }
 
-mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target * errors_a, std::wstring string_a, size_t base_a)
+mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, std::wstring string_a, size_t base_a)
 {
 	mu::script::integer::node * result (nullptr);
 	wchar_t * next;
@@ -104,7 +104,7 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 		message << mu::string (string_a.begin (), string_a.end ());
 		message << L" in base: ";
 		message << base_a;
-		(*errors_a) (message.str ());
+		errors_a (message.str ());
 	}
 	else
 	{

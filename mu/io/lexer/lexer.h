@@ -45,10 +45,10 @@ namespace mu
 				friend class mu::io::lexer::singleline_comment;
 				friend class mu::io::lexer::control;
 			public:
-				lexer (mu::core::errors::error_target * errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
+				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
 				void operator () (mu::io::lexer::context const & context_a);
 				void reset ();
-				mu::core::errors::error_target * errors;
+				mu::core::errors::error_target & errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
 				std::stack <mu::io::lexer::state *> state;
 			};

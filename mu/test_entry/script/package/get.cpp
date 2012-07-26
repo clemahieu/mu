@@ -11,7 +11,7 @@
 
 TEST (script_test, package_get1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	auto data (new (GC) mu::script::package::node);
 	auto name (new (GC) mu::script::string::node (mu::string (U"test")));
 	auto node (new (GC) mu::core::node);

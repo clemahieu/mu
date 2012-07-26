@@ -11,7 +11,7 @@
 
 TEST (script_test, apply1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::closure::apply);
 	auto c1 (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity::operation));

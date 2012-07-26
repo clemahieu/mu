@@ -11,7 +11,7 @@
 
 #include <gc_cpp.h>
 
-void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	auto position (expression_a.position + 1);
@@ -29,12 +29,12 @@ void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target * 
 		}
 		else
 		{
-			(*errors_a) (U"APInt requires its argument to be an identifier");
+			errors_a (U"APInt requires its argument to be an identifier");
 		}
 	}
 	else
 	{
-		(*errors_a) (U"APInt extension requires at least one argument");
+		errors_a (U"APInt extension requires at least one argument");
 	}
 }
 

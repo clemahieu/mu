@@ -9,7 +9,7 @@
 
 #include <gc_cpp.h>
 
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target * errors_a, mu::string const & name, mu::core::node * const node)
+void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node)
 {
     auto collision (used_names.find (name) != used_names.end ());
     if (collision)
@@ -18,7 +18,7 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target *
         message << L"Global name: ";
         message << name;
         message << L" has already been used";
-        (*errors_a) (message.str ());
+        errors_a (message.str ());
     }
     else
     {
@@ -29,7 +29,7 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target *
     }
 }
 
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target * errors_a, mu::string const & name, mu::core::node * const node)
+void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node)
 {
     auto collision (mapping.find (name) != mapping.end ());
     if (collision)
@@ -38,7 +38,7 @@ void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target * 
         message << L"Local name: ";
         message << name;
         message << L" has already been used";
-        (*errors_a) (message.str ());
+        errors_a (message.str ());
     }
     else
     {
@@ -49,7 +49,7 @@ void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target * 
     }
 }
 
-void mu::io::analyzer::name_map::free_locals (mu::core::errors::error_target * errors_a)
+void mu::io::analyzer::name_map::free_locals ()
 {
     for (auto i (locals.begin ()), j (locals.end ()); i != j; ++i)
     {
@@ -84,13 +84,13 @@ void mu::io::analyzer::name_map::resolve (mu::string const & name, mu::core::nod
     unresolved.erase (first, i);
 }
 
-void mu::io::analyzer::name_map::finalize (mu::core::errors::error_target * errors_a)
+void mu::io::analyzer::name_map::finalize (mu::core::errors::error_target & errors_a)
 {
     for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
     {
         mu::stringstream message;
         message << U"Unresolved identifier: ";
         message << i->first;
-        (*errors_a) (new (GC) mu::core::errors::string_error (message.str ()));
+        errors_a (new (GC) mu::core::errors::string_error (message.str ()));
     }
 }

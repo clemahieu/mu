@@ -43,8 +43,8 @@ namespace mu
 			class analyzer : public mu::io::ast::visitor
 			{
 			public:
-				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a);
-				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a, mu::io::analyzer::extensions::extensions * extensions_a);
+				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a);
+				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a, mu::io::analyzer::extensions::extensions * extensions_a);
 				void input (mu::io::ast::cluster * node_a);
 				void operator () (mu::io::ast::cluster * cluster_a) override;
 				void operator () (mu::io::ast::parameters * parameters_a) override;
@@ -53,7 +53,7 @@ namespace mu
 				mu::io::analyzer::extensions::extensions * extensions;
 				boost::function <void (mu::core::cluster *)> target;
                 mu::io::analyzer::name_map names;
-				mu::core::errors::error_target * errors;
+				mu::core::errors::error_target & errors;
 				mu::core::cluster * cluster;
 			};
 		}

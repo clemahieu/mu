@@ -10,7 +10,7 @@
 
 TEST (script_test, analyzer_operation1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	mu::script::analyzer::operation analyzer;
 	auto cluster (analyzer.core (ctx, new (GC) mu::script::extensions::node, new (GC) mu::io::ast::cluster));

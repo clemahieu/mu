@@ -9,7 +9,7 @@
 
 #include <gc_cpp.h>
 
-void mu::script::ast::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::script::ast::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	size_t position (expression_a.position + 1);
@@ -21,7 +21,7 @@ void mu::script::ast::extension::operator () (mu::core::errors::error_target * e
 	}
 	else
 	{
-		(*errors_a) (U"AST extension requires at least one argument");
+		errors_a (U"AST extension requires at least one argument");
 	}
 }
 
@@ -30,7 +30,7 @@ bool mu::script::ast::extension::operator () ()
     return false;
 }
 
-mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error_target * errors_a, mu::io::ast::node * node_a)
+mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error_target & errors_a, mu::io::ast::node * node_a)
 {
 	auto result (new (GC) mu::io::ast::cluster);
 	auto value (dynamic_cast <mu::io::ast::expression *> (node_a));
@@ -49,18 +49,18 @@ mu::io::ast::cluster * mu::script::ast::extension::core (mu::core::errors::error
 				else
 				{
 					good = false;
-					(*errors_a) (U"AST argument must only contain expressions");
+					errors_a (U"AST argument must only contain expressions");
 				}
 			}
 		}
 		else
 		{
-			(*errors_a) (U"AST extension requires top level to not be named");
+			errors_a (U"AST extension requires top level to not be named");
 		}
 	}
 	else
 	{
-		(*errors_a) (U"AST extension requires argument to be an expression");
+		errors_a (U"AST extension requires argument to be an expression");
 	}
 	return result;
 }

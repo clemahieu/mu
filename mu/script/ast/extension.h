@@ -20,8 +20,8 @@ namespace mu
 			{
 			public:
                 bool operator () () override;
-				void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
-				mu::io::ast::cluster * core (mu::core::errors::error_target * errors_a, mu::io::ast::node * node_a);
+				void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
+				mu::io::ast::cluster * core (mu::core::errors::error_target & errors_a, mu::io::ast::node * node_a);
 			};
 		}
 	}

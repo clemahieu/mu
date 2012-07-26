@@ -48,7 +48,7 @@ void mu::io::lexer::multiline_comment::lex (mu::io::lexer::context const & conte
 	}
 	else
 	{
-		(*lexer.errors) (U"End of stream inside multiline comment");
+		lexer.errors (U"End of stream inside multiline comment");
 		lexer.state.push (new (GC) mu::io::lexer::error);
 	}
 }

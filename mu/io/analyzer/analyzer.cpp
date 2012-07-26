@@ -15,7 +15,7 @@
 
 #include <gc_cpp.h>
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a)
 	: extensions (new (GC) mu::io::analyzer::extensions::extensions),
 	target (target_a),
 	errors (errors_a),
@@ -23,7 +23,7 @@ mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *
 {
 }
 
-mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target * errors_a, mu::io::analyzer::extensions::extensions * extensions_a)
+mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a, mu::io::analyzer::extensions::extensions * extensions_a)
 	: extensions (extensions_a),
 	target (target_a),
 	errors (errors_a),
@@ -39,24 +39,24 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 		(*value) (this);
 	}
     names.finalize (errors);
-    if (!(*errors) ())
+    if (!errors ())
     {
         target (cluster);
     }
     else
     {
-        (*errors) (U"Not generating cluster due to errors");
+        errors (U"Not generating cluster due to errors");
     }
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::cluster * cluster_a)
 {
-	(*errors) (U"Analyzer not expecting cluster");
+	errors (U"Analyzer not expecting cluster");
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::parameters * parameters_a)
 {
-	(*errors) (U"Analyzer not expecting parameters");
+	errors (U"Analyzer not expecting parameters");
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expression_a)
@@ -66,5 +66,5 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
 {
-	(*errors) (U"Analyzer not expecting identifiers");
+	errors (U"Analyzer not expecting identifiers");
 }

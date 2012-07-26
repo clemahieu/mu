@@ -65,7 +65,7 @@ void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & cont
 	else
 	{
 		mu::string message (U"End of file while parsing complex identifier");
-		(*lexer.errors) (message);
+		lexer.errors (message);
 		auto error (new (GC) mu::io::lexer::error);
 		lexer.state.push (error);
 	}

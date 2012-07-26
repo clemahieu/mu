@@ -12,7 +12,7 @@
 TEST (script_test, package_get_recursive1)
 {
 	auto package (new (GC) mu::script::package::node);
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get_recursive);
 	ctx.push (package);
@@ -27,7 +27,7 @@ TEST (script_test, package_get_recursive2)
 	auto package (new (GC) mu::script::package::node);
 	auto n1 (new (GC) mu::core::node);
 	package->items [mu::string (U"a")] = n1;
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get_recursive);
 	ctx.push (package);
@@ -45,7 +45,7 @@ TEST (script_test, package_get_recursive3)
 	auto n1 (new (GC) mu::core::node);
 	package->items [mu::string (U"a")] = package1;
 	package1->items [mu::string (U"b")] = n1;
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::get_recursive);
 	ctx.push (package);

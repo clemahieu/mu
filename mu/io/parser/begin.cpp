@@ -53,6 +53,6 @@ void mu::io::parser::begin::operator () (mu::io::tokens::parameters * token)
 void mu::io::parser::begin::unexpected_token (mu::io::tokens::token * token)
 {
     mu::string message (U"Parsing error: At top level, expecting signature or end of stream");
-	(*parser.errors) (message);
+	parser.errors (message);
     parser.state.push (new (GC) mu::io::parser::error);
 }

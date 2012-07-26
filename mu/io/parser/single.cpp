@@ -63,6 +63,6 @@ void mu::io::parser::single::unexpected_token (mu::io::tokens::token * token)
     mu::stringstream message;
 	message << L"Unexpected token while parsing individual names: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str ());
+	parser.errors (message.str ());
     parser.state.push (new (GC) mu::io::parser::error);
 }

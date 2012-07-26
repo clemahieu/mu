@@ -67,12 +67,12 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 	}
 	else
 	{
-		auto errors_l (new (GC) mu::core::errors::error_context (routine.analyzer.errors, identifier_a->context));
+		mu::core::errors::error_context errors_l (routine.analyzer.errors, identifier_a->context);
 		(*keyword) (errors_l, *this, mu::string ());
 	}
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)
 {
-	(*routine.analyzer.errors) (U"Expression not expecting cluster");
+	routine.analyzer.errors (U"Expression not expecting cluster");
 }

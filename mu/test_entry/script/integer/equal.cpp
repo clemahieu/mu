@@ -11,7 +11,7 @@
 
 TEST (script_test, integer_equal1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::integer::equal);
 	ctx.push (new (GC) mu::script::integer::node (3));
@@ -26,7 +26,7 @@ TEST (script_test, integer_equal1)
 
 TEST (script_test, integer_equal2)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::integer::equal);
 	ctx.push (new (GC) mu::script::integer::node (3));
@@ -41,7 +41,7 @@ TEST (script_test, integer_equal2)
 
 TEST (script_test, integer_equal3)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::integer::equal);
 	ctx.push (new (GC) mu::script::integer::node (3));

@@ -84,7 +84,7 @@ void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
 		default:
 			mu::string message (U"Invalid hex digit: ");
 			message.push_back (context_a.character);
-			(*identifier.lexer.errors) (message);
+			identifier.lexer.errors (message);
 			identifier.lexer.state.push (new (GC) mu::io::lexer::error);
 			break;
 	}

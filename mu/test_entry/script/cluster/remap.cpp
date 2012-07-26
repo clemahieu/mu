@@ -23,7 +23,7 @@ TEST (script_test, remap1)
 	auto remap (new (GC) mu::script::cluster::remap_node);
 	auto identity (new (GC) mu::script::identity::operation);
 	remap->mapping [fail] = identity;
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context context (errors);
 	context.push (remap);
 	context.push (cluster);

@@ -151,7 +151,7 @@ void mu::io::lexer::control::lex (mu::io::lexer::context const & context_a)
 		default:
 			mu::string message (U"Unknown token: :");
 			message.push_back (context_a.character);
-			(*lexer.errors) (message);
+			lexer.errors (message);
 			lexer.state.push (new (GC) mu::io::lexer::error);
 			break;
 		}
@@ -159,7 +159,7 @@ void mu::io::lexer::control::lex (mu::io::lexer::context const & context_a)
 	else
 	{
 		mu::string message (U"End of stream when parsing control character");
-		(*lexer.errors) (message);
+		lexer.errors (message);
 		lexer.state.push (new (GC) mu::io::lexer::error);
 	}
 }

@@ -27,7 +27,7 @@ TEST (llvm_test, module_add_package1)
 	EXPECT_EQ (!function2->isDeclaration (), true);
 	module->module->getFunctionList ().push_back (function2);
 	mu::llvm_::module::get_package get;
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::module::get_package);
 	ctx.push (module);

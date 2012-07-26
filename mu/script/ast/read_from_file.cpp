@@ -32,7 +32,7 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 		{
 			mu::io::builder builder;
             mu::io::process (builder, stream);
-			if (builder.errors->errors.empty ())
+			if (builder.errors.errors.empty ())
 			{
 				if (builder.cluster != nullptr)
 				{
@@ -49,7 +49,7 @@ bool mu::script::ast::read_from_file::operator () (mu::script::context & context
 			}
 			else
 			{
-				for (auto i (builder.errors->errors.begin ()), j (builder.errors->errors.end ()); i != j; ++i)
+				for (auto i (builder.errors.errors.begin ()), j (builder.errors.errors.end ()); i != j; ++i)
 				{
 					context_a.errors (*i);
 				}

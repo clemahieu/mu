@@ -3,18 +3,12 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/io/parser/parser.h>
 #include <mu/io/analyzer/analyzer.h>
+#include <mu/core/errors/error_list.h>
 
 #include <vector>
 
 namespace mu
 {
-	namespace core
-	{
-		namespace errors
-		{
-			class error_list;
-		}
-	}
 	namespace io
 	{
 		namespace ast
@@ -36,7 +30,7 @@ namespace mu
 			builder ();
 			builder (mu::io::analyzer::extensions::extensions * extensions_a);
 			void operator () (mu::io::lexer::context const & context_a);
-			mu::core::errors::error_list * errors;
+			mu::core::errors::error_list errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
 			mu::io::lexer::lexer lexer;

@@ -33,7 +33,7 @@ TEST (llvm_test, instruction_package1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_TRUE (builder.errors.errors.empty ());
 	auto cluster1 (builder.cluster);
 	EXPECT_EQ (cluster1->routines.size (), 1);
 	auto routine1 (cluster1->routines [0]);
@@ -51,7 +51,7 @@ TEST (llvm_test, instruction_package1)
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	(*b2.analyzer.extensions) (mu::string (U"add"), new (GC) mu::io::analyzer::extensions::global (ctx.working (0)));
     mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
-	EXPECT_EQ (b2.errors->errors.empty (), true);
+	EXPECT_TRUE (b2.errors.errors.empty ());
 	auto cluster2 (b2.cluster);
 	EXPECT_EQ (cluster2->routines.size (), 1);
 	auto routine2 (cluster2->routines [0]);
@@ -78,7 +78,7 @@ TEST (llvm_test, instruction_package2)
     stream << U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"; 
 	stream << U"[[~ :~; instruction insert block] .apply build_insert instruction insert block]";
     mu::io::process (builder, stream);
-	ASSERT_TRUE (builder.errors->errors.empty ());
+	ASSERT_TRUE (builder.errors.errors.empty ());
 	auto cluster1 (builder.cluster);
 	ASSERT_TRUE (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
@@ -95,7 +95,7 @@ TEST (llvm_test, instruction_package2)
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	(*b2.analyzer.extensions) (mu::string (U"add"), new (GC) mu::io::analyzer::extensions::global (ctx.working (0)));
 	mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
-	EXPECT_EQ (b2.errors->errors.empty (), true);
+	EXPECT_TRUE (b2.errors.errors.empty ());
 	auto cluster2 (b2.cluster);
 	EXPECT_EQ (cluster2->routines.size (), 1);
 	auto routine2 (cluster2->routines [0]);

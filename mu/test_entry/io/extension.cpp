@@ -35,7 +35,7 @@ TEST (io_test, extension1)
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_TRUE (result.errors->errors.empty ());
+	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
@@ -55,7 +55,7 @@ TEST (io_test, extension2)
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_TRUE (result.errors->errors.empty ());
+	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
@@ -75,7 +75,7 @@ TEST (io_test, extension3)
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_TRUE (result.errors->errors.empty ());
+	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
@@ -96,7 +96,7 @@ TEST (io_test, extension4)
 	auto cl (new (GC) mu::io::ast::cluster);
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-	EXPECT_TRUE (result.errors->errors.empty ());
+	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);

@@ -5,7 +5,6 @@
 #include <gc_cpp.h>
 
 mu::io_test::analyzer_result::analyzer_result ()
-	: errors (new (GC) mu::core::errors::error_list)
 {
 }
 

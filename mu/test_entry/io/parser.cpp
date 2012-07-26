@@ -19,18 +19,18 @@
 TEST (io_test, parser1)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context (0, 0, 0, 0, 0, 0));
 	EXPECT_EQ (result.results.size (), 1);
 	EXPECT_EQ (result.results [0]->expressions.size (), 0);
-	EXPECT_EQ (errors->errors.empty (), true);
+	EXPECT_EQ (errors.errors.empty (), true);
 }
 
 TEST (io_test, parser2)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -49,7 +49,7 @@ TEST (io_test, parser2)
 TEST (io_test, parser3)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::identifier (mu::string (U"t1")), mu::io::debugging::context (1, 2, 1, 1, 3, 2));
@@ -70,7 +70,7 @@ TEST (io_test, parser3)
 TEST (io_test, parser4)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -91,7 +91,7 @@ TEST (io_test, parser4)
 TEST (io_test, parser5)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context (1, 2, 1, 1, 2, 1));
@@ -111,7 +111,7 @@ TEST (io_test, parser5)
 TEST (io_test, parser6)
 {
 	mu::io_test::parser_result result;
-	auto errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::io::parser::parser parser (errors, boost::bind (&mu::io_test::parser_result::operator(), &result, _1));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 1, 0, 1, 1, 0));
 	parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (1, 2, 1, 1, 2, 1));

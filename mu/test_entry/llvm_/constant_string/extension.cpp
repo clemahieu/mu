@@ -30,7 +30,7 @@ TEST (llvm_test, constant_string_extension1)
 {
 	mu::io::ast::builder builder;
 	mu::io::process (builder, U"[` test_string]");
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
 	EXPECT_EQ (cluster->expressions.size (), 1);
 	auto expression (cluster->expressions [0]);
@@ -43,5 +43,5 @@ TEST (llvm_test, constant_string_extension1)
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
 	(*analyzer.extensions) (mu::string (U"`"), new (GC) mu::llvm_::constant_string::extension (module));
 	mu::io::analyzer::expression exp (rout, expression, self);
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_TRUE (builder.errors.errors.empty ());
 }

@@ -22,7 +22,7 @@
 
 TEST (script_test, times_operation1)
 {
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::times::operation);
 	auto n1 (new (GC) mu::script::integer::node (0));
@@ -42,7 +42,7 @@ TEST (script_test, times_operation1)
 
 TEST (script_test, times_operation2)
 {	
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	auto expression (new (GC) mu::core::expression);
 	expression->dependencies.push_back (new (GC) mu::core::parameters);
@@ -65,7 +65,7 @@ TEST (script_test, times_operation3)
 {	
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[[~ :~; subtract number amount] ~ subtract [subtract number amount] amount]");
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_TRUE (builder.errors.errors.empty ());
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::times::operation);

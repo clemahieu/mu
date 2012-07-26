@@ -21,7 +21,7 @@ namespace mu
 			public:
 				extension (mu::llvm_::module::node * module_a);
                 bool operator () () override;
-				void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
+				void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
 				mu::llvm_::module::node * module;
 			};
 		}

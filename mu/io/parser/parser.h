@@ -42,14 +42,14 @@ namespace mu
 			class parser : public mu::io::parser::target
 			{
 			public:
-				parser (mu::core::errors::error_target * errors_a, boost::function <void (mu::io::ast::cluster *)> target_a);
+				parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::ast::cluster *)> target_a);
 				void operator () (mu::io::tokens::token * token, mu::io::debugging::context context_a);
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void reset ();
 				void finish ();
 				mu::io::debugging::context context;
 				mu::io::ast::cluster * cluster;
-				mu::core::errors::error_target * errors;
+				mu::core::errors::error_target & errors;
 				boost::function <void (mu::io::ast::cluster *)> target;
 				std::stack <mu::io::tokens::visitor *, std::deque <mu::io::tokens::visitor *, gc_allocator <mu::io::tokens::visitor *>>> state;
 			};

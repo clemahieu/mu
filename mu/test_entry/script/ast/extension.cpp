@@ -19,7 +19,7 @@ TEST (script_test, extension1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast []]");
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_EQ (builder.errors.errors.empty (), true);
 	auto cluster (builder.cluster);
 	EXPECT_NE (cluster, nullptr);
 	EXPECT_EQ (cluster->routines.size (), 1);
@@ -38,7 +38,7 @@ TEST (script_test, extension2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast thing]");
-	EXPECT_EQ (!builder.errors->errors.empty (), true);
+	EXPECT_EQ (!builder.errors.errors.empty (), true);
 	EXPECT_EQ (builder.cluster, nullptr);
 }
 
@@ -46,7 +46,7 @@ TEST (script_test, extension3)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast [[]]]");
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	EXPECT_EQ (builder.errors.errors.empty (), true);
 	auto cluster (builder.cluster);
 	EXPECT_NE (cluster, nullptr);
 	EXPECT_EQ (cluster->routines.size (), 1);

@@ -12,8 +12,7 @@
 #include <gc_cpp.h>
 
 mu::io::ast::builder::builder ()
-	: errors (new (GC) mu::core::errors::error_list),
-	parser (errors, boost::bind (&mu::io::ast::builder::add, this, _1)),
+	: parser (errors, boost::bind (&mu::io::ast::builder::add, this, _1)),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
 	cluster (new mu::io::ast::cluster)
 {

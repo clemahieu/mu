@@ -47,7 +47,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::identifier * token)
 		message << full_name;
 		message << L" current: ";
 		message << token->string;
-		(*parser.errors) (message.str ());
+		parser.errors (message.str ());
 		parser.state.push (new (GC) mu::io::parser::error);
 	}
 }
@@ -63,7 +63,7 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 	{
 		mu::stringstream message;
 		message << L"Expression has no full name";
-		(*parser.errors) (message.str ());
+		parser.errors (message.str ());
 		parser.state.push (new (GC) mu::io::parser::error);
 	}
 	else
@@ -88,6 +88,6 @@ void mu::io::parser::full::unexpected_token (mu::io::tokens::token * token)
     mu::stringstream message;
 	message << L"Unexpected token while parsing full name: ";
 	message << token->token_name ();
-	(*parser.errors) (message.str ());
+	parser.errors (message.str ());
     parser.state.push (new (GC) mu::io::parser::error);
 }

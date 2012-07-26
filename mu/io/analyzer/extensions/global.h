@@ -20,7 +20,7 @@ namespace mu
 					global (mu::core::node * node_a);
 					mu::core::node * node;
                     bool operator () () override;
-					void operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
+					void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
 				};
 			}
 		}

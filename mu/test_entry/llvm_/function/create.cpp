@@ -17,7 +17,7 @@
 TEST (llvm_test, function_create1)
 {
 	llvm::LLVMContext context;
-	mu::core::errors::errors errors (new (GC) mu::core::errors::error_list);
+	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function::create);
 	ctx.push (new (GC) mu::llvm_::function_type::node (new (GC) mu::llvm_::context::node (&context), llvm::FunctionType::get (llvm::Type::getVoidTy (context), false)));

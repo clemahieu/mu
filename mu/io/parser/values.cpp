@@ -49,7 +49,7 @@ void mu::io::parser::values::operator () (mu::io::tokens::right_square * token)
 
 void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)
 {
-	(*parser.errors) (U"Unexpected end of stream while parsing expression");
+	parser.errors (U"Unexpected end of stream while parsing expression");
 	parser.state.push (new (GC) mu::io::parser::error);
 }
 

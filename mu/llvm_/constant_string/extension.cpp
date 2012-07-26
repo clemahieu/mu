@@ -20,7 +20,7 @@ mu::llvm_::constant_string::extension::extension (mu::llvm_::module::node * modu
 {
 }
 
-void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error_target * errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
 {
     assert (remaining.empty ());
 	auto position (expression_a.position + 1);
@@ -40,12 +40,12 @@ void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error
 		}
 		else
 		{
-			(*errors_a) (U"Constant_string extension requires its argument to be an identifer");
+			errors_a (U"Constant_string extension requires its argument to be an identifer");
 		}
 	}
 	else
 	{
-		(*errors_a) (U"Constant_string extension requires one argument");
+		errors_a (U"Constant_string extension requires one argument");
 	}
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/errors/error_list.h>
+
 #include <vector>
 
 namespace mu
@@ -27,7 +29,7 @@ namespace mu
 			analyzer_result ();
 			void operator () (mu::core::cluster * cluster_a);
 			std::vector <mu::core::cluster *> clusters;
-			mu::core::errors::error_list * errors;
+			mu::core::errors::error_list errors;
 		};
 	}
 }
