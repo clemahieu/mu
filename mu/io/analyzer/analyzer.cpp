@@ -38,27 +38,15 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
         auto value (*i);
 		(*value) (this);
 	}
-	if (unresolved.empty ())
-	{
-		if (!(*errors) ())
-		{
-			target (cluster);
-		}
-		else
-		{
-			(*errors) (U"Not generating cluster due to other errors");
-		}
-	}
-	else
-	{
-		for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
-		{
-            mu::stringstream message;
-			message << U"Unresolved identifier: ";
-			message << i->first;
-			(*errors) (new (GC) mu::core::errors::string_error (message.str ()));
-		}
-	}
+    names.finalize (errors);
+    if (!(*errors) ())
+    {
+        target (cluster);
+    }
+    else
+    {
+        (*errors) (U"Not generating cluster due to errors");
+    }
 }
 
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::cluster * cluster_a)
@@ -79,52 +67,4 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
 {
 	(*errors) (U"Analyzer not expecting identifiers");
-}
-
-void mu::io::analyzer::analyzer::mark_used (mu::string name_a)
-{
-	used_names.insert (std::set <mu::string>::value_type (name_a));
-}
-
-void mu::io::analyzer::analyzer::back_resolve (mu::string name_a, mu::core::node * node_a)
-{
-	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
-	{
-		(i->second) (node_a);
-	}
-	unresolved.erase (name_a);
-}
-
-void mu::io::analyzer::analyzer::resolve_routine (mu::string name_a, mu::core::routine * routine_a)
-{
-	assert (!name_a.empty ());
-	auto keyword ((*extensions) (name_a));
-	if (keyword == nullptr)
-	{
-		auto existing (used_names.find (name_a));
-		if (existing == used_names.end ())
-		{
-			mark_used (name_a);
-			assert (cluster->names.find (name_a) == cluster->names.end ());
-			cluster->routines.push_back (routine_a);
-			cluster->names [name_a] = routine_a;
-			back_resolve (name_a, routine_a);
-		}
-		else
-		{
-            mu::stringstream message;
-			message << L"Routine name: ";
-			message << name_a;
-			message << L" has already been used";
-			(*errors) (message.str ());
-		}
-	}
-	else
-	{
-        mu::stringstream message;
-		message << L"Routine named: ";
-		message << name_a;
-		message << L" is a keyword";
-		(*errors) (message.str ());
-	}
 }

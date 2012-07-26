@@ -3,7 +3,11 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/core/expression.h>
 #include <mu/io/analyzer/resolver.h>
+#include <mu/core/errors/string_error.h>
+
 #include <assert.h>
+
+#include <gc_cpp.h>
 
 void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target * errors_a, mu::string const & name, mu::core::node * const node)
 {
@@ -78,4 +82,15 @@ void mu::io::analyzer::name_map::resolve (mu::string const & name, mu::core::nod
         i->second (node);
     }
     unresolved.erase (first, i);
+}
+
+void mu::io::analyzer::name_map::finalize (mu::core::errors::error_target * errors_a)
+{
+    for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
+    {
+        mu::stringstream message;
+        message << U"Unresolved identifier: ";
+        message << i->first;
+        (*errors_a) (new (GC) mu::core::errors::string_error (message.str ()));
+    }
 }

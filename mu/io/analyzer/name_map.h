@@ -31,6 +31,7 @@ namespace mu
                 void insert_local (mu::core::errors::error_target * errors_a, mu::string const &name, mu::core::node * const node);
                 void free_locals (mu::core::errors::error_target * errors_a);
                 void fill_reference (mu::string name, mu::io::debugging::context const & context_a, mu::core::expression & expression);
+                void finalize (mu::core::errors::error_target * errors_a);
             private:
                 void resolve (mu::string const & name, mu::core::node * const node);
                 std::set <mu::string> used_names;

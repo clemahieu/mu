@@ -50,14 +50,9 @@ namespace mu
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;
-				void mark_used (mu::string name_a);
-				void back_resolve (mu::string name_a, mu::core::node * node_a);
-				void resolve_routine (mu::string name_a, mu::core::routine * routine_a);
 				mu::io::analyzer::extensions::extensions * extensions;
 				boost::function <void (mu::core::cluster *)> target;
                 mu::io::analyzer::name_map names;
-				std::set <mu::string> used_names;
-				std::multimap <mu::string, mu::io::analyzer::resolver, std::less <mu::string>, gc_allocator <mu::io::analyzer::resolver>> unresolved;
 				mu::core::errors::error_target * errors;
 				mu::core::cluster * cluster;
 			};

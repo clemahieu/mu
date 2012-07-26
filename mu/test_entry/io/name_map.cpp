@@ -191,3 +191,42 @@ TEST (io_test, name_map14)
     EXPECT_TRUE (expression.dependencies [0] == &node);
     EXPECT_TRUE (expression.dependencies [1] == &node);
 }
+
+// Check that there are no errors when there are no names
+TEST (io_test, name_map15)
+{
+    mu::core::errors::error_list errors;
+    mu::io::analyzer::name_map map;
+    mu::io::debugging::context context;
+    mu::core::expression expression;
+    mu::core::node node;
+    map.finalize (&errors);
+    EXPECT_TRUE (errors.errors.empty ());
+}
+
+// Check that there are no errors when everything is resolved
+TEST (io_test, name_map16)
+{
+    mu::core::errors::error_list errors;
+    mu::io::analyzer::name_map map;
+    mu::io::debugging::context context;
+    mu::core::expression expression;
+    mu::core::node node;
+    map.insert_global (&errors, mu::string (U"thing"), &node);
+    map.fill_reference (mu::string (U"thing"), context, expression);
+    map.finalize (&errors);
+    EXPECT_TRUE (errors.errors.empty ());
+}
+
+// Check that there are errors when there are unresolved references
+TEST (io_test, name_map17)
+{
+    mu::core::errors::error_list errors;
+    mu::io::analyzer::name_map map;
+    mu::io::debugging::context context;
+    mu::core::expression expression;
+    mu::core::node node;
+    map.fill_reference (mu::string (U"thing"), context, expression);
+    map.finalize (&errors);
+    EXPECT_TRUE (!errors.errors.empty ());
+}

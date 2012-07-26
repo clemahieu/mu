@@ -24,12 +24,12 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 {
 	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a.resolve_local (expression_a->full_name->string, self);
+		routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->full_name->string, self_a);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
 		auto reference (new (GC) mu::core::reference (self, i));
-		routine_a.resolve_local (expression_a->individual_names [i]->string, reference);
+        routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->individual_names [i]->string, reference);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
@@ -63,30 +63,10 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identi
 	auto keyword ((*routine.analyzer.extensions) (identifier_a->string));
 	if (keyword == nullptr)
 	{
-		auto local (routine.declarations.find (identifier_a->string));
-		if (local == routine.declarations.end ())
-		{
-			auto routine_l (routine.analyzer.cluster->names.find (identifier_a->string));
-			if (routine_l == routine.analyzer.cluster->names.end ())
-			{
-				self->dependencies.push_back (nullptr);
-				routine.analyzer.unresolved.insert (std::pair <mu::string, mu::io::analyzer::resolver> (identifier_a->string, mu::io::analyzer::resolver (*self, self->dependencies.size () - 1, identifier_a->context)));
-			}
-			else
-			{
-				self->dependencies.push_back (routine_l->second);
-			}
-		}
-		else
-		{
-			assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
-			self->dependencies.push_back (local->second);
-		}
+        routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, *self);
 	}
 	else
 	{
-		assert (routine.declarations.find (identifier_a->string) == routine.declarations.end ());
-		assert (routine.analyzer.cluster->names.find (identifier_a->string) == routine.analyzer.cluster->names.end ());
 		auto errors_l (new (GC) mu::core::errors::error_context (routine.analyzer.errors, identifier_a->context));
 		(*keyword) (errors_l, *this, mu::string ());
 	}

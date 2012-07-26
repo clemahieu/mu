@@ -78,9 +78,9 @@ TEST (llvm_test, instruction_package2)
     stream << U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"; 
 	stream << U"[[~ :~; instruction insert block] .apply build_insert instruction insert block]";
     mu::io::process (builder, stream);
-	EXPECT_EQ (builder.errors->errors.empty (), true);
+	ASSERT_TRUE (builder.errors->errors.empty ());
 	auto cluster1 (builder.cluster);
-	EXPECT_EQ (cluster1->routines.size (), 2);
+	ASSERT_TRUE (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
 	mu::core::errors::errors errors (builder.errors);
 	mu::script::context ctx (errors);

@@ -40,9 +40,7 @@ namespace mu
 			public:
 				routine (mu::io::analyzer::analyzer & analyzer_a, mu::io::ast::expression * expression_a);
 				mu::io::analyzer::analyzer & analyzer;
-				void resolve_local (mu::string, mu::core::node * node_a);
 				mu::core::routine * routine_m;
-				std::map <mu::string, mu::core::node *, std::less <mu::string>, gc_allocator <std::pair <mu::string, mu::core::node *>>> declarations;
 			};
 		}
 	}
