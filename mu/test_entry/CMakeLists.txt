@@ -41,6 +41,7 @@ add_executable (mu_test_entry
 	io/lexer_result.cpp
 	io/lexer.cpp
 	io/multiline_comment.cpp
+    io/name_map.cpp
 	io/parser_result.cpp
 	io/parser.cpp
 	io/routine.cpp

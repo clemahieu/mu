@@ -10,6 +10,7 @@ add_library (mu_io SHARED
 	source.cpp
 	analyzer/analyzer.cpp
 	analyzer/expression.cpp
+    analyzer/name_map.cpp
 	analyzer/resolver.cpp
 	analyzer/routine.cpp
 	analyzer/extensions/extension.cpp

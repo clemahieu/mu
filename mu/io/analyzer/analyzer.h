@@ -3,6 +3,7 @@
 #include <mu/io/debugging/context.h>
 #include <mu/core/cluster.h>
 #include <mu/io/ast/visitor.h>
+#include <mu/io/analyzer/name_map.h>
 
 #include <boost/function.hpp>
 
@@ -54,8 +55,9 @@ namespace mu
 				void resolve_routine (mu::string name_a, mu::core::routine * routine_a);
 				mu::io::analyzer::extensions::extensions * extensions;
 				boost::function <void (mu::core::cluster *)> target;
+                mu::io::analyzer::name_map names;
 				std::set <mu::string> used_names;
-				std::multimap <mu::string, std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>, std::less <mu::string>, gc_allocator <std::pair <mu::io::analyzer::resolver *, mu::io::debugging::context>>> unresolved;
+				std::multimap <mu::string, mu::io::analyzer::resolver, std::less <mu::string>, gc_allocator <mu::io::analyzer::resolver>> unresolved;
 				mu::core::errors::error_target * errors;
 				mu::core::cluster * cluster;
 			};

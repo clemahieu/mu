@@ -90,7 +90,7 @@ void mu::io::analyzer::analyzer::back_resolve (mu::string name_a, mu::core::node
 {
 	for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
 	{
-		(*(i->second).first) (node_a);
+		(i->second) (node_a);
 	}
 	unresolved.erase (name_a);
 }
