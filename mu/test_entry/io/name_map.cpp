@@ -228,3 +228,17 @@ TEST (io_test, name_map17)
     map.finalize (errors);
     EXPECT_TRUE (!errors.errors.empty ());
 }
+
+// Check that a local declaration can't resolve references in other functions
+TEST (io_test, name_map18)
+{
+    mu::core::errors::error_list errors;
+    mu::io::analyzer::name_map map;
+    mu::io::debugging::context context;
+    mu::core::expression expression;
+    mu::core::node node;
+    map.fill_reference (mu::string (U"thing"), context, expression);
+    map.free_locals ();
+    map.insert_local (errors, mu::string (U"thing"), &node);
+    EXPECT_TRUE (!errors.errors.empty ());
+}
