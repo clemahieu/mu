@@ -28,7 +28,7 @@ mu::io::analyzer::routine::routine (mu::io::analyzer::analyzer & analyzer_a, mu:
 		routine_m->body = expression_l;
 		if (!name.empty ())
 		{
-			analyzer.names.insert_global (analyzer.errors, name, routine_m);
+			analyzer.names.insert_global (analyzer.errors, name, routine_m, expression_a->full_name->context);
             analyzer.cluster->names [name] = routine_m;
 		}
         analyzer.cluster->routines.push_back (routine_m);

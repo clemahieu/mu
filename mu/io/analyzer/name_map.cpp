@@ -9,7 +9,7 @@
 
 #include <gc_cpp.h>
 
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node)
+void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::debugging::context const & context_a)
 {
     auto collision (used_names.find (name) != used_names.end ());
     if (collision)
@@ -25,11 +25,11 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target &
         assert (mapping.find (name) == mapping.end ());
         used_names.insert (name);
         mapping [name] = node;
-        resolve (name, node);
+        resolve (errors_a, name, node, true, context_a);
     }
 }
 
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node)
+void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::debugging::context const & context_a)
 {
     auto collision (mapping.find (name) != mapping.end ());
     if (collision)
@@ -45,12 +45,17 @@ void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & 
         used_names.insert (name);
         mapping [name] = node;
         locals.insert (name);
-        resolve (name, node);
+        resolve (errors_a, name, node, false, context_a);
     }
 }
 
 void mu::io::analyzer::name_map::free_locals ()
 {
+    for (auto i (local_references.begin ()), j (local_references.end ()); i != j; ++i)
+    {
+        *(*i) = true;
+    }
+    local_references.clear ();
     for (auto i (locals.begin ()), j (locals.end ()); i != j; ++i)
     {
         mapping.erase (*i);
@@ -69,17 +74,18 @@ void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::debugg
     {
         expression.dependencies.push_back (nullptr);
         auto resolver (mu::io::analyzer::resolver (expression, expression.dependencies.size () - 1, context_a));
-        unresolved.insert (std::pair <mu::string, mu::io::analyzer::resolver> (name, resolver));
+        std::multimap <mu::string, mu::io::analyzer::resolver, std::less <mu::string>, gc_allocator <mu::io::analyzer::resolver>>::iterator const & new_item (unresolved.insert (std::pair <mu::string, mu::io::analyzer::resolver> (name, resolver)));
+        local_references.push_back (&new_item->second.only_global);
     }
 }
 
-void mu::io::analyzer::name_map::resolve (mu::string const & name, mu::core::node * const node)
+void mu::io::analyzer::name_map::resolve (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, bool global, mu::io::debugging::context const & context_a)
 {
     auto first (unresolved.find (name));
     auto i (first);
     for (; i != unresolved.end () && i->first == name; ++i)
     {
-        i->second (node);
+        i->second (errors_a, global, context_a, node);
     }
     unresolved.erase (first, i);
 }

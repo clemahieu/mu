@@ -24,19 +24,19 @@ bool mu::io::debugging::context::operator == (mu::io::debugging::context const &
 	return result;
 }
 
-std::wstring mu::io::debugging::context::string ()
+mu::string mu::io::debugging::context::string () const
 {
-	std::wstringstream result;
+    mu::stringstream result;
 	result << first.row;
-	result << L',';
+	result << U',';
 	result << first.column;
-	result << L',';
+	result << U',';
 	result << first.character;
-	result << L':';
+	result << U':';
 	result << last.row;
-	result << L',';
+	result << U',';
 	result << last.column;
-	result << L',';
+	result << U',';
 	result << last.character;
 	return result.str ();
 }

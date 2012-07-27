@@ -38,7 +38,7 @@ TEST (io_test, name_map4)
     mu::core::expression expression;
     map.fill_reference (mu::string (U"thing"), context, expression);
     mu::core::node node;
-    map.insert_global(errors, mu::string (U"thing"), &node);
+    map.insert_global(errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (expression.dependencies.size () == 1);
     EXPECT_TRUE (expression.dependencies [0] == &node);
@@ -53,7 +53,7 @@ TEST (io_test, name_map5)
     mu::core::expression expression;
     map.fill_reference (mu::string (U"thing"), context, expression);
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (expression.dependencies.size () == 1);
     EXPECT_TRUE (expression.dependencies [0] == &node);
@@ -67,9 +67,9 @@ TEST (io_test, name_map6)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing2"), &node2);
+    map.insert_local (errors, mu::string (U"thing2"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -81,9 +81,9 @@ TEST (io_test, name_map7)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2);
+    map.insert_local (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -95,9 +95,9 @@ TEST (io_test, name_map8)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing2"), &node2);
+    map.insert_local (errors, mu::string (U"thing2"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -109,9 +109,9 @@ TEST (io_test, name_map9)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2);
+    map.insert_local (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -123,10 +123,10 @@ TEST (io_test, name_map10)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2);
+    map.insert_local (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -138,9 +138,9 @@ TEST (io_test, name_map11)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_global (errors, mu::string (U"thing"), &node);
+    map.insert_global (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2);
+    map.insert_local (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -152,9 +152,9 @@ TEST (io_test, name_map12)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_global (errors, mu::string (U"thing"), &node2);
+    map.insert_global (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -166,10 +166,10 @@ TEST (io_test, name_map13)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
     mu::core::node node2;
-    map.insert_global (errors, mu::string (U"thing"), &node2);
+    map.insert_global (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -183,7 +183,7 @@ TEST (io_test, name_map14)
     mu::core::node node;
     map.fill_reference (mu::string (U"thing"), context, expression);
     map.fill_reference (mu::string (U"thing"), context, expression);
-    map.insert_global (errors, mu::string (U"thing"), &node);
+    map.insert_global (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     EXPECT_TRUE (expression.dependencies.size () == 2);
     EXPECT_TRUE (expression.dependencies [0] == &node);
@@ -210,7 +210,7 @@ TEST (io_test, name_map16)
     mu::io::debugging::context context;
     mu::core::expression expression;
     mu::core::node node;
-    map.insert_global (errors, mu::string (U"thing"), &node);
+    map.insert_global (errors, mu::string (U"thing"), &node, context);
     map.fill_reference (mu::string (U"thing"), context, expression);
     map.finalize (errors);
     EXPECT_TRUE (errors.errors.empty ());
@@ -239,6 +239,6 @@ TEST (io_test, name_map18)
     mu::core::node node;
     map.fill_reference (mu::string (U"thing"), context, expression);
     map.free_locals ();
-    map.insert_local (errors, mu::string (U"thing"), &node);
+    map.insert_local (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }

@@ -24,12 +24,12 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 {
 	if (!expression_a->full_name->string.empty ())
 	{
-		routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->full_name->string, self_a);
+		routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->full_name->string, self_a, expression_a->full_name->context);
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
 		auto reference (new (GC) mu::core::reference (self, i));
-        routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->individual_names [i]->string, reference);
+        routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->individual_names [i]->string, reference, expression_a->individual_names [i]->context);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
 	{
