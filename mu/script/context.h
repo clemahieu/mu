@@ -1,7 +1,6 @@
 #pragma once
 
 #include <mu/script/iterator.h>
-#include <mu/core/errors/errors.h>
 
 #include <vector>
 
@@ -10,6 +9,10 @@ namespace mu
 	namespace core
 	{
 		class node;
+        namespace errors
+        {
+            class error_target;
+        }
 	}
 	namespace script
 	{
@@ -17,7 +20,7 @@ namespace mu
 		{
 		public:
 			context ();
-			context (mu::core::errors::errors errors_a);
+			context (mu::core::errors::error_target & errors_a);
 			mu::core::node * & parameters (size_t offset);
 			size_t parameters_size ();
 			mu::script::iterator parameters_begin ();
@@ -56,7 +59,7 @@ namespace mu
 			size_t base_begin;
 			size_t base_end;
 			size_t frame_begin;
-			mu::core::errors::errors errors;
+			mu::core::errors::error_target & errors;
 		};
 	}
 }

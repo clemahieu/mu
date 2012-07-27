@@ -28,7 +28,7 @@
 
 TEST (llvm_test, split_return1)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context context (errors);
 	context.push (new (GC) mu::script::synthesizer::operation);
 	auto cluster (new (GC) mu::core::cluster);

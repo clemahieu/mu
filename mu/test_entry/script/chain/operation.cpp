@@ -12,7 +12,7 @@ TEST (script_test, chain_operation1)
 {
 	auto operation (new (GC) mu::script_test::chain::ten_count);
 	auto count (new (GC) mu::script::integer::node (50));
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::chain::operation);
 	ctx.push (operation);

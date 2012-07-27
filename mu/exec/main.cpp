@@ -15,7 +15,7 @@ int main (int argc, char * argv [])
 {
 	if (argc == 2)
 	{
-		mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+		mu::core::errors::error_list errors;
 		
 		std::string file_name (argv [1]);
 		mu::script::context context;
@@ -34,7 +34,11 @@ int main (int argc, char * argv [])
 		else
 		{
 			std::wcout << L"Error while executing file: ";
-			errors.target.print (std::wcout);
+            mu::stringstream stream;
+			errors.print (stream);
+            mu::string const & string (stream.str ());
+            std::wstring wstring (string.begin (), string.end ());
+            std::wcout << wstring;
 		}
 	}
 	else

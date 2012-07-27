@@ -2,6 +2,7 @@
 
 #include <mu/script/check.h>
 #include <mu/script/runtime/locals.h>
+#include <mu/core/errors/error_target.h>
 
 #include <sstream>
 

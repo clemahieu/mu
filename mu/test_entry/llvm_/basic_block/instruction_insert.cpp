@@ -27,7 +27,7 @@ TEST (llvm_test, instruction_insert1)
 	mod->getFunctionList ().push_back (function);
 	auto block (new (GC) mu::llvm_::basic_block::node (bl));
 	function->getBasicBlockList ().push_back (block->block);
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context context (errors);
 	context.push (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::add));
 	context.push (new (GC) mu::llvm_::value::node (llvm::ConstantInt::get (llvm::Type::getInt32Ty (ctx), 1, false), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (ctx))));

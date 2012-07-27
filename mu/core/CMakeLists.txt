@@ -15,7 +15,6 @@ add_library (mu_core SHARED
 	routine.cpp
     visitor.cpp
 	errors/error.cpp
-	errors/errors.cpp
 	errors/error_context.cpp
 	errors/error_list.cpp
 	errors/error_target.cpp

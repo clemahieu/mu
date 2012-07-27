@@ -23,6 +23,7 @@
 #include <mu/script/api.h>
 #include <mu/io/lexer/stream_input.h>
 #include <mu/core/routine.h>
+#include <mu/core/types.h>
 
 #include <gc_cpp.h>
 
@@ -75,8 +76,7 @@ void mu::repl::repl::iteration ()
 			auto cluster (builder.cluster);
 			if (cluster->routines.size () > 0)
 			{
-                mu::core::errors::error_list errors_l;
-				mu::core::errors::errors errors (errors_l);
+                mu::core::errors::error_list errors;
 				mu::script::context ctx (errors);
 				ctx.push (cluster->routines [0]);
 				auto valid (ctx ());
@@ -90,7 +90,11 @@ void mu::repl::repl::iteration ()
 				}
 				else
 				{
-					errors.target.print (std::wcout);
+                    mu::stringstream stream;
+					errors.print (stream);
+                    mu::string const & string (stream.str ());
+                    std::wstring wstring (string.begin (), string.end ());
+                    std::wcout << wstring;
 				}
 			}
 			else

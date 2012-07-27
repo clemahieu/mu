@@ -16,6 +16,7 @@
 #include <mu/script/runtime/selection.h>
 #include <mu/script/runtime/fixed.h>
 #include <mu/core/parameters.h>
+#include <mu/core/errors/error_target.h>
 
 #include <gc_cpp.h>
 

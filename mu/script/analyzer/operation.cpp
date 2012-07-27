@@ -8,6 +8,7 @@
 #include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/expression.h>
 #include <mu/script/check.h>
+#include <mu/core/errors/error_target.h>
 
 #include <boost/bind.hpp>
 
@@ -26,7 +27,7 @@ bool mu::script::analyzer::operation::operator () (mu::script::context & context
 mu::core::cluster * mu::script::analyzer::operation::core (mu::script::context & context_a, mu::script::extensions::node * extensions, mu::io::ast::cluster * ast)
 {
 	mu::core::cluster * result;
-	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors.target, extensions->extensions);
+	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors, extensions->extensions);
 	analyzer.input (ast);
 	return result;
 }

@@ -37,8 +37,7 @@ TEST (llvm_test, instruction_package1)
 	auto cluster1 (builder.cluster);
 	EXPECT_EQ (cluster1->routines.size (), 1);
 	auto routine1 (cluster1->routines [0]);
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::script::closure::create_single);
 	ctx.push (routine1);
 	ctx.push (new (GC) mu::llvm_::instructions::add);
@@ -82,8 +81,7 @@ TEST (llvm_test, instruction_package2)
 	auto cluster1 (builder.cluster);
 	ASSERT_TRUE (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (routine1);
 	ctx.push (new (GC) mu::llvm_::instructions::add);
 	ctx.push (new (GC) mu::llvm_::basic_block::insert);

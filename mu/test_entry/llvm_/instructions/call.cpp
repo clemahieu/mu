@@ -23,7 +23,7 @@
 
 TEST (llvm_test, instructions_call1)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> arguments;
@@ -38,7 +38,7 @@ TEST (llvm_test, instructions_call1)
 
 TEST (llvm_test, instructions_call2)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> arguments;
@@ -54,7 +54,7 @@ TEST (llvm_test, instructions_call2)
 
 TEST (llvm_test, instructions_call3)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (context)))));
@@ -72,7 +72,7 @@ TEST (llvm_test, instructions_call3)
 
 TEST (llvm_test, instructions_call4)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto type (new (GC) mu::llvm_::pointer_type::node (new (GC) mu::llvm_::function_type::node (ctx, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node *>> (), new (GC) mu::llvm_::void_type::node (ctx))));

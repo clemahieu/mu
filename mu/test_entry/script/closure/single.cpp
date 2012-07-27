@@ -1,4 +1,3 @@
-#include <mu/core/errors/errors.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure/single.h>
 #include <mu/script/identity/operation.h>
@@ -13,7 +12,7 @@ TEST (script_test, closure_single1)
 	std::vector <mu::core::node *, gc_allocator <mu::core::node *>> closed;
 	auto n1 (new (GC) mu::core::node);
 	closed.push_back (n1);
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::closure::single (closed, new (GC) mu::script::identity::operation));
 	auto n2 (new (GC) mu::core::node);

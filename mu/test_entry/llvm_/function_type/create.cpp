@@ -19,7 +19,7 @@ TEST (llvm_test, function_type_create1)
 {
 	llvm::LLVMContext context_l;
 	auto context (new (GC) mu::llvm_::context::node (&context_l));
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function_type::create);
 	ctx.push (context);
@@ -39,7 +39,7 @@ TEST (llvm_test, function_type_create2)
 	llvm::LLVMContext context_l;
 	auto context (new (GC) mu::llvm_::context::node (&context_l));
 	mu::llvm_::function_type::create create;
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function_type::create);
 	ctx.push (context);
@@ -61,7 +61,7 @@ TEST (llvm_test, function_type_create3)
 {
 	llvm::LLVMContext context_l;
 	auto context (new (GC) mu::llvm_::context::node (&context_l));
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function_type::create);
 	ctx.push (context);
@@ -86,7 +86,7 @@ TEST (llvm_test, function_type_create4)
 {
 	llvm::LLVMContext context_l;
 	auto context (new (GC) mu::llvm_::context::node (&context_l));
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function_type::create);
 	ctx.push (context);
@@ -107,7 +107,7 @@ TEST (llvm_test, function_type_create5)
 	llvm::LLVMContext context_l;
 	auto context (new (GC) mu::llvm_::context::node (&context_l));
 	mu::llvm_::function_type::create create;
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::function_type::create);
 	ctx.push (context);

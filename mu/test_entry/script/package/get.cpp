@@ -1,4 +1,3 @@
-#include <mu/core/errors/errors.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/package/get.h>
 #include <mu/script/package/node.h>
@@ -11,7 +10,7 @@
 
 TEST (script_test, package_get1)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto data (new (GC) mu::script::package::node);
 	auto name (new (GC) mu::script::string::node (mu::string (U"test")));
 	auto node (new (GC) mu::core::node);

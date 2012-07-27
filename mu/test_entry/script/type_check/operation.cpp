@@ -8,7 +8,7 @@
 
 TEST (script_test, type_check_operation1)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <> (identity));
@@ -18,7 +18,7 @@ TEST (script_test, type_check_operation1)
 
 TEST (script_test, type_check_operation2)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <> (identity));
@@ -30,7 +30,7 @@ TEST (script_test, type_check_operation2)
 
 TEST (script_test, type_check_operation3)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <mu::script::identity::operation> (identity));
@@ -42,7 +42,7 @@ TEST (script_test, type_check_operation3)
 
 TEST (script_test, type_check_operation4)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <mu::script::identity::operation> (identity));
@@ -53,7 +53,7 @@ TEST (script_test, type_check_operation4)
 
 TEST (script_test, type_check_operation5)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <mu::script::identity::operation> (identity));
@@ -65,7 +65,7 @@ TEST (script_test, type_check_operation5)
 
 TEST (script_test, type_check_operation6)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto identity (new (GC) mu::script::identity::operation);
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::type_check::operation <mu::core::node, mu::core::node> (identity));

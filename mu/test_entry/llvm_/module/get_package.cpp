@@ -24,7 +24,7 @@ TEST (llvm_test, module_get_package1)
 	module->module->getFunctionList ().push_back (function1);
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b"));
 	module->module->getFunctionList ().push_back (function2);
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::module::get_package);
 	ctx.push (module);

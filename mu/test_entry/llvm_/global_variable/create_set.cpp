@@ -19,7 +19,7 @@
 TEST (llvm_test, global_variable_create_set1)
 {
 	llvm::LLVMContext context;
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (), context)));
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::llvm_::global_variable::create_set);

@@ -24,7 +24,7 @@ TEST (llvm_test, link_modules1)
 	auto module2 (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef ("test2"), context)));	
 	auto function2 (llvm::Function::Create (llvm::FunctionType::get (llvm::Type::getVoidTy (context), types, false), llvm::GlobalValue::LinkageTypes::ExternalLinkage, "b", module2->module));
 	mu::llvm_::linker::link_modules link_modules;
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx;
 	ctx.push (new (GC) mu::llvm_::linker::link_modules);
 	ctx.push (module);

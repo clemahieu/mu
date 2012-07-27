@@ -47,8 +47,7 @@ TEST (llvm_test, synthesizer_operation1)
 	EXPECT_NE (ast, nullptr);
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (), context_l)));	
 	context->values [1] = module;
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -92,8 +91,7 @@ TEST (llvm_test, synthesizer_operation2)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -145,8 +143,7 @@ TEST (llvm_test, synthesizer_operation3)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -190,8 +187,7 @@ TEST (llvm_test, synthesizer_operation4)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -235,8 +231,7 @@ TEST (llvm_test, synthesizer_operation5)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -280,8 +275,7 @@ TEST (llvm_test, synthesizer_operation6)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;					
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -325,8 +319,7 @@ TEST (llvm_test, synthesizer_operation7)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;						
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -370,8 +363,7 @@ TEST (llvm_test, synthesizer_operation8)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;						
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -447,8 +439,7 @@ TEST (llvm_test, synthesizer_operation9)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;					
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -495,8 +486,7 @@ TEST (llvm_test, synthesizer_operation10)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;				
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -551,8 +541,7 @@ TEST (llvm_test, synthesizer_operation11)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;		
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -605,8 +594,7 @@ TEST (llvm_test, synthesizer_operation12)
 	mu::io::process (builder, code.str ());
 	auto ast (builder.cluster);
 	EXPECT_TRUE (builder.errors.errors.empty ());
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -635,8 +623,7 @@ TEST (llvm_test, synthesizer_operation13)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -692,8 +679,7 @@ TEST (llvm_test, synthesizer_operation14)
 	auto module (new llvm::Module (llvm::StringRef (), context_l));	
 	context_p->context = &context_l;
 	module_p->module = module;			
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);
@@ -746,8 +732,7 @@ TEST (llvm_test, synthesizer_operation15)
 	EXPECT_TRUE (ast != nullptr);
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (), context_l)));	
 	context->values [1] = module;
-	mu::core::errors::errors errors (builder.errors);
-	mu::script::context ctx (errors);
+	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::llvm_::synthesizer::operation);
 	ctx.push (ast);
 	ctx.push (context);

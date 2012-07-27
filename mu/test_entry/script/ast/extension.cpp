@@ -24,7 +24,7 @@ TEST (script_test, extension1)
 	EXPECT_NE (cluster, nullptr);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]);
-	mu::script::context ctx (mu::core::errors::errors (builder.errors));
+	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
@@ -51,7 +51,7 @@ TEST (script_test, extension3)
 	EXPECT_NE (cluster, nullptr);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]);
-	mu::script::context ctx (mu::core::errors::errors (builder.errors));
+	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);

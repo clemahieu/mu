@@ -1,4 +1,3 @@
-#include <mu/core/errors/errors.h>
 #include <mu/script/package/create.h>
 #include <mu/script/package/node.h>
 #include <mu/core/errors/error_list.h>
@@ -10,7 +9,7 @@
 
 TEST (script_test, package_create1)
 {
-	mu::core::errors::errors errors (*new (GC) mu::core::errors::error_list);
+	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::package::create);
 	auto result (ctx ());

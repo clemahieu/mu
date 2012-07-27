@@ -33,8 +33,7 @@ mu::script::builder::builder (mu::io::analyzer::extensions::extensions * extensi
 void mu::script::builder::add (mu::core::cluster * cluster_a)
 {
 	assert (cluster == nullptr);
-    mu::core::errors::errors errors_l (errors);
-    mu::script::context context (errors_l);
+    mu::script::context context (errors);
     context.push (new (GC) mu::script::synthesizer::operation);
     context.push (cluster_a);
     auto valid (context ());

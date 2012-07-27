@@ -4,6 +4,7 @@
 #include <mu/script/string/node.h>
 #include <mu/script/context.h>
 #include <mu/script/check.h>
+#include <mu/core/errors/error_target.h>
 
 #include <sstream>
 

@@ -18,7 +18,7 @@ mu::script::context::context ()
 	enter ();
 }
 
-mu::script::context::context (mu::core::errors::errors errors_a)
+mu::script::context::context (mu::core::errors::error_target & errors_a)
 	: base_begin (0),
 	base_end (0),
 	frame_begin (0),

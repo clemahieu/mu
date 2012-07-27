@@ -5,6 +5,7 @@
 #include <mu/core/routine.h>
 #include <mu/script/topology/core.h>
 #include <mu/script/topology/node.h>
+#include <mu/core/errors/error_target.h>
 
 bool mu::script::topology::operation::operator () (mu::script::context & context_a)
 {

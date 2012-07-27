@@ -3,6 +3,10 @@
 #include <mu/core/segment.h>
 #include <mu/script/context.h>
 
+namespace std
+{
+    class type_info;
+}
 namespace mu
 {
 	namespace core
