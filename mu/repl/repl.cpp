@@ -12,8 +12,6 @@
 #include <mu/io/lexer/error.h>
 #include <mu/io/parser/error.h>
 #include <mu/repl/quit/operation.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/print/operation.h>
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
@@ -61,7 +59,8 @@ void mu::repl::repl::iteration ()
 	std::wcout << L"mu> ";
 	mu::io::builder builder (mu::script::api::core ()->extensions);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
-	(*builder.analyzer.extensions) (mu::string (U"quit"), new (GC) mu::io::analyzer::extensions::global (quit));
+    assert (false);
+	/*(*builder.analyzer.extensions) (mu::string (U"quit"), quit);*/
     std::wstring line;
     std::wcin >> line;
     mu::string text;

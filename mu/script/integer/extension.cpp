@@ -15,6 +15,11 @@
 
 #include <gc_cpp.h>
 
+mu::script::integer::extension::extension (mu::io::keywording::keywording & keywording_a)
+: keywording (keywording_a)
+{
+}
+
 void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
     assert (false);

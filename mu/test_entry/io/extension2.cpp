@@ -5,13 +5,12 @@
 
 #include <assert.h>
 
-void mu::io_test::extension2::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+mu::io_test::extension2::extension2 (mu::io::keywording::keywording & keywording_a)
+: keywording (keywording_a)
 {
-    assert (remaining.empty ());
-	expression_a.self->dependencies.push_back (nullptr);
 }
 
-bool mu::io_test::extension2::operator () ()
+void mu::io_test::extension2::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-    return false;
+    
 }

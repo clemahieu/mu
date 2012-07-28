@@ -2,8 +2,8 @@
 #include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/context.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <gtest/gtest.h>
 
@@ -22,7 +22,7 @@ TEST (script_test, loads1)
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
 	EXPECT_TRUE (extensions != nullptr);
 	auto a ((*extensions->extensions) (mu::string (U"a")));
-	EXPECT_TRUE (a != nullptr);
+	EXPECT_TRUE (!a.empty ());
 	auto b ((*extensions->extensions) (mu::string (U"b")));
-	EXPECT_TRUE (b != nullptr);
+	EXPECT_TRUE (!b.empty ());
 }

@@ -11,9 +11,9 @@
 #include <mu/io/ast/expression.h>
 #include <mu/core/expression.h>
 #include <mu/core/routine.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/core/errors/error.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <boost/bind.hpp>
 
@@ -26,9 +26,10 @@
 TEST (io_test, extension1)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension1));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension1> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
+    ASSERT_TRUE (false);/*
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -40,15 +41,16 @@ TEST (io_test, extension1)
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	EXPECT_EQ (routine->dependencies.size (), 0);
+	EXPECT_EQ (routine->dependencies.size (), 0);*/
 }
 
 TEST (io_test, extension2)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension2));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension2> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
+    ASSERT_TRUE (false);/*
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -60,15 +62,16 @@ TEST (io_test, extension2)
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	EXPECT_EQ (routine->dependencies.size (), 1);
+	EXPECT_EQ (routine->dependencies.size (), 1);*/
 }
 
 TEST (io_test, extension3)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension3));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension3> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
+    ASSERT_TRUE (false);/*
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -80,15 +83,16 @@ TEST (io_test, extension3)
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	EXPECT_EQ (routine->dependencies.size (), 2);
+	EXPECT_EQ (routine->dependencies.size (), 2);*/
 }
 
 TEST (io_test, extension4)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension4));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension4> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
+    ASSERT_TRUE (false);/*
 	mu::io::analyzer::analyzer analyzer_l (boost::bind (&mu::io_test::analyzer_result::operator(), &result, _1), result.errors, extensions);
 	auto expression (new (GC) mu::io::ast::expression (mu::io::debugging::context (), std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> ()));
 	expression->values.push_back (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string (U"a")));
@@ -101,44 +105,44 @@ TEST (io_test, extension4)
 	auto cluster (result.clusters [0]);
 	EXPECT_EQ (cluster->routines.size (), 1);
 	auto routine (cluster->routines [0]->body);
-	EXPECT_EQ (routine->dependencies.size (), 1);
+	EXPECT_EQ (routine->dependencies.size (), 1);*/
 }
 
 // Check that an extension can't be dominated by another
 TEST (io_test, extension5)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension5));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (!failed);
-    auto failed2 ((*extensions) (mu::string (U"ab"), new (GC) mu::io_test::extension5));
+    auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (failed2);
     auto exists ((*extensions) (mu::string (U"ab")));
-    EXPECT_TRUE (exists == nullptr);
+    EXPECT_TRUE (exists.empty ());
 }
 
 // Check that an owning extension can't be inserted that would dominate other extensions
 TEST (io_test, extension6)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"ab"), new (GC) mu::io_test::extension5));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (!failed);
-    auto failed2 ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension5));
+    auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (failed2);
     auto exists ((*extensions) (mu::string (U"a")));
-    EXPECT_TRUE (exists == nullptr);
+    EXPECT_TRUE (exists.empty ());
 }
 
 // Check that an extension can be inserted dominated by a non-owning extension
 TEST (io_test, extension7)
 {	
 	mu::io_test::analyzer_result result;
-	auto extensions (new (GC) mu::io::analyzer::extensions::extensions);
-	auto failed ((*extensions) (mu::string (U"ab"), new (GC) mu::io_test::extension5));
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (!failed);
-    auto failed2 ((*extensions) (mu::string (U"a"), new (GC) mu::io_test::extension1));
+    auto failed2 (extensions->add <mu::io_test::extension1> (mu::string (U"a")));
     EXPECT_TRUE (!failed2);
     auto exists ((*extensions) (mu::string (U"a")));
-    EXPECT_TRUE (exists != nullptr);
+    EXPECT_TRUE (! exists.empty ());
 }

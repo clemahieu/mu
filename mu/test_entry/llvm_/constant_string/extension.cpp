@@ -10,7 +10,6 @@
 #include <mu/core/expression.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/module/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 
 #include <boost/bind.hpp>
 
@@ -41,7 +40,8 @@ TEST (llvm_test, constant_string_extension1)
 	llvm::LLVMContext context;
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
-	(*analyzer.extensions) (mu::string (U"`"), new (GC) mu::llvm_::constant_string::extension (module));
+    ASSERT_TRUE (false);/*
+	(*analyzer.extensions) (mu::string (U"`"), [module] (mu::io::keywording::keywording & keywording_a) {return new (GC) mu::llvm_::constant_string::extension (module, keywording_a);}, false);
 	mu::io::analyzer::expression exp (rout, expression, self);
-	EXPECT_TRUE (builder.errors.errors.empty ());
+	EXPECT_TRUE (builder.errors.errors.empty ());*/
 }

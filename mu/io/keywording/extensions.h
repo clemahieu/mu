@@ -32,13 +32,13 @@ namespace mu
                 extensions (std::map <mu::string, extension_definition, std::less <mu::string>, gc_allocator <std::pair <mu::string, extension_definition>>> extensions_a);
                 extension_factory operator () (mu::string const & string);
                 template <typename T>
-                bool add (mu::string const & string, bool dominating_a)
+                bool add (mu::string const & string)
                 {
                     (*this) (string,
                              [] (mu::io::keywording::keywording & keywording_a)
                              {
                                  return new (GC) T (keywording_a);
-                             }, dominating_a);
+                             }, T::dominating);
                 }
                 bool operator () (mu::string const & string, mu::io::keywording::extension_factory extension, bool dominating_a);
                 bool operator () (mu::string const & string, mu::core::node * node_a);

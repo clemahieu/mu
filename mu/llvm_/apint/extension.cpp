@@ -1,4 +1,4 @@
-#include "extension.h"
+#include <mu/llvm_/apint/extension.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
@@ -11,8 +11,14 @@
 
 #include <gc_cpp.h>
 
-void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+mu::llvm_::apint::extension::extension (mu::io::keywording::keywording & keywording_a)
+    : keywording (keywording_a)
 {
+}
+
+void mu::llvm_::apint::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+{
+    assert (false);/*
     assert (remaining.empty ());
 	auto position (expression_a.position + 1);
 	if (expression_a.expression_m->values.size () > position)
@@ -35,10 +41,5 @@ void mu::llvm_::apint::extension::operator () (mu::core::errors::error_target & 
 	else
 	{
 		errors_a (U"APInt extension requires at least one argument");
-	}
-}
-
-bool mu::llvm_::apint::extension::operator () ()
-{
-    return false;
+	}*/
 }

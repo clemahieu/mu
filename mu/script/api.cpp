@@ -36,10 +36,10 @@ mu::script::extensions::node * mu::script::api::core ()
 	auto result (new (GC) mu::script::extensions::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
     extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
-	extensions.add <mu::script::string::extension> (mu::string (U"`"), false);
-	extensions.add <mu::script::astring::extension>(mu::string (U"`a"), false);
-	extensions.add <mu::script::integer::extension> (mu::string (U"#"), false);
-	extensions.add <mu::script::ast::extension> (mu::string (U".ast"), false);
+	extensions.add <mu::script::string::extension> (mu::string (U"`"));
+	extensions.add <mu::script::astring::extension>(mu::string (U"`a"));
+	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
+	extensions.add <mu::script::ast::extension> (mu::string (U".ast"));
 	extensions (mu::string (U".apply"), new (GC) mu::script::closure::create_single);
 	return result;
 }

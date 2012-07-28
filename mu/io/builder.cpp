@@ -7,12 +7,14 @@
 #include <mu/io/ast/node.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <gc_cpp.h>
 
 mu::io::builder::builder ()
 	: analyzer (boost::bind (&mu::io::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
+    keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context);}, new (GC) mu::io::keywording::extensions),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
     cluster (nullptr)
 {
@@ -21,6 +23,7 @@ mu::io::builder::builder ()
 mu::io::builder::builder (mu::io::keywording::extensions * extensions_a)
 	: analyzer (boost::bind (&mu::io::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
+    keywording (errors, [this, extensions_a] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context);}, extensions_a),
 	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
     cluster (nullptr)
 {

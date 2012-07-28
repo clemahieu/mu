@@ -4,8 +4,6 @@
 #include <mu/script/values/operation.h>
 #include <mu/script/builder.h>
 #include <mu/io/source.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 

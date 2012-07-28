@@ -15,13 +15,15 @@
 
 #include <gc_cpp.h>
 
-mu::llvm_::constant_string::extension::extension (mu::llvm_::module::node * module_a)
-	: module (module_a)
+mu::llvm_::constant_string::extension::extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a)
+	: module (module_a),
+    keywording (keywording_a)
 {
 }
 
-void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
+    assert (false);/*
     assert (remaining.empty ());
 	auto position (expression_a.position + 1);
 	if (position < expression_a.expression_m->values.size ())
@@ -46,10 +48,5 @@ void mu::llvm_::constant_string::extension::operator () (mu::core::errors::error
 	else
 	{
 		errors_a (U"Constant_string extension requires one argument");
-	}
-}
-
-bool mu::llvm_::constant_string::extension::operator () ()
-{
-    return false;
+	}*/
 }

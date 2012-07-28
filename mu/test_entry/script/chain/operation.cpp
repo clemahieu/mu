@@ -18,8 +18,8 @@ TEST (script_test, chain_operation1)
 	ctx.push (operation);
 	ctx.push (count);
 	auto valid (ctx ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto result (dynamic_cast <mu::script::integer::node *> (ctx.working (0)));
-	EXPECT_EQ (result->value, 40);
+	EXPECT_TRUE (result->value == 40);
 }

@@ -12,19 +12,20 @@
 #include <mu/llvm_/constant_int/create.h>
 #include <mu/llvm_/apint/node.h>
 #include <mu/llvm_/context/node.h>
-#include <mu/io/analyzer/extensions/global.h>
 
 #include <sstream>
 
 #include <gc_cpp.h>
 
-mu::llvm_::constant_int::extension::extension (mu::llvm_::context::node * context_a)
-	: context (context_a)
+mu::llvm_::constant_int::extension::extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::context::node * context_a)
+	: context (context_a),
+    keywording (keywording_a)
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
+    assert (false);/*
     assert (remaining.empty ());
 	auto bits_position (expression_a.position + 1);
 	auto number_position (expression_a.position + 2);
@@ -80,10 +81,5 @@ void mu::llvm_::constant_int::extension::operator () (mu::core::errors::error_ta
 	else
 	{
 		errors_a (U"Constant_int extension requires two arguments");
-	}
-}
-
-bool mu::llvm_::constant_int::extension::operator () ()
-{
-    return false;
+	}*/
 }

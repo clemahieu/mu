@@ -5,8 +5,6 @@
 #include <mu/llvm_/instructions/add.h>
 #include <mu/llvm_/basic_block/insert.h>
 #include <mu/llvm_/basic_block/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/constant_int/node.h>
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/script/context.h>
@@ -15,6 +13,7 @@
 #include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -48,7 +47,7 @@ TEST (llvm_test, instruction_package1)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	(*b2.analyzer.extensions) (mu::string (U"add"), new (GC) mu::io::analyzer::extensions::global (ctx.working (0)));
+	(*b2.keywording.extensions) (mu::string (U"add"), ctx.working (0));
     mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	EXPECT_TRUE (b2.errors.errors.empty ());
 	auto cluster2 (b2.cluster);
@@ -91,7 +90,7 @@ TEST (llvm_test, instruction_package2)
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
-	(*b2.analyzer.extensions) (mu::string (U"add"), new (GC) mu::io::analyzer::extensions::global (ctx.working (0)));
+	(*b2.keywording.extensions) (mu::string (U"add"), ctx.working (0));
 	mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	EXPECT_TRUE (b2.errors.errors.empty ());
 	auto cluster2 (b2.cluster);
