@@ -26,4 +26,8 @@ void mu::io::keywording::begin::operator () (mu::io::tokens::token * token_a, mu
             (*extension) (token_a, context_a);
         }
     }
+    else
+    {
+        keywording.target (token_a, context_a);
+    }
 }
