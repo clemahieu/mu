@@ -24,6 +24,7 @@ add_library (mu_io SHARED
 	debugging/context.cpp
 	debugging/position.cpp
     keywording/begin.cpp
+    keywording/error.cpp
     keywording/extensions.cpp
     keywording/global.cpp
     keywording/keywording.cpp

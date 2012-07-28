@@ -30,6 +30,7 @@ namespace mu
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				mu::llvm_::module::node * module;
                 mu::io::keywording::keywording & keywording;
+                bool have_keyword;
 			};
 		}
 	}

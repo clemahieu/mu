@@ -2,14 +2,17 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/expression.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/ast/identifier.h>
 #include <mu/script/string/node.h>
 #include <mu/script/closure/single.h>
 #include <mu/llvm_/constant_string/create.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/core/expression.h>
+#include <mu/io/tokens/identifier.h>
+#include <mu/io/tokens/value.h>
+#include <mu/io/keywording/keywording.h>
+#include <mu/io/tokens/right_square.h>
+#include <mu/io/tokens/left_square.h>
 
 #include <llvm/Module.h>
 
@@ -17,36 +20,34 @@
 
 mu::llvm_::constant_string::extension::extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a)
 	: module (module_a),
-    keywording (keywording_a)
+    keywording (keywording_a),
+    have_keyword (false)
 {
 }
 
 void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-    assert (false);/*
-    assert (remaining.empty ());
-	auto position (expression_a.position + 1);
-	if (position < expression_a.expression_m->values.size ())
-	{
-		expression_a.position = position;
-		auto identifier (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [position]));
+    if (!have_keyword)
+    {
+        have_keyword = true;
+    }
+    else
+    {
+		auto identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
 		if (identifier != nullptr)
 		{
 			auto node (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_string::create ()));
 			node->closed.push_back (new (GC) mu::llvm_::context::node (&module->module->getContext ()));
 			node->closed.push_back (module);
 			node->closed.push_back (new (GC) mu::script::string::node (identifier->string));
-			auto result (new (GC) mu::core::expression);
-			result->dependencies.push_back (node);
-			expression_a.self->dependencies.push_back (result);
+            keywording.state.pop ();
+            keywording (new (GC) mu::io::tokens::left_square, context_a);
+            keywording (new (GC) mu::io::tokens::value (node), context_a);
+            keywording (new (GC) mu::io::tokens::right_square, context_a);
 		}
 		else
 		{
-			errors_a (U"Constant_string extension requires its argument to be an identifer");
+			keywording.errors (U"Constant_string extension requires its argument to be an identifer");
 		}
 	}
-	else
-	{
-		errors_a (U"Constant_string extension requires one argument");
-	}*/
 }

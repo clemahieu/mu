@@ -17,6 +17,7 @@
 
 TEST (script_test, extension1)
 {
+    ASSERT_TRUE (false);
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast []]");
 	ASSERT_TRUE (builder.errors.errors.empty ());
@@ -36,6 +37,7 @@ TEST (script_test, extension1)
 
 TEST (script_test, extension2)
 {
+    ASSERT_TRUE (false);
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast thing]");
 	EXPECT_TRUE (!builder.errors.errors.empty ());
@@ -44,6 +46,7 @@ TEST (script_test, extension2)
 
 TEST (script_test, extension3)
 {
+    ASSERT_TRUE (false);
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast [[]]]");
 	ASSERT_TRUE (builder.errors.errors.empty ());
