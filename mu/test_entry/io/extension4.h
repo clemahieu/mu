@@ -19,6 +19,7 @@ namespace mu
             extension4 (mu::io::keywording::keywording & keywording_a);
             void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
             static bool const dominating = false;
+            bool first;
             mu::io::keywording::keywording & keywording;
 		};
 	}

@@ -33,7 +33,7 @@ bool mu::io::keywording::extensions::operator () (mu::string const & string, mu:
 {
     auto existing (extensions_m.lower_bound (string));
     bool result (false);
-    if (boost::get <1> (existing->second))
+    if (dominating_a)
     {
         if (existing != extensions_m.end ())
         {

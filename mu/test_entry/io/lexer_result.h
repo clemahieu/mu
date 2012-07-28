@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/io/debugging/context.h>
+#include <mu/core/errors/error_list.h>
 
 #include <vector>
 
@@ -21,6 +22,7 @@ namespace mu
 			void operator () (mu::io::tokens::token *, mu::io::debugging::context context_a);
             void print (std::wostream & target);
 			std::vector <std::pair <mu::io::tokens::token *, mu::io::debugging::context>> results;
+            mu::core::errors::error_list errors;
 		};
 	}
 }

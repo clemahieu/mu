@@ -34,11 +34,12 @@ namespace mu
                 template <typename T>
                 bool add (mu::string const & string)
                 {
-                    (*this) (string,
+                    auto result ((*this) (string,
                              [] (mu::io::keywording::keywording & keywording_a)
                              {
                                  return new (GC) T (keywording_a);
-                             }, T::dominating);
+                             }, T::dominating));
+                    return result;
                 }
                 bool operator () (mu::string const & string, mu::io::keywording::extension_factory extension, bool dominating_a);
                 bool operator () (mu::string const & string, mu::core::node * node_a);
