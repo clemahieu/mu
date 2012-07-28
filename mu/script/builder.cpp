@@ -18,7 +18,7 @@ mu::script::builder::builder ()
 	: analyzer (boost::bind (&mu::script::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
     keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, new (GC) mu::io::keywording::extensions),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
+    lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); }),
     cluster (nullptr)
 {
 }
@@ -27,7 +27,7 @@ mu::script::builder::builder (mu::io::keywording::extensions * extensions_a)
 	: analyzer (boost::bind (&mu::script::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
     keywording (errors, [this, extensions_a] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, extensions_a),
-	lexer (errors, boost::bind (&mu::io::parser::parser::operator (), &parser, _1, _2)),
+    lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); }),
     cluster(nullptr)
 {
 }
