@@ -19,51 +19,42 @@
 bool mu::script::run::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
-	if (context_a.parameters_size () > 1)
+	if (context_a.parameters_size () > 0)
 	{
-		auto extensions (dynamic_cast <mu::script::extensions::node *> (context_a.parameters (0)));
-		auto file (dynamic_cast <mu::script::string::node *> (context_a.parameters (1)));
-		if (extensions != nullptr)
-		{
-			if (file != nullptr)
-			{
-				mu::script::load::operation load;
-				auto ast (load.core (context_a, file));
-				if (! context_a ())
-				{
-					mu::script::analyzer::operation analyzer;
-					auto cluster (analyzer.core (context_a, extensions, ast));
-					if (! context_a ())
-					{
-						if (cluster->routines.size () > 0)
-						{
-							auto routine (cluster->routines [0]);
-							context_a.push (routine);
-							context_a.push (context_a.parameters_begin () + 2, context_a.parameters_end ());
-							result = context_a ();
-						}
-						else
-						{
-							mu::stringstream message;
-							message << L"Cluster does not contain a routine: ";
-							message << cluster->routines.size ();
-							context_a.errors (message.str ());
-							result = false;
-						}
-					}
-				}
-			}
-			else
-			{
-				mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::string::node), 1);
-				result = false;
-			}
-		}
-		else
-		{
-			invalid_type (context_a, context_a.parameters (0), typeid (mu::script::extensions::node), 0);
-			result = false;
-		}
+		auto file (dynamic_cast <mu::script::string::node *> (context_a.parameters (0)));
+        if (file != nullptr)
+        {
+            mu::script::load::operation load;
+            auto ast (load.core (context_a, file));
+            if (! context_a ())
+            {
+                mu::script::analyzer::operation analyzer;
+                auto cluster (analyzer.core (context_a, ast));
+                if (! context_a ())
+                {
+                    if (cluster->routines.size () > 0)
+                    {
+                        auto routine (cluster->routines [0]);
+                        context_a.push (routine);
+                        context_a.push (context_a.parameters_begin () + 2, context_a.parameters_end ());
+                        result = context_a ();
+                    }
+                    else
+                    {
+                        mu::stringstream message;
+                        message << L"Cluster does not contain a routine: ";
+                        message << cluster->routines.size ();
+                        context_a.errors (message.str ());
+                        result = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::string::node), 1);
+            result = false;
+        }
 	}
 	else
 	{

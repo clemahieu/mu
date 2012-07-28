@@ -14,23 +14,21 @@
 
 bool mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::extensions::node, mu::io::ast::cluster> () (context_a));
+	bool result (mu::script::check <mu::io::ast::cluster> () (context_a));
 	if (result)
 	{
-		auto extensions (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
-		auto ast (static_cast <mu::io::ast::cluster *> (context_a.parameters (1)));
-		auto result (core (context_a, extensions, ast));
+		auto ast (static_cast <mu::io::ast::cluster *> (context_a.parameters (0)));
+		auto result (core (context_a, ast));
 	}
 	return result;
 }
 
-mu::core::cluster * mu::script::analyzer::operation::core (mu::script::context & context_a, mu::script::extensions::node * extensions, mu::io::ast::cluster * ast)
+mu::core::cluster * mu::script::analyzer::operation::core (mu::script::context & context_a, mu::io::ast::cluster * ast)
 {
-    assert (false);
-	/*mu::core::cluster * result;
-	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors, extensions->extensions);
+	mu::core::cluster * result;
+	mu::io::analyzer::analyzer analyzer (boost::bind (&mu::script::analyzer::operation::build, this, &result, _1), context_a.errors);
 	analyzer.input (ast);
-	return result;*/
+	return result;
 }
 
 void mu::script::analyzer::operation::build (mu::core::cluster ** result_a, mu::core::cluster * cluster_a)

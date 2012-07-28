@@ -32,9 +32,9 @@ TEST (llvm_test, instruction_package1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
-	EXPECT_TRUE (builder.errors.errors.empty ());
+	ASSERT_TRUE (builder.errors.errors.empty ());
 	auto cluster1 (builder.cluster);
-	EXPECT_EQ (cluster1->routines.size (), 1);
+	ASSERT_TRUE (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
 	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::script::closure::create_single);
@@ -44,14 +44,14 @@ TEST (llvm_test, instruction_package1)
 	auto block (new (GC) mu::llvm_::basic_block::node (nullptr));
 	ctx.push (block);
 	auto valid (ctx ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	(*b2.keywording.extensions) (mu::string (U"add"), ctx.working (0));
     mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
 	EXPECT_TRUE (b2.errors.errors.empty ());
 	auto cluster2 (b2.cluster);
-	EXPECT_EQ (cluster2->routines.size (), 1);
+	EXPECT_TRUE (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
 	llvm::LLVMContext context;
 	auto module (new llvm::Module (llvm::StringRef (), context));
@@ -64,9 +64,9 @@ TEST (llvm_test, instruction_package1)
 	ctx.push (routine2);
 	ctx.push (new (GC) mu::llvm_::constant::node (llvm::ConstantInt::get (llvm::Type::getInt32Ty (context), llvm::APInt (32, 1)), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (context))));
 	auto valid2 (ctx ());
-	EXPECT_EQ (valid2, true);
-	EXPECT_EQ (ctx.working_size (), 1);
-	EXPECT_EQ (bl->getInstList ().size (), 4);
+	EXPECT_TRUE (valid2);
+	EXPECT_TRUE (ctx.working_size () == 1);
+	EXPECT_TRUE (bl->getInstList ().size () == 4);
 }
 
 TEST (llvm_test, instruction_package2)

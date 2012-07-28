@@ -37,7 +37,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				mu::core::cluster * core (mu::script::context & context_a, mu::script::extensions::node * extensions, mu::io::ast::cluster * ast);
+				mu::core::cluster * core (mu::script::context & context_a, mu::io::ast::cluster * ast);
 				void build (mu::core::cluster ** result_a, mu::core::cluster * cluster_a);
 			};
 		}

@@ -19,45 +19,45 @@ TEST (script_test, extension1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast []]");
-	EXPECT_EQ (builder.errors.errors.empty (), true);
+	ASSERT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 1);
+	ASSERT_TRUE (cluster != nullptr);
+	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cl (dynamic_cast <mu::io::ast::cluster *> (ctx.working (0)));
-	EXPECT_NE (cl, nullptr);
-	EXPECT_EQ (cl->expressions.size (), 0);
+	EXPECT_TRUE (cl != nullptr);
+	EXPECT_TRUE (cl->expressions.size () == 0);
 }
 
 TEST (script_test, extension2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast thing]");
-	EXPECT_EQ (!builder.errors.errors.empty (), true);
-	EXPECT_EQ (builder.cluster, nullptr);
+	EXPECT_TRUE (!builder.errors.errors.empty ());
+	EXPECT_TRUE (builder.cluster == nullptr);
 }
 
 TEST (script_test, extension3)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast [[]]]");
-	EXPECT_EQ (builder.errors.errors.empty (), true);
+	ASSERT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 1);
+	ASSERT_TRUE (cluster != nullptr);
+	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
 	auto cl (dynamic_cast <mu::io::ast::cluster *> (ctx.working (0)));
-	EXPECT_NE (cl, nullptr);
-	EXPECT_EQ (cl->expressions.size (), 1);
+	EXPECT_TRUE (cl != nullptr);
+	EXPECT_TRUE (cl->expressions.size () == 1);
 	auto expression (cl->expressions [0]);
 }

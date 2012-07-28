@@ -13,6 +13,6 @@ TEST (script_test, analyzer_operation1)
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	mu::script::analyzer::operation analyzer;
-	auto cluster (analyzer.core (ctx, new (GC) mu::script::extensions::node, new (GC) mu::io::ast::cluster));
+	auto cluster (analyzer.core (ctx, new (GC) mu::io::ast::cluster));
 	EXPECT_TRUE (cluster != nullptr);
 }

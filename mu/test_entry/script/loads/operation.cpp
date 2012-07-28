@@ -17,10 +17,10 @@ TEST (script_test, loads1)
 	ctx.push (new (GC) mu::script::extensions::node);
 	ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
 	auto valid (ctx ());
-    EXPECT_TRUE (valid);
-	EXPECT_TRUE (ctx.working_size () == 1);
+    ASSERT_TRUE (valid);
+	ASSERT_TRUE (ctx.working_size () == 1);
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
-	EXPECT_TRUE (extensions != nullptr);
+	ASSERT_TRUE (extensions != nullptr);
 	auto a ((*extensions->extensions) (mu::string (U"a")));
 	EXPECT_TRUE (!a.empty ());
 	auto b ((*extensions->extensions) (mu::string (U"b")));
