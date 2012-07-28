@@ -6,12 +6,9 @@ namespace mu
 {
 	namespace io
 	{
-		namespace analyzer
-		{
-			namespace extensions
-			{
-				class extensions;
-			}
+		namespace keywording
+        {
+            class extensions;
 		}
 	}
 	namespace script
@@ -22,8 +19,8 @@ namespace mu
 			{
 			public:
 				node ();
-				node (mu::io::analyzer::extensions::extensions * extensions_a);
-				mu::io::analyzer::extensions::extensions * extensions;
+				node (mu::io::keywording::extensions * extensions_a);
+				mu::io::keywording::extensions * extensions;
 				mu::string name () override;
 			};
 		}

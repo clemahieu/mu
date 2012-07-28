@@ -1,11 +1,3 @@
-//
-//  finished.cpp
-//  lambda_p
-//
-//  Created by Colin LeMahieu on 9/28/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
-
 #include <mu/io/parser/finished.h>
 
 #include <mu/io/parser/error.h>
@@ -16,6 +8,7 @@
 #include <mu/io/tokens/right_square.h>
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/tokens/parameters.h>
+#include <mu/io/tokens/value.h>
 #include <mu/core/errors/error_target.h>
 
 #include <gc_cpp.h>
@@ -51,6 +44,11 @@ void mu::io::parser::finished::operator () (mu::io::tokens::stream_end * token)
 }
 
 void mu::io::parser::finished::operator () (mu::io::tokens::parameters * token)
+{
+	add_error (token);
+}
+
+void mu::io::parser::finished::operator () (mu::io::tokens::value * token)
 {
 	add_error (token);
 }

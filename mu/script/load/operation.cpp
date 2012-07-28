@@ -6,8 +6,6 @@
 #include <mu/io/ast/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/script/check.h>
 #include <mu/io/source.cpp>

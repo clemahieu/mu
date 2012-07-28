@@ -3,13 +3,12 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/string/node.h>
 #include <mu/core/cluster.h>
 #include <mu/script/analyzer/operation.h>
 #include <mu/script/check.h>
 #include <mu/core/routine.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <boost/bind.hpp>
 
@@ -44,7 +43,7 @@ mu::script::extensions::node * mu::script::loads::operation::core (mu::script::c
 		{
 			for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
 			{
-				(*result->extensions) (i->first, new (GC) mu::io::analyzer::extensions::global (i->second));
+				(*result->extensions) (i->first, i->second);
 			}
 		}
 	}

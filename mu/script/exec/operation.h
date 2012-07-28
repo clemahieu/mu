@@ -8,14 +8,10 @@ namespace mu
 {
 	namespace io
 	{
-		namespace analyzer
-		{
-			namespace extensions
-			{
-				class extensions;
-				class extension;
-			}
-		}
+        namespace keywording
+        {
+            class extensions;
+        }
 	}
 	namespace script
 	{
@@ -24,8 +20,8 @@ namespace mu
 			class operation : public mu::script::operation
 			{
 			public:
-				operation (mu::io::analyzer::extensions::extensions * extensions_a);
-				mu::io::analyzer::extensions::extensions * extensions;
+				operation (mu::io::keywording::extensions * extensions_a);
+				mu::io::keywording::extensions * extensions;
 				bool operator () (mu::script::context & context_a) override;
 				mu::string name () override;
 			};

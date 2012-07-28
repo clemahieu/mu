@@ -7,12 +7,11 @@
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/io/analyzer/resolver.h>
-#include <mu/io/analyzer/extensions/extension.h>
 #include <mu/core/reference.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/core/errors/error_context.h>
 #include <mu/core/parameters.h>
 #include <mu/io/ast/parameters.h>
+#include <mu/io/ast/value.h>
 
 #include <gc_cpp.h>
 
@@ -58,18 +57,14 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expres
 	}
 }
 
+void mu::io::analyzer::expression::operator () (mu::io::ast::value * value_a)
+{
+    self->dependencies.push_back (value_a->node_m);
+}
+
 void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identifier_a)
 {
-	auto keyword ((*routine.analyzer.extensions) (identifier_a->string));
-	if (keyword == nullptr)
-	{
-        routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, *self);
-	}
-	else
-	{
-		mu::core::errors::error_context errors_l (routine.analyzer.errors, identifier_a->context);
-		(*keyword) (errors_l, *this, mu::string ());
-	}
+    routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, *self);
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)

@@ -12,6 +12,8 @@
 #include <mu/io/ast/parameters.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/cluster.h>
+#include <mu/io/tokens/value.h>
+#include <mu/io/ast/value.h>
 
 #include <boost/bind.hpp>
 
@@ -56,6 +58,11 @@ void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)
 void mu::io::parser::values::operator () (mu::io::tokens::parameters * token)
 {
 	values_m.push_back (new (GC) mu::io::ast::parameters (parser.context));
+}
+
+void mu::io::parser::values::operator () (mu::io::tokens::value * token)
+{
+	values_m.push_back (new (GC) mu::io::ast::value (token->node, parser.context));
 }
 
 void mu::io::parser::values::operator () (mu::io::ast::expression * expression_a)

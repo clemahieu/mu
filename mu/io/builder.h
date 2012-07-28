@@ -24,11 +24,15 @@ namespace mu
         {
             class context;
         }
+        namespace keywording
+        {
+            class extensions;
+        }
 		class builder
 		{
 		public:
 			builder ();
-			builder (mu::io::analyzer::extensions::extensions * extensions_a);
+			builder (mu::io::keywording::extensions * extensions_a);
 			void operator () (mu::io::lexer::context const & context_a);
 			mu::core::errors::error_list errors;
 			mu::io::analyzer::analyzer analyzer;

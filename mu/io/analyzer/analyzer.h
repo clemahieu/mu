@@ -44,13 +44,12 @@ namespace mu
 			{
 			public:
 				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a);
-				analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a, mu::io::analyzer::extensions::extensions * extensions_a);
 				void input (mu::io::ast::cluster * node_a);
 				void operator () (mu::io::ast::cluster * cluster_a) override;
 				void operator () (mu::io::ast::parameters * parameters_a) override;
 				void operator () (mu::io::ast::expression * expression_a) override;
 				void operator () (mu::io::ast::identifier * identifier_a) override;
-				mu::io::analyzer::extensions::extensions * extensions;
+				void operator () (mu::io::ast::value * value_a) override;
 				boost::function <void (mu::core::cluster *)> target;
                 mu::io::analyzer::name_map names;
 				mu::core::errors::error_target & errors;

@@ -14,6 +14,7 @@
 #include <mu/io/ast/identifier.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/parser/target.h>
+#include <mu/io/tokens/value.h>
 
 #include <sstream>
 
@@ -79,6 +80,11 @@ void mu::io::parser::full::operator () (mu::io::tokens::stream_end * token)
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::parameters * token)
+{
+	unexpected_token (token);
+}
+
+void mu::io::parser::full::operator () (mu::io::tokens::value * token)
 {
 	unexpected_token (token);
 }

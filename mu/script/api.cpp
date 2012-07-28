@@ -1,14 +1,12 @@
 #include <mu/script/api.h>
 
-#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/keywording/extensions.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/extension.h>
 #include <mu/script/astring/extension.h>
 #include <mu/script/integer/extension.h>
-#include <mu/io/analyzer/extensions/global.h>
+#include <mu/io/keywording/global.h>
 #include <mu/script/identity/operation.h>
-#include <mu/script/identity/operation.h>
-#include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/ast/read_from_file.h>
 #include <mu/script/ast/merge.h>
 #include <mu/script/astring/truncate.h>
@@ -36,34 +34,36 @@
 mu::script::extensions::node * mu::script::api::core ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	(*result->extensions) (mu::string (U"~"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation));
-	(*result->extensions) (mu::string (U"`"), new (GC) mu::script::string::extension);
-	(*result->extensions) (mu::string (U"`a"), new (GC) mu::script::astring::extension);
-	(*result->extensions) (mu::string (U"#"), new (GC) mu::script::integer::extension);
-	(*result->extensions) (mu::string (U".ast"), new (GC) mu::script::ast::extension);
-	(*result->extensions) (mu::string (U".apply"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::closure::create_single));
+    mu::io::keywording::extensions & extensions (*result->extensions);
+    extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
+	extensions.add <mu::script::string::extension> (mu::string (U"`"), false);
+	extensions.add <mu::script::astring::extension>(mu::string (U"`a"), false);
+	extensions.add <mu::script::integer::extension> (mu::string (U"#"), false);
+	extensions.add <mu::script::ast::extension> (mu::string (U".ast"), false);
+	extensions (mu::string (U".apply"), new (GC) mu::script::closure::create_single);
 	return result;
 }
 
 mu::script::extensions::node * mu::script::api::full ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	(*result->extensions) (mu::string (U"identity"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation));
-	(*result->extensions) (mu::string (U"ast/read_from_file"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::read_from_file));
-	(*result->extensions) (mu::string (U"ast/merge"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::ast::merge));
-	(*result->extensions) (mu::string (U"astring/truncate"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::astring::truncate));
-	(*result->extensions) (mu::string (U"bool_c/create"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::create));
-	(*result->extensions) (mu::string (U"bool_c/equal"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::bool_c::equal));
-	(*result->extensions) (mu::string (U"chain/operation"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::chain::operation));
-	(*result->extensions) (mu::string (U"extensions/create"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::create));
-	(*result->extensions) (mu::string (U"extensions/merge_package"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::extensions::merge_package));
-	(*result->extensions) (mu::string (U"integer/equal"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::equal));
-	(*result->extensions) (mu::string (U"integer/subtract"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::integer::subtract));
-	(*result->extensions) (mu::string (U"print/operation"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::print::operation));
-	(*result->extensions) (mu::string (U"package/add"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::add));
-	(*result->extensions) (mu::string (U"package/create"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::create));
-	(*result->extensions) (mu::string (U"package/get"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::get));
-	(*result->extensions) (mu::string (U"package/remove"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::package::remove));
-	(*result->extensions) (mu::string (U"times/operation"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::times::operation));
+    mu::io::keywording::extensions & extensions (*result->extensions);
+	extensions (mu::string (U"identity"), new (GC) mu::script::identity::operation);
+	extensions (mu::string (U"ast/read_from_file"), new (GC) mu::script::ast::read_from_file);
+	extensions (mu::string (U"ast/merge"), new (GC) mu::script::ast::merge);
+	extensions (mu::string (U"astring/truncate"), new (GC) mu::script::astring::truncate);
+	extensions (mu::string (U"bool_c/create"), new (GC) mu::script::bool_c::create);
+	extensions (mu::string (U"bool_c/equal"), new (GC) mu::script::bool_c::equal);
+	extensions (mu::string (U"chain/operation"), new (GC) mu::script::chain::operation);
+	extensions (mu::string (U"extensions/create"), new (GC) mu::script::extensions::create);
+	extensions (mu::string (U"extensions/merge_package"), new (GC) mu::script::extensions::merge_package);
+	extensions (mu::string (U"integer/equal"), new (GC) mu::script::integer::equal);
+	extensions (mu::string (U"integer/subtract"), new (GC) mu::script::integer::subtract);
+	extensions (mu::string (U"print/operation"), new (GC) mu::script::print::operation);
+	extensions (mu::string (U"package/add"), new (GC) mu::script::package::add);
+	extensions (mu::string (U"package/create"), new (GC) mu::script::package::create);
+	extensions (mu::string (U"package/get"), new (GC) mu::script::package::get);
+	extensions (mu::string (U"package/remove"), new (GC) mu::script::package::remove);
+	extensions (mu::string (U"times/operation"), new (GC) mu::script::times::operation);
 	return result;
 }

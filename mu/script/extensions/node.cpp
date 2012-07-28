@@ -1,15 +1,15 @@
 #include <mu/script/extensions/node.h>
 
-#include <mu/io/analyzer/extensions/extensions.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <gc_cpp.h>
 
 mu::script::extensions::node::node ()
-	: extensions (new (GC) mu::io::analyzer::extensions::extensions)
+	: extensions (new (GC) mu::io::keywording::extensions)
 {
 }
 
-mu::script::extensions::node::node (mu::io::analyzer::extensions::extensions * extensions_a)
+mu::script::extensions::node::node (mu::io::keywording::extensions * extensions_a)
 	: extensions (extensions_a)
 {
 }

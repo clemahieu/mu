@@ -15,8 +15,10 @@
 
 #include <gc_cpp.h>
 
-void mu::script::integer::extension::operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining)
+void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
+    assert (false);
+    /*
     assert (remaining.empty ());
 	auto data_position (expression_a.position + 1);
 	expression_a.position = data_position;
@@ -40,12 +42,7 @@ void mu::script::integer::extension::operator () (mu::core::errors::error_target
 	else
 	{
 		errors_a (U"Number extension requires one argument");
-	}
-}
-
-bool mu::script::integer::extension::operator () ()
-{
-    return false;
+	}*/
 }
 
 mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, mu::string & string)

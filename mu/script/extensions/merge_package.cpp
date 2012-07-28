@@ -4,9 +4,8 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
 #include <mu/script/package/node.h>
-#include <mu/io/analyzer/extensions/global.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/check.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <sstream>
 
@@ -27,7 +26,7 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 			auto existing ((*one->extensions) (name));
 			if (existing == nullptr)
 			{
-				(*one->extensions) (name, new (GC) mu::io::analyzer::extensions::global (i->second));
+				(*one->extensions) (name, i->second);
 			}
 			else
 			{

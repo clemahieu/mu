@@ -2,11 +2,12 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/string/node.h>
 #include <mu/script/check.h>
 
 #include <sstream>
+
+#include <assert.h>
 
 bool mu::script::extensions::merge::operator () (mu::script::context & context_a)
 {
@@ -16,6 +17,7 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
 		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto three (static_cast <mu::script::extensions::node *> (context_a.parameters (2)));
+        assert (false);
 /*		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
 		{
 			mu::string name (two->string.begin (), two->string.end ());
