@@ -5,6 +5,7 @@
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/ast/visitor.h>
 #include <mu/core/errors/error_list.h>
+#include <mu/io/keywording/keywording.h>
 
 #include <vector>
 
@@ -34,6 +35,7 @@ namespace mu
 				void operator () (mu::io::lexer::context const & context_a);
 				mu::core::errors::error_list errors;
 				mu::io::parser::parser parser;
+                mu::io::keywording::keywording keywording;
 				mu::io::lexer::lexer lexer;
 				void add (mu::io::ast::cluster * node_a);
 				mu::io::ast::cluster * cluster;

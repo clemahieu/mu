@@ -1,9 +1,8 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/identity/operation.h>
-#include <mu/io/analyzer/extensions/global.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <gc_cpp.h>
 
@@ -20,6 +19,6 @@ __declspec (dllexport)
 void * extensions ()
 {
 	auto result (new (GC) mu::script::extensions::node);
-	(*result->extensions) (mu::string (U"identity"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation));
+	(*result->extensions) (mu::string (U"identity"), new (GC) mu::script::identity::operation);
 	return result;
 }
