@@ -14,7 +14,7 @@ TEST (script_test, loads1)
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::loads::operation);
-	ctx.push (new (GC) mu::script::extensions::node);
+	//ctx.push (new (GC) mu::script::extensions::node);
 	ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
 	auto valid (ctx ());
     ASSERT_TRUE (valid);
