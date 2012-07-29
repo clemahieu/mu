@@ -2,10 +2,11 @@
 #include <mu/script/loadb/operation.h>
 #include <mu/script/string/node.h>
 #include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
-#include <mu/io/analyzer/extensions/global.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/context.h>
+#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording/global.h>
+#include <mu/io/keywording/keywording.h>
 
 #include <boost/filesystem.hpp>
 
@@ -61,9 +62,5 @@ TEST (script_test, loadb2)
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ext));
 	ASSERT_NE (extensions, nullptr);
 	auto existing ((*extensions->extensions) (mu::string (U"identity")));
-	EXPECT_NE (existing, nullptr);
-	auto value (dynamic_cast <mu::io::analyzer::extensions::global *> (existing));
-	EXPECT_NE (value, nullptr);
-	auto identity (dynamic_cast <mu::script::identity::operation *> (value->node));
-	EXPECT_NE (identity, nullptr);
+	EXPECT_TRUE (!existing.empty ());
 }

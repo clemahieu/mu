@@ -1,16 +1,25 @@
 #pragma once
 
-#include <mu/io/analyzer/extensions/extension.h>
+#include <mu/io/keywording/state.h>
 
 namespace mu
 {
+    namespace io
+    {
+        namespace keywording
+        {
+            class keywording;
+        }
+    }
 	namespace io_test
 	{
-		class extension2 : public mu::io::analyzer::extensions::extension
+		class extension2 : public mu::io::keywording::state
 		{
 		public:
-            bool operator () () override;
-			void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
+            extension2 (mu::io::keywording::keywording & keywording_a);
+            void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
+            static bool const dominating = false;
+            mu::io::keywording::keywording & keywording;
 		};
 	}
 }

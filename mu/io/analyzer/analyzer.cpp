@@ -6,7 +6,6 @@
 #include <mu/core/errors/string_error.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/analyzer/resolver.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/io/ast/cluster.h>
@@ -16,16 +15,7 @@
 #include <gc_cpp.h>
 
 mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a)
-	: extensions (new (GC) mu::io::analyzer::extensions::extensions),
-	target (target_a),
-	errors (errors_a),
-	cluster (new (GC) mu::core::cluster)
-{
-}
-
-mu::io::analyzer::analyzer::analyzer (boost::function <void (mu::core::cluster *)> target_a, mu::core::errors::error_target & errors_a, mu::io::analyzer::extensions::extensions * extensions_a)
-	: extensions (extensions_a),
-	target (target_a),
+	: target (target_a),
 	errors (errors_a),
 	cluster (new (GC) mu::core::cluster)
 {
@@ -67,4 +57,9 @@ void mu::io::analyzer::analyzer::operator () (mu::io::ast::expression * expressi
 void mu::io::analyzer::analyzer::operator () (mu::io::ast::identifier * identifier_a)
 {
 	errors (U"Analyzer not expecting identifiers");
+}
+
+void mu::io::analyzer::analyzer::operator () (mu::io::ast::value * value_a)
+{
+	errors (U"Analyzer not expecting values");
 }

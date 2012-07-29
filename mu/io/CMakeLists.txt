@@ -13,18 +13,21 @@ add_library (mu_io SHARED
     analyzer/name_map.cpp
 	analyzer/resolver.cpp
 	analyzer/routine.cpp
-	analyzer/extensions/extension.cpp
-	analyzer/extensions/extensions.cpp
-	analyzer/extensions/global.cpp
 	ast/builder.cpp
 	ast/cluster.cpp
 	ast/expression.cpp
 	ast/identifier.cpp
 	ast/node.cpp
 	ast/parameters.cpp
+    ast/value.cpp
 	ast/visitor.cpp
 	debugging/context.cpp
 	debugging/position.cpp
+    keywording/begin.cpp
+    keywording/error.cpp
+    keywording/extensions.cpp
+    keywording/global.cpp
+    keywording/keywording.cpp
 	lexer/begin.cpp
 	lexer/character_stream.cpp
 	lexer/complex_identifier.cpp
@@ -57,6 +60,7 @@ add_library (mu_io SHARED
 	tokens/right_square.cpp
 	tokens/stream_end.cpp
 	tokens/token.cpp
+    tokens/value.cpp
 	tokens/visitor.cpp)
     
 target_link_libraries (mu_io

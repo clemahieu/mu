@@ -4,10 +4,8 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/debugging/trace_target.h>
 #include <mu/script/runtime/routine.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/script/fail/operation.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/analyzer/extensions/global.h>
 
 #include <boost/bind.hpp>
 

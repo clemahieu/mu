@@ -69,8 +69,8 @@ TEST (script_test, times_operation3)
 	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::script::times::operation);
 	auto cluster (builder.cluster);
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 1);
+	ASSERT_TRUE (cluster != nullptr);
+	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto n1 (new (GC) mu::script::integer::node (2));
 	ctx.push (n1);
 	auto n2 (cluster->routines [0]);
@@ -82,14 +82,14 @@ TEST (script_test, times_operation3)
 	auto n5 (new (GC) mu::script::integer::node (1));
 	ctx.push (n5);
 	auto valid (ctx ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 3);
+	EXPECT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 3);
 	auto r1 (dynamic_cast <mu::script::integer::subtract *> (ctx.working (0)));
-	EXPECT_NE (r1, nullptr);
+	EXPECT_TRUE (r1 != nullptr);
 	auto r2 (dynamic_cast <mu::script::integer::node *> (ctx.working (1)));
-	EXPECT_NE (r2, nullptr);
-	EXPECT_EQ (r2->value, 3);
+	EXPECT_TRUE (r2 != nullptr);
+	EXPECT_TRUE (r2->value == 3);
 	auto r3 (dynamic_cast <mu::script::integer::node *> (ctx.working (2)));
-	EXPECT_NE (r3, nullptr);
-	EXPECT_EQ (r3->value, 1);
+	EXPECT_TRUE (r3 != nullptr);
+	EXPECT_TRUE (r3->value == 1);
 }

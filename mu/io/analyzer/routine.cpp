@@ -8,7 +8,6 @@
 #include <mu/io/analyzer/expression.h>
 #include <mu/io/analyzer/resolver.h>
 #include <mu/core/expression.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/io/ast/identifier.h>
 
 #include <sstream>

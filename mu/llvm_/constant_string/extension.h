@@ -1,9 +1,16 @@
 #pragma once
 
-#include <mu/io/analyzer/extensions/extension.h>
+#include <mu/io/keywording/state.h>
 
 namespace mu
 {
+    namespace io
+    {
+        namespace keywording
+        {
+            class keywording;
+        }
+    }
 	namespace llvm_
 	{
 		namespace module
@@ -16,13 +23,14 @@ namespace mu
 		}
 		namespace constant_string
 		{
-			class extension : public mu::io::analyzer::extensions::extension
+			class extension : public mu::io::keywording::state
 			{
 			public:
-				extension (mu::llvm_::module::node * module_a);
-                bool operator () () override;
-				void operator () (mu::core::errors::error_target & errors_a, mu::io::analyzer::expression & expression_a, mu::string remaining) override;
+				extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a);
+                void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				mu::llvm_::module::node * module;
+                mu::io::keywording::keywording & keywording;
+                bool have_keyword;
 			};
 		}
 	}

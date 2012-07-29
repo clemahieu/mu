@@ -2,6 +2,7 @@
 
 #include <mu/io/analyzer/analyzer.h>
 #include <mu/io/parser/parser.h>
+#include <mu/io/keywording/keywording.h>
 #include <mu/io/lexer/lexer.h>
 #include <mu/core/errors/error_list.h>
 
@@ -20,12 +21,9 @@ namespace mu
         {
             class context;
         }
-        namespace analyzer
+        namespace keywording
         {
-            namespace extensions
-            {
-                class extensions;
-            }
+            class extensions;
         }
     }
     namespace script
@@ -38,11 +36,12 @@ namespace mu
         {
         public:
 			builder ();
-			builder (mu::io::analyzer::extensions::extensions * extensions_a);
+			builder (mu::io::keywording::extensions * extensions_a);
 			void operator () (mu::io::lexer::context const & context_a);
 			mu::core::errors::error_list errors;
 			mu::io::analyzer::analyzer analyzer;
 			mu::io::parser::parser parser;
+            mu::io::keywording::keywording keywording;
 			mu::io::lexer::lexer lexer;
 			void add (mu::core::cluster *);
 			mu::script::cluster::node * cluster;

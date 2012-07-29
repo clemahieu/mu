@@ -1,6 +1,5 @@
 #include <mu/llvm_/api.h>
 
-#include <mu/io/analyzer/extensions/global.h>
 #include <mu/llvm_/context/create.h>
 #include <mu/llvm_/module/add_package.h>
 #include <mu/llvm_/module/assemble.h>
@@ -31,7 +30,6 @@
 #include <mu/llvm_/module/add_global_variable.h>
 #include <mu/llvm_/module/merge.h>
 #include <mu/script/extensions/node.h>
-#include <mu/io/analyzer/extensions/extensions.h>
 #include <mu/llvm_/apint/extension.h>
 #include <mu/llvm_/constant_int/extension.h>
 #include <mu/llvm_/constant_string/extension.h>
@@ -76,6 +74,7 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/function_type/divider.h>
 #include <mu/core/expression.h>
+#include <mu/io/keywording/extensions.h>
 
 #include <gc_cpp.h>
 
@@ -89,89 +88,90 @@ void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::scrip
 	context->values.push_back (module);
 	auto block (new (GC) mu::llvm_::basic_block::node (nullptr));
 	context->values.push_back (block);
-	(*results->extensions) (mu::string (U"#"), new (GC) mu::llvm_::apint::extension);
-	(*results->extensions) (mu::string (U"#i"), new (GC) mu::llvm_::constant_int::extension (ctx));
-	(*results->extensions) (mu::string (U"`"), new (GC) mu::llvm_::constant_string::extension (module));
-	(*results->extensions) (mu::string (U".."), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::function_type::divider));
-	(*results->extensions) (mu::string (U"~"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::script::identity::operation));
+    mu::io::keywording::extensions & extensions (*results->extensions);
+    extensions.add <mu::llvm_::apint::extension> (mu::string (U"#"));
+	extensions (mu::string (U"#i"), [ctx] (mu::io::keywording::keywording & keywording_a) { return new (GC) mu::llvm_::constant_int::extension (keywording_a, ctx); }, false);
+	extensions (mu::string (U"`"), [module] (mu::io::keywording::keywording & keywording_a) { return new (GC) mu::llvm_::constant_string::extension (keywording_a, module); }, false);
+	extensions (mu::string (U".."), new (GC) mu::llvm_::function_type::divider);
+	extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
 	auto function_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::function_type::create));
 	function_type->closed.push_back (ctx);
-	(*results->extensions) (mu::string (U"fun-t"), new (GC) mu::io::analyzer::extensions::global (function_type));
+	extensions (mu::string (U"fun-t"), function_type);
 	auto integer_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	integer_type->closed.push_back (ctx);
-	(*results->extensions) (mu::string (U"int-t"), new (GC) mu::io::analyzer::extensions::global (integer_type));
+	extensions (mu::string (U"int-t"), integer_type);
 	auto i1_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	i1_type->closed.push_back (ctx);
 	i1_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 1)));
 	auto i1_call (new (GC) mu::core::expression);
 	i1_call->dependencies.push_back (i1_type);
-	(*results->extensions) (mu::string (U"i1"), new (GC) mu::io::analyzer::extensions::global (i1_call));
+	extensions (mu::string (U"i1"), i1_call);
 	auto i8_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	i8_type->closed.push_back (ctx);
 	i8_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 8)));
 	auto i8_call (new (GC) mu::core::expression);
 	i8_call->dependencies.push_back (i8_type);
-	(*results->extensions) (mu::string (U"i8"), new (GC) mu::io::analyzer::extensions::global (i8_call));
+	extensions (mu::string (U"i8"), i8_call);
 	auto i16_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	i16_type->closed.push_back (ctx);
 	i16_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 16)));
 	auto i16_call (new (GC) mu::core::expression);
 	i16_call->dependencies.push_back (i16_type);
-	(*results->extensions) (mu::string (U"i16"), new (GC) mu::io::analyzer::extensions::global (i16_call));
+	extensions (mu::string (U"i16"), i16_call);
 	auto i32_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	i32_type->closed.push_back (ctx);
 	i32_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 32)));
 	auto i32_call (new (GC) mu::core::expression);
 	i32_call->dependencies.push_back (i32_type);
-	(*results->extensions) (mu::string (U"i32"), new (GC) mu::io::analyzer::extensions::global (i32_call));
+	extensions (mu::string (U"i32"), i32_call);
 	auto i64_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	i64_type->closed.push_back (ctx);
 	i64_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 64)));
 	auto i64_call (new (GC) mu::core::expression);
 	i64_call->dependencies.push_back (i64_type);
-	(*results->extensions) (mu::string (U"i64"), new (GC) mu::io::analyzer::extensions::global (i64_call));
+	extensions (mu::string (U"i64"), i64_call);
 	auto struct_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::struct_type::create));
 	struct_type->closed.push_back (ctx);
-	(*results->extensions) (mu::string (U"struct-t"), new (GC) mu::io::analyzer::extensions::global (struct_type));
+	extensions (mu::string (U"struct-t"), struct_type);
 	auto constant_int (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_int::create));
 	constant_int->closed.push_back (ctx);
-	(*results->extensions) (mu::string (U"int-c"), new (GC) mu::io::analyzer::extensions::global (constant_int));
-	(*results->extensions) (mu::string (U"add"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::add)));
-	(*results->extensions) (mu::string (U"and"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::and_c)));
-	(*results->extensions) (mu::string (U"ashr"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::ashr)));
-	(*results->extensions) (mu::string (U"bitcast"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::bitcast)));
+	extensions (mu::string (U"int-c"), constant_int);
+	extensions (mu::string (U"add"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::add));
+	extensions (mu::string (U"and"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::and_c));
+	extensions (mu::string (U"ashr"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::ashr));
+	extensions (mu::string (U"bitcast"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::bitcast));
 	auto call (new (GC) mu::llvm_::basic_block::split_return (block, new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::call)));
-	(*results->extensions) (mu::string (U"call"), new (GC) mu::io::analyzer::extensions::global (call));
-	(*results->extensions) (mu::string (U"ccall"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::ccall::operation (block, call)));
-	(*results->extensions) (mu::string (U"cmpxchg"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::cmpxchg)));
-	(*results->extensions) (mu::string (U"eq"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_EQ)));
-	(*results->extensions) (mu::string (U"icmp"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::icmp)));
-	(*results->extensions) (mu::string (U"inttoptr"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::inttoptr)));
-	(*results->extensions) (mu::string (U"load"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::load)));
-	(*results->extensions) (mu::string (U"lshr"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::lshr)));
-	(*results->extensions) (mu::string (U"mul"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::mul)));
-	(*results->extensions) (mu::string (U"ne"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_NE)));
-	(*results->extensions) (mu::string (U"null"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::null::create));
-	(*results->extensions) (mu::string (U"or"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::or_c)));
-	(*results->extensions) (mu::string (U"ptr"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::pointer_type::create));
-	(*results->extensions) (mu::string (U"ptrtoint"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::ptrtoint)));
-	(*results->extensions) (mu::string (U"sdiv"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sdiv)));
-	(*results->extensions) (mu::string (U"sext"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sext)));
-	(*results->extensions) (mu::string (U"sge"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SGE)));
-	(*results->extensions) (mu::string (U"sgt"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SGT)));
-	(*results->extensions) (mu::string (U"shl"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::shl)));
-	(*results->extensions) (mu::string (U"sle"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SLE)));
-	(*results->extensions) (mu::string (U"slt"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SLT)));
-	(*results->extensions) (mu::string (U"srem"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::srem)));
-	(*results->extensions) (mu::string (U"store"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::store)));
-	(*results->extensions) (mu::string (U"sub"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sub)));
-	(*results->extensions) (mu::string (U"trunc"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::trunc)));
-	(*results->extensions) (mu::string (U"udiv"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::udiv)));
-	(*results->extensions) (mu::string (U"uge"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_UGE)));
-	(*results->extensions) (mu::string (U"ugt"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_UGT)));
-	(*results->extensions) (mu::string (U"ule"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_ULE)));
-	(*results->extensions) (mu::string (U"ult"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_ULT)));
-	(*results->extensions) (mu::string (U"urem"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::urem)));
-	(*results->extensions) (mu::string (U"xor"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::xor_c)));
-	(*results->extensions) (mu::string (U"zext"), new (GC) mu::io::analyzer::extensions::global (new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::zext)));
+	extensions (mu::string (U"call"), call);
+	extensions (mu::string (U"ccall"), new (GC) mu::llvm_::ccall::operation (block, call));
+    extensions (mu::string (U"cmpxchg"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::cmpxchg));
+	extensions (mu::string (U"eq"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_EQ));
+	extensions (mu::string (U"icmp"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::icmp));
+	extensions (mu::string (U"inttoptr"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::inttoptr));
+	extensions (mu::string (U"load"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::load));
+	extensions (mu::string (U"lshr"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::lshr));
+	extensions (mu::string (U"mul"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::mul));
+	extensions (mu::string (U"ne"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_NE));
+	extensions (mu::string (U"null"), new (GC) mu::llvm_::null::create);
+	extensions (mu::string (U"or"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::or_c));
+	extensions (mu::string (U"ptr"), new (GC) mu::llvm_::pointer_type::create);
+	extensions (mu::string (U"ptrtoint"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::ptrtoint));
+	extensions (mu::string (U"sdiv"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sdiv));
+	extensions (mu::string (U"sext"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sext));
+	extensions (mu::string (U"sge"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SGE));
+	extensions (mu::string (U"sgt"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SGT));
+	extensions (mu::string (U"shl"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::shl));
+	extensions (mu::string (U"sle"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SLE));
+	extensions (mu::string (U"slt"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_SLT));
+	extensions (mu::string (U"srem"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::srem));
+	extensions (mu::string (U"store"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::store));
+	extensions (mu::string (U"sub"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::sub));
+	extensions (mu::string (U"trunc"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::trunc));
+	extensions (mu::string (U"udiv"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::udiv));
+	extensions (mu::string (U"uge"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_UGE));
+	extensions (mu::string (U"ugt"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_UGT));
+	extensions (mu::string (U"ule"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_ULE));
+	extensions (mu::string (U"ult"), new (GC) mu::llvm_::predicate::node (llvm::CmpInst::Predicate::ICMP_ULT));
+	extensions (mu::string (U"urem"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::urem));
+	extensions (mu::string (U"xor"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::xor_c));
+	extensions (mu::string (U"zext"), new (GC) mu::llvm_::basic_block::instruction_insert (block, new (GC) mu::llvm_::instructions::zext));
 }

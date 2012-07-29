@@ -13,6 +13,7 @@ namespace mu
 			class stream_end;
 			class token;
 			class parameters;
+            class value;
 			class visitor
 			{
 			public:
@@ -23,6 +24,7 @@ namespace mu
 				virtual void operator () (mu::io::tokens::right_square * token) = 0;
 				virtual void operator () (mu::io::tokens::stream_end * token) = 0;
 				virtual void operator () (mu::io::tokens::parameters * token) = 0;
+                virtual void operator () (mu::io::tokens::value * token) = 0;
 			};
 		}
 	}
