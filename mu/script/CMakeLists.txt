@@ -65,6 +65,14 @@ add_library (mu_script SHARED
 	package/get_recursive.cpp
 	package/node.cpp
 	package/remove.cpp
+    parser/body.cpp
+    parser/cluster.cpp
+    parser/full.cpp
+    parser/parameters.cpp
+    parser/parser.cpp
+    parser/routine.cpp
+    parser/separate.cpp
+    parser/values.cpp
 	print/operation.cpp
 	runtime/expression.cpp
 	runtime/fixed.cpp
