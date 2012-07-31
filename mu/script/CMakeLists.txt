@@ -1,11 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 project (script)
 
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
-
-link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
 if (WIN32)
 	set (loadb_operation loadb/win32/operation.cpp)
 else ()
@@ -95,11 +90,7 @@ add_library (mu_script SHARED
     
 target_link_libraries (mu_script
     gc
+    boost_system
+    boost_filesystem
     mu_core
     mu_io)
-
-if (NOT WIN32)
-	target_link_libraries (mu_script
-		boost_filesystem
-		boost_system)
-endif ()

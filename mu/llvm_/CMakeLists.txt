@@ -1,18 +1,11 @@
 cmake_minimum_required (VERSION 2.8)
 project (llvm_)
 
-include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
+include_directories (
+    ${llvm_include_directories})
 
-link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
-if (WIN32)
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
-else ()
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib)
-endif ()
-
+link_directories (
+    ${llvm_lib_directories})
 
 add_library (mu_llvm_ SHARED
 	api.cpp
@@ -118,14 +111,7 @@ add_library (mu_llvm_ SHARED
     
 target_link_libraries (mu_llvm_
     gc
+    LLVM-3.1
     mu_core
     mu_io
     mu_script)
-
-if (WIN32)
-	target_link_libraries (mu_llvm_
-        LLVM-3.0.dll)
-else ()
-	target_link_libraries (mu_llvm_
-        LLVM-3.0)
-endif ()

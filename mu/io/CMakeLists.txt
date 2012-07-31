@@ -1,10 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 project (io)
 
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
-
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
 add_library (mu_io SHARED
 	builder.cpp
 	source.cpp

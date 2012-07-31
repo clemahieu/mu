@@ -27,7 +27,7 @@ bool mu::llvm_::module::get_package::operator () (mu::script::context & context_
 		for (auto i (one->module->getFunctionList ().begin ()), j (one->module->getFunctionList ().end ()); i != j; ++i)
 		{
 			llvm::Function * function (i);
-			auto name (i->getNameStr ());
+			auto name (i->getName ().str ());
 			mu::string wname (name.begin (), name.end ());
 			mu::llvm_::type::build build (new (GC) mu::llvm_::context::node (&function->getContext ()), function->getType ()); 
 			package->items [wname] = new (GC) mu::llvm_::function::node (function, build.type);

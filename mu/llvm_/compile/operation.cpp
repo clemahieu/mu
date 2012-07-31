@@ -23,11 +23,11 @@ bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 		auto module (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));
 		auto name (static_cast <mu::script::astring::node *> (context_a.parameters (1)));
 		std::string error;
-		std::string triple (llvm::sys::getHostTriple ());
+		std::string triple (llvm::sys::getDefaultTargetTriple ());
 		llvm::Target const * target (llvm::TargetRegistry::lookupTarget (triple, error));
 		if (error.empty ())
 		{
-			llvm::TargetMachine * machine (target->createTargetMachine (triple, std::string (), std::string ()));
+			llvm::TargetMachine * machine (target->createTargetMachine (triple, llvm::StringRef (), llvm::StringRef (), llvm::TargetOptions ()));
 			llvm::TargetData const * data (machine->getTargetData ());
 			llvm::PassManager manager;
 			manager.add (new llvm::TargetData (*data));

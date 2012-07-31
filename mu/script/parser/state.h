@@ -17,6 +17,7 @@ namespace mu
         {
             class state
             {
+            public:
                 virtual void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) = 0;
             };
         }

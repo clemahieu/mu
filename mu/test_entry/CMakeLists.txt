@@ -1,19 +1,14 @@
 cmake_minimum_required (VERSION 2.8)
 project (test_entry)
 
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
-
-link_directories (${CMAKE_SOURCE_DIR}/boost/stage/lib)
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-link_directories (${CMAKE_SOURCE_DIR}/googletest)
-
-if (WIN32)
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/lib)
-else ()
-	link_directories (${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib)
-endif ()
-
-include_directories (${CMAKE_SOURCE_DIR}/llvm/include)
+include_directories (
+    ${llvm_include_directories}
+    ${gtest_include_directories})
+    
+link_directories (
+    ${gtest_lib_directories}
+    ${llvm_lib_directories})
+    
 add_executable (mu_test_entry
 	main.cpp
 	core/apply.cpp
@@ -94,24 +89,13 @@ add_executable (mu_test_entry
 	llvm_/types/integer.cpp)
     
 target_link_libraries (mu_test_entry
-    gtest)
-
-target_link_libraries (mu_test_entry
+	gtest
+	gc
+	LLVM-3.1
+	boost_system
+	boost_filesystem
 	mu_core
 	mu_io
 	mu_llvm_
 	mu_repl
 	mu_script)
-
-target_link_libraries (mu_test_entry
-    gc)
-
-if (WIN32)
-	target_link_libraries (mu_test_entry
-        LLVM-3.0.dll)
-else ()
-	target_link_libraries (mu_test_entry
-        LLVM-3.0
-		boost_filesystem
-		boost_system)
-endif ()

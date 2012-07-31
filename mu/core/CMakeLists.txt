@@ -1,10 +1,6 @@
 cmake_minimum_required (VERSION 2.8)
 project (core)
 
-include_directories (${CMAKE_SOURCE_DIR}/gc/include)
-
-link_directories (${CMAKE_SOURCE_DIR}/gc/.libs)
-
 add_library (mu_core SHARED
 	apply.cpp
 	cluster.cpp

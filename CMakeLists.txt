@@ -8,9 +8,39 @@ endif ()
 file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/temp)
 set (CMAKE_VERBOSE_MAKEFILE "ON")
 add_definitions (-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS)
-include_directories (${CMAKE_SOURCE_DIR})
-include_directories (${CMAKE_SOURCE_DIR}/boost)
-include_directories (${CMAKE_SOURCE_DIR}/googletest/include)
+
+set (llvm_include_directories
+	${CMAKE_SOURCE_DIR}/llvm/include)
+set (boost_include_directories
+	${CMAKE_SOURCE_DIR}/boost)
+set (gtest_include_directories
+	${CMAKE_SOURCE_DIR}/googletest/include)
+set (gc_include_directories
+	${CMAKE_SOURCE_DIR}/gc/include)
+
+set (boost_lib_directories
+	${CMAKE_SOURCE_DIR}/boost/stage/lib)
+if (WIN32)
+	set (llvm_lib_directories
+		${CMAKE_SOURCE_DIR}/llvm/lib)
+else (WIN32)
+	set (llvm_lib_directories
+		"${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib")
+endif (WIN32)
+set (gc_lib_directories
+	${CMAKE_SOURCE_DIR}/gc/.libs)
+set (gtest_lib_directories
+	${CMAKE_SOURCE_DIR}/googletest)
+
+include_directories (
+	${CMAKE_SOURCE_DIR}
+	${boost_include_directories}
+	${gc_include_directories})
+
+link_directories (
+	${boost_lib_directories}
+	${gc_lib_directories})
+
 add_subdirectory (mu/binary_test)
 add_subdirectory (mu/core)
 add_subdirectory (mu/exec)

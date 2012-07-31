@@ -39,10 +39,10 @@ TEST (llvm_test, module_get_package1)
 	auto f1 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (U"a")->second));
 	EXPECT_NE (f1, nullptr);
 	EXPECT_EQ (f1->value (), function1);
-	EXPECT_EQ (function1->getNameStr (), std::string ("a.suffix"));
+	EXPECT_EQ (function1->getName ().str (), std::string ("a.suffix"));
 	EXPECT_NE (package->items.find (U"b"), package->items.end ());
 	auto f2 (dynamic_cast <mu::llvm_::function::node *> (package->items.find (U"b")->second));
 	EXPECT_NE (f2, nullptr);
 	EXPECT_EQ (f2->value (), function2);
-	EXPECT_EQ (function2->getNameStr (), std::string ("b.suffix"));
+	EXPECT_EQ (function2->getName ().str (), std::string ("b.suffix"));
 }
