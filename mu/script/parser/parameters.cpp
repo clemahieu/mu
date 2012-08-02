@@ -9,6 +9,9 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/io/tokens/identifier.h>
+#include <mu/script/runtime/selection.h>
+
+#include <gc_cpp.h>
 
 mu::script::parser::parameters::parameters (mu::script::parser::routine & routine_a):
 routine (routine_a)
@@ -28,7 +31,8 @@ void mu::script::parser::parameters::operator () (mu::io::tokens::divider * toke
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::identifier * token)
 {
-    routine.parameters.push_back (token->string);
+    routine.map.insert_local (routine.parser.errors, token->string, new (GC) mu::script::runtime::selection (routine.parameters_m, routine.parameters), context);
+    ++routine.parameters;
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::left_square * token)

@@ -10,6 +10,8 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/script/parser/body.h>
 #include <mu/script/parser/parameters.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime/expression.h>
 
 #include <assert.h>
 
@@ -17,7 +19,10 @@
 
 mu::script::parser::routine::routine (mu::script::parser::parser & parser_a):
 state (mu::script::parser::routine_state::name),
-parser (parser_a)
+parameters (0),
+parser (parser_a),
+parameters_m (new (GC) mu::script::runtime::expression),
+routine_m (new (GC) mu::script::runtime::routine (parameters_m))
 {
 }
 
@@ -41,7 +46,6 @@ void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
     {
         case mu::script::parser::routine_state::parameters:
             state = mu::script::parser::routine_state::body;
-            named_parameters = false;
             break;
         case mu::script::parser::routine_state::name:
         case mu::script::parser::routine_state::body:
@@ -77,7 +81,6 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
     {
         case mu::script::parser::routine_state::parameters:
             state = mu::script::parser::routine_state::body;
-            named_parameters = true;
             parser.state.push (new (GC) mu::script::parser::parameters (*this));
             break;
         case mu::script::parser::routine_state::body:

@@ -2,6 +2,8 @@
 
 #include <mu/script/parser/state.h>
 #include <mu/io/tokens/visitor.h>
+#include <mu/script/runtime/routine.h>
+#include <mu/io/analyzer/name_map.h>
 
 #include <vector>
 
@@ -25,11 +27,13 @@ namespace mu
                 routine (mu::script::parser::parser & parser_a);
                 routine_state state;
                 mu::string name;
-                bool named_parameters;
-                std::vector <mu::string> parameters;
+                size_t parameters;
                 mu::script::parser::parser & parser;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 mu::io::debugging::context context;
+                mu::script::runtime::expression * parameters_m;
+                mu::script::runtime::routine * routine_m;
+                mu::io::analyzer::name_map map;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
