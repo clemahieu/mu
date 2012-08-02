@@ -4,6 +4,13 @@
 
 namespace mu
 {
+    namespace core
+    {
+        namespace errors
+        {
+            class error_target;
+        }
+    }
     namespace io
     {
         namespace tokens
@@ -19,6 +26,7 @@ namespace mu
             {
             public:
                 virtual void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) = 0;
+                void unexpected_token (mu::core::errors::error_target & errors_a, mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
             };
         }
     }

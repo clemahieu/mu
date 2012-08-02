@@ -8,7 +8,7 @@ namespace mu
     {
         namespace parser
         {
-            class separate : mu::script::parser::state
+            class error : mu::script::parser::state
             {
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
             };

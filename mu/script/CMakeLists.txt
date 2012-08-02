@@ -62,11 +62,13 @@ add_library (mu_script SHARED
 	package/remove.cpp
     parser/body.cpp
     parser/cluster.cpp
+    parser/error.cpp
     parser/full.cpp
     parser/parameters.cpp
     parser/parser.cpp
     parser/routine.cpp
     parser/separate.cpp
+    parser/state.cpp
     parser/values.cpp
 	print/operation.cpp
 	runtime/expression.cpp

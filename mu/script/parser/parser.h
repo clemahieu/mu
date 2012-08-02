@@ -6,6 +6,13 @@
 
 namespace mu
 {
+    namespace core
+    {
+        namespace errors
+        {
+            class error_target;
+        }
+    }
     namespace io
     {
         namespace tokens
@@ -20,6 +27,9 @@ namespace mu
             class state;
             class parser
             {
+            public:
+                parser (mu::core::errors::error_target & errors_a);
+                mu::core::errors::error_target & errors;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
                 std::stack <mu::script::parser::state *> state;
             };
