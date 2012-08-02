@@ -10,6 +10,7 @@
 #include <mu/io/tokens/value.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/script/runtime/selection.h>
+#include <mu/script/parser/cluster.h>
 
 #include <gc_cpp.h>
 
@@ -26,36 +27,36 @@ void mu::script::parser::parameters::operator () (mu::io::tokens::token * token_
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::divider * token)
 {
-    unexpected_token (routine.parser.errors, token, context);
+    unexpected_token (routine.cluster.parser.errors, token, context);
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::identifier * token)
 {
-    routine.map.insert_local (routine.parser.errors, token->string, new (GC) mu::script::runtime::selection (routine.parameters_m, routine.parameters), context);
+    routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::selection (routine.parameters_m, routine.parameters), context);
     ++routine.parameters;
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::left_square * token)
 {
-    unexpected_token (routine.parser.errors, token, context);
+    unexpected_token (routine.cluster.parser.errors, token, context);
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::right_square * token)
 {
-    routine.parser.state.pop ();
+    routine.cluster.parser.state.pop ();
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::stream_end * token)
 {
-    unexpected_token (routine.parser.errors, token, context);
+    unexpected_token (routine.cluster.parser.errors, token, context);
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::parameters * token)
 {
-    unexpected_token (routine.parser.errors, token, context);
+    unexpected_token (routine.cluster.parser.errors, token, context);
 }
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (routine.parser.errors, token, context);
+    unexpected_token (routine.cluster.parser.errors, token, context);
 }

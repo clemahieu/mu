@@ -2,6 +2,7 @@
 
 #include <mu/script/parser/state.h>
 #include <mu/io/tokens/visitor.h>
+#include <mu/io/analyzer/name_map.h>
 
 namespace mu
 {
@@ -12,10 +13,12 @@ namespace mu
             class parser;
             class cluster : mu::script::parser::state, mu::io::tokens::visitor
             {
+            public:
                 cluster (mu::script::parser::parser & parser_a);
                 mu::script::parser::parser & parser;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 mu::io::debugging::context context;
+                mu::io::analyzer::name_map map;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;
