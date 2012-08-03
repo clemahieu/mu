@@ -63,17 +63,16 @@ void mu::io::analyzer::name_map::free_locals ()
     locals.clear ();
 }
 
-void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::debugging::context const & context_a, mu::core::expression & expression)
+void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::debugging::context const & context_a, boost::function <void (mu::core::node *)> target_a)
 {
     auto existing (mapping.find (name));
     if (existing != mapping.end ())
     {
-        expression.dependencies.push_back (existing->second);
+        target_a (existing->second);
     }
     else
     {
-        expression.dependencies.push_back (nullptr);
-        auto resolver (mu::io::analyzer::resolver (expression, expression.dependencies.size () - 1, context_a));
+        auto resolver (mu::io::analyzer::resolver (target_a, context_a));
         std::multimap <mu::string, mu::io::analyzer::resolver, std::less <mu::string>, gc_allocator <mu::io::analyzer::resolver>>::iterator const & new_item (unresolved.insert (std::pair <mu::string, mu::io::analyzer::resolver> (name, resolver)));
         local_references.push_back (&new_item->second.only_global);
     }

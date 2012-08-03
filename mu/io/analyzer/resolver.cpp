@@ -3,18 +3,15 @@
 #include <mu/core/expression.h>
 #include <mu/core/errors/error_target.h>
 
-mu::io::analyzer::resolver::resolver (mu::core::expression & unresolved_a, size_t position_a, mu::io::debugging::context const & context_a)
-	: unresolved (unresolved_a),
-    context(context_a),
-	position (position_a),
-    only_global (false)
+mu::io::analyzer::resolver::resolver (boost::function <void (mu::core::node *)> unresolved_a, mu::io::debugging::context const & context_a):
+unresolved (unresolved_a),
+context(context_a),
+only_global (false)
 {
-	assert (unresolved_a.dependencies [position_a] == nullptr);
 }
 
 void mu::io::analyzer::resolver::operator () (mu::core::errors::error_target & errors, bool global, mu::io::debugging::context const & context_a, mu::core::node * node_a)
 {
-	assert (unresolved.dependencies [position] == nullptr);
     if (only_global && !global)
     {
         mu::stringstream message;
@@ -26,6 +23,6 @@ void mu::io::analyzer::resolver::operator () (mu::core::errors::error_target & e
     }
     else
     {
-        unresolved.dependencies [position] = node_a;
+        unresolved (node_a);
     }
 }

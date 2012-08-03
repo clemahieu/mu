@@ -1,8 +1,8 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
-
 #include <mu/io/debugging/context.h>
+
+#include <boost/function.hpp>
 
 namespace mu
 {
@@ -27,11 +27,10 @@ namespace mu
 			class resolver
 			{
 			public:
-				resolver (mu::core::expression & unresolved_a, size_t position_a, mu::io::debugging::context const & context_a);
+				resolver (boost::function <void (mu::core::node *)> unresolved_a, mu::io::debugging::context const & context_a);
 				void operator () (mu::core::errors::error_target & errors, bool global, mu::io::debugging::context const & context_a, mu::core::node * node_a);
-				mu::core::expression & unresolved;
+				boost::function <void (mu::core::node *)> unresolved;
                 mu::io::debugging::context context;
-				size_t position;
                 bool only_global;
 			};
 		}

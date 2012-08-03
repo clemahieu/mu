@@ -26,11 +26,11 @@ TEST (io_test, analyzer1)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (cluster->routines.size (), 1);
+    ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    EXPECT_TRUE (result.errors.errors.empty ());
 }
 
 // Test failure, cannot name top level expression
@@ -43,8 +43,8 @@ TEST (io_test, analyzer2)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.empty (), true);
-    EXPECT_EQ (!result.errors.errors.empty (), true);
+    EXPECT_TRUE (result.clusters.empty ());
+    EXPECT_TRUE (!result.errors.errors.empty ());
 }
 
 // Test undeclared identifier
@@ -57,8 +57,8 @@ TEST (io_test, analyzer3)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 3, 2)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.empty (), true);
-    EXPECT_EQ (!result.errors.errors.empty (), true);
+    EXPECT_TRUE (result.clusters.empty ());
+    EXPECT_TRUE (!result.errors.errors.empty ());
 }
 
 // Test full name reference
@@ -75,16 +75,16 @@ TEST (io_test, analyzer4)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 9, 8)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (cluster->routines.size (), 1);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (cluster->routines.size () == 1);
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto routine (cluster->routines [0]);
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 1);
+    ASSERT_TRUE (body->dependencies.size () == 1);
 	auto parameters (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
-    EXPECT_NE (parameters, nullptr);
-    EXPECT_EQ (parameters->dependencies.empty (), true);
+    ASSERT_TRUE (parameters != nullptr);
+    EXPECT_TRUE (parameters->dependencies.empty ());
 }
 
 // Test local name reference
@@ -100,15 +100,15 @@ TEST (io_test, analyzer5)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (cluster->routines.size (), 1);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (cluster->routines.size () == 1);
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 1);
+    ASSERT_TRUE (body->dependencies.size () == 1);
 	auto parameters (dynamic_cast <mu::core::reference *> (body->dependencies [0]));
-    EXPECT_NE (parameters, nullptr);
-    EXPECT_EQ (parameters->index, 0);
+    ASSERT_TRUE (parameters != nullptr);
+    EXPECT_TRUE (parameters->index == 0);
 }
 
 // Test out of order name reference
@@ -124,17 +124,17 @@ TEST (io_test, analyzer6)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 1);
+    ASSERT_TRUE (body->dependencies.size () == 1);
 	auto reference (dynamic_cast <mu::core::reference *> (body->dependencies [0]));
-    EXPECT_NE (reference, nullptr);
+    ASSERT_TRUE (reference != nullptr);
 	auto call (dynamic_cast <mu::core::expression *> (reference->expression));
-    EXPECT_NE (call, nullptr);
-    EXPECT_EQ (call->dependencies.empty (), true);
-    EXPECT_EQ (reference->index, 0);
+    ASSERT_TRUE (call != nullptr);
+    EXPECT_TRUE (call->dependencies.empty ());
+    EXPECT_TRUE (reference->index == 0);
 }
 
 // Test out of order full name reference
@@ -150,14 +150,14 @@ TEST (io_test, analyzer7)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 1);
+    ASSERT_TRUE (body->dependencies.size () == 1);
 	auto parameters (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
-    EXPECT_NE (parameters, nullptr);
-    EXPECT_EQ (parameters->dependencies.empty (), true);
+    ASSERT_TRUE (parameters != nullptr);
+    EXPECT_TRUE (parameters->dependencies.empty ());
 }
 
 // Test failure of cyclic reference
@@ -179,19 +179,19 @@ TEST (io_test, analyzer8)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (!result.clusters.empty (), true);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (!result.clusters.empty ());
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto cluster (result.clusters [0]);
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 2);
+    ASSERT_TRUE (body->dependencies.size () == 2);
 	auto d1 (dynamic_cast <mu::core::expression *> (body->dependencies [0]));
-    EXPECT_NE (d1, nullptr);
+    ASSERT_TRUE (d1 != nullptr);
 	auto d2 (dynamic_cast <mu::core::expression *> (body->dependencies [1]));
-    EXPECT_NE (d2, nullptr);
-    EXPECT_EQ (d1->dependencies.size (), 1);
-    EXPECT_EQ (d2->dependencies.size (), 1);
-    EXPECT_EQ (d1->dependencies [0], d2);
-    EXPECT_EQ (d2->dependencies [0], d1);
+    ASSERT_TRUE (d2 != nullptr);
+    ASSERT_TRUE (d1->dependencies.size () == 1);
+    ASSERT_TRUE (d2->dependencies.size () == 1);
+    EXPECT_TRUE (d1->dependencies [0] == d2);
+    EXPECT_TRUE (d2->dependencies [0] == d1);
 }
 
 // Test parameters
@@ -205,13 +205,13 @@ TEST (io_test, analyzer9)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
+    ASSERT_TRUE (result.clusters.size () == 1);
 	auto cluster (result.clusters [0]);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.errors.errors.empty ());
 	auto body (cluster->routines [0]->body);
-    EXPECT_EQ (body->dependencies.size (), 1);
+    ASSERT_TRUE (body->dependencies.size () == 1);
 	auto params (dynamic_cast <mu::core::node *> (body->dependencies [0]));
-    EXPECT_NE (params, nullptr);
+    ASSERT_TRUE (params != nullptr);
 }
 
 // Resolve multiple identifiers while another remains unresolved
@@ -242,8 +242,8 @@ TEST (io_test, analyzer10)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.clusters.size () == 1);
+    ASSERT_TRUE (result.errors.errors.empty ());
 }
 
 // With more than one unresolved identifier, resolve lesser then greater
@@ -269,8 +269,8 @@ TEST (io_test, analyzer11)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.clusters.size (), 1);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.clusters.size () == 1);
+    ASSERT_TRUE (result.errors.errors.empty ());
 }
 
 //Test local naming after routine name declared
@@ -308,7 +308,7 @@ TEST (io_test, analyzer13)
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
-    EXPECT_EQ (!result.errors.errors.empty (), true);
+    ASSERT_TRUE (!result.errors.errors.empty ());
 }
 
 //Test routine name collision
@@ -324,7 +324,7 @@ TEST (io_test, analyzer14)
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
-    EXPECT_EQ (!result.errors.errors.empty (), true);
+    ASSERT_TRUE (!result.errors.errors.empty ());
 }
 
 //Test no collision between local names in different routines
@@ -346,7 +346,7 @@ TEST (io_test, analyzer15)
 	cl->expressions.push_back (expression);
 	cl->expressions.push_back (expression1);
 	analyzer_l.input (cl);
-    EXPECT_EQ (result.errors.errors.empty (), true);
+    ASSERT_TRUE (result.errors.errors.empty ());
 }
 
 //Test duplicate local name
@@ -365,5 +365,5 @@ TEST (io_test, analyzer16)
 	auto cl (new (GC) mu::io::ast::cluster (mu::io::debugging::context (1, 1, 0, 1, 1, 0)));
 	cl->expressions.push_back (expression);
 	analyzer_l.input (cl);
-    EXPECT_EQ (!result.errors.errors.empty (), true);
+    ASSERT_TRUE (!result.errors.errors.empty ());
 }

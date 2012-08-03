@@ -64,7 +64,10 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::value * value_a)
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identifier_a)
 {
-    routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, *self);
+    auto container (self);
+    auto position (self->dependencies.size ());
+    self->dependencies.resize (position + 1);
+    routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, [container, position] (mu::core::node * node_a) {container->dependencies [position] = node_a;});
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)
