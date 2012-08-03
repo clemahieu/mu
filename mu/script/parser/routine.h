@@ -32,6 +32,7 @@ namespace mu
                 mu::io::debugging::context context;
                 mu::script::runtime::expression * parameters_m;
                 mu::script::runtime::routine * routine_m;
+                std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> expressions;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

@@ -24,12 +24,12 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::token * token_a, 
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::divider * token)
 {
-    unexpected_token (parser.errors, token, context);
+    unexpected_token (parser, token, context);
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::identifier * token)
 {
-    unexpected_token (parser.errors, token, context);
+    unexpected_token (parser, token, context);
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::left_square * token)
@@ -39,7 +39,7 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::left_square * tok
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::right_square * token)
 {
-    unexpected_token (parser.errors, token, context);
+    unexpected_token (parser, token, context);
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * token)
@@ -49,10 +49,10 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * toke
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::parameters * token)
 {
-    unexpected_token (parser.errors, token, context);    
+    unexpected_token (parser, token, context);    
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (parser.errors, token, context);
+    unexpected_token (parser, token, context);
 }

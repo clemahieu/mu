@@ -22,11 +22,12 @@ namespace mu
     {
         namespace parser
         {
+            class parser;
             class state
             {
             public:
                 virtual void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) = 0;
-                void unexpected_token (mu::core::errors::error_target & errors_a, mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
+                void unexpected_token (mu::script::parser::parser & parser_a, mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
             };
         }
     }
