@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/function.hpp>
+
 #include <mu/io/debugging/context.h>
 
 #include <gc_allocator.h>
@@ -25,14 +27,19 @@ namespace mu
     }
     namespace script
     {
+        namespace cluster
+        {
+            class node;
+        }
         namespace parser
         {
             class state;
             class parser
             {
             public:
-                parser (mu::core::errors::error_target & errors_a);
+                parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::cluster::node *)> target_a);
                 mu::core::errors::error_target & errors;
+                boost::function <void (mu::script::cluster::node *)> target;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
                 std::stack <mu::script::parser::state *, std::deque <mu::script::parser::state *, gc_allocator <mu::script::parser::state *>>> state;
             };

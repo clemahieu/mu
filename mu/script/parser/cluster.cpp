@@ -8,11 +8,13 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/script/parser/routine.h>
+#include <mu/script/cluster/node.h>
 
 #include <gc_cpp.h>
 
-mu::script::parser::cluster::cluster (mu::script::parser::parser & parser_a)
-    : parser (parser_a)
+mu::script::parser::cluster::cluster (mu::script::parser::parser & parser_a):
+parser (parser_a),
+cluster_m (new (GC) mu::script::cluster::node)
 {
 }
 
@@ -44,7 +46,8 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::right_square * to
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * token)
 {
-    parser.state.pop ();
+    parser.target (cluster_m);
+    cluster_m = new (GC) mu::script::cluster::node;
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::parameters * token)
