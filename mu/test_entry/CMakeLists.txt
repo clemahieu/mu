@@ -65,6 +65,7 @@ add_executable (mu_test_entry
 	script/package/get_recursive.cpp
 	script/package/get.cpp
     script/parser/parser.cpp
+    script/parser/topology.cpp
 	script/string/extension.cpp
 	script/synthesizer/operation.cpp
 	script/times/operation.cpp

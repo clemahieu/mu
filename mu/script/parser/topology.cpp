@@ -5,16 +5,11 @@
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/routine.h>
 
-mu::script::parser::topology::topology (std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> & expressions_a, mu::script::runtime::routine * routine_a, mu::core::errors::error_target & errors_a):
-expressions (expressions_a),
-routine (routine_a),
+mu::script::parser::topology::topology (mu::script::runtime::expression * root, boost::function <void (mu::script::runtime::expression *)> target_a, mu::core::errors::error_target & errors_a):
+target (target_a),
 errors (errors_a)
 {
-}
-
-void mu::script::parser::topology::operator () ()
-{
-    recurse (expressions [0]);
+    recurse (root);
 }
 
 void mu::script::parser::topology::recurse (mu::script::runtime::expression * expression_a)
@@ -42,7 +37,7 @@ void mu::script::parser::topology::recurse (mu::script::runtime::expression * ex
                 recurse (reference->expression);
             }
 		}
-		routine->expressions.push_back (expression_a);
+		target (expression_a);
 	}
 	path.erase (expression_a);
 }

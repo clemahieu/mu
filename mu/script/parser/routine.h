@@ -31,7 +31,6 @@ namespace mu
                 mu::script::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 mu::io::debugging::context context;
-                mu::script::runtime::expression * parameters_m;
                 mu::script::runtime::routine * routine_m;
                 std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> expressions;
 				void operator () (mu::io::tokens::divider * token) override;

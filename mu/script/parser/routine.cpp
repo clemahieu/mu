@@ -26,8 +26,7 @@ mu::script::parser::routine::routine (mu::script::parser::cluster & cluster_a):
 state (mu::script::parser::routine_state::name),
 parameters (0),
 cluster (cluster_a),
-parameters_m (new (GC) mu::script::runtime::expression),
-routine_m (new (GC) mu::script::runtime::routine (parameters_m))
+routine_m (new (GC) mu::script::runtime::routine)
 {
 }
 
@@ -131,6 +130,12 @@ void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 
 void mu::script::parser::routine::perform_topology ()
 {
-    mu::script::parser::topology topology (expressions, routine_m, cluster.parser.errors);
-    topology ();
+    auto routine_l (routine_m);
+    mu::script::parser::topology topology (expressions [0],
+                                           [routine_l]
+                                           (mu::script::runtime::expression * expression_a)
+                                           {
+                                               routine_l->expressions.push_back (expression_a);
+                                           },
+                                           cluster.parser.errors);
 }

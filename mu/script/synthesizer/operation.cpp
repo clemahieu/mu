@@ -32,8 +32,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 		std::map <mu::core::routine *, mu::script::runtime::routine *, std::less <mu::core::routine *>, gc_allocator <std::pair <mu::core::routine *, mu::script::runtime::routine *>>> routine_mapping;
 		for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j; ++i)
 		{
-			auto parameters (new (GC) mu::script::runtime::expression);
-			auto routine (new (GC) mu::script::runtime::routine (parameters));
+			auto routine (new (GC) mu::script::runtime::routine);
 			routine_mapping [*i] = routine;
 		}
 		for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j; ++i)

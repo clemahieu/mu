@@ -10,8 +10,8 @@
 
 #include <assert.h>
 
-mu::script::runtime::routine::routine (mu::script::runtime::expression * parameters_a)
-	: parameters (parameters_a)
+mu::script::runtime::routine::routine ():
+parameters (new (GC) mu::script::runtime::expression)
 {
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/function.hpp>
+
 #include <vector>
 #include <set>
 
@@ -26,11 +28,9 @@ namespace mu
             class topology
             {
             public:
-                topology (std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> & expressions_a, mu::script::runtime::routine * routine_a, mu::core::errors::error_target & errors_a);
-                void operator () ();
+                topology (mu::script::runtime::expression * root, boost::function <void (mu::script::runtime::expression *)> target_a, mu::core::errors::error_target & errors_a);
                 void recurse (mu::script::runtime::expression * expression_a);
-                std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> & expressions;
-                mu::script::runtime::routine * routine;
+                boost::function <void (mu::script::runtime::expression *)> target;
                 mu::core::errors::error_target & errors;
                 std::set <mu::script::runtime::expression *, std::less <mu::script::runtime::expression *>, gc_allocator <mu::script::runtime::expression *>> already;
                 std::set <mu::script::runtime::expression *, std::less <mu::script::runtime::expression *>, gc_allocator <mu::script::runtime::expression *>> path;

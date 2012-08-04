@@ -32,7 +32,7 @@ void mu::script::parser::parameters::operator () (mu::io::tokens::divider * toke
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::identifier * token)
 {
-    routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::selection (routine.parameters_m, routine.parameters), context);
+    routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::selection (routine.routine_m->parameters, routine.parameters), context);
     ++routine.parameters;
 }
 
