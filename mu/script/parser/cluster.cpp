@@ -36,7 +36,8 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::identifier * toke
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::left_square * token)
 {
-    parser.state.push (new (GC) mu::script::parser::routine (*this));
+    auto state_l (new (GC) mu::script::parser::routine (*this));
+    parser.state.push (state_l);
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::right_square * token)

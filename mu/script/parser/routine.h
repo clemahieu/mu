@@ -17,8 +17,7 @@ namespace mu
             {
                 name,
                 parameters,
-                body,
-                end
+                body
             };
             class routine : public mu::script::parser::state, public mu::io::tokens::visitor
             {

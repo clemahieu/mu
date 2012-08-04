@@ -13,6 +13,7 @@
 #include <mu/script/runtime/routine.h>
 #include <mu/script/runtime/expression.h>
 #include <mu/script/parser/cluster.h>
+#include <mu/script/cluster/node.h>
 
 #include <assert.h>
 
@@ -29,16 +30,8 @@ routine_m (new (GC) mu::script::runtime::routine (parameters_m))
 
 void mu::script::parser::routine::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-    if (state == mu::script::parser::routine_state::end)
-    {
-        cluster.parser.state.pop ();
-        cluster.parser (token_a, context_a);
-    }
-    else
-    {
-        context = context_a;
-        (*token_a) (this);
-    }
+    context = context_a;
+    (*token_a) (this);
 }
 
 void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
@@ -85,7 +78,6 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
             cluster.parser.state.push (new (GC) mu::script::parser::parameters (*this));
             break;
         case mu::script::parser::routine_state::body:
-            state = mu::script::parser::routine_state::end;
             cluster.parser.state.push (new (GC) mu::script::parser::body (*this));
             break;
         case mu::script::parser::routine_state::name:
@@ -99,7 +91,23 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
 
 void mu::script::parser::routine::operator () (mu::io::tokens::right_square * token)
 {
-    unexpected_token (cluster.parser, token, context);
+    switch (state)
+    {
+        case mu::script::parser::routine_state::body:
+            cluster.map.insert_global (cluster.parser.errors, name, routine_m, context);
+            cluster.cluster_m->routines.push_back (routine_m);
+            cluster.cluster_m->names [name] = routine_m;
+            cluster.map.free_locals ();
+            cluster.parser.state.pop ();
+            break;
+        case mu::script::parser::routine_state::name:
+        case mu::script::parser::routine_state::parameters:
+            unexpected_token (cluster.parser, token, context);
+            break;
+        default:
+            assert (false);
+            break;
+    }
 }
 
 void mu::script::parser::routine::operator () (mu::io::tokens::stream_end * token)
