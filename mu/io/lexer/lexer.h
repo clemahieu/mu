@@ -5,6 +5,9 @@
 #include <boost/function.hpp>
 
 #include <stack>
+#include <deque>
+
+#include <gc_allocator.h>
 
 namespace mu
 {
@@ -50,7 +53,7 @@ namespace mu
 				void reset ();
 				mu::core::errors::error_target & errors;
 				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
-				std::stack <mu::io::lexer::state *> state;
+				std::stack <mu::io::lexer::state *, std::deque <mu::io::lexer::state *, gc_allocator <mu::io::lexer::state *>>> state;
 			};
 		}
 	}

@@ -4,6 +4,7 @@
 #include <mu/script/runtime/reference.h>
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/script/runtime/selection.h>
 
 mu::script::parser::topology::topology (mu::script::runtime::expression * root, boost::function <void (mu::script::runtime::expression *)> target_a, mu::core::errors::error_target & errors_a):
 target (target_a),
@@ -26,8 +27,9 @@ void mu::script::parser::topology::recurse (mu::script::runtime::expression * ex
 		for (auto i (expression_a->dependencies.begin ()), j (expression_a->dependencies.end ()); i != j; ++i)
 		{
 			auto current (*i);
-            auto expression (dynamic_cast <mu::script::runtime::expression *>(current));
-            auto reference (dynamic_cast <mu::script::runtime::reference *>(current));
+            auto expression (dynamic_cast <mu::script::runtime::expression *> (current));
+            auto reference (dynamic_cast <mu::script::runtime::reference *> (current));
+            auto selection (dynamic_cast <mu::script::runtime::selection *> (current));
             if (expression != nullptr)
             {
                 recurse (expression);
@@ -35,6 +37,10 @@ void mu::script::parser::topology::recurse (mu::script::runtime::expression * ex
             else if (reference != nullptr)
             {
                 recurse (reference->expression);
+            }
+            else if (selection != nullptr)
+            {
+                recurse (selection->expression);
             }
 		}
 		target (expression_a);

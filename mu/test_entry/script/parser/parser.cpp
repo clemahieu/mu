@@ -10,6 +10,8 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/reference.h>
+#include <mu/script/runtime/selection.h>
 
 #include <gc_cpp.h>
 
@@ -341,8 +343,11 @@ TEST (script_test, parser21)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
+    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
+    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
+    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
 }
 
 // Expression with elements reference
@@ -367,6 +372,10 @@ TEST (script_test, parser22)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
+    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
+    ASSERT_TRUE (dynamic_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
+    EXPECT_TRUE (static_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
+
 }

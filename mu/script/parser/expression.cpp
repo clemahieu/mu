@@ -12,6 +12,7 @@
 #include <mu/io/tokens/value.h>
 #include <mu/script/runtime/fixed.h>
 #include <mu/io/tokens/right_square.h>
+#include <mu/script/runtime/reference.h>
 
 #include <gc_cpp.h>
 
@@ -39,10 +40,10 @@ void mu::script::parser::expression::operator () (mu::io::tokens::divider * toke
         case mu::script::parser::expression_state::values:
             state = mu::script::parser::expression_state::name;
             break;
+        case mu::script::parser::expression_state::name:
         case mu::script::parser::expression_state::have_name:
             state = mu::script::parser::expression_state::elements;
             break;
-        case mu::script::parser::expression_state::name:
         case mu::script::parser::expression_state::elements:
             unexpected_token (routine.cluster.parser, token, context);
             break;
@@ -72,14 +73,14 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier * t
             break;
         }
         case mu::script::parser::expression_state::name:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, context);
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::reference (expression_m), context);
             state = mu::script::parser::expression_state::have_name;
             break;
         case mu::script::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token, context);
             break;
         case mu::script::parser::expression_state::elements:
-            routine.cluster.map.insert_local(routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::selection (expression_m, element), context);
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::selection (expression_m, element), context);
             ++element;
             break;
         default:

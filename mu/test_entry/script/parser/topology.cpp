@@ -4,6 +4,7 @@
 #include <mu/script/parser/topology.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/runtime/expression.h>
+#include <mu/script/runtime/selection.h>
 
 #include <gc_cpp.h>
 
@@ -89,4 +90,26 @@ TEST (script_test, topology4)
                                            },
                                            errors);
     EXPECT_TRUE (errors ());
+}
+
+// Selection reference
+TEST (script_test, topology5)
+{
+    mu::core::errors::error_list errors;
+	mu::script::runtime::expression root;
+    mu::script::runtime::expression e1;
+    mu::script::runtime::selection s1 (&e1, 0);
+    root.dependencies.push_back (&s1);
+    std::vector <mu::script::runtime::expression *> expressions;
+	mu::script::parser::topology topology (&root,
+                                           [&expressions]
+                                           (mu::script::runtime::expression * expression_a)
+                                           {
+                                               expressions.push_back (expression_a);
+                                           },
+                                           errors);
+    EXPECT_TRUE (!errors ());
+    ASSERT_TRUE (expressions.size () == 2);
+    EXPECT_TRUE (expressions [0] == &e1);
+    EXPECT_TRUE (expressions [1] == &root);
 }
