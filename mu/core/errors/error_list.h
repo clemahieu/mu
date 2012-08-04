@@ -16,6 +16,7 @@ namespace mu
 			class error_list : public mu::core::errors::error_target
 			{
 			public:
+                using mu::core::errors::error_target::print;
 				std::vector <mu::core::errors::error *, gc_allocator <mu::core::errors::error>> errors;
 				void operator () (mu::core::errors::error * error) override;
 				bool operator () () override;

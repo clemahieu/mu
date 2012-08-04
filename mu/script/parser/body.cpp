@@ -38,19 +38,24 @@ void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
     auto position (expression_l->dependencies.size ());
     expression_l->dependencies.resize (position + 1);
     routine.cluster.map.fill_reference (token->string, context,
-        [expression_l, position]
-        (mu::core::node * node_a)
-        {
-            assert (dynamic_cast <mu::script::operation *> (node_a) != nullptr);
-            expression_l->dependencies [position] = static_cast <mu::script::operation *> (node_a);
-        }
+                                        [expression_l, position]
+                                        (mu::core::node * node_a)
+                                        {
+                                            assert (dynamic_cast <mu::script::operation *> (node_a) != nullptr);
+                                            expression_l->dependencies [position] = static_cast <mu::script::operation *> (node_a);
+                                        }
     );
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
 {
-    auto state_l (new (GC) mu::script::parser::expression (routine));
-    expression->dependencies.push_back(state_l->expression_m);
+    auto expression_l (expression);
+    auto state_l (new (GC) mu::script::parser::expression (routine,
+                                                           [expression_l]
+                                                           (mu::script::runtime::expression * expression_a)
+                                                           {
+                                                               expression_l->dependencies.push_back (expression_a);
+                                                           }));
     routine.cluster.parser.state.push (state_l);
 }
 

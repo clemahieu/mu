@@ -1,6 +1,7 @@
 #include <mu/io/debugging/context.h>
 
 #include <sstream>
+#include <algorithm>
 
 mu::io::debugging::context::context ()
 {
@@ -26,17 +27,18 @@ bool mu::io::debugging::context::operator == (mu::io::debugging::context const &
 
 mu::string mu::io::debugging::context::string () const
 {
-    mu::stringstream result;
+    std::stringstream result;
 	result << first.row;
-	result << U',';
+	result << ',';
 	result << first.column;
-	result << U',';
+	result << ',';
 	result << first.character;
-	result << U':';
+	result << ':';
 	result << last.row;
-	result << U',';
+	result << ',';
 	result << last.column;
-	result << U',';
+	result << ',';
 	result << last.character;
-	return result.str ();
+    auto aresult (result.str ());
+	return mu::string (aresult.begin (), aresult.end ());;
 }
