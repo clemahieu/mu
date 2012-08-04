@@ -68,6 +68,7 @@ add_library (mu_script SHARED
     parser/parser.cpp
     parser/routine.cpp
     parser/state.cpp
+    parser/topology.cpp
 	print/operation.cpp
 	runtime/expression.cpp
 	runtime/fixed.cpp

@@ -15,12 +15,12 @@ mu::script::topology::core::core (mu::core::expression * call_a)
 
 void mu::script::topology::core::perform (mu::core::expression * expression_a)
 {
-	auto existing (already.find (expression_a));
 	if (path.find (expression_a) != path.end ())
 	{
 		acyclic = false;
 	}
 	path.insert (expression_a);
+	auto existing (already.find (expression_a));
 	if (existing == already.end ())
 	{	
 		already.insert (expression_a);

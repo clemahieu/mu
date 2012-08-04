@@ -200,5 +200,5 @@ TEST (script_test, parser15)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions.size () == 0);
+    EXPECT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
 }

@@ -14,6 +14,9 @@
 #include <mu/script/runtime/expression.h>
 #include <mu/script/parser/cluster.h>
 #include <mu/script/cluster/node.h>
+#include <mu/core/errors/error_list.h>
+#include <mu/script/runtime/reference.h>
+#include <mu/script/parser/topology.h>
 
 #include <assert.h>
 
@@ -94,6 +97,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
     switch (state)
     {
         case mu::script::parser::routine_state::body:
+            perform_topology ();
             cluster.map.insert_global (cluster.parser.errors, name, routine_m, context);
             cluster.cluster_m->routines.push_back (routine_m);
             cluster.cluster_m->names [name] = routine_m;
@@ -123,4 +127,10 @@ void mu::script::parser::routine::operator () (mu::io::tokens::parameters * toke
 void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 {
     unexpected_token (cluster.parser, token, context);
+}
+
+void mu::script::parser::routine::perform_topology ()
+{
+    mu::script::parser::topology topology (expressions, routine_m, cluster.parser.errors);
+    topology ();
 }
