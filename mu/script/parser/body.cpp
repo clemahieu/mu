@@ -19,7 +19,6 @@ mu::script::parser::body::body (mu::script::parser::routine & routine_a):
 routine (routine_a),
 expression (new (GC) mu::script::runtime::expression)
 {
-    routine_a.expressions.push_back (expression);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
@@ -51,7 +50,7 @@ void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
 {
     auto state_l (new (GC) mu::script::parser::expression (routine));
-    routine.expressions.push_back (state_l->expression_m);
+    expression->dependencies.push_back(state_l->expression_m);
     routine.cluster.parser.state.push (state_l);
 }
 

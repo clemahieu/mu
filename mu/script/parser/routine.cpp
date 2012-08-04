@@ -26,7 +26,8 @@ mu::script::parser::routine::routine (mu::script::parser::cluster & cluster_a):
 state (mu::script::parser::routine_state::name),
 parameters (0),
 cluster (cluster_a),
-routine_m (new (GC) mu::script::runtime::routine)
+routine_m (new (GC) mu::script::runtime::routine),
+root (nullptr)
 {
 }
 
@@ -80,8 +81,12 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
             cluster.parser.state.push (new (GC) mu::script::parser::parameters (*this));
             break;
         case mu::script::parser::routine_state::body:
-            cluster.parser.state.push (new (GC) mu::script::parser::body (*this));
+        {
+            auto state_l (new (GC) mu::script::parser::body (*this));
+            root = state_l->expression;
+            cluster.parser.state.push (state_l);
             break;
+        }
         case mu::script::parser::routine_state::name:
             unexpected_token (cluster.parser, token, context);
             break;
@@ -131,7 +136,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 void mu::script::parser::routine::perform_topology ()
 {
     auto routine_l (routine_m);
-    mu::script::parser::topology topology (expressions [0],
+    mu::script::parser::topology topology (root,
                                            [routine_l]
                                            (mu::script::runtime::expression * expression_a)
                                            {

@@ -88,7 +88,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier * t
 void mu::script::parser::expression::operator () (mu::io::tokens::left_square * token)
 {
     auto state_l (new (GC) mu::script::parser::expression (routine));
-    routine.expressions.push_back (state_l->expression_m);
+    expression_m->dependencies.push_back (state_l->expression_m);
     routine.cluster.parser.state.push (state_l);
 }
 
