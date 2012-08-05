@@ -188,8 +188,9 @@ TEST (io_test, name_map15)
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
     mu::core::node node;
-    map.finalize (errors);
+    auto failed (map.finalize (errors));
     EXPECT_TRUE (errors.errors.empty ());
+    EXPECT_TRUE (!failed);
 }
 
 // Check that there are no errors when everything is resolved
@@ -202,8 +203,9 @@ TEST (io_test, name_map16)
     std::vector <mu::core::node *> nodes (1);
     map.insert_global (errors, mu::string (U"thing"), &node, context);
     map.fill_reference (mu::string (U"thing"), context, [&nodes] (mu::core::node * node_a) {nodes [0] = node_a;});
-    map.finalize (errors);
+    auto failed (map.finalize (errors));
     EXPECT_TRUE (errors.errors.empty ());
+    EXPECT_TRUE (!failed);
 }
 
 // Check that there are errors when there are unresolved references
@@ -215,8 +217,9 @@ TEST (io_test, name_map17)
     mu::core::node node;
     std::vector <mu::core::node *> nodes (1);
     map.fill_reference (mu::string (U"thing"), context, [&nodes] (mu::core::node * node_a) {nodes [0] = node_a;});
-    map.finalize (errors);
+    auto failed (map.finalize (errors));
     EXPECT_TRUE (!errors.errors.empty ());
+    EXPECT_TRUE (failed);
 }
 
 // Check that a local declaration can't resolve references in other functions

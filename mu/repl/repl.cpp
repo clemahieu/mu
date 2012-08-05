@@ -64,7 +64,7 @@ void mu::repl::repl::iteration ()
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	(*builder.keywording.extensions) (mu::string (U"quit"), quit);
     std::wstring line;
-    std::wcin >> line;
+    std::getline (std::wcin, line);
     mu::string text;
     text.append (U"[--repl-routine-- [] [");
     text.append (line.begin (), line.end ());

@@ -32,7 +32,7 @@ namespace mu
                 void insert_local (mu::core::errors::error_target & errors_a, mu::string const &name, mu::core::node * const node, mu::io::debugging::context const & context_a);
                 void free_locals ();
                 void fill_reference (mu::string name, mu::io::debugging::context const & context_a, boost::function <void (mu::core::node *)> target_a);
-                void finalize (mu::core::errors::error_target & errors_a);
+                bool finalize (mu::core::errors::error_target & errors_a);
             private:
                 void resolve (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, bool global, mu::io::debugging::context const & context_a);
                 std::vector <bool *> local_references;

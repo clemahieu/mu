@@ -47,7 +47,11 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::right_square * to
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * token)
 {
-    parser.target (cluster_m);
+    auto failed (map.finalize (parser.errors));
+    if (!failed)
+    {
+        parser.target (cluster_m);
+    }
     cluster_m = new (GC) mu::script::cluster::node;
 }
 

@@ -89,8 +89,9 @@ void mu::io::analyzer::name_map::resolve (mu::core::errors::error_target & error
     unresolved.erase (first, i);
 }
 
-void mu::io::analyzer::name_map::finalize (mu::core::errors::error_target & errors_a)
+bool mu::io::analyzer::name_map::finalize (mu::core::errors::error_target & errors_a)
 {
+    bool result (!unresolved.empty ());
     for (auto i (unresolved.begin ()), j (unresolved.end ()); i != j; ++i)
     {
         mu::stringstream message;
