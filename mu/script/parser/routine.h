@@ -19,7 +19,8 @@ namespace mu
             {
                 name,
                 parameters,
-                body
+                body,
+                have_body
             };
             class routine : public mu::script::parser::state, public mu::io::tokens::visitor
             {
@@ -41,7 +42,6 @@ namespace mu
 				void operator () (mu::io::tokens::parameters * token) override;
                 void operator () (mu::io::tokens::value * token) override;
                 void perform_topology ();
-                void topology_recurse (std::set <mu::script::runtime::expression *, std::deque <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>>> & already, std::set <mu::script::runtime::expression *, std::deque <mu::script::runtime::expression *, gc_allocator<mu::script::runtime::expression *>>> & path, mu::script::runtime::expression * expression_a);
             };
         }
     }

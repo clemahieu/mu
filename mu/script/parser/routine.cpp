@@ -46,6 +46,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
             break;
         case mu::script::parser::routine_state::name:
         case mu::script::parser::routine_state::body:
+        case mu::script::parser::routine_state::have_body:
             unexpected_token (cluster.parser, token, context);
             break;
         default:
@@ -64,6 +65,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier * toke
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:
+        case mu::script::parser::routine_state::have_body:
             unexpected_token (cluster.parser, token, context);
             break;
         default:
@@ -82,11 +84,13 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
             break;
         case mu::script::parser::routine_state::body:
         {
+            state = mu::script::parser::routine_state::have_body;
             auto state_l (new (GC) mu::script::parser::body (*this));
             root = state_l->expression;
             cluster.parser.state.push (state_l);
             break;
         }
+        case mu::script::parser::routine_state::have_body:
         case mu::script::parser::routine_state::name:
             unexpected_token (cluster.parser, token, context);
             break;
@@ -100,7 +104,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
 {
     switch (state)
     {
-        case mu::script::parser::routine_state::body:
+        case mu::script::parser::routine_state::have_body:
             perform_topology ();
             cluster.map.insert_global (cluster.parser.errors, name, routine_m, context);
             cluster.cluster_m->routines.push_back (routine_m);
@@ -108,6 +112,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
             cluster.map.free_locals ();
             cluster.parser.state.pop ();
             break;
+        case mu::script::parser::routine_state::body:
         case mu::script::parser::routine_state::name:
         case mu::script::parser::routine_state::parameters:
             unexpected_token (cluster.parser, token, context);

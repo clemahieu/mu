@@ -16,12 +16,15 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
 #include <mu/script/context.h>
-#include <mu/io/builder.h>
+#include <mu/script/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/api.h>
 #include <mu/io/lexer/stream_input.h>
 #include <mu/core/routine.h>
 #include <mu/core/types.h>
+#include <mu/io/keywording/extensions.h>
+#include <mu/script/cluster/node.h>
+#include <mu/script/runtime/routine.h>
 
 #include <gc_cpp.h>
 
@@ -57,22 +60,21 @@ void mu::repl::repl::stop ()
 void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
-	mu::io::builder builder (mu::script::api::core ()->extensions);
+	mu::script::builder builder (mu::script::api::core ()->extensions);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
-    assert (false);
-	/*(*builder.analyzer.extensions) (mu::string (U"quit"), quit);*/
+	(*builder.keywording.extensions) (mu::string (U"quit"), quit);
     std::wstring line;
     std::wcin >> line;
     mu::string text;
-    text.push_back (U'[');
+    text.append (U"[--repl-routine-- [] [");
     text.append (line.begin (), line.end ());
-    text.push_back (U']');
+    text.append (U"]]");
     mu::io::process (builder, text);
 	if (builder.errors.errors.empty ())
 	{
-		if (builder.cluster != nullptr)
+		if (builder.clusters.size () == 1)
 		{
-			auto cluster (builder.cluster);
+			auto cluster (builder.clusters [0]);
 			if (cluster->routines.size () > 0)
 			{
                 mu::core::errors::error_list errors;
@@ -93,7 +95,7 @@ void mu::repl::repl::iteration ()
 					errors.print (stream);
                     mu::string const & string (stream.str ());
                     std::wstring wstring (string.begin (), string.end ());
-                    std::wcout << wstring;
+                    std::wcout << wstring << std::endl;
 				}
 			}
 			else

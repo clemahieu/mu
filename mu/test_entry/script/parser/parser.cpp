@@ -404,3 +404,17 @@ TEST (script_test, parser23)
     ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 1);
 }
+
+// Missing body
+TEST (script_test, parser24)
+{
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::cluster::node *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    EXPECT_TRUE (errors ());
+}

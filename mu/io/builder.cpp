@@ -14,8 +14,20 @@
 mu::io::builder::builder ()
 	: analyzer (boost::bind (&mu::io::builder::add, this, _1), errors),
 	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-    keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context);}, new (GC) mu::io::keywording::extensions),
-    lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); }),
+    keywording (errors,
+                [this]
+                (mu::io::tokens::token * token, mu::io::debugging::context context)
+                {
+                    parser (token, context);
+                }
+                , new (GC) mu::io::keywording::extensions),
+    lexer (errors,
+           [this]
+           (mu::io::tokens::token * token, mu::io::debugging::context context)
+           {
+               keywording (token, context);
+           }
+           ),
     cluster (nullptr)
 {
 }

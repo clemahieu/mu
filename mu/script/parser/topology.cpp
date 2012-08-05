@@ -10,6 +10,7 @@ mu::script::parser::topology::topology (mu::script::runtime::expression * root, 
 target (target_a),
 errors (errors_a)
 {
+    assert (root != nullptr);
     recurse (root);
 }
 
