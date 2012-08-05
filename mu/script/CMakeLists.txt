@@ -73,9 +73,10 @@ add_library (mu_script SHARED
 	runtime/expression.cpp
 	runtime/fixed.cpp
 	runtime/locals.cpp
+    runtime/parameter.cpp
 	runtime/reference.cpp
-	runtime/selection.cpp
 	runtime/routine.cpp
+	runtime/selection.cpp
 	run/operation.cpp
 	string/extension.cpp
 	string/node.cpp

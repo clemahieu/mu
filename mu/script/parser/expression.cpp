@@ -96,7 +96,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::left_square * 
                                                            [expression_l]
                                                            (mu::script::runtime::expression * expression_a)
                                                            {
-                                                               expression_l->dependencies.push_back (expression_a);
+                                                               expression_l->dependencies.push_back (new (GC) mu::script::runtime::reference (expression_a));
                                                            }));
     routine.cluster.parser.state.push (state_l);
 }

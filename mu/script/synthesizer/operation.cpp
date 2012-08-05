@@ -81,7 +81,7 @@ bool mu::script::synthesizer::operation::operator () (mu::script::context & cont
 									auto parameters_l (dynamic_cast <mu::core::parameters *> (*m));
 									if (parameters_l != nullptr)
 									{
-										expression->dependencies.push_back (new (GC) mu::script::runtime::reference (routine->parameters));
+										//expression->dependencies.push_back (new (GC) mu::script::runtime::reference (routine->parameters));
 									}
 									else
 									{

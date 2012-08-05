@@ -21,10 +21,9 @@ TEST (script_test, extension1)
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast []]");
 	ASSERT_TRUE (builder.errors.errors.empty ());
-	auto cluster (builder.cluster);
-	ASSERT_TRUE (cluster != nullptr);
-	ASSERT_TRUE (cluster->routines.size () == 1);
-	auto routine (cluster->routines [0]);
+	ASSERT_TRUE (builder.clusters.size () == 1);
+	ASSERT_TRUE (builder.clusters [0]->routines.size () == 1);
+	auto routine (builder.clusters [0]->routines [0]);
 	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());
@@ -41,7 +40,7 @@ TEST (script_test, extension2)
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast thing]");
 	EXPECT_TRUE (!builder.errors.errors.empty ());
-	EXPECT_TRUE (builder.cluster == nullptr);
+	EXPECT_TRUE (builder.clusters.size () == 0);
 }
 
 TEST (script_test, extension3)
@@ -50,10 +49,9 @@ TEST (script_test, extension3)
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[~ .ast [[]]]");
 	ASSERT_TRUE (builder.errors.errors.empty ());
-	auto cluster (builder.cluster);
-	ASSERT_TRUE (cluster != nullptr);
-	ASSERT_TRUE (cluster->routines.size () == 1);
-	auto routine (cluster->routines [0]);
+	ASSERT_TRUE (builder.clusters.size () == 0);
+	ASSERT_TRUE (builder.clusters [0]->routines.size () == 1);
+	auto routine (builder.clusters [0]->routines [0]);
 	mu::script::context ctx (builder.errors);
 	ctx.push (routine);
 	auto valid (ctx ());

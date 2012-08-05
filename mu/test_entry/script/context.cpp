@@ -189,17 +189,3 @@ TEST (script_test, context13)
 	context.assign (context.locals_begin (), context.working_begin (), context.working_end ());
 	EXPECT_EQ (context.locals (0), context.working (0));
 }
-
-/*
-mu::core::routine isn't an operation anymore
-TEST (script_test, context14)
-{
-	mu::script::context context;
-	auto expression (boost::make_shared <mu::core::expression> ());
-	expression->dependencies.push_back (boost::make_shared <mu::script::identity::operation> ());
-	auto val1 (boost::make_shared <mu::core::routine> ());
-	context.push (val1);
-	auto valid (context ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (context.working_size (), 0);
-}*/

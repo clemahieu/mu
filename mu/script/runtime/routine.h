@@ -22,7 +22,6 @@ namespace mu
 			public:
 				routine ();
 				bool operator () (mu::script::context & context_a) override;
-				mu::script::runtime::expression * parameters;
 				std::vector <mu::script::runtime::expression *, gc_allocator <mu::script::runtime::expression *>> expressions;
 			};
 		}

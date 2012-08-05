@@ -14,39 +14,33 @@
 
 #include <gc_cpp.h>
 
-mu::script::builder::builder ()
-	: analyzer (boost::bind (&mu::script::builder::add, this, _1), errors),
-	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-    keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, new (GC) mu::io::keywording::extensions),
-    lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); }),
-    cluster (nullptr)
+mu::script::builder::builder (): 
+parser (errors,
+        [this]
+        (mu::script::cluster::node * cluster_a)
+        {
+            clusters.push_back (cluster_a);
+        }
+        ),
+keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, new (GC) mu::io::keywording::extensions),
+lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); })
 {
 }
 
-mu::script::builder::builder (mu::io::keywording::extensions * extensions_a)
-	: analyzer (boost::bind (&mu::script::builder::add, this, _1), errors),
-	parser (errors, boost::bind (&mu::io::analyzer::analyzer::input, &analyzer, _1)),
-    keywording (errors, [this, extensions_a] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, extensions_a),
-    lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); }),
-    cluster(nullptr)
+mu::script::builder::builder (mu::io::keywording::extensions * extensions_a):
+parser (errors,
+        [this]
+        (mu::script::cluster::node * cluster_a)
+        {
+            clusters.push_back (cluster_a);
+        }
+        ),
+keywording (errors, [this, extensions_a] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, extensions_a),
+lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); })
 {
-}
-
-void mu::script::builder::add (mu::core::cluster * cluster_a)
-{
-	assert (cluster == nullptr);
-    mu::script::context context (errors);
-    context.push (new (GC) mu::script::synthesizer::operation);
-    context.push (cluster_a);
-    auto valid (context ());
-    assert (valid);
-    assert (context.working_size () == 1);
-    assert (dynamic_cast <mu::script::cluster::node *> (context.working (0)) != nullptr);
-    cluster = static_cast <mu::script::cluster::node *> (context.working (0));
 }
 
 void mu::script::builder::operator () (mu::io::lexer::context const & context_a)
 {
-	assert (cluster == nullptr);
 	lexer (context_a);
 }

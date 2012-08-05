@@ -17,6 +17,8 @@ namespace mu
 			class locals : public mu::core::node
 			{
 			public:
+                locals (size_t parameters_a);
+                size_t parameters;
 				std::map <mu::script::runtime::expression *, boost::tuple <size_t, size_t>> expressions;
 				std::vector <mu::core::node *> frame;
 			};

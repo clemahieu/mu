@@ -94,7 +94,7 @@ TEST (script_test, synthesizer_operation3)
 	EXPECT_EQ (d1->node, identity);
 	auto d2 (dynamic_cast <mu::script::runtime::reference *> (e->dependencies [1]));
 	EXPECT_NE (d2, nullptr);
-	EXPECT_EQ (d2->expression, r->parameters);
+	//EXPECT_EQ (d2->expression, r->parameters);
 	context.drop ();
 	context.push (r);
 	auto valid2 (context ());
@@ -105,7 +105,7 @@ TEST (script_test, synthesizer_operation3)
 	context.push (n1);
 	auto valid3 (context ());
 	EXPECT_EQ (valid3, true);
-	EXPECT_EQ (context.working_size (), 1);
+	ASSERT_EQ (context.working_size (), 1);
 	EXPECT_EQ (context.working (0), n1);
 	context.drop ();
 	context.push (r);

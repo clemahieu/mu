@@ -64,16 +64,16 @@ TEST (script_test, times_operation2)
 TEST (script_test, times_operation3)
 {	
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	mu::io::process (builder, U"[[~ :~; subtract number amount] ~ subtract [subtract number amount] amount]");
+	mu::io::process (builder, U"[1 [subtract number amount] [~ subtract [subtract number amount] amount]]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
+    builder.errors.print (std::wcout);
 	mu::script::context ctx (builder.errors);
 	ctx.push (new (GC) mu::script::times::operation);
-	auto cluster (builder.cluster);
-	ASSERT_TRUE (cluster != nullptr);
-	ASSERT_TRUE (cluster->routines.size () == 1);
+	ASSERT_TRUE (builder.clusters.size () == 1);
+	ASSERT_TRUE (builder.clusters [0]->routines.size () == 1);
 	auto n1 (new (GC) mu::script::integer::node (2));
 	ctx.push (n1);
-	auto n2 (cluster->routines [0]);
+	auto n2 (builder.clusters [0]->routines [0]);
 	ctx.push (n2);
 	auto n3 (new (GC) mu::script::integer::subtract);
 	ctx.push (n3);
@@ -82,6 +82,7 @@ TEST (script_test, times_operation3)
 	auto n5 (new (GC) mu::script::integer::node (1));
 	ctx.push (n5);
 	auto valid (ctx ());
+    builder.errors.print (std::wcout);
 	EXPECT_TRUE (valid);
 	EXPECT_TRUE (ctx.working_size () == 3);
 	auto r1 (dynamic_cast <mu::script::integer::subtract *> (ctx.working (0)));

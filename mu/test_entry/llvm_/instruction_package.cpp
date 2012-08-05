@@ -31,9 +31,9 @@
 TEST (llvm_test, instruction_package1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	mu::io::process (builder, U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value]"); 
+	mu::io::process (builder, U"[1 [instruction insert block left right] [[instruction left right; value] [insert block value;; inserted] ~ inserted value]]"); 
 	ASSERT_TRUE (builder.errors.errors.empty ());
-	auto cluster1 (builder.cluster);
+	auto cluster1 (builder.clusters [0]);
 	ASSERT_TRUE (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
 	mu::script::context ctx (builder.errors);
@@ -48,9 +48,9 @@ TEST (llvm_test, instruction_package1)
 	EXPECT_TRUE (ctx.working_size () == 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	(*b2.keywording.extensions) (mu::string (U"add"), ctx.working (0));
-    mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
+    mu::io::process (b2, U"[1 [number] [add [add number number] [add [add number number] number]]]");
 	EXPECT_TRUE (b2.errors.errors.empty ());
-	auto cluster2 (b2.cluster);
+	auto cluster2 (b2.clusters [0]);
 	EXPECT_TRUE (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
 	llvm::LLVMContext context;
@@ -73,11 +73,11 @@ TEST (llvm_test, instruction_package2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
     mu::stringstream stream;
-    stream << U"[[~ :~; instruction insert block left right] [instruction left right; value] [insert block value;; inserted] ~ inserted value;; build_insert]"; 
-	stream << U"[[~ :~; instruction insert block] .apply build_insert instruction insert block]";
+    stream << U"[build_insert [instruction insert block left right] [[instruction left right; value] [insert block value;; inserted] ~ inserted value]]"; 
+	stream << U"[1 [instruction insert block] [.apply build_insert instruction insert block]]";
     mu::io::process (builder, stream);
 	ASSERT_TRUE (builder.errors.errors.empty ());
-	auto cluster1 (builder.cluster);
+	auto cluster1 (builder.clusters [0]);
 	ASSERT_TRUE (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
 	mu::script::context ctx (builder.errors);
@@ -91,9 +91,9 @@ TEST (llvm_test, instruction_package2)
 	ASSERT_TRUE (ctx.working_size () == 1);
 	mu::script::builder b2 (mu::script::api::core ()->extensions);
 	(*b2.keywording.extensions) (mu::string (U"add"), ctx.working (0));
-	mu::io::process (b2, U"[[~ :~; number] add [add number number] [add [add number number] number]]");
+	mu::io::process (b2, U"[1 [number] [add [add number number] [add [add number number] number]]]");
 	EXPECT_TRUE (b2.errors.errors.empty ());
-	auto cluster2 (b2.cluster);
+	auto cluster2 (b2.clusters [0]);
 	ASSERT_TRUE (cluster2->routines.size () == 1);
 	auto routine2 (cluster2->routines [0]);
 	llvm::LLVMContext context;

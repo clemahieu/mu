@@ -12,6 +12,7 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/script/parser/expression.h>
+#include <mu/script/runtime/reference.h>
 
 #include <gc_cpp.h>
 
@@ -54,7 +55,7 @@ void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
                                                            [expression_l]
                                                            (mu::script::runtime::expression * expression_a)
                                                            {
-                                                               expression_l->dependencies.push_back (expression_a);
+                                                               expression_l->dependencies.push_back (new (GC) mu::script::runtime::reference (expression_a));
                                                            }));
     routine.cluster.parser.state.push (state_l);
 }

@@ -31,7 +31,7 @@
 
 #include <gc_cpp.h>
 #include <gc_allocator.h>
-
+/*
 TEST (llvm_test, synthesizer_operation1)
 {
 	mu::script::extensions::node * extensions_ptr;
@@ -738,4 +738,4 @@ TEST (llvm_test, synthesizer_operation15)
 	ctx.push (context);
 	auto valid (ctx ());
 	EXPECT_TRUE (!valid);
-}
+}*/

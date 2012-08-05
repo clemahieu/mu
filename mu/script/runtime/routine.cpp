@@ -10,18 +10,16 @@
 
 #include <assert.h>
 
-mu::script::runtime::routine::routine ():
-parameters (new (GC) mu::script::runtime::expression)
+mu::script::runtime::routine::routine ()
 {
 }
 
 bool mu::script::runtime::routine::operator () (mu::script::context & context_a)
 {
 	bool valid (true);
+	auto locals (new (GC) mu::script::runtime::locals (context_a.parameters_size ()));
 	context_a.reserve (1);
-	auto locals (new (GC) mu::script::runtime::locals);
 	context_a.locals (0) = locals;
-	locals->expressions [parameters] = boost::tuple <size_t, size_t> (locals->frame.size (), locals->frame.size () + context_a.parameters_size ());
 	for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 	{
 		locals->frame.push_back (*i);

@@ -248,7 +248,8 @@ TEST (script_test, parser17)
     ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
     ASSERT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies [0] == clusters [0]->routines [0]->expressions [0]);
+    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
+    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
 }
 
 // Valid routine with expression in expression
@@ -274,9 +275,11 @@ TEST (script_test, parser18)
     ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 3);
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
     ASSERT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies [0] == clusters [0]->routines [0]->expressions [0]);
+    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
+    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
     ASSERT_TRUE (clusters [0]->routines [0]->expressions [2]->dependencies.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [2]->dependencies [0] == clusters [0]->routines [0]->expressions [1]);
+    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [2]->dependencies [0]) != nullptr);
+    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [2]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [1]);
 }
 
 // Invalid expression, missing name
@@ -377,5 +380,27 @@ TEST (script_test, parser22)
     EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
     ASSERT_TRUE (dynamic_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
     EXPECT_TRUE (static_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
+}
 
+// Reference to a parameter
+TEST (script_test, parser23)
+{
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::cluster::node *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    EXPECT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
+    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 1);
 }

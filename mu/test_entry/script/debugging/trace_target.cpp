@@ -24,7 +24,7 @@ TEST (script_test, trace_target1)
 	(*builder.keywording.extensions) (mu::string (U"fail"), new (GC) mu::script::fail::operation);
 	mu::io::process (builder, U"[fail]");
 	ASSERT_TRUE (builder.errors.errors.empty ());
-	auto cluster (builder.cluster);
+	auto cluster (builder.clusters [0]);
 	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
 	context.push (routine);
