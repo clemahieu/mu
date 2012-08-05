@@ -10,10 +10,11 @@ mu::script::string::node::node (mu::string string_a)
 mu::string mu::script::string::node::debug ()
 {
 	mu::stringstream result;
-	result << L"\"";
+	result << U'\"';
 	result << string;
-	result << L"\"";
-	return result.str ();
+	result << U'\"';
+    auto val (result.str ());
+	return val;
 }
 
 mu::string mu::script::string::node::name ()
