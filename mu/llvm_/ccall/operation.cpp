@@ -124,19 +124,19 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 				}
 				else
 				{
-					mu::script::invalid_type (context_a, context_a.parameters (2), typeid (mu::llvm_::value::node), 2);
+					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (2), 2);
 					valid = false;
 				}
 			}
 			else
 			{
-				mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::llvm_::value::node), 1);
+				mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (1), 1);
 				valid = false;
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::llvm_::value::node), 0);
+			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (0), 0);
 			valid = false;
 		}
 	}

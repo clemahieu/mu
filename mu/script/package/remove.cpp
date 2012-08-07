@@ -9,7 +9,7 @@
 
 bool mu::script::package::remove::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::package::node, mu::script::string::node> () (context_a));
+	bool result (mu::script::check <mu::script::package::node, mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::package::node *> (context_a.parameters (0)));

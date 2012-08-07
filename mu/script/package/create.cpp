@@ -7,7 +7,7 @@
 
 bool mu::script::package::create::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <> () (context_a));
+	bool result (mu::script::check <> (context_a));
 	if (result)
 	{
 		context_a.push (new (GC) mu::script::package::node);

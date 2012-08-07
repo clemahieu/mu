@@ -7,7 +7,7 @@
 
 bool mu::script::runtime::expression::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
+	bool valid (mu::script::check <mu::script::runtime::locals> (context_a));
 	if (valid)
 	{
 		for (auto i (dependencies.begin ()), j (dependencies.end ()); i != j; ++i)

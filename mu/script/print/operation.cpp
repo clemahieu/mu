@@ -11,7 +11,7 @@ bool mu::script::print::operation::operator () (mu::script::context & context_a)
 	{
         auto str ((*i)->debug ());
 		std::wcout << std::wstring (str.begin (), str.end ());;
-		std::wcout << L'\n';
+		std::wcout << std::endl;
 	}
 	return result;
 }

@@ -9,7 +9,7 @@
 
 bool mu::script::integer::equal::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::integer::node, mu::script::integer::node> () (context_a));
+	bool result (mu::script::check <mu::script::integer::node, mu::script::integer::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::integer::node *> (context_a.parameters (0)));

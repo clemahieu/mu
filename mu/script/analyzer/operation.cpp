@@ -14,7 +14,7 @@
 
 bool mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::io::ast::cluster> () (context_a));
+	bool result (mu::script::check <mu::io::ast::cluster> (context_a));
 	if (result)
 	{
 		auto ast (static_cast <mu::io::ast::cluster *> (context_a.parameters (0)));

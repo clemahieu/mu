@@ -35,7 +35,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::script::closure::operation), 0);
+			mu::script::type_fail (context_a.errors, typeid (mu::script::closure::operation), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

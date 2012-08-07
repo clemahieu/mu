@@ -32,7 +32,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 				}
 				else
 				{
-					mu::script::invalid_type (context_a, *i, typeid (mu::llvm_::type::node), position);
+					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::type::node), *i, position);
 					valid = false;
 				}
 			}
@@ -43,7 +43,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::llvm_::context::node), 0);
+			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::context::node), context_a.parameters (0), 0);
 		}
 	}
 	else

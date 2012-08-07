@@ -10,7 +10,7 @@ mu::script::runtime::fixed::fixed (mu::core::node * node_a)
 
 bool mu::script::runtime::fixed::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::script::runtime::locals> () (context_a));
+	bool valid (mu::script::check <mu::script::runtime::locals> (context_a));
 	if (valid)
 	{
 		context_a.push (node);

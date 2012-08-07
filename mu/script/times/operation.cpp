@@ -32,13 +32,13 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 			}
 			else
 			{
-				mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::operation), 1);
+				mu::script::type_fail (context_a.errors, typeid (mu::script::operation), context_a.parameters (1), 1);
 				result = false;
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::script::integer::node), 0);
+			mu::script::type_fail (context_a.errors, typeid (mu::script::integer::node), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

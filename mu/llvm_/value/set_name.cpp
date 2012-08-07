@@ -9,7 +9,7 @@
 
 bool mu::llvm_::value::set_name::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::llvm_::value::node, mu::script::astring::node> () (context_a));
+	bool valid (mu::script::check <mu::llvm_::value::node, mu::script::astring::node> (context_a));
 	if (valid)
 	{
 		auto one (static_cast <mu::llvm_::value::node *> (context_a.parameters (0)));

@@ -22,7 +22,7 @@
 
 bool mu::script::synthesizer::operation::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::core::cluster> () (context_a));
+	bool valid (mu::script::check <mu::core::cluster> (context_a));
 	if (valid)
 	{
 		auto cluster (static_cast <mu::core::cluster *> (context_a.parameters (0)));

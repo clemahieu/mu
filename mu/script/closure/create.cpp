@@ -8,7 +8,7 @@
 
 bool mu::script::closure::create::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::operation, mu::script::integer::node> () (context_a));
+	bool result (mu::script::check <mu::script::operation, mu::script::integer::node> (context_a));
 	if (result)
 	{
 		auto operation (static_cast <mu::script::operation *> (context_a.parameters (0)));

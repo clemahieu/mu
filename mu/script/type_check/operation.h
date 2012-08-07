@@ -11,7 +11,7 @@ namespace mu
     {
         namespace type_check
         {
-			template <typename type1_t=void, typename type2_t=void, typename type3_t=void, typename type4_t=void, typename type5_t=void>
+			template <typename ...T>
             class operation: public mu::script::operation
             {
 			public:
@@ -22,7 +22,7 @@ namespace mu
                 bool operator () (mu::script::context & context_a)
 				{
 					bool result (true);
-					if (mu::script::check <type1_t, type2_t, type3_t, type4_t, type5_t> () (context_a))
+					if (mu::script::check <T...> (context_a))
 					{
 						(*target) (context_a);
 					}

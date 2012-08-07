@@ -52,7 +52,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
         }
         else
         {
-            mu::script::invalid_type (context_a, context_a.parameters (1), typeid (mu::script::string::node), 1);
+            mu::script::type_fail (context_a.errors, typeid (mu::script::string::node), context_a.parameters (1), 1);
             result = false;
         }
 	}

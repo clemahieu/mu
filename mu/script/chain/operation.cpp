@@ -48,7 +48,7 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::script::operation), 0);
+			mu::script::type_fail(context_a.errors, typeid (mu::script::operation), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

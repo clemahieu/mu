@@ -15,7 +15,7 @@
 
 bool mu::llvm_::constant::create_from_string::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::context::node, mu::script::string::node> () (context_a));
+	bool result (mu::script::check <mu::llvm_::context::node, mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::context::node *> (context_a.parameters (0)));

@@ -33,13 +33,13 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 				}
 				else
 				{
-					mu::script::invalid_type (context_a, context_a.parameters (position), typeid (mu::llvm_::module::node), position);
+					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (position), position);
 				}
 			}
 		}
 		else
 		{
-			mu::script::invalid_type (context_a, context_a.parameters (0), typeid (mu::llvm_::module::node), 0);
+			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (0), 0);
 		}
 	}
 	else

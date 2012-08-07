@@ -12,7 +12,7 @@
 
 bool mu::llvm_::module::add_package::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::module::node, mu::script::package::node> () (context_a));
+	bool result (mu::script::check <mu::llvm_::module::node, mu::script::package::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));

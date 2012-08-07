@@ -11,7 +11,7 @@ mu::repl::quit::operation::operation (mu::repl::repl & repl_a)
 
 bool mu::repl::quit::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <> () (context_a));
+	bool result (mu::script::check <> (context_a));
 	if (result)
 	{
 		repl.stop ();

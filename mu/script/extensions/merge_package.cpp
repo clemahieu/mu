@@ -13,7 +13,7 @@
 
 bool mu::script::extensions::merge_package::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::package::node> () (context_a));
+	bool result (mu::script::check <mu::script::extensions::node, mu::script::string::node, mu::script::package::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));

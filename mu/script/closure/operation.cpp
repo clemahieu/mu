@@ -26,7 +26,7 @@ mu::script::closure::operation::operation (mu::script::operation * operation_a, 
 bool mu::script::closure::operation::operator () (mu::script::context & context_a)
 {
 	bool result (true);
-	if (mu::script::check_count (context_a, open.size ()))
+	if (context_a.parameters_size () == open.size ())
 	{
 		std::vector <size_t> open_l;
 		for (size_t position (0), end (context_a.parameters_size ()); position != end; ++position)

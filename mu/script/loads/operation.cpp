@@ -16,7 +16,7 @@
 
 bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
-	bool complete (mu::script::check <mu::script::string::node> () (context_a));
+	bool complete (mu::script::check <mu::script::string::node> (context_a));
 	if (complete)
 	{
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (0)));
