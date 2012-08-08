@@ -4,7 +4,8 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/script/astring/node.h>
 #include <mu/llvm_/module/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/Assembly/Parser.h>
 #include <llvm/Support/SourceMgr.h>
@@ -15,7 +16,7 @@
 
 bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::context::node, mu::script::astring::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::context::node, mu::script::astring::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::context::node *> (context_a.parameters (0)));

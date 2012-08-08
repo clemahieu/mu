@@ -1,13 +1,13 @@
 #include <mu/script/runtime/expression.h>
 
 #include <mu/script/context.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/script/runtime/locals.h>
 #include <mu/script/runtime/reference.h>
 
 bool mu::script::runtime::expression::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::script::runtime::locals> (context_a));
+	bool valid (mu::core::check <mu::script::runtime::locals> (context_a));
 	if (valid)
 	{
 		for (auto i (dependencies.begin ()), j (dependencies.end ()); i != j; ++i)

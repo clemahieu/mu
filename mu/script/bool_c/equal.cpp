@@ -1,13 +1,14 @@
 #include <mu/script/bool_c/equal.h>
 
 #include <mu/script/bool_c/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <gc_cpp.h>
 
 bool mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::bool_c::node, mu::script::bool_c::node> (context_a));
+	bool result (mu::core::check <mu::script::bool_c::node, mu::script::bool_c::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::bool_c::node *> (context_a.parameters (0)));

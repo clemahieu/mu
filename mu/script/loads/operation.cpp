@@ -6,9 +6,10 @@
 #include <mu/script/string/node.h>
 #include <mu/core/cluster.h>
 #include <mu/script/analyzer/operation.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/core/routine.h>
 #include <mu/io/keywording/extensions.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 
@@ -16,7 +17,7 @@
 
 bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
-	bool complete (mu::script::check <mu::script::string::node> (context_a));
+	bool complete (mu::core::check <mu::script::string::node> (context_a));
 	if (complete)
 	{
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (0)));

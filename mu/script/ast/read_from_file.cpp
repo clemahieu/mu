@@ -5,9 +5,10 @@
 #include <mu/io/lexer/istream_input.h>
 #include <mu/io/builder.h>
 #include <mu/io/ast/cluster.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/core/errors/string_error.h>
 #include <mu/io/source.h>
+#include <mu/script/context.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -19,7 +20,7 @@
 
 bool mu::script::ast::read_from_file::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::string::node> (context_a));
+	bool result (mu::core::check <mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));

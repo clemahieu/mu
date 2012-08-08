@@ -1,6 +1,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/type_check/operation.h>
 #include <mu/script/identity/operation.h>
+#include <mu/script/context.h>
 
 #include <gtest/gtest.h>
 

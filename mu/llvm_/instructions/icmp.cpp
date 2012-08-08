@@ -4,7 +4,8 @@
 #include <mu/llvm_/instruction/node.h>
 #include <mu/llvm_/predicate/node.h>
 #include <mu/llvm_/integer_type/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/Value.h>
 #include <llvm/DerivedTypes.h>
@@ -17,7 +18,7 @@
 
 bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::predicate::node, mu::llvm_::value::node, mu::llvm_::value::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::predicate::node, mu::llvm_::value::node, mu::llvm_::value::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::predicate::node *> (context_a.parameters (0)));

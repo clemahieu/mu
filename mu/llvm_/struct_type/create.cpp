@@ -4,7 +4,8 @@
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/apint/node.h>
 #include <mu/llvm_/struct_type/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/DerivedTypes.h>
 
@@ -32,7 +33,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 				}
 				else
 				{
-					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::type::node), *i, position);
+					mu::core::type_fail (context_a.errors, typeid (mu::llvm_::type::node), *i, position);
 					valid = false;
 				}
 			}
@@ -43,7 +44,7 @@ bool mu::llvm_::struct_type::create::operator () (mu::script::context & context_
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::context::node), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::llvm_::context::node), context_a.parameters (0), 0);
 		}
 	}
 	else

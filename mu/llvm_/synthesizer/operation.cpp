@@ -1,7 +1,7 @@
 #include <mu/llvm_/synthesizer/operation.h>
 
 #include <mu/script/context.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/core/cluster.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/cluster/node.h>
@@ -32,7 +32,7 @@
 
 bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::core::cluster, mu::script::values::operation> (context_a));
+	bool valid (mu::core::check <mu::core::cluster, mu::script::values::operation> (context_a));
 	if (valid)
 	{
 		auto cluster (static_cast <mu::core::cluster *> (context_a.parameters (0)));

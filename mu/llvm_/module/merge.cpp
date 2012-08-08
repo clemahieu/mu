@@ -2,7 +2,8 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/Linker.h>
 
@@ -33,13 +34,13 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 				}
 				else
 				{
-					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (position), position);
+					mu::core::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (position), position);
 				}
 			}
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::llvm_::module::node), context_a.parameters (0), 0);
 		}
 	}
 	else

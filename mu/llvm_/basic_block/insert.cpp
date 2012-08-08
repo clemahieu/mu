@@ -3,13 +3,14 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/instruction/node.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/BasicBlock.h>
 
 bool mu::llvm_::basic_block::insert::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::basic_block::node, mu::llvm_::instruction::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::basic_block::node, mu::llvm_::instruction::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::basic_block::node *> (context_a.parameters (0)));

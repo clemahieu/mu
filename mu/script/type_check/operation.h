@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/script/operation.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 
 #include <vector>
 
@@ -22,7 +22,7 @@ namespace mu
                 bool operator () (mu::script::context & context_a)
 				{
 					bool result (true);
-					if (mu::script::check <T...> (context_a))
+					if (mu::core::check <T...> (context_a))
 					{
 						(*target) (context_a);
 					}

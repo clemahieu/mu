@@ -4,13 +4,14 @@
 #include <mu/llvm_/cluster/node.h>
 #include <mu/script/string/node.h>
 #include <mu/llvm_/function/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <sstream>
 
 bool mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::cluster::node, mu::script::string::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::cluster::node, mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::cluster::node *> (context_a.parameters (0)));

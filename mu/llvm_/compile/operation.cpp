@@ -3,7 +3,8 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/script/astring/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/Support/TargetRegistry.h>
@@ -17,7 +18,7 @@
 
 bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a)
 {
-	bool valid (mu::script::check <mu::llvm_::module::node, mu::script::astring::node> (context_a));
+	bool valid (mu::core::check <mu::llvm_::module::node, mu::script::astring::node> (context_a));
 	if (valid)
 	{
 		auto module (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));

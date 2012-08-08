@@ -3,13 +3,14 @@
 #include <mu/script/string/node.h>
 #include <mu/script/package/node.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <sstream>
 
 bool mu::script::package::get::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::package::node, mu::script::string::node> (context_a));
+	bool result (mu::core::check <mu::script::package::node, mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto node (static_cast <mu::script::package::node *> (context_a.parameters (0)));

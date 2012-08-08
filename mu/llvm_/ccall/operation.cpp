@@ -6,8 +6,9 @@
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/instructions/call.h>
 #include <mu/llvm_/basic_block/split_return.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/script/integer/node.h>
+#include <mu/script/context.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/BasicBlock.h>
@@ -124,19 +125,19 @@ bool mu::llvm_::ccall::operation::operator () (mu::script::context & context_a)
 				}
 				else
 				{
-					mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (2), 2);
+					mu::core::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (2), 2);
 					valid = false;
 				}
 			}
 			else
 			{
-				mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (1), 1);
+				mu::core::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (1), 1);
 				valid = false;
 			}
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::llvm_::value::node), context_a.parameters (0), 0);
 			valid = false;
 		}
 	}

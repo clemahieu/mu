@@ -2,7 +2,8 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <sstream>
 
@@ -32,13 +33,13 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 			}
 			else
 			{
-				mu::script::type_fail (context_a.errors, typeid (mu::script::operation), context_a.parameters (1), 1);
+				mu::core::type_fail (context_a.errors, typeid (mu::script::operation), context_a.parameters (1), 1);
 				result = false;
 			}
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::script::integer::node), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::script::integer::node), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

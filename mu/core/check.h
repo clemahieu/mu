@@ -3,7 +3,7 @@
 #include <vector>
 #include <typeinfo>
 
-#include <mu/script/context.h>
+#include <mu/core/context.h>
 
 namespace mu
 {
@@ -14,9 +14,6 @@ namespace mu
         {
             class error_target;
         }
-    }
-    namespace script
-    {
         void size_fail (mu::core::errors::error_target & errors_a, size_t expected, size_t actual);
         void type_fail (mu::core::errors::error_target & errors_a, std::type_info const & expected, mu::core::node * actual, size_t position);
         template <typename ...U>
@@ -51,7 +48,7 @@ namespace mu
         class check_types <>
         {
         public:
-            bool operator () (mu::script::context & nodes_a, size_t index)
+            bool operator () (mu::core::context & nodes_a, size_t index)
             {
                 return true;
             }
@@ -60,7 +57,7 @@ namespace mu
         class check_types <T, U...>
         {
         public:
-            bool operator () (mu::script::context & nodes_a, size_t index)
+            bool operator () (mu::core::context & nodes_a, size_t index)
             {
                 auto node (nodes_a.parameters (index));
                 bool result (dynamic_cast <T *> (node) != nullptr);
@@ -76,7 +73,7 @@ namespace mu
             }
         };
         template <typename ...T>
-        bool check (mu::script::context & nodes_a)
+        bool check (mu::core::context & nodes_a)
         {
             auto count_l (count <T...> ());
             bool result (nodes_a.parameters_size () == count_l);

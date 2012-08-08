@@ -7,9 +7,10 @@
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/analyzer/operation.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/core/cluster.h>
 #include <mu/core/routine.h>
+#include <mu/script/context.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -52,7 +53,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
         }
         else
         {
-            mu::script::type_fail (context_a.errors, typeid (mu::script::string::node), context_a.parameters (1), 1);
+            mu::core::type_fail (context_a.errors, typeid (mu::script::string::node), context_a.parameters (1), 1);
             result = false;
         }
 	}

@@ -2,7 +2,8 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 {
@@ -48,7 +49,7 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::type_fail(context_a.errors, typeid (mu::script::operation), context_a.parameters (0), 0);
+			mu::core::type_fail(context_a.errors, typeid (mu::script::operation), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

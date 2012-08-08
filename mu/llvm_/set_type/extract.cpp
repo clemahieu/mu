@@ -4,7 +4,8 @@
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/value/node.h>
 #include <mu/llvm_/instruction/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/Instructions.h>
 
@@ -12,7 +13,7 @@
 
 bool mu::llvm_::set_type::extract::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::basic_block::node, mu::llvm_::value::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::basic_block::node, mu::llvm_::value::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::basic_block::node *> (context_a.parameters (0)));

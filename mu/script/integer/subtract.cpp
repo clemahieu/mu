@@ -1,13 +1,14 @@
 #include <mu/script/integer/subtract.h>
 
 #include <mu/script/integer/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <gc_cpp.h>
 
 bool mu::script::integer::subtract::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::integer::node, mu::script::integer::node> (context_a));
+	bool result (mu::core::check <mu::script::integer::node, mu::script::integer::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::integer::node *> (context_a.parameters (0)));

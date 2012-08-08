@@ -10,10 +10,8 @@ endif ()
 add_library (mu_script SHARED
 	api.cpp
 	builder.cpp
-	check.cpp
-	context.cpp
+    context.cpp
 	frame.cpp
-	iterator.cpp
 	location.cpp
 	operation.cpp
 	analyzer/operation.cpp

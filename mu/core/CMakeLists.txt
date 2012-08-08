@@ -3,8 +3,11 @@ project (core)
 
 add_library (mu_core SHARED
 	apply.cpp
+    check.cpp
 	cluster.cpp
+    context.cpp
 	expression.cpp
+    iterator.cpp
 	node.cpp
 	parameters.cpp
 	reference.cpp

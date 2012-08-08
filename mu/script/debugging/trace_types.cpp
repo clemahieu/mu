@@ -1,14 +1,14 @@
 #include <mu/script/debugging/trace_types.h>
 
 #include <mu/script/context.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/script/values/operation.h>
 #include <mu/script/string/node.h>
 #include <mu/script/location.h>
 
 bool mu::script::debugging::trace_types::operator () (mu::script::context & context_a)
 {
-	//auto valid (mu::script::check <mu::io::debugging::mapping> () (context_a));
+	//auto valid (mu::core::check <mu::io::debugging::mapping> () (context_a));
 	//if (valid)
 	//{
 	//	auto mapping (boost::static_pointer_cast <mu::io::debugging::mapping> (context_a.parameters (0)));

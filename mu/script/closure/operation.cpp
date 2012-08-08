@@ -1,7 +1,8 @@
 #include <mu/script/closure/operation.h>
 
 #include <mu/script/closure/hole.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <gc_cpp.h>
 

@@ -3,7 +3,8 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/execution_engine/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 
@@ -13,7 +14,7 @@
 
 bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::llvm_::module::node> (context_a));
+	bool result (mu::core::check <mu::llvm_::module::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::module::node *> (context_a.parameters (0)));

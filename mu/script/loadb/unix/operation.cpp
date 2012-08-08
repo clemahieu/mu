@@ -3,7 +3,8 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string/node.h>
 #include <mu/script/extensions/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <dlfcn.h>
 
@@ -14,7 +15,7 @@
 bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 {
     auto valid (false);
-    if (mu::script::check <mu::script::string::node> (context_a))
+    if (mu::core::check <mu::script::string::node> (context_a))
     {
         auto one (static_cast <mu::script::string::node *> (context_a.parameters (0)));
 		auto path (boost::filesystem::initial_path ());

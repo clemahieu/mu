@@ -2,11 +2,12 @@
 
 #include <mu/script/bool_c/node.h>
 #include <mu/core/segment.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 bool mu::script::if_c::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::script::bool_c::node, mu::script::operation, mu::script::operation> (context_a));
+	bool result (mu::core::check <mu::script::bool_c::node, mu::script::operation, mu::script::operation> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::script::bool_c::node *> (context_a.parameters (0)));

@@ -1,65 +1,17 @@
-#pragma once
-
-#include <mu/script/iterator.h>
-
-#include <vector>
+#include <mu/core/context.h>
 
 namespace mu
 {
-	namespace core
-	{
-		class node;
-        namespace errors
+    namespace script
+    {
+        class context : public mu::core::context
         {
-            class error_target;
-        }
-	}
-	namespace script
-	{
-		class context
-		{
-		public:
+        public:
 			context ();
 			context (mu::core::errors::error_target & errors_a);
-			mu::core::node * & parameters (size_t offset);
-			size_t parameters_size ();
-			mu::script::iterator parameters_begin ();
-			mu::script::iterator parameters_end ();
-			mu::core::node * & locals (size_t offset);
-			size_t locals_size ();
-			mu::script::iterator locals_begin ();
-			mu::script::iterator locals_end ();
-			mu::core::node * & working (size_t offset);
-			size_t working_size ();
-			mu::script::iterator working_begin ();
-			mu::script::iterator working_end ();
+			bool operator () ();
 			void enter ();
 			void leave ();
-			void drop ();
-			void slide ();
-			void push (mu::core::node * node_a);
-			void reserve (size_t count_a);
-			template <typename G> void push (G begin_a, G end_a)
-			{
-				for (auto current (begin_a); current != end_a; ++current)
-				{
-					push (*current);
-				}
-			}
-			template <typename G, typename H> void assign (H target_a, G begin_a, G end_a)
-			{
-				auto target_l (target_a);
-				for (auto current (begin_a); current != end_a; ++current, ++target_l)
-				{
-					*target_l = *current;
-				}
-			}
-			bool operator () ();
-			std::vector <mu::core::node *, gc_allocator <mu::core::node *>> stack;
-			size_t base_begin;
-			size_t base_end;
-			size_t frame_begin;
-			mu::core::errors::error_target & errors;
-		};
-	}
+        };
+    }
 }

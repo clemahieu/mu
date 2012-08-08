@@ -3,7 +3,8 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/closure/operation.h>
 #include <mu/script/closure/hole.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <sstream>
 
@@ -35,7 +36,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::script::closure::operation), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::script::closure::operation), context_a.parameters (0), 0);
 			result = false;
 		}
 	}

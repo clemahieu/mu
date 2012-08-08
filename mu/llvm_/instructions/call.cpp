@@ -10,7 +10,8 @@
 #include <mu/llvm_/type/build.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/void_type/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
@@ -100,7 +101,7 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::llvm_::pointer_type::node), context_a.parameters (0), 0);
+			mu::core::type_fail (context_a.errors, typeid (mu::llvm_::pointer_type::node), context_a.parameters (0), 0);
 		}
 	}
 	else

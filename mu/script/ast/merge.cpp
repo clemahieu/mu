@@ -1,7 +1,8 @@
 #include <mu/script/ast/merge.h>
 
 #include <mu/io/ast/cluster.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <gc_cpp.h>
 
@@ -19,7 +20,7 @@ bool mu::script::ast::merge::operator () (mu::script::context & context_a)
 		}
 		else
 		{
-			mu::script::type_fail (context_a.errors, typeid (mu::io::ast::cluster), *i, position);
+			mu::core::type_fail (context_a.errors, typeid (mu::io::ast::cluster), *i, position);
 			complete = false;
 		}
 	}

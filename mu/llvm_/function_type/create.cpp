@@ -7,9 +7,10 @@
 #include <mu/llvm_/function_type/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/void_type/node.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/script/bool_c/node.h>
 #include <mu/llvm_/function_type/divider.h>
+#include <mu/script/context.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>

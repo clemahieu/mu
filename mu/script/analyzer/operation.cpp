@@ -7,14 +7,15 @@
 #include <mu/script/extensions/node.h>
 #include <mu/io/keywording/state.h>
 #include <mu/io/ast/expression.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/script/context.h>
 
 #include <boost/bind.hpp>
 
 bool mu::script::analyzer::operation::operator () (mu::script::context & context_a)
 {
-	bool result (mu::script::check <mu::io::ast::cluster> (context_a));
+	bool result (mu::core::check <mu::io::ast::cluster> (context_a));
 	if (result)
 	{
 		auto ast (static_cast <mu::io::ast::cluster *> (context_a.parameters (0)));

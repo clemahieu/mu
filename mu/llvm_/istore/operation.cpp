@@ -5,7 +5,8 @@
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/llvm_/instructions/store.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
+#include <mu/script/context.h>
 
 #include <llvm/BasicBlock.h>
 #include <llvm/Instructions.h>
@@ -19,7 +20,7 @@ mu::llvm_::istore::operation::operation (mu::llvm_::basic_block::node * block_a)
 
 bool mu::llvm_::istore::operation::operator () (mu::script::context & context_a)
 {	
-	bool valid (mu::script::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> (context_a));
+	bool valid (mu::core::check <mu::llvm_::value::node, mu::llvm_::value::node, mu::llvm_::value::node> (context_a));
 	if (valid)
 	{
 		auto one (static_cast <mu::llvm_::value::node *> (context_a.parameters (0)));

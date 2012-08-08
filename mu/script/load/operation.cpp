@@ -7,8 +7,9 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
 #include <mu/io/ast/cluster.h>
-#include <mu/script/check.h>
+#include <mu/core/check.h>
 #include <mu/io/source.cpp>
+#include <mu/script/context.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
@@ -20,7 +21,7 @@
 
 bool mu::script::load::operation::operator () (mu::script::context & context_a)
 {
-	bool complete (mu::script::check <mu::script::string::node> (context_a));
+	bool complete (mu::core::check <mu::script::string::node> (context_a));
 	if (complete)
 	{
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (0)));
