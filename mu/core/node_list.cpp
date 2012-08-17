@@ -2,6 +2,16 @@
 
 #include <mu/core/node_list_iterator.h>
 
+mu::core::node_list::node_list ()
+{
+}
+
+template <typename T>
+mu::core::node_list::node_list (T const & begin, T const & end):
+nodes (begin, end)
+{
+}
+
 auto mu::core::node_list::begin () -> mu::core::node_list_iterator
 {
     mu::core::node_list_iterator result (*this);

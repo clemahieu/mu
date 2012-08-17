@@ -15,6 +15,7 @@ namespace mu
     {
         class expression;
         class node;
+        class node_list;
         namespace errors
         {
             class error_target;
@@ -28,10 +29,14 @@ namespace mu
             class name_map
             {
             public:
-                void insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::debugging::context const & context_a);
+                template <typename T>
+                void insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::debugging::context const & context_a);
+                void insert_global (mu::core::errors::error_target & errors_a, mu::string const &name, mu::core::node * const node, mu::io::debugging::context const & context_a);
+                template <typename T>
+                void insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::debugging::context const & context_a);
                 void insert_local (mu::core::errors::error_target & errors_a, mu::string const &name, mu::core::node * const node, mu::io::debugging::context const & context_a);
                 void free_locals ();
-                void fill_reference (mu::string name, mu::io::debugging::context const & context_a, boost::function <void (mu::core::node *)> target_a);
+                void fill_reference (mu::string name, mu::io::debugging::context const & context_a, mu::core::node_list & target_a);
                 bool finalize (mu::core::errors::error_target & errors_a);
             private:
                 void resolve (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, bool global, mu::io::debugging::context const & context_a);
