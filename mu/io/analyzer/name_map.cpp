@@ -99,4 +99,5 @@ bool mu::io::analyzer::name_map::finalize (mu::core::errors::error_target & erro
         message << i->first;
         errors_a (new (GC) mu::core::errors::string_error (message.str ()));
     }
+    return result;
 }
