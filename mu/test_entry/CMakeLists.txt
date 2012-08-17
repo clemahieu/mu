@@ -15,6 +15,7 @@ add_executable (mu_test_entry
 	core/directory_iterator_test.cpp
 	core/filesystem_test.cpp
 	core/list.cpp
+    core/node_list_iterator.cpp
 	core/segment.cpp
 	core/test_visitor.cpp
 	core/visitor.cpp
