@@ -8,7 +8,7 @@ namespace mu
 {
 	namespace core
 	{
-		class set;
+        class node_list;
 		class expression;
 		namespace errors
 		{
@@ -34,8 +34,8 @@ namespace mu
 				void operator () (mu::io::ast::identifier * identifier_a) override;
 				void operator () (mu::io::ast::value * value_a) override;
 				mu::io::analyzer::routine & routine;
-				mu::io::ast::expression * expression_m;
-				mu::core::expression * self;
+				mu::core::node_list * self;
+                mu::core::expression * expression_m;
 				size_t position;
 			};
 		}

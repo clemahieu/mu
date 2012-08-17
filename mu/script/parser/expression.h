@@ -7,6 +7,10 @@
 
 namespace mu
 {
+    namespace core
+    {
+        class node_list;
+    }
     namespace script
     {
         namespace runtime
@@ -27,7 +31,8 @@ namespace mu
             {
             public:
                 expression (mu::script::parser::routine & routine_a, boost::function <void (mu::script::runtime::expression *)> target_a);
-                mu::script::runtime::expression * expression_m;
+                mu::script::runtime::expression * expression_;
+                mu::core::node_list * nodes;
                 mu::io::debugging::context context;
                 mu::script::parser::expression_state state;
                 mu::script::parser::routine & routine;

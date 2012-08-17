@@ -12,14 +12,15 @@
 #include <mu/core/parameters.h>
 #include <mu/io/ast/parameters.h>
 #include <mu/io/ast/value.h>
+#include <mu/core/node_list.h>
 
 #include <gc_cpp.h>
 
-mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, mu::core::expression * self_a)
-	: routine (routine_a),
-	expression_m (expression_a),
-	self (self_a),
-	position (0)
+mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, mu::core::expression * self_a):
+routine (routine_a),
+self (new (GC) mu::core::node_list),
+expression_m (new (GC) mu::core::expression),
+position (0)
 {
 	if (!expression_a->full_name->string.empty ())
 	{
@@ -27,7 +28,7 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 	}
 	for (size_t i (0), j (expression_a->individual_names.size ()); i != j; ++i)
 	{
-		auto reference (new (GC) mu::core::reference (self, i));
+		auto reference (new (GC) mu::core::reference (expression_m, i));
         routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->individual_names [i]->string, reference, expression_a->individual_names [i]->context);
 	}
 	for (auto end (expression_a->values.size ()); position < end; ++position)
@@ -40,7 +41,7 @@ mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a,
 void mu::io::analyzer::expression::operator () (mu::io::ast::parameters * parameters_a)
 {
 	auto parameters_l (new (GC) mu::core::parameters);
-	self->dependencies.push_back (parameters_l);
+	self->nodes.push_back (parameters_l);
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expression_a)
@@ -49,7 +50,7 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expres
 	mu::io::analyzer::expression expression (routine, expression_a, expression_l);
 	if (expression_a->full_name->string.empty () && expression_a->individual_names.empty ())
 	{
-		self->dependencies.push_back (expression.self);
+		self->nodes.push_back (expression.self);
 	}
 	else
 	{
@@ -59,15 +60,12 @@ void mu::io::analyzer::expression::operator () (mu::io::ast::expression * expres
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::value * value_a)
 {
-    self->dependencies.push_back (value_a->node_m);
+    self->nodes.push_back (value_a->node_m);
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::identifier * identifier_a)
 {
-    auto container (self);
-    auto position (self->dependencies.size ());
-    self->dependencies.resize (position + 1);
-    routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, [container, position] (mu::core::node * node_a) {container->dependencies [position] = node_a;});
+    routine.analyzer.names.fill_reference (identifier_a->string, identifier_a->context, *self);
 }
 
 void mu::io::analyzer::expression::operator () (mu::io::ast::cluster * cluster_a)

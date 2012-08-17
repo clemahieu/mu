@@ -41,3 +41,9 @@ auto mu::core::node_list::size () -> size_t
     }
     return result;
 }
+
+auto mu::core::node_list::empty () -> bool
+{
+    auto result (nodes.empty () || size () == 0);
+    return result;
+}
