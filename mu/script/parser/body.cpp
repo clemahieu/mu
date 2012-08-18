@@ -19,7 +19,8 @@
 
 mu::script::parser::body::body (mu::script::parser::routine & routine_a):
 routine (routine_a),
-expression_m (new (GC) mu::script::runtime::expression)
+expression_m (new (GC) mu::script::runtime::expression),
+nodes (new (GC) mu::core::node_list)
 {
 }
 

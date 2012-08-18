@@ -2,7 +2,6 @@
 
 #include <mu/script/parser/state.h>
 #include <mu/io/tokens/visitor.h>
-#include <mu/script/runtime/routine.h>
 
 #include <vector>
 #include <set>
@@ -12,6 +11,10 @@ namespace mu
 {
     namespace script
     {
+        namespace ast
+        {
+            class expression;
+        }
         namespace parser
         {
             class cluster;
@@ -32,8 +35,7 @@ namespace mu
                 mu::script::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 mu::io::debugging::context context;
-                mu::script::runtime::routine * routine_m;
-                mu::script::runtime::expression * root;
+                mu::script::ast::expression * root;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

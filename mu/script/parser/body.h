@@ -11,7 +11,7 @@ namespace mu
     }
     namespace script
     {
-        namespace runtime
+        namespace ast
         {
             class expression;
         }
@@ -24,8 +24,7 @@ namespace mu
                 body (mu::script::parser::routine & routine_a);
                 mu::script::parser::routine & routine;
                 mu::io::debugging::context context;
-                mu::script::runtime::expression * expression_m;
-                mu::core::node_list * nodes;
+                mu::script::ast::expression * expression_m;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

@@ -5,7 +5,7 @@
 
 #include <gc_cpp.h>
 
-mu::script::parser::parser::parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::cluster::node *)> target_a):
+mu::script::parser::parser::parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a):
 errors (errors_a),
 target (target_a)
 {

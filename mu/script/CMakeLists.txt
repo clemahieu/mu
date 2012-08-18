@@ -9,6 +9,9 @@ endif ()
 
 add_library (mu_script SHARED
 	api.cpp
+    ast_cluster.cpp
+    ast_expression.cpp
+    ast_routine.cpp
 	builder.cpp
     context.cpp
 	frame.cpp
