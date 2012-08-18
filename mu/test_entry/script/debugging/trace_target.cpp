@@ -25,6 +25,7 @@ TEST (script_test, trace_target1)
 	mu::io::process (builder, U"[1 ; [fail]]");
 	builder.errors.print (std::wcerr);
 	ASSERT_TRUE (builder.errors.errors.empty ());
+    ASSERT_TRUE (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);

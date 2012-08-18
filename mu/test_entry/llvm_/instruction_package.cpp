@@ -33,6 +33,7 @@ TEST (llvm_test, instruction_package1)
 	mu::script::builder builder (mu::script::api::core ()->extensions);
 	mu::io::process (builder, U"[1 [instruction insert block left right] [[instruction left right; value] [insert block value;; inserted] ~ inserted value]]"); 
 	ASSERT_TRUE (builder.errors.errors.empty ());
+    ASSERT_TRUE (builder.clusters.size () == 1);
 	auto cluster1 (builder.clusters [0]);
 	ASSERT_TRUE (cluster1->routines.size () == 1);
 	auto routine1 (cluster1->routines [0]);
@@ -77,6 +78,7 @@ TEST (llvm_test, instruction_package2)
 	stream << U"[1 [instruction insert block] [.apply build_insert instruction insert block]]";
     mu::io::process (builder, stream);
 	ASSERT_TRUE (builder.errors.errors.empty ());
+    ASSERT_TRUE (builder.clusters.size () == 1);
 	auto cluster1 (builder.clusters [0]);
 	ASSERT_TRUE (cluster1->routines.size () == 2);
 	auto routine1 (cluster1->routines [1]);
