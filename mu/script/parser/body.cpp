@@ -16,9 +16,9 @@
 
 #include <gc_cpp.h>
 
-mu::script::parser::body::body (mu::script::parser::routine & routine_a):
+mu::script::parser::body::body (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a):
 routine (routine_a),
-expression_m (new (GC) mu::script::ast::expression)
+expression_m (expression_a)
 {
 }
 

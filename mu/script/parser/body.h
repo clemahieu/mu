@@ -21,7 +21,7 @@ namespace mu
             class body : public mu::script::parser::state, public mu::io::tokens::visitor
             {
             public:
-                body (mu::script::parser::routine & routine_a);
+                body (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
                 mu::script::parser::routine & routine;
                 mu::io::debugging::context context;
                 mu::script::ast::expression * expression_m;

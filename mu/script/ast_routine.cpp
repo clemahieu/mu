@@ -3,6 +3,6 @@
 #include <mu/script/ast_expression.h>
 
 mu::script::ast::routine::routine ():
-body (nullptr)
+body (new mu::script::ast::expression)
 {
 }

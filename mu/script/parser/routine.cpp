@@ -84,8 +84,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
         case mu::script::parser::routine_state::body:
         {
             state = mu::script::parser::routine_state::have_body;
-            auto state_l (new (GC) mu::script::parser::body (*this));
-            routine_m->body = state_l->expression_m;
+            auto state_l (new (GC) mu::script::parser::body (*this, routine_m->body));
             cluster.parser.state.push (state_l);
             break;
         }
