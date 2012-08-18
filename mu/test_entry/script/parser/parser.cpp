@@ -301,29 +301,6 @@ TEST (script_test, parser19)
     EXPECT_TRUE (errors ());
 }
 
-// Valid unreferenced expression because of naming
-TEST (script_test, parser20)
-{
-    mu::core::errors::error_list errors;
-    std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
-    EXPECT_TRUE (!errors ());
-    ASSERT_TRUE (clusters.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 0);
-}
-
 // Expression with name reference
 TEST (script_test, parser21)
 {
@@ -345,17 +322,17 @@ TEST (script_test, parser21)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 2);
     auto i (clusters [0]->routines [0]->body->nodes.begin ());
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
     ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
     auto expression2 (static_cast <mu::script::ast::expression *> (*i));
-    ASSERT_TRUE (expression2->nodes.size () == 1);
-    auto j (expression2->nodes.begin ());
-    ASSERT_TRUE (j != expression2->nodes.end ());
-    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*j));
-    auto expression3 (static_cast <mu::script::ast::expression *> (*j));
-    ASSERT_TRUE (expression3->nodes.size () == 0);
+    ASSERT_TRUE (expression2->nodes.size () == 0);
+    ++i;
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression3 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (expression3 == expression2);
 }
 
 // Expression with elements reference
@@ -380,13 +357,18 @@ TEST (script_test, parser22)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 2);
     auto i (clusters [0]->routines [0]->body->nodes.begin ());
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
     ASSERT_TRUE (dynamic_cast <mu::script::ast::reference *> (*i) != nullptr);
     auto reference1 (static_cast <mu::script::ast::reference *> (*i));
     EXPECT_TRUE (reference1->expression->nodes.size () == 0);
     EXPECT_TRUE (reference1->position == 0);
+    ++i;
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression1 (static_cast <mu::script::ast::expression *> (*i));
+    EXPECT_TRUE (expression1 == reference1->expression);
 }
 
 // Reference to a parameter

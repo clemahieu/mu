@@ -30,14 +30,12 @@ namespace mu
             class expression : public mu::script::parser::state, public mu::io::tokens::visitor
             {
             public:
-                expression (mu::script::parser::routine & routine_a, boost::function <void (mu::script::ast::expression *)> target_a);
+                expression (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
                 mu::script::ast::expression * expression_m;
-                mu::core::node_list * nodes;
                 mu::io::debugging::context context;
                 mu::script::parser::expression_state state;
                 mu::script::parser::routine & routine;
                 size_t element;
-                boost::function <void (mu::script::ast::expression *)> target;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

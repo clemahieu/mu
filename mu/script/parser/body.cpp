@@ -40,13 +40,9 @@ void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
 {
-    auto expression_l (expression_m);
-    auto state_l (new (GC) mu::script::parser::expression (routine,
-                                                           [expression_l]
-                                                           (mu::script::ast::expression * expression_a)
-                                                           {
-                                                               expression_l->nodes.nodes.push_back (expression_a);
-                                                           }));
+    auto expression_l (new (GC) mu::script::ast::expression);
+    expression_m->nodes.nodes.push_back (expression_l);
+    auto state_l (new (GC) mu::script::parser::expression (routine, expression_l));
     routine.cluster.parser.state.push (state_l);
 }
 
