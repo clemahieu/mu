@@ -30,7 +30,6 @@ namespace mu
             public:
                 routine (mu::script::parser::cluster & cluster_a);
                 routine_state state;
-                mu::string name;
                 size_t parameters;
                 mu::script::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;

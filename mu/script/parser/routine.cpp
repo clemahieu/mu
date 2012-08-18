@@ -60,7 +60,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier * toke
     {
         case mu::script::parser::routine_state::name:
             state = mu::script::parser::routine_state::parameters;
-            name = token->string;
+            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, context);
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:
@@ -103,7 +103,6 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
     switch (state)
     {
         case mu::script::parser::routine_state::have_body:
-            cluster.map.insert_global (cluster.parser.errors, name, routine_m, context);
             cluster.cluster_m->routines.push_back (routine_m);
             cluster.map.free_locals ();
             cluster.parser.state.pop ();
