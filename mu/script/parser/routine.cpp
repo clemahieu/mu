@@ -10,10 +10,10 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/script/parser/body.h>
 #include <mu/script/parser/parameters.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/ast_routine.h>
 #include <mu/script/runtime/expression.h>
 #include <mu/script/parser/cluster.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/ast_cluster.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/runtime/reference.h>
 #include <mu/script/parser/topology.h>
@@ -26,8 +26,7 @@ mu::script::parser::routine::routine (mu::script::parser::cluster & cluster_a):
 state (mu::script::parser::routine_state::name),
 parameters (0),
 cluster (cluster_a),
-routine_m (new (GC) mu::script::runtime::routine),
-root (nullptr)
+routine_m (new (GC) mu::script::ast::routine)
 {
 }
 
@@ -86,7 +85,6 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
         {
             state = mu::script::parser::routine_state::have_body;
             auto state_l (new (GC) mu::script::parser::body (*this));
-            root = state_l->expression_m;
             cluster.parser.state.push (state_l);
             break;
         }
@@ -105,10 +103,8 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
     switch (state)
     {
         case mu::script::parser::routine_state::have_body:
-            perform_topology ();
             cluster.map.insert_global (cluster.parser.errors, name, routine_m, context);
             cluster.cluster_m->routines.push_back (routine_m);
-            cluster.cluster_m->names [name] = routine_m;
             cluster.map.free_locals ();
             cluster.parser.state.pop ();
             break;
@@ -136,16 +132,4 @@ void mu::script::parser::routine::operator () (mu::io::tokens::parameters * toke
 void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 {
     unexpected_token (cluster.parser, token, context);
-}
-
-void mu::script::parser::routine::perform_topology ()
-{
-    auto routine_l (routine_m);
-    mu::script::parser::topology topology (root,
-                                           [routine_l]
-                                           (mu::script::runtime::expression * expression_a)
-                                           {
-                                               routine_l->expressions.push_back (expression_a);
-                                           },
-                                           cluster.parser.errors);
 }

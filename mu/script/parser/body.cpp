@@ -6,21 +6,19 @@
 #include <mu/io/tokens/divider.h>
 #include <mu/script/parser/cluster.h>
 #include <mu/io/tokens/identifier.h>
-#include <mu/script/runtime/expression.h>
-#include <mu/script/runtime/fixed.h>
+#include <mu/script/ast_expression.h>
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/script/parser/expression.h>
-#include <mu/script/runtime/reference.h>
+#include <mu/script/ast_reference.h>
 #include <mu/core/node_list.h>
 
 #include <gc_cpp.h>
 
 mu::script::parser::body::body (mu::script::parser::routine & routine_a):
 routine (routine_a),
-expression_m (new (GC) mu::script::runtime::expression),
-nodes (new (GC) mu::core::node_list)
+expression_m (new (GC) mu::script::ast::expression)
 {
 }
 
@@ -37,17 +35,17 @@ void mu::script::parser::body::operator () (mu::io::tokens::divider * token)
 
 void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
 {
-    routine.cluster.map.fill_reference (token->string, context, *nodes);
+    routine.cluster.map.fill_reference (token->string, context, expression_m->nodes);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
 {
-    auto nodes_l (nodes);
+    auto expression_l (expression_m);
     auto state_l (new (GC) mu::script::parser::expression (routine,
-                                                           [nodes_l]
-                                                           (mu::script::runtime::expression * expression_a)
+                                                           [expression_l]
+                                                           (mu::script::ast::expression * expression_a)
                                                            {
-                                                               nodes_l->nodes.push_back (new (GC) mu::script::runtime::reference (expression_a));
+                                                               expression_l->nodes.nodes.push_back (expression_a);
                                                            }));
     routine.cluster.parser.state.push (state_l);
 }
@@ -69,5 +67,5 @@ void mu::script::parser::body::operator () (mu::io::tokens::parameters * token)
 
 void mu::script::parser::body::operator () (mu::io::tokens::value * token)
 {
-    nodes->nodes.push_back (new (GC) mu::script::runtime::fixed (token->node));
+    expression_m->nodes.nodes.push_back (token->node);
 }

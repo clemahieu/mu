@@ -12,6 +12,7 @@ namespace mu
             class routine : public mu::script::ast::node
             {
             public:
+                routine ();
                 mu::script::ast::expression * body;
             };
         }

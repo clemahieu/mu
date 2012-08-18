@@ -11,12 +11,17 @@ add_library (mu_script SHARED
 	api.cpp
     ast_cluster.cpp
     ast_expression.cpp
+    ast_reference.cpp
     ast_routine.cpp
 	builder.cpp
     context.cpp
 	frame.cpp
 	location.cpp
 	operation.cpp
+    synthesizer_cluster.cpp
+    synthesizer_expression.cpp
+    synthesizer_routine.cpp
+    synthesizer_synthesizer.cpp
 	analyzer/operation.cpp
 	ast/extension.cpp
 	ast/merge.cpp

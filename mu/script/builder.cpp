@@ -14,29 +14,61 @@
 
 #include <gc_cpp.h>
 
-mu::script::builder::builder (): 
-parser (errors,
+mu::script::builder::builder ():
+synthesizer (
         [this]
         (mu::script::cluster::node * cluster_a)
         {
             clusters.push_back (cluster_a);
+        }),
+parser (errors,
+        [this]
+        (mu::script::ast::cluster * cluster_a)
+        {
+            synthesizer (cluster_a);
         }
         ),
-keywording (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, new (GC) mu::io::keywording::extensions),
-lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); })
+keywording (errors,
+            [this]
+            (mu::io::tokens::token * token, mu::io::debugging::context context)
+            {
+                parser (token, context);
+            }, new (GC) mu::io::keywording::extensions),
+lexer (errors,
+       [this]
+       (mu::io::tokens::token * token, mu::io::debugging::context context)
+       {
+           keywording (token, context);
+       })
 {
 }
 
 mu::script::builder::builder (mu::io::keywording::extensions * extensions_a):
+synthesizer (
+             [this]
+             (mu::script::cluster::node * cluster_a)
+             {
+                 clusters.push_back (cluster_a);
+             }),
 parser (errors,
         [this]
-        (mu::script::cluster::node * cluster_a)
+        (mu::script::ast::cluster * cluster_a)
         {
-            clusters.push_back (cluster_a);
+            synthesizer (cluster_a);
         }
         ),
-keywording (errors, [this, extensions_a] (mu::io::tokens::token * token, mu::io::debugging::context context) {parser (token, context); }, extensions_a),
-lexer (errors, [this] (mu::io::tokens::token * token, mu::io::debugging::context context) {keywording (token, context); })
+keywording (errors,
+            [this, extensions_a]
+            (mu::io::tokens::token * token, mu::io::debugging::context context)
+            {
+                parser (token, context);
+            }, extensions_a),
+lexer (errors,
+       [this]
+       (mu::io::tokens::token * token, mu::io::debugging::context context)
+       {
+           keywording (token, context);
+       })
 {
 }
 
