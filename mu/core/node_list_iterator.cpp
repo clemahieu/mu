@@ -14,6 +14,14 @@ inner_end (other.inner_end)
 {
 }
 
+mu::core::node_list_iterator::node_list_iterator (mu::core::node_list_iterator const & other):
+list (other.list),
+position (other.position),
+inner_cursor (other.inner_cursor),
+inner_end (other.inner_end)
+{
+}
+
 mu::core::node_list_iterator::node_list_iterator (mu::core::node_list & list_a):
 list (list_a),
 position (-1),

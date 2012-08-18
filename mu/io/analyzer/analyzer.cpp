@@ -9,6 +9,7 @@
 #include <mu/core/routine.h>
 #include <mu/core/expression.h>
 #include <mu/io/ast/cluster.h>
+#include <mu/core/node_list.h>
 
 #include <sstream>
 
@@ -29,6 +30,10 @@ void mu::io::analyzer::analyzer::input (mu::io::ast::cluster * node_a)
 		(*value) (this);
 	}
     names.finalize (errors);
+    for (auto i (fixups.begin ()), j (fixups.end ()); i != j; ++i)
+    {
+        i->second->dependencies.assign (i->first->begin (), i->first->end ());
+    }
     if (!errors ())
     {
         target (cluster);

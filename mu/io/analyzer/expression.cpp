@@ -19,9 +19,10 @@
 mu::io::analyzer::expression::expression (mu::io::analyzer::routine & routine_a, mu::io::ast::expression * expression_a, mu::core::expression * self_a):
 routine (routine_a),
 self (new (GC) mu::core::node_list),
-expression_m (new (GC) mu::core::expression),
+expression_m (self_a),
 position (0)
 {
+    routine_a.analyzer.fixups.push_back (decltype (routine_a.analyzer.fixups)::value_type (self, expression_m));
 	if (!expression_a->full_name->string.empty ())
 	{
 		routine_a.analyzer.names.insert_local (routine_a.analyzer.errors, expression_a->full_name->string, self_a, expression_a->full_name->context);
