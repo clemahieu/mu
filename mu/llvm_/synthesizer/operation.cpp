@@ -6,7 +6,6 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/cluster/node.h>
 #include <mu/script/builder.h>
-#include <mu/script/synthesizer/operation.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/llvm_/function_type/node.h>
@@ -57,7 +56,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 				++i;
 				body_cluster->routines.push_back (*i);
 			}
-			context_a.push (new (GC) mu::script::synthesizer::operation);
+			//context_a.push (new (GC) mu::script::synthesizer::operation);
 			context_a.push (type_cluster);
 			valid = context_a ();
 			assert (context_a.working_size () == 1);
@@ -104,7 +103,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 					assert (dynamic_cast <mu::core::cluster *> (context_a.working (0)));
 					auto remapped_cluster (static_cast <mu::core::cluster *> (context_a.working (0)));
 					context_a.slide ();
-					context_a.push (new (GC) mu::script::synthesizer::operation);
+					//context_a.push (new (GC) mu::script::synthesizer::operation);
 					context_a.push (remapped_cluster);
 					{
 						assert (body_cluster->routines.size () == functions.size ());

@@ -1,6 +1,3 @@
-#include <mu/script/context.h>
-#include <mu/script/synthesizer/operation.h>
-#include <mu/core/errors/error_list.h>
 #include <mu/core/cluster.h>
 #include <mu/script/cluster/node.h>
 #include <mu/core/routine.h>
@@ -13,56 +10,58 @@
 #include <mu/script/runtime/reference.h>
 #include <mu/script/fail/operation.h>
 #include <mu/core/reference.h>
+#include <mu/script/synthesizer_synthesizer.h>
+#include <mu/script/ast_cluster.h>
+#include <mu/script/ast_routine.h>
+#include <mu/script/ast_expression.h>
 
 #include <gtest/gtest.h>
 
 #include <gc_cpp.h>
 
+// Empty cluster
 TEST (script_test, synthesizer_operation1)
 {
-	mu::core::errors::error_list errors;
-	mu::script::context context (errors);
-	context.push (new (GC) mu::script::synthesizer::operation);
-	context.push (new (GC) mu::core::cluster);
-	auto valid (context ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (context.working_size (), 1);
-	auto cluster (dynamic_cast <mu::script::cluster::node *> (context.working (0)));
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 0);
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer ([clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster (new (GC) mu::script::ast::cluster);
+    synthesizer (cluster);
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 0);
 }
 
+// One routine identity body
 TEST (script_test, synthesizer_operation2)
 {
-	mu::core::errors::error_list errors;
-	mu::script::context context (errors);
-	context.push (new (GC) mu::script::synthesizer::operation);
-	auto c (new (GC) mu::core::cluster);
-	context.push (c);
-	auto routine1 (new (GC) mu::core::routine);
-	c->routines.push_back (routine1);
-	auto body (new (GC) mu::core::expression);
-	routine1->body = body;
-	auto identity (new (GC) mu::script::identity::operation);
-	body->dependencies.push_back (identity);
-	auto valid (context ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (context.working_size (), 1);
-	auto cluster (dynamic_cast <mu::script::cluster::node *> (context.working (0)));
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 1);
-	auto r (cluster->routines [0]);
-	EXPECT_EQ (r->expressions.size (), 1);
-	auto e (r->expressions [0]);
-	EXPECT_EQ (e->dependencies.size (), 1);
-	auto d (dynamic_cast <mu::script::runtime::fixed *> (e->dependencies [0]));
-	EXPECT_NE (d, nullptr);
-	EXPECT_EQ (d->node, identity);
-	context.drop ();
-	context.push (r);
-	auto valid2 (context ());
-	EXPECT_EQ (valid2, true);
-	EXPECT_EQ (context.working_size (), 0);
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer ([clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+    cluster->routines.push_back (routine1);
+    auto identity (new (GC) mu::script::identity::operation);
+    routine1->body->nodes.nodes.push_back (identity);
+    synthesizer (cluster);
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto routine2 (cluster1->routines [0]);
+    ASSERT_TRUE (routine2->expressions.size () == 1);
+    auto expression1 (routine2->expressions [0]);
+    ASSERT_TRUE (expression1->dependencies.size () == 1);
+    auto dependency1 (dynamic_cast <mu::script::runtime::fixed *> (expression1->dependencies [0]));
+    ASSERT_TRUE (dependency1 != nullptr);
+    EXPECT_TRUE (dependency1->node == identity);
 }
 
 TEST (script_test, synthesizer_operation3)

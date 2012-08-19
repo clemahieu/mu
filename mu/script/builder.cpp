@@ -8,7 +8,6 @@
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
-#include <mu/script/synthesizer/operation.h>
 #include <mu/script/cluster/node.h>
 #include <mu/io/keywording/extensions.h>
 

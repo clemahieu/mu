@@ -86,7 +86,6 @@ add_library (mu_script SHARED
 	run/operation.cpp
 	string/extension.cpp
 	string/node.cpp
-	synthesizer/operation.cpp
 	times/operation.cpp
 	topology/core.cpp
 	topology/node.cpp
