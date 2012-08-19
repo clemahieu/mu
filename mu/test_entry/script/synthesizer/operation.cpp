@@ -63,11 +63,19 @@ TEST (script_test, synthesizer_operation2)
     ASSERT_TRUE (dependency1 != nullptr);
     EXPECT_TRUE (dependency1->node == identity);
 }
-
+/*
 TEST (script_test, synthesizer_operation3)
 {
-	mu::core::errors::error_list errors;
-	mu::script::context context (errors);
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer ([clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster1 (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+	auto identity (new (GC) mu::script::identity::operation);
 	context.push (new (GC) mu::script::synthesizer::operation);
 	auto c (new (GC) mu::core::cluster);
 	context.push (c);
@@ -334,4 +342,4 @@ TEST (script_test, synthesizer_operation10)
 	context.push (r);
 	auto valid2 (context ());
 	EXPECT_EQ (valid2, true);
-}
+}*/
