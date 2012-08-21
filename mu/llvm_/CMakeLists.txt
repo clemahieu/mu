@@ -93,6 +93,15 @@ add_library (mu_llvm_ SHARED
 	module/print.cpp
 	module/verify.cpp
 	null/create.cpp
+    parser/body.cpp
+    parser/cluster.cpp
+    parser/error.cpp
+    parser/expression.cpp
+    parser/parameters.cpp
+    parser/parser.cpp
+    parser/routine.cpp
+    parser/state.cpp
+    parser/topology.cpp
 	pointer_type/create.cpp
 	pointer_type/node.cpp
 	predicate/node.cpp
