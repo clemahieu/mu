@@ -9,6 +9,8 @@ add_library (mu_core SHARED
 	expression.cpp
     iterator.cpp
 	node.cpp
+    node_list.cpp
+    node_list_iterator.cpp
 	parameters.cpp
 	reference.cpp
 	routine.cpp

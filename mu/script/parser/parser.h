@@ -2,12 +2,8 @@
 
 #include <boost/function.hpp>
 
+#include <mu/core/types.h>
 #include <mu/io/debugging/context.h>
-
-#include <gc_allocator.h>
-
-#include <stack>
-#include <deque>
 
 namespace mu
 {
@@ -27,9 +23,9 @@ namespace mu
     }
     namespace script
     {
-        namespace cluster
+        namespace ast
         {
-            class node;
+            class cluster;
         }
         namespace parser
         {
@@ -37,11 +33,11 @@ namespace mu
             class parser
             {
             public:
-                parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::cluster::node *)> target_a);
+                parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a);
                 mu::core::errors::error_target & errors;
-                boost::function <void (mu::script::cluster::node *)> target;
+                boost::function <void (mu::script::ast::cluster *)> target;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
-                std::stack <mu::script::parser::state *, std::deque <mu::script::parser::state *, gc_allocator <mu::script::parser::state *>>> state;
+                mu::stack <mu::script::parser::state *> state;
             };
         }
     }

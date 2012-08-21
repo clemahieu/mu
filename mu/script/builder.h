@@ -4,6 +4,7 @@
 #include <mu/io/lexer/lexer.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/parser/parser.h>
+#include <mu/script/synthesizer_synthesizer.h>
 
 #include <vector>
 
@@ -40,6 +41,7 @@ namespace mu
 			builder (mu::io::keywording::extensions * extensions_a);
 			void operator () (mu::io::lexer::context const & context_a);
 			mu::core::errors::error_list errors;
+            mu::script::synthesizer::synthesizer synthesizer;
 			mu::script::parser::parser parser;
             mu::io::keywording::keywording keywording;
 			mu::io::lexer::lexer lexer;

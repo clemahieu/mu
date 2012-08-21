@@ -22,8 +22,10 @@ TEST (script_test, trace_target1)
 	mu::script::context context (*new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	mu::script::builder builder;
 	(*builder.keywording.extensions) (mu::string (U"fail"), new (GC) mu::script::fail::operation);
-	mu::io::process (builder, U"[fail]");
+	mu::io::process (builder, U"[1 ; [fail]]");
+	builder.errors.print (std::wcerr);
 	ASSERT_TRUE (builder.errors.errors.empty ());
+    ASSERT_TRUE (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	ASSERT_TRUE (cluster->routines.size () == 1);
 	auto routine (cluster->routines [0]);
@@ -31,7 +33,4 @@ TEST (script_test, trace_target1)
 	auto valid (context ());
 	EXPECT_EQ (!valid, true);
 	EXPECT_EQ (context.working_size (), 0);
-	mu::stringstream message;
-	context.errors.print (message);
-	mu::string mess (message.str ());
 }

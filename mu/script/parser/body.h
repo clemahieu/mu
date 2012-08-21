@@ -5,9 +5,13 @@
 
 namespace mu
 {
+    namespace core
+    {
+        class node_list;
+    }
     namespace script
     {
-        namespace runtime
+        namespace ast
         {
             class expression;
         }
@@ -17,10 +21,10 @@ namespace mu
             class body : public mu::script::parser::state, public mu::io::tokens::visitor
             {
             public:
-                body (mu::script::parser::routine & routine_a);
+                body (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
                 mu::script::parser::routine & routine;
                 mu::io::debugging::context context;
-                mu::script::runtime::expression * expression;
+                mu::script::ast::expression * expression_m;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

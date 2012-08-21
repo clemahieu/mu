@@ -2,11 +2,6 @@
 
 #include <mu/core/node.h>
 
-#include <map>
-#include <vector>
-
-#include <boost/shared_ptr.hpp>
-
 namespace mu
 {
 	namespace script
@@ -20,8 +15,8 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				std::map <mu::string, mu::script::runtime::routine *> names;
-				std::vector <mu::script::runtime::routine *> routines;
+				mu::map <mu::string, mu::script::runtime::routine *> names;
+				mu::vector <mu::script::runtime::routine *> routines;
 			};
 		}
 	}

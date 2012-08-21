@@ -7,11 +7,10 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/right_square.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/runtime/expression.h>
-#include <mu/script/runtime/reference.h>
-#include <mu/script/runtime/selection.h>
+#include <mu/script/ast_cluster.h>
+#include <mu/script/ast_routine.h>
+#include <mu/script/ast_expression.h>
+#include <mu/script/ast_reference.h>
 
 #include <gc_cpp.h>
 
@@ -19,8 +18,8 @@
 TEST (script_test, parser1)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 0);
 }
@@ -29,8 +28,8 @@ TEST (script_test, parser1)
 TEST (script_test, parser2)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 1);
@@ -40,8 +39,8 @@ TEST (script_test, parser2)
 TEST (script_test, parser3)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
     EXPECT_TRUE (!errors ());
@@ -52,8 +51,8 @@ TEST (script_test, parser3)
 TEST (script_test, parser4)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
     EXPECT_TRUE (errors ());
 }
@@ -62,8 +61,8 @@ TEST (script_test, parser4)
 TEST (script_test, parser5)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
     EXPECT_TRUE (errors ());
@@ -73,8 +72,8 @@ TEST (script_test, parser5)
 TEST (script_test, parser6)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     EXPECT_TRUE (!errors ());
@@ -84,8 +83,8 @@ TEST (script_test, parser6)
 TEST (script_test, parser7)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
@@ -96,8 +95,8 @@ TEST (script_test, parser7)
 TEST (script_test, parser8)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -108,8 +107,8 @@ TEST (script_test, parser8)
 TEST (script_test, parser9)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
@@ -121,8 +120,8 @@ TEST (script_test, parser9)
 TEST (script_test, parser10)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
@@ -135,8 +134,8 @@ TEST (script_test, parser10)
 TEST (script_test, parser11)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
@@ -149,8 +148,8 @@ TEST (script_test, parser11)
 TEST (script_test, parser12)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -162,8 +161,8 @@ TEST (script_test, parser12)
 TEST (script_test, parser13)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -176,8 +175,8 @@ TEST (script_test, parser13)
 TEST (script_test, parser14)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -191,8 +190,8 @@ TEST (script_test, parser14)
 TEST (script_test, parser15)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -203,15 +202,15 @@ TEST (script_test, parser15)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
+    EXPECT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 0);
 }
 
 // Valid routine with identifier
 TEST (script_test, parser16)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -223,16 +222,15 @@ TEST (script_test, parser16)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 1);
+    EXPECT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
 }
 
 // Valid routine with expression in body
 TEST (script_test, parser17)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -245,19 +243,19 @@ TEST (script_test, parser17)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
-    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
+    auto i (clusters [0]->routines [0]->body->nodes.begin ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (expression2->nodes.size () == 0);
 }
 
 // Valid routine with expression in expression
 TEST (script_test, parser18)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -272,22 +270,24 @@ TEST (script_test, parser18)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 3);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
-    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions [2]->dependencies.size () == 1);
-    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [2]->dependencies [0]) != nullptr);
-    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [2]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [1]);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
+    auto i (clusters [0]->routines [0]->body->nodes.begin ());
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (expression2->nodes.size () == 1);
+    auto j (expression2->nodes.begin ());
+    ASSERT_TRUE (j != expression2->nodes.end ());
+    auto expression3 (static_cast <mu::script::ast::expression *> (*j));
+    EXPECT_TRUE (expression3->nodes.size () == 0);
 }
 
 // Invalid expression, missing name
 TEST (script_test, parser19)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -301,36 +301,12 @@ TEST (script_test, parser19)
     EXPECT_TRUE (errors ());
 }
 
-// Valid unreferenced expression because of naming
-TEST (script_test, parser20)
-{
-    mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
-    EXPECT_TRUE (!errors ());
-    ASSERT_TRUE (clusters.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
-}
-
 // Expression with name reference
 TEST (script_test, parser21)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -346,19 +322,25 @@ TEST (script_test, parser21)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    ASSERT_TRUE (dynamic_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
-    EXPECT_TRUE (static_cast <mu::script::runtime::reference *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 2);
+    auto i (clusters [0]->routines [0]->body->nodes.begin ());
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (expression2->nodes.size () == 0);
+    ++i;
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression3 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (expression3 == expression2);
 }
 
 // Expression with elements reference
 TEST (script_test, parser22)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -375,19 +357,26 @@ TEST (script_test, parser22)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 2);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 0);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [1]->dependencies.size () == 1);
-    ASSERT_TRUE (dynamic_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0]) != nullptr);
-    EXPECT_TRUE (static_cast <mu::script::runtime::selection *> (clusters [0]->routines [0]->expressions [1]->dependencies [0])->expression == clusters [0]->routines [0]->expressions [0]);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 2);
+    auto i (clusters [0]->routines [0]->body->nodes.begin ());
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::reference *> (*i) != nullptr);
+    auto reference1 (static_cast <mu::script::ast::reference *> (*i));
+    EXPECT_TRUE (reference1->expression->nodes.size () == 0);
+    EXPECT_TRUE (reference1->position == 0);
+    ++i;
+    ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
+    auto expression1 (static_cast <mu::script::ast::expression *> (*i));
+    EXPECT_TRUE (expression1 == reference1->expression);
 }
 
 // Reference to a parameter
 TEST (script_test, parser23)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
@@ -401,16 +390,15 @@ TEST (script_test, parser23)
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
-    ASSERT_TRUE (clusters [0]->routines [0]->expressions.size () == 1);
-    EXPECT_TRUE (clusters [0]->routines [0]->expressions [0]->dependencies.size () == 1);
+    ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
 }
 
 // Missing body
 TEST (script_test, parser24)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
@@ -423,8 +411,8 @@ TEST (script_test, parser24)
 TEST (script_test, parser25)
 {
     mu::core::errors::error_list errors;
-    std::vector <mu::script::cluster::node *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::cluster::node * node_a) {clusters.push_back (node_a);});
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
     parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
     parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());

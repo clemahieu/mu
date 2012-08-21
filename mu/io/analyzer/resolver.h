@@ -8,8 +8,8 @@ namespace mu
 {
 	namespace core
 	{
-		class expression;
 		class node;
+        class node_list;
         namespace errors
         {
             class error_target;
@@ -27,9 +27,9 @@ namespace mu
 			class resolver
 			{
 			public:
-				resolver (boost::function <void (mu::core::node *)> unresolved_a, mu::io::debugging::context const & context_a);
+				resolver (mu::core::node_list & target_a, mu::io::debugging::context const & context_a);
 				void operator () (mu::core::errors::error_target & errors, bool global, mu::io::debugging::context const & context_a, mu::core::node * node_a);
-				boost::function <void (mu::core::node *)> unresolved;
+                mu::core::node_list & target;
                 mu::io::debugging::context context;
                 bool only_global;
 			};

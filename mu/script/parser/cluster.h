@@ -8,9 +8,9 @@ namespace mu
 {
     namespace script
     {
-        namespace cluster
+        namespace ast
         {
-            class node;
+            class cluster;
         }
         namespace parser
         {
@@ -23,7 +23,7 @@ namespace mu
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 mu::io::debugging::context context;
                 mu::io::analyzer::name_map map;
-                mu::script::cluster::node * cluster_m;
+                mu::script::ast::cluster * cluster_m;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

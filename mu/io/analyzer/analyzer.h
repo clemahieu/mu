@@ -54,6 +54,7 @@ namespace mu
                 mu::io::analyzer::name_map names;
 				mu::core::errors::error_target & errors;
 				mu::core::cluster * cluster;
+                mu::vector <std::pair <mu::core::node_list *, mu::core::expression *>> fixups;
 			};
 		}
 	}
