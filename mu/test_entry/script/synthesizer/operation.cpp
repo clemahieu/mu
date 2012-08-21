@@ -15,6 +15,8 @@
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_expression.h>
 #include <mu/core/errors/error_list.h>
+#include <mu/script/ast_parameter.h>
+#include <mu/script/runtime/parameter.h>
 
 #include <gtest/gtest.h>
 
@@ -109,59 +111,61 @@ TEST (script_test, synthesizer_operation3)
     ASSERT_TRUE (d3 != nullptr);
     ASSERT_TRUE (d3->expression == expression2);
 }
-/*
+
+// Test a parameter
 TEST (script_test, synthesizer_operation4)
 {
-	mu::core::errors::error_list errors;
-	mu::script::context context (errors);
-	context.push (new (GC) mu::script::synthesizer::operation);
-	auto c (new (GC) mu::core::cluster);
-	context.push (c);
-	auto routine1 (new (GC) mu::core::routine);
-	c->routines.push_back (routine1);
-	auto body (new (GC) mu::core::expression);
-	routine1->body = body;
-	auto expression1 (new (GC) mu::core::expression);
-	auto expression2 (new (GC) mu::core::expression);
-	expression1->dependencies.push_back (expression2);
-	expression2->dependencies.push_back (expression1);
-	body->dependencies.push_back (expression1);
-	auto valid (context ());
-	EXPECT_EQ (!valid, true);
+    mu::core::errors::error_list errors;
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer (errors,
+                                                      [clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster1 (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::script::ast::parameter (0));
+    synthesizer (cluster1);
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster2 (clusters [0]);
+    ASSERT_TRUE (cluster2->routines.size () == 1);
+    auto routine2 (cluster2->routines [0]);
+    ASSERT_TRUE (routine2->expressions.size () == 1);
+    auto expression1 (routine2->expressions [0]);
+    ASSERT_TRUE (expression1->dependencies.size () == 1);
+    auto d1 (dynamic_cast <mu::script::runtime::parameter *> (expression1->dependencies [0]));
+    ASSERT_TRUE (d1 != nullptr);
+    ASSERT_TRUE (d1->position == 0);
 }
 
+// Failure of cyclic expressions
 TEST (script_test, synthesizer_operation5)
 {
-	mu::core::errors::error_list errors;
-	mu::script::context context (errors);
-	context.push (new (GC) mu::script::synthesizer::operation);
-	auto c (new (GC) mu::core::cluster);
-	context.push (c);
-	auto routine1 (new (GC) mu::core::routine);
-	c->routines.push_back (routine1);
-	auto body (new (GC) mu::core::expression);
-	routine1->body = body;
-	auto fail (new (GC) mu::script::fail::operation);
-	body->dependencies.push_back (fail);
-	auto valid (context ());
-	EXPECT_EQ (valid, true);
-	EXPECT_EQ (context.working_size (), 1);
-	auto cluster (dynamic_cast <mu::script::cluster::node *> (context.working (0)));
-	EXPECT_NE (cluster, nullptr);
-	EXPECT_EQ (cluster->routines.size (), 1);
-	auto r (cluster->routines [0]);
-	EXPECT_EQ (r->expressions.size (), 1);
-	auto e (r->expressions [0]);
-	EXPECT_EQ (e->dependencies.size (), 1);
-	auto d1 (dynamic_cast <mu::script::runtime::fixed *> (e->dependencies [0]));
-	EXPECT_NE (d1, nullptr);
-	EXPECT_EQ (d1->node, fail);
-	context.drop ();
-	context.push (r);
-	auto valid2 (context ());
-	EXPECT_EQ (!valid2, true);
+    mu::core::errors::error_list errors;
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer (errors,
+                                                      [clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster1 (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+    cluster1->routines.push_back (routine1);
+    auto expression1 (new (GC) mu::script::ast::expression);
+    auto expression2 (new (GC) mu::script::ast::expression);
+    expression1->nodes.nodes.push_back (expression2);
+    expression2->nodes.nodes.push_back (expression1);
+    routine1->body->nodes.nodes.push_back (expression1);
+    routine1->body->nodes.nodes.push_back (expression2);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
 }
-
+/*
 TEST (script_test, synthesizer_operation6)
 {
 	mu::core::errors::error_list errors;
