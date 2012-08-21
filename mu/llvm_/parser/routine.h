@@ -15,13 +15,9 @@ namespace mu
 {
     namespace llvm_
     {
-        namespace function
+        namespace ast
         {
-            class node;
-        }
-        namespace value
-        {
-            class node;
+            class routine;
         }
         namespace parser
         {
@@ -38,14 +34,11 @@ namespace mu
             public:
                 routine (mu::llvm_::parser::cluster & cluster_a);
                 routine_state state;
-                mu::string name;
-                size_t parameters;
                 mu::llvm_::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
                 void operator () () override;
                 mu::io::debugging::context context;
-                mu::vector <mu::llvm_::value::node> values;
-                mu::llvm_::function::node * function;
+                mu::llvm_::ast::routine * routine_m;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

@@ -14,6 +14,8 @@
 #include <mu/llvm_/cluster/node.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/function/node.h>
+#include <mu/llvm_/ast_routine.h>
+#include <mu/llvm_/ast_cluster.h>
 
 #include <assert.h>
 
@@ -21,8 +23,8 @@
 
 mu::llvm_::parser::routine::routine (mu::llvm_::parser::cluster & cluster_a):
 state (mu::llvm_::parser::routine_state::name),
-parameters (0),
-cluster (cluster_a)
+cluster (cluster_a),
+routine_m (new (GC) mu::llvm_::ast::routine)
 {
 }
 
@@ -59,8 +61,8 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier * token
     switch (state)
     {
         case mu::llvm_::parser::routine_state::name:
+            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, context);
             state = mu::llvm_::parser::routine_state::parameters;
-            name = token->string;
             break;
         case mu::llvm_::parser::routine_state::parameters:
         case mu::llvm_::parser::routine_state::body:
@@ -103,9 +105,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * tok
     switch (state)
     {
         case mu::llvm_::parser::routine_state::have_body:
-            cluster.map.insert_global (cluster.parser.errors, name, function, context);
-            cluster.cluster_m->routines.push_back (function);
-            cluster.cluster_m->names [name] = function;
+            cluster.cluster_m->routines.push_back (routine_m);
             cluster.map.free_locals ();
             cluster.parser.state.pop ();
             break;

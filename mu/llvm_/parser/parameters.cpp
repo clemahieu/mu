@@ -30,7 +30,7 @@
 
 mu::llvm_::parser::parameters::parameters (mu::llvm_::parser::routine & routine_a):
 routine (routine_a),
-state (mu::llvm_::parser::parameters_state::results)
+state (mu::llvm_::parser::parameters_state::parameters)
 {
 }
 
@@ -49,9 +49,9 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::divider * token
     switch (state)
     {
         case mu::llvm_::parser::parameters_state::results:
-            state = mu::llvm_::parser::parameters_state::type;
             break;
-        case mu::llvm_::parser::parameters_state::type:
+        case mu::llvm_::parser::parameters_state::parameters:
+            state = mu::llvm_::parser::parameters_state::results;
         case mu::llvm_::parser::parameters_state::name:
             unexpected_token (routine.cluster.parser, token, context);
             break;
@@ -66,11 +66,11 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier * to
     switch (state)
     {
         case mu::llvm_::parser::parameters_state::results:
-        case mu::llvm_::parser::parameters_state::type:
+        case mu::llvm_::parser::parameters_state::parameters:
             unexpected_token (routine.cluster.parser, token, context);
             break;
         case mu::llvm_::parser::parameters_state::name:
-            state = mu::llvm_::parser::parameters_state::type;
+            state = mu::llvm_::parser::parameters_state::parameters;
             names.push_back (token->string);
             break;
         default:
@@ -153,7 +153,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             }
         }
             break;
-        case mu::llvm_::parser::parameters_state::type:
+        case mu::llvm_::parser::parameters_state::parameters:
         {
             auto type (dynamic_cast <mu::llvm_::type::node *> (token->node));
             if (type != nullptr)

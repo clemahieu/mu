@@ -9,6 +9,9 @@ link_directories (
 
 add_library (mu_llvm_ SHARED
 	api.cpp
+    ast_cluster.cpp
+    ast_expression.cpp
+    ast_routine.cpp
 	apint/create.cpp
 	apint/extension.cpp
 	apint/node.cpp

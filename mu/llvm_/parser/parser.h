@@ -28,9 +28,9 @@ namespace mu
     namespace llvm_
     {
         class ctx;
-        namespace cluster
+        namespace ast
         {
-            class node;
+            class cluster;
         }
         namespace parser
         {
@@ -38,10 +38,10 @@ namespace mu
             class parser
             {
             public:
-                parser (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::cluster::node *)> target_a);
+                parser (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a);
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
                 mu::core::errors::error_target & errors;
-                boost::function <void (mu::llvm_::cluster::node *)> target;
+                boost::function <void (mu::llvm_::ast::cluster *)> target;
                 mu::stack <mu::llvm_::parser::state *> state;
                 mu::llvm_::ctx & ctx;
             };

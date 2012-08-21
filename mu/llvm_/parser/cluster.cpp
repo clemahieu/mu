@@ -8,13 +8,13 @@
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/llvm_/parser/routine.h>
-#include <mu/llvm_/cluster/node.h>
+#include <mu/llvm_/ast_cluster.h>
 
 #include <gc_cpp.h>
 
 mu::llvm_::parser::cluster::cluster (mu::llvm_::parser::parser & parser_a):
 parser (parser_a),
-cluster_m (new (GC) mu::llvm_::cluster::node)
+cluster_m (new (GC) mu::llvm_::ast::cluster)
 {
 }
 
@@ -56,7 +56,7 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end * token
     {
         parser.target (cluster_m);
     }
-    cluster_m = new (GC) mu::llvm_::cluster::node;
+    cluster_m = new (GC) mu::llvm_::ast::cluster;
 }
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::parameters * token)

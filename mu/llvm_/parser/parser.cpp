@@ -5,7 +5,7 @@
 
 #include <gc_cpp.h>
 
-mu::llvm_::parser::parser::parser (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::cluster::node *)> target_a):
+mu::llvm_::parser::parser::parser (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a):
 errors (errors_a),
 target (target_a),
 ctx (ctx_a)

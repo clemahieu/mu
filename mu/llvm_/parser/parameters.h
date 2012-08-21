@@ -16,8 +16,8 @@ namespace mu
             class routine;
             enum class parameters_state
             {
+                parameters,
                 results,
-                type,
                 name
             };
             class parameters : public mu::llvm_::parser::state, public mu::io::tokens::visitor
