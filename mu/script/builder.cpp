@@ -14,7 +14,7 @@
 #include <gc_cpp.h>
 
 mu::script::builder::builder ():
-synthesizer (
+synthesizer (errors,
         [this]
         (mu::script::cluster::node * cluster_a)
         {
@@ -43,7 +43,7 @@ lexer (errors,
 }
 
 mu::script::builder::builder (mu::io::keywording::extensions * extensions_a):
-synthesizer (
+synthesizer (errors, 
              [this]
              (mu::script::cluster::node * cluster_a)
              {

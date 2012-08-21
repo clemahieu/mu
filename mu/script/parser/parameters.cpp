@@ -11,7 +11,7 @@
 #include <mu/io/tokens/identifier.h>
 #include <mu/script/runtime/selection.h>
 #include <mu/script/parser/cluster.h>
-#include <mu/script/ast_parameters.h>
+#include <mu/script/ast_parameter.h>
 
 #include <gc_cpp.h>
 
@@ -33,7 +33,7 @@ void mu::script::parser::parameters::operator () (mu::io::tokens::divider * toke
 
 void mu::script::parser::parameters::operator () (mu::io::tokens::identifier * token)
 {
-    routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::parameters (routine.parameters), context);
+    routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::parameter (routine.parameters), context);
     ++routine.parameters;
 }
 

@@ -4,6 +4,13 @@
 
 namespace mu
 {
+    namespace core
+    {
+        namespace errors
+        {
+            class error_target;
+        }
+    }
     namespace script
     {
         namespace ast
@@ -21,9 +28,10 @@ namespace mu
             class synthesizer
             {
             public:
-                synthesizer (boost::function <void (mu::script::cluster::node *)> target_a);
+                synthesizer (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::cluster::node *)> target_a);;
                 void operator () (mu::script::ast::cluster * cluster_a);
                 boost::function <void (mu::script::cluster::node *)> target;
+                mu::core::errors::error_target & errors;
             };
         }
     }

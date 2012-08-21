@@ -19,7 +19,7 @@ namespace mu
     template <typename T>
     using vector = std::vector <T, gc_allocator<T>>;
     template <typename T>
-    using set = std::set <T, std::deque <T, gc_allocator<T>>>;
+    using set = std::set <T, std::less <T>, gc_allocator <T>>;
     template <typename T, typename U>
     using map = std::map <T, U, std::less <T>, gc_allocator<std::pair <T, U>>>;
     template <typename T>

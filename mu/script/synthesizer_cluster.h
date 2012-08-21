@@ -1,9 +1,14 @@
 #pragma once
 
-#include <boost/function.hpp>
-
 namespace mu
 {
+    namespace core
+    {
+        namespace errors
+        {
+            class error_target;
+        }
+    }
     namespace script
     {
         namespace ast
@@ -19,9 +24,9 @@ namespace mu
             class cluster
             {
             public:
-                cluster (boost::function <void (mu::script::cluster::node *)> target_a, mu::script::ast::cluster * cluster_a);
-                boost::function <void (mu::script::cluster::node *)> target;
-                mu::script::ast::cluster * cluster_m;
+                cluster (mu::core::errors::error_target & errors_a, mu::script::ast::cluster * cluster_a);
+                mu::script::cluster::node * cluster_m;
+                mu::core::errors::error_target & errors;
             };
         }
     }

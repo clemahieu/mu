@@ -11,7 +11,7 @@ add_library (mu_script SHARED
 	api.cpp
     ast_cluster.cpp
     ast_expression.cpp
-    ast_parameters.cpp
+    ast_parameter.cpp
     ast_reference.cpp
     ast_routine.cpp
 	builder.cpp
