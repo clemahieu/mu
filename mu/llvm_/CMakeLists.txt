@@ -101,7 +101,6 @@ add_library (mu_llvm_ SHARED
     parser/parser.cpp
     parser/routine.cpp
     parser/state.cpp
-    parser/topology.cpp
 	pointer_type/create.cpp
 	pointer_type/node.cpp
 	predicate/node.cpp
