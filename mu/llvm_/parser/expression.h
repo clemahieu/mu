@@ -9,9 +9,9 @@ namespace mu
 {
     namespace llvm_
     {
-        namespace value
+        namespace ast
         {
-            class node;
+            class expression;
         }
         namespace parser
         {
@@ -31,7 +31,7 @@ namespace mu
                 mu::llvm_::parser::expression_state state;
                 mu::llvm_::parser::routine & routine;
                 size_t element;
-                mu::llvm_::value::node * value;
+                mu::llvm_::ast::expression * expression_m;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

@@ -31,7 +31,6 @@ namespace mu
                 mu::vector <mu::llvm_::type::node *> results;
                 mu::vector <mu::llvm_::type::node *> types;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
-                void operator () () override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

@@ -1,18 +1,16 @@
 #include <mu/llvm_/parser/expression.h>
 
-#include <mu/script/runtime/expression.h>
 #include <mu/io/tokens/divider.h>
 #include <mu/llvm_/parser/routine.h>
 #include <mu/llvm_/parser/cluster.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/llvm_/parser/parser.h>
-#include <mu/script/runtime/selection.h>
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
-#include <mu/script/runtime/fixed.h>
 #include <mu/io/tokens/right_square.h>
-#include <mu/script/runtime/reference.h>
+#include <mu/llvm_/ast_expression.h>
+#include <mu/llvm_/ast_reference.h>
 
 #include <gc_cpp.h>
 
@@ -56,29 +54,17 @@ void mu::llvm_::parser::expression::operator () (mu::io::tokens::identifier * to
     switch (state)
     {
         case mu::llvm_::parser::expression_state::values:
-        {
-            auto expression_l (expression_m);
-            auto position (expression_l->dependencies.size ());
-            expression_l->dependencies.resize (position + 1);
-            routine.cluster.map.fill_reference (token->string, context,
-                [expression_l, position]
-                (mu::core::node * node_a)
-                {
-                    assert (dynamic_cast <mu::script::operation *> (node_a) != nullptr);
-                    expression_l->dependencies [position] = static_cast <mu::script::operation *> (node_a);
-                }
-            );
+            routine.cluster.map.fill_reference (token->string, context, expression_m->nodes);
             break;
-        }
         case mu::llvm_::parser::expression_state::name:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::runtime::reference (expression_m), context);
-            state = mu::script::parser::expression_state::have_name;
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, context);
+            state = mu::llvm_::parser::expression_state::have_name;
             break;
         case mu::llvm_::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token, context);
             break;
         case mu::llvm_::parser::expression_state::elements:
-            
+            routine.cluster.map.insert_local(routine.cluster.parser.errors, token->string, new (GC) mu::llvm_::ast::reference (expression_m, ++element), context);
             break;
         default:
             assert (false);
@@ -88,13 +74,8 @@ void mu::llvm_::parser::expression::operator () (mu::io::tokens::identifier * to
 
 void mu::llvm_::parser::expression::operator () (mu::io::tokens::left_square * token)
 {
-    auto expression_l (expression_m);
-    auto state_l (new (GC) mu::script::parser::expression (routine,
-                                                           [expression_l]
-                                                           (mu::script::runtime::expression * expression_a)
-                                                           {
-                                                               expression_l->dependencies.push_back (new (GC) mu::script::runtime::reference (expression_a));
-                                                           }));
+    auto state_l (new (GC) mu::llvm_::parser::expression (routine));
+    expression_m->nodes.nodes.push_back (state_l->expression_m);
     routine.cluster.parser.state.push (state_l);
 }
 
@@ -102,15 +83,12 @@ void mu::llvm_::parser::expression::operator () (mu::io::tokens::right_square * 
 {
     switch (state)
     {
-        case mu::script::parser::expression_state::values:
-            target (expression_m);
-            break;
-        case mu::script::parser::expression_state::name:
+        case mu::llvm_::parser::expression_state::name:
             unexpected_token (routine.cluster.parser, token, context);
             break;
-        case mu::script::parser::expression_state::have_name:
-        case mu::script::parser::expression_state::elements:
-                // When named, function does not nest
+        case mu::llvm_::parser::expression_state::values:
+        case mu::llvm_::parser::expression_state::have_name:
+        case mu::llvm_::parser::expression_state::elements:
             break;
         default:
             assert (false);
@@ -133,12 +111,12 @@ void mu::llvm_::parser::expression::operator () (mu::io::tokens::value * token)
 {
     switch (state)
     {
-        case mu::script::parser::expression_state::values:
-            expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (token->node));
+        case mu::llvm_::parser::expression_state::values:
+            expression_m->nodes.nodes.push_back (token->node);
             break;
-        case mu::script::parser::expression_state::name:
-        case mu::script::parser::expression_state::have_name:
-        case mu::script::parser::expression_state::elements:
+        case mu::llvm_::parser::expression_state::name:
+        case mu::llvm_::parser::expression_state::have_name:
+        case mu::llvm_::parser::expression_state::elements:
             unexpected_token (routine.cluster.parser, token, context);
             break;
         default:

@@ -11,6 +11,7 @@ add_library (mu_llvm_ SHARED
 	api.cpp
     ast_cluster.cpp
     ast_expression.cpp
+    ast_reference.cpp
     ast_routine.cpp
 	apint/create.cpp
 	apint/extension.cpp
@@ -100,6 +101,7 @@ add_library (mu_llvm_ SHARED
     parser/cluster.cpp
     parser/error.cpp
     parser/expression.cpp
+    parser/error.cpp
     parser/parameters.cpp
     parser/parser.cpp
     parser/routine.cpp

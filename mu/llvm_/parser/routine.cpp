@@ -34,10 +34,6 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::token * token_a, m
     (*token_a) (this);
 }
 
-void mu::llvm_::parser::routine::operator () ()
-{
-}
-
 void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
 {
     switch (state)

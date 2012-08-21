@@ -6,11 +6,18 @@ namespace mu
 {
     namespace llvm_
     {
+        namespace function
+        {
+            class node;
+        }
         namespace ast
         {
+            class expression;
             class routine : public mu::llvm_::ast::node
             {
-                
+            public:
+                mu::llvm_::function::node * function;
+                mu::llvm_::ast::expression * body;
             };
         }
     }

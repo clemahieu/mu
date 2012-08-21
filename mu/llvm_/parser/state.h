@@ -27,7 +27,6 @@ namespace mu
             {
             public:
                 virtual void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) = 0;
-                virtual void operator () () = 0;
                 void unexpected_token (mu::llvm_::parser::parser & parser_a, mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
             };
         }

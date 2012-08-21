@@ -7,10 +7,6 @@
 #include <set>
 #include <deque>
 
-namespace llvm
-{
-    class Function;
-}
 namespace mu
 {
     namespace llvm_
@@ -18,6 +14,10 @@ namespace mu
         namespace ast
         {
             class routine;
+        }
+        namespace function
+        {
+            class node;
         }
         namespace parser
         {
@@ -36,7 +36,6 @@ namespace mu
                 routine_state state;
                 mu::llvm_::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
-                void operator () () override;
                 mu::io::debugging::context context;
                 mu::llvm_::ast::routine * routine_m;
 				void operator () (mu::io::tokens::divider * token) override;

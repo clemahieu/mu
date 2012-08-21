@@ -24,10 +24,6 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::token * token_a, m
     (*token_a) (this);
 }
 
-void mu::llvm_::parser::cluster::operator () ()
-{
-}
-
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::divider * token)
 {
     unexpected_token (parser, token, context);
