@@ -18,7 +18,7 @@
 #include <gc_cpp.h>
 
 TEST (script_test, trace_target1)
-{/*
+{
 	mu::script::context context (*new (GC) mu::script::debugging::trace_target (new (GC) mu::core::errors::error_list, context));
 	mu::script::builder builder;
 	(*builder.keywording.extensions) (mu::string (U"fail"), new (GC) mu::script::fail::operation);
@@ -32,5 +32,5 @@ TEST (script_test, trace_target1)
 	context.push (routine);
 	auto valid (context ());
 	EXPECT_EQ (!valid, true);
-	EXPECT_EQ (context.working_size (), 0);*/
+	EXPECT_EQ (context.working_size (), 0);
 }
