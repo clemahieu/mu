@@ -13,6 +13,7 @@ add_library (mu_llvm_ SHARED
     ast_expression.cpp
     ast_reference.cpp
     ast_routine.cpp
+    ctx.cpp
 	apint/create.cpp
 	apint/extension.cpp
 	apint/node.cpp

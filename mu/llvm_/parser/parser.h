@@ -3,6 +3,7 @@
 #include <boost/function.hpp>
 
 #include <mu/io/debugging/context.h>
+#include <mu/llvm_/ctx.h>
 
 #include <gc_allocator.h>
 
@@ -27,10 +28,13 @@ namespace mu
     }
     namespace llvm_
     {
-        class ctx;
         namespace ast
         {
             class cluster;
+        }
+        namespace context
+        {
+            class node;
         }
         namespace parser
         {
@@ -38,12 +42,12 @@ namespace mu
             class parser
             {
             public:
-                parser (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a);
+                parser (mu::llvm_::context::node * ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a);
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
                 mu::core::errors::error_target & errors;
                 boost::function <void (mu::llvm_::ast::cluster *)> target;
                 mu::stack <mu::llvm_::parser::state *> state;
-                mu::llvm_::ctx & ctx;
+                mu::llvm_::ctx ctx;
             };
         }
     }

@@ -11,6 +11,7 @@ link_directories (
     
 add_executable (mu_test_entry
 	main.cpp
+    llvm_parser_parser.cpp
 	core/apply.cpp
 	core/directory_iterator_test.cpp
 	core/filesystem_test.cpp

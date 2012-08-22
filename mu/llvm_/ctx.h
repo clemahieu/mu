@@ -1,3 +1,5 @@
+#pragma once
+
 #include <mu/core/context.h>
 
 namespace mu

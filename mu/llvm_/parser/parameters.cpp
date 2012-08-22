@@ -16,7 +16,6 @@
 #include <mu/io/tokens/right_square.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/ctx.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/void_type/node.h>
@@ -31,7 +30,7 @@
 
 mu::llvm_::parser::parameters::parameters (mu::llvm_::parser::routine & routine_a):
 routine (routine_a),
-state (mu::llvm_::parser::parameters_state::parameters)
+state (mu::llvm_::parser::parameters_state::name)
 {
 }
 

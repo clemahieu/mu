@@ -16,8 +16,13 @@
 #include <mu/llvm_/function/node.h>
 #include <mu/llvm_/ast_routine.h>
 #include <mu/llvm_/ast_cluster.h>
+#include <mu/llvm_/function_type/node.h>
+#include <mu/llvm_/void_type/node.h>
 
 #include <assert.h>
+
+#include <llvm/Function.h>
+#include <llvm/DerivedTypes.h>
 
 #include <gc_cpp.h>
 
@@ -39,7 +44,12 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
     switch (state)
     {
         case mu::llvm_::parser::routine_state::parameters:
-            state = mu::llvm_::parser::routine_state::body;
+        {
+            state = mu::llvm_::parser::routine_state::body;            
+            auto function_type_l (new (GC) mu::llvm_::function_type::node (cluster.parser.ctx.context, mu::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::void_type::node (cluster.parser.ctx.context)));
+            auto function_l (llvm::Function::Create (function_type_l->function_type (), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+            routine_m->function = new (GC) mu::llvm_::function::node (function_l, function_type_l);
+        }
             break;
         case mu::llvm_::parser::routine_state::name:
         case mu::llvm_::parser::routine_state::body:
