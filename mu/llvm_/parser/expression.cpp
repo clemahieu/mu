@@ -19,7 +19,8 @@
 mu::llvm_::parser::expression::expression (mu::llvm_::parser::routine & routine_a):
 state (mu::llvm_::parser::expression_state::values),
 routine (routine_a),
-element (~0)
+element (~0),
+expression_m (new (GC) mu::llvm_::ast::expression)
 {
 }
 

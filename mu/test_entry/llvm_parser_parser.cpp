@@ -220,3 +220,128 @@ TEST (llvm_parser, parser11)
     parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
     ASSERT_TRUE (!errors ());
 }
+
+// Identifier in body
+TEST (llvm_parser, parser12)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext llvm_ctx;
+    mu::llvm_::context::node context (&llvm_ctx);
+    mu::vector <mu::llvm_::ast::cluster *> clusters;
+    mu::llvm_::parser::parser parser (&context, errors,
+                                      [&clusters]
+                                      (mu::llvm_::ast::cluster * cluster_a)
+                                      {
+                                          clusters.push_back (cluster_a);
+                                      });
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    ASSERT_TRUE (!errors ());
+}
+
+// Expression in body
+TEST (llvm_parser, parser13)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext llvm_ctx;
+    mu::llvm_::context::node context (&llvm_ctx);
+    mu::vector <mu::llvm_::ast::cluster *> clusters;
+    mu::llvm_::parser::parser parser (&context, errors,
+                                      [&clusters]
+                                      (mu::llvm_::ast::cluster * cluster_a)
+                                      {
+                                          clusters.push_back (cluster_a);
+                                      });
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    ASSERT_TRUE (!errors ());
+}
+
+// Expression with identifier
+TEST (llvm_parser, parser14)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext llvm_ctx;
+    mu::llvm_::context::node context (&llvm_ctx);
+    mu::vector <mu::llvm_::ast::cluster *> clusters;
+    mu::llvm_::parser::parser parser (&context, errors,
+                                      [&clusters]
+                                      (mu::llvm_::ast::cluster * cluster_a)
+                                      {
+                                          clusters.push_back (cluster_a);
+                                      });
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    ASSERT_TRUE (!errors ());
+}
+
+// Expression with full name
+TEST (llvm_parser, parser15)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext llvm_ctx;
+    mu::llvm_::context::node context (&llvm_ctx);
+    mu::vector <mu::llvm_::ast::cluster *> clusters;
+    mu::llvm_::parser::parser parser (&context, errors,
+                                      [&clusters]
+                                      (mu::llvm_::ast::cluster * cluster_a)
+                                      {
+                                          clusters.push_back (cluster_a);
+                                      });
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    ASSERT_TRUE (!errors ());
+}
+
+// Expression with element name
+TEST (llvm_parser, parser16)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext llvm_ctx;
+    mu::llvm_::context::node context (&llvm_ctx);
+    mu::vector <mu::llvm_::ast::cluster *> clusters;
+    mu::llvm_::parser::parser parser (&context, errors,
+                                      [&clusters]
+                                      (mu::llvm_::ast::cluster * cluster_a)
+                                      {
+                                          clusters.push_back (cluster_a);
+                                      });
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    ASSERT_TRUE (!errors ());
+}
