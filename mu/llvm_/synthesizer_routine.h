@@ -6,6 +6,7 @@ namespace mu
 {
     namespace core
     {
+        class node;
         namespace errors
         {
             class error_target;
@@ -30,10 +31,6 @@ namespace mu
         {
             class node;
         }
-        namespace value
-        {
-            class node;
-        }
         namespace synthesizer
         {
             class cluster;
@@ -42,7 +39,7 @@ namespace mu
             public:
                 routine (mu::llvm_::synthesizer::cluster & cluster_a, mu::llvm_::context::node * context_a, mu::llvm_::module::node * module_a, mu::core::errors::error_target & errors_a, mu::llvm_::ast::routine * routine_a);
                 mu::llvm_::function::node * routine_m;
-                mu::map <mu::llvm_::ast::expression *, mu::llvm_::value::node *> already_parsed;
+                mu::map <mu::llvm_::ast::expression *, mu::core::node *> already_parsed;
                 mu::set <mu::llvm_::ast::expression *> current_cycle;
             };
         }

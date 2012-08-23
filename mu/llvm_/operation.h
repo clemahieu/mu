@@ -7,6 +7,7 @@ namespace mu
         class ctx;
         class operation
         {
+        public:
             virtual bool operator () (mu::llvm_::ctx & context_a) = 0;
         };
     }

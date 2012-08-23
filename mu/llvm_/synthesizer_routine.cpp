@@ -20,6 +20,6 @@ mu::llvm_::synthesizer::routine::routine (mu::llvm_::synthesizer::cluster & clus
     auto function (new (GC) mu::llvm_::function::node (llvm::Function::Create(type->function_type (), llvm::GlobalVariable::ExternalLinkage), type));
     cluster_a.routines [routine_a] = function;
     auto block (new (GC) mu::llvm_::basic_block::node (llvm::BasicBlock::Create(*context_a->context)));
-    mu::llvm_::ctx ctx (context_a, module_a, function, block);
+    mu::llvm_::ctx ctx (context_a, module_a, function, block, errors_a);
     mu::llvm_::synthesizer::expression expression (ctx, errors_a, *this, routine_a->body);
 }
