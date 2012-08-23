@@ -47,7 +47,6 @@ namespace mu
                 mu::core::errors::error_target & errors;
                 boost::function <void (mu::llvm_::ast::cluster *)> target;
                 mu::stack <mu::llvm_::parser::state *> state;
-                mu::llvm_::ctx ctx;
             };
         }
     }

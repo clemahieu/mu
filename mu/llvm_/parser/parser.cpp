@@ -7,8 +7,7 @@
 
 mu::llvm_::parser::parser::parser (mu::llvm_::context::node * ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a):
 errors (errors_a),
-target (target_a),
-ctx (ctx_a, nullptr)
+target (target_a)
 {
     state.push (new (GC) mu::llvm_::parser::cluster (*this));
 }

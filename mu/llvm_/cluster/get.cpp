@@ -9,9 +9,12 @@
 
 #include <sstream>
 
+#include <assert.h>
+
 bool mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 {
-	bool result (mu::core::check <mu::llvm_::cluster::node, mu::script::string::node> (context_a));
+    assert (false);
+/*	bool result (mu::core::check <mu::llvm_::cluster::node, mu::script::string::node> (context_a));
 	if (result)
 	{
 		auto one (static_cast <mu::llvm_::cluster::node *> (context_a.parameters (0)));
@@ -30,5 +33,5 @@ bool mu::llvm_::cluster::get::operator () (mu::script::context & context_a)
 			result = false;
 		}
 	}
-	return result;
+	return result;*/
 }
