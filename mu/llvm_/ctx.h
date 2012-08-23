@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/core/context.h>
+#include <mu/core/types.h>
 
 namespace mu
 {
@@ -22,10 +22,15 @@ namespace mu
         {
             class node;
         }
-        class ctx : public mu::core::context
+        namespace value
+        {
+            class node;
+        }
+        class ctx
         {
         public:
             ctx (mu::llvm_::context::node * context_a, mu::llvm_::module::node * module_a, mu::llvm_::function::node * function_a, mu::llvm_::basic_block::node * block_a);
+            mu::vector <mu::llvm_::value::node *> working;
             mu::llvm_::context::node * context;
             mu::llvm_::module::node * module;
             mu::llvm_::function::node * function;

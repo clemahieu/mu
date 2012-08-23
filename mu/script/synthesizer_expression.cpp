@@ -22,7 +22,6 @@
 mu::script::synthesizer::expression::expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::expression * expression_a):
 expression_m (new (GC) mu::script::runtime::expression)
 {
-    routine_a.already_parsed.insert (decltype (routine_a.already_parsed)::value_type (expression_a, expression_m));
     for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
     {
         auto current (*i);
@@ -62,6 +61,7 @@ expression_m (new (GC) mu::script::runtime::expression)
             expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (current));
         }
     }
+    routine_a.already_parsed.insert (decltype (routine_a.already_parsed)::value_type (expression_a, expression_m));
     routine_a.routine_m->expressions.push_back (expression_m);
 }
 
