@@ -16,6 +16,7 @@ namespace mu
             class routine : public mu::llvm_::ast::node
             {
             public:
+                routine ();
                 mu::llvm_::function::node * function;
                 mu::llvm_::ast::expression * body;
             };

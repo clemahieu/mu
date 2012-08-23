@@ -20,7 +20,6 @@ namespace mu
                 body (mu::llvm_::parser::routine & routine_a);
                 mu::llvm_::parser::routine & routine;
                 mu::io::debugging::context context;
-                mu::llvm_::ast::expression * expression;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

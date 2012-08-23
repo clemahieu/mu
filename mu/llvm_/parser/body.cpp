@@ -11,12 +11,12 @@
 #include <mu/io/tokens/value.h>
 #include <mu/llvm_/parser/expression.h>
 #include <mu/llvm_/ast_expression.h>
+#include <mu/llvm_/ast_routine.h>
 
 #include <gc_cpp.h>
 
 mu::llvm_::parser::body::body (mu::llvm_::parser::routine & routine_a):
-routine (routine_a),
-expression (new (GC) mu::llvm_::ast::expression)
+routine (routine_a)
 {
 }
 
@@ -33,13 +33,13 @@ void mu::llvm_::parser::body::operator () (mu::io::tokens::divider * token)
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::identifier * token)
 {
-    routine.cluster.map.fill_reference (token->string, context, expression->nodes);
+    routine.cluster.map.fill_reference (token->string, context, routine.routine_m->body->nodes);
 }
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::left_square * token)
 {
     auto state_l (new (GC) mu::llvm_::parser::expression (routine));
-    expression->nodes.nodes.push_back (state_l->expression_m);
+    routine.routine_m->body->nodes.nodes.push_back (state_l->expression_m);
     routine.cluster.parser.state.push (state_l);
 }
 
@@ -60,5 +60,5 @@ void mu::llvm_::parser::body::operator () (mu::io::tokens::parameters * token)
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::value * token)
 {
-    expression->nodes.nodes.push_back (token->node);
+    routine.routine_m->body->nodes.nodes.push_back (token->node);
 }
