@@ -95,10 +95,19 @@ add_library (mu_script SHARED
 	unit/operation.cpp
 	values/create.cpp
 	values/operation.cpp)
-    
-target_link_libraries (mu_script
-    gc
-    boost_system
-    boost_filesystem
-    mu_core
-    mu_io)
+
+if (WIN32)
+	target_link_libraries (mu_script
+		gc
+		boost_system-mgw47-mt-d-1_51
+		boost_filesystem-mgw47-mt-d-1_51
+		mu_core
+		mu_io)
+else (WIN32)	
+	target_link_libraries (mu_script
+		gc
+		boost_system
+		boost_filesystem
+		mu_core
+		mu_io)
+endif (WIN32)

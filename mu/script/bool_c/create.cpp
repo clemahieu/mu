@@ -7,6 +7,7 @@
 #include <mu/script/context.h>
 
 #include <sstream>
+#include <algorithm>
 
 #include <gc_cpp.h>
 

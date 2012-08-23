@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (mu)
 
-if (UNIX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+if (UNIX OR MINGW)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif ()
 
 file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/temp)
