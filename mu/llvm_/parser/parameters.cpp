@@ -21,6 +21,7 @@
 #include <mu/llvm_/void_type/node.h>
 #include <mu/llvm_/parser/error.h>
 #include <mu/llvm_/ast_routine.h>
+#include <mu/llvm_/ast_parameter.h>
 
 #include <llvm/Function.h>
 #include <llvm/DerivedTypes.h>
@@ -30,7 +31,8 @@
 
 mu::llvm_::parser::parameters::parameters (mu::llvm_::parser::routine & routine_a):
 routine (routine_a),
-state (mu::llvm_::parser::parameters_state::name)
+state (mu::llvm_::parser::parameters_state::name),
+position (0)
 {
 }
 
@@ -66,8 +68,12 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier * to
             unexpected_token (routine.cluster.parser, token, context);
             break;
         case mu::llvm_::parser::parameters_state::name:
+        {
             state = mu::llvm_::parser::parameters_state::parameters;
-            names.push_back (token->string);
+            auto position_l (position);
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::llvm_::ast::parameter (position_l), context);
+            position = position_l + 1;
+        }
             break;
         default:
             assert (false);
@@ -86,27 +92,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::right_square * 
     {
         case mu::llvm_::parser::parameters_state::results:
         case mu::llvm_::parser::parameters_state::name:
-        {
-            if (results.size () == 0)
-            {
-                auto function_type_l (new (GC) mu::llvm_::function_type::node (routine.cluster.parser.ctx.context, types, new (GC) mu::llvm_::void_type::node (routine.cluster.parser.ctx.context)));
-                auto function_l (llvm::Function::Create (function_type_l->function_type (), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-                routine.routine_m->function = new (GC) mu::llvm_::function::node (function_l, function_type_l);
-            }
-            else if (results.size () == 1)
-            {
-                auto function_type_l (new (GC) mu::llvm_::function_type::node (routine.cluster.parser.ctx.context, types, results [0]));
-                auto function_l (llvm::Function::Create (function_type_l->function_type (), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-                routine.routine_m->function = new (GC) mu::llvm_::function::node (function_l, function_type_l);
-            }
-            else
-            {
-                auto function_type_l (new (GC) mu::llvm_::function_type::node (routine.cluster.parser.ctx.context, types, new (GC) mu::llvm_::set_type::node (routine.cluster.parser.ctx.context, results)));
-                auto function_l (llvm::Function::Create (function_type_l->function_type (), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-                routine.routine_m->function = new (GC) mu::llvm_::function::node (function_l, function_type_l);
-            }
             routine.cluster.parser.state.pop ();
-        }
             break;
         case mu::llvm_::parser::parameters_state::parameters:
             unexpected_token (routine.cluster.parser, token, context);
@@ -136,7 +122,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             auto type (dynamic_cast <mu::llvm_::type::node *> (token->node));
             if (type != nullptr)
             {
-                results.push_back (type);
+                routine.routine_m->results.push_back (type);
             }
             else                
             {
@@ -155,7 +141,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             if (type != nullptr)
             {
                 state = mu::llvm_::parser::parameters_state::name;
-                types.push_back (type);
+                routine.routine_m->types.push_back (type);
             }
             else
             {

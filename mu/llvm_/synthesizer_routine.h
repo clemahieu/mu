@@ -9,23 +9,23 @@ namespace mu
             class error_target;
         }
     }
-    namespace script
-    {
+    namespace llvm_
+    {        
         namespace ast
         {
-            class cluster;
+            class routine;
         }
-        namespace cluster
+        namespace function
         {
             class node;
         }
         namespace synthesizer
         {
-            class cluster
+            class routine
             {
             public:
-                cluster (mu::core::errors::error_target & errors_a, mu::script::ast::cluster * cluster_a);
-                mu::script::cluster::node * cluster_m;
+                routine (mu::core::errors::error_target & errors_a, mu::llvm_::ast::routine * routine_a);
+                mu::llvm_::function::node * routine_m;
             };
         }
     }

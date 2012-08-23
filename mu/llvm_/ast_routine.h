@@ -6,7 +6,7 @@ namespace mu
 {
     namespace llvm_
     {
-        namespace function
+        namespace type
         {
             class node;
         }
@@ -17,7 +17,8 @@ namespace mu
             {
             public:
                 routine ();
-                mu::llvm_::function::node * function;
+                mu::vector <mu::llvm_::type::node *> results;
+                mu::vector <mu::llvm_::type::node *> types;
                 mu::llvm_::ast::expression * body;
             };
         }

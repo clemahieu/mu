@@ -9,7 +9,7 @@ namespace mu
             class error_target;
         }
     }
-    namespace script
+    namespace llvm_
     {
         namespace ast
         {
@@ -24,8 +24,8 @@ namespace mu
             class cluster
             {
             public:
-                cluster (mu::core::errors::error_target & errors_a, mu::script::ast::cluster * cluster_a);
-                mu::script::cluster::node * cluster_m;
+                cluster (mu::core::errors::error_target & errors_a, mu::llvm_::ast::cluster * cluster_a);
+                mu::llvm_::cluster::node * cluster_m;
             };
         }
     }

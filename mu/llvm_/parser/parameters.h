@@ -27,9 +27,7 @@ namespace mu
                 mu::llvm_::parser::routine & routine;
                 mu::io::debugging::context context;
                 mu::llvm_::parser::parameters_state state;
-                std::vector <mu::string> names;
-                mu::vector <mu::llvm_::type::node *> results;
-                mu::vector <mu::llvm_::type::node *> types;
+                size_t position;
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

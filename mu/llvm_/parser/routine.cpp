@@ -44,12 +44,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
     switch (state)
     {
         case mu::llvm_::parser::routine_state::parameters:
-        {
-            state = mu::llvm_::parser::routine_state::body;            
-            auto function_type_l (new (GC) mu::llvm_::function_type::node (cluster.parser.ctx.context, mu::vector <mu::llvm_::type::node *> (), new (GC) mu::llvm_::void_type::node (cluster.parser.ctx.context)));
-            auto function_l (llvm::Function::Create (function_type_l->function_type (), llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-            routine_m->function = new (GC) mu::llvm_::function::node (function_l, function_type_l);
-        }
+            state = mu::llvm_::parser::routine_state::body;
             break;
         case mu::llvm_::parser::routine_state::name:
         case mu::llvm_::parser::routine_state::body:
