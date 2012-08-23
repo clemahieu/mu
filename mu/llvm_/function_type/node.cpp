@@ -1,10 +1,14 @@
-#include "node.h"
+#include <mu/llvm_/function_type/node.h>
 
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/type/build.h>
+#include <mu/llvm_/set_type/node.h>
+#include <mu/llvm_/void_type/node.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/ADT/ArrayRef.h>
+
+#include <gc_cpp.h>
 
 mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, llvm::FunctionType * function_type_a)
 {
@@ -18,11 +22,29 @@ mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, llvm
 	}
 }
 
-mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node*>> parameters_a, mu::llvm_::type::node * output_a)
-	: context (context_a),
-	parameters (parameters_a),
-	output (output_a)
+mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, std::vector <mu::llvm_::type::node *, gc_allocator <mu::llvm_::type::node*>> parameters_a, mu::llvm_::type::node * output_a):
+context (context_a),
+parameters (parameters_a),
+output (output_a)
 {
+}
+
+mu::llvm_::function_type::node::node (mu::llvm_::context::node * context_a, mu::vector <mu::llvm_::type::node *> parameters_a, mu::vector <mu::llvm_::type::node *> outputs_a):
+context (context_a),
+parameters (parameters_a)
+{
+    if (outputs_a.size () == 0)
+    {
+        output = new (GC) mu::llvm_::void_type::node (context_a);
+    }
+    else if (outputs_a.size () == 1)
+    {
+        output = outputs_a [0];
+    }
+    else
+    {
+        output = new (GC) mu::llvm_::set_type::node (context_a, outputs_a);
+    }
 }
 
 llvm::Type * mu::llvm_::function_type::node::type ()

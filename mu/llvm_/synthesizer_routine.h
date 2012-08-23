@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/types.h>
+
 namespace mu
 {
     namespace core
@@ -13,19 +15,35 @@ namespace mu
     {        
         namespace ast
         {
+            class expression;
             class routine;
+        }
+        namespace context
+        {
+            class node;
         }
         namespace function
         {
             class node;
         }
+        namespace module
+        {
+            class node;
+        }
+        namespace value
+        {
+            class node;
+        }
         namespace synthesizer
         {
+            class cluster;
             class routine
             {
             public:
-                routine (mu::core::errors::error_target & errors_a, mu::llvm_::ast::routine * routine_a);
+                routine (mu::llvm_::synthesizer::cluster & cluster_a, mu::llvm_::context::node * context_a, mu::llvm_::module::node * module_a, mu::core::errors::error_target & errors_a, mu::llvm_::ast::routine * routine_a);
                 mu::llvm_::function::node * routine_m;
+                mu::map <mu::llvm_::ast::expression *, mu::llvm_::value::node *> already_parsed;
+                mu::set <mu::llvm_::ast::expression *> current_cycle;
             };
         }
     }

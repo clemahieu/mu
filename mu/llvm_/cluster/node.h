@@ -20,14 +20,19 @@ namespace mu
 		{
 			class node;
 		}
+        namespace module
+        {
+            class node;
+        }
 		namespace cluster
 		{
 			class node : public mu::core::node
 			{
 			public:
+                node (mu::llvm_::module::node * module_a);
 				mu::string name () override;
-				std::map <mu::string, mu::llvm_::function::node *> names;
-				std::vector <mu::llvm_::function::node *> routines;
+                mu::llvm_::module::node * module;
+				mu::vector <mu::llvm_::function::node *> routines;
 			};
 		}
 	}
