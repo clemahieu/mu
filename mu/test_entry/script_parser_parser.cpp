@@ -423,3 +423,42 @@ TEST (script_test, parser25)
     parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
     EXPECT_TRUE (errors ());
 }
+
+// Mutually referential functions
+TEST (script_test, parser26)
+{
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    EXPECT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 2);
+    auto routine1 (cluster1->routines [0]);
+    auto routine2 (cluster1->routines [1]);
+    ASSERT_TRUE (routine1->body->nodes.nodes.size () == 1);
+    auto i (routine1->body->nodes.begin ());
+    ASSERT_TRUE (i != routine1->body->nodes.end ());
+    auto d1 (*i);
+    ASSERT_TRUE (d1 == routine2);
+    ASSERT_TRUE (routine2->body->nodes.nodes.size () == 1);
+    auto j (routine2->body->nodes.begin ());
+    ASSERT_TRUE (j != routine2->body->nodes.end ());
+    auto d2 (*j);
+    ASSERT_TRUE (d2 = routine1);
+}
