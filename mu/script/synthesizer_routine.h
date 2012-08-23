@@ -25,12 +25,14 @@ namespace mu
         }
         namespace synthesizer
         {
+            class cluster;
             class routine
             {
             public:
-                routine (mu::core::errors::error_target & errors_a, mu::script::ast::routine * routine_a);
+                routine (mu::core::errors::error_target & errors_a, mu::script::synthesizer::cluster & cluster_a, mu::script::ast::routine * routine_a);
                 mu::core::errors::error_target & errors;
                 mu::script::runtime::routine * routine_m;
+                mu::script::synthesizer::cluster & cluster;
                 mu::map <mu::script::ast::expression *, mu::script::runtime::expression *> already_parsed;
                 mu::set <mu::script::ast::expression *> current_cycle;
             };

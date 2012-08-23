@@ -12,6 +12,8 @@
 #include <mu/script/ast_parameter.h>
 #include <mu/script/runtime/parameter.h>
 #include <mu/script/runtime/routine.h>
+#include <mu/script/ast_routine.h>
+#include <mu/script/synthesizer_cluster.h>
 
 #include <gc_cpp.h>
 
@@ -27,6 +29,7 @@ expression_m (new (GC) mu::script::runtime::expression)
         auto expression_l (dynamic_cast <mu::script::ast::expression *> (current));
         auto reference (dynamic_cast <mu::script::ast::reference *> (current));
         auto parameter_l (dynamic_cast <mu::script::ast::parameter *> (current));
+        auto routine_l (dynamic_cast <mu::script::ast::routine *> (current));
         if (expression_l != nullptr)
         {
             auto expression_c (recurse (routine_a, expression_l));
@@ -40,6 +43,19 @@ expression_m (new (GC) mu::script::runtime::expression)
         else if (parameter_l != nullptr)
         {
             expression_m->dependencies.push_back (new (GC) mu::script::runtime::parameter (parameter_l->position));
+        }
+        else if (routine_l != nullptr)
+        {
+            auto existing (routine_a.cluster.routines.find (routine_l));
+            if (existing == routine_a.cluster.routines.end ())
+            {
+                mu::script::synthesizer::routine routine_c (routine_a.errors, routine_a.cluster, routine_l);
+                expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (routine_c.routine_m));
+            }
+            else
+            {
+                expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (existing->second));
+            }
         }
         else
         {

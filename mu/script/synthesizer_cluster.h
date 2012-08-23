@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/types.h>
+
 namespace mu
 {
     namespace core
@@ -14,10 +16,15 @@ namespace mu
         namespace ast
         {
             class cluster;
+            class routine;
         }
         namespace cluster
         {
             class node;
+        }
+        namespace runtime
+        {
+            class routine;
         }
         namespace synthesizer
         {
@@ -25,6 +32,7 @@ namespace mu
             {
             public:
                 cluster (mu::core::errors::error_target & errors_a, mu::script::ast::cluster * cluster_a);
+                mu::map <mu::script::ast::routine *, mu::script::runtime::routine *> routines;
                 mu::script::cluster::node * cluster_m;
             };
         }

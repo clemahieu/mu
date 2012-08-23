@@ -11,7 +11,16 @@ cluster_m (new (GC) mu::script::cluster::node)
 {
     for (auto i (cluster_a->routines.begin ()), j (cluster_a->routines.end ()); i != j; ++i)
     {
-        mu::script::synthesizer::routine routine (errors_a, *i);
-        cluster_m->routines.push_back (routine.routine_m);
+        auto existing (routines.find (*i));
+        if (existing == routines.end ())
+        {
+            mu::script::synthesizer::routine routine (errors_a, *this, *i);
+            cluster_m->routines.push_back (routine.routine_m);
+        }
+        else
+        {
+            // Routine was referenced from another function and already synthesized
+            cluster_m->routines.push_back (existing->second);
+        }
     }
 }
