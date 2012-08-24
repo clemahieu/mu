@@ -4,6 +4,7 @@ namespace mu
 {
     namespace core
     {
+        class node;
         namespace errors
         {
             class error_target;
@@ -27,7 +28,6 @@ namespace mu
             {
             public:
                 expression (mu::llvm_::ctx & ctx_a, mu::core::errors::error_target & errors_a, mu::llvm_::synthesizer::routine & routine_a, mu::llvm_::ast::expression * expression_a);
-                mu::llvm_::value::node * expression_m;
             };
         }
     }

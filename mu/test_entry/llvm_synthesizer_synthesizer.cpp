@@ -7,8 +7,13 @@
 #include <mu/llvm_/ast_reference.h>
 #include <mu/llvm_/ast_parameter.h>
 #include <mu/llvm_/cluster/node.h>
+#include <mu/llvm_/identity/operation.h>
+#include <mu/llvm_/function/node.h>
 
 #include <llvm/LLVMContext.h>
+#include <llvm/Function.h>
+#include <llvm/DerivedTypes.h>
+#include <llvm/Instructions.h>
 
 #include <gtest/gtest.h>
 
@@ -65,9 +70,22 @@ TEST (llvm_test, synthesizer3)
                                                          clusters.push_back (cluster_a);
                                                      });
     auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
     synthesizer (cluster1);
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
-    ASSERT_TRUE (cluster2->routines.size () == 0);
+    ASSERT_TRUE (cluster2->routines.size () == 1);
+    auto routine2 (cluster2->routines [0]);
+    auto function (routine2->function ());
+    auto type (function->getFunctionType ());
+    EXPECT_TRUE (type->getReturnType ()->isVoidTy ());
+    EXPECT_TRUE (type->getNumParams () == 0);
+    ASSERT_TRUE (function->getBasicBlockList ().size () == 1);
+    auto block (function->getBasicBlockList ().begin ());
+    ASSERT_TRUE (block->getInstList ().size () == 1);
+    auto instruction (block->getInstList ().begin ());
+    ASSERT_TRUE (llvm::dyn_cast <llvm::ReturnInst> (instruction) != nullptr);
 }
