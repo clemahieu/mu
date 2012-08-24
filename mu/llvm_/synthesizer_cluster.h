@@ -11,7 +11,7 @@ namespace mu
             class error_target;
         }
     }
-    namespace script
+    namespace llvm_
     {
         namespace ast
         {
@@ -22,18 +22,22 @@ namespace mu
         {
             class node;
         }
-        namespace runtime
+        namespace context
         {
-            class routine;
+            class node;
+        }
+        namespace function
+        {
+            class node;
         }
         namespace synthesizer
         {
             class cluster
             {
             public:
-                cluster (mu::core::errors::error_target & errors_a, mu::script::ast::cluster * cluster_a);
-                mu::map <mu::script::ast::routine *, mu::script::runtime::routine *> routines;
-                mu::script::cluster::node * cluster_m;
+                cluster (mu::llvm_::context::node * context_a, mu::core::errors::error_target & errors_a, mu::llvm_::ast::cluster * cluster_a);
+                mu::map <mu::llvm_::ast::routine *, mu::llvm_::function::node *> routines;
+                mu::llvm_::cluster::node * cluster_m;
             };
         }
     }

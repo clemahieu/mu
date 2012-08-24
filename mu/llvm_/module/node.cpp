@@ -1,4 +1,4 @@
-#include "node.h"
+#include <mu/llvm_/module/node.h>
 
 #include <llvm/Module.h>
 

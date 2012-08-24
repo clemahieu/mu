@@ -40,7 +40,7 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 		auto module (static_cast <mu::llvm_::module::node *> (context_l->values [1]));
 		auto block (static_cast <mu::llvm_::basic_block::node *> (context_l->values [2]));
 		context_a.reserve (4);
-		auto result (new (GC) mu::llvm_::cluster::node);
+		auto result (new (GC) mu::llvm_::cluster::node (module));
 		context_a.locals (0) = result;
 		auto type_cluster (new (GC) mu::core::cluster);
 		context_a.locals (1) = type_cluster;
@@ -116,7 +116,6 @@ bool mu::llvm_::synthesizer::operation::operator () (mu::script::context & conte
 						{
 							auto existing (routines.find (i->second));
 							assert (existing != routines.end ());
-							result->names [i->first] = existing->second;
 						}
 					}
 					valid = context_a ();

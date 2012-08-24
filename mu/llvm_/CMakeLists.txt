@@ -9,6 +9,16 @@ link_directories (
 
 add_library (mu_llvm_ SHARED
 	api.cpp
+    ast_cluster.cpp
+    ast_expression.cpp
+    ast_parameter.cpp
+    ast_reference.cpp
+    ast_routine.cpp
+    ctx.cpp
+    synthesizer_cluster.cpp
+    synthesizer_expression.cpp
+    synthesizer_routine.cpp
+    synthesizer_synthesizer.cpp
 	apint/create.cpp
 	apint/extension.cpp
 	apint/node.cpp
@@ -51,6 +61,7 @@ add_library (mu_llvm_ SHARED
 	global_variable/create.cpp
 	global_variable/create_set.cpp
 	global_variable/node.cpp
+    identity/operation.cpp
 	instruction/node.cpp
 	instructions/add.cpp
 	instructions/and_c.cpp
@@ -93,6 +104,15 @@ add_library (mu_llvm_ SHARED
 	module/print.cpp
 	module/verify.cpp
 	null/create.cpp
+    parser/body.cpp
+    parser/cluster.cpp
+    parser/error.cpp
+    parser/expression.cpp
+    parser/error.cpp
+    parser/parameters.cpp
+    parser/parser.cpp
+    parser/routine.cpp
+    parser/state.cpp
 	pointer_type/create.cpp
 	pointer_type/node.cpp
 	predicate/node.cpp

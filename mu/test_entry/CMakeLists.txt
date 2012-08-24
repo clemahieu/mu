@@ -11,6 +11,10 @@ link_directories (
     
 add_executable (mu_test_entry
 	main.cpp
+    llvm_parser_parser.cpp
+    llvm_synthesizer_synthesizer.cpp
+    script_parser_parser.cpp
+    script_synthesizer_synthesizer.cpp
 	core/apply.cpp
 	core/directory_iterator_test.cpp
 	core/filesystem_test.cpp
@@ -65,10 +69,8 @@ add_executable (mu_test_entry
 	script/package/create.cpp
 	script/package/get_recursive.cpp
 	script/package/get.cpp
-    script/parser/parser.cpp
     script/parser/topology.cpp
 	script/string/extension.cpp
-	script/synthesizer/operation.cpp
 	script/times/operation.cpp
 	script/topology/core.cpp
 	script/type_check/operation.cpp

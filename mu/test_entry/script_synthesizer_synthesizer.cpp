@@ -165,3 +165,43 @@ TEST (script_test, synthesizer_operation5)
     synthesizer (cluster1);
     ASSERT_TRUE (errors ());
 }
+
+// Mutually referential routines
+TEST (script_test, synthesizer_operation6)
+{
+    mu::core::errors::error_list errors;
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer (errors,
+                                                      [clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster1 (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+    auto routine2 (new (GC) mu::script::ast::routine);
+    cluster1->routines.push_back (routine1);
+    cluster1->routines.push_back (routine2);
+    routine1->body->nodes.nodes.push_back (routine2);
+    routine2->body->nodes.nodes.push_back (routine1);
+    synthesizer (cluster1);
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster2 (clusters [0]);
+    ASSERT_TRUE (cluster2->routines.size () == 2);
+    auto routine3 (cluster2->routines [0]);
+    auto routine4 (cluster2->routines [1]);
+    ASSERT_TRUE (routine3->expressions.size () == 1);
+    auto expression1 (routine3->expressions [0]);
+    ASSERT_TRUE (expression1->dependencies.size () == 1);
+    auto d1 (dynamic_cast <mu::script::runtime::fixed *> (expression1->dependencies [0]));
+    ASSERT_TRUE (d1 != nullptr);
+    EXPECT_TRUE (d1->node == routine4);
+    ASSERT_TRUE (routine4->expressions.size () == 1);
+    auto expression2 (routine4->expressions [0]);
+    ASSERT_TRUE (expression2->dependencies.size () == 1);
+    auto d2 (dynamic_cast <mu::script::runtime::fixed *> (expression2->dependencies [0]));
+    ASSERT_TRUE (d2 != nullptr);
+    EXPECT_TRUE (d2->node == routine3);
+}
