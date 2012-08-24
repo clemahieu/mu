@@ -181,3 +181,130 @@ TEST (llvm_test, synthesizer5)
     ASSERT_TRUE (ret->getType()->isIntegerTy (1));
     ASSERT_TRUE (ret == const1->value ());
 }
+
+// Error, mismatched actual return with empty declared
+TEST (llvm_test, synthesizer6)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
+    auto const1 (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::getTrue (ctx), return_type));
+    routine1->body->nodes.nodes.push_back (const1);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
+}
+
+// Error, mismatched actual return with single declared
+TEST (llvm_test, synthesizer7)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
+    routine1->results.push_back (return_type);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
+}
+
+// Error, mismatched actual return with multiple declared
+TEST (llvm_test, synthesizer8)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
+    auto const1 (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::getTrue (ctx), return_type));
+    routine1->results.push_back (return_type);
+    routine1->results.push_back (return_type);
+    routine1->body->nodes.nodes.push_back (const1);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
+}
+
+// Error, mismatched return types in single return
+TEST (llvm_test, synthesizer9)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt8Ty (ctx)));
+    auto const1 (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::getTrue (ctx), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx))));
+    routine1->results.push_back (return_type);
+    routine1->body->nodes.nodes.push_back (const1);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
+}
+
+// Error, mismatched one return type in multiple return
+TEST (llvm_test, synthesizer10)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type1 (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
+    auto return_type2 (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt8Ty (ctx)));
+    auto const1 (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::getTrue (ctx), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx))));
+    auto const2 (new (GC) mu::llvm_::constant_int::node (llvm::ConstantInt::getTrue (ctx), new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx))));
+    routine1->results.push_back (return_type1);
+    routine1->results.push_back (return_type2);
+    routine1->body->nodes.nodes.push_back (const1);
+    routine1->body->nodes.nodes.push_back (const2);
+    synthesizer (cluster1);
+    ASSERT_TRUE (errors ());
+}

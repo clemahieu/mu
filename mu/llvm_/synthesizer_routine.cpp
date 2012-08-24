@@ -15,6 +15,7 @@
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
 #include <llvm/Constants.h>
+#include <llvm/Function.h>
 
 #include <gc_cpp.h>
 
@@ -38,34 +39,53 @@ mu::llvm_::synthesizer::routine::routine (mu::llvm_::synthesizer::cluster & clus
     }
     if (returning_values)
     {
-        if (ctx.working.size () == 0)
+        if (ctx.working.size () == routine_a->results.size ())
         {
-            ctx.block->block->getInstList ().push_back (llvm::ReturnInst::Create (*context_a->context));
-        }
-        else if (ctx.working.size () == 1)
-        {
-            auto value (static_cast <mu::llvm_::value::node *> (ctx.working [0]));
-            ctx.block->block->getInstList ().push_back (llvm::ReturnInst::Create (*ctx.context->context, value->value ()));
+            llvm::Type * return_type (nullptr);
+            if (ctx.working.size () == 0)
+            {
+                auto return_inst (llvm::ReturnInst::Create (*context_a->context));
+                return_type = llvm::Type::getVoidTy (*context_a->context);
+                ctx.block->block->getInstList ().push_back (return_inst);
+            }
+            else if (ctx.working.size () == 1)
+            {
+                auto value (static_cast <mu::llvm_::value::node *> (ctx.working [0]));
+                auto return_inst (llvm::ReturnInst::Create (*ctx.context->context, value->value ()));
+                return_type = return_inst->getReturnValue ()->getType ();
+                ctx.block->block->getInstList ().push_back (return_inst);
+            }
+            else
+            {
+                std::vector <llvm::Type *> types;
+                for (auto i (ctx.working.begin ()), j (ctx.working.end ()); i != j; ++i)
+                {
+                    auto value (static_cast <mu::llvm_::value::node *> (*i));
+                    types.push_back (value->type->type ());
+                }
+                auto ret_type (llvm::StructType::get (*context_a->context, types));
+                llvm::Value * result (llvm::UndefValue::get (ret_type));
+                size_t position (0);
+                for (auto i (ctx.working.begin ()), j (ctx.working.end ()); i != j; ++i, ++position)
+                {
+                    auto value (static_cast <mu::llvm_::value::node *> (*i));
+                    auto instruction (llvm::InsertValueInst::Create (result, value->value (), position));
+                    result = instruction;
+                    block->block->getInstList ().push_back (instruction);
+                }
+                auto return_inst (llvm::ReturnInst::Create (*context_a->context, result));
+                return_type = return_inst->getReturnValue ()->getType ();
+                block->block->getInstList ().push_back (return_inst);
+            }
+            auto declared_return_type (function->function ()->getReturnType ());
+            if (return_type != declared_return_type)
+            {
+                errors_a (U"Actual return type doesn't match declared");
+            }
         }
         else
         {
-            std::vector <llvm::Type *> types;
-            for (auto i (ctx.working.begin ()), j (ctx.working.end ()); i != j; ++i)
-            {
-                auto value (static_cast <mu::llvm_::value::node *> (*i));
-                types.push_back (value->type->type ());
-            }
-            auto ret_type (llvm::StructType::get (*context_a->context, types));
-            llvm::Value * result (llvm::UndefValue::get (ret_type));
-            size_t position (0);
-            for (auto i (ctx.working.begin ()), j (ctx.working.end ()); i != j; ++i, ++position)
-            {
-                auto value (static_cast <mu::llvm_::value::node *> (*i));
-                auto instruction (llvm::InsertValueInst::Create (result, value->value (), position));
-                result = instruction;
-                block->block->getInstList ().push_back (instruction);
-            }
-            block->block->getInstList ().push_back (llvm::ReturnInst::Create (*context_a->context, result));
+            errors_a (U"Actual number of returns doesn't match declared");
         }
     }
     else
