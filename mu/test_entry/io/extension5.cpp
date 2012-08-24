@@ -1,6 +1,5 @@
 #include <mu/test_entry/io/extension5.h>
 
-#include <mu/io/analyzer/expression.h>
 #include <mu/core/expression.h>
 
 mu::io_test::extension5::extension5 (mu::io::keywording::keywording & keywording_a)

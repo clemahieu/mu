@@ -1,14 +1,14 @@
 #include <mu/core/expression.h>
 #include <mu/core/routine.h>
-#include <mu/io/builder.h>
 #include <mu/io/ast/expression.h>
 
 #include <boost/bind.hpp>
 
 #include <gtest/gtest.h>
 
-TEST (llvm_test, extension1)
+TEST (llvm_test, DISABLED_extension1)
 {
+    assert (false);
 	//mu::script_io::builder builder;
 	//mu::io::source source (boost::bind (&mu::io::lexer::lexer::operator(), &builder.lexer, _1));
 	//source (L"[.llvm [[# d32 add and ashr cmpxchg load lshr mul or sdiv shl srem store sub trunc udiv urem xor]]]");

@@ -1,7 +1,6 @@
 #include <mu/llvm_/apint/extension.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/io/analyzer/expression.h>
 #include <mu/script/integer/extension.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>

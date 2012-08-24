@@ -6,7 +6,6 @@
 #include <mu/io/source.h>
 #include <mu/script/load/operation.h>
 #include <mu/script/extensions/node.h>
-#include <mu/script/analyzer/operation.h>
 #include <mu/core/check.h>
 #include <mu/core/cluster.h>
 #include <mu/core/routine.h>
@@ -19,6 +18,7 @@
 
 bool mu::script::run::operation::operator () (mu::script::context & context_a)
 {
+    assert (false);/*
 	bool result (true);
 	if (context_a.parameters_size () > 0)
 	{
@@ -66,7 +66,7 @@ bool mu::script::run::operation::operator () (mu::script::context & context_a)
 		context_a.errors (message.str ());
 		result = false;
 	}
-	return result;
+	return result;*/
 }
 
 mu::string mu::script::run::operation::name ()

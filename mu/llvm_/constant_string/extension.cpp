@@ -1,7 +1,6 @@
 #include <mu/llvm_/constant_string/extension.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/io/analyzer/expression.h>
 #include <mu/script/string/node.h>
 #include <mu/script/closure/single.h>
 #include <mu/llvm_/constant_string/create.h>

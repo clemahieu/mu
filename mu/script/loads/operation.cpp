@@ -5,7 +5,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
 #include <mu/core/cluster.h>
-#include <mu/script/analyzer/operation.h>
 #include <mu/core/check.h>
 #include <mu/core/routine.h>
 #include <mu/io/keywording/extensions.h>
@@ -32,6 +31,8 @@ bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 
 mu::script::extensions::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::script::string::node * file)
 {
+    assert (false);
+    /*
 	auto result (new (GC) mu::script::extensions::node);
 	mu::script::load::operation load;
 	auto ast (load.core (context_a, file));
@@ -47,5 +48,5 @@ mu::script::extensions::node * mu::script::loads::operation::core (mu::script::c
 			}
 		}
 	}
-	return result;
+	return result;*/
 }

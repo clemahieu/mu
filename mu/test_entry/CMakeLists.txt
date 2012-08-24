@@ -23,10 +23,7 @@ add_executable (mu_test_entry
 	core/segment.cpp
 	core/test_visitor.cpp
 	core/visitor.cpp
-	io/analyzer_result.cpp
-	io/analyzer.cpp
 	io/begin.cpp
-	io/builder.cpp
 	io/complex_identifier.cpp
 	io/control.cpp
 	io/extension.cpp
@@ -44,7 +41,6 @@ add_executable (mu_test_entry
     io/name_map.cpp
 	io/parser_result.cpp
 	io/parser.cpp
-	io/routine.cpp
 	io/single.cpp
 	io/source_result.cpp
 	io/source.cpp
@@ -53,7 +49,6 @@ add_executable (mu_test_entry
 	script/builder.cpp
 	script/context.cpp
 	script/frame.cpp
-	script/analyzer/operation.cpp
 	script/ast/extension.cpp
 	script/chain/operation.cpp
 	script/chain/ten_count.cpp

@@ -7,8 +7,6 @@
 #include <mu/script/integer/extension.h>
 #include <mu/io/keywording/global.h>
 #include <mu/script/identity/operation.h>
-#include <mu/script/ast/read_from_file.h>
-#include <mu/script/ast/merge.h>
 #include <mu/script/astring/truncate.h>
 #include <mu/script/bool_c/create.h>
 #include <mu/script/bool_c/equal.h>
@@ -26,7 +24,6 @@
 #include <mu/script/string/extension.h>
 #include <mu/script/astring/extension.h>
 #include <mu/script/integer/extension.h>
-#include <mu/script/ast/extension.h>
 #include <mu/script/closure/create_single.h>
 
 #include <gc_cpp.h>
@@ -39,7 +36,6 @@ mu::script::extensions::node * mu::script::api::core ()
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
 	extensions.add <mu::script::astring::extension>(mu::string (U"`a"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
-	extensions.add <mu::script::ast::extension> (mu::string (U".ast"));
 	extensions (mu::string (U".apply"), new (GC) mu::script::closure::create_single);
 	return result;
 }
@@ -49,8 +45,6 @@ mu::script::extensions::node * mu::script::api::full ()
 	auto result (new (GC) mu::script::extensions::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
 	extensions (mu::string (U"identity"), new (GC) mu::script::identity::operation);
-	extensions (mu::string (U"ast/read_from_file"), new (GC) mu::script::ast::read_from_file);
-	extensions (mu::string (U"ast/merge"), new (GC) mu::script::ast::merge);
 	extensions (mu::string (U"astring/truncate"), new (GC) mu::script::astring::truncate);
 	extensions (mu::string (U"bool_c/create"), new (GC) mu::script::bool_c::create);
 	extensions (mu::string (U"bool_c/equal"), new (GC) mu::script::bool_c::equal);

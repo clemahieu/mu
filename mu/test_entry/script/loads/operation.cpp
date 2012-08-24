@@ -9,7 +9,7 @@
 
 #include <gc_cpp.h>
 
-TEST (script_test, loads1)
+TEST (script_test, DISABLED_loads1)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);

@@ -1,8 +1,5 @@
 #include <mu/script/integer/extension.h>
 
-#include <mu/io/analyzer/expression.h>
-#include <mu/io/analyzer/routine.h>
-#include <mu/io/analyzer/analyzer.h>
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/identifier.h>
@@ -15,8 +12,8 @@
 
 #include <gc_cpp.h>
 
-mu::script::integer::extension::extension (mu::io::keywording::keywording & keywording_a)
-: keywording (keywording_a)
+mu::script::integer::extension::extension (mu::io::keywording::keywording & keywording_a):
+keywording (keywording_a)
 {
 }
 

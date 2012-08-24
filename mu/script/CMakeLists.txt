@@ -23,10 +23,6 @@ add_library (mu_script SHARED
     synthesizer_expression.cpp
     synthesizer_routine.cpp
     synthesizer_synthesizer.cpp
-	analyzer/operation.cpp
-	ast/extension.cpp
-	ast/merge.cpp
-	ast/read_from_file.cpp
 	astring/extension.cpp
 	astring/node.cpp
 	astring/truncate.cpp

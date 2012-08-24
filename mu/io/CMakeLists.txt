@@ -2,14 +2,9 @@ cmake_minimum_required (VERSION 2.8)
 project (io)
 
 add_library (mu_io SHARED
-	builder.cpp
 	source.cpp
-	analyzer/analyzer.cpp
-	analyzer/expression.cpp
     analyzer/name_map.cpp
 	analyzer/resolver.cpp
-	analyzer/routine.cpp
-	ast/builder.cpp
 	ast/cluster.cpp
 	ast/expression.cpp
 	ast/identifier.cpp

@@ -3,7 +3,6 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
 #include <mu/io/lexer/istream_input.h>
-#include <mu/io/ast/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
 #include <mu/io/ast/cluster.h>
@@ -40,6 +39,7 @@ bool mu::script::load::operation::operator () (mu::script::context & context_a)
 
 mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & context_a, mu::script::string::node * file)
 {
+    assert (false);/*
 	mu::io::ast::cluster * result (nullptr);
 	auto path (boost::filesystem::initial_path ());
 	path /= std::string (file->string.begin (), file->string.end ());
@@ -70,5 +70,5 @@ mu::io::ast::cluster * mu::script::load::operation::core (mu::script::context & 
 		message << path;
 		context_a.errors (message.str ());
 	}
-	return result;
+	return result;*/
 }

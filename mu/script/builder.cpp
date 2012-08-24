@@ -2,7 +2,6 @@
 
 #include <boost/bind.hpp>
 
-#include <mu/script/ast/extension.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/io/ast/node.h>
 #include <mu/io/ast/expression.h>
