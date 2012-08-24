@@ -7,6 +7,11 @@
 #include <mu/llvm_/value/node.h>
 #include <mu/llvm_/operation.h>
 #include <mu/core/node_list.h>
+#include <mu/llvm_/ast_parameter.h>
+#include <mu/llvm_/function/node.h>
+#include <mu/llvm_/argument/node.h>
+
+#include <llvm/Function.h>
 
 #include <gc_cpp.h>
 
@@ -22,7 +27,15 @@ mu::llvm_::synthesizer::expression::expression (mu::llvm_::ctx & ctx_a, mu::core
             ++i;
             for (; i != j; ++i)
             {
-                ctx_a.working.push_back (*i);
+                auto argument_l (dynamic_cast <mu::llvm_::ast::parameter *> (*i));
+                if (argument_l == nullptr)
+                {
+                    ctx_a.working.push_back (*i);
+                }
+                else
+                {
+                    ctx_a.working.push_back (routine_a.arguments [argument_l->position]);
+                }
             }
         }
         else

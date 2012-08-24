@@ -11,6 +11,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/cluster/node.h>
 #include <mu/llvm_/module/node.h>
+#include <mu/llvm_/argument/node.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>
@@ -24,6 +25,11 @@ mu::llvm_::synthesizer::routine::routine (mu::llvm_::synthesizer::cluster & clus
     assert (cluster_a.routines.find (routine_a) == cluster_a.routines.end ());
     auto type (new (GC) mu::llvm_::function_type::node (context_a, routine_a->types, routine_a->results));
     auto function (new (GC) mu::llvm_::function::node (llvm::Function::Create(type->function_type (), llvm::GlobalVariable::ExternalLinkage), type));
+    size_t arg_type_position (0);
+    for (auto i (function->function ()->arg_begin ()), j (function->function()->arg_end()); i != j; ++i, ++arg_type_position)
+    {
+        arguments.push_back (new (GC) mu::llvm_::argument::node (i, routine_a->types [arg_type_position]));
+    }
     routine_m = function;
     cluster_a.routines [routine_a] = function;
     cluster_a.cluster_m->module->module->getFunctionList ().push_back (function->function ());

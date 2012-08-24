@@ -308,3 +308,48 @@ TEST (llvm_test, synthesizer10)
     synthesizer (cluster1);
     ASSERT_TRUE (errors ());
 }
+
+// Return parameter
+TEST (llvm_test, synthesizer11)
+{
+    mu::core::errors::error_list errors;
+    llvm::LLVMContext ctx;
+    mu::llvm_::context::node context (&ctx);
+    mu::vector <mu::llvm_::cluster::node *> clusters;
+    mu::llvm_::synthesizer::synthesizer synthesizer (&context, errors,
+                                                     [&clusters]
+                                                     (mu::llvm_::cluster::node * cluster_a)
+                                                     {
+                                                         clusters.push_back (cluster_a);
+                                                     });
+    auto cluster1 (new (GC) mu::llvm_::ast::cluster);
+    auto routine1 (new (GC) mu::llvm_::ast::routine);
+    cluster1->routines.push_back (routine1);
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
+    auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
+    routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::ast::parameter (0));
+    routine1->types.push_back (return_type);
+    routine1->results.push_back (return_type);
+    synthesizer (cluster1);
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster2 (clusters [0]);
+    ASSERT_TRUE (cluster2->routines.size () == 1);
+    auto routine2 (cluster2->routines [0]);
+    auto function (routine2->function ());
+    auto type (function->getFunctionType ());
+    EXPECT_TRUE (type->getReturnType ()->isIntegerTy (1));
+    ASSERT_TRUE (type->getNumParams () == 1);
+    ASSERT_TRUE (function->getBasicBlockList ().size () == 1);
+    auto block (function->getBasicBlockList ().begin ());
+    ASSERT_TRUE (block->getInstList ().size () == 1);
+    auto instruction (block->getInstList ().begin ());
+    ASSERT_TRUE (llvm::isa <llvm::ReturnInst> (instruction));
+    auto ret (llvm::cast <llvm::ReturnInst> (instruction)->getReturnValue ());
+    ASSERT_TRUE (ret != nullptr);
+    ASSERT_TRUE (ret->getType()->isIntegerTy (1));
+    auto value (llvm::cast <llvm::ReturnInst> (instruction)->getReturnValue ());
+    ASSERT_TRUE (llvm::isa <llvm::Argument> (value));
+    auto argument (llvm::cast <llvm::Argument> (value));
+    ASSERT_TRUE (argument->getArgNo () == 0);
+}
