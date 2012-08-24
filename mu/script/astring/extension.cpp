@@ -3,7 +3,6 @@
 #include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/identifier.h>
-#include <mu/core/expression.h>
 #include <mu/script/astring/node.h>
 
 #include <sstream>

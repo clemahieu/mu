@@ -2,7 +2,6 @@
 
 #include <mu/script/operation.h>
 #include <mu/llvm_/execution_engine/node.h>
-#include <mu/core/segment.h>
 
 namespace llvm
 {

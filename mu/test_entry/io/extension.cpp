@@ -6,8 +6,6 @@
 #include <mu/test_entry/io/extension3.h>
 #include <mu/test_entry/io/extension4.h>
 #include <mu/test_entry/io/extension5.h>
-#include <mu/core/expression.h>
-#include <mu/core/routine.h>
 #include <mu/io/ast/cluster.h>
 #include <mu/core/errors/error.h>
 #include <mu/io/keywording/extensions.h>

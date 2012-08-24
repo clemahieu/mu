@@ -14,7 +14,6 @@
 #include <mu/llvm_/value/get_type.h>
 #include <mu/llvm_/integer_type/create.h>
 #include <mu/llvm_/execution_engine/generic_value/create_int.h>
-#include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/cluster/get.h>
 #include <mu/llvm_/value/set_name.h>
 #include <mu/llvm_/module/print.h>
@@ -73,7 +72,6 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/function_type/divider.h>
-#include <mu/core/expression.h>
 #include <mu/io/keywording/extensions.h>
 
 #include <gc_cpp.h>
@@ -100,36 +98,6 @@ void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::scrip
 	auto integer_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
 	integer_type->closed.push_back (ctx);
 	extensions (mu::string (U"int-t"), integer_type);
-	auto i1_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
-	i1_type->closed.push_back (ctx);
-	i1_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 1)));
-	auto i1_call (new (GC) mu::core::expression);
-	i1_call->dependencies.push_back (i1_type);
-	extensions (mu::string (U"i1"), i1_call);
-	auto i8_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
-	i8_type->closed.push_back (ctx);
-	i8_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 8)));
-	auto i8_call (new (GC) mu::core::expression);
-	i8_call->dependencies.push_back (i8_type);
-	extensions (mu::string (U"i8"), i8_call);
-	auto i16_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
-	i16_type->closed.push_back (ctx);
-	i16_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 16)));
-	auto i16_call (new (GC) mu::core::expression);
-	i16_call->dependencies.push_back (i16_type);
-	extensions (mu::string (U"i16"), i16_call);
-	auto i32_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
-	i32_type->closed.push_back (ctx);
-	i32_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 32)));
-	auto i32_call (new (GC) mu::core::expression);
-	i32_call->dependencies.push_back (i32_type);
-	extensions (mu::string (U"i32"), i32_call);
-	auto i64_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::integer_type::create));
-	i64_type->closed.push_back (ctx);
-	i64_type->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, 64)));
-	auto i64_call (new (GC) mu::core::expression);
-	i64_call->dependencies.push_back (i64_type);
-	extensions (mu::string (U"i64"), i64_call);
 	auto struct_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::struct_type::create));
 	struct_type->closed.push_back (ctx);
 	extensions (mu::string (U"struct-t"), struct_type);

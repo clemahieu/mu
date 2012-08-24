@@ -1,7 +1,6 @@
 #include <mu/script/string/extension.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/core/expression.h>
 #include <mu/script/string/node.h>
 #include <mu/core/errors/string_error.h>
 #include <mu/io/tokens/identifier.h>

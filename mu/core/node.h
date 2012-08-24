@@ -11,7 +11,6 @@ namespace mu
 		{
 		public:
 			virtual ~node ();
-			virtual void operator () (mu::core::visitor * visitor_a);
 			virtual mu::string name ();
 			virtual mu::string debug ();
 		};

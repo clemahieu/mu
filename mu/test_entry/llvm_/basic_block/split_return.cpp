@@ -1,7 +1,4 @@
 #include <mu/llvm_/basic_block/split_return.h>
-#include <mu/core/cluster.h>
-#include <mu/core/routine.h>
-#include <mu/core/expression.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/identity/operation.h>
@@ -12,7 +9,6 @@
 #include <mu/script/cluster/node.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/script/runtime/routine.h>
-#include <mu/core/parameters.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
@@ -25,7 +21,7 @@
 
 #include <gc_cpp.h>
 
-TEST (llvm_test, split_return1)
+TEST (llvm_test, DISABLED_split_return1)
 {/*
 	mu::core::errors::error_list errors;
 	mu::script::context context (errors);

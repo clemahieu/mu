@@ -37,8 +37,6 @@ add_library (mu_script SHARED
 	closure/operation.cpp
 	closure/single.cpp
 	cluster/node.cpp
-	cluster/remap.cpp
-	cluster/remap_node.cpp
 	debugging/trace_error.cpp
 	debugging/trace_target.cpp
 	debugging/trace_types.cpp
@@ -84,9 +82,6 @@ add_library (mu_script SHARED
 	string/extension.cpp
 	string/node.cpp
 	times/operation.cpp
-	topology/core.cpp
-	topology/node.cpp
-	topology/operation.cpp
 	type_check/operation.cpp
 	unit/operation.cpp
 	values/create.cpp

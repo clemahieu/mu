@@ -6,7 +6,6 @@
 #include <mu/llvm_/constant_string/create.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/context/node.h>
-#include <mu/core/expression.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/value.h>
 #include <mu/io/keywording/keywording.h>

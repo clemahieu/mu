@@ -1,6 +1,5 @@
 #include <mu/io/analyzer/resolver.h>
 
-#include <mu/core/expression.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/core/node_list.h>
 

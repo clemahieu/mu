@@ -2,7 +2,6 @@
 
 #include <mu/script/context.h>
 #include <mu/script/runtime/locals.h>
-#include <mu/script/topology/node.h>
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/reference.h>
 

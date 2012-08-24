@@ -1,15 +1,10 @@
-#include <mu/core/cluster.h>
 #include <mu/script/cluster/node.h>
-#include <mu/core/routine.h>
-#include <mu/core/expression.h>
-#include <mu/core/parameters.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/runtime/expression.h>
 #include <mu/script/runtime/fixed.h>
 #include <mu/script/runtime/reference.h>
 #include <mu/script/fail/operation.h>
-#include <mu/core/reference.h>
 #include <mu/script/synthesizer_synthesizer.h>
 #include <mu/script/ast_cluster.h>
 #include <mu/script/ast_routine.h>

@@ -1,6 +1,5 @@
 #include <mu/llvm_/cluster/node.h>
 
-#include <mu/core/routine.h>
 #include <mu/llvm_/function/node.h>
 
 mu::llvm_::cluster::node::node (mu::llvm_::module::node * module_a):

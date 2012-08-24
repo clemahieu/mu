@@ -1,7 +1,6 @@
 #include <mu/script/if_c/operation.h>
 
 #include <mu/script/bool_c/node.h>
-#include <mu/core/segment.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 

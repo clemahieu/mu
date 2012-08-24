@@ -4,14 +4,13 @@
 #include <mu/script/integer/extension.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/ast/identifier.h>
-#include <mu/core/expression.h>
 #include <mu/llvm_/apint/node.h>
 #include <mu/script/integer/node.h>
 
 #include <gc_cpp.h>
 
-mu::llvm_::apint::extension::extension (mu::io::keywording::keywording & keywording_a)
-    : keywording (keywording_a)
+mu::llvm_::apint::extension::extension (mu::io::keywording::keywording & keywording_a):
+keywording (keywording_a)
 {
 }
 

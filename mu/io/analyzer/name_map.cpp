@@ -1,7 +1,6 @@
 #include <mu/io/analyzer/name_map.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/core/expression.h>
 #include <mu/io/analyzer/resolver.h>
 #include <mu/core/errors/string_error.h>
 #include <mu/core/node_list.h>

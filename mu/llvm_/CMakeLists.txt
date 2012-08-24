@@ -34,7 +34,6 @@ add_library (mu_llvm_ SHARED
 	cluster/get.cpp
 	cluster/index.cpp
 	cluster/node.cpp
-	cluster/remap.cpp
 	compile/operation.cpp
 	constant/create_from_string.cpp
 	constant/node.cpp
@@ -120,7 +119,6 @@ add_library (mu_llvm_ SHARED
 	set_type/node.cpp
 	struct_type/create.cpp
 	struct_type/node.cpp
-	synthesizer/operation.cpp
 	type/build.cpp
 	type/node.cpp
 	value/get_context.cpp

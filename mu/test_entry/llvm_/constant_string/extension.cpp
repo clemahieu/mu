@@ -1,7 +1,6 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
 #include <mu/llvm_/constant_string/extension.h>
-#include <mu/core/expression.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/io/ast/cluster.h>

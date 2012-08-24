@@ -15,14 +15,10 @@ add_executable (mu_test_entry
     llvm_synthesizer_synthesizer.cpp
     script_parser_parser.cpp
     script_synthesizer_synthesizer.cpp
-	core/apply.cpp
 	core/directory_iterator_test.cpp
 	core/filesystem_test.cpp
 	core/list.cpp
     core/node_list_iterator.cpp
-	core/segment.cpp
-	core/test_visitor.cpp
-	core/visitor.cpp
 	io/begin.cpp
 	io/complex_identifier.cpp
 	io/control.cpp
@@ -49,13 +45,11 @@ add_executable (mu_test_entry
 	script/builder.cpp
 	script/context.cpp
 	script/frame.cpp
-	script/ast/extension.cpp
 	script/chain/operation.cpp
 	script/chain/ten_count.cpp
 	script/closure/apply.cpp
 	script/closure/operation.cpp
 	script/closure/single.cpp
-	script/cluster/remap.cpp
 	script/debugging/trace_target.cpp
 	script/debugging/trace_types.cpp
 	script/integer/equal.cpp
@@ -67,9 +61,7 @@ add_executable (mu_test_entry
     script/parser/topology.cpp
 	script/string/extension.cpp
 	script/times/operation.cpp
-	script/topology/core.cpp
 	script/type_check/operation.cpp
-	llvm_/extension.cpp
 	llvm_/instruction_package.cpp
 	llvm_/basic_block/insert.cpp
 	llvm_/basic_block/instruction_insert.cpp
@@ -85,7 +77,6 @@ add_executable (mu_test_entry
 	llvm_/linker/link_modules.cpp
 	llvm_/module/add_package.cpp
 	llvm_/module/get_package.cpp
-	llvm_/synthesizer/operation.cpp
 	llvm_/types/integer.cpp)
     
 target_link_libraries (mu_test_entry

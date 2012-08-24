@@ -2,7 +2,6 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer/extension.h>
-#include <mu/core/expression.h>
 #include <mu/llvm_/value/node.h>
 #include <mu/script/integer/node.h>
 #include <mu/script/closure/single.h>

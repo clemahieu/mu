@@ -20,7 +20,6 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/api.h>
 #include <mu/io/lexer/stream_input.h>
-#include <mu/core/routine.h>
 #include <mu/core/types.h>
 #include <mu/io/keywording/extensions.h>
 #include <mu/script/cluster/node.h>

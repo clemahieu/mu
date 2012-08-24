@@ -1,8 +1,8 @@
 #include <mu/test_entry/io/extension4.h>
 
-#include <mu/core/expression.h>
 #include <mu/io/keywording/keywording.h>
 #include <mu/io/tokens/value.h>
+#include <mu/core/node.h>
 
 #include <assert.h>
 

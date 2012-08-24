@@ -10,7 +10,6 @@
 #include <mu/script/context.h>
 #include <mu/script/api.h>
 #include <mu/script/extensions/node.h>
-#include <mu/core/routine.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/io/keywording/extensions.h>
