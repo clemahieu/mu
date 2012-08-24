@@ -11,7 +11,7 @@
 
 bool mu::llvm_::apint::create::operator () (mu::llvm_::ctx & context_a)
 {
-	bool valid (context_a.check <mu::script::integer::node> (context_a.errors));
+	bool valid (context_a.check <mu::script::integer::node> ());
 	if (valid)
 	{
 		auto one (static_cast <mu::script::integer::node *> (context_a.working [0]));

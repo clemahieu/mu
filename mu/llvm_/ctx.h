@@ -92,17 +92,17 @@ namespace mu
         public:
             ctx (mu::llvm_::context::node * context_a, mu::llvm_::module::node * module_a, mu::llvm_::function::node * function_a, mu::llvm_::basic_block::node * block_a, mu::core::errors::error_target & errors_a);
             template <typename ...T>
-            bool check (mu::core::errors::error_target & errors_a)
+            bool check ()
             {
                 auto count_l (count <T...> ());
                 bool result (working.size () == count_l);
                 if (result)
                 {
-                    result = check_types <T...> () (working, errors_a, 0);
+                    result = check_types <T...> () (working, errors, 0);
                 }
                 else
                 {
-                    mu::core::size_fail (errors_a, count_l, working.size ());
+                    mu::core::size_fail (errors, count_l, working.size ());
                 }
                 return result;
             }

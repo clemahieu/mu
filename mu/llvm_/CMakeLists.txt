@@ -61,6 +61,7 @@ add_library (mu_llvm_ SHARED
 	global_variable/create.cpp
 	global_variable/create_set.cpp
 	global_variable/node.cpp
+    identity/operation.cpp
 	instruction/node.cpp
 	instructions/add.cpp
 	instructions/and_c.cpp

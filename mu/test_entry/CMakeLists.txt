@@ -12,6 +12,7 @@ link_directories (
 add_executable (mu_test_entry
 	main.cpp
     llvm_parser_parser.cpp
+    llvm_synthesizer_synthesizer.cpp
     script_parser_parser.cpp
     script_synthesizer_synthesizer.cpp
 	core/apply.cpp
