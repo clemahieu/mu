@@ -1,11 +1,7 @@
 #include <mu/script/parser/cluster.h>
 
-#include <mu/io/tokens/token.h>
+#include <mu/io/tokens/implementor.h>
 #include <mu/script/parser/parser.h>
-#include <mu/io/tokens/divider.h>
-#include <mu/io/tokens/identifier.h>
-#include <mu/io/tokens/right_square.h>
-#include <mu/io/tokens/value.h>
 #include <mu/script/parser/routine.h>
 #include <mu/script/ast_cluster.h>
 

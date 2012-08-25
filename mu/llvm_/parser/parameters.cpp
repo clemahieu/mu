@@ -1,13 +1,8 @@
 #include <mu/llvm_/parser/parameters.h>
 
-#include <mu/io/tokens/token.h>
+#include <mu/io/tokens/implementor.h>
 #include <mu/llvm_/parser/routine.h>
 #include <mu/llvm_/parser/parser.h>
-#include <mu/io/tokens/divider.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/value.h>
-#include <mu/io/tokens/identifier.h>
 #include <mu/llvm_/parser/cluster.h>
 #include <mu/llvm_/type/node.h>
 #include <mu/core/errors/error_target.h>

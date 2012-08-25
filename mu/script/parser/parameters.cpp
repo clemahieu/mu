@@ -1,13 +1,8 @@
 #include <mu/script/parser/parameters.h>
 
-#include <mu/io/tokens/token.h>
+#include <mu/io/tokens/implementor.h>
 #include <mu/script/parser/routine.h>
 #include <mu/script/parser/parser.h>
-#include <mu/io/tokens/divider.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/value.h>
-#include <mu/io/tokens/identifier.h>
 #include <mu/script/runtime/selection.h>
 #include <mu/script/parser/cluster.h>
 #include <mu/script/ast_parameter.h>

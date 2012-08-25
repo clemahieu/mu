@@ -12,8 +12,6 @@
 #include <mu/io/lexer/error.h>
 #include <mu/repl/quit/operation.h>
 #include <mu/script/print/operation.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/right_square.h>
 #include <mu/script/context.h>
 #include <mu/script/builder.h>
 #include <mu/script/extensions/node.h>

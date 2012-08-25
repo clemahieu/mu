@@ -1,12 +1,8 @@
 #include <gtest/gtest.h>
 
+#include <mu/io/tokens/implementor.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/parser/parser.h>
-#include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/divider.h>
-#include <mu/io/tokens/left_square.h>
-#include <mu/io/tokens/identifier.h>
-#include <mu/io/tokens/right_square.h>
 #include <mu/script/ast_cluster.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_expression.h>
