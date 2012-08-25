@@ -103,3 +103,13 @@ TEST (io_test, extension7)
     auto exists ((*extensions) (mu::string (U"a")));
     EXPECT_TRUE (! exists.empty ());
 }
+
+// Check dominating extension retrieval
+TEST (io_test, extension8)
+{
+	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
+    EXPECT_TRUE (!failed);
+    auto exists ((*extensions) (mu::string (U"ab")));
+    EXPECT_TRUE (! exists.empty ());
+}
