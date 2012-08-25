@@ -10,7 +10,6 @@
 #include <mu/repl/cli_stream.h>
 #include <mu/io/source.h>
 #include <mu/io/lexer/error.h>
-#include <mu/io/parser/error.h>
 #include <mu/repl/quit/operation.h>
 #include <mu/script/print/operation.h>
 #include <mu/io/tokens/left_square.h>

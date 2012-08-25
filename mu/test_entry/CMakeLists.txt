@@ -19,7 +19,6 @@ add_executable (mu_test_entry
 	core/filesystem_test.cpp
 	core/list.cpp
     core/node_list_iterator.cpp
-	io/begin.cpp
 	io/complex_identifier.cpp
 	io/control.cpp
 	io/extension.cpp
@@ -28,19 +27,14 @@ add_executable (mu_test_entry
 	io/extension3.cpp
 	io/extension4.cpp
     io/extension5.cpp
-	io/full.cpp
 	io/hex_code.cpp
 	io/istream_input_test.cpp
 	io/lexer_result.cpp
 	io/lexer.cpp
 	io/multiline_comment.cpp
     io/name_map.cpp
-	io/parser_result.cpp
-	io/parser.cpp
-	io/single.cpp
 	io/source_result.cpp
 	io/source.cpp
-	io/values.cpp
 	io/wistream_input_test.cpp
 	script/builder.cpp
 	script/context.cpp

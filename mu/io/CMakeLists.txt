@@ -36,14 +36,6 @@ add_library (mu_io SHARED
     lexer/stream_input.cpp
 	lexer/token_vector.cpp
 	lexer/wistream_input.cpp
-	parser/begin.cpp
-	parser/error.cpp
-	parser/error_target.cpp
-	parser/finished.cpp
-	parser/full.cpp
-	parser/parser.cpp
-	parser/single.cpp
-	parser/values.cpp
 	tokens/divider.cpp
 	tokens/identifier.cpp
 	tokens/left_square.cpp
