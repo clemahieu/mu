@@ -26,12 +26,12 @@ boost::tuple <mu::io::keywording::extension_factory, mu::string> mu::io::keyword
             if (boost::get <1> (existing->second) && boost::starts_with (string, existing->first))
             {
                 boost::get <0> (result) = boost::get <0> (existing->second);
-                boost::get <1> (result) = string;
+                boost::get <1> (result) = existing->first;
             }
             else if (string == existing->first)
             {
                 boost::get <0> (result) = boost::get <0> (existing->second);
-                boost::get <1> (result) = string;
+                boost::get <1> (result) = existing->first;
             }
         }
     }

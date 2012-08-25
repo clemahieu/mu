@@ -29,6 +29,7 @@ add_executable (mu_test_entry
     io/extension5.cpp
 	io/hex_code.cpp
 	io/istream_input_test.cpp
+    io/keywording.cpp
 	io/lexer_result.cpp
 	io/lexer.cpp
 	io/multiline_comment.cpp
