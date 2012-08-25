@@ -12,30 +12,15 @@
 
 #include <gc_cpp.h>
 
-mu::script::string::extension::extension (mu::io::keywording::keywording & keywording_a)
-    : keywording (keywording_a),
-    first (true)
+mu::script::string::extension::extension (mu::io::keywording::keywording & keywording_a):
+keywording (keywording_a)
 {
 }
 
 void mu::script::string::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-    if (first)
-    {
-        first = false;
-    }
-    else
-    {
-        auto data (dynamic_cast <mu::io::tokens::identifier *> (token_a));
-        if (data != nullptr)
-        {
-            keywording.state.pop ();
-            keywording (new (GC) mu::io::tokens::value (new (GC) mu::script::string::node (data->string)), context_a);
-        }
-        else
-        {
-            keywording.state.push (new (GC) mu::io::keywording::error);
-            keywording.errors (U"String extension requires its argument to be an identifier");
-        }      
-    }
+    assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
+    auto data (static_cast <mu::io::tokens::identifier *> (token_a));
+    keywording.state.pop ();
+    keywording (new (GC) mu::io::tokens::value (new (GC) mu::script::string::node (data->string)), context_a);
 }
