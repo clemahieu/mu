@@ -56,7 +56,6 @@ add_executable (mu_test_entry
 	script/string/extension.cpp
 	script/times/operation.cpp
 	script/type_check/operation.cpp
-	llvm_/instruction_package.cpp
 	llvm_/basic_block/insert.cpp
 	llvm_/basic_block/instruction_insert.cpp
 	llvm_/basic_block/split_return.cpp
