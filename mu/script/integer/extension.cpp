@@ -1,13 +1,13 @@
 #include <mu/script/integer/extension.h>
 
-#include <mu/io/ast/expression.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/io/ast/identifier.h>
 #include <mu/script/integer/node.h>
-
-#include <sstream>
+#include <mu/io/tokens/identifier.h>
+#include <mu/io/keywording/keywording.h>
+#include <mu/io/tokens/value.h>
 
 #include <errno.h>
+#include <assert.h>
 
 #include <gc_cpp.h>
 
@@ -18,39 +18,22 @@ keywording (keywording_a)
 
 void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
 {
-    assert (false);
-    /*
-    assert (remaining.empty ());
-	auto data_position (expression_a.position + 1);
-	expression_a.position = data_position;
-	if (expression_a.expression_m->values.size () > data_position)
-	{
-		auto data (dynamic_cast <mu::io::ast::identifier *> (expression_a.expression_m->values [data_position]));
-		if (data != nullptr)
-		{
-			auto string (data->string);
-			auto result (core (errors_a, string));
-			if (result != nullptr)
-			{
-				expression_a.self->dependencies.push_back (result);
-			}
-		}
-		else
-		{
-			errors_a (U"Number extension requires its argument to be an identifier");
-		}
-	}
-	else
-	{
-		errors_a (U"Number extension requires one argument");
-	}*/
+    assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
+    auto data (static_cast <mu::io::tokens::identifier *> (token_a));
+    auto & string (data->string);
+    auto result (core (keywording.errors, string));
+    if (result != nullptr)
+    {
+        keywording.state.pop ();
+        keywording (new (GC) mu::io::tokens::value (result), context_a);
+    }
 }
 
 mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, mu::string & string)
 {
 	mu::script::integer::node * result (nullptr);
 	int base (0);
-	wchar_t base_char (string [0]);
+	wchar_t base_char (string [string.length () - 1]);
 	switch (base_char)
 	{
 		case L'h':
@@ -66,18 +49,23 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 			base = 2;
 			break;
 		default:
-			mu::stringstream message;
-			message << L"Unexpected base prefix: ";
-			message << base_char;
-			message << L" when trying to parse number: ";
-			message << string;
-			errors_a (message.str ());
-		break;
+            base = 10;
+            break;
 	}
+    switch (base_char)
+    {
+		case L'h':
+		case L'd':
+		case L'o':
+		case L'b':
+            string.erase (string.end () - 1);
+			break;
+		default:
+            break;
+    }
 	if (base != 0)
 	{
-        std::wstring string_l (string.begin () + 1, string.end ());
-		//char32_t const * string_l (string.c_str () + 1);
+        std::wstring string_l (string.begin (), string.end () - 1);
 		result = core (errors_a, string_l, base);
 	}
 	return result;
