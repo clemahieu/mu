@@ -8,7 +8,6 @@
 #include <mu/io/tokens/divider.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/right_square.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/tokens/stream_end.h>
@@ -44,11 +43,6 @@ void mu::io::parser::begin::operator () (mu::io::tokens::right_square * token)
 void mu::io::parser::begin::operator () (mu::io::tokens::stream_end * token)
 {
 	parser.finish ();
-}
-
-void mu::io::parser::begin::operator () (mu::io::tokens::parameters * token)
-{
-	unexpected_token (token);
 }
 
 void mu::io::parser::begin::operator () (mu::io::tokens::value * token)

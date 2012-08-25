@@ -47,7 +47,6 @@ add_library (mu_io SHARED
 	tokens/divider.cpp
 	tokens/identifier.cpp
 	tokens/left_square.cpp
-	tokens/parameters.cpp
 	tokens/right_square.cpp
 	tokens/stream_end.cpp
 	tokens/token.cpp

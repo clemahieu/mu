@@ -5,7 +5,6 @@
 #include <mu/io/tokens/divider.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/right_square.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/script/parser/routine.h>
 #include <mu/script/ast_cluster.h>
@@ -53,11 +52,6 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * toke
         parser.target (cluster_m);
     }
     cluster_m = new (GC) mu::script::ast::cluster;
-}
-
-void mu::script::parser::cluster::operator () (mu::io::tokens::parameters * token)
-{
-    unexpected_token (parser, token, context);    
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::value * token)

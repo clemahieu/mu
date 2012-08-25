@@ -8,7 +8,6 @@
 #include <mu/io/tokens/identifier.h>
 #include <mu/script/ast_expression.h>
 #include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/script/parser/expression.h>
 #include <mu/script/ast_reference.h>
@@ -52,11 +51,6 @@ void mu::script::parser::body::operator () (mu::io::tokens::right_square * token
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::stream_end * token)
-{
-    unexpected_token (routine.cluster.parser, token, context);
-}
-
-void mu::script::parser::body::operator () (mu::io::tokens::parameters * token)
 {
     unexpected_token (routine.cluster.parser, token, context);
 }

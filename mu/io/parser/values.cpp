@@ -8,7 +8,6 @@
 #include <mu/io/tokens/divider.h>
 #include <mu/io/ast/expression.h>
 #include <mu/io/parser/error.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/ast/parameters.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/cluster.h>
@@ -53,11 +52,6 @@ void mu::io::parser::values::operator () (mu::io::tokens::stream_end * token)
 {
 	parser.errors (U"Unexpected end of stream while parsing expression");
 	parser.state.push (new (GC) mu::io::parser::error);
-}
-
-void mu::io::parser::values::operator () (mu::io::tokens::parameters * token)
-{
-	values_m.push_back (new (GC) mu::io::ast::parameters (parser.context));
 }
 
 void mu::io::parser::values::operator () (mu::io::tokens::value * token)

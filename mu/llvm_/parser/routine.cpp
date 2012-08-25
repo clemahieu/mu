@@ -4,7 +4,6 @@
 #include <mu/io/tokens/divider.h>
 #include <mu/io/tokens/right_square.h>
 #include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/left_square.h>
@@ -122,11 +121,6 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * tok
 }
 
 void mu::llvm_::parser::routine::operator () (mu::io::tokens::stream_end * token)
-{
-    unexpected_token (cluster.parser, token, context);
-}
-
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::parameters * token)
 {
     unexpected_token (cluster.parser, token, context);
 }

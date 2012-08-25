@@ -7,7 +7,6 @@
 #include <mu/io/tokens/left_square.h>
 #include <mu/io/tokens/right_square.h>
 #include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/core/errors/error_target.h>
 
@@ -39,11 +38,6 @@ void mu::io::parser::finished::operator () (mu::io::tokens::right_square * token
 }
 
 void mu::io::parser::finished::operator () (mu::io::tokens::stream_end * token)
-{
-	add_error (token);
-}
-
-void mu::io::parser::finished::operator () (mu::io::tokens::parameters * token)
 {
 	add_error (token);
 }

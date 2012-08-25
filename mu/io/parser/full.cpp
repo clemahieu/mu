@@ -9,7 +9,6 @@
 #include <mu/io/tokens/stream_end.h>
 #include <mu/io/parser/error.h>
 #include <mu/io/ast/expression.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/io/ast/identifier.h>
 #include <mu/io/ast/cluster.h>
@@ -75,11 +74,6 @@ void mu::io::parser::full::operator () (mu::io::tokens::right_square * token)
 }
 
 void mu::io::parser::full::operator () (mu::io::tokens::stream_end * token)
-{
-	unexpected_token (token);
-}
-
-void mu::io::parser::full::operator () (mu::io::tokens::parameters * token)
 {
 	unexpected_token (token);
 }

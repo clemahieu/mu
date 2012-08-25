@@ -7,7 +7,6 @@
 #include <mu/llvm_/parser/cluster.h>
 #include <mu/io/tokens/identifier.h>
 #include <mu/io/tokens/stream_end.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/tokens/value.h>
 #include <mu/llvm_/parser/expression.h>
 #include <mu/llvm_/ast_expression.h>
@@ -49,11 +48,6 @@ void mu::llvm_::parser::body::operator () (mu::io::tokens::right_square * token)
 }
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::stream_end * token)
-{
-    unexpected_token (routine.cluster.parser, token, context);
-}
-
-void mu::llvm_::parser::body::operator () (mu::io::tokens::parameters * token)
 {
     unexpected_token (routine.cluster.parser, token, context);
 }

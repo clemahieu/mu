@@ -5,7 +5,6 @@
 #include <mu/io/lexer/multiline_comment.h>
 #include <mu/io/lexer/singleline_comment.h>
 #include <mu/io/lexer/error.h>
-#include <mu/io/tokens/parameters.h>
 #include <mu/io/lexer/hex_code.h>
 #include <mu/io/lexer/identifier.h>
 #include <mu/io/lexer/context.h>
@@ -24,10 +23,6 @@ void mu::io::lexer::control::lex (mu::io::lexer::context const & context_a)
 	{
 		switch (context_a.character)
 		{
-		case U'~':
-			lexer.target (new (GC) mu::io::tokens::parameters, mu::io::debugging::context (first, context_a.position));
-			lexer.state.pop ();
-			break;
 		case U'(':
 			lexer.state.pop ();
 			lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));

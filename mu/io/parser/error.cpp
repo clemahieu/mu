@@ -20,10 +20,6 @@ void mu::io::parser::error::operator () (mu::io::tokens::stream_end * token)
 {
 }
 
-void mu::io::parser::error::operator () (mu::io::tokens::parameters * token)
-{
-}
-
 void mu::io::parser::error::operator () (mu::io::tokens::value * token)
 {
 }
