@@ -62,5 +62,5 @@ TEST (script_test, loadb2)
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ext));
 	ASSERT_NE (extensions, nullptr);
 	auto existing ((*extensions->extensions) (mu::string (U"identity")));
-	EXPECT_TRUE (!existing.empty ());
+	EXPECT_TRUE (!boost::get <0> (existing).empty ());
 }

@@ -11,20 +11,21 @@
 TEST (script_test, string_extension1)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	mu::io::process (builder, U"[` ;; 1]");
+	mu::io::process (builder, U"[1 ; [`]]");
 	EXPECT_TRUE (!builder.errors.errors.empty ());
 }
 
 TEST (script_test, string_extension2)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	mu::io::process (builder, U"[`[] ;; 1]");
+	mu::io::process (builder, U"[1 ; [`[]]]");
 	EXPECT_TRUE (!builder.errors.errors.empty ());
 }
 
 TEST (script_test, string_extension3)
 {
 	mu::script::builder builder (mu::script::api::core ()->extensions);
-	mu::io::process (builder, U"[` a ;; 1]");
+	mu::io::process (builder, U"[1 ; [` a]]");
+    builder.errors.print (std::wcerr);
 	EXPECT_TRUE (builder.errors.errors.empty ());
 }

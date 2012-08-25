@@ -25,7 +25,7 @@ bool mu::script::extensions::merge_package::operator () (mu::script::context & c
 			mu::string name (two->string.begin (), two->string.end ());
 			name.append (i->first);
 			auto existing ((*one->extensions) (name));
-			if (existing.empty ())
+			if (boost::get <0> (existing).empty ())
 			{
 				(*one->extensions) (name, i->second);
 			}

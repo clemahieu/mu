@@ -9,22 +9,31 @@ mu::io::keywording::extensions::extensions ()
 {
 }
 
-mu::io::keywording::extensions::~extensions ()
-{
-}
-
-mu::io::keywording::extensions::extensions (std::map <mu::string, extension_definition, std::less <mu::string>, gc_allocator <std::pair <mu::string, extension_definition>>> extensions_a)
+mu::io::keywording::extensions::extensions (mu::map <mu::string, extension_definition> extensions_a)
 	: extensions_m (extensions_a)
 {
 }
 
-mu::io::keywording::extension_factory mu::io::keywording::extensions::operator () (mu::string const & string)
+boost::tuple <mu::io::keywording::extension_factory, mu::string> mu::io::keywording::extensions::operator () (mu::string const & string)
 {
-    auto existing (extensions_m.find (string));
-    mu::io::keywording::extension_factory result;
-    if (existing != extensions_m.end ())
+    boost::tuple <mu::io::keywording::extension_factory, mu::string> result;
+    if (!extensions_m.empty ())
     {
-        result = boost::get <0> (existing->second);
+        auto existing (extensions_m.upper_bound (string));
+        if (existing != extensions_m.begin ())
+        {
+            --existing;
+            if (boost::get <1> (existing->second) && boost::starts_with (string, existing->first))
+            {
+                boost::get <0> (result) = boost::get <0> (existing->second);
+                boost::get <1> (result) = string;
+            }
+            else if (string == existing->first)
+            {
+                boost::get <0> (result) = boost::get <0> (existing->second);
+                boost::get <1> (result) = string;
+            }
+        }
     }
     return result;
 }

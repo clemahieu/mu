@@ -34,7 +34,7 @@ namespace mu
                 keywording (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a, mu::io::keywording::extensions * extensions_a);
                 void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a);
                 boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
-                std::stack <mu::io::keywording::state *, std::deque <mu::io::keywording::state *, gc_allocator <mu::io::keywording::state *>>> state;
+                mu::stack <mu::io::keywording::state *> state;
 				mu::io::keywording::extensions * extensions;
                 mu::core::errors::error_target & errors;
             };

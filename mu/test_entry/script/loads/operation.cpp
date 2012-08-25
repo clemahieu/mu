@@ -22,7 +22,7 @@ TEST (script_test, DISABLED_loads1)
 	auto extensions (dynamic_cast <mu::script::extensions::node *> (ctx.working (0)));
 	ASSERT_TRUE (extensions != nullptr);
 	auto a ((*extensions->extensions) (mu::string (U"a")));
-	EXPECT_TRUE (!a.empty ());
+	EXPECT_TRUE (!boost::get <0> (a).empty ());
 	auto b ((*extensions->extensions) (mu::string (U"b")));
-	EXPECT_TRUE (!b.empty ());
+	EXPECT_TRUE (!boost::get <0> (b).empty ());
 }

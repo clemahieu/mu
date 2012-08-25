@@ -77,7 +77,7 @@ TEST (io_test, extension5)
     auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (failed2);
     auto exists ((*extensions) (mu::string (U"ab")));
-    EXPECT_TRUE (exists.empty ());
+    EXPECT_TRUE (!boost::get <0> (exists).empty ());
 }
 
 // Check that an owning extension can't be inserted that would dominate other extensions
@@ -89,7 +89,7 @@ TEST (io_test, extension6)
     auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (failed2);
     auto exists ((*extensions) (mu::string (U"a")));
-    EXPECT_TRUE (exists.empty ());
+    EXPECT_TRUE (boost::get <0> (exists).empty ());
 }
 
 // Check that an extension can be inserted dominated by a non-owning extension
@@ -101,7 +101,7 @@ TEST (io_test, extension7)
     auto failed2 (extensions->add <mu::io_test::extension1> (mu::string (U"a")));
     EXPECT_TRUE (!failed2);
     auto exists ((*extensions) (mu::string (U"a")));
-    EXPECT_TRUE (! exists.empty ());
+    EXPECT_TRUE (!boost::get <0> (exists).empty ());
 }
 
 // Check dominating extension retrieval
@@ -111,5 +111,5 @@ TEST (io_test, extension8)
 	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (!failed);
     auto exists ((*extensions) (mu::string (U"ab")));
-    EXPECT_TRUE (! exists.empty ());
+    EXPECT_TRUE (!boost::get <0> (exists).empty ());
 }
