@@ -25,6 +25,8 @@
 #include <mu/script/astring_extension.h>
 #include <mu/script/integer_extension.h>
 #include <mu/script/closure_create_single.h>
+#include <mu/script/loadb_operation.h>
+#include <mu/script/loads_operation.h>
 
 #include <gc_cpp.h>
 
@@ -33,10 +35,11 @@ mu::script::extensions::node * mu::script::api::core ()
 	auto result (new (GC) mu::script::extensions::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
     extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
+    extensions (mu::string (U"loadb"), new (GC) mu::script::loadb::operation);
+    extensions (mu::string (U"loads"), new (GC) mu::script::loads::operation);
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
-	extensions (mu::string (U".apply"), new (GC) mu::script::closure::create_single);
 	return result;
 }
 
