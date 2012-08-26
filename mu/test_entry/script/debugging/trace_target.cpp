@@ -28,7 +28,7 @@ TEST (script_test, trace_target1)
     ASSERT_TRUE (builder.clusters.size () == 1);
 	auto cluster (builder.clusters [0]);
 	ASSERT_TRUE (cluster->routines.size () == 1);
-	auto routine (cluster->routines [0]);
+	auto routine (cluster->routines [mu::string (U"1")]);
 	context.push (routine);
 	auto valid (context ());
 	EXPECT_EQ (!valid, true);

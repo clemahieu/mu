@@ -15,8 +15,7 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				mu::map <mu::string, mu::script::runtime::routine *> names;
-				mu::vector <mu::script::runtime::routine *> routines;
+				mu::map <mu::string, mu::script::runtime::routine *> routines;
 			};
 		}
 	}

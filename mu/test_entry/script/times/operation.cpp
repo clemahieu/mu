@@ -71,7 +71,7 @@ TEST (script_test, times_operation3)
 	ASSERT_TRUE (builder.clusters [0]->routines.size () == 1);
 	auto n1 (new (GC) mu::script::integer::node (2));
 	ctx.push (n1);
-	auto n2 (builder.clusters [0]->routines [0]);
+	auto n2 (builder.clusters [0]->routines [mu::string (U"1")]);
 	ctx.push (n2);
 	auto n3 (new (GC) mu::script::integer::subtract);
 	ctx.push (n3);

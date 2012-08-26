@@ -13,6 +13,7 @@ namespace mu
             {
             public:
                 routine ();
+                mu::string name;
                 mu::script::ast::expression * body;
             };
         }

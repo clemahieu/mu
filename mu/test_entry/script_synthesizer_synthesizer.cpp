@@ -50,6 +50,7 @@ TEST (script_test, synthesizer_operation2)
                                                       });
     auto cluster (new (GC) mu::script::ast::cluster);
     auto routine1 (new (GC) mu::script::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster->routines.push_back (routine1);
     auto identity (new (GC) mu::script::identity::operation);
     routine1->body->nodes.nodes.push_back (identity);
@@ -57,7 +58,7 @@ TEST (script_test, synthesizer_operation2)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
     ASSERT_TRUE (cluster1->routines.size () == 1);
-    auto routine2 (cluster1->routines [0]);
+    auto routine2 (cluster1->routines [mu::string (U"0")]);
     ASSERT_TRUE (routine2->expressions.size () == 1);
     auto expression1 (routine2->expressions [0]);
     ASSERT_TRUE (expression1->dependencies.size () == 1);
@@ -80,6 +81,7 @@ TEST (script_test, synthesizer_operation3)
                                                       });
     auto cluster1 (new (GC) mu::script::ast::cluster);
     auto routine1 (new (GC) mu::script::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
 	auto identity (new (GC) mu::script::identity::operation);
     auto expression1 (new (GC) mu::script::ast::expression);
@@ -90,7 +92,7 @@ TEST (script_test, synthesizer_operation3)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     ASSERT_TRUE (routine2->expressions.size () == 2);
     auto expression2 (routine2->expressions [0]);
     auto expression3 (routine2->expressions [1]);
@@ -121,13 +123,14 @@ TEST (script_test, synthesizer_operation4)
                                                       });
     auto cluster1 (new (GC) mu::script::ast::cluster);
     auto routine1 (new (GC) mu::script::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
     routine1->body->nodes.nodes.push_back (new (GC) mu::script::ast::parameter (0));
     synthesizer (cluster1);
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     ASSERT_TRUE (routine2->expressions.size () == 1);
     auto expression1 (routine2->expressions [0]);
     ASSERT_TRUE (expression1->dependencies.size () == 1);
@@ -175,7 +178,9 @@ TEST (script_test, synthesizer_operation6)
                                                       });
     auto cluster1 (new (GC) mu::script::ast::cluster);
     auto routine1 (new (GC) mu::script::ast::routine);
+    routine1->name = mu::string (U"0");
     auto routine2 (new (GC) mu::script::ast::routine);
+    routine2->name = mu::string (U"1");
     cluster1->routines.push_back (routine1);
     cluster1->routines.push_back (routine2);
     routine1->body->nodes.nodes.push_back (routine2);
@@ -185,8 +190,8 @@ TEST (script_test, synthesizer_operation6)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 2);
-    auto routine3 (cluster2->routines [0]);
-    auto routine4 (cluster2->routines [1]);
+    auto routine3 (cluster2->routines [mu::string (U"0")]);
+    auto routine4 (cluster2->routines [mu::string (U"1")]);
     ASSERT_TRUE (routine3->expressions.size () == 1);
     auto expression1 (routine3->expressions [0]);
     ASSERT_TRUE (expression1->dependencies.size () == 1);
