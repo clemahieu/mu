@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <mu/llvm_/parser/parser.h>
+#include <mu/llvm_/parser_parser.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/context_node.h>
 #include <mu/llvm_/ast_cluster.h>
 #include <mu/llvm_/ctx.h>
 #include <mu/io/tokens_implementor.h>

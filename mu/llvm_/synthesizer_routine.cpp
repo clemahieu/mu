@@ -2,16 +2,16 @@
 
 #include <mu/llvm_/synthesizer_expression.h>
 #include <mu/llvm_/ast_routine.h>
-#include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/function/node.h>
+#include <mu/llvm_/function_type_node.h>
+#include <mu/llvm_/function_node.h>
 #include <mu/llvm_/synthesizer_cluster.h>
 #include <mu/llvm_/ctx.h>
-#include <mu/llvm_/basic_block/node.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/basic_block_node.h>
+#include <mu/llvm_/context_node.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/llvm_/cluster/node.h>
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/argument/node.h>
+#include <mu/llvm_/cluster_node.h>
+#include <mu/llvm_/module_node.h>
+#include <mu/llvm_/argument_node.h>
 
 #include <llvm/Module.h>
 #include <llvm/Instructions.h>

@@ -1,11 +1,11 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/constant_string/create.h>
+#include <mu/llvm_/constant_string_create.h>
 #include <mu/script/string_node.h>
-#include <mu/llvm_/context/node.h>
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/global_variable/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/integer_type/node.h>
+#include <mu/llvm_/context_node.h>
+#include <mu/llvm_/module_node.h>
+#include <mu/llvm_/global_variable_node.h>
+#include <mu/llvm_/pointer_type_node.h>
+#include <mu/llvm_/integer_type_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

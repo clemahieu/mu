@@ -1,14 +1,14 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/instructions/call.h>
-#include <mu/llvm_/value/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/context/node.h>
-#include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/void_type/node.h>
-#include <mu/llvm_/set_type/node.h>
-#include <mu/llvm_/instruction/node.h>
+#include <mu/llvm_/instructions_call.h>
+#include <mu/llvm_/value_node.h>
+#include <mu/llvm_/pointer_type_node.h>
+#include <mu/llvm_/context_node.h>
+#include <mu/llvm_/function_type_node.h>
+#include <mu/llvm_/integer_type_node.h>
+#include <mu/llvm_/constant_int_node.h>
+#include <mu/llvm_/void_type_node.h>
+#include <mu/llvm_/set_type_node.h>
+#include <mu/llvm_/instruction_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/Constants.h>

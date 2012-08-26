@@ -1,6 +1,6 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/linker/link_modules.h>
+#include <mu/llvm_/module_node.h>
+#include <mu/llvm_/linker_link_modules.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

@@ -1,12 +1,12 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/function_type/create.h>
-#include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/function_type_create.h>
+#include <mu/llvm_/function_type_node.h>
+#include <mu/llvm_/context_node.h>
 #include <mu/script/values_operation.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/set_type/node.h>
+#include <mu/llvm_/integer_type_node.h>
+#include <mu/llvm_/set_type_node.h>
 #include <mu/script/context.h>
-#include <mu/llvm_/function_type/divider.h>
+#include <mu/llvm_/function_type_divider.h>
 
 #include <llvm/DerivedTypes.h>
 #include <llvm/LLVMContext.h>

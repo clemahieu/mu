@@ -4,12 +4,12 @@
 #include <mu/llvm_/ctx.h>
 #include <mu/llvm_/synthesizer_routine.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/llvm_/value/node.h>
+#include <mu/llvm_/value_node.h>
 #include <mu/llvm_/operation.h>
 #include <mu/core/node_list.h>
 #include <mu/llvm_/ast_parameter.h>
-#include <mu/llvm_/function/node.h>
-#include <mu/llvm_/argument/node.h>
+#include <mu/llvm_/function_node.h>
+#include <mu/llvm_/argument_node.h>
 
 #include <llvm/Function.h>
 

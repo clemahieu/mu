@@ -1,8 +1,8 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/instructions/trunc.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/instruction/node.h>
+#include <mu/llvm_/instructions_trunc.h>
+#include <mu/llvm_/constant_int_node.h>
+#include <mu/llvm_/integer_type_node.h>
+#include <mu/llvm_/instruction_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

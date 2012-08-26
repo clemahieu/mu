@@ -1,8 +1,8 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
-#include <mu/llvm_/constant_string/extension.h>
-#include <mu/llvm_/context/node.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/llvm_/constant_string_extension.h>
+#include <mu/llvm_/context_node.h>
+#include <mu/llvm_/module_node.h>
 #include <mu/io/ast_cluster.h>
 #include <mu/io/ast_expression.h>
 #include <mu/io/keywording_extensions.h>

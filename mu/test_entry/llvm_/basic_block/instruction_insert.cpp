@@ -1,10 +1,10 @@
-#include <mu/llvm_/basic_block/instruction_insert.h>
-#include <mu/llvm_/basic_block/node.h>
-#include <mu/llvm_/instruction/node.h>
+#include <mu/llvm_/basic_block_instruction_insert.h>
+#include <mu/llvm_/basic_block_node.h>
+#include <mu/llvm_/instruction_node.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/instructions/add.h>
-#include <mu/llvm_/integer_type/node.h>
+#include <mu/llvm_/instructions_add.h>
+#include <mu/llvm_/integer_type_node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/BasicBlock.h>

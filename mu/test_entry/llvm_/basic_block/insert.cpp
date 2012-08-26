@@ -1,9 +1,9 @@
-#include <mu/llvm_/basic_block/node.h>
-#include <mu/llvm_/instruction/node.h>
-#include <mu/llvm_/basic_block/insert.h>
+#include <mu/llvm_/basic_block_node.h>
+#include <mu/llvm_/instruction_node.h>
+#include <mu/llvm_/basic_block_insert.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/integer_type/node.h>
+#include <mu/llvm_/pointer_type_node.h>
+#include <mu/llvm_/integer_type_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

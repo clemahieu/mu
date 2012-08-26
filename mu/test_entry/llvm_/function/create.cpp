@@ -1,10 +1,10 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/function/create.h>
-#include <mu/llvm_/function/node.h>
-#include <mu/llvm_/function_type/node.h>
-#include <mu/llvm_/type/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/function_create.h>
+#include <mu/llvm_/function_node.h>
+#include <mu/llvm_/function_type_node.h>
+#include <mu/llvm_/type_node.h>
+#include <mu/llvm_/pointer_type_node.h>
+#include <mu/llvm_/context_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

@@ -1,8 +1,8 @@
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/module/get_package.h>
+#include <mu/llvm_/module_node.h>
+#include <mu/llvm_/module_get_package.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/astring_node.h>
-#include <mu/llvm_/module/add_package.h>
+#include <mu/llvm_/module_add_package.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>

@@ -1,10 +1,10 @@
 #include <mu/llvm_/synthesizer_cluster.h>
 
 #include <mu/llvm_/synthesizer_routine.h>
-#include <mu/llvm_/cluster/node.h>
+#include <mu/llvm_/cluster_node.h>
 #include <mu/llvm_/ast_cluster.h>
-#include <mu/llvm_/module/node.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/module_node.h>
+#include <mu/llvm_/context_node.h>
 
 #include <llvm/Module.h>
 

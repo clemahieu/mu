@@ -1,17 +1,17 @@
 #include <mu/llvm_/synthesizer_synthesizer.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/context/node.h>
+#include <mu/llvm_/context_node.h>
 #include <mu/llvm_/ast_cluster.h>
 #include <mu/llvm_/ast_routine.h>
 #include <mu/llvm_/ast_expression.h>
 #include <mu/llvm_/ast_reference.h>
 #include <mu/llvm_/ast_parameter.h>
-#include <mu/llvm_/cluster/node.h>
-#include <mu/llvm_/identity/operation.h>
-#include <mu/llvm_/function/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/llvm_/cluster_node.h>
+#include <mu/llvm_/identity_operation.h>
+#include <mu/llvm_/function_node.h>
+#include <mu/llvm_/integer_type_node.h>
+#include <mu/llvm_/constant_int_node.h>
+#include <mu/llvm_/module_node.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Function.h>

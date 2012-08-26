@@ -1,10 +1,10 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/global_variable/create_set.h>
-#include <mu/llvm_/constant_int/node.h>
-#include <mu/llvm_/integer_type/node.h>
-#include <mu/llvm_/global_variable/node.h>
-#include <mu/llvm_/pointer_type/node.h>
-#include <mu/llvm_/module/node.h>
+#include <mu/llvm_/global_variable_create_set.h>
+#include <mu/llvm_/constant_int_node.h>
+#include <mu/llvm_/integer_type_node.h>
+#include <mu/llvm_/global_variable_node.h>
+#include <mu/llvm_/pointer_type_node.h>
+#include <mu/llvm_/module_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/Constants.h>

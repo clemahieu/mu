@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/llvm_/apint/node.h>
-#include <mu/llvm_/context/node.h>
-#include <mu/llvm_/integer_type/create.h>
+#include <mu/llvm_/apint_node.h>
+#include <mu/llvm_/context_node.h>
+#include <mu/llvm_/integer_type_create.h>
 #include <mu/script/context.h>
 
 #include <llvm/LLVMContext.h>
