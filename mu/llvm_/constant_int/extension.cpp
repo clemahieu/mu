@@ -24,7 +24,7 @@ mu::llvm_::constant_int::extension::extension (mu::io::keywording::keywording & 
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a)
 {
     if (!have_keyword)
     {
@@ -67,9 +67,9 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, bits)));
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (bits, number->value)));
                     keywording.state.pop ();
-                    keywording (new (GC) mu::io::tokens::left_square, context_a);
-                    keywording (new (GC) mu::io::tokens::value (node), context_a);
-                    keywording (new (GC) mu::io::tokens::right_square, context_a);
+                    keywording (new (GC) mu::io::tokens::left_square (token_a->context));
+                    keywording (new (GC) mu::io::tokens::value (token_a->context, node));
+                    keywording (new (GC) mu::io::tokens::right_square (token_a->context));
                 }
             }
             else

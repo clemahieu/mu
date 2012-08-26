@@ -33,6 +33,7 @@ TEST (llvm_parser, parser1)
 // Empty cluster
 TEST (llvm_parser, parser2)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -43,7 +44,7 @@ TEST (llvm_parser, parser2)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -53,6 +54,7 @@ TEST (llvm_parser, parser2)
 // Invalid top symbol
 TEST (llvm_parser, parser3)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -63,13 +65,14 @@ TEST (llvm_parser, parser3)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider (ctx));
     ASSERT_TRUE (errors ());
 }
 
 // Start of routine
 TEST (llvm_parser, parser4)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -80,13 +83,14 @@ TEST (llvm_parser, parser4)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
     ASSERT_TRUE (!errors ());
 }
 
 // Invalid routine name
 TEST (llvm_parser, parser5)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -97,14 +101,15 @@ TEST (llvm_parser, parser5)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::divider (ctx));
     ASSERT_TRUE (errors ());
 }
 
 // Valid routine name
 TEST (llvm_parser, parser6)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -115,14 +120,15 @@ TEST (llvm_parser, parser6)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
     ASSERT_TRUE (!errors ());
 }
 
 // Invalid parameters
 TEST (llvm_parser, parser7)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -133,15 +139,16 @@ TEST (llvm_parser, parser7)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
     ASSERT_TRUE (errors ());
 }
 
 // Omitted parameters
 TEST (llvm_parser, parser8)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -152,15 +159,16 @@ TEST (llvm_parser, parser8)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
     ASSERT_TRUE (!errors ());
 }
 
 // Empty parameters
 TEST (llvm_parser, parser9)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -171,16 +179,17 @@ TEST (llvm_parser, parser9)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
     ASSERT_TRUE (!errors ());
 }
 
 // Invalid body
 TEST (llvm_parser, parser10)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -191,16 +200,17 @@ TEST (llvm_parser, parser10)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::divider (ctx));
     ASSERT_TRUE (errors ());
 }
 
 // Valid empty body
 TEST (llvm_parser, parser11)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -211,13 +221,13 @@ TEST (llvm_parser, parser11)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -229,6 +239,7 @@ TEST (llvm_parser, parser11)
 // Identifier in body
 TEST (llvm_parser, parser12)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -239,14 +250,14 @@ TEST (llvm_parser, parser12)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -262,6 +273,7 @@ TEST (llvm_parser, parser12)
 // Expression in body
 TEST (llvm_parser, parser13)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -272,15 +284,15 @@ TEST (llvm_parser, parser13)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -297,6 +309,7 @@ TEST (llvm_parser, parser13)
 // Expression with identifier
 TEST (llvm_parser, parser14)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -307,16 +320,16 @@ TEST (llvm_parser, parser14)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -337,6 +350,7 @@ TEST (llvm_parser, parser14)
 // Expression with full name
 TEST (llvm_parser, parser15)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -347,18 +361,18 @@ TEST (llvm_parser, parser15)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -379,6 +393,7 @@ TEST (llvm_parser, parser15)
 // Expression with element name
 TEST (llvm_parser, parser16)
 {
+    mu::io::context ctx;
     mu::core::errors::error_list errors;
     llvm::LLVMContext llvm_ctx;
     mu::llvm_::context::node context (&llvm_ctx);
@@ -389,21 +404,21 @@ TEST (llvm_parser, parser16)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::left_square (ctx));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::divider (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"v")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::identifier (ctx, mu::string (U"v")));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::right_square (ctx));
+    parser (new (GC) mu::io::tokens::stream_end (ctx));
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);

@@ -3,8 +3,9 @@
 
 #include <iostream>
 
-mu::io::tokens::identifier::identifier (mu::string string_a)
-	: string (string_a)
+mu::io::tokens::identifier::identifier (mu::io::context const & context_a, mu::string string_a):
+mu::io::tokens::token (context_a),
+string (string_a)
 {
 }
 

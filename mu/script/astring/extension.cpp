@@ -14,11 +14,11 @@ keywording (keywording_a)
 {
 }
 
-void mu::script::astring::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::script::astring::extension::operator () (mu::io::tokens::token * token_a)
 {
     assert (dynamic_cast <mu::io::tokens::identifier *> (token_a));
     auto data (static_cast <mu::io::tokens::identifier *> (token_a));
     keywording.state.pop ();
     std::string str (data->string.begin (), data->string.end ());
-    keywording (new (GC) mu::io::tokens::value (new (GC) mu::script::astring::node (str)), context_a);
+    keywording (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::astring::node (str)));
 }

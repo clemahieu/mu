@@ -28,15 +28,15 @@ parser (errors,
         ),
 keywording (errors,
             [this]
-            (mu::io::tokens::token * token, mu::io::context context)
+            (mu::io::tokens::token * token)
             {
-                parser (token, context);
+                parser (token);
             }, new (GC) mu::io::keywording::extensions),
 lexer (errors,
        [this]
-       (mu::io::tokens::token * token, mu::io::context context)
+       (mu::io::tokens::token * token)
        {
-           keywording (token, context);
+           keywording (token);
        })
 {
 }
@@ -57,15 +57,15 @@ parser (errors,
         ),
 keywording (errors,
             [this, extensions_a]
-            (mu::io::tokens::token * token, mu::io::context context)
+            (mu::io::tokens::token * token)
             {
-                parser (token, context);
+                parser (token);
             }, extensions_a),
 lexer (errors,
        [this]
-       (mu::io::tokens::token * token, mu::io::context context)
+       (mu::io::tokens::token * token)
        {
-           keywording (token, context);
+           keywording (token);
        })
 {
 }

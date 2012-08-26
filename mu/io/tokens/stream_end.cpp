@@ -2,6 +2,11 @@
 
 #include <mu/io/tokens/visitor.h>
 
+mu::io::tokens::stream_end::stream_end (mu::io::context const & context_a):
+mu::io::tokens::token (context_a)
+{
+}
+
 mu::string mu::io::tokens::stream_end::token_name ()
 {
 	return mu::string (U"stream end");

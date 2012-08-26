@@ -13,7 +13,7 @@ mu::io_test::extension2::extension2 (mu::io::keywording::keywording & keywording
 {
 }
 
-void mu::io_test::extension2::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::io_test::extension2::operator () (mu::io::tokens::token * token_a)
 {
-    keywording.target (new (GC) mu::io::tokens::value (new (GC) mu::core::node), context_a);
+    keywording.target (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::core::node));
 }

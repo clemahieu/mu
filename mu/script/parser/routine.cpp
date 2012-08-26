@@ -24,9 +24,8 @@ routine_m (new (GC) mu::script::ast::routine)
 {
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::script::parser::routine::operator () (mu::io::tokens::token * token_a)
 {
-    context = context_a;
     (*token_a) (this);
 }
 
@@ -40,7 +39,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
         case mu::script::parser::routine_state::name:
         case mu::script::parser::routine_state::body:
         case mu::script::parser::routine_state::have_body:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -54,12 +53,12 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier * toke
     {
         case mu::script::parser::routine_state::name:
             state = mu::script::parser::routine_state::parameters;
-            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, context);
+            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, token->context);
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:
         case mu::script::parser::routine_state::have_body:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -84,7 +83,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
         }
         case mu::script::parser::routine_state::have_body:
         case mu::script::parser::routine_state::name:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -104,7 +103,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
         case mu::script::parser::routine_state::body:
         case mu::script::parser::routine_state::name:
         case mu::script::parser::routine_state::parameters:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -114,10 +113,10 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
 
 void mu::script::parser::routine::operator () (mu::io::tokens::stream_end * token)
 {
-    unexpected_token (cluster.parser, token, context);
+    unexpected_token (cluster.parser, token);
 }
 
 void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (cluster.parser, token, context);
+    unexpected_token (cluster.parser, token);
 }

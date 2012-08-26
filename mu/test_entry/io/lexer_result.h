@@ -17,9 +17,9 @@ namespace mu
 		class lexer_result
 		{
 		public:
-			void operator () (mu::io::tokens::token *, mu::io::context context_a);
+			void operator () (mu::io::tokens::token *);
             void print (std::wostream & target);
-			mu::vector <std::pair <mu::io::tokens::token *, mu::io::context>> results;
+			mu::vector <mu::io::tokens::token *> results;
             mu::core::errors::error_list errors;
 		};
 	}

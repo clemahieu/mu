@@ -2,8 +2,9 @@
 
 #include <mu/io/tokens/visitor.h>
 
-mu::io::tokens::value::value (mu::core::node * node_a)
-    : node (node_a)
+mu::io::tokens::value::value (mu::io::context const & context_a, mu::core::node * node_a):
+mu::io::tokens::token (context_a),
+node (node_a)
 {
 }
 

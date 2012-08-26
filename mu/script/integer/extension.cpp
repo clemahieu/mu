@@ -16,7 +16,7 @@ keywording (keywording_a)
 {
 }
 
-void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a)
 {
     assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
     auto data (static_cast <mu::io::tokens::identifier *> (token_a));
@@ -25,7 +25,7 @@ void mu::script::integer::extension::operator () (mu::io::tokens::token * token_
     if (result != nullptr)
     {
         keywording.state.pop ();
-        keywording (new (GC) mu::io::tokens::value (result), context_a);
+        keywording (new (GC) mu::io::tokens::value (token_a->context, result));
     }
 }
 

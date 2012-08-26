@@ -20,7 +20,7 @@ mu::llvm_::constant_string::extension::extension (mu::io::keywording::keywording
 {
 }
 
-void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token * token_a)
 {
     if (!have_keyword)
     {
@@ -36,9 +36,9 @@ void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token *
 			node->closed.push_back (module);
 			node->closed.push_back (new (GC) mu::script::string::node (identifier->string));
             keywording.state.pop ();
-            keywording (new (GC) mu::io::tokens::left_square, context_a);
-            keywording (new (GC) mu::io::tokens::value (node), context_a);
-            keywording (new (GC) mu::io::tokens::right_square, context_a);
+            keywording (new (GC) mu::io::tokens::left_square (token_a->context));
+            keywording (new (GC) mu::io::tokens::value (token_a->context, node));
+            keywording (new (GC) mu::io::tokens::right_square (token_a->context));
 		}
 		else
 		{

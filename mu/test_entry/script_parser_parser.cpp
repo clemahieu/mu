@@ -23,10 +23,11 @@ TEST (script_test, parser1)
 // Empty program
 TEST (script_test, parser2)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 1);
 }
@@ -34,11 +35,12 @@ TEST (script_test, parser2)
 // Multiple clusters
 TEST (script_test, parser3)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 2);
 }
@@ -46,155 +48,167 @@ TEST (script_test, parser3)
 // Invalid token in cluster
 TEST (script_test, parser4)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
 }
 
 // Invalid routine name
 TEST (script_test, parser5)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
 }
 
 // Valid routine name
 TEST (script_test, parser6)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     EXPECT_TRUE (!errors ());
 }
 
 // Invalid parameters
 TEST (script_test, parser7)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
     EXPECT_TRUE (errors ());
 }
 
 // Valid omitted parameters
 TEST (script_test, parser8)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (!errors ());
 }
 
 // Valid empty parameters
 TEST (script_test, parser9)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
     EXPECT_TRUE (!errors ());
 }
 
 // Invalid parameter name
 TEST (script_test, parser10)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
     EXPECT_TRUE (errors ());
 }
 
 // Valid parameter name
 TEST (script_test, parser11)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
     EXPECT_TRUE (!errors ());
 }
 
 // Invalid body
 TEST (script_test, parser12)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
 }
 
 // Valid body
 TEST (script_test, parser13)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
     EXPECT_TRUE (!errors ());
 }
 
 // Invalid after body
 TEST (script_test, parser14)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
 }
 
 // Valid cluster
 TEST (script_test, parser15)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -204,17 +218,18 @@ TEST (script_test, parser15)
 // Valid routine with identifier
 TEST (script_test, parser16)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -224,18 +239,19 @@ TEST (script_test, parser16)
 // Valid routine with expression in body
 TEST (script_test, parser17)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -249,20 +265,21 @@ TEST (script_test, parser17)
 // Valid routine with expression in expression
 TEST (script_test, parser18)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -281,40 +298,42 @@ TEST (script_test, parser18)
 // Invalid expression, missing name
 TEST (script_test, parser19)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (errors ());
 }
 
 // Expression with name reference
 TEST (script_test, parser21)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -334,22 +353,23 @@ TEST (script_test, parser21)
 // Expression with elements reference
 TEST (script_test, parser22)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -370,19 +390,20 @@ TEST (script_test, parser22)
 // Reference to a parameter
 TEST (script_test, parser23)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
@@ -392,55 +413,58 @@ TEST (script_test, parser23)
 // Missing body
 TEST (script_test, parser24)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (errors ());
 }
 
 // Unresolved reference body
 TEST (script_test, parser25)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (errors ());
 }
 
 // Mutually referential functions
 TEST (script_test, parser26)
 {
+    mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
     mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);

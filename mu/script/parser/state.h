@@ -26,8 +26,8 @@ namespace mu
             class state
             {
             public:
-                virtual void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) = 0;
-                void unexpected_token (mu::script::parser::parser & parser_a, mu::io::tokens::token * token_a, mu::io::context context_a);
+                virtual void operator () (mu::io::tokens::token * token_a) = 0;
+                void unexpected_token (mu::script::parser::parser & parser_a, mu::io::tokens::token * token_a);
             };
         }
     }

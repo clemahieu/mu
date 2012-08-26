@@ -15,7 +15,12 @@ TEST (io_test, control1)
 {
 	mu::io_test::lexer_result result;
 	mu::core::errors::error_list errors;
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+	mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
 	mu::io::process (lexer, U":");
 	EXPECT_TRUE (result.results.empty ());
 	EXPECT_TRUE (!errors.errors.empty ());
@@ -26,7 +31,12 @@ TEST (io_test, control2)
 {
 	mu::io_test::lexer_result result;
 	mu::core::errors::error_list errors;
-	mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+	mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
 	mu::io::process (lexer, U":0");
 	EXPECT_TRUE (result.results.empty ());
 	EXPECT_TRUE (!errors.errors.empty ());
@@ -37,13 +47,18 @@ TEST (io_test, control3)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":{");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"{"));
 }
 
@@ -52,13 +67,18 @@ TEST (io_test, control4)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":}");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"}"));
 }
 
@@ -67,13 +87,18 @@ TEST (io_test, control5)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":[");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"["));
 }
 
@@ -82,13 +107,18 @@ TEST (io_test, control6)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":]");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"]"));
 }
 
@@ -97,13 +127,18 @@ TEST (io_test, control7)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U"::");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U":"));
 }
 
@@ -112,13 +147,18 @@ TEST (io_test, control8)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":;");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U";"));
 }
 
@@ -127,13 +167,18 @@ TEST (io_test, control9)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U": ");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U" "));
 }
 
@@ -142,7 +187,12 @@ TEST (io_test, control10)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::string str;
     str.push_back (U':');
     str.push_back (U'\0');
@@ -150,8 +200,8 @@ TEST (io_test, control10)
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     ASSERT_TRUE (result_identifier1->string.size () == 1);
     EXPECT_TRUE (result_identifier1->string [0] == L'\0');
 }
@@ -161,13 +211,18 @@ TEST (io_test, control11)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":\t");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"\t"));
 }
 
@@ -176,13 +231,18 @@ TEST (io_test, control12)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":\f");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"\f"));
 }
 
@@ -191,12 +251,17 @@ TEST (io_test, control13)
 {
     mu::io_test ::lexer_result result;
     mu::core::errors::error_list errors;
-    mu::io::lexer::lexer lexer (errors, boost::bind (&mu::io_test::lexer_result::operator (), &result, _1, _2));
+    mu::io::lexer::lexer lexer (errors,
+                                [&result]
+                                (mu::io::tokens::token * token_a)
+                                {
+                                    result (token_a);
+                                });
     mu::io::process (lexer, U":\r");
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (!result.results.empty ());
     auto result1 (result.results [0]);
-    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1.first) != nullptr);
-    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1.first));
+    ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
+    auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     EXPECT_TRUE (result_identifier1->string == mu::string (U"\r"));
 }

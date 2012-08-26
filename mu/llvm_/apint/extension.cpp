@@ -14,7 +14,7 @@ keywording (keywording_a)
 {
 }
 
-void mu::llvm_::apint::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::llvm_::apint::extension::operator () (mu::io::tokens::token * token_a)
 {
     assert (false);/*
     assert (remaining.empty ());

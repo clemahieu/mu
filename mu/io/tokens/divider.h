@@ -12,6 +12,8 @@ namespace mu
 		{
 			class divider : public mu::io::tokens::token
 			{
+            public:
+                divider (mu::io::context const & context_a);
 				mu::string token_name () override;
 				void operator () (mu::io::tokens::visitor * visitor_a) override;
 			};

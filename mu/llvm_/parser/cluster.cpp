@@ -13,20 +13,19 @@ cluster_m (new (GC) mu::llvm_::ast::cluster)
 {
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::token * token_a)
 {
-    context = context_a;
     (*token_a) (this);
 }
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::divider * token)
 {
-    unexpected_token (parser, token, context);
+    unexpected_token (parser, token);
 }
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::identifier * token)
 {
-    unexpected_token (parser, token, context);
+    unexpected_token (parser, token);
 }
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::left_square * token)
@@ -37,7 +36,7 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::left_square * toke
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::right_square * token)
 {
-    unexpected_token (parser, token, context);
+    unexpected_token (parser, token);
 }
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end * token)
@@ -52,5 +51,5 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end * token
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (parser, token, context);
+    unexpected_token (parser, token);
 }

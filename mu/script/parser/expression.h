@@ -32,11 +32,10 @@ namespace mu
             public:
                 expression (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
                 mu::script::ast::expression * expression_m;
-                mu::io::context context;
                 mu::script::parser::expression_state state;
                 mu::script::parser::routine & routine;
                 size_t element;
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

@@ -13,7 +13,7 @@ namespace mu
             {
             public:
                 begin (mu::io::keywording::keywording & keywording_a);
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a) override;
                 mu::io::keywording::keywording & keywording;
             };
         }

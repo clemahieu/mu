@@ -27,9 +27,8 @@ routine_m (new (GC) mu::llvm_::ast::routine)
 {
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::token * token_a)
 {
-    context = context_a;
     (*token_a) (this);
 }
 
@@ -43,7 +42,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
         case mu::llvm_::parser::routine_state::name:
         case mu::llvm_::parser::routine_state::body:
         case mu::llvm_::parser::routine_state::have_body:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -56,13 +55,13 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier * token
     switch (state)
     {
         case mu::llvm_::parser::routine_state::name:
-            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, context);
+            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, token->context);
             state = mu::llvm_::parser::routine_state::parameters;
             break;
         case mu::llvm_::parser::routine_state::parameters:
         case mu::llvm_::parser::routine_state::body:
         case mu::llvm_::parser::routine_state::have_body:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -87,7 +86,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::left_square * toke
         }
         case mu::llvm_::parser::routine_state::have_body:
         case mu::llvm_::parser::routine_state::name:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -107,7 +106,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * tok
         case mu::llvm_::parser::routine_state::body:
         case mu::llvm_::parser::routine_state::name:
         case mu::llvm_::parser::routine_state::parameters:
-            unexpected_token (cluster.parser, token, context);
+            unexpected_token (cluster.parser, token);
             break;
         default:
             assert (false);
@@ -117,10 +116,10 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * tok
 
 void mu::llvm_::parser::routine::operator () (mu::io::tokens::stream_end * token)
 {
-    unexpected_token (cluster.parser, token, context);
+    unexpected_token (cluster.parser, token);
 }
 
 void mu::llvm_::parser::routine::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (cluster.parser, token, context);
+    unexpected_token (cluster.parser, token);
 }

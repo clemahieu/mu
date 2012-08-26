@@ -19,8 +19,7 @@ namespace mu
             public:
                 body (mu::llvm_::parser::routine & routine_a);
                 mu::llvm_::parser::routine & routine;
-                mu::io::context context;
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

@@ -38,7 +38,7 @@ namespace mu
             {
             public:
                 parser (mu::llvm_::context::node * ctx_a, mu::core::errors::error_target & errors_a, boost::function <void (mu::llvm_::ast::cluster *)> target_a);
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a);
+                void operator () (mu::io::tokens::token * token_a);
                 mu::core::errors::error_target & errors;
                 boost::function <void (mu::llvm_::ast::cluster *)> target;
                 mu::stack <mu::llvm_::parser::state *> state;

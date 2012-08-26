@@ -27,12 +27,11 @@ namespace mu
             {
             public:
                 expression (mu::llvm_::parser::routine & routine_a);
-                mu::io::context context;
                 mu::llvm_::parser::expression_state state;
                 mu::llvm_::parser::routine & routine;
                 size_t element;
                 mu::llvm_::ast::expression * expression_m;
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

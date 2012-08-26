@@ -22,9 +22,8 @@ element (0)
 {
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::script::parser::expression::operator () (mu::io::tokens::token * token_a)
 {
-    context = context_a;
     (*token_a) (this);
 }
 
@@ -40,7 +39,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::divider * toke
             state = mu::script::parser::expression_state::elements;
             break;
         case mu::script::parser::expression_state::elements:
-            unexpected_token (routine.cluster.parser, token, context);
+            unexpected_token (routine.cluster.parser, token);
             break;
         default:
             assert (false);
@@ -54,18 +53,18 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier * t
     {
         case mu::script::parser::expression_state::values:
         {
-            routine.cluster.map.fill_reference (token->string, context, expression_m->nodes);
+            routine.cluster.map.fill_reference (token->string, token->context, expression_m->nodes);
             break;
         }
         case mu::script::parser::expression_state::name:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, context);
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, token->context);
             state = mu::script::parser::expression_state::have_name;
             break;
         case mu::script::parser::expression_state::have_name:
-            unexpected_token (routine.cluster.parser, token, context);
+            unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::expression_state::elements:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression_m, element), context);
+            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression_m, element), token->context);
             ++element;
             break;
         default:
@@ -89,7 +88,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::right_square *
         case mu::script::parser::expression_state::values:
             break;
         case mu::script::parser::expression_state::name:
-            unexpected_token (routine.cluster.parser, token, context);
+            unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::expression_state::have_name:
         case mu::script::parser::expression_state::elements:
@@ -104,7 +103,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::right_square *
 
 void mu::script::parser::expression::operator () (mu::io::tokens::stream_end * token)
 {
-    unexpected_token (routine.cluster.parser, token, context);
+    unexpected_token (routine.cluster.parser, token);
 }
 
 void mu::script::parser::expression::operator () (mu::io::tokens::value * token)
@@ -117,7 +116,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::value * token)
         case mu::script::parser::expression_state::name:
         case mu::script::parser::expression_state::have_name:
         case mu::script::parser::expression_state::elements:
-            unexpected_token (routine.cluster.parser, token, context);
+            unexpected_token (routine.cluster.parser, token);
             break;
         default:
             assert (false);

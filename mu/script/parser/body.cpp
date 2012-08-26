@@ -17,20 +17,19 @@ expression_m (expression_a)
 {
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
+void mu::script::parser::body::operator () (mu::io::tokens::token * token_a)
 {
-    context = context_a;
     (*token_a) (this);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::divider * token)
 {
-    unexpected_token (routine.cluster.parser, token, context);
+    unexpected_token (routine.cluster.parser, token);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
 {
-    routine.cluster.map.fill_reference (token->string, context, expression_m->nodes);
+    routine.cluster.map.fill_reference (token->string, token->context, expression_m->nodes);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
@@ -48,7 +47,7 @@ void mu::script::parser::body::operator () (mu::io::tokens::right_square * token
 
 void mu::script::parser::body::operator () (mu::io::tokens::stream_end * token)
 {
-    unexpected_token (routine.cluster.parser, token, context);
+    unexpected_token (routine.cluster.parser, token);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::value * token)

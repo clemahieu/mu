@@ -10,7 +10,7 @@ namespace mu
         {
             class error : public mu::script::parser::state
             {
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a) override;
             };
         }
     }

@@ -31,9 +31,9 @@ namespace mu
             class keywording
             {
             public:
-                keywording (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::context)> target_a, mu::io::keywording::extensions * extensions_a);
-                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a);
-                boost::function <void (mu::io::tokens::token *, mu::io::context)> target;
+                keywording (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *)> target_a, mu::io::keywording::extensions * extensions_a);
+                void operator () (mu::io::tokens::token * token_a);
+                boost::function <void (mu::io::tokens::token *)> target;
                 mu::stack <mu::io::keywording::state *> state;
 				mu::io::keywording::extensions * extensions;
                 mu::core::errors::error_target & errors;
