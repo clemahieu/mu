@@ -8,10 +8,10 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
-	: have_end_token (false),
-	first (first_a),
-	lexer (lexer_a)
+mu::io::lexer::complex_identifier::complex_identifier (mu::io::lexer::lexer & lexer_a, mu::io::position first_a):
+have_end_token (false),
+first (first_a),
+lexer (lexer_a)
 {
 }
 
@@ -58,7 +58,7 @@ void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & cont
 		{
 			data.resize (data.size () - end_token.size ());
 			mu::io::tokens::identifier * token (new (GC) mu::io::tokens::identifier (data));
-			lexer.target (token, mu::io::debugging::context (first, context_a.position));
+			lexer.target (token, mu::io::context (first, context_a.position));
 			lexer.state.pop ();
 		}
 	}

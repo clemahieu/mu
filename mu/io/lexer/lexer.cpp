@@ -17,9 +17,9 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::lexer::lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a)
-	: errors (errors_a),
-	target (target_a)
+mu::io::lexer::lexer::lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::context)> target_a):
+errors (errors_a),
+target (target_a)
 {
 	reset ();
 }

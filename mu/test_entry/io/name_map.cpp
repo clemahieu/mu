@@ -1,6 +1,6 @@
 #include <mu/io/analyzer/name_map.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/debugging/context.h>
+#include <mu/io/context.h>
 #include <mu/core/node.h>
 #include <mu/core/node_list.h>
 
@@ -23,7 +23,7 @@ TEST (io_test, name_map2)
 TEST (io_test, name_map3)
 {
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     ASSERT_TRUE (nodes.empty ());
@@ -34,7 +34,7 @@ TEST (io_test, name_map4)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     mu::core::node node;
@@ -51,7 +51,7 @@ TEST (io_test, name_map5)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     mu::core::node node;
@@ -68,7 +68,7 @@ TEST (io_test, name_map6)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -81,7 +81,7 @@ TEST (io_test, name_map7)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -94,7 +94,7 @@ TEST (io_test, name_map8)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -107,7 +107,7 @@ TEST (io_test, name_map9)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -120,7 +120,7 @@ TEST (io_test, name_map10)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
@@ -134,7 +134,7 @@ TEST (io_test, name_map11)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_global (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -147,7 +147,7 @@ TEST (io_test, name_map12)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
@@ -160,7 +160,7 @@ TEST (io_test, name_map13)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     map.insert_local (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
@@ -174,7 +174,7 @@ TEST (io_test, name_map14)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node_list nodes;
     mu::core::node node;
     map.fill_reference (mu::string (U"thing"), context, nodes);
@@ -206,7 +206,7 @@ TEST (io_test, name_map16)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     mu::core::node_list nodes;
     map.insert_global (errors, mu::string (U"thing"), &node, context);
@@ -221,7 +221,7 @@ TEST (io_test, name_map17)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
@@ -235,7 +235,7 @@ TEST (io_test, name_map18)
 {
     mu::core::errors::error_list errors;
     mu::io::analyzer::name_map map;
-    mu::io::debugging::context context;
+    mu::io::context context;
     mu::core::node node;
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);

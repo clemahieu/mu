@@ -17,7 +17,7 @@ keywording (keywording_a)
 {
 }
 
-void mu::script::string::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::script::string::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
     auto data (static_cast <mu::io::tokens::identifier *> (token_a));

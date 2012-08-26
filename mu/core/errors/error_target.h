@@ -1,9 +1,6 @@
 #pragma once
 
-#include <mu/io/debugging/context.h>
 #include <mu/core/types.h>
-
-#include <string>
 
 namespace mu
 {

@@ -27,7 +27,7 @@ namespace mu
 			{
 			public:
 				extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a);
-                void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
+                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
 				mu::llvm_::module::node * module;
                 mu::io::keywording::keywording & keywording;
                 bool have_keyword;

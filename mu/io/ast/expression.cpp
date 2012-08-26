@@ -5,26 +5,26 @@
 
 #include <gc_cpp.h>
 
-mu::io::ast::expression::expression (mu::io::debugging::context context_a, std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> values_a)
-	: mu::io::ast::node (context_a),
-	values (values_a),
-	full_name (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string ()))
+mu::io::ast::expression::expression (mu::io::context context_a, mu::vector <mu::io::ast::node *> values_a):
+mu::io::ast::node (context_a),
+values (values_a),
+full_name (new (GC) mu::io::ast::identifier (mu::io::context (), mu::string ()))
 {
 }
 
-mu::io::ast::expression::expression (mu::io::debugging::context context_a, std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> values_a, std::vector <mu::io::ast::identifier *, gc_allocator <mu::io::ast::identifier *>> individual_names_a)
-	: mu::io::ast::node (context_a),
-	values (values_a),
-	individual_names (individual_names_a),
-	full_name (new (GC) mu::io::ast::identifier (mu::io::debugging::context (), mu::string ()))
+mu::io::ast::expression::expression (mu::io::context context_a, mu::vector <mu::io::ast::node *> values_a, mu::vector <mu::io::ast::identifier *> individual_names_a):
+mu::io::ast::node (context_a),
+values (values_a),
+individual_names (individual_names_a),
+full_name (new (GC) mu::io::ast::identifier (mu::io::context (), mu::string ()))
 {
 }
 
-mu::io::ast::expression::expression (mu::io::debugging::context context_a, std::vector <mu::io::ast::node *, gc_allocator <mu::io::ast::node *>> values_a, std::vector <mu::io::ast::identifier *, gc_allocator <mu::io::ast::identifier *>> individual_names_a, mu::io::ast::identifier * full_name_a)
-	: mu::io::ast::node (context_a),
-    values (values_a),
-	individual_names (individual_names_a),
-	full_name (full_name_a)
+mu::io::ast::expression::expression (mu::io::context context_a, mu::vector <mu::io::ast::node *> values_a, mu::vector <mu::io::ast::identifier *> individual_names_a, mu::io::ast::identifier * full_name_a):
+mu::io::ast::node (context_a),
+values (values_a),
+individual_names (individual_names_a),
+full_name (full_name_a)
 {
 }
 

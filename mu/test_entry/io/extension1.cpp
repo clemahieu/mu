@@ -5,6 +5,6 @@ mu::io_test::extension1::extension1 (mu::io::keywording::keywording & keywording
 {
 }
 
-void mu::io_test::extension1::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::io_test::extension1::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
 }

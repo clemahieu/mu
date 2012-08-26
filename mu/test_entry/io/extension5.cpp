@@ -8,7 +8,7 @@ keywording (keywording_a)
 {
 }
 
-void mu::io_test::extension5::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::io_test::extension5::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     keywording.state.pop ();
     keywording (token_a, context_a);

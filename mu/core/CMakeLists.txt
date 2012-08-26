@@ -9,7 +9,6 @@ add_library (mu_core SHARED
     node_list.cpp
     node_list_iterator.cpp
 	errors/error.cpp
-	errors/error_context.cpp
 	errors/error_list.cpp
 	errors/error_target.cpp
 	errors/string_error.cpp

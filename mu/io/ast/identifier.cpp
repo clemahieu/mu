@@ -2,9 +2,9 @@
 
 #include <mu/io/ast/visitor.h>
 
-mu::io::ast::identifier::identifier (mu::io::debugging::context context_a, mu::string string_a)
-	: mu::io::ast::node (context_a),
-	string (string_a)
+mu::io::ast::identifier::identifier (mu::io::context context_a, mu::string string_a):
+mu::io::ast::node (context_a),
+string (string_a)
 {
 }
 

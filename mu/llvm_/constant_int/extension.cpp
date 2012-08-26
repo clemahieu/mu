@@ -24,7 +24,7 @@ mu::llvm_::constant_int::extension::extension (mu::io::keywording::keywording & 
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     if (!have_keyword)
     {

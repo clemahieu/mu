@@ -25,8 +25,8 @@ TEST (io_test, extension1)
 	auto extensions (new (GC) mu::io::keywording::extensions);
 	auto failed (extensions->add <mu::io_test::extension1> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
-	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) {result (token_a, context_a);}, extensions);
-	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::debugging::context ());
+	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::context context_a) {result (token_a, context_a);}, extensions);
+	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::context ());
 	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.results.size () == 0);
 }
@@ -37,8 +37,8 @@ TEST (io_test, extension2)
 	auto extensions (new (GC) mu::io::keywording::extensions);
 	auto failed (extensions->add <mu::io_test::extension2> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
-	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) {result (token_a, context_a);}, extensions);
-	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::debugging::context ());
+	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::context context_a) {result (token_a, context_a);}, extensions);
+	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::context ());
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 1);
 }
@@ -49,8 +49,8 @@ TEST (io_test, extension3)
 	auto extensions (new (GC) mu::io::keywording::extensions);
 	auto failed (extensions->add <mu::io_test::extension3> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
-	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) {result (token_a, context_a);}, extensions);
-	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::debugging::context ());
+	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::context context_a) {result (token_a, context_a);}, extensions);
+	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::context ());
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 2);
 }
@@ -61,9 +61,9 @@ TEST (io_test, extension4)
 	auto extensions (new (GC) mu::io::keywording::extensions);
 	auto failed (extensions->add <mu::io_test::extension4> (mu::string (U"a")));
     ASSERT_TRUE (!failed);
-	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) {result (token_a, context_a);}, extensions);
-	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::debugging::context ());
-	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"b")), mu::io::debugging::context ());
+	mu::io::keywording::keywording keywording (result.errors, [&result] (mu::io::tokens::token * token_a, mu::io::context context_a) {result (token_a, context_a);}, extensions);
+	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"a")), mu::io::context ());
+	keywording (new (GC) mu::io::tokens::identifier (mu::string (U"b")), mu::io::context ());
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 1);
 }

@@ -15,7 +15,7 @@ namespace mu
             class value : public mu::io::ast::node
             {
             public:
-                value (mu::core::node * node_a, mu::io::debugging::context const & context_a);
+                value (mu::core::node * node_a, mu::io::context const & context_a);
 				void operator () (mu::io::ast::visitor * visitor_a) override;
 				mu::string name () override;
                 mu::core::node * node_m;

@@ -1,9 +1,7 @@
 #pragma once
 
-#include <mu/io/debugging/context.h>
+#include <mu/io/context.h>
 #include <mu/core/errors/error_list.h>
-
-#include <vector>
 
 namespace mu
 {
@@ -19,9 +17,9 @@ namespace mu
 		class lexer_result
 		{
 		public:
-			void operator () (mu::io::tokens::token *, mu::io::debugging::context context_a);
+			void operator () (mu::io::tokens::token *, mu::io::context context_a);
             void print (std::wostream & target);
-			std::vector <std::pair <mu::io::tokens::token *, mu::io::debugging::context>> results;
+			mu::vector <std::pair <mu::io::tokens::token *, mu::io::context>> results;
             mu::core::errors::error_list errors;
 		};
 	}

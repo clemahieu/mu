@@ -11,9 +11,9 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
-	: first (first_a),
-	lexer (lexer_a)
+mu::io::lexer::control::control (mu::io::lexer::lexer & lexer_a, mu::io::position first_a):
+first (first_a),
+lexer (lexer_a)
 {
 }
 

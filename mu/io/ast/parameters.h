@@ -11,7 +11,7 @@ namespace mu
 			class parameters : public mu::io::ast::node
 			{
 			public:
-				parameters (mu::io::debugging::context context_a);
+				parameters (mu::io::context context_a);
 				mu::string name () override;
 				void operator () (mu::io::ast::visitor * visitor_a) override;
 			};

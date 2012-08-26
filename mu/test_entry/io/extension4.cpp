@@ -14,7 +14,7 @@ mu::io_test::extension4::extension4 (mu::io::keywording::keywording & keywording
 {
 }
 
-void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     if (first)
     {
@@ -22,6 +22,6 @@ void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a, mu::
     }
     else
     {
-        keywording.target (new (GC) mu::io::tokens::value (new (GC) mu::core::node), mu::io::debugging::context ());
+        keywording.target (new (GC) mu::io::tokens::value (new (GC) mu::core::node), mu::io::context ());
     }
 }

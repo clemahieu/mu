@@ -11,7 +11,7 @@ mu::io::keywording::begin::begin (mu::io::keywording::keywording & keywording_a)
 {
 }
 
-void mu::io::keywording::begin::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::io::keywording::begin::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     auto identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
     if (identifier != nullptr)

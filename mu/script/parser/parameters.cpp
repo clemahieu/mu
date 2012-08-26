@@ -14,7 +14,7 @@ routine (routine_a)
 {
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::script::parser::parameters::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     context = context_a;
     (*token_a) (this);

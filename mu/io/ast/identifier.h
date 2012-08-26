@@ -11,7 +11,7 @@ namespace mu
 			class identifier : public mu::io::ast::node
 			{
 			public:
-				identifier (mu::io::debugging::context context_a, mu::string string_a);
+				identifier (mu::io::context context_a, mu::string string_a);
 				mu::string name () override;
 				void operator () (mu::io::ast::visitor * visitor_a) override;
 				mu::string string;

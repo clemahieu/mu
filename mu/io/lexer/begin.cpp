@@ -10,8 +10,8 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::begin::begin (mu::io::lexer::lexer & lexer_a)
-	: lexer (lexer_a)
+mu::io::lexer::begin::begin (mu::io::lexer::lexer & lexer_a):
+lexer (lexer_a)
 {
 }
 
@@ -31,22 +31,22 @@ void mu::io::lexer::begin::lex (mu::io::lexer::context const & context_a)
 		lexer.state.push (new (GC) mu::io::lexer::complex_identifier (lexer, context_a.position));
 		break;
 	case U';':
-		lexer.target (new (GC) mu::io::tokens::divider, mu::io::debugging::context (context_a.position, context_a.position));
+		lexer.target (new (GC) mu::io::tokens::divider, mu::io::context (context_a.position, context_a.position));
 		break;
 	case U':':
 		lexer.state.push (new (GC) mu::io::lexer::control (lexer, context_a.position));
 		break;
 	case U'[':
-		lexer.target (new (GC) mu::io::tokens::left_square, mu::io::debugging::context (context_a.position, context_a.position));
+		lexer.target (new (GC) mu::io::tokens::left_square, mu::io::context (context_a.position, context_a.position));
 		break;
 	case U']':
-		lexer.target (new (GC) mu::io::tokens::right_square, mu::io::debugging::context (context_a.position, context_a.position));
+		lexer.target (new (GC) mu::io::tokens::right_square, mu::io::context (context_a.position, context_a.position));
 		break;
 	case U'\U0000FFFF':
 		{
 			lexer.state.pop ();
 			auto end (new (GC) mu::io::tokens::stream_end);
-			lexer.target (end, mu::io::debugging::context (context_a.position, context_a.position));
+			lexer.target (end, mu::io::context (context_a.position, context_a.position));
 		}
 		break;
 	default:

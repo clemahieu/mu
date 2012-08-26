@@ -1,13 +1,8 @@
 #pragma once
 
-#include <mu/io/debugging/context.h>
+#include <mu/io/context.h>
 
 #include <boost/function.hpp>
-
-#include <stack>
-#include <deque>
-
-#include <gc_allocator.h>
 
 namespace mu
 {
@@ -48,12 +43,12 @@ namespace mu
 				friend class mu::io::lexer::singleline_comment;
 				friend class mu::io::lexer::control;
 			public:
-				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target_a);
+				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *, mu::io::context)> target_a);
 				void operator () (mu::io::lexer::context const & context_a);
 				void reset ();
 				mu::core::errors::error_target & errors;
-				boost::function <void (mu::io::tokens::token *, mu::io::debugging::context)> target;
-				std::stack <mu::io::lexer::state *, std::deque <mu::io::lexer::state *, gc_allocator <mu::io::lexer::state *>>> state;
+				boost::function <void (mu::io::tokens::token *, mu::io::context)> target;
+				mu::stack <mu::io::lexer::state *> state;
 			};
 		}
 	}

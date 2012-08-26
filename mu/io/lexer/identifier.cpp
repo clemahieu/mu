@@ -7,11 +7,11 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::debugging::position first_a)
-	: lookahead (false),
-	first (first_a),
-	last (first_a),
-	lexer (lexer_a)
+mu::io::lexer::identifier::identifier (mu::io::lexer::lexer & lexer_a, mu::io::position first_a):
+lookahead (false),
+first (first_a),
+last (first_a),
+lexer (lexer_a)
 {
 }
 
@@ -30,7 +30,7 @@ void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 				break;
 			default:
 				mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (string);
-				lexer.target (identifier, mu::io::debugging::context (first, last));
+				lexer.target (identifier, mu::io::context (first, last));
 				lexer.state.pop ();
 				auto state (new (GC) mu::io::lexer::control (lexer, lookahead_first));
 				lexer.state.push (state);
@@ -56,7 +56,7 @@ void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 			case U'\U0000ffff':
 				{
 					mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (string);
-					lexer.target (identifier, mu::io::debugging::context (first, last));
+					lexer.target (identifier, mu::io::context (first, last));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
 					state->lex (context_a);

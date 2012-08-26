@@ -43,7 +43,7 @@ TEST (llvm_parser, parser2)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -63,7 +63,7 @@ TEST (llvm_parser, parser3)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
     ASSERT_TRUE (errors ());
 }
 
@@ -80,7 +80,7 @@ TEST (llvm_parser, parser4)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
     ASSERT_TRUE (!errors ());
 }
 
@@ -97,8 +97,8 @@ TEST (llvm_parser, parser5)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
     ASSERT_TRUE (errors ());
 }
 
@@ -115,8 +115,8 @@ TEST (llvm_parser, parser6)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
     ASSERT_TRUE (!errors ());
 }
 
@@ -133,9 +133,9 @@ TEST (llvm_parser, parser7)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
     ASSERT_TRUE (errors ());
 }
 
@@ -152,9 +152,9 @@ TEST (llvm_parser, parser8)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
     ASSERT_TRUE (!errors ());
 }
 
@@ -171,10 +171,10 @@ TEST (llvm_parser, parser9)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
     ASSERT_TRUE (!errors ());
 }
 
@@ -191,10 +191,10 @@ TEST (llvm_parser, parser10)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
     ASSERT_TRUE (errors ());
 }
 
@@ -211,13 +211,13 @@ TEST (llvm_parser, parser11)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -239,14 +239,14 @@ TEST (llvm_parser, parser12)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -272,15 +272,15 @@ TEST (llvm_parser, parser13)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -307,16 +307,16 @@ TEST (llvm_parser, parser14)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -347,18 +347,18 @@ TEST (llvm_parser, parser15)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);
@@ -389,21 +389,21 @@ TEST (llvm_parser, parser16)
                                       {
                                           clusters.push_back (cluster_a);
                                       });
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::left_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::divider, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::right_square, mu::io::debugging::context ());
-    parser (new (GC) mu::io::tokens::stream_end, mu::io::debugging::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"t")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::left_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::divider, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"u")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::identifier (mu::string (U"v")), mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::right_square, mu::io::context ());
+    parser (new (GC) mu::io::tokens::stream_end, mu::io::context ());
     ASSERT_TRUE (!errors ());
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster1 (clusters [0]);

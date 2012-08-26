@@ -2,8 +2,8 @@
 
 #include <mu/io/ast/visitor.h>
 
-mu::io::ast::parameters::parameters (mu::io::debugging::context context_a)
-	: mu::io::ast::node (context_a)
+mu::io::ast::parameters::parameters (mu::io::context context_a):
+mu::io::ast::node (context_a)
 {
 }
 

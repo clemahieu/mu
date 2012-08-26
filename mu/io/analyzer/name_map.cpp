@@ -11,7 +11,7 @@
 
 #include <gc_cpp.h>
 
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::debugging::context const & context_a)
+void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
 {
     auto collision (used_names.find (name) != used_names.end ());
     if (collision)
@@ -33,7 +33,7 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target &
 }
 
 template <typename T>
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::debugging::context const & context_a)
+void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::context const & context_a)
 {
     auto collision (used_names.find (name) != used_names.end ());
     if (collision)
@@ -54,7 +54,7 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target &
     }
 }
 
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::debugging::context const & context_a)
+void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
 {
     auto collision (mapping.find (name) != mapping.end ());
     if (collision)
@@ -75,7 +75,7 @@ void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & 
 }
 
 template <typename T>
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::debugging::context const & context_a)
+void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::context const & context_a)
 {
     auto collision (mapping.find (name) != mapping.end ());
     if (collision)
@@ -110,7 +110,7 @@ void mu::io::analyzer::name_map::free_locals ()
     locals.clear ();
 }
 
-void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::debugging::context const & context_a, mu::core::node_list & target)
+void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::context const & context_a, mu::core::node_list & target)
 {
     auto existing (mapping.find (name));
     if (existing != mapping.end ())
@@ -127,7 +127,7 @@ void mu::io::analyzer::name_map::fill_reference (mu::string name, mu::io::debugg
     }
 }
 
-void mu::io::analyzer::name_map::resolve (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, bool global, mu::io::debugging::context const & context_a)
+void mu::io::analyzer::name_map::resolve (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, bool global, mu::io::context const & context_a)
 {
     auto first (unresolved.find (name));
     auto i (first);

@@ -2,13 +2,13 @@
 
 #include <mu/io/ast/visitor.h>
 
-mu::io::ast::cluster::cluster ()
-	: mu::io::ast::node (mu::io::debugging::context ())
+mu::io::ast::cluster::cluster ():
+mu::io::ast::node (mu::io::context ())
 {
 }
 
-mu::io::ast::cluster::cluster (mu::io::debugging::context context_a)
-	: mu::io::ast::node (context_a)
+mu::io::ast::cluster::cluster (mu::io::context context_a):
+mu::io::ast::node (context_a)
 {
 }
 

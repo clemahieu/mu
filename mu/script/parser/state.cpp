@@ -7,7 +7,7 @@
 
 #include <gc_cpp.h>
 
-void mu::script::parser::state::unexpected_token (mu::script::parser::parser & parser_a, mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::script::parser::state::unexpected_token (mu::script::parser::parser & parser_a, mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     mu::stringstream message;
     message << U"Unexpected token: ";

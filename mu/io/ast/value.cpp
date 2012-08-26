@@ -2,9 +2,9 @@
 
 #include <mu/io/ast/visitor.h>
 
-mu::io::ast::value::value (mu::core::node * node_a, mu::io::debugging::context const & context_a)
-    : node (context_a),
-    node_m (node_a)
+mu::io::ast::value::value (mu::core::node * node_a, mu::io::context const & context_a):
+node (context_a),
+node_m (node_a)
 {
 }
 

@@ -15,8 +15,8 @@ namespace mu
             public:
                 parameters (mu::script::parser::routine & routine_a);
                 mu::script::parser::routine & routine;
-                mu::io::debugging::context context;
-                void operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a) override;
+                mu::io::context context;
+                void operator () (mu::io::tokens::token * token_a, mu::io::context context_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;
 				void operator () (mu::io::tokens::left_square * token) override;

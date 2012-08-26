@@ -12,7 +12,7 @@ target (target_a)
     state.push (new (GC) mu::llvm_::parser::cluster (*this));
 }
 
-void mu::llvm_::parser::parser::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::llvm_::parser::parser::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     mu::llvm_::parser::state & item (*state.top ());
     item (token_a, context_a);

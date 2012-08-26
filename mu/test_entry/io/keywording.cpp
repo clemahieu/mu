@@ -16,11 +16,11 @@ TEST (io_test, keywording1)
     mu::vector <mu::io::tokens::token *> tokens;
     mu::io::keywording::keywording keywording (errors,
                                                [&tokens]
-                                               (mu::io::tokens::token * token, mu::io::debugging::context)
+                                               (mu::io::tokens::token * token, mu::io::context)
                                                {
                                                    tokens.push_back (token);
                                                }, &extensions);
-    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test")), mu::io::debugging::context ());
+    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test")), mu::io::context ());
     ASSERT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (tokens.size () == 1);
     auto identifier (dynamic_cast <mu::io::tokens::identifier *> (tokens [0]));
@@ -37,12 +37,12 @@ TEST (io_test, keywording2)
     mu::vector <mu::io::tokens::token *> tokens;
     mu::io::keywording::keywording keywording (errors,
                                                [&tokens]
-                                               (mu::io::tokens::token * token, mu::io::debugging::context)
+                                               (mu::io::tokens::token * token, mu::io::context)
                                                {
                                                    tokens.push_back (token);
                                                }, &extensions);
-    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test")), mu::io::debugging::context ());
-    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test123")), mu::io::debugging::context ());
+    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test")), mu::io::context ());
+    keywording (new (GC) mu::io::tokens::identifier (mu::string (U"test123")), mu::io::context ());
     ASSERT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (tokens.size () == 2);
     auto identifier (dynamic_cast <mu::io::tokens::identifier *> (tokens [0]));

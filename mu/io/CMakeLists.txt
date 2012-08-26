@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 2.8)
 project (io)
 
 add_library (mu_io SHARED
+	context.cpp
+	position.cpp
 	source.cpp
     analyzer/name_map.cpp
 	analyzer/resolver.cpp
@@ -12,8 +14,6 @@ add_library (mu_io SHARED
 	ast/parameters.cpp
     ast/value.cpp
 	ast/visitor.cpp
-	debugging/context.cpp
-	debugging/position.cpp
     keywording/begin.cpp
     keywording/error.cpp
     keywording/extensions.cpp

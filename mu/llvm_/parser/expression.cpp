@@ -19,7 +19,7 @@ expression_m (new (GC) mu::llvm_::ast::expression)
 {
 }
 
-void mu::llvm_::parser::expression::operator () (mu::io::tokens::token * token_a, mu::io::debugging::context context_a)
+void mu::llvm_::parser::expression::operator () (mu::io::tokens::token * token_a, mu::io::context context_a)
 {
     context = context_a;
     (*token_a) (this);

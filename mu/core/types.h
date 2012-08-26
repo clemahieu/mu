@@ -24,4 +24,6 @@ namespace mu
     using map = std::map <T, U, std::less <T>, gc_allocator<std::pair <T, U>>>;
     template <typename T>
     using stack = std::stack <T, std::deque <T, gc_allocator <T>>>;
+    template <typename T, typename U>
+    using multimap = std::multimap <T, U, std::less <T>, gc_allocator<std::pair <T, U>>>;
 }
