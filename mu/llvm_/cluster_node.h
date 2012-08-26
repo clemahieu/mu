@@ -32,7 +32,7 @@ namespace mu
                 node (mu::llvm_::module::node * module_a);
 				mu::string name () override;
                 mu::llvm_::module::node * module;
-				mu::vector <mu::llvm_::function::node *> routines;
+				mu::map <mu::string, mu::llvm_::function::node *> routines;
 			};
 		}
 	}

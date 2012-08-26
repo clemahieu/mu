@@ -79,6 +79,7 @@ TEST (llvm_test, synthesizer3)
                                                      });
     auto cluster1 (new (GC) mu::llvm_::ast::cluster);
     auto routine1 (new (GC) mu::llvm_::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
     routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
     synthesizer (cluster1);
@@ -86,7 +87,7 @@ TEST (llvm_test, synthesizer3)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     auto function (routine2->function ());
     auto module (cluster2->module);
     ASSERT_TRUE (module != nullptr);
@@ -118,6 +119,7 @@ TEST (llvm_test, synthesizer4)
                                                      });
     auto cluster1 (new (GC) mu::llvm_::ast::cluster);
     auto routine1 (new (GC) mu::llvm_::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
     routine1->types.push_back (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt32Ty (ctx)));
     routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
@@ -126,7 +128,7 @@ TEST (llvm_test, synthesizer4)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     auto function (routine2->function ());
     auto type (function->getFunctionType ());
     EXPECT_TRUE (type->getReturnType ()->isVoidTy ());
@@ -155,6 +157,7 @@ TEST (llvm_test, synthesizer5)
                                                      });
     auto cluster1 (new (GC) mu::llvm_::ast::cluster);
     auto routine1 (new (GC) mu::llvm_::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
     routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
     auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
@@ -166,7 +169,7 @@ TEST (llvm_test, synthesizer5)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     auto function (routine2->function ());
     auto type (function->getFunctionType ());
     EXPECT_TRUE (type->getReturnType ()->isIntegerTy (1));
@@ -324,6 +327,7 @@ TEST (llvm_test, synthesizer11)
                                                      });
     auto cluster1 (new (GC) mu::llvm_::ast::cluster);
     auto routine1 (new (GC) mu::llvm_::ast::routine);
+    routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
     routine1->body->nodes.nodes.push_back (new (GC) mu::llvm_::identity::operation);
     auto return_type (new (GC) mu::llvm_::integer_type::node (llvm::Type::getInt1Ty (ctx)));
@@ -335,7 +339,7 @@ TEST (llvm_test, synthesizer11)
     ASSERT_TRUE (clusters.size () == 1);
     auto cluster2 (clusters [0]);
     ASSERT_TRUE (cluster2->routines.size () == 1);
-    auto routine2 (cluster2->routines [0]);
+    auto routine2 (cluster2->routines [mu::string (U"0")]);
     auto function (routine2->function ());
     auto type (function->getFunctionType ());
     EXPECT_TRUE (type->getReturnType ()->isIntegerTy (1));

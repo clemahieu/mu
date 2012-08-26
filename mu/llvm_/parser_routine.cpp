@@ -56,6 +56,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier * token
     {
         case mu::llvm_::parser::routine_state::name:
             cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, token->context);
+            routine_m->name = token->string;
             state = mu::llvm_::parser::routine_state::parameters;
             break;
         case mu::llvm_::parser::routine_state::parameters:

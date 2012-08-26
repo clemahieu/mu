@@ -19,6 +19,7 @@ namespace mu
                 routine ();
                 mu::vector <mu::llvm_::type::node *> results;
                 mu::vector <mu::llvm_::type::node *> types;
+                mu::string name;
                 mu::llvm_::ast::expression * body;
             };
         }
