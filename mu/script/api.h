@@ -2,6 +2,10 @@
 
 namespace mu
 {
+    namespace core
+    {
+        class node;
+    }
 	namespace script
 	{
 		namespace extensions
@@ -11,6 +15,7 @@ namespace mu
 		namespace api
 		{
 			mu::script::extensions::node * core ();
+            mu::core::node * context_extension (mu::script::extensions::node * core_a);
 			mu::script::extensions::node * full ();
 		}
 	}

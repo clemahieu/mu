@@ -4,13 +4,13 @@
 
 #include <gc_cpp.h>
 
-mu::script::extensions::node::node ()
-	: extensions (new (GC) mu::io::keywording::extensions)
+mu::script::extensions::node::node ():
+extensions (new (GC) mu::io::keywording::extensions)
 {
 }
 
-mu::script::extensions::node::node (mu::io::keywording::extensions * extensions_a)
-	: extensions (extensions_a)
+mu::script::extensions::node::node (mu::io::keywording::extensions * extensions_a):
+extensions (extensions_a)
 {
 }
 

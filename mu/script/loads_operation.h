@@ -4,6 +4,13 @@
 
 namespace mu
 {
+    namespace io
+    {
+        namespace keywording
+        {
+            class extensions;
+        }
+    }
 	namespace script
 	{
 		namespace string
@@ -20,9 +27,17 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				mu::script::cluster::node * core (mu::script::context & context_a, mu::script::string::node * file);
+				static auto core (mu::script::context & context_a, mu::io::keywording::extensions * extensions_a, mu::script::string::node * file) -> mu::script::cluster::node *;
 			};
 		}
+        namespace loads_extensions
+        {
+            class operation : public mu::script::operation
+            {
+            public:
+				bool operator () (mu::script::context & context_a) override;
+            };
+        }
 	}
 }
 

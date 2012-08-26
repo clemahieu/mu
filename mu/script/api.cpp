@@ -27,14 +27,22 @@
 #include <mu/script/closure_create_single.h>
 #include <mu/script/loadb_operation.h>
 #include <mu/script/loads_operation.h>
+#include <mu/script/extensions_create.h>
+#include <mu/script/runtime_routine.h>
+#include <mu/script/runtime_expression.h>
+#include <mu/script/extensions_merge.h>
+#include <mu/script/runtime_reference.h>
+#include <mu/script/string_node.h>
+#include <mu/script/runtime_fixed.h>
 
 #include <gc_cpp.h>
 
-mu::script::extensions::node * mu::script::api::core ()
+auto mu::script::api::core () -> mu::script::extensions::node *
 {
 	auto result (new (GC) mu::script::extensions::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
     extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
+    extensions (mu::string (U"context"), context_extension (result));
     extensions (mu::string (U"loadb"), new (GC) mu::script::loadb::operation);
     extensions (mu::string (U"loads"), new (GC) mu::script::loads::operation);
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
@@ -43,7 +51,22 @@ mu::script::extensions::node * mu::script::api::core ()
 	return result;
 }
 
-mu::script::extensions::node * mu::script::api::full ()
+auto mu::script::api::context_extension (mu::script::extensions::node * core_a) -> mu::core::node *
+{
+    auto result (new (GC) mu::script::runtime::routine);
+    auto expression1 (new (GC) mu::script::runtime::expression);
+    expression1->dependencies.push_back (new (GC) mu::script::extensions::create);
+    result->expressions.push_back (expression1);
+    auto expression2 (new (GC) mu::script::runtime::expression);
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::extensions::merge));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::string::node (mu::string ())));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (core_a));
+    result->expressions.push_back (expression2);
+    return result;
+}
+
+auto mu::script::api::full () -> mu::script::extensions::node *
 {
 	auto result (new (GC) mu::script::extensions::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
