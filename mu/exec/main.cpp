@@ -1,5 +1,4 @@
 #include <mu/script/exec_operation.h>
-#include <mu/io/builder.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
 #include <mu/script/string_node.h>
@@ -7,16 +6,15 @@
 #include <mu/script/extensions_node.h>
 #include <mu/script/api.h>
 
-#include <boost/bind.hpp>
-
 #include <gc_cpp.h>
+
+#include <iostream>
 
 int main (int argc, char * argv [])
 {
 	if (argc == 2)
 	{
 		mu::core::errors::error_list errors;
-		
 		std::string file_name (argv [1]);
 		mu::script::context context;
 		context.push (new (GC) mu::script::exec::operation (mu::script::api::core ()->extensions));

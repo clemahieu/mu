@@ -1,7 +1,6 @@
 #include <boost/cstdint.hpp>
 
 #include <mu/script/extensions_node.h>
-#include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/apint_create.h>
 #include <mu/llvm_/cluster_get.h>
 #include <mu/llvm_/compile_operation.h>
@@ -77,7 +76,6 @@ void * extensions ()
 	extensions (mu::string (U"module/print"), new (GC) mu::llvm_::module::print);
 	extensions (mu::string (U"module/verify"), new (GC) mu::llvm_::module::verify);
 	extensions (mu::string (U"pointer_type/create"), new (GC) mu::llvm_::pointer_type::create);
-	extensions (mu::string (U"synthesizer/operation"), new (GC) mu::llvm_::synthesizer::operation);
 	extensions (mu::string (U"value/get_context"), new (GC) mu::llvm_::value::get_context);
 	extensions (mu::string (U"value/set_name"), new (GC) mu::llvm_::value::set_name);
 	return result;
