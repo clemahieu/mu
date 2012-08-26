@@ -1,4 +1,4 @@
-#include <mu/test_entry/io/extension4.h>
+#include <mu/test_entry/io_extension4.h>
 
 #include <mu/io/keywording_keywording.h>
 #include <mu/io/tokens_value.h>
@@ -8,9 +8,9 @@
 
 #include <gc_cpp.h>
 
-mu::io_test::extension4::extension4 (mu::io::keywording::keywording & keywording_a)
-    : first (true),
-    keywording (keywording_a)
+mu::io_test::extension4::extension4 (mu::io::keywording::keywording & keywording_a):
+first (true),
+keywording (keywording_a)
 {
 }
 

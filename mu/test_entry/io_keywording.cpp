@@ -4,7 +4,7 @@
 #include <mu/io/keywording_extensions.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/tokens_identifier.h>
-#include <mu/test_entry/io/extension5.h>
+#include <mu/test_entry/io_extension5.h>
 
 #include <gc_cpp.h>
 

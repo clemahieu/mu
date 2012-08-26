@@ -1,11 +1,11 @@
 #include <mu/io/keywording_keywording.h>
-#include <mu/test_entry/io/lexer_result.h>
+#include <mu/test_entry/io_lexer_result.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/test_entry/io/extension1.h>
-#include <mu/test_entry/io/extension2.h>
-#include <mu/test_entry/io/extension3.h>
-#include <mu/test_entry/io/extension4.h>
-#include <mu/test_entry/io/extension5.h>
+#include <mu/test_entry/io_extension1.h>
+#include <mu/test_entry/io_extension2.h>
+#include <mu/test_entry/io_extension3.h>
+#include <mu/test_entry/io_extension4.h>
+#include <mu/test_entry/io_extension5.h>
 #include <mu/io/ast_cluster.h>
 #include <mu/core/errors/error.h>
 #include <mu/io/keywording_extensions.h>

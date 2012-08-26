@@ -1,6 +1,6 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/chain_operation.h>
-#include <mu/test_entry/script/chain/ten_count.h>
+#include <mu/test_entry/script_chain_ten_count.h>
 #include <mu/script/integer_node.h>
 #include <mu/script/context.h>
 

@@ -1,4 +1,4 @@
-#include <mu/test_entry/io/extension2.h>
+#include <mu/test_entry/io_extension2.h>
 
 #include <mu/io/keywording_keywording.h>
 #include <mu/io/tokens_value.h>
@@ -8,8 +8,8 @@
 
 #include <assert.h>
 
-mu::io_test::extension2::extension2 (mu::io::keywording::keywording & keywording_a)
-: keywording (keywording_a)
+mu::io_test::extension2::extension2 (mu::io::keywording::keywording & keywording_a):
+keywording (keywording_a)
 {
 }
 

@@ -1,4 +1,4 @@
-#include <mu/test_entry/io/extension5.h>
+#include <mu/test_entry/io_extension5.h>
 
 #include <mu/core/node.h>
 #include <mu/io/keywording_keywording.h>
