@@ -29,6 +29,7 @@ add_library (mu_llvm_ SHARED
 	cluster_get.cpp
 	cluster_index.cpp
 	cluster_node.cpp
+    cluster_to_extensions.cpp
 	compile_operation.cpp
 	constant_create_from_string.cpp
 	constant_int_create.cpp
