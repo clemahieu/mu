@@ -1,6 +1,6 @@
 #include <mu/io/source.h>
 
-#include <mu/io/lexer/stream_input.h>
+#include <mu/io/lexer_stream_input.h>
 
 #include <sstream>
 

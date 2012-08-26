@@ -5,7 +5,7 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/node.h>
 #include <mu/core/check.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 #include <mu/script/context.h>
 
 #include <boost/bind.hpp>

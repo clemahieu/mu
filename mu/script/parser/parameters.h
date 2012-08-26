@@ -1,7 +1,7 @@
 #pragma once
 
 #include <mu/script/parser/state.h>
-#include <mu/io/tokens/visitor.h>
+#include <mu/io/tokens_visitor.h>
 
 namespace mu
 {

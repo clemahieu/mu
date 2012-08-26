@@ -9,16 +9,16 @@
 #include <mu/core/errors/error.h>
 #include <mu/repl/cli_stream.h>
 #include <mu/io/source.h>
-#include <mu/io/lexer/error.h>
+#include <mu/io/lexer_error.h>
 #include <mu/repl/quit/operation.h>
 #include <mu/script/print/operation.h>
 #include <mu/script/context.h>
 #include <mu/script/builder.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/api.h>
-#include <mu/io/lexer/stream_input.h>
+#include <mu/io/lexer_stream_input.h>
 #include <mu/core/types.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 

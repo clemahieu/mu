@@ -1,6 +1,6 @@
 #include <mu/test_entry/io/lexer_result.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/lexer/lexer.h>
+#include <mu/io/lexer_lexer.h>
 #include <mu/io/source.h>
 
 #include <boost/bind.hpp>

@@ -1,4 +1,4 @@
-#include <mu/io/lexer/istream_input.h>
+#include <mu/io/lexer_istream_input.h>
 
 #include <sstream>
 

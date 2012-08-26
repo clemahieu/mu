@@ -2,7 +2,7 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string/node.h>
-#include <mu/io/lexer/istream_input.h>
+#include <mu/io/lexer_istream_input.h>
 #include <mu/io/source.h>
 #include <mu/script/loads/operation.h>
 #include <mu/script/extensions/node.h>

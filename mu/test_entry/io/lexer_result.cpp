@@ -1,6 +1,6 @@
 #include <mu/test_entry/io/lexer_result.h>
 
-#include <mu/io/tokens/token.h>
+#include <mu/io/tokens_token.h>
 
 #include <iostream>
 

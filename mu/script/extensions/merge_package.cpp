@@ -5,7 +5,7 @@
 #include <mu/script/string/node.h>
 #include <mu/script/package/node.h>
 #include <mu/core/check.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 #include <mu/script/context.h>
 
 #include <sstream>

@@ -1,7 +1,7 @@
 #include <mu/test_entry/io/extension2.h>
 
-#include <mu/io/keywording/keywording.h>
-#include <mu/io/tokens/value.h>
+#include <mu/io/keywording_keywording.h>
+#include <mu/io/tokens_value.h>
 #include <mu/core/node.h>
 
 #include <gc_cpp.h>

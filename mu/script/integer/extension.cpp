@@ -2,9 +2,9 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer/node.h>
-#include <mu/io/tokens/identifier.h>
-#include <mu/io/keywording/keywording.h>
-#include <mu/io/tokens/value.h>
+#include <mu/io/tokens_identifier.h>
+#include <mu/io/keywording_keywording.h>
+#include <mu/io/tokens_value.h>
 
 #include <errno.h>
 #include <assert.h>

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <mu/io/tokens/implementor.h>
+#include <mu/io/tokens_implementor.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/parser/parser.h>
 #include <mu/script/ast_cluster.h>

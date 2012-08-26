@@ -1,9 +1,9 @@
 #include <mu/script/astring/extension.h>
 
-#include <mu/io/tokens/identifier.h>
+#include <mu/io/tokens_identifier.h>
 #include <mu/script/astring/node.h>
-#include <mu/io/keywording/keywording.h>
-#include <mu/io/tokens/value.h>
+#include <mu/io/keywording_keywording.h>
+#include <mu/io/tokens_value.h>
 
 #include <assert.h>
 

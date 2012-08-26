@@ -1,4 +1,4 @@
-#include <mu/io/keywording/keywording.h>
+#include <mu/io/keywording_keywording.h>
 #include <mu/test_entry/io/lexer_result.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/test_entry/io/extension1.h>
@@ -6,10 +6,10 @@
 #include <mu/test_entry/io/extension3.h>
 #include <mu/test_entry/io/extension4.h>
 #include <mu/test_entry/io/extension5.h>
-#include <mu/io/ast/cluster.h>
+#include <mu/io/ast_cluster.h>
 #include <mu/core/errors/error.h>
-#include <mu/io/keywording/extensions.h>
-#include <mu/io/tokens/identifier.h>
+#include <mu/io/keywording_extensions.h>
+#include <mu/io/tokens_identifier.h>
 
 #include <boost/bind.hpp>
 

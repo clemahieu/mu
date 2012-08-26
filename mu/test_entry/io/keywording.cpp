@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include <mu/io/keywording/keywording.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_keywording.h>
+#include <mu/io/keywording_extensions.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/io/tokens/identifier.h>
+#include <mu/io/tokens_identifier.h>
 #include <mu/test_entry/io/extension5.h>
 
 #include <gc_cpp.h>

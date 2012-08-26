@@ -1,6 +1,6 @@
 #include <mu/script/parser/state.h>
 
-#include <mu/io/tokens/token.h>
+#include <mu/io/tokens_token.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/script/parser/error.h>
 #include <mu/script/parser/parser.h>

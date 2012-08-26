@@ -29,7 +29,7 @@
 #include <mu/llvm_/pointer_type/create.h>
 #include <mu/llvm_/value/get_context.h>
 #include <mu/llvm_/value/set_name.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>

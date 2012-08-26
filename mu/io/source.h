@@ -1,10 +1,10 @@
 #pragma once
 
 #include <mu/core/types.h>
-#include <mu/io/lexer/character_stream.h>
-#include <mu/io/lexer/stream_input.h>
-#include <mu/io/lexer/istream_input.h>
-#include <mu/io/lexer/context.h>
+#include <mu/io/lexer_character_stream.h>
+#include <mu/io/lexer_stream_input.h>
+#include <mu/io/lexer_istream_input.h>
+#include <mu/io/lexer_context.h>
 
 namespace mu
 {

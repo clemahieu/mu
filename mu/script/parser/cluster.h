@@ -1,8 +1,8 @@
 #pragma once
 
 #include <mu/script/parser/state.h>
-#include <mu/io/tokens/visitor.h>
-#include <mu/io/analyzer/name_map.h>
+#include <mu/io/tokens_visitor.h>
+#include <mu/io/analyzer_name_map.h>
 
 namespace mu
 {

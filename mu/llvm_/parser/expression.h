@@ -3,7 +3,7 @@
 #include <boost/function.hpp>
 
 #include <mu/llvm_/parser/state.h>
-#include <mu/io/tokens/visitor.h>
+#include <mu/io/tokens_visitor.h>
 
 namespace mu
 {

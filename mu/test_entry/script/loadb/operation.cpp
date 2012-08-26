@@ -4,9 +4,9 @@
 #include <mu/script/extensions/node.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/context.h>
-#include <mu/io/keywording/extensions.h>
-#include <mu/io/keywording/global.h>
-#include <mu/io/keywording/keywording.h>
+#include <mu/io/keywording_extensions.h>
+#include <mu/io/keywording_global.h>
+#include <mu/io/keywording_keywording.h>
 
 #include <boost/filesystem.hpp>
 

@@ -2,10 +2,10 @@
 
 #include <mu/core/errors/error_list.h>
 #include <mu/script/string/node.h>
-#include <mu/io/lexer/istream_input.h>
+#include <mu/io/lexer_istream_input.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/package/create_from_cluster.h>
-#include <mu/io/ast/cluster.h>
+#include <mu/io/ast_cluster.h>
 #include <mu/core/check.h>
 #include <mu/io/source.cpp>
 #include <mu/script/context.h>

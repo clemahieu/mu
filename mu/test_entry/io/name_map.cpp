@@ -1,4 +1,4 @@
-#include <mu/io/analyzer/name_map.h>
+#include <mu/io/analyzer_name_map.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/context.h>
 #include <mu/core/node.h>

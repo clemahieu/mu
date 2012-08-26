@@ -7,7 +7,7 @@
 #include <mu/script/cluster/node.h>
 #include <mu/script/runtime/routine.h>
 #include <mu/script/values/operation.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <boost/bind.hpp>
 

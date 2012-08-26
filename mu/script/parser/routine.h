@@ -1,11 +1,7 @@
 #pragma once
 
 #include <mu/script/parser/state.h>
-#include <mu/io/tokens/visitor.h>
-
-#include <vector>
-#include <set>
-#include <deque>
+#include <mu/io/tokens_visitor.h>
 
 namespace mu
 {

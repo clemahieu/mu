@@ -1,11 +1,11 @@
 #include <mu/script/api.h>
 
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 #include <mu/script/extensions/node.h>
 #include <mu/script/string/extension.h>
 #include <mu/script/astring/extension.h>
 #include <mu/script/integer/extension.h>
-#include <mu/io/keywording/global.h>
+#include <mu/io/keywording_global.h>
 #include <mu/script/identity/operation.h>
 #include <mu/script/astring/truncate.h>
 #include <mu/script/bool_c/create.h>

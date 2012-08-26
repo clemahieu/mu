@@ -1,4 +1,4 @@
-#include <mu/io/lexer/wistream_input.h>
+#include <mu/io/lexer_wistream_input.h>
 
 #include <sstream>
 

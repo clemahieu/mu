@@ -3,9 +3,9 @@
 #include <mu/llvm_/constant_string/extension.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/module/node.h>
-#include <mu/io/ast/cluster.h>
-#include <mu/io/ast/expression.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/ast_cluster.h>
+#include <mu/io/ast_expression.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <boost/bind.hpp>
 

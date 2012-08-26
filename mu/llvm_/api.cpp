@@ -72,7 +72,7 @@
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/basic_block/node.h>
 #include <mu/llvm_/function_type/divider.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <gc_cpp.h>
 

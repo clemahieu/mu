@@ -2,7 +2,7 @@
 
 #include <mu/script/extensions/node.h>
 #include <mu/script/identity/operation.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <gc_cpp.h>
 

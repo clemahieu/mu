@@ -2,13 +2,13 @@
 
 #include <boost/bind.hpp>
 
-#include <mu/io/ast/cluster.h>
-#include <mu/io/ast/node.h>
-#include <mu/io/ast/expression.h>
+#include <mu/io/ast_cluster.h>
+#include <mu/io/ast_node.h>
+#include <mu/io/ast_expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
 #include <mu/script/cluster/node.h>
-#include <mu/io/keywording/extensions.h>
+#include <mu/io/keywording_extensions.h>
 
 #include <gc_cpp.h>
 
