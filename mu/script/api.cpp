@@ -34,6 +34,7 @@
 #include <mu/script/runtime_reference.h>
 #include <mu/script/string_node.h>
 #include <mu/script/runtime_fixed.h>
+#include <mu/script/runtime_parameter.h>
 
 #include <gc_cpp.h>
 
@@ -43,12 +44,43 @@ auto mu::script::api::core () -> mu::script::extensions::node *
     mu::io::keywording::extensions & extensions (*result->extensions);
     extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
     extensions (mu::string (U"context"), context_extension (result));
-    extensions (mu::string (U"loadb"), new (GC) mu::script::loadb::operation);
-    extensions (mu::string (U"loads"), new (GC) mu::script::loads::operation);
+    extensions (mu::string (U"loadb"), loadb_extension ());
+    extensions (mu::string (U"loads"), loads_extension ());
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
 	return result;
+}
+
+auto mu::script::api::loadb_extension () -> mu::core::node *
+{
+    auto result (new (GC) mu::script::runtime::routine);
+    auto expression1 (new (GC) mu::script::runtime::expression);
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::loadb::operation));
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::parameter (2));
+    result->expressions.push_back (expression1);
+    auto expression2 (new (GC) mu::script::runtime::expression);
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::extensions::merge));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
+    result->expressions.push_back (expression2);
+    return result;
+}
+
+auto mu::script::api::loads_extension () -> mu::core::node *
+{
+    auto result (new (GC) mu::script::runtime::routine);
+    auto expression1 (new (GC) mu::script::runtime::expression);
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::loads::operation));
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::parameter (2));
+    result->expressions.push_back (expression1);
+    auto expression2 (new (GC) mu::script::runtime::expression);
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::extensions::merge));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
+    result->expressions.push_back (expression2);
 }
 
 auto mu::script::api::context_extension (mu::script::extensions::node * core_a) -> mu::core::node *
