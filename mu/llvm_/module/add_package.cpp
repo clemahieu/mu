@@ -1,7 +1,7 @@
 #include <mu/llvm_/module/add_package.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/script/package/node.h>
+#include <mu/script/package_node.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/core/check.h>

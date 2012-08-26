@@ -1,11 +1,11 @@
 #include <mu/llvm_/apint/extension.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/script/integer/extension.h>
+#include <mu/script/integer_extension.h>
 #include <mu/io/ast_expression.h>
 #include <mu/io/ast_identifier.h>
 #include <mu/llvm_/apint/node.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_node.h>
 
 #include <gc_cpp.h>
 

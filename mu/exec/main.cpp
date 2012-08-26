@@ -1,10 +1,10 @@
-#include <mu/script/exec/operation.h>
+#include <mu/script/exec_operation.h>
 #include <mu/io/builder.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/source.h>
-#include <mu/script/string/node.h>
+#include <mu/script/string_node.h>
 #include <mu/script/context.h>
-#include <mu/script/extensions/node.h>
+#include <mu/script/extensions_node.h>
 #include <mu/script/api.h>
 
 #include <boost/bind.hpp>

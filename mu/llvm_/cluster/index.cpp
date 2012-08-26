@@ -2,7 +2,7 @@
 
 #include <mu/core/errors/error_list.h>
 #include <mu/llvm_/cluster/node.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_node.h>
 #include <mu/llvm_/function/node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>

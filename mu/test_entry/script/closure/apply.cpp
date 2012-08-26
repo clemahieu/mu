@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/script/closure/operation.h>
-#include <mu/script/closure/apply.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/closure_operation.h>
+#include <mu/script/closure_apply.h>
+#include <mu/script/identity_operation.h>
 #include <mu/script/context.h>
 
 #include <gtest/gtest.h>

@@ -1,6 +1,6 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/script/closure/single.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/closure_single.h>
+#include <mu/script/identity_operation.h>
 #include <mu/script/context.h>
 
 #include <gtest/gtest.h>

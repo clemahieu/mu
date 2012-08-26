@@ -2,10 +2,10 @@
 
 #include <mu/io/tokens_implementor.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/script/integer/extension.h>
+#include <mu/script/integer_extension.h>
 #include <mu/llvm_/value/node.h>
-#include <mu/script/integer/node.h>
-#include <mu/script/closure/single.h>
+#include <mu/script/integer_node.h>
+#include <mu/script/closure_single.h>
 #include <mu/llvm_/constant_int/create.h>
 #include <mu/llvm_/apint/node.h>
 #include <mu/llvm_/context/node.h>

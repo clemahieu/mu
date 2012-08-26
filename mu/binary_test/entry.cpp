@@ -1,7 +1,7 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/script/extensions/node.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/extensions_node.h>
+#include <mu/script/identity_operation.h>
 #include <mu/io/keywording_extensions.h>
 
 #include <gc_cpp.h>

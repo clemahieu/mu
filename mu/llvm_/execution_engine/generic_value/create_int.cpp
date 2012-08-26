@@ -1,6 +1,6 @@
 #include <mu/llvm_/execution_engine/generic_value/create_int.h>
 
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_node.h>
 #include <mu/llvm_/execution_engine/generic_value/node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>

@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/script/package/get.h>
-#include <mu/script/package/node.h>
-#include <mu/script/string/node.h>
+#include <mu/script/package_get.h>
+#include <mu/script/package_node.h>
+#include <mu/script/string_node.h>
 #include <mu/script/context.h>
 
 #include <gtest/gtest.h>

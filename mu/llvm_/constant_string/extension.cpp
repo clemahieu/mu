@@ -2,8 +2,8 @@
 
 #include <mu/io/tokens_implementor.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/script/string/node.h>
-#include <mu/script/closure/single.h>
+#include <mu/script/string_node.h>
+#include <mu/script/closure_single.h>
 #include <mu/llvm_/constant_string/create.h>
 #include <mu/llvm_/module/node.h>
 #include <mu/llvm_/context/node.h>

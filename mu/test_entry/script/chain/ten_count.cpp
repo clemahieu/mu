@@ -1,7 +1,7 @@
 #include <mu/test_entry/script/chain/ten_count.h>
 
-#include <mu/script/integer/node.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/script/integer_node.h>
+#include <mu/script/bool_c_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 

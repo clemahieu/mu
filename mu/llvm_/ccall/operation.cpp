@@ -7,7 +7,7 @@
 #include <mu/llvm_/instructions/call.h>
 #include <mu/llvm_/basic_block/split_return.h>
 #include <mu/core/check.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_node.h>
 #include <mu/script/context.h>
 
 #include <llvm/DerivedTypes.h>

@@ -1,15 +1,15 @@
-#include <mu/script/times/operation.h>
+#include <mu/script/times_operation.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/integer/subtract.h>
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_subtract.h>
+#include <mu/script/integer_node.h>
 #include <mu/script/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/context.h>
 #include <mu/script/api.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/identity/operation.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/extensions_node.h>
+#include <mu/script/identity_operation.h>
+#include <mu/script/cluster_node.h>
+#include <mu/script/runtime_routine.h>
 
 #include <boost/bind.hpp>
 

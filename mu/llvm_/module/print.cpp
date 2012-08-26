@@ -1,7 +1,7 @@
 #include <mu/llvm_/module/print.h>
 
 #include <mu/llvm_/module/node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 

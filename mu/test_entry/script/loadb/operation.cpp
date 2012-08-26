@@ -1,8 +1,8 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/script/loadb/operation.h>
-#include <mu/script/string/node.h>
-#include <mu/script/extensions/node.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/loadb_operation.h>
+#include <mu/script/string_node.h>
+#include <mu/script/extensions_node.h>
+#include <mu/script/identity_operation.h>
 #include <mu/script/context.h>
 #include <mu/io/keywording_extensions.h>
 #include <mu/io/keywording_global.h>

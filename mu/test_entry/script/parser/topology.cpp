@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
 #include <mu/core/errors/error_list.h>
-#include <mu/script/parser/topology.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/runtime/expression.h>
-#include <mu/script/runtime/selection.h>
+#include <mu/script/parser_topology.h>
+#include <mu/script/runtime_routine.h>
+#include <mu/script/runtime_expression.h>
+#include <mu/script/runtime_selection.h>
 
 #include <gc_cpp.h>
 

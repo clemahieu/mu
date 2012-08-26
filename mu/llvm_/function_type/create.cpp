@@ -1,14 +1,14 @@
 #include <mu/llvm_/function_type/create.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/script/values/operation.h>
+#include <mu/script/values_operation.h>
 #include <mu/llvm_/type/node.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/llvm_/function_type/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/void_type/node.h>
 #include <mu/core/check.h>
-#include <mu/script/bool_c/node.h>
+#include <mu/script/bool_c_node.h>
 #include <mu/llvm_/function_type/divider.h>
 #include <mu/script/context.h>
 

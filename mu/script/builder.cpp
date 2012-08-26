@@ -7,7 +7,7 @@
 #include <mu/io/ast_expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster_node.h>
 #include <mu/io/keywording_extensions.h>
 
 #include <gc_cpp.h>

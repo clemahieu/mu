@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
-#include <mu/script/loads/operation.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/string/node.h>
+#include <mu/script/loads_operation.h>
+#include <mu/script/cluster_node.h>
+#include <mu/script/string_node.h>
 #include <mu/script/context.h>
 #include <mu/io/keywording_extensions.h>
 

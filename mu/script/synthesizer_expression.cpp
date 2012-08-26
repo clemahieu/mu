@@ -3,15 +3,15 @@
 #include <mu/script/synthesizer_routine.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/script/ast_expression.h>
-#include <mu/script/runtime/expression.h>
+#include <mu/script/runtime_expression.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_reference.h>
-#include <mu/script/runtime/fixed.h>
-#include <mu/script/runtime/selection.h>
-#include <mu/script/runtime/reference.h>
+#include <mu/script/runtime_fixed.h>
+#include <mu/script/runtime_selection.h>
+#include <mu/script/runtime_reference.h>
 #include <mu/script/ast_parameter.h>
-#include <mu/script/runtime/parameter.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime_parameter.h>
+#include <mu/script/runtime_routine.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/synthesizer_cluster.h>
 

@@ -2,7 +2,7 @@
 
 #include <mu/llvm_/value/node.h>
 #include <mu/llvm_/type/node.h>
-#include <mu/script/values/operation.h>
+#include <mu/script/values_operation.h>
 #include <mu/llvm_/pointer_type/node.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/function_type/node.h>

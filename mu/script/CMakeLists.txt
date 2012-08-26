@@ -2,9 +2,9 @@ cmake_minimum_required (VERSION 2.8)
 project (script)
 
 if (WIN32)
-	set (loadb_operation loadb/win32/operation.cpp)
+	set (loadb_operation loadb_win32_operation.cpp)
 else ()
-	set (loadb_operation loadb/unix/operation.cpp)
+	set (loadb_operation loadb_unix_operation.cpp)
 endif ()
 
 add_library (mu_script SHARED
@@ -14,77 +14,77 @@ add_library (mu_script SHARED
     ast_parameter.cpp
     ast_reference.cpp
     ast_routine.cpp
+	astring_extension.cpp
+	astring_node.cpp
+	astring_truncate.cpp
 	builder.cpp
+	bool_c_create.cpp
+	bool_c_equal.cpp
+	bool_c_node.cpp
+	chain_operation.cpp
+	closure_apply.cpp
+	closure_create.cpp
+	closure_create_single.cpp
+	closure_hole.cpp
+	closure_operation.cpp
+	closure_single.cpp
+	cluster_node.cpp
     context.cpp
+	debugging_trace_error.cpp
+	debugging_trace_target.cpp
+	debugging_trace_types.cpp
+	exec_operation.cpp
+	extensions_create.cpp
+	extensions_merge.cpp
+	extensions_merge_package.cpp
+	extensions_node.cpp
+	fail_operation.cpp
 	frame.cpp
+	identity_operation.cpp
+	if_c_operation.cpp
+	integer_equal.cpp
+	integer_extension.cpp
+	integer_node.cpp
+	integer_subtract.cpp
+	${loadb_operation}
+	loads_operation.cpp
 	location.cpp
 	operation.cpp
+	package_add.cpp
+	package_create.cpp
+	package_get.cpp
+	package_get_recursive.cpp
+	package_node.cpp
+	package_remove.cpp
+    parser_body.cpp
+    parser_cluster.cpp
+    parser_error.cpp
+    parser_expression.cpp
+    parser_parameters.cpp
+    parser_parser.cpp
+    parser_routine.cpp
+    parser_state.cpp
+    parser_topology.cpp
+	print_operation.cpp
+	run_operation.cpp
+	runtime_expression.cpp
+	runtime_fixed.cpp
+	runtime_locals.cpp
+    runtime_parameter.cpp
+	runtime_reference.cpp
+	runtime_routine.cpp
+	runtime_selection.cpp
+	string_extension.cpp
+	string_node.cpp
     synthesizer_cluster.cpp
     synthesizer_expression.cpp
     synthesizer_routine.cpp
     synthesizer_synthesizer.cpp
-	astring/extension.cpp
-	astring/node.cpp
-	astring/truncate.cpp
-	bool_c/create.cpp
-	bool_c/equal.cpp
-	bool_c/node.cpp
-	chain/operation.cpp
-	closure/apply.cpp
-	closure/create.cpp
-	closure/create_single.cpp
-	closure/hole.cpp
-	closure/operation.cpp
-	closure/single.cpp
-	cluster/node.cpp
-	debugging/trace_error.cpp
-	debugging/trace_target.cpp
-	debugging/trace_types.cpp
-	exec/operation.cpp
-	extensions/create.cpp
-	extensions/merge.cpp
-	extensions/merge_package.cpp
-	extensions/node.cpp
-	fail/operation.cpp
-	identity/operation.cpp
-	if_c/operation.cpp
-	integer/equal.cpp
-	integer/extension.cpp
-	integer/node.cpp
-	integer/subtract.cpp
-	${loadb_operation}
-	loads/operation.cpp
-	package/add.cpp
-	package/create.cpp
-	package/get.cpp
-	package/get_recursive.cpp
-	package/node.cpp
-	package/remove.cpp
-    parser/body.cpp
-    parser/cluster.cpp
-    parser/error.cpp
-    parser/expression.cpp
-    parser/parameters.cpp
-    parser/parser.cpp
-    parser/routine.cpp
-    parser/state.cpp
-    parser/topology.cpp
-	print/operation.cpp
-	runtime/expression.cpp
-	runtime/fixed.cpp
-	runtime/locals.cpp
-    runtime/parameter.cpp
-	runtime/reference.cpp
-	runtime/routine.cpp
-	runtime/selection.cpp
-	run/operation.cpp
-	string/extension.cpp
-	string/node.cpp
-	times/operation.cpp
-	type_check/operation.cpp
-	unit/operation.cpp
-	values/create.cpp
-	values/operation.cpp)
+	times_operation.cpp
+	type_check_operation.cpp
+	unit_operation.cpp
+	values_create.cpp
+	values_operation.cpp)
 
 if (WIN32)
 	target_link_libraries (mu_script

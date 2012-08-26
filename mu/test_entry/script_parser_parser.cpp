@@ -2,7 +2,7 @@
 
 #include <mu/io/tokens_implementor.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/parser/parser.h>
+#include <mu/script/parser_parser.h>
 #include <mu/script/ast_cluster.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_expression.h>

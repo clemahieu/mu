@@ -1,7 +1,7 @@
 #include <mu/llvm_/value/set_name.h>
 
 #include <mu/llvm_/value/node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 

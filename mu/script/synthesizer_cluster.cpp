@@ -1,7 +1,7 @@
 #include <mu/script/synthesizer_cluster.h>
 
 #include <mu/script/synthesizer_routine.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster_node.h>
 #include <mu/script/ast_cluster.h>
 
 #include <gc_cpp.h>

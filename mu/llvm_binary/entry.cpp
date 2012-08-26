@@ -1,6 +1,6 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/script/extensions/node.h>
+#include <mu/script/extensions_node.h>
 #include <mu/llvm_/synthesizer/operation.h>
 #include <mu/llvm_/apint/create.h>
 #include <mu/llvm_/cluster/get.h>

@@ -3,7 +3,7 @@
 #include <mu/io/keywording_keywording.h>
 #include <mu/io/lexer_lexer.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/parser/parser.h>
+#include <mu/script/parser_parser.h>
 #include <mu/script/synthesizer_synthesizer.h>
 
 #include <vector>

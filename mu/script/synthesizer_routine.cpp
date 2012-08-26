@@ -1,6 +1,6 @@
 #include <mu/script/synthesizer_routine.h>
 
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime_routine.h>
 #include <mu/script/synthesizer_expression.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/synthesizer_cluster.h>

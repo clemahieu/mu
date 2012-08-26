@@ -1,10 +1,10 @@
 #include <mu/script/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/context.h>
-#include <mu/script/cluster/node.h>
-#include <mu/script/debugging/trace_target.h>
-#include <mu/script/runtime/routine.h>
-#include <mu/script/fail/operation.h>
+#include <mu/script/cluster_node.h>
+#include <mu/script/debugging_trace_target.h>
+#include <mu/script/runtime_routine.h>
+#include <mu/script/fail_operation.h>
 #include <mu/core/errors/error_list.h>
 
 #include <boost/bind.hpp>

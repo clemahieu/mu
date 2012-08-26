@@ -1,5 +1,5 @@
-#include <mu/script/package/create.h>
-#include <mu/script/package/node.h>
+#include <mu/script/package_create.h>
+#include <mu/script/package_node.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
 

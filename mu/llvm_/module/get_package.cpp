@@ -2,9 +2,9 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/llvm_/module/node.h>
-#include <mu/script/package/node.h>
+#include <mu/script/package_node.h>
 #include <mu/llvm_/function/node.h>
-#include <mu/script/astring/node.h>
+#include <mu/script/astring_node.h>
 #include <mu/llvm_/type/build.h>
 #include <mu/llvm_/context/node.h>
 #include <mu/core/check.h>

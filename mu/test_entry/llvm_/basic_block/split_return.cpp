@@ -1,14 +1,14 @@
 #include <mu/llvm_/basic_block/split_return.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/identity/operation.h>
+#include <mu/script/identity_operation.h>
 #include <mu/llvm_/void_type/node.h>
 #include <mu/llvm_/integer_type/node.h>
 #include <mu/llvm_/set_type/node.h>
 #include <mu/llvm_/constant/node.h>
-#include <mu/script/cluster/node.h>
+#include <mu/script/cluster_node.h>
 #include <mu/llvm_/basic_block/node.h>
-#include <mu/script/runtime/routine.h>
+#include <mu/script/runtime_routine.h>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

@@ -1,6 +1,6 @@
-#include <mu/script/package/get_recursive.h>
-#include <mu/script/package/node.h>
-#include <mu/script/string/node.h>
+#include <mu/script/package_get_recursive.h>
+#include <mu/script/package_node.h>
+#include <mu/script/string_node.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
 

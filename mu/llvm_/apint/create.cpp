@@ -1,6 +1,6 @@
 #include <mu/llvm_/apint/create.h>
 
-#include <mu/script/integer/node.h>
+#include <mu/script/integer_node.h>
 #include <mu/llvm_/apint/node.h>
 #include <mu/core/check.h>
 #include <mu/llvm_/ctx.h>
