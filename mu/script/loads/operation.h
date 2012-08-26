@@ -4,21 +4,13 @@
 
 namespace mu
 {
-	namespace core
-	{
-		class cluster;
-        namespace errors
-        {
-            class error_target;
-        }
-	}
 	namespace script
 	{
 		namespace string
 		{
 			class node;
 		}
-		namespace extensions
+		namespace cluster
 		{
 			class node;
 		}
@@ -28,7 +20,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				mu::script::extensions::node * core (mu::script::context & context_a, mu::script::string::node * file);
+				mu::script::cluster::node * core (mu::script::context & context_a, mu::script::string::node * file);
 			};
 		}
 	}

@@ -52,7 +52,6 @@ add_library (mu_script SHARED
 	integer/extension.cpp
 	integer/node.cpp
 	integer/subtract.cpp
-	load/operation.cpp
 	${loadb_operation}
 	loads/operation.cpp
 	package/add.cpp

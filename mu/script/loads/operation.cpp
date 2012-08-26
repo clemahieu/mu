@@ -1,16 +1,20 @@
 #include <mu/script/loads/operation.h>
 
 #include <mu/core/errors/error_target.h>
-#include <mu/script/load/operation.h>
-#include <mu/script/extensions/node.h>
+#include <mu/script/cluster/node.h>
 #include <mu/script/string/node.h>
 #include <mu/core/check.h>
 #include <mu/io/keywording_extensions.h>
 #include <mu/script/context.h>
+#include <mu/io/lexer_istream_input.h>
+#include <mu/script/builder.h>
+#include <mu/io/source.h>
 
 #include <boost/bind.hpp>
 
 #include <gc_cpp.h>
+
+#include <fstream>
 
 bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 {
@@ -23,28 +27,28 @@ bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 		{
 			context_a.push (result);
 		}
+        else
+        {
+            complete = false;
+        }
 	}
 	return complete;
 }
 
-mu::script::extensions::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::script::string::node * file)
+mu::script::cluster::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::script::string::node * file)
 {
-    assert (false);
-    /*
-	auto result (new (GC) mu::script::extensions::node);
-	mu::script::load::operation load;
-	auto ast (load.core (context_a, file));
-	if (ast != nullptr)
-	{
-		mu::script::analyzer::operation analyzer;
-		auto cluster (analyzer.core (context_a, ast));
-		if (cluster != nullptr)
-		{
-			for (auto i (cluster->names.begin ()), j (cluster->names.end ()); i != j; ++i)
-			{
-				(*result->extensions) (i->first, i->second);
-			}
-		}
-	}
-	return result;*/
+    std::fstream stream;
+    std::string name (file->string.begin (), file->string.end ());
+    stream.open (name.c_str ());
+    auto input (new (GC) mu::io::lexer::istream_input (stream));
+    mu::script::builder builder;
+    mu::io::process (builder, *input);
+    mu::script::cluster::node * result (nullptr);
+    if (!builder.errors ())
+    {
+        assert (builder.clusters.size () == 1);
+        result = builder.clusters [0];
+    }
+    builder.errors.print(std::wcerr);
+	return result;
 }
