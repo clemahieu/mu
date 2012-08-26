@@ -5,8 +5,7 @@
 #include <mu/script/string_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
-
-#include <sstream>
+#include <mu/io/keywording_extensions.h>
 
 #include <assert.h>
 
@@ -18,25 +17,20 @@ bool mu::script::extensions::merge::operator () (mu::script::context & context_a
 		auto one (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
 		auto two (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto three (static_cast <mu::script::extensions::node *> (context_a.parameters (2)));
-        assert (false);
-/*		for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
+        for (auto i (three->extensions->extensions_m.begin ()), j (three->extensions->extensions_m.end ()); i != j; ++i)
 		{
-			mu::string name (two->string.begin (), two->string.end ());
+			mu::string name (two->string);
 			name.append (i->first);
-			auto existing ((*one->extensions) [name]);
-			if (existing == nullptr)
-			{
-				(*one->extensions) [name] = i->second;
-			}
-			else
-			{
+            auto error ((*one->extensions) (name, boost::get <0> (i->second), boost::get <1> (i->second)));
+			if (error)
+            {
 				mu::stringstream message;
 				message << L"Extensions already contains extension named: ";
 				message << i->first;
 				context_a.errors (message.str ());
 				result = false;
 			}
-		}*/
+		}
 	}
 	return result;
 }

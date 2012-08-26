@@ -25,6 +25,7 @@ add_executable (mu_test_entry
 	io_hex_code.cpp
 	io_istream_input_test.cpp
     io_keywording.cpp
+    io_keywording_extensions.cpp
 	io_lexer_result.cpp
 	io_lexer.cpp
 	io_multiline_comment.cpp
@@ -60,6 +61,7 @@ add_executable (mu_test_entry
 	script_closure_single.cpp
 	script_debugging_trace_target.cpp
 	script_debugging_trace_types.cpp
+    script_extensions_merge.cpp
 	script_integer_equal.cpp
 	script_loadb_operation.cpp
 	script_loads_operation.cpp

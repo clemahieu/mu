@@ -46,7 +46,7 @@ bool mu::io::keywording::extensions::operator () (mu::string const & string, mu:
     {
         if (existing != extensions_m.end ())
         {
-            result = boost::starts_with (existing->first, string);
+            result = result | boost::starts_with (existing->first, string);
         }
     }
     if (existing != extensions_m.begin ())
@@ -54,8 +54,12 @@ bool mu::io::keywording::extensions::operator () (mu::string const & string, mu:
         --existing;
         if (boost::get <1> (existing->second))
         {
-            result = boost::starts_with (string, existing->first);
+            result = result | boost::starts_with (string, existing->first);
         }
+    }
+    else if (existing != extensions_m.end ())
+    {
+        result = result | (string == existing->first);
     }
     if (!result)
     {

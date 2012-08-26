@@ -40,7 +40,6 @@ namespace mu
                 }
                 bool operator () (mu::string const & string, mu::io::keywording::extension_factory extension, bool dominating_a);
                 bool operator () (mu::string const & string, mu::core::node * node_a);
-            private:
                 mu::map <mu::string, extension_definition> extensions_m;
             };
 		}
