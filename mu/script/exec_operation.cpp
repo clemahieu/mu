@@ -16,8 +16,8 @@
 
 #include <gc_cpp.h>
 
-mu::script::exec::operation::operation (mu::io::keywording::extensions * extensions_a)
-	: extensions (extensions_a)
+mu::script::exec::operation::operation (mu::io::keywording::extensions * extensions_a):
+extensions (extensions_a)
 {
 }
 

@@ -51,6 +51,7 @@ add_executable (mu_test_entry
     llvm_synthesizer_synthesizer.cpp
 	llvm_types_integer.cpp
 	main.cpp
+    script_api.cpp
 	script_builder.cpp
 	script_context.cpp
 	script_frame.cpp
