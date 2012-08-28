@@ -57,14 +57,14 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier * t
             break;
         }
         case mu::script::parser::expression_state::name:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, expression_m, token->context);
             state = mu::script::parser::expression_state::have_name;
             break;
         case mu::script::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::expression_state::elements:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression_m, element), token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression_m, element), token->context);
             ++element;
             break;
         default:

@@ -38,7 +38,7 @@ TEST (io_test, name_map4)
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     mu::core::node node;
-    map.insert_global (errors, mu::string (U"thing"), &node, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (nodes.size () == 1);
     auto i (nodes.begin ());
@@ -55,7 +55,7 @@ TEST (io_test, name_map5)
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (nodes.size () == 1);
     auto i (nodes.begin ());
@@ -70,9 +70,9 @@ TEST (io_test, name_map6)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing2"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing2"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -83,9 +83,9 @@ TEST (io_test, name_map7)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -96,9 +96,9 @@ TEST (io_test, name_map8)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing2"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing2"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -109,9 +109,9 @@ TEST (io_test, name_map9)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -122,10 +122,10 @@ TEST (io_test, name_map10)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (errors.errors.empty ());
 }
 
@@ -136,9 +136,9 @@ TEST (io_test, name_map11)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_global (errors, mu::string (U"thing"), &node, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_local (errors, mu::string (U"thing"), &node2, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -149,9 +149,9 @@ TEST (io_test, name_map12)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     mu::core::node node2;
-    map.insert_global (errors, mu::string (U"thing"), &node2, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -162,10 +162,10 @@ TEST (io_test, name_map13)
     mu::io::analyzer::name_map map;
     mu::io::context context;
     mu::core::node node;
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     map.free_locals ();
     mu::core::node node2;
-    map.insert_global (errors, mu::string (U"thing"), &node2, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node2, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }
 
@@ -179,7 +179,7 @@ TEST (io_test, name_map14)
     mu::core::node node;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     map.fill_reference (mu::string (U"thing"), context, nodes);
-    map.insert_global (errors, mu::string (U"thing"), &node, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (errors.errors.empty ());
     EXPECT_TRUE (nodes.size () == 2);
     auto i (nodes.begin ());
@@ -209,7 +209,7 @@ TEST (io_test, name_map16)
     mu::io::context context;
     mu::core::node node;
     mu::core::node_list nodes;
-    map.insert_global (errors, mu::string (U"thing"), &node, context);
+    map.insert_cluster_scope (errors, mu::string (U"thing"), &node, context);
     map.fill_reference (mu::string (U"thing"), context, nodes);
     auto failed (map.finalize (errors));
     EXPECT_TRUE (errors.errors.empty ());
@@ -240,6 +240,6 @@ TEST (io_test, name_map18)
     mu::core::node_list nodes;
     map.fill_reference (mu::string (U"thing"), context, nodes);
     map.free_locals ();
-    map.insert_local (errors, mu::string (U"thing"), &node, context);
+    map.insert_routine_scope (errors, mu::string (U"thing"), &node, context);
     EXPECT_TRUE (!errors.errors.empty ());
 }

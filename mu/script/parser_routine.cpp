@@ -54,7 +54,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier * toke
         case mu::script::parser::routine_state::name:
             state = mu::script::parser::routine_state::parameters;
             routine_m->name = token->string;
-            cluster.map.insert_global (cluster.parser.errors, token->string, routine_m, token->context);
+            cluster.map.insert_cluster_scope (cluster.parser.errors, token->string, routine_m, token->context);
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:

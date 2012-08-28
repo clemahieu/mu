@@ -11,7 +11,7 @@
 
 #include <gc_cpp.h>
 
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
+void mu::io::analyzer::name_map::insert_cluster_scope (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
 {
     auto collision (used_names.find (name) != used_names.end ());
     if (collision)
@@ -29,32 +29,9 @@ void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target &
         mapping [name] = node;
         resolve (errors_a, name, node, true, context_a);
     }
-
 }
 
-template <typename T>
-void mu::io::analyzer::name_map::insert_global (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::context const & context_a)
-{
-    auto collision (used_names.find (name) != used_names.end ());
-    if (collision)
-    {
-        mu::stringstream message;
-        message << L"Global name: ";
-        message << name;
-        message << L" has already been used";
-        errors_a (message.str ());
-    }
-    else
-    {
-        assert (mapping.find (name) == mapping.end ());
-        used_names.insert (name);
-        auto list (new (GC) mu::core::node_list (begin, end));
-        mapping [name] = list;
-        resolve (errors_a, name, list, true, context_a);
-    }
-}
-
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
+void mu::io::analyzer::name_map::insert_routine_scope (mu::core::errors::error_target & errors_a, mu::string const & name, mu::core::node * const node, mu::io::context const & context_a)
 {
     auto collision (mapping.find (name) != mapping.end ());
     if (collision)
@@ -71,28 +48,6 @@ void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & 
         mapping [name] = node;
         locals.insert (name);
         resolve (errors_a, name, node, false, context_a);
-    }
-}
-
-template <typename T>
-void mu::io::analyzer::name_map::insert_local (mu::core::errors::error_target & errors_a, mu::string const & name, T const & begin, T const & end, mu::io::context const & context_a)
-{
-    auto collision (mapping.find (name) != mapping.end ());
-    if (collision)
-    {
-        mu::stringstream message;
-        message << L"Local name: ";
-        message << name;
-        message << L" has already been used";
-        errors_a (message.str ());
-    }
-    else
-    {
-        used_names.insert (name);
-        auto list (new (GC) mu::core::node_list (begin, end));
-        mapping [name] = list;
-        locals.insert (name);
-        resolve (errors_a, name, list, false, context_a);
     }
 }
 

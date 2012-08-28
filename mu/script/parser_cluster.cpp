@@ -13,7 +13,7 @@ cluster_m (new (GC) mu::script::ast::cluster)
 {
     for (auto i (parser_a.injected.begin ()), j (parser_a.injected.end ()); i != j; ++i)
     {
-        map.insert_global (parser.errors, i->first, i->second, mu::io::context ());
+        map.insert_cluster_scope (parser.errors, i->first, i->second, mu::io::context ());
     }
 }
 

@@ -52,14 +52,14 @@ void mu::llvm_::parser::expression::operator () (mu::io::tokens::identifier * to
             routine.cluster.map.fill_reference (token->string, token->context, expression_m->nodes);
             break;
         case mu::llvm_::parser::expression_state::name:
-            routine.cluster.map.insert_local (routine.cluster.parser.errors, token->string, expression_m, token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, expression_m, token->context);
             state = mu::llvm_::parser::expression_state::have_name;
             break;
         case mu::llvm_::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::llvm_::parser::expression_state::elements:
-            routine.cluster.map.insert_local(routine.cluster.parser.errors, token->string, new (GC) mu::llvm_::ast::reference (expression_m, ++element), token->context);
+            routine.cluster.map.insert_routine_scope(routine.cluster.parser.errors, token->string, new (GC) mu::llvm_::ast::reference (expression_m, ++element), token->context);
             break;
         default:
             assert (false);
