@@ -12,6 +12,7 @@ namespace mu
 {
     namespace core
     {
+        class node;
         namespace errors
         {
             class error_list;
@@ -39,9 +40,12 @@ namespace mu
         public:
 			builder ();
 			builder (mu::io::keywording::extensions * extensions_a);
+			builder (mu::map <mu::string, mu::core::node *> const & injected_a, mu::io::keywording::extensions * extensions_a);
+            builder (mu::map <mu::string, mu::core::node *> const & injected_a);
 			void operator () (mu::io::lexer::context const & context_a);
 			mu::core::errors::error_list errors;
             mu::script::synthesizer::synthesizer synthesizer;
+            mu::map <mu::string, mu::core::node *> injected;
 			mu::script::parser::parser parser;
             mu::io::keywording::keywording keywording;
 			mu::io::lexer::lexer lexer;

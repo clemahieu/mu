@@ -15,7 +15,13 @@ TEST (script_test, parser1)
 {
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 0);
 }
@@ -26,7 +32,13 @@ TEST (script_test, parser2)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
     EXPECT_TRUE (clusters.size () == 1);
@@ -38,7 +50,13 @@ TEST (script_test, parser3)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::stream_end (context));
     parser (new (GC) mu::io::tokens::stream_end (context));
     EXPECT_TRUE (!errors ());
@@ -51,7 +69,13 @@ TEST (script_test, parser4)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
 }
@@ -62,7 +86,13 @@ TEST (script_test, parser5)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::divider (context));
     EXPECT_TRUE (errors ());
@@ -74,7 +104,13 @@ TEST (script_test, parser6)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     EXPECT_TRUE (!errors ());
@@ -86,7 +122,13 @@ TEST (script_test, parser7)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
@@ -99,7 +141,13 @@ TEST (script_test, parser8)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -112,7 +160,13 @@ TEST (script_test, parser9)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::left_square (context));
@@ -126,7 +180,13 @@ TEST (script_test, parser10)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::left_square (context));
@@ -141,7 +201,13 @@ TEST (script_test, parser11)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::left_square (context));
@@ -156,7 +222,13 @@ TEST (script_test, parser12)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -170,7 +242,13 @@ TEST (script_test, parser13)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -185,7 +263,13 @@ TEST (script_test, parser14)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -201,7 +285,13 @@ TEST (script_test, parser15)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -221,7 +311,13 @@ TEST (script_test, parser16)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -242,7 +338,13 @@ TEST (script_test, parser17)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -268,7 +370,13 @@ TEST (script_test, parser18)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -301,7 +409,13 @@ TEST (script_test, parser19)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -321,7 +435,13 @@ TEST (script_test, parser21)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -356,7 +476,13 @@ TEST (script_test, parser22)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -393,7 +519,13 @@ TEST (script_test, parser23)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::left_square (context));
@@ -416,7 +548,13 @@ TEST (script_test, parser24)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -431,7 +569,13 @@ TEST (script_test, parser25)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -449,7 +593,13 @@ TEST (script_test, parser26)
     mu::io::context context;
     mu::core::errors::error_list errors;
     std::vector <mu::script::ast::cluster *> clusters;
-    mu::script::parser::parser parser (errors, [&clusters] (mu::script::ast::cluster * node_a) {clusters.push_back (node_a);});
+    mu::map <mu::string, mu::core::node *> injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
     parser (new (GC) mu::io::tokens::divider (context));
@@ -481,4 +631,31 @@ TEST (script_test, parser26)
     ASSERT_TRUE (j != routine2->body->nodes.end ());
     auto d2 (*j);
     ASSERT_TRUE (d2 = routine1);
+}
+
+// Check that injected nodes can be used
+TEST (script_test, parser27)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::map <mu::string, mu::core::node *> injected;
+    auto node1 (new (GC) mu::core::node);
+    injected [mu::string (U"u")] = node1;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
 }

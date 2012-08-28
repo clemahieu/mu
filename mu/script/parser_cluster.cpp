@@ -11,6 +11,10 @@ mu::script::parser::cluster::cluster (mu::script::parser::parser & parser_a):
 parser (parser_a),
 cluster_m (new (GC) mu::script::ast::cluster)
 {
+    for (auto i (parser_a.injected.begin ()), j (parser_a.injected.end ()); i != j; ++i)
+    {
+        map.insert_global (parser.errors, i->first, i->second, mu::io::context ());
+    }
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::token * token_a)

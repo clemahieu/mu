@@ -24,8 +24,7 @@ parser (errors,
         (mu::script::ast::cluster * cluster_a)
         {
             synthesizer (cluster_a);
-        }
-        ),
+        }, injected),
 keywording (errors,
             [this]
             (mu::io::tokens::token * token)
@@ -42,7 +41,7 @@ lexer (errors,
 }
 
 mu::script::builder::builder (mu::io::keywording::extensions * extensions_a):
-synthesizer (errors, 
+synthesizer (errors,
              [this]
              (mu::script::cluster::node * cluster_a)
              {
@@ -53,14 +52,71 @@ parser (errors,
         (mu::script::ast::cluster * cluster_a)
         {
             synthesizer (cluster_a);
-        }
-        ),
+        }, injected),
 keywording (errors,
-            [this, extensions_a]
+            [this]
             (mu::io::tokens::token * token)
             {
                 parser (token);
             }, extensions_a),
+lexer (errors,
+       [this]
+       (mu::io::tokens::token * token)
+       {
+           keywording (token);
+       })
+{
+}
+
+mu::script::builder::builder (mu::map <mu::string, mu::core::node *> const & injected_a, mu::io::keywording::extensions * extensions_a):
+synthesizer (errors,
+             [this]
+             (mu::script::cluster::node * cluster_a)
+             {
+                 clusters.push_back (cluster_a);
+             }),
+injected (injected_a),
+parser (errors,
+        [this]
+        (mu::script::ast::cluster * cluster_a)
+        {
+            synthesizer (cluster_a);
+        }, injected),
+keywording (errors,
+            [this]
+            (mu::io::tokens::token * token)
+            {
+                parser (token);
+            }, extensions_a),
+lexer (errors,
+       [this]
+       (mu::io::tokens::token * token)
+       {
+           keywording (token);
+       })
+{
+}
+
+mu::script::builder::builder (mu::map <mu::string, mu::core::node *> const & injected_a):
+synthesizer (errors,
+             [this]
+             (mu::script::cluster::node * cluster_a)
+             {
+                 clusters.push_back (cluster_a);
+             }),
+injected (injected_a),
+parser (errors,
+        [this]
+        (mu::script::ast::cluster * cluster_a)
+        {
+            synthesizer (cluster_a);
+        }, injected),
+keywording (errors,
+            [this]
+            (mu::io::tokens::token * token)
+            {
+                parser (token);
+            }, new (GC) mu::io::keywording::extensions),
 lexer (errors,
        [this]
        (mu::io::tokens::token * token)

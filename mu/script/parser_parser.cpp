@@ -5,9 +5,10 @@
 
 #include <gc_cpp.h>
 
-mu::script::parser::parser::parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a):
+mu::script::parser::parser::parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a, mu::map <mu::string, mu::core::node *> const & injected_a):
 errors (errors_a),
-target (target_a)
+target (target_a),
+injected (injected_a)
 {
     state.push (new (GC) mu::script::parser::cluster (*this));
 }

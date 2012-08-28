@@ -9,6 +9,7 @@ namespace mu
 {
     namespace core
     {
+        class node;
         namespace errors
         {
             class error_target;
@@ -33,11 +34,12 @@ namespace mu
             class parser
             {
             public:
-                parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a);
+                parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a, mu::map <mu::string, mu::core::node *> const & injected_a);
                 mu::core::errors::error_target & errors;
                 boost::function <void (mu::script::ast::cluster *)> target;
                 void operator () (mu::io::tokens::token * token_a);
                 mu::stack <mu::script::parser::state *> state;
+                mu::map <mu::string, mu::core::node *> const & injected;
             };
         }
     }
