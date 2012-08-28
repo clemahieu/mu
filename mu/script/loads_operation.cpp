@@ -9,7 +9,7 @@
 #include <mu/io/lexer_istream_input.h>
 #include <mu/script/builder.h>
 #include <mu/io/source.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 
 #include <boost/bind.hpp>
 
@@ -39,10 +39,10 @@ bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 
 bool mu::script::loads_extensions::operation::operator () (mu::script::context & context_a)
 {
-	bool complete (mu::core::check <mu::script::extensions::node, mu::script::string::node> (context_a));
+	bool complete (mu::core::check <mu::script::parser_scope::node, mu::script::string::node> (context_a));
 	if (complete)
 	{
-        auto extensions (static_cast <mu::script::extensions::node *> (context_a.parameters (0)));
+        auto extensions (static_cast <mu::script::parser_scope::node *> (context_a.parameters (0)));
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (1)));
 		auto result (mu::script::loads::operation::core (context_a, extensions->extensions, file));
 		if (result != nullptr)

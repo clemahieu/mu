@@ -1,6 +1,6 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/llvm_/apint_create.h>
 #include <mu/llvm_/cluster_get.h>
 #include <mu/llvm_/compile_operation.h>
@@ -49,7 +49,7 @@ void * extensions ()
 {
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
-	auto result (new (GC) mu::script::extensions::node);
+	auto result (new (GC) mu::script::parser_scope::node);
     mu::io::keywording::extensions & extensions (*result->extensions);
 	extensions (mu::string (U"apint/create"), new (GC) mu::llvm_::apint::create);
 	extensions (mu::string (U"cluster/get"), new (GC) mu::llvm_::cluster::get);

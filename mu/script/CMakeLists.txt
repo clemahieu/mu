@@ -35,10 +35,10 @@ add_library (mu_script SHARED
 	debugging_trace_target.cpp
 	debugging_trace_types.cpp
 	exec_operation.cpp
-	extensions_create.cpp
-	extensions_merge.cpp
-	extensions_merge_package.cpp
-	extensions_node.cpp
+	parser_scope_create.cpp
+	parser_scope_merge.cpp
+	parser_scope_merge_package.cpp
+	parser_scope_node.cpp
 	fail_operation.cpp
 	frame.cpp
 	identity_operation.cpp

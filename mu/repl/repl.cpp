@@ -14,7 +14,7 @@
 #include <mu/script/print_operation.h>
 #include <mu/script/context.h>
 #include <mu/script/builder.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/api.h>
 #include <mu/io/lexer_stream_input.h>
 #include <mu/core/types.h>

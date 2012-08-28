@@ -2,7 +2,7 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string_node.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 
@@ -35,9 +35,9 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 						auto extensions_address (dlsym (library, "extensions"));
 						if (extensions_address != nullptr)
 						{
-							auto extensions_function ((mu::script::extensions::node * (*) ()) (extensions_address));
+							auto extensions_function ((mu::script::parser_scope::node * (*) ()) (extensions_address));
 							auto extensions (extensions_function ());
-                            mu::script::extensions::node * result (extensions);
+                            mu::script::parser_scope::node * result (extensions);
 							context_a.push (result);
                             valid = true;
 						}

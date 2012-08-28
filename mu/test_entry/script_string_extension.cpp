@@ -2,7 +2,7 @@
 #include <mu/script/builder.h>
 #include <mu/io/source.h>
 #include <mu/script/api.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 
 #include <boost/bind.hpp>
 

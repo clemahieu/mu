@@ -6,7 +6,7 @@ namespace mu
 {
 	namespace script
 	{
-		namespace extensions
+		namespace parser_scope
 		{
 			class create : public mu::script::operation
 			{

@@ -14,6 +14,8 @@ extern "C"
 #endif
 void * extensions ()
 {
-	auto result (mu::script::api::full ());
+    auto core (mu::script::api::full ());
+#warning incomplete
+	auto result (boost::get <0> (core));
 	return result;
 }

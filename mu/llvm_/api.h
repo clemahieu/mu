@@ -4,7 +4,7 @@ namespace mu
 {
 	namespace script
 	{
-		namespace extensions
+		namespace parser_scope
 		{
 			class node;
 		}
@@ -17,7 +17,7 @@ namespace mu
 	{
 		namespace api
 		{
-			void binding (mu::script::extensions::node *& result_a, mu::script::values::operation *& context_a);
+			void binding (mu::script::parser_scope::node *& result_a, mu::script::values::operation *& context_a);
 		};
 	}
 }

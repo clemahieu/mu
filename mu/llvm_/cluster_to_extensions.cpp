@@ -3,7 +3,7 @@
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 #include <mu/llvm_/cluster_node.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/io/keywording_extensions.h>
 #include <mu/llvm_/function_node.h>
 
@@ -15,7 +15,7 @@ bool mu::llvm_::cluster::to_extensions::operator () (mu::script::context & conte
     if (valid)
     {
         auto cluster (static_cast <mu::llvm_::cluster::node *> (context_a.parameters(0)));
-        auto result (new (GC) mu::script::extensions::node);
+        auto result (new (GC) mu::script::parser_scope::node);
         for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j; ++i)
         {
             auto error ((*result->extensions) (i->first, i->second));

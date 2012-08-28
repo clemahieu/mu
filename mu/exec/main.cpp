@@ -3,7 +3,7 @@
 #include <mu/io/source.h>
 #include <mu/script/string_node.h>
 #include <mu/script/context.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/api.h>
 
 #include <gc_cpp.h>
@@ -17,7 +17,8 @@ int main (int argc, char * argv [])
 		mu::core::errors::error_list errors;
 		std::string file_name (argv [1]);
 		mu::script::context context;
-		context.push (new (GC) mu::script::exec::operation (mu::script::api::core ()->extensions));
+        auto core (mu::script::api::core ());
+		context.push (new (GC) mu::script::exec::operation (boost::get <0> (core)->extensions));
 		context.push (new (GC) mu::script::string::node (mu::string (file_name.begin (), file_name.end ())));
         auto valid (context ());
 		if (valid)

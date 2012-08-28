@@ -6,7 +6,7 @@
 #include <mu/io/source.h>
 #include <mu/script/context.h>
 #include <mu/script/api.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/identity_operation.h>
 #include <mu/script/cluster_node.h>
 #include <mu/script/runtime_routine.h>

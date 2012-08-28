@@ -13,7 +13,7 @@ namespace mu
 	}
 	namespace script
 	{
-		namespace extensions
+		namespace parser_scope
 		{
 			class node : public mu::core::node
 			{

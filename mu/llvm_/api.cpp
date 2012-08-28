@@ -28,7 +28,7 @@
 #include <mu/llvm_/global_variable_create.h>
 #include <mu/llvm_/module_add_global_variable.h>
 #include <mu/llvm_/module_merge.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/llvm_/apint_extension.h>
 #include <mu/llvm_/constant_int_extension.h>
 #include <mu/llvm_/constant_string_extension.h>
@@ -76,9 +76,9 @@
 
 #include <gc_cpp.h>
 
-void mu::llvm_::api::binding (mu::script::extensions::node *& results, mu::script::values::operation *& context)
+void mu::llvm_::api::binding (mu::script::parser_scope::node *& results, mu::script::values::operation *& context)
 {
-	results = new (GC) mu::script::extensions::node;
+	results = new (GC) mu::script::parser_scope::node;
 	context = new (GC) mu::script::values::operation;
 	auto ctx (new (GC) mu::llvm_::context::node (nullptr));
 	context->values.push_back (ctx);

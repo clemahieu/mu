@@ -5,7 +5,7 @@
 #include <mu/io/lexer_istream_input.h>
 #include <mu/io/source.h>
 #include <mu/script/loads_operation.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/run_operation.h>
 #include <mu/script/context.h>
 
@@ -27,7 +27,7 @@ bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 	if (context_a.parameters_size () > 0)
 	{
 		context_a.push (new (GC) mu::script::run::operation);
-		context_a.push (new (GC) mu::script::extensions::node (extensions));
+		context_a.push (new (GC) mu::script::parser_scope::node (extensions));
 		for (auto i (context_a.parameters_begin ()), j (context_a.parameters_end ()); i != j; ++i)
 		{
 			context_a.push (*i);

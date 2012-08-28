@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/loadb_operation.h>
 #include <mu/script/string_node.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/identity_operation.h>
 #include <mu/script/context.h>
 #include <mu/io/keywording_extensions.h>
@@ -59,7 +59,7 @@ TEST (script_test, loadb2)
 	ASSERT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 1);
     auto ext (ctx.working (0));
-	auto extensions (dynamic_cast <mu::script::extensions::node *> (ext));
+	auto extensions (dynamic_cast <mu::script::parser_scope::node *> (ext));
 	ASSERT_NE (extensions, nullptr);
 	auto existing ((*extensions->extensions) (mu::string (U"identity")));
 	EXPECT_TRUE (!boost::get <0> (existing).empty ());

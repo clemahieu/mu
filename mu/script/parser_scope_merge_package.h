@@ -6,13 +6,12 @@ namespace mu
 {
 	namespace script
 	{
-		namespace extensions
+		namespace parser_scope
 		{
-			class merge : public mu::script::operation
+			class merge_package : public mu::script::operation
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				mu::string name () override;
 			};
 		}
 	}

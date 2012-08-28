@@ -4,7 +4,7 @@
 #include <mu/script/string_node.h>
 #include <mu/io/lexer_istream_input.h>
 #include <mu/io/source.h>
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 

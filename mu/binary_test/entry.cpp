@@ -1,6 +1,6 @@
 #include <boost/cstdint.hpp>
 
-#include <mu/script/extensions_node.h>
+#include <mu/script/parser_scope_node.h>
 #include <mu/script/identity_operation.h>
 #include <mu/io/keywording_extensions.h>
 
@@ -18,7 +18,7 @@ __declspec (dllexport)
 #endif
 void * extensions ()
 {
-	auto result (new (GC) mu::script::extensions::node);
+	auto result (new (GC) mu::script::parser_scope::node);
 	(*result->extensions) (mu::string (U"identity"), new (GC) mu::script::identity::operation);
 	return result;
 }
