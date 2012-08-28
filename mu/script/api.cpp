@@ -39,17 +39,19 @@
 
 #include <gc_cpp.h>
 
-auto mu::script::api::core () -> mu::script::extensions::node *
+auto mu::script::api::core () -> boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>>
 {
-	auto result (new (GC) mu::script::extensions::node);
-    mu::io::keywording::extensions & extensions (*result->extensions);
-    extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
-    extensions (mu::string (U"context"), context_extension (result));
-    extensions (mu::string (U"loadb"), loadb_extension ());
-    extensions (mu::string (U"loads"), loads_extension ());
-	extensions.add <mu::script::string::extension> (mu::string (U"`"));
-	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
-	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
+    boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>> result;
+    auto extensions (new (GC) mu::script::extensions::node);
+    boost::get <0> (result) = extensions;
+    auto & map (boost::get <1> (result));
+	extensions->extensions->add <mu::script::string::extension> (mu::string (U"`"));
+	extensions->extensions->add <mu::script::astring::extension>(mu::string (U"a`"));
+	extensions->extensions->add <mu::script::integer::extension> (mu::string (U"#"));
+    map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
+    map [mu::string (U"context")] = context_extension (extensions);
+    map [mu::string (U"loadb")] = loadb_extension ();
+    map [mu::string (U"loads")] = loads_extension ();
 	return result;
 }
 

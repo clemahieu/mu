@@ -10,21 +10,24 @@
 
 TEST (script_test, string_extension1)
 {
-	mu::script::builder builder (mu::script::api::core ()->extensions);
+    auto core (mu::script::api::core ());
+	mu::script::builder builder (boost::get <0> (core)->extensions);
 	mu::io::process (builder, U"[1 ; [`]]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
 }
 
 TEST (script_test, string_extension2)
 {
-	mu::script::builder builder (mu::script::api::core ()->extensions);
+    auto core (mu::script::api::core ());
+	mu::script::builder builder (boost::get <0> (core)->extensions);
 	mu::io::process (builder, U"[1 ; [` ]]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
 }
 
 TEST (script_test, string_extension3)
 {
-	mu::script::builder builder (mu::script::api::core ()->extensions);
+    auto core (mu::script::api::core ());
+	mu::script::builder builder (boost::get <0> (core)->extensions);
 	mu::io::process (builder, U"[1 ; [`a]]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
 }
