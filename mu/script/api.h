@@ -19,7 +19,7 @@ namespace mu
 		namespace api
 		{
             auto core () -> boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>>;
-			mu::script::extensions::node * full ();
+			auto full () -> boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>>;
             auto loadb_extension () -> mu::core::node *;
             auto loads_extension () -> mu::core::node *;
             mu::core::node * context_extension (mu::script::extensions::node * core_a);

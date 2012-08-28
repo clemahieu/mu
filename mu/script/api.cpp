@@ -42,14 +42,14 @@
 auto mu::script::api::core () -> boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>>
 {
     boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>> result;
-    auto extensions (new (GC) mu::script::extensions::node);
-    boost::get <0> (result) = extensions;
+    boost::get <0> (result) = new (GC) mu::script::extensions::node;
+    auto & extensions (*boost::get <0> (result)->extensions);
     auto & map (boost::get <1> (result));
-	extensions->extensions->add <mu::script::string::extension> (mu::string (U"`"));
-	extensions->extensions->add <mu::script::astring::extension>(mu::string (U"a`"));
-	extensions->extensions->add <mu::script::integer::extension> (mu::string (U"#"));
+	extensions.add <mu::script::string::extension> (mu::string (U"`"));
+	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
+	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
     map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
-    map [mu::string (U"context")] = context_extension (extensions);
+    map [mu::string (U"context")] = context_extension (boost::get <0> (result));
     map [mu::string (U"loadb")] = loadb_extension ();
     map [mu::string (U"loads")] = loads_extension ();
 	return result;
@@ -106,24 +106,25 @@ auto mu::script::api::context_extension (mu::script::extensions::node * core_a) 
     return result;
 }
 
-auto mu::script::api::full () -> mu::script::extensions::node *
+auto mu::script::api::full () -> boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>>
 {
-	auto result (new (GC) mu::script::extensions::node);
-    mu::io::keywording::extensions & extensions (*result->extensions);
-	extensions (mu::string (U"identity"), new (GC) mu::script::identity::operation);
-	extensions (mu::string (U"astring/truncate"), new (GC) mu::script::astring::truncate);
-	extensions (mu::string (U"bool_c/create"), new (GC) mu::script::bool_c::create);
-	extensions (mu::string (U"bool_c/equal"), new (GC) mu::script::bool_c::equal);
-	extensions (mu::string (U"chain/operation"), new (GC) mu::script::chain::operation);
-	extensions (mu::string (U"extensions/create"), new (GC) mu::script::extensions::create);
-	extensions (mu::string (U"extensions/merge_package"), new (GC) mu::script::extensions::merge_package);
-	extensions (mu::string (U"integer/equal"), new (GC) mu::script::integer::equal);
-	extensions (mu::string (U"integer/subtract"), new (GC) mu::script::integer::subtract);
-	extensions (mu::string (U"print/operation"), new (GC) mu::script::print::operation);
-	extensions (mu::string (U"package/add"), new (GC) mu::script::package::add);
-	extensions (mu::string (U"package/create"), new (GC) mu::script::package::create);
-	extensions (mu::string (U"package/get"), new (GC) mu::script::package::get);
-	extensions (mu::string (U"package/remove"), new (GC) mu::script::package::remove);
-	extensions (mu::string (U"times/operation"), new (GC) mu::script::times::operation);
+    boost::tuple <mu::script::extensions::node *, mu::map <mu::string, mu::core::node *>> result;
+    boost::get <0> (result) = new (GC) mu::script::extensions::node;
+    auto & map (boost::get <1> (result));
+	map [mu::string (U"identity")] = new (GC) mu::script::identity::operation;
+	map [mu::string (U"astring/truncate")] = new (GC) mu::script::astring::truncate;
+	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;
+	map [mu::string (U"bool_c/equal")] = new (GC) mu::script::bool_c::equal;
+	map [mu::string (U"chain/operation")] = new (GC) mu::script::chain::operation;
+	map [mu::string (U"extensions/create")] = new (GC) mu::script::extensions::create;
+	map [mu::string (U"extensions/merge_package")] = new (GC) mu::script::extensions::merge_package;
+	map [mu::string (U"integer/equal")] = new (GC) mu::script::integer::equal;
+	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
+	map [mu::string (U"print/operation")] = new (GC) mu::script::print::operation;
+	map [mu::string (U"package/add")] = new (GC) mu::script::package::add;
+	map [mu::string (U"package/create")] = new (GC) mu::script::package::create;
+	map [mu::string (U"package/get")] = new (GC) mu::script::package::get;
+	map [mu::string (U"package/remove")] = new (GC) mu::script::package::remove;
+	map [mu::string (U"times/operation")] = new (GC) mu::script::times::operation;
 	return result;
 }
