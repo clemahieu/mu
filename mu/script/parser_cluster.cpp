@@ -4,6 +4,7 @@
 #include <mu/script/parser_parser.h>
 #include <mu/script/parser_routine.h>
 #include <mu/script/ast_cluster.h>
+#include <mu/script/parser_scope_node.h>
 
 #include <gc_cpp.h>
 
@@ -11,7 +12,7 @@ mu::script::parser::cluster::cluster (mu::script::parser::parser & parser_a):
 parser (parser_a),
 cluster_m (new (GC) mu::script::ast::cluster)
 {
-    for (auto i (parser_a.injected.begin ()), j (parser_a.injected.end ()); i != j; ++i)
+    for (auto i (parser_a.scope->injected.begin ()), j (parser_a.scope->injected.end ()); i != j; ++i)
     {
         map.insert_cluster_scope (parser.errors, i->first, i->second, mu::io::context ());
     }

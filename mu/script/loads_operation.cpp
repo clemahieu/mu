@@ -23,8 +23,8 @@ bool mu::script::loads::operation::operator () (mu::script::context & context_a)
 	if (complete)
 	{
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (0)));
-        mu::io::keywording::extensions extensions;
-		auto result (core (context_a, &extensions, file));
+        mu::script::parser_scope::node scope;
+		auto result (core (context_a, &scope, file));
 		if (result != nullptr)
 		{
 			context_a.push (result);
@@ -44,7 +44,7 @@ bool mu::script::loads_extensions::operation::operator () (mu::script::context &
 	{
         auto extensions (static_cast <mu::script::parser_scope::node *> (context_a.parameters (0)));
 		auto file (static_cast <mu::script::string::node *> (context_a.parameters (1)));
-		auto result (mu::script::loads::operation::core (context_a, extensions->extensions, file));
+		auto result (mu::script::loads::operation::core (context_a, extensions, file));
 		if (result != nullptr)
 		{
 			context_a.push (result);
@@ -57,13 +57,13 @@ bool mu::script::loads_extensions::operation::operator () (mu::script::context &
 	return complete;
 }
 
-mu::script::cluster::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::io::keywording::extensions * extensions_a, mu::script::string::node * file)
+mu::script::cluster::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::script::parser_scope::node * scope_a, mu::script::string::node * file)
 {
     std::fstream stream;
     std::string name (file->string.begin (), file->string.end ());
     stream.open (name.c_str ());
     auto input (new (GC) mu::io::lexer::istream_input (stream));
-    mu::script::builder builder (extensions_a);
+    mu::script::builder builder (scope_a);
     mu::io::process (builder, *input);
     mu::script::cluster::node * result (nullptr);
     if (!builder.errors ())

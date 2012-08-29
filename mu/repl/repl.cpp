@@ -57,7 +57,7 @@ void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
     auto core (mu::script::api::core ());
-	mu::script::builder builder (boost::get <0> (core)->extensions);
+	mu::script::builder builder (core);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	(*builder.keywording.extensions) (mu::string (U"quit"), quit);
     std::wstring line;

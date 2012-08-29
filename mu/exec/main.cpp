@@ -18,7 +18,7 @@ int main (int argc, char * argv [])
 		std::string file_name (argv [1]);
 		mu::script::context context;
         auto core (mu::script::api::core ());
-		context.push (new (GC) mu::script::exec::operation (boost::get <0> (core)->extensions));
+		context.push (new (GC) mu::script::exec::operation (core->extensions));
 		context.push (new (GC) mu::script::string::node (mu::string (file_name.begin (), file_name.end ())));
         auto valid (context ());
 		if (valid)

@@ -10,8 +10,9 @@
 TEST (script_test, api1)
 {
     auto api (mu::script::api::core ());
-    ASSERT_TRUE (boost::get <0> (api) != nullptr);
-    auto & map (boost::get <1> (api));
+    ASSERT_TRUE (api != nullptr);
+    ASSERT_TRUE (api->extensions != nullptr);
+    auto & map (api->injected);
     ASSERT_TRUE (!map.empty ());
     auto tilde_existing (map.find (mu::string (U"~")));
     ASSERT_TRUE (tilde_existing != map.end ());

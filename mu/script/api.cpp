@@ -39,17 +39,16 @@
 
 #include <gc_cpp.h>
 
-auto mu::script::api::core () -> boost::tuple <mu::script::parser_scope::node *, mu::map <mu::string, mu::core::node *>>
+auto mu::script::api::core () -> mu::script::parser_scope::node *
 {
-    boost::tuple <mu::script::parser_scope::node *, mu::map <mu::string, mu::core::node *>> result;
-    boost::get <0> (result) = new (GC) mu::script::parser_scope::node;
-    auto & extensions (*boost::get <0> (result)->extensions);
-    auto & map (boost::get <1> (result));
+    auto result (new (GC) mu::script::parser_scope::node);
+    auto & extensions (*result->extensions);
+    auto & map (result->injected);
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
     map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
-    map [mu::string (U"context")] = context_extension (boost::get <0> (result));
+    map [mu::string (U"context")] = context_extension (result);
     map [mu::string (U"loadb")] = loadb_extension ();
     map [mu::string (U"loads")] = loads_extension ();
 	return result;
@@ -106,11 +105,10 @@ auto mu::script::api::context_extension (mu::script::parser_scope::node * core_a
     return result;
 }
 
-auto mu::script::api::full () -> boost::tuple <mu::script::parser_scope::node *, mu::map <mu::string, mu::core::node *>>
+auto mu::script::api::full () -> mu::script::parser_scope::node *
 {
-    boost::tuple <mu::script::parser_scope::node *, mu::map <mu::string, mu::core::node *>> result;
-    boost::get <0> (result) = new (GC) mu::script::parser_scope::node;
-    auto & map (boost::get <1> (result));
+    auto result (new (GC) mu::script::parser_scope::node);
+    auto & map (result->injected);
 	map [mu::string (U"identity")] = new (GC) mu::script::identity::operation;
 	map [mu::string (U"astring/truncate")] = new (GC) mu::script::astring::truncate;
 	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;

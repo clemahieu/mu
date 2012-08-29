@@ -21,6 +21,7 @@ namespace mu
 				node ();
 				node (mu::io::keywording::extensions * extensions_a);
 				mu::io::keywording::extensions * extensions;
+                mu::map <mu::string, mu::core::node *> injected;
 				mu::string name () override;
 			};
 		}

@@ -62,7 +62,7 @@ TEST (script_test, DISABLED_times_operation2)
 TEST (script_test, times_operation3)
 {
     auto core (mu::script::api::core ());
-	mu::script::builder builder (boost::get <1> (core), boost::get <0> (core)->extensions);
+	mu::script::builder builder (core);
 	mu::io::process (builder, U"[1 [subtract number amount] [~ subtract [subtract number amount] amount]]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
     builder.errors.print (std::wcout);
