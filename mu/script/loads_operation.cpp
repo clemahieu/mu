@@ -59,18 +59,27 @@ bool mu::script::loads_extensions::operation::operator () (mu::script::context &
 
 mu::script::cluster::node * mu::script::loads::operation::core (mu::script::context & context_a, mu::script::parser_scope::node * scope_a, mu::script::string::node * file)
 {
+    mu::script::cluster::node * result (nullptr);
     std::fstream stream;
     std::string name (file->string.begin (), file->string.end ());
     stream.open (name.c_str ());
-    auto input (new (GC) mu::io::lexer::istream_input (stream));
-    mu::script::builder builder (scope_a);
-    mu::io::process (builder, *input);
-    mu::script::cluster::node * result (nullptr);
-    if (!builder.errors ())
+    if (!stream.fail ())
     {
-        assert (builder.clusters.size () == 1);
-        result = builder.clusters [0];
+        auto input (new (GC) mu::io::lexer::istream_input (stream));
+        mu::script::builder builder (scope_a);
+        mu::io::process (builder, *input);
+        if (!builder.errors ())
+        {
+            assert (builder.clusters.size () == 1);
+            result = builder.clusters [0];
+        }
     }
-    builder.errors.print(std::wcerr);
+    else
+    {
+        mu::stringstream message;
+        message << U"Unable to open file: ";
+        message << file->string;
+        context_a.errors (message.str ());
+    }
 	return result;
 }

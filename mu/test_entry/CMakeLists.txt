@@ -62,6 +62,7 @@ add_executable (mu_test_entry
 	script_closure_single.cpp
 	script_debugging_trace_target.cpp
 	script_debugging_trace_types.cpp
+    script_exec_operation.cpp
 	script_integer_equal.cpp
 	script_loadb_operation.cpp
 	script_loads_operation.cpp
