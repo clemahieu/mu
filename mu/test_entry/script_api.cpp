@@ -7,6 +7,7 @@
 #include <mu/script/runtime_routine.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/script/string_node.h>
 
 // Creation of api extensions
 TEST (script_test, api1)
@@ -53,5 +54,27 @@ TEST (script_test, api2)
     ASSERT_TRUE (new_context != nullptr);
     ASSERT_TRUE (new_context->injected.size () == api->injected.size ());
     ASSERT_TRUE (new_context->extensions->extensions_m.size () == api->extensions->extensions_m.size ());
-    
+}
+
+// Creation of loads
+TEST (script_test, api3)
+{
+    auto api (mu::script::api::core ());
+    ASSERT_TRUE (api != nullptr);
+    auto & map (api->injected);
+    auto loads_existing (map.find (mu::string (U"loads")));
+    ASSERT_TRUE (loads_existing != map.end ());
+    auto loads (dynamic_cast <mu::script::runtime::routine *> (loads_existing->second));
+    ASSERT_TRUE (loads != nullptr);
+    mu::script::context ctx;
+    ctx.push (loads);
+    auto scope (new (GC) mu::script::parser_scope::node);
+    ctx.push (scope);
+    ctx.push (new (GC) mu::script::string::node (mu::string (U"prefix")));
+    ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
+    auto valid (ctx ());
+    ASSERT_TRUE (valid);
+    ASSERT_TRUE (scope->injected.size () == 2);
+    ASSERT_TRUE (scope->injected.find (mu::string (U"prefixa")) != scope->injected.end ());
+    ASSERT_TRUE (scope->injected.find (mu::string (U"prefixb")) != scope->injected.end ());
 }
