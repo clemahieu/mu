@@ -94,7 +94,7 @@ auto mu::script::api::context_extension (mu::script::parser_scope::node * core_a
 {
     auto result (new (GC) mu::script::runtime::routine);
     auto expression1 (new (GC) mu::script::runtime::expression);
-    expression1->dependencies.push_back (new (GC) mu::script::parser_scope::create);
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::parser_scope::create));
     result->expressions.push_back (expression1);
     auto expression2 (new (GC) mu::script::runtime::expression);
     expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::parser_scope::merge));
@@ -102,6 +102,11 @@ auto mu::script::api::context_extension (mu::script::parser_scope::node * core_a
     expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::string::node (mu::string ())));
     expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (core_a));
     result->expressions.push_back (expression2);
+    auto expression3 (new (GC) mu::script::runtime::expression);
+    expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::identity::operation));
+    expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
+    expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression2));
+    result->expressions.push_back (expression3);
     return result;
 }
 

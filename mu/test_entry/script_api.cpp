@@ -5,6 +5,8 @@
 #include <mu/io/keywording_extensions.h>
 #include <mu/script/identity_operation.h>
 #include <mu/script/runtime_routine.h>
+#include <mu/script/context.h>
+#include <mu/core/errors/error_target.h>
 
 // Creation of api extensions
 TEST (script_test, api1)
@@ -30,4 +32,26 @@ TEST (script_test, api1)
     ASSERT_TRUE (loads_existing != map.end ());
     auto loads (dynamic_cast <mu::script::runtime::routine *> (loads_existing->second));
     ASSERT_TRUE (loads != nullptr);
+}
+
+// Creation of context
+TEST (script_test, api2)
+{
+    auto api (mu::script::api::core ());
+    ASSERT_TRUE (api != nullptr);
+    auto & map (api->injected);
+    auto context_existing (map.find (mu::string (U"context")));
+    ASSERT_TRUE (context_existing != map.end ());
+    auto context (dynamic_cast <mu::script::runtime::routine *> (context_existing->second));
+    ASSERT_TRUE (context != nullptr);
+    mu::script::context ctx;
+    ctx.push (context);
+    auto valid (ctx ());
+    ASSERT_TRUE (valid);
+    ASSERT_TRUE (ctx.working_size () == 1);
+    auto new_context (dynamic_cast <mu::script::parser_scope::node *> (ctx.working (0)));
+    ASSERT_TRUE (new_context != nullptr);
+    ASSERT_TRUE (new_context->injected.size () == api->injected.size ());
+    ASSERT_TRUE (new_context->extensions->extensions_m.size () == api->extensions->extensions_m.size ());
+    
 }
