@@ -35,7 +35,7 @@
 #include <mu/script/string_node.h>
 #include <mu/script/runtime_fixed.h>
 #include <mu/script/runtime_parameter.h>
-#include <mu/script/cluster_to_extensions.h>
+#include <mu/script/cluster_to_parser_scope.h>
 
 #include <gc_cpp.h>
 
@@ -78,7 +78,7 @@ auto mu::script::api::loads_extension () -> mu::core::node *
     expression1->dependencies.push_back (new (GC) mu::script::runtime::parameter (2));
     result->expressions.push_back (expression1);
     auto expression2 (new (GC) mu::script::runtime::expression);
-    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::cluster::to_extensions));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::cluster::to_parser_scope));
     expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
     result->expressions.push_back (expression2);
     auto expression3 (new (GC) mu::script::runtime::expression);

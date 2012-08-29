@@ -1,4 +1,4 @@
-#include <mu/script/cluster_to_extensions.h>
+#include <mu/script/cluster_to_parser_scope.h>
 
 #include <mu/core/check.h>
 #include <mu/script/context.h>
@@ -9,7 +9,7 @@
 
 #include <gc_cpp.h>
 
-bool mu::script::cluster::to_extensions::operator () (mu::script::context & context_a)
+bool mu::script::cluster::to_parser_scope::operator () (mu::script::context & context_a)
 {
     bool valid (mu::core::check <mu::script::cluster::node> (context_a));
     if (valid)
@@ -18,8 +18,7 @@ bool mu::script::cluster::to_extensions::operator () (mu::script::context & cont
         auto result (new (GC) mu::script::parser_scope::node);
         for (auto i (cluster->routines.begin ()), j (cluster->routines.end ()); i != j; ++i)
         {
-            auto error ((*result->extensions) (i->first, i->second));
-            assert (!error);
+            result->injected [i->first] = i->second;
         }
         context_a.push (result);
     }

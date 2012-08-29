@@ -8,7 +8,7 @@ namespace mu
     {
         namespace cluster
         {
-            class to_extensions : public mu::script::operation
+            class to_parser_scope : public mu::script::operation
             {
             public:
                 bool operator () (mu::script::context & context_a) override;

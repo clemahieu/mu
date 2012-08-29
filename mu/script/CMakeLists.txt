@@ -29,7 +29,7 @@ add_library (mu_script SHARED
 	closure_operation.cpp
 	closure_single.cpp
 	cluster_node.cpp
-	cluster_to_extensions.cpp
+	cluster_to_parser_scope.cpp
     context.cpp
 	debugging_trace_error.cpp
 	debugging_trace_target.cpp
