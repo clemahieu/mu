@@ -119,15 +119,18 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;
 	map [mu::string (U"bool_c/equal")] = new (GC) mu::script::bool_c::equal;
 	map [mu::string (U"chain/operation")] = new (GC) mu::script::chain::operation;
-	map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
-	map [mu::string (U"parser_scope/merge_package")] = new (GC) mu::script::parser_scope::merge_package;
+    map [mu::string (U"cluster_to_context")] = new (GC) mu::script::cluster::to_parser_scope;
 	map [mu::string (U"integer/equal")] = new (GC) mu::script::integer::equal;
 	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
-	map [mu::string (U"print/operation")] = new (GC) mu::script::print::operation;
+    map [mu::string (U"loadb")] = new (GC) mu::script::loadb::operation;
+    map [mu::string (U"loads")] = new (GC) mu::script::loads_extensions::operation;
+	map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
+	map [mu::string (U"parser_scope/merge_package")] = new (GC) mu::script::parser_scope::merge_package;
 	map [mu::string (U"package/add")] = new (GC) mu::script::package::add;
 	map [mu::string (U"package/create")] = new (GC) mu::script::package::create;
 	map [mu::string (U"package/get")] = new (GC) mu::script::package::get;
 	map [mu::string (U"package/remove")] = new (GC) mu::script::package::remove;
+	map [mu::string (U"print/operation")] = new (GC) mu::script::print::operation;
 	map [mu::string (U"times/operation")] = new (GC) mu::script::times::operation;
 	return result;
 }
