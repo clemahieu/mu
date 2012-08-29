@@ -62,7 +62,6 @@ add_executable (mu_test_entry
 	script_closure_single.cpp
 	script_debugging_trace_target.cpp
 	script_debugging_trace_types.cpp
-    script_extensions_merge.cpp
 	script_integer_equal.cpp
 	script_loadb_operation.cpp
 	script_loads_operation.cpp
@@ -70,6 +69,7 @@ add_executable (mu_test_entry
 	script_package_get_recursive.cpp
 	script_package_get.cpp
     script_parser_parser.cpp
+    script_parser_scope_merge.cpp
     script_parser_topology.cpp
 	script_string_extension.cpp
     script_synthesizer_synthesizer.cpp

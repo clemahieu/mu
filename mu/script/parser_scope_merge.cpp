@@ -25,12 +25,30 @@ bool mu::script::parser_scope::merge::operator () (mu::script::context & context
 			if (error)
             {
 				mu::stringstream message;
-				message << L"Extensions already contains extension named: ";
+				message << L"Scope already contains extension named: ";
 				message << i->first;
 				context_a.errors (message.str ());
 				result = false;
 			}
 		}
+        for (auto i (three->injected.begin ()), j (three->injected.end ()); i != j; ++i)
+        {
+            mu::string name (two->string);
+            name.append (i->first);
+            auto existing (one->injected.find (name));
+            if (existing == one->injected.end ())
+            {
+                one->injected [name] = i->second;
+            }
+            else
+            {
+				mu::stringstream message;
+				message << L"Scope already contains node named: ";
+				message << i->first;
+				context_a.errors (message.str ());
+				result = false;
+            }
+        }
 	}
 	return result;
 }
