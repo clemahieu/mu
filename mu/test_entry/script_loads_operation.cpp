@@ -20,8 +20,8 @@ TEST (script_test, loads1)
 	ASSERT_TRUE (ctx.working_size () == 1);
 	auto cluster (dynamic_cast <mu::script::cluster::node *> (ctx.working (0)));
 	ASSERT_TRUE (cluster != nullptr);
-	//auto a ((*extensions->extensions) (mu::string (U"a")));
-	//EXPECT_TRUE (!boost::get <0> (a).empty ());
-	//auto b ((*extensions->extensions) (mu::string (U"b")));
-	//EXPECT_TRUE (!boost::get <0> (b).empty ());
+	auto a (cluster->routines.find (mu::string (U"a")));
+    ASSERT_TRUE (a != cluster->routines.end ());
+	auto b (cluster->routines.find (mu::string (U"b")));
+	ASSERT_TRUE (b != cluster->routines.end ());
 }

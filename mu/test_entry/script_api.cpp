@@ -9,6 +9,8 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string_node.h>
 
+#include <boost/filesystem.hpp>
+
 // Creation of api extensions
 TEST (script_test, api1)
 {
@@ -74,7 +76,57 @@ TEST (script_test, api3)
     ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
     auto valid (ctx ());
     ASSERT_TRUE (valid);
+    ASSERT_TRUE (ctx.working_size () == 0);
     ASSERT_TRUE (scope->injected.size () == 2);
     ASSERT_TRUE (scope->injected.find (mu::string (U"prefixa")) != scope->injected.end ());
     ASSERT_TRUE (scope->injected.find (mu::string (U"prefixb")) != scope->injected.end ());
+}
+
+// Creation of loadb
+TEST (script_test, api4)
+{
+    auto api (mu::script::api::core ());
+    ASSERT_TRUE (api != nullptr);
+    auto & map (api->injected);
+    auto loads_existing (map.find (mu::string (U"loadb")));
+    ASSERT_TRUE (loads_existing != map.end ());
+    auto loads (dynamic_cast <mu::script::runtime::routine *> (loads_existing->second));
+    ASSERT_TRUE (loads != nullptr);
+    mu::script::context ctx;
+    ctx.push (loads);
+    auto scope (new (GC) mu::script::parser_scope::node);
+    ctx.push (scope);
+    ctx.push (new (GC) mu::script::string::node (mu::string (U"prefix")));
+    auto windows_name (mu::string (U"mu/binary_test/Debug/mu_binary_test.dll"));
+    auto unix_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.so"));
+    auto osx_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.dylib"));
+    auto windows_path (boost::filesystem::initial_path() /= std::string (windows_name.begin (), windows_name.end ()));
+    auto unix_path (boost::filesystem::initial_path () /= std::string (unix_name.begin (), unix_name.end ()));
+    auto osx_path (boost::filesystem::initial_path () /= std::string (osx_name.begin (), osx_name.end ()));
+    auto windows_exists (boost::filesystem::exists (windows_path));
+    auto unix_exists (boost::filesystem::exists (unix_path));
+    auto osx_exists (boost::filesystem::exists (osx_path));
+    mu::script::string::node * file;
+    if (windows_exists)
+    {
+        file = new (GC) mu::script::string::node (windows_name);
+    }
+    else if (unix_exists)
+    {
+        file = new (GC) mu::script::string::node (unix_name);
+    }
+    else if (osx_exists)
+    {
+        file = new (GC) mu::script::string::node (osx_name);
+    }
+    else
+    {
+        ASSERT_EQ (false, true);
+    }
+    ctx.push (file);
+    auto valid (ctx ());
+    ASSERT_TRUE (valid);
+	ASSERT_TRUE (ctx.working_size () == 0);
+	auto existing (scope->injected.find (mu::string (U"prefixidentity")));
+	ASSERT_TRUE (existing != scope->injected.end ());
 }

@@ -53,6 +53,8 @@ add_subdirectory (mu/script)
 add_subdirectory (mu/script_binary)
 add_subdirectory (mu/script_core_binary)
 add_subdirectory (mu/test_entry)
+add_dependencies (mu_test_entry
+    mu_binary_test)
 file (COPY ${CMAKE_SOURCE_DIR}/examples DESTINATION ${CMAKE_BINARY_DIR})
 file (COPY ${CMAKE_SOURCE_DIR}/source_test.mu DESTINATION ${CMAKE_BINARY_DIR})
 file (COPY ${CMAKE_SOURCE_DIR}/mu/source DESTINATION ${CMAKE_BINARY_DIR}/mu)

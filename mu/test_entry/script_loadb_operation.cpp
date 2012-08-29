@@ -50,17 +50,17 @@ TEST (script_test, loadb2)
     }
     else
     {
-        ASSERT_EQ (false, true);
+        ASSERT_TRUE (false);
     }
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::loadb::operation);
     ctx.push (file);
 	auto valid (ctx ());
-	ASSERT_EQ (valid, true);
-	EXPECT_EQ (ctx.working_size (), 1);
+	ASSERT_TRUE (valid);
+	EXPECT_TRUE (ctx.working_size () == 1);
     auto ext (ctx.working (0));
 	auto extensions (dynamic_cast <mu::script::parser_scope::node *> (ext));
-	ASSERT_NE (extensions, nullptr);
-	auto existing ((*extensions->extensions) (mu::string (U"identity")));
-	EXPECT_TRUE (!boost::get <0> (existing).empty ());
+	ASSERT_TRUE (extensions != nullptr);
+	auto existing (extensions->injected.find (mu::string (U"identity")));
+	EXPECT_TRUE (existing != extensions->injected.end ());
 }

@@ -19,6 +19,6 @@ __declspec (dllexport)
 void * extensions ()
 {
 	auto result (new (GC) mu::script::parser_scope::node);
-	(*result->extensions) (mu::string (U"identity"), new (GC) mu::script::identity::operation);
+	result->injected [mu::string (U"identity")] = new (GC) mu::script::identity::operation;
 	return result;
 }
