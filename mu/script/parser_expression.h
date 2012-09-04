@@ -15,7 +15,7 @@ namespace mu
     {
         namespace ast
         {
-            class expression;
+            class definite_expression;
         }
         namespace parser
         {
@@ -30,8 +30,8 @@ namespace mu
             class expression : public mu::script::parser::state, public mu::io::tokens::visitor
             {
             public:
-                expression (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
-                mu::script::ast::expression * expression_m;
+                expression (mu::script::parser::routine & routine_a, mu::script::ast::definite_expression * expression_a);
+                mu::script::ast::definite_expression * expression_m;
                 mu::script::parser::expression_state state;
                 mu::script::parser::routine & routine;
                 size_t element;

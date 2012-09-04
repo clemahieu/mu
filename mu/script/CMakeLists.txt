@@ -11,6 +11,7 @@ add_library (mu_script SHARED
 	api.cpp
     ast_cluster.cpp
     ast_expression.cpp
+    ast_definite_expression.cpp
     ast_parameter.cpp
     ast_reference.cpp
     ast_routine.cpp
@@ -78,7 +79,7 @@ add_library (mu_script SHARED
 	string_extension.cpp
 	string_node.cpp
     synthesizer_cluster.cpp
-    synthesizer_expression.cpp
+    synthesizer_definite_expression.cpp
     synthesizer_routine.cpp
     synthesizer_synthesizer.cpp
 	times_operation.cpp

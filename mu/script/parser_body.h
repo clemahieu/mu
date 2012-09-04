@@ -13,7 +13,7 @@ namespace mu
     {
         namespace ast
         {
-            class expression;
+            class definite_expression;
         }
         namespace parser
         {
@@ -21,9 +21,9 @@ namespace mu
             class body : public mu::script::parser::state, public mu::io::tokens::visitor
             {
             public:
-                body (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a);
+                body (mu::script::parser::routine & routine_a, mu::script::ast::definite_expression * expression_a);
                 mu::script::parser::routine & routine;
-                mu::script::ast::expression * expression_m;
+                mu::script::ast::definite_expression * expression_m;
                 void operator () (mu::io::tokens::token * token_a) override;
 				void operator () (mu::io::tokens::divider * token) override;
 				void operator () (mu::io::tokens::identifier * token) override;

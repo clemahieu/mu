@@ -1,8 +1,8 @@
-#include <mu/script/synthesizer_expression.h>
+#include <mu/script/synthesizer_definite_expression.h>
 
 #include <mu/script/synthesizer_routine.h>
 #include <mu/core/errors/error_target.h>
-#include <mu/script/ast_expression.h>
+#include <mu/script/ast_definite_expression.h>
 #include <mu/script/runtime_expression.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_reference.h>
@@ -19,13 +19,13 @@
 
 #include <assert.h>
 
-mu::script::synthesizer::expression::expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::expression * expression_a):
+mu::script::synthesizer::definite_expression::definite_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a):
 expression_m (new (GC) mu::script::runtime::expression)
 {
     for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
     {
         auto current (*i);
-        auto expression_l (dynamic_cast <mu::script::ast::expression *> (current));
+        auto expression_l (dynamic_cast <mu::script::ast::definite_expression *> (current));
         auto reference (dynamic_cast <mu::script::ast::reference *> (current));
         auto parameter_l (dynamic_cast <mu::script::ast::parameter *> (current));
         auto routine_l (dynamic_cast <mu::script::ast::routine *> (current));
@@ -65,7 +65,7 @@ expression_m (new (GC) mu::script::runtime::expression)
     routine_a.routine_m->expressions.push_back (expression_m);
 }
 
-auto mu::script::synthesizer::expression::recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::expression *expression_a) -> mu::script::runtime::expression *
+auto mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression *expression_a) -> mu::script::runtime::expression *
 {
     mu::script::runtime::expression * result (nullptr);
     if (routine_a.current_cycle.find (expression_a) != routine_a.current_cycle.end ())
@@ -78,7 +78,7 @@ auto mu::script::synthesizer::expression::recurse (mu::script::synthesizer::rout
         auto existing (routine_a.already_parsed.find (expression_a));
         if (existing == routine_a.already_parsed.end ())
         {
-            mu::script::synthesizer::expression expression_l (routine_a, expression_a);
+            mu::script::synthesizer::definite_expression expression_l (routine_a, expression_a);
             result = expression_l.expression_m;
         }
         else

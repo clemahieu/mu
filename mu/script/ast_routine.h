@@ -8,13 +8,13 @@ namespace mu
     {
         namespace ast
         {
-            class expression;
+            class definite_expression;
             class routine : public mu::script::ast::node
             {
             public:
                 routine ();
                 mu::string name;
-                mu::script::ast::expression * body;
+                mu::script::ast::definite_expression * body;
             };
         }
     }

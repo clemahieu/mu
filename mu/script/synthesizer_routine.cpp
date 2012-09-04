@@ -1,7 +1,7 @@
 #include <mu/script/synthesizer_routine.h>
 
 #include <mu/script/runtime_routine.h>
-#include <mu/script/synthesizer_expression.h>
+#include <mu/script/synthesizer_definite_expression.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/synthesizer_cluster.h>
 
@@ -16,5 +16,5 @@ cluster (cluster_a)
 {
     assert (cluster_a.routines.find (routine_a) == cluster_a.routines.end ());
     cluster_a.routines [routine_a] = routine_m;
-    mu::script::synthesizer::expression expression (*this, routine_a->body);
+    mu::script::synthesizer::definite_expression expression (*this, routine_a->body);
 }

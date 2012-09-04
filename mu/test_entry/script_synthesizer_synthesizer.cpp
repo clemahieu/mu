@@ -8,7 +8,7 @@
 #include <mu/script/synthesizer_synthesizer.h>
 #include <mu/script/ast_cluster.h>
 #include <mu/script/ast_routine.h>
-#include <mu/script/ast_expression.h>
+#include <mu/script/ast_definite_expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/ast_parameter.h>
 #include <mu/script/runtime_parameter.h>
@@ -84,7 +84,7 @@ TEST (script_test, synthesizer_operation3)
     routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
 	auto identity (new (GC) mu::script::identity::operation);
-    auto expression1 (new (GC) mu::script::ast::expression);
+    auto expression1 (new (GC) mu::script::ast::definite_expression);
     routine1->body->nodes.nodes.push_back (identity);
     expression1->nodes.nodes.push_back (identity);
     routine1->body->nodes.nodes.push_back (expression1);
@@ -154,8 +154,8 @@ TEST (script_test, synthesizer_operation5)
     auto cluster1 (new (GC) mu::script::ast::cluster);
     auto routine1 (new (GC) mu::script::ast::routine);
     cluster1->routines.push_back (routine1);
-    auto expression1 (new (GC) mu::script::ast::expression);
-    auto expression2 (new (GC) mu::script::ast::expression);
+    auto expression1 (new (GC) mu::script::ast::definite_expression);
+    auto expression2 (new (GC) mu::script::ast::definite_expression);
     expression1->nodes.nodes.push_back (expression2);
     expression2->nodes.nodes.push_back (expression1);
     routine1->body->nodes.nodes.push_back (expression1);

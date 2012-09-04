@@ -4,14 +4,14 @@
 #include <mu/script/parser_routine.h>
 #include <mu/script/parser_parser.h>
 #include <mu/script/parser_cluster.h>
-#include <mu/script/ast_expression.h>
+#include <mu/script/ast_definite_expression.h>
 #include <mu/script/parser_expression.h>
 #include <mu/script/ast_reference.h>
 #include <mu/core/node_list.h>
 
 #include <gc_cpp.h>
 
-mu::script::parser::body::body (mu::script::parser::routine & routine_a, mu::script::ast::expression * expression_a):
+mu::script::parser::body::body (mu::script::parser::routine & routine_a, mu::script::ast::definite_expression * expression_a):
 routine (routine_a),
 expression_m (expression_a)
 {
@@ -34,7 +34,7 @@ void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
 {
-    auto expression_l (new (GC) mu::script::ast::expression);
+    auto expression_l (new (GC) mu::script::ast::definite_expression);
     expression_m->nodes.nodes.push_back (expression_l);
     auto state_l (new (GC) mu::script::parser::expression (routine, expression_l));
     routine.cluster.parser.state.push (state_l);

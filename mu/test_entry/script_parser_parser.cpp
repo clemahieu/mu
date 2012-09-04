@@ -5,7 +5,7 @@
 #include <mu/script/parser_parser.h>
 #include <mu/script/ast_cluster.h>
 #include <mu/script/ast_routine.h>
-#include <mu/script/ast_expression.h>
+#include <mu/script/ast_definite_expression.h>
 #include <mu/script/ast_reference.h>
 #include <mu/script/parser_scope_node.h>
 
@@ -360,8 +360,8 @@ TEST (script_test, parser17)
     ASSERT_TRUE (clusters [0]->routines.size () == 1);
     ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
     auto i (clusters [0]->routines [0]->body->nodes.begin ());
-    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
-    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::definite_expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::definite_expression *> (*i));
     ASSERT_TRUE (expression2->nodes.size () == 0);
 }
 
@@ -395,12 +395,12 @@ TEST (script_test, parser18)
     ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 1);
     auto i (clusters [0]->routines [0]->body->nodes.begin ());
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
-    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
-    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::definite_expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::definite_expression *> (*i));
     ASSERT_TRUE (expression2->nodes.size () == 1);
     auto j (expression2->nodes.begin ());
     ASSERT_TRUE (j != expression2->nodes.end ());
-    auto expression3 (static_cast <mu::script::ast::expression *> (*j));
+    auto expression3 (static_cast <mu::script::ast::definite_expression *> (*j));
     EXPECT_TRUE (expression3->nodes.size () == 0);
 }
 
@@ -461,13 +461,13 @@ TEST (script_test, parser21)
     ASSERT_TRUE (clusters [0]->routines [0]->body->nodes.size () == 2);
     auto i (clusters [0]->routines [0]->body->nodes.begin ());
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
-    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
-    auto expression2 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::definite_expression *> (*i) != nullptr);
+    auto expression2 (static_cast <mu::script::ast::definite_expression *> (*i));
     ASSERT_TRUE (expression2->nodes.size () == 0);
     ++i;
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
-    ASSERT_TRUE (dynamic_cast <mu::script::ast::expression *> (*i) != nullptr);
-    auto expression3 (static_cast <mu::script::ast::expression *> (*i));
+    ASSERT_TRUE (dynamic_cast <mu::script::ast::definite_expression *> (*i) != nullptr);
+    auto expression3 (static_cast <mu::script::ast::definite_expression *> (*i));
     ASSERT_TRUE (expression3 == expression2);
 }
 
