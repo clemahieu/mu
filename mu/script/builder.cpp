@@ -2,9 +2,6 @@
 
 #include <boost/bind.hpp>
 
-#include <mu/io/ast_cluster.h>
-#include <mu/io/ast_node.h>
-#include <mu/io/ast_expression.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/context.h>
 #include <mu/script/cluster_node.h>

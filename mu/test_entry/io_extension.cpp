@@ -6,7 +6,6 @@
 #include <mu/test_entry/io_extension3.h>
 #include <mu/test_entry/io_extension4.h>
 #include <mu/test_entry/io_extension5.h>
-#include <mu/io/ast_cluster.h>
 #include <mu/core/errors/error.h>
 #include <mu/io/keywording_extensions.h>
 #include <mu/io/tokens_identifier.h>

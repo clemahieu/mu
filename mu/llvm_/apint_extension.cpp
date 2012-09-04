@@ -2,8 +2,6 @@
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer_extension.h>
-#include <mu/io/ast_expression.h>
-#include <mu/io/ast_identifier.h>
 #include <mu/llvm_/apint_node.h>
 #include <mu/script/integer_node.h>
 

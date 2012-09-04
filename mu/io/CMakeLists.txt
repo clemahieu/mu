@@ -4,13 +4,6 @@ project (io)
 add_library (mu_io SHARED
     analyzer_name_map.cpp
 	analyzer_resolver.cpp
-	ast_cluster.cpp
-	ast_expression.cpp
-	ast_identifier.cpp
-	ast_node.cpp
-	ast_parameters.cpp
-    ast_value.cpp
-	ast_visitor.cpp
 	context.cpp
     keywording_begin.cpp
     keywording_error.cpp

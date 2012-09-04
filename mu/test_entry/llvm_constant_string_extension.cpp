@@ -3,8 +3,6 @@
 #include <mu/llvm_/constant_string_extension.h>
 #include <mu/llvm_/context_node.h>
 #include <mu/llvm_/module_node.h>
-#include <mu/io/ast_cluster.h>
-#include <mu/io/ast_expression.h>
 #include <mu/io/keywording_extensions.h>
 
 #include <boost/bind.hpp>
