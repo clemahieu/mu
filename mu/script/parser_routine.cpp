@@ -10,6 +10,9 @@
 #include <mu/script/ast_cluster.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/runtime_reference.h>
+#include <mu/script/tokens_keyword_if.h>
+#include <mu/script/parser_keyword_if.h>
+#include <mu/script/ast_if_expression.h>
 
 #include <assert.h>
 
@@ -118,5 +121,16 @@ void mu::script::parser::routine::operator () (mu::io::tokens::stream_end * toke
 
 void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
 {
-    unexpected_token (cluster.parser, token);
+    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+    if (if_l != nullptr)
+    {
+        auto expression_l (new (GC) mu::script::ast::if_expression);
+        
+        auto state_l (new (GC) mu::script::parser::keyword_if (*this, expression_l));
+        cluster.parser.state.push (state_l);
+    }
+    else
+    {
+        unexpected_token (cluster.parser, token);        
+    }
 }

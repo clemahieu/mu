@@ -12,6 +12,7 @@ add_library (mu_script SHARED
     ast_cluster.cpp
     ast_expression.cpp
     ast_definite_expression.cpp
+    ast_if_expression.cpp
     ast_parameter.cpp
     ast_reference.cpp
     ast_routine.cpp
@@ -58,6 +59,7 @@ add_library (mu_script SHARED
     parser_cluster.cpp
     parser_error.cpp
     parser_expression.cpp
+    parser_keyword_if.cpp
     parser_parameters.cpp
     parser_parser.cpp
     parser_routine.cpp
@@ -83,6 +85,7 @@ add_library (mu_script SHARED
     synthesizer_routine.cpp
     synthesizer_synthesizer.cpp
 	times_operation.cpp
+    tokens_keyword_if.cpp
 	type_check_operation.cpp
 	unit_operation.cpp
 	values_create.cpp

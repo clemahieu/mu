@@ -8,12 +8,12 @@ namespace mu
     {
         namespace ast
         {
-            class definite_expression;
+            class expression;
             class reference : public mu::script::ast::node
             {
             public:
-                reference (mu::script::ast::definite_expression * expression_a, size_t position_a);
-                mu::script::ast::definite_expression * expression;
+                reference (mu::script::ast::expression * expression_a, size_t position_a);
+                mu::script::ast::expression * expression;
                 size_t position;
             };
         }

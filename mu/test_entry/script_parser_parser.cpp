@@ -505,7 +505,9 @@ TEST (script_test, parser22)
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());
     ASSERT_TRUE (dynamic_cast <mu::script::ast::reference *> (*i) != nullptr);
     auto reference1 (static_cast <mu::script::ast::reference *> (*i));
-    EXPECT_TRUE (reference1->expression->nodes.size () == 0);
+    auto expression2 (dynamic_cast<mu::script::ast::definite_expression *>(reference1->expression));
+    ASSERT_TRUE (expression2 != nullptr);
+    EXPECT_TRUE (expression2->nodes.size () == 0);
     EXPECT_TRUE (reference1->position == 0);
     ++i;
     ASSERT_TRUE (i != clusters [0]->routines [0]->body->nodes.end ());

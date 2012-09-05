@@ -85,14 +85,12 @@ void mu::script::parser::expression::operator () (mu::io::tokens::right_square *
 {
     switch (state)
     {
-        case mu::script::parser::expression_state::values:
-            break;
         case mu::script::parser::expression_state::name:
             unexpected_token (routine.cluster.parser, token);
             break;
+        case mu::script::parser::expression_state::values:
         case mu::script::parser::expression_state::have_name:
         case mu::script::parser::expression_state::elements:
-                // When named, function does not nest
             break;
         default:
             assert (false);

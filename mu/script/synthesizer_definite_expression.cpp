@@ -37,7 +37,8 @@ void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesi
     }
     else if (reference != nullptr)
     {
-        auto expression_c (recurse_expression (routine_a, reference->expression));
+        assert (dynamic_cast <mu::script::ast::definite_expression *> (reference->expression) != nullptr);
+        auto expression_c (recurse_expression (routine_a, static_cast <mu::script::ast::definite_expression *> (reference->expression)));
         expression_a->dependencies.push_back (new (GC) mu::script::runtime::selection (expression_c, reference->position));
     }
     else if (parameter_l != nullptr)
