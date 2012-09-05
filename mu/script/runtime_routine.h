@@ -2,10 +2,6 @@
 
 #include <mu/script/operation.h>
 
-#include <vector>
-
-#include <gc_allocator.h>
-
 namespace mu
 {
 	namespace script
