@@ -24,7 +24,7 @@ mu::script::synthesizer::definite_expression::definite_expression (mu::script::s
     recurse_expression (routine_a, expression_a);
 }
 
-void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::node * node_a, mu::script::runtime::expression * expression_a)
+void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::core::node * node_a, mu::script::runtime::expression * expression_a)
 {
     auto expression_l (dynamic_cast <mu::script::ast::definite_expression *> (node_a));
     auto reference (dynamic_cast <mu::script::ast::reference *> (node_a));
@@ -59,7 +59,7 @@ void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesi
     }
     else
     {
-        assert (false);
+        expression_a->dependencies.push_back (new (GC) mu::script::runtime::fixed (node_a));
     }
 }
 
@@ -80,15 +80,7 @@ auto mu::script::synthesizer::definite_expression::recurse_expression (mu::scrip
             for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
             {
                 auto current (*i);
-                auto node (dynamic_cast <mu::script::ast::node *> (current));
-                if (node != nullptr)
-                {
-                    recurse (routine_a, node, expression_l);
-                }
-                else
-                {
-                    expression_l->dependencies.push_back (new (GC) mu::script::runtime::fixed (current));
-                }
+                recurse (routine_a, current, expression_l);
             }
             result = expression_l;
             routine_a.already_parsed.insert (decltype (routine_a.already_parsed)::value_type (expression_a, expression_l));
