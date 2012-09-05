@@ -9,6 +9,9 @@
 #include <mu/script/runtime_fixed.h>
 #include <mu/script/ast_reference.h>
 #include <mu/core/node_list.h>
+#include <mu/script/tokens_keyword_if.h>
+#include <mu/script/parser_keyword_if.h>
+#include <mu/script/ast_if_expression.h>
 
 #include <gc_cpp.h>
 
@@ -109,7 +112,20 @@ void mu::script::parser::expression::operator () (mu::io::tokens::value * token)
     switch (state)
     {
         case mu::script::parser::expression_state::values:
-            expression_m->nodes.nodes.push_back (new (GC) mu::script::runtime::fixed (token->node));
+        {
+            auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+            if (if_l != nullptr)
+            {
+                auto expression_l (new (GC) mu::script::ast::if_expression);
+                expression_m->nodes.nodes.push_back (expression_l);
+                auto state_l (new (GC) mu::script::parser::keyword_if (routine, expression_l));
+                routine.cluster.parser.state.push (state_l);
+            }
+            else
+            {
+                expression_m->nodes.nodes.push_back (token->node);        
+            }
+        }
             break;
         case mu::script::parser::expression_state::name:
         case mu::script::parser::expression_state::have_name:

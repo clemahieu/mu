@@ -74,6 +74,7 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier * t
             state = mu::script::parser::keyword_if_state::have_name;
             routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, expression, token->context);
             break;
+        case mu::script::parser::keyword_if_state::initial:
         case mu::script::parser::keyword_if_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
@@ -91,6 +92,9 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square * 
 {
     switch (state)
     {
+        case mu::script::parser::keyword_if_state::initial:
+            state = mu::script::parser::keyword_if_state::predicate;
+            break;
         case mu::script::parser::keyword_if_state::predicate:
             process_left_square (expression->predicate);
             break;
@@ -113,6 +117,22 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square * 
 
 void mu::script::parser::keyword_if::operator () (mu::io::tokens::right_square * token)
 {
+    switch (state)
+    {
+        case mu::script::parser::keyword_if_state::predicate:
+        case mu::script::parser::keyword_if_state::true_branch:
+        case mu::script::parser::keyword_if_state::false_branch:
+        case mu::script::parser::keyword_if_state::name:
+        case mu::script::parser::keyword_if_state::have_name:
+        case mu::script::parser::keyword_if_state::elements:
+            break;
+        case mu::script::parser::keyword_if_state::initial:
+            unexpected_token (routine.cluster.parser, token);
+            break;
+        default:
+            assert (false);
+            break;
+    }
     routine.cluster.parser.state.pop ();
 }
 

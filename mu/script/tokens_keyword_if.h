@@ -9,7 +9,7 @@ namespace mu
         namespace tokens
         {
             class keyword_if : public mu::script::ast::node
-            {                
+            {   
             };
         }
     }

@@ -8,6 +8,7 @@
 #include <mu/script/ast_definite_expression.h>
 #include <mu/script/ast_reference.h>
 #include <mu/script/parser_scope_node.h>
+#include <mu/script/tokens_keyword_if.h>
 
 #include <gc_cpp.h>
 
@@ -656,6 +657,63 @@ TEST (script_test, parser27)
     parser (new (GC) mu::io::tokens::divider (context));
     parser (new (GC) mu::io::tokens::left_square (context));
     parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 1);
+    auto node2 (*expression1->nodes.begin());
+    ASSERT_TRUE (node1 == node2);
+}
+
+// Error invalid if beginning
+TEST (script_test, parser28)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (errors ());
+}
+
+// Valid empty if
+TEST (script_test, parser29)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
     parser (new (GC) mu::io::tokens::right_square (context));
     parser (new (GC) mu::io::tokens::right_square (context));
     parser (new (GC) mu::io::tokens::stream_end (context));
