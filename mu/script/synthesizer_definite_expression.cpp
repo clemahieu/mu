@@ -19,53 +19,51 @@
 
 #include <assert.h>
 
-mu::script::synthesizer::definite_expression::definite_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a):
-expression_m (new (GC) mu::script::runtime::expression)
+mu::script::synthesizer::definite_expression::definite_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a)
 {
-    for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
+    recurse_expression (routine_a, expression_a);
+}
+
+void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::node * node_a, mu::script::runtime::expression * expression_a)
+{
+    auto expression_l (dynamic_cast <mu::script::ast::definite_expression *> (node_a));
+    auto reference (dynamic_cast <mu::script::ast::reference *> (node_a));
+    auto parameter_l (dynamic_cast <mu::script::ast::parameter *> (node_a));
+    auto routine_l (dynamic_cast <mu::script::ast::routine *> (node_a));
+    if (expression_l != nullptr)
     {
-        auto current (*i);
-        auto expression_l (dynamic_cast <mu::script::ast::definite_expression *> (current));
-        auto reference (dynamic_cast <mu::script::ast::reference *> (current));
-        auto parameter_l (dynamic_cast <mu::script::ast::parameter *> (current));
-        auto routine_l (dynamic_cast <mu::script::ast::routine *> (current));
-        if (expression_l != nullptr)
+        auto expression_c (recurse_expression (routine_a, expression_l));
+        expression_a->dependencies.push_back (new (GC) mu::script::runtime::reference (expression_c));
+    }
+    else if (reference != nullptr)
+    {
+        auto expression_c (recurse_expression (routine_a, reference->expression));
+        expression_a->dependencies.push_back (new (GC) mu::script::runtime::selection (expression_c, reference->position));
+    }
+    else if (parameter_l != nullptr)
+    {
+        expression_a->dependencies.push_back (new (GC) mu::script::runtime::parameter (parameter_l->position));
+    }
+    else if (routine_l != nullptr)
+    {
+        auto existing (routine_a.cluster.routines.find (routine_l));
+        if (existing == routine_a.cluster.routines.end ())
         {
-            auto expression_c (recurse (routine_a, expression_l));
-            expression_m->dependencies.push_back(new (GC) mu::script::runtime::reference (expression_c));
-        }
-        else if (reference != nullptr)
-        {
-            auto expression_c (recurse (routine_a, reference->expression));
-            expression_m->dependencies.push_back(new (GC) mu::script::runtime::selection (expression_c, reference->position));
-        }
-        else if (parameter_l != nullptr)
-        {
-            expression_m->dependencies.push_back (new (GC) mu::script::runtime::parameter (parameter_l->position));
-        }
-        else if (routine_l != nullptr)
-        {
-            auto existing (routine_a.cluster.routines.find (routine_l));
-            if (existing == routine_a.cluster.routines.end ())
-            {
-                mu::script::synthesizer::routine routine_c (routine_a.errors, routine_a.cluster, routine_l);
-                expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (routine_c.routine_m));
-            }
-            else
-            {
-                expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (existing->second));
-            }
+            mu::script::synthesizer::routine routine_c (routine_a.errors, routine_a.cluster, routine_l);
+            expression_a->dependencies.push_back (new (GC) mu::script::runtime::fixed (routine_c.routine_m));
         }
         else
         {
-            expression_m->dependencies.push_back (new (GC) mu::script::runtime::fixed (current));
+            expression_a->dependencies.push_back (new (GC) mu::script::runtime::fixed (existing->second));
         }
     }
-    routine_a.already_parsed.insert (decltype (routine_a.already_parsed)::value_type (expression_a, expression_m));
-    routine_a.routine_m->expressions.push_back (expression_m);
+    else
+    {
+        assert (false);
+    }
 }
 
-auto mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression *expression_a) -> mu::script::runtime::expression *
+auto mu::script::synthesizer::definite_expression::recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::expression *
 {
     mu::script::runtime::expression * result (nullptr);
     if (routine_a.current_cycle.find (expression_a) != routine_a.current_cycle.end ())
@@ -77,9 +75,24 @@ auto mu::script::synthesizer::definite_expression::recurse (mu::script::synthesi
         routine_a.current_cycle.insert (expression_a);
         auto existing (routine_a.already_parsed.find (expression_a));
         if (existing == routine_a.already_parsed.end ())
-        {
-            mu::script::synthesizer::definite_expression expression_l (routine_a, expression_a);
-            result = expression_l.expression_m;
+        {            
+            auto expression_l (new (GC) mu::script::runtime::expression);
+            for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
+            {
+                auto current (*i);
+                auto node (dynamic_cast <mu::script::ast::node *> (current));
+                if (node != nullptr)
+                {
+                    recurse (routine_a, node, expression_l);
+                }
+                else
+                {
+                    expression_l->dependencies.push_back (new (GC) mu::script::runtime::fixed (current));
+                }
+            }
+            result = expression_l;
+            routine_a.already_parsed.insert (decltype (routine_a.already_parsed)::value_type (expression_a, expression_l));
+            routine_a.routine_m->expressions.push_back (expression_l);
         }
         else
         {

@@ -7,6 +7,7 @@ namespace mu
         namespace ast
         {
             class definite_expression;
+            class node;
         }
         namespace runtime
         {
@@ -19,8 +20,8 @@ namespace mu
             {
             public:
                 definite_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a);
-                auto recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::expression *;
-                mu::script::runtime::expression * expression_m;
+                void recurse (mu::script::synthesizer::routine & routine_a, mu::script::ast::node * node_a, mu::script::runtime::expression * expression_a);
+                auto recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::expression *;
             };
         }
     }
