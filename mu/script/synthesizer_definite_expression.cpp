@@ -3,7 +3,7 @@
 #include <mu/script/synthesizer_routine.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/script/ast_definite_expression.h>
-#include <mu/script/runtime_expression.h>
+#include <mu/script/runtime_definite_expression.h>
 #include <mu/script/ast_routine.h>
 #include <mu/script/ast_reference.h>
 #include <mu/script/runtime_fixed.h>
@@ -24,7 +24,7 @@ mu::script::synthesizer::definite_expression::definite_expression (mu::script::s
     recurse_expression (routine_a, expression_a);
 }
 
-void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::core::node * node_a, mu::script::runtime::expression * expression_a)
+void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesizer::routine & routine_a, mu::core::node * node_a, mu::script::runtime::definite_expression * expression_a)
 {
     auto expression_l (dynamic_cast <mu::script::ast::definite_expression *> (node_a));
     auto reference (dynamic_cast <mu::script::ast::reference *> (node_a));
@@ -63,9 +63,9 @@ void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesi
     }
 }
 
-auto mu::script::synthesizer::definite_expression::recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::expression *
+auto mu::script::synthesizer::definite_expression::recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::definite_expression *
 {
-    mu::script::runtime::expression * result (nullptr);
+    mu::script::runtime::definite_expression * result (nullptr);
     if (routine_a.current_cycle.find (expression_a) != routine_a.current_cycle.end ())
     {
         routine_a.errors (U"Routine has a cycle");
@@ -76,7 +76,7 @@ auto mu::script::synthesizer::definite_expression::recurse_expression (mu::scrip
         auto existing (routine_a.already_parsed.find (expression_a));
         if (existing == routine_a.already_parsed.end ())
         {            
-            auto expression_l (new (GC) mu::script::runtime::expression);
+            auto expression_l (new (GC) mu::script::runtime::definite_expression);
             for (auto i (expression_a->nodes.begin ()), j (expression_a->nodes.end ()); i != j; ++i)
             {
                 auto current (*i);

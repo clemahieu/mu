@@ -15,7 +15,7 @@ namespace mu
         }
         namespace runtime
         {
-            class expression;
+            class definite_expression;
         }
         namespace synthesizer
         {
@@ -24,8 +24,8 @@ namespace mu
             {
             public:
                 definite_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a);
-                void recurse (mu::script::synthesizer::routine & routine_a, mu::core::node * node_a, mu::script::runtime::expression * expression_a);
-                auto recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::expression *;
+                void recurse (mu::script::synthesizer::routine & routine_a, mu::core::node * node_a, mu::script::runtime::definite_expression * expression_a);
+                auto recurse_expression (mu::script::synthesizer::routine & routine_a, mu::script::ast::definite_expression * expression_a) -> mu::script::runtime::definite_expression *;
             };
         }
     }

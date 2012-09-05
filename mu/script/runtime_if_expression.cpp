@@ -1,9 +1,9 @@
-#include <mu/script/runtime_if_clause.h>
+#include <mu/script/runtime_if_expression.h>
 
 #include <mu/core/check.h>
 #include <mu/script/runtime_locals.h>
 #include <mu/script/context.h>
-#include <mu/script/runtime_expression.h>
+#include <mu/script/runtime_definite_expression.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c_node.h>
 

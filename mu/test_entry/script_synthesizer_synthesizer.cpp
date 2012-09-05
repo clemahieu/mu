@@ -1,7 +1,7 @@
 #include <mu/script/cluster_node.h>
 #include <mu/script/identity_operation.h>
 #include <mu/script/runtime_routine.h>
-#include <mu/script/runtime_expression.h>
+#include <mu/script/runtime_definite_expression.h>
 #include <mu/script/runtime_fixed.h>
 #include <mu/script/runtime_reference.h>
 #include <mu/script/fail_operation.h>

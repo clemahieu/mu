@@ -66,10 +66,10 @@ add_library (mu_script SHARED
 	parser_scope_merge_package.cpp
 	parser_scope_node.cpp
     parser_state.cpp
-    parser_topology.cpp
 	print_operation.cpp
-	runtime_expression.cpp
-    runtime_if_clause.cpp
+	runtime_definite_expression.cpp
+    runtime_expression.cpp
+    runtime_if_expression.cpp
 	runtime_fixed.cpp
 	runtime_locals.cpp
     runtime_parameter.cpp

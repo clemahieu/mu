@@ -2,7 +2,7 @@
 
 #include <mu/script/context.h>
 #include <mu/script/runtime_locals.h>
-#include <mu/script/runtime_expression.h>
+#include <mu/script/runtime_definite_expression.h>
 #include <mu/script/runtime_reference.h>
 
 #include <gc_cpp.h>

@@ -71,7 +71,6 @@ add_executable (mu_test_entry
 	script_package_get.cpp
     script_parser_parser.cpp
     script_parser_scope_merge.cpp
-    script_parser_topology.cpp
     script_runtime_if_clause.cpp
 	script_string_extension.cpp
     script_synthesizer_synthesizer.cpp

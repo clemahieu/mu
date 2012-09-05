@@ -21,7 +21,7 @@ namespace mu
         namespace runtime
         {
             class routine;
-            class expression;
+            class definite_expression;
         }
         namespace synthesizer
         {
@@ -33,7 +33,7 @@ namespace mu
                 mu::core::errors::error_target & errors;
                 mu::script::runtime::routine * routine_m;
                 mu::script::synthesizer::cluster & cluster;
-                mu::map <mu::script::ast::expression *, mu::script::runtime::expression *> already_parsed;
+                mu::map <mu::script::ast::expression *, mu::script::runtime::definite_expression *> already_parsed;
                 mu::set <mu::script::ast::expression *> current_cycle;
             };
         }

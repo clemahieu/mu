@@ -10,7 +10,6 @@
 #include <mu/script/ast_cluster.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/runtime_reference.h>
-#include <mu/script/parser_topology.h>
 
 #include <assert.h>
 
