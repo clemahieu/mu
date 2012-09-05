@@ -24,7 +24,7 @@ parser (errors,
         {
             synthesizer (cluster_a);
         }, scope),
-keywording (errors,
+analyzer (errors,
             [this]
             (mu::io::tokens::token * token)
             {
@@ -34,7 +34,7 @@ lexer (errors,
        [this]
        (mu::io::tokens::token * token)
        {
-           keywording (token);
+           analyzer (token);
        })
 {
 }
@@ -53,7 +53,7 @@ parser (errors,
         {
             synthesizer (cluster_a);
         }, scope_a),
-keywording (errors,
+analyzer (errors,
             [this]
             (mu::io::tokens::token * token)
             {
@@ -63,7 +63,7 @@ lexer (errors,
        [this]
        (mu::io::tokens::token * token)
        {
-           keywording (token);
+           analyzer (token);
        })
 {
 }

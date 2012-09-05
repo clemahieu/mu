@@ -2,12 +2,7 @@
 
 #include <mu/io/context.h>
 
-#include <gc_allocator.h>
-
 #include <boost/function.hpp>
-
-#include <stack>
-#include <deque>
 
 namespace mu
 {
@@ -24,18 +19,18 @@ namespace mu
         {
             class token;
         }
-        namespace keywording
+        namespace analyzer
         {
             class extensions;
             class state;
-            class keywording
+            class analyzer
             {
             public:
-                keywording (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *)> target_a, mu::io::keywording::extensions * extensions_a);
+                analyzer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *)> target_a, mu::io::analyzer::extensions * extensions_a);
                 void operator () (mu::io::tokens::token * token_a);
                 boost::function <void (mu::io::tokens::token *)> target;
-                mu::stack <mu::io::keywording::state *> state;
-				mu::io::keywording::extensions * extensions;
+                mu::stack <mu::io::analyzer::state *> state;
+				mu::io::analyzer::extensions * extensions;
                 mu::core::errors::error_target & errors;
             };
         }

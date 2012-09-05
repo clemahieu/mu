@@ -9,8 +9,8 @@
 
 #include <gc_cpp.h>
 
-mu::script::astring::extension::extension (mu::io::keywording::keywording & keywording_a):
-keywording (keywording_a)
+mu::script::astring::extension::extension (mu::io::analyzer::analyzer & analyzer_a):
+analyzer (analyzer_a)
 {
 }
 
@@ -18,7 +18,7 @@ void mu::script::astring::extension::operator () (mu::io::tokens::token * token_
 {
     assert (dynamic_cast <mu::io::tokens::identifier *> (token_a));
     auto data (static_cast <mu::io::tokens::identifier *> (token_a));
-    keywording.state.pop ();
+    analyzer.state.pop ();
     std::string str (data->string.begin (), data->string.end ());
-    keywording (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::astring::node (str)));
+    analyzer (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::astring::node (str)));
 }

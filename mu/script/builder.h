@@ -45,7 +45,7 @@ namespace mu
             mu::script::parser_scope::node * scope;
             mu::script::synthesizer::synthesizer synthesizer;
 			mu::script::parser::parser parser;
-            mu::io::keywording::keywording keywording;
+            mu::io::analyzer::analyzer analyzer;
 			mu::io::lexer::lexer lexer;
             std::vector <mu::script::cluster::node *> clusters;
         };

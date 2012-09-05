@@ -3,13 +3,13 @@
 #include <mu/core/node.h>
 #include <mu/io/analyzer_analyzer.h>
 
-mu::io_test::extension5::extension5 (mu::io::keywording::keywording & keywording_a):
-keywording (keywording_a)
+mu::io_test::extension5::extension5 (mu::io::analyzer::analyzer & analyzer_a):
+analyzer (analyzer_a)
 {
 }
 
 void mu::io_test::extension5::operator () (mu::io::tokens::token * token_a)
 {
-    keywording.state.pop ();
-    keywording (token_a);
+    analyzer.state.pop ();
+    analyzer (token_a);
 }

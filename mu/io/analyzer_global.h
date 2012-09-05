@@ -10,15 +10,15 @@ namespace mu
     }
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class keywording;
-            class global : public mu::io::keywording::state
+            class analyzer;
+            class global : public mu::io::analyzer::state
             {
             public:
-                global (mu::io::keywording::keywording & keywording_a, mu::core::node * node_a);
+                global (mu::io::analyzer::analyzer & analyzer_a, mu::core::node * node_a);
                 void operator () (mu::io::tokens::token * token_a) override;
-                mu::io::keywording::keywording & keywording;
+                mu::io::analyzer::analyzer & analyzer;
                 mu::core::node * node;
             };
         }

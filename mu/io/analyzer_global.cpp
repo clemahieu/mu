@@ -5,14 +5,14 @@
 
 #include <gc_cpp.h>
 
-mu::io::keywording::global::global (mu::io::keywording::keywording & keywording_a, mu::core::node * node_a):
-keywording (keywording_a),
+mu::io::analyzer::global::global (mu::io::analyzer::analyzer & analyzer_a, mu::core::node * node_a):
+analyzer (analyzer_a),
 node (node_a)    
 {
 }
 
-void mu::io::keywording::global::operator () (mu::io::tokens::token * token_a)
+void mu::io::analyzer::global::operator () (mu::io::tokens::token * token_a)
 {
-    keywording.state.pop ();
-    keywording (new (GC) mu::io::tokens::value (token_a->context, node));
+    analyzer.state.pop ();
+    analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
 }

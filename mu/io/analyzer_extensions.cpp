@@ -5,18 +5,18 @@
 
 #include <gc_cpp.h>
 
-mu::io::keywording::extensions::extensions ()
+mu::io::analyzer::extensions::extensions ()
 {
 }
 
-mu::io::keywording::extensions::extensions (mu::map <mu::string, extension_definition> extensions_a)
+mu::io::analyzer::extensions::extensions (mu::map <mu::string, extension_definition> extensions_a)
 	: extensions_m (extensions_a)
 {
 }
 
-boost::tuple <mu::io::keywording::extension_factory, mu::string> mu::io::keywording::extensions::operator () (mu::string const & string)
+boost::tuple <mu::io::analyzer::extension_factory, mu::string> mu::io::analyzer::extensions::operator () (mu::string const & string)
 {
-    boost::tuple <mu::io::keywording::extension_factory, mu::string> result;
+    boost::tuple <mu::io::analyzer::extension_factory, mu::string> result;
     if (!extensions_m.empty ())
     {
         auto existing (extensions_m.upper_bound (string));
@@ -38,7 +38,7 @@ boost::tuple <mu::io::keywording::extension_factory, mu::string> mu::io::keyword
     return result;
 }
 
-bool mu::io::keywording::extensions::operator () (mu::string const & string, mu::io::keywording::extension_factory extension, bool dominating_a)
+bool mu::io::analyzer::extensions::operator () (mu::string const & string, mu::io::analyzer::extension_factory extension, bool dominating_a)
 {
     auto existing (extensions_m.lower_bound (string));
     bool result (false);
@@ -63,17 +63,17 @@ bool mu::io::keywording::extensions::operator () (mu::string const & string, mu:
     }
     if (!result)
     {
-        extensions_m [string] = mu::io::keywording::extension_definition (extension, dominating_a);
+        extensions_m [string] = mu::io::analyzer::extension_definition (extension, dominating_a);
     }
     return result;
 }
 
-bool mu::io::keywording::extensions::operator () (mu::string const & string, mu::core::node * node_a)
+bool mu::io::analyzer::extensions::operator () (mu::string const & string, mu::core::node * node_a)
 {
     auto result ((*this) (string, [node_a]
-                          (mu::io::keywording::keywording & keywording_a)
+                          (mu::io::analyzer::analyzer & analyzer_a)
                           {
-                              return new (GC) mu::io::keywording::global (keywording_a, node_a);
+                              return new (GC) mu::io::analyzer::global (analyzer_a, node_a);
                           }, false));
     return result;
 }

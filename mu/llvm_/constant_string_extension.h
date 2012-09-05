@@ -6,9 +6,9 @@ namespace mu
 {
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class keywording;
+            class analyzer;
         }
     }
 	namespace llvm_
@@ -23,13 +23,13 @@ namespace mu
 		}
 		namespace constant_string
 		{
-			class extension : public mu::io::keywording::state
+			class extension : public mu::io::analyzer::state
 			{
 			public:
-				extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a);
+				extension (mu::io::analyzer::analyzer & analyzer_a, mu::llvm_::module::node * module_a);
                 void operator () (mu::io::tokens::token * token_a) override;
 				mu::llvm_::module::node * module;
-                mu::io::keywording::keywording & keywording;
+                mu::io::analyzer::analyzer & analyzer;
                 bool have_keyword;
 			};
 		}

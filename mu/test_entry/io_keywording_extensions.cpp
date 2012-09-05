@@ -8,9 +8,9 @@
 #include <gtest/gtest.h>
 
 // Check that an extension can't collide
-TEST (io_test, keywording_extensions1)
+TEST (io_test, analyzer_extensions1)
 {
-	mu::io::keywording::extensions extensions;
+	mu::io::analyzer::extensions extensions;
 	auto failed (extensions (mu::string (U"a"), new (GC) mu::core::node));
     EXPECT_TRUE (!failed);
     auto failed2 (extensions (mu::string (U"a"), new (GC) mu::core::node));
@@ -18,9 +18,9 @@ TEST (io_test, keywording_extensions1)
 }
 
 // Check that an extension can't be dominated by another
-TEST (io_test, keywording_extensions2)
+TEST (io_test, analyzer_extensions2)
 {
-	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto extensions (new (GC) mu::io::analyzer::extensions);
 	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (!failed);
     auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
@@ -30,9 +30,9 @@ TEST (io_test, keywording_extensions2)
 }
 
 // Check that an owning extension can't be inserted that would dominate other extensions
-TEST (io_test, keywording_extensions3)
+TEST (io_test, analyzer_extensions3)
 {
-	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto extensions (new (GC) mu::io::analyzer::extensions);
 	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (!failed);
     auto failed2 (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
@@ -42,9 +42,9 @@ TEST (io_test, keywording_extensions3)
 }
 
 // Check that an extension can be inserted dominated by a non-owning extension
-TEST (io_test, keywording_extensions4)
+TEST (io_test, analyzer_extensions4)
 {
-	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto extensions (new (GC) mu::io::analyzer::extensions);
 	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"ab")));
     EXPECT_TRUE (!failed);
     auto failed2 (extensions->add <mu::io_test::extension1> (mu::string (U"a")));
@@ -54,9 +54,9 @@ TEST (io_test, keywording_extensions4)
 }
 
 // Check dominating extension retrieval
-TEST (io_test, keywording_extensions5)
+TEST (io_test, analyzer_extensions5)
 {
-	auto extensions (new (GC) mu::io::keywording::extensions);
+	auto extensions (new (GC) mu::io::analyzer::extensions);
 	auto failed (extensions->add <mu::io_test::extension5> (mu::string (U"a")));
     EXPECT_TRUE (!failed);
     auto exists ((*extensions) (mu::string (U"ab")));

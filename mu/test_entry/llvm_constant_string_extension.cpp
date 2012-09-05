@@ -21,7 +21,7 @@ TEST (llvm_test, DISABLED_constant_string_extension1)
 	auto ctx (new (GC) mu::llvm_::context::node (&context));
 	auto module (new (GC) mu::llvm_::module::node (new llvm::Module (llvm::StringRef (""), context)));
 	mu::io::ast::builder builder;
-    (*builder.keywording.extensions) (mu::string (U"`"), [module] (mu::io::keywording::keywording & keywording_a) {return new (GC) mu::llvm_::constant_string::extension (keywording_a, module);}, false);
+    (*builder.analyzer.extensions) (mu::string (U"`"), [module] (mu::io::analyzer::analyzer & analyzer_a) {return new (GC) mu::llvm_::constant_string::extension (analyzer_a, module);}, false);
 	mu::io::process (builder, U"[` test_string]");
 	EXPECT_TRUE (builder.errors.errors.empty ());
 	auto cluster (builder.cluster);

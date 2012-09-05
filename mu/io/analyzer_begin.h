@@ -6,15 +6,15 @@ namespace mu
 {
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class keywording;
-            class begin : public mu::io::keywording::state
+            class analyzer;
+            class begin : public mu::io::analyzer::state
             {
             public:
-                begin (mu::io::keywording::keywording & keywording_a);
+                begin (mu::io::analyzer::analyzer & analyzer_a);
                 void operator () (mu::io::tokens::token * token_a) override;
-                mu::io::keywording::keywording & keywording;
+                mu::io::analyzer::analyzer & analyzer;
             };
         }
     }

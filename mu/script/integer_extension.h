@@ -14,9 +14,9 @@ namespace mu
     }
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class keywording;
+            class analyzer;
         }
     }
 	namespace script
@@ -24,13 +24,13 @@ namespace mu
 		namespace integer
 		{
 			class node;
-			class extension : public mu::io::keywording::state
+			class extension : public mu::io::analyzer::state
 			{
 			public:
-                extension (mu::io::keywording::keywording & keywording_a);
+                extension (mu::io::analyzer::analyzer & analyzer_a);
                 void operator () (mu::io::tokens::token * token_a) override;
                 static bool const dominating = true;
-                mu::io::keywording::keywording & keywording;
+                mu::io::analyzer::analyzer & analyzer;
 			};
 			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, mu::string & string);
 			mu::script::integer::node * core_d (mu::core::errors::error_target & errors_a, std::wstring string_a);

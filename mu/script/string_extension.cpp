@@ -12,8 +12,8 @@
 
 #include <gc_cpp.h>
 
-mu::script::string::extension::extension (mu::io::keywording::keywording & keywording_a):
-keywording (keywording_a)
+mu::script::string::extension::extension (mu::io::analyzer::analyzer & analyzer_a):
+analyzer (analyzer_a)
 {
 }
 
@@ -21,6 +21,6 @@ void mu::script::string::extension::operator () (mu::io::tokens::token * token_a
 {
     assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
     auto data (static_cast <mu::io::tokens::identifier *> (token_a));
-    keywording.state.pop ();
-    keywording (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::string::node (data->string)));
+    analyzer.state.pop ();
+    analyzer (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::string::node (data->string)));
 }

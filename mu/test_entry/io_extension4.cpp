@@ -8,9 +8,9 @@
 
 #include <gc_cpp.h>
 
-mu::io_test::extension4::extension4 (mu::io::keywording::keywording & keywording_a):
+mu::io_test::extension4::extension4 (mu::io::analyzer::analyzer & analyzer_a):
 first (true),
-keywording (keywording_a)
+analyzer (analyzer_a)
 {
 }
 
@@ -22,6 +22,6 @@ void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a)
     }
     else
     {
-        keywording.target (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::core::node));
+        analyzer.target (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::core::node));
     }
 }

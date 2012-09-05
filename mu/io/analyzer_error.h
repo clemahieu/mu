@@ -6,9 +6,9 @@ namespace mu
 {
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class error : public mu::io::keywording::state
+            class error : public mu::io::analyzer::state
             {
                 void operator () (mu::io::tokens::token * token_a) override;
             };

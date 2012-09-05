@@ -9,19 +9,19 @@
 #include <gc_cpp.h>
 
 // No extensions
-TEST (io_test, keywording1)
+TEST (io_test, analyzer1)
 {
     mu::io::context context;
     mu::core::errors::error_list errors;
-    mu::io::keywording::extensions extensions;
+    mu::io::analyzer::extensions extensions;
     mu::vector <mu::io::tokens::token *> tokens;
-    mu::io::keywording::keywording keywording (errors,
+    mu::io::analyzer::analyzer analyzer (errors,
                                                [&tokens]
                                                (mu::io::tokens::token * token)
                                                {
                                                    tokens.push_back (token);
                                                }, &extensions);
-    keywording (new (GC) mu::io::tokens::identifier (context, mu::string (U"test")));
+    analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"test")));
     ASSERT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (tokens.size () == 1);
     auto identifier (dynamic_cast <mu::io::tokens::identifier *> (tokens [0]));
@@ -30,21 +30,21 @@ TEST (io_test, keywording1)
 }
 
 // No extensions
-TEST (io_test, keywording2)
+TEST (io_test, analyzer2)
 {
     mu::io::context context;
     mu::core::errors::error_list errors;
-    mu::io::keywording::extensions extensions;
+    mu::io::analyzer::extensions extensions;
     extensions.add <mu::io_test::extension5> (mu::string (U"test"));
     mu::vector <mu::io::tokens::token *> tokens;
-    mu::io::keywording::keywording keywording (errors,
+    mu::io::analyzer::analyzer analyzer (errors,
                                                [&tokens]
                                                (mu::io::tokens::token * token)
                                                {
                                                    tokens.push_back (token);
                                                }, &extensions);
-    keywording (new (GC) mu::io::tokens::identifier (context, mu::string (U"test")));
-    keywording (new (GC) mu::io::tokens::identifier (context, mu::string (U"test123")));
+    analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"test")));
+    analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"test123")));
     ASSERT_TRUE (errors.errors.empty ());
     ASSERT_TRUE (tokens.size () == 2);
     auto identifier (dynamic_cast <mu::io::tokens::identifier *> (tokens [0]));

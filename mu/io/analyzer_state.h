@@ -10,7 +10,7 @@ namespace mu
         {
             class token;
         }
-        namespace keywording
+        namespace analyzer
         {
             class state
             {

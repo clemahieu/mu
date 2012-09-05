@@ -16,9 +16,9 @@
 
 #include <gc_cpp.h>
 
-mu::llvm_::constant_int::extension::extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::context::node * context_a):
+mu::llvm_::constant_int::extension::extension (mu::io::analyzer::analyzer & analyzer_a, mu::llvm_::context::node * context_a):
 context (context_a),
-keywording (keywording_a),
+analyzer (analyzer_a),
 have_keyword (false),
 have_bits (false)
 {
@@ -39,18 +39,18 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
             if (bits_identifier != nullptr)
             {
                 std::wstring characters (bits_identifier->string.begin (), bits_identifier->string.end ());
-                auto bits_l (mu::script::integer::core_d (keywording.errors, characters));
+                auto bits_l (mu::script::integer::core_d (analyzer.errors, characters));
 				if (bits_l != nullptr)
 				{
                     bits = bits_l->value;
                 }
                 else
                 {
-                    keywording.state.push (new (GC) mu::io::keywording::error);
+                    analyzer.state.push (new (GC) mu::io::analyzer::error);
 					mu::stringstream message;
 					message << L"Unable to parse bits number: ";
 					message << bits_identifier->string;
-					keywording.errors (message.str ());
+					analyzer.errors (message.str ());
                 }
             }
         }
@@ -59,17 +59,17 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
 			auto number_identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
 			if (number_identifier != nullptr)
 			{
-                auto number (mu::script::integer::core (keywording.errors, number_identifier->string));
+                auto number (mu::script::integer::core (analyzer.errors, number_identifier->string));
                 if (number != nullptr)
                 {
                     auto node (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_int::create));
                     node->closed.push_back (context);
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, bits)));
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (bits, number->value)));
-                    keywording.state.pop ();
-                    keywording (new (GC) mu::io::tokens::left_square (token_a->context));
-                    keywording (new (GC) mu::io::tokens::value (token_a->context, node));
-                    keywording (new (GC) mu::io::tokens::right_square (token_a->context));
+                    analyzer.state.pop ();
+                    analyzer (new (GC) mu::io::tokens::left_square (token_a->context));
+                    analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
+                    analyzer (new (GC) mu::io::tokens::right_square (token_a->context));
                 }
             }
             else
@@ -77,7 +77,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
                 mu::stringstream message;
                 message << L"Unable to parse number: ";
                 message << number_identifier->string;
-                keywording.state.push (new (GC) mu::io::keywording::error);
+                analyzer.state.push (new (GC) mu::io::analyzer::error);
             }
         }
     }

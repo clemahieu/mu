@@ -13,9 +13,9 @@
 
 #include <gc_cpp.h>
 
-mu::llvm_::constant_string::extension::extension (mu::io::keywording::keywording & keywording_a, mu::llvm_::module::node * module_a)
+mu::llvm_::constant_string::extension::extension (mu::io::analyzer::analyzer & analyzer_a, mu::llvm_::module::node * module_a)
 	: module (module_a),
-    keywording (keywording_a),
+    analyzer (analyzer_a),
     have_keyword (false)
 {
 }
@@ -35,14 +35,14 @@ void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token *
 			node->closed.push_back (new (GC) mu::llvm_::context::node (&module->module->getContext ()));
 			node->closed.push_back (module);
 			node->closed.push_back (new (GC) mu::script::string::node (identifier->string));
-            keywording.state.pop ();
-            keywording (new (GC) mu::io::tokens::left_square (token_a->context));
-            keywording (new (GC) mu::io::tokens::value (token_a->context, node));
-            keywording (new (GC) mu::io::tokens::right_square (token_a->context));
+            analyzer.state.pop ();
+            analyzer (new (GC) mu::io::tokens::left_square (token_a->context));
+            analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
+            analyzer (new (GC) mu::io::tokens::right_square (token_a->context));
 		}
 		else
 		{
-			keywording.errors (U"Constant_string extension requires its argument to be an identifer");
+			analyzer.errors (U"Constant_string extension requires its argument to be an identifer");
 		}
 	}
 }

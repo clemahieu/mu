@@ -28,7 +28,7 @@
 #include <mu/llvm_/pointer_type_create.h>
 #include <mu/llvm_/value_get_context.h>
 #include <mu/llvm_/value_set_name.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <llvm/ExecutionEngine/JIT.h>
 #include <llvm/Support/TargetSelect.h>
@@ -50,7 +50,7 @@ void * extensions ()
 	llvm::InitializeNativeTarget ();
 	llvm::InitializeNativeTargetAsmPrinter();
 	auto result (new (GC) mu::script::parser_scope::node);
-    mu::io::keywording::extensions & extensions (*result->extensions);
+    mu::io::analyzer::extensions & extensions (*result->extensions);
 	extensions (mu::string (U"apint/create"), new (GC) mu::llvm_::apint::create);
 	extensions (mu::string (U"cluster/get"), new (GC) mu::llvm_::cluster::get);
 	extensions (mu::string (U"compile/operation"), new (GC) mu::llvm_::compile::operation);

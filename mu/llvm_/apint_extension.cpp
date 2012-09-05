@@ -7,8 +7,8 @@
 
 #include <gc_cpp.h>
 
-mu::llvm_::apint::extension::extension (mu::io::keywording::keywording & keywording_a):
-keywording (keywording_a)
+mu::llvm_::apint::extension::extension (mu::io::analyzer::analyzer & analyzer_a):
+analyzer (analyzer_a)
 {
 }
 

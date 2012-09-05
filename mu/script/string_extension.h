@@ -6,22 +6,22 @@ namespace mu
 {
     namespace io
     {
-        namespace keywording
+        namespace analyzer
         {
-            class keywording;
+            class analyzer;
         }
     }
 	namespace script
 	{
 		namespace string
 		{
-			class extension : public mu::io::keywording::state
+			class extension : public mu::io::analyzer::state
 			{
 			public:
-                extension (mu::io::keywording::keywording & keywording_a);
+                extension (mu::io::analyzer::analyzer & analyzer_a);
                 void operator () (mu::io::tokens::token * token_a) override;
                 static bool const dominating = true;
-                mu::io::keywording::keywording & keywording;
+                mu::io::analyzer::analyzer & analyzer;
 			};
 		}
 	}

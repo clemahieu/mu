@@ -59,7 +59,7 @@ void mu::repl::repl::iteration ()
     auto core (mu::script::api::core ());
 	mu::script::builder builder (core);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
-	(*builder.keywording.extensions) (mu::string (U"quit"), quit);
+	(*builder.analyzer.extensions) (mu::string (U"quit"), quit);
     std::wstring line;
     std::getline (std::wcin, line);
     mu::string text;

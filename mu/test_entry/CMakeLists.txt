@@ -24,8 +24,8 @@ add_executable (mu_test_entry
     io_extension5.cpp
 	io_hex_code.cpp
 	io_istream_input_test.cpp
-    io_keywording.cpp
-    io_keywording_extensions.cpp
+    io_analyzer.cpp
+    io_analyzer_extensions.cpp
 	io_lexer_result.cpp
 	io_lexer.cpp
 	io_multiline_comment.cpp
