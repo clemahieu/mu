@@ -3,7 +3,7 @@
 #include <mu/llvm_/constant_string_extension.h>
 #include <mu/llvm_/context_node.h>
 #include <mu/llvm_/module_node.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <boost/bind.hpp>
 

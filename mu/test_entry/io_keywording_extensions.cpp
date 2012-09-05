@@ -1,4 +1,4 @@
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 #include <mu/test_entry/io_extension1.h>
 #include <mu/test_entry/io_extension5.h>
 #include <mu/core/node.h>

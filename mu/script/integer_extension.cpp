@@ -3,7 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/integer_node.h>
 #include <mu/io/tokens_identifier.h>
-#include <mu/io/keywording_keywording.h>
+#include <mu/io/analyzer_analyzer.h>
 #include <mu/io/tokens_value.h>
 
 #include <errno.h>

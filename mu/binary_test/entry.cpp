@@ -2,7 +2,7 @@
 
 #include <mu/script/parser_scope_node.h>
 #include <mu/script/identity_operation.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <gc_cpp.h>
 

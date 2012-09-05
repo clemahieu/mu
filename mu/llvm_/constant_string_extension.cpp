@@ -7,7 +7,7 @@
 #include <mu/llvm_/constant_string_create.h>
 #include <mu/llvm_/module_node.h>
 #include <mu/llvm_/context_node.h>
-#include <mu/io/keywording_keywording.h>
+#include <mu/io/analyzer_analyzer.h>
 
 #include <llvm/Module.h>
 

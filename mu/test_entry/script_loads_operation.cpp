@@ -3,7 +3,7 @@
 #include <mu/script/cluster_node.h>
 #include <mu/script/string_node.h>
 #include <mu/script/context.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <gtest/gtest.h>
 

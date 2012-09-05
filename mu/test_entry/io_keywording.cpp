@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <mu/io/keywording_keywording.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_analyzer.h>
+#include <mu/io/analyzer_extensions.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/io/tokens_identifier.h>
 #include <mu/test_entry/io_extension5.h>

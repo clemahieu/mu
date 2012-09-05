@@ -1,8 +1,8 @@
-#include <mu/io/keywording_begin.h>
+#include <mu/io/analyzer_begin.h>
 
 #include <mu/io/tokens_identifier.h>
-#include <mu/io/keywording_keywording.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_analyzer.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <boost/algorithm/string.hpp>
 

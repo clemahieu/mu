@@ -4,9 +4,9 @@
 #include <mu/script/parser_scope_node.h>
 #include <mu/script/identity_operation.h>
 #include <mu/script/context.h>
-#include <mu/io/keywording_extensions.h>
-#include <mu/io/keywording_global.h>
-#include <mu/io/keywording_keywording.h>
+#include <mu/io/analyzer_extensions.h>
+#include <mu/io/analyzer_global.h>
+#include <mu/io/analyzer_analyzer.h>
 
 #include <boost/filesystem.hpp>
 

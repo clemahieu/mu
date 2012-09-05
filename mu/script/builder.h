@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mu/io/keywording_keywording.h>
+#include <mu/io/analyzer_analyzer.h>
 #include <mu/io/lexer_lexer.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/parser_parser.h>

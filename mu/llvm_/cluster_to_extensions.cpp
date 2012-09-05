@@ -4,7 +4,7 @@
 #include <mu/script/context.h>
 #include <mu/llvm_/cluster_node.h>
 #include <mu/script/parser_scope_node.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 #include <mu/llvm_/function_node.h>
 
 #include <gc_cpp.h>

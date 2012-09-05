@@ -18,7 +18,7 @@
 #include <mu/script/api.h>
 #include <mu/io/lexer_stream_input.h>
 #include <mu/core/types.h>
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 #include <mu/script/cluster_node.h>
 #include <mu/script/runtime_routine.h>
 

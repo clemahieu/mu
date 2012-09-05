@@ -2,7 +2,7 @@
 
 #include <mu/io/tokens_identifier.h>
 #include <mu/script/astring_node.h>
-#include <mu/io/keywording_keywording.h>
+#include <mu/io/analyzer_analyzer.h>
 #include <mu/io/tokens_value.h>
 
 #include <assert.h>

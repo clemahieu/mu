@@ -2,14 +2,14 @@ cmake_minimum_required (VERSION 2.8)
 project (io)
 
 add_library (mu_io SHARED
+    analyzer_begin.cpp
+    analyzer_error.cpp
+    analyzer_extensions.cpp
+    analyzer_global.cpp
+    analyzer_analyzer.cpp
     analyzer_name_map.cpp
 	analyzer_resolver.cpp
 	context.cpp
-    keywording_begin.cpp
-    keywording_error.cpp
-    keywording_extensions.cpp
-    keywording_global.cpp
-    keywording_keywording.cpp
 	lexer_begin.cpp
 	lexer_character_stream.cpp
 	lexer_complex_identifier.cpp

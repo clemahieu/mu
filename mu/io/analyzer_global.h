@@ -1,20 +1,25 @@
 #pragma once
 
-#include <mu/io/keywording_state.h>
+#include <mu/io/analyzer_state.h>
 
 namespace mu
 {
+    namespace core
+    {
+        class node;
+    }
     namespace io
     {
         namespace keywording
         {
             class keywording;
-            class begin : public mu::io::keywording::state
+            class global : public mu::io::keywording::state
             {
             public:
-                begin (mu::io::keywording::keywording & keywording_a);
+                global (mu::io::keywording::keywording & keywording_a, mu::core::node * node_a);
                 void operator () (mu::io::tokens::token * token_a) override;
                 mu::io::keywording::keywording & keywording;
+                mu::core::node * node;
             };
         }
     }

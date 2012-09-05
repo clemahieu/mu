@@ -1,7 +1,7 @@
-#include <mu/io/keywording_extensions.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <boost/algorithm/string.hpp>
-#include <mu/io/keywording_global.h>
+#include <mu/io/analyzer_global.h>
 
 #include <gc_cpp.h>
 
