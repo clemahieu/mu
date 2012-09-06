@@ -21,6 +21,7 @@
 #include <mu/io/analyzer_extensions.h>
 #include <mu/script/cluster_node.h>
 #include <mu/script/runtime_routine.h>
+#include <mu/script/parser_scope_merge.h>
 
 #include <gc_cpp.h>
 
@@ -55,8 +56,11 @@ void mu::repl::repl::stop ()
 
 void mu::repl::repl::iteration ()
 {
-	std::wcout << U"mu> ";
+	std::wcout << L"mu> ";
     auto core (mu::script::api::core ());
+    mu::core::errors::error_list errors;
+    mu::script::parser_scope::merge::core (errors, core, mu::string (U"script/"), mu::script::api::full ());
+    assert (!errors ());
 	mu::script::builder builder (core);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
 	(*builder.analyzer.extensions) (mu::string (U"quit"), quit);
@@ -97,23 +101,23 @@ void mu::repl::repl::iteration ()
 			}
 			else
 			{
-				std::wcout << U"Cluster does not have a routine: ";
+				std::wcout << L"Cluster does not have a routine: ";
 				std::wcout << cluster->routines.size ();
 			}
 		}
 		else
 		{
-			std::wcout << U"Input was not a cluster";
+			std::wcout << L"Input was not a cluster";
 		}
 	}
 	else
 	{
-        std::wcout << U"Error\n";
+        std::wcout << L"Error\n";
         mu::stringstream stream;
 		builder.errors.print (stream);
         mu::string const & str (stream.str ());
         std::wstring string (str.begin (), str.end ());
         std::wcout << string;    
-        std::wcout << U'\n';
+        std::wcout << L'\n';
 	}
 }

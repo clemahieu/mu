@@ -119,10 +119,10 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"identity")] = new (GC) mu::script::identity::operation;
 	map [mu::string (U"astring/truncate")] = new (GC) mu::script::astring::truncate;
 	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;
-	map [mu::string (U"bool_c/equaU")] = new (GC) mu::script::bool_c::equal;
+	map [mu::string (U"bool_c/equal")] = new (GC) mu::script::bool_c::equal;
 	map [mu::string (U"chain/operation")] = new (GC) mu::script::chain::operation;
     map [mu::string (U"cluster_to_context")] = new (GC) mu::script::cluster::to_parser_scope;
-	map [mu::string (U"integer/equaU")] = new (GC) mu::script::integer::equal;
+	map [mu::string (U"integer/equal")] = new (GC) mu::script::integer::equal;
 	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
     map [mu::string (U"loadb")] = new (GC) mu::script::loadb::operation;
     map [mu::string (U"loads")] = new (GC) mu::script::loads_extensions::operation;
