@@ -13,14 +13,14 @@
 #include <gc_cpp.h>
 
 // Success of true branch
-TEST (script_test, if_clause1)
+TEST (script_test, if_expression1)
 {
     auto identity (new (GC) mu::script::identity::operation);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
     routine->expressions.push_back (body);
-    auto if_l (new (GC) mu::script::runtime::if_clause);
+    auto if_l (new (GC) mu::script::runtime::if_expression);
     body->dependencies.push_back (new (GC) mu::script::runtime::fixed (identity));
     body->dependencies.push_back (if_l);
     auto node1 (new (GC) mu::core::node);
@@ -45,14 +45,14 @@ TEST (script_test, if_clause1)
 }
 
 // Success of false branch
-TEST (script_test, if_clause2)
+TEST (script_test, if_expression2)
 {
     auto identity (new (GC) mu::script::identity::operation);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
     routine->expressions.push_back (body);
-    auto if_l (new (GC) mu::script::runtime::if_clause);
+    auto if_l (new (GC) mu::script::runtime::if_expression);
     body->dependencies.push_back (new (GC) mu::script::runtime::fixed (identity));
     body->dependencies.push_back (if_l);
     auto node2 (new (GC) mu::core::node);
@@ -77,14 +77,14 @@ TEST (script_test, if_clause2)
 }
 
 // Failure in false branch
-TEST (script_test, if_clause3)
+TEST (script_test, if_expression3)
 {
     auto identity (new (GC) mu::script::identity::operation);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
     routine->expressions.push_back (body);
-    auto if_l (new (GC) mu::script::runtime::if_clause);
+    auto if_l (new (GC) mu::script::runtime::if_expression);
     body->dependencies.push_back (new (GC) mu::script::runtime::fixed (identity));
     body->dependencies.push_back (if_l);
     auto node1 (new (GC) mu::core::node);
@@ -107,14 +107,14 @@ TEST (script_test, if_clause3)
 }
 
 // Failure in true branch
-TEST (script_test, if_clause4)
+TEST (script_test, if_expression4)
 {
     auto identity (new (GC) mu::script::identity::operation);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
     routine->expressions.push_back (body);
-    auto if_l (new (GC) mu::script::runtime::if_clause);
+    auto if_l (new (GC) mu::script::runtime::if_expression);
     body->dependencies.push_back (new (GC) mu::script::runtime::fixed (identity));
     body->dependencies.push_back (if_l);
     auto node2 (new (GC) mu::core::node);

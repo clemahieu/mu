@@ -7,7 +7,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c_node.h>
 
-bool mu::script::runtime::if_clause::operator () (mu::script::context & context_a)
+bool mu::script::runtime::if_expression::operator () (mu::script::context & context_a)
 {
     bool valid (mu::core::check <mu::script::runtime::locals> (context_a));
     if (valid)

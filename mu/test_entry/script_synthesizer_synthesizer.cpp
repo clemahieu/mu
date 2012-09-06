@@ -12,6 +12,8 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/ast_parameter.h>
 #include <mu/script/runtime_parameter.h>
+#include <mu/script/runtime_if_expression.h>
+#include <mu/script/ast_if_expression.h>
 
 #include <gtest/gtest.h>
 
@@ -210,4 +212,36 @@ TEST (script_test, synthesizer_operation6)
     auto d2 (dynamic_cast <mu::script::runtime::fixed *> (expression2->dependencies [0]));
     ASSERT_TRUE (d2 != nullptr);
     EXPECT_TRUE (d2->node == routine3);
+}
+
+// Routine body if true
+TEST (script_test, synthesizer_operation7)
+{
+    mu::core::errors::error_list errors;
+    mu::vector <mu::script::cluster::node *> clusters;
+    auto clusters_l (&clusters);
+    mu::script::synthesizer::synthesizer synthesizer (errors,
+                                                      [clusters_l]
+                                                      (mu::script::cluster::node * cluster_a)
+                                                      {
+                                                          clusters_l->push_back (cluster_a);
+                                                      });
+    auto cluster (new (GC) mu::script::ast::cluster);
+    auto routine1 (new (GC) mu::script::ast::routine);
+    routine1->name = mu::string (U"0");
+    cluster->routines.push_back (routine1);
+    auto if_l (new (GC) mu::script::ast::if_expression);
+    routine1->body->nodes.nodes.push_back (if_l);
+    synthesizer (cluster);
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto routine2 (cluster1->routines [mu::string (U"0")]);
+    ASSERT_TRUE (routine2->expressions.size () == 2);
+    auto expression1 (dynamic_cast <mu::script::runtime::if_expression *> (routine2->expressions [0]));
+    ASSERT_TRUE (expression1 != nullptr);
+    //ASSERT_TRUE (expression1->predicate.size () == 0);
+    auto expression2 (dynamic_cast <mu::script::runtime::definite_expression *> (routine2->expressions [1]));
+    ASSERT_TRUE (expression2 != nullptr);
+    //EXPECT_TRUE (dependency1->node == identity);
 }
