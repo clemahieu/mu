@@ -37,10 +37,11 @@ void mu::io::analyzer::name_map::insert_routine_scope (mu::core::errors::error_t
     if (collision)
     {
         mu::stringstream message;
-        message << L"Local name: ";
+        message << U"Local name: ";
         message << name;
-        message << L" has already been used";
-        errors_a (message.str ());
+        message << U" has already been used";
+        auto str (message.str ());
+        errors_a (str);
     }
     else
     {

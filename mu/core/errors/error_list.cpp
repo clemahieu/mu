@@ -18,6 +18,7 @@ void mu::core::errors::error_list::print (mu::ostream & target)
 {
     for (auto i (errors.begin ()), j (errors.end ()); i != j; ++i)
     {
+        target << U"Error: ";
         (*i)->string (target);
         target << L'\n';
     }
