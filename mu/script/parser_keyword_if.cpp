@@ -185,6 +185,6 @@ void mu::script::parser::keyword_if::process_value (mu::io::tokens::value * toke
     }
     else
     {
-        expression->predicate.nodes.push_back (token->node);
+        nodes_a.nodes.push_back (token->node);
     }
 }
