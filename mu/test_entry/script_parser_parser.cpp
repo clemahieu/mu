@@ -1190,3 +1190,45 @@ TEST (script_test, parser40)
     ASSERT_TRUE (node3->true_branch->nodes.size () == 0);
     ASSERT_TRUE (node3->false_branch->nodes.size () == 0);
 }
+
+// Empty if after a node
+TEST (script_test, parser41)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    auto node1 (new (GC) mu::core::node);
+    parser (new (GC) mu::io::tokens::value (context, node1));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 2);
+    auto current (expression1->nodes.begin ());
+    auto node3 (*current);
+    ASSERT_TRUE (node3 == node1);
+    ++current;
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
+}

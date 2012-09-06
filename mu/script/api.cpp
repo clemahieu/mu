@@ -48,8 +48,8 @@ auto mu::script::api::core () -> mu::script::parser_scope::node *
 	extensions.add <mu::script::string::extension> (mu::string (U"`"));
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
+    extensions (mu::string (U"if"), new (GC) mu::script::tokens::keyword_if);
     map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
-    map [mu::string (U"if")] = new (GC) mu::script::tokens::keyword_if;
     map [mu::string (U"context")] = context_extension (result);
     map [mu::string (U"loadb")] = loadb_extension ();
     map [mu::string (U"loads")] = loads_extension ();
