@@ -11,6 +11,8 @@
 #include <mu/script/parser_scope_node.h>
 #include <mu/script/bool_c_node.h>
 #include <mu/core/errors/string_error.h>
+#include <mu/script/runtime_if_expression.h>
+#include <mu/script/runtime_definite_expression.h>
 
 #include <gtest/gtest.h>
 
@@ -113,6 +115,11 @@ TEST (script_test, builder6)
     ASSERT_TRUE (cluster1->routines.size () == 1);
     ASSERT_TRUE (cluster1->routines.find (U"0") != cluster1->routines.end ());
     auto routine1 (cluster1->routines [U"0"]);
+    ASSERT_TRUE (routine1->expressions.size () == 2);
+    auto expression1 (dynamic_cast <mu::script::runtime::if_expression *> (routine1->expressions [0]));
+    ASSERT_TRUE (expression1 != nullptr);
+    auto expression2 (dynamic_cast <mu::script::runtime::definite_expression *> (routine1->expressions [1]));
+    ASSERT_TRUE (expression2 != nullptr);
     mu::script::context context;
     context.push (routine1);
     auto valid (context ());
@@ -127,7 +134,7 @@ TEST (script_test, builder7)
     core->injected [U"true"] = new (GC) mu::script::bool_c::node (true);
     core->injected [U"false"] = new (GC) mu::script::bool_c::node (false);
     mu::script::builder builder (core);
-    mu::io::process (builder, U"[0 ; [~ if [~ true; ~; fail; name]]]");
+    mu::io::process (builder, U"[0 ; [~ if [~ true; ~; fail]]]");
     builder.errors.print (std::wcerr);
     ASSERT_TRUE (builder.errors.errors.empty ());
     ASSERT_TRUE (builder.clusters.size () == 1);
