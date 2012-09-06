@@ -43,11 +43,11 @@ namespace mu
 				friend class mu::io::lexer::singleline_comment;
 				friend class mu::io::lexer::control;
 			public:
-				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *)> target_a);
+				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token const &)> target_a);
 				void operator () (mu::io::lexer::context const & context_a);
 				void reset ();
 				mu::core::errors::error_target & errors;
-				boost::function <void (mu::io::tokens::token *)> target;
+				boost::function <void (mu::io::tokens::token const &)> target;
 				mu::stack <mu::io::lexer::state *> state;
 			};
 		}

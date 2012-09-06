@@ -11,9 +11,9 @@ mu::io::analyzer::begin::begin (mu::io::analyzer::analyzer & analyzer_a)
 {
 }
 
-void mu::io::analyzer::begin::operator () (mu::io::tokens::token * token_a)
+void mu::io::analyzer::begin::operator () (mu::io::tokens::token const & token_a)
 {
-    auto identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
+    auto identifier (dynamic_cast <mu::io::tokens::identifier const *> (&token_a));
     if (identifier != nullptr)
     {
         auto keyword ((*(analyzer.extensions)) (identifier->string));
@@ -27,7 +27,7 @@ void mu::io::analyzer::begin::operator () (mu::io::tokens::token * token_a)
             assert (boost::starts_with (identifier->string, boost::get <1> (keyword)));
             mu::string shortened (identifier->string.begin () + boost::get <1> (keyword).length (), identifier->string.end ());
             analyzer.state.push (extension);
-            (*extension) (new (GC) mu::io::tokens::identifier (token_a->context, shortened));
+            (*extension) (mu::io::tokens::identifier (token_a.context, shortened));
         }
     }
     else

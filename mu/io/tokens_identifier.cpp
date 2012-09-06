@@ -14,7 +14,7 @@ mu::string mu::io::tokens::identifier::token_name () const
 	return mu::string (U"identifier");
 }
 
-void mu::io::tokens::identifier::operator () (mu::io::tokens::visitor * visitor_a)
+void mu::io::tokens::identifier::operator () (mu::io::tokens::visitor * visitor_a) const
 {
 	(*visitor_a) (*this);
 }

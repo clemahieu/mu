@@ -16,20 +16,20 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::script::integer::extension::operator () (mu::io::tokens::token * token_a)
+void mu::script::integer::extension::operator () (mu::io::tokens::token const & token_a)
 {
-    assert (dynamic_cast <mu::io::tokens::identifier *> (token_a) != nullptr);
-    auto data (static_cast <mu::io::tokens::identifier *> (token_a));
+    assert (dynamic_cast <mu::io::tokens::identifier const *> (&token_a) != nullptr);
+    auto data (static_cast <mu::io::tokens::identifier const *> (&token_a));
     auto & string (data->string);
     auto result (core (analyzer.errors, string));
     if (result != nullptr)
     {
         analyzer.state.pop ();
-        analyzer (new (GC) mu::io::tokens::value (token_a->context, result));
+        analyzer (mu::io::tokens::value (token_a.context, result));
     }
 }
 
-mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, mu::string & string)
+mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_target & errors_a, mu::string const & string)
 {
 	mu::script::integer::node * result (nullptr);
 	int base (0);
@@ -52,17 +52,6 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
             base = 10;
             break;
 	}
-    switch (base_char)
-    {
-		case U'h':
-		case U'd':
-		case U'o':
-		case U'b':
-            string.erase (string.end () - 1);
-			break;
-		default:
-            break;
-    }
 	if (base != 0)
 	{
         std::wstring string_l (string.begin (), string.end () - 1);

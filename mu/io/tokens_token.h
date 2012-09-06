@@ -16,7 +16,7 @@ namespace mu
                 token (mu::io::context const & context_a);
                 mu::io::context context;
 				virtual mu::string token_name () const = 0;
-				virtual void operator () (mu::io::tokens::visitor * visitor_a) = 0;
+				virtual void operator () (mu::io::tokens::visitor * visitor_a) const = 0;
 			};
 		}
 	}

@@ -15,7 +15,7 @@ namespace mu
             public:
                 parameters (mu::script::parser::routine & routine_a);
                 mu::script::parser::routine & routine;
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
 				void operator () (mu::io::tokens::divider const & token) override;
 				void operator () (mu::io::tokens::identifier const & token) override;
 				void operator () (mu::io::tokens::left_square const & token) override;

@@ -24,7 +24,7 @@ have_bits (false)
 {
 }
 
-void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * token_a)
+void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token const & token_a)
 {
     if (!have_keyword)
     {
@@ -35,7 +35,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
         if (!have_bits)
         {
             have_bits = true;
-            auto bits_identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
+            auto bits_identifier (dynamic_cast <mu::io::tokens::identifier const *> (&token_a));
             if (bits_identifier != nullptr)
             {
                 std::wstring characters (bits_identifier->string.begin (), bits_identifier->string.end ());
@@ -56,7 +56,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
         }
         else
         {
-			auto number_identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
+			auto number_identifier (dynamic_cast <mu::io::tokens::identifier const *> (&token_a));
 			if (number_identifier != nullptr)
 			{
                 auto number (mu::script::integer::core (analyzer.errors, number_identifier->string));
@@ -67,9 +67,9 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (64, bits)));
                     node->closed.push_back (new (GC) mu::llvm_::apint::node (new llvm::APInt (bits, number->value)));
                     analyzer.state.pop ();
-                    analyzer (new (GC) mu::io::tokens::left_square (token_a->context));
-                    analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
-                    analyzer (new (GC) mu::io::tokens::right_square (token_a->context));
+                    analyzer (mu::io::tokens::left_square (token_a.context));
+                    analyzer (mu::io::tokens::value (token_a.context, node));
+                    analyzer (mu::io::tokens::right_square (token_a.context));
                 }
             }
             else

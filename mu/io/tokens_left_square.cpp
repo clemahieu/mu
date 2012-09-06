@@ -12,7 +12,7 @@ mu::string mu::io::tokens::left_square::token_name () const
 	return mu::string (U"left square");
 }
 
-void mu::io::tokens::left_square::operator () (mu::io::tokens::visitor * visitor_a)
+void mu::io::tokens::left_square::operator () (mu::io::tokens::visitor * visitor_a) const
 {
 	(*visitor_a) (*this);
 }

@@ -13,7 +13,7 @@ mu::string mu::io::tokens::value::token_name () const
     return mu::string (U"value");
 }
 
-void mu::io::tokens::value::operator () (mu::io::tokens::visitor * visitor_a)
+void mu::io::tokens::value::operator () (mu::io::tokens::visitor * visitor_a) const
 {
     (*visitor_a) (*this);
 }

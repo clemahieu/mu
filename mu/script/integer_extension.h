@@ -28,11 +28,11 @@ namespace mu
 			{
 			public:
                 extension (mu::io::analyzer::analyzer & analyzer_a);
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
                 static bool const dominating = true;
                 mu::io::analyzer::analyzer & analyzer;
 			};
-			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, mu::string & string);
+			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, mu::string const & string);
 			mu::script::integer::node * core_d (mu::core::errors::error_target & errors_a, std::wstring string_a);
 			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, std::wstring string_a, size_t base_a);
 		}

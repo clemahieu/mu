@@ -25,9 +25,9 @@ element (0)
 {
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::token * token_a)
+void mu::script::parser::expression::operator () (mu::io::tokens::token const & token_a)
 {
-    (*token_a) (this);
+    token_a (this);
 }
 
 void mu::script::parser::expression::operator () (mu::io::tokens::divider const & token)

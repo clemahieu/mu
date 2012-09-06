@@ -17,7 +17,7 @@ namespace mu
             {
             public:
                 global (mu::io::analyzer::analyzer & analyzer_a, mu::core::node * node_a);
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
                 mu::io::analyzer::analyzer & analyzer;
                 mu::core::node * node;
             };

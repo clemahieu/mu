@@ -26,13 +26,13 @@ parser (errors,
         }, scope),
 analyzer (errors,
             [this]
-            (mu::io::tokens::token * token)
+            (mu::io::tokens::token const & token)
             {
                 parser (token);
             }, scope->extensions),
 lexer (errors,
        [this]
-       (mu::io::tokens::token * token)
+       (mu::io::tokens::token const & token)
        {
            analyzer (token);
        })
@@ -55,13 +55,13 @@ parser (errors,
         }, scope_a),
 analyzer (errors,
             [this]
-            (mu::io::tokens::token * token)
+            (mu::io::tokens::token const & token)
             {
                 parser (token);
             }, scope_a->extensions),
 lexer (errors,
        [this]
-       (mu::io::tokens::token * token)
+       (mu::io::tokens::token const & token)
        {
            analyzer (token);
        })

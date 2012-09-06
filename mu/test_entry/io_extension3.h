@@ -17,7 +17,7 @@ namespace mu
 		{
 		public:
             extension3 (mu::io::analyzer::analyzer & analyzer_a);
-            void operator () (mu::io::tokens::token * token_a) override;
+            void operator () (mu::io::tokens::token const & token_a) override;
             static bool const dominating = false;
             mu::io::analyzer::analyzer & analyzer;
 		};

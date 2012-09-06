@@ -13,7 +13,7 @@ scope (scope_a)
     state.push (new (GC) mu::script::parser::cluster (*this));
 }
 
-void mu::script::parser::parser::operator () (mu::io::tokens::token * token_a)
+void mu::script::parser::parser::operator () (mu::io::tokens::token const & token_a)
 {
     mu::script::parser::state & item (*state.top ());
     item (token_a);

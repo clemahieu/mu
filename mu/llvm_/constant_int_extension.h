@@ -23,7 +23,7 @@ namespace mu
 			{
 			public:
 				extension (mu::io::analyzer::analyzer & analyzer_a, mu::llvm_::context::node * context_a);
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
 				mu::llvm_::context::node * context;
                 mu::io::analyzer::analyzer & analyzer;
                 bool have_keyword;

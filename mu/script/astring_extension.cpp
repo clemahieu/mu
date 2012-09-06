@@ -14,11 +14,11 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::script::astring::extension::operator () (mu::io::tokens::token * token_a)
+void mu::script::astring::extension::operator () (mu::io::tokens::token const & token_a)
 {
-    assert (dynamic_cast <mu::io::tokens::identifier *> (token_a));
-    auto data (static_cast <mu::io::tokens::identifier *> (token_a));
+    assert (dynamic_cast <mu::io::tokens::identifier const *> (&token_a) != nullptr);
+    auto data (static_cast <mu::io::tokens::identifier const *> (&token_a));
     analyzer.state.pop ();
     std::string str (data->string.begin (), data->string.end ());
-    analyzer (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::script::astring::node (str)));
+    analyzer (mu::io::tokens::value (token_a.context, new (GC) mu::script::astring::node (str)));
 }

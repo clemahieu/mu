@@ -26,9 +26,9 @@ namespace mu
             class analyzer
             {
             public:
-                analyzer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token *)> target_a, mu::io::analyzer::extensions * extensions_a);
-                void operator () (mu::io::tokens::token * token_a);
-                boost::function <void (mu::io::tokens::token *)> target;
+                analyzer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token const &)> target_a, mu::io::analyzer::extensions * extensions_a);
+                void operator () (mu::io::tokens::token const & token_a);
+                boost::function <void (mu::io::tokens::token const &)> target;
                 mu::stack <mu::io::analyzer::state *> state;
 				mu::io::analyzer::extensions * extensions;
                 mu::core::errors::error_target & errors;

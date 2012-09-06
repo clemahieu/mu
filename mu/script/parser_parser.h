@@ -41,7 +41,7 @@ namespace mu
                 parser (mu::core::errors::error_target & errors_a, boost::function <void (mu::script::ast::cluster *)> target_a, mu::script::parser_scope::node * scope_a);
                 mu::core::errors::error_target & errors;
                 boost::function <void (mu::script::ast::cluster *)> target;
-                void operator () (mu::io::tokens::token * token_a);
+                void operator () (mu::io::tokens::token const & token_a);
                 mu::stack <mu::script::parser::state *> state;
                 mu::script::parser_scope::node * scope;
             };

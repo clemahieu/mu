@@ -13,7 +13,7 @@ namespace mu
             {
             public:
                 begin (mu::io::analyzer::analyzer & analyzer_a);
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
                 mu::io::analyzer::analyzer & analyzer;
             };
         }

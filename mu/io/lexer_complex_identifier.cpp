@@ -57,8 +57,7 @@ void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & cont
 		if (have_end_token && match ())
 		{
 			data.resize (data.size () - end_token.size ());
-			mu::io::tokens::identifier * token (new (GC) mu::io::tokens::identifier (mu::io::context (first, context_a.position), data));
-			lexer.target (token);
+			lexer.target (mu::io::tokens::identifier (mu::io::context (first, context_a.position), data));
 			lexer.state.pop ();
 		}
 	}

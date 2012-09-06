@@ -11,8 +11,8 @@ node (node_a)
 {
 }
 
-void mu::io::analyzer::global::operator () (mu::io::tokens::token * token_a)
+void mu::io::analyzer::global::operator () (mu::io::tokens::token const & token_a)
 {
     analyzer.state.pop ();
-    analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
+    analyzer (mu::io::tokens::value (token_a.context, node));
 }

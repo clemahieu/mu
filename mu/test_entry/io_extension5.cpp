@@ -8,7 +8,7 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::io_test::extension5::operator () (mu::io::tokens::token * token_a)
+void mu::io_test::extension5::operator () (mu::io::tokens::token const & token_a)
 {
     analyzer.state.pop ();
     analyzer (token_a);

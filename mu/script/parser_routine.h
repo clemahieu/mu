@@ -28,7 +28,7 @@ namespace mu
                 routine_state state;
                 size_t parameters;
                 mu::script::parser::cluster & cluster;
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
                 mu::script::ast::routine * routine_m;
 				void operator () (mu::io::tokens::divider const & token) override;
 				void operator () (mu::io::tokens::identifier const & token) override;

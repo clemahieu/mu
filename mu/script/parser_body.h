@@ -24,7 +24,7 @@ namespace mu
                 body (mu::script::parser::routine & routine_a, mu::script::ast::definite_expression * expression_a);
                 mu::script::parser::routine & routine;
                 mu::script::ast::definite_expression * expression_m;
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
 				void operator () (mu::io::tokens::divider const & token) override;
 				void operator () (mu::io::tokens::identifier const & token) override;
 				void operator () (mu::io::tokens::left_square const & token) override;

@@ -88,8 +88,18 @@ void mu::llvm_::api::binding (mu::script::parser_scope::node *& results, mu::scr
 	context->values.push_back (block);
     mu::io::analyzer::extensions & extensions (*results->extensions);
     extensions.add <mu::llvm_::apint::extension> (mu::string (U"#"));
-	extensions (mu::string (U"#i"), [ctx] (mu::io::analyzer::analyzer & analyzer_a) { return new (GC) mu::llvm_::constant_int::extension (analyzer_a, ctx); }, false);
-	extensions (mu::string (U"`"), [module] (mu::io::analyzer::analyzer & analyzer_a) { return new (GC) mu::llvm_::constant_string::extension (analyzer_a, module); }, false);
+	extensions (mu::string (U"#i"),
+                [ctx]
+                (mu::io::analyzer::analyzer & analyzer_a)
+                {
+                    return new (GC) mu::llvm_::constant_int::extension (analyzer_a, ctx);
+                }, false);
+	extensions (mu::string (U"`"),
+                [module]
+                (mu::io::analyzer::analyzer & analyzer_a)
+                {
+                    return new (GC) mu::llvm_::constant_string::extension (analyzer_a, module);
+                }, false);
 	extensions (mu::string (U".."), new (GC) mu::llvm_::function_type::divider);
 	extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
 	auto function_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::function_type::create));

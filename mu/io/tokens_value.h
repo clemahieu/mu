@@ -17,7 +17,7 @@ namespace mu
             public:
                 value (mu::io::context const & context_a, mu::core::node * node_a);
 				mu::string token_name () const override;
-				void operator () (mu::io::tokens::visitor * visitor_a) override;
+				void operator () (mu::io::tokens::visitor * visitor_a) const override;
                 mu::core::node * node;
             };
         }

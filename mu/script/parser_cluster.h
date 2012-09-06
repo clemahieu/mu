@@ -20,7 +20,7 @@ namespace mu
             public:
                 cluster (mu::script::parser::parser & parser_a);
                 mu::script::parser::parser & parser;
-                void operator () (mu::io::tokens::token * token_a) override;
+                void operator () (mu::io::tokens::token const & token_a) override;
                 mu::io::analyzer::name_map map;
                 mu::script::ast::cluster * cluster_m;
 				void operator () (mu::io::tokens::divider const & token) override;

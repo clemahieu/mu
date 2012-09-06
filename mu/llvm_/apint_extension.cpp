@@ -12,7 +12,7 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::llvm_::apint::extension::operator () (mu::io::tokens::token * token_a)
+void mu::llvm_::apint::extension::operator () (mu::io::tokens::token const & token_a)
 {
     assert (false);/*
     assert (remaining.empty ());

@@ -27,11 +27,11 @@ TEST (io_test, extension1)
     ASSERT_TRUE (!failed);
 	mu::io::analyzer::analyzer analyzer (result.errors,
                                                [&result]
-                                               (mu::io::tokens::token * token_a)
+                                               (mu::io::tokens::token const & token_a)
                                                {
-                                                   result (token_a);
+                                                   token_a (&result);
                                                }, extensions);
-	analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"a")));
+	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
 	ASSERT_TRUE (result.results.size () == 0);
 }
@@ -45,11 +45,11 @@ TEST (io_test, extension2)
     ASSERT_TRUE (!failed);
 	mu::io::analyzer::analyzer analyzer (result.errors,
                                                [&result]
-                                               (mu::io::tokens::token * token_a)
+                                               (mu::io::tokens::token const & token_a)
                                                {
-                                                   result (token_a);
+                                                   token_a (&result);
                                                }, extensions);
-	analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"a")));
+	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 1);
 }
@@ -63,11 +63,11 @@ TEST (io_test, extension3)
     ASSERT_TRUE (!failed);
 	mu::io::analyzer::analyzer analyzer (result.errors,
                                                [&result]
-                                               (mu::io::tokens::token * token_a)
+                                               (mu::io::tokens::token const & token_a)
                                                {
-                                                   result (token_a);
+                                                   token_a (&result);
                                                }, extensions);
-	analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"a")));
+	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 2);
 }
@@ -81,12 +81,12 @@ TEST (io_test, extension4)
     ASSERT_TRUE (!failed);
 	mu::io::analyzer::analyzer analyzer (result.errors,
                                                [&result]
-                                               (mu::io::tokens::token * token_a)
+                                               (mu::io::tokens::token const & token_a)
                                                {
-                                                   result (token_a);
+                                                   token_a (&result);
                                                }, extensions);
-	analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"a")));
-	analyzer (new (GC) mu::io::tokens::identifier (context, mu::string (U"b")));
+	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
+	analyzer (mu::io::tokens::identifier (context, mu::string (U"b")));
 	EXPECT_TRUE (result.errors.errors.empty ());
 	EXPECT_TRUE (result.results.size () == 1);
 }

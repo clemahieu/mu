@@ -14,7 +14,7 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a)
+void mu::io_test::extension4::operator () (mu::io::tokens::token const & token_a)
 {
     if (first)
     {
@@ -22,6 +22,6 @@ void mu::io_test::extension4::operator () (mu::io::tokens::token * token_a)
     }
     else
     {
-        analyzer.target (new (GC) mu::io::tokens::value (token_a->context, new (GC) mu::core::node));
+        analyzer.target (mu::io::tokens::value (token_a.context, new (GC) mu::core::node));
     }
 }

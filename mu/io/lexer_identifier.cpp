@@ -30,8 +30,7 @@ void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 				lexer.state.push (new (GC) mu::io::lexer::hex_code (2, *this));
 				break;
 			default:
-				mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (mu::io::context (first, last), string);
-				lexer.target (identifier);
+				lexer.target (mu::io::tokens::identifier (mu::io::context (first, last), string));
 				lexer.state.pop ();
 				auto state (new (GC) mu::io::lexer::control (lexer, lookahead_first));
 				lexer.state.push (state);
@@ -56,8 +55,7 @@ void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 			case U']':
 			case U'\U0000ffff':
 				{
-					mu::io::tokens::identifier * identifier = new (GC) mu::io::tokens::identifier (mu::io::context (first, last), string);
-					lexer.target (identifier);
+					lexer.target (mu::io::tokens::identifier (mu::io::context (first, last), string));
 					lexer.state.pop ();
 					auto state (lexer.state.top ());
 					state->lex (context_a);

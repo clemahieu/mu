@@ -12,7 +12,7 @@ mu::string mu::io::tokens::stream_end::token_name () const
 	return mu::string (U"stream end");
 }
 
-void mu::io::tokens::stream_end::operator () (mu::io::tokens::visitor * visitor_a)
+void mu::io::tokens::stream_end::operator () (mu::io::tokens::visitor * visitor_a) const
 {
 	(*visitor_a) (*this);
 }

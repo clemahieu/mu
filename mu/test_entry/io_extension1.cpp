@@ -5,6 +5,6 @@ analyzer (analyzer_a)
 {
 }
 
-void mu::io_test::extension1::operator () (mu::io::tokens::token * token_a)
+void mu::io_test::extension1::operator () (mu::io::tokens::token const & token_a)
 {
 }

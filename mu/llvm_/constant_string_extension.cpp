@@ -20,7 +20,7 @@ mu::llvm_::constant_string::extension::extension (mu::io::analyzer::analyzer & a
 {
 }
 
-void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token * token_a)
+void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token const & token_a)
 {
     if (!have_keyword)
     {
@@ -28,7 +28,7 @@ void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token *
     }
     else
     {
-		auto identifier (dynamic_cast <mu::io::tokens::identifier *> (token_a));
+		auto identifier (dynamic_cast <mu::io::tokens::identifier const *> (&token_a));
 		if (identifier != nullptr)
 		{
 			auto node (new (GC) mu::script::closure::single (new (GC) mu::llvm_::constant_string::create ()));
@@ -36,9 +36,9 @@ void mu::llvm_::constant_string::extension::operator () (mu::io::tokens::token *
 			node->closed.push_back (module);
 			node->closed.push_back (new (GC) mu::script::string::node (identifier->string));
             analyzer.state.pop ();
-            analyzer (new (GC) mu::io::tokens::left_square (token_a->context));
-            analyzer (new (GC) mu::io::tokens::value (token_a->context, node));
-            analyzer (new (GC) mu::io::tokens::right_square (token_a->context));
+            analyzer (mu::io::tokens::left_square (token_a.context));
+            analyzer (mu::io::tokens::value (token_a.context, node));
+            analyzer (mu::io::tokens::right_square (token_a.context));
 		}
 		else
 		{

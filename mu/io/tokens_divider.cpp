@@ -13,7 +13,7 @@ mu::string mu::io::tokens::divider::token_name () const
 	return mu::string (U"divider");
 }
 
-void mu::io::tokens::divider::operator () (mu::io::tokens::visitor * visitor_a)
+void mu::io::tokens::divider::operator () (mu::io::tokens::visitor * visitor_a) const
 {
 	(*visitor_a) (*this);
 }

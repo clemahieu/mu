@@ -18,9 +18,9 @@ cluster_m (new (GC) mu::script::ast::cluster)
     }
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::token * token_a)
+void mu::script::parser::cluster::operator () (mu::io::tokens::token const & token_a)
 {
-    (*token_a) (this);
+    token_a (this);
 }
 
 void mu::script::parser::cluster::operator () (mu::io::tokens::divider const & token)
