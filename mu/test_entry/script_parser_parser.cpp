@@ -853,3 +853,340 @@ TEST (script_test, parser32)
     auto node3 (*node2->false_branch.begin());
     ASSERT_TRUE (node1 == node3);
 }
+
+// Error name node
+TEST (script_test, parser33)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    auto node1 (new (GC) mu::core::node);
+    parser (new (GC) mu::io::tokens::value (context, node1));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (errors ());
+}
+
+// Name node
+TEST (script_test, parser34)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    auto identifier1 (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    parser (identifier1);
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (identifier1);
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 2);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate.size () == 0);
+    ASSERT_TRUE (node2->true_branch.size () == 0);
+    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ++current;
+    auto node3 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 == node3);
+}
+
+// Element node
+TEST (script_test, parser35)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    auto identifier1 (new (GC) mu::io::tokens::identifier (context, mu::string (U"u")));
+    auto identifier2 (new (GC) mu::io::tokens::identifier (context, mu::string (U"v")));
+    parser (identifier1);
+    parser (identifier2);
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (identifier1);
+    parser (identifier2);
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 3);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate.size () == 0);
+    ASSERT_TRUE (node2->true_branch.size () == 0);
+    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ++current;
+    auto node3 (dynamic_cast <mu::script::ast::reference *> (*current));
+    ASSERT_TRUE (node3 != nullptr);
+    ASSERT_TRUE (node3->expression == node2);
+    ASSERT_TRUE (node3->position == 0);
+    ++current;
+    auto node4 (dynamic_cast <mu::script::ast::reference *> (*current));
+    ASSERT_TRUE (node4 != nullptr);
+    ASSERT_TRUE (node4->expression == node2);
+    ASSERT_TRUE (node4->position == 1);
+}
+
+// Error element node
+TEST (script_test, parser36)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    auto node1 (new (GC) mu::core::node);
+    parser (new (GC) mu::io::tokens::value (context, node1));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (errors ());
+}
+
+// Predicate expression
+TEST (script_test, parser37)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 1);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate.size () == 1);
+    ASSERT_TRUE (node2->true_branch.size () == 0);
+    ASSERT_TRUE (node2->false_branch.size () == 0);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->predicate.begin()));
+    ASSERT_TRUE (expression2 != nullptr);
+    ASSERT_TRUE (expression2->nodes.size () == 0);
+}
+
+// True branch expression
+TEST (script_test, parser38)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 1);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate.size () == 0);
+    ASSERT_TRUE (node2->true_branch.size () == 1);
+    ASSERT_TRUE (node2->false_branch.size () == 0);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->true_branch.begin()));
+    ASSERT_TRUE (expression2 != nullptr);
+    ASSERT_TRUE (expression2->nodes.size () == 0);
+}
+
+// False branch expression
+TEST (script_test, parser39)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 1);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->predicate.size () == 0);
+    ASSERT_TRUE (node2->true_branch.size () == 0);
+    ASSERT_TRUE (node2->false_branch.size () == 1);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->false_branch.begin()));
+    ASSERT_TRUE (expression2 != nullptr);
+    ASSERT_TRUE (expression2->nodes.size () == 0);
+}
+
+// If inside expression
+TEST (script_test, parser40)
+{
+    mu::io::context context;
+    mu::core::errors::error_list errors;
+    std::vector <mu::script::ast::cluster *> clusters;
+    mu::script::parser_scope::node injected;
+    mu::script::parser::parser parser (errors,
+                                       [&clusters]
+                                       (mu::script::ast::cluster * node_a)
+                                       {
+                                           clusters.push_back (node_a);
+                                       }, &injected);
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::identifier (context, mu::string (U"t")));
+    parser (new (GC) mu::io::tokens::divider (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::value (context, new (GC) mu::script::tokens::keyword_if));
+    parser (new (GC) mu::io::tokens::left_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::right_square (context));
+    parser (new (GC) mu::io::tokens::stream_end (context));
+    ASSERT_TRUE (!errors ());
+    ASSERT_TRUE (clusters.size () == 1);
+    auto cluster1 (clusters [0]);
+    ASSERT_TRUE (cluster1->routines.size () == 1);
+    auto expression1 (cluster1->routines [0]->body);
+    ASSERT_TRUE (expression1->nodes.size () == 1);
+    auto current (expression1->nodes.begin ());
+    auto node2 (dynamic_cast <mu::script::ast::definite_expression *> (*current));
+    ASSERT_TRUE (node2 != nullptr);
+    ASSERT_TRUE (node2->nodes.size () == 1);
+    auto node3 (dynamic_cast <mu::script::ast::if_expression *> (*node2->nodes.begin()));
+    ASSERT_TRUE (node3 != nullptr);
+    ASSERT_TRUE (node3->predicate.size () == 0);
+    ASSERT_TRUE (node3->true_branch.size () == 0);
+    ASSERT_TRUE (node3->false_branch.size () == 0);
+}

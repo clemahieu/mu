@@ -42,7 +42,7 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::divider * toke
             state = mu::script::parser::keyword_if_state::name;
             break;
         case mu::script::parser::keyword_if_state::name:
-            state = mu::script::parser::keyword_if_state::have_name;
+            state = mu::script::parser::keyword_if_state::elements;
             break;
         case mu::script::parser::keyword_if_state::have_name:
             state = mu::script::parser::keyword_if_state::elements;

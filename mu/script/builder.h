@@ -6,8 +6,6 @@
 #include <mu/script/parser_parser.h>
 #include <mu/script/synthesizer_synthesizer.h>
 
-#include <vector>
-
 namespace mu
 {
     namespace core
@@ -47,7 +45,7 @@ namespace mu
 			mu::script::parser::parser parser;
             mu::io::analyzer::analyzer analyzer;
 			mu::io::lexer::lexer lexer;
-            std::vector <mu::script::cluster::node *> clusters;
+            mu::vector <mu::script::cluster::node *> clusters;
         };
     }
 }

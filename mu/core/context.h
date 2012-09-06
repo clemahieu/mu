@@ -1,8 +1,7 @@
 #pragma once
 
+#include <mu/core/types.h>
 #include <mu/core/iterator.h>
-
-#include <vector>
 
 namespace mu
 {
@@ -49,7 +48,7 @@ namespace mu
 					*target_l = *current;
 				}
 			}
-			std::vector <mu::core::node *, gc_allocator <mu::core::node *>> stack;
+			mu::vector <mu::core::node *> stack;
 			size_t base_begin;
 			size_t base_end;
 			size_t frame_begin;
