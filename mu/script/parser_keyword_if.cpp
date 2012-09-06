@@ -28,7 +28,7 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::token * token_
     (*token_a) (this);
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::divider const & token)
 {
     switch (state)
     {
@@ -57,29 +57,29 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::divider * toke
     }
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier const & token)
 {
     switch (state)
     {
         case mu::script::parser::keyword_if_state::predicate:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->predicate->nodes);
+            routine.cluster.map.fill_reference (token.string, token.context, expression->predicate->nodes);
             break;
         case mu::script::parser::keyword_if_state::true_branch:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->true_branch->nodes);
+            routine.cluster.map.fill_reference (token.string, token.context, expression->true_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::false_branch:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->false_branch->nodes);
+            routine.cluster.map.fill_reference (token.string, token.context, expression->false_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::name:
             state = mu::script::parser::keyword_if_state::have_name;
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, expression, token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, expression, token.context);
             break;
         case mu::script::parser::keyword_if_state::initial:
         case mu::script::parser::keyword_if_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::keyword_if_state::elements:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression, element), token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression, element), token.context);
             ++element;
             break;
         default:
@@ -88,7 +88,7 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier * t
     }
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square const & token)
 {
     switch (state)
     {
@@ -115,7 +115,7 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square * 
     }
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::right_square const & token)
 {
     switch (state)
     {
@@ -136,12 +136,12 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::right_square *
     routine.cluster.parser.state.pop ();
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::keyword_if::operator () (mu::io::tokens::value * token)
+void mu::script::parser::keyword_if::operator () (mu::io::tokens::value const & token)
 {
     switch (state)
     {
@@ -173,9 +173,9 @@ void mu::script::parser::keyword_if::process_left_square (mu::core::node_list & 
     routine.cluster.parser.state.push (state_l);
 }
 
-void mu::script::parser::keyword_if::process_value (mu::io::tokens::value * token, mu::core::node_list & nodes_a)
+void mu::script::parser::keyword_if::process_value (mu::io::tokens::value const & token, mu::core::node_list & nodes_a)
 {
-    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token.node));
     if (if_l != nullptr)
     {
         auto expression_l (new (GC) mu::script::ast::if_expression);
@@ -185,6 +185,6 @@ void mu::script::parser::keyword_if::process_value (mu::io::tokens::value * toke
     }
     else
     {
-        nodes_a.nodes.push_back (token->node);
+        nodes_a.nodes.push_back (token.node);
     }
 }

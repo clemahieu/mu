@@ -8,12 +8,12 @@ mu::io::tokens::token (context_a)
 {
 }
 
-mu::string mu::io::tokens::divider::token_name ()
+mu::string mu::io::tokens::divider::token_name () const
 {
 	return mu::string (U"divider");
 }
 
 void mu::io::tokens::divider::operator () (mu::io::tokens::visitor * visitor_a)
 {
-	(*visitor_a) (this);
+	(*visitor_a) (*this);
 }

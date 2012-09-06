@@ -23,12 +23,12 @@ namespace mu
                 void operator () (mu::io::tokens::token * token_a) override;
                 mu::io::analyzer::name_map map;
                 mu::script::ast::cluster * cluster_m;
-				void operator () (mu::io::tokens::divider * token) override;
-				void operator () (mu::io::tokens::identifier * token) override;
-				void operator () (mu::io::tokens::left_square * token) override;
-				void operator () (mu::io::tokens::right_square * token) override;
-				void operator () (mu::io::tokens::stream_end * token) override;
-                void operator () (mu::io::tokens::value * token) override;
+				void operator () (mu::io::tokens::divider const & token) override;
+				void operator () (mu::io::tokens::identifier const & token) override;
+				void operator () (mu::io::tokens::left_square const & token) override;
+				void operator () (mu::io::tokens::right_square const & token) override;
+				void operator () (mu::io::tokens::stream_end const & token) override;
+                void operator () (mu::io::tokens::value const & token) override;
             };
         }
     }

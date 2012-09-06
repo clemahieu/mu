@@ -30,7 +30,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::token * token_
     (*token_a) (this);
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::divider const & token)
 {
     switch (state)
     {
@@ -50,24 +50,24 @@ void mu::script::parser::expression::operator () (mu::io::tokens::divider * toke
     }
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::identifier const & token)
 {
     switch (state)
     {
         case mu::script::parser::expression_state::values:
         {
-            routine.cluster.map.fill_reference (token->string, token->context, expression_m->nodes);
+            routine.cluster.map.fill_reference (token.string, token.context, expression_m->nodes);
             break;
         }
         case mu::script::parser::expression_state::name:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, expression_m, token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, expression_m, token.context);
             state = mu::script::parser::expression_state::have_name;
             break;
         case mu::script::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::expression_state::elements:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::reference (expression_m, element), token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression_m, element), token.context);
             ++element;
             break;
         default:
@@ -76,7 +76,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier * t
     }
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::left_square const & token)
 {
     auto expression_l (new (GC) mu::script::ast::definite_expression);
     expression_m->nodes.nodes.push_back (expression_l);
@@ -84,7 +84,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::left_square * 
     routine.cluster.parser.state.push (state_l);
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::right_square const & token)
 {
     switch (state)
     {
@@ -102,18 +102,18 @@ void mu::script::parser::expression::operator () (mu::io::tokens::right_square *
     routine.cluster.parser.state.pop ();
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::expression::operator () (mu::io::tokens::value * token)
+void mu::script::parser::expression::operator () (mu::io::tokens::value const & token)
 {
     switch (state)
     {
         case mu::script::parser::expression_state::values:
         {
-            auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+            auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token.node));
             if (if_l != nullptr)
             {
                 auto expression_l (new (GC) mu::script::ast::if_expression);
@@ -123,7 +123,7 @@ void mu::script::parser::expression::operator () (mu::io::tokens::value * token)
             }
             else
             {
-                expression_m->nodes.nodes.push_back (token->node);        
+                expression_m->nodes.nodes.push_back (token.node);
             }
         }
             break;

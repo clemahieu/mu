@@ -31,7 +31,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::token * token_a)
     (*token_a) (this);
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::divider const & token)
 {
     switch (state)
     {
@@ -49,14 +49,14 @@ void mu::script::parser::routine::operator () (mu::io::tokens::divider * token)
     }
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::identifier const & token)
 {
     switch (state)
     {
         case mu::script::parser::routine_state::name:
             state = mu::script::parser::routine_state::parameters;
-            routine_m->name = token->string;
-            cluster.map.insert_cluster_scope (cluster.parser.errors, token->string, routine_m, token->context);
+            routine_m->name = token.string;
+            cluster.map.insert_cluster_scope (cluster.parser.errors, token.string, routine_m, token.context);
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:
@@ -69,7 +69,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier * toke
     }
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::left_square const & token)
 {
     switch (state)
     {
@@ -94,7 +94,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::left_square * tok
     }
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::right_square const & token)
 {
     switch (state)
     {
@@ -114,14 +114,14 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square * to
     }
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (cluster.parser, token);
 }
 
-void mu::script::parser::routine::operator () (mu::io::tokens::value * token)
+void mu::script::parser::routine::operator () (mu::io::tokens::value const & token)
 {
-    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token.node));
     if (if_l != nullptr)
     {
         auto expression_l (new (GC) mu::script::ast::if_expression);

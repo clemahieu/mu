@@ -18,28 +18,28 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::token * token_a)
     (*token_a) (this);
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::divider * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::divider const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::identifier * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::identifier const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::left_square * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::left_square const & token)
 {
     auto state_l (new (GC) mu::llvm_::parser::routine (*this));
     parser.state.push (state_l);
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::right_square * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::right_square const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end const & token)
 {
     auto failed (map.finalize (parser.errors));
     if (!failed)
@@ -49,7 +49,7 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end * token
     cluster_m = new (GC) mu::llvm_::ast::cluster;
 }
 
-void mu::llvm_::parser::cluster::operator () (mu::io::tokens::value * token)
+void mu::llvm_::parser::cluster::operator () (mu::io::tokens::value const & token)
 {
     unexpected_token (parser, token);
 }

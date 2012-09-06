@@ -25,17 +25,17 @@ void mu::script::parser::body::operator () (mu::io::tokens::token * token_a)
     (*token_a) (this);
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::body::operator () (mu::io::tokens::divider const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::body::operator () (mu::io::tokens::identifier const & token)
 {
-    routine.cluster.map.fill_reference (token->string, token->context, expression_m->nodes);
+    routine.cluster.map.fill_reference (token.string, token.context, expression_m->nodes);
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::body::operator () (mu::io::tokens::left_square const & token)
 {
     auto expression_l (new (GC) mu::script::ast::definite_expression);
     expression_m->nodes.nodes.push_back (expression_l);
@@ -43,19 +43,19 @@ void mu::script::parser::body::operator () (mu::io::tokens::left_square * token)
     routine.cluster.parser.state.push (state_l);
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::body::operator () (mu::io::tokens::right_square const & token)
 {
     routine.cluster.parser.state.pop ();
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::body::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::body::operator () (mu::io::tokens::value * token)
+void mu::script::parser::body::operator () (mu::io::tokens::value const & token)
 {
-    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token->node));
+    auto if_l (dynamic_cast <mu::script::tokens::keyword_if *> (token.node));
     if (if_l != nullptr)
     {
         auto expression_l (new (GC) mu::script::ast::if_expression);
@@ -65,6 +65,6 @@ void mu::script::parser::body::operator () (mu::io::tokens::value * token)
     }
     else
     {
-        expression_m->nodes.nodes.push_back (token->node);        
+        expression_m->nodes.nodes.push_back (token.node);
     }
 }

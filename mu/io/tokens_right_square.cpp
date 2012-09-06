@@ -7,12 +7,12 @@ mu::io::tokens::token (context_a)
 {
 }
 
-mu::string mu::io::tokens::right_square::token_name ()
+mu::string mu::io::tokens::right_square::token_name () const
 {
 	return mu::string (U"right square");
 }
 
 void mu::io::tokens::right_square::operator () (mu::io::tokens::visitor * visitor_a)
 {
-	(*visitor_a) (this);
+	(*visitor_a) (*this);
 }

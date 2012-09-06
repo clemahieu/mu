@@ -12,7 +12,7 @@ namespace mu
 			{	
 			public:
 				identifier (mu::io::context const & context_a, mu::string string_a);
-				mu::string token_name () override;
+				mu::string token_name () const override;
 				void operator () (mu::io::tokens::visitor * visitor_a) override;
 				mu::string string;
 			};

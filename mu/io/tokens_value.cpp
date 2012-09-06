@@ -8,12 +8,12 @@ node (node_a)
 {
 }
 
-mu::string mu::io::tokens::value::token_name ()
+mu::string mu::io::tokens::value::token_name () const
 {
     return mu::string (U"value");
 }
 
 void mu::io::tokens::value::operator () (mu::io::tokens::visitor * visitor_a)
 {
-    (*visitor_a) (this);
+    (*visitor_a) (*this);
 }

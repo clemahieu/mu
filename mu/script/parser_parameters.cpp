@@ -19,32 +19,32 @@ void mu::script::parser::parameters::operator () (mu::io::tokens::token * token_
     (*token_a) (this);
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::divider const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::identifier const & token)
 {
-    routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, new (GC) mu::script::ast::parameter (routine.parameters), token->context);
+    routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::parameter (routine.parameters), token.context);
     ++routine.parameters;
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::left_square const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::right_square const & token)
 {
     routine.cluster.parser.state.pop ();
 }
 
-void mu::script::parser::parameters::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
-void mu::script::parser::parameters::operator () (mu::io::tokens::value * token)
+void mu::script::parser::parameters::operator () (mu::io::tokens::value const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }

@@ -33,14 +33,14 @@ namespace mu
             public:
                 keyword_if (mu::script::parser::routine & routine_a, mu::script::ast::if_expression * expression_a);
                 void operator () (mu::io::tokens::token * token_a) override;
-				void operator () (mu::io::tokens::divider * token) override;
-				void operator () (mu::io::tokens::identifier * token) override;
-				void operator () (mu::io::tokens::left_square * token) override;
-				void operator () (mu::io::tokens::right_square * token) override;
-				void operator () (mu::io::tokens::stream_end * token) override;
-                void operator () (mu::io::tokens::value * token) override;
+				void operator () (mu::io::tokens::divider const & token) override;
+				void operator () (mu::io::tokens::identifier const & token) override;
+				void operator () (mu::io::tokens::left_square const & token) override;
+				void operator () (mu::io::tokens::right_square const & token) override;
+				void operator () (mu::io::tokens::stream_end const & token) override;
+                void operator () (mu::io::tokens::value const & token) override;
                 void process_left_square (mu::core::node_list & nodes_a);
-                void process_value (mu::io::tokens::value * token, mu::core::node_list & nodes_a);
+                void process_value (mu::io::tokens::value const & token, mu::core::node_list & nodes_a);
                 mu::script::parser::routine & routine;
                 keyword_if_state state;
                 mu::script::ast::if_expression * expression;

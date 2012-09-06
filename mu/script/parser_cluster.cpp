@@ -23,28 +23,28 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::token * token_a)
     (*token_a) (this);
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::divider * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::divider const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::identifier * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::identifier const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::left_square * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::left_square const & token)
 {
     auto state_l (new (GC) mu::script::parser::routine (*this));
     parser.state.push (state_l);
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::right_square * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::right_square const & token)
 {
     unexpected_token (parser, token);
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end const & token)
 {
     auto failed (map.finalize (parser.errors));
     if (!failed)
@@ -54,7 +54,7 @@ void mu::script::parser::cluster::operator () (mu::io::tokens::stream_end * toke
     cluster_m = new (GC) mu::script::ast::cluster;
 }
 
-void mu::script::parser::cluster::operator () (mu::io::tokens::value * token)
+void mu::script::parser::cluster::operator () (mu::io::tokens::value const & token)
 {
     unexpected_token (parser, token);
 }

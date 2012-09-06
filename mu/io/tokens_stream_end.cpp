@@ -7,12 +7,12 @@ mu::io::tokens::token (context_a)
 {
 }
 
-mu::string mu::io::tokens::stream_end::token_name ()
+mu::string mu::io::tokens::stream_end::token_name () const
 {
 	return mu::string (U"stream end");
 }
 
 void mu::io::tokens::stream_end::operator () (mu::io::tokens::visitor * visitor_a)
 {
-	(*visitor_a) (this);
+	(*visitor_a) (*this);
 }

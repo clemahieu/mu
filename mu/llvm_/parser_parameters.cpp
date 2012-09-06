@@ -34,7 +34,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::token * token_a
     (*token_a) (this);
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::divider * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::divider const & token)
 {
     switch (state)
     {
@@ -51,7 +51,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::divider * token
     }
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier const & token)
 {
     switch (state)
     {
@@ -63,7 +63,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier * to
         {
             state = mu::llvm_::parser::parameters_state::parameters;
             auto position_l (position);
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token->string, new (GC) mu::llvm_::ast::parameter (position_l), token->context);
+            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::llvm_::ast::parameter (position_l), token.context);
             position = position_l + 1;
         }
             break;
@@ -73,12 +73,12 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier * to
     }
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::left_square * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::left_square const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::right_square * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::right_square const & token)
 {
     switch (state)
     {
@@ -95,18 +95,18 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::right_square * 
     }
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::stream_end * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (routine.cluster.parser, token);
 }
 
-void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
+void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value const & token)
 {
     switch (state)
     {
         case mu::llvm_::parser::parameters_state::results:
         {
-            auto type (dynamic_cast <mu::llvm_::type::node *> (token->node));
+            auto type (dynamic_cast <mu::llvm_::type::node *> (token.node));
             if (type != nullptr)
             {
                 routine.routine_m->results.push_back (type);
@@ -115,7 +115,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             {
                 mu::stringstream message;
                 message << U"Unexpected value type: ";
-                message << token->node->name ();
+                message << token.node->name ();
                 message << U", expecting mu::llvm_::type::node";
                 routine.cluster.parser.errors (message.str ());
                 routine.cluster.parser.state.push (new (GC) mu::llvm_::parser::error);
@@ -124,7 +124,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             break;
         case mu::llvm_::parser::parameters_state::parameters:
         {
-            auto type (dynamic_cast <mu::llvm_::type::node *> (token->node));
+            auto type (dynamic_cast <mu::llvm_::type::node *> (token.node));
             if (type != nullptr)
             {
                 state = mu::llvm_::parser::parameters_state::name;
@@ -134,7 +134,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::value * token)
             {
                 mu::stringstream message;
                 message << U"Unexpected value type: ";
-                message << token->node->name ();
+                message << token.node->name ();
                 message << U", expecting mu::llvm_::type::node";
                 routine.cluster.parser.errors (message.str ());
                 routine.cluster.parser.state.push (new (GC) mu::llvm_::parser::error);

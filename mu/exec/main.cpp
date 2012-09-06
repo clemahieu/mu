@@ -12,14 +12,17 @@
 
 int main (int argc, char * argv [])
 {
-	if (argc == 2)
+	if (argc == 3)
 	{
 		mu::core::errors::error_list errors;
 		std::string file_name (argv [1]);
+        std::string function_name (argv [2]);
 		mu::script::context context;
         auto core (mu::script::api::core ());
-		context.push (new (GC) mu::script::exec::operation (core->extensions));
+		context.push (new (GC) mu::script::exec::operation);
+        context.push (core);
 		context.push (new (GC) mu::script::string::node (mu::string (file_name.begin (), file_name.end ())));
+        context.push (new (GC) mu::script::string::node (mu::string (function_name.begin (), function_name.end ())));
         auto valid (context ());
 		if (valid)
 		{

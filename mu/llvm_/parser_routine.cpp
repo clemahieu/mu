@@ -32,7 +32,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::token * token_a)
     (*token_a) (this);
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider const & token)
 {
     switch (state)
     {
@@ -50,13 +50,13 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::divider * token)
     }
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier const & token)
 {
     switch (state)
     {
         case mu::llvm_::parser::routine_state::name:
-            cluster.map.insert_cluster_scope (cluster.parser.errors, token->string, routine_m, token->context);
-            routine_m->name = token->string;
+            cluster.map.insert_cluster_scope (cluster.parser.errors, token.string, routine_m, token.context);
+            routine_m->name = token.string;
             state = mu::llvm_::parser::routine_state::parameters;
             break;
         case mu::llvm_::parser::routine_state::parameters:
@@ -70,7 +70,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier * token
     }
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::left_square * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::left_square const & token)
 {
     switch (state)
     {
@@ -95,7 +95,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::left_square * toke
     }
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square const & token)
 {
     switch (state)
     {
@@ -115,12 +115,12 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square * tok
     }
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::stream_end * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::stream_end const & token)
 {
     unexpected_token (cluster.parser, token);
 }
 
-void mu::llvm_::parser::routine::operator () (mu::io::tokens::value * token)
+void mu::llvm_::parser::routine::operator () (mu::io::tokens::value const & token)
 {
     unexpected_token (cluster.parser, token);
 }
