@@ -26,7 +26,7 @@ TEST (script_test, loadb1)
 TEST (script_test, loadb2)
 {
 	mu::core::errors::error_list errors;
-    auto windows_name (mu::string (U"mu/binary_test/Debug/mu_binary_test.dll"));
+    auto windows_name (mu::string (U"mu/binary_test/Debug/mu_binary_test.dlU"));
     auto unix_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.so"));
     auto osx_name (mu::string (U"mu/binary_test/Debug/libmu_binary_test.dylib"));
     auto windows_path (boost::filesystem::initial_path() /= std::string (windows_name.begin (), windows_name.end ()));

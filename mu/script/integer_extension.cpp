@@ -36,16 +36,16 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 	wchar_t base_char (string [string.length () - 1]);
 	switch (base_char)
 	{
-		case L'h':
+		case U'h':
 			base = 16;
 			break;
-		case L'd':
+		case U'd':
 			base = 10;
 			break;
-		case L'o':
+		case U'o':
 			base = 8;
 			break;
-		case L'b':
+		case U'b':
 			base = 2;
 			break;
 		default:
@@ -54,10 +54,10 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 	}
     switch (base_char)
     {
-		case L'h':
-		case L'd':
-		case L'o':
-		case L'b':
+		case U'h':
+		case U'd':
+		case U'o':
+		case U'b':
             string.erase (string.end () - 1);
 			break;
 		default:
@@ -86,9 +86,9 @@ mu::script::integer::node * mu::script::integer::core (mu::core::errors::error_t
 	if (errno == ERANGE)
 	{
 		mu::stringstream message;
-		message << L"Overflow while parsing: ";
+		message << U"Overflow while parsing: ";
 		message << mu::string (string_a.begin (), string_a.end ());
-		message << L" in base: ";
+		message << U" in base: ";
 		message << base_a;
 		errors_a (message.str ());
 	}

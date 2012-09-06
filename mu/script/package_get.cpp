@@ -23,7 +23,7 @@ bool mu::script::package::get::operator () (mu::script::context & context_a)
 		else
 		{
 			mu::stringstream message;
-			message << L"Package does not contain item named: ";
+			message << U"Package does not contain item named: ";
 			message << name->string;
 			context_a.errors (message.str ());
 			result = false;

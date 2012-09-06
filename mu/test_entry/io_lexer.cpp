@@ -52,7 +52,7 @@ TEST (io_test, lexer3)
 	auto t1i (dynamic_cast <mu::io::tokens::identifier *> (t1));
 	EXPECT_NE (t1i, nullptr);
 	EXPECT_EQ (t1i->string.size (), 1);
-	EXPECT_EQ (t1i->string [0], L'a');
+	EXPECT_EQ (t1i->string [0], U'a');
 	EXPECT_EQ (t1->context.first.character, 0);
 	EXPECT_EQ (t1->context.first.column, 1);
 	EXPECT_EQ (t1->context.first.row, 1);

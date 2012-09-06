@@ -44,7 +44,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 						else
 						{
 							mu::stringstream message;
-							message << L"Function: 'extensions' does not exist in library: ";
+							message << U"Function: 'extensions' does not exist in library: ";
 							message << path.string ().c_str ();
 							context_a.errors (message.str ());
 						}
@@ -58,7 +58,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 			else
 			{
 				mu::stringstream message;
-				message << L"Library did not have version function: ";
+				message << U"Library did not have version function: ";
                 auto str (path.wstring ());
 				message << mu::string (str.begin (), str.end ());;
 				context_a.errors (message.str ());
@@ -67,7 +67,7 @@ bool mu::script::loadb::operation::operator () (mu::script::context & context_a)
 		else
 		{
 			mu::stringstream message;
-			message << L"Library could not be loaded: ";
+			message << U"Library could not be loaded: ";
 			std::string patha (path.string ());
 			mu::string path (patha.begin (), patha.end ());
 			message << path;

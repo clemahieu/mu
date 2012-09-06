@@ -44,7 +44,7 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 	{
 		mu::stringstream message;
 		message << name ();
-		message << L" must have at least one argument";
+		message << U" must have at least one argument";
 		context_a.errors (message.str ());
 		result = false;
 	}

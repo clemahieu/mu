@@ -104,7 +104,7 @@ TEST (script_test, builder5)
 TEST (script_test, builder6)
 {
     auto core (mu::script::api::core ());
-    core->injected [U"fail"] = new (GC) mu::script::fail::operation;
+    core->injected [U"faiU"] = new (GC) mu::script::fail::operation;
     mu::script::builder builder (core);
     mu::io::process (builder, U"[0 ; [if []]]");
     ASSERT_TRUE (builder.errors.errors.empty ());
@@ -123,7 +123,7 @@ TEST (script_test, builder6)
 TEST (script_test, DISABLED_builder7)
 {
     auto core (mu::script::api::core ());
-    core->injected [U"fail"] = new (GC) mu::script::fail::operation;
+    core->injected [U"faiU"] = new (GC) mu::script::fail::operation;
     core->injected [U"true"] = new (GC) mu::script::bool_c::node (true);
     core->injected [U"false"] = new (GC) mu::script::bool_c::node (false);
     mu::script::builder builder (core);
@@ -145,7 +145,7 @@ TEST (script_test, DISABLED_builder7)
 TEST (script_test, DISABLED_builder8)
 {
     auto core (mu::script::api::core ());
-    core->injected [U"fail"] = new (GC) mu::script::fail::operation;
+    core->injected [U"faiU"] = new (GC) mu::script::fail::operation;
     core->injected [U"true"] = new (GC) mu::script::bool_c::node (true);
     core->injected [U"false"] = new (GC) mu::script::bool_c::node (false);
     mu::script::builder builder (core);

@@ -60,9 +60,9 @@ auto mu::llvm_::instructions::add::core (mu::core::errors::error_target & errors
         else
         {
             mu::stringstream message;
-            message << L"Bit widths don't match: ";
+            message << U"Bit widths don't match: ";
             message << one_bits;
-            message << L" ";
+            message << U" ";
             message << two_bits;
             errors_a (message.str ());
         }
@@ -70,9 +70,9 @@ auto mu::llvm_::instructions::add::core (mu::core::errors::error_target & errors
     else
     {
         mu::stringstream message;
-        message << L"Arguments are not integers: ";
+        message << U"Arguments are not integers: ";
         message << one_int;
-        message << L" ";
+        message << U" ";
         message << two_int;
         errors_a (message.str ());
     }

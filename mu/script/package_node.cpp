@@ -5,7 +5,7 @@
 mu::string mu::script::package::node::debug ()
 {
 	mu::stringstream contents;
-	contents << L"mu::script::package::node:";
+	contents << U"mu::script::package::node:";
 	for (auto i (items.begin ()), j (items.end ()); i != j; ++i)
 	{
 		contents << '\n';

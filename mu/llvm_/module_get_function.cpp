@@ -32,7 +32,7 @@ bool mu::llvm_::module::get_function::operator () (mu::script::context & context
 		else
 		{
 			mu::stringstream message;
-			message << L"Module has no function named: ";
+			message << U"Module has no function named: ";
 			mu::string name (two->string.begin (), two->string.end ());
 			message << name;
 			context_a.errors (message.str ());

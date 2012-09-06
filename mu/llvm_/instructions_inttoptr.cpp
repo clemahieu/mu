@@ -32,9 +32,9 @@ bool mu::llvm_::instructions::inttoptr::operator () (mu::script::context & conte
 		else
 		{
 			mu::stringstream message;
-			message << L"Arguments are not integers: ";
+			message << U"Arguments are not integers: ";
 			message << one_int;
-			message << L" ";
+			message << U" ";
 			message << two_int;
 			context_a.errors (message.str ());
 			result = false;

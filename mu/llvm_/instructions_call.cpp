@@ -62,9 +62,9 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 										actual->print (actual_stream);
 									}
 									mu::stringstream message;
-									message << L"Expected type: ";
+									message << U"Expected type: ";
 									message << mu::string (expected_str.begin (), expected_str.end ());
-									message << L" does match actual type: ";
+									message << U" does match actual type: ";
 									message << mu::string (actual_str.begin (), actual_str.end ());
 									context_a.errors (message.str ());
 									result = false;
@@ -79,9 +79,9 @@ bool mu::llvm_::instructions::call::operator () (mu::script::context & context_a
 					else
 					{
 						mu::stringstream message;
-						message << L"Number of actual arguments: ";
+						message << U"Number of actual arguments: ";
 						message << context_a.parameters_size () - 1;
-						message << L" does not match number of formal parameters: ";
+						message << U" does not match number of formal parameters: ";
 						message << flat_type->getNumParams ();
 						context_a.errors (message.str ());
 						result = false;

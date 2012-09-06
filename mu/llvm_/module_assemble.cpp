@@ -30,7 +30,7 @@ bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 		else
 		{
 			std::stringstream message;
-			message << L"Unable to assemble data:\n";
+			message << U"Unable to assemble data:\n";
 			std::string msg (diagnostic.getMessage ());
 			message << msg;
 			message << ": (";

@@ -34,11 +34,11 @@ bool mu::llvm_::constant_int::create::operator () (mu::script::context & context
 			else
 			{
 				mu::stringstream message;
-				message << L"Number: ";
+				message << U"Number: ";
 				message << three->value->getLimitedValue ();
-				message << L" does not fit in: ";
+				message << U" does not fit in: ";
 				message << bits;
-				message << L" bits";
+				message << U" bits";
 				context_a.errors (message.str ());
 				valid = false;
 			}
@@ -46,11 +46,11 @@ bool mu::llvm_::constant_int::create::operator () (mu::script::context & context
 		else
 		{
 			mu::stringstream message;
-			message << L"Number of bits: ";
+			message << U"Number of bits: ";
 			message << bits;
-			message << L" is not between: ";
+			message << U" is not between: ";
 			message << llvm::IntegerType::MIN_INT_BITS;
-			message << L" and: ";
+			message << U" and: ";
 			message << llvm::IntegerType::MAX_INT_BITS;
 			context_a.errors (message.str ());
 			valid = false;

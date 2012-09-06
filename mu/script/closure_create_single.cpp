@@ -25,9 +25,9 @@ bool mu::script::closure::create_single::operator () (mu::script::context & cont
 	else
 	{
 		mu::stringstream message;
-		message << L"Operation: ";
+		message << U"Operation: ";
 		message << name ();
-		message << L" must have at least one argument";
+		message << U" must have at least one argument";
 		context_a.errors (message.str ());
 		result = false;
 	}

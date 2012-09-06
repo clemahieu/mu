@@ -19,7 +19,7 @@ bool mu::script::package::remove::operator () (mu::script::context & context_a)
 		if (count == 0)
 		{
 			mu::stringstream message;
-			message << L"Package already has no item named: ";
+			message << U"Package already has no item named: ";
 			message << two->string;
 			context_a.errors (message.str ());
 			result = false;

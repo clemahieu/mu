@@ -63,7 +63,7 @@ void mu::io::lexer::identifier::lex (mu::io::lexer::context const & context_a)
 					state->lex (context_a);
 				}
 				break;
-			case L':':
+			case U':':
 				lookahead_first = context_a.position;
 				lookahead = true;
 				break;

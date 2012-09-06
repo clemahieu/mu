@@ -22,5 +22,5 @@ bool mu::script::integer::equal::operator () (mu::script::context & context_a)
 
 mu::string mu::script::integer::equal::name ()
 {
-	return mu::string (U"mu::script::integer::equal");
+	return mu::string (U"mu::script::integer::equaU");
 }

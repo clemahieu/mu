@@ -30,11 +30,11 @@ bool mu::script::runtime::reference::operator () (mu::script::context & context_
 				if (existing->second.get <1> () != ~0)
 				{
 					mu::stringstream message;
-					message << L"Trying to get values off of frame from: ";
+					message << U"Trying to get values off of frame from: ";
 					message << existing->second.get <0> ();
-					message << L" to: ";
+					message << U" to: ";
 					message << existing->second.get <1> ();
-					message << L" but only have: ";
+					message << U" but only have: ";
 					message << locals->frame.size ();
 					context_a.errors (message.str ());
 				}

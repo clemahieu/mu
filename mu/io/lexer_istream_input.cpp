@@ -12,7 +12,7 @@ char32_t mu::io::lexer::istream_input::operator() ()
 	wchar_t result (source.get ());
 	if (source.eof ())
 	{
-		result = L'\uffff';
+		result = U'\uffff';
 	}
 	return result;
 }

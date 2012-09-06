@@ -36,9 +36,9 @@ bool mu::llvm_::instructions::trunc::operator () (mu::script::context & context_
 			else
 			{
 				mu::stringstream message;
-				message << L"Bit width of argument two is not less than or equal to bit width of argument one: ";
+				message << U"Bit width of argument two is not less than or equal to bit width of argument one: ";
 				message << one_bits;
-				message << L" ";
+				message << U" ";
 				message << two_bits;
 				context_a.errors (message.str ());
 				valid = false;
@@ -47,9 +47,9 @@ bool mu::llvm_::instructions::trunc::operator () (mu::script::context & context_
 		else
 		{
 			mu::stringstream message;
-			message << L"Arguments are not integers: ";
+			message << U"Arguments are not integers: ";
 			message << one_int;
-			message << L" ";
+			message << U" ";
 			message << two_int;
 			context_a.errors (message.str ());
 			valid = false;

@@ -40,9 +40,9 @@ bool mu::llvm_::execution_engine::run_function::operator () (mu::script::context
 				//	else
 				//	{
 				//		std::wstringstream message;
-				//		message << L"Function argument to operation: ";
+				//		message << U"Function argument to operation: ";
 				//		message << name ();
-				//		message << L" can only be an llvm::Function";
+				//		message << U" can only be an llvm::Function";
 				//		(*errors_a) (message.str ());
 				//	}
 				//}
@@ -60,9 +60,9 @@ bool mu::llvm_::execution_engine::run_function::operator () (mu::script::context
 	else
 	{
 		mu::stringstream message;
-		message << L"Operation: ";
+		message << U"Operation: ";
 		message << name ();
-		message << L" requires at least two arguments";
+		message << U" requires at least two arguments";
 		context_a.errors (message.str ());
 		valid = false;
 	}
@@ -88,9 +88,9 @@ void mu::llvm_::execution_engine::run_function::perform_internal (mu::script::co
 		else
 		{
 			mu::stringstream message;
-			message << L"Arguments to: ";
+			message << U"Arguments to: ";
 			message << name ();
-			message << L" must be generic_value, have: ";
+			message << U" must be generic_value, have: ";
 			message << (*i)->name ();
 			context_a.errors (message.str ());
 			good = false;

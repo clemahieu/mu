@@ -203,7 +203,7 @@ TEST (io_test, control10)
     ASSERT_TRUE (dynamic_cast <mu::io::tokens::identifier *> (result1) != nullptr);
     auto result_identifier1 (static_cast <mu::io::tokens::identifier *> (result1));
     ASSERT_TRUE (result_identifier1->string.size () == 1);
-    EXPECT_TRUE (result_identifier1->string [0] == L'\0');
+    EXPECT_TRUE (result_identifier1->string [0] == U'\0');
 }
 
 // Testing control character \t

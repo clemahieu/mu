@@ -25,7 +25,7 @@ bool mu::script::debugging::trace_types::operator () (mu::script::context & cont
 	//		auto existing (mapping->nodes.find (op));
 	//		if (existing != mapping->nodes.end ())
 	//		{
-	//			name.push_back (L' ');
+	//			name.push_back (U' ');
 	//			name.append (existing->second->context.string ());
 	//		}
 	//		result->values.push_back (boost::make_shared <mu::script::string::node> (name));

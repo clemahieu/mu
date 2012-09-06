@@ -63,7 +63,7 @@ void * extensions ()
 	extensions (mu::string (U"global_value/set_linkage"), new (GC) mu::llvm_::global_value::set_linkage);
 	extensions (mu::string (U"global_variable/create"), new (GC) mu::llvm_::global_variable::create);
 	extensions (mu::string (U"integer_type/create"), new (GC) mu::llvm_::integer_type::create);
-	extensions (mu::string (U"linkage_types/external"), new (GC) mu::llvm_::linkage_types::node (llvm::GlobalValue::ExternalLinkage));
+	extensions (mu::string (U"linkage_types/externaU"), new (GC) mu::llvm_::linkage_types::node (llvm::GlobalValue::ExternalLinkage));
 	extensions (mu::string (U"linker/link_modules"), new (GC) mu::llvm_::linker::link_modules);
 	extensions (mu::string (U"module/add_function"), new (GC) mu::llvm_::module::add_function);
 	extensions (mu::string (U"module/add_global_variable"), new (GC) mu::llvm_::module::add_global_variable);

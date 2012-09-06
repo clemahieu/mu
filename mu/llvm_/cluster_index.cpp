@@ -24,7 +24,7 @@ bool mu::llvm_::cluster::index::operator () (mu::script::context & context_a)
 		else
 		{
 			mu::stringstream message;
-			message << L"Cluster does not have routine named: ";
+			message << U"Cluster does not have routine named: ";
 			message << two->string;
 			context_a.errors (message.str ());
 			result = false;

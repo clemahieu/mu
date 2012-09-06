@@ -16,6 +16,6 @@ void mu::io_test::lexer_result::print (std::wostream & target)
         auto token_name ((*i)->token_name ());
         std::wstring str (token_name.begin (), token_name.end ());
         target << str;
-        target << L' ';
+        target << U' ';
     }
 }

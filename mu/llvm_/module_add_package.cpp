@@ -41,11 +41,11 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 				else
 				{
 					mu::stringstream message;
-					message << L"Operation: ";
+					message << U"Operation: ";
 					message << name ();
-					message << L" package item: \"";
+					message << U" package item: \"";
 					message << i->first;
-					message << L"\" is not an mu::llvm_::function::node: ";
+					message << U"\" is not an mu::llvm_::function::node: ";
 					message << i->second->name ();
 					context_a.errors (message.str ());
 					result = false;

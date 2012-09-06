@@ -17,9 +17,9 @@ void mu::io::analyzer::name_map::insert_cluster_scope (mu::core::errors::error_t
     if (collision)
     {
         mu::stringstream message;
-        message << L"Global name: ";
+        message << U"Global name: ";
         message << name;
-        message << L" has already been used";
+        message << U" has already been used";
         errors_a (message.str ());
     }
     else

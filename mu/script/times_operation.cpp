@@ -47,7 +47,7 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	{
 		mu::stringstream message;
 		message << name ();
-		message << L" must have at least two arguments";
+		message << U" must have at least two arguments";
 		context_a.errors (message.str ());
 		result = false;
 	}

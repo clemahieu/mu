@@ -23,7 +23,7 @@ bool mu::script::package::add::operator () (mu::script::context & context_a)
 		else
 		{
 			mu::stringstream message;
-			message << L"Package already has an item named: ";
+			message << U"Package already has an item named: ";
 			message << two->string;
 			context_a.errors (message.str ());
 			result = false;

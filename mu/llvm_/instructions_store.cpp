@@ -34,7 +34,7 @@ bool mu::llvm_::instructions::store::operator () (mu::script::context & context_
 			else
 			{
 				mu::stringstream message;
-				message << L"Argument two is not a pointer to the type of argument one";
+				message << U"Argument two is not a pointer to the type of argument one";
 				context_a.errors (message.str ());
 				valid = false;
 			}
@@ -42,7 +42,7 @@ bool mu::llvm_::instructions::store::operator () (mu::script::context & context_
 		else
 		{
 			mu::stringstream message;
-			message << L"Argument 2 is not a pointer";
+			message << U"Argument 2 is not a pointer";
 			context_a.errors (message.str ());
 			valid = false;
 		}

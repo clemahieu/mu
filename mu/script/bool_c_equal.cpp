@@ -20,5 +20,5 @@ bool mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 
 mu::string mu::script::bool_c::equal::name ()
 {
-	return mu::string (U"mu::script::bool_c::equal");
+	return mu::string (U"mu::script::bool_c::equaU");
 }

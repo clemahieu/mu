@@ -25,7 +25,7 @@ bool mu::script::parser_scope::merge::operator () (mu::script::context & context
 			if (error)
             {
 				mu::stringstream message;
-				message << L"Scope already contains extension named: ";
+				message << U"Scope already contains extension named: ";
 				message << i->first;
 				context_a.errors (message.str ());
 				result = false;
@@ -43,7 +43,7 @@ bool mu::script::parser_scope::merge::operator () (mu::script::context & context
             else
             {
 				mu::stringstream message;
-				message << L"Scope already contains node named: ";
+				message << U"Scope already contains node named: ";
 				message << i->first;
 				context_a.errors (message.str ());
 				result = false;

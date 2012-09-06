@@ -14,12 +14,12 @@ mu::script::debugging::trace_error::trace_error (mu::script::values::operation *
 void mu::script::debugging::trace_error::string (mu::ostream & stream)
 {
 	error->string (stream);
-	stream << L'\n';
+	stream << U'\n';
 	for (auto i (trace->values.begin ()), j (trace->values.end ()); i != j; ++i)
 	{
 		assert (dynamic_cast <mu::script::string::node *> (*i));
 		auto string (static_cast <mu::script::string::node *> (*i));
 		stream << string->string;
-		stream << L'\n';
+		stream << U'\n';
 	}
 }

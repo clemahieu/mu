@@ -11,7 +11,7 @@ TEST (io_test, istream_input_test1)
 	std::stringstream str ("");
 	mu::io::lexer::istream_input input (str);
 	wchar_t val (input ());
-	EXPECT_EQ (val, L'\uffff');
+	EXPECT_EQ (val, U'\uffff');
 }
 
 TEST (io_test, istream_input_test2)

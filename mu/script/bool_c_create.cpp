@@ -41,9 +41,9 @@ bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
 		else
 		{
 			mu::stringstream message;
-			message << L"Cannot convert value: ";
+			message << U"Cannot convert value: ";
 			message << one->string;
-			message << L" to a bool";
+			message << U" to a booU";
 			context_a.errors (message.str ());
 			result = false;
 		}

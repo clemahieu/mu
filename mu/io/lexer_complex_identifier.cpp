@@ -40,7 +40,7 @@ void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & cont
 		{
 			switch (context_a.character)
 			{
-			case L'}':
+			case U'}':
 				have_end_token = true;
 				last_characters.resize (end_token.size ());
 				break;

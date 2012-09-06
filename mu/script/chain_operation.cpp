@@ -34,7 +34,7 @@ bool mu::script::chain::operation::operator () (mu::script::context & context_a)
 						}
 						else
 						{
-							context_a.errors (U"Last result must be a bool");
+							context_a.errors (U"Last result must be a booU");
 							result = false;
 						}
 					}

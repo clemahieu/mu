@@ -46,9 +46,9 @@ bool mu::llvm_::module::merge::operator () (mu::script::context & context_a)
 	else
 	{
 		mu::stringstream message;
-		message << L"Operation: ";
+		message << U"Operation: ";
 		message << name ();
-		message << L" requires at least 1 argument";
+		message << U" requires at least 1 argument";
 		context_a.errors (message.str ());
 		valid = false;
 	}

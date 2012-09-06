@@ -41,9 +41,9 @@ bool mu::script::package::get_recursive::operator () (mu::script::context & cont
 	else
 	{
 		mu::stringstream message;
-		message << L"Operation: ";
+		message << U"Operation: ";
 		message << name ();
-		message << L" requires at least one argument";
+		message << U" requires at least one argument";
 		context_a.errors (message.str ());
 		result = false;
 	}

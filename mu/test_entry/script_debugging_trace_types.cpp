@@ -30,8 +30,8 @@ TEST (script_test, trace_types2)
 	//mu::core::errors::errors errors (boost::make_shared <mu::core::errors::error_list> ());
 	//mu::script::context context (errors);
 	//mu::script::builder builder;
-	//builder.analyzer.extensions->extensions_m [L"trace"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::debugging::trace_types> ());
-	//builder (L"[trace :~]");
+	//builder.analyzer.extensions->extensions_m [U"trace"] = boost::make_shared <mu::io::analyzer::extensions::global> (boost::make_shared <mu::script::debugging::trace_types> ());
+	//builder (U"[trace :~]");
 	//builder ();
 	//assert (builder.errors->errors.empty ());
 	//auto cluster (builder.cluster);

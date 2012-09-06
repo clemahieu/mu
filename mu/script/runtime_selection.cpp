@@ -31,11 +31,11 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 				else
 				{
 					mu::stringstream message;
-					message << L"Trying to get result at index: ";
+					message << U"Trying to get result at index: ";
 					message << index;
-					message << L" but there are only: ";
+					message << U" but there are only: ";
 					message << existing->second.get <1> () - existing->second.get <0> ();
-					message << L" nodes";
+					message << U" nodes";
 					context_a.errors (message.str ());
 					valid = false;
 				}
@@ -45,9 +45,9 @@ bool mu::script::runtime::selection::operator () (mu::script::context & context_
 				if (existing->second.get <1> () != ~0)
 				{
 					mu::stringstream message;
-					message << L"Trying to select value off of frame at: ";
+					message << U"Trying to select value off of frame at: ";
 					message << existing->second.get <0> () + index;
-					message << L" but only have: ";
+					message << U" but only have: ";
 					message << locals->frame.size ();
 					context_a.errors (message.str ());
 				}

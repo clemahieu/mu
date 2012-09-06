@@ -27,12 +27,12 @@ int main (int argc, char * argv [])
 			{
                 auto str ((*i)->debug ());
 				std::wcout << std::wstring (str.begin (), str.end ());
-				std::wcout << L'\n';
+				std::wcout << U'\n';
 			}
 		}
 		else
 		{
-			std::wcout << L"Error while executing file: ";
+			std::wcout << U"Error while executing file: ";
             mu::stringstream stream;
 			errors.print (stream);
             mu::string const & string (stream.str ());
@@ -42,6 +42,6 @@ int main (int argc, char * argv [])
 	}
 	else
 	{
-		std::wcout << L"Command line expects one argument, a file name";
+		std::wcout << U"Command line expects one argument, a file name";
 	}
 }

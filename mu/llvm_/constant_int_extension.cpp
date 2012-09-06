@@ -48,7 +48,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
                 {
                     analyzer.state.push (new (GC) mu::io::analyzer::error);
 					mu::stringstream message;
-					message << L"Unable to parse bits number: ";
+					message << U"Unable to parse bits number: ";
 					message << bits_identifier->string;
 					analyzer.errors (message.str ());
                 }
@@ -75,7 +75,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token * to
             else
             {
                 mu::stringstream message;
-                message << L"Unable to parse number: ";
+                message << U"Unable to parse number: ";
                 message << number_identifier->string;
                 analyzer.state.push (new (GC) mu::io::analyzer::error);
             }

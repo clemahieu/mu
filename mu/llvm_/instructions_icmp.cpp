@@ -38,9 +38,9 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 			else
 			{
 				mu::stringstream message;
-				message << L"Bit widths don't match: ";
+				message << U"Bit widths don't match: ";
 				message << one_bits;
-				message << L" ";
+				message << U" ";
 				message << two_bits;
 				context_a.errors (message.str ());
 			}
@@ -48,9 +48,9 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 		else
 		{
 			mu::stringstream message;
-			message << L"Arguments are not integers: ";
+			message << U"Arguments are not integers: ";
 			message << two_int;
-			message << L" ";
+			message << U" ";
 			message << three_int;
 			context_a.errors (message.str ());
 		}

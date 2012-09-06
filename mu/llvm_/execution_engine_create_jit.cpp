@@ -30,7 +30,7 @@ bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 		else
 		{
 			mu::stringstream message;
-			message << L"Unable to build ExecutionEngine: ";
+			message << U"Unable to build ExecutionEngine: ";
 			mu::string error (errors_l.begin (), errors_l.end ());
 			message << error;
 			context_a.errors (message.str ());

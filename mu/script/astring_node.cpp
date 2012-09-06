@@ -19,9 +19,9 @@ mu::string mu::script::astring::node::name ()
 mu::string mu::script::astring::node::debug ()
 {
 	mu::stringstream message;
-	message << L"\"";
+	message << U"\"";
 	mu::string string_l (string.begin (), string.end ());
 	message << string_l;
-	message << L"\"";
+	message << U"\"";
 	return message.str ();
 }

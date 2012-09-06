@@ -55,7 +55,7 @@ void mu::repl::repl::stop ()
 
 void mu::repl::repl::iteration ()
 {
-	std::wcout << L"mu> ";
+	std::wcout << U"mu> ";
     auto core (mu::script::api::core ());
 	mu::script::builder builder (core);
 	auto quit (new (GC) mu::repl::quit::operation (*this));
@@ -97,23 +97,23 @@ void mu::repl::repl::iteration ()
 			}
 			else
 			{
-				std::wcout << L"Cluster does not have a routine: ";
+				std::wcout << U"Cluster does not have a routine: ";
 				std::wcout << cluster->routines.size ();
 			}
 		}
 		else
 		{
-			std::wcout << L"Input was not a cluster";
+			std::wcout << U"Input was not a cluster";
 		}
 	}
 	else
 	{
-        std::wcout << L"Error\n";
+        std::wcout << U"Error\n";
         mu::stringstream stream;
 		builder.errors.print (stream);
         mu::string const & str (stream.str ());
         std::wstring string (str.begin (), str.end ());
         std::wcout << string;    
-        std::wcout << L'\n';
+        std::wcout << U'\n';
 	}
 }

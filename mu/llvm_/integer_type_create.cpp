@@ -28,11 +28,11 @@ bool mu::llvm_::integer_type::create::operator () (mu::script::context & context
 		else
 		{
 			mu::stringstream message;
-			message << L"Bits is not within bounds: ";
+			message << U"Bits is not within bounds: ";
 			message << llvm::IntegerType::MIN_INT_BITS;
-			message << L" <= ";
+			message << U" <= ";
 			message << two->value;
-			message << L" <= ";
+			message << U" <= ";
 			message << llvm::IntegerType::MAX_INT_BITS;
 			context_a.errors (message.str ());
 			valid = false;

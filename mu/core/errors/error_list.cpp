@@ -20,6 +20,6 @@ void mu::core::errors::error_list::print (mu::ostream & target)
     {
         target << U"Error: ";
         (*i)->string (target);
-        target << L'\n';
+        target << U'\n';
     }
 }
