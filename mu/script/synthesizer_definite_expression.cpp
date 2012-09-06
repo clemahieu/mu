@@ -15,6 +15,7 @@
 #include <mu/script/ast_routine.h>
 #include <mu/script/synthesizer_cluster.h>
 #include <mu/script/ast_if_expression.h>
+#include <mu/script/runtime_if_expression.h>
 
 #include <gc_cpp.h>
 
@@ -63,10 +64,18 @@ void mu::script::synthesizer::definite_expression::recurse (mu::script::synthesi
             expression_a->dependencies.push_back (new (GC) mu::script::runtime::fixed (existing->second));
         }
     }
-    /*else if (if_expression != nullptr)
+    else if (if_expression != nullptr)
     {
-        assert (false);
-    }*/
+        auto if_expression_l (new (GC) mu::script::runtime::if_expression);
+        expression_a->dependencies.push_back (if_expression_l);
+        auto predicate (recurse_expression(routine_a, if_expression->predicate));
+        if_expression_l->predicate = predicate;
+        auto true_branch (recurse_expression(routine_a, if_expression->true_branch));
+        if_expression_l->true_branch = true_branch;
+        auto false_branch (recurse_expression(routine_a, if_expression->false_branch));
+        if_expression_l->false_branch = false_branch;
+        routine_a.routine_m->expressions.push_back (if_expression_l);
+    }
     else
     {
         expression_a->dependencies.push_back (new (GC) mu::script::runtime::fixed (node_a));

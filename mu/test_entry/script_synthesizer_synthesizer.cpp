@@ -240,8 +240,9 @@ TEST (script_test, synthesizer_operation7)
     ASSERT_TRUE (routine2->expressions.size () == 2);
     auto expression1 (dynamic_cast <mu::script::runtime::if_expression *> (routine2->expressions [0]));
     ASSERT_TRUE (expression1 != nullptr);
-    //ASSERT_TRUE (expression1->predicate.size () == 0);
+    ASSERT_TRUE (expression1->predicate->dependencies.size () == 0);
+    ASSERT_TRUE (expression1->true_branch->dependencies.size () == 0);
+    ASSERT_TRUE (expression1->false_branch->dependencies.size () == 0);
     auto expression2 (dynamic_cast <mu::script::runtime::definite_expression *> (routine2->expressions [1]));
     ASSERT_TRUE (expression2 != nullptr);
-    //EXPECT_TRUE (dependency1->node == identity);
 }

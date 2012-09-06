@@ -62,13 +62,13 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier * t
     switch (state)
     {
         case mu::script::parser::keyword_if_state::predicate:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->predicate);
+            routine.cluster.map.fill_reference (token->string, token->context, expression->predicate->nodes);
             break;
         case mu::script::parser::keyword_if_state::true_branch:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->true_branch);
+            routine.cluster.map.fill_reference (token->string, token->context, expression->true_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::false_branch:
-            routine.cluster.map.fill_reference (token->string, token->context, expression->false_branch);
+            routine.cluster.map.fill_reference (token->string, token->context, expression->false_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::name:
             state = mu::script::parser::keyword_if_state::have_name;
@@ -96,13 +96,13 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::left_square * 
             state = mu::script::parser::keyword_if_state::predicate;
             break;
         case mu::script::parser::keyword_if_state::predicate:
-            process_left_square (expression->predicate);
+            process_left_square (expression->predicate->nodes);
             break;
         case mu::script::parser::keyword_if_state::true_branch:
-            process_left_square (expression->true_branch);
+            process_left_square (expression->true_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::false_branch:
-            process_left_square (expression->false_branch);
+            process_left_square (expression->false_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::name:
         case mu::script::parser::keyword_if_state::have_name:
@@ -146,13 +146,13 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::value * token)
     switch (state)
     {
         case mu::script::parser::keyword_if_state::predicate:
-            process_value (token, expression->predicate);
+            process_value (token, expression->predicate->nodes);
             break;
         case mu::script::parser::keyword_if_state::true_branch:
-            process_value (token, expression->true_branch);
+            process_value (token, expression->true_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::false_branch:
-            process_value (token, expression->false_branch);
+            process_value (token, expression->false_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::have_name:
         case mu::script::parser::keyword_if_state::name:

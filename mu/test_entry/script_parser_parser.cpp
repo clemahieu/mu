@@ -726,9 +726,9 @@ TEST (script_test, parser29)
     ASSERT_TRUE (expression1->nodes.size () == 1);
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*expression1->nodes.begin ()));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
 }
 
 // Predicate node
@@ -764,11 +764,11 @@ TEST (script_test, parser30)
     ASSERT_TRUE (expression1->nodes.size () == 1);
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*expression1->nodes.begin ()));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 1);
-    auto node3 (*node2->predicate.begin());
+    ASSERT_TRUE (node2->predicate->nodes.size () == 1);
+    auto node3 (*node2->predicate->nodes.begin());
     ASSERT_TRUE (node1 == node3);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
 }
 
 // True branch node
@@ -805,11 +805,11 @@ TEST (script_test, parser31)
     ASSERT_TRUE (expression1->nodes.size () == 1);
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*expression1->nodes.begin ()));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 1);
-    auto node3 (*node2->true_branch.begin());
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 1);
+    auto node3 (*node2->true_branch->nodes.begin());
     ASSERT_TRUE (node1 == node3);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
 }
 
 // False branch node
@@ -847,10 +847,10 @@ TEST (script_test, parser32)
     ASSERT_TRUE (expression1->nodes.size () == 1);
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*expression1->nodes.begin ()));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 1);
-    auto node3 (*node2->false_branch.begin());
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 1);
+    auto node3 (*node2->false_branch->nodes.begin());
     ASSERT_TRUE (node1 == node3);
 }
 
@@ -923,9 +923,9 @@ TEST (script_test, parser34)
     auto current (expression1->nodes.begin ());
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
     ++current;
     auto node3 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 == node3);
@@ -973,9 +973,9 @@ TEST (script_test, parser35)
     auto current (expression1->nodes.begin ());
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
     ++current;
     auto node3 (dynamic_cast <mu::script::ast::reference *> (*current));
     ASSERT_TRUE (node3 != nullptr);
@@ -1054,10 +1054,10 @@ TEST (script_test, parser37)
     auto current (expression1->nodes.begin ());
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 1);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
-    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->predicate.begin()));
+    ASSERT_TRUE (node2->predicate->nodes.size () == 1);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->predicate->nodes.begin()));
     ASSERT_TRUE (expression2 != nullptr);
     ASSERT_TRUE (expression2->nodes.size () == 0);
 }
@@ -1097,10 +1097,10 @@ TEST (script_test, parser38)
     auto current (expression1->nodes.begin ());
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 1);
-    ASSERT_TRUE (node2->false_branch.size () == 0);
-    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->true_branch.begin()));
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 1);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 0);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->true_branch->nodes.begin()));
     ASSERT_TRUE (expression2 != nullptr);
     ASSERT_TRUE (expression2->nodes.size () == 0);
 }
@@ -1141,10 +1141,10 @@ TEST (script_test, parser39)
     auto current (expression1->nodes.begin ());
     auto node2 (dynamic_cast <mu::script::ast::if_expression *> (*current));
     ASSERT_TRUE (node2 != nullptr);
-    ASSERT_TRUE (node2->predicate.size () == 0);
-    ASSERT_TRUE (node2->true_branch.size () == 0);
-    ASSERT_TRUE (node2->false_branch.size () == 1);
-    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->false_branch.begin()));
+    ASSERT_TRUE (node2->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node2->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node2->false_branch->nodes.size () == 1);
+    auto expression2 (dynamic_cast <mu::script::ast::definite_expression *> (*node2->false_branch->nodes.begin()));
     ASSERT_TRUE (expression2 != nullptr);
     ASSERT_TRUE (expression2->nodes.size () == 0);
 }
@@ -1186,7 +1186,7 @@ TEST (script_test, parser40)
     ASSERT_TRUE (node2->nodes.size () == 1);
     auto node3 (dynamic_cast <mu::script::ast::if_expression *> (*node2->nodes.begin()));
     ASSERT_TRUE (node3 != nullptr);
-    ASSERT_TRUE (node3->predicate.size () == 0);
-    ASSERT_TRUE (node3->true_branch.size () == 0);
-    ASSERT_TRUE (node3->false_branch.size () == 0);
+    ASSERT_TRUE (node3->predicate->nodes.size () == 0);
+    ASSERT_TRUE (node3->true_branch->nodes.size () == 0);
+    ASSERT_TRUE (node3->false_branch->nodes.size () == 0);
 }
