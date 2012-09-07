@@ -8,6 +8,7 @@ else ()
 endif ()
 
 add_library (mu_script SHARED
+    abort_exception.cpp
     abort_operation.cpp
 	api.cpp
     ast_cluster.cpp

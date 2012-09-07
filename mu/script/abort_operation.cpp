@@ -1,8 +1,8 @@
 #include <mu/script/abort_operation.h>
 
-#include <cstdlib>
+#include <mu/script/abort_exception.h>
 
 bool mu::script::abort::operation::operator () (mu::script::context & context_a)
 {
-    std::abort ();
+    throw mu::script::abort_exception ();
 }

@@ -126,7 +126,7 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
     map [mu::string (U"loadb")] = new (GC) mu::script::loadb::operation;
     map [mu::string (U"loads")] = new (GC) mu::script::loads_extensions::operation;
-	map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
+    map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
 	map [mu::string (U"parser_scope/merge_package")] = new (GC) mu::script::parser_scope::merge_package;
 	map [mu::string (U"package/add")] = new (GC) mu::script::package::add;
 	map [mu::string (U"package/create")] = new (GC) mu::script::package::create;

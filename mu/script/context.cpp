@@ -3,6 +3,7 @@
 #include <mu/core/errors/error_target.h>
 #include <mu/script/operation.h>
 #include <mu/script/location.h>
+#include <mu/script/abort_exception.h>
 
 #include <gc_cpp.h>
 
@@ -22,30 +23,37 @@ mu::core::context (target_a)
 
 bool mu::script::context::operator () ()
 {
-	bool result (true);
-	if (working_size () > 0)
-	{
-        auto item (working (0));
-		auto operation (dynamic_cast <mu::script::operation *> (item));
-		if (operation != nullptr)
-		{
-			frame_begin++;
-			enter ();
-			result = (*operation) (*this);
-			base_begin--;
-			leave ();
-		}
-		else
-		{
-			errors (U"First node in expression is not an operation");
+    bool result (true);
+    try
+    {
+        if (working_size () > 0)
+        {
+            auto item (working (0));
+            auto operation (dynamic_cast <mu::script::operation *> (item));
+            if (operation != nullptr)
+            {
+                frame_begin++;
+                enter ();
+                result = (*operation) (*this);
+                base_begin--;
+                leave ();
+            }
+            else
+            {
+                errors (U"First node in expression is not an operation");
+                result = false;
+                drop ();
+            }
+        }
+        else
+        {
             result = false;
-            drop ();
-		}
-	}
-	else
-	{
-		result = false;
-	}
+        }
+    }
+    catch (mu::script::abort_exception & e)
+    {
+        result = false;
+    }
 	return result;
 }
 

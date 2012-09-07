@@ -8,5 +8,6 @@ TEST (script_test, abort1)
     mu::script::context context;
     mu::script::abort::operation operation;
     context.push (&operation);
-    ASSERT_DEATH (context (), "");
+    auto valid (context ());
+    ASSERT_TRUE (!valid);
 }
