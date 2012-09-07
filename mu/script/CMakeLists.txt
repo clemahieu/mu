@@ -8,6 +8,7 @@ else ()
 endif ()
 
 add_library (mu_script SHARED
+    abort_operation.cpp
 	api.cpp
     ast_cluster.cpp
     ast_expression.cpp
@@ -40,7 +41,6 @@ add_library (mu_script SHARED
 	fail_operation.cpp
 	frame.cpp
 	identity_operation.cpp
-	if_c_operation.cpp
 	integer_equal.cpp
 	integer_extension.cpp
 	integer_node.cpp
