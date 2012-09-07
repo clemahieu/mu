@@ -77,7 +77,8 @@ add_executable (mu_test_entry
 	script_string_extension.cpp
     script_synthesizer_synthesizer.cpp
 	script_times_operation.cpp
-	script_type_check_operation.cpp)
+	script_type_check_operation.cpp
+    script_vector.cpp)
     
 target_link_libraries (mu_test_entry
 	gtest

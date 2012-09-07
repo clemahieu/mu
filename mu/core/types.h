@@ -7,6 +7,7 @@
 #include <map>
 #include <deque>
 #include <stack>
+#include <list>
 
 #include <gc_allocator.h>
 
@@ -26,4 +27,6 @@ namespace mu
     using stack = std::stack <T, std::deque <T, gc_allocator <T>>>;
     template <typename T, typename U>
     using multimap = std::multimap <T, U, std::less <T>, gc_allocator<std::pair <T, U>>>;
+    template <typename T>
+    using list = std::list <T, gc_allocator <T>>;
 }

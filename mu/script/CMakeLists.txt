@@ -40,6 +40,8 @@ add_library (mu_script SHARED
 	debugging_trace_types.cpp
 	exec_operation.cpp
 	fail_operation.cpp
+    file_node.cpp
+    file_open.cpp
 	frame.cpp
 	identity_operation.cpp
 	integer_equal.cpp
@@ -90,7 +92,11 @@ add_library (mu_script SHARED
 	type_check_operation.cpp
 	unit_operation.cpp
 	values_create.cpp
-	values_operation.cpp)
+	values_operation.cpp
+    vector_create.cpp
+    vector_item.cpp
+    vector_node.cpp
+    vector_size.cpp)
 
 if (WIN32)
 	target_link_libraries (mu_script
