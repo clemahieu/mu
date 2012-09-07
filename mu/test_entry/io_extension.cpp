@@ -29,7 +29,7 @@ TEST (io_test, extension1)
                                                [&result]
                                                (mu::io::tokens::token const & token_a)
                                                {
-                                                   token_a (&result);
+                                                   result (token_a);
                                                }, extensions);
 	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
@@ -47,7 +47,7 @@ TEST (io_test, extension2)
                                                [&result]
                                                (mu::io::tokens::token const & token_a)
                                                {
-                                                   token_a (&result);
+                                                   result (token_a);
                                                }, extensions);
 	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
@@ -65,7 +65,7 @@ TEST (io_test, extension3)
                                                [&result]
                                                (mu::io::tokens::token const & token_a)
                                                {
-                                                   token_a (&result);
+                                                   result (token_a);
                                                }, extensions);
 	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	EXPECT_TRUE (result.errors.errors.empty ());
@@ -83,7 +83,7 @@ TEST (io_test, extension4)
                                                [&result]
                                                (mu::io::tokens::token const & token_a)
                                                {
-                                                   token_a (&result);
+                                                   result (token_a);
                                                }, extensions);
 	analyzer (mu::io::tokens::identifier (context, mu::string (U"a")));
 	analyzer (mu::io::tokens::identifier (context, mu::string (U"b")));

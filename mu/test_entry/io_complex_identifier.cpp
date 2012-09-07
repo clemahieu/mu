@@ -2,7 +2,6 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/io/lexer_lexer.h>
 #include <mu/io/source.h>
-#include <mu/io/tokens_token.h>
 
 #include <boost/bind.hpp>
 
@@ -18,7 +17,7 @@ TEST (io_test, complex_identifier1)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U"{a}");
 	EXPECT_EQ (result.results.empty (), true);

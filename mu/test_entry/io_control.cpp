@@ -19,7 +19,7 @@ TEST (io_test, control1)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":");
 	EXPECT_TRUE (result.results.empty ());
@@ -35,7 +35,7 @@ TEST (io_test, control2)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":0");
 	EXPECT_TRUE (result.results.empty ());
@@ -51,7 +51,7 @@ TEST (io_test, control3)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":{");
     EXPECT_TRUE (errors.errors.empty ());
@@ -71,7 +71,7 @@ TEST (io_test, control4)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":}");
     EXPECT_TRUE (errors.errors.empty ());
@@ -91,7 +91,7 @@ TEST (io_test, control5)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":[");
     EXPECT_TRUE (errors.errors.empty ());
@@ -111,7 +111,7 @@ TEST (io_test, control6)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":]");
     EXPECT_TRUE (errors.errors.empty ());
@@ -131,7 +131,7 @@ TEST (io_test, control7)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U"::");
     EXPECT_TRUE (errors.errors.empty ());
@@ -151,7 +151,7 @@ TEST (io_test, control8)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":;");
     EXPECT_TRUE (errors.errors.empty ());
@@ -171,7 +171,7 @@ TEST (io_test, control9)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U": ");
     EXPECT_TRUE (errors.errors.empty ());
@@ -191,7 +191,7 @@ TEST (io_test, control10)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::string str;
     str.push_back (U':');
@@ -215,7 +215,7 @@ TEST (io_test, control11)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":\t");
     EXPECT_TRUE (errors.errors.empty ());
@@ -235,7 +235,7 @@ TEST (io_test, control12)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":\f");
     EXPECT_TRUE (errors.errors.empty ());
@@ -255,7 +255,7 @@ TEST (io_test, control13)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
     mu::io::process (lexer, U":\r");
     EXPECT_TRUE (errors.errors.empty ());

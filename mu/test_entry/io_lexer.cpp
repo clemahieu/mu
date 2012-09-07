@@ -18,7 +18,7 @@ TEST (io_test, lexer2)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"");
 	EXPECT_EQ (result.results.size (), 1);
@@ -40,7 +40,7 @@ TEST (io_test, lexer3)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"a[];");
 	EXPECT_EQ (result.results.size (), 5);
@@ -97,7 +97,7 @@ TEST (io_test, lexer4)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"{}");
 	ASSERT_TRUE (result.results.size () == 2);
@@ -129,7 +129,7 @@ TEST (io_test, lexer5)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"{a}a");
 	ASSERT_TRUE (result.results.size () == 2);
@@ -161,7 +161,7 @@ TEST (io_test, lexer6)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"{a}{};[]:a");
 	EXPECT_EQ (result.results.size (), 2);
@@ -193,7 +193,7 @@ TEST (io_test, lexer7)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"{:a}{};[]:a");
 	ASSERT_TRUE (result.results.size () == 2);
@@ -225,7 +225,7 @@ TEST (io_test, lexer8)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":- a\nb");
 	EXPECT_EQ (result.results.size (), 2);
@@ -257,7 +257,7 @@ TEST (io_test, lexer9)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":( a :) b");
 	ASSERT_TRUE (result.results.size () == 2);
@@ -289,7 +289,7 @@ TEST (io_test, lexer10)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":(:( a :):) b");
 	ASSERT_TRUE (result.results.size () == 2);
@@ -320,7 +320,7 @@ TEST (io_test, lexer13)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":a20");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -345,7 +345,7 @@ TEST (io_test, lexer14)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"thing:a20");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -370,7 +370,7 @@ TEST (io_test, lexer15)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":a20thing");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -395,7 +395,7 @@ TEST (io_test, lexer16)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":u00000020");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -420,7 +420,7 @@ TEST (io_test, lexer17)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"thing:u00000020");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -445,7 +445,7 @@ TEST (io_test, lexer18)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":u00000020thing");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -470,7 +470,7 @@ TEST (io_test, lexer19)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U":a7C:a3A:a3b:a5b:a5d");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -495,7 +495,7 @@ TEST (io_test, lexer20)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"thing[a");
 	EXPECT_EQ (errors->errors.empty (), true);
@@ -548,7 +548,7 @@ TEST (io_test, lexer21)
                                 [&result]
                                 (mu::io::tokens::token const & token_a)
                                 {
-                                    token_a (&result);
+                                    result (token_a);
                                 });
 	mu::io::process (lexer, U"\r \rthing thing\r \r[ [\r \r] ]\r \r:a50 :a50\r \r:u00000050 :u00000050\r \r; ;\r");
     EXPECT_EQ (result.results.size (), 13);
