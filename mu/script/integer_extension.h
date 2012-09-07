@@ -33,8 +33,8 @@ namespace mu
                 mu::io::analyzer::analyzer & analyzer;
 			};
 			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, mu::string const & string);
-			mu::script::integer::node * core_d (mu::core::errors::error_target & errors_a, std::wstring string_a);
-			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, std::wstring string_a, size_t base_a);
+			mu::script::integer::node * core_d (mu::core::errors::error_target & errors_a, wchar_t const * string_a);
+			mu::script::integer::node * core (mu::core::errors::error_target & errors_a, wchar_t const * string_a, size_t base_a);
 		}
 	}
 }

@@ -39,7 +39,7 @@ void mu::llvm_::constant_int::extension::operator () (mu::io::tokens::token cons
             if (bits_identifier != nullptr)
             {
                 std::wstring characters (bits_identifier->string.begin (), bits_identifier->string.end ());
-                auto bits_l (mu::script::integer::core_d (analyzer.errors, characters));
+                auto bits_l (mu::script::integer::core_d (analyzer.errors, characters.c_str ()));
 				if (bits_l != nullptr)
 				{
                     bits = bits_l->value;
