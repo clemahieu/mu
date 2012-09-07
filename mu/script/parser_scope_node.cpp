@@ -13,8 +13,3 @@ mu::script::parser_scope::node::node (mu::io::analyzer::extensions * extensions_
 extensions (extensions_a)
 {
 }
-
-mu::string mu::script::parser_scope::node::name ()
-{
-	return mu::string (U"mu::script::parser_scope::node");
-}

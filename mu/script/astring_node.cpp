@@ -11,11 +11,6 @@ mu::script::astring::node::node (std::string string_a)
 {
 }
 
-mu::string mu::script::astring::node::name ()
-{
-	return mu::string (U"mu::script::astring::node");
-}
-
 mu::string mu::script::astring::node::debug ()
 {
 	mu::stringstream message;

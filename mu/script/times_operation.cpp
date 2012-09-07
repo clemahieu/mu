@@ -53,8 +53,3 @@ bool mu::script::times::operation::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::times::operation::name ()
-{
-	return mu::string (U"mu::script::times::operation");
-}

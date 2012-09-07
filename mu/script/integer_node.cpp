@@ -11,11 +11,6 @@ mu::script::integer::node::node (unsigned long long value_a)
 {
 }
 
-mu::string mu::script::integer::node::name ()
-{
-	return mu::string (U"mu::script::integer::node");
-}
-
 mu::string mu::script::integer::node::debug ()
 {
 	mu::stringstream result;

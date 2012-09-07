@@ -55,8 +55,3 @@ bool mu::llvm_::module::add_package::operator () (mu::script::context & context_
 	}
 	return result;
 }
-
-mu::string mu::llvm_::module::add_package::name ()
-{
-	return mu::string (U"mu::llvm_::module::add_package");
-}

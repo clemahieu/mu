@@ -10,8 +10,3 @@ bool mu::script::identity::operation::operator () (mu::script::context & context
 	}
 	return true;
 }
-
-mu::string mu::script::identity::operation::name ()
-{
-	return mu::string (U"mu::script::identity::operation");
-}

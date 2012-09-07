@@ -43,15 +43,10 @@ bool mu::script::bool_c::create::operator () (mu::script::context & context_a)
 			mu::stringstream message;
 			message << U"Cannot convert value: ";
 			message << one->string;
-			message << U" to a booU";
+			message << U" to a bool";
 			context_a.errors (message.str ());
 			result = false;
 		}
 	}
 	return result;
-}
-
-mu::string mu::script::bool_c::create::name ()
-{
-	return mu::string (U"mu::script::bool_c::create");
 }

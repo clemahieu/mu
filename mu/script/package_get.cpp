@@ -31,8 +31,3 @@ bool mu::script::package::get::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::package::get::name ()
-{
-	return mu::string (U"mu::script::package::get");
-}

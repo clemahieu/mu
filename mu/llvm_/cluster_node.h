@@ -30,7 +30,6 @@ namespace mu
 			{
 			public:
                 node (mu::llvm_::module::node * module_a);
-				mu::string name () override;
                 mu::llvm_::module::node * module;
 				mu::map <mu::string, mu::llvm_::function::node *> routines;
 			};

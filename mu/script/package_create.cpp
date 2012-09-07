@@ -15,8 +15,3 @@ bool mu::script::package::create::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::package::create::name ()
-{
-	return mu::string (U"mu::script::package::create");
-}

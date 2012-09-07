@@ -39,8 +39,3 @@ bool mu::llvm_::execution_engine::create_jit::operator () (mu::script::context &
 	}
 	return result;
 }
-
-mu::string mu::llvm_::execution_engine::create_jit::name ()
-{
-	return mu::string (U"mu::llvm_::execution_engine::create_jit");
-}

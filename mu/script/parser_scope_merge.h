@@ -25,7 +25,6 @@ namespace mu
 			public:
 				bool operator () (mu::script::context & context_a) override;
                 static auto core (mu::core::errors::error_target & errors_a, mu::script::parser_scope::node * target, mu::string const & prefix, mu::script::parser_scope::node * source) -> bool;
-				mu::string name () override;
 			};
 		}
 	}

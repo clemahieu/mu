@@ -81,8 +81,3 @@ bool mu::llvm_::compile::operation::operator () (mu::script::context & context_a
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::compile::operation::name ()
-{
-	return mu::string (U"mu::llvm_::compile::operation");
-}

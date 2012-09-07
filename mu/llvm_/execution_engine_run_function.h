@@ -26,7 +26,6 @@ namespace mu
 			public:
 				bool operator () (mu::script::context & context_a) override;
 				void perform_internal (mu::script::context & context_a, mu::llvm_::execution_engine::node * one, llvm::Function * function);
-				mu::string name () override;
 			};
 		}
 	}

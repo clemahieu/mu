@@ -14,7 +14,6 @@ namespace mu
 				node ();
 				node (std::string string_a);
 				std::string string;
-				mu::string name () override;
 				mu::string debug () override;
 			};
 		}

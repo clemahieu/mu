@@ -21,7 +21,6 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				mu::string name () override;
 			};
 		}
 	}

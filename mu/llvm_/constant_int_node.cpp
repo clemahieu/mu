@@ -12,8 +12,3 @@ llvm::ConstantInt * mu::llvm_::constant_int::node::constant_int ()
 	auto result (llvm::cast <llvm::ConstantInt> (value_m));
 	return result;
 }
-
-mu::string mu::llvm_::constant_int::node::name ()
-{
-	return mu::string (U"mu::llvm_::constant_int::node");
-}

@@ -15,7 +15,6 @@ namespace mu
 			class node : public mu::core::node
 			{
 			public:
-				mu::string name () override;
 				virtual llvm::Type * type () = 0;
 			};
 		}

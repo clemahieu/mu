@@ -14,7 +14,6 @@ namespace mu
 			{
 			public:
 				node (mu::string string_a);
-				mu::string name () override;
 				mu::string debug () override;
 				mu::string string;
 			};

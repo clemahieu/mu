@@ -31,8 +31,3 @@ bool mu::script::package::add::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::package::add::name ()
-{
-	return mu::string (U"mu::script::package::add");
-}

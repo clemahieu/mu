@@ -27,8 +27,3 @@ bool mu::llvm_::basic_block::insert::operator () (mu::script::context & context_
 	}
 	return result;
 }
-
-mu::string mu::llvm_::basic_block::insert::name ()
-{
-	return mu::string (U"mu::llvm_::basic_block::insert");
-}

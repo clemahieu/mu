@@ -40,8 +40,3 @@ bool mu::llvm_::integer_type::create::operator () (mu::script::context & context
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::integer_type::create::name ()
-{
-	return mu::string (U"mu::llvm_::integer_type::create");
-}

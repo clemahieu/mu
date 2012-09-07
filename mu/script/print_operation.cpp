@@ -15,8 +15,3 @@ bool mu::script::print::operation::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::print::operation::name ()
-{
-	return mu::string (U"mu::script::print::operation");
-}

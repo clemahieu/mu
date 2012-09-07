@@ -15,7 +15,6 @@ namespace mu
 			public:
 				node (llvm::LLVMContext * context_a);
 				llvm::LLVMContext * context;
-				mu::string name () override;
 			};
 		}
 	}

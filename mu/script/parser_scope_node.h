@@ -22,7 +22,6 @@ namespace mu
 				node (mu::io::analyzer::extensions * extensions_a);
 				mu::io::analyzer::extensions * extensions;
                 mu::map <mu::string, mu::core::node *> injected;
-				mu::string name () override;
 			};
 		}
 	}

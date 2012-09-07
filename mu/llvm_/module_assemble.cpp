@@ -47,8 +47,3 @@ bool mu::llvm_::module::assemble::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::llvm_::module::assemble::name ()
-{
-	return mu::string (U"mu::llvm_::module::assemble");
-}

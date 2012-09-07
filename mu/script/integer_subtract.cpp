@@ -17,8 +17,3 @@ bool mu::script::integer::subtract::operator () (mu::script::context & context_a
 	}
 	return result;
 }
-
-mu::string mu::script::integer::subtract::name ()
-{
-	return mu::string (U"mu::script::integer::subtract");
-}

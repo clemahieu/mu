@@ -118,8 +118,3 @@ bool mu::llvm_::function_type::create::operator () (mu::script::context & contex
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::function_type::create::name ()
-{
-	return mu::string (U"mu::llvm_::function_type::create");
-}

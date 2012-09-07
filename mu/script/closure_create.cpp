@@ -18,8 +18,3 @@ bool mu::script::closure::create::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::closure::create::name ()
-{
-	return mu::string (U"mu::script::closure::create");
-}

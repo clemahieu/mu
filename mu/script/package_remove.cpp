@@ -27,8 +27,3 @@ bool mu::script::package::remove::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::package::remove::name ()
-{
-	return mu::string (U"mu::script::package::remove");
-}

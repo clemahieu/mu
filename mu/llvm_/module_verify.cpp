@@ -25,8 +25,3 @@ bool mu::llvm_::module::verify::operator () (mu::script::context & context_a)
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::module::verify::name ()
-{
-	return mu::string (U"mu::llvm_::module::verify");
-}

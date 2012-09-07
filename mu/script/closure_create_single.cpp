@@ -33,8 +33,3 @@ bool mu::script::closure::create_single::operator () (mu::script::context & cont
 	}
 	return result;
 }
-
-mu::string mu::script::closure::create_single::name ()
-{
-	return mu::string (U"mu::script::closure::create_single");
-}

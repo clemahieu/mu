@@ -69,11 +69,6 @@ bool mu::llvm_::execution_engine::run_function::operator () (mu::script::context
 	return valid;
 }
 
-mu::string mu::llvm_::execution_engine::run_function::name ()
-{
-	return mu::string (U"mu::llvm_::execution_engine::run_function");
-}
-
 void mu::llvm_::execution_engine::run_function::perform_internal (mu::script::context & context_a, mu::llvm_::execution_engine::node * one, llvm::Function * function)
 {
 	bool good (true);

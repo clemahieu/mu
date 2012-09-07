@@ -41,8 +41,3 @@ bool mu::llvm_::module::get_function::operator () (mu::script::context & context
 	}
 	return result;
 }
-
-mu::string mu::llvm_::module::get_function::name ()
-{
-	return mu::string (U"mu::llvm_::module::get_function");
-}

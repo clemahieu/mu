@@ -25,8 +25,3 @@ bool mu::script::closure::single::operator () (mu::script::context & context_a)
 	result = context_a ();
 	return result;
 }
-
-mu::string mu::script::closure::single::name ()
-{
-	return mu::string (U"mu::script::closure::single");
-}

@@ -17,8 +17,3 @@ bool mu::script::bool_c::equal::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::bool_c::equal::name ()
-{
-	return mu::string (U"mu::script::bool_c::equaU");
-}

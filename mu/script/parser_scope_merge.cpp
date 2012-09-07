@@ -59,8 +59,3 @@ auto mu::script::parser_scope::merge::core (mu::core::errors::error_target & err
     }
     return result;
 }
-
-mu::string mu::script::parser_scope::merge::name ()
-{
-	return mu::string (U"mu::script::parser_scope::merge");
-}

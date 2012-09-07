@@ -11,7 +11,7 @@ namespace mu
 		{
 		public:
 			virtual ~node ();
-			virtual mu::string name ();
+			mu::string name ();
 			virtual mu::string debug ();
 		};
 	}

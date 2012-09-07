@@ -13,6 +13,7 @@ add_executable (mu_test_entry
 	core_directory_iterator_test.cpp
 	core_filesystem_test.cpp
 	core_list.cpp
+    core_node.cpp
     core_node_list_iterator.cpp
 	io_complex_identifier.cpp
 	io_control.cpp

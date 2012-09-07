@@ -16,8 +16,3 @@ mu::string mu::script::string::node::debug ()
     auto val (result.str ());
 	return val;
 }
-
-mu::string mu::script::string::node::name ()
-{
-	return mu::string (U"mu::script::string::node");
-}

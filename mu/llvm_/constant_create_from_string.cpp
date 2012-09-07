@@ -34,8 +34,3 @@ bool mu::llvm_::constant::create_from_string::operator () (mu::script::context &
 	}
 	return result;
 }
-
-mu::string mu::llvm_::constant::create_from_string::name ()
-{
-	return mu::string (U"mu::llvm_::constant::create_from_string");
-}

@@ -13,7 +13,6 @@ namespace mu
 			public:
 				node ();
 				node (unsigned long long value_a);
-				mu::string name () override;
 				mu::string debug () override;
 				unsigned long long value;
 			};

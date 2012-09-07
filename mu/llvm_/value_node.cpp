@@ -10,8 +10,3 @@ llvm::Value * mu::llvm_::value::node::value ()
 {
 	return value_m;
 }
-
-mu::string mu::llvm_::value::node::name ()
-{
-	return mu::string (U"mu::llvm_::value::node");
-}

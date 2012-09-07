@@ -18,8 +18,3 @@ bool mu::repl::quit::operation::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::repl::quit::operation::name ()
-{
-	return mu::string (U"mu::repl::quit::operation");
-}

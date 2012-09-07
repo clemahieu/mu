@@ -56,8 +56,3 @@ bool mu::script::closure::operation::operator () (mu::script::context & context_
 	}
 	return result;
 }
-
-mu::string mu::script::closure::operation::name ()
-{
-	return mu::string (U"mu::script::closure::operation");
-}

@@ -57,8 +57,3 @@ bool mu::llvm_::instructions::icmp::operator () (mu::script::context & context_a
 	}
 	return result;
 }
-
-mu::string mu::llvm_::instructions::icmp::name ()
-{
-	return mu::string (U"mu::llvm_::instructions::icmp");
-}

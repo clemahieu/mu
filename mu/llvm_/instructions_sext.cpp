@@ -57,8 +57,3 @@ bool mu::llvm_::instructions::sext::operator () (mu::script::context & context_a
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::instructions::sext::name ()
-{
-	return mu::string (U"mu::llvm_::instructions::sext");
-}

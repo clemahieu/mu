@@ -27,8 +27,3 @@ bool mu::llvm_::linker::link_modules::operator () (mu::script::context & context
 	}
 	return valid;
 }
-
-mu::string mu::llvm_::linker::link_modules::name ()
-{
-	return mu::string (U"mu::llvm_::linker::link_modules");
-}

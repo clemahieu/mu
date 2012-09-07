@@ -79,8 +79,3 @@ bool mu::script::exec::operation::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::exec::operation::name ()
-{
-	return mu::string (U"mu::script::exec::operation");
-}

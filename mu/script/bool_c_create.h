@@ -19,7 +19,6 @@ namespace mu
 			public:
 				create ();
 				bool operator () (mu::script::context & context_a) override;
-				mu::string name () override;
 				std::map <mu::string, mu::core::node *> values;
 			};
 		}

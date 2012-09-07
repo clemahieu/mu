@@ -50,8 +50,3 @@ bool mu::script::closure::apply::operator () (mu::script::context & context_a)
 	}
 	return result;
 }
-
-mu::string mu::script::closure::apply::name ()
-{
-	return mu::string (U"mu::script::closure::apply");
-}

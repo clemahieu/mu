@@ -14,7 +14,6 @@ namespace mu
 			public:
 				operation (mu::repl::repl & repl_a);
 				bool operator () (mu::script::context & context_a) override;
-				mu::string name () override;
 				mu::repl::repl & repl;
 			};
 		}
