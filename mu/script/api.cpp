@@ -80,9 +80,11 @@ auto mu::script::api::loads_extension () -> mu::core::node *
     auto expression1 (new (GC) mu::script::runtime::definite_expression);
     expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::file::path_from_string));
     expression1->dependencies.push_back (new (GC) mu::script::runtime::parameter (2));
+    result->expressions.push_back (expression1);
     auto expression2 (new (GC) mu::script::runtime::definite_expression);
     expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::file::open));
     expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
+    result->expressions.push_back (expression2);
     auto expression3 (new (GC) mu::script::runtime::definite_expression);
     expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::loads::operation));
     expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression2));

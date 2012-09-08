@@ -4,6 +4,7 @@
 #include <mu/script/context.h>
 #include <mu/script/file_path.h>
 #include <mu/script/file_node.h>
+#include <mu/core/errors/error_target.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -23,6 +24,7 @@ bool mu::script::file::open::operator () (mu::script::context & context_a)
         }
         else
         {
+            context_a.errors (U"Unable to open file");
             valid = false;
         }
     }

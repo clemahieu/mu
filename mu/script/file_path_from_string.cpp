@@ -4,6 +4,7 @@
 #include <mu/script/context.h>
 #include <mu/script/string_node.h>
 #include <mu/script/file_path.h>
+#include <mu/core/errors/error_target.h>
 
 #include <boost/filesystem.hpp>
 
@@ -21,6 +22,7 @@ bool mu::script::file::path_from_string::operator () (mu::script::context & cont
         }
         else
         {
+            context_a.errors (U"Unable to convert string to path");
             valid = false;
         }
     }
