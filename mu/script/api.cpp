@@ -56,7 +56,9 @@ auto mu::script::api::core () -> mu::script::parser_scope::node *
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
     extensions (mu::string (U"if"), new (GC) mu::script::tokens::keyword_if);
     map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
-    map [mu::string (U"context")] = context_extension (result);
+    map [mu::string (U"context")] = result;
+    map [mu::string (U"create")] = new (GC) mu::script::parser_scope::create;
+    map [mu::string (U"import")] = new (GC) mu::script::parser_scope::merge;
     map [mu::string (U"loadb")] = loadb_extension ();
     map [mu::string (U"loads")] = loads_extension ();
 	return result;

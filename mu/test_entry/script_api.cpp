@@ -8,6 +8,8 @@
 #include <mu/script/context.h>
 #include <mu/core/errors/error_target.h>
 #include <mu/script/string_node.h>
+#include <mu/script/parser_scope_create.h>
+#include <mu/script/parser_scope_merge.h>
 
 #include <boost/filesystem.hpp>
 
@@ -25,8 +27,16 @@ TEST (script_test, api1)
     ASSERT_TRUE (tilde != nullptr);
     auto context_existing (map.find (mu::string (U"context")));
     ASSERT_TRUE (context_existing != map.end ());
-    auto context (dynamic_cast <mu::script::runtime::routine *> (context_existing->second));
+    auto context (dynamic_cast <mu::script::parser_scope::node *> (context_existing->second));
     ASSERT_TRUE (context != nullptr);
+    auto create_existing (map.find (mu::string (U"create")));
+    ASSERT_TRUE (create_existing != map.end ());
+    auto create (dynamic_cast <mu::script::parser_scope::create *> (create_existing->second));
+    ASSERT_TRUE (create != nullptr);
+    auto import_existing (map.find (mu::string (U"import")));
+    ASSERT_TRUE (import_existing != map.end ());
+    auto import (dynamic_cast <mu::script::parser_scope::merge *> (import_existing->second));
+    ASSERT_TRUE (import != nullptr);
     auto loadb_existing (map.find (mu::string (U"loadb")));
     ASSERT_TRUE (loadb_existing != map.end ());
     auto loadb (dynamic_cast <mu::script::runtime::routine *> (loadb_existing->second));
@@ -45,17 +55,8 @@ TEST (script_test, api2)
     auto & map (api->injected);
     auto context_existing (map.find (mu::string (U"context")));
     ASSERT_TRUE (context_existing != map.end ());
-    auto context (dynamic_cast <mu::script::runtime::routine *> (context_existing->second));
-    ASSERT_TRUE (context != nullptr);
-    mu::script::context ctx;
-    ctx.push (context);
-    auto valid (ctx ());
-    ASSERT_TRUE (valid);
-    ASSERT_TRUE (ctx.working_size () == 1);
-    auto new_context (dynamic_cast <mu::script::parser_scope::node *> (ctx.working (0)));
-    ASSERT_TRUE (new_context != nullptr);
-    ASSERT_TRUE (new_context->injected.size () == api->injected.size ());
-    ASSERT_TRUE (new_context->extensions->extensions_m.size () == api->extensions->extensions_m.size ());
+    auto context (context_existing->second);
+    ASSERT_TRUE (context == api);
 }
 
 // Creation of loads
