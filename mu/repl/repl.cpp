@@ -15,13 +15,13 @@
 #include <mu/script/context.h>
 #include <mu/script/builder.h>
 #include <mu/script/parser_scope_node.h>
-#include <mu/script/api.h>
 #include <mu/io/lexer_stream_input.h>
 #include <mu/core/types.h>
 #include <mu/io/analyzer_extensions.h>
 #include <mu/script/cluster_node.h>
 #include <mu/script/runtime_routine.h>
 #include <mu/script/parser_scope_merge.h>
+#include <mu/repl/api.h>
 
 #include <gc_cpp.h>
 
@@ -57,13 +57,8 @@ void mu::repl::repl::stop ()
 void mu::repl::repl::iteration ()
 {
 	std::wcout << L"mu> ";
-    auto core (mu::script::api::core ());
-    mu::core::errors::error_list errors;
-    mu::script::parser_scope::merge::core (errors, core, mu::string (U"script/"), mu::script::api::full ());
-    assert (!errors ());
+    auto core (mu::repl::api::core (*this));
 	mu::script::builder builder (core);
-	auto quit (new (GC) mu::repl::quit::operation (*this));
-	(*builder.analyzer.extensions) (mu::string (U"quit"), quit);
     std::wstring line;
     std::getline (std::wcin, line);
     mu::string text;
@@ -80,7 +75,7 @@ void mu::repl::repl::iteration ()
 			{
                 mu::core::errors::error_list errors;
 				mu::script::context ctx (errors);
-				ctx.push (cluster->routines [0]);
+				ctx.push (cluster->routines [U"--repl-routine--"]);
 				auto valid (ctx ());
 				if (valid)
 				{
