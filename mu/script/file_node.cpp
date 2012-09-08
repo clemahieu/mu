@@ -4,3 +4,8 @@ mu::script::file::node::node (boost::filesystem3::path const & path):
 stream (path)
 {
 }
+
+mu::script::file::node::~node ()
+{
+    stream.close ();
+}
