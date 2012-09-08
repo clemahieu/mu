@@ -20,7 +20,15 @@ bool mu::script::file::open::operator () (mu::script::context & context_a)
         auto result (core (path->path_m));
         if (result != nullptr)
         {
-            context_a.push (result);
+            if (result->stream.is_open ())
+            {
+                context_a.push (result);
+            }
+            else
+            {
+                context_a.errors (U"Unable to open file");
+                valid = false;
+            }
         }
         else
         {

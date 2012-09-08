@@ -41,6 +41,8 @@
 #include <mu/script/file_open.h>
 #include <mu/script/file_close.h>
 #include <mu/script/file_path_from_string.h>
+#include <mu/script/string_concatenate.h>
+#include <mu/script/string_equal.h>
 
 #include <gc_cpp.h>
 
@@ -148,6 +150,8 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"package/get")] = new (GC) mu::script::package::get;
 	map [mu::string (U"package/remove")] = new (GC) mu::script::package::remove;
 	map [mu::string (U"print/operation")] = new (GC) mu::script::print::operation;
+	map [mu::string (U"string/concatenate")] = new (GC) mu::script::string::concatenate;
+	map [mu::string (U"string/equal")] = new (GC) mu::script::string::equal;
 	map [mu::string (U"times/operation")] = new (GC) mu::script::times::operation;
 	return result;
 }

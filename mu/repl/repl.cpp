@@ -87,6 +87,7 @@ void mu::repl::repl::iteration ()
 				}
 				else
 				{
+                    std::wcout << L"Error evaluating expression:" << std::endl;
                     mu::stringstream stream;
 					errors.print (stream);
                     mu::string const & string (stream.str ());
