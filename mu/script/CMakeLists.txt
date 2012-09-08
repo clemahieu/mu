@@ -40,8 +40,11 @@ add_library (mu_script SHARED
 	debugging_trace_types.cpp
 	exec_operation.cpp
 	fail_operation.cpp
+    file_close.cpp
     file_node.cpp
     file_open.cpp
+    file_path.cpp
+    file_path_from_string.cpp
 	frame.cpp
 	identity_operation.cpp
 	integer_equal.cpp

@@ -75,6 +75,7 @@ TEST (script_test, api3)
     ctx.push (new (GC) mu::script::string::node (mu::string (U"prefix")));
     ctx.push (new (GC) mu::script::string::node (mu::string (U"source_test.mu")));
     auto valid (ctx ());
+    ctx.errors.print (std::wcerr);
     ASSERT_TRUE (valid);
     ASSERT_TRUE (ctx.working_size () == 0);
     ASSERT_TRUE (scope->injected.size () == 2);

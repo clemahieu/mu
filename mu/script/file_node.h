@@ -1,6 +1,8 @@
 #pragma once
 
-#include <mu/script/operation.h>
+#include <mu/core/node.h>
+
+#include <boost/filesystem/fstream.hpp>
 
 namespace mu
 {
@@ -8,9 +10,11 @@ namespace mu
     {
         namespace file
         {
-            class open : public mu::script::operation
+            class node : public mu::core::node
             {
             public:
+                node (boost::filesystem3::path const & path);
+                boost::filesystem3::fstream stream;
             };
         }
     }

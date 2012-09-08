@@ -2,8 +2,8 @@
 
 #include <vector>
 
-mu::io::lexer::istream_input::istream_input (std::istream & source_a)
-	: source (source_a)
+mu::io::lexer::istream_input::istream_input (std::istream & source_a):
+source (source_a)
 {
 }
 

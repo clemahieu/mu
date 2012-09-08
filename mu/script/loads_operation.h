@@ -13,7 +13,7 @@ namespace mu
     }
 	namespace script
 	{
-		namespace string
+		namespace file
 		{
 			class node;
 		}
@@ -31,7 +31,7 @@ namespace mu
 			{
 			public:
 				bool operator () (mu::script::context & context_a) override;
-				static auto core (mu::script::context & context_a, mu::script::parser_scope::node * scope_a, mu::script::string::node * file) -> mu::script::cluster::node *;
+				static auto core (mu::script::context & context_a, mu::script::parser_scope::node * scope_a, mu::script::file::node * file) -> mu::script::cluster::node *;
 			};
 		}
         namespace loads_extensions

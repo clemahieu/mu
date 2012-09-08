@@ -37,6 +37,8 @@
 #include <mu/script/runtime_parameter.h>
 #include <mu/script/cluster_to_parser_scope.h>
 #include <mu/script/tokens_keyword_if.h>
+#include <mu/script/file_path_from_string.h>
+#include <mu/script/file_open.h>
 
 #include <gc_cpp.h>
 
@@ -76,19 +78,25 @@ auto mu::script::api::loads_extension () -> mu::core::node *
 {
     auto result (new (GC) mu::script::runtime::routine);
     auto expression1 (new (GC) mu::script::runtime::definite_expression);
-    expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::loads::operation));
+    expression1->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::file::path_from_string));
     expression1->dependencies.push_back (new (GC) mu::script::runtime::parameter (2));
-    result->expressions.push_back (expression1);
     auto expression2 (new (GC) mu::script::runtime::definite_expression);
-    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::cluster::to_parser_scope));
+    expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::file::open));
     expression2->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
-    result->expressions.push_back (expression2);
     auto expression3 (new (GC) mu::script::runtime::definite_expression);
-    expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::parser_scope::merge));
-    expression3->dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
-    expression3->dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::loads::operation));
     expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression2));
     result->expressions.push_back (expression3);
+    auto expression4 (new (GC) mu::script::runtime::definite_expression);
+    expression4->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::cluster::to_parser_scope));
+    expression4->dependencies.push_back (new (GC) mu::script::runtime::reference (expression3));
+    result->expressions.push_back (expression4);
+    auto expression5 (new (GC) mu::script::runtime::definite_expression);
+    expression5->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::parser_scope::merge));
+    expression5->dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    expression5->dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    expression5->dependencies.push_back (new (GC) mu::script::runtime::reference (expression4));
+    result->expressions.push_back (expression5);
     return result;
 }
 
