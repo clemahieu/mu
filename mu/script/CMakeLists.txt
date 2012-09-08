@@ -54,6 +54,7 @@ add_library (mu_script SHARED
 	${loadb_operation}
 	loads_operation.cpp
 	location.cpp
+    nil.cpp
 	operation.cpp
 	package_add.cpp
 	package_create.cpp
