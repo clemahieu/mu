@@ -25,7 +25,6 @@ add_library (mu_llvm_ SHARED
 	basic_block_node.cpp
 	basic_block_split_return.cpp
 	basic_block_store.cpp
-	ccall_operation.cpp
 	cluster_get.cpp
 	cluster_index.cpp
 	cluster_node.cpp

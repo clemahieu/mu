@@ -3,7 +3,7 @@
 #include <mu/script/api.h>
 #include <mu/script/parser_scope_node.h>
 #include <mu/io/analyzer_extensions.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/runtime_routine.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_target.h>
@@ -23,7 +23,7 @@ TEST (script_test, api1)
     ASSERT_TRUE (!map.empty ());
     auto tilde_existing (map.find (mu::string (U"~")));
     ASSERT_TRUE (tilde_existing != map.end ());
-    auto tilde (dynamic_cast <mu::script::identity::operation *> (tilde_existing->second));
+    auto tilde (dynamic_cast <mu::script::identity *> (tilde_existing->second));
     ASSERT_TRUE (tilde != nullptr);
     auto context_existing (map.find (mu::string (U"context")));
     ASSERT_TRUE (context_existing != map.end ());

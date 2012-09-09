@@ -25,7 +25,6 @@ add_library (mu_script SHARED
 	bool_c_create.cpp
 	bool_c_equal.cpp
 	bool_c_node.cpp
-	chain_operation.cpp
 	closure_apply.cpp
 	closure_create.cpp
 	closure_create_single.cpp
@@ -46,7 +45,7 @@ add_library (mu_script SHARED
     file_path.cpp
     file_path_from_string.cpp
 	frame.cpp
-	identity_operation.cpp
+	identity.cpp
 	integer_equal.cpp
 	integer_extension.cpp
 	integer_node.cpp
@@ -54,6 +53,8 @@ add_library (mu_script SHARED
 	${loadb_operation}
 	loads_operation.cpp
 	location.cpp
+	loop.cpp
+    nil.cpp
 	operation.cpp
 	package_add.cpp
 	package_create.cpp

@@ -1,7 +1,7 @@
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure_operation.h>
 #include <mu/script/closure_apply.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/context.h>
 
 #include <gtest/gtest.h>
@@ -13,7 +13,7 @@ TEST (script_test, apply1)
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
 	ctx.push (new (GC) mu::script::closure::apply);
-	auto c1 (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity::operation));
+	auto c1 (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity));
 	auto n1 (new (GC) mu::core::node);
 	ctx.push (c1);
 	ctx.push (n1);

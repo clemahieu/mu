@@ -6,11 +6,11 @@
 #include <mu/script/astring_extension.h>
 #include <mu/script/integer_extension.h>
 #include <mu/io/analyzer_global.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/astring_truncate.h>
 #include <mu/script/bool_c_create.h>
 #include <mu/script/bool_c_equal.h>
-#include <mu/script/chain_operation.h>
+#include <mu/script/loop.h>
 #include <mu/script/parser_scope_create.h>
 #include <mu/script/parser_scope_merge_package.h>
 #include <mu/script/integer_equal.h>
@@ -56,7 +56,7 @@ auto mu::script::api::core () -> mu::script::parser_scope::node *
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
     extensions (mu::string (U"if"), new (GC) mu::script::tokens::keyword_if);
-    map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
+    map [mu::string (U"~")] = new (GC) mu::script::identity;
     map [mu::string (U"context")] = result;
     map [mu::string (U"create")] = new (GC) mu::script::parser_scope::create;
     map [mu::string (U"exec")] = new (GC) mu::script::exec::operation;
@@ -123,7 +123,7 @@ auto mu::script::api::context_extension (mu::script::parser_scope::node * core_a
     expression2->dependencies.push_back (new (GC) mu::script::runtime::fixed (core_a));
     result->expressions.push_back (expression2);
     auto expression3 (new (GC) mu::script::runtime::definite_expression);
-    expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::identity::operation));
+    expression3->dependencies.push_back (new (GC) mu::script::runtime::fixed (new (GC) mu::script::identity));
     expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression1));
     expression3->dependencies.push_back (new (GC) mu::script::runtime::reference (expression2));
     result->expressions.push_back (expression3);
@@ -134,11 +134,10 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 {
     auto result (new (GC) mu::script::parser_scope::node);
     auto & map (result->injected);
-	map [mu::string (U"identity")] = new (GC) mu::script::identity::operation;
+	map [mu::string (U"identity")] = new (GC) mu::script::identity;
 	map [mu::string (U"astring/truncate")] = new (GC) mu::script::astring::truncate;
 	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;
 	map [mu::string (U"bool_c/equal")] = new (GC) mu::script::bool_c::equal;
-	map [mu::string (U"chain/operation")] = new (GC) mu::script::chain::operation;
     map [mu::string (U"cluster_to_context")] = new (GC) mu::script::cluster::to_parser_scope;
     map [mu::string (U"file/close")] = new (GC) mu::script::file::close;
     map [mu::string (U"file/open")] = new (GC) mu::script::file::open;
@@ -147,6 +146,7 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
     map [mu::string (U"loadb")] = new (GC) mu::script::loadb::operation;
     map [mu::string (U"loads")] = new (GC) mu::script::loads_extensions::operation;
+	map [mu::string (U"loop")] = new (GC) mu::script::loop;
     map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
 	map [mu::string (U"parser_scope/merge_package")] = new (GC) mu::script::parser_scope::merge_package;
 	map [mu::string (U"package/add")] = new (GC) mu::script::package::add;

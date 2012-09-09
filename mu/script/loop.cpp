@@ -1,11 +1,11 @@
-#include <mu/script/chain_operation.h>
+#include <mu/script/loop.h>
 
 #include <mu/core/errors/error_target.h>
 #include <mu/script/bool_c_node.h>
 #include <mu/core/check.h>
 #include <mu/script/context.h>
 
-bool mu::script::chain::operation::operator () (mu::script::context & context_a)
+bool mu::script::loop::operator () (mu::script::context & context_a)
 {
 	bool result (true);
 	if (context_a.parameters_size () > 0)

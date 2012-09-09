@@ -17,7 +17,6 @@
 TEST (llvm_test, integer1)
 {
 	llvm::LLVMContext context;
-	auto block (llvm::BasicBlock::Create (context));
 	mu::core::errors::error_list errors;
 	mu::script::context ctx;
 	ctx.push (new (GC) mu::llvm_::integer_type::create);

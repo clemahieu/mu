@@ -7,7 +7,7 @@
 #include <mu/script/fail_operation.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/api.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/parser_scope_node.h>
 #include <mu/script/bool_c_node.h>
 #include <mu/core/errors/string_error.h>
@@ -79,7 +79,7 @@ TEST (script_test, builder4)
     auto valid (context ());
     ASSERT_TRUE (valid);
     ASSERT_TRUE (context.working_size () == 1);
-    auto result1 (dynamic_cast <mu::script::identity::operation *> (context.working(0)));
+    auto result1 (dynamic_cast <mu::script::identity *> (context.working(0)));
     ASSERT_TRUE (result1 != nullptr);
 }
 
