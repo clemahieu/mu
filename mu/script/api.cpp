@@ -10,7 +10,7 @@
 #include <mu/script/astring_truncate.h>
 #include <mu/script/bool_c_create.h>
 #include <mu/script/bool_c_equal.h>
-#include <mu/script/chain_operation.h>
+#include <mu/script/loop.h>
 #include <mu/script/parser_scope_create.h>
 #include <mu/script/parser_scope_merge_package.h>
 #include <mu/script/integer_equal.h>
@@ -136,7 +136,6 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"astring/truncate")] = new (GC) mu::script::astring::truncate;
 	map [mu::string (U"bool_c/create")] = new (GC) mu::script::bool_c::create;
 	map [mu::string (U"bool_c/equal")] = new (GC) mu::script::bool_c::equal;
-	map [mu::string (U"chain/operation")] = new (GC) mu::script::chain::operation;
     map [mu::string (U"cluster_to_context")] = new (GC) mu::script::cluster::to_parser_scope;
     map [mu::string (U"file/close")] = new (GC) mu::script::file::close;
     map [mu::string (U"file/open")] = new (GC) mu::script::file::open;
@@ -145,6 +144,7 @@ auto mu::script::api::full () -> mu::script::parser_scope::node *
 	map [mu::string (U"integer/subtract")] = new (GC) mu::script::integer::subtract;
     map [mu::string (U"loadb")] = new (GC) mu::script::loadb::operation;
     map [mu::string (U"loads")] = new (GC) mu::script::loads_extensions::operation;
+	map [mu::string (U"loop")] = new (GC) mu::script::loop;
     map [mu::string (U"parser_scope/create")] = new (GC) mu::script::parser_scope::create;
 	map [mu::string (U"parser_scope/merge_package")] = new (GC) mu::script::parser_scope::merge_package;
 	map [mu::string (U"package/add")] = new (GC) mu::script::package::add;
