@@ -1,7 +1,7 @@
 #include <mu/llvm_/basic_block_split_return.h>
 #include <mu/script/context.h>
 #include <mu/core/errors/error_list.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/llvm_/void_type_node.h>
 #include <mu/llvm_/integer_type_node.h>
 #include <mu/llvm_/set_type_node.h>
@@ -31,7 +31,7 @@ TEST (llvm_test, DISABLED_split_return1)
 	cluster->routines.push_back (routine);
 	auto body (new (GC) mu::core::expression);
 	routine->body = body;
-	body->dependencies.push_back (new (GC) mu::script::identity::operation);
+	body->dependencies.push_back (new (GC) mu::script::identity);
 	body->dependencies.push_back (new (GC) mu::core::parameters);
 	context.push (cluster);
 	auto valid (context ());

@@ -1,5 +1,5 @@
 #include <mu/script/cluster_node.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/runtime_routine.h>
 #include <mu/script/runtime_definite_expression.h>
 #include <mu/script/runtime_fixed.h>
@@ -54,7 +54,7 @@ TEST (script_test, synthesizer_operation2)
     auto routine1 (new (GC) mu::script::ast::routine);
     routine1->name = mu::string (U"0");
     cluster->routines.push_back (routine1);
-    auto identity (new (GC) mu::script::identity::operation);
+    auto identity (new (GC) mu::script::identity);
     routine1->body->nodes.nodes.push_back (identity);
     synthesizer (cluster);
     ASSERT_TRUE (clusters.size () == 1);
@@ -86,7 +86,7 @@ TEST (script_test, synthesizer_operation3)
     auto routine1 (new (GC) mu::script::ast::routine);
     routine1->name = mu::string (U"0");
     cluster1->routines.push_back (routine1);
-	auto identity (new (GC) mu::script::identity::operation);
+	auto identity (new (GC) mu::script::identity);
     auto expression1 (new (GC) mu::script::ast::definite_expression);
     routine1->body->nodes.nodes.push_back (identity);
     expression1->nodes.nodes.push_back (identity);

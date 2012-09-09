@@ -5,7 +5,7 @@
 #include <mu/script/runtime_locals.h>
 #include <mu/script/runtime_routine.h>
 #include <mu/script/runtime_definite_expression.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/bool_c_node.h>
 #include <mu/script/runtime_fixed.h>
 #include <mu/script/fail_operation.h>
@@ -15,7 +15,7 @@
 // Success of true branch
 TEST (script_test, if_expression1)
 {
-    auto identity (new (GC) mu::script::identity::operation);
+    auto identity (new (GC) mu::script::identity);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
@@ -47,7 +47,7 @@ TEST (script_test, if_expression1)
 // Success of false branch
 TEST (script_test, if_expression2)
 {
-    auto identity (new (GC) mu::script::identity::operation);
+    auto identity (new (GC) mu::script::identity);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
@@ -79,7 +79,7 @@ TEST (script_test, if_expression2)
 // Failure in false branch
 TEST (script_test, if_expression3)
 {
-    auto identity (new (GC) mu::script::identity::operation);
+    auto identity (new (GC) mu::script::identity);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);
@@ -109,7 +109,7 @@ TEST (script_test, if_expression3)
 // Failure in true branch
 TEST (script_test, if_expression4)
 {
-    auto identity (new (GC) mu::script::identity::operation);
+    auto identity (new (GC) mu::script::identity);
     auto fail (new (GC) mu::script::fail::operation);
     auto routine (new (GC) mu::script::runtime::routine);
     auto body (new (GC) mu::script::runtime::definite_expression);

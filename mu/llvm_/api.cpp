@@ -34,7 +34,7 @@
 #include <mu/llvm_/constant_string_extension.h>
 #include <mu/script/values_operation.h>
 #include <mu/llvm_/basic_block_node.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/closure_single.h>
 #include <mu/llvm_/apint_node.h>
 #include <mu/llvm_/struct_type_create.h>
@@ -101,7 +101,7 @@ void mu::llvm_::api::binding (mu::script::parser_scope::node *& results, mu::scr
                     return new (GC) mu::llvm_::constant_string::extension (analyzer_a, module);
                 }, false);
 	extensions (mu::string (U".."), new (GC) mu::llvm_::function_type::divider);
-	extensions (mu::string (U"~"), new (GC) mu::script::identity::operation);
+	extensions (mu::string (U"~"), new (GC) mu::script::identity);
 	auto function_type (new (GC) mu::script::closure::single (new (GC) mu::llvm_::function_type::create));
 	function_type->closed.push_back (ctx);
 	extensions (mu::string (U"fun-t"), function_type);

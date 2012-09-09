@@ -7,7 +7,7 @@
 #include <mu/script/context.h>
 #include <mu/script/api.h>
 #include <mu/script/parser_scope_node.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/cluster_node.h>
 #include <mu/script/runtime_routine.h>
 
@@ -47,7 +47,7 @@ TEST (script_test, DISABLED_times_operation2)
 	auto routine (new (GC) mu::core::routine (expression));
 	ctx.push (new (GC) mu::script::times::operation);
 	ctx.push (new (GC) mu::script::integer::node (10));
-	ctx.push (new (GC) mu::script::identity::operation);
+	ctx.push (new (GC) mu::script::identity);
 	auto n1 (new (GC) mu::core::node);
 	ctx.push (n1);
 	auto n2 (new (GC) mu::core::node);

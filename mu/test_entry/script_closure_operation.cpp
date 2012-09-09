@@ -1,5 +1,5 @@
 #include <mu/script/closure_operation.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/core/errors/error_list.h>
 #include <mu/script/closure_hole.h>
 #include <mu/script/context.h>
@@ -12,7 +12,7 @@ TEST (script_test, closure_operation1)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-	ctx.push (new (GC) mu::script::closure::operation (0, new (GC) mu::script::identity::operation));
+	ctx.push (new (GC) mu::script::closure::operation (0, new (GC) mu::script::identity));
 	auto valid (ctx ());
 	EXPECT_EQ (valid, true);
 	EXPECT_EQ (ctx.working_size (), 0);
@@ -22,7 +22,7 @@ TEST (script_test, closure_operation2)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-	ctx.push (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity::operation));
+	ctx.push (new (GC) mu::script::closure::operation (1, new (GC) mu::script::identity));
 	auto node (new (GC) mu::core::node);
 	ctx.push (node);
 	auto valid (ctx ());
@@ -35,7 +35,7 @@ TEST (script_test, closure_operation3)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity));
 	auto n1 (new (GC) mu::core::node);
 	ctx.push (n1);
 	auto n2 (new (GC) mu::core::node);
@@ -51,7 +51,7 @@ TEST (script_test, closure_operation4)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity));
 	auto n1 (new (GC) mu::core::node);
 	ctx.push (n1);
 	auto n2 (new (GC) mu::script::closure::hole);
@@ -76,7 +76,7 @@ TEST (script_test, closure_operation5)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity::operation));
+	ctx.push (new (GC) mu::script::closure::operation (2, new (GC) mu::script::identity));
 	auto n1 (new (GC) mu::script::closure::hole);
 	ctx.push (n1);
 	auto n2 (new (GC) mu::core::node);

@@ -1,6 +1,6 @@
 #include <mu/script/context.h>
 #include <mu/core/node.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 
 #include <gtest/gtest.h>
 
@@ -135,9 +135,9 @@ TEST (script_test, context8)
 TEST (script_test, context9)
 {
 	mu::script::context context;
-	auto arg1 (new (GC) mu::script::identity::operation);
+	auto arg1 (new (GC) mu::script::identity);
 	context.push (arg1);
-	auto arg2 (new (GC) mu::script::identity::operation);
+	auto arg2 (new (GC) mu::script::identity);
 	context.push (arg2);
 	auto valid (context ());
 	EXPECT_EQ (valid, true);
@@ -158,7 +158,7 @@ TEST (script_test, context11)
 	mu::script::context context;
 	auto arg1 (new (GC) mu::core::node);
 	context.push (arg1);
-	auto arg2 (new (GC) mu::script::identity::operation);
+	auto arg2 (new (GC) mu::script::identity);
 	context.push (arg2);
 	auto valid (context ());
 	EXPECT_EQ (!valid, true);

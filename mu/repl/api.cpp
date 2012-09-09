@@ -6,7 +6,7 @@
 #include <mu/script/astring_extension.h>
 #include <mu/script/integer_extension.h>
 #include <mu/script/tokens_keyword_if.h>
-#include <mu/script/identity_operation.h>
+#include <mu/script/identity.h>
 #include <mu/script/loads_operation.h>
 #include <mu/script/loadb_operation.h>
 #include <mu/script/print_operation.h>
@@ -28,7 +28,7 @@ auto mu::repl::api::core (mu::repl::repl & repl_a) -> mu::script::parser_scope::
 	extensions.add <mu::script::astring::extension>(mu::string (U"a`"));
 	extensions.add <mu::script::integer::extension> (mu::string (U"#"));
     extensions (mu::string (U"if"), new (GC) mu::script::tokens::keyword_if);
-    map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
+    map [mu::string (U"~")] = new (GC) mu::script::identity;
     map [mu::string (U"close")] = new (GC) mu::script::file::close;
     map [mu::string (U"concat")] = new (GC) mu::script::string::concatenate;
     map [mu::string (U"equal")] = new (GC) mu::script::string::equal;

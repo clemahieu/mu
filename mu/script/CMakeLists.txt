@@ -46,7 +46,7 @@ add_library (mu_script SHARED
     file_path.cpp
     file_path_from_string.cpp
 	frame.cpp
-	identity_operation.cpp
+	identity.cpp
 	integer_equal.cpp
 	integer_extension.cpp
 	integer_node.cpp
