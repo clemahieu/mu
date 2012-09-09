@@ -36,7 +36,6 @@ add_executable (mu_test_entry
 	io_wistream_input_test.cpp
 	llvm_basic_block_insert.cpp
 	llvm_basic_block_instruction_insert.cpp
-	llvm_basic_block_split_return.cpp
 	llvm_constant_string_create.cpp
 	llvm_constant_string_extension.cpp
 	llvm_function_create.cpp
