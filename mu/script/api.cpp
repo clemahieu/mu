@@ -43,6 +43,7 @@
 #include <mu/script/file_path_from_string.h>
 #include <mu/script/string_concatenate.h>
 #include <mu/script/string_equal.h>
+#include <mu/script/exec_operation.h>
 
 #include <gc_cpp.h>
 
@@ -58,6 +59,7 @@ auto mu::script::api::core () -> mu::script::parser_scope::node *
     map [mu::string (U"~")] = new (GC) mu::script::identity::operation;
     map [mu::string (U"context")] = result;
     map [mu::string (U"create")] = new (GC) mu::script::parser_scope::create;
+    map [mu::string (U"exec")] = new (GC) mu::script::exec::operation;
     map [mu::string (U"import")] = new (GC) mu::script::parser_scope::merge;
     map [mu::string (U"loadb")] = loadb_extension ();
     map [mu::string (U"loads")] = loads_extension ();
