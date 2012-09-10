@@ -21,7 +21,6 @@ TEST (script_test, exec1)
     auto node1 (new (GC) mu::core::node);
     context.push (node1);
     auto valid (context ());
-    context.errors.print (std::wcerr);
     ASSERT_TRUE (valid);
     ASSERT_TRUE (context.working_size () == 1);
     auto node2 (context.working (0));

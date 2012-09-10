@@ -58,3 +58,4 @@ add_dependencies (mu_test_entry
 file (COPY ${CMAKE_SOURCE_DIR}/examples DESTINATION ${CMAKE_BINARY_DIR})
 file (COPY ${CMAKE_SOURCE_DIR}/source_test.mu DESTINATION ${CMAKE_BINARY_DIR})
 file (COPY ${CMAKE_SOURCE_DIR}/mu/source DESTINATION ${CMAKE_BINARY_DIR}/mu)
+file (COPY ${CMAKE_SOURCE_DIR}/mu/test DESTINATION ${CMAKE_BINARY_DIR}/mu/test)
