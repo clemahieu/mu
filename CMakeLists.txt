@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 project (mu)
 
 if (UNIX OR MINGW)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g")
 endif ()
 
 file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/temp)
@@ -25,7 +25,7 @@ if (WIN32)
 		${CMAKE_SOURCE_DIR}/llvm/lib)
 else (WIN32)
 	set (llvm_lib_directories
-		"${CMAKE_SOURCE_DIR}/llvm/Debug+Asserts/lib")
+		"${CMAKE_SOURCE_DIR}/llvm/Release+Asserts/lib")
 endif (WIN32)
 set (gc_lib_directories
 	${CMAKE_SOURCE_DIR}/gc/.libs)
