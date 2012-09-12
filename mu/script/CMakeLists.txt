@@ -85,6 +85,7 @@ add_library (mu_script SHARED
 	runtime_reference.cpp
 	runtime_routine.cpp
 	runtime_selection.cpp
+    runtime_while_expression.cpp
     string_concatenate.cpp
     string_equal.cpp
 	string_extension.cpp
