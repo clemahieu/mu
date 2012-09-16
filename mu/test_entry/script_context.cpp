@@ -187,3 +187,41 @@ TEST (script_test, context13)
 	context.assign (context.locals_begin (), context.working_begin (), context.working_end ());
 	EXPECT_EQ (context.locals (0), context.working (0));
 }
+
+// Locals are assignable
+TEST (script_test, context14)
+{
+    mu::script::context context;
+    mu::core::node node1;
+    context.reserve (1);
+    context.slide ();
+    ASSERT_TRUE (context.locals_size () == 1);
+    auto i (context.locals_begin ());
+    ASSERT_TRUE (i != context.locals_end ());
+    auto val (*i);
+    ASSERT_TRUE (val == nullptr);
+    *i = &node1;
+    auto val2 (*i);
+    ASSERT_TRUE (val2 == &node1);
+}
+
+// Locals are assignable from working
+TEST (script_test, context15)
+{
+    mu::script::context context;
+    mu::core::node node1;
+    context.reserve (1);
+    context.slide ();
+    ASSERT_TRUE (context.locals_size () == 1);
+    auto i (context.locals_begin ());
+    ASSERT_TRUE (i != context.locals_end ());
+    auto val (*i);
+    ASSERT_TRUE (val == nullptr);
+    context.push (&node1);
+    ASSERT_TRUE (context.working_size () == 1);
+    auto k (context.working_begin ());
+    ASSERT_TRUE (k != context.working_end ());
+    *i = *k;
+    auto val2 (*i);
+    ASSERT_TRUE (val2 == &node1);
+}

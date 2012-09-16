@@ -13,6 +13,7 @@
 #include <mu/script/runtime_parameter.h>
 #include <mu/script/runtime_reference.h>
 #include <mu/core/errors/error_target.h>
+#include <mu/script/runtime_locals.h>
 
 #include <gc_cpp.h>
 
@@ -40,13 +41,18 @@ TEST (script_test, while_expression1)
     while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
     while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
     context.push (&while_l);
+    mu::script::runtime::locals local (0);
+    context.push (&local);
     auto valid (context ());
     context.errors.print (std::wcerr);
     ASSERT_TRUE (valid);
-    ASSERT_TRUE (context.working_size () == 1);
+    ASSERT_TRUE (context.working_size () == 2);
     auto integer1 (dynamic_cast <mu::script::integer::node *> (context.working (0)));
     ASSERT_TRUE (integer1 != nullptr);
-    ASSERT_TRUE (integer1->value == 0);
+    ASSERT_TRUE (integer1->value == 1);
+    auto integer2 (dynamic_cast <mu::script::integer::node *> (context.working (1)));
+    ASSERT_TRUE (integer2 != nullptr);
+    ASSERT_TRUE (integer2->value == 0);
 }
 
 TEST (script_test, while_expression2)
@@ -74,11 +80,16 @@ TEST (script_test, while_expression2)
     while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&two));
     while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
     context.push (&while_l);
+    mu::script::runtime::locals local (0);
+    context.push (&local);
     auto valid (context ());
     context.errors.print (std::wcerr);
     ASSERT_TRUE (valid);
-    ASSERT_TRUE (context.working_size () == 1);
+    ASSERT_TRUE (context.working_size () == 2);
     auto integer1 (dynamic_cast <mu::script::integer::node *> (context.working (0)));
     ASSERT_TRUE (integer1 != nullptr);
-    ASSERT_TRUE (integer1->value == 1);
+    ASSERT_TRUE (integer1->value == 2);
+    auto integer2 (dynamic_cast <mu::script::integer::node *> (context.working (1)));
+    ASSERT_TRUE (integer2 != nullptr);
+    ASSERT_TRUE (integer2->value == 1);
 }

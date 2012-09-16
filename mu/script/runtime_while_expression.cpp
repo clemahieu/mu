@@ -70,7 +70,7 @@ bool mu::script::runtime::while_expression::operator () (mu::script::context & c
                                             for (auto i (context_a.locals_begin () + 3),
                                                  j (context_a.locals_end()),
                                                  k (context_a.working_begin ()),
-                                                 l (context_a.working_end ()); i != j; ++i)
+                                                 l (context_a.working_end ()); i != j; ++i, ++k)
                                             {
                                                 assert (k != l);
                                                 *i = *k;

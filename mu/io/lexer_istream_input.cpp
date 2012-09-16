@@ -10,9 +10,9 @@ source (source_a)
 char32_t mu::io::lexer::istream_input::operator() ()
 {
 	wchar_t result (source.get ());
-	if (source.eof ())
+	if (source.eof () || 0xffffffff == result)
 	{
-		result = U'\uffff';
+		result = U'\U0000ffff';
 	}
 	return result;
 }
