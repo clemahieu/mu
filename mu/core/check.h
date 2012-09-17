@@ -39,7 +39,8 @@ namespace mu
         template <typename ...T>
         size_t count ()
         {
-            auto result ((check_count <T...> ()) ());
+            check_count <T...> check_l ;
+            auto result (check_l ());
             return result;
         }
         template <typename ...U>
