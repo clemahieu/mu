@@ -93,3 +93,96 @@ TEST (script_test, while_expression2)
     ASSERT_TRUE (integer2 != nullptr);
     ASSERT_TRUE (integer2->value == 1);
 }
+
+// Fail, return fewer results than arguments
+TEST (script_test, while_expression3)
+{
+    mu::script::context context;
+    mu::script::runtime::while_expression while_l;
+    mu::script::integer::equal equal;
+    while_l.predicate.push_back (new (GC) mu::script::runtime::fixed (&equal));
+    mu::script::identity identity;
+    mu::script::runtime::routine routine;
+    while_l.body.push_back (new (GC) mu::script::runtime::fixed (&routine));
+    mu::script::runtime::definite_expression expression1;
+    routine.expressions.push_back (&expression1);
+    mu::script::integer::subtract sub;
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&sub));
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    mu::script::integer::node one (1);
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&one));
+    mu::script::runtime::definite_expression expression2;
+    routine.expressions.push_back (&expression2);
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::fixed (&identity));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    context.push (&while_l);
+    mu::script::runtime::locals local (0);
+    context.push (&local);
+    auto valid (context ());
+    ASSERT_TRUE (!valid);
+}
+
+// Fail, return more results than arguments
+TEST (script_test, while_expression4)
+{
+    mu::script::context context;
+    mu::script::runtime::while_expression while_l;
+    mu::script::integer::equal equal;
+    while_l.predicate.push_back (new (GC) mu::script::runtime::fixed (&equal));
+    mu::script::identity identity;
+    mu::script::runtime::routine routine;
+    while_l.body.push_back (new (GC) mu::script::runtime::fixed (&routine));
+    mu::script::runtime::definite_expression expression1;
+    routine.expressions.push_back (&expression1);
+    mu::script::integer::subtract sub;
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&sub));
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    mu::script::integer::node one (1);
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&one));
+    mu::script::runtime::definite_expression expression2;
+    routine.expressions.push_back (&expression2);
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::fixed (&identity));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::reference (&expression1));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    context.push (&while_l);
+    mu::script::runtime::locals local (0);
+    context.push (&local);
+    auto valid (context ());
+    ASSERT_TRUE (!valid);
+}
+
+// Fail, check doesn't return bool
+TEST (script_test, while_expression5)
+{
+    mu::script::context context;
+    mu::script::runtime::while_expression while_l;
+    mu::script::identity equal;
+    while_l.predicate.push_back (new (GC) mu::script::runtime::fixed (&equal));
+    mu::script::identity identity;
+    mu::script::runtime::routine routine;
+    while_l.body.push_back (new (GC) mu::script::runtime::fixed (&routine));
+    mu::script::runtime::definite_expression expression1;
+    routine.expressions.push_back (&expression1);
+    mu::script::integer::subtract sub;
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&sub));
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::parameter (1));
+    mu::script::integer::node one (1);
+    expression1.dependencies.push_back (new (GC) mu::script::runtime::fixed (&one));
+    mu::script::runtime::definite_expression expression2;
+    routine.expressions.push_back (&expression2);
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::fixed (&identity));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::parameter (0));
+    expression2.dependencies.push_back (new (GC) mu::script::runtime::reference (&expression1));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    while_l.arguments.push_back (new (GC) mu::script::runtime::fixed (&one));
+    context.push (&while_l);
+    mu::script::runtime::locals local (0);
+    context.push (&local);
+    auto valid (context ());
+    ASSERT_TRUE (!valid);
+}
