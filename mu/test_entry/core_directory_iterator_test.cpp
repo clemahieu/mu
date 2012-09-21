@@ -8,7 +8,7 @@ TEST (core_test, directory_iterator_test1)
     try
     {
         auto path (boost::filesystem::initial_path () /= L"examples");
-        boost::filesystem3::directory_iterator i (path);
+        boost::filesystem::directory_iterator i (path);
     }
     catch (...)
     {
@@ -24,10 +24,10 @@ TEST (core_test, directory_iterator_test2)
 	auto path (boost::filesystem::initial_path () /= L"examples/test.mu");
 	try
 	{
-		boost::filesystem3::directory_iterator i (path);
+		boost::filesystem::directory_iterator i (path);
         EXPECT_EQ (false, true);
 	}
-	catch (boost::filesystem3::filesystem_error & error)
+	catch (boost::filesystem::filesystem_error & error)
 	{
 		failed = true;
 	}
@@ -37,7 +37,7 @@ TEST (core_test, directory_iterator_test2)
 TEST (core_test, directory_iterator_test3)
 {
 	auto path (boost::filesystem::initial_path () /= L"examples");
-	for (boost::filesystem3::directory_iterator i (path); i != boost::filesystem3::directory_iterator (); ++i)
+	for (boost::filesystem::directory_iterator i (path); i != boost::filesystem::directory_iterator (); ++i)
 	{
 	}
 }

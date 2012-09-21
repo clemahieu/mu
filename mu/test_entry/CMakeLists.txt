@@ -85,6 +85,7 @@ target_link_libraries (mu_test_entry
 	LLVM-3.1
 	boost_system
 	boost_filesystem
+	boost_thread
 	mu_core
 	mu_io
 	mu_llvm_

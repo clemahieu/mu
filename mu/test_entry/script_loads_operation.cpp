@@ -17,7 +17,7 @@ TEST (script_test, loads1)
 {
 	mu::core::errors::error_list errors;
 	mu::script::context ctx (errors);
-    auto path (boost::filesystem3::current_path ());
+    auto path (boost::filesystem::current_path ());
     path /= "source_test.mu";
     auto file (mu::script::file::open::core (path));
     ASSERT_TRUE (file != nullptr);

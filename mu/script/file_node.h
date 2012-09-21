@@ -14,9 +14,9 @@ namespace mu
             class node : public mu::core::node, boost::noncopyable
             {
             public:
-                node (boost::filesystem3::path const & path);
+                node (boost::filesystem::path const & path);
                 ~node ();
-                boost::filesystem3::fstream stream;
+                boost::filesystem::fstream stream;
             };
         }
     }

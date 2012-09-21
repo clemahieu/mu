@@ -13,8 +13,8 @@ namespace mu
             class path : public mu::core::node
             {
             public:
-                path (boost::filesystem3::path const & path_a);
-                boost::filesystem3::path path_m;
+                path (boost::filesystem::path const & path_a);
+                boost::filesystem::path path_m;
             };
         }
     }

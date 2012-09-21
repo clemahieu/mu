@@ -39,12 +39,12 @@ bool mu::script::file::open::operator () (mu::script::context & context_a)
     return valid;
 }
 
-auto mu::script::file::open::core (boost::filesystem3::path const & path_a) -> mu::script::file::node *
+auto mu::script::file::open::core (boost::filesystem::path const & path_a) -> mu::script::file::node *
 {
     auto valid (true);
     mu::script::file::node * result (nullptr);
-    auto path_l (boost::filesystem3::absolute (path_a));
-    auto current (boost::filesystem3::current_path ());
+    auto path_l (boost::filesystem::absolute (path_a));
+    auto current (boost::filesystem::current_path ());
     auto i (current.begin ());
     auto j (current.end ());
     auto k (path_l.begin ());
