@@ -35,10 +35,10 @@ auto mu::script::file::path_from_string::core (mu::string const & string_a) -> m
     mu::script::file::path * result (nullptr);
     try
     {
-        boost::filesystem3::path path (string_l);
+        boost::filesystem::path path (string_l);
         result = new (GC) mu::script::file::path (path);
     }
-    catch (boost::filesystem3::filesystem_error const & e)
+    catch (boost::filesystem::filesystem_error const & e)
     {
     }
     return result;

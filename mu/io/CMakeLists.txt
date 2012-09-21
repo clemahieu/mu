@@ -28,6 +28,9 @@ add_library (mu_io SHARED
 	lexer_token_vector.cpp
 	lexer_wistream_input.cpp
 	position.cpp
+        scope_block.cpp
+        scope_global.cpp
+        scope_scope.cpp
 	source.cpp
 	tokens_divider.cpp
 	tokens_identifier.cpp

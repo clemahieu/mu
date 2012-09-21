@@ -4,7 +4,7 @@
 
 namespace boost
 {
-    namespace filesystem3
+    namespace filesystem
     {
         class path;
     }
@@ -21,7 +21,7 @@ namespace mu
             {
             public:
                 bool operator () (mu::script::context & context_a) override;
-                static auto core (boost::filesystem3::path const & path) -> mu::script::file::node *;
+                static auto core (boost::filesystem::path const & path) -> mu::script::file::node *;
             };
         }
     }

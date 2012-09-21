@@ -31,6 +31,8 @@ add_executable (mu_test_entry
 	io_lexer.cpp
 	io_multiline_comment.cpp
     io_name_map.cpp
+        io_scope_global.cpp
+        io_scope_block.cpp
 	io_source_result.cpp
 	io_source.cpp
 	io_wistream_input_test.cpp
@@ -85,6 +87,7 @@ target_link_libraries (mu_test_entry
 	LLVM-3.1
 	boost_system
 	boost_filesystem
+	boost_thread
 	mu_core
 	mu_io
 	mu_llvm_
