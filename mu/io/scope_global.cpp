@@ -16,13 +16,12 @@ extensions (extensions_a)
 
 bool mu::io::scope::global::declare (mu::core::errors::error_target & errors_a, mu::string const & name_a, mu::core::node * const node_a, mu::io::context const & context_a)
 {
-    auto reserved (reserve (errors_a, name_a));
+    auto const & existing (mapping.find (name_a));
+    auto reserved (existing != mapping.end ());
     if (!reserved)
     {
-        reserve (errors_a, name_a);
-        auto& mapping_l (mapping [name_a]);
-        assert (mapping_l == nullptr);
-        mapping_l = node_a;
+        mapping.insert (decltype (mapping)::value_type (name_a, node_a));
+        assert (mapping.find (name_a) != mapping.end ());
         auto first (unresolved.find (name_a));
         auto i (first);
         while (i != unresolved.end () && i->first == name_a)
@@ -48,12 +47,15 @@ bool mu::io::scope::global::fill (mu::string const & name_a, mu::core::node_list
 
 bool mu::io::scope::global::reserve (mu::core::errors::error_target & errors_a, mu::string const & name_a)
 {
-    auto result (mapping.find (name_a) != mapping.end ());
-    auto existing (extensions (name_a));
-    result = result || !boost::get <0> (existing).empty ();
+    auto const & existing (mapping.find (name_a));
+    auto result (existing != mapping.end ());
+    result = result && existing->second != nullptr;
+    auto extension (extensions (name_a));
+    result = result || !boost::get <0> (extension).empty ();
     if (!result)
     {
-        mapping [name_a] = nullptr;
+        mapping.insert (decltype (mapping)::value_type (name_a, nullptr));
+        assert (mapping.find (name_a) != mapping.end ());
     }
     return result;
 }

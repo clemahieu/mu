@@ -40,7 +40,7 @@ TEST (io_test, scope_global3)
     EXPECT_TRUE (!global.unresolved.empty ());
 }
 
-// Reserve function
+// Reserve function can reserve the same thing multiple times
 TEST (io_test, scope_global4)
 {
     mu::io::analyzer::extensions extensions;
@@ -48,22 +48,41 @@ TEST (io_test, scope_global4)
     mu::core::errors::error_list errors;
     auto result1 (global.reserve (errors, mu::string (U"test")));
     EXPECT_TRUE (!result1);
+    EXPECT_TRUE (global.mapping.find (mu::string (U"test")) != global.mapping.end ());
     auto result2 (global.reserve (errors, mu::string (U"test")));
-    EXPECT_TRUE (result2);
+    EXPECT_TRUE (!result2);
+}
+
+// Reserve function fails when dominated by an extension
+TEST (io_test, scope_global5)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::core::errors::error_list errors;
     auto fail (extensions.add <mu::io_test::extension5> (mu::string (U"ext")));
     ASSERT_TRUE (!fail);
-    auto result3 (global.reserve (errors, mu::string (U"ext")));
-    EXPECT_TRUE (result3);
-    auto result4 (global.reserve (errors, mu::string (U"exta")));
-    EXPECT_TRUE (result3);
+    auto result1 (global.reserve (errors, mu::string (U"ext")));
+    EXPECT_TRUE (result1);
+    auto result2 (global.reserve (errors, mu::string (U"exta")));
+    EXPECT_TRUE (result2);
+}
+
+// Cannot declare a reserved identifier
+TEST (io_test, scope_global6)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::core::errors::error_list errors;
     mu::core::node node1;
     mu::io::context context;
-    auto result5 (global.declare (errors, mu::string (U"test"), &node1, context));
-    EXPECT_TRUE (result5);
+    auto result1 (global.reserve (errors, mu::string (U"test")));
+    EXPECT_TRUE (!result1);
+    auto result2 (global.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (result2);
 }
 
 // Declare function
-TEST (io_test, scope_global5)
+TEST (io_test, scope_global7)
 {
     mu::io::analyzer::extensions extensions;
     mu::io::scope::global global (extensions);
@@ -79,7 +98,7 @@ TEST (io_test, scope_global5)
 }
 
 // Fill function
-TEST (io_test, scope_global6)
+TEST (io_test, scope_global8)
 {
     mu::io::analyzer::extensions extensions;
     mu::io::scope::global global (extensions);
@@ -93,6 +112,6 @@ TEST (io_test, scope_global6)
     EXPECT_TRUE (!result2);
     auto result3 (global.fill (mu::string (U"test"), nodes));
     EXPECT_TRUE (!result3);
-    EXPECT_TRUE (nodes.nodes.size () == 1);
+    ASSERT_TRUE (nodes.nodes.size () == 1);
     EXPECT_TRUE (nodes.nodes [0] == &node1);
 }

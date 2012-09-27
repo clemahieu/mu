@@ -171,3 +171,19 @@ TEST (io_test, scope_block9)
     auto result1 (block2.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (result1);
 }
+
+// Declare same name different blocks
+TEST (io_test, scope_block10)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::core::errors::error_list errors;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::node node1;
+    mu::io::context context;
+    auto result1 (block.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (!result1);
+    mu::io::scope::block block1 (global);
+    auto result2 (block.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (!result2);
+}
