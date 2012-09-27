@@ -16,8 +16,8 @@ TEST (io_test, scope_block1)
     mu::io::scope::block block (global);
 }
 
-// Reserve function
-TEST (io_test, scope_block2)
+// Reserve can be called multiple times
+TEST (io_test, scope_block_reserve1)
 {
     mu::io::analyzer::extensions extensions;
     mu::core::errors::error_list errors;
@@ -25,14 +25,22 @@ TEST (io_test, scope_block2)
     mu::io::scope::block block (global);
     auto result1 (block.reserve (errors, mu::string (U"test")));
     EXPECT_TRUE (!result1);
-    mu::core::node node1;
-    block.mapping [mu::string (U"test")] = &node1;
     auto result2 (block.reserve (errors, mu::string (U"test")));
-    EXPECT_TRUE (result2);
+    EXPECT_TRUE (!result2);
+}
+
+// Declaring blocks reserving
+TEST (io_test, scope_block_reserve2)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::core::errors::error_list errors;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::node node1;
     mu::io::context context;
     auto result3 (block.declare (errors, mu::string (U"test"), &node1, context));
-    EXPECT_TRUE (result3);
-    auto result4 (global.reserve (errors, mu::string (U"test")));
+    EXPECT_TRUE (!result3);
+    auto result4 (block.reserve (errors, mu::string (U"test")));
     EXPECT_TRUE (result4);
 }
 
@@ -162,14 +170,16 @@ TEST (io_test, scope_block9)
     mu::io::context context;
     mu::core::node_list nodes;
     block.refer (mu::string (U"test"), context, nodes);
-    EXPECT_TRUE (global.unresolved.empty ());
-    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) != block.unresolved.end ());
+    ASSERT_TRUE (nodes.nodes.size () == 1);
+    auto nodes1 (dynamic_cast <mu::core::node_list *> (nodes.nodes [0]));
+    ASSERT_TRUE (nodes1 != nullptr);
+    EXPECT_TRUE (nodes1->nodes.empty ());
     block.end ();
-    EXPECT_TRUE (global.unresolved.find (mu::string (U"test")) != global.unresolved.end ());
     mu::io::scope::block block2 (global);
     mu::core::node node1;
     auto result1 (block2.declare (errors, mu::string (U"test"), &node1, context));
-    EXPECT_TRUE (result1);
+    EXPECT_TRUE (!result1);
+    EXPECT_TRUE (nodes1->nodes.empty ());
 }
 
 // Declare same name different blocks
@@ -184,6 +194,6 @@ TEST (io_test, scope_block10)
     auto result1 (block.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (!result1);
     mu::io::scope::block block1 (global);
-    auto result2 (block.declare (errors, mu::string (U"test"), &node1, context));
+    auto result2 (block1.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (!result2);
 }

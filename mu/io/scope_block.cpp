@@ -13,23 +13,26 @@ parent (parent_a)
 
 bool mu::io::scope::block::reserve (mu::core::errors::error_target & errors_a, mu::string const & name_a)
 {
-    auto result (mapping.find (name_a) != mapping.end ());
+    auto const & existing (mapping.find (name_a));
+    auto result (existing != mapping.end ());
+    result = result && existing->second != nullptr;
     result = result || parent.reserve (errors_a, name_a);
     if (!result)
     {
-        mapping [name_a] = nullptr;
+        mapping.insert (decltype (mapping)::value_type (name_a, nullptr));
     }
     return result;
 }
 
 bool mu::io::scope::block::declare (mu::core::errors::error_target & errors_a, mu::string const & name_a, mu::core::node * const node_a, mu::io::context const & context_a)
 {
-    auto reserved (reserve (errors_a, name_a));
-    if (!reserved)
+    auto const & existing (mapping.find (name_a));
+    auto result (existing != mapping.end ());
+    result = result && existing->second != nullptr;
+    result = result || parent.reserve (errors_a, name_a);
+    if (!result)
     {
-        auto& mapping_l (mapping [name_a]);
-        assert (mapping_l == nullptr);
-        mapping_l = node_a;
+        mapping.insert (decltype (mapping)::value_type (name_a, node_a));
         auto first (unresolved.find (name_a));
         auto i (first);
         while (i != unresolved.end () && i->first == name_a)
@@ -39,7 +42,7 @@ bool mu::io::scope::block::declare (mu::core::errors::error_target & errors_a, m
         }
         unresolved.erase (first, i);
     }
-    return reserved;
+    return result;
 }
 
 void mu::io::scope::block::refer (mu::string const & name_a, mu::io::context const & context_a, mu::core::node_list & target_a)
