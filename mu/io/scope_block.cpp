@@ -2,6 +2,8 @@
 
 #include <mu/core/node_list.h>
 
+#include <gc_cpp.h>
+
 mu::io::scope::block::block (mu::io::scope::scope & parent_a):
 parent (parent_a)
 {
@@ -30,13 +32,19 @@ bool mu::io::scope::block::declare (mu::core::errors::error_target & errors_a, m
 
 void mu::io::scope::block::refer (mu::string const & name_a, mu::io::context const & context_a, mu::core::node_list & target_a)
 {
-    
+    auto failed (fill (name_a, target_a));
+    if (failed)
+    {
+        auto nodes (new (GC) mu::core::node_list);
+        target_a.nodes.push_back (nodes);
+        unresolved.insert (decltype (unresolved)::value_type (name_a, nodes));
+    }
 }
 
 bool mu::io::scope::block::fill (mu::string const & name_a, mu::core::node_list & target_a)
 {
     auto existing (mapping.find (name_a));
-    auto result (existing != mapping.end ());
+    auto result (existing == mapping.end ());
     if (!result)
     {
         target_a.nodes.push_back (existing->second);

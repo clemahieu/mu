@@ -77,3 +77,22 @@ TEST (io_test, scope_global5)
     auto result3 (global.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (result3);
 }
+
+// Fill function
+TEST (io_test, scope_global6)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::core::errors::error_list errors;
+    mu::core::node_list nodes;
+    mu::io::context context;
+    auto result1 (global.fill (mu::string (U"test"), nodes));
+    EXPECT_TRUE (result1);
+    mu::core::node node1;
+    auto result2 (global.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (!result2);
+    auto result3 (global.fill (mu::string (U"test"), nodes));
+    EXPECT_TRUE (!result3);
+    EXPECT_TRUE (nodes.nodes.size () == 1);
+    EXPECT_TRUE (nodes.nodes [0] == &node1);
+}

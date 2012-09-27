@@ -82,3 +82,24 @@ TEST (io_test, scope_block5)
     block.end ();
     EXPECT_TRUE (!global.unresolved.empty ());
 }
+
+// Refer function unresolved
+TEST (io_test, scope_block6)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::errors::error_list errors;
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.empty ());
+    mu::io::context context;
+    mu::core::node_list nodes;
+    block.refer (mu::string (U"test"), context, nodes);
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) != block.unresolved.end ());
+    block.end ();
+    EXPECT_TRUE (global.unresolved.find (mu::string (U"test")) != global.unresolved.end ());
+    auto failed (global.end (errors));
+    EXPECT_TRUE (failed);
+    EXPECT_TRUE (!errors.errors.empty ());
+}
