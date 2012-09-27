@@ -193,7 +193,11 @@ TEST (io_test, scope_block10)
     mu::io::context context;
     auto result1 (block.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (!result1);
+    block.end ();
     mu::io::scope::block block1 (global);
     auto result2 (block1.declare (errors, mu::string (U"test"), &node1, context));
     EXPECT_TRUE (!result2);
+    block1.end ();
+    auto result3 (global.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (result3);
 }
