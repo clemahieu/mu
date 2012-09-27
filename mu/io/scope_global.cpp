@@ -19,6 +19,7 @@ bool mu::io::scope::global::declare (mu::core::errors::error_target & errors_a, 
     auto reserved (reserve (errors_a, name_a));
     if (!reserved)
     {
+        reserve (errors_a, name_a);
         auto& mapping_l (mapping [name_a]);
         assert (mapping_l == nullptr);
         mapping_l = node_a;
