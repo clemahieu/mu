@@ -103,3 +103,71 @@ TEST (io_test, scope_block6)
     EXPECT_TRUE (failed);
     EXPECT_TRUE (!errors.errors.empty ());
 }
+
+// Refer function unresolved
+TEST (io_test, scope_block7)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::errors::error_list errors;
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.empty ());
+    mu::io::context context;
+    mu::core::node_list nodes;
+    block.refer (mu::string (U"test"), context, nodes);
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) != block.unresolved.end ());
+    block.end ();
+    EXPECT_TRUE (global.unresolved.find (mu::string (U"test")) != global.unresolved.end ());
+    mu::core::node node1;
+    auto result1 (global.declare(errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (!result1);
+    EXPECT_TRUE (global.unresolved.empty ());
+}
+
+// Refer function unresolved
+TEST (io_test, scope_block8)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::errors::error_list errors;
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.empty ());
+    mu::io::context context;
+    mu::core::node_list nodes;
+    block.refer (mu::string (U"test"), context, nodes);
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) != block.unresolved.end ());
+    mu::core::node node1;
+    auto result1 (block.declare(errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) == block.unresolved.end ());
+    ASSERT_TRUE (nodes.nodes.size () == 1);
+    auto nodes1 (dynamic_cast <mu::core::node_list *> (nodes.nodes [0]));
+    ASSERT_TRUE (nodes1 != nullptr);
+    ASSERT_TRUE (nodes1->size () == 1);
+    EXPECT_TRUE (nodes1->nodes [0] == &node1);
+}
+
+// Reference can't be resolved by non-dominating scope
+TEST (io_test, scope_block9)
+{
+    mu::io::analyzer::extensions extensions;
+    mu::io::scope::global global (extensions);
+    mu::io::scope::block block (global);
+    mu::core::errors::error_list errors;
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.empty ());
+    mu::io::context context;
+    mu::core::node_list nodes;
+    block.refer (mu::string (U"test"), context, nodes);
+    EXPECT_TRUE (global.unresolved.empty ());
+    EXPECT_TRUE (block.unresolved.find (mu::string (U"test")) != block.unresolved.end ());
+    block.end ();
+    EXPECT_TRUE (global.unresolved.find (mu::string (U"test")) != global.unresolved.end ());
+    mu::io::scope::block block2 (global);
+    mu::core::node node1;
+    auto result1 (block2.declare (errors, mu::string (U"test"), &node1, context));
+    EXPECT_TRUE (result1);
+}

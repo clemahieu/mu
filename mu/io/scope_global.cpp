@@ -7,6 +7,8 @@
 
 #include <gc_cpp.h>
 
+#include <assert.h>
+
 mu::io::scope::global::global (mu::io::analyzer::extensions & extensions_a):
 extensions (extensions_a)
 {
@@ -20,6 +22,14 @@ bool mu::io::scope::global::declare (mu::core::errors::error_target & errors_a, 
         auto& mapping_l (mapping [name_a]);
         assert (mapping_l == nullptr);
         mapping_l = node_a;
+        auto first (unresolved.find (name_a));
+        auto i (first);
+        while (i != unresolved.end () && i->first == name_a)
+        {
+            i->second->nodes.push_back (node_a);
+            ++i;
+        }
+        unresolved.erase (first, i);
     }
     return reserved;
 }
