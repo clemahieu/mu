@@ -23,7 +23,8 @@
 mu::llvm_::parser::routine::routine (mu::llvm_::parser::cluster & cluster_a):
 state (mu::llvm_::parser::routine_state::name),
 cluster (cluster_a),
-routine_m (new (GC) mu::llvm_::ast::routine)
+routine_m (new (GC) mu::llvm_::ast::routine),
+scope (cluster_a.scope)
 {
 }
 
@@ -55,7 +56,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::identifier const &
     switch (state)
     {
         case mu::llvm_::parser::routine_state::name:
-            cluster.map.insert_cluster_scope (cluster.parser.errors, token.string, routine_m, token.context);
+            cluster.scope.declare (cluster.parser.errors, token.string, routine_m, token.context);
             routine_m->name = token.string;
             state = mu::llvm_::parser::routine_state::parameters;
             break;
@@ -101,7 +102,7 @@ void mu::llvm_::parser::routine::operator () (mu::io::tokens::right_square const
     {
         case mu::llvm_::parser::routine_state::have_body:
             cluster.cluster_m->routines.push_back (routine_m);
-            cluster.map.free_locals ();
+            scope.end ();
             cluster.parser.state.pop ();
             break;
         case mu::llvm_::parser::routine_state::body:

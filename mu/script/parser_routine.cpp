@@ -22,7 +22,8 @@ mu::script::parser::routine::routine (mu::script::parser::cluster & cluster_a):
 state (mu::script::parser::routine_state::name),
 parameters (0),
 cluster (cluster_a),
-routine_m (new (GC) mu::script::ast::routine)
+routine_m (new (GC) mu::script::ast::routine),
+scope (cluster.scope)
 {
 }
 
@@ -56,7 +57,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::identifier const 
         case mu::script::parser::routine_state::name:
             state = mu::script::parser::routine_state::parameters;
             routine_m->name = token.string;
-            cluster.map.insert_cluster_scope (cluster.parser.errors, token.string, routine_m, token.context);
+            cluster.scope.declare (cluster.parser.errors, token.string, routine_m, token.context);
             break;
         case mu::script::parser::routine_state::parameters:
         case mu::script::parser::routine_state::body:
@@ -100,7 +101,7 @@ void mu::script::parser::routine::operator () (mu::io::tokens::right_square cons
     {
         case mu::script::parser::routine_state::have_body:
             cluster.cluster_m->routines.push_back (routine_m);
-            cluster.map.free_locals ();
+            scope.end ();
             cluster.parser.state.pop ();
             break;
         case mu::script::parser::routine_state::body:

@@ -4,12 +4,14 @@
 #include <mu/llvm_/parser_parser.h>
 #include <mu/llvm_/parser_routine.h>
 #include <mu/llvm_/ast_cluster.h>
+#include <mu/io/analyzer_extensions.h>
 
 #include <gc_cpp.h>
 
 mu::llvm_::parser::cluster::cluster (mu::llvm_::parser::parser & parser_a):
 parser (parser_a),
-cluster_m (new (GC) mu::llvm_::ast::cluster)
+cluster_m (new (GC) mu::llvm_::ast::cluster),
+scope (*(new (GC) mu::io::analyzer::extensions))
 {
 }
 
@@ -41,7 +43,7 @@ void mu::llvm_::parser::cluster::operator () (mu::io::tokens::right_square const
 
 void mu::llvm_::parser::cluster::operator () (mu::io::tokens::stream_end const & token)
 {
-    auto failed (map.finalize (parser.errors));
+    auto failed (scope.end (parser.errors));
     if (!failed)
     {
         parser.target (cluster_m);

@@ -56,18 +56,18 @@ void mu::script::parser::expression::operator () (mu::io::tokens::identifier con
     {
         case mu::script::parser::expression_state::values:
         {
-            routine.cluster.map.fill_reference (token.string, token.context, expression_m->nodes);
+            routine.scope.refer (token.string, token.context, expression_m->nodes);
             break;
         }
         case mu::script::parser::expression_state::name:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, expression_m, token.context);
+            routine.scope.declare (routine.cluster.parser.errors, token.string, expression_m, token.context);
             state = mu::script::parser::expression_state::have_name;
             break;
         case mu::script::parser::expression_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::expression_state::elements:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression_m, element), token.context);
+            routine.scope.declare (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression_m, element), token.context);
             ++element;
             break;
         default:

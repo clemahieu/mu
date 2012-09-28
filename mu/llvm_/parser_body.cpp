@@ -27,7 +27,7 @@ void mu::llvm_::parser::body::operator () (mu::io::tokens::divider const & token
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::identifier const & token)
 {
-    routine.cluster.map.fill_reference (token.string, token.context, routine.routine_m->body->nodes);
+    routine.scope.refer (token.string, token.context, routine.routine_m->body->nodes);
 }
 
 void mu::llvm_::parser::body::operator () (mu::io::tokens::left_square const & token)

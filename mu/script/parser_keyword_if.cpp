@@ -62,24 +62,24 @@ void mu::script::parser::keyword_if::operator () (mu::io::tokens::identifier con
     switch (state)
     {
         case mu::script::parser::keyword_if_state::predicate:
-            routine.cluster.map.fill_reference (token.string, token.context, expression->predicate->nodes);
+            routine.scope.refer (token.string, token.context, expression->predicate->nodes);
             break;
         case mu::script::parser::keyword_if_state::true_branch:
-            routine.cluster.map.fill_reference (token.string, token.context, expression->true_branch->nodes);
+            routine.scope.refer (token.string, token.context, expression->true_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::false_branch:
-            routine.cluster.map.fill_reference (token.string, token.context, expression->false_branch->nodes);
+            routine.scope.refer (token.string, token.context, expression->false_branch->nodes);
             break;
         case mu::script::parser::keyword_if_state::name:
             state = mu::script::parser::keyword_if_state::have_name;
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, expression, token.context);
+            routine.scope.declare (routine.cluster.parser.errors, token.string, expression, token.context);
             break;
         case mu::script::parser::keyword_if_state::initial:
         case mu::script::parser::keyword_if_state::have_name:
             unexpected_token (routine.cluster.parser, token);
             break;
         case mu::script::parser::keyword_if_state::elements:
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression, element), token.context);
+            routine.scope.declare (routine.cluster.parser.errors, token.string, new (GC) mu::script::ast::reference (expression, element), token.context);
             ++element;
             break;
         default:

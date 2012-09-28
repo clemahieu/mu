@@ -2,6 +2,7 @@
 
 #include <mu/llvm_/parser_state.h>
 #include <mu/io/tokens_visitor.h>
+#include <mu/io/scope_block.h>
 
 namespace mu
 {
@@ -33,6 +34,7 @@ namespace mu
                 mu::llvm_::parser::cluster & cluster;
                 void operator () (mu::io::tokens::token * token_a) override;
                 mu::llvm_::ast::routine * routine_m;
+                mu::io::scope::block scope;
 				void operator () (mu::io::tokens::divider const & token) override;
 				void operator () (mu::io::tokens::identifier const & token) override;
 				void operator () (mu::io::tokens::left_square const & token) override;

@@ -2,7 +2,7 @@
 
 #include <mu/llvm_/parser_state.h>
 #include <mu/io/tokens_visitor.h>
-#include <mu/io/analyzer_name_map.h>
+#include <mu/io/scope_global.h>
 
 namespace mu
 {
@@ -22,7 +22,7 @@ namespace mu
                 mu::llvm_::parser::parser & parser;
                 void operator () (mu::io::tokens::token * token_a) override;
                 mu::llvm_::ast::cluster * cluster_m;
-                mu::io::analyzer::name_map map;
+                mu::io::scope::global scope;
 				void operator () (mu::io::tokens::divider const & token) override;
 				void operator () (mu::io::tokens::identifier const & token) override;
 				void operator () (mu::io::tokens::left_square const & token) override;

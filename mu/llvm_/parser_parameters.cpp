@@ -63,7 +63,7 @@ void mu::llvm_::parser::parameters::operator () (mu::io::tokens::identifier cons
         {
             state = mu::llvm_::parser::parameters_state::parameters;
             auto position_l (position);
-            routine.cluster.map.insert_routine_scope (routine.cluster.parser.errors, token.string, new (GC) mu::llvm_::ast::parameter (position_l), token.context);
+            routine.scope.declare (routine.cluster.parser.errors, token.string, new (GC) mu::llvm_::ast::parameter (position_l), token.context);
             position = position_l + 1;
         }
             break;

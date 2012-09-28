@@ -30,7 +30,6 @@ add_executable (mu_test_entry
 	io_lexer_result.cpp
 	io_lexer.cpp
 	io_multiline_comment.cpp
-    io_name_map.cpp
         io_scope_global.cpp
         io_scope_block.cpp
 	io_source_result.cpp

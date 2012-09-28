@@ -32,7 +32,7 @@ void mu::script::parser::body::operator () (mu::io::tokens::divider const & toke
 
 void mu::script::parser::body::operator () (mu::io::tokens::identifier const & token)
 {
-    routine.cluster.map.fill_reference (token.string, token.context, expression_m->nodes);
+    routine.scope.refer (token.string, token.context, expression_m->nodes);
 }
 
 void mu::script::parser::body::operator () (mu::io::tokens::left_square const & token)

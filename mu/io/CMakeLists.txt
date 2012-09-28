@@ -7,8 +7,6 @@ add_library (mu_io SHARED
     analyzer_extensions.cpp
     analyzer_global.cpp
     analyzer_analyzer.cpp
-    analyzer_name_map.cpp
-	analyzer_resolver.cpp
 	context.cpp
 	lexer_begin.cpp
 	lexer_character_stream.cpp
