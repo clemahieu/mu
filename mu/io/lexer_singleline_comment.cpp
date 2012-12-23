@@ -8,9 +8,9 @@ mu::io::lexer::singleline_comment::singleline_comment (mu::io::lexer::lexer & le
 {
 }
 
-void mu::io::lexer::singleline_comment::lex (mu::io::lexer::context const & context_a)
+void mu::io::lexer::singleline_comment::lex (boost::circular_buffer <mu::io::lexer::context> & context_a)
 {
-	switch (context_a.character)
+	switch (context_a [0].character)
 	{
 	case U'\n':
 	case U'\f':

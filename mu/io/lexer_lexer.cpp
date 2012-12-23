@@ -24,7 +24,7 @@ target (target_a)
 	reset ();
 }
 
-void mu::io::lexer::lexer::operator () (mu::io::lexer::context const & context_a)
+void mu::io::lexer::lexer::operator () (boost::circular_buffer <mu::io::lexer::context> & context_a)
 {
 	auto state_l (state.top ());
 	state_l->lex (context_a);

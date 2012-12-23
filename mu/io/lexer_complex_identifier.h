@@ -17,7 +17,7 @@ namespace mu
 			{
 			public:
 				complex_identifier (mu::io::lexer::lexer & lexer_a, mu::io::position first_a);
-				void lex (mu::io::lexer::context const & context_a) override;
+				void lex (boost::circular_buffer <mu::io::lexer::context> & context_a) override;
 				mu::string end_token;
 				mu::string data;
 				bool have_end_token;

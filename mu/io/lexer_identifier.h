@@ -15,11 +15,9 @@ namespace mu
 			{
 			public:
 				identifier (mu::io::lexer::lexer & lexer_a, mu::io::position first_a);
-				void lex (mu::io::lexer::context const & context_a) override;
+				void lex (boost::circular_buffer <mu::io::lexer::context> & context_a) override;
 				void add (mu::io::lexer::context const & context_a);
 				mu::string string;
-				bool lookahead;
-				mu::io::position lookahead_first;
 				mu::io::position first;
 				mu::io::position last;
 				mu::io::lexer::lexer & lexer;

@@ -3,6 +3,7 @@
 #include <mu/io/context.h>
 
 #include <boost/function.hpp>
+#include <boost/circular_buffer.hpp>
 
 namespace mu
 {
@@ -44,7 +45,7 @@ namespace mu
 				friend class mu::io::lexer::control;
 			public:
 				lexer (mu::core::errors::error_target & errors_a, boost::function <void (mu::io::tokens::token const &)> target_a);
-				void operator () (mu::io::lexer::context const & context_a);
+				void operator () (boost::circular_buffer <mu::io::lexer::context> & context_a);
 				void reset ();
 				mu::core::errors::error_target & errors;
 				boost::function <void (mu::io::tokens::token const &)> target;

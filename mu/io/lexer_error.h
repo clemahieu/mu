@@ -13,7 +13,7 @@ namespace mu
 			class error : public mu::io::lexer::state
 			{
 			public:
-				void lex (mu::io::lexer::context const & context_a) override;
+				void lex (boost::circular_buffer <mu::io::lexer::context> & context_a) override;
 			};
 		}
 	}

@@ -15,7 +15,7 @@ namespace mu
 			{
 			public:
 				hex_code (size_t digits_a, mu::io::lexer::identifier & identifier_a);
-				void lex (mu::io::lexer::context const & context_a) override;
+				void lex (boost::circular_buffer <mu::io::lexer::context> & context_a) override;
 				mu::io::lexer::identifier & identifier;
 				size_t index;
 				size_t digits;

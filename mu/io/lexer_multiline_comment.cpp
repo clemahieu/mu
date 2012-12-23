@@ -7,48 +7,33 @@
 
 #include <gc_cpp.h>
 
-mu::io::lexer::multiline_comment::multiline_comment (mu::io::lexer::lexer & lexer_a)
-	: have_colon (false),
-	lexer (lexer_a)
+mu::io::lexer::multiline_comment::multiline_comment (mu::io::lexer::lexer & lexer_a):
+lexer (lexer_a)
 {
 }
 
-void mu::io::lexer::multiline_comment::lex (mu::io::lexer::context const & context_a)
+void mu::io::lexer::multiline_comment::lex (boost::circular_buffer <mu::io::lexer::context> & context_a)
 {	
-	if (context_a.character != U'\U0000ffff')
+	assert (context_a.size () >= 2);
+	switch (context_a [0].character)
 	{
-		if (have_colon)
-		{
-			switch (context_a.character)
+		case U':':
+			switch (context_a[1].character)
 			{
-			case U')':
-				lexer.state.pop ();
-				break;
-			case U'(':
-				have_colon = false;
-				lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
-				break;
-			case U':':
-				// Remain in have_colon state
-				break;
-			default:
-				have_colon = false;
-				break;
+				case U')':
+					lexer.state.pop ();
+					break;
+				case U'(':
+					lexer.state.push (new (GC) mu::io::lexer::multiline_comment (lexer));
+					break;
+				default:
+					break;
 			}
-		}
-		else
+		case U'\U0000ffff':
 		{
-			switch (context_a.character)
-			{
-			case U':':
-				have_colon = true;
-				break;
-			}
+			lexer.errors (U"End of stream inside multiline comment");
+			lexer.state.push (new (GC) mu::io::lexer::error);
 		}
-	}
-	else
-	{
-		lexer.errors (U"End of stream inside multiline comment");
-		lexer.state.push (new (GC) mu::io::lexer::error);
+		break;
 	}
 }

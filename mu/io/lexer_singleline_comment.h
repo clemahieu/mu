@@ -13,7 +13,7 @@ namespace mu
 			{
 			public:
 				singleline_comment (mu::io::lexer::lexer & lexer_a);
-				void lex (mu::io::lexer::context const & context_a) override;
+				void lex (boost::circular_buffer <mu::io::lexer::context> & context_a) override;
 				mu::io::lexer::lexer & lexer;
 			};
 		}

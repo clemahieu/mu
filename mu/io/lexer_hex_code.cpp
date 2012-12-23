@@ -17,10 +17,12 @@ mu::io::lexer::hex_code::hex_code (size_t digits_a, mu::io::lexer::identifier & 
 	assert (digits <= 8);
 }
 
-void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
+void mu::io::lexer::hex_code::lex (boost::circular_buffer <mu::io::lexer::context> & context_a)
 {
+	assert (context_a.size () >= 0);
 	++index;
-	switch (context_a.character)
+	unsigned long character_l (context_a [0].character);
+	switch (character_l)
 	{		
 		case U'a':
 		case U'b':
@@ -45,7 +47,6 @@ void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
 		case U'8':
 		case U'9':
 		{
-			unsigned long character_l (context_a.character);
 			switch (character_l)
 			{
 				case U'a':
@@ -74,7 +75,7 @@ void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
 			if (index == digits)
 			{
                 mu::io::lexer::context context;
-                context.position = context_a.position;
+                context.position = context_a [0].position;
                 context.character = result;
 				identifier.add (context);
 				identifier.lexer.state.pop ();
@@ -83,7 +84,7 @@ void mu::io::lexer::hex_code::lex (mu::io::lexer::context const & context_a)
 		break;
 		default:
 			mu::string message (U"Invalid hex digit: ");
-			message.push_back (context_a.character);
+			message.push_back (character_l);
 			identifier.lexer.errors (message);
 			identifier.lexer.state.push (new (GC) mu::io::lexer::error);
 			break;

@@ -32,32 +32,33 @@ bool mu::io::lexer::complex_identifier::match ()
 	return result;
 }
 
-void mu::io::lexer::complex_identifier::lex (mu::io::lexer::context const & context_a)
+void mu::io::lexer::complex_identifier::lex (boost::circular_buffer <mu::io::lexer::context> & context_a)
 {
-	if (context_a.character != U'\U0000FFFF')
+	auto character_l (context_a [0].character);
+	if (character_l != U'\U0000FFFF')
 	{
 		if (!have_end_token)
 		{
-			switch (context_a.character)
+			switch (character_l)
 			{
 			case U'}':
 				have_end_token = true;
 				last_characters.resize (end_token.size ());
 				break;
 			default:
-				end_token.push_back (context_a.character);
+				end_token.push_back (character_l);
 				break;
 			}
 		}
 		else
 		{		
-			last_characters.push_back (context_a.character);
-			data.push_back (context_a.character);
+			last_characters.push_back (character_l);
+			data.push_back (character_l);
 		}
 		if (have_end_token && match ())
 		{
 			data.resize (data.size () - end_token.size ());
-			lexer.target (mu::io::tokens::identifier (mu::io::context (first, context_a.position), data));
+			lexer.target (mu::io::tokens::identifier (mu::io::context (first, context_a [0].position), data));
 			lexer.state.pop ();
 		}
 	}
