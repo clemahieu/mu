@@ -41,21 +41,6 @@ link_directories (
 	${boost_lib_directories}
 	${gc_lib_directories})
 
-add_subdirectory (mu/binary_test)
-add_subdirectory (mu/core)
-add_subdirectory (mu/exec)
 add_subdirectory (mu/io)
-add_subdirectory (mu/llvm_)
-add_subdirectory (mu/llvm_binary)
-add_subdirectory (mu/repl)
-add_subdirectory (mu/repl_entry)
-add_subdirectory (mu/script)
-add_subdirectory (mu/script_binary)
-add_subdirectory (mu/script_core_binary)
-add_subdirectory (mu/test_entry)
-add_dependencies (mu_test_entry
-    mu_binary_test)
+add_subdirectory (mu/test)
 file (COPY ${CMAKE_SOURCE_DIR}/examples DESTINATION ${CMAKE_BINARY_DIR})
-file (COPY ${CMAKE_SOURCE_DIR}/source_test.mu DESTINATION ${CMAKE_BINARY_DIR})
-file (COPY ${CMAKE_SOURCE_DIR}/mu/source DESTINATION ${CMAKE_BINARY_DIR}/mu)
-file (COPY ${CMAKE_SOURCE_DIR}/mu/test DESTINATION ${CMAKE_BINARY_DIR}/mu/test)
