@@ -28,7 +28,7 @@ namespace mu
             mu::io::token_result identifier ();
             mu::io::token_result complex_identifier ();
             void line_comment ();
-            void region_comment ();
+            mu::core::error * region_comment ();
             mu::io::character_result hex_code (int size_a);
             mu::io::token_result lex ();
             mu::io::stream <char32_t> & stream;

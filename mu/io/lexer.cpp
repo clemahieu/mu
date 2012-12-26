@@ -50,7 +50,9 @@ mu::io::token_result mu::io::lexer::lex ()
                 result = complex_identifier ();
                 break;
             case U':':
-                switch (stream [1])
+            {
+                auto character2 (stream [1]);
+                switch (character2)
                 {
                     case U'a':
                     case U'u':
@@ -70,9 +72,18 @@ mu::io::token_result mu::io::lexer::lex ()
                         line_comment ();
                         break;
                     case U'(':
-                        region_comment ();
+                        result.error = region_comment ();
                         break;
+                    default:
+                    {
+                        auto error (new (GC) mu::core::error_string (U"Unknown control character: "));
+                        error->message.push_back (character2);
+                        result.error = error;
+                    }
+                        break;
+                        
                 }
+            }
                 break;
             default:
                 result = identifier ();
@@ -189,7 +200,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                         result.token = identifier;
                         break;
                     case U'(':
-                        region_comment ();
+                        result.error = region_comment ();
                         break;
                     default:
                         {
@@ -340,35 +351,42 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
     return result;
 }
 
-void mu::io::lexer::region_comment ()
+mu::core::error * mu::io::lexer::region_comment ()
 {
     assert (stream [0] == U':');
     assert (stream [1] == U'(');
     stream.consume (2);
+    mu::core::error * result (nullptr);
     auto done (false);
     while (!done)
     {
         auto character1 (stream [0]);
         auto character2 (stream [1]);
-        if (character1 == U':')
+        switch (character1)
         {
-            switch (character2)
-            {
-                case U')':
-                    stream.consume (2);
-                    done = true;
-                    break;
-                case U'(':
-                    region_comment ();
-                    break;
-                default:
-                    // Nothing in comment
-                    break;
-            }
-        }
-        else
-        {
-            stream.consume (1);
+            case U':':
+                switch (character2)
+                {
+                    case U')':
+                        stream.consume (2);
+                        done = true;
+                        break;
+                    case U'(':
+                        result = region_comment ();
+                        break;
+                    default:
+                        // Nothing in comment
+                        break;
+                }
+                break;
+            case U'\U0000ffff':
+                result = new (GC) mu::core::error_string (U"End of stream inside region comment");
+                done = true;
+                break;
+            default:
+                stream.consume (1);
+                break;
         }
     }
+    return result;
 }
