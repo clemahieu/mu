@@ -73,6 +73,7 @@ mu::io::token_result mu::io::lexer::lex ()
                         region_comment ();
                         break;
                 }
+                break;
             default:
                 result = identifier ();
                 break;
@@ -99,14 +100,18 @@ mu::io::token_result mu::io::lexer::identifier ()
             case U'[':
             case U']':
             case U'{':
+            case U';':
             case U'\U0000FFFF':
                 result.token = identifier;
                 break;
             case U':':
-                switch (stream [1])
+            {
+                auto character2 (stream [1]);
+                switch (character2)
                 {
                     case U'a':
                         {
+                            stream.consume (2);
                             auto character (hex_code (2));
                             if (character.error == nullptr)
                             {
@@ -120,6 +125,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                         break;
                     case U'u':
                         {
+                            stream.consume (2);
                             auto character (hex_code (8));
                             if (character.error == nullptr)
                             {
@@ -137,6 +143,10 @@ mu::io::token_result mu::io::lexer::identifier ()
                         break;
                     case U']':
                         identifier->string.push_back (U']');
+                        stream.consume (2);
+                        break;
+                    case U':':
+                        identifier->string.push_back (U':');
                         stream.consume (2);
                         break;
                     case U';':
@@ -181,7 +191,19 @@ mu::io::token_result mu::io::lexer::identifier ()
                     case U'(':
                         region_comment ();
                         break;
+                    default:
+                        {
+                            auto error (new (GC) mu::core::error_string (U"Unknown control character: "));
+                            error->message.push_back (character2);
+                            result.error = error;
+                        }
+                        break;
                 }
+            }
+            break;
+            default:
+                identifier->string.push_back (character);
+                stream.consume (1);
                 break;
         }
     }
@@ -270,7 +292,8 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
 {
     assert (size_a == 2 || size_a == 8);
     mu::io::character_result result ({U'\U00000000', nullptr});
-    for (int i (0); i < size_a && result.error == nullptr; ++i)
+    auto size_l (size_a >> 1);
+    for (int i (0); i < size_l && result.error == nullptr; ++i)
     {
         for (auto j (0); j < 2 && result.error == nullptr; ++j)
         {
@@ -304,8 +327,8 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
                 case U'8':
                 case U'9':
                     code -= 0x30;
-                    result.character |= code;
                     result.character <<= 4;
+                    result.character |= code;
                     stream.consume (1);
                     break;
                 default:
