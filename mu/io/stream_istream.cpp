@@ -37,7 +37,7 @@ void mu::io::stream_istream::refill ()
         auto character (stream_l.get ());
         if (stream_l.eof ())
         {
-            buffer.push_back (eos_char);
+            buffer.push_back (U'\U0000FFFF');
         }
         else
         {

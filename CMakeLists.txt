@@ -43,5 +43,6 @@ link_directories (
 
 add_subdirectory (mu/core)
 add_subdirectory (mu/io)
+add_subdirectory (mu/llvmc)
 add_subdirectory (mu/test)
 file (COPY ${CMAKE_SOURCE_DIR}/examples DESTINATION ${CMAKE_BINARY_DIR})

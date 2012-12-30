@@ -11,15 +11,8 @@ namespace mu
         class token;
         typedef struct {mu::io::token * token; mu::core::error * error;} token_result;
         typedef struct {char32_t character; mu::core::error * error;} character_result;
-    }
-}
-
-namespace mu
-{
-    namespace io
-    {
         template <typename T>
-        class stream;
+        class stream;   
         class token;
         class lexer
         {

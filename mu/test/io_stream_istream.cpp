@@ -16,7 +16,7 @@ TEST (stream_istream, test1)
     stream2.consume (1);
     EXPECT_EQ (U't', stream2 [0]);
     stream2.consume (1);
-    EXPECT_EQ (stream2.eos_char, stream2 [0]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [0]);
 }
 
 TEST (stream_istream, test2)
@@ -34,10 +34,10 @@ TEST (stream_istream, test2)
     EXPECT_EQ (U't', stream2 [1]);
     stream2.consume (1);
     EXPECT_EQ (U't', stream2 [0]);
-    EXPECT_EQ (stream2.eos_char, stream2 [1]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [1]);
     stream2.consume (1);
-    EXPECT_EQ (stream2.eos_char, stream2 [0]);
-    EXPECT_EQ (stream2.eos_char, stream2 [1]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [0]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [1]);
 }
 
 TEST (stream_istream, test3)
@@ -51,6 +51,6 @@ TEST (stream_istream, test3)
     EXPECT_EQ (U's', stream2 [0]);
     EXPECT_EQ (U't', stream2 [1]);
     stream2.consume (2);
-    EXPECT_EQ (stream2.eos_char, stream2 [0]);
-    EXPECT_EQ (stream2.eos_char, stream2 [1]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [0]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [1]);
 }

@@ -10,10 +10,12 @@ link_directories (
 add_executable (mu_test
 	io_lexer.cpp
 	io_stream_istream.cpp
+    llvmc_parser.cpp
 	entry.cpp)
     
 target_link_libraries (mu_test
 	mu_core
 	mu_io
+	mu_llvmc
 	gc
 	gtest)
