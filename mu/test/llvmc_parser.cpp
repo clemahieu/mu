@@ -26,63 +26,89 @@ public:
     mu::llvmc::parser parser;
 };
 
-class test_non_dominator : public mu::llvmc::keyword
+class test_non_covering : public mu::llvmc::hook
 {
 public:    
-    mu::llvmc::node_result parse (mu::io::stream <mu::io::token *> & stream_a) override
+    mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a) override
     {
         return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
-    bool dominator () override
+    bool covering () override
     {
         return false;
     }
 };
 
-class test_dominator : public mu::llvmc::keyword
+class test_covering : public mu::llvmc::hook
 {
 public:
-    mu::llvmc::node_result parse (mu::io::stream <mu::io::token *> & stream_a) override
+    mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a) override
     {
         return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
-    bool dominator () override
+    bool covering () override
     {
         return true;
     }
 };
 
-TEST (llvmc_parser, mapping_get_keyword)
+TEST (llvmc_parser, mapping_get_hook)
 {
     mu::llvmc::mapping mapping;
-    auto keyword1 (mapping.get_keyword (mu::string (U"keyword")));
-    EXPECT_EQ (nullptr, keyword1);
+    auto keyword1 (mapping.get_hook (mu::string (U"keyword")));
+    EXPECT_EQ (nullptr, keyword1.hook);
 }
 
-TEST (llvmc_parser, mapping_get_dom)
+TEST (llvmc_parser, mapping_get_covered)
 {
-    test_non_dominator keyword1;
+    test_non_covering keyword1;
     mu::llvmc::mapping mapping;
-    mapping.mappings.insert (decltype (mapping.mappings)::value_type (mu::string (U"non-dom"), &keyword1));
-    auto keyword2 (mapping.get_keyword (mu::string (U"non-dom")));
-    EXPECT_EQ (&keyword1, keyword2);
-    auto keyword3 (mapping.get_keyword (mu::string (U"non-dom1")));
-    EXPECT_EQ (nullptr, keyword3);
-    auto keyword4 (mapping.get_keyword (mu::string (U"non-do")));
-    EXPECT_EQ (nullptr, keyword4);
+    auto error (mapping.map (mu::string (U"non-covered"), &keyword1));
+    EXPECT_EQ (false, error);
+    auto keyword2 (mapping.get_hook (mu::string (U"non-covered")));
+    EXPECT_EQ (&keyword1, keyword2.hook);
+    auto keyword3 (mapping.get_hook (mu::string (U"non-covered1")));
+    EXPECT_EQ (nullptr, keyword3.hook);
+    auto keyword4 (mapping.get_hook (mu::string (U"non-covere")));
+    EXPECT_EQ (nullptr, keyword4.hook);
 }
 
-TEST (llvmc_parser, mapping_get_non_dom)
+TEST (llvmc_parser, mapping_get_non_covered)
 {
-    test_dominator keyword1;
+    test_covering keyword1;
     mu::llvmc::mapping mapping;
-    mapping.mappings.insert (decltype (mapping.mappings)::value_type (mu::string (U"dom"), &keyword1));
-    auto keyword2 (mapping.get_keyword (mu::string (U"dom")));
-    EXPECT_EQ (&keyword1, keyword2);
-    auto keyword3 (mapping.get_keyword (mu::string (U"dom1")));
-    EXPECT_EQ (&keyword1, keyword3);
-    auto keyword4 (mapping.get_keyword (mu::string (U"do")));
-    EXPECT_EQ (nullptr, keyword4);
+    auto error (mapping.map (mu::string (U"covered"), &keyword1));
+    EXPECT_EQ (false, error);
+    auto keyword2 (mapping.get_hook (mu::string (U"covered")));
+    EXPECT_EQ (&keyword1, keyword2.hook);
+    EXPECT_EQ (mu::string (U""), keyword2.data);
+    auto keyword3 (mapping.get_hook (mu::string (U"covered1")));
+    EXPECT_EQ (&keyword1, keyword3.hook);
+    EXPECT_EQ (mu::string (U"1"), keyword3.data);
+    auto keyword4 (mapping.get_hook (mu::string (U"covere")));
+    EXPECT_EQ (nullptr, keyword4.hook);
+}
+
+TEST (llvmc_parser, mapping_insert_under_covered)
+{
+    test_covering keyword1;
+    mu::llvmc::mapping mapping;
+    auto error1 (mapping.map (mu::string (U"covered"), &keyword1));
+    EXPECT_EQ (false, error1);
+    mu::llvmc::ast::node node;
+    auto error2 (mapping.map (mu::string (U"covered1"), &node));
+    EXPECT_EQ (true, error2);
+}
+
+TEST (llvmc_parser, mapping_insert_covering_existing)
+{
+    test_covering keyword1;
+    mu::llvmc::mapping mapping;
+    auto error1 (mapping.map (mu::string (U"covered"), &keyword1));
+    EXPECT_EQ (false, error1);
+    mu::llvmc::ast::node node;
+    auto error2 (mapping.map (mu::string (U"covered1"), &node));
+    EXPECT_EQ (true, error2);
 }
 
 TEST (llvmc_parser, empty)

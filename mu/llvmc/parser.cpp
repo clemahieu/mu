@@ -17,11 +17,11 @@ stream (stream_a)
 {
 }
 
-mu::llvmc::node_result mu::llvmc::parser::parse ()
+mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module);
-    auto token (stream [0]);
+    auto token (stream_a [0]);
     auto id (token->id ());
     while ((result.node == nullptr) and (result.error == nullptr))
     {
@@ -31,10 +31,10 @@ mu::llvmc::node_result mu::llvmc::parser::parse ()
             {
                 assert (dynamic_cast <mu::io::identifier *> (token) != nullptr);
                 auto identifier (static_cast <mu::io::identifier *> (token));
-                auto keyword (mapping.get_keyword (identifier->string));
-                if (keyword != nullptr)
+                auto hook (mapping.get_hook (identifier->string));
+                if (hook.hook != nullptr)
                 {
-                    auto node (keyword->parse (stream));
+                    auto node (hook.hook->parse (hook.data, mapping, stream_a));
                     if (node.node != nullptr)
                     {
                         auto function (dynamic_cast <mu::llvmc::ast::function *> (node.node));
@@ -59,13 +59,36 @@ mu::llvmc::node_result mu::llvmc::parser::parse ()
             }
                 break;
             case mu::io::token_id::end:
-                result.node = module;                
+                result.node = module;
                 break;
             default:
                 result.error = new (GC) mu::core::error_string (U"Unexpected token");
                 break;
         }
     }
+    return result;
+}
+
+bool mu::llvmc::module::covering ()
+{
+    return false;
+}
+
+
+mu::llvmc::node_result mu::llvmc::function::parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    return result;
+}
+
+bool mu::llvmc::function::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::parser::parse ()
+{
+    auto result (module.parse (mu::string (), mapping, stream));
     return result;
 }
 
@@ -86,62 +109,92 @@ bool mu::llvmc::mapping::map (mu::string const & identifier_a, mu::llvmc::ast::n
 {
     auto result (false);
     auto existing (mappings.lower_bound (identifier_a));
-    if (existing->first == identifier_a)
+    if (existing != mappings.end ())
     {
-        result = true;
-    }
-    else
-    {
-        if (existing != mappings.begin ())
+        if (existing->first == identifier_a)
         {
-            --existing;
-            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+            result = true;
         }
         else
         {
-            mappings [identifier_a] = node_a;                
+            auto hook (dynamic_cast <mu::llvmc::hook *> (node_a));
+            if (hook != nullptr)
+            {
+                if (hook->covering ())
+                {
+                    if (identifier_a.compare (0, existing->first.length (), existing->first) == 0)
+                    {
+                        // Trying to map a keyword that would cover an existing mapping
+                        result = true;
+                    }
+                }
+            }            
+        }
+    }
+    if (existing != mappings.begin ())
+    {
+        --existing;
+        if (existing->first.compare (0, existing->first.length (), identifier_a, 0, existing->first.length ()) == 0)
+        {
+            // Trying to create a mapping that is covered by a keyword
+            result = true;
+        }
+        else
+        {
+            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+        }
+    }
+    else
+    {
+        if (!result)
+        {
+            mappings [identifier_a] = node_a;
         }
     }
     return result;
 }
 
-mu::llvmc::keyword * mu::llvmc::mapping::get_keyword (mu::string const & identifier_a)
+mu::llvmc::hook_result mu::llvmc::mapping::get_hook (mu::string const & identifier_a)
 {
-    mu::llvmc::keyword * result (nullptr);
+    hook_result result ({nullptr, mu::string ()});
     auto existing (mappings.lower_bound (identifier_a));
     mu::llvmc::ast::node * candidate (nullptr);
-    auto needs_dominator (false);
+    mu::string data;
+    bool need_covering (false);
     if (existing != mappings.end () && existing->first == identifier_a)
     {
         candidate = existing->second;
     }
     else
     {
-        needs_dominator = true;
+        need_covering = true;
         if (existing != mappings.begin ())
         {
             --existing;
-            if (identifier_a.compare (0, existing->first.length (), existing->first) == 0)
+            auto data_position (existing->first.length ());
+            if (identifier_a.compare (0, data_position, existing->first) == 0)
             {
+                data.append (identifier_a.begin () + data_position, identifier_a.end ());
                 candidate = existing->second;
             }
         }
     }
     if (candidate != nullptr)        
     {
-        auto keyword (dynamic_cast <mu::llvmc::keyword *> (candidate));
-        if (keyword != nullptr)
+        auto hook (dynamic_cast <mu::llvmc::hook *> (candidate));
+        if (hook != nullptr)
         {
-            if (needs_dominator)
+            if (need_covering)
             {
-                if (keyword->dominator())
+                if (hook->covering ())
                 {
-                    result = keyword;
+                    result.data.swap (data);
+                    result.hook = hook;
                 }
             }
             else
             {
-                result = keyword;
+                result.hook = hook;
             }
         }
     }
