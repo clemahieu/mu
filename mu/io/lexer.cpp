@@ -8,6 +8,16 @@
 
 #include <gc_cpp.h>
 
+mu::io::token_result::~token_result ()
+{
+    assert ((token != nullptr) xor (error != nullptr));
+}
+
+mu::io::character_result::~character_result ()
+{
+    assert ((error == nullptr) or ((error != nullptr) and (character == U'\U00000000')));
+}
+
 mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
 stream (stream_a)
 {

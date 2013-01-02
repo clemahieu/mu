@@ -18,7 +18,12 @@ namespace mu
         {
             class module;
         }
-        typedef struct {mu::llvmc::ast::module * module; mu::core::error * error;} module_result;
+        struct module_result
+        {
+            ~module_result ();
+            mu::llvmc::ast::module * module;
+            mu::core::error * error;
+        };
         namespace ast
         {
             class module;

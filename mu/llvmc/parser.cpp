@@ -7,6 +7,11 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::module_result::~module_result ()
+{
+    assert ((module != nullptr) xor (error != nullptr));
+}
+
 mu::llvmc::parser::parser (mu::io::stream <mu::io::token *> & stream_a):
 stream (stream_a)
 {
