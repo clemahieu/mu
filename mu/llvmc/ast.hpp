@@ -1,9 +1,16 @@
 #pragma once
 
 #include <mu/core/types.hpp>
+#include <mu/llvmc/node_result.hpp>
 
 namespace mu
 {
+    namespace io
+    {
+        template <typename T>
+        class stream;
+        class token;
+    }
     namespace llvmc
     {
         namespace availability

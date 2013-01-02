@@ -38,23 +38,23 @@ mu::io::token_result mu::io::lexer::lex ()
             case U'\r':
             case U'\t':
             case U'\0':
-                stream.consume (1);
+                consume (1);
                 break;
             case U'[':
                 result.token = new (GC) mu::io::left_square;
-                stream.consume (1);
+                consume (1);
                 break;
             case U']':
                 result.token = new (GC) mu::io::right_square;
-                stream.consume (1);
+                consume (1);
                 break;
             case U';':
                 result.token = new (GC) mu::io::terminator;
-                stream.consume (1);
+                consume (1);
                 break;
             case U'\U0000FFFF':
                 result.token = new (GC) mu::io::end;
-                stream.consume (1);
+                consume (1);
                 break;
             case U'{':
                 result = complex_identifier ();
@@ -132,7 +132,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                 {
                     case U'a':
                         {
-                            stream.consume (2);
+                            consume (2);
                             auto character (hex_code (2));
                             if (character.error == nullptr)
                             {
@@ -146,7 +146,7 @@ mu::io::token_result mu::io::lexer::identifier ()
                         break;
                     case U'u':
                         {
-                            stream.consume (2);
+                            consume (2);
                             auto character (hex_code (8));
                             if (character.error == nullptr)
                             {
@@ -160,51 +160,51 @@ mu::io::token_result mu::io::lexer::identifier ()
                         break;
                     case U'[':
                         identifier->string.push_back (U'[');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U']':
                         identifier->string.push_back (U']');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U':':
                         identifier->string.push_back (U':');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U';':
                         identifier->string.push_back (U';');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'{':
                         identifier->string.push_back (U'{');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'}':
                         identifier->string.push_back (U'}');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U' ':
                         identifier->string.push_back (U' ');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'\f':
                         identifier->string.push_back (U'\f');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'\n':
                         identifier->string.push_back (U'\n');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'\r':
                         identifier->string.push_back (U'\r');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'\t':
                         identifier->string.push_back (U'\t');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'\0':
                         identifier->string.push_back (U'\0');
-                        stream.consume (2);
+                        consume (2);
                         break;
                     case U'-':
                         result.token = identifier;
@@ -224,7 +224,7 @@ mu::io::token_result mu::io::lexer::identifier ()
             break;
             default:
                 identifier->string.push_back (character);
-                stream.consume (1);
+                consume (1);
                 break;
         }
     }
@@ -234,7 +234,7 @@ mu::io::token_result mu::io::lexer::identifier ()
 mu::io::token_result mu::io::lexer::complex_identifier ()
 {
     assert (stream [0] == U'{');
-    stream.consume (1);
+    consume (1);
     mu::io::token_result result ({nullptr, nullptr});
     auto identifier (new (GC) mu::io::identifier);
     auto have_terminator (false);
@@ -250,7 +250,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         {
             terminator.push_back (character);
         }
-        stream.consume (1);
+        consume (1);
     }
     if (terminator.size () > 16)
     {
@@ -266,7 +266,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         if (have_terminator)
         {
             result.token = identifier;
-            stream.consume (terminator.size ());
+            consume (terminator.size ());
         }
         else
         {
@@ -274,7 +274,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
             if (character != U'\U0000FFFF')
             {
                 identifier->string.push_back (character);
-                stream.consume (1);
+                consume (1);
             }
             else
             {
@@ -289,12 +289,12 @@ void mu::io::lexer::line_comment ()
 {
     assert (stream [0] == U':');
     assert (stream [1] == U'-');
-    stream.consume (2);
+    consume (2);
     auto done (false);
     while (!done)
     {
         auto character (stream [0]);
-        stream.consume (1);
+        consume (1);
         switch (character)
         {
             case U'\f':
@@ -350,7 +350,7 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
                     code -= 0x30;
                     result.character <<= 4;
                     result.character |= code;
-                    stream.consume (1);
+                    consume (1);
                     break;
                 default:
                     result.error = new (GC) mu::core::error_string (U"Non-hex character");
@@ -365,7 +365,7 @@ mu::core::error * mu::io::lexer::region_comment ()
 {
     assert (stream [0] == U':');
     assert (stream [1] == U'(');
-    stream.consume (2);
+    consume (2);
     mu::core::error * result (nullptr);
     auto done (false);
     while (!done)
@@ -378,7 +378,7 @@ mu::core::error * mu::io::lexer::region_comment ()
                 switch (character2)
                 {
                     case U')':
-                        stream.consume (2);
+                        consume (2);
                         done = true;
                         break;
                     case U'(':
@@ -394,9 +394,14 @@ mu::core::error * mu::io::lexer::region_comment ()
                 done = true;
                 break;
             default:
-                stream.consume (1);
+                consume (1);
                 break;
         }
     }
     return result;
+}
+
+void mu::io::lexer::consume (size_t size_a)
+{
+    stream.consume (size_a);
 }

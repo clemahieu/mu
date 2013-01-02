@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 namespace mu
 {
     namespace core
@@ -31,6 +33,7 @@ namespace mu
             mu::io::token_result identifier ();
             mu::io::token_result complex_identifier ();
             void line_comment ();
+            void consume (size_t size_a);
             mu::core::error * region_comment ();
             mu::io::character_result hex_code (int size_a);
             mu::io::token_result lex ();

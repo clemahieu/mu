@@ -6,6 +6,7 @@ add_library (mu_llvmc SHARED
 	ast.hpp
     availability.cpp
     availability.hpp
+    node_result.hpp
 	parser.cpp
 	parser.hpp)
     
