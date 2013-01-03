@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/core/types.hpp>
+
 namespace mu
 {
     namespace llvmc

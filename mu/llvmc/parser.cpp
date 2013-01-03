@@ -4,6 +4,7 @@
 #include <mu/io/stream.hpp>
 #include <mu/io/tokens.hpp>
 #include <mu/llvmc/ast.hpp>
+#include <mu/llvmc/availability.hpp>
 
 #include <gc_cpp.h>
 
@@ -15,13 +16,16 @@ mu::llvmc::node_result::~node_result ()
 mu::llvmc::parser::parser (mu::io::stream <mu::io::token *> & stream_a):
 stream (stream_a)
 {
+    auto error (mapping.map (mu::string (U"function"), &function));
+    assert (!error);
 }
 
-mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a)
+mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module);
-    auto token (stream_a [0]);
+    mu::llvmc::scope_set <mu::llvmc::availability::module *> current_module (parser_a.module.current_module, module->availability ());
+    auto token (parser_a.stream [0]);
     auto id (token->id ());
     while ((result.node == nullptr) and (result.error == nullptr))
     {
@@ -31,10 +35,11 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             {
                 assert (dynamic_cast <mu::io::identifier *> (token) != nullptr);
                 auto identifier (static_cast <mu::io::identifier *> (token));
-                auto hook (mapping.get_hook (identifier->string));
+                auto hook (parser_a.mapping.get_hook (identifier->string));
                 if (hook.hook != nullptr)
                 {
-                    auto node (hook.hook->parse (hook.data, mapping, stream_a));
+                    parser_a.stream.consume (1);
+                    auto node (hook.hook->parse (hook.data, parser_a));
                     if (node.node != nullptr)
                     {
                         auto function (dynamic_cast <mu::llvmc::ast::function *> (node.node));
@@ -65,6 +70,8 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
                 result.error = new (GC) mu::core::error_string (U"Unexpected token");
                 break;
         }
+        token = parser_a.stream [0];
+        id = token->id ();
     }
     return result;
 }
@@ -74,11 +81,116 @@ bool mu::llvmc::module::covering ()
     return false;
 }
 
-
-mu::llvmc::node_result mu::llvmc::function::parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a)
+mu::llvmc::node_result mu::llvmc::function::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
+    assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
+    auto function (new (GC) mu::llvmc::ast::function (parser_a.module.current_module));
+    switch (parser_a.stream [0]->id ())
+    {
+        case mu::io::token_id::identifier:
+        {
+            parse_name (result, function, parser_a);
+            if (result.error == nullptr)
+            {
+                parse_parameters (result, function, parser_a);
+                if (result.error == nullptr)
+                {
+                    parse_body (result, function, parser_a);
+                    if (result.error == nullptr)
+                    {
+                        parse_results (result, function, parser_a);
+                        if (result.error == nullptr)
+                        {
+                            result.node = function;
+                        }
+                    }
+                }
+            }
+        }
+            break;
+        default:
+            result.error = new (GC) mu::core::error_string (U"Expecting function name");
+            break;
+    }
     return result;
+}
+
+void mu::llvmc::function::parse_name (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+{
+    assert (dynamic_cast <mu::io::identifier *> (parser_a.stream [0]) != nullptr);
+    auto name (static_cast <mu::io::identifier *> (parser_a.stream [0]));
+    parser_a.stream.consume (1);
+    auto error (parser_a.mapping.map (name->string, function_a));
+    if (!error)
+    {
+        function_a->name = name->string;
+    }
+    else
+    {
+        result_a.error = new (GC) mu::core::error_string (U"Function name already used");
+    }
+}
+
+void mu::llvmc::function::parse_parameters (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+{
+    auto start_token (parser_a.stream [0]);
+    auto start_id (start_token->id ());
+    switch (start_id)
+    {
+        case mu::io::token_id::left_square:
+        {
+            parser_a.stream.consume (1);
+            auto done (false);
+            while (result_a.error == nullptr && !done)
+            {
+                parse_parameter (result_a, function_a, parser_a, done);
+            }
+        }
+            break;
+        default:
+            result_a.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting left square");
+            break;
+    }
+}
+
+void mu::llvmc::function::parse_parameter (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a, bool & done_a)
+{
+    auto next_token (parser_a.stream [0]);
+    auto next_id (next_token->id ());
+    switch (next_id)
+    {
+        case mu::io::token_id::identifier:
+        {
+            parser_a.stream.consume (1);
+            assert (dynamic_cast <mu::io::identifier *> (next_token) != nullptr);
+            auto identifier (static_cast <mu::io::identifier *> (next_token));
+            auto argument (new (GC) mu::llvmc::ast::argument (function_a->entry));
+            function_a->parameters.push_back (argument);
+            
+            
+            next_token = parser_a.stream [0];
+            next_id = next_token->id ();
+        }
+            break;
+        case mu::io::token_id::right_square:
+            parser_a.stream.consume (1);
+            done_a = true;
+            break;
+        default:
+            result_a.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier or right square");
+            break;
+    }
+}
+
+void mu::llvmc::function::parse_body (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+{
+    
+}
+
+void mu::llvmc::function::parse_results (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+{
+    
 }
 
 bool mu::llvmc::function::covering ()
@@ -88,7 +200,7 @@ bool mu::llvmc::function::covering ()
 
 mu::llvmc::node_result mu::llvmc::parser::parse ()
 {
-    auto result (module.parse (mu::string (), mapping, stream));
+    auto result (module.parse (mu::string (), *this));
     return result;
 }
 

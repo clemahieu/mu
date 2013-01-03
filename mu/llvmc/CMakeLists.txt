@@ -8,7 +8,9 @@ add_library (mu_llvmc SHARED
     availability.hpp
     node_result.hpp
 	parser.cpp
-	parser.hpp)
+	parser.hpp
+    wrapper.cpp
+    wrapper.hpp)
     
 target_link_libraries (mu_llvmc
 	mu_core

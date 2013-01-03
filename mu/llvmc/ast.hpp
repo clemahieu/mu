@@ -30,7 +30,12 @@ namespace mu
             {
             public:
                 scoped (mu::llvmc::availability::node * availability_a);
-                mu::llvmc::availability::node * availability;
+                mu::llvmc::availability::node * availability_m;
+            };
+            class argument : public mu::llvmc::ast::scoped
+            {
+            public:
+                argument (mu::llvmc::availability::node * availability_a);
             };
             class expression : public mu::llvmc::ast::scoped
             {
@@ -43,12 +48,15 @@ namespace mu
             public:
                 function (mu::llvmc::availability::module * availability_a);
                 mu::llvmc::availability::function * entry;
+                mu::string name;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
             };
-            class module : public mu::llvmc::ast::node
+            class module : public mu::llvmc::ast::scoped
             {
             public:
+                module ();
+                mu::llvmc::availability::module * availability ();
                 mu::vector <mu::llvmc::ast::function *> functions;
             };
         }

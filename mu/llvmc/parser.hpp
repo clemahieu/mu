@@ -20,11 +20,11 @@ namespace mu
     }
     namespace llvmc
     {
-        class mapping;
+        class parser;
         class hook : public mu::llvmc::ast::node
         {
         public:
-            virtual mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a) = 0;
+            virtual mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) = 0;
             virtual bool covering () = 0;
         };
         class hook_result
@@ -47,16 +47,37 @@ namespace mu
             mu::map <mu::string, mu::llvmc::ast::node *> mappings;
             mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved;
         };
+        template <typename T>
+        class scope_set
+        {
+        public:
+            scope_set (T & pointer_a, T value_a)
+            : pointer (pointer_a)
+            {
+                pointer_a = value_a;
+            }
+            ~scope_set ()
+            {
+                pointer = nullptr;
+            }
+            T & pointer;
+        };
         class module : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a) override;
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::llvmc::availability::module * current_module;
         };
         class function : public mu::llvmc::hook
         {
         public:
-            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::mapping & mapping, mu::io::stream <mu::io::token *> & stream_a) override;
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            void parse_name (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
+            void parse_parameters (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
+            void parse_parameter (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a, bool & done_a);
+            void parse_body (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
+            void parse_results (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
             bool covering () override;
         };
         class parser
@@ -64,9 +85,8 @@ namespace mu
         public:
             parser (mu::io::stream <mu::io::token *> & stream_a);
             node_result parse ();
-        private:
-            mu::llvmc::function function;
             mu::llvmc::module module;
+            mu::llvmc::function function;
             mu::io::stream <mu::io::token *> & stream;
             mu::llvmc::mapping mapping;
         };
