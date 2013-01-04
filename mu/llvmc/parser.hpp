@@ -65,6 +65,7 @@ namespace mu
         class block : public mapping
         {
         public:
+            block (mu::llvmc::mapping * parent_a);
             bool reserve (mu::string const & name_a) override;
             bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
             void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a);
@@ -105,6 +106,7 @@ namespace mu
         {
         public:
             function (mu::string const & data_a, mu::llvmc::parser & parser_a);
+            ~function ();
             void parse ();
             void parse_name ();
             void parse_parameters ();
@@ -122,6 +124,7 @@ namespace mu
         public:
             parser (mu::io::stream <mu::io::token *> & stream_a);
             node_result parse ();
+            mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;

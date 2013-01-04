@@ -14,6 +14,7 @@ mu::llvmc::node_result::~node_result ()
 }
 
 mu::llvmc::parser::parser (mu::io::stream <mu::io::token *> & stream_a):
+current_mapping (&globals),
 stream (stream_a)
 {
     auto error (keywords.insert (mu::string (U"function"), &function));
@@ -89,11 +90,17 @@ mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_
 }
 
 mu::llvmc::function::function (mu::string const & data_a, mu::llvmc::parser & parser_a):
+block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
 function_m (new (GC) mu::llvmc::ast::function (parser.module.current_module)),
 data (data_a),
 parser (parser_a)
 {
+}
+
+mu::llvmc::function::~function ()
+{
+    parser.current_mapping = block.parent;
 }
 
 void mu::llvmc::function::parse ()
@@ -219,14 +226,24 @@ mu::llvmc::node_result mu::llvmc::parser::parse ()
 bool mu::llvmc::keywords::insert (mu::string const & identifier_a, mu::llvmc::hook * hook_a)
 {
     auto result (false);
-    auto existing (get_hook (identifier_a));
-    if (existing.hook == nullptr)
+    auto existing (mappings.lower_bound (identifier_a));
+    if (hook_a->covering () && existing != mappings.end ())
     {
-        mappings [identifier_a] = hook_a;
+        auto size (identifier_a.length ());
+        result = existing->first.compare (0, size, identifier_a, 0, size) == 0;
     }
-    else
+    if (existing != mappings.begin ())
     {
-        result = true;
+        --existing;
+        if (existing->second->covering ())
+        {
+            auto size (existing->first.length ());
+            result = result || existing->first.compare (0, size, identifier_a, 0, size) == 0;
+        }
+    }
+    if (!result)
+    {
+        mappings.insert (existing, decltype (mappings)::value_type (identifier_a, hook_a));
     }
     return result;
 }
@@ -304,6 +321,11 @@ void mu::llvmc::global::refer (mu::string const & name_a, boost::function <void 
     {
         unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
     }
+}
+
+mu::llvmc::block::block (mu::llvmc::mapping * parent_a):
+parent (parent_a)
+{
 }
 
 bool mu::llvmc::block::reserve (mu::string const & name_a)
