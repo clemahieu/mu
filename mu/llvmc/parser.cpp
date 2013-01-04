@@ -16,7 +16,7 @@ mu::llvmc::node_result::~node_result ()
 mu::llvmc::parser::parser (mu::io::stream <mu::io::token *> & stream_a):
 stream (stream_a)
 {
-    auto error (mapping.map (mu::string (U"function"), &function));
+    auto error (keywords.insert (mu::string (U"function"), &function));
     assert (!error);
 }
 
@@ -35,7 +35,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             {
                 assert (dynamic_cast <mu::io::identifier *> (token) != nullptr);
                 auto identifier (static_cast <mu::io::identifier *> (token));
-                auto hook (parser_a.mapping.get_hook (identifier->string));
+                auto hook (parser_a.keywords.get_hook (identifier->string));
                 if (hook.hook != nullptr)
                 {
                     parser_a.stream.consume (1);
@@ -81,28 +81,41 @@ bool mu::llvmc::module::covering ()
     return false;
 }
 
-mu::llvmc::node_result mu::llvmc::function::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    assert (data_a.empty ());
-    mu::llvmc::node_result result ({nullptr, nullptr});
-    auto function (new (GC) mu::llvmc::ast::function (parser_a.module.current_module));
-    switch (parser_a.stream [0]->id ())
+    mu::llvmc::function parser_l (data_a, parser_a);
+    parser_l.parse ();
+    return parser_l.result;
+}
+
+mu::llvmc::function::function (mu::string const & data_a, mu::llvmc::parser & parser_a):
+result ({nullptr, nullptr}),
+function_m (new (GC) mu::llvmc::ast::function (parser.module.current_module)),
+data (data_a),
+parser (parser_a)
+{
+}
+
+void mu::llvmc::function::parse ()
+{
+    assert (data.empty ());
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::identifier:
         {
-            parse_name (result, function, parser_a);
+            parse_name ();
             if (result.error == nullptr)
             {
-                parse_parameters (result, function, parser_a);
+                parse_parameters ();
                 if (result.error == nullptr)
                 {
-                    parse_body (result, function, parser_a);
+                    parse_body ();
                     if (result.error == nullptr)
                     {
-                        parse_results (result, function, parser_a);
+                        parse_results ();
                         if (result.error == nullptr)
                         {
-                            result.node = function;
+                            result.node = function_m;
                         }
                     }
                 }
@@ -113,87 +126,86 @@ mu::llvmc::node_result mu::llvmc::function::parse (mu::string const & data_a, mu
             result.error = new (GC) mu::core::error_string (U"Expecting function name");
             break;
     }
-    return result;
 }
 
-void mu::llvmc::function::parse_name (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+void mu::llvmc::function::parse_name ()
 {
-    assert (dynamic_cast <mu::io::identifier *> (parser_a.stream [0]) != nullptr);
-    auto name (static_cast <mu::io::identifier *> (parser_a.stream [0]));
-    parser_a.stream.consume (1);
-    auto error (parser_a.mapping.map (name->string, function_a));
+    assert (dynamic_cast <mu::io::identifier *> (parser.stream [0]) != nullptr);
+    auto name (static_cast <mu::io::identifier *> (parser.stream [0]));
+    parser.stream.consume (1);
+    auto error (block.parent->reserve (name->string));
     if (!error)
     {
-        function_a->name = name->string;
+        function_m->name = name->string;
     }
     else
     {
-        result_a.error = new (GC) mu::core::error_string (U"Function name already used");
+        result.error = new (GC) mu::core::error_string (U"Function name already used");
     }
 }
 
-void mu::llvmc::function::parse_parameters (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+void mu::llvmc::function::parse_parameters ()
 {
-    auto start_token (parser_a.stream [0]);
+    auto start_token (parser.stream [0]);
     auto start_id (start_token->id ());
     switch (start_id)
     {
         case mu::io::token_id::left_square:
         {
-            parser_a.stream.consume (1);
+            parser.stream.consume (1);
             auto done (false);
-            while (result_a.error == nullptr && !done)
+            while (result.error == nullptr && !done)
             {
-                parse_parameter (result_a, function_a, parser_a, done);
+                parse_parameter (done);
             }
         }
             break;
         default:
-            result_a.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting left square");
+            result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting left square");
             break;
     }
 }
 
-void mu::llvmc::function::parse_parameter (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a, bool & done_a)
+void mu::llvmc::function::parse_parameter (bool & done_a)
 {
-    auto next_token (parser_a.stream [0]);
+    auto next_token (parser.stream [0]);
     auto next_id (next_token->id ());
     switch (next_id)
     {
         case mu::io::token_id::identifier:
         {
-            parser_a.stream.consume (1);
+            parser.stream.consume (1);
             assert (dynamic_cast <mu::io::identifier *> (next_token) != nullptr);
             auto identifier (static_cast <mu::io::identifier *> (next_token));
-            auto argument (new (GC) mu::llvmc::ast::argument (function_a->entry));
-            function_a->parameters.push_back (argument);
+            auto argument (new (GC) mu::llvmc::ast::argument (function_m->entry));
+            function_m->parameters.push_back (argument);
             
             
-            next_token = parser_a.stream [0];
+            next_token = parser.stream [0];
             next_id = next_token->id ();
         }
             break;
         case mu::io::token_id::right_square:
-            parser_a.stream.consume (1);
+            parser.stream.consume (1);
             done_a = true;
             break;
         default:
-            result_a.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier or right square");
+            result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier or right square");
             break;
     }
 }
 
-void mu::llvmc::function::parse_body (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+void mu::llvmc::function::parse_body ()
 {
     
 }
 
-void mu::llvmc::function::parse_results (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a)
+void mu::llvmc::function::parse_results ()
 {
     
 }
 
-bool mu::llvmc::function::covering ()
+bool mu::llvmc::function_hook::covering ()
 {
     return false;
 }
@@ -204,73 +216,26 @@ mu::llvmc::node_result mu::llvmc::parser::parse ()
     return result;
 }
 
-void mu::llvmc::mapping::refer (mu::string const & identifier_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
-{
-    auto existing (mappings.find (identifier_a));
-    if (existing != mappings.end ())
-    {
-        action_a (existing->second);
-    }
-    else
-    {
-        unresolved.insert (decltype (unresolved)::value_type (identifier_a, action_a));
-    }
-}
-
-bool mu::llvmc::mapping::map (mu::string const & identifier_a, mu::llvmc::ast::node * node_a)
+bool mu::llvmc::keywords::insert (mu::string const & identifier_a, mu::llvmc::hook * hook_a)
 {
     auto result (false);
-    auto existing (mappings.lower_bound (identifier_a));
-    if (existing != mappings.end ())
+    auto existing (get_hook (identifier_a));
+    if (existing.hook == nullptr)
     {
-        if (existing->first == identifier_a)
-        {
-            result = true;
-        }
-        else
-        {
-            auto hook (dynamic_cast <mu::llvmc::hook *> (node_a));
-            if (hook != nullptr)
-            {
-                if (hook->covering ())
-                {
-                    if (identifier_a.compare (0, existing->first.length (), existing->first) == 0)
-                    {
-                        // Trying to map a keyword that would cover an existing mapping
-                        result = true;
-                    }
-                }
-            }            
-        }
-    }
-    if (existing != mappings.begin ())
-    {
-        --existing;
-        if (existing->first.compare (0, existing->first.length (), identifier_a, 0, existing->first.length ()) == 0)
-        {
-            // Trying to create a mapping that is covered by a keyword
-            result = true;
-        }
-        else
-        {
-            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
-        }
+        mappings [identifier_a] = hook_a;
     }
     else
     {
-        if (!result)
-        {
-            mappings [identifier_a] = node_a;
-        }
+        result = true;
     }
     return result;
 }
 
-mu::llvmc::hook_result mu::llvmc::mapping::get_hook (mu::string const & identifier_a)
+mu::llvmc::hook_result mu::llvmc::keywords::get_hook (mu::string const & identifier_a)
 {
     hook_result result ({nullptr, mu::string ()});
     auto existing (mappings.lower_bound (identifier_a));
-    mu::llvmc::ast::node * candidate (nullptr);
+    mu::llvmc::hook * candidate (nullptr);
     mu::string data;
     bool need_covering (false);
     if (existing != mappings.end () && existing->first == identifier_a)
@@ -293,22 +258,101 @@ mu::llvmc::hook_result mu::llvmc::mapping::get_hook (mu::string const & identifi
     }
     if (candidate != nullptr)        
     {
-        auto hook (dynamic_cast <mu::llvmc::hook *> (candidate));
-        if (hook != nullptr)
+        if (need_covering)
         {
-            if (need_covering)
+            if (candidate->covering ())
             {
-                if (hook->covering ())
-                {
-                    result.data.swap (data);
-                    result.hook = hook;
-                }
+                result.data.swap (data);
+                result.hook = candidate;
             }
-            else
-            {
-                result.hook = hook;
-            }
+        }
+        else
+        {
+            result.hook = candidate;
         }
     }
     return result;
+}
+
+bool mu::llvmc::global::reserve (mu::string const & name_a)
+{
+    auto existing (mappings.find(name_a));
+    auto result (existing != mappings.end ());
+    if (result)
+    {
+        auto hook (keywords->get_hook (name_a));
+        result = hook.hook != nullptr;
+    }
+    return result;
+}
+
+bool mu::llvmc::global::get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
+{
+    auto existing (mappings.find (name_a));
+    auto result (existing == mappings.end ());
+    if (!result)
+    {
+        action_a (existing->second);
+    }
+    return result;
+}
+
+void mu::llvmc::global::refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
+{
+    auto error (get (name_a, action_a));
+    if (error)
+    {
+        unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
+    }
+}
+
+bool mu::llvmc::block::reserve (mu::string const & name_a)
+{
+    auto result (parent->reserve (name_a));
+    if (!result)
+    {
+        auto existing (mappings.find (name_a));
+        result = existing != mappings.end ();
+        mappings [name_a] = nullptr;
+    }
+    return result;
+}
+
+bool mu::llvmc::block::get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
+{
+    auto existing (mappings.find (name_a));
+    auto result (existing != mappings.end ());
+    if (result)
+    {
+        result = parent->get (name_a, action_a);
+    }
+    else
+    {
+        action_a (existing->second);
+    }
+    return result;
+}
+
+void mu::llvmc::block::refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
+{
+    auto existing (mappings.find (name_a));
+    auto result (existing != mappings.end ());
+    if (result)
+    {
+        result = parent->get (name_a, action_a);
+        if (result)
+        {
+            unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
+        }
+    }
+}
+
+void mu::llvmc::block::accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a)
+{
+    unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
+}
+
+void mu::llvmc::global::accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a)
+{
+    unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }

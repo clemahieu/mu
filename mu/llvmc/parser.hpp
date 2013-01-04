@@ -21,7 +21,7 @@ namespace mu
     namespace llvmc
     {
         class parser;
-        class hook : public mu::llvmc::ast::node
+        class hook
         {
         public:
             virtual mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) = 0;
@@ -36,14 +36,40 @@ namespace mu
         class mapping
         {
         public:
+            // Reserves a name from a lower scope, error result if name already is reserved
+            virtual bool reserve (mu::string const & name_a) = 0;
+            // Performs `action_a' on the value mapped to `name_a' if a mapping exists, otherwise sets error result
+            virtual bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) = 0;
+            // Accept unresolved references from child and handle them if they become resolved
+            virtual void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) = 0;
+        };
+        class keywords
+        {
+        public:
+            bool insert (mu::string const & identifier_a, mu::llvmc::hook * hook_a);
             // Returns the hook covering `identifier_a' if one exists
             hook_result get_hook (mu::string const & identifier_a);
-            // Perform `action_a' on the node mapped to `identifier_a', if it's not mapped, store `action_a' and perform when resolved
-            void refer (mu::string const & identifier_a, boost::function <void (mu::llvmc::ast::node *)> action_a);
-            // Create mapping of `identifier_a' to `node_a', if actions for this identifier have been stored, perform them.
-            // Return if mapping already existed.
-            bool map (mu::string const & identifier_a, mu::llvmc::ast::node * node_a);
-        private:
+            mu::map <mu::string, mu::llvmc::hook *> mappings;
+        };
+        class global : public mapping
+        {
+        public:
+            bool reserve (mu::string const & name_a) override;
+            bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a);
+            void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
+            mu::map <mu::string, mu::llvmc::ast::node *> mappings;
+            mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved;
+            mu::llvmc::keywords * keywords;
+        };
+        class block : public mapping
+        {
+        public:
+            bool reserve (mu::string const & name_a) override;
+            bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a);
+            void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
+            mu::llvmc::mapping * parent;
             mu::map <mu::string, mu::llvmc::ast::node *> mappings;
             mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved;
         };
@@ -69,26 +95,38 @@ namespace mu
             bool covering () override;
             mu::llvmc::availability::module * current_module;
         };
-        class function : public mu::llvmc::hook
+        class function_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
-            void parse_name (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
-            void parse_parameters (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
-            void parse_parameter (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a, bool & done_a);
-            void parse_body (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
-            void parse_results (mu::llvmc::node_result & result_a, mu::llvmc::ast::function * function_a, mu::llvmc::parser & parser_a);
             bool covering () override;
+        };
+        class function
+        {
+        public:
+            function (mu::string const & data_a, mu::llvmc::parser & parser_a);
+            void parse ();
+            void parse_name ();
+            void parse_parameters ();
+            void parse_parameter (bool & done_a);
+            void parse_body ();
+            void parse_results ();
+            mu::llvmc::block block;
+            mu::llvmc::node_result result;
+            mu::llvmc::ast::function * function_m;
+            mu::string const & data;
+            mu::llvmc::parser & parser;
         };
         class parser
         {
         public:
             parser (mu::io::stream <mu::io::token *> & stream_a);
             node_result parse ();
+            mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
-            mu::llvmc::function function;
+            mu::llvmc::function_hook function;
             mu::io::stream <mu::io::token *> & stream;
-            mu::llvmc::mapping mapping;
+            mu::llvmc::keywords keywords;
         };
     }
 }
