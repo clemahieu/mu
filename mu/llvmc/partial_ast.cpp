@@ -20,6 +20,7 @@ parser (parser_a)
 
 void mu::llvmc::partial_ast::consume ()
 {
+    tokens.consume (1);
     refill ();
 }
 
@@ -40,7 +41,7 @@ void mu::llvmc::partial_ast::refill ()
             auto hook (parser.keywords.get_hook (identifier->string));
             if (hook.hook != nullptr)
             {
-                tokens.consume (1);
+                consume ();
                 auto ast (hook.hook->parse (hook.data, parser));
                 if (ast.node != nullptr)
                 {

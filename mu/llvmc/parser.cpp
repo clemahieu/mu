@@ -36,6 +36,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
             if (function != nullptr)
             {
+                parser_a.stream.consume ();
                 module->functions.push_back (function);
             }
             else
@@ -172,7 +173,7 @@ void mu::llvmc::function::parse_parameters ()
 }
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
-{
+{    
     if (parser.stream.peek ().ast != nullptr)
     {
         auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream.peek ().ast));
@@ -197,12 +198,8 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                         }
                     }
                         break;
-                    case mu::io::token_id::right_square:
-                        parser.stream.consume ();
-                        done_a = true;
-                        break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier or right square");
+                        result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier");
                         break;
                 }
             }
@@ -218,18 +215,102 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
     }
     else
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting type");
+        auto id (parser.stream.peek ().token->id ());
+        switch (id)
+        {
+            case mu::io::token_id::right_square:
+                parser.stream.consume ();
+                done_a = true;
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting type or right square");
+                break;                
+        }
     }
 }
 
 void mu::llvmc::function::parse_body ()
 {
-    
+    auto opening (parser.stream.peek ());
+    if (opening.token != nullptr)
+    {
+        auto opening_id (opening.token->id ());
+        switch (opening_id)
+        {
+            case mu::io::token_id::left_square:
+            {
+                parser.stream.consume ();
+                auto next (parser.stream.peek ());
+                if (next.token != nullptr)
+                {
+                    auto next_id (next.token->id ());
+                    switch (next_id)
+                    {
+                        case mu::io::token_id::right_square:
+                            parser.stream.consume ();
+                            break;
+                        default:
+                            result.error = new (GC) mu::core::error_string (U"Expecting right square");
+                            break;
+                    }
+                }
+                else
+                {
+                    result.error = new (GC) mu::core::error_string (U"Expecting function end");
+                }
+            }
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting left square");
+                break;
+        }
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting function body");
+    }
 }
 
 void mu::llvmc::function::parse_results ()
 {
-    
+    auto opening (parser.stream.peek ());
+    if (opening.token != nullptr)
+    {
+        auto opening_id (opening.token->id ());
+        switch (opening_id)
+        {
+            case mu::io::token_id::left_square:
+            {
+                parser.stream.consume ();
+                auto next (parser.stream.peek ());
+                if (next.token != nullptr)
+                {
+                    auto next_id (next.token->id ());
+                    switch (next_id)
+                    {
+                        case mu::io::token_id::right_square:
+                            parser.stream.consume ();
+                            break;
+                        default:
+                            result.error = new (GC) mu::core::error_string (U"Expecting right square");
+                            break;
+                    }
+                }
+                else
+                {
+                    result.error = new (GC) mu::core::error_string (U"Expecting results end");
+                }
+            }
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting left square");
+                break;
+        }
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting results list");
+    }
 }
 
 bool mu::llvmc::function_hook::covering ()

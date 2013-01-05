@@ -47,6 +47,6 @@ TEST (partial_ast, tokens)
     parser.stream_ast.consume ();
     auto token2 (parser.stream_ast.peek ());
     ASSERT_NE (nullptr, token2.token);
-    auto right_square (dynamic_cast <mu::io::left_square *> (token2.token));
+    auto right_square (dynamic_cast <mu::io::right_square *> (token2.token));
     EXPECT_NE (nullptr, right_square);
 }
