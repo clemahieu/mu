@@ -5,6 +5,7 @@
 #include <mu/llvmc/parser.hpp>
 #include <mu/io/stream_muistream.hpp>
 #include <mu/llvmc/ast.hpp>
+#include <mu/llvmc/stream_partial_ast.hpp>
 
 #include <gc_cpp.h>
 
@@ -16,13 +17,15 @@ public:
     stream (text, 16),
     lexer (stream),
     stream_token (lexer, 2),
-    parser (stream_token)
+    stream_ast (stream_token, parser, 1),
+    parser (stream_ast)
     {        
     };
     mu::stringstream text;
     mu::io::stream_muistream stream;
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
+    mu::llvmc::stream_partial_ast stream_ast;
     mu::llvmc::parser parser;
 };
 

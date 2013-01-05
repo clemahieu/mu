@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mu/llvmc/ast.hpp>
+
 namespace llvm
 {
     class Type;
@@ -10,10 +12,10 @@ namespace mu
     {
         namespace wrapper
         {
-            class type
+            class type : public mu::llvmc::ast::value
             {
             public:
-                llvm::Type type;
+                llvm::Type * type;
             };
         }
     }

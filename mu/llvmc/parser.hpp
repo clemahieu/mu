@@ -66,6 +66,7 @@ namespace mu
         {
         public:
             block (mu::llvmc::mapping * parent_a);
+            bool insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a);
             bool reserve (mu::string const & name_a) override;
             bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
             void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a);
@@ -116,19 +117,19 @@ namespace mu
             mu::llvmc::block block;
             mu::llvmc::node_result result;
             mu::llvmc::ast::function * function_m;
-            mu::string const & data;
             mu::llvmc::parser & parser;
         };
+        class stream_partial_ast;
         class parser
         {
         public:
-            parser (mu::io::stream <mu::io::token *> & stream_a);
+            parser (mu::llvmc::stream_partial_ast & stream_a);
             node_result parse ();
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;
-            mu::io::stream <mu::io::token *> & stream;
+            mu::llvmc::stream_partial_ast & stream;
             mu::llvmc::keywords keywords;
         };
     }

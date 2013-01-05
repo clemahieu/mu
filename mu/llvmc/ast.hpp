@@ -43,6 +43,11 @@ namespace mu
                 expression (mu::llvmc::availability::node * availability_a);
                 mu::vector <mu::llvmc::ast::node *> arguments;
             };
+            class value : public mu::llvmc::ast::scoped
+            {
+            public:
+                value (mu::llvmc::availability::node * availability_a);
+            };
             class function : public mu::llvmc::ast::scoped
             {
             public:
