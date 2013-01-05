@@ -11,7 +11,8 @@ add_executable (mu_test
 	entry.cpp
 	io_lexer.cpp
 	io_stream_istream.cpp
-    llvmc_parser.cpp)
+    llvmc_parser.cpp
+    partial_ast.cpp)
     
 target_link_libraries (mu_test
 	mu_core
