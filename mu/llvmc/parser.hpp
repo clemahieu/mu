@@ -119,17 +119,17 @@ namespace mu
             mu::llvmc::ast::function * function_m;
             mu::llvmc::parser & parser;
         };
-        class stream_partial_ast;
+        class partial_ast;
         class parser
         {
         public:
-            parser (mu::llvmc::stream_partial_ast & stream_a);
+            parser (mu::llvmc::partial_ast & stream_a);
             node_result parse ();
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;
-            mu::llvmc::stream_partial_ast & stream;
+            mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };
     }

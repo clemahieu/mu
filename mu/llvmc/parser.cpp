@@ -5,7 +5,7 @@
 #include <mu/io/tokens.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/availability.hpp>
-#include <mu/llvmc/stream_partial_ast.hpp>
+#include <mu/llvmc/partial_ast.hpp>
 #include <mu/llvmc/wrapper.hpp>
 
 #include <gc_cpp.h>
@@ -15,7 +15,7 @@ mu::llvmc::node_result::~node_result ()
     assert (not ((error != nullptr) and (node != nullptr)));
 }
 
-mu::llvmc::parser::parser (mu::llvmc::stream_partial_ast & stream_a):
+mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
 current_mapping (&globals),
 stream (stream_a)
 {
@@ -30,7 +30,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
     mu::llvmc::scope_set <mu::llvmc::availability::module *> current_module (parser_a.module.current_module, module->availability ());
     while ((result.node == nullptr) and (result.error == nullptr))
     {
-        auto item (parser_a.stream [0]);
+        auto item (parser_a.stream.peek ());
         if (item.ast != nullptr)
         {
             auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
@@ -109,15 +109,15 @@ void mu::llvmc::function::parse ()
 
 void mu::llvmc::function::parse_name ()
 {
-    if (parser.stream [0].token != nullptr)
+    if (parser.stream.peek ().token != nullptr)
     {
-        auto id (parser.stream [0].token->id ());
+        auto id (parser.stream.peek ().token->id ());
         switch (id)
         {
             case mu::io::token_id::identifier:
             {
-                auto name (static_cast <mu::io::identifier *> (parser.stream [0].token));
-                parser.stream.consume (1);
+                auto name (static_cast <mu::io::identifier *> (parser.stream.peek ().token));
+                parser.stream.consume ();
                 auto error (block.parent->reserve (name->string));
                 if (!error)
                 {
@@ -144,15 +144,15 @@ void mu::llvmc::function::parse_name ()
 
 void mu::llvmc::function::parse_parameters ()
 {
-    if (parser.stream [0].token != nullptr)
+    if (parser.stream.peek ().token != nullptr)
     {
-        auto start_token (parser.stream [0].token);
+        auto start_token (parser.stream.peek ().token);
         auto start_id (start_token->id ());
         switch (start_id)
         {
             case mu::io::token_id::left_square:
             {
-                parser.stream.consume (1);
+                parser.stream.consume ();
                 auto done (false);
                 while (result.error == nullptr && !done)
                 {
@@ -173,21 +173,21 @@ void mu::llvmc::function::parse_parameters ()
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
 {
-    if (parser.stream [0].ast != nullptr)
+    if (parser.stream.peek ().ast != nullptr)
     {
-        auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream [0].ast));
+        auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream.peek ().ast));
         if (type != nullptr)
         {
-            parser.stream.consume (1);
-            if (parser.stream [0].token != nullptr)
+            parser.stream.consume ();
+            if (parser.stream.peek ().token != nullptr)
             {
-                auto next_token (parser.stream [0].token);
+                auto next_token (parser.stream.peek ().token);
                 auto next_id (next_token->id ());
                 switch (next_id)
                 {
                     case mu::io::token_id::identifier:
                     {
-                        parser.stream.consume (1);
+                        parser.stream.consume ();
                         auto identifier (static_cast <mu::io::identifier *> (next_token));
                         auto argument (new (GC) mu::llvmc::ast::argument (function_m->entry));
                         function_m->parameters.push_back (argument);
@@ -198,7 +198,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                     }
                         break;
                     case mu::io::token_id::right_square:
-                        parser.stream.consume (1);
+                        parser.stream.consume ();
                         done_a = true;
                         break;
                     default:

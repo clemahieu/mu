@@ -9,8 +9,8 @@ add_library (mu_llvmc SHARED
     node_result.hpp
 	parser.cpp
 	parser.hpp
-    stream_partial_ast.cpp
-    stream_partial_ast.hpp
+    partial_ast.cpp
+    partial_ast.hpp
     wrapper.cpp
     wrapper.hpp)
     

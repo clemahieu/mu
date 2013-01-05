@@ -8,10 +8,10 @@ link_directories (
 	${gtest_lib_directories})
 
 add_executable (mu_test
+	entry.cpp
 	io_lexer.cpp
 	io_stream_istream.cpp
-    llvmc_parser.cpp
-	entry.cpp)
+    llvmc_parser.cpp)
     
 target_link_libraries (mu_test
 	mu_core
