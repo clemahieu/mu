@@ -5,6 +5,10 @@
 
 namespace mu
 {
+    namespace core
+    {
+        class error;
+    }
     namespace io
     {
         class stream_token;
@@ -20,11 +24,13 @@ namespace mu
         class partial_ast_result
         {
         public:
-            partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a);
+            partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a, mu::core::error * error_a);
             partial_ast_result (mu::llvmc::partial_ast_result const & other_a);
             mu::llvmc::partial_ast_result & operator = (mu::llvmc::partial_ast_result const & other_a);
+            bool valid ();
             mu::io::token * token;
             mu::llvmc::ast::node * ast;
+            mu::core::error * error;
         };
         class partial_ast
         {

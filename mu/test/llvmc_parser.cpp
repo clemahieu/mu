@@ -201,5 +201,13 @@ TEST (llvmc_parser, int_type1024)
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::wrapper::integer_type *> (parameter1->type));
     EXPECT_EQ (1024, type1->integer_value ()->getIntegerBitWidth ());
+    
+}
 
+TEST (llvmc_parser, fail_int_type2000000000)
+{
+    test_parser parser (U"function test2000000000 [int2000000000 val] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    EXPECT_EQ (nullptr, module1.node);    
 }

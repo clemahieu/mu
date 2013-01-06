@@ -31,7 +31,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
     mu::llvmc::scope_set <mu::llvmc::availability::module *> current_module (parser_a.module.current_module, module->availability ());
     while ((result.node == nullptr) and (result.error == nullptr))
     {
-        auto item (parser_a.stream.peek ());
+        auto & item (parser_a.stream.peek ());
         if (item.ast != nullptr)
         {
             auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
@@ -45,7 +45,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
                 result.error = new (GC) mu::core::error_string (U"Expecting a function");
             }        
         }
-        else
+        else if (item.token != nullptr)
         {
             auto id (item.token->id ());
             switch (id)
@@ -57,6 +57,10 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
                     result.error = new (GC) mu::core::error_string (U"Expecting function or end of stream");
                     break;
             }
+        }
+        else
+        {
+            result.error = item.error;
         }
     }
     return result;
@@ -175,8 +179,9 @@ void mu::llvmc::function::parse_parameters ()
 }
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
-{    
-    if (parser.stream.peek ().ast != nullptr)
+{
+    auto & node (parser.stream.peek ());
+    if (node.ast != nullptr)
     {
         auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream.peek ().ast));
         if (type != nullptr)
@@ -215,7 +220,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
             result.error = new (GC) mu::core::error_string (U"Not a type");
         }
     }
-    else
+    else if (node.token != nullptr)
     {
         auto id (parser.stream.peek ().token->id ());
         switch (id)
@@ -228,6 +233,10 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                 result.error = new (GC) mu::core::error_string (U"Expecting type or right square");
                 break;                
         }
+    }
+    else
+    {
+        result.error = node.error;
     }
 }
 
@@ -503,7 +512,7 @@ void mu::llvmc::global::accept (mu::multimap <mu::string, boost::function <void 
 
 mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    mu::llvmc::node_result result;
+    mu::llvmc::node_result result ({nullptr, nullptr});
     try
     {
         unsigned int bits (boost::lexical_cast <unsigned int> (data_a));
