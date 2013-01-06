@@ -19,6 +19,10 @@ namespace mu
             class function;
             class module;
         }
+        namespace wrapper
+        {
+            class type;
+        }
         namespace ast
         {
             class node
@@ -35,7 +39,8 @@ namespace mu
             class argument : public mu::llvmc::ast::scoped
             {
             public:
-                argument (mu::llvmc::availability::node * availability_a);
+                argument (mu::llvmc::wrapper::type * type_a, mu::llvmc::availability::node * availability_a);
+                mu::llvmc::wrapper::type * type;
             };
             class expression : public mu::llvmc::ast::scoped
             {

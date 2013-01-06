@@ -13,8 +13,9 @@ availability_m (availability_a)
 {
 }
 
-mu::llvmc::ast::argument::argument (mu::llvmc::availability::node * availability_a):
-scoped (availability_a)
+mu::llvmc::ast::argument::argument (mu::llvmc::wrapper::type * type_a, mu::llvmc::availability::node * availability_a):
+scoped (availability_a),
+type (type_a)
 {
 }
 
@@ -24,6 +25,11 @@ scoped (availability_a)
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::availability::node * availability_a):
+scoped (availability_a)
+{
+}
+
+mu::llvmc::ast::value::value (mu::llvmc::availability::node * availability_a):
 scoped (availability_a)
 {
 }

@@ -2,10 +2,12 @@ cmake_minimum_required (VERSION 2.8)
 project (test)
 
 include_directories (
-	${gtest_include_directories})
+	${gtest_include_directories}
+    ${llvm_include_directories})
 
 link_directories (
-	${gtest_lib_directories})
+	${gtest_lib_directories}
+    ${llvm_lib_directories})
 
 add_executable (mu_test
 	entry.cpp

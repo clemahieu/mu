@@ -1,5 +1,7 @@
 #include <mu/llvmc/parser.hpp>
 
+#include <boost/lexical_cast.hpp>
+
 #include <mu/core/error_string.hpp>
 #include <mu/io/stream.hpp>
 #include <mu/io/tokens.hpp>
@@ -8,19 +10,18 @@
 #include <mu/llvmc/partial_ast.hpp>
 #include <mu/llvmc/wrapper.hpp>
 
-#include <gc_cpp.h>
+#include <llvm/Type.h>
 
-mu::llvmc::node_result::~node_result ()
-{
-    assert (not ((error != nullptr) and (node != nullptr)));
-}
+#include <gc_cpp.h>
 
 mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
 current_mapping (&globals),
 stream (stream_a)
 {
-    auto error (keywords.insert (mu::string (U"function"), &function));
-    assert (!error);
+    auto error1 (keywords.insert (mu::string (U"function"), &function));
+    assert (!error1);
+    auto error2 (keywords.insert (mu::string (U"int"), &int_type));
+    assert (!error2);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -76,7 +77,7 @@ mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_
 mu::llvmc::function::function (mu::string const & data_a, mu::llvmc::parser & parser_a):
 block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
-function_m (new (GC) mu::llvmc::ast::function (parser.module.current_module)),
+function_m (new (GC) mu::llvmc::ast::function (parser_a.module.current_module)),
 parser (parser_a)
 {
     assert (data_a.empty ());
@@ -89,6 +90,7 @@ mu::llvmc::function::~function ()
 
 void mu::llvmc::function::parse ()
 {
+    parser.stream.consume ();
     parse_name ();
     if (result.error == nullptr)
     {
@@ -190,7 +192,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                     {
                         parser.stream.consume ();
                         auto identifier (static_cast <mu::io::identifier *> (next_token));
-                        auto argument (new (GC) mu::llvmc::ast::argument (function_m->entry));
+                        auto argument (new (GC) mu::llvmc::ast::argument (type, function_m->entry));
                         function_m->parameters.push_back (argument);
                         if (block.insert (identifier->string, argument))
                         {
@@ -289,7 +291,7 @@ void mu::llvmc::function::parse_results ()
                     switch (next_id)
                     {
                         case mu::io::token_id::right_square:
-                            parser.stream.consume ();
+                            //parser.stream.consume ();  Leave in tokens to be consumed later
                             break;
                         default:
                             result.error = new (GC) mu::core::error_string (U"Expecting right square");
@@ -445,6 +447,7 @@ bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node *
             mappings.insert (existing, decltype (mappings)::value_type (name_a, node_a));
         }
     }
+    return result;
 }
 
 bool mu::llvmc::block::reserve (mu::string const & name_a)
@@ -496,4 +499,31 @@ void mu::llvmc::block::accept (mu::multimap <mu::string, boost::function <void (
 void mu::llvmc::global::accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
+}
+
+mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result;
+    try
+    {
+        unsigned int bits (boost::lexical_cast <unsigned int> (data_a));
+        if (bits <= 1024)
+        {
+            result.node = new (GC) mu::llvmc::wrapper::integer_type (&parser_a.availability, llvm::Type::getIntNTy (parser_a.context, bits));
+        }
+        else
+        {
+            result.error = new (GC) mu::core::error_string (U"Bit width too wide");
+        }
+    }
+    catch (boost::bad_lexical_cast)
+    {
+        result.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer");
+    }
+    return result;
+}
+
+bool mu::llvmc::int_type::covering ()
+{
+    return true;
 }

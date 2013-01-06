@@ -3,6 +3,9 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
 #include <mu/llvmc/ast.hpp>
+#include <mu/llvmc/availability.hpp>
+
+#include <llvm/LLVMContext.h>
 
 #include <boost/function.hpp>
 
@@ -119,16 +122,25 @@ namespace mu
             mu::llvmc::ast::function * function_m;
             mu::llvmc::parser & parser;
         };
+        class int_type : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class partial_ast;
         class parser
         {
         public:
             parser (mu::llvmc::partial_ast & stream_a);
             node_result parse ();
+            mu::llvmc::availability::context availability;
+            llvm::LLVMContext context;
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;
+            mu::llvmc::int_type int_type;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };

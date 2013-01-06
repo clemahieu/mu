@@ -20,7 +20,9 @@ namespace mu
         class partial_ast_result
         {
         public:
-            ~partial_ast_result ();
+            partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a);
+            partial_ast_result (mu::llvmc::partial_ast_result const & other_a);
+            mu::llvmc::partial_ast_result & operator = (mu::llvmc::partial_ast_result const & other_a);
             mu::io::token * token;
             mu::llvmc::ast::node * ast;
         };

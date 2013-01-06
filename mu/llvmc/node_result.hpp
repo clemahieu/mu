@@ -15,7 +15,6 @@ namespace mu
         class node_result
         {
         public:
-            ~node_result ();
             mu::llvmc::ast::node * node;
             mu::core::error * error;
         };        

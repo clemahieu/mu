@@ -13,8 +13,14 @@ namespace mu
             public:
                 virtual ~node ();
             };
+            class context : public mu::llvmc::availability::node
+            {
+            public:
+            };
             class module : public mu::llvmc::availability::node
             {
+            public:
+                mu::llvmc::availability::context * context;
             };
             class function : public mu::llvmc::availability::node
             {

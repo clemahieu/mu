@@ -6,6 +6,9 @@
 #include <mu/io/stream_muistream.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/partial_ast.hpp>
+#include <mu/llvmc/wrapper.hpp>
+
+#include <llvm/DerivedTypes.h>
 
 #include <gc_cpp.h>
 
@@ -142,4 +145,61 @@ TEST (llvmc_parser, simple)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+}
+
+TEST (llvmc_parser, two_functions)
+{
+    test_parser parser (U"function test1 [] [] [] function test2 [] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (2, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    auto function2 (module2->functions [1]);
+    EXPECT_EQ (0, function2->parameters.size ());
+    EXPECT_EQ (0, function2->results.size ());
+}
+
+TEST (llvmc_parser, int_type1)
+{
+    test_parser parser (U"function test1 [int1 val] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
+    ASSERT_NE (nullptr, parameter1);
+    auto type1 (dynamic_cast <mu::llvmc::wrapper::integer_type *> (parameter1->type));
+    EXPECT_EQ (1, type1->integer_value ()->getIntegerBitWidth ());
+}
+
+TEST (llvmc_parser, int_type1024)
+{
+    test_parser parser (U"function test1024 [int1024 val] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
+    ASSERT_NE (nullptr, parameter1);
+    auto type1 (dynamic_cast <mu::llvmc::wrapper::integer_type *> (parameter1->type));
+    EXPECT_EQ (1024, type1->integer_value ()->getIntegerBitWidth ());
+
 }

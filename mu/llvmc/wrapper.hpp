@@ -5,6 +5,7 @@
 namespace llvm
 {
     class Type;
+    class IntegerType;
 }
 namespace mu
 {
@@ -15,7 +16,14 @@ namespace mu
             class type : public mu::llvmc::ast::value
             {
             public:
-                llvm::Type * type;
+                type (mu::llvmc::availability::node * availability_a, llvm::Type * type_a);
+                llvm::Type * type_m;
+            };
+            class integer_type : public mu::llvmc::wrapper::type
+            {
+            public:
+                integer_type (mu::llvmc::availability::node * availability_a, llvm::IntegerType * type_a);
+                llvm::IntegerType * integer_value ();
             };
         }
     }
