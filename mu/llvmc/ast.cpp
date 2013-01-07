@@ -8,41 +8,49 @@ mu::llvmc::ast::node::~node ()
 {
 }
 
-mu::llvmc::ast::scoped::scoped (mu::llvmc::availability::node * availability_a):
+mu::llvmc::ast::base::base (mu::llvmc::availability::node * availability_a):
 availability_m (availability_a)
 {
 }
 
 mu::llvmc::ast::argument::argument (mu::llvmc::wrapper::type * type_a, mu::llvmc::availability::node * availability_a):
-scoped (availability_a),
+base (availability_a),
 type (type_a)
 {
 }
 
+mu::llvmc::ast::result::result (mu::llvmc::wrapper::type * type_a):
+type (type_a),
+value (nullptr)
+{
+}
+
 mu::llvmc::ast::function::function (mu::llvmc::availability::module * availability_a):
-scoped (availability_a)
+base (availability_a)
 {
 }
 
 mu::llvmc::ast::expression::expression (mu::llvmc::availability::node * availability_a):
-scoped (availability_a)
+base (availability_a)
 {
 }
 
 mu::llvmc::ast::value::value (mu::llvmc::availability::node * availability_a):
-scoped (availability_a)
+base (availability_a)
 {
 }
 
 mu::llvmc::ast::module::module () :
-scoped (new (GC) mu::llvmc::availability::module)
+base (new (GC) mu::llvmc::availability::module)
 {
 }
 
-mu::llvmc::availability::module * mu::llvmc::ast::module::availability ()
+mu::llvmc::availability::node * mu::llvmc::ast::base::availability ()
 {
-    auto result_node (availability_m);
-    assert (dynamic_cast <mu::llvmc::availability::module *> (result_node));
-    auto result (static_cast <mu::llvmc::availability::module *> (result_node));
-    return result;
+    return availability_m;
+}
+
+mu::llvmc::availability::node * mu::llvmc::ast::result::availability ()
+{
+    return value->availability ();
 }

@@ -20,12 +20,12 @@ namespace mu
             class module : public mu::llvmc::availability::node
             {
             public:
-                mu::llvmc::availability::context * context;
+                mu::llvmc::availability::node * parent;
             };
             class function : public mu::llvmc::availability::node
             {
             public:
-                mu::llvmc::availability::module * module;
+                mu::llvmc::availability::node * parent;
             };
             class if_branch : public mu::llvmc::availability::node
             {

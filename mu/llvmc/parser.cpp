@@ -28,7 +28,10 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module);
-    mu::llvmc::scope_set <mu::llvmc::availability::module *> current_module (parser_a.module.current_module, module->availability ());
+    auto previous_availability (parser_a.current_availability);
+    auto new_availability (new (GC) mu::llvmc::availability::module);
+    parser_a.current_availability = new_availability;
+    new_availability->parent = previous_availability;
     while ((result.node == nullptr) and (result.error == nullptr))
     {
         auto & item (parser_a.stream.peek ());
@@ -63,6 +66,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             result.error = item.error;
         }
     }
+    parser_a.current_availability = previous_availability;
     return result;
 }
 
@@ -73,8 +77,13 @@ bool mu::llvmc::module::covering ()
 
 mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
+    auto previous_availability (parser_a.current_availability);
+    auto new_availability (new (GC) mu::llvmc::availability::function);
+    new_availability->parent = previous_availability;
+    parser_a.current_availability = new_availability;
     mu::llvmc::function parser_l (data_a, parser_a);
     parser_l.parse ();
+    parser_a.current_availability = previous_availability;
     return parser_l.result;
 }
 
@@ -294,22 +303,31 @@ void mu::llvmc::function::parse_results ()
             {
                 parser.stream.consume ();
                 auto next (parser.stream.peek ());
-                if (next.token != nullptr)
+                auto done (false);
+                while (result.error == nullptr && !done)
                 {
-                    auto next_id (next.token->id ());
-                    switch (next_id)
+                    if (next.token != nullptr)
                     {
-                        case mu::io::token_id::right_square:
-                            //parser.stream.consume ();  Leave in tokens to be consumed later
-                            break;
-                        default:
-                            result.error = new (GC) mu::core::error_string (U"Expecting right square");
-                            break;
+                        auto next_id (next.token->id ());
+                        switch (next_id)
+                        {
+                            case mu::io::token_id::left_square:
+                                parser.stream.consume ();
+                                parse_result_set ();
+                                next = parser.stream.peek ();
+                                break;
+                            case mu::io::token_id::right_square:
+                                done = true;
+                                break;
+                            default:
+                                result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square");
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    result.error = new (GC) mu::core::error_string (U"Expecting results end");
+                    else
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Expecting results end");
+                    }
                 }
             }
                 break;
@@ -321,6 +339,62 @@ void mu::llvmc::function::parse_results ()
     else
     {
         result.error = new (GC) mu::core::error_string (U"Expecting results list");
+    }
+}
+
+void mu::llvmc::function::parse_result_set ()
+{
+    auto index (function_m->results.size ());
+    function_m->results.push_back (decltype (function_m->results)::value_type ());
+    auto node (parser.stream.peek ());
+    auto done (false);
+    while (result.error == nullptr && !done)
+    {
+        if (node.ast != nullptr)
+        {
+            auto type (dynamic_cast <mu::llvmc::wrapper::type *> (node.ast));
+            if (type != nullptr)
+            {
+                parser.stream.consume ();
+                auto next (parser.stream.peek ());
+                auto next_id (next.token->id ());
+                switch (next_id)
+                {
+                    case mu::io::token_id::identifier:
+                    {
+                        parser.stream.consume ();
+                        auto position (function_m->results [index].size ());
+                        auto result (new (GC) mu::llvmc::ast::result (type));
+                        function_m->results [index].push_back (result);
+                        auto function_l (function_m);
+                        block.refer (static_cast <mu::io::identifier *> (next.token)->string,
+                                     [result]
+                                     (mu::llvmc::ast::node * node_a)
+                                     {
+                                         auto scoped (dynamic_cast <mu::llvmc::ast::scoped *> (node_a));
+                                         result->value = scoped;
+                                     });
+                        next = parser.stream.peek ();
+                    }
+                        break;
+                    case mu::io::token_id::right_square:
+                        parser.stream.consume ();
+                        done = true;
+                        break;
+                    default:
+                        result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square");
+                        break;
+                }
+            }
+            else
+            {
+                result.error = new (GC) mu::core::error_string (U"Expecting a type");
+            }
+        }
+        else
+        {
+            result.error = new (GC) mu::core::error_string (U"Expecting type");
+        }
     }
 }
 

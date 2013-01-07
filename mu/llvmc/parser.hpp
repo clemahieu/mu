@@ -117,6 +117,7 @@ namespace mu
             void parse_parameter (bool & done_a);
             void parse_body ();
             void parse_results ();
+            void parse_result_set ();
             mu::llvmc::block block;
             mu::llvmc::node_result result;
             mu::llvmc::ast::function * function_m;
@@ -137,6 +138,7 @@ namespace mu
             mu::llvmc::availability::context availability;
             llvm::LLVMContext context;
             mu::llvmc::global globals;
+            mu::llvmc::availability::node * current_availability;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;

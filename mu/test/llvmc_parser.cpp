@@ -200,8 +200,7 @@ TEST (llvmc_parser, int_type1024)
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::wrapper::integer_type *> (parameter1->type));
-    EXPECT_EQ (1024, type1->integer_value ()->getIntegerBitWidth ());
-    
+    EXPECT_EQ (1024, type1->integer_value ()->getIntegerBitWidth ());    
 }
 
 TEST (llvmc_parser, fail_int_type2000000000)
@@ -210,4 +209,22 @@ TEST (llvmc_parser, fail_int_type2000000000)
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     EXPECT_EQ (nullptr, module1.node);    
+}
+
+TEST (llvmc_parser, results1)
+{
+    test_parser parser (U"function test1 [int1 val] [] [[val]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
+    ASSERT_EQ (1, function1->results.size ());
+    ASSERT_EQ (1, function1->results [0].size ());
+    auto result1 (function1->results [0][0]);
+    EXPECT_EQ (parameter1, result1);
 }

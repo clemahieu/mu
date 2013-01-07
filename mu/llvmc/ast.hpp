@@ -33,27 +33,41 @@ namespace mu
             class scoped : public mu::llvmc::ast::node
             {
             public:
-                scoped (mu::llvmc::availability::node * availability_a);
+                virtual mu::llvmc::availability::node * availability () = 0;
+            };
+            class base : public mu::llvmc::ast::scoped
+            {
+            public:
+                base (mu::llvmc::availability::node * availability_a);
+                mu::llvmc::availability::node * availability () override;
                 mu::llvmc::availability::node * availability_m;
             };
-            class argument : public mu::llvmc::ast::scoped
+            class argument : public mu::llvmc::ast::base
             {
             public:
                 argument (mu::llvmc::wrapper::type * type_a, mu::llvmc::availability::node * availability_a);
                 mu::llvmc::wrapper::type * type;
             };
-            class expression : public mu::llvmc::ast::scoped
+            class result : public mu::llvmc::ast::scoped
+            {
+            public:
+                result (mu::llvmc::wrapper::type * type_a);
+                mu::llvmc::availability::node * availability () override;
+                mu::llvmc::wrapper::type * type;
+                mu::llvmc::ast::scoped * value;
+            };
+            class expression : public mu::llvmc::ast::base
             {
             public:
                 expression (mu::llvmc::availability::node * availability_a);
                 mu::vector <mu::llvmc::ast::node *> arguments;
             };
-            class value : public mu::llvmc::ast::scoped
+            class value : public mu::llvmc::ast::base
             {
             public:
                 value (mu::llvmc::availability::node * availability_a);
             };
-            class function : public mu::llvmc::ast::scoped
+            class function : public mu::llvmc::ast::base
             {
             public:
                 function (mu::llvmc::availability::module * availability_a);
@@ -62,11 +76,10 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
             };
-            class module : public mu::llvmc::ast::scoped
+            class module : public mu::llvmc::ast::base
             {
             public:
                 module ();
-                mu::llvmc::availability::module * availability ();
                 mu::vector <mu::llvmc::ast::function *> functions;
             };
         }
