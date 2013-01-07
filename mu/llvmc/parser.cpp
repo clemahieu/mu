@@ -261,13 +261,26 @@ void mu::llvmc::function::parse_body ()
             {
                 parser.stream.consume ();
                 auto next (parser.stream.peek ());
-                if (next.token != nullptr)
+                if (next.ast != nullptr)
+                {
+                    auto expression (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
+                    if (expression == nullptr)
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                    }
+                }
+                else if (next.token != nullptr)
                 {
                     auto next_id (next.token->id ());
                     switch (next_id)
                     {
                         case mu::io::token_id::right_square:
                             parser.stream.consume ();
+                            break;
+                        case mu::io::token_id::left_square:
+                        {
+                            
+                        }
                             break;
                         default:
                             result.error = new (GC) mu::core::error_string (U"Expecting right square");
@@ -621,4 +634,39 @@ mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu
 bool mu::llvmc::int_type::covering ()
 {
     return true;
+}
+
+mu::llvmc::expression::expression (mu::string const & data_a, mu::llvmc::parser & parser_a):
+parser (parser_a)
+{
+    assert (data_a.empty ());
+}
+
+void mu::llvmc::expression::parse ()
+{
+    auto expression_l (new (GC) mu::llvmc::ast::expression (parser.current_availability));
+    auto node (parser.stream.peek ());
+    if (node.token != nullptr)
+    {
+        auto node_id (node.token->id ());
+        switch (node_id)
+        {
+            case mu::io::token_id::left_square:
+            {
+                
+            }
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting left square");
+                break;
+        }
+    }
+    else if (node.ast != nullptr)
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting token");
+    }
+    else
+    {
+        result.error = node.error;
+    }
 }

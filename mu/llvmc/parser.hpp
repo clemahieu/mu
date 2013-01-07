@@ -123,6 +123,14 @@ namespace mu
             mu::llvmc::ast::function * function_m;
             mu::llvmc::parser & parser;
         };
+        class expression
+        {
+        public:
+            expression (mu::string const & data_a, mu::llvmc::parser & parser_a);
+            void parse ();
+            mu::llvmc::node_result result;
+            mu::llvmc::parser & parser;
+        };
         class int_type : public mu::llvmc::hook
         {
         public:
