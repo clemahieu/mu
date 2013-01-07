@@ -363,10 +363,8 @@ void mu::llvmc::function::parse_result_set ()
                     case mu::io::token_id::identifier:
                     {
                         parser.stream.consume ();
-                        auto position (function_m->results [index].size ());
                         auto result (new (GC) mu::llvmc::ast::result (type));
                         function_m->results [index].push_back (result);
-                        auto function_l (function_m);
                         block.refer (static_cast <mu::io::identifier *> (next.token)->string,
                                      [result]
                                      (mu::llvmc::ast::node * node_a)
@@ -374,15 +372,11 @@ void mu::llvmc::function::parse_result_set ()
                                          auto scoped (dynamic_cast <mu::llvmc::ast::scoped *> (node_a));
                                          result->value = scoped;
                                      });
-                        next = parser.stream.peek ();
+                        node = parser.stream.peek ();
                     }
                         break;
-                    case mu::io::token_id::right_square:
-                        parser.stream.consume ();
-                        done = true;
-                        break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square");
+                        result.error = new (GC) mu::core::error_string (U"Expecting identifier");
                         break;
                 }
             }
@@ -391,9 +385,23 @@ void mu::llvmc::function::parse_result_set ()
                 result.error = new (GC) mu::core::error_string (U"Expecting a type");
             }
         }
+        else if (node.token != nullptr)
+        {
+            auto node_id (node.token->id ());
+            switch (node_id)
+            {
+                case mu::io::token_id::right_square:
+                    parser.stream.consume ();
+                    done = true;
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"Expecting right_square");
+                    break;
+            }
+        }
         else
         {
-            result.error = new (GC) mu::core::error_string (U"Expecting type");
+            result.error = node.error;
         }
     }
 }
@@ -563,7 +571,7 @@ bool mu::llvmc::block::get (mu::string const & name_a, boost::function <void (mu
 void mu::llvmc::block::refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a)
 {
     auto existing (mappings.find (name_a));
-    auto result (existing != mappings.end ());
+    auto result (existing == mappings.end ());
     if (result)
     {
         result = parent->get (name_a, action_a);
@@ -571,6 +579,10 @@ void mu::llvmc::block::refer (mu::string const & name_a, boost::function <void (
         {
             unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
         }
+    }
+    else
+    {
+        action_a (existing->second);
     }
 }
 

@@ -211,9 +211,26 @@ TEST (llvmc_parser, fail_int_type2000000000)
     EXPECT_EQ (nullptr, module1.node);    
 }
 
+TEST (llvmc_parser, block)
+{
+    mu::llvmc::global global;
+    mu::llvmc::block block (&global);
+    mu::llvmc::ast::node node;
+    auto error (block.insert (mu::string (U"test"), &node));
+    EXPECT_TRUE (!error);
+    auto success (false);
+    block.refer(mu::string (U"test"),
+                [&success]
+                (mu::llvmc::ast::node * node_a)
+                {
+                    success = true;
+                });
+    EXPECT_TRUE (success);
+}
+
 TEST (llvmc_parser, results1)
 {
-    test_parser parser (U"function test1 [int1 val] [] [[val]]");
+    test_parser parser (U"function test1 [int1 val] [] [[int1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -226,5 +243,7 @@ TEST (llvmc_parser, results1)
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->results [0].size ());
     auto result1 (function1->results [0][0]);
-    EXPECT_EQ (parameter1, result1);
+    auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
+    ASSERT_NE (nullptr, value1);
+    EXPECT_EQ (parameter1, value1->value);
 }
