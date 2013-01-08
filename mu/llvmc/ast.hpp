@@ -75,6 +75,7 @@ namespace mu
                 mu::string name;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
+                mu::vector <mu::llvmc::ast::expression *> roots;
             };
             class module : public mu::llvmc::ast::base
             {

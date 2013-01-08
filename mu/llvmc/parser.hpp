@@ -126,8 +126,9 @@ namespace mu
         class expression
         {
         public:
-            expression (mu::string const & data_a, mu::llvmc::parser & parser_a);
+            expression (mu::llvmc::block & block_a, mu::llvmc::parser & parser_a);
             void parse ();
+            mu::llvmc::block & block;
             mu::llvmc::node_result result;
             mu::llvmc::parser & parser;
         };

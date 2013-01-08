@@ -266,6 +266,7 @@ void mu::llvmc::function::parse_body ()
                     auto expression (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
                     if (expression == nullptr)
                     {
+                        function_m->roots.push_back (expression);
                         result.error = new (GC) mu::core::error_string (U"Expecting expression");
                     }
                 }
@@ -279,7 +280,17 @@ void mu::llvmc::function::parse_body ()
                             break;
                         case mu::io::token_id::left_square:
                         {
-                            
+                            mu::llvmc::expression expression_l (block, parser);
+                            expression_l.parse ();
+                            if (expression_l.result.node != nullptr)
+                            {
+                                assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
+                                function_m->roots.push_back (static_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
+                            }
+                            else
+                            {
+                                result.error = expression_l.result.error;
+                            }
                         }
                             break;
                         default:
@@ -636,10 +647,10 @@ bool mu::llvmc::int_type::covering ()
     return true;
 }
 
-mu::llvmc::expression::expression (mu::string const & data_a, mu::llvmc::parser & parser_a):
+mu::llvmc::expression::expression (mu::llvmc::block & block_a, mu::llvmc::parser & parser_a):
+block (block_a),
 parser (parser_a)
 {
-    assert (data_a.empty ());
 }
 
 void mu::llvmc::expression::parse ()
@@ -653,7 +664,61 @@ void mu::llvmc::expression::parse ()
         {
             case mu::io::token_id::left_square:
             {
-                
+                parser.stream.consume ();
+                auto done (false);
+                while (!done && result.error != nullptr)
+                {
+                    auto next (parser.stream.peek ());
+                    if (next.ast != nullptr)
+                    {
+                        expression_l->arguments.push_back (next.ast);
+                    }
+                    else if (next.token != nullptr)
+                    {
+                        auto next_id (next.token->id ());
+                        switch (next_id)
+                        {
+                            case mu::io::token_id::identifier:
+                            {
+                                parser.stream.consume ();
+                                auto & arguments (expression_l->arguments);
+                                auto position (expression_l->arguments.size ());
+                                block.refer(static_cast <mu::io::identifier *> (next.token)->string,
+                                            [&arguments, position]
+                                            (mu::llvmc::ast::node * node_a)
+                                            {
+                                                arguments [position] = node_a;
+                                            });
+                            }
+                                break;
+                            case mu::io::token_id::left_square:
+                            {
+                                mu::llvmc::expression expression_p (block, parser);
+                                expression_p.parse ();
+                                if (expression_p.result.node != nullptr)
+                                {
+                                    expression_l->arguments.push_back (expression_p.result.node);
+                                }
+                                else
+                                {
+                                    result.error = expression_p.result.error;
+                                }
+                            }
+                                break;
+                            case mu::io::token_id::right_square:
+                                parser.stream.consume ();
+                                done = true;
+                                break;
+                            default:
+                                result.error = new (GC) mu::core::error_string (U"");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        result.error = new (GC) mu::core::error_string (U"");
+                    }
+                }
             }
                 break;
             default:
