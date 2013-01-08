@@ -260,47 +260,56 @@ void mu::llvmc::function::parse_body ()
             case mu::io::token_id::left_square:
             {
                 parser.stream.consume ();
-                auto next (parser.stream.peek ());
-                if (next.ast != nullptr)
+                auto done (false);
+                while (!done && result.error == nullptr)
                 {
-                    auto expression (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
-                    if (expression == nullptr)
+                    auto next (parser.stream.peek ());
+                    if (next.ast != nullptr)
                     {
-                        function_m->roots.push_back (expression);
-                        result.error = new (GC) mu::core::error_string (U"Expecting expression");
-                    }
-                }
-                else if (next.token != nullptr)
-                {
-                    auto next_id (next.token->id ());
-                    switch (next_id)
-                    {
-                        case mu::io::token_id::right_square:
-                            parser.stream.consume ();
-                            break;
-                        case mu::io::token_id::left_square:
+                        auto expression (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
+                        if (expression != nullptr)
                         {
-                            mu::llvmc::expression expression_l (block, parser);
-                            expression_l.parse ();
-                            if (expression_l.result.node != nullptr)
-                            {
-                                assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
-                                function_m->roots.push_back (static_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
-                            }
-                            else
-                            {
-                                result.error = expression_l.result.error;
-                            }
+                            function_m->roots.push_back (expression);
                         }
-                            break;
-                        default:
-                            result.error = new (GC) mu::core::error_string (U"Expecting right square");
-                            break;
+                        else
+                        {
+                            result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                        }
                     }
-                }
-                else
-                {
-                    result.error = new (GC) mu::core::error_string (U"Expecting function end");
+                    else if (next.token != nullptr)
+                    {
+                        auto next_id (next.token->id ());
+                        switch (next_id)
+                        {
+                            case mu::io::token_id::right_square:
+                                parser.stream.consume ();
+                                done = true;
+                                break;
+                            case mu::io::token_id::left_square:
+                            {
+                                mu::llvmc::expression expression_l (block, parser);
+                                expression_l.parse ();
+                                if (expression_l.result.node != nullptr)
+                                {
+                                    assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
+                                    function_m->roots.push_back (static_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
+                                    next = parser.stream.peek ();
+                                }
+                                else
+                                {
+                                    result.error = expression_l.result.error;
+                                }
+                            }
+                                break;
+                            default:
+                                result.error = new (GC) mu::core::error_string (U"Expecting right square");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Expecting function end");
+                    }
                 }
             }
                 break;
@@ -649,6 +658,7 @@ bool mu::llvmc::int_type::covering ()
 
 mu::llvmc::expression::expression (mu::llvmc::block & block_a, mu::llvmc::parser & parser_a):
 block (block_a),
+result ({nullptr, nullptr}),
 parser (parser_a)
 {
 }
@@ -666,7 +676,7 @@ void mu::llvmc::expression::parse ()
             {
                 parser.stream.consume ();
                 auto done (false);
-                while (!done && result.error != nullptr)
+                while (!done && result.error == nullptr)
                 {
                     auto next (parser.stream.peek ());
                     if (next.ast != nullptr)
@@ -683,6 +693,7 @@ void mu::llvmc::expression::parse ()
                                 parser.stream.consume ();
                                 auto & arguments (expression_l->arguments);
                                 auto position (expression_l->arguments.size ());
+                                expression_l->arguments.push_back (nullptr);
                                 block.refer(static_cast <mu::io::identifier *> (next.token)->string,
                                             [&arguments, position]
                                             (mu::llvmc::ast::node * node_a)
@@ -733,5 +744,9 @@ void mu::llvmc::expression::parse ()
     else
     {
         result.error = node.error;
+    }
+    if (result.error == nullptr)
+    {
+        result.node = expression_l;
     }
 }
