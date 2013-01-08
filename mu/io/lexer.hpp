@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstring>
+#include <mu/io/tokens.hpp>
 
 namespace mu
 {
@@ -34,6 +34,7 @@ namespace mu
             mu::io::token_result complex_identifier ();
             void line_comment ();
             void consume (size_t size_a);
+            mu::io::position position;
             mu::core::error * region_comment ();
             mu::io::character_result hex_code (int size_a);
             mu::io::token_result lex ();

@@ -39,26 +39,19 @@ bool mu::llvmc::partial_ast_result::valid ()
 }
 
 mu::llvmc::partial_ast::partial_ast (mu::io::stream_token & tokens_a, mu::llvmc::parser & parser_a):
-item (nullptr, nullptr, new (GC) mu::core::error_string (U"Unset")),
 tokens (tokens_a),
 parser (parser_a)
 {
-    refill ();
 }
 
 void mu::llvmc::partial_ast::consume ()
 {
     tokens.consume (1);
-    refill ();
 }
 
-mu::llvmc::partial_ast_result & mu::llvmc::partial_ast::peek ()
+mu::llvmc::partial_ast_result mu::llvmc::partial_ast::peek ()
 {
-    auto & result (item);
-    return result;
-}
-void mu::llvmc::partial_ast::refill ()
-{
+    mu::llvmc::partial_ast_result result ({nullptr, nullptr, nullptr});
     auto token (tokens [0]);
     auto id (token->id ());
     switch (id)
@@ -72,21 +65,22 @@ void mu::llvmc::partial_ast::refill ()
                 auto ast (hook.hook->parse (hook.data, parser));
                 if (ast.node != nullptr)
                 {
-                    item = {nullptr, ast.node, nullptr};
+                    result = {nullptr, ast.node, nullptr};
                 }
                 else
                 {
-                    item = {nullptr, nullptr, ast.error};
+                    result = {nullptr, nullptr, ast.error};
                 }
             }
             else
             {
-                item = {token, nullptr, nullptr};
+                result = {token, nullptr, nullptr};
             }
         }
             break;
         default:
-            item = {token, nullptr, nullptr};
+            result = {token, nullptr, nullptr};
             break;
     }
+    return result;
 }

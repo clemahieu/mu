@@ -19,6 +19,7 @@ mu::io::character_result::~character_result ()
 }
 
 mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
+position (0, 1, 1),
 stream (stream_a)
 {
 }
@@ -41,20 +42,19 @@ mu::io::token_result mu::io::lexer::lex ()
                 consume (1);
                 break;
             case U'[':
-                result.token = new (GC) mu::io::left_square;
+                result.token = new (GC) mu::io::left_square (mu::io::region (position, position));
                 consume (1);
                 break;
             case U']':
-                result.token = new (GC) mu::io::right_square;
+                result.token = new (GC) mu::io::right_square (mu::io::region (position, position));
                 consume (1);
                 break;
             case U';':
-                result.token = new (GC) mu::io::terminator;
+                result.token = new (GC) mu::io::terminator (mu::io::region (position, position));
                 consume (1);
                 break;
             case U'\U0000FFFF':
-                result.token = new (GC) mu::io::end;
-                consume (1);
+                result.token = new (GC) mu::io::end (mu::io::region (position, position));
                 break;
             case U'{':
                 result = complex_identifier ();
@@ -105,7 +105,7 @@ mu::io::token_result mu::io::lexer::lex ()
 
 mu::io::token_result mu::io::lexer::identifier ()
 {
-    auto identifier (new (GC) mu::io::identifier);
+    auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
     {
@@ -123,6 +123,7 @@ mu::io::token_result mu::io::lexer::identifier ()
             case U'{':
             case U';':
             case U'\U0000FFFF':
+                identifier->region.last = position;
                 result.token = identifier;
                 break;
             case U':':
@@ -234,9 +235,9 @@ mu::io::token_result mu::io::lexer::identifier ()
 mu::io::token_result mu::io::lexer::complex_identifier ()
 {
     assert (stream [0] == U'{');
-    consume (1);
     mu::io::token_result result ({nullptr, nullptr});
-    auto identifier (new (GC) mu::io::identifier);
+    auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
+    consume (1);
     auto have_terminator (false);
     mu::string terminator;
     while (result.token == nullptr && result.error == nullptr && !have_terminator && terminator.size () <= 16)
@@ -282,6 +283,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
             }
         }
     }
+    identifier->region.last = position;
     return result;
 }
 
@@ -403,5 +405,17 @@ mu::core::error * mu::io::lexer::region_comment ()
 
 void mu::io::lexer::consume (size_t size_a)
 {
+    auto character (stream [0]);
+    switch (character)
+    {
+        case U'\f':
+        case U'\n':
+        case U'\r':
+            position.line ();
+            break;
+        default:
+            position.character ();
+            break;
+    }
     stream.consume (size_a);
 }

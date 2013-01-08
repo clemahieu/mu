@@ -36,7 +36,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
     new_availability->parent = previous_availability;
     while ((result.node == nullptr) and (result.error == nullptr))
     {
-        auto & item (parser_a.stream.peek ());
+        auto item (parser_a.stream.peek ());
         if (item.ast != nullptr)
         {
             auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
@@ -194,7 +194,7 @@ void mu::llvmc::function::parse_parameters ()
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
 {
-    auto & node (parser.stream.peek ());
+    auto node (parser.stream.peek ());
     if (node.ast != nullptr)
     {
         auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream.peek ().ast));
