@@ -77,13 +77,16 @@ bool mu::llvmc::module::covering ()
 
 mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
+    mu::llvmc::function parser_l (data_a, parser_a);
     auto previous_availability (parser_a.current_availability);
     auto new_availability (new (GC) mu::llvmc::availability::function);
     new_availability->parent = previous_availability;
     parser_a.current_availability = new_availability;
-    mu::llvmc::function parser_l (data_a, parser_a);
+    auto previous_mapping (parser_a.current_mapping);
+    parser_a.current_mapping = &parser_l.block;
     parser_l.parse ();
     parser_a.current_availability = previous_availability;
+    parser_a.current_mapping = previous_mapping;
     return parser_l.result;
 }
 
@@ -287,7 +290,7 @@ void mu::llvmc::function::parse_body ()
                                 break;
                             case mu::io::token_id::left_square:
                             {
-                                mu::llvmc::expression expression_l (block, parser);
+                                mu::llvmc::expression expression_l (parser);
                                 expression_l.parse ();
                                 if (expression_l.result.node != nullptr)
                                 {
@@ -656,8 +659,7 @@ bool mu::llvmc::int_type::covering ()
     return true;
 }
 
-mu::llvmc::expression::expression (mu::llvmc::block & block_a, mu::llvmc::parser & parser_a):
-block (block_a),
+mu::llvmc::expression::expression (mu::llvmc::parser & parser_a):
 result ({nullptr, nullptr}),
 parser (parser_a)
 {
@@ -694,7 +696,7 @@ void mu::llvmc::expression::parse ()
                                 auto & arguments (expression_l->arguments);
                                 auto position (expression_l->arguments.size ());
                                 expression_l->arguments.push_back (nullptr);
-                                block.refer(static_cast <mu::io::identifier *> (next.token)->string,
+                                parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string,
                                             [&arguments, position]
                                             (mu::llvmc::ast::node * node_a)
                                             {
@@ -704,7 +706,7 @@ void mu::llvmc::expression::parse ()
                                 break;
                             case mu::io::token_id::left_square:
                             {
-                                mu::llvmc::expression expression_p (block, parser);
+                                mu::llvmc::expression expression_p (parser);
                                 expression_p.parse ();
                                 if (expression_p.result.node != nullptr)
                                 {
@@ -749,4 +751,84 @@ void mu::llvmc::expression::parse ()
     {
         result.node = expression_l;
     }
+}
+
+mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto name (parser_a.stream.peek());
+    if (name.token != nullptr)
+    {
+        auto name_id (name.token->id ());
+        switch (name_id)
+        {
+            case mu::io::token_id::identifier:
+            {
+                parser_a.stream.consume ();
+                auto next (parser_a.stream.peek ());
+                if (next.token != nullptr)
+                {
+                    auto next_id (next.token->id ());
+                    switch (next_id)
+                    {
+                        case mu::io::token_id::left_square:
+                        {
+                        }
+                            break;
+                        default:
+                            result.error = new (GC) mu::core::error_string (U"Expecting expressing");
+                            break;
+                    }
+                }
+                else if (next.ast != nullptr)
+                {
+                    result.error = new (GC) mu::core::error_string (U"Expecting an expression");
+                }
+                else
+                {
+                    result.error = next.error;
+                }
+            }
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                break;
+        }
+    }
+    else if (name.ast != nullptr)
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting a name");
+    }
+    else
+    {
+        result.error = name.error;
+    }
+    return result;
+}
+
+bool mu::llvmc::set_hook::covering ()
+{
+    return false;
+}
+
+bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a)
+{
+    auto hook (keywords->get_hook (identifier_a));
+    auto result (hook.hook != nullptr);
+    if (!result)
+    {
+        auto existing (mappings.lower_bound (identifier_a));
+        result = (existing != mappings.end ()) && (existing->first == identifier_a);
+        if (!result)
+        {
+            if (existing != mappings.begin())
+            {
+                --existing;
+            }
+            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+        }
+    }
+    return result;
+
 }
