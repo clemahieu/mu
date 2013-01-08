@@ -162,6 +162,7 @@ namespace mu
             mu::llvmc::module module;
             mu::llvmc::function_hook function;
             mu::llvmc::int_type int_type;
+            mu::llvmc::set_hook set_hook;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };

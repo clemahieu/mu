@@ -333,3 +333,27 @@ TEST (llvmc_parser, body3)
     auto argument2 (root2->arguments [0]);
     EXPECT_EQ (parameter1, argument2);
 }
+
+TEST (llvmc_parser, DISABLED_set1)
+{
+    test_parser parser (U"function test1 [int1 val] [set val1 [val]] [[val1]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto root1 (function1->roots [0]);
+    ASSERT_EQ (1, root1->arguments.size ());
+    auto argument1 (root1->arguments [0]);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
+    EXPECT_EQ (parameter1, argument1);
+    ASSERT_EQ (1, function1->results.size ());
+    ASSERT_EQ (1, function1->results [0].size ());
+    auto result1 (function1->results [0][0]);
+    auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
+    EXPECT_EQ (root1, value1->value);
+}

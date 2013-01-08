@@ -22,6 +22,8 @@ stream (stream_a)
     assert (!error1);
     auto error2 (keywords.insert (mu::string (U"int"), &int_type));
     assert (!error2);
+    auto error3 (keywords.insert (mu::string (U"set"), &set_hook));
+    assert (!error3);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -272,6 +274,7 @@ void mu::llvmc::function::parse_body ()
                         auto expression (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
                         if (expression != nullptr)
                         {
+                            parser.stream.consume ();
                             function_m->roots.push_back (expression);
                         }
                         else
@@ -757,6 +760,7 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
+    parser_a.stream.consume ();
     auto name (parser_a.stream.peek());
     if (name.token != nullptr)
     {
@@ -774,6 +778,24 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
                     {
                         case mu::io::token_id::left_square:
                         {
+                            mu::llvmc::expression expression (parser_a);
+                            expression.parse ();
+                            if (expression.result.node != nullptr)
+                            {
+                                auto error (parser_a.current_mapping->insert(static_cast <mu::io::identifier *> (name.token)->string, expression.result.node));
+                                if (error)
+                                {
+                                    result.error = new (GC) mu::core::error_string (U"Unable to use name");
+                                }
+                                else
+                                {
+                                    result.node = expression.result.node;
+                                }
+                            }
+                            else
+                            {
+                                result.error = expression.result.error;
+                            }
                         }
                             break;
                         default:
