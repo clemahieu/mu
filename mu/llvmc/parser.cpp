@@ -299,6 +299,7 @@ void mu::llvmc::function::parse_body ()
                                 {
                                     assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
                                     function_m->roots.push_back (static_cast <mu::llvmc::ast::expression *> (expression_l.result.node));
+                                    parser.stream.consume ();
                                     next = parser.stream.peek ();
                                 }
                                 else
@@ -722,7 +723,6 @@ void mu::llvmc::expression::parse ()
                             }
                                 break;
                             case mu::io::token_id::right_square:
-                                parser.stream.consume ();
                                 done = true;
                                 break;
                             default:

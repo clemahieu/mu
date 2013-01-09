@@ -334,9 +334,9 @@ TEST (llvmc_parser, body3)
     EXPECT_EQ (parameter1, argument2);
 }
 
-TEST (llvmc_parser, DISABLED_set1)
+TEST (llvmc_parser, set1)
 {
-    test_parser parser (U"function test1 [int1 val] [set val1 [val]] [[val1]]");
+    test_parser parser (U"function test1 [int1 val] [set val1 [val]] [[int1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
