@@ -23,7 +23,7 @@ void mu::io::position::line ()
 {
     ++offset;
     ++row;
-    column = 0;
+    column = 1;
 }
 
 mu::io::region::region (size_t offset1_a, size_t row1_a, size_t column1_a, size_t offset2_a, size_t row2_a, size_t column2_a):

@@ -405,17 +405,20 @@ mu::core::error * mu::io::lexer::region_comment ()
 
 void mu::io::lexer::consume (size_t size_a)
 {
-    auto character (stream [0]);
-    switch (character)
+    for (size_t i (0); i < size_a; ++i)
     {
-        case U'\f':
-        case U'\n':
-        case U'\r':
-            position.line ();
-            break;
-        default:
-            position.character ();
-            break;
+        auto character (stream [0]);
+        switch (character)
+        {
+            case U'\f':
+            case U'\n':
+            case U'\r':
+                position.line ();
+                break;
+            default:
+                position.character ();
+                break;
+        }
+        stream.consume (1);
     }
-    stream.consume (size_a);
 }
