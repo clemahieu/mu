@@ -106,6 +106,7 @@ mu::io::token_result mu::io::lexer::lex ()
 mu::io::token_result mu::io::lexer::identifier ()
 {
     auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
+    auto last (position);
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
     {
@@ -123,7 +124,7 @@ mu::io::token_result mu::io::lexer::identifier ()
             case U'{':
             case U';':
             case U'\U0000FFFF':
-                identifier->region.last = position;
+                identifier->region.last = last;
                 result.token = identifier;
                 break;
             case U':':
@@ -132,80 +133,111 @@ mu::io::token_result mu::io::lexer::identifier ()
                 switch (character2)
                 {
                     case U'a':
+                    {
+                        consume (1);
+                        last = position;
+                        consume (1);
+                        auto character (hex_code (2));
+                        last.offset += 2;
+                        last.column += 2;
+                        if (character.error == nullptr)
                         {
-                            consume (2);
-                            auto character (hex_code (2));
-                            if (character.error == nullptr)
-                            {
-                                identifier->string.push_back (character.character);
-                            }
-                            else
-                            {
-                                result.error = character.error;
-                            }
+                            identifier->string.push_back (character.character);
                         }
+                        else
+                        {
+                            result.error = character.error;
+                        }
+                    }
                         break;
                     case U'u':
+                    {
+                        consume (1);
+                        last = position;
+                        consume (1);
+                        auto character (hex_code (8));
+                        last.offset += 8;
+                        last.column += 8;
+                        if (character.error == nullptr)
                         {
-                            consume (2);
-                            auto character (hex_code (8));
-                            if (character.error == nullptr)
-                            {
-                                identifier->string.push_back (character.character);
-                            }
-                            else
-                            {
-                                result.error = character.error;
-                            }
+                            identifier->string.push_back (character.character);
                         }
+                        else
+                        {
+                            result.error = character.error;
+                        }
+                    }
                         break;
                     case U'[':
                         identifier->string.push_back (U'[');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U']':
                         identifier->string.push_back (U']');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U':':
                         identifier->string.push_back (U':');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U';':
                         identifier->string.push_back (U';');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'{':
                         identifier->string.push_back (U'{');
                         consume (2);
+                        last = position;
                         break;
                     case U'}':
                         identifier->string.push_back (U'}');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U' ':
                         identifier->string.push_back (U' ');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'\f':
                         identifier->string.push_back (U'\f');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'\n':
                         identifier->string.push_back (U'\n');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'\r':
                         identifier->string.push_back (U'\r');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'\t':
                         identifier->string.push_back (U'\t');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'\0':
                         identifier->string.push_back (U'\0');
-                        consume (2);
+                        consume (1);
+                        last = position;
+                        consume (1);
                         break;
                     case U'-':
                         result.token = identifier;
@@ -225,6 +257,7 @@ mu::io::token_result mu::io::lexer::identifier ()
             break;
             default:
                 identifier->string.push_back (character);
+                last = position;
                 consume (1);
                 break;
         }
@@ -237,6 +270,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
     assert (stream [0] == U'{');
     mu::io::token_result result ({nullptr, nullptr});
     auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
+    auto last (position);
     consume (1);
     auto have_terminator (false);
     mu::string terminator;
@@ -245,6 +279,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         auto character (stream [0]);
         if (character == U'}')
         {
+            last = position;
             have_terminator = true;
         }
         else
@@ -257,6 +292,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
     {
         result.error = new (GC) mu::core::error_string (U"Termiator token is greater than 16 characters");
     }
+    
     while (result.token == nullptr && result.error == nullptr)
     {
         auto have_terminator (true);
@@ -267,7 +303,16 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
         if (have_terminator)
         {
             result.token = identifier;
-            consume (terminator.size ());
+            if (!terminator.empty ())
+            {
+                consume (terminator.size () - 1);
+                identifier->region.last = position;
+                consume (1);
+            }
+            else
+            {
+                identifier->region.last = last;
+            }
         }
         else
         {
@@ -283,7 +328,6 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
             }
         }
     }
-    identifier->region.last = position;
     return result;
 }
 
