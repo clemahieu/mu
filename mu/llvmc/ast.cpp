@@ -61,6 +61,11 @@ mu::llvmc::availability::node * mu::llvmc::ast::result::availability ()
     return value->availability ();
 }
 
+mu::llvmc::ast::if_expression::if_expression (mu::llvmc::availability::node * availability_a):
+base (availability_a)
+{
+}
+
 mu::llvmc::ast::instruction::instruction (mu::llvmc::availability::module * availability_a, mu::llvmc::ast::instruction_type type_a):
 base (availability_a),
 type (type_a)

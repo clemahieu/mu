@@ -858,7 +858,93 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
 
 mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    
+    mu::llvmc::node_result result;
+    auto previous_availability (parser_a.current_availability);
+    auto expression (new (GC) mu::llvmc::ast::if_expression (previous_availability));
+    auto true_availability (new (GC) mu::llvmc::availability::if_branch);
+    parser_a.current_availability = true_availability;
+    result.error = parse_branch (parser_a, expression->true_roots);
+    if (result.error == nullptr)
+    {
+        auto false_availability (new (GC) mu::llvmc::availability::if_branch);
+        parser_a.current_availability = false_availability;
+        result.error = parse_branch (parser_a, expression->false_roots);
+    }
+    if (result.error == nullptr)
+    {
+        result.node = expression;
+    }
+    parser_a.current_availability = previous_availability;
+    return result;
+}
+
+mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::expression *> & target)
+{
+    mu::core::error * result (nullptr);
+    auto opening (parser_a.stream.peek ());
+    if (opening.token != nullptr)
+    {
+        auto opening_id (opening.token->id ());
+        switch (opening_id)
+        {
+            case mu::io::token_id::left_square:
+            {
+                parser_a.stream.consume ();
+                auto done (false);
+                while (!done)
+                {
+                    auto next (parser_a.stream.peek ());
+                    if (next.ast != nullptr)
+                    {
+                        auto expression_l (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
+                        if (expression_l != nullptr)
+                        {
+                            target.push_back (expression_l);
+                        }
+                        else
+                        {
+                            result = new (GC) mu::core::error_string (U"Expecting expression");
+                        }
+                    }
+                    else if (next.token != nullptr)
+                    {
+                        auto next_id (next.token->id ());
+                        switch (next_id)
+                        {
+                            case mu::io::token_id::left_square:
+                            {
+                                mu::llvmc::expression expression_l (parser_a);
+                                expression_l.parse ();                                
+                            }
+                                break;
+                            case mu::io::token_id::right_square:
+                                done = true;
+                                break;
+                            default:
+                                result = new (GC) mu::core::error_string (U"Expecting expression or end of block");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        result = next.error;
+                    }
+                }
+            }
+                break;
+            default:
+                result = new (GC) mu::core::error_string (U"Expecting left square");
+                break;
+        }
+    }
+    else if (opening.ast != nullptr)
+    {
+        result = new (GC) mu::core::error_string (U"Expecting block");
+    }
+    else
+    {
+        result = opening.error;
+    }
 }
 
 bool mu::llvmc::if_hook::covering ()
