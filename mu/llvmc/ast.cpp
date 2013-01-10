@@ -35,6 +35,12 @@ base (availability_a)
 {
 }
 
+mu::llvmc::ast::definite_expression::definite_expression (mu::llvmc::availability::node * availability_a):
+expression (availability_a)
+{
+}
+
+
 mu::llvmc::ast::value::value (mu::llvmc::availability::node * availability_a):
 base (availability_a)
 {

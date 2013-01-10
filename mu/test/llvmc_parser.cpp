@@ -288,7 +288,8 @@ TEST (llvmc_parser, body1)
     ASSERT_EQ (1, module2->functions.size ());
     auto function1 (module2->functions [0]);
     ASSERT_EQ (1, function1->roots.size ());
-    auto root1 (function1->roots [0]);
+    auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
     EXPECT_EQ (0, root1->arguments.size ());
 }
 
@@ -303,7 +304,8 @@ TEST (llvmc_parser, body2)
     ASSERT_EQ (1, module2->functions.size ());
     auto function1 (module2->functions [0]);
     ASSERT_EQ (1, function1->roots.size ());
-    auto root1 (function1->roots [0]);
+    auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
     auto argument1 (root1->arguments [0]);
     ASSERT_EQ (1, function1->parameters.size ());
@@ -322,13 +324,15 @@ TEST (llvmc_parser, body3)
     ASSERT_EQ (1, module2->functions.size ());
     auto function1 (module2->functions [0]);
     ASSERT_EQ (2, function1->roots.size ());
-    auto root1 (function1->roots [0]);
+    auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
     auto argument1 (root1->arguments [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
     EXPECT_EQ (parameter1, argument1);    
-    auto root2 (function1->roots [1]);
+    auto root2 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [1]));
+    ASSERT_NE (nullptr, root2);
     ASSERT_EQ (1, root2->arguments.size ());
     auto argument2 (root2->arguments [0]);
     EXPECT_EQ (parameter1, argument2);
@@ -345,7 +349,8 @@ TEST (llvmc_parser, set1)
     ASSERT_EQ (1, module2->functions.size ());
     auto function1 (module2->functions [0]);
     ASSERT_EQ (1, function1->roots.size ());
-    auto root1 (function1->roots [0]);
+    auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
     ASSERT_EQ (1, root1->arguments.size ());
     auto argument1 (root1->arguments [0]);
     ASSERT_EQ (1, function1->parameters.size ());

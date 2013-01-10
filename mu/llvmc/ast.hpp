@@ -58,14 +58,26 @@ namespace mu
             };
             class expression : public mu::llvmc::ast::base
             {
-            public:
+            protected:
                 expression (mu::llvmc::availability::node * availability_a);
-                mu::vector <mu::llvmc::ast::node *> arguments;
             };
             class value : public mu::llvmc::ast::base
             {
             public:
                 value (mu::llvmc::availability::node * availability_a);
+            };
+            class definite_expression : public mu::llvmc::ast::expression
+            {
+            public:
+                definite_expression (mu::llvmc::availability::node * availability_a);
+                mu::vector <mu::llvmc::ast::node *> arguments;
+            };
+            class if_expression : public mu::llvmc::ast::base
+            {
+            public:
+                if_expression (mu::llvmc::availability::node * availability_a);
+                mu::vector <mu::llvmc::ast::expression *> true_roots;
+                mu::vector <mu::llvmc::ast::expression *> false_roots;
             };
             class function : public mu::llvmc::ast::base
             {

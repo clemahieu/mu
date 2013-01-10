@@ -24,6 +24,8 @@ stream (stream_a)
     assert (!error2);
     auto error3 (keywords.insert (mu::string (U"set"), &set_hook));
     assert (!error3);
+    auto error4 (keywords.insert (mu::string (U"if"), &if_hook));
+    assert (!error4);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -671,7 +673,7 @@ parser (parser_a)
 
 void mu::llvmc::expression::parse ()
 {
-    auto expression_l (new (GC) mu::llvmc::ast::expression (parser.current_availability));
+    auto expression_l (new (GC) mu::llvmc::ast::definite_expression (parser.current_availability));
     auto node (parser.stream.peek ());
     if (node.token != nullptr)
     {
@@ -852,5 +854,14 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
         }
     }
     return result;
+}
 
+mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    
+}
+
+bool mu::llvmc::if_hook::covering ()
+{
+    return false;
 }
