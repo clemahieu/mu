@@ -72,10 +72,11 @@ namespace mu
                 definite_expression (mu::llvmc::availability::node * availability_a);
                 mu::vector <mu::llvmc::ast::node *> arguments;
             };
-            class if_expression : public mu::llvmc::ast::base
+            class if_expression : public mu::llvmc::ast::expression
             {
             public:
                 if_expression (mu::llvmc::availability::node * availability_a);
+                mu::llvmc::ast::expression * predicate;
                 mu::vector <mu::llvmc::ast::expression *> true_roots;
                 mu::vector <mu::llvmc::ast::expression *> false_roots;
             };

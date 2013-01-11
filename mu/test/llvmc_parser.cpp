@@ -362,3 +362,37 @@ TEST (llvmc_parser, set1)
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     EXPECT_EQ (root1, value1->value);
 }
+
+TEST (llvmc_parser, if1)
+{
+    test_parser parser (U"function test1 [int1 val] [if [] [] []] [[int1 val]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto root1 (dynamic_cast <mu::llvmc::ast::if_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
+    ASSERT_EQ (0, root1->true_roots.size ());
+    ASSERT_EQ (0, root1->false_roots.size ());
+}
+
+TEST (llvmc_parser, if2)
+{
+    test_parser parser (U"function test1 [int1 val] [if [] [set val1 [val]] [set val2 [val]]] [[int1 val]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (module2->functions [0]);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto root1 (dynamic_cast <mu::llvmc::ast::if_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
+    ASSERT_EQ (1, root1->true_roots.size ());
+    ASSERT_EQ (1, root1->false_roots.size ());
+}

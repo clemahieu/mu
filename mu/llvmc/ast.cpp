@@ -62,7 +62,7 @@ mu::llvmc::availability::node * mu::llvmc::ast::result::availability ()
 }
 
 mu::llvmc::ast::if_expression::if_expression (mu::llvmc::availability::node * availability_a):
-base (availability_a)
+expression (availability_a)
 {
 }
 

@@ -690,6 +690,7 @@ void mu::llvmc::expression::parse ()
                     if (next.ast != nullptr)
                     {
                         expression_l->arguments.push_back (next.ast);
+                        parser.stream.consume ();
                     }
                     else if (next.token != nullptr)
                     {
@@ -858,23 +859,73 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
 
 mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    mu::llvmc::node_result result;
-    auto previous_availability (parser_a.current_availability);
-    auto expression (new (GC) mu::llvmc::ast::if_expression (previous_availability));
-    auto true_availability (new (GC) mu::llvmc::availability::if_branch);
-    parser_a.current_availability = true_availability;
-    result.error = parse_branch (parser_a, expression->true_roots);
-    if (result.error == nullptr)
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    mu::llvmc::ast::expression * predicate;
+    parser_a.stream.consume ();
+    auto next (parser_a.stream.peek ());
+    if (next.ast != nullptr)
     {
-        auto false_availability (new (GC) mu::llvmc::availability::if_branch);
-        parser_a.current_availability = false_availability;
-        result.error = parse_branch (parser_a, expression->false_roots);
+        auto expression_l (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
+        if (expression_l != nullptr)
+        {
+            predicate = expression_l;;
+        }
+        else
+        {
+            result.error = new (GC) mu::core::error_string (U"Expecting expression");
+        }
+    }
+    else if (next.token != nullptr)
+    {
+        auto next_id (next.token->id ());
+        switch (next_id)
+        {
+            case mu::io::token_id::left_square:
+            {
+                mu::llvmc::expression expression_l (parser_a);
+                expression_l.parse ();
+                if (expression_l.result.node != nullptr)
+                {
+                    parser_a.stream.consume ();
+                    assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node) != nullptr);
+                    predicate = static_cast <mu::llvmc::ast::expression *> (expression_l.result.node);
+                }
+                else
+                {
+                    result.error = expression_l.result.error;
+                }
+            }
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting left square");
+                break;
+        }
+    }
+    else
+    {
+        result.error = next.error;
     }
     if (result.error == nullptr)
     {
-        result.node = expression;
+        auto previous_availability (parser_a.current_availability);
+        auto expression (new (GC) mu::llvmc::ast::if_expression (previous_availability));
+        expression->predicate = predicate;
+        auto true_availability (new (GC) mu::llvmc::availability::if_branch);
+        parser_a.current_availability = true_availability;
+        result.error = parse_branch (parser_a, expression->true_roots);
+        if (result.error == nullptr)
+        {
+            parser_a.stream.consume ();
+            auto false_availability (new (GC) mu::llvmc::availability::if_branch);
+            parser_a.current_availability = false_availability;
+            result.error = parse_branch (parser_a, expression->false_roots);
+        }
+        if (result.error == nullptr)
+        {
+            result.node = expression;
+        }
+        parser_a.current_availability = previous_availability;
     }
-    parser_a.current_availability = previous_availability;
     return result;
 }
 
@@ -899,6 +950,7 @@ mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a
                         auto expression_l (dynamic_cast <mu::llvmc::ast::expression *> (next.ast));
                         if (expression_l != nullptr)
                         {
+                            parser_a.stream.consume ();
                             target.push_back (expression_l);
                         }
                         else
@@ -945,6 +997,7 @@ mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a
     {
         result = opening.error;
     }
+    return result;
 }
 
 bool mu::llvmc::if_hook::covering ()
