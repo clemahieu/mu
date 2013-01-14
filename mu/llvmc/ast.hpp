@@ -58,9 +58,9 @@ namespace mu
             class if_expression : public mu::llvmc::ast::expression
             {
             public:
-                mu::llvmc::ast::expression * predicate;
-                mu::vector <mu::llvmc::ast::expression *> true_roots;
-                mu::vector <mu::llvmc::ast::expression *> false_roots;
+                mu::llvmc::ast::node * predicate;
+                mu::vector <mu::llvmc::ast::node *> true_roots;
+                mu::vector <mu::llvmc::ast::node *> false_roots;
             };
             class function : public mu::llvmc::ast::node
             {
@@ -69,12 +69,12 @@ namespace mu
                 mu::string name;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
-                mu::vector <mu::llvmc::ast::expression *> roots;
+                mu::vector <mu::llvmc::ast::node *> roots;
             };
             class module : public mu::llvmc::ast::node
             {
             public:
-                mu::vector <mu::llvmc::ast::function *> functions;
+                mu::vector <mu::llvmc::ast::node *> functions;
             };
             enum class instruction_type
             {

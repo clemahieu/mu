@@ -145,7 +145,8 @@ TEST (llvmc_parser, simple)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
 }
@@ -159,10 +160,12 @@ TEST (llvmc_parser, two_functions)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (2, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
-    auto function2 (module2->functions [1]);
+    auto function2 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [1]));
+    ASSERT_NE (nullptr, function2);
     EXPECT_EQ (0, function2->parameters.size ());
     EXPECT_EQ (0, function2->results.size ());
 }
@@ -176,7 +179,8 @@ TEST (llvmc_parser, int_type1)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
@@ -194,7 +198,8 @@ TEST (llvmc_parser, int_type1024)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
@@ -237,7 +242,8 @@ TEST (llvmc_parser, results1)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
     ASSERT_EQ (1, function1->results.size ());
@@ -257,7 +263,8 @@ TEST (llvmc_parser, results2)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::argument *> (function1->parameters [0]));
     ASSERT_EQ (2, function1->results.size ());
@@ -282,7 +289,8 @@ TEST (llvmc_parser, body1)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
@@ -298,7 +306,8 @@ TEST (llvmc_parser, body2)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
@@ -318,7 +327,8 @@ TEST (llvmc_parser, body3)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (2, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
@@ -343,7 +353,8 @@ TEST (llvmc_parser, set1)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
@@ -368,7 +379,8 @@ TEST (llvmc_parser, if1)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::if_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);
@@ -385,7 +397,8 @@ TEST (llvmc_parser, if2)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (module2->functions [0]);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto root1 (dynamic_cast <mu::llvmc::ast::if_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, root1);

@@ -849,7 +849,7 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
 mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    mu::llvmc::ast::expression * predicate;
+    mu::llvmc::ast::node * predicate;
     parser_a.stream.consume ();
     auto next (parser_a.stream.peek ());
     if (next.ast != nullptr)
@@ -876,8 +876,7 @@ mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu:
                 if (expression_l.result.node != nullptr)
                 {
                     parser_a.stream.consume ();
-                    assert (dynamic_cast <mu::llvmc::ast::expression *> (expression_l.result.node) != nullptr);
-                    predicate = static_cast <mu::llvmc::ast::expression *> (expression_l.result.node);
+                    predicate = expression_l.result.node;
                 }
                 else
                 {
@@ -912,7 +911,7 @@ mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu:
     return result;
 }
 
-mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::expression *> & target)
+mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::node *> & target)
 {
     mu::core::error * result (nullptr);
     auto opening (parser_a.stream.peek ());

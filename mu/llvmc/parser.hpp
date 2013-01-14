@@ -152,7 +152,7 @@ namespace mu
         {
         public:
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
-            mu::core::error * parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::expression *> & target);
+            mu::core::error * parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::node *> & target);
             bool covering () override;
         };
         class partial_ast;
