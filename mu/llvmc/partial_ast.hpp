@@ -38,7 +38,6 @@ namespace mu
             partial_ast (mu::io::stream_token & tokens_a, mu::llvmc::parser & parser_a);
             void consume ();
             mu::llvmc::partial_ast_result peek ();
-        private:
             mu::io::stream_token & tokens;
             mu::llvmc::parser & parser;
         };

@@ -78,6 +78,20 @@ mu::llvmc::partial_ast_result mu::llvmc::partial_ast::peek ()
             }
         }
             break;
+        case mu::io::token_id::left_square:
+        {
+            mu::llvmc::expression expression_l (parser);
+            expression_l.parse ();
+            if (expression_l.result.node != nullptr)
+            {
+                result.ast = expression_l.result.node;
+            }
+            else
+            {
+                result.error = expression_l.result.error;
+            }
+        }
+            break;
         default:
             result = {token, nullptr, nullptr};
             break;

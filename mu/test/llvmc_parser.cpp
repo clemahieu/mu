@@ -128,7 +128,7 @@ TEST (llvmc_parser, empty)
     EXPECT_EQ (0, module2->functions.size ());
 }
 
-TEST (llvmc_parser, fail_unexpected)
+TEST (llvmc_parser, fail_no_expression_end)
 {
     test_parser parser (U"[");
     auto module1 (parser.parser.parse ());
