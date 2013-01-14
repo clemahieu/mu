@@ -161,10 +161,8 @@ namespace mu
         public:
             parser (mu::llvmc::partial_ast & stream_a);
             node_result parse ();
-            mu::llvmc::availability::context availability;
             llvm::LLVMContext context;
             mu::llvmc::global globals;
-            mu::llvmc::availability::node * current_availability;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;

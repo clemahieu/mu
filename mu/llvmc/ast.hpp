@@ -30,70 +30,50 @@ namespace mu
             public:
                 virtual ~node ();
             };
-            class scoped : public mu::llvmc::ast::node
+            class argument : public mu::llvmc::ast::node
             {
             public:
-                virtual mu::llvmc::availability::node * availability () = 0;
-            };
-            class base : public mu::llvmc::ast::scoped
-            {
-            public:
-                base (mu::llvmc::availability::node * availability_a);
-                mu::llvmc::availability::node * availability () override;
-                mu::llvmc::availability::node * availability_m;
-            };
-            class argument : public mu::llvmc::ast::base
-            {
-            public:
-                argument (mu::llvmc::wrapper::type * type_a, mu::llvmc::availability::node * availability_a);
+                argument (mu::llvmc::wrapper::type * type_a);
                 mu::llvmc::wrapper::type * type;
             };
-            class result : public mu::llvmc::ast::scoped
+            class result : public mu::llvmc::ast::node
             {
             public:
-                result (mu::llvmc::wrapper::type * type_a);
-                mu::llvmc::availability::node * availability () override;
-                mu::llvmc::wrapper::type * type;
-                mu::llvmc::ast::scoped * value;
+                result (mu::llvmc::wrapper::type * written_type_a);
+                mu::llvmc::wrapper::type * written_type;
+                mu::llvmc::ast::node * value;
             };
-            class expression : public mu::llvmc::ast::base
+            class expression : public mu::llvmc::ast::node
             {
-            protected:
-                expression (mu::llvmc::availability::node * availability_a);
             };
-            class value : public mu::llvmc::ast::base
+            class value : public mu::llvmc::ast::node
             {
             public:
-                value (mu::llvmc::availability::node * availability_a);
             };
             class definite_expression : public mu::llvmc::ast::expression
             {
             public:
-                definite_expression (mu::llvmc::availability::node * availability_a);
                 mu::vector <mu::llvmc::ast::node *> arguments;
             };
             class if_expression : public mu::llvmc::ast::expression
             {
             public:
-                if_expression (mu::llvmc::availability::node * availability_a);
                 mu::llvmc::ast::expression * predicate;
                 mu::vector <mu::llvmc::ast::expression *> true_roots;
                 mu::vector <mu::llvmc::ast::expression *> false_roots;
             };
-            class function : public mu::llvmc::ast::base
+            class function : public mu::llvmc::ast::node
             {
             public:
-                function (mu::llvmc::availability::module * availability_a);
                 mu::llvmc::availability::function * entry;
                 mu::string name;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
                 mu::vector <mu::llvmc::ast::expression *> roots;
             };
-            class module : public mu::llvmc::ast::base
+            class module : public mu::llvmc::ast::node
             {
             public:
-                module ();
                 mu::vector <mu::llvmc::ast::function *> functions;
             };
             enum class instruction_type
@@ -149,10 +129,10 @@ namespace mu
                 xor_i,
                 zext
             };
-            class instruction : public mu::llvmc::ast::base
+            class instruction : public mu::llvmc::ast::node
             {
             public:
-                instruction (mu::llvmc::availability::module * availability_a, mu::llvmc::ast::instruction_type type_a);
+                instruction (mu::llvmc::ast::instruction_type type_a);
                 mu::llvmc::ast::instruction_type type;
             };
         }

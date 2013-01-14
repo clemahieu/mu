@@ -32,10 +32,6 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module);
-    auto previous_availability (parser_a.current_availability);
-    auto new_availability (new (GC) mu::llvmc::availability::module);
-    parser_a.current_availability = new_availability;
-    new_availability->parent = previous_availability;
     while ((result.node == nullptr) and (result.error == nullptr))
     {
         auto item (parser_a.stream.peek ());
@@ -70,7 +66,6 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             result.error = item.error;
         }
     }
-    parser_a.current_availability = previous_availability;
     return result;
 }
 
@@ -82,14 +77,9 @@ bool mu::llvmc::module::covering ()
 mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::function parser_l (data_a, parser_a);
-    auto previous_availability (parser_a.current_availability);
-    auto new_availability (new (GC) mu::llvmc::availability::function);
-    new_availability->parent = previous_availability;
-    parser_a.current_availability = new_availability;
     auto previous_mapping (parser_a.current_mapping);
     parser_a.current_mapping = &parser_l.block;
     parser_l.parse ();
-    parser_a.current_availability = previous_availability;
     parser_a.current_mapping = previous_mapping;
     return parser_l.result;
 }
@@ -97,7 +87,7 @@ mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::string const & data_
 mu::llvmc::function::function (mu::string const & data_a, mu::llvmc::parser & parser_a):
 block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
-function_m (new (GC) mu::llvmc::ast::function (parser_a.module.current_module)),
+function_m (new (GC) mu::llvmc::ast::function),
 parser (parser_a)
 {
     assert (data_a.empty ());
@@ -213,7 +203,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                     {
                         parser.stream.consume ();
                         auto identifier (static_cast <mu::io::identifier *> (next_token));
-                        auto argument (new (GC) mu::llvmc::ast::argument (type, function_m->entry));
+                        auto argument (new (GC) mu::llvmc::ast::argument (type));
                         function_m->parameters.push_back (argument);
                         if (block.insert (identifier->string, argument))
                         {
@@ -411,8 +401,7 @@ void mu::llvmc::function::parse_result_set ()
                                      [result]
                                      (mu::llvmc::ast::node * node_a)
                                      {
-                                         auto scoped (dynamic_cast <mu::llvmc::ast::scoped *> (node_a));
-                                         result->value = scoped;
+                                         result->value = node_a;
                                      });
                         node = parser.stream.peek ();
                     }
@@ -646,7 +635,7 @@ mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu
         unsigned int bits (boost::lexical_cast <unsigned int> (data_a));
         if (bits <= 1024)
         {
-            result.node = new (GC) mu::llvmc::wrapper::integer_type (&parser_a.availability, llvm::Type::getIntNTy (parser_a.context, bits));
+            result.node = new (GC) mu::llvmc::wrapper::integer_type (llvm::Type::getIntNTy (parser_a.context, bits));
         }
         else
         {
@@ -673,7 +662,7 @@ parser (parser_a)
 
 void mu::llvmc::expression::parse ()
 {
-    auto expression_l (new (GC) mu::llvmc::ast::definite_expression (parser.current_availability));
+    auto expression_l (new (GC) mu::llvmc::ast::definite_expression);
     auto node (parser.stream.peek ());
     if (node.token != nullptr)
     {
@@ -907,24 +896,18 @@ mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu:
     }
     if (result.error == nullptr)
     {
-        auto previous_availability (parser_a.current_availability);
-        auto expression (new (GC) mu::llvmc::ast::if_expression (previous_availability));
+        auto expression (new (GC) mu::llvmc::ast::if_expression);
         expression->predicate = predicate;
-        auto true_availability (new (GC) mu::llvmc::availability::if_branch);
-        parser_a.current_availability = true_availability;
         result.error = parse_branch (parser_a, expression->true_roots);
         if (result.error == nullptr)
         {
             parser_a.stream.consume ();
-            auto false_availability (new (GC) mu::llvmc::availability::if_branch);
-            parser_a.current_availability = false_availability;
             result.error = parse_branch (parser_a, expression->false_roots);
         }
         if (result.error == nullptr)
         {
             result.node = expression;
         }
-        parser_a.current_availability = previous_availability;
     }
     return result;
 }
