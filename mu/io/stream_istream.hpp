@@ -10,7 +10,7 @@ namespace mu
 {
     namespace io
     {
-        class stream_istream : mu::io::stream <char32_t>
+        class stream_istream : public mu::io::stream <char32_t>
         {
         public:
             stream_istream (std::istream & stream_a, size_t size_a);

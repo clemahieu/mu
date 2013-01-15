@@ -3,7 +3,7 @@
 #include <mu/io/lexer.hpp>
 #include <mu/io/stream_token.hpp>
 #include <mu/llvmc/parser.hpp>
-#include <mu/io/stream_muistream.hpp>
+#include <mu/io/stream_istream.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/partial_ast.hpp>
 #include <mu/llvmc/wrapper.hpp>
@@ -15,7 +15,7 @@
 class test_parser
 {
 public:
-    test_parser (char32_t const * const text_a):
+    test_parser (char const * const text_a):
     text (text_a),
     stream (text, 16),
     lexer (stream),
@@ -24,8 +24,8 @@ public:
     stream_ast (stream_token, parser)
     {        
     };
-    mu::stringstream text;
-    mu::io::stream_muistream stream;
+    std::stringstream text;
+    mu::io::stream_istream stream;
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
     mu::llvmc::parser parser;
@@ -119,7 +119,7 @@ TEST (llvmc_parser, mapping_insert_covering_existing)
 
 TEST (llvmc_parser, empty)
 {
-    test_parser parser (U"");
+    test_parser parser ("");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -130,7 +130,7 @@ TEST (llvmc_parser, empty)
 
 TEST (llvmc_parser, fail_no_expression_end)
 {
-    test_parser parser (U"[");
+    test_parser parser ("[");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
@@ -138,7 +138,7 @@ TEST (llvmc_parser, fail_no_expression_end)
 
 TEST (llvmc_parser, simple)
 {
-    test_parser parser (U"function test [] [] []");
+    test_parser parser ("function test [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -153,7 +153,7 @@ TEST (llvmc_parser, simple)
 
 TEST (llvmc_parser, two_functions)
 {
-    test_parser parser (U"function test1 [] [] [] function test2 [] [] []");
+    test_parser parser ("function test1 [] [] [] function test2 [] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -172,7 +172,7 @@ TEST (llvmc_parser, two_functions)
 
 TEST (llvmc_parser, int_type1)
 {
-    test_parser parser (U"function test1 [int1 val] [] []");
+    test_parser parser ("function test1 [int1 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -191,7 +191,7 @@ TEST (llvmc_parser, int_type1)
 
 TEST (llvmc_parser, int_type1024)
 {
-    test_parser parser (U"function test1024 [int1024 val] [] []");
+    test_parser parser ("function test1024 [int1024 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -210,7 +210,7 @@ TEST (llvmc_parser, int_type1024)
 
 TEST (llvmc_parser, fail_int_type2000000000)
 {
-    test_parser parser (U"function test2000000000 [int2000000000 val] [] []");
+    test_parser parser ("function test2000000000 [int2000000000 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     EXPECT_EQ (nullptr, module1.node);    
@@ -235,7 +235,7 @@ TEST (llvmc_parser, block)
 
 TEST (llvmc_parser, results1)
 {
-    test_parser parser (U"function test1 [int1 val] [] [[int1 val]]");
+    test_parser parser ("function test1 [int1 val] [] [[int1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -256,7 +256,7 @@ TEST (llvmc_parser, results1)
 
 TEST (llvmc_parser, results2)
 {
-    test_parser parser (U"function test1 [int1 val] [] [[int1 val] [int1 val]]");
+    test_parser parser ("function test1 [int1 val] [] [[int1 val] [int1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -282,7 +282,7 @@ TEST (llvmc_parser, results2)
 
 TEST (llvmc_parser, body1)
 {
-    test_parser parser (U"function test1 [int1 val] [[]] []");
+    test_parser parser ("function test1 [int1 val] [[]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -299,7 +299,7 @@ TEST (llvmc_parser, body1)
 
 TEST (llvmc_parser, body2)
 {
-    test_parser parser (U"function test1 [int1 val] [[val]] []");
+    test_parser parser ("function test1 [int1 val] [[val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -320,7 +320,7 @@ TEST (llvmc_parser, body2)
 
 TEST (llvmc_parser, body3)
 {
-    test_parser parser (U"function test1 [int1 val] [[val] [val]] []");
+    test_parser parser ("function test1 [int1 val] [[val] [val]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -346,7 +346,7 @@ TEST (llvmc_parser, body3)
 
 TEST (llvmc_parser, set1)
 {
-    test_parser parser (U"function test1 [int1 val] [set val1 [val]] [[int1 val1]]");
+    test_parser parser ("function test1 [int1 val] [set val1 [val]] [[int1 val1]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -372,7 +372,7 @@ TEST (llvmc_parser, set1)
 
 TEST (llvmc_parser, if1)
 {
-    test_parser parser (U"function test1 [int1 val] [if [] [] []] [[int1 val]]");
+    test_parser parser ("function test1 [int1 val] [if [] [] []] [[int1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -390,7 +390,7 @@ TEST (llvmc_parser, if1)
 
 TEST (llvmc_parser, if2)
 {
-    test_parser parser (U"function test1 [int1 val] [if [] [set val1 [val]] [set val2 [val]]] [[int1 val]]");
+    test_parser parser ("function test1 [int1 val] [if [] [set val1 [val]] [set val2 [val]]] [[int1 val]]");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -408,7 +408,7 @@ TEST (llvmc_parser, if2)
 
 TEST (llvmc_parser, loop1)
 {
-    test_parser parser (U"function test1 [] [loop [] [] [] []] []");
+    test_parser parser ("function test1 [] [loop [] [] [] []] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -428,7 +428,7 @@ TEST (llvmc_parser, loop1)
 
 TEST (llvmc_parser, loop2)
 {
-    test_parser parser (U"function test1 [int1 val] [loop [val] [val1] [[val1]] [[val val1]]] []");
+    test_parser parser ("function test1 [int1 val] [loop [val] [val1] [[val1]] [[val val1]]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);

@@ -2,7 +2,7 @@
 
 #include <mu/llvmc/partial_ast.hpp>
 
-#include <mu/io/stream_muistream.hpp>
+#include <mu/io/stream_istream.hpp>
 #include <mu/io/lexer.hpp>
 #include <mu/io/stream_token.hpp>
 #include <mu/llvmc/parser.hpp>
@@ -11,7 +11,7 @@
 class test_parser
 {
 public:
-    test_parser (char32_t const * const text_a):
+    test_parser (char const * const text_a):
     text (text_a),
     stream (text, 16),
     lexer (stream),
@@ -20,8 +20,8 @@ public:
     stream_ast (stream_token, parser)
     {
     };
-    mu::stringstream text;
-    mu::io::stream_muistream stream;
+    std::stringstream text;
+    mu::io::stream_istream stream;
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
     mu::llvmc::parser parser;
@@ -30,7 +30,7 @@ public:
 
 TEST (partial_ast, empty)
 {
-    test_parser parser (U"");
+    test_parser parser ("");
     auto token (parser.stream_ast.peek ());
     ASSERT_NE (nullptr, token.token);
     auto end (dynamic_cast <mu::io::end *> (token.token));
@@ -39,7 +39,7 @@ TEST (partial_ast, empty)
 
 TEST (partial_ast, tokens)
 {
-    test_parser parser (U"]a;");
+    test_parser parser ("]a;");
     auto token1 (parser.stream_ast.peek ());
     ASSERT_NE (nullptr, token1.token);
     auto right_square (dynamic_cast <mu::io::right_square *> (token1.token));

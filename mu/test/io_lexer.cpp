@@ -2,13 +2,13 @@
 
 #include <mu/core/types.hpp>
 #include <mu/io/lexer.hpp>
-#include <mu/io/stream_muistream.hpp>
+#include <mu/io/stream_istream.hpp>
 #include <mu/io/tokens.hpp>
 
 TEST (io_lexer, empty)
 {
-    mu::stringstream text (U"");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -26,8 +26,8 @@ TEST (io_lexer, empty)
 
 TEST (io_lexer, left_square)
 {
-    mu::stringstream text (U"[");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("[");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -45,8 +45,8 @@ TEST (io_lexer, left_square)
 
 TEST (io_lexer, right_square)
 {
-    mu::stringstream text (U"]");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("]");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -64,8 +64,8 @@ TEST (io_lexer, right_square)
 
 TEST (io_lexer, terminator)
 {
-    mu::stringstream text (U";");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (";");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -83,11 +83,11 @@ TEST (io_lexer, terminator)
 
 TEST (io_lexer, whitespace)
 {
-    mu::stringstream text;
-    text << U" \f\n\r\t";
-    text << U'\0';
-    text << U';';
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text;
+    text << " \f\n\r\t";
+    text << '\0';
+    text << ';';
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -105,8 +105,8 @@ TEST (io_lexer, whitespace)
 
 TEST (io_lexer, line_comment)
 {
-    mu::stringstream text (U":-\n;");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":-\n;");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -124,8 +124,8 @@ TEST (io_lexer, line_comment)
 
 TEST (io_lexer, region_comment)
 {
-    mu::stringstream text (U":(junk:);");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":(junk:);");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -143,8 +143,8 @@ TEST (io_lexer, region_comment)
 
 TEST (io_lexer, identifier)
 {
-    mu::stringstream text (U"a");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -164,8 +164,8 @@ TEST (io_lexer, identifier)
 
 TEST (io_lexer, identifier_terminator)
 {
-    mu::stringstream text (U"a;");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a;");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -191,8 +191,8 @@ TEST (io_lexer, identifier_terminator)
 
 TEST (io_lexer, identifier_left_square)
 {
-    mu::stringstream text (U"a[");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a[");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -218,8 +218,8 @@ TEST (io_lexer, identifier_left_square)
 
 TEST (io_lexer, identifier_right_square)
 {
-    mu::stringstream text (U"a]");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a]");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -245,8 +245,8 @@ TEST (io_lexer, identifier_right_square)
 
 TEST (io_lexer, two_identifiers)
 {
-    mu::stringstream text (U"a b");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a b");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -274,11 +274,11 @@ TEST (io_lexer, two_identifiers)
 
 TEST (io_lexer, escape_sequences)
 {
-    mu::stringstream text;
-    text << U":[:]:;:::\t:\n:\f:\r";
-    text << U':';
-    text << U'\0';
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text;
+    text << ":[:]:;:::\t:\n:\f:\r";
+    text << ':';
+    text << '\0';
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -306,8 +306,8 @@ TEST (io_lexer, escape_sequences)
 
 TEST (io_lexer, ascii_numbers)
 {
-    mu::stringstream text (U":a00");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":a00");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -327,8 +327,8 @@ TEST (io_lexer, ascii_numbers)
 
 TEST (io_lexer, ascii_upper_letters)
 {
-    mu::stringstream text (U":a4A");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":a4A");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -348,8 +348,8 @@ TEST (io_lexer, ascii_upper_letters)
 
 TEST (io_lexer, ascii_lower_letters)
 {
-    mu::stringstream text (U":a4a");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":a4a");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -369,8 +369,8 @@ TEST (io_lexer, ascii_lower_letters)
 
 TEST (io_lexer, unicode)
 {
-    mu::stringstream text (U":uaaaabbbb");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":uaaaabbbb");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -390,8 +390,8 @@ TEST (io_lexer, unicode)
 
 TEST (io_lexer, identifier_inner_comment)
 {
-    mu::stringstream text (U"a:(junk:)b");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a:(junk:)b");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -412,8 +412,8 @@ TEST (io_lexer, identifier_inner_comment)
 
 TEST (io_lexer, nested_comment)
 {
-    mu::stringstream text (U"a:(:(junk:):)b");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("a:(:(junk:):)b");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -434,8 +434,8 @@ TEST (io_lexer, nested_comment)
 
 TEST (io_lexer, empty_complex)
 {
-    mu::stringstream text (U"{}");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("{}");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -454,11 +454,11 @@ TEST (io_lexer, empty_complex)
 
 TEST (io_lexer, complex_with_control)
 {
-    mu::stringstream text;
-    text << U"{a}[];: \n\t\r\f";
-    text << U'\0';
-    text << U'a';
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text;
+    text << "{a}[];: \n\t\r\f";
+    text << '\0';
+    text << 'a';
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_EQ (nullptr, token1.error);
@@ -487,8 +487,8 @@ TEST (io_lexer, complex_with_control)
 
 TEST (io_lexer, invalid_control)
 {
-    mu::stringstream text (U":z");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":z");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_NE (nullptr, token1.error);
@@ -497,8 +497,8 @@ TEST (io_lexer, invalid_control)
 
 TEST (io_lexer, invalid_ascii)
 {
-    mu::stringstream text (U":aqq");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":aqq");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_NE (nullptr, token1.error);
@@ -507,8 +507,8 @@ TEST (io_lexer, invalid_ascii)
 
 TEST (io_lexer, invalid_eof_in_region_comment)
 {
-    mu::stringstream text (U":(");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":(");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_NE (nullptr, token1.error);
@@ -517,8 +517,8 @@ TEST (io_lexer, invalid_eof_in_region_comment)
 
 TEST (io_lexer, invalid_eof_in_ascii)
 {
-    mu::stringstream text (U":a");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text (":a");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_NE (nullptr, token1.error);
@@ -527,8 +527,8 @@ TEST (io_lexer, invalid_eof_in_ascii)
 
 TEST (io_lexer, invalid_eof_in_complex_identifier)
 {
-    mu::stringstream text (U"{a}");
-    mu::io::stream_muistream stream (text, 16);
+    std::stringstream text ("{a}");
+    mu::io::stream_istream stream (text, 16);
     mu::io::lexer lexer (stream);
     auto token1 (lexer.lex ());
     EXPECT_NE (nullptr, token1.error);

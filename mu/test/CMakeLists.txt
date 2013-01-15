@@ -13,6 +13,7 @@ add_executable (mu_test
 	entry.cpp
 	io_lexer.cpp
 	io_stream_istream.cpp
+    llvmc_generator.cpp
     llvmc_parser.cpp
     partial_ast.cpp)
     

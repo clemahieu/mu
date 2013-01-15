@@ -587,7 +587,8 @@ mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu
     mu::llvmc::node_result result ({nullptr, nullptr});
     try
     {
-        unsigned int bits (boost::lexical_cast <unsigned int> (data_a));
+        std::string data_l (data_a.begin (), data_a.end ());        
+        unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
         if (bits <= 1024)
         {
             result.node = new (GC) mu::llvmc::wrapper::integer_type (llvm::Type::getIntNTy (parser_a.context, bits));

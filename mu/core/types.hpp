@@ -11,9 +11,7 @@
 
 namespace mu
 {
-    typedef std::basic_istream <char32_t> istream;
     typedef std::basic_string <char32_t> string;
-    typedef std::basic_stringstream <char32_t> stringstream;
     template <typename T>
     using vector = std::vector <T, gc_allocator <T>>;
     template <typename T>
