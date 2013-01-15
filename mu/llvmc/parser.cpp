@@ -891,6 +891,7 @@ void mu::llvmc::loop::parse_arguments ()
                             break;
                         case mu::io::token_id::identifier:
                         {
+                            parser.stream.consume ();
                             auto & arguments_l (loop_m->arguments);
                             auto position (arguments_l.size ());
                             arguments_l.push_back (nullptr);
