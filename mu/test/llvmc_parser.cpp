@@ -405,3 +405,23 @@ TEST (llvmc_parser, if2)
     ASSERT_EQ (1, root1->true_roots.size ());
     ASSERT_EQ (1, root1->false_roots.size ());
 }
+
+TEST (llvmc_parser, loop1)
+{    
+    test_parser parser (U"function test1 [] [loop [] [] [] []] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto root1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
+    ASSERT_NE (nullptr, root1);
+    EXPECT_EQ (0, root1->arguments.size ());
+    EXPECT_EQ (0, root1->parameters.size ());
+    EXPECT_EQ (0, root1->roots.size ());
+    EXPECT_EQ (0, root1->results.size ());
+}

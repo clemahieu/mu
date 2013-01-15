@@ -36,6 +36,10 @@ namespace mu
                 argument (mu::llvmc::wrapper::type * type_a);
                 mu::llvmc::wrapper::type * type;
             };
+            class loop_argument : public mu::llvmc::ast::node
+            {
+            public:
+            };
             class result : public mu::llvmc::ast::node
             {
             public:
@@ -49,6 +53,14 @@ namespace mu
             class value : public mu::llvmc::ast::node
             {
             public:
+            };
+            class loop : public mu::llvmc::ast::expression
+            {
+            public:
+                mu::vector <mu::llvmc::ast::node *> arguments;
+                mu::vector <mu::llvmc::ast::node *> parameters;
+                mu::vector <mu::llvmc::ast::node *> roots;
+                mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
             };
             class definite_expression : public mu::llvmc::ast::expression
             {

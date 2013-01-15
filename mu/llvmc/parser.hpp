@@ -155,6 +155,25 @@ namespace mu
             mu::core::error * parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::node *> & target);
             bool covering () override;
         };
+        class loop_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
+        class loop
+        {
+        public:
+            loop (mu::llvmc::parser & parser_a);
+            void parse ();
+            void parse_arguments ();
+            void parse_binds ();
+            void parse_body ();
+            void parse_results ();
+            mu::llvmc::ast::loop * loop_m;
+            mu::llvmc::node_result result;
+            mu::llvmc::parser & parser;
+        };
         class partial_ast;
         class parser
         {
@@ -169,6 +188,7 @@ namespace mu
             mu::llvmc::int_type int_type;
             mu::llvmc::set_hook set_hook;
             mu::llvmc::if_hook if_hook;
+            mu::llvmc::loop_hook loop_hook;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };
