@@ -33,8 +33,8 @@ namespace mu
             class argument : public mu::llvmc::ast::node
             {
             public:
-                argument (mu::llvmc::wrapper::type * type_a);
-                mu::llvmc::wrapper::type * type;
+                argument (mu::llvmc::ast::node * type_a);
+                mu::llvmc::ast::node * type;
             };
             class loop_argument : public mu::llvmc::ast::node
             {
@@ -43,8 +43,8 @@ namespace mu
             class result : public mu::llvmc::ast::node
             {
             public:
-                result (mu::llvmc::wrapper::type * written_type_a);
-                mu::llvmc::wrapper::type * written_type;
+                result (mu::llvmc::ast::node * written_type_a);
+                mu::llvmc::ast::node * written_type;
                 mu::llvmc::ast::node * value;
             };
             class expression : public mu::llvmc::ast::node
@@ -79,8 +79,8 @@ namespace mu
             public:
                 mu::llvmc::availability::function * entry;
                 mu::string name;
-                mu::vector <mu::llvmc::ast::node *> parameters;
-                mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
+                mu::vector <mu::llvmc::ast::argument *> parameters;
+                mu::vector <mu::vector <mu::llvmc::ast::result *>> results;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
             class module : public mu::llvmc::ast::node

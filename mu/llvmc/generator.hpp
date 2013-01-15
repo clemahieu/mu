@@ -2,9 +2,13 @@
 
 #include <llvm/LLVMContext.h>
 
+#include <vector>
+
 namespace llvm
 {
     class Module;
+    class Function;
+    class Type;
 }
 namespace mu
 {
@@ -17,6 +21,7 @@ namespace mu
         namespace ast
         {
             class node;
+            class function;
         }
         class module_result
         {
@@ -27,8 +32,13 @@ namespace mu
         class generator
         {
         public:
+            generator ();
+            mu::llvmc::module_result result;
             llvm::LLVMContext context;
-            module_result generate (mu::llvmc::ast::node * node_a);
+            llvm::Module * module;
+            llvm::Function * function;
+            void generate (mu::llvmc::ast::node * node_a);
+            void generate_function (mu::llvmc::ast::function * function_a);
         };
     }
 }

@@ -183,41 +183,34 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
     auto node (parser.stream.peek ());
     if (node.ast != nullptr)
     {
-        auto type (dynamic_cast <mu::llvmc::wrapper::type *> (parser.stream.peek ().ast));
-        if (type != nullptr)
+        auto type (node.ast);
+        parser.stream.consume ();
+        if (parser.stream.peek ().token != nullptr)
         {
-            parser.stream.consume ();
-            if (parser.stream.peek ().token != nullptr)
+            auto next_token (parser.stream.peek ().token);
+            auto next_id (next_token->id ());
+            switch (next_id)
             {
-                auto next_token (parser.stream.peek ().token);
-                auto next_id (next_token->id ());
-                switch (next_id)
+                case mu::io::token_id::identifier:
                 {
-                    case mu::io::token_id::identifier:
+                    parser.stream.consume ();
+                    auto identifier (static_cast <mu::io::identifier *> (next_token));
+                    auto argument (new (GC) mu::llvmc::ast::argument (type));
+                    function_m->parameters.push_back (argument);
+                    if (block.insert (identifier->string, argument))
                     {
-                        parser.stream.consume ();
-                        auto identifier (static_cast <mu::io::identifier *> (next_token));
-                        auto argument (new (GC) mu::llvmc::ast::argument (type));
-                        function_m->parameters.push_back (argument);
-                        if (block.insert (identifier->string, argument))
-                        {
-                            result.error = new (GC) mu::core::error_string (U"Unable to use identifier");
-                        }
+                        result.error = new (GC) mu::core::error_string (U"Unable to use identifier");
                     }
-                        break;
-                    default:
-                        result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier");
-                        break;
                 }
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Expecting a parameter name");
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier");
+                    break;
             }
         }
         else
         {
-            result.error = new (GC) mu::core::error_string (U"Not a type");
+            result.error = new (GC) mu::core::error_string (U"Expecting a parameter name");
         }
     }
     else if (node.token != nullptr)
@@ -328,47 +321,40 @@ void mu::llvmc::function::parse_result_set ()
     {
         if (node.ast != nullptr)
         {
-            auto type (dynamic_cast <mu::llvmc::wrapper::type *> (node.ast));
-            if (type != nullptr)
+            auto type (node.ast);
+            parser.stream.consume ();
+            auto next (parser.stream.peek ());
+            if (next.token != nullptr)
             {
-                parser.stream.consume ();
-                auto next (parser.stream.peek ());
-                if (next.token != nullptr)
+                auto next_id (next.token->id ());
+                switch (next_id)
                 {
-                    auto next_id (next.token->id ());
-                    switch (next_id)
+                    case mu::io::token_id::identifier:
                     {
-                        case mu::io::token_id::identifier:
-                        {
-                            parser.stream.consume ();
-                            auto result (new (GC) mu::llvmc::ast::result (type));
-                            function_m->results [index].push_back (result);
-                            block.refer (static_cast <mu::io::identifier *> (next.token)->string,
-                                         [result]
-                                         (mu::llvmc::ast::node * node_a)
-                                         {
-                                             result->value = node_a;
-                                         });
-                            node = parser.stream.peek ();
-                        }
-                            break;
-                        default:
-                            result.error = new (GC) mu::core::error_string (U"Expecting identifier");
-                            break;
+                        parser.stream.consume ();
+                        auto result (new (GC) mu::llvmc::ast::result (type));
+                        function_m->results [index].push_back (result);
+                        block.refer (static_cast <mu::io::identifier *> (next.token)->string,
+                                     [result]
+                                     (mu::llvmc::ast::node * node_a)
+                                     {
+                                         result->value = node_a;
+                                     });
+                        node = parser.stream.peek ();
                     }
+                        break;
+                    default:
+                        result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                        break;
                 }
-                else if (next.ast != nullptr)
-                {
-                    result.error = new (GC) mu::core::error_string (U"Expecting result reference");
-                }
-                else
-                {
-                    result.error = next.error;
-                }
+            }
+            else if (next.ast != nullptr)
+            {
+                result.error = new (GC) mu::core::error_string (U"Expecting result reference");
             }
             else
             {
-                result.error = new (GC) mu::core::error_string (U"Expecting a type");
+                result.error = next.error;
             }
         }
         else if (node.token != nullptr)
