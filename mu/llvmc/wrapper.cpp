@@ -2,6 +2,11 @@
 
 #include <llvm/DerivedTypes.h>
 
+mu::llvmc::wrapper::value::value (llvm::Value * value_a):
+value_m (value_a)
+{
+}
+
 mu::llvmc::wrapper::type::type (llvm::Type * type_a):
 type_m (type_a)
 {

@@ -6,6 +6,7 @@ namespace llvm
 {
     class Type;
     class IntegerType;
+    class Value;
 }
 namespace mu
 {
@@ -24,6 +25,12 @@ namespace mu
             public:
                 integer_type (llvm::IntegerType * type_a);
                 llvm::IntegerType * integer_value ();
+            };
+            class value : public mu::llvmc::ast::node
+            {
+            public:
+                value (llvm::Value * value_a);
+                llvm::Value * value_m;
             };
         }
     }
