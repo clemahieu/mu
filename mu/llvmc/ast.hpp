@@ -54,6 +54,13 @@ namespace mu
             {
             public:
             };
+            class element : public mu::llvmc::ast::node
+            {
+            public:
+                element (mu::llvmc::ast::node * node_a, size_t index_a);
+                mu::llvmc::ast::node * node;
+                size_t index;
+            };
             class loop : public mu::llvmc::ast::expression
             {
             public:

@@ -720,6 +720,60 @@ bool mu::llvmc::set_hook::covering ()
     return false;
 }
 
+mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    parser_a.stream.consume ();
+    auto done (false);
+    auto next (parser_a.stream.tokens [0]);
+    mu::vector <mu::io::identifier *> identifiers;
+    while (!done && result.error == nullptr)
+    {
+        switch (next->id ())
+        {
+            case mu::io::token_id::identifier:
+                identifiers.push_back (static_cast <mu::io::identifier *> (next));
+                parser_a.stream.tokens.consume (1);
+                next = parser_a.stream.tokens [0];
+                break;
+            case mu::io::token_id::left_square:
+                parser_a.stream.tokens.consume (1);
+                done = true;
+                break;
+            default:
+                result.error = new (GC) mu::core::error_string (U"Expecting identifier or left square");
+                break;
+        }
+        auto node (parser_a.stream.peek ());
+        if (node.ast != nullptr)
+        {
+            if (result.error == nullptr)
+            {
+                size_t index (0);
+                for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
+                {
+                    parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (node.ast, index));
+                }
+            }
+        }
+        else if (node.token != nullptr)
+        {
+            result.error = new (GC) mu::core::error_string (U"Expecting expression");
+        }
+        else
+        {
+            result.error = node.error;
+        }
+    }
+    return result;
+}
+
+bool mu::llvmc::let_hook::covering ()
+{
+    return false;
+}
+
 bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a)
 {
     auto hook (keywords->get_hook (identifier_a));

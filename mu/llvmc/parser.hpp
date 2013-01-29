@@ -117,6 +117,12 @@ namespace mu
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
+        class let_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class function
         {
         public:
