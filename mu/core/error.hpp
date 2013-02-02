@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 namespace mu
 {
     namespace core
@@ -8,6 +10,7 @@ namespace mu
         {
         public:
             virtual ~error ();
+            virtual void output (std::ostream & out) = 0;
         };
     }
 }

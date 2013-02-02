@@ -29,6 +29,8 @@ stream (stream_a)
     assert (!error4);
     auto error5 (keywords.insert (mu::string (U"loop"), &loop_hook));
     assert (!error5);
+    auto error6 (keywords.insert (mu::string (U"let"), &let_hook));
+    assert (!error6);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -745,16 +747,25 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
                 result.error = new (GC) mu::core::error_string (U"Expecting identifier or left square");
                 break;
         }
+    }
+    if (result.error == nullptr)
+    {
         auto node (parser_a.stream.peek ());
         if (node.ast != nullptr)
         {
-            if (result.error == nullptr)
+            size_t index (0);
+            for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
             {
-                size_t index (0);
-                for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
-                {
-                    parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (node.ast, index));
-                }
+                parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (node.ast, index));
+            }
+            parser_a.stream.consume ();
+            switch (parser_a.stream.tokens [0]->id ())
+            {
+                case mu::io::token_id::right_square:
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"Expecting right square");
+                    break;
             }
         }
         else if (node.token != nullptr)

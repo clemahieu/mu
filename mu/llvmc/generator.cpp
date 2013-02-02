@@ -15,9 +15,7 @@
 #include <gc_cpp.h>
 
 mu::llvmc::generator::generator ():
-result ({nullptr, nullptr}),
-module (nullptr),
-function (nullptr)
+result ({nullptr, nullptr})
 {
 }
 
@@ -26,8 +24,8 @@ void mu::llvmc::generator::generate (mu::llvmc::ast::node * node_a)
     auto module_l (dynamic_cast <mu::llvmc::ast::module *> (node_a));
     if (module_l != nullptr)
     {
-        module = new llvm::Module ("test", context);
-        for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j; ++i)
+        result.module = new llvm::Module ("test", context);
+        for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result.error == nullptr; ++i)
         {
             auto function (dynamic_cast <mu::llvmc::ast::function *> (*i));
             if (function != nullptr)
@@ -39,16 +37,15 @@ void mu::llvmc::generator::generate (mu::llvmc::ast::node * node_a)
                 result.error = new (GC) mu::core::error_string (U"Module is expected to contain functions");
             }
         }
-        if (result.error == nullptr)
+        if (result.error != nullptr)
         {
-            result.module = module;
+            result.module = nullptr;
         }
     }
     else
     {
         result.error = new (GC) mu::core::error_string (U"Expecting a module");
     }
-    module = nullptr;
 }
 
 void mu::llvmc::generator::generate_function (mu::llvmc::ast::function * function_a)
@@ -66,49 +63,22 @@ void mu::llvmc::generator::generate_function (mu::llvmc::ast::function * functio
             result.error = new (GC) mu::core::error_string (U"Expecting type");
         }
     }
-    std::vector <llvm::Type *> return_types;
-    return_types.push_back (llvm::Type::getInt8Ty (context));
-    for (auto i (function_a->results.begin ()), j (function_a->results.end ()); i != j && result.error == nullptr; ++i)
-    {
-        for (auto k (i->begin ()), l (i->end ()); k != l; ++k)
-        {
-            auto type (dynamic_cast <mu::llvmc::wrapper::type *> ((*k)->written_type));
-            if (type != nullptr)
-            {
-                return_types.push_back (type->type_m);
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Expecting type");
-            }
-        }
-    }
-    if (result.error == nullptr)
-    {
-        auto function_type (llvm::FunctionType::get (llvm::StructType::get (context, return_types), parameter_types, false));
-        function = llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::InternalLinkage);
-        mu::llvmc::body_generator body (function_a, function);
-        body.generate ();
-        result.error = body.error;
-        if (result.error == nullptr)
-        {
-            module->getFunctionList ().push_back (function);
-        }
-    }
-    function = nullptr;
+}
+
+mu::llvmc::branch::branch () :
+order (0),
+next (nullptr),
+terminator (nullptr)
+{
 }
 
 mu::llvmc::body_generator::body_generator (mu::llvmc::ast::function * ast_a, llvm::Function * function_a):
-last_branch (0),
 ast (ast_a),
 error (nullptr),
 function (function_a)
 {
-    entry.index = 0;
     auto block (llvm::BasicBlock::Create (function_a->getContext ()));
     function_a->getBasicBlockList ().push_back (block);
-    entry.first = block;
-    entry.last = block;
     auto k (function_a->getArgumentList().begin ());
     auto l (function_a->getArgumentList().end ());
     auto i (ast_a->parameters.begin ());

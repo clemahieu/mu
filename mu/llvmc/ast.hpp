@@ -50,10 +50,6 @@ namespace mu
             class expression : public mu::llvmc::ast::node
             {
             };
-            class value : public mu::llvmc::ast::node
-            {
-            public:
-            };
             class element : public mu::llvmc::ast::node
             {
             public:

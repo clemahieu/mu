@@ -31,6 +31,7 @@ namespace mu
         namespace wrapper
         {
             class value;
+            class type;
         }
         class module_result
         {
@@ -38,24 +39,36 @@ namespace mu
             llvm::Module * module;
             mu::core::error * error;
         };
+        class branch;
+        class terminator
+        {
+        public:
+            virtual void generate (llvm::BasicBlock * block_a);
+            mu::vector <mu::llvmc::branch *> successors;
+        };
+        class phi
+        {
+        public:
+        };
         class branch
         {
         public:
-            size_t index;
-            llvm::BasicBlock * first;
-            llvm::BasicBlock * last;
-            mu::set <mu::llvmc::ast::node *> values;
+            branch ();
+            size_t order;
+            mu::llvmc::branch * next;
+            mu::llvmc::terminator * terminator;
+            mu::vector <mu::llvmc::phi *> phi_nodes;
+            std::vector <llvm::Instruction *> instructions;
+            mu::set <mu::llvmc::branch *> predecessors;
+            std::vector <bool> variables;
         };
         class body_generator
         {
         public:
             body_generator (mu::llvmc::ast::function * ast_a, llvm::Function * function_a);
             void generate ();
-            mu::map <mu::llvmc::ast::node *, std::pair <llvm::Value *, mu::llvmc::branch *>> complete;
-            decltype (complete)::mapped_type generate_value (mu::llvmc::ast::node * node_a);
-            mu::set <mu::llvmc::ast::node *> generating;
-            size_t last_branch;
             mu::llvmc::branch entry;
+            mu::map <mu::llvmc::ast::node *, std::pair <size_t, mu::llvmc::branch *>> values;
             mu::llvmc::ast::function * ast;
             mu::core::error * error;
             llvm::Function * function;
@@ -66,8 +79,6 @@ namespace mu
             generator ();
             mu::llvmc::module_result result;
             llvm::LLVMContext context;
-            llvm::Module * module;
-            llvm::Function * function;
             void generate (mu::llvmc::ast::node * node_a);
             void generate_function (mu::llvmc::ast::function * function_a);
         };
