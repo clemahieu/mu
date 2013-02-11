@@ -8,8 +8,8 @@
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/availability.hpp>
 #include <mu/llvmc/partial_ast.hpp>
-#include <mu/llvmc/wrapper.hpp>
 #include <mu/io/stream_token.hpp>
+#include <mu/llvmc/skeleton.hpp>
 
 #include <llvm/Type.h>
 
@@ -197,7 +197,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                 {
                     parser.stream.consume ();
                     auto identifier (static_cast <mu::io::identifier *> (next_token));
-                    auto argument (new (GC) mu::llvmc::ast::argument (type));
+                    auto argument (new (GC) mu::llvmc::ast::parameter (type));
                     function_m->parameters.push_back (argument);
                     if (block.insert (identifier->string, argument))
                     {
@@ -579,7 +579,7 @@ mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu
         unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
         if (bits <= 1024)
         {
-            result.node = new (GC) mu::llvmc::wrapper::integer_type (llvm::Type::getIntNTy (parser_a.context, bits));
+            result.node = new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::integer_type (bits));
         }
         else
         {
@@ -997,7 +997,7 @@ void mu::llvmc::loop::parse_binds ()
                     {
                         case mu::io::token_id::identifier:
                         {
-                            auto parameter (new (GC) mu::llvmc::ast::loop_argument);
+                            auto parameter (new (GC) mu::llvmc::ast::loop_parameter);
                             loop_m->parameters.push_back (parameter);
                             auto error (parser.current_mapping->insert(static_cast <mu::io::identifier *> (next.token)->string, parameter));
                             if (!error)

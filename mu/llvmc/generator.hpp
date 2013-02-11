@@ -32,11 +32,13 @@ namespace mu
         {
             class value;
             class type;
+            class module;
+            class function;
         }
         class module_result
         {
         public:
-            llvm::Module * module;
+            mu::llvmc::wrapper::module * module;
             mu::core::error * error;
         };
         class branch;
@@ -62,25 +64,9 @@ namespace mu
             mu::set <mu::llvmc::branch *> predecessors;
             std::vector <bool> variables;
         };
-        class body_generator
-        {
-        public:
-            body_generator (mu::llvmc::ast::function * ast_a, llvm::Function * function_a);
-            void generate ();
-            mu::llvmc::branch entry;
-            mu::map <mu::llvmc::ast::node *, std::pair <size_t, mu::llvmc::branch *>> values;
-            mu::llvmc::ast::function * ast;
-            mu::core::error * error;
-            llvm::Function * function;
-        };
         class generator
         {
         public:
-            generator ();
-            mu::llvmc::module_result result;
-            llvm::LLVMContext context;
-            void generate (mu::llvmc::ast::node * node_a);
-            void generate_function (mu::llvmc::ast::function * function_a);
         };
     }
 }

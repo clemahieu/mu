@@ -19,9 +19,9 @@ namespace mu
             class function;
             class module;
         }
-        namespace wrapper
+        namespace skeleton
         {
-            class type;
+            class expression;
         }
         namespace ast
         {
@@ -30,13 +30,19 @@ namespace mu
             public:
                 virtual ~node ();
             };
-            class argument : public mu::llvmc::ast::node
+            class value : public mu::llvmc::ast::node
             {
             public:
-                argument (mu::llvmc::ast::node * type_a);
+                value (mu::llvmc::skeleton::expression * expression_a);
+                mu::llvmc::skeleton::expression * expression;
+            };
+            class parameter : public mu::llvmc::ast::node
+            {
+            public:
+                parameter (mu::llvmc::ast::node * type_a);
                 mu::llvmc::ast::node * type;
             };
-            class loop_argument : public mu::llvmc::ast::node
+            class loop_parameter : public mu::llvmc::ast::node
             {
             public:
             };
@@ -50,7 +56,7 @@ namespace mu
             class expression : public mu::llvmc::ast::node
             {
             };
-            class element : public mu::llvmc::ast::node
+            class element : public mu::llvmc::ast::expression
             {
             public:
                 element (mu::llvmc::ast::node * node_a, size_t index_a);
@@ -82,7 +88,7 @@ namespace mu
             public:
                 mu::llvmc::availability::function * entry;
                 mu::string name;
-                mu::vector <mu::llvmc::ast::argument *> parameters;
+                mu::vector <mu::llvmc::ast::parameter *> parameters;
                 mu::vector <mu::vector <mu::llvmc::ast::result *>> results;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };

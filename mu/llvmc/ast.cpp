@@ -8,13 +8,18 @@ mu::llvmc::ast::node::~node ()
 {
 }
 
+mu::llvmc::ast::value::value (mu::llvmc::skeleton::expression * expression_a):
+expression (expression_a)
+{
+}
+
 mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a):
 node (node_a),
 index (index_a)
 {
 }
 
-mu::llvmc::ast::argument::argument (mu::llvmc::ast::node * type_a):
+mu::llvmc::ast::parameter::parameter (mu::llvmc::ast::node * type_a):
 type (type_a)
 {
 }

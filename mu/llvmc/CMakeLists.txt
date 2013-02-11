@@ -10,6 +10,8 @@ link_directories (
 add_library (mu_llvmc SHARED
 	ast.cpp
 	ast.hpp
+    analyzer.cpp
+    analyzer.hpp
     availability.cpp
     availability.hpp
     generator.cpp
@@ -20,8 +22,8 @@ add_library (mu_llvmc SHARED
 	parser.hpp
     partial_ast.cpp
     partial_ast.hpp
-    wrapper.cpp
-    wrapper.hpp)
+    skeleton.cpp
+    skeleton.hpp)
     
 target_link_libraries (mu_llvmc
 	mu_core
