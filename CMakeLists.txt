@@ -7,7 +7,8 @@ endif ()
 
 file (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/temp)
 set (CMAKE_VERBOSE_MAKEFILE "ON")
-add_definitions (-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS)
+set (CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
+add_definitions (-D__STDC_LIMIT_MACROS -D__STDC_CONSTANT_MACROS -DGTEST_USE_OWN_TR1_TUPLE=0 -DGTEST_HAS_TR1_TUPLE=0)
 
 set (llvm_include_directories
 	${CMAKE_SOURCE_DIR}/llvm/include)
@@ -41,21 +42,8 @@ link_directories (
 	${boost_lib_directories}
 	${gc_lib_directories})
 
-add_subdirectory (mu/binary_test)
 add_subdirectory (mu/core)
-add_subdirectory (mu/exec)
 add_subdirectory (mu/io)
-add_subdirectory (mu/llvm_)
-add_subdirectory (mu/llvm_binary)
-add_subdirectory (mu/repl)
-add_subdirectory (mu/repl_entry)
-add_subdirectory (mu/script)
-add_subdirectory (mu/script_binary)
-add_subdirectory (mu/script_core_binary)
-add_subdirectory (mu/test_entry)
-add_dependencies (mu_test_entry
-    mu_binary_test)
+add_subdirectory (mu/llvmc)
+add_subdirectory (mu/test)
 file (COPY ${CMAKE_SOURCE_DIR}/examples DESTINATION ${CMAKE_BINARY_DIR})
-file (COPY ${CMAKE_SOURCE_DIR}/source_test.mu DESTINATION ${CMAKE_BINARY_DIR})
-file (COPY ${CMAKE_SOURCE_DIR}/mu/source DESTINATION ${CMAKE_BINARY_DIR}/mu)
-file (COPY ${CMAKE_SOURCE_DIR}/mu/test DESTINATION ${CMAKE_BINARY_DIR}/mu/test)
