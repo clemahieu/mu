@@ -54,7 +54,16 @@ mu::llvmc::module_result mu::llvmc::analyzer_routine::analyze (mu::llvmc::ast::n
                         auto type_l (dynamic_cast <mu::llvmc::skeleton::type *> (single_result->written_type));
                         if (type_l != nullptr)
                         {
-                            process_expression (single_result->value);
+                            auto result_node (process_node (single_result->value));
+                            auto expression (dynamic_cast <mu::llvmc::skeleton::expression *> (result_node));
+                            if (expression != nullptr)
+                            {
+                                new_result.push_back (mu::llvmc::skeleton::result ({type_l, expression}));
+                            }
+                            else
+                            {
+                                result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                            }
                         }
                         else
                         {
@@ -80,9 +89,9 @@ mu::llvmc::module_result mu::llvmc::analyzer_routine::analyze (mu::llvmc::ast::n
     return result;
 }
 
-mu::llvmc::skeleton::expression * mu::llvmc::analyzer_routine::process_expression (mu::llvmc::ast::node * node_a)
+mu::llvmc::skeleton::node * mu::llvmc::analyzer_routine::process_node (mu::llvmc::ast::node * node_a)
 {
-    mu::llvmc::skeleton::expression * expression_l (nullptr);
+    mu::llvmc::skeleton::node * node_l (nullptr);
     auto expression (dynamic_cast <mu::llvmc::ast::expression *> (node_a));
     if (expression != nullptr)
     {
@@ -92,39 +101,59 @@ mu::llvmc::skeleton::expression * mu::llvmc::analyzer_routine::process_expressio
             auto definite_expression (dynamic_cast <mu::llvmc::ast::definite_expression *> (node_a));
             if (definite_expression != nullptr)
             {
-                expression_l = process_definite_expression (definite_expression);
+                node_l = process_definite_expression (definite_expression);
             }
             else
             {
-                auto value_expression (dynamic_cast <mu::llvmc::ast::value *> (node_a));
-                if (value_expression != nullptr)
+                auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
+                if (value_node != nullptr)
                 {
-                    expression_l = value_expression->expression;
+                    node_l = value_node->node_m;
                 }
                 else
                 {
                     result.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
                 }
             }
+            already_generated [node_a] = node_l;
         }
         else
         {
-            expression_l = existing->second;
+            node_l = existing->second;
         }
     }
     else
     {
         result.error = new (GC) mu::core::error_string (U"Expecting expression");
     }
-    return expression_l;
+    return node_l;
 }
 
 mu::llvmc::skeleton::definite_expression * mu::llvmc::analyzer_routine::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
 {
     auto result_l (new (GC) mu::llvmc::skeleton::definite_expression);
-    for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result.error == nullptr; ++i)
+    auto existing (current_expression_generation.find (expression_a));
+    if (existing == current_expression_generation.end ())
     {
-        
+        current_expression_generation.insert (expression_a);
+        for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result.error == nullptr; ++i)
+        {
+            auto node (process_node (*i));
+            auto expression (dynamic_cast <mu::llvmc::skeleton::expression *> (node));
+            if (expression != nullptr)
+            {
+                result_l->arguments.push_back (expression);
+            }
+            else
+            {
+                result.error = new (GC) mu::core::error_string (U"Expecting expression");
+            }
+        }
+        current_expression_generation.erase (expression_a);
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Cycle in expressions");
     }
     return result_l;
 }

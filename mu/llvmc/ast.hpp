@@ -21,7 +21,7 @@ namespace mu
         }
         namespace skeleton
         {
-            class expression;
+            class node;
         }
         namespace ast
         {
@@ -33,8 +33,8 @@ namespace mu
             class value : public mu::llvmc::ast::node
             {
             public:
-                value (mu::llvmc::skeleton::expression * expression_a);
-                mu::llvmc::skeleton::expression * expression;
+                value (mu::llvmc::skeleton::node * node_a);
+                mu::llvmc::skeleton::node * node_m;
             };
             class parameter : public mu::llvmc::ast::node
             {

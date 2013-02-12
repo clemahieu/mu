@@ -188,7 +188,7 @@ TEST (llvmc_parser, int_type1)
     ASSERT_NE (nullptr, parameter1);
     auto value1 (dynamic_cast <mu::llvmc::ast::value *> (parameter1->type));
     ASSERT_NE (nullptr, value1);
-    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->expression));
+    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->node_m));
     ASSERT_NE (nullptr, type1);
     EXPECT_EQ (1, type1->bits);
 }
@@ -210,7 +210,7 @@ TEST (llvmc_parser, int_type1024)
     ASSERT_NE (nullptr, parameter1);
     auto value1 (dynamic_cast <mu::llvmc::ast::value *> (parameter1->type));
     ASSERT_NE (nullptr, value1);
-    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->expression));
+    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->node_m));
     ASSERT_NE (nullptr, type1);
     EXPECT_EQ (1024, type1->bits);
 }

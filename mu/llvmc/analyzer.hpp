@@ -12,6 +12,7 @@ namespace mu
     {
         namespace skeleton
         {
+            class node;
             class module;
             class expression;
             class definite_expression;
@@ -34,10 +35,10 @@ namespace mu
             analyzer_routine ();
             module_result analyze (mu::llvmc::ast::node * module_a);            
             mu::llvmc::module_result result;
-            mu::llvmc::skeleton::expression * process_expression (mu::llvmc::ast::node * node_a);
+            mu::llvmc::skeleton::node * process_node (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::definite_expression * process_definite_expression (mu::llvmc::ast::definite_expression * expression_a);
-            mu::map <mu::llvmc::ast::expression *, mu::llvmc::skeleton::expression *> already_generated;
-            mu::set <mu::llvmc::ast::expression *> currently_generating;
+            mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::node *> already_generated;
+            mu::set <mu::llvmc::ast::expression *> current_expression_generation;
         };
         class analyzer
         {

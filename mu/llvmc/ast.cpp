@@ -8,8 +8,8 @@ mu::llvmc::ast::node::~node ()
 {
 }
 
-mu::llvmc::ast::value::value (mu::llvmc::skeleton::expression * expression_a):
-expression (expression_a)
+mu::llvmc::ast::value::value (mu::llvmc::skeleton::node * node_a):
+node_m (node_a)
 {
 }
 

@@ -12,10 +12,13 @@ namespace mu
         }
         namespace skeleton
         {
-            class expression
+            class node
             {
             public:
-                virtual ~expression ();
+                virtual ~node ();
+            };
+            class expression : public mu::llvmc::skeleton::node
+            {
             };
             class definite_expression : public mu::llvmc::skeleton::expression
             {
@@ -32,7 +35,7 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::expression
             {
             };
-            class type : public mu::llvmc::skeleton::expression
+            class type : public mu::llvmc::skeleton::node
             {
             public:
             };

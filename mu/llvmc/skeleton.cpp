@@ -6,7 +6,7 @@ index (index_a)
 {
 }
 
-mu::llvmc::skeleton::expression::~expression ()
+mu::llvmc::skeleton::node::~node ()
 {
 }
 
