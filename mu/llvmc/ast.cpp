@@ -1,7 +1,5 @@
 #include <mu/llvmc/ast.hpp>
 
-#include <mu/llvmc/availability.hpp>
-
 #include <gc_cpp.h>
 
 mu::llvmc::ast::node::~node ()

@@ -3,7 +3,6 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
 #include <mu/llvmc/ast.hpp>
-#include <mu/llvmc/availability.hpp>
 
 #include <llvm/LLVMContext.h>
 

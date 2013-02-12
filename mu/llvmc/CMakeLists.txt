@@ -12,8 +12,6 @@ add_library (mu_llvmc SHARED
 	ast.hpp
     analyzer.cpp
     analyzer.hpp
-    availability.cpp
-    availability.hpp
     generator.cpp
     generator.hpp
     node_result.cpp
