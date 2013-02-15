@@ -2,6 +2,10 @@
 
 #include <mu/core/types.hpp>
 
+namespace llvm
+{
+    class Value;
+}
 namespace mu
 {
     namespace llvmc
@@ -17,13 +21,25 @@ namespace mu
             public:
                 virtual ~node ();
             };
+            class type : public mu::llvmc::skeleton::node
+            {                
+            };
             class expression : public mu::llvmc::skeleton::node
             {
+            public:
+            };
+            class value : public mu::llvmc::skeleton::expression
+            {                
             };
             class definite_expression : public mu::llvmc::skeleton::expression
             {
             public:
                 mu::vector <mu::llvmc::skeleton::expression *> arguments;
+            };
+            class constant : public mu::llvmc::skeleton::expression
+            {
+            public:
+                llvm::Value * value_m;
             };
             class element : public mu::llvmc::skeleton::expression
             {
@@ -34,10 +50,6 @@ namespace mu
             };
             class instruction : public mu::llvmc::skeleton::expression
             {
-            };
-            class type : public mu::llvmc::skeleton::node
-            {
-            public:
             };
             class integer_type : public mu::llvmc::skeleton::type
             {
@@ -69,7 +81,7 @@ namespace mu
             class function : public mu::llvmc::skeleton::expression
             {
             public:
-                mu::vector <mu::llvmc::skeleton::parameter> parameters;
+                mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::vector <mu::llvmc::skeleton::result>> results;
             };
             class module
