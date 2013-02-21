@@ -33,24 +33,20 @@ namespace mu
             class value : public mu::llvmc::skeleton::node
             {
             public:
-            };
-            class local : public mu::llvmc::skeleton::value
-            {
-            public:
-                local (mu::llvmc::skeleton::branch * branch_a);
+                value (mu::llvmc::skeleton::branch * branch_a);
                 mu::llvmc::skeleton::branch * branch;
             };
             class call
             {
             public:                
             };
-            class parameter : public mu::llvmc::skeleton::local
+            class parameter : public mu::llvmc::skeleton::value
             {
             public:
                 parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * type;
             };
-            class element : public mu::llvmc::skeleton::local
+            class element : public mu::llvmc::skeleton::value
             {
             public:
                 element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t index_a);
@@ -60,7 +56,7 @@ namespace mu
             class constant : public mu::llvmc::skeleton::value
             {
             };
-            class instruction : public mu::llvmc::skeleton::local
+            class instruction : public mu::llvmc::skeleton::value
             {
             };
             class integer_type : public mu::llvmc::skeleton::type

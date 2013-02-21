@@ -85,4 +85,5 @@ TEST (llvmc_analyzer, one_result_branch)
     ASSERT_EQ (1, function1->results [0].size ());
     auto result2 (function1->results [0][0]);
     ASSERT_EQ (parameter2, result2->value);
+    ASSERT_EQ (&function1->entry, result2->value->branch);
 }

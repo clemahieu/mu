@@ -1,7 +1,7 @@
 #include <mu/llvmc/skeleton.hpp>
 
 mu::llvmc::skeleton::element::element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t index_a) :
-local (branch_a),
+value (branch_a),
 call (call_a),
 index (index_a)
 {
@@ -12,6 +12,7 @@ mu::llvmc::skeleton::node::~node ()
 }
 
 mu::llvmc::skeleton::function::function () :
+value (nullptr),
 entry (nullptr)
 {
 }
@@ -21,7 +22,7 @@ parent (parent_a)
 {
 }
 
-mu::llvmc::skeleton::local::local (mu::llvmc::skeleton::branch * branch_a) :
+mu::llvmc::skeleton::value::value (mu::llvmc::skeleton::branch * branch_a) :
 branch (branch_a)
 {
 }
@@ -32,7 +33,7 @@ bits (bits_a)
 }
 
 mu::llvmc::skeleton::parameter::parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-local (branch_a),
+value (branch_a),
 type (type_a)
 {
 }
