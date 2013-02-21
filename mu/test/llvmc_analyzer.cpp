@@ -34,6 +34,7 @@ TEST (llvmc_analyzer, empty_function)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (1, result.module->functions.size ());
     auto function1 (result.module->functions [0]);
+    ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
 }

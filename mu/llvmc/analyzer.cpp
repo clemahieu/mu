@@ -8,156 +8,236 @@
 
 mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * module_a)
 {
-    mu::llvmc::analyzer_routine analyzer_l;
+    mu::llvmc::analyzer_module analyzer_l;
     auto result (analyzer_l.analyze (module_a));
     return result;
 }
 
-mu::llvmc::analyzer_routine::analyzer_routine () :
-result ({nullptr, nullptr})
+mu::llvmc::analyzer_module::analyzer_module () :
+result_m ({nullptr, nullptr})
 {
 }
 
-void mu::llvmc::analyzer_routine::process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+mu::llvmc::analyzer_function::analyzer_function (mu::llvmc::analyzer_module & module_a) :
+result_m ({nullptr, nullptr}),
+module (module_a)
+{    
+}
+
+void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
-    for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && result.error == nullptr; ++k)
+    for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && result_m.error == nullptr; ++k)
     {
-        auto node (process_node ((*k)->type));
-        auto type_l (dynamic_cast <mu::llvmc::skeleton::type *> (node));
+        auto type_l (process_type ((*k)->type));
         if (type_l != nullptr)
         {
-            function_s->parameters.push_back (new (GC) mu::llvmc::skeleton::parameter (type_l));
+            auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (&function_s->entry, type_l));
+            already_generated [*k] = parameter_s;
+            function_s->parameters.push_back (parameter_s);
         }
         else
         {
-            result.error = new (GC) mu::core::error_string (U"Expecting a type");
+            result_m.error = new (GC) mu::core::error_string (U"Expecting a type");
         }
     }
 }
 
-void mu::llvmc::analyzer_routine::process_results(mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 {
-    for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result.error == nullptr; ++k)
+    bool result (false);
+    auto existing (already_generated.find (node_a));
+    if (existing == already_generated.end ())
     {
-        auto & ast_result (*k);
-        function_s->results.push_back (decltype (function_s->results)::value_type ());
-        auto & new_result (function_s->results [function_s->results.size () - 1]);
-        for (auto m (ast_result.begin ()), n (ast_result.end ()); m != n && result.error == nullptr; ++m)
+        auto existing_multi (already_generated_multi.find (node_a));
+        if (existing_multi == already_generated_multi.end ())
         {
-            auto single_result (*m);
-            auto type_node (process_node (single_result->written_type));
-            auto type_l (dynamic_cast <mu::llvmc::skeleton::type *> (type_node));
-            if (type_l != nullptr)
+            auto existing_function (module.functions.find (node_a));
+            if (existing_function == module.functions.end ())
             {
-                auto result_node (process_node (single_result->value));
-                auto expression (dynamic_cast <mu::llvmc::skeleton::expression *> (result_node));
-                if (expression != nullptr)
+                auto definite_expression (dynamic_cast <mu::llvmc::ast::definite_expression *> (node_a));
+                if (definite_expression != nullptr)
                 {
-                    new_result.push_back (mu::llvmc::skeleton::result ({type_l, expression}));
+                    result = process_definite_expression (definite_expression);
                 }
                 else
                 {
-                    result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                    auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
+                    if (value_node != nullptr)
+                    {
+                        already_generated [node_a] = value_node->node_m;
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
+                    }
                 }
             }
             else
             {
-                result.error = new (GC) mu::core::error_string (U"Expecting a type");
+                already_generated [node_a] = existing_function->second;
+            }
+        }
+        else
+        {
+            result = true;
+        }
+    }
+    return result;
+}
+
+void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
+{
+    auto multi (process_node (node_a));
+    if (multi)
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Expecting 1 value");
+    }
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::analyzer_function::process_value (mu::llvmc::ast::node * node_a)
+{
+    mu::llvmc::skeleton::value * result (nullptr);
+    process_single_node (node_a);
+    if (result_m.error == nullptr)
+    {
+        result = dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [node_a]);
+    }
+    return result;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvmc::ast::node * node_a)
+{
+    mu::llvmc::skeleton::type * result (nullptr);
+    process_single_node (node_a);
+    if (result_m.error == nullptr)
+    {
+        auto node_l (already_generated [node_a]);
+        result = dynamic_cast <mu::llvmc::skeleton::type *> (node_l);
+    }
+    return result;
+}
+
+void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+{
+    for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
+    {
+        auto & ast_result (*k);
+        function_s->results.push_back (decltype (function_s->results)::value_type ());
+        auto & new_result (function_s->results [function_s->results.size () - 1]);
+        for (auto m (ast_result.begin ()), n (ast_result.end ()); m != n && result_m.error == nullptr; ++m)
+        {
+            auto single_result (*m);
+            auto type (process_type (single_result->written_type));
+            if (type != nullptr)
+            {
+                auto value (process_value (single_result->value));
+                if (value != nullptr)
+                {
+                    new_result.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Expecting a value");
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expecting a type");
             }
         }
     }
 }
 
-mu::llvmc::module_result mu::llvmc::analyzer_routine::analyze (mu::llvmc::ast::node * module_a)
+mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast::node * function_a)
+{
+    auto function_l (dynamic_cast <mu::llvmc::ast::function *> (function_a));
+    if (function_l != nullptr)
+    {
+        auto function_s (new (GC) mu::llvmc::skeleton::function);
+        process_parameters (function_l, function_s);
+        process_results (function_l, function_s);
+        result_m.function = function_s;
+    }
+    else
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Expecting a function");
+    }
+    return result_m;
+}
+
+mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::node * module_a)
 {
     auto module_s (new (GC) mu::llvmc::skeleton::module);
     auto module_l (dynamic_cast <mu::llvmc::ast::module *> (module_a));
     if (module_l != nullptr)
     {
-        for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result.error == nullptr; ++i)
+        for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result_m.error == nullptr; ++i)
         {
-            auto function_l (dynamic_cast <mu::llvmc::ast::function *> (*i));
-            if (function_l != nullptr)
-            {
-                auto function_s (new (GC) mu::llvmc::skeleton::function);
-                module_s->functions.push_back (function_s);
-                process_parameters (function_l, function_s);
-                process_results (function_l, function_s);
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Expecting a function");
-            }
+            analyzer_function analyzer (*this);
+            analyzer.analyze (*i);
+            module_s->functions.push_back (analyzer.result_m.function);
+            result_m.error = analyzer.result_m.error;
         }
     }
     else
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting a module");
+        result_m.error = new (GC) mu::core::error_string (U"Expecting a module");
     }
-    if (result.error == nullptr)
+    if (result_m.error == nullptr)
     {
-        result.module = module_s;
+        result_m.module = module_s;
     }
-    return result;
+    return result_m;
 }
 
-mu::llvmc::skeleton::node * mu::llvmc::analyzer_routine::process_node (mu::llvmc::ast::node * node_a)
+bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
 {
-    mu::llvmc::skeleton::node * node_l (nullptr);
-    auto existing (already_generated.find (node_a));
-    if (existing == already_generated.end ())
-    {
-        auto definite_expression (dynamic_cast <mu::llvmc::ast::definite_expression *> (node_a));
-        if (definite_expression != nullptr)
-        {
-            node_l = process_definite_expression (definite_expression);
-        }
-        else
-        {
-            auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
-            if (value_node != nullptr)
-            {
-                node_l = value_node->node_m;
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
-            }
-        }
-        already_generated [node_a] = node_l;
-    }
-    else
-    {
-        node_l = existing->second;
-    }
-    return node_l;
-}
-
-mu::llvmc::skeleton::definite_expression * mu::llvmc::analyzer_routine::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
-{
-    auto result_l (new (GC) mu::llvmc::skeleton::definite_expression);
+    bool result (false);
     auto existing (current_expression_generation.find (expression_a));
     if (existing == current_expression_generation.end ())
     {
         current_expression_generation.insert (expression_a);
-        for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result.error == nullptr; ++i)
+        mu::vector <mu::llvmc::skeleton::value *> arguments;
+        for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
         {
-            auto node (process_node (*i));
-            auto expression (dynamic_cast <mu::llvmc::skeleton::expression *> (node));
-            if (expression != nullptr)
+            result = (process_node (*i));
+            if (result_m.error == nullptr)
             {
-                result_l->arguments.push_back (expression);
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                if (result)
+                {
+                    auto & nodes (already_generated_multi [*i]);
+                    for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                    {
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
+                        if (value != nullptr)
+                        {
+                            arguments.push_back (value);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Expecting a value");
+                        }
+                    }
+                }
+                else
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [*i]));
+                    if (value != nullptr)
+                    {
+                        arguments.push_back (value);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Expecting a value");
+                    }
+                }
             }
         }
         current_expression_generation.erase (expression_a);
     }
     else
     {
-        result.error = new (GC) mu::core::error_string (U"Cycle in expressions");
+        result_m.error = new (GC) mu::core::error_string (U"Cycle in expressions");
     }
-    return result_l;
+    return result;
 }

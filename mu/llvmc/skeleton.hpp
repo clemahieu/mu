@@ -4,7 +4,7 @@
 
 namespace llvm
 {
-    class Value;
+    class Constant;
 }
 namespace mu
 {
@@ -24,31 +24,43 @@ namespace mu
             class type : public mu::llvmc::skeleton::node
             {                
             };
-            class expression : public mu::llvmc::skeleton::node
+            class branch
+            {
+            public:
+                branch (mu::llvmc::skeleton::branch * parent_a);
+                mu::llvmc::skeleton::branch * parent;
+            };
+            class value : public mu::llvmc::skeleton::node
             {
             public:
             };
-            class value : public mu::llvmc::skeleton::expression
-            {                
-            };
-            class definite_expression : public mu::llvmc::skeleton::expression
+            class local : public mu::llvmc::skeleton::value
             {
             public:
-                mu::vector <mu::llvmc::skeleton::expression *> arguments;
+                local (mu::llvmc::skeleton::branch * branch_a);
+                mu::llvmc::skeleton::branch * branch;
             };
-            class constant : public mu::llvmc::skeleton::expression
+            class call
+            {
+            public:                
+            };
+            class parameter : public mu::llvmc::skeleton::local
             {
             public:
-                llvm::Value * value_m;
+                parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * type;
             };
-            class element : public mu::llvmc::skeleton::expression
+            class element : public mu::llvmc::skeleton::local
             {
             public:
-                element (mu::llvmc::skeleton::expression * expression_a, size_t index_a);
-                mu::llvmc::skeleton::expression * expression_m;
+                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t index_a);
+                mu::llvmc::skeleton::call * call;
                 size_t index;
             };
-            class instruction : public mu::llvmc::skeleton::expression
+            class constant : public mu::llvmc::skeleton::value
+            {
+            };
+            class instruction : public mu::llvmc::skeleton::local
             {
             };
             class integer_type : public mu::llvmc::skeleton::type
@@ -69,20 +81,17 @@ namespace mu
             class result
             {
             public:
+                result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
                 mu::llvmc::skeleton::type * type;
-                mu::llvmc::skeleton::expression * expression;
+                mu::llvmc::skeleton::value * value;
             };
-            class parameter : public mu::llvmc::skeleton::expression
+            class function : public mu::llvmc::skeleton::value
             {
             public:
-                parameter (mu::llvmc::skeleton::type * type_a);
-                mu::llvmc::skeleton::type * type;
-            };
-            class function : public mu::llvmc::skeleton::expression
-            {
-            public:
+                function ();
+                mu::llvmc::skeleton::branch entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::vector <mu::llvmc::skeleton::result>> results;
+                mu::vector <mu::vector <mu::llvmc::skeleton::result *>> results;
             };
             class module
             {
