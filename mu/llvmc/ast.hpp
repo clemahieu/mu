@@ -2,7 +2,6 @@
 
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
-#include <mu/llvmc/instruction_type.hpp>
 
 namespace mu
 {
@@ -97,12 +96,6 @@ namespace mu
             {
             public:
                 mu::vector <mu::llvmc::ast::node *> functions;
-            };
-            class instruction : public mu::llvmc::ast::node
-            {
-            public:
-                instruction (mu::llvmc::instruction_type type_a);
-                mu::llvmc::instruction_type type;
             };
         }
     }

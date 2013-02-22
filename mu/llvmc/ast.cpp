@@ -27,8 +27,3 @@ written_type (written_type_a),
 value (nullptr)
 {
 }
-
-mu::llvmc::ast::instruction::instruction (mu::llvmc::instruction_type type_a):
-type (type_a)
-{
-}

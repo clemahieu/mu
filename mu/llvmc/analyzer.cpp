@@ -68,10 +68,10 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                     }
                     else
                     {
-                        auto instruction_node (dynamic_cast <mu::llvmc::ast::instruction *> (node_a));
-                        if (instruction_node != nullptr)
+                        auto definite_expression (dynamic_cast <mu::llvmc::ast::definite_expression *> (node_a));
+                        if (definite_expression != nullptr)
                         {
-                            process_instruction (instruction_node);
+                            process_definite_expression (definite_expression);
                         }
                         else
                         {
@@ -91,11 +91,6 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
         }
     }
     return result;
-}
-
-void mu::llvmc::analyzer_function::process_instruction (mu::llvmc::ast::instruction * node_a)
-{
-    
 }
 
 void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
@@ -210,7 +205,7 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
     if (existing == current_expression_generation.end ())
     {
         current_expression_generation.insert (expression_a);
-        mu::vector <mu::llvmc::skeleton::value *> arguments;
+        mu::vector <mu::llvmc::skeleton::node *> arguments;
         for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
         {
             result = (process_node (*i));
@@ -221,29 +216,32 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                     auto & nodes (already_generated_multi [*i]);
                     for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
                     {
-                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
-                        if (value != nullptr)
-                        {
-                            arguments.push_back (value);
-                        }
-                        else
-                        {
-                            result_m.error = new (GC) mu::core::error_string (U"Expecting a value");
-                        }
+                        arguments.push_back (*k);
                     }
                 }
                 else
                 {
-                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [*i]));
-                    if (value != nullptr)
-                    {
-                        arguments.push_back (value);
-                    }
-                    else
-                    {
-                        result_m.error = new (GC) mu::core::error_string (U"Expecting a value");
-                    }
+                    arguments.push_back (already_generated [*i]);
                 }
+            }
+        }
+        if (result_m.error == nullptr)
+        {
+            if (!arguments.empty ())
+            {
+                auto target (dynamic_cast <mu::llvmc::skeleton::target *> (arguments [0]));
+                if (target != nullptr)
+                {
+                    target->process_arguments (*this, expression_a, arguments);
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target");
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expecting a call target");
             }
         }
         current_expression_generation.erase (expression_a);

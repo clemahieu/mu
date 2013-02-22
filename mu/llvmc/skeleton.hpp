@@ -10,7 +10,12 @@ namespace llvm
 namespace mu
 {
     namespace llvmc
-    {
+    {        
+        class analyzer_function;
+        namespace ast
+        {
+            class node;
+        }
         namespace wrapper
         {
             class type;
@@ -22,7 +27,7 @@ namespace mu
             public:
                 virtual ~node ();
             };
-            class type : public mu::llvmc::skeleton::node
+            class type : virtual public mu::llvmc::skeleton::node
             {                
             };
             class branch
@@ -31,37 +36,34 @@ namespace mu
                 branch (mu::llvmc::skeleton::branch * parent_a);
                 mu::llvmc::skeleton::branch * parent;
             };
-            class value : public mu::llvmc::skeleton::node
+            class value : virtual public mu::llvmc::skeleton::node
             {
             public:
                 value (mu::llvmc::skeleton::branch * branch_a);
+                virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
             };
-            class call
+            class target : virtual public mu::llvmc::skeleton::node
             {
-            public:                
+            public:
+                virtual void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) = 0;
             };
             class parameter : public mu::llvmc::skeleton::value
             {
             public:
                 parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
-                mu::llvmc::skeleton::type * type;
-            };
-            class element : public mu::llvmc::skeleton::value
-            {
-            public:
-                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t index_a);
-                mu::llvmc::skeleton::call * call;
-                size_t index;
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
             };
             class constant : public mu::llvmc::skeleton::value
             {
+                mu::llvmc::skeleton::type * type () override;
             };
-            class instruction : public mu::llvmc::skeleton::value
+            class instruction : public mu::llvmc::skeleton::target
             {
             public:
-                instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a);
-                mu::vector <mu::llvmc::skeleton::node *> arguments;
+                instruction (mu::llvmc::instruction_type type_a);
+                void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) override;
                 mu::llvmc::instruction_type type;
             };
             class integer_type : public mu::llvmc::skeleton::type
@@ -86,13 +88,23 @@ namespace mu
                 mu::llvmc::skeleton::type * type;
                 mu::llvmc::skeleton::value * value;
             };
-            class function : public mu::llvmc::skeleton::value
+            class function : public mu::llvmc::skeleton::target
             {
             public:
                 function ();
+                void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) override;
                 mu::llvmc::skeleton::branch entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::vector <mu::llvmc::skeleton::result *>> results;
+            };
+            class element : public mu::llvmc::skeleton::value
+            {
+            public:
+                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function * function_a, size_t result_index_a, size_t item_index_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::function * function;
+                size_t result_index;
+                size_t item_index;
             };
             class module
             {

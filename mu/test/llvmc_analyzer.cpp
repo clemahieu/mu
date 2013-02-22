@@ -55,7 +55,7 @@ TEST (llvmc_analyzer, single_parameter)
     ASSERT_EQ (1, result.module->functions.size ());
     auto function1 (result.module->functions [0]);
     ASSERT_EQ (1, function1->parameters.size ());
-    auto parameter2 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (function1->parameters [0]->type));
+    auto parameter2 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (function1->parameters [0]->type ()));
     EXPECT_EQ (&type1, parameter2);
     EXPECT_EQ (0, function1->results.size ());
 }
