@@ -1,0 +1,61 @@
+#pragma once
+
+namespace mu
+{
+    namespace llvmc
+    {        
+        enum class instruction_type
+        {
+            add,
+            and_i,
+            ashr,
+            bitcast,
+            br,
+            call,
+            extractelement,
+            extractvalue,
+            fadd,
+            fcmp,
+            fdiv,
+            fmul,
+            fpext,
+            fptoi,
+            futosi,
+            fptoui,
+            fptrunc,
+            frem,
+            fsub,
+            icmp,
+            indirectbr,
+            insertelement,
+            insertvalue,
+            inttoptr,
+            invoke,
+            landingpad,
+            lshr,
+            mul,
+            or_i,
+            phi,
+            ptrtoint,
+            resume,
+            ret,
+            sdiv,
+            select,
+            sext,
+            shl,
+            shufflevector,
+            sitofp,
+            srem,
+            sub,
+            switch_i,
+            trunc,
+            udiv,
+            uitofp,
+            unreachable,
+            urem,
+            vaarg,
+            xor_i,
+            zext
+        };
+    }
+}

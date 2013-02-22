@@ -68,7 +68,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
+                        auto instruction_node (dynamic_cast <mu::llvmc::ast::instruction *> (node_a));
+                        if (instruction_node != nullptr)
+                        {
+                            process_instruction (instruction_node);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
+                        }
                     }
                 }
             }
@@ -83,6 +91,11 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
         }
     }
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_instruction (mu::llvmc::ast::instruction * node_a)
+{
+    
 }
 
 void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)

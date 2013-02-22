@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/core/types.hpp>
+#include <mu/llvmc/instruction_type.hpp>
 
 namespace llvm
 {
@@ -58,6 +59,10 @@ namespace mu
             };
             class instruction : public mu::llvmc::skeleton::value
             {
+            public:
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a);
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+                mu::llvmc::instruction_type type;
             };
             class integer_type : public mu::llvmc::skeleton::type
             {

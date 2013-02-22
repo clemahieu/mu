@@ -43,3 +43,9 @@ type (type_a),
 value (value_a)
 {
 }
+
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a) :
+value (branch_a),
+type (type_a)
+{
+}

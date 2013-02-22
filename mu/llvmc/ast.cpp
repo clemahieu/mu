@@ -28,7 +28,7 @@ value (nullptr)
 {
 }
 
-mu::llvmc::ast::instruction::instruction (mu::llvmc::ast::instruction_type type_a):
+mu::llvmc::ast::instruction::instruction (mu::llvmc::instruction_type type_a):
 type (type_a)
 {
 }

@@ -2,6 +2,7 @@
 
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
+#include <mu/llvmc/instruction_type.hpp>
 
 namespace mu
 {
@@ -97,64 +98,11 @@ namespace mu
             public:
                 mu::vector <mu::llvmc::ast::node *> functions;
             };
-            enum class instruction_type
-            {
-                add,
-                and_i,
-                ashr,
-                bitcast,
-                br,
-                call,
-                extractelement,
-                extractvalue,
-                fadd,
-                fcmp,
-                fdiv,
-                fmul,
-                fpext,
-                fptoi,
-                futosi,
-                fptoui,
-                fptrunc,
-                frem,
-                fsub,
-                icmp,
-                indirectbr,
-                insertelement,
-                insertvalue,
-                inttoptr,
-                invoke,
-                landingpad,
-                lshr,
-                mul,
-                or_i,
-                phi,
-                ptrtoint,
-                resume,
-                ret,
-                sdiv,
-                select,
-                sext,
-                shl,
-                shufflevector,
-                sitofp,
-                srem,
-                sub,
-                switch_i,
-                trunc,
-                udiv,
-                uitofp,
-                unreachable,
-                urem,
-                vaarg,
-                xor_i,
-                zext
-            };
             class instruction : public mu::llvmc::ast::node
             {
             public:
-                instruction (mu::llvmc::ast::instruction_type type_a);
-                mu::llvmc::ast::instruction_type type;
+                instruction (mu::llvmc::instruction_type type_a);
+                mu::llvmc::instruction_type type;
             };
         }
     }

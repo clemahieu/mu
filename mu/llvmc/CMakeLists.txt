@@ -14,6 +14,7 @@ add_library (mu_llvmc SHARED
     analyzer.hpp
     generator.cpp
     generator.hpp
+    instruction_type.hpp
     node_result.cpp
     node_result.hpp
 	parser.cpp
