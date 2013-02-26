@@ -68,15 +68,7 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                     }
                     else
                     {
-                        auto definite_expression (dynamic_cast <mu::llvmc::ast::definite_expression *> (node_a));
-                        if (definite_expression != nullptr)
-                        {
-                            process_definite_expression (definite_expression);
-                        }
-                        else
-                        {
-                            result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
-                        }
+                        result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
                     }
                 }
             }
@@ -91,6 +83,37 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
         }
     }
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * element_a)
+{
+    auto multi (process_node (element_a->node));
+    if (result_m.error == nullptr)
+    {
+        if (multi)
+        {
+            auto existing (already_generated_multi.find (element_a->node));
+            if (existing->second.size () < element_a->index)
+            {
+                already_generated [element_a] = existing->second [element_a->index];
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"No value at index");
+            }
+        }
+        else
+        {
+            if (element_a->index == 0)
+            {
+                already_generated [element_a] = already_generated [element_a->node];
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Value has only one element");
+            }
+        }
+    }
 }
 
 void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
