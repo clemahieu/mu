@@ -252,7 +252,7 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
         {
             if (!arguments.empty ())
             {
-                auto target (dynamic_cast <mu::llvmc::skeleton::target *> (arguments [0]));
+                auto target (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [0]));
                 if (target != nullptr)
                 {
                     target->process_arguments (*this, expression_a, arguments);

@@ -28,7 +28,10 @@ namespace mu
                 virtual ~node ();
             };
             class type : virtual public mu::llvmc::skeleton::node
-            {                
+            {
+            public:
+                virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
+                bool operator != (mu::llvmc::skeleton::type const & other_a) const;
             };
             class branch
             {
@@ -41,12 +44,8 @@ namespace mu
             public:
                 value (mu::llvmc::skeleton::branch * branch_a);
                 virtual mu::llvmc::skeleton::type * type () = 0;
+                virtual void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a);
                 mu::llvmc::skeleton::branch * branch;
-            };
-            class target : virtual public mu::llvmc::skeleton::node
-            {
-            public:
-                virtual void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) = 0;
             };
             class parameter : public mu::llvmc::skeleton::value
             {
@@ -59,10 +58,10 @@ namespace mu
             {
                 mu::llvmc::skeleton::type * type () override;
             };
-            class instruction : public mu::llvmc::skeleton::target
+            class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::llvmc::instruction_type type_a);
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a);
                 void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) override;
                 mu::llvmc::instruction_type type;
             };
@@ -70,6 +69,7 @@ namespace mu
             {
             public:
                 integer_type (size_t bits_a);
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 size_t bits;
             };
             class struct_type : public mu::llvmc::skeleton::type
@@ -80,6 +80,7 @@ namespace mu
             class unit_type : public mu::llvmc::skeleton::type
             {
             public:
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
             };
             class result
             {
@@ -88,23 +89,59 @@ namespace mu
                 mu::llvmc::skeleton::type * type;
                 mu::llvmc::skeleton::value * value;
             };
-            class function : public mu::llvmc::skeleton::target
+            class function;
+            class parameter_iterator
+            {
+            public:
+                parameter_iterator (mu::llvmc::skeleton::function & function_a, size_t index_a);
+                mu::llvmc::skeleton::type * operator * () const;
+                void operator ++ ();
+                bool operator == (mu::llvmc::skeleton::parameter_iterator const & other_a) const;
+                bool operator != (mu::llvmc::skeleton::parameter_iterator const & other_a) const;
+                size_t index;
+                mu::llvmc::skeleton::function & function;
+            };
+            class function_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                function_type (mu::llvmc::skeleton::function & function_a);
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                mu::llvmc::skeleton::parameter_iterator begin_parameters ();
+                mu::llvmc::skeleton::parameter_iterator end_parameters ();
+                mu::llvmc::skeleton::function & function;
+            };
+            class function : public mu::llvmc::skeleton::value
             {
             public:
                 function ();
-                void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) override;
+                mu::llvmc::skeleton::function_type type_m;
+                mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::vector <mu::llvmc::skeleton::result *>> results;
             };
+            class pointer_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                pointer_type (mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * pointed_type;
+            };
+            class call
+            {
+            public:
+                call (mu::llvmc::skeleton::function_type * type_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a);
+                mu::llvmc::skeleton::function_type * type;
+                mu::llvmc::skeleton::branch * branch;
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+            };
             class element : public mu::llvmc::skeleton::value
             {
             public:
-                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function * function_a, size_t result_index_a, size_t item_index_a);
+                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t branch_index_a, size_t result_index_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::function * function;
+                mu::llvmc::skeleton::call * call;
+                size_t branch_index;
                 size_t result_index;
-                size_t item_index;
             };
             class module
             {
