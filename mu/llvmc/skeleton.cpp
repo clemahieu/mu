@@ -5,7 +5,7 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::element::element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t branch_index_a, size_t result_index_a) :
+mu::llvmc::skeleton::element::element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a) :
 value (branch_a),
 call (call_a),
 branch_index (branch_index_a),
@@ -103,13 +103,13 @@ void mu::llvmc::skeleton::value::process_arguments (mu::llvmc::analyzer_function
             if (arguments_a.size () == function_type->function.parameters.size ())
             {
                 auto k (arguments_a.begin ());
-                for (auto i (function_type->begin_parameters ()), j (function_type->end_parameters ()); i != j && analyzer_a.result_m.error
+                for (size_t i (0), j (function_type->function.parameters.size ()); i != j && analyzer_a.result_m.error
                       == nullptr; ++i, ++k)
                 {
                     auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
                     if (argument_value != nullptr)
                     {
-                        if ((*argument_value->type ()) != **i)
+                        if ((*argument_value->type ()) != *function_type->function.parameters [i]->type ())
                         {
                             analyzer_a.result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type");
                         }
@@ -154,7 +154,7 @@ void mu::llvmc::skeleton::value::process_arguments (mu::llvmc::analyzer_function
                         }
                         if (analyzer_a.result_m.error == nullptr)
                         {
-                            auto call (new (GC) mu::llvmc::skeleton::call (function_type, most_specific_branch, arguments_a));
+                            auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments_a));
                             if (function_type->function.results.size () == 1)
                             {
                                 if (function_type->function.results [0].size () == 1)
@@ -216,58 +216,15 @@ pointed_type (type_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::element::type ()
 {
-    assert (call->type->function.results.size () > branch_index);
-    assert (call->type->function.results [branch_index].size () > result_index);
-    auto result (call->type->function.results [branch_index][result_index]->type);
+    assert (call->target.results.size () > branch_index);
+    assert (call->target.results [branch_index].size () > result_index);
+    auto result (call->target.results [branch_index][result_index]->type);
     return result;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::parameter::type ()
 {
     auto result (type_m);
-    return result;
-}
-
-mu::llvmc::skeleton::parameter_iterator::parameter_iterator (mu::llvmc::skeleton::function & function_a, size_t index_a) :
-index (index_a),
-function (function_a)
-{
-}
-
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::parameter_iterator::operator * () const
-{
-    assert (index < function.parameters.size ());
-    auto result (function.parameters [index]);
-    return result->type_m;    
-}
-
-void mu::llvmc::skeleton::parameter_iterator::operator ++ ()
-{
-    assert (index < function.parameters.size ());
-    ++index;
-}
-
-bool mu::llvmc::skeleton::parameter_iterator::operator == (mu::llvmc::skeleton::parameter_iterator const & other_a) const
-{
-    auto result (index == other_a.index);
-    return result;
-}
-
-bool mu::llvmc::skeleton::parameter_iterator::operator != (mu::llvmc::skeleton::parameter_iterator const & other_a) const
-{
-    auto result (!((*this) == other_a));
-    return result;
-}
-
-mu::llvmc::skeleton::parameter_iterator mu::llvmc::skeleton::function_type::begin_parameters ()
-{
-    mu::llvmc::skeleton::parameter_iterator result (function, 0);
-    return result;
-}
-
-mu::llvmc::skeleton::parameter_iterator mu::llvmc::skeleton::function_type::end_parameters ()
-{
-    mu::llvmc::skeleton::parameter_iterator result (function, function.parameters.size ());
     return result;
 }
 
@@ -320,9 +277,21 @@ bool mu::llvmc::skeleton::type::operator != (mu::llvmc::skeleton::type const & o
     return result;
 }
 
-mu::llvmc::skeleton::call::call (mu::llvmc::skeleton::function_type * type_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a):
-type (type_a),
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
+target (target_a),
 branch (branch_a),
 arguments (arguments_a)
+{
+}
+
+mu::llvmc::skeleton::switch_call::switch_call (mu::llvmc::skeleton::value * target_a) :
+target (target_a)
+{
+}
+
+mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a) :
+value (branch_a),
+call (call_a),
+case_m (case_a)
 {
 }

@@ -90,24 +90,11 @@ namespace mu
                 mu::llvmc::skeleton::value * value;
             };
             class function;
-            class parameter_iterator
-            {
-            public:
-                parameter_iterator (mu::llvmc::skeleton::function & function_a, size_t index_a);
-                mu::llvmc::skeleton::type * operator * () const;
-                void operator ++ ();
-                bool operator == (mu::llvmc::skeleton::parameter_iterator const & other_a) const;
-                bool operator != (mu::llvmc::skeleton::parameter_iterator const & other_a) const;
-                size_t index;
-                mu::llvmc::skeleton::function & function;
-            };
             class function_type : public mu::llvmc::skeleton::type
             {
             public:
                 function_type (mu::llvmc::skeleton::function & function_a);
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-                mu::llvmc::skeleton::parameter_iterator begin_parameters ();
-                mu::llvmc::skeleton::parameter_iterator end_parameters ();
                 mu::llvmc::skeleton::function & function;
             };
             class function : public mu::llvmc::skeleton::value
@@ -126,20 +113,33 @@ namespace mu
                 pointer_type (mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * pointed_type;
             };
-            class call
+            class function_call
             {
             public:
-                call (mu::llvmc::skeleton::function_type * type_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a);
-                mu::llvmc::skeleton::function_type * type;
+                function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                mu::llvmc::skeleton::function & target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+            };
+            class switch_call
+            {
+            public:
+                switch_call (mu::llvmc::skeleton::value * target_a);
+                mu::llvmc::skeleton::value * target;
+            };
+            class switch_element : public mu::llvmc::skeleton::value
+            {
+            public:
+                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a);
+                mu::llvmc::skeleton::switch_call * call;
+                mu::llvmc::skeleton::value * case_m;
             };
             class element : public mu::llvmc::skeleton::value
             {
             public:
-                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::call * call_a, size_t branch_index_a, size_t result_index_a);
+                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::call * call;
+                mu::llvmc::skeleton::function_call * call;
                 size_t branch_index;
                 size_t result_index;
             };
