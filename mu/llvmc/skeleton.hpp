@@ -39,12 +39,11 @@ namespace mu
                 branch (mu::llvmc::skeleton::branch * parent_a);
                 mu::llvmc::skeleton::branch * parent;
             };
-            class value : virtual public mu::llvmc::skeleton::node
+            class value : public mu::llvmc::skeleton::node
             {
             public:
                 value (mu::llvmc::skeleton::branch * branch_a);
                 virtual mu::llvmc::skeleton::type * type () = 0;
-                virtual void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a);
                 mu::llvmc::skeleton::branch * branch;
             };
             class parameter : public mu::llvmc::skeleton::value
@@ -62,7 +61,13 @@ namespace mu
             {
             public:
                 instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a);
-                void process_arguments (mu::llvmc::analyzer_function & analyzer_a, mu::llvmc::ast::node * node_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a) override;
+                mu::llvmc::instruction_type type;
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+            };
+            class marker : public mu::llvmc::skeleton::node
+            {
+            public:
+                marker (mu::llvmc::instruction_type type_a);
                 mu::llvmc::instruction_type type;
             };
             class integer_type : public mu::llvmc::skeleton::type

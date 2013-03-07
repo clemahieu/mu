@@ -57,6 +57,8 @@ namespace mu
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             bool process_node (mu::llvmc::ast::node * node_a);
             void process_element (mu::llvmc::ast::element * element_a);
+            bool process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a);
+            bool process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
             bool process_definite_expression (mu::llvmc::ast::definite_expression * node_a);

@@ -255,11 +255,19 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                 auto target (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [0]));
                 if (target != nullptr)
                 {
-                    target->process_arguments (*this, expression_a, arguments);
+                    result = process_value_call (arguments, expression_a);
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target");
+                    auto marker (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments [0]));
+                    if (marker != nullptr)
+                    {
+                        result = process_marker (arguments, expression_a);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target");
+                    }
                 }
             }
             else
@@ -272,6 +280,143 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
     else
     {
         result_m.error = new (GC) mu::core::error_string (U"Cycle in expressions");
+    }
+    return result;
+}
+
+bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a)
+{
+    assert (! arguments_a.empty ());
+    assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [0]) != nullptr);
+    auto target (static_cast <mu::llvmc::skeleton::value *> (arguments_a [0]));
+    auto type_l (target->type ());
+    auto pointer_type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type_l));
+    if (pointer_type != nullptr)
+    {
+        auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (pointer_type->pointed_type));
+        if (function_type != nullptr)
+        {
+            if (arguments_a.size () == function_type->function.parameters.size ())
+            {
+                auto k (arguments_a.begin ());
+                for (size_t i (0), j (function_type->function.parameters.size ()); i != j && result_m.error
+                     == nullptr; ++i, ++k)
+                {
+                    auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
+                    if (argument_value != nullptr)
+                    {
+                        if ((*argument_value->type ()) != *function_type->function.parameters [i]->type ())
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type");
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Argument to function is not a value");
+                    }
+                }
+                if (result_m.error == nullptr)
+                {
+                    mu::llvmc::skeleton::branch * most_specific_branch (nullptr);
+                    if (!arguments_a.empty ())
+                    {
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [0]));
+                        assert (value != nullptr);
+                        most_specific_branch = value->branch;
+                        for (auto i (arguments_a.begin () + 1), j (arguments_a.end ()); i != j && result_m.error == nullptr; ++i)
+                        {
+                            auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
+                            assert (value != nullptr);
+                            auto testing (value->branch);
+                            while (testing != nullptr && testing != most_specific_branch)
+                            {
+                                testing = testing->parent;
+                            }
+                            if (testing == nullptr)
+                            {
+                                // Previous most specific branch was not above or equal to the current one
+                                // Either current one must be most specific branch or these arguments are disjoint which is an error
+                                testing = most_specific_branch;
+                                most_specific_branch = value->branch;
+                                while (testing != nullptr && testing != most_specific_branch)
+                                {
+                                    testing = testing->parent;
+                                }
+                                if (testing == nullptr)
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Arguments are disjoint");
+                                }
+                            }
+                        }
+                        if (result_m.error == nullptr)
+                        {
+                            auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments_a));
+                            if (function_type->function.results.size () == 1)
+                            {
+                                if (function_type->function.results [0].size () == 1)
+                                {
+                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::element (most_specific_branch, call, 0, 0);
+                                }
+                                else
+                                {
+                                    auto & target (already_generated_multi [expression_a]);
+                                    for (size_t i (0), j (function_type->function.results [0].size ()); i != j && result_m.error == nullptr; ++i)
+                                    {
+                                        target.push_back (new (GC) mu::llvmc::skeleton::element (most_specific_branch, call, 0, i));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                for (size_t i (0), j (function_type->function.results.size ()); i != j && result_m.error == nullptr; ++i)
+                                {
+                                    auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+                                    if (function_type->function.results [0].size () == 1)
+                                    {
+                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::element (branch, call, i, 0);
+                                    }
+                                    else
+                                    {
+                                        auto & target (already_generated_multi [expression_a]);
+                                        for (size_t k (0), l (function_type->function.results [i].size ()); k != l && result_m.error == nullptr; ++k)
+                                        {
+                                            target.push_back (new (GC) mu::llvmc::skeleton::element (branch, call, i, k));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters");
+            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Pointer does not point to a function");
+        }
+    }
+    else
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call");
+    }
+    return result;
+}
+
+bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a)
+{
+    assert (!arguments_a.empty ());
+    assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
+    auto marker (static_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]));
+    bool result (false);
+    switch (marker->type)
+    {
+        default:
+            result_m.error = new (GC) mu::core::error_string (U"Unknown instruction marker");
+            break;
     }
     return result;
 }

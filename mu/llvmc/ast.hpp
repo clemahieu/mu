@@ -2,6 +2,7 @@
 
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
+#include <mu/llvmc/instruction_type.hpp>
 
 namespace mu
 {
@@ -82,6 +83,12 @@ namespace mu
                 mu::llvmc::ast::node * predicate;
                 mu::vector <mu::llvmc::ast::node *> true_roots;
                 mu::vector <mu::llvmc::ast::node *> false_roots;
+            };
+            class instruction : public mu::llvmc::ast::node
+            {
+            public:
+                instruction (mu::llvmc::instruction_type type_a);
+                mu::llvmc::instruction_type type;
             };
             class function : public mu::llvmc::ast::node
             {
