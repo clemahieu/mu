@@ -19,6 +19,7 @@ namespace mu
             class definite_expression;
             class function;
             class type;
+            class branch;
         }
         namespace ast
         {
@@ -59,10 +60,12 @@ namespace mu
             void process_element (mu::llvmc::ast::element * element_a);
             bool process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a);
             bool process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a);
+            void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::value * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
             bool process_definite_expression (mu::llvmc::ast::definite_expression * node_a);
             void process_single_node (mu::llvmc::ast::node * node_a);
+            void process_element_node (mu::llvmc::ast::element * node_a);
             mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::node *> already_generated;
             mu::map <mu::llvmc::ast::node *, mu::vector <mu::llvmc::skeleton::node *>> already_generated_multi;
             mu::set <mu::llvmc::ast::expression *> current_expression_generation;

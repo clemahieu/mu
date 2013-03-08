@@ -56,9 +56,10 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::instruction_type type_a) :
 value (branch_a),
-type (type_a)
+type_m (type_a),
+arguments (arguments_a)
 {
 }
 
@@ -152,4 +153,51 @@ value (branch_a),
 call (call_a),
 case_m (case_a)
 {
+}
+
+mu::llvmc::skeleton::constant::constant () :
+value (nullptr)
+{
+}
+
+mu::llvmc::skeleton::constant_integer::constant_integer (size_t bits_a, uint64_t value_a) :
+type_m (new (GC) mu::llvmc::skeleton::integer_type (bits_a)),
+value_m (value_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_integer::type ()
+{
+    return type_m;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::switch_element::type ()
+{
+    return & type_m;
+}
+
+mu::llvmc::skeleton::marker::marker (mu::llvmc::instruction_type type_a) :
+type (type_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
+{
+    mu::llvmc::skeleton::type * result (nullptr);
+    switch (type_m)
+    {
+        case mu::llvmc::instruction_type::add:
+        {
+            assert (arguments.size () == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+        }
+            break;
+        default:
+            assert (false);
+            break;
+    }
+    return result;
 }

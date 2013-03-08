@@ -68,7 +68,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
+                        auto element_node (dynamic_cast <mu::llvmc::ast::element *> (node_a));
+                        if (element_node != nullptr)
+                        {
+                            process_element (element_node);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass");
+                        }
                     }
                 }
             }
@@ -93,7 +101,7 @@ void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * el
         if (multi)
         {
             auto existing (already_generated_multi.find (element_a->node));
-            if (existing->second.size () < element_a->index)
+            if (existing->second.size () > element_a->index)
             {
                 already_generated [element_a] = existing->second [element_a->index];
             }
@@ -286,6 +294,7 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
 
 bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a)
 {
+    auto result (false);
     assert (! arguments_a.empty ());
     assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [0]) != nullptr);
     auto target (static_cast <mu::llvmc::skeleton::value *> (arguments_a [0]));
@@ -320,33 +329,13 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                     mu::llvmc::skeleton::branch * most_specific_branch (nullptr);
                     if (!arguments_a.empty ())
                     {
-                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [0]));
-                        assert (value != nullptr);
+                        assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [0]) != nullptr);
+                        auto value (static_cast <mu::llvmc::skeleton::value *> (arguments_a [0]));
                         most_specific_branch = value->branch;
                         for (auto i (arguments_a.begin () + 1), j (arguments_a.end ()); i != j && result_m.error == nullptr; ++i)
                         {
-                            auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
-                            assert (value != nullptr);
-                            auto testing (value->branch);
-                            while (testing != nullptr && testing != most_specific_branch)
-                            {
-                                testing = testing->parent;
-                            }
-                            if (testing == nullptr)
-                            {
-                                // Previous most specific branch was not above or equal to the current one
-                                // Either current one must be most specific branch or these arguments are disjoint which is an error
-                                testing = most_specific_branch;
-                                most_specific_branch = value->branch;
-                                while (testing != nullptr && testing != most_specific_branch)
-                                {
-                                    testing = testing->parent;
-                                }
-                                if (testing == nullptr)
-                                {
-                                    result_m.error = new (GC) mu::core::error_string (U"Arguments are disjoint");
-                                }
-                            }
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+                            calculate_most_specific (most_specific_branch, static_cast <mu::llvmc::skeleton::value *> (*i));
                         }
                         if (result_m.error == nullptr)
                         {
@@ -359,6 +348,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                                 }
                                 else
                                 {
+                                    result = true;
                                     auto & target (already_generated_multi [expression_a]);
                                     for (size_t i (0), j (function_type->function.results [0].size ()); i != j && result_m.error == nullptr; ++i)
                                     {
@@ -368,6 +358,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                             }
                             else
                             {
+                                result = true;
                                 for (size_t i (0), j (function_type->function.results.size ()); i != j && result_m.error == nullptr; ++i)
                                 {
                                     auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
@@ -406,6 +397,30 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
     return result;
 }
 
+void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::value * test)
+{
+    auto testing (test->branch);
+    while (testing != nullptr && testing != first)
+    {
+        testing = testing->parent;
+    }
+    if (testing == nullptr)
+    {
+        // Previous most specific branch was not above or equal to the current one
+        // Either current one must be most specific branch or these arguments are disjoint which is an error
+        testing = first;
+        first = test->branch;
+        while (testing != nullptr && testing != first)
+        {
+            testing = testing->parent;
+        }
+        if (testing == nullptr)
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Arguments are disjoint");
+        }
+    }
+}
+
 bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::ast::node * expression_a)
 {
     assert (!arguments_a.empty ());
@@ -414,9 +429,139 @@ bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skelet
     bool result (false);
     switch (marker->type)
     {
+        case mu::llvmc::instruction_type::if_i:
+        {
+            if (arguments_a.size () == 2)
+            {
+                auto predicate (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [1]));
+                if (predicate != nullptr)
+                {
+                    auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate->type ()));
+                    if (integer_type != nullptr)
+                    {
+                        if (integer_type->bits == 1)
+                        {
+                            result = true;
+                            auto switch_i (new (GC) mu::llvmc::skeleton::switch_call (predicate));
+                            auto true_branch (new (GC) mu::llvmc::skeleton::branch (predicate->branch));
+                            auto false_branch (new (GC) mu::llvmc::skeleton::branch (predicate->branch));
+                            auto true_element (new (GC) mu::llvmc::skeleton::switch_element (true_branch, switch_i, new (GC) mu::llvmc::skeleton::constant_integer (1, 1)));
+                            auto false_element (new (GC) mu::llvmc::skeleton::switch_element (false_branch, switch_i, new (GC) mu::llvmc::skeleton::constant_integer (1, 0)));
+                            auto & values (already_generated_multi [expression_a]);
+                            values.push_back (true_element);
+                            values.push_back (false_element);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer");
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value");
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument");
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument");
+            }
+        }
+            break;
+        case mu::llvmc::instruction_type::add:
+        {
+            if (arguments_a.size () == 3)
+            {
+                auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [1]));
+                if (left != nullptr)
+                {
+                    auto right (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [2]));
+                    if (right != nullptr)
+                    {
+                        auto left_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (left->type ()));
+                        if (left_type != nullptr)
+                        {
+                            auto right_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (right->type ()));
+                            if (right_type != nullptr)
+                            {
+                                if (left_type->bits == right_type->bits)
+                                {
+                                    auto branch (left->branch);
+                                    calculate_most_specific (branch, right);
+                                    if (result_m.error == nullptr)
+                                    {
+                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (branch, arguments_a, mu::llvmc::instruction_type::add);
+                                    }
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Add left and right arguments must be same width");
+                                }
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Add right argument must be an integer type");
+                            }
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Add left argument must be an integer type");
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Add right argument must be a value");
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Add left argument must be a value");
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Add instruction expects two arguments");
+            }
+        }
+            break;
         default:
             result_m.error = new (GC) mu::core::error_string (U"Unknown instruction marker");
             break;
     }
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_element_node (mu::llvmc::ast::element * node_a)
+{
+    auto multi (process_node (node_a->node));
+    if (result_m.error != nullptr)
+    {
+        if (multi)
+        {
+            auto & already (already_generated_multi [node_a]);
+            if (already.size () > node_a->index)
+            {
+                already_generated [node_a] = already [node_a->index];
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expression does not have an item at index");
+            }
+        }
+        else
+        {
+            if (node_a->index == 0)
+            {
+                already_generated [node_a] = already_generated [node_a->node];
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expression does not have more than one item");
+            }
+        }
+    }
 }

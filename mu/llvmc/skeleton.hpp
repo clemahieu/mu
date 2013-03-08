@@ -55,13 +55,23 @@ namespace mu
             };
             class constant : public mu::llvmc::skeleton::value
             {
+            public:
+                constant ();
+            };
+            class constant_integer : public mu::llvmc::skeleton::constant
+            {
+            public:
+                constant_integer (size_t bits_a, uint64_t value_a);
                 mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+                uint64_t value_m;
             };
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::instruction_type type_a);
-                mu::llvmc::instruction_type type;
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::instruction_type type_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::instruction_type type_m;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
             };
             class marker : public mu::llvmc::skeleton::node
@@ -136,6 +146,8 @@ namespace mu
             {
             public:
                 switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::unit_type type_m;
                 mu::llvmc::skeleton::switch_call * call;
                 mu::llvmc::skeleton::value * case_m;
             };

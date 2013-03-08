@@ -26,6 +26,7 @@ namespace mu
             frem,
             fsub,
             icmp,
+            if_i,
             indirectbr,
             insertelement,
             insertvalue,

@@ -84,12 +84,6 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> true_roots;
                 mu::vector <mu::llvmc::ast::node *> false_roots;
             };
-            class instruction : public mu::llvmc::ast::node
-            {
-            public:
-                instruction (mu::llvmc::instruction_type type_a);
-                mu::llvmc::instruction_type type;
-            };
             class function : public mu::llvmc::ast::node
             {
             public:
