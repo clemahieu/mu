@@ -16,6 +16,7 @@ add_executable (mu_test
     llvmc_analyzer.cpp
     llvmc_generator.cpp
     llvmc_parser.cpp
+    llvmc_skeleton.cpp
     partial_ast.cpp)
     
 target_link_libraries (mu_test

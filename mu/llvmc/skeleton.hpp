@@ -37,6 +37,7 @@ namespace mu
             {
             public:
                 branch (mu::llvmc::skeleton::branch * parent_a);
+                mu::llvmc::skeleton::branch * most_specific (mu::llvmc::skeleton::branch * other_a);
                 mu::llvmc::skeleton::branch * parent;
             };
             class value : public mu::llvmc::skeleton::node
@@ -115,7 +116,7 @@ namespace mu
             class function : public mu::llvmc::skeleton::value
             {
             public:
-                function ();
+                function (mu::llvmc::skeleton::branch * global_a);
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch entry;

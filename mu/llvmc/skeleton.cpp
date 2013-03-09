@@ -17,10 +17,10 @@ mu::llvmc::skeleton::node::~node ()
 {
 }
 
-mu::llvmc::skeleton::function::function () :
+mu::llvmc::skeleton::function::function (mu::llvmc::skeleton::branch * global_a) :
 value (nullptr),
 type_m (*this),
-entry (nullptr)
+entry (global_a)
 {
 }
 
@@ -198,6 +198,37 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         default:
             assert (false);
             break;
+    }
+    return result;
+}
+
+mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::llvmc::skeleton::branch * other_a)
+{
+    mu::llvmc::skeleton::branch * result (nullptr);
+    auto left (this);
+    auto right (other_a);
+    while (right != nullptr && right != left)
+    {
+        right = right->parent;
+    }
+    if (right == nullptr)
+    {
+        // Previous most specific branch was not above or equal to the current one
+        // Either current one must be most specific branch or these arguments are disjoint which is an error
+        left = other_a;
+        right = this;
+        while (right != nullptr && right != left)
+        {
+            right = right->parent;
+        }
+        if (right != nullptr)
+        {
+            result = this;
+        }
+    }
+    else
+    {
+        result = other_a;
     }
     return result;
 }
