@@ -160,4 +160,8 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_NE (parameter2->branch, element4->branch);
     ASSERT_EQ (parameter2->branch, element3->branch->parent);
     ASSERT_EQ (parameter2->branch, element4->branch->parent);
+    auto type5 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (element3->type ()));
+    ASSERT_NE (nullptr, type5);
+    auto type6 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (element4->type ()));
+    ASSERT_NE (nullptr, type6);
 }
