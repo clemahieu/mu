@@ -32,6 +32,7 @@ namespace mu
             public:
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
+                virtual bool is_bottom_type () const;
             };
             class branch
             {
@@ -98,6 +99,12 @@ namespace mu
             public:
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
             };
+            class bottom_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                bool is_bottom_type () const override;
+            };
             class result
             {
             public:
@@ -129,14 +136,6 @@ namespace mu
                 pointer_type (mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * pointed_type;
             };
-            class function_call
-            {
-            public:
-                function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
-                mu::llvmc::skeleton::function & target;
-                mu::llvmc::skeleton::branch * branch;
-                mu::vector <mu::llvmc::skeleton::node *> arguments;
-            };
             class switch_call
             {
             public:
@@ -146,16 +145,24 @@ namespace mu
             class switch_element : public mu::llvmc::skeleton::value
             {
             public:
-                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a);
+                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a);                
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::unit_type type_m;
+                mu::llvmc::skeleton::bottom_type type_m;
                 mu::llvmc::skeleton::switch_call * call;
                 mu::llvmc::skeleton::value * case_m;
             };
-            class element : public mu::llvmc::skeleton::value
+            class function_call
             {
             public:
-                element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a);
+                function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                mu::llvmc::skeleton::function & target;
+                mu::llvmc::skeleton::branch * branch;
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+            };
+            class call_element : public mu::llvmc::skeleton::value
+            {
+            public:
+                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::function_call * call;
                 size_t branch_index;

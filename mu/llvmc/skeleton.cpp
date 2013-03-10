@@ -5,7 +5,7 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::element::element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a) :
+mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a) :
 value (branch_a),
 call (call_a),
 branch_index (branch_index_a),
@@ -73,7 +73,7 @@ pointed_type (type_a)
 {
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::element::type ()
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
 {
     assert (call->target.results.size () > branch_index);
     assert (call->target.results [branch_index].size () > result_index);
@@ -171,11 +171,6 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_integer::type ()
     return type_m;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::switch_element::type ()
-{
-    return & type_m;
-}
-
 mu::llvmc::skeleton::marker::marker (mu::llvmc::instruction_type type_a) :
 type (type_a)
 {
@@ -231,4 +226,25 @@ mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::ll
         result = other_a;
     }
     return result;
+}
+
+bool mu::llvmc::skeleton::type::is_bottom_type () const
+{
+    return false;
+}
+
+bool mu::llvmc::skeleton::bottom_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+{
+    auto result (other_a.is_bottom_type ());
+    return result;
+}
+
+bool mu::llvmc::skeleton::bottom_type::is_bottom_type () const
+{
+    return true;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::switch_element::type ()
+{
+    return & type_m;
 }

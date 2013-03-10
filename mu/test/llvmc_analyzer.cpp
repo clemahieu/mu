@@ -84,7 +84,9 @@ TEST (llvmc_analyzer, one_result_parameter)
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->results [0].size ());
     auto result2 (function1->results [0][0]);
-    ASSERT_EQ (parameter2, result2->value);
+    auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (result2->value));
+    ASSERT_NE (nullptr, result3);
+    ASSERT_EQ (parameter2, result3);
     ASSERT_EQ (&function1->entry, result2->value->branch);
 }
 
@@ -160,8 +162,69 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_NE (parameter2->branch, element4->branch);
     ASSERT_EQ (parameter2->branch, element3->branch->parent);
     ASSERT_EQ (parameter2->branch, element4->branch->parent);
-    auto type5 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (element3->type ()));
-    ASSERT_NE (nullptr, type5);
-    auto type6 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (element4->type ()));
-    ASSERT_NE (nullptr, type6);
+}
+
+TEST (llvmc_analyzer, branches)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::unit_type type1;
+    mu::llvmc::ast::value type2 (&type1);
+    mu::llvmc::skeleton::integer_type type3 (1);
+    mu::llvmc::ast::value type4 (&type3);
+    mu::llvmc::ast::parameter parameter1 (&type4);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::parameter parameter2 (&type4);
+    function.parameters.push_back (&parameter2);
+    mu::llvmc::ast::parameter parameter3 (&type4);
+    function.parameters.push_back (&parameter3);
+    mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value if_ast (&if_marker);
+    mu::llvmc::ast::definite_expression expression1;
+    expression1.arguments.push_back (&if_ast);
+    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::element element1 (&expression1, 0);
+    mu::llvmc::ast::element element2 (&expression1, 1);
+    mu::llvmc::skeleton::marker add_marker (mu::llvmc::instruction_type::add);
+    mu::llvmc::ast::value add_ast (&add_marker);    
+    mu::llvmc::ast::definite_expression expression2;
+    expression2.arguments.push_back (&add_ast);
+    expression2.arguments.push_back (&parameter2);
+    expression2.arguments.push_back (&parameter2);    
+    mu::llvmc::ast::definite_expression expression3;
+    expression3.arguments.push_back (&add_ast);
+    expression3.arguments.push_back (&parameter3);
+    expression3.arguments.push_back (&parameter3);    
+    function.results.push_back (decltype (function.results)::value_type ());
+    mu::llvmc::ast::result result1 (&type2);
+    result1.value = &expression2;
+    function.results [0].push_back (&result1);
+    function.results.push_back (decltype (function.results)::value_type ());
+    mu::llvmc::ast::result result2 (&type2);
+    result2.value = &expression3;
+    function.results [1].push_back (&result2);
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function1 (result.module->functions [0]);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter4 (function1->parameters [0]);
+    ASSERT_EQ (2, function1->results.size ());
+    ASSERT_EQ (1, function1->results [0].size ());
+    auto result3 (function1->results [0][0]);
+    auto element3 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result3->value));
+    ASSERT_NE (nullptr, element3);
+    ASSERT_EQ (1, function1->results [1].size ());
+    auto result4 (function1->results [1][0]);
+    auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result4->value));
+    ASSERT_EQ (element3->call, element4->call);
+    ASSERT_EQ (parameter4, element3->call->target);
+    ASSERT_NE (element3->branch, element4->branch);
+    ASSERT_NE (parameter4->branch, element3->branch);
+    ASSERT_NE (parameter4->branch, element4->branch);
+    ASSERT_EQ (parameter4->branch, element3->branch->parent);
+    ASSERT_EQ (parameter4->branch, element4->branch->parent);
 }
