@@ -162,8 +162,10 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
 
 void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
+    mu::set <mu::llvmc::skeleton::branch *> result_branches;
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
+        auto most_specific_branch (module.global);
         auto & ast_result (*k);
         function_s->results.push_back (decltype (function_s->results)::value_type ());
         auto & new_result (function_s->results [function_s->results.size () - 1]);
@@ -177,12 +179,22 @@ void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * fu
                 if (value != nullptr)
                 {
                     new_result.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                    most_specific_branch = most_specific_branch->most_specific (value->branch);
                 }
             }
             else
             {
                 result_m.error = new (GC) mu::core::error_string (U"Expecting a type");
             }
+        }
+        auto existing (result_branches.find (most_specific_branch));
+        if (existing == result_branches.end ())
+        {
+            result_branches.insert (most_specific_branch);
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct");
         }
     }
 }
