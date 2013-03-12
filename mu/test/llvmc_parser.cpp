@@ -468,7 +468,6 @@ TEST (llvmc_parser, let1)
 {
     test_parser parser ("function test1 [int1 val] [let val1 [val]] [[int1 val1]]");
     auto module1 (parser.parser.parse ());
-    module1.error->output (std::cout);
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
@@ -477,13 +476,10 @@ TEST (llvmc_parser, let1)
     auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
-    auto root1 (dynamic_cast <mu::llvmc::ast::element *> (function1->roots [0]));
-    ASSERT_NE (nullptr, root1);
-    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (root1->node));
+    auto expression1 (dynamic_cast <mu::llvmc::ast::set_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (0, root1->index);
-    ASSERT_EQ (1, expression1->arguments.size ());
-    auto argument1 (expression1->arguments [0]);
+    ASSERT_EQ (1, expression1->items.size ());
+    auto argument1 (expression1->items [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     EXPECT_EQ (parameter1, argument1);
@@ -491,5 +487,9 @@ TEST (llvmc_parser, let1)
     ASSERT_EQ (1, function1->results [0].size ());
     auto result1 (function1->results [0][0]);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
-    EXPECT_EQ (root1, value1->value);
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (value1->value));
+    ASSERT_NE (nullptr, element1);
+    ASSERT_EQ (expression1, element1->node);
+    ASSERT_EQ (0, element1->index);
+    ASSERT_EQ (1, element1->total);
 }

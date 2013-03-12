@@ -129,8 +129,8 @@ TEST (llvmc_analyzer, if_instruction)
     mu::llvmc::ast::definite_expression expression1;
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
-    mu::llvmc::ast::element element1 (&expression1, 0);
-    mu::llvmc::ast::element element2 (&expression1, 1);
+    mu::llvmc::ast::element element1 (&expression1, 0, 2);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2);
     function.results.push_back (decltype (function.results)::value_type ());
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
@@ -185,8 +185,8 @@ TEST (llvmc_analyzer, branches)
     mu::llvmc::ast::definite_expression expression1;
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
-    mu::llvmc::ast::element element1 (&expression1, 0);
-    mu::llvmc::ast::element element2 (&expression1, 1);
+    mu::llvmc::ast::element element1 (&expression1, 0, 2);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2);
     mu::llvmc::skeleton::marker add_marker (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value add_ast (&add_marker);    
     mu::llvmc::ast::definite_expression expression2;

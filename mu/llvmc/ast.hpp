@@ -60,9 +60,10 @@ namespace mu
             class element : public mu::llvmc::ast::expression
             {
             public:
-                element (mu::llvmc::ast::node * node_a, size_t index_a);
+                element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a);
                 mu::llvmc::ast::node * node;
                 size_t index;
+                size_t total;
             };
             class loop : public mu::llvmc::ast::expression
             {
@@ -76,6 +77,11 @@ namespace mu
             {
             public:
                 mu::vector <mu::llvmc::ast::node *> arguments;
+            };
+            class set_expression : public mu::llvmc::ast::expression
+            {
+            public:
+                mu::vector <mu::llvmc::ast::node *> items;
             };
             class if_expression : public mu::llvmc::ast::expression
             {

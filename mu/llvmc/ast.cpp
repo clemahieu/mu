@@ -11,9 +11,10 @@ node_m (node_a)
 {
 }
 
-mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a):
+mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a):
 node (node_a),
-index (index_a)
+index (index_a),
+total (total_a)
 {
 }
 

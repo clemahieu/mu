@@ -749,31 +749,55 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
     }
     if (result.error == nullptr)
     {
-        auto node (parser_a.stream.peek ());
-        if (node.ast != nullptr)
+        auto set (new (GC) mu::llvmc::ast::set_expression);
+        auto done (false);
+        while (!done && result.error == nullptr)
         {
+            auto node (parser_a.stream.peek ());
+            if (node.ast != nullptr)
+            {
+                set->items.push_back (node.ast);
+                parser_a.stream.consume ();
+            }
+            else if (node.token != nullptr)
+            {
+                switch (node.token->id ())
+                {
+                    case mu::io::token_id::identifier:
+                    {
+                        auto position (set->items.size ());
+                        set->items.push_back (nullptr);
+                        parser_a.current_mapping->refer (static_cast <mu::io::identifier *> (node.token)->string,
+                                                      [set, position]
+                                                      (mu::llvmc::ast::node * node_a)
+                                                      {
+                                                          set->items [position] = node_a;
+                                                      });
+                        parser_a.stream.consume ();
+                    }
+                        break;
+                    case mu::io::token_id::right_square:
+                        done = true;
+                        break;
+                    default:
+                        result.error = new (GC) mu::core::error_string (U"Unexpected token in let statement");
+                        break;
+                }
+            }
+            else
+            {
+                result.error = node.error;
+            }
+        }
+        if (result.error == nullptr)
+        {
+            result.node = set;
             size_t index (0);
+            size_t total (identifiers.size ());
             for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
             {
-                parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (node.ast, index));
+                parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (set, index, total));
             }
-            parser_a.stream.consume ();
-            switch (parser_a.stream.tokens [0]->id ())
-            {
-                case mu::io::token_id::right_square:
-                    break;
-                default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting right square");
-                    break;
-            }
-        }
-        else if (node.token != nullptr)
-        {
-            result.error = new (GC) mu::core::error_string (U"Expecting expression");
-        }
-        else
-        {
-            result.error = node.error;
         }
     }
     return result;
