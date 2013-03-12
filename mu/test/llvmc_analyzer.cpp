@@ -4,75 +4,6 @@
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/skeleton.hpp>
 
-TEST (llvmc_analyzer, bottom_iterator_end_equal)
-{
-    mu::vector <mu::llvmc::skeleton::node *> nodes;
-    mu::llvmc::non_bottom_iterator i (nodes, true);
-    mu::llvmc::non_bottom_iterator j (nodes, true);
-    ASSERT_EQ (i, j);
-}
-
-TEST (llvmc_analyzer, bottom_iterator)
-{
-    mu::vector <mu::llvmc::skeleton::node *> nodes;
-    mu::llvmc::skeleton::node node1;
-    nodes.push_back (&node1);
-    mu::llvmc::non_bottom_iterator i (nodes, false);
-    mu::llvmc::non_bottom_iterator j (nodes, true);
-    ASSERT_NE (i, j);
-    ++i;
-    ASSERT_EQ (i, j);
-}
-
-TEST (llvmc_analyzer, bottom_iterator_value)
-{
-    mu::vector <mu::llvmc::skeleton::node *> nodes;
-    mu::llvmc::skeleton::branch branch1 (nullptr);
-    mu::llvmc::skeleton::unit_value node1 (&branch1);
-    nodes.push_back (&node1);
-    mu::llvmc::non_bottom_iterator i (nodes, false);
-    mu::llvmc::non_bottom_iterator j (nodes, true);
-    ASSERT_NE (i, j);
-    ++i;
-    ASSERT_EQ (i, j);
-}
-
-TEST (llvmc_analyzer, bottom_iterator_bottom)
-{
-    mu::vector <mu::llvmc::skeleton::node *> nodes;
-    mu::llvmc::skeleton::branch branch1 (nullptr);
-    mu::llvmc::skeleton::bottom_value node1 (&branch1);
-    nodes.push_back (&node1);
-    mu::llvmc::skeleton::unit_value node2 (&branch1);
-    nodes.push_back (&node2);
-    mu::llvmc::non_bottom_iterator i (nodes, false);
-    mu::llvmc::non_bottom_iterator j (nodes, true);
-    ASSERT_NE (i, j);
-    ++i;
-    ASSERT_EQ (i, j);
-}
-
-TEST (llvmc_analyzer, bottom_iterator_bottom_double)
-{
-    mu::vector <mu::llvmc::skeleton::node *> nodes;
-    mu::llvmc::skeleton::branch branch1 (nullptr);
-    mu::llvmc::skeleton::bottom_value node1 (&branch1);
-    nodes.push_back (&node1);
-    mu::llvmc::skeleton::bottom_value node2 (&branch1);
-    nodes.push_back (&node2);
-    mu::llvmc::skeleton::unit_value node3 (&branch1);
-    nodes.push_back (&node3);
-    mu::llvmc::skeleton::bottom_value node4 (&branch1);
-    nodes.push_back (&node4);
-    mu::llvmc::skeleton::bottom_value node5 (&branch1);
-    nodes.push_back (&node5);
-    mu::llvmc::non_bottom_iterator i (nodes, false);
-    mu::llvmc::non_bottom_iterator j (nodes, true);
-    ASSERT_NE (i, j);
-    ++i;
-    ASSERT_EQ (i, j);
-}
-
 TEST (llvmc_analyzer, empty)
 {
     mu::llvmc::analyzer analyzer;
@@ -225,7 +156,8 @@ TEST (llvmc_analyzer, if_instruction)
     auto result4 (function1->results [1][0]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result4->value));
     ASSERT_EQ (element3->call, element4->call);
-    ASSERT_EQ (parameter2, element3->call->target);
+    ASSERT_EQ (2, element3->call->arguments.size ());
+    ASSERT_EQ (parameter2, element3->call->arguments [1]);
     ASSERT_NE (element3->branch, element4->branch);
     ASSERT_NE (parameter2->branch, element3->branch);
     ASSERT_NE (parameter2->branch, element4->branch);

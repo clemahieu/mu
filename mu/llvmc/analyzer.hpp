@@ -59,8 +59,8 @@ namespace mu
             void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             bool process_node (mu::llvmc::ast::node * node_a);
             void process_element (mu::llvmc::ast::element * element_a);
-            bool process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::ast::node * expression_a);
-            bool process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::ast::node * expression_a);
+            bool process_value_call (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::vector <mu::llvmc::skeleton::node *> & predicates_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::ast::node * expression_a);
+            bool process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::vector <mu::llvmc::skeleton::node *> & predicates_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::ast::node * expression_a);
             void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
@@ -73,17 +73,6 @@ namespace mu
             function_result analyze (mu::llvmc::ast::node * function_a);
             mu::llvmc::function_result result_m;
             mu::llvmc::analyzer_module & module;
-        };
-        class non_bottom_iterator
-        {
-        public:
-            non_bottom_iterator (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, bool end);
-            bool operator == (non_bottom_iterator const & other_a) const;
-            bool operator != (non_bottom_iterator const & other_a) const;
-            void operator ++ ();
-            mu::llvmc::skeleton::node * operator * () const;
-            mu::vector <mu::llvmc::skeleton::node *> const & arguments;
-            size_t index;
         };
         class analyzer
         {

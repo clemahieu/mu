@@ -56,10 +56,11 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::instruction_type type_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a, mu::llvmc::instruction_type type_a) :
 value (branch_a),
 type_m (type_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicates (predicates_a)
 {
 }
 
@@ -136,19 +137,15 @@ bool mu::llvmc::skeleton::type::operator != (mu::llvmc::skeleton::type const & o
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a):
 target (target_a),
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicates (predicates_a)
 {
 }
 
-mu::llvmc::skeleton::switch_call::switch_call (mu::llvmc::skeleton::value * target_a) :
-target (target_a)
-{
-}
-
-mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_call * call_a, mu::llvmc::skeleton::value * case_a) :
+mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a, mu::llvmc::skeleton::value * case_a) :
 value (branch_a),
 call (call_a),
 case_m (case_a)
