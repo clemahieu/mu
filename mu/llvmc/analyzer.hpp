@@ -74,6 +74,17 @@ namespace mu
             mu::llvmc::function_result result_m;
             mu::llvmc::analyzer_module & module;
         };
+        class non_bottom_iterator
+        {
+        public:
+            non_bottom_iterator (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, bool end);
+            bool operator == (non_bottom_iterator const & other_a) const;
+            bool operator != (non_bottom_iterator const & other_a) const;
+            void operator ++ ();
+            mu::llvmc::skeleton::node * operator * () const;
+            mu::vector <mu::llvmc::skeleton::node *> const & arguments;
+            size_t index;
+        };
         class analyzer
         {
         public:

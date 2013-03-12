@@ -168,6 +168,20 @@ namespace mu
                 size_t branch_index;
                 size_t result_index;
             };
+            class unit_value : public mu::llvmc::skeleton::value
+            {
+            public:
+                unit_value (mu::llvmc::skeleton::branch * branch_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::unit_type type_m;
+            };
+            class bottom_value : public mu::llvmc::skeleton::value
+            {
+            public:
+                bottom_value (mu::llvmc::skeleton::branch * branch_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::bottom_type type_m;
+            };
             class module
             {
             public:

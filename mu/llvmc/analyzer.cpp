@@ -249,48 +249,40 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                     for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
                     {
                         auto node (*k);
-                        bool bottom (false);
                         auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                         if (value != nullptr)
                         {
                             calculate_most_specific (most_specific_branch, value->branch);
-                            bottom = value->type ()->is_bottom_type ();
                         }
-                        if (!bottom)
-                        {
-                            arguments.push_back (node);
-                        }
+                        arguments.push_back (node);
                     }
                 }
                 else
                 {
                     auto node (already_generated [*i]);
-                    auto bottom (false);
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                     if (value != nullptr)
                     {
                         calculate_most_specific (most_specific_branch, value->branch);
-                        bottom = value->type ()->is_bottom_type ();
                     }
-                    if (!bottom)
-                    {
-                        arguments.push_back (node);
-                    }
+                    arguments.push_back (node);
                 }
             }
         }
         if (result_m.error == nullptr)
         {
-            if (!arguments.empty ())
+            auto i (mu::llvmc::non_bottom_iterator (arguments, false));
+            auto j (mu::llvmc::non_bottom_iterator (arguments, true));
+            if (i != j)
             {
-                auto target (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [0]));
+                auto target (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
                 if (target != nullptr)
                 {
                     result = process_value_call (arguments, most_specific_branch, expression_a);
                 }
                 else
                 {
-                    auto marker (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments [0]));
+                    auto marker (dynamic_cast <mu::llvmc::skeleton::marker *> (*i));
                     if (marker != nullptr)
                     {
                         result = process_marker (arguments, most_specific_branch, expression_a);
@@ -328,8 +320,9 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
         auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (pointer_type->pointed_type));
         if (function_type != nullptr)
         {
-            auto k (arguments_a.begin ());
-            for (size_t i (0), j (function_type->function.parameters.size ()); i != j && result_m.error
+            auto k (mu::llvmc::non_bottom_iterator (arguments_a, false));
+            auto l (mu::llvmc::non_bottom_iterator (arguments_a, true));
+            for (size_t i (0), j (function_type->function.parameters.size ()); i != j && k != l && result_m.error
                  == nullptr; ++i, ++k)
             {
                 auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
@@ -419,17 +412,20 @@ void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton:
 
 bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::ast::node * expression_a)
 {
-    assert (!arguments_a.empty ());
-    assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
-    auto marker (static_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]));
+    auto i (mu::llvmc::non_bottom_iterator (arguments_a, false));
+    auto j (mu::llvmc::non_bottom_iterator (arguments_a, true));
+    assert (i != j);
+    assert (dynamic_cast <mu::llvmc::skeleton::marker *> (*i) != nullptr);
+    auto marker (static_cast <mu::llvmc::skeleton::marker *> (*i));
+    ++i;
     auto result (false);
     switch (marker->type)
     {
         case mu::llvmc::instruction_type::if_i:
         {
-            if (arguments_a.size () == 2)
+            if (i != j)
             {
-                auto predicate (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [1]));
+                auto predicate (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
                 if (predicate != nullptr)
                 {
                     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate->type ()));
@@ -470,45 +466,53 @@ bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skelet
             break;
         case mu::llvmc::instruction_type::add:
         {
-            if (arguments_a.size () == 3)
+            if (i != j)
             {
-                auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [1]));
+                auto left (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
                 if (left != nullptr)
                 {
-                    auto right (dynamic_cast <mu::llvmc::skeleton::value *> (arguments_a [2]));
-                    if (right != nullptr)
+                    ++i;
+                    if (i != j)
                     {
-                        auto left_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (left->type ()));
-                        if (left_type != nullptr)
+                        auto right (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
+                        if (right != nullptr)
                         {
-                            auto right_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (right->type ()));
-                            if (right_type != nullptr)
+                            auto left_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (left->type ()));
+                            if (left_type != nullptr)
                             {
-                                if (left_type->bits == right_type->bits)
+                                auto right_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (right->type ()));
+                                if (right_type != nullptr)
                                 {
-                                    if (result_m.error == nullptr)
+                                    if (left_type->bits == right_type->bits)
                                     {
-                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (branch_a, arguments_a, mu::llvmc::instruction_type::add);
+                                        if (result_m.error == nullptr)
+                                        {
+                                            already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (branch_a, arguments_a, mu::llvmc::instruction_type::add);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        result_m.error = new (GC) mu::core::error_string (U"Add left and right arguments must be same width");
                                     }
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Add left and right arguments must be same width");
+                                    result_m.error = new (GC) mu::core::error_string (U"Add right argument must be an integer type");
                                 }
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Add right argument must be an integer type");
+                                result_m.error = new (GC) mu::core::error_string (U"Add left argument must be an integer type");
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Add left argument must be an integer type");
+                            result_m.error = new (GC) mu::core::error_string (U"Add right argument must be a value");
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Add right argument must be a value");
+                        result_m.error = new (GC) mu::core::error_string (U"Add requires two arguments");
                     }
                 }
                 else
@@ -526,5 +530,54 @@ bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skelet
             result_m.error = new (GC) mu::core::error_string (U"Unknown instruction marker");
             break;
     }
+    return result;
+}
+
+mu::llvmc::non_bottom_iterator::non_bottom_iterator (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, bool end) :
+arguments (arguments_a)
+{
+    if (end)
+    {
+        index = arguments_a.size ();
+    }
+    else
+    {
+        index = -1;
+        ++(*this);
+    }
+}
+
+bool mu::llvmc::non_bottom_iterator::operator == (non_bottom_iterator const & other_a) const
+{
+    bool result (index == other_a.index);
+    return result;
+}
+
+bool mu::llvmc::non_bottom_iterator::operator != (non_bottom_iterator const & other_a) const
+{
+    bool result (! ((*this) == other_a));
+    return result;
+}
+
+void mu::llvmc::non_bottom_iterator::operator ++ ()
+{
+    auto index_l (index);
+    auto size_l (arguments.size ());
+    bool bottom (false);
+    do
+    {
+        ++index_l;
+        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [index_l]));
+        if (value != nullptr)
+        {
+            bottom = value->type ()->is_bottom_type ();
+        }
+    } while (index_l < size_l && bottom);
+    index = index_l;
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::non_bottom_iterator::operator * () const
+{
+    auto result (arguments [index]);
     return result;
 }

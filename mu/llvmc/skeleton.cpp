@@ -248,3 +248,23 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::switch_element::type ()
 {
     return & type_m;
 }
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::unit_value::type ()
+{
+    return & type_m;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::bottom_value::type ()
+{
+    return & type_m;
+}
+
+mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a) :
+value (branch_a)
+{
+}
+
+mu::llvmc::skeleton::bottom_value::bottom_value (mu::llvmc::skeleton::branch * branch_a) :
+value (branch_a)
+{
+}
