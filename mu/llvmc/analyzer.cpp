@@ -249,23 +249,33 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                     for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
                     {
                         auto node (*k);
+                        bool bottom (false);
                         auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                         if (value != nullptr)
                         {
                             calculate_most_specific (most_specific_branch, value->branch);
+                            bottom = value->type ()->is_bottom_type ();
                         }
-                        arguments.push_back (node);
+                        if (!bottom)
+                        {
+                            arguments.push_back (node);
+                        }
                     }
                 }
                 else
                 {
                     auto node (already_generated [*i]);
+                    auto bottom (false);
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                     if (value != nullptr)
                     {
                         calculate_most_specific (most_specific_branch, value->branch);
+                        bottom = value->type ()->is_bottom_type ();
                     }
-                    arguments.push_back (node);
+                    if (!bottom)
+                    {
+                        arguments.push_back (node);
+                    }
                 }
             }
         }
@@ -318,78 +328,68 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
         auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (pointer_type->pointed_type));
         if (function_type != nullptr)
         {
-            if (arguments_a.size () == function_type->function.parameters.size ())
+            auto k (arguments_a.begin ());
+            for (size_t i (0), j (function_type->function.parameters.size ()); i != j && result_m.error
+                 == nullptr; ++i, ++k)
             {
-                auto k (arguments_a.begin ());
-                for (size_t i (0), j (function_type->function.parameters.size ()); i != j && result_m.error
-                     == nullptr; ++i, ++k)
-                {
-                    auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
-                    if (argument_value != nullptr)
-                    {                        
-                        if (!argument_value->type ()->is_bottom_type ())
-                        {
-                            if ((*argument_value->type ()) != *function_type->function.parameters [i]->type ())
-                            {
-                                result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type");
-                            }
-                        }
-                    }
-                    else
+                auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
+                if (argument_value != nullptr)
+                {         
+                    if ((*argument_value->type ()) != *function_type->function.parameters [i]->type ())
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Argument to function is not a value");
+                        result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type");
                     }
                 }
-                if (result_m.error == nullptr)
+                else
                 {
-                    if (!arguments_a.empty ())
+                    result_m.error = new (GC) mu::core::error_string (U"Argument to function is not a value");
+                }
+            }
+            if (result_m.error == nullptr)
+            {
+                if (!arguments_a.empty ())
+                {
+                    if (result_m.error == nullptr)
                     {
-                        if (result_m.error == nullptr)
+                        auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, branch_a, arguments_a));
+                        if (function_type->function.results.size () == 1)
                         {
-                            auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, branch_a, arguments_a));
-                            if (function_type->function.results.size () == 1)
+                            if (function_type->function.results [0].size () == 1)
                             {
-                                if (function_type->function.results [0].size () == 1)
-                                {
-                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, 0);
-                                }
-                                else
-                                {
-                                    result = true;
-                                    auto & target (already_generated_multi [expression_a]);
-                                    for (size_t i (0), j (function_type->function.results [0].size ()); i != j && result_m.error == nullptr; ++i)
-                                    {
-                                        target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, i));
-                                    }
-                                }
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, 0);
                             }
                             else
                             {
                                 result = true;
-                                for (size_t i (0), j (function_type->function.results.size ()); i != j && result_m.error == nullptr; ++i)
+                                auto & target (already_generated_multi [expression_a]);
+                                for (size_t i (0), j (function_type->function.results [0].size ()); i != j && result_m.error == nullptr; ++i)
                                 {
-                                    auto branch (new (GC) mu::llvmc::skeleton::branch (branch_a));
-                                    if (function_type->function.results [0].size () == 1)
+                                    target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, i));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result = true;
+                            for (size_t i (0), j (function_type->function.results.size ()); i != j && result_m.error == nullptr; ++i)
+                            {
+                                auto branch (new (GC) mu::llvmc::skeleton::branch (branch_a));
+                                if (function_type->function.results [0].size () == 1)
+                                {
+                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch, call, i, 0);
+                                }
+                                else
+                                {
+                                    auto & target (already_generated_multi [expression_a]);
+                                    for (size_t k (0), l (function_type->function.results [i].size ()); k != l && result_m.error == nullptr; ++k)
                                     {
-                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch, call, i, 0);
-                                    }
-                                    else
-                                    {
-                                        auto & target (already_generated_multi [expression_a]);
-                                        for (size_t k (0), l (function_type->function.results [i].size ()); k != l && result_m.error == nullptr; ++k)
-                                        {
-                                            target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, i, k));
-                                        }
+                                        target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, i, k));
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters");
             }
         }
         else
