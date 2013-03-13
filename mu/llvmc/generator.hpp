@@ -25,6 +25,7 @@ namespace mu
         namespace skeleton
         {
             class module;
+            class function;
         }
         class module_result
         {
@@ -36,6 +37,14 @@ namespace mu
         {
         public:
             module_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a);
+        };
+        class generate_function
+        {
+        public:
+            generate_function (llvm::Module * module_a, mu::llvmc::skeleton::function * function_a);
+            mu::core::error * generate ();
+            llvm::Module * module;
+            mu::llvmc::skeleton::function * function;
         };
     }
 }

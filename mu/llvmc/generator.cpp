@@ -14,17 +14,31 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::module_result mu::llvmc::generator::generate (llvm::LLVMContext &context_a, mu::llvmc::skeleton::module *module_a)
+mu::llvmc::module_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a)
 {
     mu::llvmc::module_result result {nullptr, nullptr};
     auto module (new llvm::Module ("", context_a));
     for (auto i (module_a->functions.begin ()), j (module_a->functions.end ()); i != j && result.error == nullptr; ++i)
     {
-        
+        mu::llvmc::generate_function generator_l (module, *i);
+        auto error (generator_l.generate ());
+        result.error = error;
     }
     if (result.error == nullptr)
     {
         result.module = module;
     }
+    return result;
+}
+
+mu::llvmc::generate_function::generate_function (llvm::Module * module_a, mu::llvmc::skeleton::function * function_a) :
+module (module_a),
+function (function_a)
+{    
+}
+
+mu::core::error * mu::llvmc::generate_function::generate ()
+{
+    mu::core::error * result (nullptr);
     return result;
 }
