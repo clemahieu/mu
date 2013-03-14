@@ -14,7 +14,5 @@ TEST (llvmc_generator, generate1)
     mu::llvmc::skeleton::module module;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_EQ (nullptr, result.error);
-    ASSERT_NE (nullptr, result.module);
-    ASSERT_EQ (0, result.module->getFunctionList ().size ());
+    ASSERT_EQ (0, result->getFunctionList ().size ());
 }
