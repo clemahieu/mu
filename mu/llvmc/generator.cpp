@@ -81,6 +81,10 @@ void mu::llvmc::generate_function::generate ()
     module.target->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
     module.functions [function] = function_l;
+    if (!function->results.empty ())
+    {
+        function_l->addFnAttr (llvm::Attributes::NoReturn);
+    }
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
         std::vector <llvm::Value *> result_set;

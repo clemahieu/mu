@@ -13,6 +13,8 @@ namespace llvm
     class Type;
     class BasicBlock;
     class Value;
+    class PHINode;
+    class Instruction;
 }
 namespace mu
 {
@@ -42,6 +44,32 @@ namespace mu
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             llvm::Module * target;
+        };
+        class terminator
+        {
+        public:
+        };
+        class join
+        {
+        public:
+        };
+        class branch
+        {
+        public:
+            size_t order;
+            mu::llvmc::branch * next_branch;
+            mu::llvmc::terminator * terminator;
+            std::vector <llvm::PHINode *> phi_nodes;
+            std::vector <llvm::Instruction *> instructions;
+            mu::vector <mu::llvmc::branch *> predecessors;
+            mu::vector <mu::llvmc::branch *> successors;
+            std::vector <bool> available_variables;
+        };
+        class value_data
+        {
+        public:
+            size_t bit_index;
+            mu::llvmc::branch * branch;
         };
         class generate_function
         {
