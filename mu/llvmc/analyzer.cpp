@@ -14,6 +14,7 @@ mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * mo
 }
 
 mu::llvmc::analyzer_module::analyzer_module () :
+module (new (GC) mu::llvmc::skeleton::module),
 result_m ({nullptr, nullptr})
 {
 }
@@ -31,7 +32,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
         auto type_l (process_type ((*k)->type));
         if (type_l != nullptr)
         {
-            auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (&function_s->entry, type_l));
+            auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (function_s->entry, type_l));
             already_generated [*k] = parameter_s;
             function_s->parameters.push_back (parameter_s);
         }
@@ -165,7 +166,7 @@ void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * fu
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
-        auto most_specific_branch (module.global);
+        auto most_specific_branch (module.module->global);
         auto & ast_result (*k);
         function_s->results.push_back (decltype (function_s->results)::value_type ());
         auto & new_result (function_s->results [function_s->results.size () - 1]);
@@ -204,7 +205,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     auto function_l (dynamic_cast <mu::llvmc::ast::function *> (function_a));
     if (function_l != nullptr)
     {
-        auto function_s (new (GC) mu::llvmc::skeleton::function (module.global));
+        auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
         result_m.function = function_s;
@@ -218,7 +219,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
 
 mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::node * module_a)
 {
-    auto module_s (new (GC) mu::llvmc::skeleton::module);
+    auto module_s (module);
     auto module_l (dynamic_cast <mu::llvmc::ast::module *> (module_a));
     if (module_l != nullptr)
     {
@@ -250,7 +251,7 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
         current_expression_generation.insert (expression_a);
         mu::vector <mu::llvmc::skeleton::node *> arguments;
         mu::vector <mu::llvmc::skeleton::node *> predicates;
-        mu::llvmc::skeleton::branch * most_specific_branch (module.global);
+        mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
         for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
         {
             result = (process_node (*i));

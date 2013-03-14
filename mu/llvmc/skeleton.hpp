@@ -127,7 +127,7 @@ namespace mu
                 function (mu::llvmc::skeleton::branch * global_a);
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::branch entry;
+                mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::vector <mu::llvmc::skeleton::result *>> results;
             };
@@ -181,7 +181,9 @@ namespace mu
             class module
             {
             public:
+                module ();
                 mu::vector <mu::llvmc::skeleton::function *> functions;
+                mu::llvmc::skeleton::branch * global;
             };
         }
     }

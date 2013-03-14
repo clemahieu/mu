@@ -20,7 +20,7 @@ mu::llvmc::skeleton::node::~node ()
 mu::llvmc::skeleton::function::function (mu::llvmc::skeleton::branch * global_a) :
 value (nullptr),
 type_m (*this),
-entry (global_a)
+entry (new (GC) mu::llvmc::skeleton::branch (global_a))
 {
 }
 
@@ -263,5 +263,10 @@ value (branch_a)
 
 mu::llvmc::skeleton::bottom_value::bottom_value (mu::llvmc::skeleton::branch * branch_a) :
 value (branch_a)
+{
+}
+
+mu::llvmc::skeleton::module::module () :
+global (new (GC) mu::llvmc::skeleton::branch (nullptr))
 {
 }

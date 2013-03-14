@@ -87,7 +87,7 @@ TEST (llvmc_analyzer, one_result_parameter)
     auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (result2->value));
     ASSERT_NE (nullptr, result3);
     ASSERT_EQ (parameter2, result3);
-    ASSERT_EQ (&function1->entry, result2->value->branch);
+    ASSERT_EQ (function1->entry, result2->value->branch);
 }
 
 TEST (llvmc_analyzer, error_indistinct_result_branches)

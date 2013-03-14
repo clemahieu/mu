@@ -42,7 +42,7 @@ namespace mu
             analyzer_module ();
             module_result analyze (mu::llvmc::ast::node * module_a);
             mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::function *> functions;
-            mu::llvmc::skeleton::branch * global;
+            mu::llvmc::skeleton::module * module;
             mu::llvmc::module_result result_m;
         };
         class function_result
