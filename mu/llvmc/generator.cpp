@@ -48,7 +48,8 @@ void mu::llvmc::generate_function::generate ()
     std::vector <llvm::Type *> parameters;
     for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
     {
-        auto type_l (generate_type ((*i)->type ()));
+        auto parameter (*i);
+        auto type_l (generate_type (parameter->type ()));
         parameters.push_back (type_l);
     }
     std::vector <llvm::Type *> results;
@@ -77,6 +78,22 @@ void mu::llvmc::generate_function::generate ()
     }
     auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::PrivateLinkage));
+    auto entry (new (GC) mu::llvmc::branch (0, nullptr, nullptr));
+    branches [function->entry] = entry;
+    {
+        auto i (function_l->arg_begin());
+        auto j (function_l->arg_end());
+        auto k (function->parameters.begin ());
+        auto l (function->parameters.end ());
+        while (i != j)
+        {
+            assert (k != l);
+            entry->available_variables.insert (entry->available_variables.end (), true);
+            llvm::Value * parameter (i);
+            already_generated [*k] = mu::llvmc::value_data ({entry->available_variables.size () - 1, parameter, entry});
+        }
+        assert ((i != j) == (k != l));
+    }
     function_m = function_l;
     module.target->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
@@ -90,13 +107,20 @@ void mu::llvmc::generate_function::generate ()
         std::vector <llvm::Value *> result_set;
         for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
         {
-            auto value_l (generate_value ((*k)->value));
+            auto value_l (retrieve_value ((*k)->value));
             result_set.push_back (value_l);
         }
     }
 }
 
-llvm::Value * mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * value_a)
+mu::llvmc::branch::branch (size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a) :
+order (order_a),
+next_branch (next_branch_a),
+terminator (terminator_a)
+{
+}
+
+llvm::Value * mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * value_a)
 {
     llvm::Value * result;
     auto existing (already_generated.find (value_a));
@@ -108,9 +132,7 @@ llvm::Value * mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton:
             auto existing_function (module.functions.find (function));
             if (existing_function == module.functions.end ())
             {
-                mu::llvmc::generate_function generator (module, function);
-                generator.generate ();
-                result = generator.function_m;
+                result = create (value_a);
             }
             else
             {
@@ -119,12 +141,49 @@ llvm::Value * mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton:
         }
         else
         {
-            assert (false);
+            result = create (value_a);
         }
     }
     else
     {
-        result = existing->second;
+        result = existing->second.value;
+    }
+    return result;
+}
+
+llvm::Value * mu::llvmc::generate_function::create (mu::llvmc::skeleton::value * value_a)
+{
+    llvm::Value * result;
+    auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value_a));
+    if (function != nullptr)
+    {
+        mu::llvmc::generate_function generator (module, function);
+        generator.generate ();
+        result = generator.function_m;
+    }
+    else
+    {
+        auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
+        if (instruction != nullptr)
+        {
+            switch (instruction->type_m)
+            {
+                case mu::llvmc::instruction_type::add:
+                {
+                    auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0])));
+                    auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                    result = nullptr;
+                }
+                    break;
+                default:
+                    assert (false);
+                    break;
+            }
+        }
+        else
+        {
+            assert (false);
+        }
     }
     return result;
 }

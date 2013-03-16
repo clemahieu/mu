@@ -30,6 +30,7 @@ namespace mu
             class function;
             class type;
             class value;
+            class branch;
         }
         class generator
         {
@@ -56,6 +57,7 @@ namespace mu
         class branch
         {
         public:
+            branch (size_t order_a, mu::llvmc::branch * next_branch, mu::llvmc::terminator * terminator);
             size_t order;
             mu::llvmc::branch * next_branch;
             mu::llvmc::terminator * terminator;
@@ -69,6 +71,7 @@ namespace mu
         {
         public:
             size_t bit_index;
+            llvm::Value * value;
             mu::llvmc::branch * branch;
         };
         class generate_function
@@ -77,10 +80,12 @@ namespace mu
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
-            llvm::Value * generate_value (mu::llvmc::skeleton::value * value_a);
+            llvm::Value * retrieve_value (mu::llvmc::skeleton::value * value_a);
+            llvm::Value * create (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::generate_module & module;
             llvm::Function * function_m;
-            mu::map <mu::llvmc::skeleton::value *, llvm::Value *> already_generated;
+            mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
+            mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
             mu::llvmc::skeleton::function * function;
         };
     }
