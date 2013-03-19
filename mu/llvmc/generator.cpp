@@ -39,8 +39,10 @@ void mu::llvmc::generate_module::generate ()
 
 mu::llvmc::generate_function::generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a) :
 module (module_a),
+entry (new (GC) mu::llvmc::branch (0, nullptr, nullptr)),
 function (function_a)
-{    
+{
+    branches [function->entry] = entry;
 }
 
 void mu::llvmc::generate_function::generate ()
@@ -78,8 +80,6 @@ void mu::llvmc::generate_function::generate ()
     }
     auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::PrivateLinkage));
-    auto entry (new (GC) mu::llvmc::branch (0, nullptr, nullptr));
-    branches [function->entry] = entry;
     {
         auto i (function_l->arg_begin());
         auto j (function_l->arg_end());
@@ -98,13 +98,13 @@ void mu::llvmc::generate_function::generate ()
     module.target->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
     module.functions [function] = function_l;
-    if (!function->results.empty ())
+    if (function->results.empty ())
     {
         function_l->addFnAttr (llvm::Attributes::NoReturn);
     }
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
-        std::vector <llvm::Value *> result_set;
+        std::vector <mu::llvmc::value_data> result_set;
         for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
         {
             auto value_l (retrieve_value ((*k)->value));
@@ -120,9 +120,9 @@ terminator (terminator_a)
 {
 }
 
-llvm::Value * mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * value_a)
+mu::llvmc::value_data mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * value_a)
 {
-    llvm::Value * result;
+    mu::llvmc::value_data result;
     auto existing (already_generated.find (value_a));
     if (existing == already_generated.end ())
     {
@@ -132,60 +132,92 @@ llvm::Value * mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton:
             auto existing_function (module.functions.find (function));
             if (existing_function == module.functions.end ())
             {
-                result = create (value_a);
+                result = generate_value (value_a);
             }
             else
             {
-                result = existing_function->second;
+                result = mu::llvmc::value_data ({0, existing_function->second, nullptr});;
             }
         }
         else
         {
-            result = create (value_a);
+            result = generate_value (value_a);
         }
     }
     else
     {
-        result = existing->second.value;
+        result = existing->second;
     }
     return result;
 }
 
-llvm::Value * mu::llvmc::generate_function::create (mu::llvmc::skeleton::value * value_a)
+mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * value_a)
 {
-    llvm::Value * result;
+    mu::llvmc::value_data result;
     auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value_a));
     if (function != nullptr)
     {
         mu::llvmc::generate_function generator (module, function);
         generator.generate ();
-        result = generator.function_m;
+        result = mu::llvmc::value_data ({0, generator.function_m, nullptr});
     }
     else
     {
-        auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
-        if (instruction != nullptr)
-        {
-            switch (instruction->type_m)
-            {
-                case mu::llvmc::instruction_type::add:
-                {
-                    auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0])));
-                    auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                    result = nullptr;
-                }
-                    break;
-                default:
-                    assert (false);
-                    break;
-            }
-        }
-        else
-        {
-            assert (false);
-        }
+        result = generate_local_value (value_a);
     }
     return result;
+}
+
+mu::llvmc::value_data mu::llvmc::generate_function::generate_local_value (mu::llvmc::skeleton::value * value_a)
+{
+    llvm::Value * value;
+    auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
+    if (instruction != nullptr)
+    {
+        switch (instruction->type_m)
+        {
+            case mu::llvmc::instruction_type::add:
+            {
+                auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0])));
+                auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                assert (false);
+            }
+                break;
+            default:
+                assert (false);
+                break;
+        }
+    }
+    else
+    {
+        assert (false);
+    }
+    auto result (insert_value (value_a, value));
+    return result;
+}
+
+mu::llvmc::value_data mu::llvmc::generate_function::insert_value (mu::llvmc::skeleton::value * value_a, llvm::Value * val_a)
+{
+    auto new_bit (entry->available_variables.size ());
+    assert (branches.find (value_a->branch) == branches.end ());
+    auto branch (branches [value_a->branch]);
+    assert (already_generated.find (value_a) == already_generated.end ());
+    for (auto i (entry); i != nullptr; i = i->next_branch)
+    {
+        i->available_variables.push_back (false);
+    }
+    set_bit_and_successors (new_bit, branch);
+    already_generated [value_a] = mu::llvmc::value_data ({new_bit, value, });
+
+}
+
+void mu::llvmc::generate_function::set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a)
+{
+    branch_a->available_variables [bit_a] = true;
+    for (auto i (branch_a->successors.begin ()), j (branch_a->successors.end ()); i != j; ++i)
+    {
+        set_bit_and_successors (bit_a, branch_a);
+    }
 }
 
 llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::type * type_a)

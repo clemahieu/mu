@@ -80,9 +80,13 @@ namespace mu
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
-            llvm::Value * retrieve_value (mu::llvmc::skeleton::value * value_a);
-            llvm::Value * create (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, llvm::Value * val_a);
+            void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
             mu::llvmc::generate_module & module;
+            mu::llvmc::branch * entry;
             llvm::Function * function_m;
             mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
             mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
