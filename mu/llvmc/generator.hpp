@@ -49,6 +49,15 @@ namespace mu
         class terminator
         {
         public:
+            virtual void terminate (llvm::BasicBlock * block_a) = 0;
+        };
+        class generate_function;
+        class terminator_return : public terminator
+        {
+        public:
+            terminator_return (mu::llvmc::generate_function & generator_a);
+            void terminate (llvm::BasicBlock * block_a) override;
+            mu::llvmc::generate_function & generator;
         };
         class join
         {
@@ -57,7 +66,8 @@ namespace mu
         class branch
         {
         public:
-            branch (size_t order_a, mu::llvmc::branch * next_branch, mu::llvmc::terminator * terminator);
+            branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch, mu::llvmc::terminator * terminator);
+            llvm::BasicBlock * block;
             size_t order;
             mu::llvmc::branch * next_branch;
             mu::llvmc::terminator * terminator;
@@ -83,7 +93,7 @@ namespace mu
             mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, llvm::Value * val_a);
+            mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, mu::llvmc::branch * branch_a, llvm::Value * val_a);
             void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
             mu::llvmc::generate_module & module;
             mu::llvmc::branch * entry;
