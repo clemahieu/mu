@@ -207,8 +207,9 @@ mu::llvmc::value_data mu::llvmc::generate_function::insert_value (mu::llvmc::ske
         i->available_variables.push_back (false);
     }
     set_bit_and_successors (new_bit, branch);
-    already_generated [value_a] = mu::llvmc::value_data ({new_bit, value, });
-
+    mu::llvmc::value_data result ({new_bit, val_a, branch});
+    already_generated [value_a] = result;
+    return result;
 }
 
 void mu::llvmc::generate_function::set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a)
