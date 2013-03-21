@@ -57,6 +57,10 @@ void mu::llvmc::generate_function::generate ()
         parameters.push_back (type_l);
     }
     std::vector <llvm::Type *> results;
+    if (function->results.size () > 1)
+    {
+        results.push_back (llvm::Type::getInt8Ty (module.target->getContext ()));        
+    }
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
         for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
@@ -76,7 +80,6 @@ void mu::llvmc::generate_function::generate ()
             break;
         default:
         {
-            results.push_back (llvm::Type::getInt8Ty (module.target->getContext ()));
             result_type = llvm::StructType::create (module.target->getContext(), llvm::ArrayRef <llvm::Type *> (results));
         }
     }
