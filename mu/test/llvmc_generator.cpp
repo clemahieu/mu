@@ -11,6 +11,12 @@
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/Support/raw_ostream.h>
 
+static void print_module (llvm::Module * module, std::string & target)
+{
+    llvm::raw_string_ostream stream (target);
+    module->print (stream, nullptr);
+}
+
 TEST (llvmc_generator, generate1)
 {
     llvm::LLVMContext context;
@@ -113,6 +119,57 @@ TEST (llvmc_generator, generate_add)
     auto const & value1 (function2->getArgumentList ().begin ());
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
+    ASSERT_EQ (1, function2->getBasicBlockList().size ());
+    auto block1 (function2->getBasicBlockList().begin ());
+    ASSERT_EQ (2, block1->getInstList().size ());
+    auto instructions (block1->getInstList ().begin ());
+    auto instruction2 (llvm::cast <llvm::BinaryOperator> (instructions));
+    ASSERT_EQ (llvm::Instruction::Add, instruction2->getOpcode ());
+    ++instructions;
+    llvm::cast <llvm::ReturnInst> (instructions);
+    std::string info;
+    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+}
+
+TEST (llvmc_generator, generate_two_return)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
+    function1.parameters.push_back (&parameter1);
+    function1.results.push_back (decltype (function1.results)::value_type ());
+    auto & results1 (function1.results [0]);
+    mu::llvmc::skeleton::result result1 (&type1, &parameter1);
+    results1.push_back (&result1);
+    results1.push_back (&result1);
+    module.functions.push_back (&function1);
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module));
+    ASSERT_EQ (1, result->getFunctionList ().size ());
+    llvm::Function * function2 (result->getFunctionList().begin ());
+    auto struct1 (llvm::cast <llvm::StructType> (function2->getReturnType ()));
+    auto element1 (struct1->element_begin ());
+    auto type2 (llvm::cast <llvm::IntegerType> (*element1));
+    ASSERT_EQ (1, type2->getBitWidth ());
+    auto element2 (struct1->element_begin () + 1);
+    auto type3 (llvm::cast <llvm::IntegerType> (*element2));
+    ASSERT_EQ (1, type3->getBitWidth ());
+    ASSERT_EQ (1, function2->getArgumentList ().size ());
+    auto const & value1 (function2->getArgumentList ().begin ());
+    ASSERT_TRUE (value1->getType ()->isIntegerTy ());
+    ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
+    ASSERT_EQ (1, function2->getBasicBlockList().size ());
+    auto block1 (function2->getBasicBlockList().begin ());    
+    ASSERT_EQ (3, block1->getInstList().size ());
+    auto instructions (block1->getInstList ().begin ());
+    llvm::cast <llvm::InsertValueInst> (instructions);
+    ++instructions;
+    llvm::cast <llvm::InsertValueInst> (instructions);
+    ++instructions;
+    llvm::cast <llvm::ReturnInst> (instructions);    
     std::string info;
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);

@@ -107,11 +107,10 @@ void mu::llvmc::generate_function::generate ()
     }
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
-        std::vector <mu::llvmc::value_data> result_set;
         for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
         {
             auto value_l (retrieve_value ((*k)->value));
-            result_set.push_back (value_l);
+            // Populate already_generated
         }
     }
     for (auto i (entry); i != nullptr; i = i->next_branch)
@@ -160,7 +159,25 @@ void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
                 }
                     break;
                 default:
-                    assert (false);
+                    std::vector <llvm::Value *> result_values;
+                    for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
+                    {
+                        assert (generator.already_generated.find ((*i)->value) != generator.already_generated.end ());
+                        auto generated (generator.already_generated [(*i)->value].value);
+                        result_values.push_back (generated);
+                    }
+                    auto result_type (generator.function_m->getReturnType ());
+                    llvm::Value * result_value (llvm::UndefValue::get (result_type));
+                    {
+                        unsigned k (0);
+                        for (auto i (result_values.begin ()), j (result_values.end ()); i != j; ++i, ++k)
+                        {
+                            auto inst (llvm::InsertValueInst::Create (result_value, *i, llvm::ArrayRef <unsigned> (k)));
+                            block_a->getInstList ().push_back (inst);
+                            result_value = inst;
+                        }
+                    }
+                    block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext (), result_value));
                     break;
             }
         }
