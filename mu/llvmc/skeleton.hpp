@@ -140,11 +140,10 @@ namespace mu
             class switch_element : public mu::llvmc::skeleton::value
             {
             public:
-                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a, mu::llvmc::skeleton::value * case_a);
+                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::bottom_type type_m;
                 mu::llvmc::skeleton::instruction * call;
-                mu::llvmc::skeleton::value * case_m;
             };
             class function_call
             {

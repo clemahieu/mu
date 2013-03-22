@@ -461,8 +461,10 @@ bool mu::llvmc::analyzer_function::process_marker (mu::vector <mu::llvmc::skelet
                             auto switch_i (new (GC) mu::llvmc::skeleton::instruction (branch_a, arguments_a, predicates_a, mu::llvmc::instruction_type::switch_i));
                             auto true_branch (new (GC) mu::llvmc::skeleton::branch (branch_a));
                             auto false_branch (new (GC) mu::llvmc::skeleton::branch (branch_a));
-                            auto true_element (new (GC) mu::llvmc::skeleton::switch_element (true_branch, switch_i, new (GC) mu::llvmc::skeleton::constant_integer (1, 1)));
-                            auto false_element (new (GC) mu::llvmc::skeleton::switch_element (false_branch, switch_i, new (GC) mu::llvmc::skeleton::constant_integer (1, 0)));
+                            auto true_element (new (GC) mu::llvmc::skeleton::switch_element (true_branch, switch_i));
+                            switch_i->arguments.push_back (new (GC) mu::llvmc::skeleton::constant_integer (1, 1));
+                            auto false_element (new (GC) mu::llvmc::skeleton::switch_element (false_branch, switch_i));
+                            switch_i->arguments.push_back (new (GC) mu::llvmc::skeleton::constant_integer (1, 0));
                             auto & values (already_generated_multi [expression_a]);
                             values.push_back (true_element);
                             values.push_back (false_element);

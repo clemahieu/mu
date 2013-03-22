@@ -109,12 +109,12 @@ namespace mu
             mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, mu::llvmc::branch * branch_a, llvm::Value * val_a);
             void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
-            mu::vector <mu::llvmc::branch *> add_n_branches (mu::llvmc::branch * branch_a, size_t count);
-            void generate_branch (mu::llvmc::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+            mu::vector <mu::llvmc::branch *> generate_branch (mu::llvmc::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
             mu::llvmc::generate_module & module;
             mu::llvmc::branch * entry;
             llvm::Function * function_m;
             mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
+            mu::map <mu::llvmc::skeleton::value *, mu::map <mu::llvmc::skeleton::value *, value_data>> switches;
             mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
             mu::llvmc::skeleton::function * function;
         };

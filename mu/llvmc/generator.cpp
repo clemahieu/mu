@@ -298,34 +298,88 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
     }
     else
     {
-        result = generate_local_value (value_a);
+        auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (value_a));
+        if (constant_int != nullptr)
+        {
+            auto type (generate_type (value_a->type ()));
+            result = mu::llvmc::value_data ({0, llvm::ConstantInt::get (type, constant_int->value_m), nullptr});
+        }
+        else
+        {
+            result = generate_local_value (value_a);
+        }
     }
     return result;
 }
 
 mu::llvmc::value_data mu::llvmc::generate_function::generate_local_value (mu::llvmc::skeleton::value * value_a)
 {
-    llvm::Instruction * value;
-    mu::llvmc::branch * branch;
+    llvm::Value * value;
+    auto branch (branches [function->entry]);
     auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
     if (instruction != nullptr)
     {
+        for (auto i (instruction->predicates.begin ()), j (instruction->predicates.end ()); i != j; ++i)
+        {
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+            auto predicate (generate_local_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
+            branch = branch->order < predicate.branch->order ? predicate.branch : branch;
+        }
         switch (instruction->type_m)
         {
             case mu::llvmc::instruction_type::add:
             {
+                assert (instruction->arguments.size () == 2);
                 assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0]) != nullptr);
                 auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0])));
+                branch = branch->order < left.branch->order ? left.branch : branch;
                 assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                 auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                branch = left.branch->order < right.branch->order ? left.branch : right.branch;
-                value = llvm::BinaryOperator::CreateAdd (left.value, right.value);
-                branch->instructions.push_back (value);
-            }
+                branch = branch->order < right.branch->order ? right.branch : branch;
+                auto instruction (llvm::BinaryOperator::CreateAdd (left.value, right.value));
+                value = instruction;
+                branch->instructions.push_back (instruction);
                 break;
+            }
+            case mu::llvmc::instruction_type::switch_i:
+            {
+                assert (instruction->arguments.size () > 1);
+                assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0]) != nullptr);
+                auto predicate (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [0])));
+                branch = branch->order < predicate.branch->order ? predicate.branch : branch;
+                assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
+                auto default_l (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                if (default_l.branch != nullptr)
+                {
+                    branch = branch->order < default_l.branch->order ? default_l.branch : branch;
+                }
+                auto switch_value (llvm::SwitchInst::Create (default_l.value, branch->block, instruction->arguments.size () - 2));
+                value = switch_value;
+                for (auto i (instruction->arguments.begin () + 2), j (instruction->arguments.end ()); i != j; ++i)
+                {
+                    assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+                    auto value_l (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
+                    assert (value_l.branch == nullptr);
+                    switch_value->addCase (llvm::cast <llvm::ConstantInt> (value_l.value), branch->block);
+                }
+                auto first_bit (entry->available_variables.size ());
+                auto branches (generate_branch (branch, instruction->arguments));
+                auto & switch_data (switches [value_a]);
+                {
+                    auto i (instruction->arguments.begin () + 2);
+                    for (auto k (branches.begin ()), l (branches.end ()); k != l; ++k, ++i, ++first_bit)
+                    {
+                        auto value_l (static_cast <mu::llvmc::skeleton::value *> (*i));
+                        switch_data [value_l] = mu::llvmc::value_data ({first_bit, value, *k});
+                    }
+                }
+                break;
+            }
             default:
+            {
                 assert (false);
                 break;
+            }
         }
     }
     else
@@ -333,9 +387,13 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_local_value (mu::ll
         auto element (dynamic_cast <mu::llvmc::skeleton::switch_element *> (value_a));
         if (element != nullptr)
         {
-            assert (branches.find (element->branch) != branches.end ());
-            auto branch_l (branches [element->branch]);
-            generate_branch (branch_l, element->call->arguments);
+            auto switch_instruction (generate_local_value (element->call));
+            assert (switches.find (element->call) != switches.end ());
+            auto & branches (switches [element->call]);
+            assert (branches.find (value_a) != branches.end ());
+            auto value_l (branches [value_a]);
+            value = switch_instruction.value;
+            already_generated [value_a] = value_l;
         }
         else
         {
@@ -346,8 +404,9 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_local_value (mu::ll
     return result;
 }
 
-mu::vector <mu::llvmc::branch *> mu::llvmc::generate_function::add_n_branches (mu::llvmc::branch * branch_a, size_t count)
+mu::vector <mu::llvmc::branch *> mu::llvmc::generate_function::generate_branch (mu::llvmc::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a)
 {
+    auto count (arguments_a.size () - 2);
     mu::vector <mu::llvmc::branch *> result;
     for (auto i (branch_a->next_branch); i != nullptr; i = i->next_branch)
     {
@@ -370,14 +429,9 @@ mu::vector <mu::llvmc::branch *> mu::llvmc::generate_function::add_n_branches (m
         new_branch->predecessors.insert (branch_a);
         result.push_back (new_branch);
     }
-    return result;
-}
-
-void mu::llvmc::generate_function::generate_branch (mu::llvmc::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a)
-{
-    auto new_branches (add_n_branches (branch_a, arguments_a.size ()));
     auto new_terminator (new (GC) mu::llvmc::terminator_switch (*this, arguments_a));
     branch_a->terminator = new_terminator;
+    return result;
 }
 
 mu::llvmc::terminator_switch::terminator_switch (mu::llvmc::generate_function & generator_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :

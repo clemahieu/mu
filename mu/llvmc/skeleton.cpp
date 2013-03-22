@@ -145,10 +145,9 @@ predicates (predicates_a)
 {
 }
 
-mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a, mu::llvmc::skeleton::value * case_a) :
+mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a) :
 value (branch_a),
-call (call_a),
-case_m (case_a)
+call (call_a)
 {
 }
 
