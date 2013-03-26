@@ -202,6 +202,7 @@ value (branch_a),
 source (source_a),
 value_m (value_a)
 {
+    source_a->elements.push_back (this);
 }
 
 mu::llvmc::skeleton::constant::constant () :

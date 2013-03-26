@@ -32,6 +32,7 @@ namespace mu
             class value;
             class branch;
             class node;
+            class switch_element;
         }
         class generator
         {
@@ -60,17 +61,16 @@ namespace mu
         public:
             terminator_return (mu::llvmc::generate_function & generator_a);
             void terminate (llvm::BasicBlock * block_a) override;
-            void set_index (size_t index_a);
-            size_t index;
             mu::llvmc::generate_function & generator;
         };
         class terminator_switch : public terminator
         {
         public:
-            terminator_switch (mu::llvmc::generate_function & generator_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+            terminator_switch (mu::llvmc::generate_function & generator_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::switch_element *> const & elements_a);
             void terminate (llvm::BasicBlock * block_a) override;
             mu::llvmc::generate_function & generator;
-            mu::vector <mu::llvmc::skeleton::node *> arguments;
+            mu::llvmc::skeleton::value * predicate;
+            mu::vector <mu::llvmc::skeleton::switch_element *> elements;
         };
         class join
         {
@@ -98,25 +98,38 @@ namespace mu
             llvm::Value * value;
             mu::llvmc::branch * branch;
         };
+        enum class function_return_type
+        {
+            b0, // Unreachable
+            b1v0, // Void
+            b1v1, // Single value
+            b1vm, // Struct no selector
+            bmv0, // Selector value
+            bmvm // struct with selector
+        };
         class generate_function
         {
         public:
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
+            function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, mu::llvmc::branch * branch_a, llvm::Value * val_a);
             void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
-            mu::vector <mu::llvmc::branch *> generate_branch (mu::llvmc::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+            mu::vector <mu::llvmc::branch *> generate_branch (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::switch_element *> const & elements_a);
             mu::llvmc::generate_module & module;
             mu::llvmc::branch * entry;
             llvm::Function * function_m;
+            llvm::BasicBlock * unreachable;
+            size_t terminating_branch;
             mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
-            mu::map <mu::llvmc::skeleton::value *, mu::map <mu::llvmc::skeleton::value *, value_data>> switches;
             mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
             mu::llvmc::skeleton::function * function;
+            function_return_type function_return_type;
         };
     }
 }

@@ -117,7 +117,7 @@ TEST (llvmc_generator, generate_add)
     auto const & value1 (function2->getArgumentList ().begin ());
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
-    ASSERT_EQ (1, function2->getBasicBlockList().size ());
+    ASSERT_EQ (2, function2->getBasicBlockList().size ());
     auto block1 (function2->getBasicBlockList().begin ());
     ASSERT_EQ (2, block1->getInstList().size ());
     auto instructions (block1->getInstList ().begin ());
@@ -158,7 +158,7 @@ TEST (llvmc_generator, generate_two_return)
     auto const & value1 (function2->getArgumentList ().begin ());
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
-    ASSERT_EQ (1, function2->getBasicBlockList().size ());
+    ASSERT_EQ (2, function2->getBasicBlockList().size ());
     auto block1 (function2->getBasicBlockList().begin ());
     ASSERT_EQ (3, block1->getInstList().size ());
     auto instructions (block1->getInstList ().begin ());
@@ -172,7 +172,7 @@ TEST (llvmc_generator, generate_two_return)
     ASSERT_TRUE (!broken);
 }
 
-TEST (llvmc_generator, DISABLED_generate_if)
+TEST (llvmc_generator, generate_if)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -199,13 +199,13 @@ TEST (llvmc_generator, DISABLED_generate_if)
     auto result (generator.generate (context, &module));
     ASSERT_EQ (1, result->getFunctionList ().size ());
     llvm::Function * function2 (result->getFunctionList().begin ());
-    ASSERT_TRUE (function2->getReturnType ()->isIntegerTy ());
-    ASSERT_EQ (8, llvm::cast <llvm::IntegerType> (function2->getReturnType ())->getBitWidth ());
+    auto int_result (llvm::cast <llvm::IntegerType> (function2->getReturnType ()));
+    ASSERT_EQ (8, int_result->getBitWidth ());
     ASSERT_EQ (1, function2->getArgumentList ().size ());
     auto const & value1 (function2->getArgumentList ().begin ());
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
-    ASSERT_EQ (3, function2->getBasicBlockList ().size ());
+    ASSERT_EQ (4, function2->getBasicBlockList ().size ());
     auto blocks (function2->getBasicBlockList ().begin ());
     auto block1 (blocks);
     ASSERT_EQ (1, block1->getInstList ().size ());
@@ -213,11 +213,14 @@ TEST (llvmc_generator, DISABLED_generate_if)
     ++blocks;
     auto block2 (blocks);
     ASSERT_EQ (1, block2->getInstList ().size ());
-    llvm::cast <llvm::ReturnInst> (block2->getInstList ().begin ());
+    llvm::cast <llvm::UnreachableInst> (block2->getInstList ().begin ());
     ++blocks;
     auto block3 (blocks);
-    ASSERT_EQ (1, block2->getInstList ().size ());
     llvm::cast <llvm::ReturnInst> (block3->getInstList ().begin ());
+    ++blocks;
+    auto block4 (blocks);
+    ASSERT_EQ (1, block2->getInstList ().size ());
+    llvm::cast <llvm::ReturnInst> (block4->getInstList ().begin ());
     std::string info;
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
