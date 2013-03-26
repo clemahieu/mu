@@ -5,9 +5,16 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a) :
+mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a) :
+branch (branch_a),
+predicate (predicate_a),
+predicates (predicates_a)
+{
+}
+
+mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t branch_index_a, size_t result_index_a) :
 value (branch_a),
-call (call_a),
+source (source_a),
 branch_index (branch_index_a),
 result_index (result_index_a)
 {
@@ -76,9 +83,9 @@ pointed_type (type_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
 {
-    assert (call->target.results.size () > branch_index);
-    assert (call->target.results [branch_index].size () > result_index);
-    auto result (call->target.results [branch_index][result_index]->type);
+    assert (source->target.results.size () > branch_index);
+    assert (source->target.results [branch_index].size () > result_index);
+    auto result (source->target.results [branch_index][result_index]->type);
     return result;
 }
 
@@ -145,9 +152,10 @@ predicates (predicates_a)
 {
 }
 
-mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a) :
+mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a) :
 value (branch_a),
-call (call_a)
+source (source_a),
+value_m (value_a)
 {
 }
 

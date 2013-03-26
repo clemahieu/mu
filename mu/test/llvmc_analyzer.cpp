@@ -155,9 +155,8 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_EQ (1, function1->results [1].size ());
     auto result4 (function1->results [1][0]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result4->value));
-    ASSERT_EQ (element3->call, element4->call);
-    ASSERT_EQ (2, element3->call->arguments.size ());
-    ASSERT_EQ (parameter2, element3->call->arguments [1]);
+    ASSERT_EQ (element3->source, element4->source);
+    ASSERT_EQ (parameter2, element3->source->predicate);
     ASSERT_NE (element3->branch, element4->branch);
     ASSERT_NE (parameter2->branch, element3->branch);
     ASSERT_NE (parameter2->branch, element4->branch);
@@ -244,11 +243,8 @@ TEST (llvmc_analyzer, branches)
     auto element6 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (element4->predicates [0]));
     ASSERT_NE (nullptr, element6);
     ASSERT_NE (element5, element6);
-    ASSERT_EQ (element5->call, element6->call);
-    auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (element5->call));
-    ASSERT_NE (nullptr, instruction1);
-    ASSERT_EQ (mu::llvmc::instruction_type::switch_i, instruction1->type_m);
+    ASSERT_EQ (element5->source, element6->source);
+    auto instruction1 (element5->source);
     ASSERT_EQ (0, instruction1->predicates.size ());
-    ASSERT_EQ (2, instruction1->arguments.size ());
-    ASSERT_EQ (parameter4, instruction1->arguments [1]);
+    ASSERT_EQ (parameter4, instruction1->predicate);
 }

@@ -387,13 +387,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_local_value (mu::ll
         auto element (dynamic_cast <mu::llvmc::skeleton::switch_element *> (value_a));
         if (element != nullptr)
         {
-            auto switch_instruction (generate_local_value (element->call));
-            assert (switches.find (element->call) != switches.end ());
-            auto & branches (switches [element->call]);
-            assert (branches.find (value_a) != branches.end ());
-            auto value_l (branches [value_a]);
-            value = switch_instruction.value;
-            already_generated [value_a] = value_l;
+            assert (false);
         }
         else
         {

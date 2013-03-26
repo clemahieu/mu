@@ -137,14 +137,26 @@ namespace mu
                 pointer_type (mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * pointed_type;
             };
+            class switch_element;
+            class switch_i
+            {
+            public:
+                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a);
+                mu::llvmc::skeleton::branch * branch;
+                mu::llvmc::skeleton::value * predicate;
+                mu::vector <mu::llvmc::skeleton::node *> predicates;
+                mu::vector <mu::llvmc::skeleton::switch_element *> elements;
+            };
             class switch_element : public mu::llvmc::skeleton::value
             {
             public:
-                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::instruction * call_a);
+                switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::bottom_type type_m;
-                mu::llvmc::skeleton::instruction * call;
+                mu::llvmc::skeleton::switch_i * source;
+                mu::llvmc::skeleton::constant_integer * value_m;
             };
+            class call_element;
             class function_call
             {
             public:
@@ -153,13 +165,14 @@ namespace mu
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
+                mu::vector <mu::llvmc::skeleton::call_element *> elements;
             };
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * call_a, size_t branch_index_a, size_t result_index_a);
+                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t branch_index_a, size_t result_index_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::function_call * call;
+                mu::llvmc::skeleton::function_call * source;
                 size_t branch_index;
                 size_t result_index;
             };
