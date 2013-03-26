@@ -164,12 +164,12 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
 void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
+    size_t branch_offset (0);
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
         auto most_specific_branch (module.module->global);
         auto & ast_result (*k);
-        function_s->results.push_back (decltype (function_s->results)::value_type ());
-        auto & new_result (function_s->results [function_s->results.size () - 1]);
+        function_s->branch_offsets.push_back (branch_offset);
         for (auto m (ast_result.begin ()), n (ast_result.end ()); m != n && result_m.error == nullptr; ++m)
         {
             auto single_result (*m);
@@ -179,7 +179,8 @@ void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * fu
                 auto value (process_value (single_result->value));
                 if (value != nullptr)
                 {
-                    new_result.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                    ++branch_offset;
                     most_specific_branch = most_specific_branch->most_specific (value->branch);
                 }
             }
@@ -373,9 +374,10 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                 if (!arguments_a.empty ())
                 {
                     auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, branch_a, arguments_a, predicates_a));
-                    if (function_type->function.results.size () == 1)
+                    if (function_type->function.branch_offsets.size () == 1)
                     {
-                        if (function_type->function.results [0].size () == 1)
+                        auto branch_size (function_type->function.branch_size (0));
+                        if (branch_size == 1)
                         {
                             already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, 0);
                         }
@@ -383,7 +385,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                         {
                             result = true;
                             auto & target (already_generated_multi [expression_a]);
-                            for (size_t i (0), j (function_type->function.results [0].size ()); i != j && result_m.error == nullptr; ++i)
+                            for (size_t i (0), j (branch_size); i != j && result_m.error == nullptr; ++i)
                             {
                                 target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch_a, call, 0, i));
                             }
@@ -395,14 +397,15 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::vector <mu::llvmc::sk
                         for (size_t i (0), j (function_type->function.results.size ()); i != j && result_m.error == nullptr; ++i)
                         {
                             auto branch (new (GC) mu::llvmc::skeleton::branch (branch_a));
-                            if (function_type->function.results [0].size () == 1)
+                            auto branch_size (function_type->function.branch_size (i));
+                            if (branch_size == 1)
                             {
                                 already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch, call, i, 0);
                             }
                             else
                             {
                                 auto & target (already_generated_multi [expression_a]);
-                                for (size_t k (0), l (function_type->function.results [i].size ()); k != l && result_m.error == nullptr; ++k)
+                                for (size_t k (0), l (branch_size); k != l && result_m.error == nullptr; ++k)
                                 {
                                     target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, i, k));
                                 }

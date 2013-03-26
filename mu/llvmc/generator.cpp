@@ -59,14 +59,11 @@ void mu::llvmc::generate_function::generate ()
     std::vector <llvm::Type *> results;
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
-        for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
+        auto type_s ((*i)->type);
+        if (!type_s->is_bottom_type())
         {
-            auto type_s ((*k)->type);
-            if (!type_s->is_bottom_type())
-            {
-                auto type_l (generate_type (type_s));
-                results.push_back (type_l);
-            }
+            auto type_l (generate_type (type_s));
+            results.push_back (type_l);
         }
     }
     if (function->results.size () > 1)
@@ -114,11 +111,8 @@ void mu::llvmc::generate_function::generate ()
     }
     for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
     {
-        for (auto k ((*i).begin ()), l ((*i).end ()); k != l; ++k)
-        {
-            auto value_l (retrieve_value ((*k)->value));
-            // Populate already_generated
-        }
+        auto value_l (retrieve_value ((*i)->value));
+        // Populate already_generated
     }
     for (auto i (entry); i != nullptr; i = i->next_branch)
     {
@@ -150,7 +144,7 @@ void mu::llvmc::terminator_return::set_index (size_t index_a)
 
 void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
 {
-    switch (generator.function->results.size ())
+    switch (generator.function->branch_offsets.size ())
     {
         case 0:
         {
@@ -159,7 +153,7 @@ void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
             break;
         case 1:
         {
-            auto & results (generator.function->results [0]);
+            auto & results (generator.function->results);
             switch (results.size ())
             {
                 case 0:
@@ -204,14 +198,9 @@ void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
             assert (index != ~0);
             assert (generator.function->results.size () > index);
             auto index_l (index);
-            auto & results (generator.function->results [index_l]);
-            size_t k (0);
-            for (auto j (0); j < index_l; ++j)
-            {
-                k += generator.function->results [j].size ();
-            }
             std::vector <llvm::Value *> result_values;
-            for (auto i (results.begin ()), j (results.end ()); i != j; ++i)
+            auto k (generator.function->branch_offsets [index_l]);
+            for (auto i (generator.function->branch_begin (index_l)), j (generator.function->branch_end (index_l)); i != j; ++i)
             {
                 assert (generator.already_generated.find ((*i)->value) != generator.already_generated.end ());
                 auto generated (generator.already_generated [(*i)->value].value);

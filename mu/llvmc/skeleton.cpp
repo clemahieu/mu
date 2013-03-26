@@ -81,11 +81,29 @@ pointed_type (type_a)
 {
 }
 
+size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
+{
+    assert (index < branch_offsets.size ());
+    auto size (branch_offsets.size ());
+    size_t result;
+    if (index == size - 1)
+    {
+        result = results.size () - branch_offsets [index];
+        assert (branch_offsets [index] + result <= results.size ());
+    }
+    else
+    {
+        result = branch_offsets [index + 1] - branch_offsets [index - 1];
+        assert (branch_offsets [index] + result <= results.size ());
+    }
+    return result;
+}
+
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
 {
-    assert (source->target.results.size () > branch_index);
-    assert (source->target.results [branch_index].size () > result_index);
-    auto result (source->target.results [branch_index][result_index]->type);
+    assert (source->target.branch_offsets.size () > branch_index);
+    assert (source->target.branch_size (branch_index) > result_index);
+    auto result (source->target.results [source->target.branch_size (branch_index) + result_index]->type);
     return result;
 }
 
@@ -106,6 +124,30 @@ bool mu::llvmc::skeleton::integer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
+auto mu::llvmc::skeleton::function::branch_begin (size_t index) -> decltype (results)::iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index];
+}
+
+auto mu::llvmc::skeleton::function::branch_end (size_t index) -> decltype (results)::iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index] + branch_size (index);
+}
+
+auto mu::llvmc::skeleton::function::branch_begin (size_t index) const -> decltype (results)::const_iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index];
+}
+
+auto mu::llvmc::skeleton::function::branch_end (size_t index) const -> decltype (results)::const_iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index] + branch_size (index);
+}
+
 bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
     auto result (false);
@@ -116,13 +158,16 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
         {
             if (function.results.size () == other_function->function.results.size ())
             {
-                result = true;
-                for (auto i (function.results.begin ()), j (function.results.end ()), k (other_function->function.results.begin ()); i != j && result; ++i, ++k)
+                if (function.branch_offsets.size () == other_function->function.branch_offsets.size ())
                 {
-                    result = i->size () == k->size ();
-                    for (auto m (i->begin()), n (i->end ()), o (k->begin ()); m != n && result; ++m, ++o)
+                    result = true;
+                    for (auto i (function.branch_offsets.begin ()), j (function.branch_offsets.end ()), k (other_function->function.branch_offsets.begin ()); i != j && result; ++i, ++k)
                     {
-                        result = (*m) == (*o);
+                        result = (*i) == (*k);
+                    }
+                    for (auto i (function.results.begin ()), j (function.results.end ()), k (other_function->function.results.begin ()); i != j && result; ++i, ++k)
+                    {
+                        result = (*(*i)->type) == (*(*k)->type);
                     }
                 }
             }
