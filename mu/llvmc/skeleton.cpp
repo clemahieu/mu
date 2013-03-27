@@ -93,7 +93,7 @@ size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
     }
     else
     {
-        result = branch_offsets [index + 1] - branch_offsets [index - 1];
+        result = branch_offsets [index + 1] - branch_offsets [index];
         assert (branch_offsets [index] + result <= results.size ());
     }
     return result;

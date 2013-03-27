@@ -110,13 +110,17 @@ void mu::llvmc::generate_function::generate ()
         parameters.push_back (type_l);
     }
     std::vector <llvm::Type *> results;
-    for (auto i (function->results.begin ()), j (function->results.end ()); i != j; ++i)
+    for (size_t i (0), j (function->branch_offsets.size ()); i != j; ++i)
     {
-        auto type_s ((*i)->type);
-        if (!type_s->is_bottom_type())
+        branch_offsets.push_back (results.size ());
+        for (auto k (function->branch_begin (i)), l (function->branch_end (i)); k != l; ++k)
         {
-            auto type_l (generate_type (type_s));
-            results.push_back (type_l);
+            auto type_s ((*k)->type);
+            if (!type_s->is_bottom_type())
+            {
+                auto type_l (generate_type (type_s));
+                results.push_back (type_l);
+            }
         }
     }
     if (function->branch_offsets.size () > 1)
@@ -239,20 +243,24 @@ void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
         {
             assert (generator.function->branch_offsets.size () > index_l);
             auto selector (llvm::ConstantInt::get (llvm::Type::getInt8Ty (generator.function_m->getContext ()), index_l));
-            auto result_type (generator.function_m->getReturnType ());
+            auto result_type (llvm::cast <llvm::StructType> (generator.function_m->getReturnType ()));
             llvm::Value * result_value (llvm::UndefValue::get (result_type));
             {
-                auto k (generator.function->branch_offsets [index_l]);
-                for (auto i (generator.function->branch_begin (index_l)), j (generator.function->branch_end (index_l)); i != j; ++i, ++k)
+                auto k (generator.branch_offsets [index_l]);
+                for (auto i (generator.function->branch_begin (index_l)), j (generator.function->branch_end (index_l)); i != j; ++i)
                 {
                     assert (generator.already_generated.find ((*i)->value) != generator.already_generated.end ());
                     auto value (*i);
                     if (!value->type->is_bottom_type ())
                     {
                         auto generated (generator.already_generated [(*i)->value].value);
+                        auto type1 (result_type->getTypeAtIndex (k));
+                        auto type2 (generated->getType ());
+                        assert (type1 == type2);
                         auto inst (llvm::InsertValueInst::Create (result_value, generated, llvm::ArrayRef <unsigned> (k)));
                         block_a->getInstList ().push_back (inst);
                         result_value = inst;
+                        ++k;
                     }
                 }
             }
@@ -326,6 +334,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         mu::llvmc::generate_function generator (module, function);
         generator.generate ();
         result = mu::llvmc::value_data ({0, generator.function_m, nullptr});
+        already_generated [value_a] = result;
     }
     else
     {
@@ -334,6 +343,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         {
             auto type (generate_type (value_a->type ()));
             result = mu::llvmc::value_data ({0, llvm::ConstantInt::get (type, constant_int->value_m), nullptr});
+            already_generated [value_a] = result;
         }
         else
         {

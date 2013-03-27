@@ -129,6 +129,7 @@ namespace mu
             mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
             mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
             mu::llvmc::skeleton::function * function;
+            std::vector <size_t> branch_offsets;
             function_return_type function_return_type;
         };
     }
