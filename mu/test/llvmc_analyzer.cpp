@@ -192,13 +192,13 @@ TEST (llvmc_analyzer, branches)
     mu::llvmc::skeleton::marker add_marker (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value add_ast (&add_marker);    
     mu::llvmc::ast::definite_expression expression2;
-    expression2.arguments.push_back (&element1);
     expression2.arguments.push_back (&add_ast);
+    expression2.arguments.push_back (&element1);
     expression2.arguments.push_back (&parameter2);
     expression2.arguments.push_back (&parameter2);    
     mu::llvmc::ast::definite_expression expression3;
-    expression3.arguments.push_back (&element2);
     expression3.arguments.push_back (&add_ast);
+    expression3.arguments.push_back (&element2);
     expression3.arguments.push_back (&parameter3);
     expression3.arguments.push_back (&parameter3);    
     function.results.push_back (decltype (function.results)::value_type ());

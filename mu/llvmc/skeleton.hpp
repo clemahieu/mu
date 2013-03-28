@@ -77,6 +77,9 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
             };
+            class join : public mu::llvmc::skeleton::node
+            {
+            };
             class marker : public mu::llvmc::skeleton::node
             {
             public:
