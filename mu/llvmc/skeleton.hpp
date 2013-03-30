@@ -39,6 +39,7 @@ namespace mu
             public:
                 branch (mu::llvmc::skeleton::branch * parent_a);
                 mu::llvmc::skeleton::branch * most_specific (mu::llvmc::skeleton::branch * other_a);
+                mu::llvmc::skeleton::branch * least_specific (mu::llvmc::skeleton::branch * other_a);
                 mu::llvmc::skeleton::branch * parent;
             };
             class value : public mu::llvmc::skeleton::node
@@ -78,7 +79,7 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
             };
             class join : public mu::llvmc::skeleton::node
-            {
+            {                
             };
             class marker : public mu::llvmc::skeleton::node
             {
@@ -198,6 +199,14 @@ namespace mu
                 bottom_value (mu::llvmc::skeleton::branch * branch_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::bottom_type type_m;
+            };
+            class join_value : public mu::llvmc::skeleton::value
+            {
+            public:
+                join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a, mu::vector <mu::llvmc::skeleton::value *> const & predicates_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::vector <mu::llvmc::skeleton::value *> arguments;
+                mu::vector <mu::llvmc::skeleton::value *> predicates;
             };
             class module
             {

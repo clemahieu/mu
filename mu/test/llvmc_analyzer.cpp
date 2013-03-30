@@ -253,3 +253,82 @@ TEST (llvmc_analyzer, branches)
     ASSERT_EQ (0, instruction1->predicates.size ());
     ASSERT_EQ (parameter4, instruction1->predicate);
 }
+
+TEST (llvmc_analyzer, error_short_join)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::join join1;
+    mu::llvmc::ast::value value2 (&join1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&value1);
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results1 (function.results [0]);
+    mu::llvmc::ast::result result1 (&value1);
+    result1.value = &expression1;
+    results1.push_back (&result1);
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+}
+
+TEST (llvmc_analyzer, error_join_different_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::join join1;
+    mu::llvmc::ast::value value2 (&join1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&value1);
+    mu::llvmc::skeleton::integer_type type2 (1);
+    mu::llvmc::ast::value value3 (&type2);
+    expression1.arguments.push_back (&value3);
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results1 (function.results [0]);
+    mu::llvmc::ast::result result1 (&value1);
+    result1.value = &expression1;
+    results1.push_back (&result1);
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+}
+
+TEST (llvmc_analyzer, error_same_branch)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::definite_expression expression1;
+    mu::llvmc::skeleton::
+    
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::join join1;
+    mu::llvmc::ast::value value2 (&join1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&parameter1);
+    expression1.arguments.push_back (&parameter2);
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results1 (function.results [0]);
+    mu::llvmc::ast::result result1 (&value1);
+    result1.value = &expression1;
+    results1.push_back (&result1);
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+}

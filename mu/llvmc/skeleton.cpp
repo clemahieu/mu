@@ -71,6 +71,13 @@ predicates (predicates_a)
 {
 }
 
+mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a, mu::vector <mu::llvmc::skeleton::value *> const & predicates_a) :
+value (branch_a),
+arguments (arguments_a),
+predicates (predicates_a)
+{
+}
+
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::function::type ()
 {
     return & type_m;
@@ -244,6 +251,18 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
             assert (false);
             break;
     }
+    return result;
+}
+
+mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::least_specific (mu::llvmc::skeleton::branch * other_a)
+{
+    auto result (most_specific (other_a) == this ? other_a : this);
+    return result;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::join_value::type ()
+{
+    auto result (arguments [0]->type ());
     return result;
 }
 

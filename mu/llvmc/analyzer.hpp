@@ -71,7 +71,6 @@ namespace mu
             void process_single_node (mu::llvmc::ast::node * node_a);
             mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::node *> already_generated;
             mu::map <mu::llvmc::ast::node *, mu::vector <mu::llvmc::skeleton::node *>> already_generated_multi;
-            mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::branch *> already_generated_empty;
             mu::set <mu::llvmc::ast::expression *> current_expression_generation;
             function_result analyze (mu::llvmc::ast::node * function_a);
             mu::llvmc::function_result result_m;
