@@ -415,7 +415,61 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 
 bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expression * expression_a)
 {
-    
+    mu::vector <mu::llvmc::skeleton::value *> arguments;
+    mu::set <mu::llvmc::skeleton::branch *> marked_branches;
+    mu::set <mu::llvmc::skeleton::branch *> joined_branches;
+    for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
+    {
+        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*i));
+        if (value != nullptr)
+        {
+            arguments.push_back (value);
+            auto existing_marked (marked_branches.find (value->branch));
+            if (existing_marked == marked_branches.end ())
+            {
+                for (auto k (value->branch); k != nullptr && result_m.error == nullptr; k = k->parent)
+                {
+                    auto existing_joined (joined_branches.find (k));
+                    if (existing_joined == joined_branches.end ())
+                    {
+                        marked_branches.insert (k);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Branches are not distinct");
+                    }
+                }
+                joined_branches.insert (value->branch);
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Branches are not disjoint");
+            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Join arguments must be values");
+        }
+    }
+    if (result_m.error == nullptr)
+    {
+        if (arguments.size () > 1)
+        {
+            auto type (arguments [0]->type ());
+            for (auto i (arguments.begin () + 1), j (arguments.end ()); i != j; ++i)
+            {
+                if (*type != *(*i)->type ())
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Joining types are different");
+                }
+            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Must be joining at least two values");
+        }
+    }
+    return false;
 }
 
 void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test)
