@@ -314,20 +314,108 @@ TEST (llvmc_analyzer, error_same_branch)
     mu::llvmc::ast::value value1 (&type1);
     mu::llvmc::ast::parameter parameter1 (&value1);
     function.parameters.push_back (&parameter1);
-    mu::llvmc::skeleton::definite_expression expression1;
-    mu::llvmc::skeleton::
     
     mu::llvmc::ast::definite_expression expression1;
-    mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value2 (&join1);
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value value2 (&marker1);
     expression1.arguments.push_back (&value2);
     expression1.arguments.push_back (&parameter1);
-    expression1.arguments.push_back (&parameter2);
+    mu::llvmc::ast::element element1 (&expression1, 0, 2);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2);
+    
+    mu::llvmc::ast::definite_expression expression2;
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&element1);
+    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::element element3 (&expression2, 0, 2);
+    mu::llvmc::ast::element element4 (&expression2, 1, 2);
+    
+    mu::llvmc::ast::definite_expression expression3;
+    mu::llvmc::skeleton::join join1;
+    mu::llvmc::ast::value value3 (&join1);
+    expression3.arguments.push_back (&value3);
+    expression3.arguments.push_back (&element1);
+    expression3.arguments.push_back (&element3);
+    
+    mu::llvmc::skeleton::unit_type type2;
+    mu::llvmc::ast::value value4 (&type2);
+    
     function.results.push_back (decltype (function.results)::value_type ());
     auto & results1 (function.results [0]);
-    mu::llvmc::ast::result result1 (&value1);
-    result1.value = &expression1;
+    mu::llvmc::ast::result result1 (&value4);
+    result1.value = &expression3;
     results1.push_back (&result1);
+    
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results2 (function.results [1]);
+    mu::llvmc::ast::result result2 (&value4);
+    result2.value = &element2;
+    results2.push_back (&result2);
+    
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results3 (function.results [2]);
+    mu::llvmc::ast::result result3 (&value4);
+    result3.value = &expression3;
+    results3.push_back (&result3);
+    
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+}
+
+TEST (llvmc_analyzer, error_same_branch2)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function.parameters.push_back (&parameter1);
+    
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value value2 (&marker1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::element element1 (&expression1, 0, 2);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2);
+    
+    mu::llvmc::ast::definite_expression expression2;
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&element1);
+    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::element element3 (&expression2, 0, 2);
+    mu::llvmc::ast::element element4 (&expression2, 1, 2);
+    
+    mu::llvmc::ast::definite_expression expression3;
+    mu::llvmc::skeleton::join join1;
+    mu::llvmc::ast::value value3 (&join1);
+    expression3.arguments.push_back (&value3);
+    expression3.arguments.push_back (&element3); // Switched order from above
+    expression3.arguments.push_back (&element1);
+    
+    mu::llvmc::skeleton::unit_type type2;
+    mu::llvmc::ast::value value4 (&type2);
+    
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results1 (function.results [0]);
+    mu::llvmc::ast::result result1 (&value4);
+    result1.value = &expression3;
+    results1.push_back (&result1);
+    
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results2 (function.results [1]);
+    mu::llvmc::ast::result result2 (&value4);
+    result2.value = &element2;
+    results2.push_back (&result2);
+    
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results3 (function.results [2]);
+    mu::llvmc::ast::result result3 (&value4);
+    result3.value = &expression3;
+    results3.push_back (&result3);
+    
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
