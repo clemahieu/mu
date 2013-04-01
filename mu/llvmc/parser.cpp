@@ -49,7 +49,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             }
             else
             {
-                result.error = new (GC) mu::core::error_string (U"Expecting a function");
+                result.error = new (GC) mu::core::error_string (U"Expecting a function", mu::core::error_type::expecting_function);
             }        
         }
         else if (item.token != nullptr)
@@ -61,7 +61,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
                     result.node = module;
                     break;
                 default:                    
-                    result.error = new (GC) mu::core::error_string (U"Expecting function or end of stream");
+                    result.error = new (GC) mu::core::error_string (U"Expecting function or end of stream", mu::core::error_type::expecting_function_or_end_of_stream);
                     break;
             }
         }
@@ -144,18 +144,18 @@ void mu::llvmc::function::parse_name ()
                 }
                 else
                 {
-                    result.error = new (GC) mu::core::error_string (U"Function name already used");
+                    result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
                 }
             }
                 break;
             default:
-                result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                 break;
         }
     }
     else
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting function name");
+        result.error = new (GC) mu::core::error_string (U"Expecting function name", mu::core::error_type::expecting_function_name);
     }
 }
 
@@ -174,7 +174,7 @@ void mu::llvmc::function::parse_parameters ()
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting left square");
+            result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting left square", mu::core::error_type::parsing_parameters_expecting_left_square);
             break;
     }
 }
@@ -200,18 +200,18 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                     function_m->parameters.push_back (argument);
                     if (block.insert (identifier->string, argument))
                     {
-                        result.error = new (GC) mu::core::error_string (U"Unable to use identifier");
+                        result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
                     }
                 }
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier");
+                    result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);
                     break;
             }
         }
         else
         {
-            result.error = new (GC) mu::core::error_string (U"Expecting a parameter name");
+            result.error = new (GC) mu::core::error_string (U"Expecting a parameter name", mu::core::error_type::expecting_a_parameter_name);
         }
     }
     else if (node.token != nullptr)
@@ -224,7 +224,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                 done_a = true;
                 break;
             default:
-                result.error = new (GC) mu::core::error_string (U"Expecting type or right square");
+                result.error = new (GC) mu::core::error_string (U"Expecting type or right square", mu::core::error_type::expecting_type_or_right_square);
                 break;                
         }
     }
@@ -260,7 +260,7 @@ void mu::llvmc::function::parse_body ()
                         }
                         else if (next.token != nullptr)
                         {
-                            result.error = new (GC) mu::core::error_string (U"Expecting expression");
+                            result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
                         }
                         else
                         {
@@ -273,7 +273,7 @@ void mu::llvmc::function::parse_body ()
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square");
+            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
 }
@@ -300,14 +300,14 @@ void mu::llvmc::function::parse_results ()
                         done = true;
                         break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square");
+                        result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square);
                         break;
                 }
             }
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square");
+            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
 }
@@ -345,13 +345,13 @@ void mu::llvmc::function::parse_result_set ()
                     }
                         break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                        result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                         break;
                 }
             }
             else if (next.ast != nullptr)
             {
-                result.error = new (GC) mu::core::error_string (U"Expecting result reference");
+                result.error = new (GC) mu::core::error_string (U"Expecting result reference", mu::core::error_type::expecting_result_reference);
             }
             else
             {
@@ -368,7 +368,7 @@ void mu::llvmc::function::parse_result_set ()
                     done = true;
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting right_square");
+                    result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square);
                     break;
             }
         }
@@ -582,12 +582,12 @@ mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu
         }
         else
         {
-            result.error = new (GC) mu::core::error_string (U"Bit width too wide");
+            result.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
         }
     }
     catch (boost::bad_lexical_cast)
     {
-        result.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer");
+        result.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
     }
     return result;
 }
@@ -642,19 +642,19 @@ void mu::llvmc::expression::parse ()
                             done = true;
                             break;
                         default:
-                            result.error = new (GC) mu::core::error_string (U"");
+                            result.error = new (GC) mu::core::error_string (U"Expecting argument or right_square", mu::core::error_type::expecting_argument_or_right_square);
                             break;
                     }
                 }
                 else
                 {
-                    result.error = new (GC) mu::core::error_string (U"");
+                    result.error = next.error;
                 }
             }
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square");
+            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
     if (result.error == nullptr)
@@ -683,7 +683,7 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
                     auto error (parser_a.current_mapping->insert(static_cast <mu::io::identifier *> (name.token)->string, next.ast));
                     if (error)
                     {
-                        result.error = new (GC) mu::core::error_string (U"Unable to use name");
+                        result.error = new (GC) mu::core::error_string (U"Unable to use name", mu::core::error_type::unable_to_use_identifier);
                     }
                     else
                     {
@@ -692,7 +692,7 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
                 }
                 else if (next.ast != nullptr)
                 {
-                    result.error = new (GC) mu::core::error_string (U"Expecting an expression");
+                    result.error = new (GC) mu::core::error_string (U"Expecting an expression", mu::core::error_type::expecting_expression);
                 }
                 else
                 {
@@ -701,13 +701,13 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
             }
                 break;
             default:
-                result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                 break;
         }
     }
     else if (name.ast != nullptr)
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting a name");
+        result.error = new (GC) mu::core::error_string (U"Expecting a name", mu::core::error_type::expecting_name);
     }
     else
     {
@@ -743,7 +743,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
                 done = true;
                 break;
             default:
-                result.error = new (GC) mu::core::error_string (U"Expecting identifier or left square");
+                result.error = new (GC) mu::core::error_string (U"Expecting identifier or left square", mu::core::error_type::expecting_identifier_or_left_square);
                 break;
         }
     }
@@ -780,7 +780,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
                         done = true;
                         break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"Unexpected token in let statement");
+                        result.error = new (GC) mu::core::error_string (U"Unexpected token in let statement", mu::core::error_type::unknown_token_in_let_statement);
                         break;
                 }
             }
@@ -851,7 +851,7 @@ mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu:
     }
     else if (next.token != nullptr)
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting expression");
+        result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
     }
     else
     {
@@ -886,7 +886,7 @@ mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a
                         }
                         else if (next.token != nullptr)
                         {
-                            result = new (GC) mu::core::error_string (U"Expecting expression");
+                            result = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
                         }
                         else
                         {
@@ -900,7 +900,7 @@ mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a
         }
             break;
         default:
-            result = new (GC) mu::core::error_string (U"Expecting left square");
+            result = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
     return result;
@@ -980,7 +980,7 @@ void mu::llvmc::loop::parse_arguments ()
                             break;
                         default:
                             done = true;
-                            result.error = new (GC) mu::core::error_string (U"Expecting argument or right square");
+                            result.error = new (GC) mu::core::error_string (U"Expecting argument or right square", mu::core::error_type::expecting_argument_or_right_square);
                             break;
                     }
                 }
@@ -993,7 +993,7 @@ void mu::llvmc::loop::parse_arguments ()
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square");
+            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
 }
@@ -1012,7 +1012,7 @@ void mu::llvmc::loop::parse_binds ()
                 if (next.ast != nullptr)
                 {
                     done = true;
-                    result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                    result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                 }
                 else if (next.token != nullptr)
                 {
@@ -1030,7 +1030,7 @@ void mu::llvmc::loop::parse_binds ()
                             else
                             {
                                 done = true;
-                                result.error = new (GC) mu::core::error_string (U"Unable to use identifier");
+                                result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
                             }
                         }
                             break;
@@ -1040,7 +1040,7 @@ void mu::llvmc::loop::parse_binds ()
                             break;
                         default:
                             done = true;
-                            result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                            result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                             break;
                     }
                 }
@@ -1053,7 +1053,7 @@ void mu::llvmc::loop::parse_binds ()
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square");
+            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
             break;
     }
 }
@@ -1084,7 +1084,7 @@ void mu::llvmc::loop::parse_body ()
                             break;
                         default:
                             done = true;
-                            result.error = new (GC) mu::core::error_string (U"Expecting expression or right square");
+                            result.error = new (GC) mu::core::error_string (U"Expecting expression or right square", mu::core::error_type::expecting_expression_or_right_square);
                             break;
                     }
                 }
@@ -1097,7 +1097,7 @@ void mu::llvmc::loop::parse_body ()
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting loop body");
+            result.error = new (GC) mu::core::error_string (U"Expecting loop body", mu::core::error_type::expecting_loop_body);
             break;
     }
 }
@@ -1125,7 +1125,7 @@ void mu::llvmc::loop::parse_results ()
                             auto next (parser.stream.peek ());
                             if (next.ast != nullptr)
                             {
-                                result.error = new (GC) mu::core::error_string (U"Expecting result identifiers");
+                                result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier);
                             }
                             else if (next.token != nullptr)
                             {
@@ -1149,7 +1149,7 @@ void mu::llvmc::loop::parse_results ()
                                         set_done = true;
                                         break;
                                     default:
-                                        result.error = new (GC) mu::core::error_string (U"Expecting identifier");
+                                        result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                                         break;
                                 }
                             }
@@ -1164,14 +1164,14 @@ void mu::llvmc::loop::parse_results ()
                         done = true;
                         break;
                     default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting result set or right square");
+                        result.error = new (GC) mu::core::error_string (U"Expecting result set or right square", mu::core::error_type::expecting_result_set_or_right_square);
                         break;
                 }
             }
         }
             break;
         default:
-            result.error = new (GC) mu::core::error_string (U"Expecting loop results");
+            result.error = new (GC) mu::core::error_string (U"Expecting loop results", mu::core::error_type::expecting_loop_results);
             break;
     }
 }
