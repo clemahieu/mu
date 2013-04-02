@@ -171,6 +171,7 @@ TEST (llvmc_generator, generate_if)
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result);
     std::string info;
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -213,10 +214,47 @@ TEST (llvmc_generator, generate_if_value)
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result);
     std::string info;
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     llvm::raw_string_ostream output (info);
     result->print (output, nullptr);
     ASSERT_EQ (std::string (generate_if_value_expected), info);
+}
+
+TEST (llvm_generator, test_if_join)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> predicates1;
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, &parameter1, predicates1);
+    mu::llvmc::skeleton::branch branch1 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer1 (1, 0);
+    mu::llvmc::skeleton::switch_element element1 (&branch1, &instruction1, &integer1);
+    mu::llvmc::skeleton::branch branch2 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer2 (1, 1);
+    mu::llvmc::skeleton::switch_element element2 (&branch2, &instruction1, &integer2);
+    mu::vector <mu::llvmc::skeleton::value *> arguments1;
+    arguments1.push_back (&element1);
+    arguments1.push_back (&element2);
+    mu::llvmc::skeleton::join_value join1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::unit_type unit;
+    mu::llvmc::skeleton::result result1 (&unit, &join1);
+    function1.results.push_back (&result1);
+    module.functions.push_back (&function1);
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result);
+    std::string info;
+    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    llvm::raw_string_ostream output (info);
+    result->print (output, nullptr);
+    ASSERT_EQ (std::string (generate_if_value_expected), info);
+
 }

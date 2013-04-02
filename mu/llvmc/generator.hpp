@@ -4,7 +4,7 @@
 
 #include <llvm/LLVMContext.h>
 
-#include <vector>
+#include <boost/dynamic_bitset.hpp>
 
 namespace llvm
 {
@@ -53,6 +53,7 @@ namespace mu
         {
         public:
             virtual void terminate (llvm::BasicBlock * block_a) = 0;
+            virtual bool is_exit ();
             mu::set <mu::llvmc::branch *> successors;
         };
         class generate_function;
@@ -61,7 +62,14 @@ namespace mu
         public:
             terminator_return (mu::llvmc::generate_function & generator_a);
             void terminate (llvm::BasicBlock * block_a) override;
+            bool is_exit () override;
             mu::llvmc::generate_function & generator;
+        };
+        class terminator_jump : public terminator
+        {
+        public:
+            void terminate (llvm::BasicBlock * block_a) override;
+            mu::llvmc::branch * branch;
         };
         class terminator_switch : public terminator
         {
@@ -79,8 +87,10 @@ namespace mu
         class branch
         {
         public:
+            branch (llvm::BasicBlock * block_a, mu::llvmc::terminator * terminator_a);
             branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a);
-            branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a, std::vector <bool> const & available_variables_a);
+            branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a, boost::dynamic_bitset <> const & available_variables_a);
+            void or_variables (mu::llvmc::branch * branch_a);
             llvm::BasicBlock * block;
             size_t order;
             mu::llvmc::branch * next_branch;
@@ -89,7 +99,7 @@ namespace mu
             std::vector <llvm::Instruction *> instructions;
             mu::set <mu::llvmc::branch *> predecessors;
             mu::set <mu::llvmc::branch *> successors;
-            std::vector <bool> available_variables;
+            boost::dynamic_bitset <> available_variables;
         };
         class value_data
         {
@@ -118,6 +128,10 @@ namespace mu
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::branch * find_join_branch (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+            mu::llvmc::branch * find_meeting_branch (mu::llvmc::branch * current_branch, mu::llvmc::branch * other_a, size_t bit_index);
+            mu::llvmc::branch * generate_join_branch (mu::llvmc::branch * predecessor, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+            mu::llvmc::branch * set_exit_terminator_to_new (mu::llvmc::branch * branch, mu::llvmc::terminator * terminator_a, mu::llvmc::branch * target);
             mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, mu::llvmc::branch * branch_a, llvm::Value * val_a);
             void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
             mu::vector <mu::llvmc::branch *> generate_branch (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::switch_element *> const & elements_a);
