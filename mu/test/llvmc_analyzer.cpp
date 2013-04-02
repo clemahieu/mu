@@ -3,6 +3,7 @@
 #include <mu/llvmc/analyzer.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/core/error.hpp>
 
 TEST (llvmc_analyzer, empty)
 {
@@ -112,6 +113,27 @@ TEST (llvmc_analyzer, error_indistinct_result_branches)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
+}
+
+TEST (llvmc_analyzer, error_expression_cycle)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::unit_type type1;
+    mu::llvmc::ast::value type2 (&type1);
+    mu::llvmc::ast::definite_expression expression1;
+    expression1.arguments.push_back (&expression1);
+    function.results.push_back (decltype (function.results)::value_type ());
+    auto & results1 (function.results [0]);
+    mu::llvmc::ast::result result1 (&type2);
+    result1.value = &expression1;
+    results1.push_back (&result1);
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+    ASSERT_EQ (mu::core::error_type::cycle_in_expressions, result.error->type ());
 }
 
 TEST (llvmc_analyzer, if_instruction)
@@ -267,7 +289,7 @@ TEST (llvmc_analyzer, error_short_join)
     mu::llvmc::skeleton::join join1;
     mu::llvmc::ast::value value2 (&join1);
     expression1.arguments.push_back (&value2);
-    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
     function.results.push_back (decltype (function.results)::value_type ());
     auto & results1 (function.results [0]);
     mu::llvmc::ast::result result1 (&value1);
@@ -276,6 +298,7 @@ TEST (llvmc_analyzer, error_short_join)
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (mu::core::error_type::must_be_joining_at_least_two_values, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_join_different_type)

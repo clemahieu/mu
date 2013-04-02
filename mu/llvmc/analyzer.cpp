@@ -249,6 +249,7 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
     auto existing (current_expression_generation.find (expression_a));
     if (existing == current_expression_generation.end ())
     {
+        current_expression_generation.insert (expression_a);
         if (!expression_a->arguments.empty ())
         {
             auto multi (process_node (expression_a->arguments [0]));
@@ -326,7 +327,6 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
     mu::vector <mu::llvmc::skeleton::node *> predicates;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
     process_call_values (expression_a, arguments, predicates, most_specific_branch);
-    current_expression_generation.insert (expression_a);
     auto result (false);
     auto target (static_cast <mu::llvmc::skeleton::value *> (arguments [0]));
     auto type_l (target->type ());
@@ -417,7 +417,7 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 {
     mu::vector <mu::llvmc::skeleton::value *> arguments;
     mu::vector <mu::llvmc::skeleton::value *> predicates;
-    for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
+    for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
     {
         auto multi (process_node (*i));
         if (result_m.error == nullptr)
@@ -471,7 +471,6 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
     for (auto i (arguments.begin ()), j (arguments.end ()); i != j && result_m.error == nullptr; ++i)
     {
         auto value (*i);
-        arguments.push_back (value);
         auto existing_marked (marked_branches.find (value->branch));
         if (existing_marked == marked_branches.end ())
         {
@@ -600,7 +599,6 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
     mu::vector <mu::llvmc::skeleton::node *> predicates;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
     process_call_values (expression_a, arguments, predicates, most_specific_branch);
-    current_expression_generation.insert (expression_a);
     auto marker (static_cast <mu::llvmc::skeleton::marker *> (arguments [0]));
     auto result (false);
     switch (marker->type)
