@@ -310,14 +310,38 @@ TEST (llvmc_analyzer, error_join_different_type)
     mu::llvmc::ast::value value1 (&type1);
     mu::llvmc::ast::parameter parameter1 (&value1);
     function.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::integer_type type2 (1);
+    mu::llvmc::ast::value value2 (&type2);
+    mu::llvmc::ast::parameter parameter2 (&value2);
+    function.parameters.push_back (&parameter2);
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value value4 (&marker1);
+    mu::llvmc::ast::definite_expression expression2;
+    expression2.arguments.push_back (&value4);
+    expression2.arguments.push_back (&parameter2);
+    mu::llvmc::ast::element element1 (&expression2, 0, 2);
+    mu::llvmc::ast::element element2 (&expression2, 1, 2);
+    mu::llvmc::ast::definite_expression expression3;
+    mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::add);
+    mu::llvmc::ast::value value5 (&marker2);
+    expression3.arguments.push_back (&value5);
+    expression3.arguments.push_back (&element2);
+    expression3.arguments.push_back (&parameter1);
+    expression3.arguments.push_back (&parameter1);
+    
+    mu::llvmc::ast::definite_expression expression4;
+    expression4.arguments.push_back (&value5);
+    expression4.arguments.push_back (&element1);
+    expression4.arguments.push_back (&parameter2);
+    expression4.arguments.push_back (&parameter2);
+        
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value2 (&join1);
-    expression1.arguments.push_back (&value2);
-    expression1.arguments.push_back (&value1);
-    mu::llvmc::skeleton::integer_type type2 (1);
-    mu::llvmc::ast::value value3 (&type2);
+    mu::llvmc::ast::value value3 (&join1);
     expression1.arguments.push_back (&value3);
+    expression1.arguments.push_back (&expression3);
+    expression1.arguments.push_back (&expression4);
+    
     function.results.push_back (decltype (function.results)::value_type ());
     auto & results1 (function.results [0]);
     mu::llvmc::ast::result result1 (&value1);
@@ -326,6 +350,7 @@ TEST (llvmc_analyzer, error_join_different_type)
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (mu::core::error_type::joining_types_are_different, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_same_branch)

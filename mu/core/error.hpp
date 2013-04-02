@@ -77,6 +77,7 @@ namespace mu
         public:
             virtual ~error ();
             virtual void output (std::ostream & out) = 0;
+            std::string string ();
             virtual mu::core::error_type type () = 0;
         };
     }
