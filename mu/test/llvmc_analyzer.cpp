@@ -372,9 +372,9 @@ TEST (llvmc_analyzer, error_same_branch)
     mu::llvmc::ast::element element2 (&expression1, 1, 2);
     
     mu::llvmc::ast::definite_expression expression2;
-    expression1.arguments.push_back (&value2);
-    expression1.arguments.push_back (&element1);
-    expression1.arguments.push_back (&parameter1);
+    expression2.arguments.push_back (&value2);
+    expression2.arguments.push_back (&element1);
+    expression2.arguments.push_back (&parameter1);
     mu::llvmc::ast::element element3 (&expression2, 0, 2);
     mu::llvmc::ast::element element4 (&expression2, 1, 2);
     
@@ -409,6 +409,7 @@ TEST (llvmc_analyzer, error_same_branch)
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_same_branch2)
@@ -430,9 +431,9 @@ TEST (llvmc_analyzer, error_same_branch2)
     mu::llvmc::ast::element element2 (&expression1, 1, 2);
     
     mu::llvmc::ast::definite_expression expression2;
-    expression1.arguments.push_back (&value2);
-    expression1.arguments.push_back (&element1);
-    expression1.arguments.push_back (&parameter1);
+    expression2.arguments.push_back (&value2);
+    expression2.arguments.push_back (&element1);
+    expression2.arguments.push_back (&parameter1);
     mu::llvmc::ast::element element3 (&expression2, 0, 2);
     mu::llvmc::ast::element element4 (&expression2, 1, 2);
     
@@ -467,4 +468,5 @@ TEST (llvmc_analyzer, error_same_branch2)
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
