@@ -203,10 +203,9 @@ namespace mu
             class join_value : public mu::llvmc::skeleton::value
             {
             public:
-                join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a, mu::vector <mu::llvmc::skeleton::value *> const & predicates_a);
+                join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
-                mu::vector <mu::llvmc::skeleton::value *> predicates;
             };
             class module
             {

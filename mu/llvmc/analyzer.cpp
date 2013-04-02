@@ -416,7 +416,6 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expression * expression_a)
 {
     mu::vector <mu::llvmc::skeleton::value *> arguments;
-    mu::vector <mu::llvmc::skeleton::value *> predicates;
     for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
     {
         auto multi (process_node (*i));
@@ -430,14 +429,7 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
                     if (value != nullptr)
                     {
-                        if (!value->type ()->is_bottom_type ())
-                        {
-                            arguments.push_back (value);
-                        }
-                        else
-                        {
-                            predicates.push_back (value);
-                        }
+                        arguments.push_back (value);
                     }
                     else
                     {
@@ -450,14 +442,7 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
                 auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [*i]));
                 if (value != nullptr)
                 {
-                    if (!value->type ()->is_bottom_type ())
-                    {
-                        arguments.push_back (value);
-                    }
-                    else
-                    {
-                        predicates.push_back (value);
-                    }
+                    arguments.push_back (value);
                 }
                 else
                 {
@@ -502,16 +487,27 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
             for (auto i (arguments.begin () + 1), j (arguments.end ()); i != j; ++i)
             {
                 least_specific_branch = least_specific_branch->least_specific ((*i)->branch);
-                if (*type != *(*i)->type ())
+                auto other_type ((*i)->type ());
+                if (type->is_bottom_type ())
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
+                    type = other_type;
+                }
+                else
+                {
+                    if (!other_type->is_bottom_type ())
+                    {
+                        if (*type != *(*i)->type ())
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
+                        }
+                    }
                 }
             }
             if (result_m.error == nullptr)
             {
                 auto parent (least_specific_branch->parent);
                 assert (parent != module.module->global);
-                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::join_value (parent, predicates, arguments);
+                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::join_value (parent, arguments);
             }
         }
         else

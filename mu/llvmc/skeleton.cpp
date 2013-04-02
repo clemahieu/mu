@@ -71,10 +71,9 @@ predicates (predicates_a)
 {
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a, mu::vector <mu::llvmc::skeleton::value *> const & predicates_a) :
+mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
 value (branch_a),
-arguments (arguments_a),
-predicates (predicates_a)
+arguments (arguments_a)
 {
 }
 
