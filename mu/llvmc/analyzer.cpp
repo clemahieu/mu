@@ -487,20 +487,9 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
             for (auto i (arguments.begin () + 1), j (arguments.end ()); i != j; ++i)
             {
                 least_specific_branch = least_specific_branch->least_specific ((*i)->branch);
-                auto other_type ((*i)->type ());
-                if (type->is_bottom_type ())
+                if (*type != *(*i)->type ())
                 {
-                    type = other_type;
-                }
-                else
-                {
-                    if (!other_type->is_bottom_type ())
-                    {
-                        if (*type != *(*i)->type ())
-                        {
-                            result_m.error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
-                        }
-                    }
+                    result_m.error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
                 }
             }
             if (result_m.error == nullptr)
