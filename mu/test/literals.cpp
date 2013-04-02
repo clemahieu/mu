@@ -60,3 +60,48 @@ define %0 @0(i1) {
   ret %0 %8
 }
 )%%%";
+
+extern char const * const generate_if_join_expected = R"%%%(
+define void @0(i1) {
+  switch i1 %0, label %2 [
+    i1 false, label %3
+    i1 true, label %4
+  ]
+
+; <label>:2                                       ; preds = %1
+  unreachable
+
+; <label>:3                                       ; preds = %1
+  br label %5
+
+; <label>:4                                       ; preds = %1
+  br label %5
+
+; <label>:5                                       ; preds = %3, %4
+  ret void
+}
+)%%%";
+
+extern char const * const generate_if_join_value_expected = R"%%%(
+define i1 @0(i1) {
+  switch i1 %0, label %2 [
+    i1 false, label %3
+    i1 true, label %5
+  ]
+
+; <label>:2                                       ; preds = %1
+  unreachable
+
+; <label>:3                                       ; preds = %1
+  %4 = add i1 %0, %0
+  br label %7
+
+; <label>:5                                       ; preds = %1
+  %6 = add i1 %0, %0
+  br label %7
+
+; <label>:7                                       ; preds = %3, %5
+  %8 = phi i1 [ %4, %3 ], [ %6, %5 ]
+  ret i1 %8
+}
+)%%%";

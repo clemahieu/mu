@@ -87,7 +87,7 @@ namespace mu
         class branch
         {
         public:
-            branch (llvm::BasicBlock * block_a, mu::llvmc::terminator * terminator_a);
+            branch (llvm::BasicBlock * block_a, mu::llvmc::terminator * terminator_a, boost::dynamic_bitset <> const & available_variables_a);
             branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a);
             branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a, boost::dynamic_bitset <> const & available_variables_a);
             void or_variables (mu::llvmc::branch * branch_a);
