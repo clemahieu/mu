@@ -107,10 +107,12 @@ define i1 @0(i1) {
 )%%%";
 
 extern char const * const generate_if_join_2value_expected = R"%%%(
-define i1 @0(i1) {
+%0 = type { i1, i1 }
+
+define %0 @0(i1) {
   switch i1 %0, label %2 [
     i1 false, label %3
-    i1 true, label %5
+    i1 true, label %6
   ]
 
 ; <label>:2                                       ; preds = %1
@@ -118,14 +120,19 @@ define i1 @0(i1) {
 
 ; <label>:3                                       ; preds = %1
   %4 = add i1 %0, %0
-  br label %7
+  %5 = add i1 %0, %0
+  br label %9
 
-; <label>:5                                       ; preds = %1
-  %6 = add i1 %0, %0
-  br label %7
+; <label>:6                                       ; preds = %1
+  %7 = add i1 %0, %0
+  %8 = add i1 %0, %0
+  br label %9
 
-; <label>:7                                       ; preds = %3, %5
-  %8 = phi i1 [ %4, %3 ], [ %6, %5 ]
-  ret i1 %8
+; <label>:9                                       ; preds = %3, %6
+  %10 = phi i1 [ %4, %3 ], [ %7, %6 ]
+  %11 = phi i1 [ %5, %3 ], [ %8, %6 ]
+  %12 = insertvalue %0 undef, i1 %10, 0
+  %13 = insertvalue %0 %12, i1 %11, 1
+  ret %0 %13
 }
 )%%%";

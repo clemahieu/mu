@@ -393,5 +393,5 @@ TEST (llvm_generator, generate_if_join_2value)
     llvm::raw_string_ostream output (info);
     result->print (output, nullptr);
     ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_if_join_value_expected), info);
+    ASSERT_EQ (std::string (generate_if_join_2value_expected), info);
 }
