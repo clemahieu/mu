@@ -87,8 +87,8 @@ namespace mu
         class block
         {
         public:
-            block (size_t order_a, llvm::TerminatorInst * terminator_a);
-            block (size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a);
+            block (mu::vector <mu::llvmc::block *> & blocks_a, size_t order_a, llvm::LLVMContext & context_a);
+            block (mu::vector <mu::llvmc::block *> & blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a);
             mu::llvmc::block * greatest (mu::llvmc::block * other);
             mu::llvmc::block * least (mu::llvmc::block * other);
             mu::llvmc::branch * branch;
@@ -140,6 +140,7 @@ namespace mu
             llvm::Function * function_m;
             mu::llvmc::branch * body;
             llvm::BasicBlock * unreachable;
+            mu::vector <mu::llvmc::block *> blocks;
             mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data *> already_generated;
             mu::llvmc::skeleton::function * function;
             function_return_type function_return_type;

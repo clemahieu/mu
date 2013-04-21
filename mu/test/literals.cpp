@@ -1,3 +1,14 @@
+extern char const * const generate_empty_expected = R"%%%(
+define void @0() {
+  br label %1
+
+; <label>:1                                       ; preds = %0
+  unreachable
+                                                  ; No predecessors!
+  unreachable
+}
+)%%%";
+
 extern char const * const generate_add_expected = R"%%%(
 define i1 @0(i1) {
   %2 = add i1 %0, %0

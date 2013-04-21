@@ -45,7 +45,7 @@ unreachable (llvm::BasicBlock::Create (module.target->getContext ())),
 function (function_a),
 function_return_type (get_return_type (function_a))
 {
-    auto entry_block (new (GC) mu::llvmc::block (0, nullptr));
+    auto entry_block (new (GC) mu::llvmc::block (blocks, 0, module.target->getContext ()));
     entry_block->instructions = llvm::BasicBlock::Create (module.target->getContext ());
     entry_block->phis = llvm::BasicBlock::Create (module.target->getContext ());
     auto entry_branch (new (GC) mu::llvmc::branch (entry_block, entry_block, nullptr, nullptr));
@@ -233,6 +233,10 @@ void mu::llvmc::generate_function::generate ()
         default:
             assert (false);
     }
+    for (auto i: blocks)
+    {
+        i->phis->getInstList ().push_back (llvm::BranchInst::Create (i->instructions));
+    }
 }
 
 std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
@@ -240,17 +244,26 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     assert (false);
 }
 
-mu::llvmc::block::block (size_t order_a, llvm::TerminatorInst * terminator_a) :
+mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & blocks_a, size_t order_a, llvm::LLVMContext & context_a) :
+branch (nullptr),
 order (order_a),
-terminator (terminator_a)
+terminator (nullptr),
+phis (llvm::BasicBlock::Create (context_a)),
+instructions (llvm::BasicBlock::Create (context_a))
 {
+    blocks_a.push_back (this);
 }
 
-mu::llvmc::block::block (size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a) :
+mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a) :
 branch (branch_a),
 order (order_a),
-terminator (terminator_a)
-{    
+terminator (terminator_a),
+phis (llvm::BasicBlock::Create (terminator_a->getContext ())),
+instructions (llvm::BasicBlock::Create (terminator_a->getContext ()))
+{
+    blocks_a.push_back (this);
+    function_a.getBasicBlockList ().push_back (phis);
+    function_a.getBasicBlockList ().push_back (instructions);
 }
 
 mu::llvmc::value_data * mu::llvmc::generate_function::pull_value (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * value_a)

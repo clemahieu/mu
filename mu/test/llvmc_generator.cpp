@@ -24,7 +24,12 @@ TEST (llvmc_generator, generate1)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_EQ (0, result->getFunctionList ().size ());
+    std::string info;
+    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
 }
+
+extern char const * const generate_empty_expected;
 
 TEST (llvmc_generator, generate_empty)
 {
@@ -38,6 +43,11 @@ TEST (llvmc_generator, generate_empty)
     llvm::Function * function2 (result->getFunctionList().begin ());
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
     ASSERT_TRUE (function2->getArgumentList ().empty ());
+    std::string info;
+    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result, info);
+    ASSERT_EQ (std::string (generate_empty_expected), info);
 }
 
 TEST (llvmc_generator, generate_parameter)
