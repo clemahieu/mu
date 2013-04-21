@@ -124,10 +124,9 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
     ASSERT_EQ (std::string (generate_add_expected), info);
 }
 

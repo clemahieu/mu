@@ -384,7 +384,7 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
 {
     assert (already_generated.find (value_a) == already_generated.end ());
     auto block (body->first);
-    llvm::Value * value;
+    llvm::Instruction * value;
     auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
     if (instruction != nullptr)
     {
@@ -453,6 +453,7 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
         }*/
         assert (false); // Implement joins
     }
+    block->instructions->getInstList ().push_back (value);
     auto result (new (GC) mu::llvmc::value_data ({block, value, nullptr}));
     already_generated [value_a] = result;
     return result;
@@ -460,7 +461,23 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
 
 mu::llvmc::block * mu::llvmc::block::greatest (mu::llvmc::block * other)
 {
-    
+    mu::llvmc::block * result;
+    if (branch == other->branch)
+    {
+        result = order > other->order ? this : other;
+        return result;
+    }
+    else
+    {
+        for (auto i (this); i != nullptr; i = i->branch->parent)
+        {
+            if (i->branch == other->branch)
+            {
+                return i;
+            }
+        }
+        return other;
+    }
 }
 
 mu::llvmc::block * mu::llvmc::block::least (mu::llvmc::block * other)
