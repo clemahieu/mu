@@ -15,6 +15,8 @@ namespace llvm
     class Value;
     class PHINode;
     class Instruction;
+    class ConstantInt;
+    class TerminatorInst;
 }
 namespace mu
 {
@@ -33,6 +35,7 @@ namespace mu
             class branch;
             class node;
             class switch_element;
+            class constant_integer;
         }
         class generator
         {
@@ -48,13 +51,13 @@ namespace mu
             mu::llvmc::skeleton::module * module;
             llvm::Module * target;
         };
-        class branch;
+        class block;
         class terminator
         {
         public:
             virtual void terminate (llvm::BasicBlock * block_a) = 0;
             virtual bool is_exit ();
-            mu::set <mu::llvmc::branch *> successors;
+            mu::vector <mu::llvmc::block *> successors;
         };
         class generate_function;
         class terminator_return : public terminator
@@ -65,6 +68,7 @@ namespace mu
             bool is_exit () override;
             mu::llvmc::generate_function & generator;
         };
+        class branch;
         class terminator_jump : public terminator
         {
         public:
@@ -80,32 +84,28 @@ namespace mu
             mu::llvmc::skeleton::value * predicate;
             mu::vector <mu::llvmc::skeleton::switch_element *> elements;
         };
-        class join
+        class block
         {
         public:
+            block (size_t order_a, llvm::TerminatorInst * terminator_a);
+            block (size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a);
+            mu::llvmc::block * greatest (mu::llvmc::block * other);
+            mu::llvmc::block * least (mu::llvmc::block * other);
+            mu::llvmc::branch * branch;
+            size_t order;
+            llvm::TerminatorInst * terminator;
+            mu::vector <mu::llvmc::block *> predecessors;
+            llvm::BasicBlock * phis;
+            llvm::BasicBlock * instructions;
         };
         class branch
         {
         public:
-            branch (llvm::BasicBlock * block_a, boost::dynamic_bitset <> const & available_variables_a);
-            branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a);
-            branch (llvm::BasicBlock * block_a, size_t order_a, mu::llvmc::branch * next_branch_a, mu::llvmc::terminator * terminator_a, boost::dynamic_bitset <> const & available_variables_a);
-            void or_variables (mu::llvmc::branch * branch_a);
-            llvm::BasicBlock * block;
-            size_t order;
-            mu::llvmc::branch * next_branch;
-            mu::llvmc::terminator * terminator;
-            std::vector <llvm::PHINode *> phi_nodes;
-            std::vector <llvm::Instruction *> instructions;
-            mu::set <mu::llvmc::branch *> predecessors;
-            boost::dynamic_bitset <> available_variables;
-        };
-        class value_data
-        {
-        public:
-            size_t bit_index;
-            llvm::Value * value;
-            mu::llvmc::branch * branch;
+            branch (mu::llvmc::block * first_a, mu::llvmc::block * last_a, mu::llvmc::block * parent_a, llvm::ConstantInt * test_a);
+            mu::llvmc::block * first;
+            mu::llvmc::block * last;
+            mu::llvmc::block * parent;
+            llvm::ConstantInt * test;
         };
         enum class function_return_type
         {
@@ -116,33 +116,30 @@ namespace mu
             bmv0, // Selector value
             bmvm // struct with selector
         };
+        class value_data
+        {
+        public:
+            mu::llvmc::block * block;
+            llvm::Value * value;
+            mu::llvmc::value_data * forward_value;
+        };
         class generate_function
         {
         public:
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
+            mu::llvmc::value_data * retrieve_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data * pull_value (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data * generate_value (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::value_data * generate_single (mu::llvmc::skeleton::value * value_a);
             function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
-            mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_local_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::branch * find_join_branch (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
-            mu::llvmc::branch * find_meeting_branch (mu::llvmc::branch * current_branch, mu::llvmc::branch * other_a, size_t bit_index);
-            mu::llvmc::branch * generate_join_branch (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
-            void set_exit_terminator_to_new (mu::llvmc::branch * branch, mu::llvmc::terminator * terminator_a, mu::llvmc::branch * target, mu::llvmc::branch * & maximum_a, mu::llvmc::terminator * & maximum_terminator_a);
-            mu::llvmc::value_data insert_value (mu::llvmc::skeleton::value * value_a, mu::llvmc::branch * branch_a, llvm::Value * val_a);
-            void set_bit_and_successors (size_t bit_a, mu::llvmc::branch * branch_a);
-            mu::vector <mu::llvmc::branch *> generate_branch (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::switch_element *> const & elements_a);
             mu::llvmc::generate_module & module;
-            mu::llvmc::branch * entry;
             llvm::Function * function_m;
+            mu::llvmc::branch * body;
             llvm::BasicBlock * unreachable;
-            size_t terminating_branch;
-            mu::map <mu::llvmc::skeleton::branch *, mu::llvmc::branch *> branches;
-            mu::map <mu::llvmc::skeleton::value *, value_data> already_generated;
+            mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data *> already_generated;
             mu::llvmc::skeleton::function * function;
-            std::vector <size_t> branch_offsets;
             function_return_type function_return_type;
         };
     }
