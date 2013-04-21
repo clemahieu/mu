@@ -134,7 +134,7 @@ namespace mu
             mu::llvmc::value_data * pull_value (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_single (mu::llvmc::skeleton::value * value_a);
-            llvm::Value * generate_result_set (std::vector <llvm::Value *> const & undef_a);
+            std::vector <llvm::Value *> generate_result_set ();
             function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::generate_module & module;
             llvm::Function * function_m;

@@ -54,6 +54,7 @@ function_return_type (get_return_type (function_a))
     entry_branch->parent = nullptr;
     entry_branch->test = nullptr;
     entry_block->branch = entry_branch;
+    body = entry_branch;
     unreachable->getInstList ().push_back (new llvm::UnreachableInst (module.target->getContext ()));
 }
 
@@ -210,16 +211,14 @@ void mu::llvmc::generate_function::generate ()
             break;
         case mu::llvmc::function_return_type::bmv0:
         {
-            std::vector <llvm::Value *> results;
-            generate_result_set (results);
+            auto results (generate_result_set ());
             assert (results.size () == 1);
             result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
         }
             break;
         case mu::llvmc::function_return_type::bmvm:
         {
-            std::vector <llvm::Value *> results;
-            generate_result_set (results);
+            auto results (generate_result_set ());
             assert (results.size () > 1);
             llvm::Value * result (llvm::UndefValue::get (function_type));
             unsigned int index (0);
@@ -236,7 +235,7 @@ void mu::llvmc::generate_function::generate ()
     }
 }
 
-llvm::Value * mu::llvmc::generate_function::generate_result_set (std::vector <llvm::Value *> const & undef_a)
+std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
 {
     assert (false);
 }
