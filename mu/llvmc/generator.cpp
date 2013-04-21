@@ -168,104 +168,77 @@ void mu::llvmc::generate_function::generate ()
     module.target->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
     module.functions [function] = function_l;
-    if (function->results.empty ())
-    {
-        function_l->addFnAttr (llvm::Attributes::NoReturn);
-    }
-    for (auto i: function->results)
-    {
-        auto value_l (pull_value (body, i->value));
-    }
-    assert (false); // Execute terminators, return
-}
-
-mu::llvmc::terminator_return::terminator_return (mu::llvmc::generate_function & generator_a) :
-generator (generator_a)
-{
-}
-
-void mu::llvmc::terminator_return::terminate (llvm::BasicBlock * block_a)
-{
-    /*auto index_l (generator.terminating_branch);
-    generator.terminating_branch = index_l + 1;
-    switch (generator.function_return_type)
+    auto result_block (body->last->instructions);
+    switch (function_return_type)
     {
         case mu::llvmc::function_return_type::b0:
-            block_a->getInstList ().push_back (new llvm::UnreachableInst (block_a->getContext()));
+            result_block->getInstList ().push_back (new llvm::UnreachableInst (function_l->getContext ()));
             break;
         case mu::llvmc::function_return_type::b1v0:
-            block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext ()));
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
             break;
         case mu::llvmc::function_return_type::b1v1:
         {
-            auto value_l (generator.already_generated [generator.function->results [0]->value]);
-            block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext (), value_l.value));
-            break;
+            assert (function->branch_offsets.size () == 1);
+            assert (function->branch_offsets [0] == 0);
+            assert (function->results.size () == 1);
+            auto result (retrieve_value (function->results [0]->value));
+            assert (result->block->branch == body);
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result->value));
         }
+            break;
         case mu::llvmc::function_return_type::b1vm:
         {
-            auto result_type (generator.function_m->getReturnType ());
-            llvm::Value * result_value (llvm::UndefValue::get (result_type));
+            assert (function->branch_offsets.size () == 1);
+            assert (function->branch_offsets [0] == 0);
+            llvm::Value * result (llvm::UndefValue::get (function_type->getReturnType ()));
+            unsigned index (0);
+            for (auto i: function->results)
             {
-                auto k (generator.function->branch_offsets [index_l]);
-                for (auto i (generator.function->branch_begin (index_l)), j (generator.function->branch_end (index_l)); i != j; ++i, ++k)
+                auto result_value (retrieve_value (i->value));
+                if (result_value->value != nullptr)
                 {
-                    assert (generator.already_generated.find ((*i)->value) != generator.already_generated.end ());
-                    auto value (*i);
-                    if (!value->type->is_bottom_type ())
-                    {
-                        auto generated (generator.already_generated [(*i)->value].value);
-                        auto inst (llvm::InsertValueInst::Create (result_value, generated, llvm::ArrayRef <unsigned> (k)));
-                        block_a->getInstList ().push_back (inst);
-                        result_value = inst;
-                    }
+                    assert (result_value->block->branch == body);
+                    auto insert = llvm::InsertValueInst::Create (result, result_value->value, llvm::ArrayRef <unsigned> (index));
+                    result_block->getInstList ().push_back (insert);
+                    result = insert;
+                    ++index;
                 }
             }
-            block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext (), result_value));
-            break;
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
         }
+            break;
         case mu::llvmc::function_return_type::bmv0:
         {
-            assert (generator.function->branch_offsets.size () > index_l);
-            auto selector (llvm::ConstantInt::get (llvm::Type::getInt8Ty (generator.function_m->getContext ()), index_l));
-            block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext (), selector));
-            break;
+            std::vector <llvm::Value *> results;
+            generate_result_set (results);
+            assert (results.size () == 1);
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
         }
+            break;
         case mu::llvmc::function_return_type::bmvm:
         {
-            assert (generator.function->branch_offsets.size () > index_l);
-            auto selector (llvm::ConstantInt::get (llvm::Type::getInt8Ty (generator.function_m->getContext ()), index_l));
-            auto result_type (llvm::cast <llvm::StructType> (generator.function_m->getReturnType ()));
-            llvm::Value * result_value (llvm::UndefValue::get (result_type));
+            std::vector <llvm::Value *> results;
+            generate_result_set (results);
+            assert (results.size () > 1);
+            llvm::Value * result (llvm::UndefValue::get (function_type));
+            unsigned int index (0);
+            for (auto i: results)
             {
-                auto k (generator.branch_offsets [index_l]);
-                for (auto i (generator.function->branch_begin (index_l)), j (generator.function->branch_end (index_l)); i != j; ++i)
-                {
-                    assert (generator.already_generated.find ((*i)->value) != generator.already_generated.end ());
-                    auto value (*i);
-                    if (!value->type->is_bottom_type ())
-                    {
-                        auto generated (generator.already_generated [(*i)->value].value);
-                        auto type1 (result_type->getTypeAtIndex (k));
-                        auto type2 (generated->getType ());
-                        assert (type1 == type2);
-                        auto inst (llvm::InsertValueInst::Create (result_value, generated, llvm::ArrayRef <unsigned> (k)));
-                        block_a->getInstList ().push_back (inst);
-                        result_value = inst;
-                        ++k;
-                    }
-                }
+                result = llvm::InsertValueInst::Create (result, i, llvm::ArrayRef <unsigned int> (0));
+                ++index;
             }
-            auto inst (llvm::InsertValueInst::Create (result_value, selector, llvm::ArrayRef <unsigned> (llvm::cast <llvm::StructType> (result_type)->getNumElements () - 1)));
-            block_a->getInstList ().push_back (inst);
-            result_value = inst;
-            block_a->getInstList ().push_back (llvm::ReturnInst::Create (block_a->getContext (), result_value));
-            break;
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
         }
+            break;
         default:
             assert (false);
-            break;
-    }*/
+    }
+}
+
+llvm::Value * mu::llvmc::generate_function::generate_result_set (std::vector <llvm::Value *> const & undef_a)
+{
+    assert (false);
 }
 
 mu::llvmc::block::block (size_t order_a, llvm::TerminatorInst * terminator_a) :
