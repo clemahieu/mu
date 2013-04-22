@@ -11,8 +11,11 @@ define void @0() {
 
 extern char const * const generate_add_expected = R"%%%(
 define i1 @0(i1) {
-  %2 = add i1 %0, %0
-  ret i1 %2
+  br label %2
+
+; <label>:2                                       ; preds = %1
+  %3 = add i1 %0, %0
+  ret i1 %3
                                                   ; No predecessors!
   unreachable
 }
@@ -22,9 +25,12 @@ extern char const * const generate_two_return_expected = R"%%%(
 %0 = type { i1, i1 }
 
 define %0 @0(i1) {
-  %2 = insertvalue %0 undef, i1 %0, 0
-  %3 = insertvalue %0 %2, i1 %0, 1
-  ret %0 %3
+  br label %2
+
+; <label>:2                                       ; preds = %1
+  %3 = insertvalue %0 undef, i1 %0, 0
+  %4 = insertvalue %0 %3, i1 %0, 1
+  ret %0 %4
                                                   ; No predecessors!
   unreachable
 }

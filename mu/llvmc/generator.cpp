@@ -176,16 +176,23 @@ void mu::llvmc::generate_function::generate ()
             result_block->getInstList ().push_back (new llvm::UnreachableInst (function_l->getContext ()));
             break;
         case mu::llvmc::function_return_type::b1v0:
+            for (auto i: function->results)
+            {
+                auto result (retrieve_value (i->value));
+                assert (i->type->is_bottom_type ());
+            }
             result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
             break;
         case mu::llvmc::function_return_type::b1v1:
         {
-            assert (function->branch_offsets.size () == 1);
-            assert (function->branch_offsets [0] == 0);
-            assert (function->results.size () == 1);
-            auto result (retrieve_value (function->results [0]->value));
-            assert (result->block->branch == body);
-            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result->value));
+            llvm::Value * the_value (nullptr);
+            for (auto i: function->results)
+            {
+                auto result (retrieve_value (i->value));
+                assert (the_value == nullptr || i->type->is_bottom_type ());
+                the_value = i->type->is_bottom_type () ? the_value : result->value;
+            }
+            result_block->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
         }
             break;
         case mu::llvmc::function_return_type::b1vm:
@@ -241,7 +248,37 @@ void mu::llvmc::generate_function::generate ()
 
 std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
 {
-    assert (false);
+    std::vector <llvm::Value *> result;
+    auto exit_block (body->last->instructions);
+    llvm::Value * selector (llvm::UndefValue::get (llvm::Type::getInt8Ty (function_m->getContext ())));
+    auto first_branch (function->branch_offsets.begin ());
+    auto last_branch (function->branch_offsets.end ());
+    size_t j (0);
+    uint8_t selector_number (0);
+    size_t k (first_branch == last_branch ? ~0 : *(++first_branch));
+    auto most_specific_block (body->first);
+    for (auto i: function->results)
+    {
+        auto result_l (retrieve_value (i->value));
+        most_specific_block = most_specific_block->greatest (result_l->block);
+        auto pulled (pull_value (body, i->value));
+        result.push_back (pulled->value);
+        ++j;
+        if (j == k)
+        {
+            assert (most_specific_block->branch != body);
+            auto exit_condition (llvm::cast <llvm::SwitchInst> (most_specific_block->branch->parent->terminator)->getCondition ());
+            auto condition (new llvm::ICmpInst (llvm::CmpInst::ICMP_EQ, exit_condition, most_specific_block->branch->test));
+            exit_block->getInstList ().push_back (condition);
+            auto instruction (llvm::SelectInst::Create (condition, llvm::ConstantInt::get (llvm::Type::getInt8Ty (function_m->getContext ()), selector_number), selector));
+            exit_block->getInstList ().push_back (instruction);
+            selector = instruction;
+            ++selector_number;
+            most_specific_block = body->first;
+            k = first_branch == last_branch ? ~0 : *(++first_branch);
+        }
+    }
+    result.push_back (selector);
 }
 
 mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & blocks_a, size_t order_a, llvm::LLVMContext & context_a) :
