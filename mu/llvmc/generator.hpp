@@ -135,6 +135,7 @@ namespace mu
             mu::llvmc::value_data * pull_value (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_single (mu::llvmc::skeleton::value * value_a);
+            void write_selector (llvm::LLVMContext & context, mu::llvmc::block * & most_specific_block, llvm::Value * & selector, uint8_t selector_number);
             mu::llvmc::block * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & predicates_a);
             std::vector <llvm::Value *> generate_result_set ();
             function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);

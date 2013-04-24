@@ -269,28 +269,34 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
         ++j;
         if (j == k)
         {
-            auto exit_block (body->last->instructions);
-            assert (most_specific_block->branch != body);
-            auto exit_condition (llvm::cast <llvm::SwitchInst> (most_specific_block->branch->parent->terminator)->getCondition ());
-            llvm::Value * condition (llvm::ConstantInt::get (llvm::Type::getInt1Ty (context), 1));
-            for (auto condition_branch (most_specific_block->branch); condition_branch != body; condition_branch = condition_branch->parent->branch)
-            {
-                auto instruction1 (new llvm::ICmpInst (llvm::CmpInst::ICMP_EQ, exit_condition, most_specific_block->branch->test));
-                exit_block->getInstList ().push_back (instruction1);
-                auto instruction2 (llvm::BinaryOperator::CreateAnd (condition, instruction1));
-                exit_block->getInstList ().push_back (instruction2);
-                condition = instruction2;
-            }
-            auto instruction (llvm::SelectInst::Create (condition, llvm::ConstantInt::get (llvm::Type::getInt8Ty (function_m->getContext ()), selector_number), selector));
-            exit_block->getInstList ().push_back (instruction);
-            selector = instruction;
+            write_selector (context, most_specific_block, selector, selector_number);
             ++selector_number;
-            most_specific_block = body->first;
             k = first_branch == last_branch ? ~0 : *(++first_branch);
         }
     }
+    write_selector (context, most_specific_block, selector, selector_number);
     result.push_back (selector);
     return result;
+}
+
+void mu::llvmc::generate_function::write_selector (llvm::LLVMContext & context, mu::llvmc::block * & most_specific_block, llvm::Value * & selector, uint8_t selector_number)
+{
+    auto exit_block (body->last->instructions);
+    assert (most_specific_block->branch != body);
+    auto exit_condition (llvm::cast <llvm::SwitchInst> (most_specific_block->branch->parent->terminator)->getCondition ());
+    llvm::Value * condition (llvm::ConstantInt::get (llvm::Type::getInt1Ty (context), 1));
+    for (auto condition_branch (most_specific_block->branch); condition_branch != body; condition_branch = condition_branch->parent->branch)
+    {
+        auto instruction1 (new llvm::ICmpInst (llvm::CmpInst::ICMP_EQ, exit_condition, most_specific_block->branch->test));
+        exit_block->getInstList ().push_back (instruction1);
+        auto instruction2 (llvm::BinaryOperator::CreateAnd (condition, instruction1));
+        exit_block->getInstList ().push_back (instruction2);
+        condition = instruction2;
+    }
+    auto instruction (llvm::SelectInst::Create (condition, llvm::ConstantInt::get (llvm::Type::getInt8Ty (function_m->getContext ()), selector_number), selector));
+    exit_block->getInstList ().push_back (instruction);
+    selector = instruction;
+    most_specific_block = body->first;
 }
 
 mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & all_blocks_a, size_t order_a, llvm::LLVMContext & context_a) :

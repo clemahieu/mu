@@ -38,19 +38,40 @@ define %0 @0(i1) {
 
 extern char const * const generate_if_expected = R"%%%(
 define i8 @0(i1) {
-  switch i1 %0, label %2 [
-    i1 false, label %3
-    i1 true, label %4
-  ]
+  br label %2
 
 ; <label>:2                                       ; preds = %1
+  switch i1 %0, label %3 [
+    i1 false, label %12
+    i1 true, label %14
+  ]
+
+; <label>:3                                       ; preds = %2
   unreachable
 
-; <label>:3                                       ; preds = %1
-  ret i8 1
+; <label>:4                                       ; preds = %15, %13
+  br label %5
 
-; <label>:4                                       ; preds = %1
-  ret i8 0
+; <label>:5                                       ; preds = %4
+  %6 = icmp eq i1 %0, false
+  %7 = and i1 true, %6
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = icmp eq i1 %0, true
+  %10 = and i1 true, %9
+  %11 = select i1 %10, i8 1, i8 %8
+  ret i8 %11
+
+; <label>:12                                      ; preds = %2
+  br label %13
+
+; <label>:13                                      ; preds = %12
+  br label %4
+
+; <label>:14                                      ; preds = %2
+  br label %15
+
+; <label>:15                                      ; preds = %14
+  br label %4
 }
 )%%%";
 
