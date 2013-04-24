@@ -87,15 +87,16 @@ namespace mu
         class block
         {
         public:
-            block (mu::vector <mu::llvmc::block *> & blocks_a, size_t order_a, llvm::LLVMContext & context_a);
-            block (mu::vector <mu::llvmc::block *> & blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a);
+            block (mu::vector <mu::llvmc::block *> & all_blocks_a, size_t order_a, llvm::LLVMContext & context_a);
+            block (mu::vector <mu::llvmc::block *> & all_blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a);
             mu::llvmc::block * greatest (mu::llvmc::block * other);
             mu::llvmc::block * least (mu::llvmc::block * other);
+            void relink (mu::llvmc::block * new_block);
             mu::llvmc::branch * branch;
             size_t order;
             llvm::TerminatorInst * terminator;
-            mu::vector <mu::llvmc::block *> successors;
-            mu::vector <mu::llvmc::block *> predecessors;
+            mu::set <mu::llvmc::block *> successors;
+            mu::set <mu::llvmc::block *> predecessors;
             llvm::BasicBlock * phis;
             llvm::BasicBlock * instructions;
         };
@@ -134,13 +135,14 @@ namespace mu
             mu::llvmc::value_data * pull_value (mu::llvmc::branch * branch_a, mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data * generate_single (mu::llvmc::skeleton::value * value_a);
+            mu::llvmc::block * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & predicates_a);
             std::vector <llvm::Value *> generate_result_set ();
             function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::generate_module & module;
             llvm::Function * function_m;
             mu::llvmc::branch * body;
             llvm::BasicBlock * unreachable;
-            mu::vector <mu::llvmc::block *> blocks;
+            mu::vector <mu::llvmc::block *> all_blocks;
             mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data *> already_generated;
             mu::llvmc::skeleton::function * function;
             function_return_type function_return_type;

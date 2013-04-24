@@ -45,9 +45,7 @@ unreachable (llvm::BasicBlock::Create (module.target->getContext ())),
 function (function_a),
 function_return_type (get_return_type (function_a))
 {
-    auto entry_block (new (GC) mu::llvmc::block (blocks, 0, module.target->getContext ()));
-    entry_block->instructions = llvm::BasicBlock::Create (module.target->getContext ());
-    entry_block->phis = llvm::BasicBlock::Create (module.target->getContext ());
+    auto entry_block (new (GC) mu::llvmc::block (all_blocks, 0, module.target->getContext ()));
     auto entry_branch (new (GC) mu::llvmc::branch (entry_block, entry_block, nullptr, nullptr));
     entry_branch->first = entry_block;
     entry_branch->last = entry_block;
@@ -240,7 +238,7 @@ void mu::llvmc::generate_function::generate ()
         default:
             assert (false);
     }
-    for (auto i: blocks)
+    for (auto i: all_blocks)
     {
         i->phis->getInstList ().push_back (llvm::BranchInst::Create (i->instructions));
     }
@@ -249,8 +247,9 @@ void mu::llvmc::generate_function::generate ()
 std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
 {
     std::vector <llvm::Value *> result;
+    auto & context (function_m->getContext ());
     auto exit_block (body->last->instructions);
-    llvm::Value * selector (llvm::UndefValue::get (llvm::Type::getInt8Ty (function_m->getContext ())));
+    llvm::Value * selector (llvm::UndefValue::get (llvm::Type::getInt8Ty (context)));
     auto first_branch (function->branch_offsets.begin ());
     auto last_branch (function->branch_offsets.end ());
     size_t j (0);
@@ -268,8 +267,15 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
         {
             assert (most_specific_block->branch != body);
             auto exit_condition (llvm::cast <llvm::SwitchInst> (most_specific_block->branch->parent->terminator)->getCondition ());
-            auto condition (new llvm::ICmpInst (llvm::CmpInst::ICMP_EQ, exit_condition, most_specific_block->branch->test));
-            exit_block->getInstList ().push_back (condition);
+            llvm::Value * condition (llvm::ConstantInt::get (llvm::Type::getInt1Ty (context), 1));
+            for (auto condition_branch (most_specific_block->branch); condition_branch != body; condition_branch = condition_branch->parent->branch)
+            {
+                auto instruction1 (new llvm::ICmpInst (llvm::CmpInst::ICMP_EQ, exit_condition, most_specific_block->branch->test));
+                exit_block->getInstList ().push_back (instruction1);
+                auto instruction2 (llvm::BinaryOperator::CreateAnd (condition, instruction1));
+                exit_block->getInstList ().push_back (instruction2);
+                condition = instruction2;
+            }
             auto instruction (llvm::SelectInst::Create (condition, llvm::ConstantInt::get (llvm::Type::getInt8Ty (function_m->getContext ()), selector_number), selector));
             exit_block->getInstList ().push_back (instruction);
             selector = instruction;
@@ -279,26 +285,27 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
         }
     }
     result.push_back (selector);
+    return result;
 }
 
-mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & blocks_a, size_t order_a, llvm::LLVMContext & context_a) :
+mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & all_blocks_a, size_t order_a, llvm::LLVMContext & context_a) :
 branch (nullptr),
 order (order_a),
 terminator (nullptr),
 phis (llvm::BasicBlock::Create (context_a)),
 instructions (llvm::BasicBlock::Create (context_a))
 {
-    blocks_a.push_back (this);
+    all_blocks_a.push_back (this);
 }
 
-mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a) :
+mu::llvmc::block::block (mu::vector <mu::llvmc::block *> & all_blocks_a, llvm::Function & function_a, size_t order_a, llvm::TerminatorInst * terminator_a, mu::llvmc::branch * branch_a) :
 branch (branch_a),
 order (order_a),
 terminator (terminator_a),
 phis (llvm::BasicBlock::Create (terminator_a->getContext ())),
 instructions (llvm::BasicBlock::Create (terminator_a->getContext ()))
 {
-    blocks_a.push_back (this);
+    all_blocks_a.push_back (this);
     function_a.getBasicBlockList ().push_back (phis);
     function_a.getBasicBlockList ().push_back (instructions);
 }
@@ -385,28 +392,31 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_value (mu::llvmc:
         {
             auto element (dynamic_cast <mu::llvmc::skeleton::switch_element *> (value_a));
             if (element != nullptr)
-            {/*
-                auto branch (entry);
+            {
+                auto & context (function_m->getContext ());
+                auto block (process_predicates (element->source->predicates));
                 auto predicate (retrieve_value (element->source->predicate));
-                branch = branch->order < predicate.branch->order ? predicate.branch : branch;
+                block = block->greatest (predicate->block);
+                block = block->branch->last;
+                assert (block->successors.size () == 1);
+                auto landing (new (GC) mu::llvmc::block (all_blocks, block->order + 1, context));
+                block->relink (landing);
                 auto & elements (element->source->elements);
-                auto branches_l (generate_branch (branch, element->source->predicate, elements));
+                auto exit (llvm::SwitchInst::Create (predicate->value, unreachable, elements.size ()));
+                landing->terminator = block->terminator;
+                block->terminator = exit;
+                for (auto i: elements)
                 {
-                    assert (branches_l.size () == elements.size ());
-                    auto i (branches_l.begin ());
-                    auto j (branches_l.end ());
-                    for (auto k (elements.begin ()); i != j; ++i, ++k)
-                    {
-                        assert (*k != nullptr);
-                        assert (*i != nullptr);
-                        assert (branches [(*k)->branch] == *i);
-                        insert_value (*k, *i, nullptr);
-                    }
+                    auto condition (new (GC) mu::llvmc::block (all_blocks, 0, context));
+                    block->successors.insert (condition);
+                    condition->predecessors.insert (block);
+                    auto test (retrieve_value (i->value_m));
+                    auto test_int (llvm::cast <llvm::ConstantInt> (test->value));
+                    auto branch (new (GC) mu::llvmc::branch (landing, landing, block, test_int));
+                    condition->branch = branch;
+                    exit->addCase (test_int, condition->phis);
+                    condition->terminator = llvm::BranchInst::Create (block->phis);
                 }
-                assert (already_generated.find (value_a) != already_generated.end ());
-                result = already_generated [value_a];
-              */
-                assert (false); // No switch
             }
             else
             {
@@ -417,21 +427,38 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_value (mu::llvmc:
     return result;
 }
 
+void mu::llvmc::block::relink (mu::llvmc::block * new_block)
+{
+    for (auto i: successors)
+    {
+        auto erased (i->predecessors.erase (this));
+        assert (erased == 1);
+        i->predecessors.insert (new_block);
+    }
+    successors.swap (new_block->successors);
+}
+
+mu::llvmc::block * mu::llvmc::generate_function::process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & predicates_a)
+{
+    auto result (body->first);
+    for (auto i: predicates_a)
+    {
+        assert (dynamic_cast <mu::llvmc::skeleton::value *> (i) != nullptr);
+        auto predicate (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (i)));
+        result = result->greatest (predicate->block);
+    }
+    return result;
+}
+
 mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value * value_a)
 {
     assert (already_generated.find (value_a) == already_generated.end ());
-    auto block (body->first);
     llvm::Instruction * value;
+    mu::llvmc::block * block;
     auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
     if (instruction != nullptr)
     {
-        for (auto i: instruction->predicates)
-        {
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (i) != nullptr);
-            auto predicate (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (i)));
-            assert (predicate->value->getType ()->isVoidTy ());
-            block = block->greatest (predicate->block);
-        }
+        block = process_predicates (instruction->predicates);
         switch (instruction->type_m)
         {
             case mu::llvmc::instruction_type::add:
