@@ -219,7 +219,7 @@ TEST (llvmc_generator, generate_if_value)
     function1.branch_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result2 (&element2.type_m, &element2);
     function1.results.push_back (&result2);
-    mu::llvmc::skeleton::constant_integer integer4 (32, 4);
+    mu::llvmc::skeleton::constant_integer integer4 (32, 5);
     mu::llvmc::skeleton::result result4 (&type2, &integer4);
     function1.results.push_back (&result4);
     module.functions.push_back (&function1);

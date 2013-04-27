@@ -224,7 +224,7 @@ void mu::llvmc::generate_function::generate ()
         {
             auto results (generate_result_set ());
             assert (results.size () > 1);
-            llvm::Value * result (llvm::UndefValue::get (function_type));
+            llvm::Value * result (llvm::UndefValue::get (function_type->getReturnType ()));
             unsigned int index (0);
             for (auto i: results)
             {
@@ -326,7 +326,7 @@ mu::llvmc::value_data * mu::llvmc::generate_function::pull_value (mu::llvmc::bra
     auto result (retrieve_value (value_a));
     if (result->value != nullptr)
     {
-        while (result->block->branch != branch_a)
+        while (result->block != nullptr && result->block->branch != branch_a)
         {
             auto destination (result->block->branch->last);
             auto phi (llvm::PHINode::Create (result->value->getType (), destination->predecessors.size ()));
@@ -505,10 +505,24 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
         }
     }
     else
-    {/*
+    {
         auto join (dynamic_cast <mu::llvmc::skeleton::join_value *> (value_a));
         if (join != nullptr)
-        {
+        {/*
+            mu::llvmc::block * least_specific_block (nullptr);
+            assert (join->arguments.size () > 1);
+            for (auto i: join->arguments)
+            {
+                auto value (retrieve_value (i));
+                least_specific_block = value->block->least (least_specific_block);
+            }
+            llvm::Value * value (llvm::Undef)
+            for (auto i: join->arguments)
+            {
+                pull_value (least_specific_block->branch, i);
+            }
+            assert (least_specific_block != nullptr);
+            
             auto join_branch (find_join_branch (join->arguments));
             if (join_branch == nullptr)
             {
@@ -532,13 +546,13 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
             {
                 assert (join->arguments [0]->type ()->is_bottom_type ());
                 value = nullptr;
-            }
+            }*/
+            assert (false); // Implement joins
         }
         else
         {
             assert (false);
-        }*/
-        assert (false); // Implement joins
+        }
     }
     block->instructions->getInstList ().push_back (value);
     auto result (new (GC) mu::llvmc::value_data ({block, value, nullptr}));
@@ -548,22 +562,28 @@ mu::llvmc::value_data * mu::llvmc::generate_function::generate_single (mu::llvmc
 
 mu::llvmc::block * mu::llvmc::block::greatest (mu::llvmc::block * other)
 {
-    mu::llvmc::block * result;
-    if (branch == other->branch)
+    if (other != nullptr)
     {
-        result = order > other->order ? this : other;
-        return result;
+        if (branch == other->branch)
+        {
+            auto result (order > other->order ? this : other);
+            return result;
+        }
+        else
+        {
+            for (auto i (this); i != nullptr; i = i->branch->parent)
+            {
+                if (i->branch == other->branch)
+                {
+                    return i;
+                }
+            }
+            return other;
+        }
     }
     else
     {
-        for (auto i (this); i != nullptr; i = i->branch->parent)
-        {
-            if (i->branch == other->branch)
-            {
-                return i;
-            }
-        }
-        return other;
+        return this;
     }
 }
 

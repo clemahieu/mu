@@ -79,23 +79,43 @@ extern char const * const generate_if_value_expected = R"%%%(
 %0 = type { i32, i32, i8 }
 
 define %0 @0(i1) {
-  switch i1 %0, label %2 [
-    i1 false, label %3
-    i1 true, label %6
-  ]
+  br label %2
 
 ; <label>:2                                       ; preds = %1
+  switch i1 %0, label %3 [
+    i1 false, label %15
+    i1 true, label %17
+  ]
+
+; <label>:3                                       ; preds = %2
   unreachable
 
-; <label>:3                                       ; preds = %1
-  %4 = insertvalue %0 undef, i32 4, 1
-  %5 = insertvalue %0 %4, i8 1, 2
-  ret %0 %5
+; <label>:4                                       ; preds = %18, %16
+  br label %5
 
-; <label>:6                                       ; preds = %1
-  %7 = insertvalue %0 undef, i32 4, 0
-  %8 = insertvalue %0 %7, i8 0, 2
-  ret %0 %8
+; <label>:5                                       ; preds = %4
+  %6 = icmp eq i1 %0, false
+  %7 = and i1 true, %6
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = icmp eq i1 %0, true
+  %10 = and i1 true, %9
+  %11 = select i1 %10, i8 1, i8 %8
+  %12 = insertvalue %0 undef, i32 4, 0
+  %13 = insertvalue %0 %12, i32 5, 1
+  %14 = insertvalue %0 %13, i8 %11, 2
+  ret %0 %14
+
+; <label>:15                                      ; preds = %2
+  br label %16
+
+; <label>:16                                      ; preds = %15
+  br label %4
+
+; <label>:17                                      ; preds = %2
+  br label %18
+
+; <label>:18                                      ; preds = %17
+  br label %4
 }
 )%%%";
 
