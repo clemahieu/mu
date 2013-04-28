@@ -1,23 +1,22 @@
 extern char const * const generate_empty_expected = R"%%%(
 define void @0() {
-  br label %1
-
-; <label>:1                                       ; preds = %0
-  unreachable
-                                                  ; No predecessors!
   unreachable
 }
 )%%%";
 
 extern char const * const generate_add_expected = R"%%%(
 define i1 @0(i1) {
-  br label %2
+  %2 = and i1 true, true
+  %3 = and i1 %2, true
+  br i1 %3, label %4, label %6
 
-; <label>:2                                       ; preds = %1
-  %3 = add i1 %0, %0
-  ret i1 %3
-                                                  ; No predecessors!
-  unreachable
+; <label>:4                                       ; preds = %1
+  %5 = add i1 %0, %0
+  br label %6
+
+; <label>:6                                       ; preds = %4, %1
+  %7 = phi i1 [ undef, %1 ], [ %5, %4 ]
+  ret i1 %7
 }
 )%%%";
 
@@ -25,53 +24,24 @@ extern char const * const generate_two_return_expected = R"%%%(
 %0 = type { i1, i1 }
 
 define %0 @0(i1) {
-  br label %2
-
-; <label>:2                                       ; preds = %1
-  %3 = insertvalue %0 undef, i1 %0, 0
-  %4 = insertvalue %0 %3, i1 %0, 1
-  ret %0 %4
-                                                  ; No predecessors!
-  unreachable
+  %2 = insertvalue %0 undef, i1 %0, 0
+  %3 = insertvalue %0 %2, i1 %0, 1
+  ret %0 %3
 }
 )%%%";
 
 extern char const * const generate_if_expected = R"%%%(
 define i8 @0(i1) {
-  br label %2
-
-; <label>:2                                       ; preds = %1
-  switch i1 %0, label %3 [
-    i1 false, label %12
-    i1 true, label %14
-  ]
-
-; <label>:3                                       ; preds = %2
-  unreachable
-
-; <label>:4                                       ; preds = %15, %13
-  br label %5
-
-; <label>:5                                       ; preds = %4
-  %6 = icmp eq i1 %0, false
-  %7 = and i1 true, %6
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
   %8 = select i1 %7, i8 0, i8 undef
-  %9 = icmp eq i1 %0, true
-  %10 = and i1 true, %9
-  %11 = select i1 %10, i8 1, i8 %8
-  ret i8 %11
-
-; <label>:12                                      ; preds = %2
-  br label %13
-
-; <label>:13                                      ; preds = %12
-  br label %4
-
-; <label>:14                                      ; preds = %2
-  br label %15
-
-; <label>:15                                      ; preds = %14
-  br label %4
+  %9 = and i1 true, %6
+  %10 = select i1 %9, i8 1, i8 %8
+  ret i8 %10
 }
 )%%%";
 
@@ -79,43 +49,21 @@ extern char const * const generate_if_value_expected = R"%%%(
 %0 = type { i32, i32, i8 }
 
 define %0 @0(i1) {
-  br label %2
-
-; <label>:2                                       ; preds = %1
-  switch i1 %0, label %3 [
-    i1 false, label %15
-    i1 true, label %17
-  ]
-
-; <label>:3                                       ; preds = %2
-  unreachable
-
-; <label>:4                                       ; preds = %18, %16
-  br label %5
-
-; <label>:5                                       ; preds = %4
-  %6 = icmp eq i1 %0, false
-  %7 = and i1 true, %6
-  %8 = select i1 %7, i8 0, i8 undef
-  %9 = icmp eq i1 %0, true
-  %10 = and i1 true, %9
-  %11 = select i1 %10, i8 1, i8 %8
-  %12 = insertvalue %0 undef, i32 4, 0
-  %13 = insertvalue %0 %12, i32 5, 1
-  %14 = insertvalue %0 %13, i8 %11, 2
-  ret %0 %14
-
-; <label>:15                                      ; preds = %2
-  br label %16
-
-; <label>:16                                      ; preds = %15
-  br label %4
-
-; <label>:17                                      ; preds = %2
-  br label %18
-
-; <label>:18                                      ; preds = %17
-  br label %4
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  %8 = and i1 %7, true
+  %9 = select i1 %8, i8 0, i8 undef
+  %10 = and i1 true, %6
+  %11 = and i1 %10, true
+  %12 = select i1 %11, i8 1, i8 %9
+  %13 = insertvalue %0 undef, i32 4, 0
+  %14 = insertvalue %0 %13, i32 5, 1
+  %15 = insertvalue %0 %14, i8 %12, 2
+  ret %0 %15
 }
 )%%%";
 
