@@ -161,33 +161,26 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
     return result;
 }
 
-void mu::llvmc::analyzer_function::process_results(mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
+void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
-    size_t branch_offset (0);
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
         auto most_specific_branch (module.module->global);
-        auto & ast_result (*k);
-        function_s->branch_offsets.push_back (branch_offset);
-        for (auto m (ast_result.begin ()), n (ast_result.end ()); m != n && result_m.error == nullptr; ++m)
+        auto single_result (*k);
+        auto type (process_type (single_result->written_type));
+        if (type != nullptr)
         {
-            auto single_result (*m);
-            auto type (process_type (single_result->written_type));
-            if (type != nullptr)
+            auto value (process_value (single_result->value));
+            if (value != nullptr)
             {
-                auto value (process_value (single_result->value));
-                if (value != nullptr)
-                {
-                    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                    ++branch_offset;
-                    most_specific_branch = most_specific_branch->most_specific (value->branch);
-                }
+                function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                most_specific_branch = most_specific_branch->most_specific (value->branch);
             }
-            else
-            {
-                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
-            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
         }
         auto existing (result_branches.find (most_specific_branch));
         if (existing == result_branches.end ())
@@ -207,6 +200,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     if (function_l != nullptr)
     {
         auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
+        function_s->branch_offsets.swap (function_l->branch_offsets);
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
         result_m.function = function_s;

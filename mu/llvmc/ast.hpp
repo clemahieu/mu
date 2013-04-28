@@ -98,7 +98,8 @@ namespace mu
                 mu::llvmc::availability::function * entry;
                 mu::string name;
                 mu::vector <mu::llvmc::ast::parameter *> parameters;
-                mu::vector <mu::vector <mu::llvmc::ast::result *>> results;
+                mu::vector <mu::llvmc::ast::result *> results;
+                std::vector <size_t> branch_offsets;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
             class module : public mu::llvmc::ast::node

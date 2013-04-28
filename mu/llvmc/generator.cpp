@@ -418,12 +418,12 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
             }
             case mu::llvmc::instruction_type::load:
             {
+                assert (instruction->arguments.size () == 2);
+                assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                 auto predicate_branch (llvm::BasicBlock::Create (context));
                 function_m->getBasicBlockList ().push_back (predicate_branch);
                 auto new_last (llvm::BasicBlock::Create (context));
                 function_m->getBasicBlockList ().push_back (new_last);
-                assert (instruction->arguments.size () == 2);
-                assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                 auto load_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
                 last->getInstList ().push_back (llvm::BranchInst::Create(predicate_branch, new_last, load_pointer.predicate));
                 auto instruction (new llvm::LoadInst (load_pointer.value));

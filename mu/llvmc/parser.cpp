@@ -293,6 +293,7 @@ void mu::llvmc::function::parse_results ()
                 {
                     case mu::io::token_id::left_square:
                         parser.stream.tokens.consume (1);
+                        function_m->branch_offsets.push_back (function_m->results.size ());
                         parse_result_set ();
                         next = parser.stream.tokens [0];
                         break;
@@ -314,8 +315,6 @@ void mu::llvmc::function::parse_results ()
 
 void mu::llvmc::function::parse_result_set ()
 {
-    auto index (function_m->results.size ());
-    function_m->results.push_back (decltype (function_m->results)::value_type ());
     auto node (parser.stream.peek ());
     auto done (false);
     while (result.error == nullptr && !done)
@@ -334,7 +333,7 @@ void mu::llvmc::function::parse_result_set ()
                     {
                         parser.stream.consume ();
                         auto result (new (GC) mu::llvmc::ast::result (type));
-                        function_m->results [index].push_back (result);
+                        function_m->results.push_back (result);
                         block.refer (static_cast <mu::io::identifier *> (next.token)->string,
                                      [result]
                                      (mu::llvmc::ast::node * node_a)
