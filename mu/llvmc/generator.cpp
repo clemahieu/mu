@@ -396,6 +396,12 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                 value = instruction;
                 break;
             }
+            case mu::llvmc::instruction_type::load:
+            {
+                auto predicate_branch (llvm::BasicBlock::Create (context));
+                auto new_last (llvm::BasicBlock::Create (context));
+                break;
+            }
             default:
             {
                 assert (false);
@@ -441,18 +447,6 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
             assert (false);
         }
     }
-    /*auto execution_block (llvm::BasicBlock::Create (context));
-    auto new_last (llvm::BasicBlock::Create (context));
-    last->getInstList ().push_back (llvm::BranchInst::Create (execution_block, new_last, predicate));
-    function_m->getBasicBlockList().push_back (execution_block);
-    function_m->getBasicBlockList().push_back (new_last);
-    auto real_value (llvm::PHINode::Create (value->getType (), 2));
-    execution_block->getInstList().push_back (value);
-    execution_block->getInstList().push_back (llvm::BranchInst::Create (new_last));
-    real_value->addIncoming (llvm::UndefValue::get (value->getType ()), last);
-    real_value->addIncoming (value, execution_block);
-    new_last->getInstList().push_back (real_value);
-    last = new_last;*/
     auto result (mu::llvmc::value_data ({predicate, value}));
     already_generated [value_a] = result;
     return result;
