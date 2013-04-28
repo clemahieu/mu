@@ -63,12 +63,21 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a, mu::llvmc::instruction_type type_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a) :
 value (branch_a),
-type_m (type_a),
 arguments (arguments_a),
 predicates (predicates_a)
 {
+    assert (arguments_a.size () > 0);
+    assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
+}
+
+mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
+{
+    assert (arguments.size () > 0);
+    assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments [0]) != nullptr);
+    auto result (static_cast <mu::llvmc::skeleton::marker *> (arguments [0])->type);
+    return result;
 }
 
 mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
@@ -266,7 +275,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_pointer_null::type ()
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
 {
     mu::llvmc::skeleton::type * result (nullptr);
-    switch (type_m)
+    switch (marker ())
     {
         case mu::llvmc::instruction_type::add:
         {

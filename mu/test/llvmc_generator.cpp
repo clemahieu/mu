@@ -116,7 +116,7 @@ TEST (llvmc_generator, generate_add)
     arguments1.push_back (&parameter1);
     arguments1.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates1;
-    mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, predicates1, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, predicates1);
     function1.branch_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result1 (&type1, &instruction1);
     function1.results.push_back (&result1);
@@ -293,7 +293,7 @@ TEST (llvm_generator, generate_if_join_value)
     arguments2.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates2;
     predicates2.push_back (&element1);
-    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, predicates2, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, predicates2);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
@@ -301,7 +301,7 @@ TEST (llvm_generator, generate_if_join_value)
     arguments3.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates3;
     predicates3.push_back (&element2);
-    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, predicates3, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, predicates3);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments1;
     arguments1.push_back (&add1);
@@ -347,7 +347,7 @@ TEST (llvm_generator, generate_if_join_2value)
     arguments2.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates2;
     predicates2.push_back (&element1);
-    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, predicates2, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, predicates2);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
@@ -355,7 +355,7 @@ TEST (llvm_generator, generate_if_join_2value)
     arguments3.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates3;
     predicates3.push_back (&element2);
-    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, predicates3, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, predicates3);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments4;
     arguments4.push_back (&marker2);
@@ -363,7 +363,7 @@ TEST (llvm_generator, generate_if_join_2value)
     arguments4.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates4;
     predicates4.push_back (&element1);
-    mu::llvmc::skeleton::instruction add3 (&branch1, arguments4, predicates4, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add3 (&branch1, arguments4, predicates4);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments5;
     arguments5.push_back (&marker2);
@@ -371,7 +371,7 @@ TEST (llvm_generator, generate_if_join_2value)
     arguments5.push_back (&parameter1);
     mu::vector <mu::llvmc::skeleton::node *> predicates5;
     predicates5.push_back (&element2);
-    mu::llvmc::skeleton::instruction add4 (&branch2, arguments5, predicates5, mu::llvmc::instruction_type::add);
+    mu::llvmc::skeleton::instruction add4 (&branch2, arguments5, predicates5);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments1;
     arguments1.push_back (&add1);
@@ -425,7 +425,7 @@ TEST (llvm_generator, generate_if_join_load)
     arguments2.push_back (&pointer1);
     mu::vector <mu::llvmc::skeleton::node *> predicates2;
     predicates2.push_back (&element1);
-    mu::llvmc::skeleton::instruction load1 (&branch1, arguments2, predicates2, mu::llvmc::instruction_type::load);
+    mu::llvmc::skeleton::instruction load1 (&branch1, arguments2, predicates2);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
@@ -433,7 +433,7 @@ TEST (llvm_generator, generate_if_join_load)
     arguments3.push_back (&pointer2);
     mu::vector <mu::llvmc::skeleton::node *> predicates3;
     predicates3.push_back (&element2);
-    mu::llvmc::skeleton::instruction load2 (&branch2, arguments3, predicates3, mu::llvmc::instruction_type::load);
+    mu::llvmc::skeleton::instruction load2 (&branch2, arguments3, predicates3);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments1;
     arguments1.push_back (&load1);

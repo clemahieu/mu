@@ -248,7 +248,7 @@ TEST (llvmc_analyzer, branches)
     auto result3 (function1->results [0]);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result3->value));
     ASSERT_NE (nullptr, element3);
-    ASSERT_EQ (mu::llvmc::instruction_type::add, element3->type_m);
+    ASSERT_EQ (mu::llvmc::instruction_type::add, element3->marker ());
     ASSERT_EQ (3, element3->arguments.size ());
     ASSERT_EQ (&add_marker, element3->arguments [0]);
     ASSERT_EQ (parameter5, element3->arguments [1]);
@@ -258,7 +258,7 @@ TEST (llvmc_analyzer, branches)
     auto result4 (function1->results [1]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result4->value));
     ASSERT_NE (nullptr, element4);
-    ASSERT_EQ (mu::llvmc::instruction_type::add, element4->type_m);
+    ASSERT_EQ (mu::llvmc::instruction_type::add, element4->marker ());
     ASSERT_EQ (3, element4->arguments.size ());
     ASSERT_EQ (&add_marker, element4->arguments [0]);
     ASSERT_EQ (parameter6, element4->arguments [1]);

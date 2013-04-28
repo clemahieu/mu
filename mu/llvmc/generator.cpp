@@ -397,7 +397,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     if (instruction != nullptr)
     {
         auto predicate_l (process_predicates (instruction->predicates));
-        switch (instruction->type_m)
+        switch (instruction->marker ())
         {
             case mu::llvmc::instruction_type::add:
             {

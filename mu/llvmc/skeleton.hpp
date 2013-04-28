@@ -86,9 +86,9 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a, mu::llvmc::instruction_type type_a);
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::instruction_type type_m;
+                mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
             };
