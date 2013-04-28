@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+ #include <gtest/gtest.h>
 
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/generator.hpp>
@@ -148,10 +148,9 @@ TEST (llvmc_generator, generate_two_return)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
 }
 
@@ -184,8 +183,7 @@ TEST (llvmc_generator, generate_if)
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
     std::string info;
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_expected), info);
@@ -227,8 +225,7 @@ TEST (llvmc_generator, generate_if_value)
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
     std::string info;
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_value_expected), info);
@@ -265,10 +262,9 @@ TEST (llvm_generator, generate_if_join)
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
     std::string info;
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
     ASSERT_EQ (std::string (generate_if_join_expected), info);
 }
 
@@ -320,10 +316,9 @@ TEST (llvm_generator, generate_if_join_value)
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
     std::string info;
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
     ASSERT_EQ (std::string (generate_if_join_value_expected), info);
 }
 
@@ -398,9 +393,8 @@ TEST (llvm_generator, generate_if_join_2value)
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
     std::string info;
+    print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-    llvm::raw_string_ostream output (info);
-    result->print (output, nullptr);
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_2value_expected), info);
 }

@@ -373,7 +373,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     auto & context (module.target->getContext ());
     auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
     llvm::Value * predicate;
-    llvm::Instruction * value;
+    llvm::Value * value;
     if (instruction != nullptr)
     {
         auto predicate_l (process_predicates (instruction->predicates));
@@ -391,7 +391,9 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                 auto p_right (llvm::BinaryOperator::CreateAnd (p_left, right.predicate));
                 last->getInstList ().push_back (p_right);
                 predicate = p_right;
-                value = llvm::BinaryOperator::CreateAdd (left.value, right.value);
+                auto instruction (llvm::BinaryOperator::CreateAdd (left.value, right.value));
+                last->getInstList ().push_back (instruction);
+                value = instruction;
                 break;
             }
             default:
@@ -405,53 +407,41 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     {
         auto join (dynamic_cast <mu::llvmc::skeleton::join_value *> (value_a));
         if (join != nullptr)
-        {/*
-            mu::llvmc::block * least_specific_block (nullptr);
+        {
             assert (join->arguments.size () > 1);
-            for (auto i: join->arguments)
+            auto bottom (join->arguments [0]->type ()->is_bottom_type ());
+            predicate = llvm::ConstantInt::getFalse (function_m->getContext ());
+            auto first (retrieve_value (join->arguments [0]));
+            assert (bottom == (first.value == nullptr));
+            if (!bottom)
             {
-                auto value (retrieve_value (i));
-                least_specific_block = value->block->least (least_specific_block);
-            }
-            llvm::Value * value (llvm::Undef)
-            for (auto i: join->arguments)
-            {
-                pull_value (least_specific_block->branch, i);
-            }
-            assert (least_specific_block != nullptr);
-            
-            auto join_branch (find_join_branch (join->arguments));
-            if (join_branch == nullptr)
-            {
-                join_branch = generate_join_branch (join->arguments);;
-            }
-            assert (already_generated.find (join->arguments [0]) != already_generated.end ());
-            auto first_value (already_generated [join->arguments [0]]);
-            if (first_value.value != nullptr)
-            {
-                assert (!join->arguments [0]->type ()->is_bottom_type ());
-                auto new_phi (llvm::PHINode::Create (first_value.value->getType (), join->arguments.size ()));
-                for (auto i (join->arguments.begin ()), j (join->arguments.end ()); i != j; ++i)
-                {
-                    auto & value_l (already_generated [*i]);
-                    new_phi->addIncoming (value_l.value, value_l.branch->block);
-                }
-                join_branch->phi_nodes.push_back (new_phi);
-                value = new_phi;
+                value = llvm::UndefValue::get (first.value->getType ());
             }
             else
             {
-                assert (join->arguments [0]->type ()->is_bottom_type ());
                 value = nullptr;
-            }*/
-            assert (false); // Implement joins
+            }
+            for (auto i: join->arguments)
+            {
+                auto value_l (retrieve_value (i));
+                auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, value_l.predicate));
+                last->getInstList ().push_back (predicate_instruction);
+                if (!bottom)
+                {
+                    auto select_instruction (llvm::SelectInst::Create (value_l.predicate, value_l.value, value));
+                    last->getInstList ().push_back (select_instruction);
+                    value = select_instruction;
+                }
+                predicate = predicate_instruction;
+            }
+            
         }
         else
         {
             assert (false);
         }
     }
-    auto execution_block (llvm::BasicBlock::Create (context));
+    /*auto execution_block (llvm::BasicBlock::Create (context));
     auto new_last (llvm::BasicBlock::Create (context));
     last->getInstList ().push_back (llvm::BranchInst::Create (execution_block, new_last, predicate));
     function_m->getBasicBlockList().push_back (execution_block);
@@ -462,8 +452,8 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     real_value->addIncoming (llvm::UndefValue::get (value->getType ()), last);
     real_value->addIncoming (value, execution_block);
     new_last->getInstList().push_back (real_value);
-    last = new_last;
-    auto result (mu::llvmc::value_data ({predicate, real_value}));
+    last = new_last;*/
+    auto result (mu::llvmc::value_data ({predicate, value}));
     already_generated [value_a] = result;
     return result;
 }
