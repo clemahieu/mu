@@ -325,8 +325,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
         {
             auto k (arguments.begin ());
             auto l (arguments.end ());
-            for (size_t i (0), j (function_type->function.parameters.size ()); i != j && k != l && result_m.error
-                 == nullptr; ++i, ++k)
+            for (size_t i (0), j (function_type->function.parameters.size ()); i != j && k != l && result_m.error == nullptr; ++i, ++k)
             {
                 auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
                 if (argument_value != nullptr)
