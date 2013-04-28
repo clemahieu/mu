@@ -69,6 +69,20 @@ namespace mu
                 mu::llvmc::skeleton::type * type_m;
                 uint64_t value_m;
             };
+            class constant_aggregate_zero : public mu::llvmc::skeleton::constant
+            {
+            public:
+                constant_aggregate_zero (mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+            };
+            class constant_pointer_null : public mu::llvmc::skeleton::constant
+            {
+            public:
+                constant_pointer_null (mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+            };
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
@@ -145,6 +159,7 @@ namespace mu
             {
             public:
                 pointer_type (mu::llvmc::skeleton::type * type_a);
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 mu::llvmc::skeleton::type * pointed_type;
             };
             class switch_element;

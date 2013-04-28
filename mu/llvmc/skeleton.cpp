@@ -232,6 +232,37 @@ type (type_a)
 {
 }
 
+mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::llvmc::skeleton::type * type_a) :
+type_m (type_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_aggregate_zero::type ()
+{
+    return type_m;
+}
+
+bool mu::llvmc::skeleton::pointer_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+{
+    auto other_l (dynamic_cast <mu::llvmc::skeleton::pointer_type const *> (&other_a));
+    auto result (other_l != nullptr);
+    if (result)
+    {
+        result = *pointed_type == (*other_l);
+    }
+    return result;
+}
+
+mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::llvmc::skeleton::type * type_a) :
+type_m (type_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_pointer_null::type ()
+{
+    return type_m;
+}
+
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
 {
     mu::llvmc::skeleton::type * result (nullptr);
@@ -244,8 +275,15 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
             assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
-        }
             break;
+        }
+        case mu::llvmc::instruction_type::load:
+        {
+            assert (arguments.size () == 2);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            break;
+        }
         default:
             assert (false);
             break;

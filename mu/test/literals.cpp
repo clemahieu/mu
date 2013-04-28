@@ -134,3 +134,36 @@ define %0 @0(i1) {
   ret %0 %32
 }
 )%%%";
+
+extern char const * const generate_if_join_load_expected = R"%%%(
+define i1 @0(i1) {
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  br i1 true, label %8, label %10
+
+; <label>:8                                       ; preds = %1
+  %9 = load i1* null
+  br label %10
+
+; <label>:10                                      ; preds = %8, %1
+  %11 = phi i1 [ %9, %8 ], [ undef, %1 ]
+  %12 = or i1 false, true
+  %13 = select i1 true, i1 %11, i1 undef
+  %14 = and i1 true, %6
+  br i1 true, label %15, label %17
+
+; <label>:15                                      ; preds = %10
+  %16 = load i1* null
+  br label %17
+
+; <label>:17                                      ; preds = %15, %10
+  %18 = phi i1 [ %16, %15 ], [ undef, %10 ]
+  %19 = or i1 %12, true
+  %20 = select i1 true, i1 %18, i1 %13
+  ret i1 %20
+}
+)%%%";
