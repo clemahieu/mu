@@ -70,7 +70,8 @@ namespace mu
             expecting_expression_or_right_square,
             expecting_loop_body,
             expecting_result_set_or_right_square,
-            expecting_loop_results
+            expecting_loop_results,
+            already_parsing_predicates
         };
         class error
         {

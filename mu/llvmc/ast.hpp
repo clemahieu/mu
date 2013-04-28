@@ -76,7 +76,9 @@ namespace mu
             class definite_expression : public mu::llvmc::ast::expression
             {
             public:
+                definite_expression ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
+                size_t predicate_position;
             };
             class set_expression : public mu::llvmc::ast::expression
             {

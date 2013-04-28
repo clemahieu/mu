@@ -603,6 +603,11 @@ parser (parser_a)
 {
 }
 
+mu::llvmc::ast::definite_expression::definite_expression () :
+predicate_position (0 - 1)
+{
+}
+
 void mu::llvmc::expression::parse ()
 {
     auto expression_l (new (GC) mu::llvmc::ast::definite_expression);
@@ -631,13 +636,27 @@ void mu::llvmc::expression::parse ()
                             auto position (expression_l->arguments.size ());
                             expression_l->arguments.push_back (nullptr);
                             parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string,
-                                        [&arguments, position]
-                                        (mu::llvmc::ast::node * node_a)
-                                        {
-                                            arguments [position] = node_a;
-                                        });
-                        }
+                                [&arguments, position]
+                                (mu::llvmc::ast::node * node_a)
+                                {
+                                    arguments [position] = node_a;
+                                });
                             break;
+                        }
+                        case mu::io::token_id::terminator:
+                        {
+                            auto position_l (expression_l->predicate_position);
+                            if (position_l == (0 - 1))
+                            {
+                                expression_l->predicate_position = expression_l->arguments.size ();
+                            }
+                            else
+                            {
+                                result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+                            }
+                            parser.stream.consume ();
+                            break;
+                        }
                         case mu::io::token_id::right_square:
                             done = true;
                             break;
