@@ -167,3 +167,5 @@ define i1 @0(i1) {
   ret i1 %20
 }
 )%%%";
+
+extern char const * const generate_call_expected = R"%%%()%%%";

@@ -467,7 +467,7 @@ TEST (llvm_generator, generate_if_join_load)
 extern char const * const generate_call_expected;
 
 TEST (llvm_generator, generate_call)
-{/*
+{
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
@@ -480,14 +480,15 @@ TEST (llvm_generator, generate_call)
     mu::llvmc::skeleton::function function2 (module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
     function2.parameters.push_back (&parameter2);
-    mu::vector <mu::llvmc::skeleton::value *> arguments1;
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&parameter2);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
     mu::llvmc::skeleton::call_element element1 (function2.entry, &call1, 0);
-    mu::llvmc::skeleton::result result1 (&type1, &parameter1);
-    function1.branch_offsets.push_back (function1.results.size ());
-    function1.results.push_back (&result1);
-    module.functions.push_back (&function1);
+    call1.elements.push_back (&element1);
+    mu::llvmc::skeleton::result result2 (&type1, &element1);
+    function2.branch_offsets.push_back (function1.results.size ());
+    function2.results.push_back (&result1);
+    module.functions.push_back (&function2);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
@@ -496,5 +497,5 @@ TEST (llvm_generator, generate_call)
     print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_if_join_load_expected), info);*/
+    ASSERT_EQ (std::string (generate_call_expected), info);
 }

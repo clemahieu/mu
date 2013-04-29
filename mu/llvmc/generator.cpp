@@ -34,8 +34,12 @@ void mu::llvmc::generate_module::generate ()
 {
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
     {
-        mu::llvmc::generate_function generator_l (*this, *i);
-        generator_l.generate ();
+        auto existing (functions.find (*i));
+        if (existing == functions.end ())
+        {
+            mu::llvmc::generate_function generator_l (*this, *i);
+            generator_l.generate ();
+        }
     }
 }
 
