@@ -281,23 +281,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::retrieve_value (mu::llvmc::s
     auto existing (already_generated.find (value_a));
     if (existing == already_generated.end ())
     {
-        auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value_a));
-        if (function != nullptr)
-        {
-            auto existing_function (module.functions.find (function));
-            if (existing_function == module.functions.end ())
-            {
-                result = generate_value (value_a);
-            }
-            else
-            {
-                result = mu::llvmc::value_data ({llvm::ConstantInt::getTrue (module.target->getContext ()), existing_function->second});
-            }
-        }
-        else
-        {
-            result = generate_value (value_a);
-        }
+        result = generate_value (value_a);
     }
     else
     {
