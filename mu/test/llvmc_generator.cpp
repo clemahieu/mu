@@ -480,7 +480,10 @@ TEST (llvm_generator, generate_call)
     mu::llvmc::skeleton::function function2 (module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
     function2.parameters.push_back (&parameter2);
-    mu::llvmc::skeleton::
+    mu::vector <mu::llvmc::skeleton::value *> arguments1;
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
+    mu::llvmc::skeleton::call_element element1 (function2.entry, &call1, 0);
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
     function1.branch_offsets.push_back (function1.results.size ());
     function1.results.push_back (&result1);

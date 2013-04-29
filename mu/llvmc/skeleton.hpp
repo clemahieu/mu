@@ -135,9 +135,9 @@ namespace mu
             class function_type : public mu::llvmc::skeleton::type
             {
             public:
-                function_type (mu::llvmc::skeleton::function & function_a);
+                function_type (mu::llvmc::skeleton::function * function_a);
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-                mu::llvmc::skeleton::function & function;
+                mu::llvmc::skeleton::function * function;
             };
             class function : public mu::llvmc::skeleton::value
             {
@@ -185,8 +185,8 @@ namespace mu
             class function_call
             {
             public:
-                function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
-                mu::llvmc::skeleton::function & target;
+                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 size_t predicate_position;
@@ -195,11 +195,10 @@ namespace mu
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t branch_index_a, size_t result_index_a);
+                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::function_call * source;
-                size_t branch_index;
-                size_t result_index;
+                size_t index;
             };
             class unit_value : public mu::llvmc::skeleton::value
             {
