@@ -80,13 +80,13 @@ namespace mu
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
             llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);
             std::vector <llvm::Value *> generate_result_set ();
-            function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
+            mu::llvmc::function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::generate_module & module;
             llvm::BasicBlock * last;
             llvm::Function * function_m;
             mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data> already_generated;
             mu::llvmc::skeleton::function * function;
-            function_return_type function_return_type;
+            mu::llvmc::function_return_type function_return_type;
         };
     }
 }

@@ -316,7 +316,7 @@ TEST (io_lexer, ascii_numbers)
     ASSERT_NE (nullptr, token2);
     EXPECT_EQ (mu::io::region (0, 1, 1, 3, 1, 4), token2->region);
     ASSERT_EQ (1, token2->string.size ());
-    EXPECT_EQ (U'\U00000000', token2->string [0]);
+    EXPECT_EQ ('\0', token2->string [0]);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);

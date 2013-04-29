@@ -15,7 +15,7 @@ mu::io::token_result::~token_result ()
 
 mu::io::character_result::~character_result ()
 {
-    assert ((error == nullptr) or ((error != nullptr) and (character == U'\U00000000')));
+    assert ((error == nullptr) or ((error != nullptr) and (character == '\0')));
 }
 
 mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
@@ -358,7 +358,7 @@ void mu::io::lexer::line_comment ()
 mu::io::character_result mu::io::lexer::hex_code (int size_a)
 {
     assert (size_a == 2 || size_a == 8);
-    mu::io::character_result result ({U'\U00000000', nullptr});
+    mu::io::character_result result ({'\0', nullptr});
     auto size_l (size_a >> 1);
     for (int i (0); i < size_l && result.error == nullptr; ++i)
     {
