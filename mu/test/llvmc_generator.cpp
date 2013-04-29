@@ -482,7 +482,7 @@ TEST (llvm_generator, generate_call)
     function2.parameters.push_back (&parameter2);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, 0 - 1);
     mu::llvmc::skeleton::call_element element1 (function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
