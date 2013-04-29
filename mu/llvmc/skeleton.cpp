@@ -203,6 +203,55 @@ bool mu::llvmc::skeleton::type::operator != (mu::llvmc::skeleton::type const & o
     return result;
 }
 
+mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_return_type ()
+{
+    mu::llvmc::skeleton::function_return_type result;
+    size_t llvm_values (0);
+    for (auto i (results.begin ()), j (results.end ()); i != j && llvm_values < 2; ++i)
+    {
+        if (!(*i)->type->is_bottom_type ())
+        {
+            ++llvm_values;
+        }
+    }
+    switch (branch_offsets.size ())
+    {
+        case 0:
+            result = mu::llvmc::skeleton::function_return_type::b0;
+            break;
+        case 1:
+        {
+            switch (llvm_values)
+            {
+                case 0:
+                    result = mu::llvmc::skeleton::function_return_type::b1v0;
+                    break;
+                case 1:
+                    result = mu::llvmc::skeleton::function_return_type::b1v1;
+                    break;
+                default:
+                    result = mu::llvmc::skeleton::function_return_type::b1vm;
+                    break;
+            }
+            break;
+        }
+        default:
+        {
+            switch (llvm_values)
+            {
+                case 0:
+                    result = mu::llvmc::skeleton::function_return_type::bmv0;
+                    break;
+                default:
+                    result = mu::llvmc::skeleton::function_return_type::bmvm;
+                    break;
+            }
+            break;
+        }
+    }
+    return result;
+}
+
 mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a):
 target (target_a),
 branch (branch_a),

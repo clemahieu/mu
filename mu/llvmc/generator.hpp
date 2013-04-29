@@ -36,6 +36,7 @@ namespace mu
             class node;
             class switch_element;
             class constant_integer;
+            enum class function_return_type;
         }
         class generator
         {
@@ -52,15 +53,6 @@ namespace mu
             llvm::Module * target;
         };
         class generate_function;
-        enum class function_return_type
-        {
-            b0, // Unreachable
-            b1v0, // Void
-            b1v1, // Single value
-            b1vm, // Struct no selector
-            bmv0, // Selector value
-            bmvm // struct with selector
-        };
         class value_data
         {
         public:
@@ -80,13 +72,12 @@ namespace mu
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
             llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);
             std::vector <llvm::Value *> generate_result_set ();
-            mu::llvmc::function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::generate_module & module;
             llvm::BasicBlock * last;
             llvm::Function * function_m;
             mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data> already_generated;
             mu::llvmc::skeleton::function * function;
-            mu::llvmc::function_return_type function_return_type;
+            mu::llvmc::skeleton::function_return_type function_return_type;
         };
     }
 }

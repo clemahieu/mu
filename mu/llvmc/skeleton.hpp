@@ -139,17 +139,27 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 mu::llvmc::skeleton::function * function;
             };
+            enum class function_return_type
+            {
+                b0, // Unreachable
+                b1v0, // Void
+                b1v1, // Single value
+                b1vm, // Struct no selector
+                bmv0, // Selector value
+                bmvm // struct with selector
+            };
             class function : public mu::llvmc::skeleton::value
             {
             public:
                 function (mu::llvmc::skeleton::branch * global_a);
                 size_t branch_size (size_t index) const;
+                mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::llvmc::skeleton::result *> results;
-                std::vector <size_t> branch_offsets;
+                std::vector <size_t> branch_offsets;                
                 decltype (results)::iterator branch_begin (size_t index);
                 decltype (results)::iterator branch_end (size_t index);
                 decltype (results)::const_iterator branch_begin (size_t index) const;

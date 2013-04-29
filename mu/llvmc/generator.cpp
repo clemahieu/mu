@@ -46,57 +46,8 @@ void mu::llvmc::generate_module::generate ()
 mu::llvmc::generate_function::generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a) :
 module (module_a),
 function (function_a),
-function_return_type (get_return_type (function_a))
+function_return_type (function_a->get_return_type ())
 {
-}
-
-mu::llvmc::function_return_type mu::llvmc::generate_function::get_return_type (mu::llvmc::skeleton::function * function_a)
-{
-    mu::llvmc::function_return_type result;
-    size_t llvm_values (0);
-    for (auto i (function_a->results.begin ()), j (function_a->results.end ()); i != j && llvm_values < 2; ++i)
-    {
-        if (!(*i)->type->is_bottom_type ())
-        {
-            ++llvm_values;
-        }
-    }
-    switch (function_a->branch_offsets.size ())
-    {
-        case 0:
-            result = mu::llvmc::function_return_type::b0;
-            break;
-        case 1:
-        {
-            switch (llvm_values)
-            {
-                case 0:
-                    result = mu::llvmc::function_return_type::b1v0;
-                    break;
-                case 1:
-                    result = mu::llvmc::function_return_type::b1v1;
-                    break;
-                default:
-                    result = mu::llvmc::function_return_type::b1vm;
-                    break;
-            }
-            break;
-        }
-        default:
-        {
-            switch (llvm_values)
-            {
-                case 0:
-                    result = mu::llvmc::function_return_type::bmv0;
-                    break;
-                default:
-                    result = mu::llvmc::function_return_type::bmvm;
-                    break;
-            }
-            break;
-        }
-    }
-    return result;
 }
 
 void mu::llvmc::generate_function::generate ()
@@ -164,10 +115,10 @@ void mu::llvmc::generate_function::generate ()
     function_l->getBasicBlockList().push_back (entry);
     switch (function_return_type)
     {
-        case mu::llvmc::function_return_type::b0:
+        case mu::llvmc::skeleton::function_return_type::b0:
             last->getInstList ().push_back (new llvm::UnreachableInst (function_l->getContext ()));
             break;
-        case mu::llvmc::function_return_type::b1v0:
+        case mu::llvmc::skeleton::function_return_type::b1v0:
             for (auto i: function->results)
             {
                 auto result (retrieve_value (i->value));
@@ -175,7 +126,7 @@ void mu::llvmc::generate_function::generate ()
             }
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
             break;
-        case mu::llvmc::function_return_type::b1v1:
+        case mu::llvmc::skeleton::function_return_type::b1v1:
         {
             llvm::Value * the_value (nullptr);
             for (auto i: function->results)
@@ -187,7 +138,7 @@ void mu::llvmc::generate_function::generate ()
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
         }
             break;
-        case mu::llvmc::function_return_type::b1vm:
+        case mu::llvmc::skeleton::function_return_type::b1vm:
         {
             assert (function->branch_offsets.size () == 1);
             assert (function->branch_offsets [0] == 0);
@@ -207,14 +158,14 @@ void mu::llvmc::generate_function::generate ()
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
         }
             break;
-        case mu::llvmc::function_return_type::bmv0:
+        case mu::llvmc::skeleton::function_return_type::bmv0:
         {
             auto results (generate_result_set ());
             assert (results.size () == 1);
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
         }
             break;
-        case mu::llvmc::function_return_type::bmvm:
+        case mu::llvmc::skeleton::function_return_type::bmvm:
         {
             auto results (generate_result_set ());
             assert (results.size () > 1);
@@ -297,9 +248,43 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
     auto call (dynamic_cast <mu::llvmc::skeleton::call_element *> (value_a));
     if (call != nullptr)
     {
-        mu::llvmc::generate_function generator (module, call->source->target);
-        generator.generate ();
-        result = mu::llvmc::value_data ({llvm::ConstantInt::getTrue (module.target->getContext ()), generator.function_m});
+        auto & context (module.target->getContext ());
+        auto predicate (process_predicates (call->source->arguments, call->source->predicate_position));
+        assert (call->source->arguments.size () > 0);
+        assert (dynamic_cast <mu::llvmc::skeleton::value *> (call->source->arguments [0]) != nullptr);
+        auto existing (module.functions.find (call->source->target));
+        if (existing == module.functions.end ())
+        {
+            mu::llvmc::generate_function generator (module, call->source->target);
+            generator.generate ();
+        }
+        assert (module.functions.find (call->source->target) != module.functions.end ());
+        auto function (module.functions [call->source->target]);
+        std::vector <llvm::Value *> arguments (call->source->arguments.size () - 1);
+        for (auto i (call->source->arguments.begin () + 1), j (call->source->arguments.end ()); i != j; ++i)
+        {
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+            auto argument (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
+            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, argument.predicate));
+            last->getInstList ().push_back (instruction);
+            predicate = instruction;
+            arguments.push_back (argument.value);
+        }
+        auto call_block (llvm::BasicBlock::Create (context));
+        auto new_last (llvm::BasicBlock::Create (context));
+        auto call_branch (llvm::BranchInst::Create (call_block, new_last, predicate));
+        last->getInstList ().push_back (call_branch);
+        auto join_branch (llvm::BranchInst::Create (new_last));
+        call_block->getInstList ().push_back (join_branch);
+        last = new_last;
+        auto return_type (call->source->target);
+        size_t position (0);
+        for (auto i (call->source->elements.begin ()), j (call->source->elements.end ()); i != j; ++i, ++position)
+        {
+            
+        }
+        assert (already_generated.find (value_a) != already_generated.end ());
+        result = already_generated [value_a];
         already_generated [value_a] = result;
     }
     else
