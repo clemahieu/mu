@@ -5,10 +5,10 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a) :
+mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 branch (branch_a),
-predicate (predicate_a),
-predicates (predicates_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 
@@ -63,10 +63,10 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 value (branch_a),
 arguments (arguments_a),
-predicates (predicates_a)
+predicate_position (predicate_position_a)
 {
     assert (arguments_a.size () > 0);
     assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
@@ -80,9 +80,10 @@ mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
     return result;
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
+mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a, size_t predicate_position_a) :
 value (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 
@@ -204,11 +205,10 @@ bool mu::llvmc::skeleton::type::operator != (mu::llvmc::skeleton::type const & o
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::vector <mu::llvmc::skeleton::node *> const & predicates_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function & target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
 target (target_a),
 branch (branch_a),
-arguments (arguments_a),
-predicates (predicates_a)
+arguments (arguments_a)
 {
 }
 
@@ -279,7 +279,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
     {
         case mu::llvmc::instruction_type::add:
         {
-            assert (arguments.size () == 3);
+            assert (arguments.size () == 3 || predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
             assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
@@ -288,7 +288,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::load:
         {
-            assert (arguments.size () == 2);
+            assert (arguments.size () == 2 || predicate_position == 2);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;

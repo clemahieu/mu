@@ -180,7 +180,8 @@ TEST (llvmc_analyzer, if_instruction)
     auto result4 (function1->results [1]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result4->value));
     ASSERT_EQ (element3->source, element4->source);
-    ASSERT_EQ (parameter2, element3->source->predicate);
+    ASSERT_EQ (4, element3->source->arguments.size ());
+    ASSERT_EQ (parameter2, element3->source->arguments [1]);
     ASSERT_NE (element3->branch, element4->branch);
     ASSERT_NE (parameter2->branch, element3->branch);
     ASSERT_NE (parameter2->branch, element4->branch);
@@ -250,31 +251,31 @@ TEST (llvmc_analyzer, branches)
     auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result3->value));
     ASSERT_NE (nullptr, element3);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element3->marker ());
-    ASSERT_EQ (3, element3->arguments.size ());
+    ASSERT_EQ (4, element3->arguments.size ());
     ASSERT_EQ (&add_marker, element3->arguments [0]);
     ASSERT_EQ (parameter5, element3->arguments [1]);
     ASSERT_EQ (parameter5, element3->arguments [2]);
-    ASSERT_EQ (1, element3->predicates.size ());
+    ASSERT_EQ (3, element3->predicate_position);
     ASSERT_EQ (1, function1->branch_size (1));
     auto result4 (function1->results [1]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result4->value));
     ASSERT_NE (nullptr, element4);
     ASSERT_EQ (mu::llvmc::instruction_type::add, element4->marker ());
-    ASSERT_EQ (3, element4->arguments.size ());
+    ASSERT_EQ (4, element4->arguments.size ());
     ASSERT_EQ (&add_marker, element4->arguments [0]);
     ASSERT_EQ (parameter6, element4->arguments [1]);
     ASSERT_EQ (parameter6, element4->arguments [2]);
-    ASSERT_EQ (1, element4->predicates.size ());
+    ASSERT_EQ (3, element4->predicate_position);
     ASSERT_NE (element3->branch, element4->branch);
-    auto element5 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (element3->predicates [0]));
+    auto element5 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (element3->arguments [3]));
     ASSERT_NE (nullptr, element5);
-    auto element6 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (element4->predicates [0]));
+    auto element6 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (element4->arguments [3]));
     ASSERT_NE (nullptr, element6);
     ASSERT_NE (element5, element6);
     ASSERT_EQ (element5->source, element6->source);
     auto instruction1 (element5->source);
-    ASSERT_EQ (0, instruction1->predicates.size ());
-    ASSERT_EQ (parameter4, instruction1->predicate);
+    ASSERT_EQ (0 - 1, instruction1->predicate_position);
+    ASSERT_EQ (parameter4, instruction1->arguments [1]);
 }
 
 TEST (llvmc_analyzer, error_short_join)

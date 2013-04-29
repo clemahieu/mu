@@ -78,7 +78,7 @@ namespace mu
             mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_branched (mu::llvmc::skeleton::value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
-            llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & predicates_a);
+            llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);
             std::vector <llvm::Value *> generate_result_set ();
             function_return_type get_return_type (mu::llvmc::skeleton::function * function_a);
             mu::llvmc::generate_module & module;
