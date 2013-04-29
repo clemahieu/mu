@@ -203,10 +203,11 @@ bool mu::llvmc::skeleton::type::operator != (mu::llvmc::skeleton::type const & o
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a):
 target (target_a),
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 

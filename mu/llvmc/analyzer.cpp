@@ -343,7 +343,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
             {
                 if (!arguments.empty ())
                 {
-                    auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
+                    auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, expression_a->predicate_position));
                     if (function_type->function->branch_offsets.size () == 1)
                     {
                         auto branch_size (function_type->function->branch_size (0));
