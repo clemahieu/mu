@@ -166,31 +166,38 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
-        auto most_specific_branch (module.module->global);
-        auto single_result (*k);
-        auto type (process_type (single_result->written_type));
-        if (type != nullptr)
-        {
-            auto value (process_value (single_result->value));
-            if (value != nullptr)
-            {
-                function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                most_specific_branch = most_specific_branch->most_specific (value->branch);
-            }
-        }
-        else
-        {
-            result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
-        }
-        auto existing (result_branches.find (most_specific_branch));
-        if (existing == result_branches.end ())
-        {
-            result_branches.insert (most_specific_branch);
-        }
-        else
-        {
-            result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
-        }
+	if (*k != nullptr)
+	{
+	    auto most_specific_branch (module.module->global);
+	    auto single_result (*k);
+	    auto type (process_type (single_result->written_type));
+	    if (type != nullptr)
+	    {
+		auto value (process_value (single_result->value));
+		if (value != nullptr)
+		{
+		    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+		    most_specific_branch = most_specific_branch->most_specific (value->branch);
+		}
+	    }
+	    else
+	    {
+		result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
+	    }
+	    auto existing (result_branches.find (most_specific_branch));
+	    if (existing == result_branches.end ())
+	    {
+		result_branches.insert (most_specific_branch);
+	    }
+	    else
+	    {
+		result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
+	    }
+	}
+	else
+	{
+	    function_s->results.push_back (nullptr);
+	}
     }
 }
 
@@ -343,42 +350,35 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                 if (!arguments.empty ())
                 {
                     auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
-                    if (function_type->function->branch_offsets.size () == 1)
+                    auto return_type (function_type->function->get_return_type ());
+                    switch (return_type)
                     {
-                        auto branch_size (function_type->function->branch_size (0));
-                        if (branch_size == 1)
+                        case mu::llvmc::skeleton::function_return_type::b1v0:
+                        case mu::llvmc::skeleton::function_return_type::b1v1:
+                        case mu::llvmc::skeleton::function_return_type::bmv0:
                         {
                             already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (most_specific_branch, call, 0);
-                        }
-                        else
+                            break;
+                        }                            
+                        case mu::llvmc::skeleton::function_return_type::b0:                            
+                        case mu::llvmc::skeleton::function_return_type::b1vm:
+                        case mu::llvmc::skeleton::function_return_type::bmvm:
                         {
                             result = true;
                             auto & target (already_generated_multi [expression_a]);
-                            for (size_t i (0), j (branch_size); i != j && result_m.error == nullptr; ++i)
-                            {
-                                target.push_back (new (GC) mu::llvmc::skeleton::call_element (most_specific_branch, call, i));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        result = true;
-                        for (size_t i (0), j (function_type->function->results.size ()); i != j && result_m.error == nullptr; ++i)
-                        {
                             auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-                            auto branch_size (function_type->function->branch_size (i));
-                            if (branch_size == 1)
+                            for (auto i (function_type->function->results.begin ()), j (function_type->function->results.end ()); i != j && result_m.error == nullptr; ++i)
                             {
-                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element (branch, call, i);
-                            }
-                            else
-                            {
-                                auto & target (already_generated_multi [expression_a]);
-                                for (size_t k (0), l (branch_size); k != l && result_m.error == nullptr; ++k)
+                                if (*i != nullptr)
                                 {
-                                    target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, i));
+				    target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, 0));
+                                }
+                                else                                    
+                                {
+				    branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
                                 }
                             }
+                            break;
                         }
                     }
                 }

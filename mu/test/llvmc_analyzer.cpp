@@ -72,7 +72,7 @@ TEST (llvmc_analyzer, one_result_parameter)
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -82,9 +82,8 @@ TEST (llvmc_analyzer, one_result_parameter)
     auto function1 (result.module->functions [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter2 (function1->parameters [0]);
-    ASSERT_EQ (1, function1->branch_offsets.size ());
-    ASSERT_EQ (0, function1->branch_offsets [0]);
-    ASSERT_EQ (1, function1->branch_size (0));
+    ASSERT_EQ (nullptr, function1->results [0]);
+    ASSERT_EQ (2, function1->results.size ());
     auto result2 (function1->results [0]);
     auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (result2->value));
     ASSERT_NE (nullptr, result3);
@@ -103,11 +102,11 @@ TEST (llvmc_analyzer, error_indistinct_result_branches)
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     mu::llvmc::ast::result result2 (&type2);
     result2.value = &parameter1;
-    function.branch_offsets.push_back (1);
+    function.results.push_back (nullptr);
     function.results.push_back (&result2);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -126,7 +125,7 @@ TEST (llvmc_analyzer, error_expression_cycle)
     expression1.arguments.push_back (&expression1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &expression1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -155,11 +154,11 @@ TEST (llvmc_analyzer, if_instruction)
     mu::llvmc::ast::element element2 (&expression1, 1, 2);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     mu::llvmc::ast::result result2 (&type2);
     result2.value = &element2;
-    function.branch_offsets.push_back (1);
+    function.results.push_back (nullptr);
     function.results.push_back (&result2);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -169,14 +168,14 @@ TEST (llvmc_analyzer, if_instruction)
     auto function1 (result.module->functions [0]);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter2 (function1->parameters [0]);
-    ASSERT_EQ (2, function1->branch_offsets.size ());
-    ASSERT_EQ (0, function1->branch_offsets [0]);
-    ASSERT_EQ (1, function1->branch_offsets [1]);
-    ASSERT_EQ (1, function1->branch_size (0));
+    ASSERT_EQ (nullptr, function1->results [0]);
+    ASSERT_NE (nullptr, function1->results [1]);
+    ASSERT_EQ (nullptr, function1->results [2]);
+    ASSERT_NE (nullptr, function1->results [3]);
+    ASSERT_EQ (4, function1->results.size ());
     auto result3 (function1->results [0]);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result3->value));
     ASSERT_NE (nullptr, element3);
-    ASSERT_EQ (1, function1->branch_size (1));
     auto result4 (function1->results [1]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result4->value));
     ASSERT_EQ (element3->source, element4->source);
@@ -227,11 +226,11 @@ TEST (llvmc_analyzer, branches)
     expression3.arguments.push_back (&element2);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &expression2;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     mu::llvmc::ast::result result2 (&type2);
     result2.value = &expression3;
-    function.branch_offsets.push_back (1);
+    function.results.push_back (nullptr);
     function.results.push_back (&result2);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -243,10 +242,11 @@ TEST (llvmc_analyzer, branches)
     auto parameter4 (function1->parameters [0]);
     auto parameter5 (function1->parameters [1]);
     auto parameter6 (function1->parameters [2]);
-    ASSERT_EQ (2, function1->branch_offsets.size ());
-    ASSERT_EQ (0, function1->branch_offsets [0]);
-    ASSERT_EQ (1, function1->branch_offsets [1]);
-    ASSERT_EQ (1, function1->branch_size (0));
+    ASSERT_EQ (nullptr, function1->results [0]);
+    ASSERT_NE (nullptr, function1->results [1]);
+    ASSERT_EQ (nullptr, function1->results [2]);
+    ASSERT_NE (nullptr, function1->results [3]);
+    ASSERT_EQ (4, function1->results.size ());
     auto result3 (function1->results [0]);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result3->value));
     ASSERT_NE (nullptr, element3);
@@ -256,7 +256,6 @@ TEST (llvmc_analyzer, branches)
     ASSERT_EQ (parameter5, element3->arguments [1]);
     ASSERT_EQ (parameter5, element3->arguments [2]);
     ASSERT_EQ (nullptr, element3->arguments [3]);
-    ASSERT_EQ (1, function1->branch_size (1));
     auto result4 (function1->results [1]);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result4->value));
     ASSERT_NE (nullptr, element4);
@@ -293,7 +292,7 @@ TEST (llvmc_analyzer, error_short_join)
     expression1.arguments.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&value1);
     result1.value = &expression1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -346,7 +345,7 @@ TEST (llvmc_analyzer, error_join_different_type)
     
     mu::llvmc::ast::result result1 (&value1);
     result1.value = &expression1;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -392,17 +391,17 @@ TEST (llvmc_analyzer, error_same_branch)
     
     mu::llvmc::ast::result result1 (&value4);
     result1.value = &expression3;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     
     mu::llvmc::ast::result result2 (&value4);
     result2.value = &element2;
-    function.branch_offsets.push_back (1);
+    function.results.push_back (nullptr);
     function.results.push_back (&result2);
     
     mu::llvmc::ast::result result3 (&value4);
     result3.value = &expression3;
-    function.branch_offsets.push_back (2);
+    function.results.push_back (nullptr);
     function.results.push_back (&result3);
     
     module.functions.push_back (&function);
@@ -449,17 +448,17 @@ TEST (llvmc_analyzer, error_same_branch2)
     
     mu::llvmc::ast::result result1 (&value4);
     result1.value = &expression3;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result1);
     
     mu::llvmc::ast::result result2 (&value4);
     result2.value = &element2;
-    function.branch_offsets.push_back (1);
+    function.results.push_back (nullptr);
     function.results.push_back (&result2);
     
     mu::llvmc::ast::result result3 (&value4);
     result3.value = &expression3;
-    function.branch_offsets.push_back (0);
+    function.results.push_back (nullptr);
     function.results.push_back (&result3);
     
     module.functions.push_back (&function);

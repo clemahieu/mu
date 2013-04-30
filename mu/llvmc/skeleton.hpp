@@ -151,17 +151,12 @@ namespace mu
             {
             public:
                 function (mu::llvmc::skeleton::branch * global_a);
-                size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::result *> results;     
-                decltype (results)::iterator branch_begin (size_t index);
-                decltype (results)::iterator branch_end (size_t index);
-                decltype (results)::const_iterator branch_begin (size_t index) const;
-                decltype (results)::const_iterator branch_end (size_t index) const;
+                mu::vector <mu::llvmc::skeleton::result *> results; 
             };
             class pointer_type : public mu::llvmc::skeleton::type
             {
