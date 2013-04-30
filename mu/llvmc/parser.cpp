@@ -602,13 +602,9 @@ parser (parser_a)
 {
 }
 
-mu::llvmc::ast::definite_expression::definite_expression () :
-predicate_position (0 - 1)
-{
-}
-
 void mu::llvmc::expression::parse ()
 {
+    auto parsing_predicates (false);
     auto expression_l (new (GC) mu::llvmc::ast::definite_expression);
     switch (parser.stream.tokens [0]->id ())
     {
@@ -644,10 +640,10 @@ void mu::llvmc::expression::parse ()
                         }
                         case mu::io::token_id::terminator:
                         {
-                            auto position_l (expression_l->predicate_position);
-                            if (position_l == (0 - 1))
+                            if (!parsing_predicates)
                             {
-                                expression_l->predicate_position = expression_l->arguments.size ();
+                                expression_l->arguments.push_back (nullptr);
+                                parsing_predicates = true;
                             }
                             else
                             {

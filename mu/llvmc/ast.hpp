@@ -76,9 +76,7 @@ namespace mu
             class definite_expression : public mu::llvmc::ast::expression
             {
             public:
-                definite_expression ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
-                size_t predicate_position;
             };
             class set_expression : public mu::llvmc::ast::expression
             {
@@ -99,7 +97,6 @@ namespace mu
                 mu::string name;
                 mu::vector <mu::llvmc::ast::parameter *> parameters;
                 mu::vector <mu::llvmc::ast::result *> results;
-                std::vector <size_t> branch_offsets;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
             class module : public mu::llvmc::ast::node
