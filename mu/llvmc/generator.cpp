@@ -356,7 +356,34 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                     assert ((i == j) == (k == l));
                 }
                 break;
-            }
+            }/*
+            case mu::llvmc::skeleton::function_return_type::bmvm:
+            {
+                auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                call_block->getInstList ().push_back (call_l);
+                auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
+                new_last->getInstList ().push_back (real_call);
+                real_call->addIncoming (call_l, call_block);
+                real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
+                unsigned position (0);
+                auto selector_type (llvm::Type::getInt8Ty (context));
+                {
+                    auto i (call->source->target->results.begin ());
+                    auto j (call->source->target->results.end ());
+                    auto k (call->source->elements.begin ());
+                    auto l (call->source->elements.end ());
+                    for (; i != j; ++i, ++k, ++position)
+                    {
+                        auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, real_call, llvm::ConstantInt::get (selector_type, position)));
+                        new_last->getInstList ().push_back (compare);
+                        auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
+                        new_last->getInstList ().push_back (instruction);
+                        already_generated [*k] = mu::llvmc::value_data ({instruction, nullptr});
+                    }
+                    assert ((i == j) == (k == l));
+                }
+                break;
+            }*/
             default:
                 assert (false);
                 break;

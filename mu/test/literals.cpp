@@ -239,3 +239,5 @@ define i8 @1(i1) {
   ret i8 %14
 }
 )%%%";
+
+extern char const * const generate_call_3_expected = R"%%%()%%%";
