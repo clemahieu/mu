@@ -595,7 +595,7 @@ TEST (llvm_generator, generate_call_2)
 
 extern char const * const generate_call_3_expected;
 
-TEST (llvm_generator, DISABLED_generate_call_3)
+TEST (llvm_generator, generate_call_3)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);

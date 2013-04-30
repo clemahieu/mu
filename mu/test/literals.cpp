@@ -240,4 +240,46 @@ define i8 @1(i1) {
 }
 )%%%";
 
-extern char const * const generate_call_3_expected = R"%%%()%%%";
+extern char const * const generate_call_3_expected = R"%%%(
+%0 = type { i32, i32, i8 }
+
+define %0 @0(i1) {
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  %8 = and i1 %7, true
+  %9 = select i1 %8, i8 0, i8 undef
+  %10 = and i1 true, %6
+  %11 = and i1 %10, true
+  %12 = select i1 %11, i8 1, i8 %9
+  %13 = insertvalue %0 undef, i32 1, 0
+  %14 = insertvalue %0 %13, i32 2, 1
+  %15 = insertvalue %0 %14, i8 %12, 2
+  ret %0 %15
+}
+
+define i8 @1(i1) {
+  %2 = and i1 true, true
+  br i1 %2, label %3, label %5
+
+; <label>:3                                       ; preds = %1
+  %4 = call %0 @0(i1 %0)
+  br label %5
+
+; <label>:5                                       ; preds = %1, %3
+  %6 = phi %0 [ %4, %3 ], [ undef, %1 ]
+  %7 = extractvalue %0 %6, 2
+  %8 = icmp eq i8 %7, 0
+  %9 = and i1 %2, %8
+  %10 = extractvalue %0 %6, 0
+  %11 = extractvalue %0 %6, 1
+  %12 = and i1 true, %9
+  %13 = select i1 %12, i8 0, i8 undef
+  %14 = and i1 true, %9
+  %15 = select i1 %14, i8 1, i8 %13
+  ret i8 %15
+}
+)%%%";
