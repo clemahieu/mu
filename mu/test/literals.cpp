@@ -203,3 +203,39 @@ define i1 @1(i1) {
   ret i1 %6
 }
 )%%%";
+
+extern char const * const generate_call_2_expected = R"%%%(
+define i8 @0(i1) {
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = and i1 true, %6
+  %10 = select i1 %9, i8 1, i8 %8
+  ret i8 %10
+}
+
+define i8 @1(i1) {
+  %2 = and i1 true, true
+  br i1 %2, label %3, label %5
+
+; <label>:3                                       ; preds = %1
+  %4 = call i8 @0(i1 %0)
+  br label %5
+
+; <label>:5                                       ; preds = %1, %3
+  %6 = phi i8 [ %4, %3 ], [ undef, %1 ]
+  %7 = icmp eq i8 %6, 0
+  %8 = and i1 %2, %7
+  %9 = icmp eq i8 %6, 1
+  %10 = and i1 %2, %9
+  %11 = and i1 true, %8
+  %12 = select i1 %11, i8 0, i8 undef
+  %13 = and i1 true, %10
+  %14 = select i1 %13, i8 1, i8 %12
+  ret i8 %14
+}
+)%%%";
