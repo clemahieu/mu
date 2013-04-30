@@ -168,4 +168,38 @@ define i1 @0(i1) {
 }
 )%%%";
 
-extern char const * const generate_call_expected = R"%%%()%%%";
+extern char const * const generate_call_0_expected = R"%%%(
+define void @0() {
+  ret void
+}
+
+define void @1() {
+  br i1 true, label %1, label %2
+
+; <label>:1                                       ; preds = %0
+  call void @0()
+  br label %2
+
+; <label>:2                                       ; preds = %0, %1
+  ret void
+}
+)%%%";
+
+extern char const * const generate_call_1_expected = R"%%%(
+define i1 @0(i1) {
+  ret i1 %0
+}
+
+define i1 @1(i1) {
+  %2 = and i1 true, true
+  br i1 %2, label %3, label %5
+
+; <label>:3                                       ; preds = %1
+  %4 = call i1 @0(i1 %0)
+  br label %5
+
+; <label>:5                                       ; preds = %1, %3
+  %6 = phi i1 [ %4, %3 ], [ undef, %1 ]
+  ret i1 %6
+}
+)%%%";

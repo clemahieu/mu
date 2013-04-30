@@ -260,7 +260,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         }
         assert (module.functions.find (call->source->target) != module.functions.end ());
         auto function (module.functions [call->source->target]);
-        std::vector <llvm::Value *> arguments (call->source->arguments.size () - 1);
+        std::vector <llvm::Value *> arguments;
         for (auto i (call->source->arguments.begin () + 1), j (call->source->arguments.end ()); i != j; ++i)
         {
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
@@ -271,21 +271,64 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
             arguments.push_back (argument.value);
         }
         auto call_block (llvm::BasicBlock::Create (context));
+        function_m->getBasicBlockList ().push_back (call_block);
         auto new_last (llvm::BasicBlock::Create (context));
-        auto call_branch (llvm::BranchInst::Create (call_block, new_last, predicate));
-        last->getInstList ().push_back (call_branch);
+        function_m->getBasicBlockList ().push_back (new_last);
+        auto return_type (call->source->target->get_return_type ());
+        switch (return_type)
+        {
+            case mu::llvmc::skeleton::function_return_type::b0:
+            {
+                auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                call_block->getInstList ().push_back (call_l);
+                already_generated [value_a] = mu::llvmc::value_data ({predicate, nullptr});
+                break;
+            }
+            case mu::llvmc::skeleton::function_return_type::b1v0:
+            {
+                auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                call_block->getInstList ().push_back (call_l);
+                already_generated [value_a] = mu::llvmc::value_data ({predicate, nullptr});
+                break;
+            }
+            case mu::llvmc::skeleton::function_return_type::b1v1:
+            {
+                auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                call_block->getInstList ().push_back (call_l);
+                auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
+                new_last->getInstList ().push_back (real_call);
+                real_call->addIncoming (call_l, call_block);
+                real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
+                already_generated [value_a] = mu::llvmc::value_data ({predicate, real_call});
+                break;
+            }
+            case mu::llvmc::skeleton::function_return_type::b1vm:
+            {
+                auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                call_block->getInstList ().push_back (call_l);
+                unsigned position (0);
+                for (auto i (call->source->target->results.begin ()), j (call->source->target->results.end ()); i != j; ++i, ++position)
+                {
+                    auto element (llvm::ExtractValueInst::Create (call_l, position));
+                    call_block->getInstList ().push_back (element);
+                    auto real_element (llvm::PHINode::Create (element->getType (), 2));
+                    new_last->getInstList ().push_back (real_element);
+                    real_element->addIncoming (element, call_block);
+                    real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
+                    already_generated [value_a] = mu::llvmc::value_data ({predicate, real_element});
+                }
+            }
+            default:
+                assert (false);
+                break;
+        }
         auto join_branch (llvm::BranchInst::Create (new_last));
         call_block->getInstList ().push_back (join_branch);
+        auto call_branch (llvm::BranchInst::Create (call_block, new_last, predicate));
+        last->getInstList ().push_back (call_branch);
         last = new_last;
-        auto return_type (call->source->target);
-        size_t position (0);
-        for (auto i (call->source->elements.begin ()), j (call->source->elements.end ()); i != j; ++i, ++position)
-        {
-            
-        }
         assert (already_generated.find (value_a) != already_generated.end ());
         result = already_generated [value_a];
-        already_generated [value_a] = result;
     }
     else
     {
