@@ -85,6 +85,7 @@ TEST (llvmc_analyzer, one_result_parameter)
     ASSERT_EQ (nullptr, function1->results [0]);
     ASSERT_EQ (2, function1->results.size ());
     auto result2 (function1->results [0]);
+    ASSERT_NE (nullptr, result2);
     auto result3 (dynamic_cast <mu::llvmc::skeleton::value *> (result2->value));
     ASSERT_NE (nullptr, result3);
     ASSERT_EQ (parameter2, result3);
@@ -174,6 +175,7 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_NE (nullptr, function1->results [3]);
     ASSERT_EQ (4, function1->results.size ());
     auto result3 (function1->results [0]);
+    ASSERT_NE (nullptr, result3);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (result3->value));
     ASSERT_NE (nullptr, element3);
     auto result4 (function1->results [1]);

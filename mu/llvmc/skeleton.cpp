@@ -350,6 +350,17 @@ mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::ll
     return result;
 }
 
+mu::llvmc::skeleton::clamp::clamp (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * value_a) :
+value (branch_a),
+value_m (value_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::clamp::type ()
+{
+    return &type_m;
+}
+
 bool mu::llvmc::skeleton::type::is_bottom_type () const
 {
     return false;

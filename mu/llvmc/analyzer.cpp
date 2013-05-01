@@ -45,6 +45,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 
 bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 {
+    assert (node_a != nullptr);
     auto result (false);
     auto existing (already_generated.find (node_a));
     if (existing == already_generated.end ())
@@ -371,11 +372,11 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                             {
                                 if (*i != nullptr)
                                 {
-				    target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, 0));
+                                    target.push_back (new (GC) mu::llvmc::skeleton::call_element (branch, call, 0));
                                 }
                                 else                                    
                                 {
-				    branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
+                                    branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
                                 }
                             }
                             break;
@@ -506,17 +507,31 @@ void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton:
 
 void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch)
 {
+    auto clamping (false);
     for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
     {
-        auto result (process_node (*i));
-        if (result_m.error == nullptr)
+        if (*i != nullptr)
         {
-            if (result)
+            auto result (process_node (*i));
+            if (result_m.error == nullptr)
             {
-                auto & nodes (already_generated_multi [*i]);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                if (result)
                 {
-                    auto node (*k);
+                    auto & nodes (already_generated_multi [*i]);
+                    for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                    {
+                        auto node (*k);
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
+                        if (value != nullptr)
+                        {
+                            calculate_most_specific (most_specific_branch, value->branch);
+                        }
+                        arguments_a.push_back (node);
+                    }
+                }
+                else
+                {
+                    auto node (already_generated [*i]);
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                     if (value != nullptr)
                     {
@@ -524,16 +539,6 @@ void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite
                     }
                     arguments_a.push_back (node);
                 }
-            }
-            else
-            {
-                auto node (already_generated [*i]);
-                auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
-                if (value != nullptr)
-                {
-                    calculate_most_specific (most_specific_branch, value->branch);
-                }
-                arguments_a.push_back (node);
             }
         }
     }

@@ -222,6 +222,14 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
             };
+            class clamp : public mu::llvmc::skeleton::value
+            {
+            public:
+                clamp (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * value_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::bottom_type type_m;
+                mu::llvmc::skeleton::value * value_m;
+            };
             class module
             {
             public:
