@@ -66,7 +66,7 @@ void mu::llvmc::generate_function::generate ()
         for (auto k (function->branch_begin (i)), l (function->branch_end (i)); k != l; ++k)
         {
             auto type_s ((*k)->type);
-            if (!type_s->is_bottom_type())
+            if (!type_s->is_unit_type())
             {
                 auto type_l (generate_type (type_s));
                 results.push_back (type_l);
@@ -125,7 +125,7 @@ void mu::llvmc::generate_function::generate ()
             for (auto i: function->results)
             {
                 auto result (retrieve_value (i->value));
-                assert (i->type->is_bottom_type ());
+                assert (i->type->is_unit_type ());
             }
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
             break;
@@ -136,8 +136,8 @@ void mu::llvmc::generate_function::generate ()
             for (auto i: function->results)
             {
                 auto result (retrieve_value (i->value));
-                assert (the_value == nullptr || i->type->is_bottom_type ());
-                the_value = i->type->is_bottom_type () ? the_value : result.value;
+                assert (the_value == nullptr || i->type->is_unit_type ());
+                the_value = i->type->is_unit_type () ? the_value : result.value;
             }
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
             break;
@@ -151,7 +151,7 @@ void mu::llvmc::generate_function::generate ()
             for (auto i: function->results)
             {
                 auto result_value (retrieve_value (i->value));
-                if (!i->type->is_bottom_type ())
+                if (!i->type->is_unit_type ())
                 {
                     auto insert = llvm::InsertValueInst::Create (result, result_value.value, llvm::ArrayRef <unsigned> (index));
                     last->getInstList ().push_back (insert);
@@ -205,7 +205,7 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     for (auto i: function->results)
     {
         auto result_l (retrieve_value (i->value));
-        if (!i->type->is_bottom_type())
+        if (!i->type->is_unit_type())
         {
             result.push_back (result_l.value);
         }
@@ -387,7 +387,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                     new_last->getInstList ().push_back (instruction);
                     for (; current_result != end_result; ++current_result, ++current_element)
                     {
-                        if (!(*current_result)->type->is_bottom_type ())
+                        if (!(*current_result)->type->is_unit_type ())
                         {
                             auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
                             new_last->getInstList().push_back (extraction);
@@ -561,11 +561,11 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                     if (join != nullptr)
                     {
                         assert (join->arguments.size () > 1);
-                        auto bottom (join->arguments [0]->type ()->is_bottom_type ());
+                        auto unit (join->arguments [0]->type ()->is_unit_type ());
                         predicate = llvm::ConstantInt::getFalse (function_m->getContext ());
                         auto first (retrieve_value (join->arguments [0]));
-                        assert (bottom == (first.value == nullptr));
-                        if (!bottom)
+                        assert (unit == (first.value == nullptr));
+                        if (!unit)
                         {
                             value = llvm::UndefValue::get (first.value->getType ());
                         }
@@ -578,7 +578,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             auto value_l (retrieve_value (i));
                             auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, value_l.predicate));
                             last->getInstList ().push_back (predicate_instruction);
-                            if (!bottom)
+                            if (!unit)
                             {
                                 auto select_instruction (llvm::SelectInst::Create (value_l.predicate, value_l.value, value));
                                 last->getInstList ().push_back (select_instruction);
@@ -603,7 +603,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 
 llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::type * type_a)
 {
-    assert (!type_a->is_bottom_type ());
+    assert (!type_a->is_unit_type ());
     llvm::Type * result;
     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type_a));
     if (integer_type != nullptr)

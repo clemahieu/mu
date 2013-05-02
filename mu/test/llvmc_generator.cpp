@@ -261,8 +261,8 @@ TEST (llvm_generator, generate_if_join)
     arguments1.push_back (&element1);
     arguments1.push_back (&element2);
     mu::llvmc::skeleton::join_value join1 (function1.entry, arguments1, 0 - 1);
-    mu::llvmc::skeleton::bottom_type bottom;
-    mu::llvmc::skeleton::result result1 (&bottom, &join1);
+    mu::llvmc::skeleton::unit_type unit;
+    mu::llvmc::skeleton::result result1 (&unit, &join1);
     function1.branch_offsets.push_back (function1.results.size ());
     function1.results.push_back (&result1);
     module.functions.push_back (&function1);
@@ -470,7 +470,7 @@ TEST (llvm_generator, generate_call_0)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
-    mu::llvmc::skeleton::bottom_type type1;
+    mu::llvmc::skeleton::unit_type type1;
     function1.branch_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     

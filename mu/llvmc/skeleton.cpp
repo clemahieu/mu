@@ -192,8 +192,7 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
 
 bool mu::llvmc::skeleton::unit_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
-    auto other_unit (dynamic_cast <mu::llvmc::skeleton::unit_type const *> (&other_a));
-    auto result (other_unit != nullptr);
+    auto result (other_a.is_unit_type ());
     return result;
 }
 
@@ -209,7 +208,7 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     size_t llvm_values (0);
     for (auto i (results.begin ()), j (results.end ()); i != j && llvm_values < 2; ++i)
     {
-        if (!(*i)->type->is_bottom_type ())
+        if (!(*i)->type->is_unit_type ())
         {
             ++llvm_values;
         }
@@ -391,18 +390,12 @@ mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::ll
     return result;
 }
 
-bool mu::llvmc::skeleton::type::is_bottom_type () const
+bool mu::llvmc::skeleton::type::is_unit_type () const
 {
     return false;
 }
 
-bool mu::llvmc::skeleton::bottom_type::operator == (mu::llvmc::skeleton::type const & other_a) const
-{
-    auto result (other_a.is_bottom_type ());
-    return result;
-}
-
-bool mu::llvmc::skeleton::bottom_type::is_bottom_type () const
+bool mu::llvmc::skeleton::unit_type::is_unit_type () const
 {
     return true;
 }
@@ -417,17 +410,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::unit_value::type ()
     return & type_m;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::bottom_value::type ()
-{
-    return & type_m;
-}
-
 mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a) :
-value (branch_a)
-{
-}
-
-mu::llvmc::skeleton::bottom_value::bottom_value (mu::llvmc::skeleton::branch * branch_a) :
 value (branch_a)
 {
 }

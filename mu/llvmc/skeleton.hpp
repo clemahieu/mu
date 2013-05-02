@@ -32,7 +32,7 @@ namespace mu
             public:
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
-                virtual bool is_bottom_type () const;
+                virtual bool is_unit_type () const;
             };
             class branch
             {
@@ -117,12 +117,7 @@ namespace mu
             {
             public:
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-            };
-            class bottom_type : public mu::llvmc::skeleton::type
-            {
-            public:
-                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-                bool is_bottom_type () const override;
+                bool is_unit_type () const override;
             };
             class result
             {
@@ -187,7 +182,7 @@ namespace mu
             public:
                 switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::bottom_type type_m;
+                mu::llvmc::skeleton::unit_type type_m;
                 mu::llvmc::skeleton::switch_i * source;
                 mu::llvmc::skeleton::constant_integer * value_m;
             };
@@ -216,13 +211,6 @@ namespace mu
                 unit_value (mu::llvmc::skeleton::branch * branch_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::unit_type type_m;
-            };
-            class bottom_value : public mu::llvmc::skeleton::value
-            {
-            public:
-                bottom_value (mu::llvmc::skeleton::branch * branch_a);
-                mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::bottom_type type_m;
             };
             class join_value : public mu::llvmc::skeleton::value
             {
