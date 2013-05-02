@@ -5,9 +5,10 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :
+mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 
@@ -61,9 +62,10 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 value (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
     assert (arguments_a.size () > 0);
     assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
@@ -77,9 +79,10 @@ mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
     return result;
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
+mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a, size_t predicate_position_a) :
 value (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 
@@ -91,6 +94,24 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::function::type ()
 mu::llvmc::skeleton::pointer_type::pointer_type (mu::llvmc::skeleton::type * type_a):
 pointed_type (type_a)
 {
+}
+
+size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
+{
+    assert (index < branch_offsets.size ());
+    auto size (branch_offsets.size ());
+    size_t result;
+    if (index == size - 1)
+    {
+        result = results.size () - branch_offsets [index];
+        assert (branch_offsets [index] + result <= results.size ());
+    }
+    else
+    {
+        result = branch_offsets [index + 1] - branch_offsets [index];
+        assert (branch_offsets [index] + result <= results.size ());
+    }
+    return result;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
@@ -117,6 +138,30 @@ bool mu::llvmc::skeleton::integer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
+auto mu::llvmc::skeleton::function::branch_begin (size_t index) -> decltype (results)::iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index];
+}
+
+auto mu::llvmc::skeleton::function::branch_end (size_t index) -> decltype (results)::iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index] + branch_size (index);
+}
+
+auto mu::llvmc::skeleton::function::branch_begin (size_t index) const -> decltype (results)::const_iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index];
+}
+
+auto mu::llvmc::skeleton::function::branch_end (size_t index) const -> decltype (results)::const_iterator
+{
+    assert (branch_offsets.size () > index);
+    return results.begin () + branch_offsets [index] + branch_size (index);
+}
+
 bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
     auto result (false);
@@ -127,15 +172,18 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
         {
             if (function->results.size () == other_function->function->results.size ())
             {
-		result = true;
-		for (auto i (function->parameters.begin ()), j (function->parameters.end ()), k (other_function->function->parameters.begin ()); i != j && result; ++i, ++k)
-		{
-		    result = (*i) == (*k);
-		}
-		for (auto i (function->results.begin ()), j (function->results.end ()), k (other_function->function->results.begin ()); i != j && result; ++i, ++k)
-		{
-		    result = (*(*i)->type) == (*(*k)->type);
-		}
+                if (function->branch_offsets.size () == other_function->function->branch_offsets.size ())
+                {
+                    result = true;
+                    for (auto i (function->branch_offsets.begin ()), j (function->branch_offsets.end ()), k (other_function->function->branch_offsets.begin ()); i != j && result; ++i, ++k)
+                    {
+                        result = (*i) == (*k);
+                    }
+                    for (auto i (function->results.begin ()), j (function->results.end ()), k (other_function->function->results.begin ()); i != j && result; ++i, ++k)
+                    {
+                        result = (*(*i)->type) == (*(*k)->type);
+                    }
+                }
             }
         }
     }
@@ -159,22 +207,14 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
 {
     mu::llvmc::skeleton::function_return_type result;
     size_t llvm_values (0);
-    size_t branches (0);
     for (auto i (results.begin ()), j (results.end ()); i != j && llvm_values < 2; ++i)
     {
-	if (*i != nullptr)
-	{
-	    if (!(*i)->type->is_bottom_type ())
-	    {
-		++llvm_values;
-	    }
-	}
-	else
-	{
-	    ++branches;
-	}
+        if (!(*i)->type->is_bottom_type ())
+        {
+            ++llvm_values;
+        }
     }
-    switch (branches)
+    switch (branch_offsets.size ())
     {
         case 0:
             result = mu::llvmc::skeleton::function_return_type::b0;
@@ -212,10 +252,11 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a):
 target (target_a),
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
 }
 
@@ -286,7 +327,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
     {
         case mu::llvmc::instruction_type::add:
         {
-            assert (arguments.size () == 3 || (arguments.size () > 3 && arguments [3] == nullptr));
+            assert (arguments.size () == 3 || predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
             assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
@@ -295,7 +336,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::load:
         {
-            assert (arguments.size () == 2 || (arguments.size () > 2 && arguments [2] == nullptr));
+            assert (arguments.size () == 2 || predicate_position == 2);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;
@@ -348,17 +389,6 @@ mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::ll
         result = other_a;
     }
     return result;
-}
-
-mu::llvmc::skeleton::clamp::clamp (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * value_a) :
-value (branch_a),
-value_m (value_a)
-{
-}
-
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::clamp::type ()
-{
-    return &type_m;
 }
 
 bool mu::llvmc::skeleton::type::is_bottom_type () const

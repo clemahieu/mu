@@ -70,7 +70,7 @@ namespace mu
             mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_branched (mu::llvmc::skeleton::value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
-            llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+            llvm::Value * process_predicates (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);
             std::vector <llvm::Value *> generate_result_set ();
             mu::llvmc::generate_module & module;
             llvm::BasicBlock * last;

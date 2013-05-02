@@ -86,10 +86,11 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+                size_t predicate_position;
             };
             class join : public mu::llvmc::skeleton::node
             {                
@@ -151,12 +152,18 @@ namespace mu
             {
             public:
                 function (mu::llvmc::skeleton::branch * global_a);
+                size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::result *> results; 
+                mu::vector <mu::llvmc::skeleton::result *> results;
+                std::vector <size_t> branch_offsets;                
+                decltype (results)::iterator branch_begin (size_t index);
+                decltype (results)::iterator branch_end (size_t index);
+                decltype (results)::const_iterator branch_begin (size_t index) const;
+                decltype (results)::const_iterator branch_end (size_t index) const;
             };
             class pointer_type : public mu::llvmc::skeleton::type
             {
@@ -169,9 +176,10 @@ namespace mu
             class switch_i
             {
             public:
-                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+                size_t predicate_position;
                 mu::vector <mu::llvmc::skeleton::switch_element *> elements;
             };
             class switch_element : public mu::llvmc::skeleton::value
@@ -187,10 +195,11 @@ namespace mu
             class function_call
             {
             public:
-                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+                size_t predicate_position;
                 mu::vector <mu::llvmc::skeleton::call_element *> elements;
             };
             class call_element : public mu::llvmc::skeleton::value
@@ -218,17 +227,10 @@ namespace mu
             class join_value : public mu::llvmc::skeleton::value
             {
             public:
-                join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+                join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
-            };
-            class clamp : public mu::llvmc::skeleton::value
-            {
-            public:
-                clamp (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::value * value_a);
-                mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::bottom_type type_m;
-                mu::llvmc::skeleton::value * value_m;
+                size_t predicate_position;
             };
             class module
             {
