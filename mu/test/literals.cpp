@@ -76,22 +76,22 @@ define void @0(i1) {
 extern char const * const generate_if_join_value_expected = R"%%%(
 define i1 @0(i1) {
   %2 = and i1 true, true
-  %3 = icmp eq i1 %0, false
-  %4 = and i1 %2, %3
-  %5 = icmp eq i1 %0, true
-  %6 = and i1 %2, %5
-  %7 = and i1 true, %4
-  %8 = and i1 true, true
-  %9 = and i1 %8, true
+  %3 = and i1 %2, true
+  %4 = and i1 true, true
+  %5 = icmp eq i1 %0, false
+  %6 = and i1 %4, %5
+  %7 = icmp eq i1 %0, true
+  %8 = and i1 %4, %7
+  %9 = and i1 %3, %6
   %10 = add i1 %0, %0
-  %11 = or i1 false, %9
-  %12 = select i1 %9, i1 %10, i1 undef
-  %13 = and i1 true, %6
-  %14 = and i1 true, true
-  %15 = and i1 %14, true
+  %11 = or i1 false, %3
+  %12 = select i1 %3, i1 %10, i1 undef
+  %13 = and i1 true, true
+  %14 = and i1 %13, true
+  %15 = and i1 %14, %8
   %16 = add i1 %0, %0
-  %17 = or i1 %11, %15
-  %18 = select i1 %15, i1 %16, i1 %12
+  %17 = or i1 %11, %14
+  %18 = select i1 %14, i1 %16, i1 %12
   ret i1 %18
 }
 )%%%";
@@ -101,35 +101,35 @@ extern char const * const generate_if_join_2value_expected = R"%%%(
 
 define %0 @0(i1) {
   %2 = and i1 true, true
-  %3 = icmp eq i1 %0, false
-  %4 = and i1 %2, %3
-  %5 = icmp eq i1 %0, true
-  %6 = and i1 %2, %5
-  %7 = and i1 true, %4
-  %8 = and i1 true, true
-  %9 = and i1 %8, true
+  %3 = and i1 %2, true
+  %4 = and i1 true, true
+  %5 = icmp eq i1 %0, false
+  %6 = and i1 %4, %5
+  %7 = icmp eq i1 %0, true
+  %8 = and i1 %4, %7
+  %9 = and i1 %3, %6
   %10 = add i1 %0, %0
-  %11 = or i1 false, %9
-  %12 = select i1 %9, i1 %10, i1 undef
-  %13 = and i1 true, %6
-  %14 = and i1 true, true
-  %15 = and i1 %14, true
+  %11 = or i1 false, %3
+  %12 = select i1 %3, i1 %10, i1 undef
+  %13 = and i1 true, true
+  %14 = and i1 %13, true
+  %15 = and i1 %14, %8
   %16 = add i1 %0, %0
-  %17 = or i1 %11, %15
-  %18 = select i1 %15, i1 %16, i1 %12
+  %17 = or i1 %11, %14
+  %18 = select i1 %14, i1 %16, i1 %12
   %19 = insertvalue %0 undef, i1 %18, 0
-  %20 = and i1 true, %4
-  %21 = and i1 true, true
-  %22 = and i1 %21, true
+  %20 = and i1 true, true
+  %21 = and i1 %20, true
+  %22 = and i1 %21, %6
   %23 = add i1 %0, %0
-  %24 = or i1 false, %22
-  %25 = select i1 %22, i1 %23, i1 undef
-  %26 = and i1 true, %6
-  %27 = and i1 true, true
-  %28 = and i1 %27, true
+  %24 = or i1 false, %21
+  %25 = select i1 %21, i1 %23, i1 undef
+  %26 = and i1 true, true
+  %27 = and i1 %26, true
+  %28 = and i1 %27, %8
   %29 = add i1 %0, %0
-  %30 = or i1 %24, %28
-  %31 = select i1 %28, i1 %29, i1 %25
+  %30 = or i1 %24, %27
+  %31 = select i1 %27, i1 %29, i1 %25
   %32 = insertvalue %0 %19, i1 %31, 1
   ret %0 %32
 }
