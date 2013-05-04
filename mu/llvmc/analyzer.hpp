@@ -63,7 +63,6 @@ namespace mu
             bool process_marker (mu::llvmc::ast::definite_expression * expression_a);
             bool process_join (mu::llvmc::ast::definite_expression * expression_a);
             void process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch);
-            void process_node_values (mu::llvmc::ast::definite_expression * expression_a);   
             void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);

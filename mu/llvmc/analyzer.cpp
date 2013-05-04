@@ -548,11 +548,6 @@ void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite
     }
 }
 
-void mu::llvmc::analyzer_function::process_node_values (mu::llvmc::ast::definite_expression * expression_a)
-{
-    
-}
-
 bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
 {
     mu::vector <mu::llvmc::skeleton::node *> arguments;
