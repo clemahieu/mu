@@ -469,3 +469,15 @@ TEST (llvmc_analyzer, error_same_branch2)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
+
+TEST (llvmc_analyzer, DISABLED_empty_call)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.branch_offsets.push_back (function1.branch_offsets.size ());
+    mu::llvmc::ast::function function2;
+    function2.branch_offsets.push_back (function2.branch_offsets.size ());
+    mu::llvmc::ast::definite_expression expression1;
+    expression1.arguments.push_back (&function1);
+}
