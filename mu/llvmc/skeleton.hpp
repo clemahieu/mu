@@ -180,7 +180,6 @@ namespace mu
             public:
                 switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::unit_type type_m;
                 mu::llvmc::skeleton::switch_i * source;
                 mu::llvmc::skeleton::constant_integer * value_m;
             };
@@ -207,7 +206,6 @@ namespace mu
             public:
                 unit_value (mu::llvmc::skeleton::branch * branch_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::unit_type type_m;
             };
             class join_value : public mu::llvmc::skeleton::value
             {
@@ -223,6 +221,7 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::function *> functions;
                 mu::llvmc::skeleton::branch * global;
             };
+            extern mu::llvmc::skeleton::unit_type the_unit_type;
         }
     }
 }
