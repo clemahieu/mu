@@ -178,7 +178,8 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
     for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
     {
         auto most_specific_branch (module.module->global);
-        auto single_result (*k);
+        assert (dynamic_cast <mu::llvmc::ast::result *> (*k) != nullptr);
+        auto single_result (static_cast <mu::llvmc::ast::result *> (*k));
         auto type (process_type (single_result->written_type));
         if (type != nullptr)
         {
