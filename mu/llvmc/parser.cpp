@@ -317,6 +317,7 @@ void mu::llvmc::function::parse_result_set ()
 {
     auto node (parser.stream.peek ());
     auto done (false);
+    auto predicates (false);
     while (result.error == nullptr && !done)
     {
         if (node.ast != nullptr)
@@ -365,6 +366,21 @@ void mu::llvmc::function::parse_result_set ()
                 case mu::io::token_id::right_square:
                     parser.stream.consume ();
                     done = true;
+                    if (!predicates)
+                    {
+                        function_m->predicate_offsets.push_back (function_m->results.size ());
+                    }
+                    break;
+                case mu::io::token_id::terminator:
+                    if (predicates == false)
+                    {
+                        predicates = true;
+                        function_m->predicate_offsets.push_back (function_m->results.size ());
+                    }
+                    else
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+                    }
                     break;
                 default:
                     result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square);

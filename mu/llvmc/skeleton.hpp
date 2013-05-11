@@ -153,7 +153,8 @@ namespace mu
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
                 mu::vector <mu::llvmc::skeleton::result *> results;
-                std::vector <size_t> branch_offsets;                
+                std::vector <size_t> branch_offsets;
+                std::vector <size_t> predicate_offsets;
                 decltype (results)::iterator branch_begin (size_t index);
                 decltype (results)::iterator branch_end (size_t index);
                 decltype (results)::const_iterator branch_begin (size_t index) const;

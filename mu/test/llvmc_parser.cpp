@@ -256,6 +256,8 @@ TEST (llvmc_parser, results1)
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->branch_offsets.size ());
     ASSERT_EQ (0, function1->branch_offsets [0]);
+    ASSERT_EQ (1, function1->predicate_offsets.size ());
+    ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
@@ -277,12 +279,15 @@ TEST (llvmc_parser, results2)
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_EQ (2, function1->results.size ());
     ASSERT_EQ (2, function1->branch_offsets.size ());
+    ASSERT_EQ (2, function1->predicate_offsets.size ());
     ASSERT_EQ (0, function1->branch_offsets [0]);
+    ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
     EXPECT_EQ (parameter1, value1->value);
     ASSERT_EQ (1, function1->branch_offsets [1]);
+    ASSERT_EQ (2, function1->predicate_offsets [1]);
     auto result2 (function1->results [1]);
     auto value2 (dynamic_cast <mu::llvmc::ast::result *> (result2));
     ASSERT_NE (nullptr, value2);
@@ -409,6 +414,8 @@ TEST (llvmc_parser, set1)
     ASSERT_EQ (1, function1->results.size ());
     ASSERT_EQ (1, function1->branch_offsets.size ());
     ASSERT_EQ (0, function1->branch_offsets [0]);
+    ASSERT_EQ (1, function1->predicate_offsets.size ());
+    ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     EXPECT_EQ (root1, value1->value);

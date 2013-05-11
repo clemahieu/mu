@@ -100,6 +100,7 @@ namespace mu
                 mu::vector <mu::llvmc::ast::parameter *> parameters;
                 mu::vector <mu::llvmc::ast::node *> results;
                 std::vector <size_t> branch_offsets;
+                std::vector <size_t> predicate_offsets;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
             class module : public mu::llvmc::ast::node
