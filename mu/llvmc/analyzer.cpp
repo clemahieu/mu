@@ -349,6 +349,11 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                         auto branch_size (function_type->function->branch_size (0));
                         switch (branch_size)
                         {
+                            case 0:
+                            {
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (most_specific_branch, call, 0);
+                                break;
+                            }
                             case 1:
                             {
                                 already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (most_specific_branch, call, 0);
@@ -375,6 +380,11 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                             auto branch_size (function_type->function->branch_size (i));
                             switch (branch_size)
                             {
+                                case 0:
+                                {
+                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (branch, call, i);
+                                    break;
+                                }
                                 case 1:
                                 {
                                     already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (branch, call, i);
