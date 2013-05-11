@@ -470,7 +470,7 @@ TEST (llvmc_analyzer, error_same_branch2)
     ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
 
-TEST (llvmc_analyzer, empty_call)
+TEST (llvmc_analyzer, DISABLED_empty_call)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
@@ -484,6 +484,7 @@ TEST (llvmc_analyzer, empty_call)
     mu::llvmc::ast::value value1 (&mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::ast::result result1 (&value1);
     result1.value = &expression1;
+    function2.results.push_back (&result1);
     module1.functions.push_back (&function2);
     auto result (analyzer.analyze (&module1));
     ASSERT_EQ (nullptr, result.error);
