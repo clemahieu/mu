@@ -470,14 +470,33 @@ TEST (llvmc_analyzer, error_same_branch2)
     ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
 
-TEST (llvmc_analyzer, DISABLED_empty_call)
+TEST (llvmc_analyzer, empty_call)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.branch_offsets.push_back (function1.branch_offsets.size ());
+    module1.functions.push_back (&function1);
     mu::llvmc::ast::function function2;
     function2.branch_offsets.push_back (function2.branch_offsets.size ());
     mu::llvmc::ast::definite_expression expression1;
     expression1.arguments.push_back (&function1);
+    mu::llvmc::ast::value value1 (&mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::ast::result result1 (&value1);
+    result1.value = &expression1;
+    module1.functions.push_back (&function2);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (2, result.module->functions.size ());
+    auto function3 (result.module->functions [0]);
+    ASSERT_EQ (0, function3->parameters.size ());
+    ASSERT_EQ (0, function3->results.size ());
+    ASSERT_EQ (1, function3->branch_offsets.size ());
+    ASSERT_EQ (0, function3->branch_offsets [0]);
+    auto function4 (result.module->functions [1]);
+    ASSERT_EQ (0, function4->parameters.size ());
+    ASSERT_EQ (0, function4->results.size ());
+    ASSERT_EQ (1, function4->branch_offsets.size ());
+    ASSERT_EQ (0, function4->branch_offsets [0]);
 }
