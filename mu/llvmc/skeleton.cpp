@@ -11,8 +11,20 @@ arguments (arguments_a)
 {
 }
 
-mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
-value (branch_a),
+mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a) :
+value (branch_a)
+{
+}
+
+mu::llvmc::skeleton::call_element_value::call_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
+call_element (branch_a),
+source (source_a),
+index (index_a)
+{
+}
+
+mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
+call_element (branch_a),
 source (source_a),
 index (index_a)
 {
@@ -111,7 +123,12 @@ size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
     return result;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_unit::type ()
+{
+    return & mu::llvmc::skeleton::the_unit_type;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_value::type ()
 {
     assert (source->target->results.size () > index);
     auto result (source->target->results [index]->type);

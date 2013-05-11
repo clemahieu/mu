@@ -485,7 +485,7 @@ TEST (llvm_generator, generate_call_0)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
-    mu::llvmc::skeleton::call_element element1 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element1 (function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     function2.branch_offsets.push_back (function2.results.size ());
@@ -524,7 +524,7 @@ TEST (llvm_generator, generate_call_1)
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
-    mu::llvmc::skeleton::call_element element1 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element1 (function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     function2.branch_offsets.push_back (function2.results.size ());
@@ -577,9 +577,9 @@ TEST (llvm_generator, generate_call_2)
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
-    mu::llvmc::skeleton::call_element element3 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element3 (function2.entry, &call1, 0);
     call1.elements.push_back (&element3);
-    mu::llvmc::skeleton::call_element element4 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element4 (function2.entry, &call1, 0);
     call1.elements.push_back (&element4);
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.branch_offsets.push_back (function2.results.size ());
@@ -642,9 +642,9 @@ TEST (llvm_generator, generate_call_3)
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
-    mu::llvmc::skeleton::call_element element3 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element3 (function2.entry, &call1, 0);
     call1.elements.push_back (&element3);
-    mu::llvmc::skeleton::call_element element4 (function2.entry, &call1, 0);
+    mu::llvmc::skeleton::call_element_value element4 (function2.entry, &call1, 0);
     call1.elements.push_back (&element4);
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.branch_offsets.push_back (function2.results.size ());

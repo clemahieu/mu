@@ -251,7 +251,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
     assert (value_a != nullptr);
     assert (already_generated.find (value_a) == already_generated.end ());
     mu::llvmc::value_data result;
-    auto call (dynamic_cast <mu::llvmc::skeleton::call_element *> (value_a));
+    auto call (dynamic_cast <mu::llvmc::skeleton::call_element_value *> (value_a));
     if (call != nullptr)
     {
         auto & context (module.target->getContext ());

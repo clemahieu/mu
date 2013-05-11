@@ -196,7 +196,20 @@ namespace mu
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
+                call_element (mu::llvmc::skeleton::branch * branch_a);
+            };
+            class call_element_value : public mu::llvmc::skeleton::call_element
+            {
+            public:
+                call_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::function_call * source;
+                size_t index;
+            };
+            class call_element_unit : public mu::llvmc::skeleton::call_element
+            {
+            public:
+                call_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::function_call * source;
                 size_t index;
