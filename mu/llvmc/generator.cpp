@@ -61,16 +61,13 @@ void mu::llvmc::generate_function::generate ()
         parameters.push_back (type_l);
     }
     std::vector <llvm::Type *> results;
-    for (size_t i (0), j (function->branch_offsets.size ()); i != j; ++i)
+    for (auto i: function->results)
     {
-        for (auto k (function->branch_begin (i)), l (function->branch_end (i)); k != l; ++k)
+        auto type_s (i->type);
+        if (!type_s->is_unit_type())
         {
-            auto type_s ((*k)->type);
-            if (!type_s->is_unit_type())
-            {
-                auto type_l (generate_type (type_s));
-                results.push_back (type_l);
-            }
+            auto type_l (generate_type (type_s));
+            results.push_back (type_l);
         }
     }
     if (function->branch_offsets.size () > 1)
