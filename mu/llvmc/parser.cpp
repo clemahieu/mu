@@ -293,8 +293,8 @@ void mu::llvmc::function::parse_results ()
                 {
                     case mu::io::token_id::left_square:
                         parser.stream.tokens.consume (1);
-                        function_m->branch_offsets.push_back (function_m->results.size ());
                         parse_result_set ();
+                        function_m->branch_ends.push_back (function_m->results.size ());
                         next = parser.stream.tokens [0];
                         break;
                     case mu::io::token_id::right_square:

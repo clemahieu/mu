@@ -99,7 +99,7 @@ namespace mu
                 mu::string name;
                 mu::vector <mu::llvmc::ast::parameter *> parameters;
                 mu::vector <mu::llvmc::ast::node *> results;
-                std::vector <size_t> branch_offsets;
+                std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
                 mu::vector <mu::llvmc::ast::node *> roots;
             };

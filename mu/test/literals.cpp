@@ -97,7 +97,7 @@ define i1 @0(i1) {
 )%%%";
 
 extern char const * const generate_if_join_2value_expected = R"%%%(
-%0 = type { i1, i1 }
+%0 = type { i1, i1, i8 }
 
 define %0 @0(i1) {
   %2 = and i1 true, true
@@ -117,21 +117,26 @@ define %0 @0(i1) {
   %16 = add i1 %0, %0
   %17 = or i1 %11, %14
   %18 = select i1 %14, i1 %16, i1 %12
-  %19 = insertvalue %0 undef, i1 %18, 0
-  %20 = and i1 true, true
-  %21 = and i1 %20, true
-  %22 = and i1 %21, %6
-  %23 = add i1 %0, %0
-  %24 = or i1 false, %21
-  %25 = select i1 %21, i1 %23, i1 undef
-  %26 = and i1 true, true
-  %27 = and i1 %26, true
-  %28 = and i1 %27, %8
-  %29 = add i1 %0, %0
-  %30 = or i1 %24, %27
-  %31 = select i1 %27, i1 %29, i1 %25
-  %32 = insertvalue %0 %19, i1 %31, 1
-  ret %0 %32
+  %19 = and i1 true, %17
+  %20 = select i1 %19, i8 0, i8 undef
+  %21 = and i1 true, true
+  %22 = and i1 %21, true
+  %23 = and i1 %22, %6
+  %24 = add i1 %0, %0
+  %25 = or i1 false, %22
+  %26 = select i1 %22, i1 %24, i1 undef
+  %27 = and i1 true, true
+  %28 = and i1 %27, true
+  %29 = and i1 %28, %8
+  %30 = add i1 %0, %0
+  %31 = or i1 %25, %28
+  %32 = select i1 %28, i1 %30, i1 %26
+  %33 = and i1 true, %31
+  %34 = select i1 %33, i8 1, i8 %20
+  %35 = insertvalue %0 undef, i1 %18, 0
+  %36 = insertvalue %0 %35, i1 %32, 1
+  %37 = insertvalue %0 %36, i8 %34, 2
+  ret %0 %37
 }
 )%%%";
 
@@ -275,11 +280,15 @@ define i8 @1(i1) {
   %8 = icmp eq i8 %7, 0
   %9 = and i1 %2, %8
   %10 = extractvalue %0 %6, 0
-  %11 = extractvalue %0 %6, 1
-  %12 = and i1 true, %9
-  %13 = select i1 %12, i8 0, i8 undef
-  %14 = and i1 true, %9
-  %15 = select i1 %14, i8 1, i8 %13
-  ret i8 %15
+  %11 = icmp eq i8 %7, 1
+  %12 = and i1 %2, %11
+  %13 = extractvalue %0 %6, 1
+  %14 = icmp eq i8 %7, 2
+  %15 = and i1 %2, %14
+  %16 = and i1 true, %9
+  %17 = select i1 %16, i8 0, i8 undef
+  %18 = and i1 true, %9
+  %19 = select i1 %18, i8 1, i8 %17
+  ret i8 %19
 }
 )%%%";

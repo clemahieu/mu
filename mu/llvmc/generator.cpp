@@ -70,7 +70,7 @@ void mu::llvmc::generate_function::generate ()
             results.push_back (type_l);
         }
     }
-    if (function->branch_offsets.size () > 1)
+    if (function->branch_ends.size () > 1)
     {
         results.push_back (llvm::Type::getInt8Ty (context));
     }
@@ -141,8 +141,8 @@ void mu::llvmc::generate_function::generate ()
         }
         case mu::llvmc::skeleton::function_return_type::b1vm:
         {
-            assert (function->branch_offsets.size () == 1);
-            assert (function->branch_offsets [0] == 0);
+            assert (function->branch_ends.size () == 1);
+            assert (function->branch_ends [0] == function->results.size ());
             llvm::Value * result (llvm::UndefValue::get (function_type->getReturnType ()));
             unsigned index (0);
             for (auto i: function->results)
@@ -194,35 +194,32 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     auto type (llvm::Type::getInt8Ty (context));
     llvm::Value * selector (llvm::UndefValue::get (type));
     llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
-    auto first_branch (function->branch_offsets.begin ());
-    auto last_branch (function->branch_offsets.end ());
-    size_t j (0);
+    auto current_branch (function->branch_ends.begin ());
+    auto last_branch (function->branch_ends.end ());
+    size_t index (0);
+    size_t end (function->results.size ());
     uint8_t selector_number (0);
-    size_t k (first_branch == last_branch ? ~0 : *(++first_branch));
-    for (auto i: function->results)
+    for (; index != end; ++index)
     {
-        auto result_l (retrieve_value (i->value));
-        if (!i->type->is_unit_type())
+        assert (current_branch != last_branch);
+        auto result_l (retrieve_value (function->results [index]->value));
+        if (!function->results [index]->type->is_unit_type())
         {
             result.push_back (result_l.value);
         }
         auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l.predicate));
         last->getInstList ().push_back (instruction);
         predicate = instruction;
-        ++j;
-        if (j == k)
+        if (index + 1 == *current_branch)
         {
             auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
             last->getInstList().push_back (selector_new);
             selector = selector_new;
             predicate = llvm::ConstantInt::getTrue (context);
             ++selector_number;
-            k = first_branch == last_branch ? ~0 : *(++first_branch);
+            ++current_branch;
         }
     }
-    auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
-    last->getInstList().push_back (selector_new);
-    selector = selector_new;
     result.push_back (selector);
     return result;
 }
@@ -342,8 +339,8 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 unsigned position (0);
                 auto selector_type (llvm::Type::getInt8Ty (context));
                 {
-                    auto i (call->source->target->branch_offsets.begin ());
-                    auto j (call->source->target->branch_offsets.end ());
+                    auto i (call->source->target->branch_ends.begin ());
+                    auto j (call->source->target->branch_ends.end ());
                     auto k (call->source->elements.begin ());
                     auto l (call->source->elements.end ());
                     for (; i != j; ++i, ++k, ++position)
@@ -374,19 +371,18 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 {
                     auto current_result (call->source->target->results.begin ());
                     auto end_result (call->source->target->results.end ());
-                    auto current_offset (call->source->target->branch_offsets.begin ());
-                    auto end_offset (call->source->target->branch_offsets.end ());
+                    auto current_offset (call->source->target->branch_ends.begin ());
+                    auto end_offset (call->source->target->branch_ends.end ());
                     auto current_element (call->source->elements.begin ());
                     auto end_element (call->source->elements.end ());
                     size_t current_selector (0);
-                    size_t branch_end (current_offset == end_offset ? ~0 : *current_offset);
                     size_t position (0);
                     unsigned result_index (0);
                     auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector)));
                     new_last->getInstList ().push_back (compare);
                     auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
                     new_last->getInstList ().push_back (instruction);
-                    for (; current_result != end_result; ++current_result, ++current_element)
+                    for (; current_result != end_result; ++current_result, ++current_element, ++position)
                     {
                         if (!(*current_result)->type->is_unit_type ())
                         {
@@ -399,15 +395,14 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                         {
                             already_generated [*current_element] = mu::llvmc::value_data ({instruction, nullptr});
                         }
-                        ++position;
-                        if (position == branch_end)
+                        if (position + 1 == *current_offset)
                         {
                             ++current_selector;
                             compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
                             new_last->getInstList ().push_back (compare);
                             instruction = llvm::BinaryOperator::CreateAnd (predicate, compare);
                             new_last->getInstList ().push_back (instruction);
-                            branch_end = current_offset == end_offset ? ~0 : *(++current_offset);
+                            ++current_offset;
                         }
                     }
                 }

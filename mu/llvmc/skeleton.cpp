@@ -107,18 +107,16 @@ pointed_type (type_a)
 
 size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
 {
-    assert (index < branch_offsets.size ());
-    auto size (branch_offsets.size ());
+    assert (index < branch_ends.size ());
+    auto size (branch_ends.size ());
     size_t result;
-    if (index == size - 1)
+    if (index == 0)
     {
-        result = results.size () - branch_offsets [index];
-        assert (branch_offsets [index] + result <= results.size ());
+        result = branch_ends [index];
     }
     else
     {
-        result = branch_offsets [index + 1] - branch_offsets [index];
-        assert (branch_offsets [index] + result <= results.size ());
+        result = branch_ends [index] - branch_ends [index - 1];
     }
     return result;
 }
@@ -152,30 +150,6 @@ bool mu::llvmc::skeleton::integer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
-auto mu::llvmc::skeleton::function::branch_begin (size_t index) -> decltype (results)::iterator
-{
-    assert (branch_offsets.size () > index);
-    return results.begin () + branch_offsets [index];
-}
-
-auto mu::llvmc::skeleton::function::branch_end (size_t index) -> decltype (results)::iterator
-{
-    assert (branch_offsets.size () > index);
-    return results.begin () + branch_offsets [index] + branch_size (index);
-}
-
-auto mu::llvmc::skeleton::function::branch_begin (size_t index) const -> decltype (results)::const_iterator
-{
-    assert (branch_offsets.size () > index);
-    return results.begin () + branch_offsets [index];
-}
-
-auto mu::llvmc::skeleton::function::branch_end (size_t index) const -> decltype (results)::const_iterator
-{
-    assert (branch_offsets.size () > index);
-    return results.begin () + branch_offsets [index] + branch_size (index);
-}
-
 bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type const & other_a) const
 {
     auto result (false);
@@ -186,10 +160,10 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
         {
             if (function->results.size () == other_function->function->results.size ())
             {
-                if (function->branch_offsets.size () == other_function->function->branch_offsets.size ())
+                if (function->branch_ends.size () == other_function->function->branch_ends.size ())
                 {
                     result = true;
-                    for (auto i (function->branch_offsets.begin ()), j (function->branch_offsets.end ()), k (other_function->function->branch_offsets.begin ()); i != j && result; ++i, ++k)
+                    for (auto i (function->branch_ends.begin ()), j (function->branch_ends.end ()), k (other_function->function->branch_ends.begin ()); i != j && result; ++i, ++k)
                     {
                         result = (*i) == (*k);
                     }
@@ -227,7 +201,7 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
             ++llvm_values;
         }
     }
-    switch (branch_offsets.size ())
+    switch (branch_ends.size ())
     {
         case 0:
             result = mu::llvmc::skeleton::function_return_type::b0;

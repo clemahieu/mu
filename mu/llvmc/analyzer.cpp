@@ -212,7 +212,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     if (function_l != nullptr)
     {
         auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
-        function_s->branch_offsets.swap (function_l->branch_offsets);
+        function_s->branch_ends.swap (function_l->branch_ends);
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
         result_m.function = function_s;
@@ -356,7 +356,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                 if (!arguments.empty ())
                 {
                     auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
-                    if (function_type->function->branch_offsets.size () == 1)
+                    if (function_type->function->branch_ends.size () == 1)
                     {
                         auto branch_size (function_type->function->branch_size (0));
                         switch (branch_size)
