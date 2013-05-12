@@ -175,11 +175,14 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
 void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
-    for (auto k (function_a->results.begin ()), l (function_a->results.end ()); k != l && result_m.error == nullptr; ++k)
+    size_t k (0);
+    size_t l (function_a->results.size ());
+    auto current_branch (function_s->branch_ends.begin ());
+    auto most_specific_branch (module.module->global);
+    for (; k != l && result_m.error == nullptr; ++k)
     {
-        auto most_specific_branch (module.module->global);
-        assert (dynamic_cast <mu::llvmc::ast::result *> (*k) != nullptr);
-        auto single_result (static_cast <mu::llvmc::ast::result *> (*k));
+        assert (dynamic_cast <mu::llvmc::ast::result *> (function_a->results [k]) != nullptr);
+        auto single_result (static_cast <mu::llvmc::ast::result *> (function_a->results [k]));
         auto type (process_type (single_result->written_type));
         if (type != nullptr)
         {
@@ -194,14 +197,19 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
         {
             result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
         }
-        auto existing (result_branches.find (most_specific_branch));
-        if (existing == result_branches.end ())
+        if (k + 1 == *current_branch)
         {
-            result_branches.insert (most_specific_branch);
-        }
-        else
-        {
-            result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
+            auto existing (result_branches.find (most_specific_branch));
+            if (existing == result_branches.end ())
+            {
+                result_branches.insert (most_specific_branch);
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
+            }
+            most_specific_branch = module.module->global;
+            ++current_branch;
         }
     }
 }

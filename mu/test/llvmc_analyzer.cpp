@@ -73,7 +73,7 @@ TEST (llvmc_analyzer, one_result_parameter)
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
     function.results.push_back (&result1);
-    function.branch_ends.push_back (1);
+    function.branch_ends.push_back (function.results.size ());
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
