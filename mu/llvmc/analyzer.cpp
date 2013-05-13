@@ -178,24 +178,48 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
     size_t k (0);
     size_t l (function_a->results.size ());
     auto current_branch (function_s->branch_ends.begin ());
+    auto current_predicates (function_a->predicate_offsets.begin ());
     auto most_specific_branch (module.module->global);
     for (; k != l && result_m.error == nullptr; ++k)
     {
-        assert (dynamic_cast <mu::llvmc::ast::result *> (function_a->results [k]) != nullptr);
-        auto single_result (static_cast <mu::llvmc::ast::result *> (function_a->results [k]));
-        auto type (process_type (single_result->written_type));
-        if (type != nullptr)
+        if (k < *current_predicates)
         {
-            auto value (process_value (single_result->value));
-            if (value != nullptr)
+            assert (dynamic_cast <mu::llvmc::ast::result *> (function_a->results [k]) != nullptr);
+            auto single_result (static_cast <mu::llvmc::ast::result *> (function_a->results [k]));
+            auto type (process_type (single_result->written_type));
+            if (type != nullptr)
             {
-                function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                most_specific_branch = most_specific_branch->most_specific (value->branch);
+                auto value (process_value (single_result->value));
+                if (value != nullptr)
+                {
+                    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                    most_specific_branch = most_specific_branch->most_specific (value->branch);
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
             }
         }
         else
         {
-            result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
+            auto multi (process_node (function_a->results [k]));
+            if (!multi)
+            {
+                function_s->results.push_back (already_generated [function_a->results [k]]);
+            }
+            else
+            {
+                auto & values (already_generated_multi [function_a->results [k]]);
+                for (auto i: values)
+                {
+                    function_s->results.push_back (i);
+                }
+            }
+        }
+        if (k + 1 == *current_predicates)
+        {
+            function_s->predicate_offsets.push_back (function_s->results.size ());
         }
         if (k + 1 == *current_branch)
         {
@@ -210,6 +234,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
             }
             most_specific_branch = module.module->global;
             ++current_branch;
+            ++current_predicates;
         }
     }
 }

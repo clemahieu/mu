@@ -118,7 +118,7 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 bool is_unit_type () const override;
             };
-            class result
+            class result : public mu::llvmc::skeleton::node
             {
             public:
                 result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
@@ -152,7 +152,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::result *> results;
+                mu::vector <mu::llvmc::skeleton::node *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
             };
