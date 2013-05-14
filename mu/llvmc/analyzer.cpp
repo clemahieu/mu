@@ -177,7 +177,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
     mu::set <mu::llvmc::skeleton::branch *> result_branches;
     auto most_specific_branch (module.module->global);
     function_a->for_each_results (
-                      [this, function_s, &most_specific_branch]
+                      [&]
                       (mu::llvmc::ast::result * result_a, size_t index_a)
                       {
                           auto type (process_type (result_a->written_type));
@@ -196,12 +196,12 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                           }
                       },
                       [] (mu::llvmc::ast::expression *, size_t) {},
-                      [function_s]
+                      [&]
                       (mu::llvmc::ast::node *, size_t)
                       {
                           function_s->predicate_offsets.push_back (function_s->results.size ());
                       },
-                      [this, &result_branches, &most_specific_branch, function_s]
+                      [&]
                       (mu::llvmc::ast::node *, size_t)
                       {
                           auto existing (result_branches.find (most_specific_branch));
@@ -216,7 +216,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                           most_specific_branch = module.module->global;
                           function_s->branch_ends.push_back (function_s->results.size ());
                       },
-                      [this]
+                      [&]
                       ()
                       {
                           return result_m.error == nullptr;
@@ -376,7 +376,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                     auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
                     result = function_type->function->branch_ends.size () != 1;
                     function_type->function->for_each_branch (
-                        [this, expression_a, most_specific_branch, call, &result]
+                        [&]
                         (size_t begin, size_t end)
                           {
                               auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));

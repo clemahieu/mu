@@ -62,7 +62,7 @@ void mu::llvmc::generate_function::generate ()
     }
     std::vector <llvm::Type *> results;
     function->for_each_results (
-        [this, &results]
+        [&]
         (mu::llvmc::skeleton::result * result_a, size_t)
         {
             auto type_s (result_a->type);
@@ -123,7 +123,7 @@ void mu::llvmc::generate_function::generate ()
         case mu::llvmc::skeleton::function_return_type::b1v0:
         {
             function->for_each_results (
-                [this]
+                [&]
                 (mu::llvmc::skeleton::result * result_a, size_t)
                 {
                     auto result (retrieve_value (result_a->value));
@@ -137,7 +137,7 @@ void mu::llvmc::generate_function::generate ()
         {
             llvm::Value * the_value (nullptr);
             function->for_each_results (
-                [this, &the_value]
+                [&]
                 (mu::llvmc::skeleton::result * result_a, size_t)
                 {
                     auto result (retrieve_value (result_a->value));
@@ -155,7 +155,7 @@ void mu::llvmc::generate_function::generate ()
             llvm::Value * result (llvm::UndefValue::get (function_type->getReturnType ()));
             unsigned index (0);
             function->for_each_results (
-                [this, &result, &index]
+                [&]
                 (mu::llvmc::skeleton::result * result_a, size_t)
                 {
                     auto result_value (retrieve_value (result_a->value));
@@ -208,7 +208,7 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
     uint8_t selector_number (0);
     function->for_each_results (
-        [this, &result, &predicate]
+        [&]
         (mu::llvmc::skeleton::result * result_a, size_t)
         {
             auto result_l (retrieve_value (result_a->value));
@@ -222,7 +222,7 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
         },
         mu::llvmc::skeleton::function::empty_node,
         mu::llvmc::skeleton::function::empty_node,
-        [&selector_number, &selector, &predicate, type, this, &context]
+        [&]
         (mu::llvmc::skeleton::node * node_a, size_t)
         {
             auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
@@ -324,19 +324,19 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 auto k (call->source->elements.begin ());
                 auto l (call->source->elements.end ());
                 call->source->target->for_each_results (
-                                                        [this, call_block, &new_last, call_l, &position, predicate, &k]
-                                                        (mu::llvmc::skeleton::result * result_a, size_t)
-                                                        {
-                                                            auto element (llvm::ExtractValueInst::Create (call_l, position));
-                                                            call_block->getInstList ().push_back (element);
-                                                            auto real_element (llvm::PHINode::Create (element->getType (), 2));
-                                                            new_last->getInstList ().push_back (real_element);
-                                                            real_element->addIncoming (element, call_block);
-                                                            real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
-                                                            already_generated [*k] = mu::llvmc::value_data ({predicate, real_element});
-                                                            ++k;
-                                                            ++position;
-                                                        }
+                    [&]
+                    (mu::llvmc::skeleton::result * result_a, size_t)
+                    {
+                        auto element (llvm::ExtractValueInst::Create (call_l, position));
+                        call_block->getInstList ().push_back (element);
+                        auto real_element (llvm::PHINode::Create (element->getType (), 2));
+                        new_last->getInstList ().push_back (real_element);
+                        real_element->addIncoming (element, call_block);
+                        real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
+                        already_generated [*k] = mu::llvmc::value_data ({predicate, real_element});
+                        ++k;
+                        ++position;
+                    }
                 );
                 assert (k == l);
                 break;
