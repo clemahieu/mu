@@ -168,8 +168,10 @@ namespace mu
                 }
                 mu::llvmc::skeleton::result * as_result (mu::llvmc::skeleton::node * node_a);
                 mu::llvmc::skeleton::value * as_value (mu::llvmc::skeleton::node * node_a);
-                template <typename T, typename U, typename V, typename W, typename X>
-                void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate)
+                static void empty_node (mu::llvmc::skeleton::node *, size_t);
+                static bool empty_loop_predicate ();
+                template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
+                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate)
                 {
                     assert (branch_ends.size () == predicate_offsets.size ());
                     size_t index (0);

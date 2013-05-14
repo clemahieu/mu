@@ -71,11 +71,7 @@ void mu::llvmc::generate_function::generate ()
                auto type_l (generate_type (type_s));
                results.push_back (type_l);
             }
-        },
-        [] (mu::llvmc::skeleton::value *, size_t) {},
-        [] (mu::llvmc::skeleton::node *, size_t) {},
-        [] (mu::llvmc::skeleton::node *, size_t) {},
-        [] () {return true;}
+        }
     );
     if (function->branch_ends.size () > 1)
     {
@@ -126,23 +122,29 @@ void mu::llvmc::generate_function::generate ()
         }
         case mu::llvmc::skeleton::function_return_type::b1v0:
         {
-            for (auto i: function->results)
-            {
-                auto result (retrieve_value (i->value));
-                assert (i->type->is_unit_type ());
-            }
+            function->for_each_results (
+                [this]
+                (mu::llvmc::skeleton::result * result_a, size_t)
+                {
+                    auto result (retrieve_value (result_a->value));
+                    assert (result_a->type->is_unit_type ());
+                }
+            );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
             break;
         }
         case mu::llvmc::skeleton::function_return_type::b1v1:
         {
             llvm::Value * the_value (nullptr);
-            for (auto i: function->results)
-            {
-                auto result (retrieve_value (i->value));
-                assert (the_value == nullptr || i->type->is_unit_type ());
-                the_value = i->type->is_unit_type () ? the_value : result.value;
-            }
+            function->for_each_results (
+                [this, &the_value]
+                (mu::llvmc::skeleton::result * result_a, size_t)
+                {
+                    auto result (retrieve_value (result_a->value));
+                    assert (the_value == nullptr || result_a->type->is_unit_type ());
+                    the_value = result_a->type->is_unit_type () ? the_value : result.value;
+                }
+            );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
             break;
         }
@@ -152,17 +154,20 @@ void mu::llvmc::generate_function::generate ()
             assert (function->branch_ends [0] == function->results.size ());
             llvm::Value * result (llvm::UndefValue::get (function_type->getReturnType ()));
             unsigned index (0);
-            for (auto i: function->results)
-            {
-                auto result_value (retrieve_value (i->value));
-                if (!i->type->is_unit_type ())
+            function->for_each_results (
+                [this, &result, &index]
+                (mu::llvmc::skeleton::result * result_a, size_t)
                 {
-                    auto insert = llvm::InsertValueInst::Create (result, result_value.value, llvm::ArrayRef <unsigned> (index));
-                    last->getInstList ().push_back (insert);
-                    result = insert;
-                    ++index;
+                    auto result_value (retrieve_value (result_a->value));
+                    if (!result_a->type->is_unit_type ())
+                    {
+                        auto insert = llvm::InsertValueInst::Create (result, result_value.value, llvm::ArrayRef <unsigned> (index));
+                        last->getInstList ().push_back (insert);
+                        result = insert;
+                        ++index;
+                    }
                 }
-            }
+            );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
             break;
         }
