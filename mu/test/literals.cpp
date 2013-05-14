@@ -287,7 +287,7 @@ define i8 @1(i1) {
   %15 = and i1 %2, %14
   %16 = and i1 true, %9
   %17 = select i1 %16, i8 0, i8 undef
-  %18 = and i1 true, %9
+  %18 = and i1 true, %12
   %19 = select i1 %18, i8 1, i8 %17
   ret i8 %19
 }

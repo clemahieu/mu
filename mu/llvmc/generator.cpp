@@ -395,14 +395,16 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                     new_last->getInstList ().push_back (compare);
                     auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
                     new_last->getInstList ().push_back (instruction);
-                    for (; current_result != end_result; ++current_result, ++current_element, ++position)
+                    for (; current_result != end_result; ++current_result, ++position)
                     {
+                        assert (current_element != end_element);
                         if (!(*current_result)->type->is_unit_type ())
                         {
                             auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
                             new_last->getInstList().push_back (extraction);
                             already_generated [*current_element] = mu::llvmc::value_data ({instruction, extraction});
                             ++result_index;
+                            ++current_element;
                         }
                         else
                         {
@@ -418,6 +420,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                             ++current_offset;
                         }
                     }
+                    assert (current_element == end_element);
                 }
                 break;
             }
