@@ -206,32 +206,32 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     auto type (llvm::Type::getInt8Ty (context));
     llvm::Value * selector (llvm::UndefValue::get (type));
     llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
-    auto current_branch (function->branch_ends.begin ());
-    auto last_branch (function->branch_ends.end ());
-    size_t index (0);
-    size_t end (function->results.size ());
     uint8_t selector_number (0);
-    for (; index != end; ++index)
-    {
-        assert (current_branch != last_branch);
-        auto result_l (retrieve_value (function->results [index]->value));
-        if (!function->results [index]->type->is_unit_type())
+    function->for_each_results (
+        [this, &result, &predicate]
+        (mu::llvmc::skeleton::result * result_a, size_t)
         {
-            result.push_back (result_l.value);
-        }
-        auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l.predicate));
-        last->getInstList ().push_back (instruction);
-        predicate = instruction;
-        if (index + 1 == *current_branch)
+            auto result_l (retrieve_value (result_a->value));
+            if (!result_a->type->is_unit_type())
+            {
+                result.push_back (result_l.value);
+            }
+            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, result_l.predicate));
+            last->getInstList ().push_back (instruction);
+            predicate = instruction;
+        },
+        mu::llvmc::skeleton::function::empty_node,
+        mu::llvmc::skeleton::function::empty_node,
+        [&selector_number, &selector, &predicate, type, this, &context]
+        (mu::llvmc::skeleton::node * node_a, size_t)
         {
             auto selector_new (llvm::SelectInst::Create (predicate, llvm::ConstantInt::get (type, selector_number), selector));
             last->getInstList().push_back (selector_new);
             selector = selector_new;
             predicate = llvm::ConstantInt::getTrue (context);
             ++selector_number;
-            ++current_branch;
         }
-    }
+    );
     result.push_back (selector);
     return result;
 }
