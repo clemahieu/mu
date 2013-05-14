@@ -84,6 +84,7 @@ TEST (llvmc_generator, generate_parameter_return)
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
@@ -119,6 +120,7 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::skeleton::result result1 (&type1, &instruction1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
@@ -143,6 +145,7 @@ TEST (llvmc_generator, generate_two_return)
     function1.results.push_back (&result1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
@@ -177,9 +180,11 @@ TEST (llvmc_generator, generate_if)
     mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &element1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
@@ -219,12 +224,14 @@ TEST (llvmc_generator, generate_if_value)
     mu::llvmc::skeleton::result result3 (&type2, &integer3);
     function1.results.push_back (&result3);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
     function1.results.push_back (&result2);
     mu::llvmc::skeleton::constant_integer integer4 (32, 5);
     mu::llvmc::skeleton::result result4 (&type2, &integer4);
     function1.results.push_back (&result4);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
@@ -264,6 +271,7 @@ TEST (llvm_generator, generate_if_join)
     mu::llvmc::skeleton::result result1 (&unit, &join1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -321,6 +329,7 @@ TEST (llvm_generator, generate_if_join_value)
     mu::llvmc::skeleton::result result1 (&type1, &join1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -394,6 +403,7 @@ TEST (llvm_generator, generate_if_join_2value)
     mu::llvmc::skeleton::result result1 (&type1, &join1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     mu::vector <mu::llvmc::skeleton::value *> arguments6;
     arguments6.push_back (&add3);
     arguments6.push_back (&add4);
@@ -401,6 +411,7 @@ TEST (llvm_generator, generate_if_join_2value)
     mu::llvmc::skeleton::result result2 (&type1, &join2);
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
@@ -460,6 +471,7 @@ TEST (llvm_generator, generate_if_join_load)
     mu::llvmc::skeleton::result result1 (&type1, &join1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -480,6 +492,7 @@ TEST (llvm_generator, generate_call_0)
     mu::llvmc::skeleton::function function1 (module.global);
     mu::llvmc::skeleton::unit_type type1;
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (module.global);
@@ -491,6 +504,7 @@ TEST (llvm_generator, generate_call_0)
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;
@@ -516,6 +530,7 @@ TEST (llvm_generator, generate_call_1)
     mu::llvmc::skeleton::result result1 (&type1, &parameter1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (module.global);
@@ -530,6 +545,7 @@ TEST (llvm_generator, generate_call_1)
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;
@@ -566,9 +582,11 @@ TEST (llvm_generator, generate_call_2)
     mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &element1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (module.global);
@@ -585,9 +603,11 @@ TEST (llvm_generator, generate_call_2)
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.results.push_back (&result3);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;
@@ -628,12 +648,14 @@ TEST (llvm_generator, generate_call_3)
     mu::llvmc::skeleton::result result5 (&type2, &constant1);
     function1.results.push_back (&result5);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
     function1.results.push_back (&result2);
     mu::llvmc::skeleton::constant_integer constant2 (32, 2);
     mu::llvmc::skeleton::result result6 (&type2, &constant2);
     function1.results.push_back (&result6);
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function1);
     
     mu::llvmc::skeleton::function function2 (module.global);
@@ -650,9 +672,11 @@ TEST (llvm_generator, generate_call_3)
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.results.push_back (&result3);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function1.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;

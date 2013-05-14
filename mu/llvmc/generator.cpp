@@ -61,15 +61,22 @@ void mu::llvmc::generate_function::generate ()
         parameters.push_back (type_l);
     }
     std::vector <llvm::Type *> results;
-    for (auto i: function->results)
-    {
-        auto type_s (i->type);
-        if (!type_s->is_unit_type())
+    function->for_each_results (
+        [this, &results]
+        (mu::llvmc::skeleton::result * result_a, size_t)
         {
-            auto type_l (generate_type (type_s));
-            results.push_back (type_l);
-        }
-    }
+            auto type_s (result_a->type);
+            if (!type_s->is_unit_type())
+            {
+               auto type_l (generate_type (type_s));
+               results.push_back (type_l);
+            }
+        },
+        [] (mu::llvmc::skeleton::value *, size_t) {},
+        [] (mu::llvmc::skeleton::node *, size_t) {},
+        [] (mu::llvmc::skeleton::node *, size_t) {},
+        [] () {return true;}
+    );
     if (function->branch_ends.size () > 1)
     {
         results.push_back (llvm::Type::getInt8Ty (context));
