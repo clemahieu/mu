@@ -351,21 +351,21 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
                 unsigned position (0);
                 auto selector_type (llvm::Type::getInt8Ty (context));
-                {
-                    auto i (call->source->target->branch_ends.begin ());
-                    auto j (call->source->target->branch_ends.end ());
-                    auto k (call->source->elements.begin ());
-                    auto l (call->source->elements.end ());
-                    for (; i != j; ++i, ++k, ++position)
+                auto k (call->source->elements.begin ());
+                auto l (call->source->elements.end ());
+                call->source->target->for_each_results (
+                    [&]
+                    (mu::llvmc::skeleton::result *, size_t)
                     {
                         auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, real_call, llvm::ConstantInt::get (selector_type, position)));
                         new_last->getInstList ().push_back (compare);
                         auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
                         new_last->getInstList ().push_back (instruction);
                         already_generated [*k] = mu::llvmc::value_data ({instruction, nullptr});
-                    }
-                    assert ((i == j) == (k == l));
-                }
+                        ++k;
+                        ++position;
+                    });
+                assert (k == l);
                 break;
             }
             case mu::llvmc::skeleton::function_return_type::bmvm:
