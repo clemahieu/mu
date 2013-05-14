@@ -381,24 +381,20 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 auto selector (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (function_result->getNumElements () - 1)));
                 new_last->getInstList ().push_back (selector);
                 auto selector_type (llvm::Type::getInt8Ty (context));
-                {
-                    auto current_result (call->source->target->results.begin ());
-                    auto end_result (call->source->target->results.end ());
-                    auto current_offset (call->source->target->branch_ends.begin ());
-                    auto end_offset (call->source->target->branch_ends.end ());
-                    auto current_element (call->source->elements.begin ());
-                    auto end_element (call->source->elements.end ());
-                    size_t current_selector (0);
-                    size_t position (0);
-                    unsigned result_index (0);
-                    auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector)));
-                    new_last->getInstList ().push_back (compare);
-                    auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
-                    new_last->getInstList ().push_back (instruction);
-                    for (; current_result != end_result; ++current_result, ++position)
+                auto current_element (call->source->elements.begin ());
+                auto end_element (call->source->elements.end ());
+                size_t current_selector (0);
+                unsigned result_index (0);
+                auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector)));
+                new_last->getInstList ().push_back (compare);
+                auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
+                new_last->getInstList ().push_back (instruction);
+                call->source->target->for_each_results (
+                    [&]
+                    (mu::llvmc::skeleton::result * result_a, size_t)
                     {
                         assert (current_element != end_element);
-                        if (!(*current_result)->type->is_unit_type ())
+                        if (!result_a->type->is_unit_type ())
                         {
                             auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
                             new_last->getInstList().push_back (extraction);
@@ -410,18 +406,19 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                         {
                             already_generated [*current_element] = mu::llvmc::value_data ({instruction, nullptr});
                         }
-                        if (position + 1 == *current_offset)
-                        {
-                            ++current_selector;
-                            compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
-                            new_last->getInstList ().push_back (compare);
-                            instruction = llvm::BinaryOperator::CreateAnd (predicate, compare);
-                            new_last->getInstList ().push_back (instruction);
-                            ++current_offset;
-                        }
-                    }
-                    assert (current_element == end_element);
-                }
+                    },
+                    mu::llvmc::skeleton::function::empty_node,
+                    mu::llvmc::skeleton::function::empty_node,
+                    [&]
+                    (mu::llvmc::skeleton::result * result_a, size_t)
+                    {
+                        ++current_selector;
+                        compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
+                        new_last->getInstList ().push_back (compare);
+                        instruction = llvm::BinaryOperator::CreateAnd (predicate, compare);
+                        new_last->getInstList ().push_back (instruction);
+                    });
+                assert (current_element == end_element);
                 break;
             }
             default:
