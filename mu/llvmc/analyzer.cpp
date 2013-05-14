@@ -374,66 +374,38 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                 if (!arguments.empty ())
                 {
                     auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
-                    if (function_type->function->branch_ends.size () == 1)
-                    {
-                        auto branch_size (function_type->function->branch_size (0));
-                        switch (branch_size)
-                        {
-                            case 0:
-                            {
-                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (most_specific_branch, call, 0);
-                                break;
-                            }
-                            case 1:
-                            {
-                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (most_specific_branch, call, 0);
-                                break;
-                            }
-                            default:
-                            {
-                                result = true;
-                                auto & target (already_generated_multi [expression_a]);
-                                for (size_t i (0), j (branch_size); i != j && result_m.error == nullptr; ++i)
-                                {
-                                    target.push_back (new (GC) mu::llvmc::skeleton::call_element_value (most_specific_branch, call, i));
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        result = true;
-                        function_type->function->for_each_branch (
-                            [this, expression_a, most_specific_branch, call]
-                            (size_t begin, size_t end)
+                    result = function_type->function->branch_ends.size () != 1;
+                    function_type->function->for_each_branch (
+                        [this, expression_a, most_specific_branch, call, &result]
+                        (size_t begin, size_t end)
+                          {
+                              auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+                              auto branch_size (end - begin);
+                              switch (branch_size)
                               {
-                                  auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-                                  auto branch_size (end - begin);
-                                  switch (branch_size)
+                                  case 0:
                                   {
-                                      case 0:
-                                      {
-                                          already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (branch, call, begin);
-                                          break;
-                                      }
-                                      case 1:
-                                      {
-                                          already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (branch, call, begin);
-                                          break;
-                                      }
-                                      default:
-                                      {
-                                          auto & target (already_generated_multi [expression_a]);
-                                          for (size_t k (begin), l (end); k != l && result_m.error == nullptr; ++k)
-                                          {
-                                              target.push_back (new (GC) mu::llvmc::skeleton::call_element_value (branch, call, k));
-                                          }
-                                          break;
-                                      }
+                                      already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (branch, call, begin);
+                                      break;
                                   }
-                            });
-                    }
+                                  case 1:
+                                  {
+                                      already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (branch, call, begin);
+                                      break;
+                                  }
+                                  default:
+                                  {                                          
+                                      result = true;
+                                      auto & target (already_generated_multi [expression_a]);
+                                      for (size_t k (begin), l (end); k != l && result_m.error == nullptr; ++k)
+                                      {
+                                          target.push_back (new (GC) mu::llvmc::skeleton::call_element_value (branch, call, k));
+                                      }
+                                      break;
+                                  }
+                              }
+                        }
+                    );
                 }
             }
         }
