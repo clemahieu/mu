@@ -321,23 +321,24 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                 auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
                 call_block->getInstList ().push_back (call_l);
                 unsigned position (0);
-                {
-                    auto i (call->source->target->results.begin ());
-                    auto j (call->source->target->results.end ());
-                    auto k (call->source->elements.begin ());
-                    auto l (call->source->elements.end ());
-                    for (; i != j; ++i, ++k, ++position)
-                    {
-                        auto element (llvm::ExtractValueInst::Create (call_l, position));
-                        call_block->getInstList ().push_back (element);
-                        auto real_element (llvm::PHINode::Create (element->getType (), 2));
-                        new_last->getInstList ().push_back (real_element);
-                        real_element->addIncoming (element, call_block);
-                        real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
-                        already_generated [*k] = mu::llvmc::value_data ({predicate, real_element});
-                    }
-                    assert ((i == j) == (k == l));
-                }
+                auto k (call->source->elements.begin ());
+                auto l (call->source->elements.end ());
+                call->source->target->for_each_results (
+                                                        [this, call_block, &new_last, call_l, &position, predicate, &k]
+                                                        (mu::llvmc::skeleton::result * result_a, size_t)
+                                                        {
+                                                            auto element (llvm::ExtractValueInst::Create (call_l, position));
+                                                            call_block->getInstList ().push_back (element);
+                                                            auto real_element (llvm::PHINode::Create (element->getType (), 2));
+                                                            new_last->getInstList ().push_back (real_element);
+                                                            real_element->addIncoming (element, call_block);
+                                                            real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
+                                                            already_generated [*k] = mu::llvmc::value_data ({predicate, real_element});
+                                                            ++k;
+                                                            ++position;
+                                                        }
+                );
+                assert (k == l);
                 break;
             }
             case mu::llvmc::skeleton::function_return_type::bmv0:
