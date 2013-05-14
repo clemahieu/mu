@@ -58,8 +58,9 @@ mu::llvmc::skeleton::node::~node ()
 }
 
 mu::llvmc::skeleton::function::function (mu::llvmc::skeleton::branch * global_a) :
-value (nullptr),
+value (global_a),
 type_m (this),
+pointer_type_m (&type_m),
 entry (new (GC) mu::llvmc::skeleton::branch (global_a))
 {
 }
@@ -120,7 +121,7 @@ arguments (arguments_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::function::type ()
 {
-    return & type_m;
+    return & pointer_type_m;
 }
 
 mu::llvmc::skeleton::pointer_type::pointer_type (mu::llvmc::skeleton::type * type_a):

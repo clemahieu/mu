@@ -81,12 +81,20 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                             {
                                 analyzer_function analyzer (*this);
                                 analyzer.analyze (function_node);
-                                module.module->functions.push_back (analyzer.result_m.function);
+                                already_generated [node_a] = analyzer.result_m.function;
                                 result_m.error = analyzer.result_m.error;
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Unknown expression subclass", mu::core::error_type::unknown_expression_subclass);
+                                auto unit_node (dynamic_cast <mu::llvmc::ast::unit *> (node_a));
+                                if (unit_node != nullptr)
+                                {
+                                    already_generated [node_a] = new (GC) mu::llvmc::skeleton::unit_value (module.module->global);
+                                }
+                                else
+                                {
+                                    assert (false);                                    
+                                }
                             }
                         }
                     }
@@ -102,6 +110,8 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
             result = true;
         }
     }
+    assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
+    assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
     return result;
 }
 
@@ -231,6 +241,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     {
         assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
         auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
+        module.module->functions.push_back (function_s);
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
         result_m.function = function_s;
@@ -252,7 +263,6 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
         {
             analyzer_function analyzer (*this);
             analyzer.analyze (*i);
-            module_s->functions.push_back (analyzer.result_m.function);
             result_m.error = analyzer.result_m.error;
         }
     }
@@ -683,7 +693,7 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
         }
             break;
         default:
-            result_m.error = new (GC) mu::core::error_string (U"Unknown instruction marker", mu::core::error_type::unknown);
+            assert (false);
             break;
     }
     current_expression_generation.erase (expression_a);

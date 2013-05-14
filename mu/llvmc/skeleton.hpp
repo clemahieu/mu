@@ -142,6 +142,13 @@ namespace mu
                 bmv0, // Selector value
                 bmvm // struct with selector
             };
+            class pointer_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                pointer_type (mu::llvmc::skeleton::type * type_a);
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                mu::llvmc::skeleton::type * pointed_type;
+            };
             class function : public mu::llvmc::skeleton::value
             {
             public:
@@ -149,6 +156,7 @@ namespace mu
                 size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
+                mu::llvmc::skeleton::pointer_type pointer_type_m;
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
@@ -203,13 +211,6 @@ namespace mu
                         }
                     }
                 }
-            };
-            class pointer_type : public mu::llvmc::skeleton::type
-            {
-            public:
-                pointer_type (mu::llvmc::skeleton::type * type_a);
-                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
-                mu::llvmc::skeleton::type * pointed_type;
             };
             class switch_element;
             class switch_i

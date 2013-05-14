@@ -51,6 +51,9 @@ namespace mu
             class expression : public mu::llvmc::ast::node
             {
             };
+            class unit : public mu::llvmc::ast::expression
+            {                
+            };
             class parameter : public mu::llvmc::ast::expression
             {
             public:
