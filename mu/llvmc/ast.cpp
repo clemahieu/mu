@@ -2,6 +2,20 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::ast::result * mu::llvmc::ast::function::as_result (mu::llvmc::ast::node * node_a)
+{
+    assert (dynamic_cast <mu::llvmc::ast::result *> (node_a) != nullptr);
+    auto result (static_cast <mu::llvmc::ast::result *> (node_a));
+    return result;
+}
+
+mu::llvmc::ast::value * mu::llvmc::ast::function::as_value (mu::llvmc::ast::node * node_a)
+{
+    assert (dynamic_cast <mu::llvmc::ast::value *> (node_a) != nullptr);
+    auto result (static_cast <mu::llvmc::ast::value *> (node_a));
+    return result;
+}
+
 mu::llvmc::ast::node::~node ()
 {
 }

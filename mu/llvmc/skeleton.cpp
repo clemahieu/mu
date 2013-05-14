@@ -129,8 +129,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_unit::type ()
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_value::type ()
 {
     assert (source->target->results.size () > index);
-    assert (dynamic_cast <mu::llvmc::skeleton::result *> (source->target->results [index]) != nullptr);
-    auto result (static_cast <mu::llvmc::skeleton::result *> (source->target->results [index])->type);
+    auto result (source->target->results [index]->type);
     return result;
 }
 
@@ -163,44 +162,14 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
             {
                 if (function->branch_ends.size () == other_function->function->branch_ends.size ())
                 {
-                    if (function->predicate_offsets.size () == other_function->function->predicate_offsets.size ())
+                    result = true;
+                    for (auto i (function->branch_ends.begin ()), j (function->branch_ends.end ()), k (other_function->function->branch_ends.begin ()); i != j && result; ++i, ++k)
                     {
-                        result = true;
-                        for (auto i (function->predicate_offsets.begin ()), j (function->predicate_offsets.end ()), k (other_function->function->predicate_offsets.begin ()); i != j && result; ++i, ++k)
-                        {
-                            result = (*i) == (*k);
-                        }
-                        for (auto i (function->branch_ends.begin ()), j (function->branch_ends.end ()), k (other_function->function->branch_ends.begin ()); i != j && result; ++i, ++k)
-                        {
-                            result = (*i) == (*k);
-                        }
-                        size_t index (0);
-                        auto current_end (function->branch_ends.begin ());
-                        auto current_offset (function->predicate_offsets.begin ());
-                        for (auto i (function->results.begin ()), j (function->results.end ()), k (other_function->function->results.begin ()); i != j && result; ++i, ++k, ++index)
-                        {
-                            if (index < *current_offset)
-                            {
-                                assert (dynamic_cast <mu::llvmc::skeleton::result *> (*i) != nullptr);
-                                assert (dynamic_cast <mu::llvmc::skeleton::result *> (*k) != nullptr);
-                                auto left (static_cast <mu::llvmc::skeleton::result *> (*i));
-                                auto right (static_cast <mu::llvmc::skeleton::result *> (*k));
-                                result = *(left->type) == *(right->type);
-                            }
-                            else
-                            {
-                                assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
-                                assert (dynamic_cast <mu::llvmc::skeleton::value *> (*k) != nullptr);
-                                auto left (static_cast <mu::llvmc::skeleton::value *> (*i));
-                                auto right (static_cast <mu::llvmc::skeleton::value *> (*k));
-                                result = *left->type () == *right->type ();
-                            }
-                            if (index + 1 == *current_end)
-                            {
-                                ++current_end;
-                                ++current_offset;
-                            }
-                        }
+                        result = (*i) == (*k);
+                    }
+                    for (auto i (function->results.begin ()), j (function->results.end ()), k (other_function->function->results.begin ()); i != j && result; ++i, ++k)
+                    {
+                        result = (*(*i)->type) == (*(*k)->type);
                     }
                 }
             }
@@ -225,25 +194,11 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
 {
     mu::llvmc::skeleton::function_return_type result;
     size_t llvm_values (0);
-    size_t index (0);
-    size_t end (results.size ());
-    auto current_end (branch_ends.begin ());
-    auto current_offset (predicate_offsets.begin ());
-    for (; index != end && llvm_values < 2; ++index)
+    for (auto i (results.begin ()), j (results.end ()); i != j && llvm_values < 2; ++i)
     {
-        if (index < *current_offset)
+        if (!(*i)->type->is_unit_type ())
         {
-            assert (dynamic_cast <mu::llvmc::skeleton::result *> (results [index]) != nullptr);
-            auto value (static_cast <mu::llvmc::skeleton::result *> (results [index]));
-            if (!value->type->is_unit_type ())
-            {
-                ++llvm_values;
-            }
-        }
-        if (index + 1 == *current_end)
-        {
-            ++current_end;
-            ++current_offset;
+            ++llvm_values;
         }
     }
     switch (branch_ends.size ())
