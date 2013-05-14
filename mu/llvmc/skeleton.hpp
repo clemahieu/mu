@@ -155,6 +155,17 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::result *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
+                template <typename T>
+                void for_each_branch (T branch_op)
+                {
+                    size_t index (0);
+                    for (auto i (branch_ends.begin ()), j (branch_ends.end ()); i != j; ++i)
+                    {
+                        auto end (*i);
+                        branch_op (index, end);
+                        index = end;
+                    }
+                }
             };
             class pointer_type : public mu::llvmc::skeleton::type
             {
