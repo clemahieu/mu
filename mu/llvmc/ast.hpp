@@ -102,7 +102,7 @@ namespace mu
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
                 mu::llvmc::ast::result * as_result (mu::llvmc::ast::node * node_a);
-                mu::llvmc::ast::value * as_value (mu::llvmc::ast::node * node_a);
+                mu::llvmc::ast::expression * as_expression (mu::llvmc::ast::node * node_a);
                 template <typename T, typename U, typename V, typename W, typename X>
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate)
                 {
@@ -120,7 +120,7 @@ namespace mu
                         }
                         else
                         {
-                            predicate_op (as_value (results [index]), index);
+                            predicate_op (as_expression (results [index]), index);
                         }
                         if (index + 1 >= *current_predicate)
                         {
@@ -135,16 +135,6 @@ namespace mu
                             ++current_predicate;
                         }
                     }
-                }
-                template <typename T>
-                void for_each_result (T result_op)
-                {
-                    for_each_results (result_op, [] () {}, [] () {}, [] () {});
-                }
-                template <typename G>
-                void for_each_predicate (G predicate_op)
-                {
-                    for_each_results ([] () {}, predicate_op, [] () {}, [] () {});
                 }
                 mu::vector <mu::llvmc::ast::node *> roots;
             };

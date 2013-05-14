@@ -5,6 +5,20 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::skeleton::result * mu::llvmc::skeleton::function::as_result (mu::llvmc::skeleton::node * node_a)
+{
+    assert (dynamic_cast <mu::llvmc::skeleton::result *> (node_a) != nullptr);
+    auto result (static_cast <mu::llvmc::skeleton::result *> (node_a));
+    return result;
+}
+
+mu::llvmc::skeleton::value * mu::llvmc::skeleton::function::as_value (mu::llvmc::skeleton::node * node_a)
+{
+    assert (dynamic_cast <mu::llvmc::skeleton::value *> (node_a) != nullptr);
+    auto result (static_cast <mu::llvmc::skeleton::value *> (node_a));
+    return result;
+}
+
 mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :
 branch (branch_a),
 arguments (arguments_a)

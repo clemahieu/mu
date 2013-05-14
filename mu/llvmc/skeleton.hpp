@@ -118,7 +118,7 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 bool is_unit_type () const override;
             };
-            class result
+            class result : public mu::llvmc::skeleton::node
             {
             public:
                 result (mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * value_a);
@@ -164,6 +164,41 @@ namespace mu
                         auto end (*i);
                         branch_op (index, end);
                         index = end;
+                    }
+                }
+                mu::llvmc::skeleton::result * as_result (mu::llvmc::skeleton::node * node_a);
+                mu::llvmc::skeleton::value * as_value (mu::llvmc::skeleton::node * node_a);
+                template <typename T, typename U, typename V, typename W, typename X>
+                void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate)
+                {
+                    assert (branch_ends.size () == predicate_offsets.size ());
+                    size_t index (0);
+                    size_t end (results.size ());
+                    auto current_end (branch_ends.begin ());
+                    auto current_predicate (predicate_offsets.begin ());
+                    auto predicates (false);
+                    for (; index != end && loop_predicate (); ++index)
+                    {
+                        if (!predicates)
+                        {
+                            result_op (as_result (results [index]), index);
+                        }
+                        else
+                        {
+                            predicate_op (as_value (results [index]), index);
+                        }
+                        if (index + 1 >= *current_predicate)
+                        {
+                            transition_op (results [index], index);
+                            predicates = true;
+                        }
+                        if (index + 1 >= *current_end)
+                        {
+                            branch_op (results [index], index);
+                            predicates = false;
+                            ++current_end;
+                            ++current_predicate;
+                        }
                     }
                 }
             };

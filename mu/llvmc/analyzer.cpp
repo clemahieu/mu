@@ -195,7 +195,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                               result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
                           }
                       },
-                      [] (mu::llvmc::ast::value *, size_t) {},
+                      [] (mu::llvmc::ast::expression *, size_t) {},
                       [function_s]
                       (mu::llvmc::ast::node *, size_t)
                       {
