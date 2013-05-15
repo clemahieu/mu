@@ -218,13 +218,16 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
 {
     mu::llvmc::skeleton::function_return_type result;
     size_t llvm_values (0);
-    for (auto i (results.begin ()), j (results.end ()); i != j && llvm_values < 2; ++i)
-    {
-        if (!(*i)->type->is_unit_type ())
+    for_each_results (
+        [&]
+        (mu::llvmc::skeleton::result * result_a, size_t)
         {
-            ++llvm_values;
+            if (!result_a->type->is_unit_type ())
+            {
+                ++llvm_values;
+            }
         }
-    }
+    );
     switch (branch_ends.size ())
     {
         case 0:
