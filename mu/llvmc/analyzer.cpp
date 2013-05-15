@@ -242,6 +242,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
         assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
         auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
         module.module->functions.push_back (function_s);
+        module.functions [function_a] = function_s;
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
         result_m.function = function_s;
@@ -261,9 +262,13 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
     {
         for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result_m.error == nullptr; ++i)
         {
-            analyzer_function analyzer (*this);
-            analyzer.analyze (*i);
-            result_m.error = analyzer.result_m.error;
+            auto existing (functions.find (*i));
+            if (existing == functions.end ())
+            {
+                analyzer_function analyzer (*this);
+                analyzer.analyze (*i);
+                result_m.error = analyzer.result_m.error;
+            }
         }
     }
     else

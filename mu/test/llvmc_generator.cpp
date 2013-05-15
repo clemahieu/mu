@@ -504,7 +504,7 @@ TEST (llvm_generator, generate_call_0)
     mu::llvmc::skeleton::result result2 (&type1, &element1);
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
-    function2.predicate_offsets.push_back (function1.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;
@@ -603,11 +603,11 @@ TEST (llvm_generator, generate_call_2)
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.results.push_back (&result3);
     function2.branch_ends.push_back (function2.results.size ());
-    function2.predicate_offsets.push_back (function1.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
-    function2.predicate_offsets.push_back (function1.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;
@@ -672,11 +672,11 @@ TEST (llvm_generator, generate_call_3)
     mu::llvmc::skeleton::result result3 (element3.type (), &element3);
     function2.results.push_back (&result3);
     function2.branch_ends.push_back (function2.results.size ());
-    function2.predicate_offsets.push_back (function1.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
     mu::llvmc::skeleton::result result4 (element4.type (), &element4);
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
-    function2.predicate_offsets.push_back (function1.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
     module.functions.push_back (&function2);
     
     mu::llvmc::generator generator;

@@ -189,6 +189,14 @@ namespace mu
                     auto predicates (false);
                     for (; index != end && loop_predicate (); ++index)
                     {
+                        assert (current_end != branch_ends.end ());
+                        assert (current_predicate != predicate_offsets.end ());
+                        assert (*current_predicate <= *current_end);
+                        if (index >= *current_predicate)
+                        {
+                            transition_op (results [index], index);
+                            predicates = true;
+                        }
                         if (!predicates)
                         {
                             result_op (as_result (results [index]), index);
@@ -197,13 +205,12 @@ namespace mu
                         {
                             predicate_op (as_value (results [index]), index);
                         }
-                        if (index + 1 >= *current_predicate)
-                        {
-                            transition_op (results [index], index);
-                            predicates = true;
-                        }
                         if (index + 1 >= *current_end)
                         {
+                            if (!predicates)
+                            {
+                                transition_op (results [index], index);
+                            }
                             branch_op (results [index], index);
                             predicates = false;
                             ++current_end;
