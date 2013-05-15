@@ -45,6 +45,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 
 bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 {
+    assert (node_a != nullptr);
     auto result (false);
     auto existing (already_generated.find (node_a));
     if (existing == already_generated.end ())

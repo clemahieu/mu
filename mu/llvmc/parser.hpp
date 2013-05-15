@@ -60,6 +60,7 @@ namespace mu
         class global : public mapping
         {
         public:
+            global (mu::llvmc::keywords * keywords_a);
             bool insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a) override;
             bool reserve (mu::string const & name_a) override;
             bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;

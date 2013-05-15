@@ -14,7 +14,13 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::global::global (mu::llvmc::keywords * keywords_a) :
+keywords (keywords_a)
+{
+}
+
 mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
+globals (&keywords),
 current_mapping (&globals),
 stream (stream_a)
 {
@@ -135,14 +141,9 @@ void mu::llvmc::function::parse_name ()
             {
                 auto name (static_cast <mu::io::identifier *> (parser.stream.peek ().token));
                 parser.stream.consume ();
-                auto error (block.parent->reserve (name->string));
-                if (!error)
-                {
-                    assert (block.mappings.find (name->string) == block.mappings.end ());
-                    block.mappings.insert (decltype (block.mappings)::value_type (name->string, function_m));
-                    function_m->name = name->string;
-                }
-                else
+                function_m->name = name->string;
+                auto error (block.insert (name->string, function_m));
+                if (error)
                 {
                     result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
                 }

@@ -118,6 +118,30 @@ TEST (llvmc_parser, mapping_insert_covering_existing)
     EXPECT_EQ (true, error2);
 }
 
+TEST (llvmc_parser, global_check_non_covering)
+{
+    test_non_covering keyword1;
+    mu::llvmc::keywords mapping;
+    auto error1 (mapping.insert (mu::string (U"covered"), &keyword1));
+    EXPECT_EQ (false, error1);
+    mu::llvmc::global global (&mapping);
+    mu::llvmc::ast::unit unit1;
+    auto error2 (global.insert (mu::string (U"covered"), &unit1));
+    EXPECT_EQ (true, error2);
+}
+
+TEST (llvmc_parser, global_check_covering)
+{
+    test_covering keyword1;
+    mu::llvmc::keywords mapping;
+    auto error1 (mapping.insert (mu::string (U"covered"), &keyword1));
+    EXPECT_EQ (false, error1);
+    mu::llvmc::global global (&mapping);
+    mu::llvmc::ast::unit unit1;
+    auto error2 (global.insert (mu::string (U"covered1"), &unit1));
+    EXPECT_EQ (true, error2);
+}
+
 TEST (llvmc_parser, empty)
 {
     test_parser parser ("");
@@ -150,6 +174,33 @@ TEST (llvmc_parser, simple)
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
+}
+
+TEST (llvmc_parser, DISABLED_recursive)
+{
+    test_parser parser ("function test1 [] [[test2]] [] function test2 [] [[test1]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (2, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    ASSERT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_EQ (1, expression1->arguments.size ());
+    auto function2 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [1]));
+    ASSERT_NE (nullptr, function2);
+    EXPECT_EQ (0, function2->parameters.size ());
+    EXPECT_EQ (0, function2->results.size ());
+    ASSERT_EQ (1, function2->roots.size ());
+    auto expression2 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function2->roots [0]));
+    ASSERT_EQ (1, expression2->arguments.size ());
+    ASSERT_EQ (function2, expression1->arguments [0]);
+    ASSERT_EQ (function1, expression2->arguments [0]);
 }
 
 TEST (llvmc_parser, two_functions)
@@ -234,7 +285,8 @@ TEST (llvmc_parser, fail_no_type)
 
 TEST (llvmc_parser, block)
 {
-    mu::llvmc::global global;
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
     mu::llvmc::block block (&global);
     mu::llvmc::ast::node node;
     auto error (block.insert (mu::string (U"test"), &node));
