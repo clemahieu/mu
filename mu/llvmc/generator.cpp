@@ -176,6 +176,11 @@ void mu::llvmc::generate_function::generate ()
                         result = insert;
                         ++index;
                     }
+                },
+                [&]
+                (mu::llvmc::skeleton::value * value_a, size_t)
+                {
+                    auto result (retrieve_value (value_a));
                 }
             );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
@@ -230,7 +235,11 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
             last->getInstList ().push_back (instruction);
             predicate = instruction;
         },
-        mu::llvmc::skeleton::function::empty_node,
+        [&]
+        (mu::llvmc::skeleton::value * value_a, size_t)
+        {
+            auto result (retrieve_value (value_a));
+        },
         mu::llvmc::skeleton::function::empty_node,
         [&]
         (mu::llvmc::skeleton::node * node_a, size_t)
