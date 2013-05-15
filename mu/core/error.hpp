@@ -71,7 +71,8 @@ namespace mu
             expecting_loop_body,
             expecting_result_set_or_right_square,
             expecting_loop_results,
-            already_parsing_predicates
+            already_parsing_predicates,
+            only_values_in_sets
         };
         class error
         {

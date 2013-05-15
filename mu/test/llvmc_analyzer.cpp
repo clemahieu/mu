@@ -705,13 +705,13 @@ TEST (llvmc_analyzer, empty_call)
     ASSERT_EQ (0, function4->predicate_offsets [0]);
 }
 
-TEST (llvmc_analyzer, DISABLED_set_expression)
+TEST (llvmc_analyzer, set_expression_empty)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
-    mu::llvmc::ast::set_expression set1;
     function1.predicate_offsets.push_back (function1.results.size ());
+    mu::llvmc::ast::set_expression set1;
     function1.results.push_back (&set1);
     function1.branch_ends.push_back (function1.results.size ());
     module1.functions.push_back (&function1);
@@ -720,7 +720,32 @@ TEST (llvmc_analyzer, DISABLED_set_expression)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (1, result.module->functions.size ());
     auto function2 (result.module->functions [0]);
-    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (0, function2->parameters.size ());
+    ASSERT_EQ (0, function2->results.size ());
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (0, function2->predicate_offsets [0]);
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (0, function2->branch_ends [0]);
+}
+
+TEST (llvmc_analyzer, set_expression_one)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.predicate_offsets.push_back (function1.results.size ());
+    mu::llvmc::ast::set_expression set1;
+    mu::llvmc::ast::unit unit1;
+    set1.items.push_back (&unit1);
+    function1.results.push_back (&set1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [0]);
+    ASSERT_EQ (0, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size ());
     ASSERT_EQ (1, function2->predicate_offsets.size ());
     ASSERT_EQ (0, function2->predicate_offsets [0]);

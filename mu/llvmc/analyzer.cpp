@@ -93,7 +93,38 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                 }
                                 else
                                 {
-                                    assert (false);                                    
+                                    auto set (dynamic_cast <mu::llvmc::ast::set_expression *> (node_a));
+                                    if (set != nullptr)
+                                    {
+                                        mu::vector <mu::llvmc::skeleton::node *> values;
+                                        for (auto i: set->items)
+                                        {
+                                            auto multi (process_node (i));
+                                            if (multi)
+                                            {
+                                                auto & values_l (already_generated_multi [i]);
+                                                values.insert (values.end (), values_l.begin (), values_l.end ());
+                                            }
+                                            else
+                                            {
+                                                values.push_back (already_generated [i]);
+                                            }
+                                        }
+                                        switch (values.size ())
+                                        {
+                                            case 1:
+                                                already_generated [node_a] = values [0];
+                                                break;
+                                            default:
+                                                result = true;
+                                                already_generated_multi [node_a] = values;
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        assert (false);                                        
+                                    }
                                 }
                             }
                         }
@@ -208,11 +239,29 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                       [&]
                     (mu::llvmc::ast::expression * result_a, size_t)
                       {
-                          auto value (process_value (result_a));
-                          if (value != nullptr)
+                          auto multi (process_node (result_a));
+                          if (result_m.error == nullptr)
                           {
-                              function_s->results.push_back (value);
-                              most_specific_branch = most_specific_branch->most_specific (value->branch);
+                              if (multi)
+                              {
+                                  for (auto i: already_generated_multi [result_a])
+                                  {
+                                      assert (dynamic_cast <mu::llvmc::skeleton::value *> (i) != nullptr);
+                                      function_s->results.push_back (i);
+                                      most_specific_branch = most_specific_branch->most_specific (static_cast <mu::llvmc::skeleton::value *> (i)->branch);
+                                  }
+                              }
+                              else
+                              {                                  
+                                  assert (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
+                                  auto value (static_cast <mu::llvmc::skeleton::value *> (already_generated [result_a]));
+                                  function_s->results.push_back (value);
+                                  most_specific_branch = most_specific_branch->most_specific (value->branch);
+                              }
+                          }
+                          else
+                          {
+                              
                           }
                       },
                       [&]
