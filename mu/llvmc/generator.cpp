@@ -128,6 +128,11 @@ void mu::llvmc::generate_function::generate ()
                 {
                     auto result (retrieve_value (result_a->value));
                     assert (result_a->type->is_unit_type ());
+                },
+                [&]
+                (mu::llvmc::skeleton::value * value_a, size_t)
+                {
+                    auto result (retrieve_value (value_a));
                 }
             );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
@@ -602,12 +607,22 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                     }
                     else
                     {
-                        assert (false);
+                        auto unit (dynamic_cast <mu::llvmc::skeleton::unit_value *> (value_a));
+                        if (unit != nullptr)
+                        {
+                            value = nullptr;
+                            predicate = llvm::ConstantInt::getTrue (context);
+                        }
+                        else
+                        {
+                            assert (false);
+                        }
                     }
                 }
             }
         }
     }
+    assert (predicate != nullptr);
     auto result (mu::llvmc::value_data ({predicate, value}));
     already_generated [value_a] = result;
     return result;

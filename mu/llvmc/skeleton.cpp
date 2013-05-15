@@ -433,7 +433,8 @@ value (branch_a)
 }
 
 mu::llvmc::skeleton::module::module () :
-global (new (GC) mu::llvmc::skeleton::branch (nullptr))
+global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
+the_unit_value (global)
 {
 }
 

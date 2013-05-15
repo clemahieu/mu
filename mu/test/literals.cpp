@@ -292,3 +292,20 @@ define i8 @1(i1) {
   ret i8 %19
 }
 )%%%";
+
+extern char const * const generate_call_predicate_expected = R"%%%(
+define void @0() {
+  ret void
+}
+
+define void @1() {
+  br i1 true, label %1, label %2
+
+; <label>:1                                       ; preds = %0
+  call void @0()
+  br label %2
+
+; <label>:2                                       ; preds = %0, %1
+  ret void
+}
+)%%%";

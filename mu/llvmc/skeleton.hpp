@@ -286,6 +286,7 @@ namespace mu
                 module ();
                 mu::vector <mu::llvmc::skeleton::function *> functions;
                 mu::llvmc::skeleton::branch * global;
+                mu::llvmc::skeleton::unit_value the_unit_value;
             };
             extern mu::llvmc::skeleton::unit_type the_unit_type;
         }
