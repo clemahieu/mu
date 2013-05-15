@@ -293,7 +293,7 @@ define i8 @1(i1) {
 }
 )%%%";
 
-extern char const * const generate_call_predicate_expected = R"%%%(
+extern char const * const generate_call_predicate_b1v0_expected = R"%%%(
 define void @0() {
   ret void
 }
@@ -307,5 +307,22 @@ define void @1() {
 
 ; <label>:2                                       ; preds = %0, %1
   ret void
+}
+)%%%";
+
+extern char const * const generate_call_predicate_b1v1_expected = R"%%%(
+define void @0() {
+  ret void
+}
+
+define i1 @1() {
+  br i1 true, label %1, label %2
+
+; <label>:1                                       ; preds = %0
+  call void @0()
+  br label %2
+
+; <label>:2                                       ; preds = %0, %1
+  ret i1 false
 }
 )%%%";

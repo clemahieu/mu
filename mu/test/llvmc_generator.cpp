@@ -690,9 +690,9 @@ TEST (llvm_generator, generate_call_3)
     ASSERT_EQ (std::string (generate_call_3_expected), info);
 }
 
-extern char const * const generate_call_predicate_expected;
+extern char const * const generate_call_predicate_b1v0_expected;
 
-TEST (llvm_generator, generate_call_predicate)
+TEST (llvm_generator, generate_call_predicate_b1v0)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
@@ -721,5 +721,43 @@ TEST (llvm_generator, generate_call_predicate)
     print_module (result, info);
     auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_call_predicate_expected), info);
+    ASSERT_EQ (std::string (generate_call_predicate_b1v0_expected), info);
+}
+
+extern char const * const generate_call_predicate_b1v1_expected;
+
+TEST (llvm_generator, generate_call_predicate_b1v1)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::unit_type type1;
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&module.the_unit_value);
+    function1.branch_ends.push_back (function1.results.size ());
+    module.functions.push_back (&function1);
+    
+    mu::llvmc::skeleton::function function2 (module.global);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    arguments1.push_back (&function1);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1);
+    mu::llvmc::skeleton::call_element_value element1 (function2.entry, &call1, 0);
+    call1.elements.push_back (&element1);
+    mu::llvmc::skeleton::integer_type type2 (1);
+    mu::llvmc::skeleton::constant_integer integer1 (1, 0);
+    mu::llvmc::skeleton::result result1 (&type2, &integer1);
+    function2.results.push_back (&result1);
+    function2.predicate_offsets.push_back (function2.results.size ());
+    function2.results.push_back (&element1);
+    function2.branch_ends.push_back (function2.results.size ());
+    module.functions.push_back (&function2);
+    
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result);
+    std::string info;
+    print_module (result, info);
+    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_call_predicate_b1v1_expected), info);
 }

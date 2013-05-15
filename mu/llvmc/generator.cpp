@@ -148,6 +148,11 @@ void mu::llvmc::generate_function::generate ()
                     auto result (retrieve_value (result_a->value));
                     assert (the_value == nullptr || result_a->type->is_unit_type ());
                     the_value = result_a->type->is_unit_type () ? the_value : result.value;
+                },
+                [&]
+                (mu::llvmc::skeleton::value * value_a, size_t)
+                {
+                    auto result (retrieve_value (value_a));
                 }
             );
             last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
