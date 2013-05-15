@@ -35,7 +35,7 @@ void mu::io::stream_istream::refill ()
     for (size_t i (0); i < needed; ++i)
     {
         auto character (stream_l.get ());
-        if (stream_l.eof ())
+        if (stream_l.eof () || stream_l.fail ())
         {
             buffer.push_back (U'\U0000FFFF');
         }

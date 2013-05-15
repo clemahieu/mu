@@ -192,7 +192,7 @@ namespace mu
                         assert (current_end != branch_ends.end ());
                         assert (current_predicate != predicate_offsets.end ());
                         assert (*current_predicate <= *current_end);
-                        if (index >= *current_predicate)
+                        if (index == *current_predicate)
                         {
                             transition_op (results [index], index);
                             predicates = true;

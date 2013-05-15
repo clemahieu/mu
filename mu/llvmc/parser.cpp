@@ -379,6 +379,7 @@ void mu::llvmc::function::parse_result_set ()
                     }
                     break;
                 case mu::io::token_id::terminator:
+                {
                     parser.stream.consume ();
                     node = parser.stream.peek ();
                     if (predicates == false)
@@ -391,19 +392,27 @@ void mu::llvmc::function::parse_result_set ()
                         result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
                     }
                     break;
+                }
                 case mu::io::token_id::identifier:
                 {
-                    auto index (function_m->results.size ());
-                    function_m->results.push_back (nullptr);
-                    auto function_l (function_m);
-                    block.refer (static_cast <mu::io::identifier *> (node.token)->string,
-                                 [function_l, index]
-                                 (mu::llvmc::ast::node * node_a)
-                                 {
-                                     function_l->results [index] = node_a;
-                                 });
-                    parser.stream.consume ();
-                    node = parser.stream.peek ();
+                    if (predicates)
+                    {
+                        auto index (function_m->results.size ());
+                        function_m->results.push_back (nullptr);
+                        auto function_l (function_m);
+                        block.refer (static_cast <mu::io::identifier *> (node.token)->string,
+                                     [function_l, index]
+                                     (mu::llvmc::ast::node * node_a)
+                                     {
+                                         function_l->results [index] = node_a;
+                                     });
+                        parser.stream.consume ();
+                        node = parser.stream.peek ();
+                    }
+                    else
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Expecting result reference", mu::core::error_type::expecting_result_reference);
+                    }
                     break;
                 }
                 default:

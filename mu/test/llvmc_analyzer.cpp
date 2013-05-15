@@ -88,24 +88,61 @@ TEST (llvmc_ast, iteration_one_predicate)
     function1.for_each_results (
                                 [&]
                                 (mu::llvmc::ast::result *, size_t)
-    {++result_calls;},
+                                {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
-    {++predicate_calls;},
+                                {++predicate_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
-    {++transition_calls;},
+                                {++transition_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
-    {++branch_calls;},
+                                {++branch_calls;},
                                 [&]
                                 ()
-    {++loop_calls; return true;});
+                                {++loop_calls; return true;});
     EXPECT_EQ (0, result_calls);
     EXPECT_EQ (1, predicate_calls);
     EXPECT_EQ (1, transition_calls);
     EXPECT_EQ (1, branch_calls);
     EXPECT_EQ (1, loop_calls);
+}
+
+TEST (llvmc_ast, iteration_multi_predicate)
+{
+    mu::llvmc::ast::function function1;
+    size_t result_calls (0);
+    size_t predicate_calls (0);
+    size_t transition_calls (0);
+    size_t branch_calls (0);
+    size_t loop_calls (0);
+    mu::llvmc::ast::unit unit1;
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&unit1);
+    function1.results.push_back (&unit1);
+    function1.results.push_back (&unit1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.for_each_results (
+                                [&]
+                                (mu::llvmc::ast::result *, size_t)
+                                {++result_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++predicate_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++transition_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++branch_calls;},
+                                [&]
+                                ()
+                                {++loop_calls; return true;});
+    EXPECT_EQ (0, result_calls);
+    EXPECT_EQ (3, predicate_calls);
+    EXPECT_EQ (1, transition_calls);
+    EXPECT_EQ (1, branch_calls);
+    EXPECT_EQ (3, loop_calls);
 }
 
 TEST (llvmc_analyzer, empty)
@@ -666,4 +703,27 @@ TEST (llvmc_analyzer, empty_call)
     ASSERT_EQ (1, function4->branch_ends [0]);
     ASSERT_EQ (1, function4->predicate_offsets.size ());
     ASSERT_EQ (0, function4->predicate_offsets [0]);
+}
+
+TEST (llvmc_analyzer, DISABLED_set_expression)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::set_expression set1;
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&set1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [0]);
+    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size ());
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (0, function2->predicate_offsets [0]);
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (1, function2->branch_ends [0]);
 }

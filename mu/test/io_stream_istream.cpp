@@ -3,6 +3,15 @@
 
 #include <sstream>
 
+TEST (string_istream, empty)
+{
+    std::stringstream stream1 ("");
+    mu::io::stream_istream stream2 (stream1, 2);
+    EXPECT_EQ (2, stream2.size ());
+    EXPECT_EQ (U'\U0000FFFF', stream2 [0]);
+    EXPECT_EQ (U'\U0000FFFF', stream2 [1]);
+}
+
 TEST (stream_istream, test1)
 {
     std::stringstream stream1 ("test");
