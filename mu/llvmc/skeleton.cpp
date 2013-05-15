@@ -153,7 +153,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_unit::type ()
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_value::type ()
 {
     assert (source->target->results.size () > index);
-    auto result (source->target->results [index]->type);
+    auto result (source->target->as_result (source->target->results [index])->type);
     return result;
 }
 
@@ -191,10 +191,13 @@ bool mu::llvmc::skeleton::function_type::operator == (mu::llvmc::skeleton::type 
                     {
                         result = (*i) == (*k);
                     }
-                    for (auto i (function->results.begin ()), j (function->results.end ()), k (other_function->function->results.begin ()); i != j && result; ++i, ++k)
+                    function->for_each_results (
+                    [&]
+                    (mu::llvmc::skeleton::result * result_a, size_t index_a)
                     {
-                        result = (*(*i)->type) == (*(*k)->type);
+                        result = (*result_a->type) == (*function->as_result (other_function->function->results [index_a])->type);
                     }
+                    );
                 }
             }
         }

@@ -160,7 +160,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::branch * entry;
                 mu::vector <mu::llvmc::skeleton::parameter *> parameters;
-                mu::vector <mu::llvmc::skeleton::result *> results;
+                mu::vector <mu::llvmc::skeleton::node *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
                 template <typename T>

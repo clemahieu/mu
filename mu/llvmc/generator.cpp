@@ -410,7 +410,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
                     mu::llvmc::skeleton::function::empty_node,
                     mu::llvmc::skeleton::function::empty_node,
                     [&]
-                    (mu::llvmc::skeleton::result * result_a, size_t)
+                    (mu::llvmc::skeleton::node * result_a, size_t)
                     {
                         ++current_selector;
                         compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
