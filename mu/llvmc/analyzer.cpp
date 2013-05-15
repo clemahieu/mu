@@ -208,12 +208,12 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                       [&]
                     (mu::llvmc::ast::expression * result_a, size_t)
                       {
-                          /*auto value (process_value (result_a));
+                          auto value (process_value (result_a));
                           if (value != nullptr)
                           {
                               function_s->results.push_back (value);
                               most_specific_branch = most_specific_branch->most_specific (value->branch);
-                          }*/
+                          }
                       },
                       [&]
                       (mu::llvmc::ast::node *, size_t)

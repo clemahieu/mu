@@ -630,7 +630,7 @@ TEST (llvmc_analyzer, error_same_branch2)
     ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
 }
 
-TEST (llvmc_analyzer, DISABLED_empty_call)
+TEST (llvmc_analyzer, empty_call)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
@@ -654,14 +654,14 @@ TEST (llvmc_analyzer, DISABLED_empty_call)
     ASSERT_EQ (2, result.module->functions.size ());
     auto function3 (result.module->functions [0]);
     ASSERT_EQ (0, function3->parameters.size ());
-    ASSERT_EQ (0, function3->results.size ());
+    ASSERT_EQ (1, function3->results.size ());
     ASSERT_EQ (1, function3->branch_ends.size ());
     ASSERT_EQ (1, function3->branch_ends [0]);
     ASSERT_EQ (1, function3->predicate_offsets.size ());
     ASSERT_EQ (0, function3->predicate_offsets [0]);
     auto function4 (result.module->functions [1]);
     ASSERT_EQ (0, function4->parameters.size ());
-    ASSERT_EQ (0, function4->results.size ());
+    ASSERT_EQ (1, function4->results.size ());
     ASSERT_EQ (1, function4->branch_ends.size ());
     ASSERT_EQ (1, function4->branch_ends [0]);
     ASSERT_EQ (1, function4->predicate_offsets.size ());
