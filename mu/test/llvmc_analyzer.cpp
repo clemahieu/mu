@@ -629,20 +629,16 @@ TEST (llvmc_analyzer, DISABLED_empty_call)
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     mu::llvmc::ast::value value1 (&mu::llvmc::skeleton::the_unit_type);
-    mu::llvmc::ast::result result1 (&value1);
     mu::llvmc::ast::unit unit1;
-    result1.value = &unit1;
     function1.predicate_offsets.push_back (function1.results.size ());
-    function1.results.push_back (&result1);
+    function1.results.push_back (&unit1);
     function1.branch_ends.push_back (function1.results.size ());
     module1.functions.push_back (&function1);
     mu::llvmc::ast::function function2;
     mu::llvmc::ast::definite_expression expression1;
     expression1.arguments.push_back (&function1);
-    mu::llvmc::ast::result result2 (&value1);
-    result2.value = &expression1;
     function2.predicate_offsets.push_back (function2.results.size ());
-    function2.results.push_back (&result2);
+    function2.results.push_back (&expression1);
     function2.branch_ends.push_back (function2.results.size ());
     module1.functions.push_back (&function2);
     auto result (analyzer.analyze (&module1));
@@ -654,9 +650,13 @@ TEST (llvmc_analyzer, DISABLED_empty_call)
     ASSERT_EQ (0, function3->results.size ());
     ASSERT_EQ (1, function3->branch_ends.size ());
     ASSERT_EQ (1, function3->branch_ends [0]);
+    ASSERT_EQ (1, function3->predicate_offsets.size ());
+    ASSERT_EQ (0, function3->predicate_offsets [0]);
     auto function4 (result.module->functions [1]);
     ASSERT_EQ (0, function4->parameters.size ());
     ASSERT_EQ (0, function4->results.size ());
     ASSERT_EQ (1, function4->branch_ends.size ());
     ASSERT_EQ (1, function4->branch_ends [0]);
+    ASSERT_EQ (1, function4->predicate_offsets.size ());
+    ASSERT_EQ (0, function4->predicate_offsets [0]);
 }

@@ -205,7 +205,16 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                               result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
                           }
                       },
-                      [] (mu::llvmc::ast::expression *, size_t) {},
+                      [&]
+                    (mu::llvmc::ast::expression * result_a, size_t)
+                      {
+                          /*auto value (process_value (result_a));
+                          if (value != nullptr)
+                          {
+                              function_s->results.push_back (value);
+                              most_specific_branch = most_specific_branch->most_specific (value->branch);
+                          }*/
+                      },
                       [&]
                       (mu::llvmc::ast::node *, size_t)
                       {
