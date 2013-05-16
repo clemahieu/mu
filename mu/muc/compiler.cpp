@@ -33,24 +33,48 @@ void mu::muc::compiler::compile ()
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
             auto module (generator.generate (context, analyze_result.module));
-            auto triple (llvm::sys::getDefaultTargetTriple ());
-            std::string error;
-            auto target (llvm::TargetRegistry::lookupTarget (triple, error));
-            if (target != nullptr)
+            auto entry (module.names.find (U"start"));
+            if (entry != module.names.end ())
             {
-                llvm::TargetOptions options;
-                auto machine (target->createTargetMachine (triple, "", "", options));
-                llvm::PassManager pass_manager;
-                auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
-                pass_manager.run (*module);
-                std::string contents;
-                llvm::raw_string_ostream stream (contents);
-                module->print (stream, nullptr);
-                std::cout << contents;
+                auto entry_function (entry->second);
+                if (entry_function->getReturnType ()->isVoidTy ())
+                {
+                    if (entry_function->getArgumentList ().empty ())
+                    {
+                        entry_function->setName ("start");
+                        auto triple (llvm::sys::getDefaultTargetTriple ());
+                        std::string error;
+                        auto target (llvm::TargetRegistry::lookupTarget (triple, error));
+                        if (target != nullptr)
+                        {
+                            llvm::TargetOptions options;
+                            auto machine (target->createTargetMachine (triple, "", "", options));
+                            llvm::PassManager pass_manager;
+                            auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
+                            pass_manager.run (*module.module);
+                            std::string contents;
+                            llvm::raw_string_ostream stream (contents);
+                            module.module->print (stream, nullptr);
+                            std::cout << contents;
+                        }
+                        else
+                        {
+                            std::cout << "Unable to lookup target triple: " << error;
+                        }
+                    }
+                    else
+                    {
+                        std::cout << "Entry point must not take any arguments";
+                    }
+                }
+                else
+                {
+                    std::cout << "Entry point must return void";
+                }
             }
             else
             {
-                std::cout << "Unable to lookup target triple: " << error;
+                std::cout << "Module has no function named \"start\" to use as entry point";
             }
         }
         else
