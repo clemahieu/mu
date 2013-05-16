@@ -76,6 +76,14 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             result.error = item.error;
         }
     }
+    if (result.error == nullptr)
+    {
+        if (!parser_a.globals.unresolved.empty ())
+        {
+            result.error = new (GC) mu::core::error_string (U"Unresolved symbols", mu::core::error_type::unresolved_symbols);
+            result.node = nullptr;
+        }
+    }
     return result;
 }
 
@@ -142,7 +150,7 @@ void mu::llvmc::function::parse_name ()
                 auto name (static_cast <mu::io::identifier *> (parser.stream.peek ().token));
                 parser.stream.consume ();
                 function_m->name = name->string;
-                auto error (block.insert (name->string, function_m));
+                auto error (parser.globals.insert (name->string, function_m));
                 if (error)
                 {
                     result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
@@ -891,6 +899,11 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
                 --existing;
             }
             mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+            for (auto i (unresolved.find (identifier_a)), j (unresolved.end ()); i != j && i->first == identifier_a; ++i)
+            {
+                i->second (node_a);
+            }
+            unresolved.erase (identifier_a);
         }
     }
     return result;
@@ -1255,4 +1268,9 @@ mu::llvmc::node_result mu::llvmc::loop_hook::parse (mu::string const & data_a, m
 bool mu::llvmc::loop_hook::covering ()
 {
     return false;
+}
+
+mu::llvmc::block::~block ()
+{
+    parent->accept (unresolved);
 }

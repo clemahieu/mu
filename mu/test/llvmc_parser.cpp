@@ -142,6 +142,20 @@ TEST (llvmc_parser, global_check_covering)
     EXPECT_EQ (true, error2);
 }
 
+TEST (llvmc_parser, unresolved_passing)
+{
+    test_covering keyword1;
+    mu::llvmc::keywords mapping;
+    auto called (false);
+    mu::llvmc::global global (&mapping);
+    {
+        mu::llvmc::block block (&global);
+        block.refer (mu::string (U"test"), [&] (mu::llvmc::ast::node *) {called = true;});
+        EXPECT_TRUE (global.unresolved.empty ());
+    }
+    EXPECT_FALSE (global.unresolved.empty ());
+}
+
 TEST (llvmc_parser, empty)
 {
     test_parser parser ("");
@@ -176,7 +190,7 @@ TEST (llvmc_parser, simple)
     EXPECT_EQ (0, function1->results.size ());
 }
 
-TEST (llvmc_parser, DISABLED_recursive)
+TEST (llvmc_parser, recursive)
 {
     test_parser parser ("function test1 [] [[test2]] [] function test2 [] [[test1]] []");
     auto module1 (parser.parser.parse ());
@@ -201,6 +215,15 @@ TEST (llvmc_parser, DISABLED_recursive)
     ASSERT_EQ (1, expression2->arguments.size ());
     ASSERT_EQ (function2, expression1->arguments [0]);
     ASSERT_EQ (function1, expression2->arguments [0]);
+}
+
+TEST (llvmc_parser, unresolved)
+{
+    test_parser parser ("function test1 [] [[test2]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::error_type::unresolved_symbols, module1.error->type ());
 }
 
 TEST (llvmc_parser, two_functions)
