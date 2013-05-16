@@ -39,8 +39,10 @@ TEST (llvmc_generator, generate_empty)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
+    ASSERT_EQ (1, result.names.size ());
     ASSERT_EQ (1, result.module->getFunctionList ().size ());
     llvm::Function * function2 (result.module->getFunctionList().begin ());
+    ASSERT_EQ (function2, result.names [U"0"]);
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
     ASSERT_TRUE (function2->getArgumentList ().empty ());
     std::string info;

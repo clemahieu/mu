@@ -40,7 +40,11 @@ void mu::llvmc::generate_module::generate ()
         {
             mu::llvmc::generate_function generator_l (*this, i->second);
             generator_l.generate ();
+            existing = functions.find (i->second);
+            assert (existing != functions.end ());
         }
+        assert (target.names.find (i->first) == target.names.end ());
+        target.names [i->first] = existing->second;
     }
 }
 
