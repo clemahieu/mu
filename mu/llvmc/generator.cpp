@@ -34,10 +34,10 @@ void mu::llvmc::generate_module::generate ()
 {
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
     {
-        auto existing (functions.find (*i));
+        auto existing (functions.find (i->second));
         if (existing == functions.end ())
         {
-            mu::llvmc::generate_function generator_l (*this, *i);
+            mu::llvmc::generate_function generator_l (*this, i->second);
             generator_l.generate ();
         }
     }

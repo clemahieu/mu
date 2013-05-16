@@ -36,7 +36,7 @@ TEST (llvmc_generator, generate_empty)
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_EQ (1, result->getFunctionList ().size ());
@@ -58,7 +58,7 @@ TEST (llvmc_generator, generate_parameter)
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_EQ (1, result->getFunctionList ().size ());
@@ -85,7 +85,7 @@ TEST (llvmc_generator, generate_parameter_return)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_EQ (1, result->getFunctionList ().size ());
@@ -121,7 +121,7 @@ TEST (llvmc_generator, generate_add)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
@@ -146,7 +146,7 @@ TEST (llvmc_generator, generate_two_return)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
@@ -185,7 +185,7 @@ TEST (llvmc_generator, generate_if)
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
@@ -232,7 +232,7 @@ TEST (llvmc_generator, generate_if_value)
     function1.results.push_back (&result4);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_NE (nullptr, result);
@@ -272,7 +272,7 @@ TEST (llvm_generator, generate_if_join)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
@@ -330,7 +330,7 @@ TEST (llvm_generator, generate_if_join_value)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
@@ -413,7 +413,7 @@ TEST (llvm_generator, generate_if_join_2value)
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
     
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
@@ -472,7 +472,7 @@ TEST (llvm_generator, generate_if_join_load)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
@@ -493,7 +493,7 @@ TEST (llvm_generator, generate_call_0)
     mu::llvmc::skeleton::unit_type type1;
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -505,7 +505,7 @@ TEST (llvm_generator, generate_call_0)
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -531,7 +531,7 @@ TEST (llvm_generator, generate_call_1)
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
@@ -546,7 +546,7 @@ TEST (llvm_generator, generate_call_1)
     function2.results.push_back (&result2);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -587,7 +587,7 @@ TEST (llvm_generator, generate_call_2)
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
@@ -608,7 +608,7 @@ TEST (llvm_generator, generate_call_2)
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -656,7 +656,7 @@ TEST (llvm_generator, generate_call_3)
     function1.results.push_back (&result6);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
@@ -677,7 +677,7 @@ TEST (llvm_generator, generate_call_3)
     function2.results.push_back (&result4);
     function2.branch_ends.push_back (function2.results.size ());
     function2.predicate_offsets.push_back (function2.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -700,7 +700,7 @@ TEST (llvm_generator, generate_call_predicate_b1v0)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -711,7 +711,7 @@ TEST (llvm_generator, generate_call_predicate_b1v0)
     function2.predicate_offsets.push_back (function2.results.size ());
     function2.results.push_back (&element1);
     function2.branch_ends.push_back (function2.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
@@ -734,7 +734,7 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
-    module.functions.push_back (&function1);
+    module.functions [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -749,7 +749,7 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
     function2.predicate_offsets.push_back (function2.results.size ());
     function2.results.push_back (&element1);
     function2.branch_ends.push_back (function2.results.size ());
-    module.functions.push_back (&function2);
+    module.functions [U"1"] = &function2;
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;

@@ -284,7 +284,7 @@ namespace mu
             {
             public:
                 module ();
-                mu::vector <mu::llvmc::skeleton::function *> functions;
+                mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };

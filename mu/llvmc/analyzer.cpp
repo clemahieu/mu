@@ -300,7 +300,7 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     {
         assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
         auto function_s (new (GC) mu::llvmc::skeleton::function (module.module->global));
-        module.module->functions.push_back (function_s);
+        module.module->functions [function_l->name] = function_s;
         module.functions [function_a] = function_s;
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
