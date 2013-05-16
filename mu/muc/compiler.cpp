@@ -33,6 +33,10 @@ void mu::muc::compiler::compile ()
             module->print (stream, nullptr);
             std::cout << contents;
         }
+        else
+        {
+            std::cout << "Error analyzing (" << (uint64_t)analyze_result.error->type () << "): " << analyze_result.error->string () << '\n';
+        }
     }
     else
     {
