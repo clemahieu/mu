@@ -5,14 +5,19 @@
 #include <mu/core/error.hpp>
 
 #include <llvm/LLVMContext.h>
-#include <llvm/Support/raw_ostream.h>
 #include <llvm/Module.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/TargetRegistry.h>
+#include <llvm/Target/TargetMachine.h>
+#include <llvm/PassManager.h>
+#include <llvm/Support/raw_ostream.h>
 
-mu::muc::compiler::compiler (mu::io::stream_istream & stream_a) :
+mu::muc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
 lexer (stream_a),
 stream_token (lexer, 2),
 parser (stream_ast),
-stream_ast (stream_token, parser)
+stream_ast (stream_token, parser),
+output (output_a)
 {
 }
 
@@ -28,10 +33,25 @@ void mu::muc::compiler::compile ()
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
             auto module (generator.generate (context, analyze_result.module));
-            std::string contents;
-            llvm::raw_string_ostream stream (contents);
-            module->print (stream, nullptr);
-            std::cout << contents;
+            auto triple (llvm::sys::getDefaultTargetTriple ());
+            std::string error;
+            auto target (llvm::TargetRegistry::lookupTarget (triple, error));
+            if (target != nullptr)
+            {
+                llvm::TargetOptions options;
+                auto machine (target->createTargetMachine (triple, "", "", options));
+                llvm::PassManager pass_manager;
+                auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
+                pass_manager.run (*module);
+                std::string contents;
+                llvm::raw_string_ostream stream (contents);
+                module->print (stream, nullptr);
+                std::cout << contents;
+            }
+            else
+            {
+                std::cout << "Unable to lookup target triple: " << error;
+            }
         }
         else
         {

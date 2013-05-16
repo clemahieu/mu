@@ -5,11 +5,17 @@
 #include <mu/io/stream_istream.hpp>
 #include <mu/muc/compiler.hpp>
 
+#include <llvm/Support/TargetSelect.h>
+#include <llvm/Support/raw_ostream.h>
+#include <llvm/Support/FormattedStream.h>
+
 #include <gc.h>
 
 int main (int argc, char const * const argv [])
 {
     GC_INIT ();
+    llvm::InitializeNativeTarget ();
+    llvm::InitializeNativeTargetAsmPrinter ();
     int result;
     boost::program_options::options_description options ("muc options");
     options.add_options()
@@ -37,7 +43,10 @@ int main (int argc, char const * const argv [])
                 if (!file.fail ())
                 {
                     mu::io::stream_istream stream (file, 16);
-                    mu::muc::compiler compiler (stream);
+                    std::string error;
+                    llvm::raw_fd_ostream output ("test.o", error);
+                    llvm::formatted_raw_ostream formatted (output);
+                    mu::muc::compiler compiler (stream, formatted);
                     compiler.compile ();
                 }
                 else
