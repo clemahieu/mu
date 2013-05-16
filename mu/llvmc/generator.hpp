@@ -38,19 +38,25 @@ namespace mu
             class constant_integer;
             enum class function_return_type;
         }
+        class generator_result
+        {
+        public:
+            mu::map <mu::string, llvm::Function *> names;
+            llvm::Module * module;
+        };
         class generator
         {
         public:
-            llvm::Module * generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a);
+            mu::llvmc::generator_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a);
         };
         class generate_module
         {
         public:
-            generate_module (mu::llvmc::skeleton::module * module_a, llvm::Module * target_a);
+            generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a);
             void generate ();
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
-            llvm::Module * target;
+            mu::llvmc::generator_result & target;
         };
         class generate_function;
         class value_data

@@ -16,15 +16,16 @@
 
 #include <algorithm>
 
-llvm::Module * mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a)
+mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a)
 {
-    auto module (new llvm::Module ("", context_a));
-    mu::llvmc::generate_module generator (module_a, module);
+    mu::llvmc::generator_result result;
+    result.module = new llvm::Module ("", context_a);
+    mu::llvmc::generate_module generator (module_a, result);
     generator.generate ();
-    return module;
+    return result;
 }
 
-mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, llvm::Module * target_a) :
+mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a) :
 module (module_a),
 target (target_a)
 {
@@ -52,7 +53,7 @@ function_return_type (function_a->get_return_type ())
 
 void mu::llvmc::generate_function::generate ()
 {
-    auto & context (module.target->getContext ());
+    auto & context (module.target.module->getContext ());
     std::vector <llvm::Type *> parameters;
     for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
     {
@@ -107,7 +108,7 @@ void mu::llvmc::generate_function::generate ()
         assert ((i != j) == (k != l));
     }
     function_m = function_l;
-    module.target->getFunctionList ().push_back (function_l);
+    module.target.module->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
     module.functions [function] = function_l;
     auto entry (llvm::BasicBlock::Create (context));
@@ -279,7 +280,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
     auto call (dynamic_cast <mu::llvmc::skeleton::call_element_value *> (value_a));
     if (call != nullptr)
     {
-        auto & context (module.target->getContext ());
+        auto & context (module.target.module->getContext ());
         llvm::Value * predicate (llvm::ConstantInt::getTrue (last->getContext ()));
         assert (call->source->arguments.size () > 0);
         assert (dynamic_cast <mu::llvmc::skeleton::value *> (call->source->arguments [0]) != nullptr);
@@ -504,14 +505,14 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 {
     assert (value_a != nullptr);
     assert (already_generated.find (value_a) == already_generated.end ());
-    auto & context (module.target->getContext ());
+    auto & context (module.target.module->getContext ());
     llvm::Value * predicate;
     llvm::Value * value;
     auto constant_aggregate_zero (dynamic_cast <mu::llvmc::skeleton::constant_aggregate_zero *> (value_a));
     if (constant_aggregate_zero != nullptr)
     {
         auto type (generate_type (value_a->type ()));;
-        predicate = llvm::ConstantInt::getTrue (module.target->getContext ());
+        predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
         value = llvm::ConstantAggregateZero::get (type);
     }
     else
@@ -520,7 +521,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
         if (constant_pointer_null != nullptr)
         {
             auto type (generate_type (value_a->type ()));
-            predicate = llvm::ConstantInt::getTrue (module.target->getContext ());
+            predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
             value = llvm::ConstantPointerNull::get(llvm::cast <llvm::PointerType> (type));
         }
         else
@@ -529,7 +530,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
             if (constant_int != nullptr)
             {
                 auto type (generate_type (value_a->type ()));
-                predicate = llvm::ConstantInt::getTrue (module.target->getContext ());
+                predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
                 value = llvm::ConstantInt::get (type, constant_int->value_m);
             }
             else
@@ -649,7 +650,7 @@ llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::t
     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type_a));
     if (integer_type != nullptr)
     {
-        result = llvm::Type::getIntNTy (module.target->getContext (), integer_type->bits);
+        result = llvm::Type::getIntNTy (module.target.module->getContext (), integer_type->bits);
     }
     else
     {

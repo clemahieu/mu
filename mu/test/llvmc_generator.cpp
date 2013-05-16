@@ -23,9 +23,9 @@ TEST (llvmc_generator, generate1)
     mu::llvmc::skeleton::module module;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_EQ (0, result->getFunctionList ().size ());
+    ASSERT_EQ (0, result.module->getFunctionList ().size ());
     std::string info;
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
 }
 
@@ -39,14 +39,14 @@ TEST (llvmc_generator, generate_empty)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_EQ (1, result->getFunctionList ().size ());
-    llvm::Function * function2 (result->getFunctionList().begin ());
+    ASSERT_EQ (1, result.module->getFunctionList ().size ());
+    llvm::Function * function2 (result.module->getFunctionList().begin ());
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
     ASSERT_TRUE (function2->getArgumentList ().empty ());
     std::string info;
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    print_module (result, info);
+    print_module (result.module, info);
     ASSERT_EQ (std::string (generate_empty_expected), info);
 }
 
@@ -61,15 +61,15 @@ TEST (llvmc_generator, generate_parameter)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_EQ (1, result->getFunctionList ().size ());
-    llvm::Function * function2 (result->getFunctionList().begin ());
+    ASSERT_EQ (1, result.module->getFunctionList ().size ());
+    llvm::Function * function2 (result.module->getFunctionList().begin ());
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
     ASSERT_EQ (1, function2->getArgumentList ().size ());
     auto const & value1 (function2->getArgumentList ().begin ());
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
     std::string info;
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
 }
 
@@ -88,8 +88,8 @@ TEST (llvmc_generator, generate_parameter_return)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_EQ (1, result->getFunctionList ().size ());
-    llvm::Function * function2 (result->getFunctionList().begin ());
+    ASSERT_EQ (1, result.module->getFunctionList ().size ());
+    llvm::Function * function2 (result.module->getFunctionList().begin ());
     ASSERT_TRUE (function2->getReturnType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (function2->getReturnType ())->getBitWidth ());
     ASSERT_EQ (1, function2->getArgumentList ().size ());
@@ -97,7 +97,7 @@ TEST (llvmc_generator, generate_parameter_return)
     ASSERT_TRUE (value1->getType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (value1->getType ())->getBitWidth ());
     std::string info;
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
 }
 
@@ -125,8 +125,8 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_add_expected), info);
 }
@@ -150,8 +150,8 @@ TEST (llvmc_generator, generate_two_return)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
 }
@@ -188,10 +188,10 @@ TEST (llvmc_generator, generate_if)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_expected), info);
 }
@@ -235,10 +235,10 @@ TEST (llvmc_generator, generate_if_value)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_value_expected), info);
 }
@@ -276,10 +276,10 @@ TEST (llvm_generator, generate_if_join)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_expected), info);
 }
@@ -334,10 +334,10 @@ TEST (llvm_generator, generate_if_join_value)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_value_expected), info);
 }
@@ -417,10 +417,10 @@ TEST (llvm_generator, generate_if_join_2value)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_2value_expected), info);
 }
@@ -476,10 +476,10 @@ TEST (llvm_generator, generate_if_join_load)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_load_expected), info);
 }
@@ -510,10 +510,10 @@ TEST (llvm_generator, generate_call_0)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_0_expected), info);
 }
@@ -551,10 +551,10 @@ TEST (llvm_generator, generate_call_1)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_1_expected), info);
 }
@@ -613,10 +613,10 @@ TEST (llvm_generator, generate_call_2)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_2_expected), info);
 }
@@ -682,10 +682,10 @@ TEST (llvm_generator, generate_call_3)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_3_expected), info);
 }
@@ -716,10 +716,10 @@ TEST (llvm_generator, generate_call_predicate_b1v0)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_predicate_b1v0_expected), info);
 }
@@ -754,10 +754,10 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
     auto result (generator.generate (context, &module));
-    ASSERT_NE (nullptr, result);
+    ASSERT_NE (nullptr, result.module);
     std::string info;
-    print_module (result, info);
-    auto broken (llvm::verifyModule (*result, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_predicate_b1v1_expected), info);
 }
