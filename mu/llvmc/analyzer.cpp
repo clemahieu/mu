@@ -426,9 +426,11 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
         auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (pointer_type->pointed_type));
         if (function_type != nullptr)
         {
-            auto k (arguments.begin ());
+            auto k (arguments.begin () + 1);
             auto l (arguments.end ());
-            for (size_t i (0), j (function_type->function->parameters.size ()); i != j && k != l && result_m.error == nullptr; ++i, ++k)
+            size_t i (0);
+            size_t j (function_type->function->parameters.size ());
+            for (; i != j && k != l && result_m.error == nullptr; ++i, ++k)
             {
                 auto argument_value (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
                 if (argument_value != nullptr)
@@ -445,41 +447,48 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
             }
             if (result_m.error == nullptr)
             {
-                if (!arguments.empty ())
+                if ((i == j) == (k == l))
                 {
-                    auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
-                    result = function_type->function->branch_ends.size () != 1;
-                    function_type->function->for_each_branch (
-                        [&]
-                        (size_t begin, size_t end)
-                          {
-                              auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-                              auto branch_size (end - begin);
-                              switch (branch_size)
+                    if (!arguments.empty ())
+                    {
+                        auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
+                        result = function_type->function->branch_ends.size () != 1;
+                        function_type->function->for_each_branch (
+                            [&]
+                            (size_t begin, size_t end)
                               {
-                                  case 0:
+                                  auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+                                  auto branch_size (end - begin);
+                                  switch (branch_size)
                                   {
-                                      already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (branch, call, begin);
-                                      break;
-                                  }
-                                  case 1:
-                                  {
-                                      already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (branch, call, begin);
-                                      break;
-                                  }
-                                  default:
-                                  {                                          
-                                      result = true;
-                                      auto & target (already_generated_multi [expression_a]);
-                                      for (size_t k (begin), l (end); k != l && result_m.error == nullptr; ++k)
+                                      case 0:
                                       {
-                                          target.push_back (new (GC) mu::llvmc::skeleton::call_element_value (branch, call, k));
+                                          already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (branch, call, begin);
+                                          break;
                                       }
-                                      break;
+                                      case 1:
+                                      {
+                                          already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_value (branch, call, begin);
+                                          break;
+                                      }
+                                      default:
+                                      {                                          
+                                          result = true;
+                                          auto & target (already_generated_multi [expression_a]);
+                                          for (size_t k (begin), l (end); k != l && result_m.error == nullptr; ++k)
+                                          {
+                                              target.push_back (new (GC) mu::llvmc::skeleton::call_element_value (branch, call, k));
+                                          }
+                                          break;
+                                      }
                                   }
-                              }
-                        }
-                    );
+                            }
+                        );
+                    }
+                }
+                else                    
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments);
                 }
             }
         }
