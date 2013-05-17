@@ -24,18 +24,20 @@ globals (&keywords),
 current_mapping (&globals),
 stream (stream_a)
 {
-    auto error1 (keywords.insert (mu::string (U"function"), &function));
+    auto error1 (keywords.insert (U"function", &function));
     assert (!error1);
-    auto error2 (keywords.insert (mu::string (U"int"), &int_type));
+    auto error2 (keywords.insert (U"int", &int_type));
     assert (!error2);
-    auto error3 (keywords.insert (mu::string (U"set"), &set_hook));
+    auto error3 (keywords.insert (U"set", &set_hook));
     assert (!error3);
-    auto error4 (keywords.insert (mu::string (U"if"), &if_hook));
+    auto error4 (keywords.insert (U"if", &if_hook));
     assert (!error4);
-    auto error5 (keywords.insert (mu::string (U"loop"), &loop_hook));
+    auto error5 (keywords.insert (U"loop", &loop_hook));
     assert (!error5);
-    auto error6 (keywords.insert (mu::string (U"let"), &let_hook));
+    auto error6 (keywords.insert (U"let", &let_hook));
     assert (!error6);
+    auto error7 (globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit));
+    assert (!error7);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)

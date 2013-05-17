@@ -11,6 +11,8 @@
 #include <llvm/Target/TargetMachine.h>
 #include <llvm/PassManager.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/DerivedTypes.h>
+#include <llvm/Instructions.h>
 
 mu::muc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
 lexer (stream_a),
@@ -33,7 +35,7 @@ void mu::muc::compiler::compile ()
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
             auto module (generator.generate (context, analyze_result.module));
-            auto entry (module.names.find (U"start"));
+            auto entry (module.names.find (U"entry"));
             if (entry != module.names.end ())
             {
                 auto entry_function (entry->second);
@@ -41,7 +43,7 @@ void mu::muc::compiler::compile ()
                 {
                     if (entry_function->getArgumentList ().empty ())
                     {
-                        entry_function->setName ("start");
+                        inject_entry (module.module, entry_function);
                         auto triple (llvm::sys::getDefaultTargetTriple ());
                         std::string error;
                         auto target (llvm::TargetRegistry::lookupTarget (triple, error));
@@ -86,4 +88,23 @@ void mu::muc::compiler::compile ()
     {
         std::cout << "Error parsing (" << (uint64_t)parse_result.error->type () << "): " << parse_result.error->string () << '\n';
     }
+}
+
+void mu::muc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * entry_a)
+{
+    auto & context (module_a->getContext ());
+    auto exit_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
+    auto exit (llvm::Function::Create (exit_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "exit"));
+    module_a->getFunctionList ().push_back (exit);
+    exit->addFnAttr (llvm::Attributes::NoReturn);
+    auto entry_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
+    auto entry (llvm::Function::Create (entry_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "start"));
+    auto block (llvm::BasicBlock::Create (context));
+    entry->getBasicBlockList ().push_back (block);
+    auto call_entry (llvm::CallInst::Create (entry_a));
+    block->getInstList ().push_back (call_entry);
+    auto call_exit (llvm::CallInst::Create (exit));
+    block->getInstList ().push_back (call_exit);
+    block->getInstList ().push_back (new llvm::UnreachableInst (context));
+    module_a->getFunctionList().push_back (entry);
 }
