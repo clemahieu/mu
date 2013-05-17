@@ -673,6 +673,7 @@ void mu::llvmc::expression::parse ()
         {
             parser.stream.tokens.consume (1);
             auto done (false);
+            auto predicates (false);
             while (!done && result.error == nullptr)
             {
                 auto next (parser.stream.peek ());
@@ -701,10 +702,11 @@ void mu::llvmc::expression::parse ()
                         }
                         case mu::io::token_id::terminator:
                         {
+                            predicates = true;
                             auto position_l (expression_l->predicate_position);
                             if (position_l == (0 - 1))
                             {
-                                expression_l->predicate_position = expression_l->arguments.size ();
+                                expression_l->set_predicate_position ();
                             }
                             else
                             {
@@ -725,6 +727,10 @@ void mu::llvmc::expression::parse ()
                 {
                     result.error = next.error;
                 }
+            }
+            if (!predicates)
+            {
+                expression_l->set_predicate_position ();
             }
         }
             break;

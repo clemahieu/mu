@@ -427,8 +427,9 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
         auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (pointer_type->pointed_type));
         if (function_type != nullptr)
         {
+            assert (predicate_offset <= arguments.size ());
             auto k (arguments.begin () + 1);
-            auto l (arguments.end ());
+            auto l (arguments.begin () + predicate_offset);
             size_t i (0);
             size_t j (function_type->function->parameters.size ());
             for (; i != j && k != l && result_m.error == nullptr; ++i, ++k)
