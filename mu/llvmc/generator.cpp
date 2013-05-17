@@ -547,7 +547,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                     {
                         case mu::llvmc::instruction_type::add:
                         {
-                            assert (instruction->arguments.size () == 3 || (instruction->arguments.size () > 3 && instruction->arguments [3] == nullptr));
+                            assert (instruction->predicate_position == 3);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
                             auto p_left (llvm::BinaryOperator::CreateAnd (predicate_l, left.predicate));
@@ -556,7 +556,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
                             auto p_right (llvm::BinaryOperator::CreateAnd (p_left, right.predicate));
                             last->getInstList ().push_back (p_right);
-                            predicate = process_predicates (p_right, instruction->arguments, 4);                            
+                            predicate = process_predicates (p_right, instruction->arguments, 3);
                             auto instruction (llvm::BinaryOperator::CreateAdd (left.value, right.value));
                             last->getInstList ().push_back (instruction);
                             value = instruction;
@@ -564,10 +564,10 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                         }
                         case mu::llvmc::instruction_type::load:
                         {
-                            assert (instruction->arguments.size () == 2 || (instruction->arguments.size () > 2 && instruction->arguments [2] == nullptr));
+                            assert (instruction->predicate_position == 2);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             auto load_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                            predicate = process_predicates (load_pointer.predicate, instruction->arguments, 3);
+                            predicate = process_predicates (load_pointer.predicate, instruction->arguments, 2);
                             auto predicate_branch (llvm::BasicBlock::Create (context));
                             function_m->getBasicBlockList ().push_back (predicate_branch);
                             auto new_last (llvm::BasicBlock::Create (context));

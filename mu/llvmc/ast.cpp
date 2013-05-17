@@ -42,3 +42,14 @@ written_type (written_type_a),
 value (nullptr)
 {
 }
+
+mu::llvmc::ast::definite_expression::definite_expression () :
+predicate_position (~0)
+{
+}
+
+void mu::llvmc::ast::definite_expression::set_predicate_position ()
+{
+    assert (predicate_position == ~0);
+    predicate_position = arguments.size ();
+}

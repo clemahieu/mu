@@ -416,7 +416,8 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 {
     mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
-    process_call_values (expression_a, arguments, most_specific_branch);
+    size_t predicate_offset (~0);
+    process_call_values (expression_a, arguments, most_specific_branch, predicate_offset);
     auto result (false);
     auto target (static_cast <mu::llvmc::skeleton::value *> (arguments [0]));
     auto type_l (target->type ());
@@ -613,18 +614,19 @@ void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton:
     }
 }
 
-void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch)
+void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
-    for (auto i (expression_a->arguments.begin ()), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
-    {
-        if (*i != nullptr)
+    size_t predicate_position_l (~0);
+    expression_a->for_each_argument (
+        [&]
+        (mu::llvmc::ast::node * node_a, size_t index)
         {
-            auto result (process_node (*i));
+            auto result (process_node (node_a));
             if (result_m.error == nullptr)
             {
                 if (result)
                 {
-                    auto & nodes (already_generated_multi [*i]);
+                    auto & nodes (already_generated_multi [node_a]);
                     for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
                     {
                         auto node (*k);
@@ -638,7 +640,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite
                 }
                 else
                 {
-                    auto node (already_generated [*i]);
+                    auto node (already_generated [node_a]);
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
                     if (value != nullptr)
                     {
@@ -647,19 +649,63 @@ void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite
                     arguments_a.push_back (node);
                 }
             }
-        }
-        else
+        },
+        [&]
+        (mu::llvmc::ast::node * node_a, size_t index)
+         {
+             auto result (process_node (node_a));
+             if (result_m.error == nullptr)
+             {
+                 if (result)
+                 {
+                     auto & nodes (already_generated_multi [node_a]);
+                     for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                     {
+                         auto node (*k);
+                         auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
+                         if (value != nullptr)
+                         {
+                             calculate_most_specific (most_specific_branch, value->branch);
+                         }
+                         arguments_a.push_back (node);
+                     }
+                 }
+                 else
+                 {
+                     auto node (already_generated [node_a]);
+                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
+                     if (value != nullptr)
+                     {
+                         calculate_most_specific (most_specific_branch, value->branch);
+                     }
+                     arguments_a.push_back (node);
+                 }
+             }
+        },
+        [&]
+        (mu::llvmc::ast::node * node_a, size_t index)
         {
-            arguments_a.push_back (nullptr);
+            predicate_position_l = arguments_a.size ();
+        },
+        [&]
+        ()
+        {
+            return result_m.error == nullptr;
         }
+    );
+    if (predicate_position_l == ~0)
+    {
+        predicate_position_l = arguments_a.size ();
     }
+    predicate_position_a = predicate_position_l;
 }
 
 bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
 {
     mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
-    process_call_values (expression_a, arguments, most_specific_branch);
+    size_t predicate_offset (~0);
+    process_call_values (expression_a, arguments, most_specific_branch, predicate_offset);
     auto marker (static_cast <mu::llvmc::skeleton::marker *> (arguments [0]));
     auto result (false);
     switch (marker->type)
@@ -713,7 +759,7 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
             break;
         case mu::llvmc::instruction_type::add:
         {
-            if (arguments.size () == 3 || (arguments.size () > 3 && arguments [3] == nullptr))
+            if (predicate_offset == 3)
             {
                 auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
                 if (left != nullptr)
@@ -731,7 +777,7 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                                 {
                                     if (result_m.error == nullptr)
                                     {
-                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments);
+                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
                                     }
                                 }
                                 else

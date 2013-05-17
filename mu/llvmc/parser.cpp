@@ -664,11 +664,6 @@ parser (parser_a)
 {
 }
 
-mu::llvmc::ast::definite_expression::definite_expression () :
-predicate_position (0 - 1)
-{
-}
-
 void mu::llvmc::expression::parse ()
 {
     auto expression_l (new (GC) mu::llvmc::ast::definite_expression);

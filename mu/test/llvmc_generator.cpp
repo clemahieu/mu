@@ -118,7 +118,7 @@ TEST (llvmc_generator, generate_add)
     arguments1.push_back (&add1);
     arguments1.push_back (&parameter1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::result result1 (&type1, &instruction1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -312,17 +312,15 @@ TEST (llvm_generator, generate_if_join_value)
     arguments2.push_back (&marker2);
     arguments2.push_back (&parameter1);
     arguments2.push_back (&parameter1);
-    arguments2.push_back (nullptr);
     arguments2.push_back (&element1);
-    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2);
+    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, 3);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
     arguments3.push_back (&parameter1);
     arguments3.push_back (&parameter1);
-    arguments3.push_back (nullptr);
     arguments3.push_back (&element2);
-    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3);
+    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, 3);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments4;
     arguments4.push_back (&add1);
@@ -370,33 +368,29 @@ TEST (llvm_generator, generate_if_join_2value)
     arguments2.push_back (&marker2);
     arguments2.push_back (&parameter1);
     arguments2.push_back (&parameter1);
-    arguments2.push_back (nullptr);
     arguments2.push_back (&element1);
-    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2);
+    mu::llvmc::skeleton::instruction add1 (&branch1, arguments2, 3);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
     arguments3.push_back (&parameter1);
     arguments3.push_back (&parameter1);
-    arguments3.push_back (nullptr);
     arguments3.push_back (&element2);
-    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3);
+    mu::llvmc::skeleton::instruction add2 (&branch2, arguments3, 3);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments4;
     arguments4.push_back (&marker2);
     arguments4.push_back (&parameter1);
     arguments4.push_back (&parameter1);
-    arguments4.push_back (nullptr);
     arguments4.push_back (&element1);
-    mu::llvmc::skeleton::instruction add3 (&branch1, arguments4);
+    mu::llvmc::skeleton::instruction add3 (&branch1, arguments4, 3);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments5;
     arguments5.push_back (&marker2);
     arguments5.push_back (&parameter1);
     arguments5.push_back (&parameter1);
-    arguments5.push_back (nullptr);
     arguments5.push_back (&element2);
-    mu::llvmc::skeleton::instruction add4 (&branch2, arguments5);
+    mu::llvmc::skeleton::instruction add4 (&branch2, arguments5, 3);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments7;
     arguments7.push_back (&add1);
@@ -454,17 +448,15 @@ TEST (llvm_generator, generate_if_join_load)
     arguments2.push_back (&marker2);
     mu::llvmc::skeleton::constant_pointer_null pointer1 (&type2);
     arguments2.push_back (&pointer1);
-    arguments2.push_back (nullptr);
     arguments2.push_back (&element1);
-    mu::llvmc::skeleton::instruction load1 (&branch1, arguments2);
+    mu::llvmc::skeleton::instruction load1 (&branch1, arguments2, 2);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments3;
     arguments3.push_back (&marker2);
     mu::llvmc::skeleton::constant_pointer_null pointer2 (&type2);
     arguments3.push_back (&pointer2);
-    arguments3.push_back (nullptr);
     arguments3.push_back (&element2);
-    mu::llvmc::skeleton::instruction load2 (&branch2, arguments3);
+    mu::llvmc::skeleton::instruction load2 (&branch2, arguments3, 2);
     
     mu::vector <mu::llvmc::skeleton::value *> arguments4;
     arguments4.push_back (&load1);

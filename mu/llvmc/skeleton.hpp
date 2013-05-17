@@ -86,10 +86,11 @@ namespace mu
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+                size_t predicate_position;
             };
             class join : public mu::llvmc::skeleton::node
             {                

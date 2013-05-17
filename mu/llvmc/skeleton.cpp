@@ -97,9 +97,10 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :
+mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 value (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_position (predicate_position_a)
 {
     assert (arguments_a.size () > 0);
     assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
@@ -343,7 +344,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
     {
         case mu::llvmc::instruction_type::add:
         {
-            assert (arguments.size () == 3 || (arguments.size () > 3 && arguments [3] == nullptr));
+            assert (predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
             assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
@@ -352,7 +353,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::load:
         {
-            assert (arguments.size () == 2 || (arguments.size () > 2 && arguments [2] == nullptr));
+            assert (predicate_position == 2);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;
