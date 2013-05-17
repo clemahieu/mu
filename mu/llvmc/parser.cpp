@@ -30,14 +30,16 @@ stream (stream_a)
     assert (!error2);
     auto error3 (keywords.insert (U"set", &set_hook));
     assert (!error3);
-    auto error4 (keywords.insert (U"if", &if_hook));
-    assert (!error4);
     auto error5 (keywords.insert (U"loop", &loop_hook));
     assert (!error5);
     auto error6 (keywords.insert (U"let", &let_hook));
     assert (!error6);
     auto error7 (globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit));
     assert (!error7);
+    auto error8 (globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i))));
+    assert (!error8);
+    auto error9 (globals.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join)));
+    assert (!error9);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -909,89 +911,6 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
         }
     }
     return result;
-}
-
-mu::llvmc::node_result mu::llvmc::if_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
-{
-    mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
-    auto next (parser_a.stream.peek ());
-    if (next.ast != nullptr)
-    {
-        parser_a.stream.consume ();
-        auto expression (new (GC) mu::llvmc::ast::if_expression);
-        expression->predicate = next.ast;
-        result.error = parse_branch (parser_a, expression->true_roots);
-        if (result.error == nullptr)
-        {
-            parser_a.stream.consume ();
-            result.error = parse_branch (parser_a, expression->false_roots);
-        }
-        if (result.error == nullptr)
-        {
-            result.node = expression;
-        }
-    }
-    else if (next.token != nullptr)
-    {
-        result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
-    }
-    else
-    {
-        result.error = next.error;
-    }
-    return result;
-}
-
-mu::core::error * mu::llvmc::if_hook::parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::node *> & target)
-{
-    mu::core::error * result (nullptr);
-    switch (parser_a.stream.tokens [0]->id ())
-    {
-        case mu::io::token_id::left_square:
-        {
-            parser_a.stream.tokens.consume (1);
-            auto done (false);
-            while (!done)
-            {
-                switch (parser_a.stream.tokens [0]->id ())
-                {
-                    case mu::io::token_id::right_square:
-                        done = true;
-                        break;
-                    default:
-                    {
-                        auto next (parser_a.stream.peek ());
-                        if (next.ast != nullptr)
-                        {
-                            target.push_back (next.ast);
-                            parser_a.stream.consume ();
-                        }
-                        else if (next.token != nullptr)
-                        {
-                            result = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
-                        }
-                        else
-                        {
-                            result = next.error;
-                        }
-                        
-                    }
-                        break;
-                }
-            }
-        }
-            break;
-        default:
-            result = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
-            break;
-    }
-    return result;
-}
-
-bool mu::llvmc::if_hook::covering ()
-{
-    return false;
 }
 
 mu::llvmc::loop::loop (mu::llvmc::parser & parser_a):

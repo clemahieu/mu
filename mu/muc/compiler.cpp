@@ -98,7 +98,7 @@ void mu::muc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * 
     module_a->getFunctionList ().push_back (exit);
     exit->addFnAttr (llvm::Attributes::NoReturn);
     auto entry_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
-    auto entry (llvm::Function::Create (entry_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "start"));
+    auto entry (llvm::Function::Create (entry_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "\x01start"));
     auto block (llvm::BasicBlock::Create (context));
     entry->getBasicBlockList ().push_back (block);
     auto call_entry (llvm::CallInst::Create (entry_a));

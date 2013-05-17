@@ -155,13 +155,6 @@ namespace mu
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
-        class if_hook : public mu::llvmc::hook
-        {
-        public:
-            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
-            mu::core::error * parse_branch (mu::llvmc::parser & parser_a, mu::vector <mu::llvmc::ast::node *> & target);
-            bool covering () override;
-        };
         class loop_hook : public mu::llvmc::hook
         {
         public:
@@ -195,7 +188,6 @@ namespace mu
             mu::llvmc::int_type int_type;
             mu::llvmc::set_hook set_hook;
             mu::llvmc::let_hook let_hook;
-            mu::llvmc::if_hook if_hook;
             mu::llvmc::loop_hook loop_hook;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
