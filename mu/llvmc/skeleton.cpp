@@ -270,10 +270,11 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a):
 target (target_a),
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+predicate_offset (predicate_offset_a)
 {
 }
 

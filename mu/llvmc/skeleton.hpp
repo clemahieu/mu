@@ -241,11 +241,12 @@ namespace mu
             class function_call
             {
             public:
-                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a);
                 mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::call_element *> elements;
+                size_t predicate_offset;
             };
             class call_element : public mu::llvmc::skeleton::value
             {

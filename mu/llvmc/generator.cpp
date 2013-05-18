@@ -297,14 +297,16 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         assert (module.functions.find (call->source->target) != module.functions.end ());
         auto function (module.functions [call->source->target]);
         std::vector <llvm::Value *> arguments;
-        size_t position (0);
-        for (auto i (call->source->arguments.begin () + 1); *i != nullptr; ++i, ++position)
+        size_t position (1);
+        auto end (call->source->predicate_offset);
+        for (auto i (call->source->arguments.begin () + 1); position < end; ++i, ++position)
         {
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
             auto argument (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
             auto instruction (llvm::BinaryOperator::CreateAnd (predicate, argument.predicate));
             last->getInstList ().push_back (instruction);
             predicate = instruction;
+            assert (argument.value != nullptr);
             arguments.push_back (argument.value);
         }
         predicate = process_predicates (predicate, call->source->arguments, position + 1);

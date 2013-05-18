@@ -180,6 +180,7 @@ void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * el
 
 void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
 {
+    assert (node_a != nullptr);
     auto multi (process_node (node_a));
     if (multi)
     {
@@ -189,6 +190,7 @@ void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * n
 
 mu::llvmc::skeleton::value * mu::llvmc::analyzer_function::process_value (mu::llvmc::ast::node * node_a)
 {
+    assert (node_a != nullptr);
     mu::llvmc::skeleton::value * result (nullptr);
     process_single_node (node_a);
     if (result_m.error == nullptr)
@@ -229,13 +231,14 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                               if (value != nullptr)
                               {
                                   function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                                  most_specific_branch = most_specific_branch->most_specific (value->branch);
+                                  calculate_most_specific (most_specific_branch, value->branch);
                               }
                           }
                           else
                           {
                               result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
                           }
+                          assert (most_specific_branch != nullptr || result_m.error != nullptr);
                       },
                       [&]
                     (mu::llvmc::ast::expression * result_a, size_t)
@@ -249,7 +252,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                                   {
                                       assert (dynamic_cast <mu::llvmc::skeleton::value *> (i) != nullptr);
                                       function_s->results.push_back (i);
-                                      most_specific_branch = most_specific_branch->most_specific (static_cast <mu::llvmc::skeleton::value *> (i)->branch);
+                                      calculate_most_specific (most_specific_branch, static_cast <mu::llvmc::skeleton::value *> (i)->branch);
                                   }
                               }
                               else
@@ -257,13 +260,10 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                                   assert (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
                                   auto value (static_cast <mu::llvmc::skeleton::value *> (already_generated [result_a]));
                                   function_s->results.push_back (value);
-                                  most_specific_branch = most_specific_branch->most_specific (value->branch);
+                                  calculate_most_specific (most_specific_branch, value->branch);
                               }
                           }
-                          else
-                          {
-                              
-                          }
+                          assert (most_specific_branch != nullptr || result_m.error != nullptr);
                       },
                       [&]
                       (mu::llvmc::ast::node *, size_t)
@@ -453,7 +453,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                 {
                     if (!arguments.empty ())
                     {
-                        auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments));
+                        auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, predicate_offset));
                         result = function_type->function->branch_ends.size () != 1;
                         function_type->function->for_each_branch (
                             [&]
