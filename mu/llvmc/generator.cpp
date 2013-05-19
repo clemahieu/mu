@@ -501,7 +501,7 @@ llvm::Value * mu::llvmc::generate_function::process_predicates (llvm::Value * pr
         auto & value (arguments_a [i]);
         assert (dynamic_cast <mu::llvmc::skeleton::value *> (value) != nullptr);
         auto value_l (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (value)));
-        predicate = and_predicates (predicate, value_l.predicate, last_l);
+        predicate = and_predicates (predicate, value_l.predicate);
     }
     return predicate;
 }
@@ -543,7 +543,6 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                 auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
                 if (instruction != nullptr)
                 {
-                    llvm::Value * predicate_l (llvm::ConstantInt::getTrue (last->getContext ()));
                     switch (instruction->marker ())
                     {
                         case mu::llvmc::instruction_type::add:
@@ -551,11 +550,10 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             assert (instruction->predicate_position == 3);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                            predicate_l = and_predicates (predicate_l, left.predicate, last);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
                             auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
-                            predicate_l = and_predicates (predicate_l, right.predicate, last);
-                            predicate = process_predicates (predicate_l, instruction->arguments, 3);
+                            predicate = and_predicates (left.predicate, right.predicate);
+                            predicate = process_predicates (predicate, instruction->arguments, 3);
                             auto instruction (llvm::BinaryOperator::CreateAdd (left.value, right.value));
                             last->getInstList ().push_back (instruction);
                             value = instruction;
@@ -589,9 +587,9 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
                             auto store_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                            auto most_specific (store_pointer.predicate);
+                            predicate_l = and_predicates(predicate_l, store_pointer.predicate, <#llvm::BasicBlock *block_a#>)
                             auto store_value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
-                          
+                            predicate_l = and_predicates(predicate_l, store_value.predicate, <#llvm::BasicBlock *block_a#>)
                         }*/
                         default:
                         {
@@ -656,10 +654,10 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     return result;
 }
 
-llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a, llvm::Value * right_a, llvm::BasicBlock * block_a)
+llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a, llvm::Value * right_a)
 {
     auto and_instruction (llvm::BinaryOperator::CreateAnd (left_a, right_a));
-    block_a->getInstList ().push_back (and_instruction);
+    last->getInstList ().push_back (and_instruction);
     return and_instruction;
 }
 
