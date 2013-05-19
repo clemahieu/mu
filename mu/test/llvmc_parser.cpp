@@ -225,6 +225,50 @@ TEST (llvmc_parser, instructions)
     ASSERT_EQ (mu::llvmc::instruction_type::store, value3->type);
 }
 
+TEST (llvmc_parser, number)
+{
+    test_parser parser ("function test [] [[#100]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (1, expression1->arguments.size ());
+    auto argument1 (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [0]));
+    ASSERT_NE (nullptr, argument1);
+    ASSERT_EQ (U"100", argument1->number_m);
+}
+
+TEST (llvmc_parser, rational)
+{
+    test_parser parser ("function test [] [[#100/1000]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (1, expression1->arguments.size ());
+    auto argument1 (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [0]));
+    ASSERT_NE (nullptr, argument1);
+    ASSERT_EQ (U"100/1000", argument1->number_m);
+}
+
 TEST (llvmc_parser, recursive)
 {
     test_parser parser ("function test1 [] [[test2]] [] function test2 [] [[test1]] []");

@@ -195,6 +195,12 @@ namespace mu
             public:
                 mu::vector <mu::llvmc::ast::node *> functions;
             };
+            class number : public mu::llvmc::ast::node
+            {
+            public:
+                number (mu::string const & number_a);
+                mu::string number_m;
+            };
         }
     }
 }

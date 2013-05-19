@@ -33,6 +33,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
     assert (!error);
+    error = keywords.insert (U"#", &number);
+    assert (!error);
     error = globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
     assert (!error);
     error = globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
@@ -1208,4 +1210,21 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::string const & data_a, mu
 bool mu::llvmc::ptr_type::covering ()
 {
     return false;
+}
+
+mu::llvmc::node_result mu::llvmc::number::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    result.node = new (GC) mu::llvmc::ast::number (data_a);
+    return result;
+}
+
+bool mu::llvmc::number::covering ()
+{
+    return true;
+}
+
+mu::llvmc::ast::number::number (mu::string const & number_a) :
+number_m (number_a)
+{
 }
