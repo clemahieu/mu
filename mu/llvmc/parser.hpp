@@ -195,6 +195,7 @@ namespace mu
             mu::llvmc::set_hook set_hook;
             mu::llvmc::let_hook let_hook;
             mu::llvmc::loop_hook loop_hook;
+            mu::llvmc::ptr_type ptr_type;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };

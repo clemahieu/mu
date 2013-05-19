@@ -40,6 +40,8 @@ stream (stream_a)
     assert (!error9);
     auto error10 (globals.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add))));
     assert (!error10);
+    auto error11 (keywords.insert (U"ptr", &ptr_type));
+    assert (!error11);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -1189,12 +1191,13 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::string const & data_a, mu
     auto item (parser_a.stream.peek ());
     if (item.ast != nullptr)
     {
-        //result = new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::pointer_type (item.ast));
+        result.node = new (GC) mu::llvmc::ast::pointer_type (item.ast);
     }
     else
     {
         result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
     }
+    return result;
 }
 
 bool mu::llvmc::ptr_type::covering ()

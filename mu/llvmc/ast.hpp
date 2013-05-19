@@ -184,6 +184,12 @@ namespace mu
                 integer_type (mu::string const & bits_a);
                 mu::string bits;
             };
+            class pointer_type : public mu::llvmc::ast::type
+            {
+            public:
+                pointer_type (mu::llvmc::ast::node * pointed_type_a);
+                mu::llvmc::ast::node * pointed_type;
+            };
             class module : public mu::llvmc::ast::node
             {
             public:
