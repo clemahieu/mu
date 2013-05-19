@@ -1,7 +1,5 @@
 #include <mu/llvmc/parser.hpp>
 
-#include <boost/lexical_cast.hpp>
-
 #include <mu/core/error_string.hpp>
 #include <mu/io/stream.hpp>
 #include <mu/io/tokens.hpp>
@@ -40,6 +38,8 @@ stream (stream_a)
     assert (!error8);
     auto error9 (globals.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join)));
     assert (!error9);
+    auto error10 (globals.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add))));
+    assert (!error10);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
@@ -633,23 +633,7 @@ void mu::llvmc::global::accept (mu::multimap <mu::string, boost::function <void 
 mu::llvmc::node_result mu::llvmc::int_type::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    try
-    {
-        std::string data_l (data_a.begin (), data_a.end ());        
-        unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-        if (bits <= 1024)
-        {
-            result.node = new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::integer_type (bits));
-        }
-        else
-        {
-            result.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
-        }
-    }
-    catch (boost::bad_lexical_cast)
-    {
-        result.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
-    }
+    result.node = new (GC) mu::llvmc::ast::integer_type (data_a);
     return result;
 }
 
@@ -1195,4 +1179,25 @@ bool mu::llvmc::loop_hook::covering ()
 mu::llvmc::block::~block ()
 {
     parent->accept (unresolved);
+}
+
+mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a == U"");
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    parser_a.stream.consume ();
+    auto item (parser_a.stream.peek ());
+    if (item.ast != nullptr)
+    {
+        //result = new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::pointer_type (item.ast));
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
+    }
+}
+
+bool mu::llvmc::ptr_type::covering ()
+{
+    return false;
 }

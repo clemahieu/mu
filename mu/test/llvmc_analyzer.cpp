@@ -922,3 +922,60 @@ TEST (llvmc_analyzer, set_expression_one)
     ASSERT_EQ (1, function2->branch_ends.size ());
     ASSERT_EQ (1, function2->branch_ends [0]);
 }
+
+TEST (llvmc_analyzer, int_type1)
+{
+    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"1");
+    mu::llvmc::ast::parameter parameter1 (&type1);
+    function1.parameters.push_back (&parameter1);
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->parameters.size ());
+    auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type2);
+    ASSERT_EQ (1, type2->bits);
+}
+
+TEST (llvmc_analyzer, int_type1024)
+{
+    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"1024");
+    mu::llvmc::ast::parameter parameter1 (&type1);
+    function1.parameters.push_back (&parameter1);
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->parameters.size ());
+    auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type2);
+    ASSERT_EQ (1024, type2->bits);
+}
+
+TEST (llvmc_analyzer, fail_int_type2000000000)
+{
+    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"2000000000");
+    mu::llvmc::ast::parameter parameter1 (&type1);
+    function1.parameters.push_back (&parameter1);
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}

@@ -4,6 +4,8 @@
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/skeleton.hpp>
 
+#include <boost/lexical_cast.hpp>
+
 #include <gc_cpp.h>
 
 mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * module_a)
@@ -124,7 +126,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                     }
                                     else
                                     {
-                                        assert (false);                                        
+                                        auto integer_type (dynamic_cast <mu::llvmc::ast::integer_type *> (node_a));
+                                        if (integer_type != nullptr)
+                                        {
+                                            process_integer_type (integer_type);
+                                        }
+                                        else                                            
+                                        {
+                                            assert (false);
+                                        }
                                     }
                                 }
                             }
@@ -214,6 +224,27 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
         result = dynamic_cast <mu::llvmc::skeleton::type *> (node_l);
     }
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_integer_type (mu::llvmc::ast::integer_type * type_a)
+{
+    try
+    {
+        std::string data_l (type_a->bits.begin (), type_a->bits.end ());
+        unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+        if (bits <= 1024)
+        {
+            already_generated [type_a] = new (GC) mu::llvmc::skeleton::integer_type (bits);
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
+        }
+    }
+    catch (boost::bad_lexical_cast)
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
+    }
 }
 
 void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)

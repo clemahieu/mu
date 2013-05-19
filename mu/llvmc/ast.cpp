@@ -53,3 +53,8 @@ void mu::llvmc::ast::definite_expression::set_predicate_position ()
     assert (predicate_position == ~0);
     predicate_position = arguments.size ();
 }
+
+mu::llvmc::ast::integer_type::integer_type (mu::string const & bits_a) :
+bits (bits_a)
+{
+}

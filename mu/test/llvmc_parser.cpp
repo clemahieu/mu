@@ -246,9 +246,9 @@ TEST (llvmc_parser, two_functions)
     EXPECT_EQ (0, function2->results.size ());
 }
 
-TEST (llvmc_parser, int_type1)
+TEST (llvmc_parser, int_type42)
 {
-    test_parser parser ("function test1 [int1 val] [] []");
+    test_parser parser ("function test1 [int42 val] [] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -261,41 +261,9 @@ TEST (llvmc_parser, int_type1)
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
-    auto value1 (dynamic_cast <mu::llvmc::ast::value *> (parameter1->type));
-    ASSERT_NE (nullptr, value1);
-    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->node_m));
+    auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (parameter1->type));
     ASSERT_NE (nullptr, type1);
-    EXPECT_EQ (1, type1->bits);
-}
-
-TEST (llvmc_parser, int_type1024)
-{
-    test_parser parser ("function test1024 [int1024 val] [] []");
-    auto module1 (parser.parser.parse ());
-    EXPECT_EQ (nullptr, module1.error);
-    ASSERT_NE (nullptr, module1.node);
-    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
-    ASSERT_NE (nullptr, module2);
-    ASSERT_EQ (1, module2->functions.size ());
-    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
-    ASSERT_NE (nullptr, function1);
-    ASSERT_EQ (1, function1->parameters.size ());
-    ASSERT_EQ (0, function1->results.size ());
-    auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
-    ASSERT_NE (nullptr, parameter1);
-    auto value1 (dynamic_cast <mu::llvmc::ast::value *> (parameter1->type));
-    ASSERT_NE (nullptr, value1);
-    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value1->node_m));
-    ASSERT_NE (nullptr, type1);
-    EXPECT_EQ (1024, type1->bits);
-}
-
-TEST (llvmc_parser, fail_int_type2000000000)
-{
-    test_parser parser ("function test2000000000 [int2000000000 val] [] []");
-    auto module1 (parser.parser.parse ());
-    EXPECT_NE (nullptr, module1.error);
-    EXPECT_EQ (nullptr, module1.node);
+    EXPECT_EQ (U"42", type1->bits);
 }
 
 TEST (llvmc_parser, fail_no_type)

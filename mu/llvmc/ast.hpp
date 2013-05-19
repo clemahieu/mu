@@ -175,6 +175,15 @@ namespace mu
                 }
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
+            class type : public mu::llvmc::ast::node
+            {
+            };
+            class integer_type : public mu::llvmc::ast::type
+            {
+            public:
+                integer_type (mu::string const & bits_a);
+                mu::string bits;
+            };
             class module : public mu::llvmc::ast::node
             {
             public:
