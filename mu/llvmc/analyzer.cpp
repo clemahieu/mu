@@ -133,7 +133,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                         }
                                         else                                            
                                         {
-                                            assert (false);
+                                            auto pointer_type (dynamic_cast <mu::llvmc::ast::pointer_type *> (node_a));
+                                            if (pointer_type != nullptr)
+                                            {
+                                                process_pointer_type (pointer_type);
+                                            }
+                                            else
+                                            {
+                                                assert (false);
+                                            }
                                         }
                                     }
                                 }
@@ -224,6 +232,15 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
         result = dynamic_cast <mu::llvmc::skeleton::type *> (node_l);
     }
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_pointer_type (mu::llvmc::ast::pointer_type * type_a)
+{
+    auto pointed_type (process_type (type_a->pointed_type));
+    if (pointed_type != nullptr)
+    {
+        already_generated [type_a] = new (GC) mu::llvmc::skeleton::pointer_type (pointed_type);
+    }
 }
 
 void mu::llvmc::analyzer_function::process_integer_type (mu::llvmc::ast::integer_type * type_a)

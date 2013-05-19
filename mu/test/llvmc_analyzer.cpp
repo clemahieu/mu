@@ -979,3 +979,26 @@ TEST (llvmc_analyzer, fail_int_type2000000000)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
 }
+
+TEST (llvmc_analyzer, ptr_type)
+{
+    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"1024");
+    mu::llvmc::ast::pointer_type type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&type2);
+    function1.parameters.push_back (&parameter1);
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->parameters.size ());
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type3);
+    auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->pointed_type));
+    ASSERT_EQ (1024, type4->bits);
+}
