@@ -8,6 +8,7 @@
 #include <mu/llvmc/partial_ast.hpp>
 #include <mu/core/error.hpp>
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/llvmc/instruction_type.hpp>
 
 #include <llvm/DerivedTypes.h>
 
@@ -188,6 +189,40 @@ TEST (llvmc_parser, simple)
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
+}
+
+TEST (llvmc_parser, instructions)
+{
+    test_parser parser ("function test [] [[add load store]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (3, expression1->arguments.size ());
+    auto argument1 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [0]));
+    ASSERT_NE (nullptr, argument1);
+    auto value1 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument1->node_m));
+    ASSERT_NE (nullptr, value1);
+    ASSERT_EQ (mu::llvmc::instruction_type::add, value1->type);
+    auto argument2 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [1]));
+    ASSERT_NE (nullptr, argument2);
+    auto value2 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument2->node_m));
+    ASSERT_NE (nullptr, value2);
+    ASSERT_EQ (mu::llvmc::instruction_type::load, value2->type);
+    auto argument3 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [2]));
+    ASSERT_NE (nullptr, argument3);
+    auto value3 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument3->node_m));
+    ASSERT_NE (nullptr, value3);
+    ASSERT_EQ (mu::llvmc::instruction_type::store, value3->type);
 }
 
 TEST (llvmc_parser, recursive)

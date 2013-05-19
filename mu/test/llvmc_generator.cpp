@@ -158,6 +158,39 @@ TEST (llvmc_generator, generate_add)
     ASSERT_EQ (std::string (generate_add_expected), info);
 }
 
+extern char const * const generate_store_expected;
+
+TEST (llvmc_generator, DISABLED_generate_store)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type2);
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::store);
+    arguments1.push_back (&add1);
+    arguments1.push_back (&parameter2);
+    arguments1.push_back (&parameter1);
+    mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::result result1 (&type1, &instruction1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module));
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_store_expected), info);
+}
+
 extern char const * const generate_two_return_expected;
 
 TEST (llvmc_generator, generate_two_return)

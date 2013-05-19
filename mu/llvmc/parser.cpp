@@ -22,26 +22,31 @@ globals (&keywords),
 current_mapping (&globals),
 stream (stream_a)
 {
-    auto error1 (keywords.insert (U"function", &function));
-    assert (!error1);
-    auto error2 (keywords.insert (U"int", &int_type));
-    assert (!error2);
-    auto error3 (keywords.insert (U"set", &set_hook));
-    assert (!error3);
-    auto error5 (keywords.insert (U"loop", &loop_hook));
-    assert (!error5);
-    auto error6 (keywords.insert (U"let", &let_hook));
-    assert (!error6);
-    auto error7 (globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit));
-    assert (!error7);
-    auto error8 (globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i))));
-    assert (!error8);
-    auto error9 (globals.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join)));
-    assert (!error9);
-    auto error10 (globals.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add))));
-    assert (!error10);
-    auto error11 (keywords.insert (U"ptr", &ptr_type));
-    assert (!error11);
+    bool error (false);
+    error = keywords.insert (U"function", &function);
+    assert (!error);
+    error = keywords.insert (U"int", &int_type);
+    assert (!error);
+    error = keywords.insert (U"set", &set_hook);
+    assert (!error);
+    error = keywords.insert (U"loop", &loop_hook);
+    assert (!error);
+    error = keywords.insert (U"let", &let_hook);
+    assert (!error);
+    error = globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
+    assert (!error);
+    error = globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
+    assert (!error);
+    error = globals.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join));
+    assert (!error);
+    error = globals.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add)));
+    assert (!error);
+    error = keywords.insert (U"ptr", &ptr_type);
+    assert (!error);
+    error = globals.insert (U"store", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::store)));
+    assert (!error);
+    error = globals.insert (U"load", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::load)));
+    assert (!error);
 }
 
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)

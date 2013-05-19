@@ -13,6 +13,15 @@ define i1 @0(i1) {
 }
 )%%%";
 
+extern char const * const generate_store_expected = R"%%%(
+define i1 @0(i1) {
+  %2 = and i1 true, true
+  %3 = and i1 %2, true
+  %4 = add i1 %0, %0
+  ret i1 %4
+}
+)%%%";
+
 extern char const * const generate_two_return_expected = R"%%%(
 %0 = type { i1, i1 }
 
@@ -84,14 +93,14 @@ define i1 @0(i1) {
   %8 = and i1 %4, %7
   %9 = and i1 %3, %6
   %10 = add i1 %0, %0
-  %11 = or i1 false, %3
-  %12 = select i1 %3, i1 %10, i1 undef
+  %11 = or i1 false, %9
+  %12 = select i1 %9, i1 %10, i1 undef
   %13 = and i1 true, true
   %14 = and i1 %13, true
   %15 = and i1 %14, %8
   %16 = add i1 %0, %0
-  %17 = or i1 %11, %14
-  %18 = select i1 %14, i1 %16, i1 %12
+  %17 = or i1 %11, %15
+  %18 = select i1 %15, i1 %16, i1 %12
   ret i1 %18
 }
 )%%%";
@@ -109,28 +118,28 @@ define %0 @0(i1) {
   %8 = and i1 %4, %7
   %9 = and i1 %3, %6
   %10 = add i1 %0, %0
-  %11 = or i1 false, %3
-  %12 = select i1 %3, i1 %10, i1 undef
+  %11 = or i1 false, %9
+  %12 = select i1 %9, i1 %10, i1 undef
   %13 = and i1 true, true
   %14 = and i1 %13, true
   %15 = and i1 %14, %8
   %16 = add i1 %0, %0
-  %17 = or i1 %11, %14
-  %18 = select i1 %14, i1 %16, i1 %12
+  %17 = or i1 %11, %15
+  %18 = select i1 %15, i1 %16, i1 %12
   %19 = and i1 true, %17
   %20 = select i1 %19, i8 0, i8 undef
   %21 = and i1 true, true
   %22 = and i1 %21, true
   %23 = and i1 %22, %6
   %24 = add i1 %0, %0
-  %25 = or i1 false, %22
-  %26 = select i1 %22, i1 %24, i1 undef
+  %25 = or i1 false, %23
+  %26 = select i1 %23, i1 %24, i1 undef
   %27 = and i1 true, true
   %28 = and i1 %27, true
   %29 = and i1 %28, %8
   %30 = add i1 %0, %0
-  %31 = or i1 %25, %28
-  %32 = select i1 %28, i1 %30, i1 %26
+  %31 = or i1 %25, %29
+  %32 = select i1 %29, i1 %30, i1 %26
   %33 = and i1 true, %31
   %34 = select i1 %33, i8 1, i8 %20
   %35 = insertvalue %0 undef, i1 %18, 0
@@ -156,8 +165,8 @@ define i1 @0(i1) {
 
 ; <label>:10                                      ; preds = %8, %1
   %11 = phi i1 [ %9, %8 ], [ undef, %1 ]
-  %12 = or i1 false, true
-  %13 = select i1 true, i1 %11, i1 undef
+  %12 = or i1 false, %7
+  %13 = select i1 %7, i1 %11, i1 undef
   %14 = and i1 true, %6
   br i1 true, label %15, label %17
 
@@ -167,8 +176,8 @@ define i1 @0(i1) {
 
 ; <label>:17                                      ; preds = %15, %10
   %18 = phi i1 [ %16, %15 ], [ undef, %10 ]
-  %19 = or i1 %12, true
-  %20 = select i1 true, i1 %18, i1 %13
+  %19 = or i1 %12, %14
+  %20 = select i1 %14, i1 %18, i1 %13
   ret i1 %20
 }
 )%%%";
