@@ -13,11 +13,16 @@ define i1 @0(i1) {
 )%%%";
 
 extern char const * const generate_store_expected = R"%%%(
-define i1 @0(i1) {
-  %2 = and i1 true, true
-  %3 = and i1 %2, true
-  %4 = add i1 %0, %0
-  ret i1 %4
+define void @0(i1, i1*) {
+  %3 = and i1 true, true
+  br i1 %3, label %4, label %5
+
+; <label>:4                                       ; preds = %2
+  store i1 %0, i1* %1
+  br label %5
+
+; <label>:5                                       ; preds = %4, %2
+  ret void
 }
 )%%%";
 
@@ -150,7 +155,7 @@ define i1 @0(i1) {
   %5 = icmp eq i1 %0, true
   %6 = and i1 %2, %5
   %7 = and i1 true, %4
-  br i1 true, label %8, label %10
+  br i1 %7, label %8, label %10
 
 ; <label>:8                                       ; preds = %1
   %9 = load i1* null
@@ -161,7 +166,7 @@ define i1 @0(i1) {
   %12 = or i1 false, %7
   %13 = select i1 %7, i1 %11, i1 undef
   %14 = and i1 true, %6
-  br i1 true, label %15, label %17
+  br i1 %14, label %15, label %17
 
 ; <label>:15                                      ; preds = %10
   %16 = load i1* null

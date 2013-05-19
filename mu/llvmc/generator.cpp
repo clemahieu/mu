@@ -569,7 +569,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             function_m->getBasicBlockList ().push_back (predicate_branch);
                             auto new_last (llvm::BasicBlock::Create (context));
                             function_m->getBasicBlockList ().push_back (new_last);
-                            last->getInstList ().push_back (llvm::BranchInst::Create(predicate_branch, new_last, load_pointer.predicate));
+                            last->getInstList ().push_back (llvm::BranchInst::Create (predicate_branch, new_last, predicate));
                             auto instruction_l (new llvm::LoadInst (load_pointer.value));
                             predicate_branch->getInstList ().push_back (instruction_l);
                             predicate_branch->getInstList ().push_back (llvm::BranchInst::Create (new_last));
@@ -580,17 +580,28 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             value = phi;
                             last = new_last;
                             break;
-                        }/*
+                        }
                         case mu::llvmc::instruction_type::store:
                         {
                             assert (instruction->predicate_position == 3);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
                             auto store_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                            predicate_l = and_predicates(predicate_l, store_pointer.predicate, <#llvm::BasicBlock *block_a#>)
                             auto store_value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
-                            predicate_l = and_predicates(predicate_l, store_value.predicate, <#llvm::BasicBlock *block_a#>)
-                        }*/
+                            predicate = and_predicates (store_pointer.predicate, store_value.predicate);
+                            predicate = process_predicates (predicate, instruction->arguments, 3);
+                            auto predicate_branch (llvm::BasicBlock::Create (context));
+                            function_m->getBasicBlockList ().push_back (predicate_branch);
+                            auto new_last (llvm::BasicBlock::Create (context));
+                            function_m->getBasicBlockList ().push_back (new_last);
+                            last->getInstList ().push_back (llvm::BranchInst::Create(predicate_branch, new_last, predicate));
+                            auto instruction_l (new llvm::StoreInst (store_value.value, store_pointer.value));
+                            predicate_branch->getInstList ().push_back (instruction_l);
+                            predicate_branch->getInstList ().push_back (llvm::BranchInst::Create (new_last));
+                            value = nullptr;
+                            last = new_last;
+                            break;
+                        }
                         default:
                         {
                             assert (false);
