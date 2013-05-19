@@ -75,6 +75,31 @@ TEST (llvmc_generator, generate_parameter)
     ASSERT_TRUE (!broken);
 }
 
+TEST (llvmc_generator, generate_pointer_type)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type2);
+    function1.parameters.push_back (&parameter1);
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module));
+    ASSERT_EQ (1, result.module->getFunctionList ().size ());
+    llvm::Function * function2 (result.module->getFunctionList().begin ());
+    ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
+    ASSERT_EQ (1, function2->getArgumentList ().size ());
+    auto const & value1 (function2->getArgumentList ().begin ());
+    auto type3 (llvm::cast <llvm::PointerType> (value1->getType ()));
+    auto type4 (llvm::cast <llvm::IntegerType> (type3->getElementType()));
+    ASSERT_EQ (1, type4->getBitWidth ());
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+}
+
 TEST (llvmc_generator, generate_parameter_return)
 {
     llvm::LLVMContext context;
