@@ -16,6 +16,13 @@ mu::llvmc::ast::expression * mu::llvmc::ast::function::as_expression (mu::llvmc:
     return result;
 }
 
+mu::llvmc::ast::expression * mu::llvmc::ast::loop::as_expression (mu::llvmc::ast::node * node_a)
+{
+    assert (dynamic_cast <mu::llvmc::ast::expression *> (node_a) != nullptr);
+    auto result (static_cast <mu::llvmc::ast::expression *> (node_a));
+    return result;
+}
+
 mu::llvmc::ast::node::~node ()
 {
 }

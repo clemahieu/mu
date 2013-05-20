@@ -202,6 +202,31 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 		loop_s->parameters.push_back (new_parameter);
 		already_generated [*i] = new_parameter;
 	    }
+	    loop_a->for_each_results (
+		    [&]
+		    (mu::llvmc::ast::expression * expression_a, size_t)
+		    {
+			
+		    },
+		    [&]
+		    (mu::llvmc::ast::expression * expression_a, size_t)
+		    {
+
+		    },
+		    [&]
+		    (mu::llvmc::ast::node * node_a, size_t)
+		    {
+
+		    },
+		    [&]
+			(mu::llvmc::ast::node * node_a, size_t)
+		    {
+		    },
+		    [&]
+		    ()
+		    {
+			return true;
+		    });
 	}
 	else	
 	{
