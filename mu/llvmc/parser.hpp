@@ -167,6 +167,12 @@ namespace mu
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
+        class constant_int : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class loop_hook : public mu::llvmc::hook
         {
         public:
@@ -203,6 +209,7 @@ namespace mu
             mu::llvmc::loop_hook loop_hook;
             mu::llvmc::ptr_type ptr_type;
             mu::llvmc::number number;
+            mu::llvmc::constant_int constant_int;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
         };

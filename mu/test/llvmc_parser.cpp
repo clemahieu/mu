@@ -269,6 +269,31 @@ TEST (llvmc_parser, rational)
     ASSERT_EQ (U"100/1000", argument1->number_m);
 }
 
+TEST (llvmc_parser, constant_int)
+{
+    test_parser parser ("function test [] [[cint32 #42]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    EXPECT_EQ (0, function1->parameters.size ());
+    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (1, expression1->arguments.size ());
+    auto argument1 (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
+    ASSERT_NE (nullptr, argument1);
+    ASSERT_EQ (U"32", argument1->bits);
+    auto argument2 (dynamic_cast <mu::llvmc::ast::number *> (argument1->number));
+    ASSERT_NE (nullptr, argument2);
+    ASSERT_EQ (U"42", argument2->number_m);
+}
+
 TEST (llvmc_parser, recursive)
 {
     test_parser parser ("function test1 [] [[test2]] [] function test2 [] [[test1]] []");

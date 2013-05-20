@@ -35,6 +35,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
+    error = keywords.insert (U"cint", &constant_int);
+    assert (!error);
     error = globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
     assert (!error);
     error = globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
@@ -1227,4 +1229,25 @@ bool mu::llvmc::number::covering ()
 mu::llvmc::ast::number::number (mu::string const & number_a) :
 number_m (number_a)
 {
+}
+
+mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    parser_a.stream.consume ();
+    auto item (parser_a.stream.peek ());
+    if (item.ast != nullptr)
+    {
+        result.node = new (GC) mu::llvmc::ast::constant_int (data_a, item.ast);
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number);
+    }
+    return result;
+}
+
+bool mu::llvmc::constant_int::covering ()
+{
+    return true;
 }

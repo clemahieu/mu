@@ -73,7 +73,8 @@ namespace mu
             expecting_loop_results,
             already_parsing_predicates,
             unresolved_symbols,
-            incorrect_number_of_arguments
+            incorrect_number_of_arguments,
+            expecting_a_number
         };
         class error
         {

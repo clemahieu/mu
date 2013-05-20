@@ -63,3 +63,9 @@ mu::llvmc::ast::pointer_type::pointer_type (mu::llvmc::ast::node * pointed_type_
 pointed_type (pointed_type_a)
 {
 }
+
+mu::llvmc::ast::constant_int::constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a) :
+bits (bits_a),
+number (number_a)
+{
+}
