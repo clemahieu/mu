@@ -485,4 +485,15 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_unit::type ()
     return &the_unit_type;
 }
 
+mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+value (branch_a),
+type_m (type_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_parameter::type ()
+{
+    return type_m;
+}
+
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

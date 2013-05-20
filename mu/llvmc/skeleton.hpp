@@ -274,13 +274,21 @@ namespace mu
 	    public:
 		loop_element (mu::llvmc::skeleton::branch * branch_a);
 	    };
+	    class loop_parameter : public mu::llvmc::skeleton::value
+	    {
+	    public:
+		loop_parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * type () override;
+		mu::llvmc::skeleton::type * type_m;
+	    };
 	    class loop
 	    {
 	    public:
 		loop ();
-		mu::vector <mu::llvmc::skeleton::value *> arguments;
+		mu::vector <mu::llvmc::skeleton::node *> arguments;
 		size_t argument_predicate_offset;
 		void set_argument_predicate_offset ();
+		mu::vector <mu::llvmc::skeleton::loop_parameter *> parameters;
 		mu::vector <mu::llvmc::skeleton::value *> results;
 		std::vector <size_t> predicate_offsets;
 		std::vector <size_t> branch_ends;

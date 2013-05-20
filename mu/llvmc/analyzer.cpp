@@ -184,29 +184,30 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 {
     auto loop_s (new (GC) mu::llvmc::skeleton::loop);
-    mu::llvmc::ast::for_each_argument(
-	loop_a->arguments,
-	loop_a->argument_predicate_offset,
-	[&]
-	(mu::llvmc::ast::node * result_a, size_t)
+    mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
+    size_t predicate_offset (~0);
+    process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, most_specific_branch, predicate_offset);
+    if (result_m.error == nullptr)
+    {
+	if (loop_s->arguments.size () == loop_a->parameters.size ())
 	{
-	    auto value (process_node (result_a));
-	},
-	[&]
-	(mu::llvmc::ast::node * predicate_a, size_t)
+	    auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+	    auto i (loop_a->parameters.begin ());
+	    auto j (loop_a->parameters.end ());
+	    auto k (loop_s->arguments.begin ());
+	    for (; i != j; ++i, ++k)
+	    {
+		assert (dynamic_cast <mu::llvmc::skeleton::value *> (*k) != nullptr);
+		auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_entry_branch, static_cast <mu::llvmc::skeleton::value *> (*k)->type ()));
+		loop_s->parameters.push_back (new_parameter);
+		already_generated [*i] = new_parameter;
+	    }
+	}
+	else	
 	{
-
-	},
-	[&]
-	(mu::llvmc::ast::node * node_a, size_t)
-	{
-	    loop_s->set_argument_predicate_offset ();
-	},
-	[&]
-	()
-	{
-	    return result_m.error == nullptr;
-	});
+	    result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
+	}
+    }
 }
 
 mu::llvmc::skeleton::number::number (uint64_t value_a) :

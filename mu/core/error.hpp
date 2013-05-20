@@ -82,7 +82,8 @@ namespace mu
             store_right_pointed_type_doesnt_match_left,
             load_expects_one_argument,
             load_argument_must_be_values,
-            load_argument_pointer_type
+            load_argument_pointer_type,
+	    mismatch_number_of_arguments_number_of_parameters
         };
         class error
         {
