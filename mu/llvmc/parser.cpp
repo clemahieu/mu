@@ -989,6 +989,7 @@ void mu::llvmc::loop::parse_arguments ()
                         }
 			case mu::io::token_id::terminator:
 			{
+			    parser.stream.consume ();
 			    if (!predicates)
 			    {
 				predicates = true;
@@ -996,6 +997,7 @@ void mu::llvmc::loop::parse_arguments ()
 			    }
 			    else
 			    {
+				done = true;
 				result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
 			    }
 			    break;
