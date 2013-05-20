@@ -443,4 +443,46 @@ the_unit_value (global)
 {
 }
 
+mu::llvmc::skeleton::loop::loop () :
+argument_predicate_offset (~0)
+{
+}
+
+void mu::llvmc::skeleton::loop::set_argument_predicate_offset ()
+{
+    assert (argument_predicate_offset == ~0);
+    argument_predicate_offset = results.size ();
+}
+
+mu::llvmc::skeleton::loop_element::loop_element (mu::llvmc::skeleton::branch * branch_a) :
+value (branch_a)
+{  
+}
+
+mu::llvmc::skeleton::loop_element_value::loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
+loop_element (branch_a),
+source (source_a),
+index (index_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_value::type ()
+{
+    assert (index < source->results.size ());
+    auto result (source->results [index]->type ());
+    return result;
+}
+
+mu::llvmc::skeleton::loop_element_unit::loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
+loop_element (branch_a),
+source (source_a),
+index (index_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_unit::type ()
+{
+    return &the_unit_type;
+}
+
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

@@ -34,6 +34,7 @@ namespace mu
             class pointer_type;
             class constant_int;
             class number;
+	    class loop;
         }
         class module_result
         {
@@ -71,6 +72,7 @@ namespace mu
             void process_integer_type (mu::llvmc::ast::integer_type * type_a);
             void process_pointer_type (mu::llvmc::ast::pointer_type * type_a);
             void process_constant_int (mu::llvmc::ast::constant_int * constant_a);
+	    void process_loop (mu::llvmc::ast::loop * loop_a);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);

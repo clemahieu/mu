@@ -147,7 +147,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                                 }
                                                 else
                                                 {
-                                                    assert (false);
+						    auto loop (dynamic_cast <mu::llvmc::ast::loop *> (node_a));
+						    if (loop != nullptr)
+						    {
+							process_loop (loop);
+						    }
+						    else
+						    {
+							assert (false);
+						    }
                                                 }
                                             }
                                         }
@@ -171,6 +179,32 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
     assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
     assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
     return result;
+}
+
+void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
+{
+    auto loop_s (new (GC) mu::llvmc::skeleton::loop);
+    loop_a->for_each_argument (
+	[&]
+	(mu::llvmc::ast::node * result_a, size_t)
+	{
+	    auto value (process_node (result_a));
+	},
+	[&]
+	(mu::llvmc::ast::node * predicate_a, size_t)
+	{
+
+	},
+	[&]
+	(mu::llvmc::ast::node * node_a, size_t)
+	{
+	    loop_s->set_argument_predicate_offset ();
+	},
+	[&]
+	()
+	{
+	    return result_m.error == nullptr;
+	});
 }
 
 mu::llvmc::skeleton::number::number (uint64_t value_a) :

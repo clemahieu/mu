@@ -77,6 +77,32 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> roots;
 		void set_argument_offset ();
 		size_t argument_predicate_offset;
+                template <typename T, typename U, typename V, typename W>
+                void for_each_argument (T argument_op, U predicate_op, V transition_op, W loop_op)
+                {
+                    assert (argument_predicate_offset != ~0);
+                    assert (argument_predicate_offset <= arguments.size ());
+                    size_t predicate_position_l (argument_predicate_offset);
+                    size_t index (0);
+                    bool predicates (false);
+                    for (auto i (arguments.begin ()), j (arguments.end ()); i != j && loop_op (); ++i, ++index)
+                    {
+                        assert (*i != nullptr);
+                        if (!predicates && index >= predicate_position_l)
+                        {
+                            predicates = true;
+                            transition_op (*i, index);
+                        }
+                        if (!predicates)
+                        {
+                            argument_op (*i, index);
+                        }
+                        else
+                        {
+                            predicate_op (*i, index);
+                        }
+                    }
+                }
                 mu::vector <mu::llvmc::ast::node *> results;
 		void add_predicate_offset ();
 		void add_branch_end ();
