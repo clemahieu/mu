@@ -79,7 +79,10 @@ namespace mu
             store_expects_two_arguments,
             store_arguments_must_be_values,
             store_right_argument_pointer_type,
-            store_right_pointed_type_doesnt_match_left
+            store_right_pointed_type_doesnt_match_left,
+            load_expects_one_argument,
+            load_argument_must_be_values,
+            load_argument_pointer_type
         };
         class error
         {

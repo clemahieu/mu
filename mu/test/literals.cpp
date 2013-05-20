@@ -26,6 +26,20 @@ define void @0(i1, i1*) {
 }
 )%%%";
 
+extern char const * const generate_load_expected = R"%%%(
+define void @0(i1*) {
+  br i1 true, label %2, label %4
+
+; <label>:2                                       ; preds = %1
+  %3 = load i1* %0
+  br label %4
+
+; <label>:4                                       ; preds = %2, %1
+  %5 = phi i1 [ %3, %2 ], [ undef, %1 ]
+  ret void
+}
+)%%%";
+
 extern char const * const generate_two_return_expected = R"%%%(
 %0 = type { i1, i1 }
 

@@ -968,6 +968,34 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
             }
             break;
         }
+        case mu::llvmc::instruction_type::load:
+        {
+            if (predicate_offset == 2)
+            {
+                auto source (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                if (source != nullptr)
+                {
+                    auto type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (source->type ()));
+                    if (type != nullptr)
+                    {
+                            already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values);
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument);
+            }
+            break;
+        }
         default:
             assert (false);
             break;
