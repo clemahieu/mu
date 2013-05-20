@@ -4,5 +4,6 @@
 /boost
 /googletest
 /gc
-/build/
-/nbproject/
+/build
+/nbproject
+CMakeFiles/

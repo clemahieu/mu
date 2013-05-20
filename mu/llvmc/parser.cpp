@@ -949,6 +949,7 @@ void mu::llvmc::loop::parse_arguments ()
         case mu::io::token_id::left_square:
         {
             parser.stream.tokens.consume (1);
+	    auto predicates (false);
             auto done (false);
             while (!done)
             {
@@ -963,9 +964,15 @@ void mu::llvmc::loop::parse_arguments ()
                     switch (next.token->id ())
                     {
                         case mu::io::token_id::right_square:
+			{
                             parser.stream.consume ();
+			    if (!predicates)
+			    {
+				loop_m->set_argument_offset ();
+			    }
                             done = true;
                             break;
+			}
                         case mu::io::token_id::identifier:
                         {
                             parser.stream.consume ();
@@ -978,8 +985,21 @@ void mu::llvmc::loop::parse_arguments ()
                                                           {
                                                               arguments_l [position] = node_a;
                                                           });
-                        }
                             break;
+                        }
+			case mu::io::token_id::terminator:
+			{
+			    if (!predicates)
+			    {
+				predicates = true;
+				loop_m->set_argument_offset ();
+			    }
+			    else
+			    {
+				result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+			    }
+			    break;
+			}
                         default:
                             done = true;
                             result.error = new (GC) mu::core::error_string (U"Expecting argument or right square", mu::core::error_type::expecting_argument_or_right_square);
@@ -1119,9 +1139,8 @@ void mu::llvmc::loop::parse_results ()
                     case mu::io::token_id::left_square:
                     {
                         parser.stream.tokens.consume (1);
-                        loop_m->results.push_back (decltype (loop_m->results)::value_type ());
-                        auto & set (loop_m->results [loop_m->results.size () - 1]);
                         auto set_done (false);
+			auto predicates (false);
                         while (!set_done && result.error == nullptr)
                         {
                             auto next (parser.stream.peek ());
@@ -1136,20 +1155,40 @@ void mu::llvmc::loop::parse_results ()
                                     case mu::io::token_id::identifier:
                                     {
                                         parser.stream.consume ();
-                                        auto position (set.size ());
-                                        set.push_back (nullptr);
+                                        auto position (loop_m->results.size ());
+                                        loop_m->results.push_back (nullptr);
                                         parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string,
-                                                                      [&set, position]
+                                                                      [&]
                                                                        (mu::llvmc::ast::node * node_a)
                                                                       {
-                                                                          set [position] = node_a;
+                                                                          loop_m->results [position] = node_a;
                                                                       });
-                                    }
                                         break;
+                                    }
+				    case mu::io::token_id::terminator:
+				    {
+					if (!predicates)
+					{
+					    predicates = true;
+					    loop_m->add_predicate_offset ();
+					}
+					else
+					{
+					    result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+					}
+					break;
+				    }
                                     case mu::io::token_id::right_square:
+				    {
+					if (!predicates)
+					{
+					    loop_m->add_predicate_offset ();
+					}
+					loop_m->add_branch_end ();
                                         parser.stream.consume ();
                                         set_done = true;
                                         break;
+				    }
                                     default:
                                         result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
                                         break;

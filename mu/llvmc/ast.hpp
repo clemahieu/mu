@@ -71,10 +71,17 @@ namespace mu
             class loop : public mu::llvmc::ast::expression
             {
             public:
+		loop ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::llvmc::ast::node *> roots;
-                mu::vector <mu::vector <mu::llvmc::ast::node *>> results;
+		void set_argument_offset ();
+		size_t argument_predicate_offset;
+                mu::vector <mu::llvmc::ast::node *> results;
+		void add_predicate_offset ();
+		void add_branch_end ();
+		std::vector <size_t> predicate_offsets;
+		std::vector <size_t> branch_ends;
             };
             class definite_expression : public mu::llvmc::ast::expression
             {

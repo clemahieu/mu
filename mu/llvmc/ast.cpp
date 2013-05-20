@@ -69,3 +69,24 @@ bits (bits_a),
 number (number_a)
 {
 }
+
+void mu::llvmc::ast::loop::set_argument_offset ()
+{
+    assert (argument_predicate_offset == ~0);
+    argument_predicate_offset = arguments.size ();
+}
+
+void mu::llvmc::ast::loop::add_predicate_offset ()
+{
+    predicate_offsets.push_back (results.size ());
+}
+
+void mu::llvmc::ast::loop::add_branch_end ()
+{
+    branch_ends.push_back (results.size ());
+}
+
+mu::llvmc::ast::loop::loop () :
+argument_predicate_offset (~0)
+{
+}

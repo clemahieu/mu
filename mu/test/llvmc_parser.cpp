@@ -742,21 +742,25 @@ TEST (llvmc_parser, loop2)
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter1 (function1->parameters [0]);
     ASSERT_EQ (1, function1->roots.size ());
-    auto root1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
-    ASSERT_NE (nullptr, root1);
-    ASSERT_EQ (1, root1->arguments.size ());
-    EXPECT_EQ (parameter1, root1->arguments [0]);
-    ASSERT_EQ (1, root1->parameters.size ());
-    auto parameter2 (root1->parameters [0]);
-    ASSERT_EQ (1, root1->roots.size ());
-    auto root2 (dynamic_cast <mu::llvmc::ast::definite_expression *> (root1->roots [0]));
-    ASSERT_NE (nullptr, root2);
-    ASSERT_EQ (1, root2->arguments.size ());
-    EXPECT_EQ (parameter2, root2->arguments [0]);
-    ASSERT_EQ (1, root1->results.size ());
-    ASSERT_EQ (2, root1->results [0].size ());
-    ASSERT_EQ (parameter1, root1->results [0] [0]);
-    ASSERT_EQ (parameter2, root1->results [0] [1]);
+    auto loop1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
+    ASSERT_NE (nullptr, loop1);
+    ASSERT_EQ (1, loop1->arguments.size ());
+    ASSERT_EQ (1, loop1->argument_predicate_offset);
+    EXPECT_EQ (parameter1, loop1->arguments [0]);
+    ASSERT_EQ (1, loop1->parameters.size ());
+    auto parameter2 (loop1->parameters [0]);
+    ASSERT_EQ (1, loop1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (loop1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (1, expression1->arguments.size ());
+    EXPECT_EQ (parameter2, expression1->arguments [0]);
+    ASSERT_EQ (2, loop1->results.size ());
+    ASSERT_EQ (1, loop1->predicate_offsets.size ());
+    ASSERT_EQ (1, loop1->branch_ends.size ());
+    ASSERT_EQ (2, loop1->predicate_offsets [0]);
+    ASSERT_EQ (2, loop1->branch_ends [0]);
+    ASSERT_EQ (parameter1, loop1->results [0]);
+    ASSERT_EQ (parameter2, loop1->results [1]);
 }
 
 TEST (llvmc_parser, let1)
