@@ -567,7 +567,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
     mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
     size_t predicate_offset (~0);
-    process_call_values (expression_a, arguments, most_specific_branch, predicate_offset);
+    process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     auto result (false);
     auto target (static_cast <mu::llvmc::skeleton::value *> (arguments [0]));
     auto type_l (target->type ());
@@ -767,12 +767,12 @@ void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton:
     }
 }
 
-void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
+void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
     size_t predicate_position_l (~0);
     mu::llvmc::ast::for_each_argument (
-	expression_a->arguments,
-	expression_a->predicate_position,
+	arguments,
+	predicate_offset,
         [&]
         (mu::llvmc::ast::node * node_a, size_t index)
         {
@@ -860,7 +860,7 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
     mu::vector <mu::llvmc::skeleton::node *> arguments;
     mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
     size_t predicate_offset (~0);
-    process_call_values (expression_a, arguments, most_specific_branch, predicate_offset);
+    process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     auto marker (static_cast <mu::llvmc::skeleton::marker *> (arguments [0]));
     auto result (false);
     switch (marker->type)
