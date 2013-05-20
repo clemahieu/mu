@@ -925,7 +925,7 @@ TEST (llvmc_analyzer, set_expression_one)
 
 TEST (llvmc_analyzer, int_type1)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -946,7 +946,7 @@ TEST (llvmc_analyzer, int_type1)
 
 TEST (llvmc_analyzer, int_type1024)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -967,7 +967,7 @@ TEST (llvmc_analyzer, int_type1024)
 
 TEST (llvmc_analyzer, fail_int_type2000000000)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -982,7 +982,7 @@ TEST (llvmc_analyzer, fail_int_type2000000000)
 
 TEST (llvmc_analyzer, ptr_type)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -1005,7 +1005,7 @@ TEST (llvmc_analyzer, ptr_type)
 
 TEST (llvmc_analyzer, instruction_add)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -1037,7 +1037,7 @@ TEST (llvmc_analyzer, instruction_add)
 
 TEST (llvmc_analyzer, constant_int)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -1068,7 +1068,7 @@ TEST (llvmc_analyzer, constant_int)
 
 TEST (llvmc_analyzer, instruction_store)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
@@ -1101,7 +1101,7 @@ TEST (llvmc_analyzer, instruction_store)
 
 TEST (llvmc_analyzer, instruction_load)
 {
-    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
