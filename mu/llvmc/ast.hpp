@@ -195,7 +195,7 @@ namespace mu
             public:
                 mu::vector <mu::llvmc::ast::node *> functions;
             };
-            class constant_int : public mu::llvmc::ast::node
+            class constant_int : public mu::llvmc::ast::expression
             {
             public:
                 constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a);

@@ -1034,3 +1034,34 @@ TEST (llvmc_analyzer, instruction_add)
     ASSERT_EQ (1, function2->results.size () == 1);
     auto result2 (function2->results [0]);
 }
+
+TEST (llvmc_analyzer, constant_int)
+{
+    mu::llvmc::analyzer::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    function1.predicate_offsets.push_back (function1.results.size ());
+    mu::llvmc::ast::number number1 (U"42");
+    mu::llvmc::ast::constant_int constant1 (U"32", &number1);
+    function1.results.push_back (&constant1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (0, function2->parameters.size ());
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (0, function2->predicate_offsets [0]);
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (1, function2->branch_ends [0]);
+    ASSERT_EQ (1, function2->results.size ());
+    auto predicate1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0]));
+    ASSERT_NE (nullptr, predicate1);
+    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate1->type ()));
+    ASSERT_NE (nullptr, type1);
+    ASSERT_EQ (32, type1->bits);
+    ASSERT_EQ (42, predicate1->value_m);
+}

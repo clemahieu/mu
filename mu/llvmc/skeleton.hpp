@@ -59,12 +59,12 @@ namespace mu
             class constant : public mu::llvmc::skeleton::value
             {
             public:
-                constant ();
+                constant (mu::llvmc::skeleton::branch * branch_a);
             };
             class constant_integer : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_integer (size_t bits_a, uint64_t value_a);
+                constant_integer (mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
                 uint64_t value_m;
@@ -72,14 +72,14 @@ namespace mu
             class constant_aggregate_zero : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_aggregate_zero (mu::llvmc::skeleton::type * type_a);
+                constant_aggregate_zero (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
             class constant_pointer_null : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_pointer_null (mu::llvmc::skeleton::type * type_a);
+                constant_pointer_null (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
@@ -289,6 +289,12 @@ namespace mu
                 mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;
+            };
+            class number
+            {
+            public:
+                number (uint64_t value_a);
+                uint64_t value;
             };
             extern mu::llvmc::skeleton::unit_type the_unit_type;
         }

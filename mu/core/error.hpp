@@ -74,7 +74,8 @@ namespace mu
             already_parsing_predicates,
             unresolved_symbols,
             incorrect_number_of_arguments,
-            expecting_a_number
+            expecting_a_number,
+            error_converting_string_to_number
         };
         class error
         {

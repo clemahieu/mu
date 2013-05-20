@@ -286,12 +286,13 @@ value_m (value_a)
     source_a->elements.push_back (this);
 }
 
-mu::llvmc::skeleton::constant::constant () :
-value (nullptr)
+mu::llvmc::skeleton::constant::constant (mu::llvmc::skeleton::branch * branch_a) :
+value (branch_a)
 {
 }
 
-mu::llvmc::skeleton::constant_integer::constant_integer (size_t bits_a, uint64_t value_a) :
+mu::llvmc::skeleton::constant_integer::constant_integer (mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a) :
+constant (branch_a),
 type_m (new (GC) mu::llvmc::skeleton::integer_type (bits_a)),
 value_m (value_a)
 {
@@ -307,7 +308,8 @@ type (type_a)
 {
 }
 
-mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::llvmc::skeleton::type * type_a) :
+mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+constant (branch_a),
 type_m (type_a)
 {
 }
@@ -328,7 +330,8 @@ bool mu::llvmc::skeleton::pointer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
-mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::llvmc::skeleton::type * type_a) :
+mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+constant (branch_a),
 type_m (type_a)
 {
 }

@@ -140,7 +140,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                             }
                                             else
                                             {
-                                                assert (false);
+                                                auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (node_a));
+                                                if (constant_int != nullptr)
+                                                {
+                                                    process_constant_int (constant_int);
+                                                }
+                                                else
+                                                {
+                                                    assert (false);
+                                                }
                                             }
                                         }
                                     }
@@ -163,6 +171,60 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
     assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
     assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
     return result;
+}
+
+mu::llvmc::skeleton::number::number (uint64_t value_a) :
+value (value_a)
+{
+}
+
+mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::llvmc::ast::number * number_a)
+{
+    mu::llvmc::skeleton::number * result (nullptr);
+    try
+    {
+        std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
+        unsigned int value (boost::lexical_cast <unsigned int> (data_l));
+        result = new (GC) mu::llvmc::skeleton::number (value);
+    }
+    catch (boost::bad_lexical_cast)
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
+    }
+    return result;
+}
+
+void mu::llvmc::analyzer_function::process_constant_int (mu::llvmc::ast::constant_int * constant_a)
+{
+    try
+    {
+        std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
+        unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+        if (bits <= 1024)
+        {
+            auto number (dynamic_cast <mu::llvmc::ast::number *> (constant_a->number));
+            if (number != nullptr)
+            {
+                auto number_l (process_number (number));
+                if (number_l != nullptr)
+                {
+                    already_generated [constant_a] = new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, bits, number_l->value);
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number);
+            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
+        }
+    }
+    catch (boost::bad_lexical_cast)
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
+    }
 }
 
 void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * element_a)
@@ -652,6 +714,8 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 
 void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test)
 {
+    assert (first != nullptr);
+    assert (test != nullptr);
     auto first_l (first->most_specific (test));
     if (first_l == nullptr)
     {
@@ -772,8 +836,8 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                         if (integer_type->bits == 1)
                         {
                             result = true;
-                            auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (1, 0));
-                            auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (1, 1));
+                            auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 0));
+                            auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 1));
                             arguments.push_back (false_const);
                             arguments.push_back (true_const);
                             auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));

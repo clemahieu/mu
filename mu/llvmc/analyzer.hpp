@@ -20,6 +20,7 @@ namespace mu
             class function;
             class type;
             class branch;
+            class number;
         }
         namespace ast
         {
@@ -31,6 +32,8 @@ namespace mu
             class element;
             class integer_type;
             class pointer_type;
+            class constant_int;
+            class number;
         }
         class module_result
         {
@@ -67,6 +70,8 @@ namespace mu
             void process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
             void process_integer_type (mu::llvmc::ast::integer_type * type_a);
             void process_pointer_type (mu::llvmc::ast::pointer_type * type_a);
+            void process_constant_int (mu::llvmc::ast::constant_int * constant_a);
+            mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
