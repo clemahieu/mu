@@ -75,7 +75,11 @@ namespace mu
             unresolved_symbols,
             incorrect_number_of_arguments,
             expecting_a_number,
-            error_converting_string_to_number
+            error_converting_string_to_number,
+            store_expects_two_arguments,
+            store_arguments_must_be_values,
+            store_right_argument_pointer_type,
+            store_right_pointed_type_doesnt_match_left
         };
         class error
         {

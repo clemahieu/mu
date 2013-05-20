@@ -37,6 +37,10 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"cint", &constant_int);
     assert (!error);
+    error = globals.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
+    assert (!error);
+    error = globals.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
+    assert (!error);
     error = globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
     assert (!error);
     error = globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));

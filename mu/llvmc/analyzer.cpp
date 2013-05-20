@@ -519,6 +519,10 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
     {
         result_m.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions);
     }
+    current_expression_generation.erase (expression_a);
+    assert (current_expression_generation.find (expression_a) == current_expression_generation.end ());
+    assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (expression_a) != already_generated_multi.end ()));
+    assert (result_m.error != nullptr || !!result || (!result && already_generated.find (expression_a) != already_generated.end ()));
     return result;
 }
 
@@ -868,8 +872,8 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
             {
                 result_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument);
             }
-        }
             break;
+        }
         case mu::llvmc::instruction_type::add:
         {
             if (predicate_offset == 3)
@@ -886,12 +890,9 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                             auto right_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (right->type ()));
                             if (right_type != nullptr)
                             {
-                                if (left_type->bits == right_type->bits)
+                                if (*left_type == *right_type)
                                 {
-                                    if (result_m.error == nullptr)
-                                    {
-                                        already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
-                                    }
+                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
                                 }
                                 else
                                 {
@@ -922,12 +923,56 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
             {
                 result_m.error = new (GC) mu::core::error_string (U"Add instruction expects two arguments", mu::core::error_type::add_expects_two_arguments);
             }
-        }
             break;
+        }
+        case mu::llvmc::instruction_type::store:
+        {
+            if (predicate_offset == 3)
+            {
+                auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                if (left != nullptr)
+                {
+                    auto right (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+                    if (right != nullptr)
+                    {
+                        auto right_type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (right->type ()));
+                        if (right_type != nullptr)
+                        {
+                            if (*right_type->pointed_type == *left->type ())
+                            {
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left);
+                            }
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments);
+            }
+            break;
+        }
         default:
             assert (false);
             break;
     }
-    current_expression_generation.erase (expression_a);
+    assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (expression_a) != already_generated_multi.end ()));
+    assert (result_m.error != nullptr || !!result || (!result && already_generated.find (expression_a) != already_generated.end ()));
     return result;
 }
