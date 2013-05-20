@@ -184,7 +184,9 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 {
     auto loop_s (new (GC) mu::llvmc::skeleton::loop);
-    loop_a->for_each_argument (
+    mu::llvmc::ast::for_each_argument(
+	loop_a->arguments,
+	loop_a->argument_predicate_offset,
 	[&]
 	(mu::llvmc::ast::node * result_a, size_t)
 	{
@@ -768,7 +770,9 @@ void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton:
 void mu::llvmc::analyzer_function::process_call_values (mu::llvmc::ast::definite_expression * expression_a, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
     size_t predicate_position_l (~0);
-    expression_a->for_each_argument (
+    mu::llvmc::ast::for_each_argument (
+	expression_a->arguments,
+	expression_a->predicate_position,
         [&]
         (mu::llvmc::ast::node * node_a, size_t index)
         {
