@@ -45,145 +45,124 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 	}
 }
 
-bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
+void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
-	auto result (false);
 	auto existing (already_generated.find (node_a));
 	if (existing == already_generated.end ())
 	{
-		auto existing_multi (already_generated_multi.find (node_a));
-		if (existing_multi == already_generated_multi.end ())
+		auto existing_function (module.functions.find (node_a));
+		if (existing_function == module.functions.end ())
 		{
-			auto existing_function (module.functions.find (node_a));
-			if (existing_function == module.functions.end ())
+			auto definite_expression (dynamic_cast<mu::llvmc::ast::definite_expression *> (node_a));
+			if (definite_expression != nullptr)
 			{
-				auto definite_expression (dynamic_cast<mu::llvmc::ast::definite_expression *> (node_a));
-				if (definite_expression != nullptr)
-				{
-					result = process_definite_expression (definite_expression);
-				}
-				else
-				{
-					auto value_node (dynamic_cast<mu::llvmc::ast::value *> (node_a));
-					if (value_node != nullptr)
-					{
-						already_generated [node_a] = value_node->node_m;
-					}
-					else
-					{
-						auto element_node (dynamic_cast<mu::llvmc::ast::element *> (node_a));
-						if (element_node != nullptr)
-						{
-							process_element (element_node);
-						}
-						else
-						{
-							auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
-							if (function_node != nullptr)
-							{
-								analyzer_function analyzer (*this);
-								analyzer.analyze (function_node);
-								already_generated [node_a] = analyzer.result_m.function;
-								result_m.error = analyzer.result_m.error;
-							}
-							else
-							{
-								auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
-								if (unit_node != nullptr)
-								{
-									already_generated [node_a] = new (GC) mu::llvmc::skeleton::unit_value (module.module->global);
-								}
-								else
-								{
-									auto set (dynamic_cast<mu::llvmc::ast::set_expression *> (node_a));
-									if (set != nullptr)
-									{
-										mu::vector <mu::llvmc::skeleton::node *> values;
-										for (auto i : set->items)
-										{
-											auto multi (process_node (i));
-											if (multi)
-											{
-												auto & values_l (already_generated_multi [i]);
-												values.insert (values.end (), values_l.begin (), values_l.end ());
-											}
-											else
-											{
-												values.push_back (already_generated [i]);
-											}
-										}
-										switch (values.size ())
-										{
-											case 1:
-												already_generated [node_a] = values [0];
-												break;
-											default:
-												result = true;
-												already_generated_multi [node_a] = values;
-												break;
-										}
-									}
-									else
-									{
-										auto integer_type (dynamic_cast<mu::llvmc::ast::integer_type *> (node_a));
-										if (integer_type != nullptr)
-										{
-											process_integer_type (integer_type);
-										}
-										else
-										{
-											auto pointer_type (dynamic_cast<mu::llvmc::ast::pointer_type *> (node_a));
-											if (pointer_type != nullptr)
-											{
-												process_pointer_type (pointer_type);
-											}
-											else
-											{
-												auto constant_int (dynamic_cast<mu::llvmc::ast::constant_int *> (node_a));
-												if (constant_int != nullptr)
-												{
-													process_constant_int (constant_int);
-												}
-												else
-												{
-													auto loop (dynamic_cast<mu::llvmc::ast::loop *> (node_a));
-													if (loop != nullptr)
-													{
-														result = process_loop (loop);
-													}
-													else
-													{
-														assert (false);
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				process_definite_expression (definite_expression);
 			}
 			else
 			{
-				already_generated [node_a] = existing_function->second;
+				auto value_node (dynamic_cast<mu::llvmc::ast::value *> (node_a));
+				if (value_node != nullptr)
+				{
+					already_generated [node_a] = value_node->node_m;
+				}
+				else
+				{
+					auto element_node (dynamic_cast<mu::llvmc::ast::element *> (node_a));
+					if (element_node != nullptr)
+					{
+						process_element (element_node);
+					}
+					else
+					{
+						auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
+						if (function_node != nullptr)
+						{
+							analyzer_function analyzer (*this);
+							analyzer.analyze (function_node);
+							already_generated [node_a] = analyzer.result_m.function;
+							result_m.error = analyzer.result_m.error;
+						}
+						else
+						{
+							auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
+							if (unit_node != nullptr)
+							{
+								already_generated [node_a] = new (GC) mu::llvmc::skeleton::unit_value (module.module->global);
+							}
+							else
+							{
+								auto set (dynamic_cast <mu::llvmc::ast::set_expression *> (node_a));
+								if (set != nullptr)
+								{
+									auto set_s (new (GC) mu::llvmc::skeleton::set);
+									for (auto i : set->items)
+									{
+										process_node (i);
+										if (result_m.error == nullptr)
+										{
+											auto value (already_generated [i]);
+											value->for_each (
+												[&] (mu::llvmc::skeleton::node * node_a)
+												{
+													set_s->elements.push_back (node_a);
+												});
+										}
+									}
+								}
+								else
+								{
+									auto integer_type (dynamic_cast<mu::llvmc::ast::integer_type *> (node_a));
+									if (integer_type != nullptr)
+									{
+										process_integer_type (integer_type);
+									}
+									else
+									{
+										auto pointer_type (dynamic_cast<mu::llvmc::ast::pointer_type *> (node_a));
+										if (pointer_type != nullptr)
+										{
+											process_pointer_type (pointer_type);
+										}
+										else
+										{
+											auto constant_int (dynamic_cast<mu::llvmc::ast::constant_int *> (node_a));
+											if (constant_int != nullptr)
+											{
+												process_constant_int (constant_int);
+											}
+											else
+											{
+												auto loop (dynamic_cast<mu::llvmc::ast::loop *> (node_a));
+												if (loop != nullptr)
+												{
+													process_loop (loop);
+												}
+												else
+												{
+													assert (false);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 		else
 		{
-			result = true;
+			already_generated [node_a] = existing_function->second;
 		}
 	}
-	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
-	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
-	return result;
+	assert (result_m.error != nullptr || (already_generated.find (node_a) != already_generated.end ()));
+	return;
 }
 
-bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
+void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 {
-	auto result (false);
 	auto loop_s (new (GC) mu::llvmc::skeleton::loop);
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
@@ -214,65 +193,47 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t)
 				{
-					auto multi (process_node (expression_a));
-					if (multi)
+					process_node (expression_a);
+					if (result_m.error == nullptr)
 					{
-						for (auto i : already_generated_multi [expression_a])
-						{
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-							if (value != nullptr)
+						auto value (already_generated [expression_a]);
+						value->for_each (
+							[&]
+							(mu::llvmc::skeleton::node * node_a)									
 							{
-								loop_s->results.push_back (value);
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-							}
-						}
-					}
-					else
-					{
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
-						if (value != nullptr)
-						{
-							loop_s->results.push_back (value);
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-						}
+								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node_a));
+								if (value != nullptr)
+								{
+									loop_s->results.push_back (value);
+								}
+								else
+								{
+									result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+								}
+							});
 					}
 				},
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t)
 				{
-					auto multi (process_node (expression_a));
-					if (multi)
+					process_node (expression_a);
+					if (result_m.error == nullptr)
 					{
-						for (auto i : already_generated_multi [expression_a])
-						{
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-							if (value != nullptr)
+						auto value (already_generated [expression_a]);
+						value->for_each (
+							[&]
+							(mu::llvmc::skeleton::node * node_a)
 							{
-								loop_s->results.push_back (value);
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-							}
-						}
-					}
-					else
-					{
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
-						if (value != nullptr)
-						{
-							loop_s->results.push_back (value);
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-						}
+								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node_a));
+								if (value != nullptr)
+								{
+									loop_s->results.push_back (value);
+								}
+								else
+								{
+									result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+								}
+							});
 					}
 				},
 				[&]
@@ -333,7 +294,6 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				}
 				default:
 				{					
-					result = true;
 					auto & target (already_generated_multi [loop_a]);
 					target.insert (target.end (), returned_results.begin (), returned_results.end ());
 				}
@@ -344,7 +304,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 			result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
 		}
 	}
-	return result;
+	return;
 }
 
 mu::llvmc::skeleton::number::number (uint64_t value_a) :
@@ -403,31 +363,17 @@ void mu::llvmc::analyzer_function::process_constant_int (mu::llvmc::ast::constan
 
 void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * element_a)
 {
-	auto multi (process_node (element_a->node));
+	process_node (element_a->node);
 	if (result_m.error == nullptr)
 	{
-		if (multi)
+		auto element (already_generated [element_a]);
+		if (element->size () > element_a->index)
 		{
-			auto existing (already_generated_multi.find (element_a->node));
-			if (existing->second.size () > element_a->index)
-			{
-				already_generated [element_a] = existing->second [element_a->index];
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index);
-			}
+			already_generated [element_a] = (*element) [element_a->index];
 		}
 		else
 		{
-			if (element_a->index == 0)
-			{
-				already_generated [element_a] = already_generated [element_a->node];
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"Value has only one element", mu::core::error_type::value_has_only_one_element);
-			}
+			result_m.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index);
 		}
 	}
 }
@@ -435,10 +381,14 @@ void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * el
 void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
-	auto multi (process_node (node_a));
-	if (multi)
+	process_node (node_a);
+	if (result_m.error == nullptr)
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value);
+		auto value (already_generated [node_a]);
+		if (value->size () != 1)
+		{
+			result_m.error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value);
+		}
 	}
 }
 
@@ -527,25 +477,18 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 	[&]
 	(mu::llvmc::ast::expression * result_a, size_t)
 	{
-		auto multi (process_node (result_a));
+		process_node (result_a);
 		if (result_m.error == nullptr)
 		{
-			if (multi)
-			{
-				for (auto i : already_generated_multi [result_a])
+			auto value (already_generated [result_a]);
+			value->for_each (
+				[&]
+				(mu::llvmc::skeleton::node * node_a)
 				{
-					assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
-							function_s->results.push_back (i);
-							calculate_most_specific (most_specific_branch, static_cast<mu::llvmc::skeleton::value *> (i)->branch);
-				}
-			}
-			else
-			{
-				assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
-						auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
-						function_s->results.push_back (value);
-						calculate_most_specific (most_specific_branch, value->branch);
-			}
+					assert (dynamic_cast<mu::llvmc::skeleton::value *> (node_a) != nullptr);
+					function_s->results.push_back (node_a);
+					calculate_most_specific (most_specific_branch, static_cast<mu::llvmc::skeleton::value *> (node_a)->branch);
+				});
 		}
 		assert (most_specific_branch != nullptr || result_m.error != nullptr);
 	},
@@ -625,55 +568,47 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 	return result_m;
 }
 
-bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
 {
-	auto result (false);
 	auto existing (current_expression_generation.find (expression_a));
 	if (existing == current_expression_generation.end ())
 	{
 		current_expression_generation.insert (expression_a);
 		if (!expression_a->arguments.empty ())
 		{
-			auto multi (process_node (expression_a->arguments [0]));
+			process_node (expression_a->arguments [0]);
 			if (result_m.error == nullptr)
 			{
 				mu::llvmc::skeleton::node * target;
-				if (multi)
+				auto value (already_generated [expression_a->arguments [0]]);
+				if (value->size () != 1)
 				{
-					auto & generated = already_generated_multi [expression_a->arguments [0]];
-					if (!generated.empty ())
-					{
-						target = generated [0];
-					}
-					else
-					{
-						result_m.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target);
-					}
+					target = (*value) [0];
 				}
 				else
 				{
-					target = already_generated [expression_a->arguments [0]];
+					target = value;
 				}
 				if (result_m.error == nullptr)
 				{
 					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (target));
 					if (value != nullptr)
 					{
-						result = process_value_call (expression_a);
+						process_value_call (expression_a);
 					}
 					else
 					{
 						auto marker (dynamic_cast<mu::llvmc::skeleton::marker *> (target));
 						if (marker != nullptr)
 						{
-							result = process_marker (expression_a);
+							process_marker (expression_a);
 						}
 						else
 						{
 							auto join (dynamic_cast<mu::llvmc::skeleton::join *> (target));
 							if (join != nullptr)
 							{
-								result = process_join (expression_a);
+								process_join (expression_a);
 							}
 							else
 							{
@@ -695,18 +630,16 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
 	}
 	current_expression_generation.erase (expression_a);
 	assert (current_expression_generation.find (expression_a) == current_expression_generation.end ());
-	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (expression_a) != already_generated_multi.end ()));
-	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (expression_a) != already_generated.end ()));
-	return result;
+	assert (result_m.error != nullptr || (already_generated.find (expression_a) != already_generated.end ()));
+	return;
 }
 
-bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
-	auto result (false);
 	auto target (static_cast<mu::llvmc::skeleton::value *> (arguments [0]));
 	auto type_l (target->type ());
 	auto pointer_type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (type_l));
@@ -775,7 +708,6 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 						}
 						else
 						{
-							result = true;
 							auto & target (already_generated_multi [expression_a]);
 							target.insert (target.end (), returned_results.begin (), returned_results.end ());
 						}
@@ -797,23 +729,23 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 		result_m.error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call);
 	}
 	current_expression_generation.erase (expression_a);
-	return result;
+	return;
 }
 
-bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::value *> arguments;
 	for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
 	{
-		auto multi (process_node (*i));
+		process_node (*i);
 		if (result_m.error == nullptr)
 		{
-			if (multi)
-			{
-				auto & values (already_generated_multi [*i]);
-				for (auto k (values.begin ()), l (values.end ()); k != l; ++k)
+			auto value (already_generated [*i]);
+			value->for_each (
+				[&]
+				(mu::llvmc::skeleton::node * node_a)
 				{
-					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
+					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node_a));
 					if (value != nullptr)
 					{
 						arguments.push_back (value);
@@ -823,19 +755,7 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 						result_m.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
 					}
 				}
-			}
-			else
-			{
-				auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [*i]));
-				if (value != nullptr)
-				{
-					arguments.push_back (value);
-				}
-				else
-				{
-					result_m.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
-				}
-			}
+			);
 		}
 	}
 	mu::set <mu::llvmc::skeleton::branch *> marked_branches;
@@ -892,7 +812,7 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 			result_m.error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values);
 		}
 	}
-	return false;
+	return;
 }
 
 void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test)
@@ -914,70 +834,46 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 {
 	size_t predicate_position_l (~0);
 	mu::llvmc::ast::for_each_argument (
-			arguments,
-			predicate_offset,
-			[&]
-			(mu::llvmc::ast::node * node_a, size_t index)
+		arguments,
+		predicate_offset,
+		[&]
+		(mu::llvmc::ast::node * node_a, size_t index)
+		{
+			process_node (node_a);
+			if (result_m.error == nullptr)
 			{
-				auto result (process_node (node_a));
-				if (result_m.error == nullptr)
-				{
-					if (result)
+				auto value (already_generated [node_a]);
+				value->for_each (
+					[&]
+					(mu::llvmc::skeleton::node * node_a)
 					{
-						auto & nodes (already_generated_multi [node_a]);
-						for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
-						{
-							auto node (*k);
-									auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
-							if (value != nullptr)
-							{
-								calculate_most_specific (most_specific_branch, value->branch);
-							}
-							arguments_a.push_back (node);
-						}
-					}
-					else
-					{
-						auto node (already_generated [node_a]);
-								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node_a));
 						if (value != nullptr)
 						{
 							calculate_most_specific (most_specific_branch, value->branch);
 						}
-						arguments_a.push_back (node);
-					}
-				}
-			},
+						arguments_a.push_back (node_a);
+					});
+			}
+		},
 	[&]
 	(mu::llvmc::ast::node * node_a, size_t index)
 	{
-		auto result (process_node (node_a));
+		process_node (node_a);
 		if (result_m.error == nullptr)
 		{
-			if (result)
-			{
-				auto & nodes (already_generated_multi [node_a]);
-				for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+			auto value (already_generated [node_a]);
+			value->for_each (
+				[&]
+				(mu::llvmc::skeleton::node * node_a)
 				{
-					auto node (*k);
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node_a));
 					if (value != nullptr)
 					{
 						calculate_most_specific (most_specific_branch, value->branch);
 					}
-					arguments_a.push_back (node);
-				}
-			}
-			else
-			{
-				auto node (already_generated [node_a]);
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
-				if (value != nullptr)
-				{
-					calculate_most_specific (most_specific_branch, value->branch);
-				}
-				arguments_a.push_back (node);
-			}
+					arguments_a.push_back (node_a);
+				});
 		}
 	},
 	[&]
@@ -998,14 +894,13 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 	predicate_position_a = predicate_position_l;
 }
 
-bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto marker (static_cast<mu::llvmc::skeleton::marker *> (arguments [0]));
-	auto result (false);
 	switch (marker->type)
 	{
 		case mu::llvmc::instruction_type::if_i:
@@ -1020,7 +915,6 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 					{
 						if (integer_type->bits == 1)
 						{
-							result = true;
 							auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 0));
 							auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 1));
 							arguments.push_back (false_const);
@@ -1181,7 +1075,6 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			assert (false);
 			break;
 	}
-	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (expression_a) != already_generated_multi.end ()));
-	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (expression_a) != already_generated.end ()));
-	return result;
+	assert (result_m.error != nullptr  || (already_generated.find (expression_a) != already_generated.end ()));
+	return;
 }
