@@ -1129,7 +1129,7 @@ TEST (llvmc_analyzer, instruction_load)
     ASSERT_EQ (1, function2->parameters.size ());
 }
 
-TEST (llvmc_analyzer, DISABLED_multibranch_call)
+TEST (llvmc_analyzer, multibranch_call)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;

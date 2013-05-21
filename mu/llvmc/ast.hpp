@@ -71,27 +71,27 @@ namespace mu
 	    template <typename S, typename T, typename U, typename V, typename W>
 	    void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op)
 	    {
-		assert (predicate_position != ~0);
-		assert (predicate_position <= arguments.size ());
-		size_t index (0);
-		bool predicates (false);
-		for (auto i (arguments.begin ()), j (arguments.end ()); i != j && loop_op (); ++i, ++index)
-		{
-		    assert (*i != nullptr);
-		    if (!predicates && index >= predicate_position)
-		    {
-			predicates = true;
-			transition_op (*i, index);
-		    }
-		    if (!predicates)
-		    {
-			argument_op (*i, index);
-		    }
-		    else
-		    {
-			predicate_op (*i, index);
-		    }
-		}
+			assert (predicate_position != ~0);
+			assert (predicate_position <= arguments.size ());
+			size_t index (0);
+			bool predicates (false);
+			for (auto i (arguments.begin ()), j (arguments.end ()); i != j && loop_op (); ++i, ++index)
+			{
+				assert (*i != nullptr);
+				if (!predicates && index >= predicate_position)
+				{
+				predicates = true;
+				transition_op (*i, index);
+				}
+				if (!predicates)
+				{
+				argument_op (*i, index);
+				}
+				else
+				{
+				predicate_op (*i, index);
+				}
+			}
 	    }
             class loop : public mu::llvmc::ast::expression
             {
