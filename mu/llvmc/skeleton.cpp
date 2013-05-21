@@ -14,6 +14,15 @@ bool mu::llvmc::skeleton::function::empty_loop_predicate ()
     return true;
 }
 
+void mu::llvmc::skeleton::loop::empty_node (mu::llvmc::skeleton::node *, size_t)
+{
+}
+
+bool mu::llvmc::skeleton::loop::empty_loop_predicate ()
+{
+    return true;
+}
+
 mu::llvmc::skeleton::result * mu::llvmc::skeleton::function::as_result (mu::llvmc::skeleton::node * node_a)
 {
     assert (dynamic_cast <mu::llvmc::skeleton::result *> (node_a) != nullptr);
