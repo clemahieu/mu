@@ -290,53 +290,54 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				{
 					return result_m.error == nullptr;
 				});
-				assert (loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
-				if (loop_s->branch_ends.size () >= 2)
+			assert (loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
+			bool feedback_branch (true);
+			mu::vector <mu::llvmc::skeleton::node *> returned_results;
+			auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+			auto empty (true);
+			loop_s->for_each_results (
+				[&]
+				(mu::llvmc::skeleton::node * node_a, size_t index_a)
 				{
-					bool feedback_branch (true);
-					mu::vector <mu::llvmc::skeleton::node *> returned_results;
-					auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-					auto empty (true);
-					loop_s->for_each_results (
-						[&]
-						(mu::llvmc::skeleton::node * node_a, size_t index_a)
-						{
-							returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_value (branch, loop_s, index_a));
-							empty = false;
-						},
-						mu::llvmc::skeleton::function::empty_node,
-						[&]
-						(mu::llvmc::skeleton::node * node_a, size_t index_a)
-						{
-							if (empty)
-							{
-								returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_unit (branch, loop_s, index_a));
-							}
-						},
-						[&]
-						(mu::llvmc::skeleton::node * node_a, size_t)
-						{
-							branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
-							feedback_branch = false;
-							empty = true;
-						}
-					);
-					assert (!returned_results.empty ());
-					if (returned_results.size () == 1)
-					{
-						already_generated [loop_a] = returned_results [0];
-					}
-					else
-					{
-						result = true;
-						auto & target (already_generated_multi [loop_a]);
-						target.insert (target.end (), returned_results.begin (), returned_results.end ());
-					}
-				}
-				else
+					returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_value (branch, loop_s, index_a));
+					empty = false;
+				},
+				mu::llvmc::skeleton::function::empty_node,
+				[&]
+				(mu::llvmc::skeleton::node * node_a, size_t index_a)
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Loop must have a feedback branch and at least one exit branch", mu::core::error_type::loop_not_enough_branches);
+					if (empty)
+					{
+						returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_unit (branch, loop_s, index_a));
+					}
+				},
+				[&]
+				(mu::llvmc::skeleton::node * node_a, size_t)
+				{
+					branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
+					feedback_branch = false;
+					empty = true;
 				}
+			);
+			switch (returned_results.size ())
+			{
+				case 0:
+				{
+					already_generated [loop_a] = new (GC) mu::llvmc::skeleton::loop_element_unit (branch, loop_s, 0);
+					break;
+				}
+				case 1:
+				{
+					already_generated [loop_a] = returned_results [0];
+					break;
+				}
+				default:
+				{					
+					result = true;
+					auto & target (already_generated_multi [loop_a]);
+					target.insert (target.end (), returned_results.begin (), returned_results.end ());
+				}
+			}
 		}
 		else
 		{

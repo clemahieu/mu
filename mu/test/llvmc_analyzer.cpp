@@ -1188,7 +1188,7 @@ TEST (llvmc_analyzer, multibranch_call)
     ASSERT_NE (nullptr, result.module);
 }
 
-TEST (llvmc_analyzer, DISABLED_loop)
+TEST (llvmc_analyzer, loop_empty)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
@@ -1196,8 +1196,6 @@ TEST (llvmc_analyzer, DISABLED_loop)
     function1.name = U"0";
     mu::llvmc::ast::loop loop1;
     loop1.set_argument_offset ();
-    loop1.predicate_offsets.push_back (loop1.results.size ());
-    loop1.branch_ends.push_back (loop1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&loop1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -1207,4 +1205,8 @@ TEST (llvmc_analyzer, DISABLED_loop)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (1, result.module->functions.size ());
     auto function2 (result.module->functions [U"0"]);
+	ASSERT_NE (nullptr, function2);
+	ASSERT_EQ (1, function2->results.size ());
+	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element_unit *> (function2->results [0]));
+	ASSERT_NE (nullptr, element1);
 }
