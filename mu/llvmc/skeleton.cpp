@@ -43,6 +43,18 @@ arguments (arguments_a)
 {
 }
 
+size_t mu::llvmc::skeleton::switch_i::size ()
+{
+	return elements.size ();
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::switch_i::operator [] (size_t index_a)
+{
+	assert (index_a < elements.size ());
+	auto result (elements [index_a]);
+	return result;
+}
+
 mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a) :
 value (branch_a)
 {
@@ -64,6 +76,17 @@ index (index_a)
 
 mu::llvmc::skeleton::node::~node ()
 {
+}
+
+size_t mu::llvmc::skeleton::node::size ()
+{
+	return 1;
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::node::operator [] (size_t index_a)
+{
+	assert (index_a < size ());
+	return this;
 }
 
 mu::llvmc::skeleton::function::function (mu::llvmc::skeleton::branch * global_a) :
@@ -287,6 +310,18 @@ predicate_offset (predicate_offset_a)
 {
 }
 
+size_t mu::llvmc::skeleton::function_call::size ()
+{
+	return elements.size ();
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::function_call::operator [] (size_t index_a)
+{
+	assert (index_a < elements.size ());
+	auto result (elements [index_a]);
+	return result;
+}
+
 mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a) :
 value (branch_a),
 source (source_a),
@@ -455,6 +490,18 @@ the_unit_value (global)
 mu::llvmc::skeleton::loop::loop () :
 argument_predicate_offset (~0)
 {
+}
+
+size_t mu::llvmc::skeleton::loop::size ()
+{
+	return elements.size ();
+}
+
+mu::llvmc::skeleton::node * mu::llvmc::skeleton::loop::operator [] (size_t index_a)
+{
+	assert (index_a < elements.size ());
+	auto result (elements [index_a]);
+	return result;
 }
 
 void mu::llvmc::skeleton::loop::set_argument_predicate_offset ()

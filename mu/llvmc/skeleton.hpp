@@ -26,6 +26,8 @@ namespace mu
             {
             public:
                 virtual ~node ();
+				virtual size_t size ();
+				virtual mu::llvmc::skeleton::node * operator [] (size_t index_a);
             };
             class type : virtual public mu::llvmc::skeleton::node
             {
@@ -221,12 +223,14 @@ namespace mu
                 }
             };
             class switch_element;
-            class switch_i
+            class switch_i : public mu::llvmc::skeleton::node
             {
             public:
                 switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+				size_t size () override;
+				mu::llvmc::skeleton::node * operator [] (size_t index_a) override;
                 mu::vector <mu::llvmc::skeleton::switch_element *> elements;
             };
             class switch_element : public mu::llvmc::skeleton::value
@@ -238,13 +242,15 @@ namespace mu
                 mu::llvmc::skeleton::constant_integer * value_m;
             };
             class call_element;
-            class function_call
+            class function_call : public mu::llvmc::skeleton::node
             {
             public:
                 function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a);
                 mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
+				size_t size () override;
+				mu::llvmc::skeleton::node * operator [] (size_t index_a) override;
                 mu::vector <mu::llvmc::skeleton::call_element *> elements;
                 size_t predicate_offset;
             };
@@ -281,7 +287,7 @@ namespace mu
 						mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 			};
-			class loop
+			class loop : public mu::llvmc::skeleton::node
 			{
 			public:
 				loop ();
@@ -292,6 +298,8 @@ namespace mu
 				mu::vector <mu::llvmc::skeleton::value *> results;
 				std::vector <size_t> predicate_offsets;
 				std::vector <size_t> branch_ends;
+				size_t size () override;
+				mu::llvmc::skeleton::node * operator [] (size_t index_a) override;
 				mu::vector <mu::llvmc::skeleton::loop_element *> elements;
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
