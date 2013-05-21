@@ -269,47 +269,52 @@ namespace mu
                 mu::llvmc::skeleton::function_call * source;
                 size_t index;
             };
-	    class loop_element : public mu::llvmc::skeleton::value
-	    {
-	    public:
-		loop_element (mu::llvmc::skeleton::branch * branch_a);
-	    };
-	    class loop_parameter : public mu::llvmc::skeleton::value
-	    {
-	    public:
-		loop_parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
-                mu::llvmc::skeleton::type * type () override;
-		mu::llvmc::skeleton::type * type_m;
-	    };
-	    class loop
-	    {
-	    public:
-		loop ();
-		mu::vector <mu::llvmc::skeleton::node *> arguments;
-		size_t argument_predicate_offset;
-		void set_argument_predicate_offset ();
-		mu::vector <mu::llvmc::skeleton::loop_parameter *> parameters;
-		mu::vector <mu::llvmc::skeleton::value *> results;
-		std::vector <size_t> predicate_offsets;
-		std::vector <size_t> branch_ends;
-		mu::vector <mu::llvmc::skeleton::loop_element *> elements;
-	    };
-	    class loop_element_value : public mu::llvmc::skeleton::loop_element
-	    {
-	    public:
-		loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
-                mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::loop * source;
-                size_t index;
-	    };
-	    class loop_element_unit : public mu::llvmc::skeleton::loop_element
-	    {
-	    public:
-		loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
-                mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::loop * source;
-                size_t index;
-	    };
+			class loop_element : public mu::llvmc::skeleton::value
+			{
+				public:
+				loop_element (mu::llvmc::skeleton::branch * branch_a);
+			};
+			class loop_parameter : public mu::llvmc::skeleton::value
+			{
+			public:
+				loop_parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+						mu::llvmc::skeleton::type * type () override;
+				mu::llvmc::skeleton::type * type_m;
+			};
+			class loop
+			{
+			public:
+				loop ();
+				mu::vector <mu::llvmc::skeleton::node *> arguments;
+				size_t argument_predicate_offset;
+				void set_argument_predicate_offset ();
+				mu::vector <mu::llvmc::skeleton::loop_parameter *> parameters;
+				mu::vector <mu::llvmc::skeleton::value *> results;
+				std::vector <size_t> predicate_offsets;
+				std::vector <size_t> branch_ends;
+				mu::vector <mu::llvmc::skeleton::loop_element *> elements;
+				template <typename T, typename U, typename V>
+				void for_each_result (T feedback_op, U result_op, V transition_op)
+				{
+					
+				}
+			};
+			class loop_element_value : public mu::llvmc::skeleton::loop_element
+			{
+			public:
+				loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
+				mu::llvmc::skeleton::type * type () override;
+				mu::llvmc::skeleton::loop * source;
+				size_t index;
+			};
+			class loop_element_unit : public mu::llvmc::skeleton::loop_element
+			{
+			public:
+				loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
+				mu::llvmc::skeleton::type * type () override;
+				mu::llvmc::skeleton::loop * source;
+				size_t index;
+			};
             class unit_value : public mu::llvmc::skeleton::value
             {
             public:

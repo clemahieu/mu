@@ -189,49 +189,111 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
     process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, most_specific_branch, predicate_offset);
     if (result_m.error == nullptr)
     {
-	if (loop_s->arguments.size () == loop_a->parameters.size ())
-	{
-	    auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-	    auto i (loop_a->parameters.begin ());
-	    auto j (loop_a->parameters.end ());
-	    auto k (loop_s->arguments.begin ());
-	    for (; i != j; ++i, ++k)
-	    {
-		assert (dynamic_cast <mu::llvmc::skeleton::value *> (*k) != nullptr);
-		auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_entry_branch, static_cast <mu::llvmc::skeleton::value *> (*k)->type ()));
-		loop_s->parameters.push_back (new_parameter);
-		already_generated [*i] = new_parameter;
-	    }
-	    loop_a->for_each_results (
-		    [&]
-		    (mu::llvmc::ast::expression * expression_a, size_t)
-		    {
-			
-		    },
-		    [&]
-		    (mu::llvmc::ast::expression * expression_a, size_t)
-		    {
-
-		    },
-		    [&]
-		    (mu::llvmc::ast::node * node_a, size_t)
-		    {
-
-		    },
-		    [&]
-			(mu::llvmc::ast::node * node_a, size_t)
-		    {
-		    },
-		    [&]
-		    ()
-		    {
-			return true;
-		    });
-	}
-	else	
-	{
-	    result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
-	}
+		if (loop_s->arguments.size () == loop_a->parameters.size ())
+		{
+			auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+			auto i (loop_a->parameters.begin ());
+			auto j (loop_a->parameters.end ());
+			auto k (loop_s->arguments.begin ());
+			for (; i != j; ++i, ++k)
+			{
+				auto argument (dynamic_cast <mu::llvmc::skeleton::value *> (*k));
+				if (argument != nullptr)
+				{
+					auto new_parameter (new (GC) mu::llvmc::skeleton::loop_parameter (loop_entry_branch, static_cast <mu::llvmc::skeleton::value *> (*k)->type ()));
+					loop_s->parameters.push_back (new_parameter);
+					already_generated [*i] = new_parameter;
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
+				}
+			}
+			loop_a->for_each_results (
+				[&]
+				(mu::llvmc::ast::expression * expression_a, size_t)
+				{
+					auto multi (process_node (expression_a));
+					if (multi)
+					{
+						for (auto i: already_generated_multi [expression_a])
+						{
+							auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
+							if (value != nullptr)
+							{
+								loop_s->results.push_back (value);
+							}
+							else
+							{
+								result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+							}
+						}
+					}
+					else
+					{
+						auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [expression_a]));
+						if (value != nullptr)
+						{
+							loop_s->results.push_back (value);
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+						}
+					}
+				},
+				[&]
+				(mu::llvmc::ast::expression * expression_a, size_t)
+			  {
+				  auto multi (process_node (expression_a));
+				  if (multi)
+				  {
+					  for (auto i: already_generated_multi [expression_a])
+					  {
+						  auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
+						  if (value != nullptr)
+						  {
+							  loop_s->results.push_back (value);
+						  }
+						  else
+						  {
+							  result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+						  }
+					  }
+				  }
+				  else
+				  {
+					  auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [expression_a]));
+					  if (value != nullptr)
+					  {
+						  loop_s->results.push_back (value);
+					  }
+					  else
+					  {
+						  result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+					  }
+				  }
+				},
+				[&]
+				(mu::llvmc::ast::node * node_a, size_t)
+				{
+					loop_s->predicate_offsets.push_back (loop_s->results.size ());
+				},
+				[&]
+				(mu::llvmc::ast::node * node_a, size_t)
+				{
+					loop_s->branch_ends.push_back (loop_s->results.size ());
+				},
+				[&]
+				()
+				{
+					return result_m.error == nullptr;
+				});
+		}
+		else	
+		{
+			result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
+		}
     }
 }
 

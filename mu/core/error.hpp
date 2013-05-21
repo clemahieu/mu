@@ -83,7 +83,9 @@ namespace mu
             load_expects_one_argument,
             load_argument_must_be_values,
             load_argument_pointer_type,
-	    mismatch_number_of_arguments_number_of_parameters
+            mismatch_number_of_arguments_number_of_parameters,
+            loop_argument_must_be_value,
+            loop_result_must_be_value
         };
         class error
         {
