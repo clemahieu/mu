@@ -293,11 +293,17 @@ namespace mu
 				std::vector <size_t> predicate_offsets;
 				std::vector <size_t> branch_ends;
 				mu::vector <mu::llvmc::skeleton::loop_element *> elements;
-				template <typename T, typename U, typename V>
-				void for_each_result (T feedback_op, U result_op, V transition_op)
-				{
-					
-				}
+                template <typename T>
+                void for_each_branch (T branch_op)
+                {
+                    size_t index (0);
+                    for (auto i (branch_ends.begin ()), j (branch_ends.end ()); i != j; ++i)
+                    {
+                        auto end (*i);
+                        branch_op (index, end);
+                        index = end;
+                    }
+                }
 			};
 			class loop_element_value : public mu::llvmc::skeleton::loop_element
 			{

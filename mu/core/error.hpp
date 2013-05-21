@@ -85,7 +85,8 @@ namespace mu
             load_argument_pointer_type,
             mismatch_number_of_arguments_number_of_parameters,
             loop_argument_must_be_value,
-            loop_result_must_be_value
+            loop_result_must_be_value,
+			loop_not_enough_branches
         };
         class error
         {
