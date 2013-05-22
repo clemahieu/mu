@@ -68,43 +68,43 @@ namespace mu
                 size_t index;
                 size_t total;
             };
-	    template <typename S, typename T, typename U, typename V, typename W>
-	    void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op)
-	    {
-			assert (predicate_position != ~0);
-			assert (predicate_position <= arguments.size ());
-			size_t index (0);
-			bool predicates (false);
-			for (auto i (arguments.begin ()), j (arguments.end ()); i != j && loop_op (); ++i, ++index)
+			template <typename S, typename T, typename U, typename V, typename W>
+			void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op)
 			{
-				assert (*i != nullptr);
-				if (!predicates && index >= predicate_position)
+				assert (predicate_position != ~0);
+				assert (predicate_position <= arguments.size ());
+				size_t index (0);
+				bool predicates (false);
+				for (auto i (arguments.begin ()), j (arguments.end ()); i != j && loop_op (); ++i, ++index)
 				{
-				predicates = true;
-				transition_op (*i, index);
-				}
-				if (!predicates)
-				{
-				argument_op (*i, index);
-				}
-				else
-				{
-				predicate_op (*i, index);
+					assert (*i != nullptr);
+					if (!predicates && index >= predicate_position)
+					{
+					predicates = true;
+					transition_op (*i, index);
+					}
+					if (!predicates)
+					{
+					argument_op (*i, index);
+					}
+					else
+					{
+					predicate_op (*i, index);
+					}
 				}
 			}
-	    }
             class loop : public mu::llvmc::ast::expression
             {
             public:
-		loop ();
+				loop ();
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> parameters;
                 mu::vector <mu::llvmc::ast::node *> roots;
-		void set_argument_offset ();
-		size_t argument_predicate_offset;
+				void set_argument_offset ();
+				size_t argument_predicate_offset;
                 mu::vector <mu::llvmc::ast::node *> results;
-		void add_predicate_offset ();
-		void add_branch_end ();
+				void add_predicate_offset ();
+				void add_branch_end ();
                 mu::llvmc::ast::expression * as_expression (mu::llvmc::ast::node * node_a);
                 template <typename T, typename U, typename V, typename W, typename X>
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate)
@@ -146,8 +146,8 @@ namespace mu
                         }
                     }
                 }
-		std::vector <size_t> predicate_offsets;
-		std::vector <size_t> branch_ends;
+				std::vector <size_t> predicate_offsets;
+				std::vector <size_t> branch_ends;
             };
             class definite_expression : public mu::llvmc::ast::expression
             {

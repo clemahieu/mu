@@ -1129,6 +1129,40 @@ TEST (llvmc_analyzer, instruction_load)
     ASSERT_EQ (1, function2->parameters.size ());
 }
 
+TEST (llvmc_analyzer, DISABLED_instruction_icmp_eq)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"1");;
+    mu::llvmc::ast::pointer_type type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&type2);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
+    mu::llvmc::ast::value value1 (&marker1);
+	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
+	mu::llvmc::ast::value value2 (&predicate1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&parameter1);
+    expression1.arguments.push_back (&parameter1);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::result result1 (&type1);
+    result1.value = &expression1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->parameters.size ());
+}
+
 TEST (llvmc_analyzer, multibranch_call)
 {
     mu::llvmc::analyzer analyzer;

@@ -21,6 +21,7 @@ add_library (mu_llvmc SHARED
 	parser.hpp
     partial_ast.cpp
     partial_ast.hpp
+	predicates.hpp
     skeleton.cpp
     skeleton.hpp)
     

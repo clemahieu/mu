@@ -914,31 +914,20 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 {
 	size_t predicate_position_l (~0);
 	mu::llvmc::ast::for_each_argument (
-			arguments,
-			predicate_offset,
-			[&]
-			(mu::llvmc::ast::node * node_a, size_t index)
+		arguments,
+		predicate_offset,
+		[&]
+		(mu::llvmc::ast::node * node_a, size_t index)
+		{
+			auto result (process_node (node_a));
+			if (result_m.error == nullptr)
 			{
-				auto result (process_node (node_a));
-				if (result_m.error == nullptr)
+				if (result)
 				{
-					if (result)
+					auto & nodes (already_generated_multi [node_a]);
+					for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
 					{
-						auto & nodes (already_generated_multi [node_a]);
-						for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
-						{
-							auto node (*k);
-									auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
-							if (value != nullptr)
-							{
-								calculate_most_specific (most_specific_branch, value->branch);
-							}
-							arguments_a.push_back (node);
-						}
-					}
-					else
-					{
-						auto node (already_generated [node_a]);
+						auto node (*k);
 								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 						if (value != nullptr)
 						{
@@ -947,19 +936,9 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 						arguments_a.push_back (node);
 					}
 				}
-			},
-	[&]
-	(mu::llvmc::ast::node * node_a, size_t index)
-	{
-		auto result (process_node (node_a));
-		if (result_m.error == nullptr)
-		{
-			if (result)
-			{
-				auto & nodes (already_generated_multi [node_a]);
-				for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+				else
 				{
-					auto node (*k);
+					auto node (already_generated [node_a]);
 							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 					if (value != nullptr)
 					{
@@ -968,28 +947,49 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 					arguments_a.push_back (node);
 				}
 			}
-			else
+		},
+		[&]
+		(mu::llvmc::ast::node * node_a, size_t index)
+		{
+			auto result (process_node (node_a));
+			if (result_m.error == nullptr)
 			{
-				auto node (already_generated [node_a]);
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
-				if (value != nullptr)
+				if (result)
 				{
-					calculate_most_specific (most_specific_branch, value->branch);
+					auto & nodes (already_generated_multi [node_a]);
+					for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+					{
+						auto node (*k);
+								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+						if (value != nullptr)
+						{
+							calculate_most_specific (most_specific_branch, value->branch);
+						}
+						arguments_a.push_back (node);
+					}
 				}
-				arguments_a.push_back (node);
+				else
+				{
+					auto node (already_generated [node_a]);
+							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+					if (value != nullptr)
+					{
+						calculate_most_specific (most_specific_branch, value->branch);
+					}
+					arguments_a.push_back (node);
+				}
 			}
+		},
+		[&]
+		(mu::llvmc::ast::node * node_a, size_t index)
+		{
+			predicate_position_l = arguments_a.size ();
+		},
+		[&]
+		()
+		{
+			return result_m.error == nullptr;
 		}
-	},
-	[&]
-	(mu::llvmc::ast::node * node_a, size_t index)
-	{
-		predicate_position_l = arguments_a.size ();
-	},
-	[&]
-	()
-	{
-		return result_m.error == nullptr;
-	}
 	);
 	if (predicate_position_l == ~0)
 	{
@@ -1008,53 +1008,6 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 	auto result (false);
 	switch (marker->type)
 	{
-		case mu::llvmc::instruction_type::if_i:
-		{
-			if (arguments.size () == 2 || (arguments.size () > 2 && expression_a->predicate_position == 2))
-			{
-				auto predicate (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-				if (predicate != nullptr)
-				{
-					auto integer_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (predicate->type ()));
-					if (integer_type != nullptr)
-					{
-						if (integer_type->bits == 1)
-						{
-							result = true;
-							auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 0));
-							auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 1));
-							arguments.push_back (false_const);
-							arguments.push_back (true_const);
-							auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));
-							auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-							auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
-							auto true_element (new (GC) mu::llvmc::skeleton::switch_element (true_branch, switch_i, true_const));
-							auto false_element (new (GC) mu::llvmc::skeleton::switch_element (false_branch, switch_i, false_const));
-							auto & values (already_generated_multi [expression_a]);
-							values.push_back (true_element);
-							values.push_back (false_element);
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer);
-						}
-					}
-					else
-					{
-						result_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value);
-					}
-				}
-				else
-				{
-					result_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument);
-				}
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument);
-			}
-			break;
-		}
 		case mu::llvmc::instruction_type::add:
 		{
 			if (predicate_offset == 3)
@@ -1106,6 +1059,132 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			}
 			break;
 		}
+		case mu::llvmc::instruction_type::icmp:
+		{
+			if (predicate_offset == 4)
+			{
+				auto predicate (dynamic_cast <mu::llvmc::skeleton::predicate *> (arguments [1]));
+				if (predicate != nullptr)
+				{
+					auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+					if (left != nullptr)
+					{
+						auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [3]));
+						if (right != nullptr)
+						{
+							auto left_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (left->type ()));
+							if (left_type != nullptr)
+							{
+								if (*left->type () == *right->type ())
+								{
+									already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
+								}
+								else
+								{
+									result_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be the same type", mu::core::error_type::icmp_arguments_same_type);
+								}
+							}
+							else
+							{
+								result_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be integers", mu::core::error_type::icmp_arguments_integers);
+							}
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"ICMP right argument must be a value", mu::core::error_type::icmp_right_argument_value);
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"ICMP left argument must be a value", mu::core::error_type::icmp_left_argument_value);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"ICMP first argument must be predicate", mu::core::error_type::icmp_first_argument_predicate);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"ICMP instruction expects a predicate and two arguments", mu::core::error_type::icmp_expects_predicate_two_arguments);
+			}
+			break;
+		}
+		case mu::llvmc::instruction_type::if_i:
+		{
+			if (predicate_offset == 2)
+			{
+				auto predicate (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
+				if (predicate != nullptr)
+				{
+					auto integer_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (predicate->type ()));
+					if (integer_type != nullptr)
+					{
+						if (integer_type->bits == 1)
+						{
+							result = true;
+							auto false_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 0));
+							auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (module.module->global, 1, 1));
+							arguments.push_back (false_const);
+							arguments.push_back (true_const);
+							auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));
+							auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+							auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+							auto true_element (new (GC) mu::llvmc::skeleton::switch_element (true_branch, switch_i, true_const));
+							auto false_element (new (GC) mu::llvmc::skeleton::switch_element (false_branch, switch_i, false_const));
+							auto & values (already_generated_multi [expression_a]);
+							values.push_back (true_element);
+							values.push_back (false_element);
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer);
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument);
+			}
+			break;
+		}
+		case mu::llvmc::instruction_type::load:
+		{
+			if (predicate_offset == 2)
+			{
+				auto source (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
+				if (source != nullptr)
+				{
+					auto type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (source->type ()));
+					if (type != nullptr)
+					{
+						already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument);
+			}
+			break;
+		}
 		case mu::llvmc::instruction_type::store:
 		{
 			if (predicate_offset == 3)
@@ -1146,34 +1225,6 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			else
 			{
 				result_m.error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments);
-			}
-			break;
-		}
-		case mu::llvmc::instruction_type::load:
-		{
-			if (predicate_offset == 2)
-			{
-				auto source (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-				if (source != nullptr)
-				{
-					auto type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (source->type ()));
-					if (type != nullptr)
-					{
-						already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
-					}
-					else
-					{
-						result_m.error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type);
-					}
-				}
-				else
-				{
-					result_m.error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values);
-				}
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument);
 			}
 			break;
 		}

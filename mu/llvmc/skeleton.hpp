@@ -2,6 +2,7 @@
 
 #include <mu/core/types.hpp>
 #include <mu/llvmc/instruction_type.hpp>
+#include <mu/llvmc/predicates.hpp>
 
 namespace llvm
 {
@@ -95,6 +96,12 @@ namespace mu
             class join : public mu::llvmc::skeleton::node
             {                
             };
+			class predicate : public mu::llvmc::skeleton::node
+			{
+			public:
+				predicate (mu::llvmc::predicates type_a);
+				mu::llvmc::predicates type;
+			};
             class marker : public mu::llvmc::skeleton::node
             {
             public:

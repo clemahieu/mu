@@ -86,7 +86,13 @@ namespace mu
             mismatch_number_of_arguments_number_of_parameters,
             loop_argument_must_be_value,
             loop_result_must_be_value,
-			loop_not_enough_branches
+			loop_not_enough_branches,
+			icmp_expects_predicate_two_arguments,
+			icmp_first_argument_predicate,
+			icmp_left_argument_value,
+			icmp_right_argument_value,
+			icmp_arguments_integers,
+			icmp_arguments_same_type
         };
         class error
         {

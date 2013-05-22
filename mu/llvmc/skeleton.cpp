@@ -505,4 +505,9 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_parameter::type ()
     return type_m;
 }
 
+mu::llvmc::skeleton::predicate::predicate (mu::llvmc::predicates type_a) :
+type (type_a)
+{
+}
+
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;
