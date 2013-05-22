@@ -463,14 +463,14 @@ void mu::llvmc::skeleton::loop::set_argument_predicate_offset ()
     argument_predicate_offset = results.size ();
 }
 
-mu::llvmc::skeleton::loop_element::loop_element (mu::llvmc::skeleton::branch * branch_a) :
-value (branch_a)
+mu::llvmc::skeleton::loop_element::loop_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a) :
+value (branch_a),
+source (source_a)
 {  
 }
 
 mu::llvmc::skeleton::loop_element_value::loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
-loop_element (branch_a),
-source (source_a),
+loop_element (branch_a, source_a),
 index (index_a)
 {
 }
@@ -483,8 +483,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_value::type ()
 }
 
 mu::llvmc::skeleton::loop_element_unit::loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
-loop_element (branch_a),
-source (source_a),
+loop_element (branch_a, source_a),
 index (index_a)
 {
 }

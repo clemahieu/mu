@@ -276,10 +276,12 @@ namespace mu
                 mu::llvmc::skeleton::function_call * source;
                 size_t index;
             };
+			class loop;
 			class loop_element : public mu::llvmc::skeleton::value
 			{
-				public:
-				loop_element (mu::llvmc::skeleton::branch * branch_a);
+			public:
+				loop_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a);
+				mu::llvmc::skeleton::loop * source;
 			};
 			class loop_parameter : public mu::llvmc::skeleton::value
 			{
@@ -292,6 +294,7 @@ namespace mu
 			{
 			public:
 				loop ();
+				mu::llvmc::skeleton::branch * loop_entry_branch;
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
 				size_t argument_predicate_offset;
 				void set_argument_predicate_offset ();
@@ -348,7 +351,6 @@ namespace mu
 			public:
 				loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
 				mu::llvmc::skeleton::type * type () override;
-				mu::llvmc::skeleton::loop * source;
 				size_t index;
 			};
 			class loop_element_unit : public mu::llvmc::skeleton::loop_element
@@ -356,7 +358,6 @@ namespace mu
 			public:
 				loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
 				mu::llvmc::skeleton::type * type () override;
-				mu::llvmc::skeleton::loop * source;
 				size_t index;
 			};
             class unit_value : public mu::llvmc::skeleton::value

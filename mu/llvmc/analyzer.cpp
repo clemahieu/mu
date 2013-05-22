@@ -193,6 +193,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
 		{
 			auto loop_entry_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+			loop_s->loop_entry_branch = loop_entry_branch;
 			auto i (loop_a->parameters.begin ());
 			auto j (loop_a->parameters.end ());
 			auto k (loop_s->arguments.begin ());
