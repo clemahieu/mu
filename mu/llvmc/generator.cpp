@@ -493,32 +493,78 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 			{
 				auto & context (module.target.module->getContext ());
 				llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
-				std::vector <llvm::Value *> arguments;
+				std::vector <llvm::PHINode *> parameters;
 				size_t position (0);
 				auto end (loop_element->source->argument_predicate_offset);
 				for (auto i (loop_element->source->arguments.begin ()); position < end; ++i, ++position)
 				{
 					assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
-					auto argument_l (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
+					auto value (static_cast <mu::llvmc::skeleton::value *> (*i));
+					auto argument_l (retrieve_value (value));
 					and_predicates (predicate, argument_l.predicate);
-					arguments.push_back (argument_l.value);
+					auto loop_parameter (llvm::PHINode::Create (argument_l.value->getType (), 2));
+					loop_parameter->setIncomingValue (0, argument_l.value);
+					already_generated [static_cast <mu::llvmc::skeleton::value *> (value)] = mu::llvmc::value_data ({predicate, loop_parameter});
+					parameters.push_back (loop_parameter);
 				}
+				auto entry (last);
 				auto loop_entry (llvm::BasicBlock::Create (context));
 				auto successor (llvm::BasicBlock::Create (context));
-				last->getInstList ().push_back (llvm::BranchInst::Create (loop_entry, successor, predicate));
-				auto i (arguments.begin ());
-				auto j (arguments.end ());
-				auto k (loop_element->source->arguments.begin ());
-				for (; i != j; ++i, ++k)
-				{
-					auto loop_parameter (llvm::PHINode::Create ((*i)->getType (), 2));
-					loop_entry->getInstList ().push_back (loop_parameter);
-					assert (dynamic_cast <mu::llvmc::skeleton::value *> (*k) != nullptr);
-					already_generated [static_cast <mu::llvmc::skeleton::value *> (*k)] = mu::llvmc::value_data ({predicate, loop_parameter});
-				}
-				assert ((i == j) == (k == loop_element->source->arguments.end ()));
-				loop_element->source->for_each_results ();
+				entry->getInstList ().push_back (llvm::BranchInst::Create (loop_entry, successor, predicate));
 				last = loop_entry;
+				auto feedback_branch (true);
+				size_t parameter_position (0);
+				size_t element_position (0);
+				loop_element->source->for_each_results (
+					[&]
+					(mu::llvmc::skeleton::node * node_a, size_t)
+					{
+						assert (dynamic_cast <mu::llvmc::skeleton::value *> (node_a));
+						auto value (static_cast <mu::llvmc::skeleton::value *> (node_a));
+						auto result_l (retrieve_value (value));
+						if (feedback_branch)
+						{
+							assert (position < parameters.size ());
+							parameters [position]->setIncomingValue (1, result_l.value);
+							++parameter_position;
+						}
+						else
+						{
+							auto real_value (llvm::PHINode::Create (result_l.value->getType (), 2));
+							real_value->setIncomingValue (0, llvm::UndefValue::get (result_l.value->getType ()));
+							real_value->setIncomingValue (1, result_l.value);
+							successor->getInstList ().push_back (real_value);
+							parameters.push_back (real_value);
+							auto real_predicate (llvm::PHINode::Create (result_l.predicate->getType (), 2));
+							real_predicate->setIncomingValue (0, llvm::UndefValue::get (result_l.predicate->getType ()));
+							real_predicate->setIncomingValue (1, result_l.predicate);
+							successor->getInstList ().push_back (real_predicate);
+							parameters.push_back (real_predicate);
+							assert (element_position < loop_element->source->elements.size ());
+							already_generated [loop_element->source->elements [element_position]] = mu::llvmc::value_data ({real_predicate, real_value});
+							++element_position;
+						}
+					},
+					[&]
+					(mu::llvmc::skeleton::node * node_a, size_t)
+					{
+						assert (dynamic_cast <mu::llvmc::skeleton::value *> (node_a));
+						auto value (static_cast <mu::llvmc::skeleton::value *> (node_a));
+						auto result_l (retrieve_value (value));
+					},
+					mu::llvmc::skeleton::loop::empty_node,
+					[&]
+					(mu::llvmc::skeleton::node * node_a, size_t)
+					{
+						assert (parameter_position == parameters.size ());
+						feedback_branch = false;
+					}
+				);
+				for (auto i: parameters)
+				{
+					i->setIncomingBlock (0, entry);
+					i->setIncomingBlock (1, last);
+				}
 			}
 			else
 			{

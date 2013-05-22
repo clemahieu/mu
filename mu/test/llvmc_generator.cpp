@@ -888,6 +888,7 @@ TEST (llvm_generator, DISABLED_generate_loop1)
 	loop1.loop_entry_branch = &loop_entry_branch;
 	loop1.arguments.push_back (&parameter1);
 	loop1.set_argument_predicate_offset ();
+	ASSERT_EQ (loop1.arguments.size (), loop1.argument_predicate_offset);
 	mu::llvmc::skeleton::loop_parameter loop_parameter1 (loop1.loop_entry_branch, &type1);
 	loop1.parameters.push_back (&loop_parameter1);
 	mu::vector <mu::llvmc::skeleton::node *> arguments1;

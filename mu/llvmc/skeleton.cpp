@@ -460,7 +460,7 @@ argument_predicate_offset (~0)
 void mu::llvmc::skeleton::loop::set_argument_predicate_offset ()
 {
     assert (argument_predicate_offset == ~0);
-    argument_predicate_offset = results.size ();
+    argument_predicate_offset = arguments.size ();
 }
 
 mu::llvmc::skeleton::loop_element::loop_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a) :
