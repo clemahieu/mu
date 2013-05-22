@@ -1129,15 +1129,14 @@ TEST (llvmc_analyzer, instruction_load)
     ASSERT_EQ (1, function2->parameters.size ());
 }
 
-TEST (llvmc_analyzer, DISABLED_instruction_icmp_eq)
+TEST (llvmc_analyzer, instruction_icmp_eq)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
-    mu::llvmc::ast::integer_type type1 (U"1");;
-    mu::llvmc::ast::pointer_type type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::integer_type type1 (U"1");
+    mu::llvmc::ast::parameter parameter1 (&type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
