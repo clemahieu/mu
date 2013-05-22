@@ -552,16 +552,4 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_parameter::type ()
     return type_m;
 }
 
-size_t mu::llvmc::skeleton::set::size ()
-{
-	return elements.size ();
-}
-
-mu::llvmc::skeleton::node * mu::llvmc::skeleton::set::operator [] (size_t index_a)
-{
-	assert (index_a < size ());
-	auto result (elements [index_a]);
-	return result;
-}
-
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

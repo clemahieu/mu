@@ -28,15 +28,6 @@ namespace mu
                 virtual ~node ();
 				virtual size_t size ();
 				virtual mu::llvmc::skeleton::node * operator [] (size_t index_a);
-				template <typename T>
-				void for_each (T const & element_op)
-				{
-					assert (size () != 0);
-					for (size_t i (0), j (size ()); i != j; ++i)
-					{
-						element_op ((*this) [i]);
-					}
-				}
             };
             class type : virtual public mu::llvmc::skeleton::node
             {
@@ -396,13 +387,6 @@ namespace mu
                 number (uint64_t value_a);
                 uint64_t value;
             };
-			class set : public mu::llvmc::skeleton::node
-			{
-			public:
-				size_t size () override;
-				mu::llvmc::skeleton::node * operator [] (size_t index_a) override;
-				mu::vector <mu::llvmc::skeleton::node *> elements;
-			};
             extern mu::llvmc::skeleton::unit_type the_unit_type;
         }
     }
