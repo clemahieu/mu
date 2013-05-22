@@ -559,6 +559,34 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             value = instruction;
                             break;
                         }
+						case mu::llvmc::instruction_type::icmp:
+						{
+							assert (instruction->predicate_position == 4);
+							assert (dynamic_cast <mu::llvmc::skeleton::predicate *> (instruction->arguments [1]) != nullptr);
+							auto predicate_l (static_cast <mu::llvmc::skeleton::predicate *> (instruction->arguments [1]));
+							assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
+                            auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
+							assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [3]) != nullptr);
+                            auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [3])));
+							predicate = and_predicates (left.predicate, right.predicate);
+							predicate = process_predicates (predicate, instruction->arguments, 4);
+							llvm::CmpInst::Predicate predicate_t;
+							switch (predicate_l->type)
+							{
+								case mu::llvmc::predicates::icmp_eq:
+								{
+									predicate_t = llvm::CmpInst::Predicate::ICMP_EQ;
+									break;
+								}
+								default:
+									assert (false);
+									break;
+							}
+							auto instruction (new llvm::ICmpInst (predicate_t, left.value, right.value));
+                            last->getInstList ().push_back (instruction);
+                            value = instruction;
+							break;
+						}
                         case mu::llvmc::instruction_type::load:
                         {
                             assert (instruction->predicate_position == 2);
