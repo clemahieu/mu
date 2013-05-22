@@ -355,3 +355,33 @@ define i1 @1() {
   ret i1 false
 }
 )%%%";
+
+extern char const * const generate_loop1_expected = R"%%%(
+define void @0(i1) {
+  %2 = and i1 true, true
+  br i1 %2, label %3, label %21
+
+; <label>:3                                       ; preds = %3, %1
+  %4 = phi i1 [ %0, %1 ], [ %6, %3 ]
+  %5 = and i1 %2, true
+  %6 = add i1 %4, true
+  %7 = and i1 %2, %5
+  %8 = and i1 %2, true
+  %9 = icmp eq i1 %4, false
+  %10 = and i1 true, %8
+  %11 = icmp eq i1 %9, false
+  %12 = and i1 %10, %11
+  %13 = icmp eq i1 %9, false
+  %14 = and i1 %10, %13
+  %15 = icmp eq i1 %9, true
+  %16 = and i1 %10, %15
+  %17 = icmp eq i1 %9, true
+  %18 = and i1 %10, %17
+  %19 = and i1 %7, %14
+  %20 = and i1 %19, %14
+  br i1 %20, label %3, label %21
+
+; <label>:21                                      ; preds = %3, %1
+  ret void
+}
+)%%%";

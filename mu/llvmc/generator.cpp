@@ -494,25 +494,33 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 				auto & context (module.target.module->getContext ());
 				llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
 				std::vector <llvm::PHINode *> parameters;
-				size_t position (0);
-				auto end (loop_element->source->argument_predicate_offset);
-				for (auto i (loop_element->source->arguments.begin ()); position < end; ++i, ++position)
+				auto loop_entry (llvm::BasicBlock::Create (context));
+				function_m->getBasicBlockList ().push_back (loop_entry);
 				{
-					assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
-					auto value (static_cast <mu::llvmc::skeleton::value *> (*i));
-					auto argument_l (retrieve_value (value));
-					and_predicates (predicate, argument_l.predicate);
-					auto loop_parameter (llvm::PHINode::Create (argument_l.value->getType (), 2));
-					loop_parameter->setIncomingValue (0, argument_l.value);
-					already_generated [static_cast <mu::llvmc::skeleton::value *> (value)] = mu::llvmc::value_data ({predicate, loop_parameter});
-					parameters.push_back (loop_parameter);
+					size_t position (0);
+					auto end (loop_element->source->argument_predicate_offset);
+					for (auto i (loop_element->source->arguments.begin ()); position < end; ++i, ++position)
+					{
+						assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+						auto value (static_cast <mu::llvmc::skeleton::value *> (*i));
+						auto argument_l (retrieve_value (value));
+						predicate = and_predicates (predicate, argument_l.predicate);
+						auto loop_parameter (llvm::PHINode::Create (argument_l.value->getType (), 2));
+						loop_parameter->addIncoming (argument_l.value, last);
+						loop_entry->getInstList ().push_back (loop_parameter);
+						assert (position < loop_element->source->parameters.size ());
+						already_generated [loop_element->source->parameters [position]] = mu::llvmc::value_data ({predicate, loop_parameter});
+						parameters.push_back (loop_parameter);
+					}
+					assert (position == loop_element->source->parameters.size ());
 				}
 				auto entry (last);
-				auto loop_entry (llvm::BasicBlock::Create (context));
 				auto successor (llvm::BasicBlock::Create (context));
+				function_m->getBasicBlockList ().push_back (successor);
 				entry->getInstList ().push_back (llvm::BranchInst::Create (loop_entry, successor, predicate));
 				last = loop_entry;
 				auto feedback_branch (true);
+				auto feedback_predicate (predicate);
 				size_t parameter_position (0);
 				size_t element_position (0);
 				loop_element->source->for_each_results (
@@ -524,20 +532,21 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 						auto result_l (retrieve_value (value));
 						if (feedback_branch)
 						{
-							assert (position < parameters.size ());
-							parameters [position]->setIncomingValue (1, result_l.value);
+							assert (parameter_position < parameters.size ());
+							parameters [parameter_position]->addIncoming (result_l.value, last);
+							feedback_predicate = and_predicates (feedback_predicate, result_l.predicate);
 							++parameter_position;
 						}
 						else
 						{
 							auto real_value (llvm::PHINode::Create (result_l.value->getType (), 2));
-							real_value->setIncomingValue (0, llvm::UndefValue::get (result_l.value->getType ()));
-							real_value->setIncomingValue (1, result_l.value);
+							real_value->addIncoming (llvm::UndefValue::get (result_l.value->getType ()), last);
+							real_value->addIncoming (result_l.value, last);
 							successor->getInstList ().push_back (real_value);
 							parameters.push_back (real_value);
 							auto real_predicate (llvm::PHINode::Create (result_l.predicate->getType (), 2));
-							real_predicate->setIncomingValue (0, llvm::UndefValue::get (result_l.predicate->getType ()));
-							real_predicate->setIncomingValue (1, result_l.predicate);
+							real_predicate->addIncoming (llvm::UndefValue::get (result_l.predicate->getType ()), last);
+							real_predicate->addIncoming (result_l.predicate, last);
 							successor->getInstList ().push_back (real_predicate);
 							parameters.push_back (real_predicate);
 							assert (element_position < loop_element->source->elements.size ());
@@ -551,6 +560,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 						assert (dynamic_cast <mu::llvmc::skeleton::value *> (node_a));
 						auto value (static_cast <mu::llvmc::skeleton::value *> (node_a));
 						auto result_l (retrieve_value (value));
+						feedback_predicate = and_predicates (feedback_predicate, result_l.predicate);
 					},
 					mu::llvmc::skeleton::loop::empty_node,
 					[&]
@@ -565,6 +575,9 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 					i->setIncomingBlock (0, entry);
 					i->setIncomingBlock (1, last);
 				}
+				auto feedback (llvm::BranchInst::Create (loop_entry, successor, feedback_predicate));
+				last->getInstList ().push_back (feedback);
+				last = successor;
 			}
 			else
 			{
