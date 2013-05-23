@@ -76,7 +76,7 @@ void mu::muc::compiler::compile ()
             }
             else
             {
-                std::cout << "Module has no function named \"start\" to use as entry point";
+                std::cout << "Module has no function named \"entry\" to use as entry point";
             }
         }
         else
