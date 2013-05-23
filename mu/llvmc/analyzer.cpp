@@ -304,14 +304,14 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				});
 			assert (loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
 			bool feedback_branch (true);
-			mu::vector <mu::llvmc::skeleton::node *> returned_results;
 			auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
 			auto empty (true);
 			loop_s->for_each_results (
 				[&]
 				(mu::llvmc::skeleton::node * node_a, size_t index_a)
 				{
-					returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_value (branch, loop_s, index_a));
+                    auto element (new (GC) mu::llvmc::skeleton::loop_element_value (branch, loop_s, index_a));
+                    loop_s->elements.push_back (element);
 					empty = false;
 				},
 				mu::llvmc::skeleton::function::empty_node,
@@ -320,7 +320,8 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				{
 					if (empty)
 					{
-						returned_results.push_back (new (GC) mu::llvmc::skeleton::loop_element_unit (branch, loop_s, index_a));
+                        auto element (new (GC) mu::llvmc::skeleton::loop_element_unit (branch, loop_s, index_a));
+						loop_s->elements.push_back (element);
 					}
 				},
 				[&]
@@ -331,7 +332,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 					empty = true;
 				}
 			);
-			switch (returned_results.size ())
+			switch (loop_s->elements.size ())
 			{
 				case 0:
 				{
@@ -340,14 +341,14 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				}
 				case 1:
 				{
-					already_generated [loop_a] = returned_results [0];
+					already_generated [loop_a] = loop_s->elements [0];
 					break;
 				}
 				default:
 				{					
 					result = true;
 					auto & target (already_generated_multi [loop_a]);
-					target.insert (target.end (), returned_results.begin (), returned_results.end ());
+					target.insert (target.end (), loop_s->elements.begin (), loop_s->elements.end ());
 				}
 			}
 		}

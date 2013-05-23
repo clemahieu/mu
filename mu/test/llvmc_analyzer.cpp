@@ -1274,3 +1274,41 @@ TEST (llvmc_analyzer, fail_loop_inner_error)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
 }
+
+TEST (llvmc_analyzer, loop_passthrough)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::loop loop1;
+    loop1.arguments.push_back (&parameter1);
+    loop1.set_argument_offset ();
+    mu::llvmc::ast::loop_parameter parameter2;
+    loop1.parameters.push_back (&parameter2);
+    loop1.add_predicate_offset ();
+    loop1.add_branch_end ();
+    loop1.results.push_back (&parameter2);
+    loop1.add_predicate_offset ();
+    loop1.add_branch_end ();
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&loop1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+	ASSERT_NE (nullptr, function2);
+	ASSERT_EQ (1, function2->results.size ());
+	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element_unit *> (function2->results [0]));
+	ASSERT_NE (nullptr, element1);
+    ASSERT_EQ (1, element1->source->argument_predicate_offset);
+    ASSERT_EQ (1, element1->source->elements.size ());
+    ASSERT_EQ (element1, element1->source->elements [0]);
+}

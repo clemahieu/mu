@@ -876,7 +876,7 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
 
 extern char const * const generate_loop1_expected;
 
-TEST (llvm_generator, DISABLED_generate_loop1)
+TEST (llvm_generator, generate_loop1)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
