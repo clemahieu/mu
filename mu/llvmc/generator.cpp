@@ -499,8 +499,10 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 				{
 					size_t position (0);
 					auto end (loop_element->source->argument_predicate_offset);
+                    assert (loop_element->source->arguments.size () > loop_element->source->argument_predicate_offset);
 					for (auto i (loop_element->source->arguments.begin ()); position < end; ++i, ++position)
 					{
+                        assert (i != loop_element->source->arguments.end ());
 						assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
 						auto value (static_cast <mu::llvmc::skeleton::value *> (*i));
 						auto argument_l (retrieve_value (value));

@@ -37,10 +37,6 @@ namespace mu
                 value (mu::llvmc::skeleton::node * node_a);
                 mu::llvmc::skeleton::node * node_m;
             };
-            class loop_parameter : public mu::llvmc::ast::node
-            {
-            public:
-            };
             class result : public mu::llvmc::ast::node
             {
             public:
@@ -50,6 +46,10 @@ namespace mu
             };
             class expression : public mu::llvmc::ast::node
             {
+            };
+            class loop_parameter : public mu::llvmc::ast::expression
+            {
+            public:
             };
             class unit : public mu::llvmc::ast::expression
             {                

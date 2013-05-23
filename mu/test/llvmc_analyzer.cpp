@@ -1251,6 +1251,7 @@ TEST (llvmc_analyzer, loop_empty)
 	ASSERT_EQ (1, function2->results.size ());
 	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element_unit *> (function2->results [0]));
 	ASSERT_NE (nullptr, element1);
+    ASSERT_EQ (0, element1->source->argument_predicate_offset);
 }
 
 TEST (llvmc_analyzer, fail_loop_inner_error)

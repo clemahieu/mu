@@ -188,6 +188,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, most_specific_branch, predicate_offset);
+    loop_s->argument_predicate_offset = predicate_offset;
 	if (result_m.error == nullptr)
 	{
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
