@@ -212,6 +212,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 					result_m.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
 				}
 			}
+            auto most_specific_branch (module.module->global);
 			loop_a->for_each_results (
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t)
@@ -518,75 +519,75 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 	mu::set <mu::llvmc::skeleton::branch *> result_branches;
 	auto most_specific_branch (module.module->global);
 	function_a->for_each_results (
-			[&]
-			(mu::llvmc::ast::result * result_a, size_t index_a)
-			{
-				auto type (process_type (result_a->written_type));
-				if (type != nullptr)
-				{
-					auto value (process_value (result_a->value));
-					if (value != nullptr)
-					{
-						function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-								calculate_most_specific (most_specific_branch, value->branch);
-					}
-				}
-				else
-				{
-					result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
-				}
-				assert (most_specific_branch != nullptr || result_m.error != nullptr);
-			},
-	[&]
-	(mu::llvmc::ast::expression * result_a, size_t)
-	{
-		auto multi (process_node (result_a));
-		if (result_m.error == nullptr)
-		{
-			if (multi)
-			{
-				for (auto i : already_generated_multi [result_a])
-				{
-					assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
-							function_s->results.push_back (i);
-							calculate_most_specific (most_specific_branch, static_cast<mu::llvmc::skeleton::value *> (i)->branch);
-				}
-			}
-			else
-			{
-				assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
-						auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
-						function_s->results.push_back (value);
-						calculate_most_specific (most_specific_branch, value->branch);
-			}
-		}
-		assert (most_specific_branch != nullptr || result_m.error != nullptr);
-	},
-	[&]
-	(mu::llvmc::ast::node *, size_t)
-	{
-		function_s->predicate_offsets.push_back (function_s->results.size ());
-	},
-	[&]
-	(mu::llvmc::ast::node *, size_t)
-	{
-		auto existing (result_branches.find (most_specific_branch));
-		if (existing == result_branches.end ())
-		{
-			result_branches.insert (most_specific_branch);
-		}
-		else
-		{
-			result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
-		}
-		most_specific_branch = module.module->global;
-				function_s->branch_ends.push_back (function_s->results.size ());
-	},
-	[&]
-	()
-	{
-		return result_m.error == nullptr;
-	}
+        [&]
+        (mu::llvmc::ast::result * result_a, size_t index_a)
+        {
+            auto type (process_type (result_a->written_type));
+            if (type != nullptr)
+            {
+                auto value (process_value (result_a->value));
+                if (value != nullptr)
+                {
+                    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                    calculate_most_specific (most_specific_branch, value->branch);
+                }
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
+            }
+            assert (most_specific_branch != nullptr || result_m.error != nullptr);
+        },
+        [&]
+        (mu::llvmc::ast::expression * result_a, size_t)
+        {
+            auto multi (process_node (result_a));
+            if (result_m.error == nullptr)
+            {
+                if (multi)
+                {
+                    for (auto i : already_generated_multi [result_a])
+                    {
+                        assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
+                        function_s->results.push_back (i);
+                        calculate_most_specific (most_specific_branch, static_cast<mu::llvmc::skeleton::value *> (i)->branch);
+                    }
+                }
+                else
+                {
+                    assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
+                    auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
+                    function_s->results.push_back (value);
+                    calculate_most_specific (most_specific_branch, value->branch);
+                }
+            }
+            assert (most_specific_branch != nullptr || result_m.error != nullptr);
+        },
+        [&]
+        (mu::llvmc::ast::node *, size_t)
+        {
+            function_s->predicate_offsets.push_back (function_s->results.size ());
+        },
+        [&]
+        (mu::llvmc::ast::node *, size_t)
+        {
+            auto existing (result_branches.find (most_specific_branch));
+            if (existing == result_branches.end ())
+            {
+                result_branches.insert (most_specific_branch);
+            }
+            else
+            {
+                result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
+            }
+            most_specific_branch = module.module->global;
+            function_s->branch_ends.push_back (function_s->results.size ());
+        },
+        [&]
+        ()
+        {
+            return result_m.error == nullptr;
+        }
 	);
 }
 

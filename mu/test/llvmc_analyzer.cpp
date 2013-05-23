@@ -1275,6 +1275,41 @@ TEST (llvmc_analyzer, fail_loop_inner_error)
     ASSERT_EQ (nullptr, result.module);
 }
 
+TEST (llvmc_analyzer, DISABLED_fail_loop_same_branch)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&value1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::loop loop1;
+    loop1.arguments.push_back (&parameter1);
+    loop1.set_argument_offset ();
+    mu::llvmc::ast::loop_parameter parameter2;
+    loop1.parameters.push_back (&parameter2);
+    loop1.results.push_back (&parameter2);
+    loop1.add_predicate_offset ();
+    loop1.add_branch_end ();
+    loop1.results.push_back (&parameter2);
+    loop1.add_predicate_offset ();
+    loop1.add_branch_end ();
+    mu::llvmc::ast::element element1 (&loop1, 0, 2);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&element1);
+    function1.branch_ends.push_back (function1.results.size ());
+    mu::llvmc::ast::element element2 (&loop1, 1, 2);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&element2);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}
+
 TEST (llvmc_analyzer, loop_passthrough)
 {
     mu::llvmc::analyzer analyzer;
