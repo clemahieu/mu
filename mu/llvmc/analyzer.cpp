@@ -574,7 +574,11 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
             auto existing (result_branches.find (most_specific_branch));
             if (existing == result_branches.end ())
             {
-                result_branches.insert (most_specific_branch);
+                while (most_specific_branch != nullptr)
+                {
+                    result_branches.insert (most_specific_branch);
+                    most_specific_branch = most_specific_branch->parent;
+                }
             }
             else
             {

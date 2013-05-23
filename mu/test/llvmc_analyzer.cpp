@@ -280,7 +280,7 @@ TEST (llvmc_analyzer, two_result_parameter)
     ASSERT_EQ (function1->entry, result5->value->branch);
 }
 
-TEST (llvmc_analyzer, error_indistinct_result_branches)
+TEST (llvmc_analyzer, error_indistinct_result_branches1)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
@@ -303,6 +303,40 @@ TEST (llvmc_analyzer, error_indistinct_result_branches)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
+}
+
+TEST (llvmc_analyzer, error_indistinct_result_branches2)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (&type2);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::element element1 (&expression1, 0, 2);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2);
+    mu::llvmc::ast::result result1 (&type2);
+    result1.value = &element1;
+    function.results.push_back (&result1);
+    function.branch_ends.push_back (function.results.size ());
+    function.predicate_offsets.push_back (function.results.size ());
+    mu::llvmc::ast::result result2 (&type2);
+    result2.value = &parameter1;
+    function.results.push_back (&result2);
+    function.branch_ends.push_back (function.results.size ());
+    function.predicate_offsets.push_back (function.results.size ());
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+    ASSERT_EQ (mu::core::error_type::result_branch_is_not_distinct, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_expression_cycle)
