@@ -366,9 +366,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::icmp:
         {
-            assert (predicate_position == 4);
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ();
+            result = & mu::llvmc::skeleton::integer_1_type;
             break;
         }
         case mu::llvmc::instruction_type::load:
@@ -515,5 +513,8 @@ mu::llvmc::skeleton::predicate::predicate (mu::llvmc::predicates type_a) :
 type (type_a)
 {
 }
+
+mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
+mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

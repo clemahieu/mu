@@ -387,6 +387,8 @@ namespace mu
                 number (uint64_t value_a);
                 uint64_t value;
             };
+            extern mu::llvmc::skeleton::integer_type integer_1_type;
+            extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;
         }
     }

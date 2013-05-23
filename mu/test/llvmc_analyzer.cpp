@@ -1135,7 +1135,7 @@ TEST (llvmc_analyzer, instruction_icmp_eq)
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
-    mu::llvmc::ast::integer_type type1 (U"1");
+    mu::llvmc::ast::integer_type type1 (U"8");
     mu::llvmc::ast::parameter parameter1 (&type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
@@ -1160,6 +1160,15 @@ TEST (llvmc_analyzer, instruction_icmp_eq)
     ASSERT_EQ (1, result.module->functions.size ());
     auto function2 (result.module->functions [U"0"]);
     ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
+    ASSERT_NE (nullptr, result2);
+    auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+    ASSERT_NE (nullptr, instruction);
+    ASSERT_EQ (4, instruction->arguments.size ());
+    auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (instruction->type ()));
+    ASSERT_NE (nullptr, type2);
+    ASSERT_EQ (1, type2->bits);
 }
 
 TEST (llvmc_analyzer, multibranch_call)
