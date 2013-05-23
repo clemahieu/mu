@@ -216,65 +216,75 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				(mu::llvmc::ast::expression * expression_a, size_t)
 				{
 					auto multi (process_node (expression_a));
-					if (multi)
-					{
-						for (auto i : already_generated_multi [expression_a])
-						{
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-							if (value != nullptr)
-							{
-								loop_s->results.push_back (value);
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-							}
-						}
-					}
-					else
-					{
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
-						if (value != nullptr)
-						{
-							loop_s->results.push_back (value);
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-						}
-					}
+                    if (result_m.error == nullptr)
+                    {
+                        if (multi)
+                        {
+                            assert (already_generated_multi.find (expression_a) != already_generated_multi.end ());
+                            for (auto i : already_generated_multi [expression_a])
+                            {
+                                auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
+                                if (value != nullptr)
+                                {
+                                    loop_s->results.push_back (value);
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            assert (already_generated.find (expression_a) != already_generated.end ());
+                            auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
+                            if (value != nullptr)
+                            {
+                                loop_s->results.push_back (value);
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                            }
+                        }
+                    }
 				},
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t)
 				{
 					auto multi (process_node (expression_a));
-					if (multi)
-					{
-						for (auto i : already_generated_multi [expression_a])
-						{
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
-							if (value != nullptr)
-							{
-								loop_s->results.push_back (value);
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-							}
-						}
-					}
-					else
-					{
-						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
-						if (value != nullptr)
-						{
-							loop_s->results.push_back (value);
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
-						}
-					}
+                    if (result_m.error == nullptr)
+                    {
+                        if (multi)
+                        {
+                            assert (already_generated_multi.find (expression_a) != already_generated_multi.end ());
+                            for (auto i : already_generated_multi [expression_a])
+                            {
+                                auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
+                                if (value != nullptr)
+                                {
+                                    loop_s->results.push_back (value);
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            assert (already_generated.find (expression_a) != already_generated.end ());
+                            auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
+                            if (value != nullptr)
+                            {
+                                loop_s->results.push_back (value);
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                            }
+                        }
+                    }
 				},
 				[&]
 				(mu::llvmc::ast::node * node_a, size_t)

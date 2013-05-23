@@ -364,6 +364,13 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;
         }
+        case mu::llvmc::instruction_type::icmp:
+        {
+            assert (predicate_position == 4);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ();
+            break;
+        }
         case mu::llvmc::instruction_type::load:
         {
             assert (predicate_position == 2);
