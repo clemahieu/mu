@@ -1309,7 +1309,7 @@ TEST (llvmc_analyzer, fail_loop_inner_error)
     ASSERT_EQ (nullptr, result.module);
 }
 
-TEST (llvmc_analyzer, DISABLED_fail_loop_same_branch)
+TEST (llvmc_analyzer, fail_loop_same_branch)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
