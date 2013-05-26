@@ -712,8 +712,8 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             assert (instruction->predicate_position == 3);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
-                            auto store_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
-                            auto store_value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
+                            auto store_value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                            auto store_pointer (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
                             predicate = and_predicates (store_pointer.predicate, store_value.predicate);
                             predicate = process_predicates (predicate, instruction->arguments, 3);
                             auto predicate_branch (llvm::BasicBlock::Create (context));

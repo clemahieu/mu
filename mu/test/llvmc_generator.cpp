@@ -174,8 +174,8 @@ TEST (llvmc_generator, generate_store)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::store);
     arguments1.push_back (&add1);
-    arguments1.push_back (&parameter2);
     arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
     mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, arguments1.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&instruction1);
