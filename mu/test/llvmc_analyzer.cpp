@@ -1342,7 +1342,7 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     auto result (analyzer.analyze (&module1));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
-    ASSERT_EQ (mu::core::error_type::result_branch_is_not_distinct, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::branch_analyzer_leaves_exist, result.error->type ());
 }
 
 TEST (llvmc_analyzer, loop_passthrough)

@@ -274,8 +274,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
 			auto empty (true);
             auto feedback_branch (true);
-            mu::set <mu::llvmc::skeleton::branch *> result_branches;
-            auto most_specific_branch (module.module->global);
+			mu::llvmc::branch_analyzer branches (module.module->global, result_m.error);
 			loop_a->for_each_results (
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t index_a)
@@ -291,7 +290,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                                 auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
                                 if (value != nullptr)
                                 {
-                                    calculate_most_specific (most_specific_branch, value->branch);
+									branches.add_branch (value->branch);
                                     loop_s->results.push_back (value);
                                 }
                                 else
@@ -306,7 +305,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
                             if (value != nullptr)
                             {
-                                calculate_most_specific (most_specific_branch, value->branch);
+								branches.add_branch (value->branch);
                                 loop_s->results.push_back (value);
                             }
                             else
@@ -333,7 +332,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                                 auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
                                 if (value != nullptr)
                                 {
-                                    calculate_most_specific (most_specific_branch, value->branch);
+									branches.add_branch (value->branch);
                                     loop_s->results.push_back (value);
                                 }
                                 else
@@ -348,7 +347,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
                             if (value != nullptr)
                             {
-                                calculate_most_specific (most_specific_branch, value->branch);
+								branches.add_branch (value->branch);
                                 loop_s->results.push_back (value);
                             }
                             else
@@ -371,24 +370,11 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				[&]
 				(mu::llvmc::ast::node * node_a, size_t)
 				{
-                    auto existing (result_branches.find (most_specific_branch));
-                    if (existing == result_branches.end ())
-                    {
-                        while (most_specific_branch != nullptr)
-                        {
-                            result_branches.insert (most_specific_branch);
-                            most_specific_branch = most_specific_branch->parent;
-                        }
-                        most_specific_branch = module.module->global;
-                        loop_s->branch_ends.push_back (loop_s->results.size ());
-                        branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
-                        feedback_branch = false;
-                        empty = true;
-                    }
-                    else
-                    {
-                        result_m.error = new (GC) mu::core::error_string (U"Loop result branches are not distinct", mu::core::error_type::result_branch_is_not_distinct);
-                    }
+					branches.new_set ();
+					loop_s->branch_ends.push_back (loop_s->results.size ());
+					branch = new (GC) mu::llvmc::skeleton::branch (loop_branch);
+					feedback_branch = false;
+					empty = true;
 				},
 				[&]
 				()
