@@ -8,6 +8,65 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a) :
+global (global_a),
+most_specific (global_a),
+result (nullptr)
+{
+}
+
+void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branch_a)
+{
+	auto most_specific_l (most_specific->most_specific (branch_a));
+	if (most_specific_l != nullptr)
+	{
+		most_specific = most_specific_l;
+	}
+	else
+	{
+		result = new (GC) mu::core::error_string (U"Branches are disjoint", mu::core::error_type::branch_analyzer_disjoint);
+	}
+}
+
+void mu::llvmc::branch_analyzer::new_set ()
+{
+	auto existing_leaf (leaves.find (most_specific));
+	if (existing_leaf == leaves.end ())
+	{
+		auto existing_ancestor (ancestors.find (most_specific));
+		if (existing_ancestor == ancestors.end ())
+		{
+			mu::set <mu::llvmc::skeleton::branch *> ancestors_l;
+			auto branch_l (most_specific->parent);
+			while (branch_l != nullptr)
+			{
+				ancestors_l.insert (branch_l);
+				branch_l = branch_l->parent;
+			}
+			mu::vector <mu::llvmc::skeleton::branch *> same (std::max (ancestors_l.size (), leaves.size ()));
+			auto final (std::set_intersection (ancestors_l.begin (), ancestors_l.end (), leaves.begin (), leaves.end (), same.begin ()));
+			if (final == same.begin ())
+			{
+				ancestors.insert (ancestors_l.begin (), ancestors_l.end ());
+				leaves.insert (most_specific);
+				most_specific = global;
+			}
+			else
+			{
+				result = new (GC) mu::core::error_string (U"Result branch is not unique", mu::core::error_type::branch_analyzer_intersection_exists);
+			}
+		}
+		else
+		{
+			result = new (GC) mu::core::error_string (U"Result branch is not unique", mu::core::error_type::branch_analyzer_ancestor_exists);
+		}
+	}
+	else
+	{
+		result = new (GC) mu::core::error_string (U"Result branch is not unique", mu::core::error_type::branch_analyzer_leaves_exist);
+	}
+}
+
 mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * module_a)
 {
 	mu::llvmc::analyzer_module analyzer_l;

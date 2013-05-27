@@ -92,7 +92,12 @@ namespace mu
 			icmp_left_argument_value,
 			icmp_right_argument_value,
 			icmp_arguments_integers,
-			icmp_arguments_same_type
+			icmp_arguments_same_type,
+			branch_analyzer_leaves_exist,
+			branch_analyzer_ancestor_exists,
+			branch_analyzer_already_ancestor,
+			branch_analyzer_disjoint,
+			branch_analyzer_intersection_exists
         };
         class error
         {

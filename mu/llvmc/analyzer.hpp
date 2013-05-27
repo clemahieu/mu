@@ -34,7 +34,7 @@ namespace mu
             class pointer_type;
             class constant_int;
             class number;
-	    class loop;
+			class loop;
         }
         class module_result
         {
@@ -86,6 +86,18 @@ namespace mu
             mu::llvmc::function_result result_m;
             mu::llvmc::analyzer_module & module;
         };
+		class branch_analyzer
+		{
+		public:
+			branch_analyzer (mu::llvmc::skeleton::branch * global_a);
+			void add_branch (mu::llvmc::skeleton::branch * branch_a);
+			void new_set ();
+			mu::llvmc::skeleton::branch * global;
+			mu::llvmc::skeleton::branch * most_specific;
+			mu::set <mu::llvmc::skeleton::branch *> ancestors;
+			mu::set <mu::llvmc::skeleton::branch *> leaves;
+			mu::core::error * result;
+		};
         class analyzer
         {
         public:
