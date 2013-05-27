@@ -336,7 +336,7 @@ TEST (llvmc_analyzer, error_indistinct_result_branches2)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
-    ASSERT_EQ (mu::core::error_type::result_branch_is_not_distinct, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::branch_analyzer_ancestor_exists, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_expression_cycle)
@@ -755,7 +755,7 @@ TEST (llvmc_analyzer, disjoint_results)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
-    ASSERT_EQ (mu::core::error_type::arguments_are_disjoint, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::branch_analyzer_disjoint, result.error->type ());
 }
 
 TEST (llvmc_analyzer, empty_call)
@@ -1385,81 +1385,86 @@ TEST (llvmc_analyzer, loop_passthrough)
 
 TEST (llvmc_analyzer, branch_analyzer_single)
 {
+	mu::core::error * error (nullptr);
 	mu::llvmc::skeleton::branch global (nullptr);
-	mu::llvmc::branch_analyzer branches (&global);
-	assert (branches.result == nullptr);
+	mu::llvmc::branch_analyzer branches (&global, error);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&global);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&global);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 }
 
 TEST (llvmc_analyzer, branch_analyzer_correct)
 {
+	mu::core::error * error (nullptr);
 	mu::llvmc::skeleton::branch global (nullptr);
-	mu::llvmc::branch_analyzer branches (&global);
+	mu::llvmc::branch_analyzer branches (&global, error);
 	mu::llvmc::skeleton::branch branch1 (&global);
 	mu::llvmc::skeleton::branch branch2 (&global);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch2);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 }
 
 TEST (llvmc_analyzer, branch_analyzer_not_disjoint)
 {
+	mu::core::error * error (nullptr);
 	mu::llvmc::skeleton::branch global (nullptr);
-	mu::llvmc::branch_analyzer branches (&global);
+	mu::llvmc::branch_analyzer branches (&global, error);
 	mu::llvmc::skeleton::branch branch1 (&global);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_NE (nullptr, branches.result);
+	ASSERT_NE (nullptr, error);
 	ASSERT_EQ (mu::core::error_type::branch_analyzer_leaves_exist, branches.result->type ());
 }
 
 TEST (llvmc_analyzer, branch_analyzer_leaf_after_ancestor)
 {
+	mu::core::error * error (nullptr);
 	mu::llvmc::skeleton::branch global (nullptr);
-	mu::llvmc::branch_analyzer branches (&global);
+	mu::llvmc::branch_analyzer branches (&global, error);
 	mu::llvmc::skeleton::branch branch1 (&global);
 	mu::llvmc::skeleton::branch branch2 (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch2);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_NE (nullptr, branches.result);
+	ASSERT_NE (nullptr, error);
 	ASSERT_EQ (mu::core::error_type::branch_analyzer_intersection_exists, branches.result->type ());
 }
 
 TEST (llvmc_analyzer, branch_analyzer_ancestor_after_leaf)
 {
+	mu::core::error * error (nullptr);
 	mu::llvmc::skeleton::branch global (nullptr);
-	mu::llvmc::branch_analyzer branches (&global);
+	mu::llvmc::branch_analyzer branches (&global, error);
 	mu::llvmc::skeleton::branch branch1 (&global);
 	mu::llvmc::skeleton::branch branch2 (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch2);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.add_branch (&branch1);
-	ASSERT_EQ (nullptr, branches.result);
+	ASSERT_EQ (nullptr, error);
 	branches.new_set ();
-	ASSERT_NE (nullptr, branches.result);
+	ASSERT_NE (nullptr, error);
 	ASSERT_EQ (mu::core::error_type::branch_analyzer_ancestor_exists, branches.result->type ());
 }

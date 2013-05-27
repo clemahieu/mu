@@ -8,10 +8,10 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a) :
+mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
 global (global_a),
 most_specific (global_a),
-result (nullptr)
+result (result_a)
 {
 }
 
@@ -580,8 +580,7 @@ void mu::llvmc::analyzer_function::process_integer_type (mu::llvmc::ast::integer
 
 void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
 {
-	mu::set <mu::llvmc::skeleton::branch *> result_branches;
-	auto most_specific_branch (module.module->global);
+	mu::llvmc::branch_analyzer branches (module.module->global, result_m.error);
 	function_a->for_each_results (
         [&]
         (mu::llvmc::ast::result * result_a, size_t index_a)
@@ -593,14 +592,13 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                 if (value != nullptr)
                 {
                     function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                    calculate_most_specific (most_specific_branch, value->branch);
+					branches.add_branch (value->branch);
                 }
             }
             else
             {
                 result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
             }
-            assert (most_specific_branch != nullptr || result_m.error != nullptr);
         },
         [&]
         (mu::llvmc::ast::expression * result_a, size_t)
@@ -614,7 +612,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                     {
                         assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
                         function_s->results.push_back (i);
-                        calculate_most_specific (most_specific_branch, static_cast<mu::llvmc::skeleton::value *> (i)->branch);
+						branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch);
                     }
                 }
                 else
@@ -622,10 +620,9 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                     assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
                     auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
                     function_s->results.push_back (value);
-                    calculate_most_specific (most_specific_branch, value->branch);
+					branches.add_branch (value->branch);
                 }
             }
-            assert (most_specific_branch != nullptr || result_m.error != nullptr);
         },
         [&]
         (mu::llvmc::ast::node *, size_t)
@@ -635,20 +632,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
         [&]
         (mu::llvmc::ast::node *, size_t)
         {
-            auto existing (result_branches.find (most_specific_branch));
-            if (existing == result_branches.end ())
-            {
-                while (most_specific_branch != nullptr)
-                {
-                    result_branches.insert (most_specific_branch);
-                    most_specific_branch = most_specific_branch->parent;
-                }
-            }
-            else
-            {
-                result_m.error = new (GC) mu::core::error_string (U"Result branch is not distinct", mu::core::error_type::result_branch_is_not_distinct);
-            }
-            most_specific_branch = module.module->global;
+			branches.new_set ();
             function_s->branch_ends.push_back (function_s->results.size ());
         },
         [&]
