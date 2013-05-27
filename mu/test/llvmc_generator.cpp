@@ -10,6 +10,7 @@
 #include <llvm/Function.h>
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
 
 static void print_module (llvm::Module * module, std::string & target)
 {
@@ -134,6 +135,15 @@ TEST (llvmc_generator, generate_parameter_return)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_parameter_return_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function3 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function4 (reinterpret_cast <bool (*) (bool)> (function3));
+    auto result_false (function4 (false));
+    auto result_true (function4 (true));
+    ASSERT_EQ (false, result_false);
+    ASSERT_EQ (true, result_true);
 }
 
 extern char const * const generate_add_expected;
