@@ -52,6 +52,8 @@ TEST (llvmc_generator, generate_empty)
     ASSERT_EQ (std::string (generate_empty_expected), info);
 }
 
+extern char const * const generate_parameter_expected;
+
 TEST (llvmc_generator, generate_parameter)
 {
     llvm::LLVMContext context;
@@ -73,6 +75,8 @@ TEST (llvmc_generator, generate_parameter)
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_parameter_expected), info);
 }
 
 TEST (llvmc_generator, generate_pointer_type)
@@ -100,6 +104,8 @@ TEST (llvmc_generator, generate_pointer_type)
     ASSERT_TRUE (!broken);
 }
 
+extern char const * const generate_parameter_return_expected;
+
 TEST (llvmc_generator, generate_parameter_return)
 {
     llvm::LLVMContext context;
@@ -126,6 +132,8 @@ TEST (llvmc_generator, generate_parameter_return)
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_parameter_return_expected), info);
 }
 
 extern char const * const generate_add_expected;
@@ -152,9 +160,9 @@ TEST (llvmc_generator, generate_add)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     std::string info;
-    print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
+    print_module (result.module, info);
     ASSERT_EQ (std::string (generate_add_expected), info);
 }
 

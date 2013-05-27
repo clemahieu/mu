@@ -4,6 +4,18 @@ define void @0() {
 }
 )%%%";
 
+extern char const * const generate_parameter_expected = R"%%%(
+define void @0(i1) {
+  unreachable
+}
+)%%%";
+
+extern char const * const generate_parameter_return_expected = R"%%%(
+define i1 @0(i1) {
+  ret i1 %0
+}
+)%%%";
+
 extern char const * const generate_add_expected = R"%%%(
 define i1 @0(i1) {
   %2 = and i1 true, true
