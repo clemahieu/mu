@@ -39,7 +39,7 @@ define void @0(i1, i1*) {
 )%%%";
 
 extern char const * const generate_load_expected = R"%%%(
-define void @0(i1*) {
+define i1 @0(i1*) {
   br i1 true, label %2, label %4
 
 ; <label>:2                                       ; preds = %1
@@ -48,7 +48,7 @@ define void @0(i1*) {
 
 ; <label>:4                                       ; preds = %2, %1
   %5 = phi i1 [ %3, %2 ], [ undef, %1 ]
-  ret void
+  ret i1 %5
 }
 )%%%";
 

@@ -123,7 +123,8 @@ TEST (llvmc_generator, generate_parameter_return)
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module));
     ASSERT_EQ (1, result.module->getFunctionList ().size ());
-    llvm::Function * function2 (result.module->getFunctionList().begin ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (result.names.find (U"0")->second);
     ASSERT_TRUE (function2->getReturnType ()->isIntegerTy ());
     ASSERT_EQ (1, llvm::cast <llvm::IntegerType> (function2->getReturnType ())->getBitWidth ());
     ASSERT_EQ (1, function2->getArgumentList ().size ());
@@ -137,12 +138,11 @@ TEST (llvmc_generator, generate_parameter_return)
     ASSERT_EQ (std::string (generate_parameter_return_expected), info);
     llvm::EngineBuilder builder (result.module);
     auto engine (builder.create ());
-    ASSERT_NE (result.names.end (), result.names.find (U"0"));
-    auto function3 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (engine->getPointerToFunction (function2));
     auto function4 (reinterpret_cast <bool (*) (bool)> (function3));
     auto result_false (function4 (false));
-    auto result_true (function4 (true));
     ASSERT_EQ (false, result_false);
+    auto result_true (function4 (true));
     ASSERT_EQ (true, result_true);
 }
 
@@ -174,6 +174,15 @@ TEST (llvmc_generator, generate_add)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_add_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
+    auto result_false (function3 (0));
+    ASSERT_EQ (0, result_false);
+    auto result_true (function3 (1));
+    ASSERT_EQ (0, result_true);
 }
 
 extern char const * const generate_store_expected;
@@ -206,6 +215,17 @@ TEST (llvmc_generator, generate_store)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_store_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
+    auto val1 (false);
+    function3 (true, &val1);
+    ASSERT_EQ (true, val1);
+    auto val2 (true);
+    function3 (false, &val2);
+    ASSERT_EQ (false, val2);
 }
 
 extern char const * const generate_load_expected;
@@ -224,8 +244,9 @@ TEST (llvmc_generator, generate_load)
     arguments1.push_back (&add1);
     arguments1.push_back (&parameter1);
     mu::llvmc::skeleton::instruction instruction1 (function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::result result1 (&type1, &instruction1);
+    function1.results.push_back (&result1);
     function1.predicate_offsets.push_back (function1.results.size ());
-    function1.results.push_back (&instruction1);
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
@@ -235,6 +256,17 @@ TEST (llvmc_generator, generate_load)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_load_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <bool (*) (bool*)> (function2));
+    auto val1 (false);
+    function3 (&val1);
+    ASSERT_EQ (false, val1);
+    auto val2 (true);
+    function3 (&val2);
+    ASSERT_EQ (true, val2);
 }
 
 extern char const * const generate_icmp1_expected;
