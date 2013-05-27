@@ -53,10 +53,10 @@ define i1 @0(i1*) {
 )%%%";
 
 extern char const * const generate_icmp1_expected = R"%%%(
-define void @0(i1*) {
-  %2 = and i1 true, true
-  %3 = icmp eq i1* %0, %0
-  ret void
+define i1 @0(i1, i1) {
+  %3 = and i1 true, true
+  %4 = icmp eq i1 %0, %1
+  ret i1 %4
 }
 )%%%";
 
