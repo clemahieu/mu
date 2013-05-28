@@ -339,6 +339,22 @@ TEST (llvmc_generator, generate_two_return)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+	struct thing
+	{
+		bool b0;
+		bool b1;
+	};
+    auto function3 (reinterpret_cast <thing (*) (bool)> (function2));
+    /*auto result2 (function3 (false));
+    ASSERT_EQ (false, result2.b0);
+    ASSERT_EQ (false, result2.b1);
+    auto result3 (function3 (true));
+    ASSERT_EQ (true, result3.b0);
+    ASSERT_EQ (true, result3.b1);*/
 }
 
 extern char const * const generate_if_expected;
@@ -1005,4 +1021,61 @@ TEST (llvm_generator, generate_loop1)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_loop1_expected), info);
+}
+
+extern char const * const generate_loop_count_expected;
+
+TEST (llvm_generator, DISABLED_generate_loop_count)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::integer_type type1 (32);
+	mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
+	function1.parameters.push_back (&parameter1);
+	mu::llvmc::skeleton::loop loop1;
+	mu::llvmc::skeleton::branch loop_entry_branch (function1.entry);
+	loop1.loop_entry_branch = &loop_entry_branch;
+	loop1.arguments.push_back (&parameter1);
+	mu::llvmc::skeleton::constant_integer constant_integer1 (module.global, 32, 0);
+	loop1.arguments.push_back (&constant_integer1);
+	loop1.set_argument_predicate_offset ();
+	mu::llvmc::skeleton::loop_parameter loop_parameter1 (loop1.loop_entry_branch, &type1); // Count down
+	mu::llvmc::skeleton::loop_parameter loop_parameter2 (loop1.loop_entry_branch, &type1); // Count up
+	loop1.parameters.push_back (&loop_parameter1);
+	loop1.parameters.push_back (&loop_parameter2);	
+	mu::vector <mu::llvmc::skeleton::node *> arguments1;
+	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
+	arguments1.push_back (&marker1);
+	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
+	arguments1.push_back (&predicate1);
+	arguments1.push_back (&loop_parameter1);
+	arguments1.push_back (&constant_integer1);
+	mu::llvmc::skeleton::instruction instruction1 (loop1.loop_entry_branch, arguments1, arguments1.size ());
+	mu::llvmc::skeleton::integer_type type2 (1);
+	mu::vector <mu::llvmc::skeleton::node *> arguments2;
+	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::switch_i);
+	arguments2.push_back (&marker2);
+	arguments2.push_back (&instruction1);
+	mu::llvmc::skeleton::constant_integer constant_integer2 (module.global, 1, 0);
+	arguments2.push_back (&constant_integer2);
+	mu::llvmc::skeleton::constant_integer constant_integer3 (module.global, 1, 1);
+	arguments2.push_back (&constant_integer3);
+	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2);
+	mu::llvmc::skeleton::branch branch1 (loop1.loop_entry_branch);
+	mu::llvmc::skeleton::branch branch2 (loop1.loop_entry_branch);
+	mu::llvmc::skeleton::switch_element element1 (&branch1, &switch1, &constant_integer2);
+	mu::llvmc::skeleton::switch_element element2 (&branch2, &switch1, &constant_integer3);
+	mu::vector <mu::llvmc::skeleton::node *> arguments3;
+
+	module.functions [U"0"] = &function1;
+    
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_loop_count_expected), info);
 }

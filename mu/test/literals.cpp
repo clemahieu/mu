@@ -397,3 +397,5 @@ define void @0(i1) {
   ret void
 }
 )%%%";
+
+extern char const * const generate_loop_count_expected = R"%%%()%%%";
