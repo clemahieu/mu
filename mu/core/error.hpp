@@ -102,6 +102,7 @@ namespace mu
             sub_arguments_must_be_integers,
             sub_arguments_must_be_values,
             sub_expects_two_arguments,
+            asm_hook_expecting_identifier
         };
         class error
         {

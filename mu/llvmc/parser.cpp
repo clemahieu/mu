@@ -23,21 +23,23 @@ current_mapping (&globals),
 stream (stream_a)
 {
     bool error (false);
+    error = keywords.insert (U"#", &number);
+    assert (!error);
+    error = keywords.insert (U"asm", &asm_hook);
+    assert (!error);
+    error = keywords.insert (U"cint", &constant_int);
+    assert (!error);
     error = keywords.insert (U"function", &function);
     assert (!error);
     error = keywords.insert (U"int", &int_type);
-    assert (!error);
-    error = keywords.insert (U"set", &set_hook);
     assert (!error);
     error = keywords.insert (U"loop", &loop_hook);
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
     assert (!error);
-    error = keywords.insert (U"#", &number);
-    assert (!error);
-    error = keywords.insert (U"cint", &constant_int);
-    assert (!error);
     error = keywords.insert (U"ptr", &ptr_type);
+    assert (!error);
+    error = keywords.insert (U"set", &set_hook);
     assert (!error);
     error = globals.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
     assert (!error);
@@ -1302,4 +1304,43 @@ mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::string const & data_a
 bool mu::llvmc::constant_int::covering ()
 {
     return true;
+}
+
+mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    parser_a.stream.consume ();
+    auto item (parser_a.stream.peek ());
+    if (item.token != nullptr)
+    {
+        switch (item.token->id())
+        {
+            case mu::io::token_id::identifier:
+            {
+                result.node = new (GC) mu::llvmc::ast::asm_c (static_cast <mu::io::identifier *> (item.token)->string);
+                break;
+            }
+            default:
+            {
+                result.error = new (GC) mu::core::error_string (U"Expecting an identifier", mu::core::error_type::asm_hook_expecting_identifier);
+                break;
+            }
+        }
+    }
+    else
+    {
+        result.error = new (GC) mu::core::error_string (U"Expecting an identifier", mu::core::error_type::asm_hook_expecting_identifier);
+    }
+    return result;
+}
+
+bool mu::llvmc::asm_hook::covering ()
+{
+    return false;
+}
+
+mu::llvmc::ast::asm_c::asm_c (mu::string const & text_a) :
+text (text_a)
+{
 }

@@ -255,6 +255,12 @@ namespace mu
                 number (mu::string const & number_a);
                 mu::string number_m;
             };
+            class asm_c : public mu::llvmc::ast::node
+            {
+            public:
+                asm_c (mu::string const & text_a);
+                mu::string text;
+            };
         }
     }
 }

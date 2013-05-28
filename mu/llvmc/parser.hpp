@@ -192,6 +192,12 @@ namespace mu
             mu::llvmc::node_result result;
             mu::llvmc::parser & parser;
         };
+        class asm_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class partial_ast;
         class parser
         {
@@ -203,6 +209,7 @@ namespace mu
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;
+            mu::llvmc::asm_hook asm_hook;
             mu::llvmc::int_type int_type;
             mu::llvmc::set_hook set_hook;
             mu::llvmc::let_hook let_hook;

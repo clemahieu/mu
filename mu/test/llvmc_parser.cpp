@@ -828,3 +828,20 @@ TEST (llvmc_parser, let1)
     ASSERT_EQ (0, element1->index);
     ASSERT_EQ (1, element1->total);
 }
+
+TEST (llvmc_parser, asm1)
+{
+    test_parser parser ("function test1 [] [asm asm_text] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [0]));
+    ASSERT_NE (nullptr, asm_l);
+    ASSERT_EQ (mu::string (U"asm_text"), asm_l->text);
+}
