@@ -568,7 +568,6 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 					[&]
 					(mu::llvmc::skeleton::node * node_a, size_t)
 					{
-						assert (parameter_position == parameters.size ());
 						feedback_branch = false;
 					}
 				);
@@ -580,6 +579,8 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 				auto feedback (llvm::BranchInst::Create (loop_entry, successor, feedback_predicate));
 				last->getInstList ().push_back (feedback);
 				last = successor;
+				assert (already_generated.find (value_a) != already_generated.end ());
+				result = already_generated [value_a];
 			}
 			else
 			{
