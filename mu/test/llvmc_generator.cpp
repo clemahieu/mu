@@ -996,7 +996,7 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
 
 extern char const * const generate_loop1_expected;
 
-TEST (llvm_generator, DISABLED_generate_loop1)
+TEST (llvm_generator, generate_loop1)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
@@ -1064,7 +1064,7 @@ TEST (llvm_generator, DISABLED_generate_loop1)
 
 extern char const * const generate_loop_count_expected;
 
-TEST (llvm_generator, DISABLED_generate_loop_count)
+TEST (llvm_generator, generate_loop_count)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
@@ -1119,11 +1119,11 @@ TEST (llvm_generator, DISABLED_generate_loop_count)
 	loop1.results.push_back (&instruction2);
 	loop1.results.push_back (&instruction3);
 	loop1.predicate_offsets.push_back (loop1.results.size ());
-	loop1.results.push_back (&element2);
+	loop1.results.push_back (&element1);
 	loop1.branch_ends.push_back (loop1.results.size ());
 	loop1.results.push_back (&loop_parameter2);
 	loop1.predicate_offsets.push_back (loop1.results.size ());
-	loop1.results.push_back (&element1);
+	loop1.results.push_back (&element2);
 	loop1.branch_ends.push_back (loop1.results.size ());
 	mu::llvmc::skeleton::branch branch3 (function1.entry);
 	mu::llvmc::skeleton::loop_element_value element3 (&branch3, &loop1, 3);
@@ -1144,4 +1144,13 @@ TEST (llvm_generator, DISABLED_generate_loop_count)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_loop_count_expected), info);
+    llvm::EngineBuilder builder (result.module);
+    auto engine (builder.create ());
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint32_t (*) (uint32_t)> (function2));
+	auto result2 (function3 (0 - 5));
+	ASSERT_EQ (5, result2);
+	auto result3 (function3 (0 - 42));
+	ASSERT_EQ (42, result3);
 }

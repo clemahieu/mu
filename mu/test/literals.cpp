@@ -398,12 +398,47 @@ define void @0(i1) {
   %17 = icmp eq i1 %9, true
   %18 = and i1 %10, %17
   %19 = and i1 %7, %14
-  %20 = and i1 %19, %14
-  br i1 %20, label %3, label %21
+  %20 = and i1 %2, %14
+  br i1 %19, label %3, label %21
 
 ; <label>:21                                      ; preds = %3, %1
+  %22 = phi i1 [ undef, %1 ], [ %20, %3 ]
   ret void
 }
 )%%%";
 
-extern char const * const generate_loop_count_expected = R"%%%()%%%";
+extern char const * const generate_loop_count_expected = R"%%%(
+define i32 @0(i32) {
+  %2 = and i1 true, true
+  %3 = and i1 %2, true
+  br i1 %3, label %4, label %25
+
+; <label>:4                                       ; preds = %4, %1
+  %5 = phi i32 [ %0, %1 ], [ %8, %4 ]
+  %6 = phi i32 [ 0, %1 ], [ %11, %4 ]
+  %7 = and i1 true, %2
+  %8 = add i32 1, %5
+  %9 = and i1 %3, %7
+  %10 = and i1 true, %3
+  %11 = add i32 1, %6
+  %12 = and i1 %9, %10
+  %13 = and i1 %2, true
+  %14 = icmp eq i32 %5, 0
+  %15 = and i1 true, %13
+  %16 = icmp eq i1 %14, false
+  %17 = and i1 %15, %16
+  %18 = icmp eq i1 %14, true
+  %19 = and i1 %15, %18
+  %20 = and i1 %15, true
+  %21 = and i1 %20, true
+  %22 = and i1 %12, %17
+  %23 = and i1 %3, %3
+  %24 = and i1 %23, %19
+  br i1 %22, label %4, label %25
+
+; <label>:25                                      ; preds = %4, %1
+  %26 = phi i32 [ undef, %1 ], [ %6, %4 ]
+  %27 = phi i1 [ undef, %1 ], [ %3, %4 ]
+  ret i32 %26
+}
+)%%%";
