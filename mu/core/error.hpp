@@ -97,7 +97,11 @@ namespace mu
 			branch_analyzer_ancestor_exists,
 			branch_analyzer_already_ancestor,
 			branch_analyzer_disjoint,
-			branch_analyzer_intersection_exists
+			branch_analyzer_intersection_exists,
+            sub_arguments_must_have_same_bit_width,
+            sub_arguments_must_be_integers,
+            sub_arguments_must_be_values,
+            sub_expects_two_arguments,
         };
         class error
         {

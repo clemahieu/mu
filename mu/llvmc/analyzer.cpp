@@ -1280,6 +1280,57 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			}
 			break;
 		}
+		case mu::llvmc::instruction_type::sub:
+		{
+			if (predicate_offset == 3)
+			{
+				auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
+				if (left != nullptr)
+				{
+					auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
+					if (right != nullptr)
+					{
+						auto left_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (left->type ()));
+						if (left_type != nullptr)
+						{
+							auto right_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (right->type ()));
+							if (right_type != nullptr)
+							{
+								if (*left_type == *right_type)
+								{
+									already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset);
+								}
+								else
+								{
+									result_m.error = new (GC) mu::core::error_string (U"Sub left and right arguments must be same width", mu::core::error_type::sub_arguments_must_have_same_bit_width);
+								}
+							}
+							else
+							{
+								result_m.error = new (GC) mu::core::error_string (U"Sub right argument must be an integer type", mu::core::error_type::sub_arguments_must_be_integers);
+							}
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Sub left argument must be an integer type", mu::core::error_type::sub_arguments_must_be_integers);
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"Sub right argument must be a value", mu::core::error_type::sub_arguments_must_be_values);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Sub left argument must be a value", mu::core::error_type::sub_arguments_must_be_values);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Sub instruction expects two arguments", mu::core::error_type::sub_expects_two_arguments);
+			}
+			break;
+		}
 		default:
 			assert (false);
 			break;

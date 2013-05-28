@@ -193,7 +193,7 @@ TEST (llvmc_parser, simple)
 
 TEST (llvmc_parser, instructions)
 {
-    test_parser parser ("function test [] [[add load store icmp eq]] []");
+    test_parser parser ("function test [] [[add load store icmp eq sub]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -207,7 +207,7 @@ TEST (llvmc_parser, instructions)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (5, expression1->arguments.size ());
+    ASSERT_EQ (6, expression1->arguments.size ());
     auto argument1 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [0]));
     ASSERT_NE (nullptr, argument1);
     auto value1 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument1->node_m));
@@ -233,6 +233,11 @@ TEST (llvmc_parser, instructions)
     auto value5 (dynamic_cast <mu::llvmc::skeleton::predicate *> (argument5->node_m));
     ASSERT_NE (nullptr, value5);
     ASSERT_EQ (mu::llvmc::predicates::icmp_eq, value5->type);
+    auto argument6 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [5]));
+    ASSERT_NE (nullptr, argument6);
+    auto value6 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument6->node_m));
+    ASSERT_NE (nullptr, value6);
+    ASSERT_EQ (mu::llvmc::instruction_type::sub, value6->type);
 }
 
 TEST (llvmc_parser, number)
