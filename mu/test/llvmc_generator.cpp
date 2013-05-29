@@ -1162,7 +1162,7 @@ TEST (llvm_generator, generate_asm)
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (module.global);
 	mu::llvmc::skeleton::unit_type type1;
-	mu::llvmc::skeleton::asm_c asm1 (&type1, U"text", U"constraints");
+	mu::llvmc::skeleton::asm_c asm1 (&type1, U"text", U"");
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	arguments.push_back (&asm1);
 	mu::llvmc::skeleton::inline_asm asm2 (function1.entry, arguments, 0);

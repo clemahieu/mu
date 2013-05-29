@@ -443,4 +443,15 @@ define i32 @0(i32) {
 }
 )%%%";
 
-extern char const * const generate_asm_expected = R"%%%()%%%";
+extern char const * const generate_asm_expected = R"%%%(
+define void @0() {
+  br i1 true, label %1, label %2
+
+; <label>:1                                       ; preds = %0
+  call void asm sideeffect "text", ""()
+  br label %2
+
+; <label>:2                                       ; preds = %1, %0
+  ret void
+}
+)%%%";

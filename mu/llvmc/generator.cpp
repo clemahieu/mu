@@ -9,6 +9,7 @@
 #include <llvm/GlobalValue.h>
 #include <llvm/Constants.h>
 #include <llvm/Instructions.h>
+#include <llvm/InlineAsm.h>
 
 #include <boost/array.hpp>
 
@@ -820,11 +821,51 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 								assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]) != nullptr);
 								auto info (static_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]));
 								auto end (asm_l->predicate_position);
-								for (size_t i (0); i < end; ++i)
-								{
-									
-								}
 								predicate = llvm::ConstantInt::getTrue (context);
+								std::vector <llvm::Type *> types;
+								std::vector <llvm::Value *> arguments;
+								size_t i (1);
+								for (; i < end; ++i)
+								{
+									assert (dynamic_cast <mu::llvmc::skeleton::value *> (asm_l->arguments [i]) != nullptr);
+									auto value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (asm_l->arguments [i])));
+									predicate = and_predicates (predicate, value.predicate);
+									if (value.value != nullptr)
+									{
+										arguments.push_back (value.value);
+										types.push_back (value.value->getType ());
+									}
+								}
+								for (size_t j (asm_l->arguments.size ()); i < j; ++i)
+								{
+									assert (dynamic_cast <mu::llvmc::skeleton::value *> (asm_l->arguments [i]) != nullptr);
+									auto value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (asm_l->arguments [i])));
+									predicate = and_predicates (predicate, value.predicate);
+								}
+								llvm::Type * type;
+								if (!info->type_m->is_unit_type ())
+								{
+									type = generate_type (info->type_m);
+								}
+								else
+								{
+									type = llvm::Type::getVoidTy (context);
+								}
+								auto function_type (llvm::FunctionType::get (type, llvm::ArrayRef <llvm::Type *> (types), false));
+								std::string text (info->text.begin (), info->text.end ());
+								std::string constraints (info->constraint.begin (), info->constraint.end ());
+								auto inline_asm (llvm::InlineAsm::get (function_type, llvm::StringRef (text), llvm::StringRef (constraints), true));
+								auto call (llvm::CallInst::Create (inline_asm, arguments));
+								auto call_block (llvm::BasicBlock::Create (context));
+								function_m->getBasicBlockList ().push_back (call_block);
+								auto successor (llvm::BasicBlock::Create (context));
+								function_m->getBasicBlockList ().push_back (successor);
+								auto predicate_branch (llvm::BranchInst::Create (call_block, successor, predicate));
+								last->getInstList ().push_back (predicate_branch);
+								call_block->getInstList ().push_back (call);
+								auto rejoin (llvm::BranchInst::Create (successor));
+								call_block->getInstList ().push_back (rejoin);
+								last = successor;
 							}
 							else
 							{
