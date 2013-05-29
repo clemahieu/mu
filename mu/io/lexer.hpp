@@ -23,6 +23,13 @@ namespace mu
             char32_t character;
             mu::core::error * error;
         };
+        class string_hash
+        {
+        public:
+            string_hash (mu::string const & string_a);
+            uint8_t hash [16];
+            mu::string text ();
+        };
         template <typename T>
         class stream;   
         class token;

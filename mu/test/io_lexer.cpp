@@ -534,3 +534,19 @@ TEST (io_lexer, invalid_eof_in_complex_identifier)
     EXPECT_NE (nullptr, token1.error);
     EXPECT_EQ (nullptr, token1.token);
 }
+
+TEST (io_lexer, hash_empty)
+{
+    mu::string string;
+    mu::io::string_hash hash (string);
+    auto text (hash.text());
+    ASSERT_EQ (U"00000000000000000000000000000000", text);
+}
+
+TEST (io_lexer, hash_sentence)
+{
+    mu::string string (U"The quick brown fox jumps over the lazy dog");;
+    mu::io::string_hash hash (string);
+    auto text (hash.text());
+    ASSERT_EQ (U"09c3a5f1fb1a2f77a1db4872ccb04989", text);
+}
