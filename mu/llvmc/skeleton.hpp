@@ -395,6 +395,14 @@ namespace mu
                 mu::string text;
                 mu::string constraint;
             };
+			class inline_asm : public mu::llvmc::skeleton::value
+			{
+			public:
+				inline_asm (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                mu::llvmc::skeleton::type * type () override;
+				mu::vector <mu::llvmc::skeleton::node *> arguments;
+				size_t predicate_position;
+			};
             extern mu::llvmc::skeleton::integer_type integer_1_type;
             extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;

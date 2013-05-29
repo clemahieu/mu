@@ -10,6 +10,7 @@ namespace mu
             alloca,
             and_i,
             ashr,
+			asm_i,
             atomicrmw,
             bitcast,
             br,

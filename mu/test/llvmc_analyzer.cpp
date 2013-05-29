@@ -1523,9 +1523,12 @@ TEST (llvmc_analyzer, asm1)
     ASSERT_NE (result.module->functions.end (), result.module->functions.find (U"0"));
     auto function2 (result.module->functions [U"0"]);
     ASSERT_EQ (1, function2->results.size ());
-    auto asm2 (dynamic_cast <mu::llvmc::skeleton::asm_c *> (function2->results [0]));
+    auto asm2 (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (function2->results [0]));
     ASSERT_NE (nullptr, asm2);
-    ASSERT_EQ (&type1, asm2->type_m);
-    ASSERT_EQ (U"text", asm2->text);
-    ASSERT_EQ (U"constraint", asm2->constraint);
+	ASSERT_EQ (1, asm2->arguments.size ());
+	auto asm3 (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm2->arguments [0]));
+	ASSERT_NE (nullptr, asm3);
+    ASSERT_EQ (&type1, asm3->type_m);
+    ASSERT_EQ (U"text", asm3->text);
+    ASSERT_EQ (U"constraint", asm3->constraint);
 }

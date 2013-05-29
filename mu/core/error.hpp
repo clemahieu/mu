@@ -104,7 +104,8 @@ namespace mu
             sub_expects_two_arguments,
             asm_hook_expecting_identifier,
             asm_hook_expecting_type,
-            asm_hook_expecting_constraints
+            asm_hook_expecting_constraints,
+			inline_asm_requires_values
         };
         class error
         {

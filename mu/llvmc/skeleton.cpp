@@ -521,6 +521,22 @@ constraint (constraint_a)
 {
 }
 
+mu::llvmc::skeleton::inline_asm::inline_asm (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
+value (branch_a),
+arguments (arguments_a),
+predicate_position (predicate_position_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::inline_asm::type ()
+{
+	assert (arguments.size () > 1);
+	assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]) != nullptr);
+	auto asm_l (static_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]));
+	return asm_l->type_m;
+}
+
+
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

@@ -216,16 +216,16 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                                         auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
                                                         if (asm_l != nullptr)
                                                         {
-                                                            auto type (process_type (asm_l->type));
-                                                            if (type != nullptr)
-                                                            {
-                                                                already_generated [asm_l] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
-                                                            }
+															auto type (process_type (asm_l->type));
+															if (type != nullptr)
+															{
+																already_generated [node_a] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
+															}
                                                         }
-                                                        else
-                                                        {
-                                                            assert (false);
-                                                        }
+														else
+														{
+															assert (false);
+														}
 													}
 												}
 											}
@@ -259,7 +259,7 @@ void mu::llvmc::analyzer_function::process_asm (mu::llvmc::ast::definite_express
 	size_t predicate_offset (~0);
     process_call_values (asm_a->arguments, asm_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]) != nullptr);
-    auto instruction (new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset));
+    auto instruction (new (GC) mu::llvmc::skeleton::inline_asm (most_specific_branch, arguments, predicate_offset));
     already_generated [asm_a] = instruction;
 }
 
@@ -1139,6 +1139,30 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			else
 			{
 				result_m.error = new (GC) mu::core::error_string (U"Add instruction expects two arguments", mu::core::error_type::add_expects_two_arguments);
+			}
+			break;
+		}
+		case mu::llvmc::instruction_type::asm_i:
+		{
+			if (predicate_offset >= 2)
+			{
+				auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]));
+				if (asm_l != nullptr)
+				{
+					size_t end (predicate_offset);
+					for (size_t i (2); i < end && result_m.error == nullptr; ++i)
+					{
+						auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [i]));
+						if (value == nullptr)
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Inline asm requires value arguments", mu::core::error_type::inline_asm_requires_values);
+						}
+					}
+				}
+				else
+				{
+					assert (false);
+				}
 			}
 			break;
 		}
