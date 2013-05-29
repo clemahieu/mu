@@ -75,7 +75,6 @@ mu::llvmc::module_result mu::llvmc::analyzer::analyze (mu::llvmc::ast::node * mo
 }
 
 mu::llvmc::analyzer_module::analyzer_module () :
-module (new (GC) mu::llvmc::skeleton::module),
 result_m ({nullptr, nullptr})
 {
 }
@@ -674,10 +673,11 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
 
 mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::node * module_a)
 {
-	auto module_s (module);
 	auto module_l (dynamic_cast<mu::llvmc::ast::module *> (module_a));
 	if (module_l != nullptr)
 	{
+        auto module_s (new (GC) mu::llvmc::skeleton::module (module_l->name));
+        module = module_s;
 		for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result_m.error == nullptr; ++i)
 		{
 			auto existing (functions.find (*i));
@@ -688,14 +688,14 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 				result_m.error = analyzer.result_m.error;
 			}
 		}
+        if (result_m.error == nullptr)
+        {
+            result_m.module = module_s;
+        }
 	}
 	else
 	{
 		result_m.error = new (GC) mu::core::error_string (U"Expecting a module", mu::core::error_type::expecting_a_module);
-	}
-	if (result_m.error == nullptr)
-	{
-		result_m.module = module_s;
 	}
 	return result_m;
 }
