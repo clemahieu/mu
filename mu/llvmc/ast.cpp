@@ -2,6 +2,11 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::ast::module::module (mu::string const & name_a) :
+name (name_a)
+{
+}
+
 mu::llvmc::ast::result * mu::llvmc::ast::function::as_result (mu::llvmc::ast::node * node_a)
 {
     assert (dynamic_cast <mu::llvmc::ast::result *> (node_a) != nullptr);

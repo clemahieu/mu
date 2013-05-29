@@ -69,7 +69,7 @@ name (name_a)
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    auto module (new (GC) mu::llvmc::ast::module);
+    auto module (new (GC) mu::llvmc::ast::module (parser_a.name));
     while ((result.node == nullptr) and (result.error == nullptr))
     {
         auto item (parser_a.stream.peek ());
