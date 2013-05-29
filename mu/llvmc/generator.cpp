@@ -813,7 +813,23 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                         }
                         else
                         {
-                            assert (false);
+							auto asm_l (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (value_a));
+							if (asm_l != nullptr)
+							{
+								assert (asm_l->arguments.size () > 0);
+								assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]) != nullptr);
+								auto info (static_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]));
+								auto end (asm_l->predicate_position);
+								for (size_t i (0); i < end; ++i)
+								{
+									
+								}
+								predicate = llvm::ConstantInt::getTrue (context);
+							}
+							else
+							{
+								assert (false);
+							}
                         }
                     }
                 }

@@ -1154,3 +1154,29 @@ TEST (llvm_generator, generate_loop_count)
 	auto result3 (function3 (0 - 42));
 	ASSERT_EQ (42, result3);
 }
+
+extern char const * const generate_asm_expected;
+
+TEST (llvm_generator, generate_asm)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (module.global);
+	mu::llvmc::skeleton::unit_type type1;
+	mu::llvmc::skeleton::asm_c asm1 (&type1, U"text", U"constraints");
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	arguments.push_back (&asm1);
+	mu::llvmc::skeleton::inline_asm asm2 (function1.entry, arguments, 0);
+	function1.predicate_offsets.push_back (function1.results.size ());
+	function1.results.push_back (&asm2);
+	function1.branch_ends.push_back (function1.results.size ());
+	module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_asm_expected), info);
+}

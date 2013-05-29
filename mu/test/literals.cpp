@@ -442,3 +442,5 @@ define i32 @0(i32) {
   ret i32 %26
 }
 )%%%";
+
+extern char const * const generate_asm_expected = R"%%%()%%%";
