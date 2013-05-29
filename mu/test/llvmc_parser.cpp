@@ -9,6 +9,7 @@
 #include <mu/core/error.hpp>
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/llvmc/instruction_type.hpp>
+#include <mu/core/string_hash.hpp>
 
 #include <llvm/DerivedTypes.h>
 
@@ -20,7 +21,7 @@ public:
     test_parser (char const * const text_a):
     text (text_a),
     stream (text, 16),
-    lexer (stream),
+    lexer (stream, mu::core::string_hash (text.str ()).text ()),
     stream_token (lexer, 2),
     parser (stream_ast),
     stream_ast (stream_token, parser)

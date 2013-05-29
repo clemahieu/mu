@@ -36,7 +36,8 @@ namespace mu
         class lexer
         {
         public:
-            lexer (mu::io::stream <char32_t> & stream_a);
+            lexer (mu::io::stream <char32_t> & stream_a, mu::string const & name_a);
+            mu::string name;
             mu::io::token_result identifier ();
             mu::io::token_result complex_identifier ();
             void line_comment ();

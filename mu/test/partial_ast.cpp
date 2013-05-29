@@ -7,6 +7,7 @@
 #include <mu/io/stream_token.hpp>
 #include <mu/llvmc/parser.hpp>
 #include <mu/io/tokens.hpp>
+#include <mu/core/string_hash.hpp>
 
 class test_parser
 {
@@ -14,7 +15,7 @@ public:
     test_parser (char const * const text_a):
     text (text_a),
     stream (text, 16),
-    lexer (stream),
+    lexer (stream, mu::core::string_hash (text.str ()).text ()),
     stream_token (lexer, 2),
     parser (stream_ast),
     stream_ast (stream_token, parser)
