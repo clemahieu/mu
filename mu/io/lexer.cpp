@@ -39,10 +39,9 @@ mu::io::character_result::~character_result ()
     assert ((error == nullptr) or ((error != nullptr) and (character == '\0')));
 }
 
-mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a, mu::string const & name_a):
+mu::io::lexer::lexer (mu::io::stream <char32_t> & stream_a):
 position (0, 1, 1),
-stream (stream_a),
-name (name_a)
+stream (stream_a)
 {
 }
 

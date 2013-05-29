@@ -202,9 +202,8 @@ namespace mu
         class parser
         {
         public:
-            parser (mu::llvmc::partial_ast & stream_a);
+            parser (mu::llvmc::partial_ast & stream_a, mu::string const & name_a);
             node_result parse ();
-            llvm::LLVMContext context;
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
@@ -219,6 +218,7 @@ namespace mu
             mu::llvmc::constant_int constant_int;
             mu::llvmc::partial_ast & stream;
             mu::llvmc::keywords keywords;
+            mu::string name;
         };
     }
 }

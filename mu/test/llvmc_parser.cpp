@@ -21,9 +21,9 @@ public:
     test_parser (char const * const text_a):
     text (text_a),
     stream (text, 16),
-    lexer (stream, mu::core::string_hash (text.str ()).text ()),
+    lexer (stream),
     stream_token (lexer, 2),
-    parser (stream_ast),
+    parser (stream_ast, mu::core::string_hash (text.str ()).text ()),
     stream_ast (stream_token, parser)
     {        
     };

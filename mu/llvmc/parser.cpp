@@ -17,10 +17,11 @@ keywords (keywords_a)
 {
 }
 
-mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
+mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a, mu::string const & name_a):
 globals (&keywords),
 current_mapping (&globals),
-stream (stream_a)
+stream (stream_a),
+name (name_a)
 {
     bool error (false);
     error = keywords.insert (U"#", &number);
