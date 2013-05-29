@@ -16,6 +16,7 @@ int main (int argc, char const * const argv [])
     GC_INIT ();
     llvm::InitializeNativeTarget ();
     llvm::InitializeNativeTargetAsmPrinter ();
+	llvm::InitializeNativeTargetAsmParser ();
     int result;
     boost::program_options::options_description options ("muc options");
     options.add_options()

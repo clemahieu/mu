@@ -13,6 +13,7 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/DerivedTypes.h>
 #include <llvm/Instructions.h>
+#include <llvm/InlineAsm.h>
 
 mu::muc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
 lexer (stream_a),
@@ -94,7 +95,15 @@ void mu::muc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * 
 {
     auto & context (module_a->getContext ());
     auto exit_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
-    auto exit (llvm::Function::Create (exit_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "exit"));
+    auto exit (llvm::Function::Create (exit_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+	auto exit_body (llvm::BasicBlock::Create (context));
+	exit->getBasicBlockList ().push_back (exit_body);
+	auto syscall_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
+	auto exit_asm (llvm::InlineAsm::get (syscall_type, " movq $$60, %rax\n movq $$0, %rdi\n syscall", "", true));
+	auto exit_call (llvm::CallInst::Create (exit_asm, llvm::ArrayRef <llvm::Value *> ()));
+	exit_body->getInstList ().push_back (exit_call);
+	auto unreachable (new llvm::UnreachableInst (context));
+	exit_body->getInstList ().push_back (unreachable);
     module_a->getFunctionList ().push_back (exit);
     exit->addFnAttr (llvm::Attributes::NoReturn);
     auto entry_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
