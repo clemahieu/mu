@@ -258,8 +258,10 @@ namespace mu
             class asm_c : public mu::llvmc::ast::node
             {
             public:
-                asm_c (mu::string const & text_a);
+                asm_c (mu::llvmc::ast::node * type_a, mu::string const & text_a, mu::string const & constraints_a);
+                mu::llvmc::ast::node * type;
                 mu::string text;
+                mu::string constraints;
             };
         }
     }

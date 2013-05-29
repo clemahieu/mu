@@ -97,3 +97,10 @@ mu::llvmc::ast::loop::loop () :
 argument_predicate_offset (~0)
 {
 }
+
+mu::llvmc::ast::asm_c::asm_c (mu::llvmc::ast::node * type_a, mu::string const & text_a, mu::string const & constraints_a) :
+type (type_a),
+text (text_a),
+constraints (constraints_a)
+{
+}

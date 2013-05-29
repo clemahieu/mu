@@ -1500,3 +1500,32 @@ TEST (llvmc_analyzer, branch_analyzer_ancestor_after_leaf)
 	ASSERT_NE (nullptr, error);
 	ASSERT_EQ (mu::core::error_type::branch_analyzer_ancestor_exists, branches.result->type ());
 }
+
+TEST (llvmc_analyzer, asm1)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::unit_type type1;
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::asm_c asm1 (&value1, U"text", U"constraint");
+    expression1.arguments.push_back (&asm1);
+    expression1.set_predicate_position ();
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&expression1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_NE (result.module->functions.end (), result.module->functions.find (U"0"));
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->results.size ());
+    auto asm2 (dynamic_cast <mu::llvmc::skeleton::asm_c *> (function2->results [0]));
+    ASSERT_NE (nullptr, asm2);
+    ASSERT_EQ (&type1, asm2->type_m);
+    ASSERT_EQ (U"text", asm2->text);
+    ASSERT_EQ (U"constraint", asm2->constraint);
+}

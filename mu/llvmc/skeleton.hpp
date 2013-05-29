@@ -387,6 +387,14 @@ namespace mu
                 number (uint64_t value_a);
                 uint64_t value;
             };
+            class asm_c : public mu::llvmc::skeleton::node
+            {
+            public:
+                asm_c (mu::llvmc::skeleton::type * type_a, mu::string const & text_a, mu::string const & constraint_a);
+                mu::llvmc::skeleton::type * type_m;
+                mu::string text;
+                mu::string constraint;
+            };
             extern mu::llvmc::skeleton::integer_type integer_1_type;
             extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;

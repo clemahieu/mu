@@ -199,7 +199,7 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 											}
 											else
 											{
-												auto constant_int (dynamic_cast<mu::llvmc::ast::constant_int *> (node_a));
+												auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (node_a));
 												if (constant_int != nullptr)
 												{
 													process_constant_int (constant_int);
@@ -213,7 +213,19 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 													}
 													else
 													{
-														assert (false);
+                                                        auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
+                                                        if (asm_l != nullptr)
+                                                        {
+                                                            auto type (process_type (asm_l->type));
+                                                            if (type != nullptr)
+                                                            {
+                                                                already_generated [asm_l] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            assert (false);
+                                                        }
 													}
 												}
 											}
@@ -238,6 +250,17 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
 	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
 	return result;
+}
+
+void mu::llvmc::analyzer_function::process_asm (mu::llvmc::ast::definite_expression * asm_a)
+{
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
+	size_t predicate_offset (~0);
+    process_call_values (asm_a->arguments, asm_a->predicate_position, arguments, most_specific_branch, predicate_offset);
+    assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]) != nullptr);
+    auto instruction (new (GC) mu::llvmc::skeleton::instruction (most_specific_branch, arguments, predicate_offset));
+    already_generated [asm_a] = instruction;
 }
 
 bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
@@ -729,7 +752,15 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
 							}
 							else
 							{
-								result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
+                                auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
+                                if (asm_l != nullptr)
+                                {
+                                    process_asm (expression_a);
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
+                                }
 							}
 						}
 					}

@@ -514,7 +514,13 @@ type (type_a)
 {
 }
 
+mu::llvmc::skeleton::asm_c::asm_c (mu::llvmc::skeleton::type * type_a, mu::string const & text_a, mu::string const & constraint_a) :
+type_m (type_a),
+text (text_a),
+constraint (constraint_a)
+{
+}
+
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
-
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;
