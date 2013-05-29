@@ -6,6 +6,8 @@ add_library (mu_core SHARED
 	error.hpp
 	error_string.cpp
 	error_string.hpp
+	MurmurHash3.cpp
+	MurmurHash3.h
 	types.hpp)
     
 target_link_libraries (mu_core
