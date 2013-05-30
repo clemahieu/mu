@@ -43,8 +43,9 @@ total (total_a)
 {
 }
 
-mu::llvmc::ast::parameter::parameter (mu::llvmc::ast::node * type_a):
-type (type_a)
+mu::llvmc::ast::parameter::parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a):
+type (type_a),
+name (name_a)
 {
 }
 

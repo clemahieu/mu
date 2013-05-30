@@ -236,7 +236,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                 {
                     parser.stream.consume ();
                     auto identifier (static_cast <mu::io::identifier *> (next_token));
-                    auto argument (new (GC) mu::llvmc::ast::parameter (type));
+                    auto argument (new (GC) mu::llvmc::ast::parameter (identifier->string, type));
                     function_m->parameters.push_back (argument);
                     if (block.insert (identifier->string, argument))
                     {

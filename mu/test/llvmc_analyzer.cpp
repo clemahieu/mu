@@ -190,7 +190,7 @@ TEST (llvmc_analyzer, single_parameter)
     function.name = U"0";
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function.parameters.push_back (&parameter1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -212,7 +212,7 @@ TEST (llvmc_analyzer, one_result_parameter)
     function.name = U"0";
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
@@ -246,7 +246,7 @@ TEST (llvmc_analyzer, two_result_parameter)
     function.name = U"0";
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
@@ -288,7 +288,7 @@ TEST (llvmc_analyzer, error_indistinct_result_branches1)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
@@ -313,7 +313,7 @@ TEST (llvmc_analyzer, error_indistinct_result_branches2)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
@@ -371,7 +371,7 @@ TEST (llvmc_analyzer, if_instruction)
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::skeleton::integer_type type3 (1);
     mu::llvmc::ast::value type4 (&type3);
-    mu::llvmc::ast::parameter parameter1 (&type4);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
@@ -431,11 +431,11 @@ TEST (llvmc_analyzer, branches)
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::skeleton::integer_type type3 (1);
     mu::llvmc::ast::value type4 (&type3);
-    mu::llvmc::ast::parameter parameter1 (&type4);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type4);
     function.parameters.push_back (&parameter1);
-    mu::llvmc::ast::parameter parameter2 (&type4);
+    mu::llvmc::ast::parameter parameter2 (U"p1", &type4);
     function.parameters.push_back (&parameter2);
-    mu::llvmc::ast::parameter parameter3 (&type4);
+    mu::llvmc::ast::parameter parameter3 (U"p2", &type4);
     function.parameters.push_back (&parameter3);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
@@ -520,7 +520,7 @@ TEST (llvmc_analyzer, error_short_join)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::integer_type type1 (8);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::join join1;
@@ -545,11 +545,11 @@ TEST (llvmc_analyzer, error_join_different_type)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::integer_type type1 (8);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::integer_type type2 (1);
     mu::llvmc::ast::value value2 (&type2);
-    mu::llvmc::ast::parameter parameter2 (&value2);
+    mu::llvmc::ast::parameter parameter2 (U"p1", &value2);
     function.parameters.push_back (&parameter2);
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value value4 (&marker1);
@@ -601,7 +601,7 @@ TEST (llvmc_analyzer, error_same_branch)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
     
     mu::llvmc::ast::definite_expression expression1;
@@ -657,7 +657,7 @@ TEST (llvmc_analyzer, error_same_branch2)
     mu::llvmc::ast::function function;
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
     
     mu::llvmc::ast::definite_expression expression1;
@@ -719,7 +719,7 @@ TEST (llvmc_analyzer, disjoint_results)
     function.name = U"0";
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
@@ -866,7 +866,7 @@ TEST (llvmc_analyzer, call_1_argument)
     function1.name = U"0";
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&value1);
     result1.value = &parameter1;
@@ -876,7 +876,7 @@ TEST (llvmc_analyzer, call_1_argument)
     module1.functions.push_back (&function1);
     mu::llvmc::ast::function function2;
     function2.name = U"1";
-    mu::llvmc::ast::parameter parameter2 (&value1);
+    mu::llvmc::ast::parameter parameter2 (U"p0", &value1);
     function2.parameters.push_back (&parameter2);
     mu::llvmc::ast::definite_expression expression1;
     expression1.arguments.push_back (&function1);
@@ -965,7 +965,7 @@ TEST (llvmc_analyzer, int_type1)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1");
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     module1.functions.push_back (&function1);
     auto result (analyzer.analyze (&module1));
@@ -986,7 +986,7 @@ TEST (llvmc_analyzer, int_type1024)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1024");
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     module1.functions.push_back (&function1);
     auto result (analyzer.analyze (&module1));
@@ -1007,7 +1007,7 @@ TEST (llvmc_analyzer, fail_int_type2000000000)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"2000000000");
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     module1.functions.push_back (&function1);
     auto result (analyzer.analyze (&module1));
@@ -1023,7 +1023,7 @@ TEST (llvmc_analyzer, ptr_type)
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1024");
     mu::llvmc::ast::pointer_type type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function1.parameters.push_back (&parameter1);
     module1.functions.push_back (&function1);
     auto result (analyzer.analyze (&module1));
@@ -1045,7 +1045,7 @@ TEST (llvmc_analyzer, instruction_add)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1");;
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::add);
@@ -1077,7 +1077,7 @@ TEST (llvmc_analyzer, instruction_sub)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1");;
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::sub);
@@ -1140,10 +1140,10 @@ TEST (llvmc_analyzer, instruction_store)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1");;
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::pointer_type type2 (&type1);
-    mu::llvmc::ast::parameter parameter2 (&type2);
+    mu::llvmc::ast::parameter parameter2 (U"p1", &type2);
     function1.parameters.push_back (&parameter2);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::store);
@@ -1174,7 +1174,7 @@ TEST (llvmc_analyzer, instruction_load)
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"1");;
     mu::llvmc::ast::pointer_type type2 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&type2);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::load);
@@ -1203,7 +1203,7 @@ TEST (llvmc_analyzer, instruction_icmp_eq)
     mu::llvmc::ast::function function1;
     function1.name = U"0";
     mu::llvmc::ast::integer_type type1 (U"8");
-    mu::llvmc::ast::parameter parameter1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
@@ -1248,7 +1248,7 @@ TEST (llvmc_analyzer, multibranch_call)
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::skeleton::integer_type type3 (1);
     mu::llvmc::ast::value type4 (&type3);
-    mu::llvmc::ast::parameter parameter1 (&type4);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
@@ -1272,7 +1272,7 @@ TEST (llvmc_analyzer, multibranch_call)
 	
     mu::llvmc::ast::function function2;
     function2.name = U"0";
-    mu::llvmc::ast::parameter parameter2 (&type4);
+    mu::llvmc::ast::parameter parameter2 (U"p0", &type4);
     function2.parameters.push_back (&parameter2);
     mu::llvmc::ast::definite_expression expression2;
     expression2.arguments.push_back (&function);
@@ -1350,7 +1350,7 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     function1.name = U"0";
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
@@ -1386,7 +1386,7 @@ TEST (llvmc_analyzer, loop_passthrough)
     function1.name = U"0";
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::parameter parameter1 (&value1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::loop loop1;
     loop1.arguments.push_back (&parameter1);
