@@ -28,7 +28,6 @@ TEST (llvmc_generator, generate1)
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    print_module (result.module, info);
 }
 
 extern char const * const generate_empty_expected;

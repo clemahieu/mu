@@ -17,57 +17,26 @@
 
 #include <algorithm>
 
-static uint64_t tag_offset = 0xc0000;
-
 mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a)
 {
     mu::llvmc::generator_result result;
     result.module = new llvm::Module ("", context_a);
-    mu::llvmc::generate_module generator (module_a, result, name_a, path_a);
+    auto filename (llvm::MDString::get (context_a, std::string (name_a.begin (), name_a.end ())));
+    auto path (llvm::MDString::get (context_a, std::string (path_a.begin (), path_a.end ())));
+    llvm::Value * values [2] = {filename, path};
+    auto source (llvm::MDNode::get (context_a, llvm::ArrayRef <llvm::Value *> (values)));
+    llvm::Value * values2 [2] = {llvm::ConstantInt::get (llvm::Type::getInt32Ty (context_a), 41), source};
+    auto file_descriptor (llvm::MDNode::get (context_a, llvm::ArrayRef <llvm::Value *> (values2)));
+    //result.module->getOrInsertNamedMetadata ("llvm.dbg.cu")->addOperand (file_descriptor);
+    mu::llvmc::generate_module generator (module_a, result);
     generator.generate ();
     return result;
 }
 
-mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a) :
+mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a) :
 module (module_a),
-target (target_a),
-subprograms (llvm::MDNode::get (target_a.module->getContext (), llvm::ArrayRef <llvm::Value *> ()))
+target (target_a)
 {
-    auto & context (target_a.module->getContext ());
-    auto filename (llvm::MDString::get (context, std::string (name_a.begin (), name_a.end ())));
-    auto path (llvm::MDString::get (context, std::string (path_a.begin (), path_a.end ())));
-    llvm::Value * values [2] =
-    {
-        filename,
-        path
-    };
-    source = llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> (values));
-    auto int32_type (llvm::Type::getInt32Ty (context));
-    auto int1_type (llvm::Type::getInt1Ty (context));
-    llvm::Value * values2 [2] =
-    {
-        llvm::ConstantInt::get (int32_type, tag_offset + 41),
-        source
-    };
-    file_descriptor = llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> (values2));
-    llvm::Value * values3 [13] =
-    {
-        llvm::ConstantInt::get (int32_type, tag_offset + 17),
-        source,
-        llvm::ConstantInt::get (int32_type, 0x9000), //DW_LANG
-        llvm::MDString::get (context, "0 MU (Colin LeMahieu)"),
-        llvm::ConstantInt::get (int1_type, 0), // Optimized
-        llvm::MDString::get (context, ""), // flags
-        llvm::ConstantInt::get (int32_type, 0), // Runtime version
-        llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> ()), // Enums
-        llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> ()), // retained types
-        subprograms,
-        llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> ()), // globals
-        llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> ()), // imported entities
-        llvm::MDString::get (context, "") // Split name
-    };
-    auto compile_unit (llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> (values3)));
-    target_a.module->getOrInsertNamedMetadata ("llvm.dbg.cu")->addOperand (compile_unit);
 }
 
 void mu::llvmc::generate_module::generate ()
@@ -77,7 +46,7 @@ void mu::llvmc::generate_module::generate ()
         auto existing (functions.find (i->second));
         if (existing == functions.end ())
         {
-            mu::llvmc::generate_function generator_l (*this, i->second, i->first);
+            mu::llvmc::generate_function generator_l (*this, i->second);
             generator_l.generate ();
             existing = functions.find (i->second);
             assert (existing != functions.end ());
@@ -87,8 +56,7 @@ void mu::llvmc::generate_module::generate ()
     }
 }
 
-mu::llvmc::generate_function::generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a, mu::string const & name_a) :
-name (llvm::MDString::get (module_a.target.module->getContext (), std::string (name_a.begin (), name_a.end ()))),
+mu::llvmc::generate_function::generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a) :
 module (module_a),
 function (function_a),
 function_return_type (function_a->get_return_type ())
@@ -98,18 +66,6 @@ function_return_type (function_a->get_return_type ())
 void mu::llvmc::generate_function::generate ()
 {
     auto & context (module.target.module->getContext ());
-    auto int32_type (llvm::Type::getInt32Ty (context));
-    auto int1_type (llvm::Type::getInt1Ty (context));
-    llvm::Value * values [21] = {
-        llvm::ConstantInt::get (int32_type, tag_offset + 46),
-        module.source,
-        module.file_descriptor,
-        name,
-        name,
-        name,
-        llvm::ConstantInt::get (int32_type, 0), // line
-        
-    };
     std::vector <llvm::Type *> parameters;
     for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
     {
