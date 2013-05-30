@@ -240,8 +240,7 @@ namespace mu
             class module : public mu::llvmc::ast::node
             {
             public:
-                module (mu::string const & name_a);
-                mu::string name;
+                module ();
                 mu::vector <mu::llvmc::ast::node *> functions;
             };
             class constant_int : public mu::llvmc::ast::expression

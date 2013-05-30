@@ -23,7 +23,7 @@ public:
     stream (text, 16),
     lexer (stream),
     stream_token (lexer, 2),
-    parser (stream_ast, mu::core::string_hash (text.str ()).text ()),
+    parser (stream_ast),
     stream_ast (stream_token, parser)
     {        
     };

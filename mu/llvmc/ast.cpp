@@ -2,8 +2,7 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::ast::module::module (mu::string const & name_a) :
-name (name_a)
+mu::llvmc::ast::module::module ()
 {
 }
 

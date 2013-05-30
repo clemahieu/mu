@@ -457,13 +457,6 @@ the_unit_value (global)
 {
 }
 
-mu::llvmc::skeleton::module::module (mu::string const & name_a) :
-name (name_a),
-global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
-the_unit_value (global)
-{
-}
-
 mu::llvmc::skeleton::loop::loop () :
 argument_predicate_offset (~0)
 {

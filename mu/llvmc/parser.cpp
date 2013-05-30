@@ -17,11 +17,10 @@ keywords (keywords_a)
 {
 }
 
-mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a, mu::string const & name_a):
+mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
 globals (&keywords),
 current_mapping (&globals),
-stream (stream_a),
-name (name_a)
+stream (stream_a)
 {
     bool error (false);
     error = keywords.insert (U"#", &number);
@@ -69,7 +68,7 @@ name (name_a)
 mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    auto module (new (GC) mu::llvmc::ast::module (parser_a.name));
+    auto module (new (GC) mu::llvmc::ast::module);
     while ((result.node == nullptr) and (result.error == nullptr))
     {
         auto item (parser_a.stream.peek ());

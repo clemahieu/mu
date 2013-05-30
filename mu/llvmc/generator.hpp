@@ -47,7 +47,7 @@ namespace mu
         class generator
         {
         public:
-            mu::llvmc::generator_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a);
+            mu::llvmc::generator_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a);
         };
         class generate_module
         {

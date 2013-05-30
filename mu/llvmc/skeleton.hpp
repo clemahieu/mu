@@ -377,8 +377,6 @@ namespace mu
             {
             public:
                 module ();
-                module (mu::string const & name_a);
-                mu::string name;
                 mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;

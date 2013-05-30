@@ -17,10 +17,17 @@
 
 #include <algorithm>
 
-mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a)
+mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a)
 {
     mu::llvmc::generator_result result;
     result.module = new llvm::Module ("", context_a);
+    auto filename (llvm::MDString::get (context_a, std::string (name_a.begin (), name_a.end ())));
+    auto path (llvm::MDString::get (context_a, std::string (path_a.begin (), path_a.end ())));
+    llvm::Value * values [2] = {filename, path};
+    auto source (llvm::MDNode::get (context_a, llvm::ArrayRef <llvm::Value *> (values)));
+    llvm::Value * values2 [2] = {llvm::ConstantInt::get (llvm::Type::getInt32Ty (context_a), 41), source};
+    auto file_descriptor (llvm::MDNode::get (context_a, llvm::ArrayRef <llvm::Value *> (values2)));
+    //result.module->getOrInsertNamedMetadata ("llvm.dbg.cu")->addOperand (file_descriptor);
     mu::llvmc::generate_module generator (module_a, result);
     generator.generate ();
     return result;

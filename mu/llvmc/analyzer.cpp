@@ -676,7 +676,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 	auto module_l (dynamic_cast<mu::llvmc::ast::module *> (module_a));
 	if (module_l != nullptr)
 	{
-        auto module_s (new (GC) mu::llvmc::skeleton::module (module_l->name));
+        auto module_s (new (GC) mu::llvmc::skeleton::module);
         module = module_s;
 		for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result_m.error == nullptr; ++i)
 		{
