@@ -17,6 +17,8 @@ namespace llvm
     class Instruction;
     class ConstantInt;
     class TerminatorInst;
+    class MDNode;
+    class MDString;
 }
 namespace mu
 {
@@ -52,11 +54,14 @@ namespace mu
         class generate_module
         {
         public:
-            generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a);
+            generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a);
             void generate ();
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
+            llvm::MDNode * subprograms;
+            llvm::MDNode * source;
+            llvm::MDNode * file_descriptor;
         };
         class generate_function;
         class value_data
@@ -68,8 +73,9 @@ namespace mu
         class generate_function
         {
         public:
-            generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
+            generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a, mu::string const & name_a);
             void generate ();
+            llvm::MDString * name;
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
             mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
