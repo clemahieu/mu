@@ -10,6 +10,7 @@
 #include <llvm/Constants.h>
 #include <llvm/Instructions.h>
 #include <llvm/InlineAsm.h>
+#include <llvm/Support/Dwarf.h>
 
 #include <boost/array.hpp>
 
@@ -17,20 +18,24 @@
 
 #include <algorithm>
 
+#include <stdlib.h>
+
 mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a)
 {
     mu::llvmc::generator_result result;
     result.module = new llvm::Module ("", context_a);
-    mu::llvmc::generate_module generator (module_a, result);
+    mu::llvmc::generate_module generator (module_a, result, name_a, path_a);
     generator.generate ();
     return result;
 }
 
-mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a) :
+mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a) :
+builder (*target_a.module),
 module (module_a),
 target (target_a),
-builder (*target.module)
+file (builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ())))
 {
+	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
 }
 
 void mu::llvmc::generate_module::generate ()
@@ -41,13 +46,14 @@ void mu::llvmc::generate_module::generate ()
         if (existing == functions.end ())
         {
             mu::llvmc::generate_function generator_l (*this, i->second);
-            generator_l.generate ();
+            generator_l.generate (i->first);
             existing = functions.find (i->second);
             assert (existing != functions.end ());
         }
         assert (target.names.find (i->first) == target.names.end ());
         target.names [i->first] = existing->second;
     }
+	builder.finalize ();
 }
 
 mu::llvmc::generate_function::generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a) :
@@ -57,17 +63,25 @@ function_return_type (function_a->get_return_type ())
 {
 }
 
-void mu::llvmc::generate_function::generate ()
+void mu::llvmc::generate_function::generate (mu::string const & name_a)
 {
     auto & context (module.target.module->getContext ());
+	std::vector <llvm::Value *> function_type_values;
+	function_type_values.push_back (nullptr); // Return type
     std::vector <llvm::Type *> parameters;
     for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
     {
         auto parameter (*i);
-        auto type_l (generate_type (parameter->type ()));
+		auto type_s (parameter->type ());
+        auto type_l (generate_type (type_s));
+		auto existing (type_information.find (type_s));
+		assert (existing != type_information.end ());
+		function_type_values.push_back (existing->second);
         parameters.push_back (type_l);
     }
+	std::vector <llvm::Value *> results_debug;
     std::vector <llvm::Type *> results;
+	uint64_t offset (0);
     function->for_each_results (
         [&]
         (mu::llvmc::skeleton::result * result_a, size_t)
@@ -76,30 +90,46 @@ void mu::llvmc::generate_function::generate ()
             if (!type_s->is_unit_type())
             {
                auto type_l (generate_type (type_s));
+			   auto existing (type_information.find (type_s));
+			   assert (existing != type_information.end ());
+			   auto size (existing->second.getSizeInBits ());
+			   auto member (module.builder.createMemberType (module.file, "", module.file, 0, size, 0, offset, 0, existing->second));
+			   results_debug.push_back (member);
                results.push_back (type_l);
+			   offset += size;
             }
         }
     );
     if (function->branch_ends.size () > 1)
     {
         results.push_back (llvm::Type::getInt8Ty (context));
+		results_debug.push_back (module.builder.createBasicType ("int8", 8, 0, llvm::dwarf::DW_ATE_unsigned_char));
     }
+	llvm::Value * result_type_debug;
     llvm::Type * result_type;
     switch (results.size ())
     {
         case 0:
             result_type = llvm::Type::getVoidTy (context);
+			result_type_debug = nullptr;
             break;
         case 1:
             result_type = results [0];
+			result_type_debug = results_debug [0];
             break;
         default:
         {
             result_type = llvm::StructType::create (context, llvm::ArrayRef <llvm::Type *> (results));
+			auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (results_debug)));
+			result_type_debug = module.builder.createStructType (module.file, "", module.file, 0, offset, 0, 0, array);
         }
     }
+	function_type_values [0] = result_type_debug;
     auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
-    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));	
+	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
+	auto function_type_d (module.builder.createSubroutineType (module.file, array));
+	auto function_d (module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, 0, function_type_d, false, true, 0));
     {
         auto i (function_l->arg_begin());
         auto j (function_l->arg_end());
@@ -296,7 +326,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         if (existing == module.functions.end ())
         {
             mu::llvmc::generate_function generator (module, call->source->target);
-            generator.generate ();
+            generator.generate (U"");
         }
         assert (module.functions.find (call->source->target) != module.functions.end ());
         auto function (module.functions [call->source->target]);
@@ -899,6 +929,11 @@ llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::t
     if (integer_type != nullptr)
     {
         result = llvm::Type::getIntNTy (module.target.module->getContext (), integer_type->bits);
+		std::string name ("int");
+		char buffer [32];
+		sprintf (buffer, "%d", static_cast <int> (integer_type->bits));
+		name.append (buffer);
+		type_information [type_a] = module.builder.createBasicType (name, integer_type->bits, 0, llvm::dwarf::DW_ATE_unsigned);
     }
     else
     {
@@ -907,6 +942,9 @@ llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::t
         {
             auto element_type (generate_type (pointer_type->pointed_type));
             assert (element_type != nullptr);
+			auto existing (type_information.find (pointer_type->pointed_type));
+			assert (existing != type_information.end ());
+			type_information [type_a] = module.builder.createPointerType (existing->second, 8);
             result = llvm::PointerType::get (element_type, 0);
         }
         else
@@ -914,5 +952,6 @@ llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::t
             assert (false && "Unknown type");
         }
     }
+	assert (type_information.find (type_a) != type_information.end ());
     return result;
 }
