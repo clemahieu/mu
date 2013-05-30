@@ -93,7 +93,8 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
 			   auto existing (type_information.find (type_s));
 			   assert (existing != type_information.end ());
 			   auto size (existing->second.getSizeInBits ());
-			   auto member (module.builder.createMemberType (module.file, "", module.file, 0, size, 0, offset, 0, existing->second));
+			   auto line (existing->second.getLineNumber ());
+			   auto member (module.builder.createMemberType (module.file, "", module.file, line, size, 0, offset, 0, existing->second));
 			   results_debug.push_back (member);
                results.push_back (type_l);
 			   offset += size;
@@ -121,7 +122,7 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
         {
             result_type = llvm::StructType::create (context, llvm::ArrayRef <llvm::Type *> (results));
 			auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (results_debug)));
-			result_type_debug = module.builder.createStructType (module.file, "", module.file, 0, offset, 0, 0, array);
+			result_type_debug = module.builder.createStructType (module.file, "", module.file, function->region.first.row, offset, 0, 0, array);
         }
     }
 	function_type_values [0] = result_type_debug;
@@ -129,7 +130,7 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));	
 	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
 	auto function_type_d (module.builder.createSubroutineType (module.file, array));
-	auto function_d (module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, 0, function_type_d, false, true, 0));
+	auto function_d (module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, function->region.first.row, function_type_d, false, true, 0));
     {
         auto i (function_l->arg_begin());
         auto j (function_l->arg_end());

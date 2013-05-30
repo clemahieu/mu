@@ -9,6 +9,7 @@ namespace mu
         class position
         {
         public:
+			position ();
             position (size_t offset_a, size_t row_a, size_t column_a);
             bool operator == (mu::io::position const & other_a) const;
             void character ();
@@ -20,6 +21,7 @@ namespace mu
         class region
         {
         public:
+			region ();
             region (size_t offset1_a, size_t row1_a, size_t column1_a, size_t offset2_a, size_t row2_a, size_t column2_a);
             region (mu::io::position const & first_a, mu::io::position const & last_a);
             bool operator == (mu::io::region const & other_a) const;

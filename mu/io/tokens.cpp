@@ -1,5 +1,13 @@
 #include <mu/io/tokens.hpp>
 
+mu::io::position::position ()
+{
+}
+
+mu::io::region::region ()
+{
+}
+
 mu::io::position::position (size_t offset_a, size_t row_a, size_t column_a):
 offset (offset_a),
 row (row_a),

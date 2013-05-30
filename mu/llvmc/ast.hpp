@@ -3,6 +3,7 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/node_result.hpp>
 #include <mu/llvmc/instruction_type.hpp>
+#include <mu/io/tokens.hpp>
 
 namespace mu
 {
@@ -30,6 +31,7 @@ namespace mu
             {
             public:
                 virtual ~node ();
+				mu::io::region region;
             };
             class value : public mu::llvmc::ast::node
             {

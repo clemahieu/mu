@@ -3,6 +3,7 @@
 #include <mu/core/types.hpp>
 #include <mu/llvmc/instruction_type.hpp>
 #include <mu/llvmc/predicates.hpp>
+#include <mu/io/tokens.hpp>
 
 namespace llvm
 {
@@ -27,6 +28,7 @@ namespace mu
             {
             public:
                 virtual ~node ();
+				mu::io::region region;
             };
             class type : virtual public mu::llvmc::skeleton::node
             {
