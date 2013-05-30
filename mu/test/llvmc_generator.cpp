@@ -37,7 +37,7 @@ TEST (llvmc_generator, generate_empty)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"", U""));
@@ -60,7 +60,7 @@ TEST (llvmc_generator, generate_parameter)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -85,7 +85,7 @@ TEST (llvmc_generator, generate_pointer_type)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type2);
@@ -112,7 +112,7 @@ TEST (llvmc_generator, generate_parameter_return)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -153,7 +153,7 @@ TEST (llvmc_generator, generate_add)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -192,7 +192,7 @@ TEST (llvmc_generator, generate_sub)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -231,7 +231,7 @@ TEST (llvmc_generator, generate_store)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -274,7 +274,7 @@ TEST (llvmc_generator, generate_load)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type2);
@@ -315,7 +315,7 @@ TEST (llvmc_generator, generate_icmp1)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -362,7 +362,7 @@ TEST (llvmc_generator, generate_two_return)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -403,7 +403,7 @@ TEST (llvmc_generator, generate_if)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -443,7 +443,7 @@ TEST (llvmc_generator, generate_if_value)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -489,7 +489,7 @@ extern char const * const generate_if_join_expected;
 TEST (llvm_generator, generate_if_join)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -530,7 +530,7 @@ extern char const * const generate_if_join_value_expected;
 TEST (llvm_generator, generate_if_join_value)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -586,7 +586,7 @@ extern char const * const generate_if_join_2value_expected;
 TEST (llvm_generator, generate_if_join_2value)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -665,7 +665,7 @@ extern char const * const generate_if_join_load_expected;
 TEST (llvm_generator, generate_if_join_load)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
@@ -722,13 +722,13 @@ extern char const * const generate_call_0_expected;
 TEST (llvm_generator, generate_call_0)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::unit_type type1;
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
@@ -756,7 +756,7 @@ extern char const * const generate_call_1_expected;
 TEST (llvm_generator, generate_call_1)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -766,7 +766,7 @@ TEST (llvm_generator, generate_call_1)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
     function2.parameters.push_back (&parameter2);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -797,7 +797,7 @@ extern char const * const generate_call_2_expected;
 TEST (llvm_generator, generate_call_2)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -822,7 +822,7 @@ TEST (llvm_generator, generate_call_2)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
     function2.parameters.push_back (&parameter2);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -859,7 +859,7 @@ extern char const * const generate_call_3_expected;
 TEST (llvm_generator, generate_call_3)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
     function1.parameters.push_back (&parameter1);
@@ -891,7 +891,7 @@ TEST (llvm_generator, generate_call_3)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::parameter parameter2 (function1.entry, &type1);
     function2.parameters.push_back (&parameter2);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
@@ -928,14 +928,14 @@ extern char const * const generate_call_predicate_b1v0_expected;
 TEST (llvm_generator, generate_call_predicate_b1v0)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::unit_type type1;
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
@@ -962,14 +962,14 @@ extern char const * const generate_call_predicate_b1v1_expected;
 TEST (llvm_generator, generate_call_predicate_b1v1)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::unit_type type1;
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&module.the_unit_value);
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     
-    mu::llvmc::skeleton::function function2 (module.global);
+    mu::llvmc::skeleton::function function2 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
@@ -1000,7 +1000,7 @@ extern char const * const generate_loop1_expected;
 TEST (llvm_generator, generate_loop1)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (1);
 	mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
 	function1.parameters.push_back (&parameter1);
@@ -1068,7 +1068,7 @@ extern char const * const generate_loop_count_expected;
 TEST (llvm_generator, generate_loop_count)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
     mu::llvmc::skeleton::integer_type type1 (32);
 	mu::llvmc::skeleton::parameter parameter1 (function1.entry, &type1);
 	function1.parameters.push_back (&parameter1);
@@ -1161,7 +1161,7 @@ extern char const * const generate_asm_expected;
 TEST (llvm_generator, generate_asm)
 {
     mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (module.global);
+    mu::llvmc::skeleton::function function1 (mu::io::region (0, 0, 0, 0, 0, 0), module.global);
 	mu::llvmc::skeleton::unit_type type1;
 	mu::llvmc::skeleton::asm_c asm1 (&type1, U"text", U"");
 	mu::vector <mu::llvmc::skeleton::node *> arguments;

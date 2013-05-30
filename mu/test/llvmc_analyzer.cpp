@@ -178,7 +178,8 @@ TEST (llvmc_analyzer, empty_function)
     auto function1 (result.module->functions [U"0"]);
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
-    EXPECT_EQ (0, function1->results.size ());
+    EXPECT_EQ (0, function1->results.size ());	
+	ASSERT_EQ (function.region, function1->region);
 }
 
 TEST (llvmc_analyzer, single_parameter)

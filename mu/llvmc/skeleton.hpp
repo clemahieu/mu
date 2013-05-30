@@ -28,7 +28,6 @@ namespace mu
             {
             public:
                 virtual ~node ();
-				mu::io::region region;
             };
             class type : virtual public mu::llvmc::skeleton::node
             {
@@ -51,6 +50,7 @@ namespace mu
                 value (mu::llvmc::skeleton::branch * branch_a);
                 virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
+				mu::io::region region;
             };
             class parameter : public mu::llvmc::skeleton::value
             {
@@ -162,7 +162,7 @@ namespace mu
             class function : public mu::llvmc::skeleton::value
             {
             public:
-                function (mu::llvmc::skeleton::branch * global_a);
+                function (mu::io::region const & region_a, mu::llvmc::skeleton::branch * global_a);
                 size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;

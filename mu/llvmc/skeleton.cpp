@@ -66,12 +66,13 @@ mu::llvmc::skeleton::node::~node ()
 {
 }
 
-mu::llvmc::skeleton::function::function (mu::llvmc::skeleton::branch * global_a) :
+mu::llvmc::skeleton::function::function (mu::io::region const & region_a, mu::llvmc::skeleton::branch * global_a) :
 value (global_a),
 type_m (this),
 pointer_type_m (&type_m),
 entry (new (GC) mu::llvmc::skeleton::branch (global_a))
 {
+	region = region_a;
 }
 
 mu::llvmc::skeleton::function_type::function_type (mu::llvmc::skeleton::function * function_a) :
