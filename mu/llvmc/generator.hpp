@@ -3,6 +3,7 @@
 #include <mu/core/types.hpp>
 
 #include <llvm/LLVMContext.h>
+#include <llvm/DIBuilder.h>
 
 #include <boost/dynamic_bitset.hpp>
 
@@ -17,6 +18,7 @@ namespace llvm
     class Instruction;
     class ConstantInt;
     class TerminatorInst;
+	class DIBuilder;
 }
 namespace mu
 {
@@ -57,6 +59,7 @@ namespace mu
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
+			llvm::DIBuilder builder;
         };
         class generate_function;
         class value_data

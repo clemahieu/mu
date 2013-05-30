@@ -19,7 +19,7 @@ namespace mu
         {
         public:
             compiler (mu::io::stream_istream & stream, llvm::formatted_raw_ostream & output_a);
-            void compile ();
+            void compile (mu::string const & name_a, mu::string const & path_a);
             void inject_entry (llvm::Module * module_a, llvm::Function * entry);
             mu::io::lexer lexer;
             mu::io::stream_token stream_token;

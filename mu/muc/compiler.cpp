@@ -24,7 +24,7 @@ output (output_a)
 {
 }
 
-void mu::muc::compiler::compile ()
+void mu::muc::compiler::compile (mu::string const & name_a, mu::string const & path_a)
 {
     auto parse_result (parser.parse ());
     if (parse_result.error == nullptr)
@@ -35,7 +35,7 @@ void mu::muc::compiler::compile ()
         {
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
-            auto module (generator.generate (context, analyze_result.module));
+            auto module (generator.generate (context, analyze_result.module, name_a, path_a));
             auto entry (module.names.find (U"entry"));
             if (entry != module.names.end ())
             {
