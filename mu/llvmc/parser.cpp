@@ -69,6 +69,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto module (new (GC) mu::llvmc::ast::module);
+	module->region.first = mu::io::position (0, 1, 1);
     while ((result.node == nullptr) and (result.error == nullptr))
     {
         auto item (parser_a.stream.peek ());
@@ -91,6 +92,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
             switch (id)
             {
                 case mu::io::token_id::end:
+					module->region.last = item.token->region.last;
                     result.node = module;
                     break;
                 default:                    
@@ -145,6 +147,7 @@ mu::llvmc::function::~function ()
 
 void mu::llvmc::function::parse ()
 {
+	function_m->region.first = parser.stream.tokens [0]->region.first;
     parser.stream.consume ();
     parse_name ();
     if (result.error == nullptr)
@@ -158,6 +161,7 @@ void mu::llvmc::function::parse ()
                 parse_results ();
                 if (result.error == nullptr)
                 {
+					function_m->region.last = parser.stream.tokens [0]->region.last;
                     result.node = function_m;
                 }
             }
