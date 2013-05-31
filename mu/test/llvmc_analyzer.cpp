@@ -5,6 +5,8 @@
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/core/error.hpp>
 
+static mu::io::region empty_region (0, 0, 0, 0, 0, 0);
+
 TEST (llvmc_ast, iteration)
 {
     mu::llvmc::ast::function function1;
@@ -170,6 +172,7 @@ TEST (llvmc_analyzer, empty_function)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
+    function.region = mu::io::region (2, 2, 2, 3, 3, 3);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
@@ -188,9 +191,11 @@ TEST (llvmc_analyzer, single_parameter)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
+    function.region = mu::io::region (2, 2, 2, 5, 5, 5);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -199,9 +204,12 @@ TEST (llvmc_analyzer, single_parameter)
     ASSERT_EQ (1, result.module->functions.size ());
     auto function1 (result.module->functions [U"0"]);
     ASSERT_EQ (1, function1->parameters.size ());
-    auto parameter2 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (function1->parameters [0]->type ()));
-    EXPECT_EQ (&type1, parameter2);
+    ASSERT_EQ (function.region, function1->region);
+    auto parameter2 (dynamic_cast <mu::llvmc::skeleton::parameter *> (function1->parameters [0]));
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::unit_type *> (parameter2->type ()));
+    EXPECT_EQ (&type1, type3);
     EXPECT_EQ (0, function1->results.size ());
+    ASSERT_EQ (parameter1.region, parameter2->region);
 }
 
 TEST (llvmc_analyzer, one_result_parameter)
@@ -210,9 +218,11 @@ TEST (llvmc_analyzer, one_result_parameter)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
+    function.region = mu::io::region (2, 2, 2, 5, 5, 5);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
@@ -225,8 +235,10 @@ TEST (llvmc_analyzer, one_result_parameter)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (1, result.module->functions.size ());
     auto function1 (result.module->functions [U"0"]);
+    ASSERT_EQ (function.region, function1->region);
     ASSERT_EQ (1, function1->parameters.size ());
     auto parameter2 (function1->parameters [0]);
+    ASSERT_EQ (parameter1.region, parameter2->region);
     ASSERT_EQ (1, function1->branch_ends.size ());
     ASSERT_EQ (1, function1->branch_ends [0]);
     ASSERT_EQ (1, function1->branch_size (0));
@@ -321,8 +333,8 @@ TEST (llvmc_analyzer, error_indistinct_result_branches2)
     expression1.arguments.push_back (&value1);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
     function.results.push_back (&result1);
@@ -367,20 +379,25 @@ TEST (llvmc_analyzer, if_instruction)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
+    function.region = mu::io::region (2, 2, 2, 12, 12, 12);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::skeleton::integer_type type3 (1);
     mu::llvmc::ast::value type4 (&type3);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type4);
+    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
     mu::llvmc::ast::definite_expression expression1;
+    expression1.region = mu::io::region (10, 10, 10, 11, 11, 11);
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    element1.region = mu::io::region (6, 6, 6, 7, 7, 7);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
+    element2.region = mu::io::region (8, 8, 8, 9, 9, 9);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
     function.results.push_back (&result1);
@@ -407,6 +424,7 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_NE (nullptr, result3);
     auto named1 (dynamic_cast <mu::llvmc::skeleton::named *> (result3->value));
     ASSERT_NE (nullptr, named1);
+    ASSERT_EQ (named1->region, element1.region);
     auto element3 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named1->value_m));
     ASSERT_NE (nullptr, element3);
     ASSERT_EQ (1, function1->branch_size (1));
@@ -414,6 +432,7 @@ TEST (llvmc_analyzer, if_instruction)
     ASSERT_NE (nullptr, result4);
     auto named2 (dynamic_cast <mu::llvmc::skeleton::named *> (result4->value));
     ASSERT_NE (nullptr, named2);
+    ASSERT_EQ (named2->region, element2.region);
     auto element4 (dynamic_cast <mu::llvmc::skeleton::switch_element *> (named2->value_m));
     ASSERT_EQ (element3->source, element4->source);
     ASSERT_EQ (4, element3->source->arguments.size ());
@@ -447,8 +466,8 @@ TEST (llvmc_analyzer, branches)
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::skeleton::marker add_marker (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value add_ast (&add_marker);    
     mu::llvmc::ast::definite_expression expression2;
@@ -565,8 +584,8 @@ TEST (llvmc_analyzer, error_join_different_type)
     expression2.arguments.push_back (&value4);
     expression2.arguments.push_back (&parameter2);
     expression2.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression2, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression2, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression2, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression2, 1, 2, U"element2", empty_region);
     mu::llvmc::ast::definite_expression expression3;
     mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value value5 (&marker2);
@@ -618,16 +637,16 @@ TEST (llvmc_analyzer, error_same_branch)
     expression1.arguments.push_back (&value2);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
 
     mu::llvmc::ast::definite_expression expression2;
     expression2.arguments.push_back (&value2);
     expression2.arguments.push_back (&parameter1);
     expression2.set_predicate_position ();
     expression2.arguments.push_back (&element1);
-    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3");
-    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4");
+    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
+    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
     mu::llvmc::ast::definite_expression expression3;
     mu::llvmc::skeleton::join join1;
@@ -674,16 +693,16 @@ TEST (llvmc_analyzer, error_same_branch2)
     expression1.arguments.push_back (&value2);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     
     mu::llvmc::ast::definite_expression expression2;
     expression2.arguments.push_back (&value2);
     expression2.arguments.push_back (&parameter1);
     expression2.set_predicate_position ();
     expression2.arguments.push_back (&element1);
-    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3");
-    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4");
+    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
+    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
     mu::llvmc::ast::definite_expression expression3;
     mu::llvmc::skeleton::join join1;
@@ -735,8 +754,8 @@ TEST (llvmc_analyzer, disjoint_results)
     expression1.arguments.push_back (&value2);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::add);
     mu::llvmc::ast::value value3 (&marker2);
     mu::llvmc::ast::definite_expression expression2;
@@ -1264,8 +1283,8 @@ TEST (llvmc_analyzer, multibranch_call)
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1");
-    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2");
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
     function.results.push_back (&result1);
@@ -1286,8 +1305,8 @@ TEST (llvmc_analyzer, multibranch_call)
     expression2.arguments.push_back (&function);
     expression2.arguments.push_back (&parameter2);
     expression2.set_predicate_position ();
-    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3");
-    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4");
+    mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
+    mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     mu::llvmc::ast::result result3 (&type2);
     result3.value = &element3;
     function2.results.push_back (&result3);
@@ -1371,11 +1390,11 @@ TEST (llvmc_analyzer, fail_loop_same_branch)
     loop1.results.push_back (&parameter2);
     loop1.add_predicate_offset ();
     loop1.add_branch_end ();
-    mu::llvmc::ast::element element1 (&loop1, 0, 2, U"element1");
+    mu::llvmc::ast::element element1 (&loop1, 0, 2, U"element1", empty_region);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&element1);
     function1.branch_ends.push_back (function1.results.size ());
-    mu::llvmc::ast::element element2 (&loop1, 1, 2, U"element2");
+    mu::llvmc::ast::element element2 (&loop1, 1, 2, U"element2", empty_region);
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&element2);
     function1.branch_ends.push_back (function1.results.size ());

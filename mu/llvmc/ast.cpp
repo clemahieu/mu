@@ -36,12 +36,13 @@ node_m (node_a)
 {
 }
 
-mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a):
+mu::llvmc::ast::element::element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::io::region const & region_a):
 node (node_a),
 index (index_a),
 total (total_a),
 name (name_a)
 {
+    region = region_a;
 }
 
 mu::llvmc::ast::parameter::parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a):

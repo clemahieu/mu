@@ -557,7 +557,6 @@ value (region_a, value_a->branch),
 value_m (value_a),
 name (name_a)
 {
-    region = value_a->region;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::named::type ()
