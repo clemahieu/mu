@@ -40,6 +40,9 @@ int main (int argc, char const * const argv [])
             auto inputs (vm ["input"].as <std::vector <std::string>> ());
             for (auto i: inputs)
             {
+                boost::filesystem::path path (i);
+                std::string name (path.filename ().string ());
+                std::string directory (path.remove_filename ().string ());
                 boost::filesystem::ifstream file (i);
                 if (!file.fail ())
                 {
@@ -48,7 +51,7 @@ int main (int argc, char const * const argv [])
                     llvm::raw_fd_ostream output ("test.o", error);
                     llvm::formatted_raw_ostream formatted (output);
                     mu::muc::compiler compiler (stream, formatted);
-                    compiler.compile (mu::string (i.begin (), i.end ()), U"");
+                    compiler.compile (mu::string (name.begin (), name.end ()), mu::string (directory.begin (), directory.end ()));
                 }
                 else
                 {

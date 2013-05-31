@@ -17,5 +17,6 @@ target_link_libraries (muc
     mu_core
     mu_io
     mu_llvmc
+    boost_filesystem
     boost_program_options
     boost_system)
