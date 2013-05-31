@@ -130,7 +130,14 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));	
 	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
 	auto function_type_d (module.builder.createSubroutineType (module.file, array));
-	auto function_d (module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, function->region.first.row, function_type_d, false, true, 0));
+	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, function->region.first.row, function_type_d, false, true, 0);
+    function_m = function_l;
+    module.target.module->getFunctionList ().push_back (function_l);
+    assert (module.functions.find (function) == module.functions.end ());
+    module.functions [function] = function_l;
+    auto entry (llvm::BasicBlock::Create (context));
+    last = entry;
+    function_l->getBasicBlockList ().push_back (entry);
     {
         auto i (function_l->arg_begin());
         auto j (function_l->arg_end());
@@ -144,13 +151,6 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
         }
         assert ((i != j) == (k != l));
     }
-    function_m = function_l;
-    module.target.module->getFunctionList ().push_back (function_l);
-    assert (module.functions.find (function) == module.functions.end ());
-    module.functions [function] = function_l;
-    auto entry (llvm::BasicBlock::Create (context));
-    last = entry;
-    function_l->getBasicBlockList ().push_back (entry);
     switch (function_return_type)
     {
         case mu::llvmc::skeleton::function_return_type::b0:

@@ -91,6 +91,7 @@ namespace mu
 			mu::map <mu::llvmc::skeleton::type *, llvm::DIType> type_information;
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
+            llvm::DISubprogram function_d;
         };
     }
 }
