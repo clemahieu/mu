@@ -32,10 +32,10 @@ mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & 
 mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a) :
 builder (*target_a.module),
 module (module_a),
-target (target_a),
-file (builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ())))
+target (target_a)
 {
 	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
+    file = builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()));
 }
 
 void mu::llvmc::generate_module::generate ()
