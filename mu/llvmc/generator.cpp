@@ -916,7 +916,26 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 							}
 							else
 							{
-								assert (false);
+                                auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value_a));
+                                if (named != nullptr)
+                                {
+                                    auto value_l (retrieve_value (named->value_m));
+                                    value = value_l.value;
+                                    predicate = value_l.predicate;
+                                    auto const & name (named->name);
+                                    generate_type (named->type ());
+                                    auto existing (type_information.find (named->type ()));
+                                    assert (existing != type_information.end ());
+                                    llvm::Value * debug_arguments [2] = {
+                                        llvm::MDNode::get(context, llvm::ArrayRef <llvm::Value *> (value_l.value)),
+                                        module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, named->region.first.row, existing->second)
+                                    };
+                                    last->getInstList ().push_back (llvm::CallInst::Create (module.dbg_declare, llvm::ArrayRef <llvm::Value *> (debug_arguments)));
+                                }
+                                else
+                                {
+                                    assert (false);
+                                }
 							}
                         }
                     }
@@ -939,7 +958,6 @@ llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a
 
 llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::type * type_a)
 {
-    assert (!type_a->is_unit_type ());
     llvm::Type * result;
     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type_a));
     if (integer_type != nullptr)
@@ -960,12 +978,21 @@ llvm::Type * mu::llvmc::generate_function::generate_type (mu::llvmc::skeleton::t
             assert (element_type != nullptr);
 			auto existing (type_information.find (pointer_type->pointed_type));
 			assert (existing != type_information.end ());
-			type_information [type_a] = module.builder.createPointerType (existing->second, 8);
+			type_information [type_a] = module.builder.createPointerType (existing->second, 8, 0, "ptr");
             result = llvm::PointerType::get (element_type, 0);
         }
         else
         {
-            assert (false && "Unknown type");
+            auto unit_type (dynamic_cast <mu::llvmc::skeleton::unit_type *> (type_a));
+            if (unit_type != nullptr)
+            {
+                result = llvm::Type::getVoidTy (module.target.module->getContext ());
+                type_information [type_a] = module.builder.createBasicType ("unit", 0, 0, llvm::dwarf::DW_ATE_unsigned_char);
+            }
+            else
+            {
+                assert (false && "Unknown type");
+            }
         }
     }
 	assert (type_information.find (type_a) != type_information.end ());

@@ -43,20 +43,20 @@ arguments (arguments_a)
 {
 }
 
-mu::llvmc::skeleton::call_element::call_element (mu::llvmc::skeleton::branch * branch_a) :
-value (branch_a)
+mu::llvmc::skeleton::call_element::call_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
+value (region_a, branch_a)
 {
 }
 
-mu::llvmc::skeleton::call_element_value::call_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
-call_element (branch_a),
+mu::llvmc::skeleton::call_element_value::call_element_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
+call_element (region_a, branch_a),
 source (source_a),
 index (index_a)
 {
 }
 
-mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
-call_element (branch_a),
+mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
+call_element (region_a, branch_a),
 source (source_a),
 index (index_a)
 {
@@ -67,12 +67,11 @@ mu::llvmc::skeleton::node::~node ()
 }
 
 mu::llvmc::skeleton::function::function (mu::io::region const & region_a, mu::llvmc::skeleton::branch * global_a) :
-value (global_a),
+value (region_a, global_a),
 type_m (this),
 pointer_type_m (&type_m),
 entry (new (GC) mu::llvmc::skeleton::branch (global_a))
 {
-	region = region_a;
 }
 
 mu::llvmc::skeleton::function_type::function_type (mu::llvmc::skeleton::function * function_a) :
@@ -85,8 +84,9 @@ parent (parent_a)
 {
 }
 
-mu::llvmc::skeleton::value::value (mu::llvmc::skeleton::branch * branch_a) :
-branch (branch_a)
+mu::llvmc::skeleton::value::value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
+branch (branch_a),
+region (region_a)
 {
 }
 
@@ -95,8 +95,8 @@ bits (bits_a)
 {
 }
 
-mu::llvmc::skeleton::parameter::parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a) :
-value (branch_a),
+mu::llvmc::skeleton::parameter::parameter (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a) :
+value (region_a, branch_a),
 type_m (type_a),
 name (name_a)
 {
@@ -108,8 +108,8 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::instruction::instruction (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
-value (branch_a),
+mu::llvmc::skeleton::instruction::instruction (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
+value (region_a, branch_a),
 arguments (arguments_a),
 predicate_position (predicate_position_a)
 {
@@ -125,8 +125,8 @@ mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
     return result;
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
-value (branch_a),
+mu::llvmc::skeleton::join_value::join_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
+value (region_a, branch_a),
 arguments (arguments_a)
 {
 }
@@ -289,21 +289,21 @@ predicate_offset (predicate_offset_a)
 {
 }
 
-mu::llvmc::skeleton::switch_element::switch_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a) :
-value (branch_a),
+mu::llvmc::skeleton::switch_element::switch_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a) :
+value (region_a, branch_a),
 source (source_a),
 value_m (value_a)
 {
     source_a->elements.push_back (this);
 }
 
-mu::llvmc::skeleton::constant::constant (mu::llvmc::skeleton::branch * branch_a) :
-value (branch_a)
+mu::llvmc::skeleton::constant::constant (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
+value (region_a, branch_a)
 {
 }
 
-mu::llvmc::skeleton::constant_integer::constant_integer (mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a) :
-constant (branch_a),
+mu::llvmc::skeleton::constant_integer::constant_integer (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a) :
+constant (region_a, branch_a),
 type_m (new (GC) mu::llvmc::skeleton::integer_type (bits_a)),
 value_m (value_a)
 {
@@ -319,8 +319,8 @@ type (type_a)
 {
 }
 
-mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-constant (branch_a),
+mu::llvmc::skeleton::constant_aggregate_zero::constant_aggregate_zero (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+constant (region_a, branch_a),
 type_m (type_a)
 {
 }
@@ -341,8 +341,8 @@ bool mu::llvmc::skeleton::pointer_type::operator == (mu::llvmc::skeleton::type c
     return result;
 }
 
-mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-constant (branch_a),
+mu::llvmc::skeleton::constant_pointer_null::constant_pointer_null (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+constant (region_a, branch_a),
 type_m (type_a)
 {
 }
@@ -375,6 +375,20 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         {
             assert (predicate_position == 2);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::store:
+        {
+            result = &mu::llvmc::skeleton::the_unit_type;
+            break;
+        }
+        case mu::llvmc::instruction_type::sub:
+        {
+            assert (predicate_position == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;
         }
@@ -449,7 +463,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::unit_value::type ()
 }
 
 mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a) :
-value (branch_a)
+value (mu::io::region (0, 0, 0, 0, 0, 0), branch_a)
 {
 }
 
@@ -470,14 +484,14 @@ void mu::llvmc::skeleton::loop::set_argument_predicate_offset ()
     argument_predicate_offset = arguments.size ();
 }
 
-mu::llvmc::skeleton::loop_element::loop_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a) :
-value (branch_a),
+mu::llvmc::skeleton::loop_element::loop_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a) :
+value (region_a, branch_a),
 source (source_a)
 {  
 }
 
-mu::llvmc::skeleton::loop_element_value::loop_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
-loop_element (branch_a, source_a),
+mu::llvmc::skeleton::loop_element_value::loop_element_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
+loop_element (region_a, branch_a, source_a),
 index (index_a)
 {
 }
@@ -489,8 +503,8 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_value::type ()
     return result;
 }
 
-mu::llvmc::skeleton::loop_element_unit::loop_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
-loop_element (branch_a, source_a),
+mu::llvmc::skeleton::loop_element_unit::loop_element_unit (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a) :
+loop_element (region_a, branch_a, source_a),
 index (index_a)
 {
 }
@@ -500,8 +514,8 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_unit::type ()
     return &the_unit_type;
 }
 
-mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
-value (branch_a),
+mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+value (region_a, branch_a),
 type_m (type_a)
 {
 }
@@ -523,8 +537,8 @@ constraint (constraint_a)
 {
 }
 
-mu::llvmc::skeleton::inline_asm::inline_asm (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
-value (branch_a),
+mu::llvmc::skeleton::inline_asm::inline_asm (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
+value (region_a, branch_a),
 arguments (arguments_a),
 predicate_position (predicate_position_a)
 {
@@ -536,6 +550,20 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::inline_asm::type ()
 	assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]) != nullptr);
 	auto asm_l (static_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]));
 	return asm_l->type_m;
+}
+
+mu::llvmc::skeleton::named::named (mu::io::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a) :
+value (region_a, value_a->branch),
+value_m (value_a),
+name (name_a)
+{
+    region = value_a->region;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::named::type ()
+{
+    auto result (value_m->type ());
+    return result;
 }
 
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
