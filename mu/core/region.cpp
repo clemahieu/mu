@@ -8,7 +8,7 @@ mu::core::region::region ()
 {
 }
 
-mu::core::position::position (size_t offset_a, size_t row_a, size_t column_a):
+mu::core::position::position (uint64_t offset_a, uint64_t row_a, uint64_t column_a):
 offset (offset_a),
 row (row_a),
 column (column_a)
@@ -34,7 +34,7 @@ void mu::core::position::line ()
     column = 1;
 }
 
-mu::core::region::region (size_t offset1_a, size_t row1_a, size_t column1_a, size_t offset2_a, size_t row2_a, size_t column2_a):
+mu::core::region::region (uint64_t offset1_a, uint64_t row1_a, uint64_t column1_a, uint64_t offset2_a, uint64_t row2_a, uint64_t column2_a):
 first (offset1_a, row1_a, column1_a),
 last (offset2_a, row2_a, column2_a)
 {
