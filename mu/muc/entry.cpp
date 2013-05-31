@@ -48,7 +48,7 @@ int main (int argc, char const * const argv [])
                     llvm::raw_fd_ostream output ("test.o", error);
                     llvm::formatted_raw_ostream formatted (output);
                     mu::muc::compiler compiler (stream, formatted);
-                    compiler.compile (U"", U"");
+                    compiler.compile (mu::string (i.begin (), i.end ()), U"");
                 }
                 else
                 {

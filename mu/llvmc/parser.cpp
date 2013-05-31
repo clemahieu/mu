@@ -826,10 +826,21 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
         switch (next->id ())
         {
             case mu::io::token_id::identifier:
-                identifiers.push_back (static_cast <mu::io::identifier *> (next));
-                parser_a.stream.tokens.consume (1);
-                next = parser_a.stream.tokens [0];
+            {
+                auto identifier (static_cast <mu::io::identifier *> (next));
+                auto hook (parser_a.keywords.get_hook (identifier->string));
+                if (hook.hook != nullptr)
+                {
+                    done = true;
+                }
+                else
+                {
+                    identifiers.push_back (identifier);
+                    parser_a.stream.tokens.consume (1);
+                    next = parser_a.stream.tokens [0];
+                }
                 break;
+            }
             case mu::io::token_id::left_square:
                 done = true;
                 break;
