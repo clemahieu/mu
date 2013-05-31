@@ -52,13 +52,6 @@ namespace mu
                 mu::llvmc::skeleton::branch * branch;
 				mu::io::region region;
             };
-            class named : public mu::llvmc::skeleton::node
-            {
-            public:
-                named (mu::llvmc::skeleton::node * node_a, mu::string const & name_a);
-                mu::llvmc::skeleton::node * node_m;
-                mu::string name;
-            };
             class parameter : public mu::llvmc::skeleton::value
             {
             public:

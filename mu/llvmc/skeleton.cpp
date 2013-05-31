@@ -538,12 +538,6 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::inline_asm::type ()
 	return asm_l->type_m;
 }
 
-mu::llvmc::skeleton::named::named (mu::llvmc::skeleton::node * node_a, mu::string const & name_a) :
-node_m (node_a),
-name (name_a)
-{
-}
-
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;
