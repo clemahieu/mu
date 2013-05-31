@@ -41,7 +41,7 @@ void mu::io::stream_token::refill ()
         auto token (lexer_l.lex ());
         if (token.error != nullptr)
         {
-            buffer.push_back (new (GC) mu::io::end (mu::io::region (lexer.position, lexer.position)));
+            buffer.push_back (new (GC) mu::io::end (mu::core::region (lexer.position, lexer.position)));
         }
         else
         {

@@ -185,11 +185,11 @@ TEST (llvmc_parser, simple)
     ASSERT_NE (nullptr, module1.node);
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
-	ASSERT_EQ (mu::io::region (0, 1, 1, 22, 1, 23), module2->region);
+	ASSERT_EQ (mu::core::region (0, 1, 1, 22, 1, 23), module2->region);
     ASSERT_EQ (1, module2->functions.size ());
     auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
     ASSERT_NE (nullptr, function1);
-	ASSERT_EQ (mu::io::region (0, 1, 1, 21, 1, 22), function1->region);
+	ASSERT_EQ (mu::core::region (0, 1, 1, 21, 1, 22), function1->region);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
 }

@@ -31,7 +31,7 @@ namespace mu
             {
             public:
                 virtual ~node ();
-				mu::io::region region;
+				mu::core::region region;
             };
             class value : public mu::llvmc::ast::node
             {
@@ -66,7 +66,7 @@ namespace mu
             class element : public mu::llvmc::ast::expression
             {
             public:
-                element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::io::region const & region_a);
+                element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a);
                 mu::llvmc::ast::node * node;
                 size_t index;
                 size_t total;

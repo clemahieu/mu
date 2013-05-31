@@ -5,7 +5,7 @@
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/core/error.hpp>
 
-static mu::io::region empty_region (0, 0, 0, 0, 0, 0);
+static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
 TEST (llvmc_ast, iteration)
 {
@@ -172,7 +172,7 @@ TEST (llvmc_analyzer, empty_function)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
-    function.region = mu::io::region (2, 2, 2, 3, 3, 3);
+    function.region = mu::core::region (2, 2, 2, 3, 3, 3);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
@@ -191,11 +191,11 @@ TEST (llvmc_analyzer, single_parameter)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
-    function.region = mu::io::region (2, 2, 2, 5, 5, 5);
+    function.region = mu::core::region (2, 2, 2, 5, 5, 5);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
-    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
+    parameter1.region = mu::core::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     module.functions.push_back (&function);
     auto result (analyzer.analyze (&module));
@@ -218,11 +218,11 @@ TEST (llvmc_analyzer, one_result_parameter)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
-    function.region = mu::io::region (2, 2, 2, 5, 5, 5);
+    function.region = mu::core::region (2, 2, 2, 5, 5, 5);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
-    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
+    parameter1.region = mu::core::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &parameter1;
@@ -379,25 +379,25 @@ TEST (llvmc_analyzer, if_instruction)
     mu::llvmc::ast::module module;
     mu::llvmc::ast::function function;
     function.name = U"0";
-    function.region = mu::io::region (2, 2, 2, 12, 12, 12);
+    function.region = mu::core::region (2, 2, 2, 12, 12, 12);
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value type2 (&type1);
     mu::llvmc::skeleton::integer_type type3 (1);
     mu::llvmc::ast::value type4 (&type3);
     mu::llvmc::ast::parameter parameter1 (U"p0", &type4);
-    parameter1.region = mu::io::region (3, 3, 3, 4, 4, 4);
+    parameter1.region = mu::core::region (3, 3, 3, 4, 4, 4);
     function.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::marker if_marker (mu::llvmc::instruction_type::if_i);
     mu::llvmc::ast::value if_ast (&if_marker);
     mu::llvmc::ast::definite_expression expression1;
-    expression1.region = mu::io::region (10, 10, 10, 11, 11, 11);
+    expression1.region = mu::core::region (10, 10, 10, 11, 11, 11);
     expression1.arguments.push_back (&if_ast);
     expression1.arguments.push_back (&parameter1);
     expression1.set_predicate_position ();
     mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
-    element1.region = mu::io::region (6, 6, 6, 7, 7, 7);
+    element1.region = mu::core::region (6, 6, 6, 7, 7, 7);
     mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
-    element2.region = mu::io::region (8, 8, 8, 9, 9, 9);
+    element2.region = mu::core::region (8, 8, 8, 9, 9, 9);
     mu::llvmc::ast::result result1 (&type2);
     result1.value = &element1;
     function.results.push_back (&result1);

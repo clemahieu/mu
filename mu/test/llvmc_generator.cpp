@@ -18,7 +18,7 @@ static void print_module (llvm::Module * module, std::string & target)
     module->print (stream, nullptr);
 }
 
-static mu::io::region empty_region (0, 0, 0, 0, 0, 0);
+static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
 TEST (llvmc_generator, generate1)
 {

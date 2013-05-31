@@ -63,19 +63,19 @@ mu::io::token_result mu::io::lexer::lex ()
                 consume (1);
                 break;
             case U'[':
-                result.token = new (GC) mu::io::left_square (mu::io::region (position, position));
+                result.token = new (GC) mu::io::left_square (mu::core::region (position, position));
                 consume (1);
                 break;
             case U']':
-                result.token = new (GC) mu::io::right_square (mu::io::region (position, position));
+                result.token = new (GC) mu::io::right_square (mu::core::region (position, position));
                 consume (1);
                 break;
             case U';':
-                result.token = new (GC) mu::io::terminator (mu::io::region (position, position));
+                result.token = new (GC) mu::io::terminator (mu::core::region (position, position));
                 consume (1);
                 break;
             case U'\U0000FFFF':
-                result.token = new (GC) mu::io::end (mu::io::region (position, position));
+                result.token = new (GC) mu::io::end (mu::core::region (position, position));
                 break;
             case U'{':
                 result = complex_identifier ();
@@ -126,7 +126,7 @@ mu::io::token_result mu::io::lexer::lex ()
 
 mu::io::token_result mu::io::lexer::identifier ()
 {
-    auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
+    auto identifier (new (GC) mu::io::identifier (mu::core::region (position, position)));
     auto last (position);
     mu::io::token_result result ({nullptr, nullptr});
     while (result.token == nullptr && result.error == nullptr)
@@ -290,7 +290,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
 {
     assert (stream [0] == U'{');
     mu::io::token_result result ({nullptr, nullptr});
-    auto identifier (new (GC) mu::io::identifier (mu::io::region (position, position)));
+    auto identifier (new (GC) mu::io::identifier (mu::core::region (position, position)));
     auto last (position);
     consume (1);
     auto have_terminator (false);

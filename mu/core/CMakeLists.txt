@@ -8,6 +8,8 @@ add_library (mu_core SHARED
 	error_string.hpp
 	MurmurHash3.cpp
 	MurmurHash3.h
+    region.cpp
+    region.hpp
     string_hash.cpp
     string_hash.hpp
 	types.hpp)

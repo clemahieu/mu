@@ -15,12 +15,12 @@ TEST (io_lexer, empty)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::end *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token4->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token4->region);
     EXPECT_NE (nullptr, token4);
 }
 
@@ -34,13 +34,13 @@ TEST (io_lexer, left_square)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::left_square *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
 }
 
 TEST (io_lexer, right_square)
@@ -53,13 +53,13 @@ TEST (io_lexer, right_square)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::right_square *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
 }
 
 TEST (io_lexer, terminator)
@@ -72,13 +72,13 @@ TEST (io_lexer, terminator)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::terminator *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
 }
 
 TEST (io_lexer, whitespace)
@@ -94,13 +94,13 @@ TEST (io_lexer, whitespace)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::terminator *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (6, 4, 3, 6, 4, 3), token2->region);
+    EXPECT_EQ (mu::core::region (6, 4, 3, 6, 4, 3), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (7, 4, 4, 7, 4, 4), token4->region);
+    EXPECT_EQ (mu::core::region (7, 4, 4, 7, 4, 4), token4->region);
 }
 
 TEST (io_lexer, line_comment)
@@ -113,13 +113,13 @@ TEST (io_lexer, line_comment)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::terminator *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (3, 2, 1, 3, 2, 1), token2->region);
+    EXPECT_EQ (mu::core::region (3, 2, 1, 3, 2, 1), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (4, 2, 2, 4, 2, 2), token4->region);
+    EXPECT_EQ (mu::core::region (4, 2, 2, 4, 2, 2), token4->region);
 }
 
 TEST (io_lexer, region_comment)
@@ -132,13 +132,13 @@ TEST (io_lexer, region_comment)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::terminator *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (8, 1, 9, 8, 1, 9), token2->region);
+    EXPECT_EQ (mu::core::region (8, 1, 9, 8, 1, 9), token2->region);
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (9, 1, 10, 9, 1, 10), token4->region);
+    EXPECT_EQ (mu::core::region (9, 1, 10, 9, 1, 10), token4->region);
 }
 
 TEST (io_lexer, identifier)
@@ -151,7 +151,7 @@ TEST (io_lexer, identifier)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -159,7 +159,7 @@ TEST (io_lexer, identifier)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
 }
 
 TEST (io_lexer, identifier_terminator)
@@ -172,7 +172,7 @@ TEST (io_lexer, identifier_terminator)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -180,13 +180,13 @@ TEST (io_lexer, identifier_terminator)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::terminator *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
     auto token5 (lexer.lex ());
     EXPECT_EQ (nullptr, token5.error);
     EXPECT_NE (nullptr, token5.token);
     auto token6 (dynamic_cast <mu::io::end *> (token5.token));
     ASSERT_NE (nullptr, token6);
-    EXPECT_EQ (mu::io::region (2, 1, 3, 2, 1, 3), token6->region);
+    EXPECT_EQ (mu::core::region (2, 1, 3, 2, 1, 3), token6->region);
 }
 
 TEST (io_lexer, identifier_left_square)
@@ -199,7 +199,7 @@ TEST (io_lexer, identifier_left_square)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -207,13 +207,13 @@ TEST (io_lexer, identifier_left_square)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::left_square *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
     auto token5 (lexer.lex ());
     EXPECT_EQ (nullptr, token5.error);
     EXPECT_NE (nullptr, token5.token);
     auto token6 (dynamic_cast <mu::io::end *> (token5.token));
     ASSERT_NE (nullptr, token6);
-    EXPECT_EQ (mu::io::region (2, 1, 3, 2, 1, 3), token6->region);
+    EXPECT_EQ (mu::core::region (2, 1, 3, 2, 1, 3), token6->region);
 }
 
 TEST (io_lexer, identifier_right_square)
@@ -226,7 +226,7 @@ TEST (io_lexer, identifier_right_square)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -234,13 +234,13 @@ TEST (io_lexer, identifier_right_square)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::right_square *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (1, 1, 2, 1, 1, 2), token4->region);
+    EXPECT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), token4->region);
     auto token5 (lexer.lex ());
     EXPECT_EQ (nullptr, token5.error);
     EXPECT_NE (nullptr, token5.token);
     auto token6 (dynamic_cast <mu::io::end *> (token5.token));
     ASSERT_NE (nullptr, token6);
-    EXPECT_EQ (mu::io::region (2, 1, 3, 2, 1, 3), token6->region);
+    EXPECT_EQ (mu::core::region (2, 1, 3, 2, 1, 3), token6->region);
 }
 
 TEST (io_lexer, two_identifiers)
@@ -253,7 +253,7 @@ TEST (io_lexer, two_identifiers)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 0, 1, 1), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 0, 1, 1), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -261,7 +261,7 @@ TEST (io_lexer, two_identifiers)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::identifier *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (2, 1, 3, 2, 1, 3), token4->region);
+    EXPECT_EQ (mu::core::region (2, 1, 3, 2, 1, 3), token4->region);
     ASSERT_EQ (1, token4->string.size ());
     EXPECT_EQ (U'b', token4->string [0]);
     auto token5 (lexer.lex ());
@@ -269,7 +269,7 @@ TEST (io_lexer, two_identifiers)
     EXPECT_NE (nullptr, token5.token);
     auto token6 (dynamic_cast <mu::io::end *> (token5.token));
     ASSERT_NE (nullptr, token6);
-    EXPECT_EQ (mu::io::region (3, 1, 4, 3, 1, 4), token6->region);
+    EXPECT_EQ (mu::core::region (3, 1, 4, 3, 1, 4), token6->region);
 }
 
 TEST (io_lexer, escape_sequences)
@@ -285,7 +285,7 @@ TEST (io_lexer, escape_sequences)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 17, 4, 2), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 17, 4, 2), token2->region);
     ASSERT_EQ (9, token2->string.size ());
     EXPECT_EQ (U'[', token2->string [0]);
     EXPECT_EQ (U']', token2->string [1]);
@@ -301,7 +301,7 @@ TEST (io_lexer, escape_sequences)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (18, 4, 3, 18, 4, 3), token4->region);
+    EXPECT_EQ (mu::core::region (18, 4, 3, 18, 4, 3), token4->region);
 }
 
 TEST (io_lexer, ascii_numbers)
@@ -314,7 +314,7 @@ TEST (io_lexer, ascii_numbers)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 3, 1, 4), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 3, 1, 4), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ ('\0', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -322,7 +322,7 @@ TEST (io_lexer, ascii_numbers)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (4, 1, 5, 4, 1, 5), token4->region);
+    EXPECT_EQ (mu::core::region (4, 1, 5, 4, 1, 5), token4->region);
 }
 
 TEST (io_lexer, ascii_upper_letters)
@@ -335,7 +335,7 @@ TEST (io_lexer, ascii_upper_letters)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 3, 1, 4), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 3, 1, 4), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'\U0000004a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -343,7 +343,7 @@ TEST (io_lexer, ascii_upper_letters)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (4, 1, 5, 4, 1, 5), token4->region);
+    EXPECT_EQ (mu::core::region (4, 1, 5, 4, 1, 5), token4->region);
 }
 
 TEST (io_lexer, ascii_lower_letters)
@@ -356,7 +356,7 @@ TEST (io_lexer, ascii_lower_letters)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 3, 1, 4), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 3, 1, 4), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ (U'\U0000004a', token2->string [0]);
     auto token3 (lexer.lex ());
@@ -364,7 +364,7 @@ TEST (io_lexer, ascii_lower_letters)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (4, 1, 5, 4, 1, 5), token4->region);
+    EXPECT_EQ (mu::core::region (4, 1, 5, 4, 1, 5), token4->region);
 }
 
 TEST (io_lexer, unicode)
@@ -377,7 +377,7 @@ TEST (io_lexer, unicode)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 9, 1, 10), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 9, 1, 10), token2->region);
     ASSERT_EQ (1, token2->string.size ());
     EXPECT_EQ ((char32_t)0xaaaabbbb, token2->string [0]);
     auto token3 (lexer.lex ());
@@ -385,7 +385,7 @@ TEST (io_lexer, unicode)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (10, 1, 11, 10, 1, 11), token4->region);
+    EXPECT_EQ (mu::core::region (10, 1, 11, 10, 1, 11), token4->region);
 }
 
 TEST (io_lexer, identifier_inner_comment)
@@ -398,7 +398,7 @@ TEST (io_lexer, identifier_inner_comment)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 9, 1, 10), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 9, 1, 10), token2->region);
     ASSERT_EQ (2, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     EXPECT_EQ (U'b', token2->string [1]);
@@ -407,7 +407,7 @@ TEST (io_lexer, identifier_inner_comment)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (10, 1, 11, 10, 1, 11), token4->region);
+    EXPECT_EQ (mu::core::region (10, 1, 11, 10, 1, 11), token4->region);
 }
 
 TEST (io_lexer, nested_comment)
@@ -420,7 +420,7 @@ TEST (io_lexer, nested_comment)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 13, 1, 14), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 13, 1, 14), token2->region);
     ASSERT_EQ (2, token2->string.size ());
     EXPECT_EQ (U'a', token2->string [0]);
     EXPECT_EQ (U'b', token2->string [1]);
@@ -429,7 +429,7 @@ TEST (io_lexer, nested_comment)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (14, 1, 15, 14, 1, 15), token4->region);
+    EXPECT_EQ (mu::core::region (14, 1, 15, 14, 1, 15), token4->region);
 }
 
 TEST (io_lexer, empty_complex)
@@ -442,14 +442,14 @@ TEST (io_lexer, empty_complex)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 1, 1, 2), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 1, 1, 2), token2->region);
     ASSERT_EQ (0, token2->string.size ());
     auto token3 (lexer.lex ());
     EXPECT_EQ (nullptr, token3.error);
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (2, 1, 3, 2, 1, 3), token4->region);
+    EXPECT_EQ (mu::core::region (2, 1, 3, 2, 1, 3), token4->region);
 }
 
 TEST (io_lexer, complex_with_control)
@@ -465,7 +465,7 @@ TEST (io_lexer, complex_with_control)
     EXPECT_NE (nullptr, token1.token);
     auto token2 (dynamic_cast <mu::io::identifier *> (token1.token));
     ASSERT_NE (nullptr, token2);
-    EXPECT_EQ (mu::io::region (0, 1, 1, 13, 4, 2), token2->region);
+    EXPECT_EQ (mu::core::region (0, 1, 1, 13, 4, 2), token2->region);
     ASSERT_EQ (10, token2->string.size ());
     EXPECT_EQ (U'[', token2->string [0]);
     EXPECT_EQ (U']', token2->string [1]);
@@ -482,7 +482,7 @@ TEST (io_lexer, complex_with_control)
     EXPECT_NE (nullptr, token3.token);
     auto token4 (dynamic_cast <mu::io::end *> (token3.token));
     ASSERT_NE (nullptr, token4);
-    EXPECT_EQ (mu::io::region (14, 4, 3, 14, 4, 3), token4->region);
+    EXPECT_EQ (mu::core::region (14, 4, 3, 14, 4, 3), token4->region);
 }
 
 TEST (io_lexer, invalid_control)

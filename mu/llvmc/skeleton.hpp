@@ -47,15 +47,15 @@ namespace mu
             class value : public mu::llvmc::skeleton::node
             {
             public:
-                value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
                 virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
-				mu::io::region region;
+				mu::core::region region;
             };
             class named : public mu::llvmc::skeleton::value
             {
             public:
-                named (mu::io::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a);
+                named (mu::core::region const & region_a, mu::llvmc::skeleton::value * value_a, mu::string const & name_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::value * value_m;
                 mu::string name;
@@ -63,7 +63,7 @@ namespace mu
             class parameter : public mu::llvmc::skeleton::value
             {
             public:
-                parameter (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);
+                parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
                 mu::string name;
@@ -71,12 +71,12 @@ namespace mu
             class constant : public mu::llvmc::skeleton::value
             {
             public:
-                constant (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                constant (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
             };
             class constant_integer : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_integer (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a);
+                constant_integer (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, size_t bits_a, uint64_t value_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
                 uint64_t value_m;
@@ -84,21 +84,21 @@ namespace mu
             class constant_aggregate_zero : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_aggregate_zero (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                constant_aggregate_zero (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
             class constant_pointer_null : public mu::llvmc::skeleton::constant
             {
             public:
-                constant_pointer_null (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                constant_pointer_null (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
-                instruction (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
@@ -171,7 +171,7 @@ namespace mu
             class function : public mu::llvmc::skeleton::value
             {
             public:
-                function (mu::io::region const & region_a, mu::llvmc::skeleton::branch * global_a);
+                function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a);
                 size_t branch_size (size_t index) const;
                 mu::llvmc::skeleton::function_return_type get_return_type ();
                 mu::llvmc::skeleton::function_type type_m;
@@ -250,7 +250,7 @@ namespace mu
             class switch_element : public mu::llvmc::skeleton::value
             {
             public:
-                switch_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
+                switch_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::switch_i * source_a, mu::llvmc::skeleton::constant_integer * value_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::switch_i * source;
                 mu::llvmc::skeleton::constant_integer * value_m;
@@ -269,12 +269,12 @@ namespace mu
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
             };
             class call_element_value : public mu::llvmc::skeleton::call_element
             {
             public:
-                call_element_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
+                call_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::function_call * source;
                 size_t index;
@@ -282,7 +282,7 @@ namespace mu
             class call_element_unit : public mu::llvmc::skeleton::call_element
             {
             public:
-                call_element_unit (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
+                call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::function_call * source;
                 size_t index;
@@ -291,13 +291,13 @@ namespace mu
 			class loop_element : public mu::llvmc::skeleton::value
 			{
 			public:
-				loop_element (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a);
+				loop_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a);
 				mu::llvmc::skeleton::loop * source;
 			};
 			class loop_parameter : public mu::llvmc::skeleton::value
 			{
 			public:
-				loop_parameter (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+				loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
 						mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 			};
@@ -360,14 +360,14 @@ namespace mu
 			class loop_element_value : public mu::llvmc::skeleton::loop_element
 			{
 			public:
-				loop_element_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
+				loop_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
 				mu::llvmc::skeleton::type * type () override;
 				size_t index;
 			};
 			class loop_element_unit : public mu::llvmc::skeleton::loop_element
 			{
 			public:
-				loop_element_unit (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
+				loop_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
 				mu::llvmc::skeleton::type * type () override;
 				size_t index;
 			};
@@ -380,7 +380,7 @@ namespace mu
             class join_value : public mu::llvmc::skeleton::value
             {
             public:
-                join_value (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+                join_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
             };
@@ -409,7 +409,7 @@ namespace mu
 			class inline_asm : public mu::llvmc::skeleton::value
 			{
 			public:
-				inline_asm (mu::io::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+				inline_asm (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
                 mu::llvmc::skeleton::type * type () override;
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
 				size_t predicate_position;
