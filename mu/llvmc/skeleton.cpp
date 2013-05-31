@@ -95,9 +95,10 @@ bits (bits_a)
 {
 }
 
-mu::llvmc::skeleton::parameter::parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+mu::llvmc::skeleton::parameter::parameter (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::string const & name_a) :
 value (branch_a),
-type_m (type_a)
+type_m (type_a),
+name (name_a)
 {
 }
 
@@ -537,6 +538,11 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::inline_asm::type ()
 	return asm_l->type_m;
 }
 
+mu::llvmc::skeleton::named::named (mu::llvmc::skeleton::node * node_a, mu::string const & name_a) :
+node_m (node_a),
+name (name_a)
+{
+}
 
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);

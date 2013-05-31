@@ -92,7 +92,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 		auto type_l (process_type ((*k)->type));
 		if (type_l != nullptr)
 		{
-			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (function_s->entry, type_l));
+			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter (function_s->entry, type_l, (*k)->name));
 			already_generated [*k] = parameter_s;
 			function_s->parameters.push_back (parameter_s);
 		}

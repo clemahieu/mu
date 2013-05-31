@@ -848,7 +848,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
 		size_t total (identifiers.size ());
 		for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
 		{
-			parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (set, index, total));
+			parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (set, index, total, (*i)->string));
 		}
 	}
 	else

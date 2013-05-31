@@ -34,6 +34,13 @@ builder (*target_a.module),
 module (module_a),
 target (target_a)
 {
+    llvm::Type * dbg_declare_parameters [2] = {
+        llvm::Type::getMetadataTy (target.module->getContext ()),
+        llvm::Type::getMetadataTy (target.module->getContext ())
+    };
+    auto dbg_declare_type (llvm::FunctionType::get (llvm::Type::getVoidTy (target.module->getContext ()), llvm::ArrayRef <llvm::Type *> (dbg_declare_parameters), false));
+    dbg_declare = llvm::Function::Create (dbg_declare_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "llvm.dbg.declare");
+    target_a.module->getFunctionList().push_back (dbg_declare);
 	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
     file = builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()));
 }
@@ -148,6 +155,14 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
             assert (k != l);
             llvm::Value * parameter (i);
             already_generated [*k] = mu::llvmc::value_data ({llvm::ConstantInt::getTrue (context), parameter});
+            auto existing (type_information.find ((*k)->type ()));
+            assert (existing != type_information.end ());
+            auto const & name ((*k)->name);
+            llvm::Value * dbg_declare_arguments [2] = {
+                llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> (parameter)),
+                module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->second)
+            };
+            entry->getInstList ().push_back (llvm::CallInst::Create (module.dbg_declare, llvm::ArrayRef <llvm::Value *> (dbg_declare_arguments)));
         }
         assert ((i != j) == (k != l));
     }

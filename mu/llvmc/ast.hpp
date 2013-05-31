@@ -66,10 +66,11 @@ namespace mu
             class element : public mu::llvmc::ast::expression
             {
             public:
-                element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a);
+                element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a);
                 mu::llvmc::ast::node * node;
                 size_t index;
                 size_t total;
+                mu::string name;
             };
 			template <typename S, typename T, typename U, typename V, typename W>
 			void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op)
