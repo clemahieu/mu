@@ -11,6 +11,8 @@
 #include <llvm/Instructions.h>
 #include <llvm/InlineAsm.h>
 #include <llvm/Support/Dwarf.h>
+#include <llvm/Support/Host.h>
+#include <llvm/Support/DebugLoc.h>
 
 #include <boost/array.hpp>
 
@@ -24,6 +26,7 @@ mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & 
 {
     mu::llvmc::generator_result result;
     result.module = new llvm::Module ("", context_a);
+    result.module->setTargetTriple (llvm::sys::getDefaultTargetTriple ());
     mu::llvmc::generate_module generator (module_a, result, name_a, path_a);
     generator.generate ();
     return result;
@@ -34,13 +37,13 @@ builder (*target_a.module),
 module (module_a),
 target (target_a)
 {
-    llvm::Type * dbg_declare_parameters [2] = {
+    /*llvm::Type * dbg_declare_parameters [2] = {
         llvm::Type::getMetadataTy (target.module->getContext ()),
         llvm::Type::getMetadataTy (target.module->getContext ())
     };
     auto dbg_declare_type (llvm::FunctionType::get (llvm::Type::getVoidTy (target.module->getContext ()), llvm::ArrayRef <llvm::Type *> (dbg_declare_parameters), false));
     dbg_declare = llvm::Function::Create (dbg_declare_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "llvm.dbg.declare");
-    target_a.module->getFunctionList().push_back (dbg_declare);
+    target_a.module->getFunctionList().push_back (dbg_declare);*/
 	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
     file = builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()));
 }
@@ -137,7 +140,8 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));	
 	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
 	auto function_type_d (module.builder.createSubroutineType (module.file, array));
-	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), std::string (name_a.begin (), name_a.end ()), module.file, function->region.first.row, function_type_d, false, true, 0);
+	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), "", module.file, function->region.first.row, function_type_d, false, true, function->region.first.row, 0, false, function_l);
+    block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
     module.target.module->getFunctionList ().push_back (function_l);
     assert (module.functions.find (function) == module.functions.end ());
@@ -158,11 +162,7 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
             auto existing (type_information.find ((*k)->type ()));
             assert (existing != type_information.end ());
             auto const & name ((*k)->name);
-            llvm::Value * dbg_declare_arguments [2] = {
-                llvm::MDNode::get (context, llvm::ArrayRef <llvm::Value *> (parameter)),
-                module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->second)
-            };
-            entry->getInstList ().push_back (llvm::CallInst::Create (module.dbg_declare, llvm::ArrayRef <llvm::Value *> (dbg_declare_arguments)));
+            module.builder.insertDeclare (parameter, module.builder.createLocalVariable (llvm::dwarf::DW_TAG_arg_variable, function_d, std::string (name.begin (), name.end ()), module.file, 0, existing->second), entry);
         }
         assert ((i != j) == (k != l));
     }
@@ -170,7 +170,9 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
     {
         case mu::llvmc::skeleton::function_return_type::b0:
         {
-            last->getInstList ().push_back (new llvm::UnreachableInst (function_l->getContext ()));
+            auto ret (new llvm::UnreachableInst (function_l->getContext ()));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         case mu::llvmc::skeleton::function_return_type::b1v0:
@@ -179,16 +181,18 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
                 [&]
                 (mu::llvmc::skeleton::result * result_a, size_t)
                 {
-                    auto result (retrieve_value (result_a->value));
+                    retrieve_value (result_a->value);
                     assert (result_a->type->is_unit_type ());
                 },
                 [&]
                 (mu::llvmc::skeleton::value * value_a, size_t)
                 {
-                    auto result (retrieve_value (value_a));
+                    retrieve_value (value_a);
                 }
             );
-            last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext ()));
+            auto ret (llvm::ReturnInst::Create (function_l->getContext ()));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         case mu::llvmc::skeleton::function_return_type::b1v1:
@@ -205,10 +209,12 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
                 [&]
                 (mu::llvmc::skeleton::value * value_a, size_t)
                 {
-                    auto result (retrieve_value (value_a));
+                    retrieve_value (value_a);
                 }
             );
-            last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), the_value));
+            auto ret (llvm::ReturnInst::Create (function_l->getContext (), the_value));            
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         case mu::llvmc::skeleton::function_return_type::b1vm:
@@ -233,17 +239,21 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
                 [&]
                 (mu::llvmc::skeleton::value * value_a, size_t)
                 {
-                    auto result (retrieve_value (value_a));
+                    retrieve_value (value_a);
                 }
             );
-            last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
+            auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));            
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         case mu::llvmc::skeleton::function_return_type::bmv0:
         {
             auto results (generate_result_set ());
             assert (results.size () == 1);
-            last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
+            auto ret (llvm::ReturnInst::Create (function_l->getContext (), results [0]));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         case mu::llvmc::skeleton::function_return_type::bmvm:
@@ -259,7 +269,9 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
                 result = instruction;
                 ++index;
             }
-            last->getInstList ().push_back (llvm::ReturnInst::Create (function_l->getContext (), result));
+            auto ret (llvm::ReturnInst::Create (function_l->getContext (), result));
+            ret->setDebugLoc (llvm::DebugLoc::get (function->region.last.row, function->region.last.column, function_d));
+            last->getInstList ().push_back (ret);
             break;
         }
         default:
@@ -926,11 +938,10 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                                     generate_type (named->type ());
                                     auto existing (type_information.find (named->type ()));
                                     assert (existing != type_information.end ());
-                                    llvm::Value * debug_arguments [2] = {
-                                        llvm::MDNode::get(context, llvm::ArrayRef <llvm::Value *> (value_l.value)),
-                                        module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, named->region.first.row, existing->second)
-                                    };
-                                    last->getInstList ().push_back (llvm::CallInst::Create (module.dbg_declare, llvm::ArrayRef <llvm::Value *> (debug_arguments)));
+                                    if (value_l.value != nullptr)
+                                    {
+                                        module.builder.insertDeclare (value_l.value, module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, named->region.first.row, existing->second), last);
+                                    }
                                 }
                                 else
                                 {

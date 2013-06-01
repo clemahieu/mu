@@ -58,7 +58,6 @@ namespace mu
             generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a);
             void generate ();
 			llvm::DIBuilder builder;
-            llvm::Function * dbg_declare;
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
@@ -93,6 +92,7 @@ namespace mu
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
             llvm::DISubprogram function_d;
+            llvm::DILexicalBlock block_d;
         };
     }
 }
