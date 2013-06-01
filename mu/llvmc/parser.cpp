@@ -12,6 +12,8 @@
 
 #include <gc_cpp.h>
 
+#include <sstream>
+
 mu::llvmc::global::global (mu::llvmc::keywords * keywords_a) :
 keywords (keywords_a)
 {
@@ -139,7 +141,7 @@ stream (stream_a)
     assert (!error);
     error = globals.insert (U"udiv", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::udiv)));
     assert (!error);
-    error = globals.insert (U"uinttofp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::alloca)));
+    error = globals.insert (U"uitofp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::uitofp)));
     assert (!error);
     error = globals.insert (U"urem", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::urem)));
     assert (!error);
@@ -193,7 +195,14 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
     {
         if (!parser_a.globals.unresolved.empty ())
         {
-            result.error = new (GC) mu::core::error_string (U"Unresolved symbols", mu::core::error_type::unresolved_symbols);
+			std::stringstream error;
+			error << "Unresoled symbols:";
+			for (auto i: parser_a.globals.unresolved)
+			{
+				error << " " << std::string (i.first.begin (), i.first.end ());
+			}
+			std::string err (error.str ());
+            result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols);
             result.node = nullptr;
         }
     }
