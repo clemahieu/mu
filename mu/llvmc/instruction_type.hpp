@@ -25,7 +25,7 @@ namespace mu
             fmul,
             fpext,
             fptoi,
-            futosi,
+            fptosi,
             fptoui,
             fptrunc,
             frem,
