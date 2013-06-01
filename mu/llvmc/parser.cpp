@@ -682,6 +682,7 @@ void mu::llvmc::expression::parse ()
     {
         case mu::io::token_id::left_square:
         {
+            expression_l->region.first = parser.stream.tokens [0]->region.first;
             parser.stream.tokens.consume (1);
             auto done (false);
             auto predicates (false);
@@ -727,6 +728,7 @@ void mu::llvmc::expression::parse ()
                             break;
                         }
                         case mu::io::token_id::right_square:
+                            expression_l->region.last = parser.stream.tokens [0]->region.first;
                             done = true;
                             break;
                         default:

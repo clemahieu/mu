@@ -50,8 +50,9 @@ void mu::muc::compiler::compile (mu::string const & name_a, mu::string const & p
                         auto target (llvm::TargetRegistry::lookupTarget (triple, error));
                         if (target != nullptr)
                         {
+                            module.module->setTargetTriple (llvm::sys::getDefaultTargetTriple ());
                             llvm::TargetOptions options;
-                            auto machine (target->createTargetMachine (triple, "", "", options));
+                            auto machine (target->createTargetMachine (triple, "", "", options, llvm::Reloc::Default, llvm::CodeModel::Default, llvm::CodeGenOpt::None));
                             llvm::PassManager pass_manager;
                             auto failed (machine->addPassesToEmitFile (pass_manager, output, llvm::TargetMachine::CodeGenFileType::CGFT_ObjectFile));
                             pass_manager.run (*module.module);

@@ -210,6 +210,7 @@ TEST (llvmc_parser, instructions)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (mu::core::region (18, 1, 19, 45, 1, 46), expression1->region);
     ASSERT_EQ (6, expression1->arguments.size ());
     auto argument1 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [0]));
     ASSERT_NE (nullptr, argument1);

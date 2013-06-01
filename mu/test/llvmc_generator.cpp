@@ -11,6 +11,10 @@
 #include <llvm/Analysis/Verifier.h>
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/Support/Host.h>
+#include <llvm/ADT/Triple.h>
+#include <llvm/PassManager.h>
+#include <llvm/Transforms/IPO.h>
 
 static void print_module (llvm::Module * module, std::string & target)
 {
@@ -19,6 +23,16 @@ static void print_module (llvm::Module * module, std::string & target)
 }
 
 static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
+
+static llvm::ExecutionEngine * prepare_module_jit (llvm::Module * module_a)
+{
+    llvm::PassManager manager;
+    manager.add (llvm::createStripDebugDeclarePass ());
+    manager.run (*module_a);
+    llvm::EngineBuilder builder (module_a);
+    auto engine (builder.create ());
+    return engine;
+}
 
 TEST (llvmc_generator, generate1)
 {
@@ -258,8 +272,7 @@ TEST (llvmc_generator, generate_store)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_store_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
@@ -300,8 +313,7 @@ TEST (llvmc_generator, generate_load)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_load_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <bool (*) (bool*)> (function2));
@@ -346,8 +358,7 @@ TEST (llvmc_generator, generate_icmp1)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_icmp1_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <bool (*) (bool, bool)> (function2));
@@ -384,8 +395,7 @@ TEST (llvmc_generator, generate_two_return)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_two_return_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
 	struct thing
@@ -1175,8 +1185,7 @@ TEST (llvm_generator, generate_loop_count)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_loop_count_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
+    auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
     auto function3 (reinterpret_cast <uint32_t (*) (uint32_t)> (function2));
