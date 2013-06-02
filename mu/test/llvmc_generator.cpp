@@ -214,12 +214,13 @@ TEST (llvmc_generator, generate_alloca)
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
     mu::llvmc::skeleton::integer_type type1 (8);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::and_i);
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::alloca);
     arguments1.push_back (&marker1);
     arguments1.push_back (&type1);
     mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
-    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::result result1 (&type2, &named1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
@@ -326,212 +327,50 @@ TEST (llvmc_generator, generate_ashr)
     ASSERT_EQ (0x01, result3);
 }
 
-extern char const * const generate_lshr_expected;
+extern char const * const generate_cmpxchg_expected;
 
-TEST (llvmc_generator, generate_lshr_expected)
+TEST (llvmc_generator, DISABLED_generate_cmpxchg)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
     mu::llvmc::skeleton::integer_type type1 (8);
-    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
-    function1.parameters.push_back (&parameter1);
-    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
-    function1.parameters.push_back (&parameter2);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker lshr1 (mu::llvmc::instruction_type::lshr);
-    arguments1.push_back (&lshr1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
-    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
-    mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results.push_back (&result1);
-    function1.branch_ends.push_back (function1.results.size ());
-    function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions [U"0"] = &function1;
-    mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_lshr", U""));
-    std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-    ASSERT_TRUE (!broken);
-    print_module (result.module, info);
-    ASSERT_EQ (std::string (generate_lshr_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
-    ASSERT_NE (result.names.end (), result.names.find (U"0"));
-    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
-    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
-    auto result2 (function3 (0, 0));
-    ASSERT_EQ (0, result2);
-    auto result3 (function3 (0xff, 0));
-    ASSERT_EQ (0xff, result3);
-    auto result4 (function3 (0xff, 4));
-    ASSERT_EQ (0x0f, result4);
-}
-
-extern char const * const generate_shl_expected;
-
-TEST (llvmc_generator, generate_shl_expected)
-{
-    llvm::LLVMContext context;
-    mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (empty_region, module.global);
-    mu::llvmc::skeleton::integer_type type1 (1);
-    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
-    function1.parameters.push_back (&parameter1);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker shl1 (mu::llvmc::instruction_type::shl);
-    arguments1.push_back (&shl1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
-    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
-    mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results.push_back (&result1);
-    function1.branch_ends.push_back (function1.results.size ());
-    function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions [U"0"] = &function1;
-    mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_shl", U""));
-    std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-    ASSERT_TRUE (!broken);
-    print_module (result.module, info);
-    ASSERT_EQ (std::string (generate_shl_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
-    ASSERT_NE (result.names.end (), result.names.find (U"0"));
-    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
-    auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
-    auto result_false (function3 (0));
-    ASSERT_EQ (0, result_false);
-    auto result_true (function3 (1));
-    ASSERT_EQ (0, result_true);
-}
-
-extern char const * const generate_sub_expected;
-
-TEST (llvmc_generator, generate_sub)
-{
-    llvm::LLVMContext context;
-    mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (empty_region, module.global);
-    mu::llvmc::skeleton::integer_type type1 (1);
-    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
-    function1.parameters.push_back (&parameter1);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker sub1 (mu::llvmc::instruction_type::sub);
-    arguments1.push_back (&sub1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
-    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
-    mu::llvmc::skeleton::result result1 (&type1, &named1);
-    function1.results.push_back (&result1);
-    function1.branch_ends.push_back (function1.results.size ());
-    function1.predicate_offsets.push_back (function1.results.size ());
-    module.functions [U"0"] = &function1;
-    mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_sub", U""));
-    std::string info;
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-    ASSERT_TRUE (!broken);
-    print_module (result.module, info);
-    ASSERT_EQ (std::string (generate_sub_expected), info);
-    llvm::EngineBuilder builder (result.module);
-    auto engine (builder.create ());
-    ASSERT_NE (result.names.end (), result.names.find (U"0"));
-    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
-    auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
-    auto result_false (function3 (0));
-    ASSERT_EQ (0, result_false);
-    auto result_true (function3 (1));
-    ASSERT_EQ (0, result_true);
-}
-
-extern char const * const generate_store_expected;
-
-TEST (llvmc_generator, generate_store)
-{
-    llvm::LLVMContext context;
-    mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (empty_region, module.global);
-    mu::llvmc::skeleton::integer_type type1 (1);
-    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
-    function1.parameters.push_back (&parameter1);
-    mu::llvmc::skeleton::pointer_type type2 (&type1);
-    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type2, U"parameter2");
-    function1.parameters.push_back (&parameter2);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::store);
-    arguments1.push_back (&add1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
-    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
-    function1.predicate_offsets.push_back (function1.results.size ());
-    function1.results.push_back (&named1);
-    function1.branch_ends.push_back (function1.results.size ());
-    module.functions [U"0"] = &function1;
-    mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_store", U""));
-    std::string info;
-    print_module (result.module, info);
-    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
-    ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_store_expected), info);
-    auto engine (prepare_module_jit (result.module));
-    ASSERT_NE (result.names.end (), result.names.find (U"0"));
-    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
-    auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
-    auto val1 (false);
-    function3 (true, &val1);
-    ASSERT_EQ (true, val1);
-    auto val2 (true);
-    function3 (false, &val2);
-    ASSERT_EQ (false, val2);
-}
-
-extern char const * const generate_load_expected;
-
-TEST (llvmc_generator, generate_load)
-{
-    llvm::LLVMContext context;
-    mu::llvmc::skeleton::module module;
-    mu::llvmc::skeleton::function function1 (empty_region, module.global);
-    mu::llvmc::skeleton::integer_type type1 (1);
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type2, U"parameter1");
     function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::llvmc::skeleton::parameter parameter3 (empty_region, function1.entry, &type1, U"parameter3");
+    function1.parameters.push_back (&parameter3);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::load);
-    arguments1.push_back (&add1);
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::cmpxchg);
+    arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    arguments1.push_back (&parameter3);
     mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
     mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
     function1.results.push_back (&result1);
-    function1.predicate_offsets.push_back (function1.results.size ());
     function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_load", U""));
+    auto result (generator.generate (context, &module, U"generate_cmpxchg", U""));
     std::string info;
-    print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_load_expected), info);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_cmpxchg_expected), info);
     auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
-    auto function3 (reinterpret_cast <bool (*) (bool*)> (function2));
-    auto val1 (false);
-    function3 (&val1);
-    ASSERT_EQ (false, val1);
-    auto val2 (true);
-    function3 (&val2);
-    ASSERT_EQ (true, val2);
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t *, uint8_t, uint8_t)> (function2));
+    uint8_t val (0xff);
+    auto result2 (function3 (&val, 1, 42));
+    ASSERT_EQ (0xff, result2);
+    auto result3 (function3 (&val, 0xff, 42));
+    ASSERT_EQ (42, result3);
 }
 
 extern char const * const generate_icmp1_expected;
@@ -579,6 +418,582 @@ TEST (llvmc_generator, generate_icmp1)
     ASSERT_EQ (false, result4);
     auto result5 (function3 (true, true));
     ASSERT_EQ (true, result5);
+}
+
+extern char const * const generate_load_expected;
+
+TEST (llvmc_generator, generate_load)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type2, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::load);
+    arguments1.push_back (&add1);
+    arguments1.push_back (&parameter1);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_load", U""));
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_load_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <bool (*) (bool*)> (function2));
+    auto val1 (false);
+    function3 (&val1);
+    ASSERT_EQ (false, val1);
+    auto val2 (true);
+    function3 (&val2);
+    ASSERT_EQ (true, val2);
+}
+
+extern char const * const generate_lshr_expected;
+
+TEST (llvmc_generator, generate_lshr_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker lshr1 (mu::llvmc::instruction_type::lshr);
+    arguments1.push_back (&lshr1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_lshr", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_lshr_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0, 0));
+    ASSERT_EQ (0, result2);
+    auto result3 (function3 (0xff, 0));
+    ASSERT_EQ (0xff, result3);
+    auto result4 (function3 (0xff, 4));
+    ASSERT_EQ (0x0f, result4);
+}
+
+extern char const * const generate_mul_expected;
+
+TEST (llvmc_generator, generate_mul_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::mul);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_mul", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_mul_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0, 0));
+    ASSERT_EQ (0, result2);
+    auto result3 (function3 (0x04, 0x04));
+    ASSERT_EQ (0x10, result3);
+}
+
+extern char const * const generate_or_expected;
+
+TEST (llvmc_generator, generate_or_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::or_i);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_or", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_or_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0, 0));
+    ASSERT_EQ (0, result2);
+    auto result3 (function3 (0x0f, 0));
+    ASSERT_EQ (0x0f, result3);
+    auto result4 (function3 (0xf0, 0));
+    ASSERT_EQ (0xf0, result4);
+}
+
+extern char const * const generate_sdiv_expected;
+
+TEST (llvmc_generator, generate_sdiv_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::sdiv);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_sdiv", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_sdiv_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
+    auto result2 (function3 (42, 1));
+    ASSERT_EQ (42, result2);
+    auto result3 (function3 (42, -1));
+    ASSERT_EQ (-42, result3);
+}
+
+extern char const * const generate_sext_expected;
+
+TEST (llvmc_generator, generate_sext_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::integer_type type2 (16);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::sext);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&type2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type2, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_sext", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_sext_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <int16_t (*) (int8_t)> (function2));
+    auto result2 (function3 (42));
+    ASSERT_EQ (42, result2);
+    auto result3 (function3 (-42));
+    ASSERT_EQ (-42, result3);
+}
+
+extern char const * const generate_shl_expected;
+
+TEST (llvmc_generator, generate_shl_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker shl1 (mu::llvmc::instruction_type::shl);
+    arguments1.push_back (&shl1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_shl", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_shl_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result_false (function3 (0x0f, 4));
+    ASSERT_EQ (0xf0, result_false);
+}
+
+extern char const * const generate_srem_expected;
+
+TEST (llvmc_generator, generate_srem_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::srem);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_srem", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_srem_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <int8_t (*) (int8_t, int8_t)> (function2));
+    auto result2 (function3 (42, 2));
+    ASSERT_EQ (0, result2);
+    auto result3 (function3 (42, 5));
+    ASSERT_EQ (2, result3);
+    auto result4 (function3 (-42, -5));
+    ASSERT_EQ (-2, result4);
+}
+
+extern char const * const generate_store_expected;
+
+TEST (llvmc_generator, generate_store)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type2, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::store);
+    arguments1.push_back (&add1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&named1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_store", U""));
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_store_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <void (*) (bool, bool*)> (function2));
+    auto val1 (false);
+    function3 (true, &val1);
+    ASSERT_EQ (true, val1);
+    auto val2 (true);
+    function3 (false, &val2);
+    ASSERT_EQ (false, val2);
+}
+
+extern char const * const generate_sub_expected;
+
+TEST (llvmc_generator, generate_sub)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker sub1 (mu::llvmc::instruction_type::sub);
+    arguments1.push_back (&sub1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter1);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_sub", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_sub_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <bool (*) (bool)> (function2));
+    auto result_false (function3 (0));
+    ASSERT_EQ (0, result_false);
+    auto result_true (function3 (1));
+    ASSERT_EQ (0, result_true);
+}
+
+extern char const * const generate_udiv_expected;
+
+TEST (llvmc_generator, generate_udiv_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::udiv);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_udiv", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_udiv_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0x10, 0x10));
+    ASSERT_EQ (1, result2);
+    auto result3 (function3 (0x80, 0x10));
+    ASSERT_EQ (8, result3);
+}
+
+extern char const * const generate_urem_expected;
+
+TEST (llvmc_generator, generate_urem_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::urem);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_urem", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_urem_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0x80, 0x80));
+    ASSERT_EQ (0, result2);
+    auto result3 (function3 (0x82, 0x80));
+    ASSERT_EQ (2, result3);
+}
+
+extern char const * const generate_xor_expected;
+
+TEST (llvmc_generator, generate_xor_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::parameter parameter2 (empty_region, function1.entry, &type1, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::xor_i);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&parameter2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_xor", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_xor_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t, uint8_t)> (function2));
+    auto result2 (function3 (0xff, 0x00));
+    ASSERT_EQ (0xff, result2);
+    auto result3 (function3 (0xff, 0xff));
+    ASSERT_EQ (0x0, result3);
+}
+
+extern char const * const generate_zext_expected;
+
+TEST (llvmc_generator, generate_zext_expected)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::integer_type type2 (16);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::zext);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    arguments1.push_back (&type2);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type2, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_zext", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_zext_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint16_t (*) (uint8_t)> (function2));
+    auto result2 (function3 (0x0f));
+    ASSERT_EQ (0x0f, result2);
+    auto result3 (function3 (0xff));
+    ASSERT_EQ (0xff, result3);
 }
 
 extern char const * const generate_two_return_expected;

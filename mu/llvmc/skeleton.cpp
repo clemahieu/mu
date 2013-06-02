@@ -351,6 +351,17 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_pointer_null::type ()
     return type_m;
 }
 
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::binary_integer_type ()
+{
+    mu::llvmc::skeleton::type * result;
+    assert (predicate_position == 3);
+    assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+    assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+    assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
+    result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+    return result;
+}
+
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
 {
     mu::llvmc::skeleton::type * result (nullptr);
@@ -358,11 +369,35 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
     {
         case mu::llvmc::instruction_type::add:
         {
-            assert (predicate_position == 3);
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::and_i:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::alloca:
+        {
+            assert (predicate_position == 2);
+            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [1]) != nullptr);
+            result = new (GC) mu::llvmc::skeleton::pointer_type (static_cast <mu::llvmc::skeleton::type *> (arguments [1]));
+            
+            break;
+        }
+        case mu::llvmc::instruction_type::ashr:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::cmpxchg:
+        {
+            assert (predicate_position == 4);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
-            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [3]) != nullptr);
+            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [3])->type ());
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ();
             break;
         }
         case mu::llvmc::instruction_type::icmp:
@@ -379,20 +414,40 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::lshr:
         {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::mul:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::or_i:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::sdiv:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::sext:
+        {
             assert (predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
-            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::type *> (arguments [2]);
             break;
         }
         case mu::llvmc::instruction_type::shl:
         {
-            assert (predicate_position == 3);
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
-            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::srem:
+        {
+            result = binary_integer_type ();
             break;
         }
         case mu::llvmc::instruction_type::store:
@@ -402,11 +457,30 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         }
         case mu::llvmc::instruction_type::sub:
         {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::udiv:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::urem:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::xor_i:
+        {
+            result = binary_integer_type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::zext:
+        {
             assert (predicate_position == 3);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
-            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
-            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::type *> (arguments [2]);
             break;
         }
         default:

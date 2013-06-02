@@ -29,7 +29,7 @@ namespace mu
             public:
                 virtual ~node ();
             };
-            class type : virtual public mu::llvmc::skeleton::node
+            class type : public mu::llvmc::skeleton::node
             {
             public:
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
@@ -99,6 +99,7 @@ namespace mu
             {
             public:
                 instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a);
+                mu::llvmc::skeleton::type * binary_integer_type ();
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::instruction_type marker ();
                 mu::vector <mu::llvmc::skeleton::node *> arguments;

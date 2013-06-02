@@ -66,12 +66,13 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 )%%%";
 
 extern char const * const generate_add_expected = R"%%%(
-define i1 @0(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !10)
-  %2 = and i1 true, true
-  %3 = add i1 %0, %0, !dbg !11
-  call void @llvm.dbg.declare(metadata !{i1 %3}, metadata !12)
-  ret i1 %3, !dbg !11
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = add i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -83,21 +84,151 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !2 = metadata !{i32 0}
 !3 = metadata !{metadata !4}
 !4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
 !6 = metadata !{i32 786473, metadata !"generate_add", metadata !"", null} ; [ DW_TAG_file_type ]
 !7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_alloca_expected = R"%%%(
+define i8* @0() {
+  br i1 true, label %1, label %3
+
+; <label>:1                                       ; preds = %0
+  %2 = alloca i8, !dbg !11
+  br label %3
+
+; <label>:3                                       ; preds = %1, %0
+  %4 = phi i8* [ %2, %1 ], [ undef, %0 ]
+  call void @llvm.dbg.declare(metadata !{i8* %4}, metadata !12)
+  ret i8* %4, !dbg !11
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_alloca", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_alloca] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8* ()* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_alloca", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9}
+!9 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !10} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int8]
+!10 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
 !11 = metadata !{i32 0, i32 0, metadata !5, null}
 !12 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
-extern char const * const generate_alloca_expected = R"%%%()%%%";
+extern char const * const generate_and_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = and i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
 
-extern char const * const generate_and_expected = R"%%%()%%%";
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 
-extern char const * const generate_ashr_expected = R"%%%()%%%";
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_and", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_and] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_and", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_ashr_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = ashr i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_ashr", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_ashr] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_ashr", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_cmpxchg_expected = R"%%%(
+define i8 @0(i8*, i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8* %0}, metadata !11)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !12)
+  call void @llvm.dbg.declare(metadata !{i8 %2}, metadata !13)
+  %4 = and i1 true, true
+  %5 = and i1 %4, true
+  %6 = and i1 %5, true
+  br i1 %6, label %7, label %9
+
+; <label>:7                                       ; preds = %3
+  %8 = cmpxchg i8* %0, i8 %1, i8 %2 acq_rel, !dbg !14
+  br label %9
+
+; <label>:9                                       ; preds = %7, %3
+  %10 = phi i8 [ %8, %7 ], [ undef, %3 ]
+  call void @llvm.dbg.declare(metadata !{i8 %10}, metadata !15)
+  ret i8 %10, !dbg !14
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_cmpxchg", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_cmpxchg] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8*, i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_cmpxchg", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !10, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !9} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int8]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!13 = metadata !{i32 786689, metadata !5, metadata !"parameter3", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter3] [line 0]
+!14 = metadata !{i32 0, i32 0, metadata !5, null}
+!15 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
 
 extern char const * const generate_icmp1_expected = R"%%%(
 define i1 @0(i1, i1) {
@@ -193,18 +324,137 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !10 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !9} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int1]
 !11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !12 = metadata !{i32 0, i32 0, metadata !13, null}
-!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 7} ; [ DW_TAG_lexical_block ] [/generate_load]
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 9} ; [ DW_TAG_lexical_block ] [/generate_load]
 !14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 !15 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
+extern char const * const generate_mul_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = mul i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_mul", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_mul] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_mul", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_or_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = or i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_or", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_or] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_or", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_sdiv_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = sdiv i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_sdiv", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_sdiv] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_sdiv", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_sext_expected = R"%%%(
+define i16 @0(i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !11)
+  %2 = sext i8 %0 to i16, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i16 %2}, metadata !13)
+  ret i16 %2, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_sext", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_sext] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i16 (i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_sext", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !10}
+!9 = metadata !{i32 786468, null, metadata !"int16", null, i32 0, i64 16, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int16] [line 0, size 16, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
 extern char const * const generate_shl_expected = R"%%%(
-define i1 @0(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !10)
-  %2 = and i1 true, true
-  %3 = shl i1 %0, %0, !dbg !11
-  call void @llvm.dbg.declare(metadata !{i1 %3}, metadata !12)
-  ret i1 %3, !dbg !11
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = shl i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -216,14 +466,45 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !2 = metadata !{i32 0}
 !3 = metadata !{metadata !4}
 !4 = metadata !{metadata !5}
-!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
 !6 = metadata !{i32 786473, metadata !"generate_shl", metadata !"", null} ; [ DW_TAG_file_type ]
 !7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!8 = metadata !{metadata !9, metadata !9}
-!9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
-!11 = metadata !{i32 0, i32 0, metadata !5, null}
-!12 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
+extern char const * const generate_srem_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = srem i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !13)
+  ret i8 %4, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_srem", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_srem] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_srem", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
 extern char const * const generate_store_expected = R"%%%(
@@ -259,7 +540,7 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !12 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
 !13 = metadata !{i32 0, i32 0, metadata !14, null}
-!14 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 6} ; [ DW_TAG_lexical_block ] [/generate_store]
+!14 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 17} ; [ DW_TAG_lexical_block ] [/generate_store]
 !15 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
@@ -288,9 +569,133 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !11 = metadata !{i32 0, i32 0, metadata !12, null}
-!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 5} ; [ DW_TAG_lexical_block ] [/generate_sub]
+!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 18} ; [ DW_TAG_lexical_block ] [/generate_sub]
 !13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 !14 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
+extern char const * const generate_udiv_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = udiv i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !14)
+  ret i8 %4, !dbg !15
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_udiv", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_udiv] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_udiv", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !13, null}
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 19} ; [ DW_TAG_lexical_block ] [/generate_udiv]
+!14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!15 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
+extern char const * const generate_urem_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = urem i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !14)
+  ret i8 %4, !dbg !15
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_urem", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_urem] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_urem", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !13, null}
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 20} ; [ DW_TAG_lexical_block ] [/generate_urem]
+!14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!15 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
+extern char const * const generate_xor_expected = R"%%%(
+define i8 @0(i8, i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %1}, metadata !11)
+  %3 = and i1 true, true
+  %4 = xor i8 %0, %1, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i8 %4}, metadata !14)
+  ret i8 %4, !dbg !15
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_xor", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_xor] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8, i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_xor", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !13, null}
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 21} ; [ DW_TAG_lexical_block ] [/generate_xor]
+!14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!15 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
+extern char const * const generate_zext_expected = R"%%%(
+define i16 @0(i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !11)
+  %2 = zext i8 %0 to i16, !dbg !12
+  call void @llvm.dbg.declare(metadata !{i16 %2}, metadata !13)
+  ret i16 %2, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_zext", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_zext] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i16 (i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_zext", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !10}
+!9 = metadata !{i32 786468, null, metadata !"int16", null, i32 0, i64 16, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int16] [line 0, size 16, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
 extern char const * const generate_two_return_expected = R"%%%(
@@ -607,7 +1012,7 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !11 = metadata !{i32 0, i32 0, metadata !12, null}
-!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 15} ; [ DW_TAG_lexical_block ] [/generate_if_join_load]
+!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 29} ; [ DW_TAG_lexical_block ] [/generate_if_join_load]
 !13 = metadata !{i32 786688, metadata !5, metadata !"load1", metadata !6, i32 0, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load1] [line 0]
 !14 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !9} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int1]
 !15 = metadata !{i32 786688, metadata !5, metadata !"load2", metadata !6, i32 0, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load2] [line 0]
@@ -645,7 +1050,7 @@ define void @1() {
 !9 = metadata !{i32 786478, i32 0, metadata !6, metadata !"1", metadata !"1", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @1, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [1]
 !10 = metadata !{i32 0, i32 0, metadata !5, null}
 !11 = metadata !{i32 0, i32 0, metadata !12, null}
-!12 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 17} ; [ DW_TAG_lexical_block ] [/generate_call_0]
+!12 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 31} ; [ DW_TAG_lexical_block ] [/generate_call_0]
 !13 = metadata !{i32 0, i32 0, metadata !9, null}
 )%%%";
 
@@ -688,7 +1093,7 @@ define i1 @1(i1) {
 !12 = metadata !{i32 0, i32 0, metadata !5, null}
 !13 = metadata !{i32 786689, metadata !10, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
 !14 = metadata !{i32 0, i32 0, metadata !15, null}
-!15 = metadata !{i32 786443, metadata !10, i32 0, i32 0, metadata !6, i32 19} ; [ DW_TAG_lexical_block ] [/generate_call_1]
+!15 = metadata !{i32 786443, metadata !10, i32 0, i32 0, metadata !6, i32 33} ; [ DW_TAG_lexical_block ] [/generate_call_1]
 !16 = metadata !{i32 0, i32 0, metadata !10, null}
 )%%%";
 
@@ -748,7 +1153,7 @@ define i8 @1(i1) {
 !12 = metadata !{i32 0, i32 0, metadata !5, null}
 !13 = metadata !{i32 786689, metadata !10, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
 !14 = metadata !{i32 0, i32 0, metadata !15, null}
-!15 = metadata !{i32 786443, metadata !10, i32 0, i32 0, metadata !6, i32 21} ; [ DW_TAG_lexical_block ] [/generate_call_2]
+!15 = metadata !{i32 786443, metadata !10, i32 0, i32 0, metadata !6, i32 35} ; [ DW_TAG_lexical_block ] [/generate_call_2]
 !16 = metadata !{i32 0, i32 0, metadata !10, null}
 )%%%";
 
@@ -828,7 +1233,7 @@ define i8 @1(i1) {
 !20 = metadata !{i32 0, i32 0, metadata !5, null}
 !21 = metadata !{i32 786689, metadata !16, metadata !"parameter2", metadata !6, i32 0, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
 !22 = metadata !{i32 0, i32 0, metadata !23, null}
-!23 = metadata !{i32 786443, metadata !16, i32 0, i32 0, metadata !6, i32 23} ; [ DW_TAG_lexical_block ] [/generate_call_3]
+!23 = metadata !{i32 786443, metadata !16, i32 0, i32 0, metadata !6, i32 37} ; [ DW_TAG_lexical_block ] [/generate_call_3]
 !24 = metadata !{i32 0, i32 0, metadata !16, null}
 )%%%";
 
@@ -862,7 +1267,7 @@ define void @1() {
 !9 = metadata !{i32 786478, i32 0, metadata !6, metadata !"1", metadata !"1", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @1, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [1]
 !10 = metadata !{i32 0, i32 0, metadata !5, null}
 !11 = metadata !{i32 0, i32 0, metadata !12, null}
-!12 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 25} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v0]
+!12 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 39} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v0]
 !13 = metadata !{i32 0, i32 0, metadata !9, null}
 )%%%";
 
@@ -899,7 +1304,7 @@ define i1 @1() {
 !12 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
 !13 = metadata !{i32 0, i32 0, metadata !5, null}
 !14 = metadata !{i32 0, i32 0, metadata !15, null}
-!15 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 27} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v1]
+!15 = metadata !{i32 786443, metadata !9, i32 0, i32 0, metadata !6, i32 41} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v1]
 !16 = metadata !{i32 0, i32 0, metadata !9, null}
 )%%%";
 
@@ -951,7 +1356,7 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !11 = metadata !{i32 0, i32 0, metadata !5, null}
 !12 = metadata !{i32 0, i32 0, metadata !13, null}
-!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 28} ; [ DW_TAG_lexical_block ] [/generate_loop1]
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 42} ; [ DW_TAG_lexical_block ] [/generate_loop1]
 )%%%";
 
 extern char const * const generate_loop_count_expected = R"%%%(
@@ -1007,7 +1412,7 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !11 = metadata !{i32 0, i32 0, metadata !5, null}
 !12 = metadata !{i32 0, i32 0, metadata !13, null}
-!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 29} ; [ DW_TAG_lexical_block ] [/generate_loop_count]
+!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 43} ; [ DW_TAG_lexical_block ] [/generate_loop_count]
 )%%%";
 
 extern char const * const generate_asm_expected = R"%%%(
