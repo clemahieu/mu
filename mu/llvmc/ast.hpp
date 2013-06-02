@@ -84,16 +84,16 @@ namespace mu
 					assert (*i != nullptr);
 					if (!predicates && index >= predicate_position)
 					{
-					predicates = true;
-					transition_op (*i, index);
+                        predicates = true;
+                        transition_op (*i, index);
 					}
 					if (!predicates)
 					{
-					argument_op (*i, index);
+                        argument_op (*i, index);
 					}
 					else
 					{
-					predicate_op (*i, index);
+                        predicate_op (*i, index);
 					}
 				}
 			}
@@ -173,7 +173,7 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> true_roots;
                 mu::vector <mu::llvmc::ast::node *> false_roots;
             };
-            class function : public mu::llvmc::ast::node
+            class function : public mu::llvmc::ast::expression
             {
             public:
                 mu::llvmc::availability::function * entry;

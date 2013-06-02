@@ -147,6 +147,41 @@ TEST (llvmc_ast, iteration_multi_predicate)
     EXPECT_EQ (3, loop_calls);
 }
 
+TEST (llvmc_ast, iterate_function)
+{
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::function function2;
+    size_t result_calls (0);
+    size_t predicate_calls (0);
+    size_t transition_calls (0);
+    size_t branch_calls (0);
+    size_t loop_calls (0);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&function2);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.for_each_results (
+                                [&]
+                                (mu::llvmc::ast::result *, size_t)
+                                {++result_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++predicate_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++transition_calls;},
+                                [&]
+                                (mu::llvmc::ast::node *, size_t)
+                                {++branch_calls;},
+                                [&]
+                                ()
+                                {++loop_calls; return true;});
+    EXPECT_EQ (0, result_calls);
+    EXPECT_EQ (1, predicate_calls);
+    EXPECT_EQ (1, transition_calls);
+    EXPECT_EQ (1, branch_calls);
+    EXPECT_EQ (1, loop_calls);
+}
+
 TEST (llvmc_analyzer, empty)
 {
     mu::llvmc::analyzer analyzer;
@@ -933,6 +968,11 @@ TEST (llvmc_analyzer, call_1_argument)
     ASSERT_EQ (1, function4->branch_ends [0]);
     ASSERT_EQ (1, function4->predicate_offsets.size ());
     ASSERT_EQ (1, function4->predicate_offsets [0]);
+    auto result3 (dynamic_cast <mu::llvmc::skeleton::result *> (function4->results [0]));
+    ASSERT_NE (nullptr, result3);
+    auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element_value *> (result3->value));
+    ASSERT_NE (nullptr, expression2);
+    ASSERT_EQ (function4->entry, expression2->branch);
 }
 
 TEST (llvmc_analyzer, set_expression_empty)

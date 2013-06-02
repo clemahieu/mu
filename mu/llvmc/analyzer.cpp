@@ -844,7 +844,15 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 					{
 						auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, predicate_offset));
 						mu::vector <mu::llvmc::skeleton::node *> returned_results;
-						auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+                        mu::llvmc::skeleton::branch * branch;
+                        if (function_type->function->branch_ends.size () < 2)
+                        {
+                            branch = most_specific_branch;
+                        }
+                        else
+                        {
+                            branch = new (GC) mu::llvmc::skeleton::branch (most_specific_branch);
+                        }
 						auto empty (true);
 						function_type->function->for_each_results (
 							[&]

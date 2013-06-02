@@ -194,8 +194,6 @@ TEST (llvmc_parser, simple)
     EXPECT_EQ (0, function1->results.size ());
 }
 
-
-
 TEST (llvmc_parser, instructions)
 {
     test_parser parser ("function test [] [[add alloca and ashr atomicrmw bitcast call cmpxchg extractelement extractvalue fadd fcmp fdiv fence fmul fpext fptoi fptosi fptoui fptrunc frem fsub getelementptr icmp insertelement insertvalue load lshr mul or ptrfromint ptrtoint sdiv select sext shl shufflevector sitofp srem store sub trunc udiv uitofp urem xor zext]] []");
@@ -716,6 +714,29 @@ TEST (llvmc_parser, results1_one_predicate)
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
     EXPECT_EQ (parameter1, value1->value);
+}
+
+TEST (llvmc_parser, results1_expression_predicate)
+{
+    test_parser parser ("function test1 [int1 val] [] [[; [val]]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
+    ASSERT_EQ (1, function1->results.size ());
+    ASSERT_EQ (1, function1->branch_ends.size ());
+    ASSERT_EQ (1, function1->branch_ends [0]);
+    ASSERT_EQ (1, function1->predicate_offsets.size ());
+    ASSERT_EQ (0, function1->predicate_offsets [0]);
+    auto result1 (function1->results [0]);
+    auto value1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (result1));
+    ASSERT_NE (nullptr, value1);
 }
 
 TEST (llvmc_parser, results1_multi_predicate)

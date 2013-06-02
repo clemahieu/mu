@@ -16,7 +16,6 @@ namespace mu
             class node;
             class module;
             class expression;
-            class definite_expression;
             class function;
             class type;
             class branch;

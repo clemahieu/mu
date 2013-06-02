@@ -496,6 +496,8 @@ void mu::llvmc::function::parse_result_set ()
             else
             {
                 function_m->results.push_back (node.ast);
+                parser.stream.consume ();
+                node = parser.stream.peek ();
             }
         }
         else if (node.token != nullptr)
