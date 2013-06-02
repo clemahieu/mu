@@ -75,6 +75,7 @@ namespace mu
             void process_pointer_type (mu::llvmc::ast::pointer_type * type_a);
             void process_constant_int (mu::llvmc::ast::constant_int * constant_a);
 			bool process_loop (mu::llvmc::ast::loop * loop_a);
+			void process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             void calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);

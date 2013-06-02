@@ -105,7 +105,17 @@ namespace mu
             asm_hook_expecting_identifier,
             asm_hook_expecting_type,
             asm_hook_expecting_constraints,
-			inline_asm_requires_values
+			inline_asm_requires_values,
+			alloca_expects_one_argument,
+			alloca_argument_type,
+			instruction_arguments_must_have_same_bit_width,
+			instruction_arguments_must_be_integers,
+			instruction_arguments_must_be_values,
+			instruction_expects_two_arguments,
+			cmpxchg_requires_three_arguments,
+			cmpxchg_argument_one_pointer,
+			cmpxchg_one_point_two,
+			cmpxchg_one_point_three
         };
         class error
         {

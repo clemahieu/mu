@@ -1099,6 +1099,57 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 	predicate_position_a = predicate_position_l;
 }
 
+void mu::llvmc::analyzer_function::process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
+{
+	if (predicate_offset == 3)
+	{
+		auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
+		if (left != nullptr)
+		{
+			auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
+			if (right != nullptr)
+			{
+				auto left_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (left->type ()));
+				if (left_type != nullptr)
+				{
+					auto right_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (right->type ()));
+					if (right_type != nullptr)
+					{
+						if (*left_type == *right_type)
+						{
+							already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Add left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width);
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"Add right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Add left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Add right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+			}
+		}
+		else
+		{
+			result_m.error = new (GC) mu::core::error_string (U"Add left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+		}
+	}
+	else
+	{
+		result_m.error = new (GC) mu::core::error_string (U"Add instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments);
+	}
+}
+
 bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
@@ -1111,53 +1162,37 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 	{
 		case mu::llvmc::instruction_type::add:
 		{
-			if (predicate_offset == 3)
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::alloca:
+		{
+			if (predicate_offset == 2)
 			{
-				auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-				if (left != nullptr)
+				auto type (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [1]));
+				if (type != nullptr)
 				{
-					auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
-					if (right != nullptr)
-					{
-						auto left_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (left->type ()));
-						if (left_type != nullptr)
-						{
-							auto right_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (right->type ()));
-							if (right_type != nullptr)
-							{
-								if (*left_type == *right_type)
-								{
-									already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
-								}
-								else
-								{
-									result_m.error = new (GC) mu::core::error_string (U"Add left and right arguments must be same width", mu::core::error_type::add_arguments_must_have_same_bit_width);
-								}
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Add right argument must be an integer type", mu::core::error_type::add_arguments_must_be_integers);
-							}
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Add left argument must be an integer type", mu::core::error_type::add_arguments_must_be_integers);
-						}
-					}
-					else
-					{
-						result_m.error = new (GC) mu::core::error_string (U"Add right argument must be a value", mu::core::error_type::add_arguments_must_be_values);
-					}
+					already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Add left argument must be a value", mu::core::error_type::add_arguments_must_be_values);
+					result_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects its argument to be a type", mu::core::error_type::alloca_argument_type);
 				}
 			}
 			else
 			{
-				result_m.error = new (GC) mu::core::error_string (U"Add instruction expects two arguments", mu::core::error_type::add_expects_two_arguments);
+				result_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects one argument", mu::core::error_type::alloca_expects_one_argument);
 			}
+			break;
+		}
+		case mu::llvmc::instruction_type::and_i:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::ashr:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
 			break;
 		}
 		case mu::llvmc::instruction_type::asm_i:
@@ -1181,6 +1216,64 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 				{
 					assert (false);
 				}
+			}
+			break;
+		}
+		case mu::llvmc::instruction_type::cmpxchg:
+		{
+			if (predicate_offset == 4)
+			{
+				auto one (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+				if (one != nullptr)
+				{
+					auto two (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+					if (two != nullptr)
+					{
+						auto three (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [3]));
+						if (three != nullptr)
+						{
+							auto one_type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (one->type()));
+							if (one_type != nullptr)
+							{
+								if (*one_type->pointed_type == *two->type ())
+								{
+									if (*one_type->pointed_type == *three->type ())
+									{
+										already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+									}
+									else
+									{
+										result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument three", mu::core::error_type::cmpxchg_one_point_three);
+									}
+								}
+								else									
+								{
+									result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument two", mu::core::error_type::cmpxchg_one_point_two);
+								}
+							}
+							else
+							{
+								result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to be a pointer", mu::core::error_type::cmpxchg_argument_one_pointer);
+							}
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires three arguments", mu::core::error_type::cmpxchg_requires_three_arguments);
 			}
 			break;
 		}
@@ -1310,6 +1403,36 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 			}
 			break;
 		}
+		case mu::llvmc::instruction_type::lshr:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::mul:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::or_i:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::sdiv:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::shl:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::srem:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
 		case mu::llvmc::instruction_type::store:
 		{
 			if (predicate_offset == 3)
@@ -1355,53 +1478,22 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 		}
 		case mu::llvmc::instruction_type::sub:
 		{
-			if (predicate_offset == 3)
-			{
-				auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-				if (left != nullptr)
-				{
-					auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
-					if (right != nullptr)
-					{
-						auto left_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (left->type ()));
-						if (left_type != nullptr)
-						{
-							auto right_type (dynamic_cast<mu::llvmc::skeleton::integer_type *> (right->type ()));
-							if (right_type != nullptr)
-							{
-								if (*left_type == *right_type)
-								{
-									already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
-								}
-								else
-								{
-									result_m.error = new (GC) mu::core::error_string (U"Sub left and right arguments must be same width", mu::core::error_type::sub_arguments_must_have_same_bit_width);
-								}
-							}
-							else
-							{
-								result_m.error = new (GC) mu::core::error_string (U"Sub right argument must be an integer type", mu::core::error_type::sub_arguments_must_be_integers);
-							}
-						}
-						else
-						{
-							result_m.error = new (GC) mu::core::error_string (U"Sub left argument must be an integer type", mu::core::error_type::sub_arguments_must_be_integers);
-						}
-					}
-					else
-					{
-						result_m.error = new (GC) mu::core::error_string (U"Sub right argument must be a value", mu::core::error_type::sub_arguments_must_be_values);
-					}
-				}
-				else
-				{
-					result_m.error = new (GC) mu::core::error_string (U"Sub left argument must be a value", mu::core::error_type::sub_arguments_must_be_values);
-				}
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"Sub instruction expects two arguments", mu::core::error_type::sub_expects_two_arguments);
-			}
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::udiv:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::urem:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+			break;
+		}
+		case mu::llvmc::instruction_type::xor_i:
+		{
+			process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
 			break;
 		}
 		default:
