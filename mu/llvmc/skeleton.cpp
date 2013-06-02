@@ -377,6 +377,24 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
             break;
         }
+        case mu::llvmc::instruction_type::lshr:
+        {
+            assert (predicate_position == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            break;
+        }
+        case mu::llvmc::instruction_type::shl:
+        {
+            assert (predicate_position == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+            assert (*dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1])->type () == *dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ());
+            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            break;
+        }
         case mu::llvmc::instruction_type::store:
         {
             result = &mu::llvmc::skeleton::the_unit_type;

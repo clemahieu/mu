@@ -796,6 +796,36 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             last = new_last;
                             break;
                         }
+                        case mu::llvmc::instruction_type::lshr:
+                        {
+                            assert (instruction->predicate_position == 3);
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
+                            auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
+                            auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
+                            predicate = and_predicates (left.predicate, right.predicate);
+                            predicate = process_predicates (predicate, instruction->arguments, 3);
+                            auto instruction_l (llvm::BinaryOperator::CreateLShr (left.value, right.value));
+                            instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
+                            last->getInstList ().push_back (instruction_l);
+                            value = instruction_l;
+                            break;
+                        }
+                        case mu::llvmc::instruction_type::shl:
+                        {
+                            assert (instruction->predicate_position == 3);
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
+                            auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
+                            auto right (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));
+                            predicate = and_predicates (left.predicate, right.predicate);
+                            predicate = process_predicates (predicate, instruction->arguments, 3);
+                            auto instruction_l (llvm::BinaryOperator::CreateShl (left.value, right.value));
+                            instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
+                            last->getInstList ().push_back (instruction_l);
+                            value = instruction_l;
+                            break;
+                        }
                         case mu::llvmc::instruction_type::store:
                         {
                             assert (instruction->predicate_position == 3);
