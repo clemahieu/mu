@@ -328,6 +328,30 @@ TEST (llvmc_analyzer, two_result_parameter)
     ASSERT_EQ (function1->entry, result5->value->branch);
 }
 
+TEST (llvmc_analyzer, DISABLED_error_wrong_result_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    function.name = U"0";
+    function.region = mu::core::region (2, 2, 2, 5, 5, 5);
+    mu::llvmc::skeleton::unit_type type1;
+    mu::llvmc::ast::value type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    parameter1.region = mu::core::region (3, 3, 3, 4, 4, 4);
+    function.parameters.push_back (&parameter1);
+    mu::llvmc::ast::value value2 (&mu::llvmc::skeleton::integer_8_type);
+    mu::llvmc::ast::result result1 (&value2);
+    result1.value = &parameter1;
+    function.results.push_back (&result1);
+    function.branch_ends.push_back (function.results.size ());
+    function.predicate_offsets.push_back (function.results.size ());
+    module.functions.push_back (&function);
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}
+
 TEST (llvmc_analyzer, error_indistinct_result_branches1)
 {
     mu::llvmc::analyzer analyzer;
