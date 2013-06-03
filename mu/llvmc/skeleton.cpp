@@ -400,6 +400,26 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
             result = static_cast <mu::llvmc::skeleton::value *> (arguments [2])->type ();
             break;
         }
+		case mu::llvmc::instruction_type::getelementptr:
+		{
+            assert (predicate_position >= 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
+            assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]) != nullptr);
+			auto value (static_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+			auto value_type (value->type ());
+			assert (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (value_type) != nullptr);
+			value_type = static_cast <mu::llvmc::skeleton::pointer_type *> (value_type)->pointed_type;
+			for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_position); i != j; ++i)
+			{
+				assert (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i) != nullptr);
+				auto index (static_cast <mu::llvmc::skeleton::constant_integer *> (*i));
+				assert (dynamic_cast <mu::llvmc::skeleton::struct_type *> (value_type) != nullptr);
+				assert (static_cast <mu::llvmc::skeleton::struct_type *> (value_type)->elements.size () > index->value_m);
+				value_type = static_cast <mu::llvmc::skeleton::struct_type *> (value_type)->elements [index->value_m];
+			}
+			return value_type;
+			break;
+		}
         case mu::llvmc::instruction_type::icmp:
         {
             result = & mu::llvmc::skeleton::integer_1_type;

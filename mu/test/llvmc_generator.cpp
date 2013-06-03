@@ -1129,7 +1129,7 @@ TEST (llvmc_generator, generate_if_value)
 
 extern char const * const generate_if_join_expected;
 
-TEST (llvm_generator, generate_if_join)
+TEST (llvmc_generator, generate_if_join)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1173,7 +1173,7 @@ TEST (llvm_generator, generate_if_join)
 
 extern char const * const generate_if_join_value_expected;
 
-TEST (llvm_generator, generate_if_join_value)
+TEST (llvmc_generator, generate_if_join_value)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1234,7 +1234,7 @@ TEST (llvm_generator, generate_if_join_value)
 
 extern char const * const generate_if_join_2value_expected;
 
-TEST (llvm_generator, generate_if_join_2value)
+TEST (llvmc_generator, generate_if_join_2value)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1321,7 +1321,7 @@ TEST (llvm_generator, generate_if_join_2value)
 
 extern char const * const generate_if_join_load_expected;
 
-TEST (llvm_generator, generate_if_join_load)
+TEST (llvmc_generator, generate_if_join_load)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1383,7 +1383,7 @@ TEST (llvm_generator, generate_if_join_load)
 
 extern char const * const generate_call_0_expected;
 
-TEST (llvm_generator, generate_call_0)
+TEST (llvmc_generator, generate_call_0)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1417,7 +1417,7 @@ TEST (llvm_generator, generate_call_0)
 
 extern char const * const generate_call_1_expected;
 
-TEST (llvm_generator, generate_call_1)
+TEST (llvmc_generator, generate_call_1)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1458,7 +1458,7 @@ TEST (llvm_generator, generate_call_1)
 
 extern char const * const generate_call_2_expected;
 
-TEST (llvm_generator, generate_call_2)
+TEST (llvmc_generator, generate_call_2)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1520,7 +1520,7 @@ TEST (llvm_generator, generate_call_2)
 
 extern char const * const generate_call_3_expected;
 
-TEST (llvm_generator, generate_call_3)
+TEST (llvmc_generator, generate_call_3)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1589,7 +1589,7 @@ TEST (llvm_generator, generate_call_3)
 
 extern char const * const generate_call_predicate_b1v0_expected;
 
-TEST (llvm_generator, generate_call_predicate_b1v0)
+TEST (llvmc_generator, generate_call_predicate_b1v0)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1623,7 +1623,7 @@ TEST (llvm_generator, generate_call_predicate_b1v0)
 
 extern char const * const generate_call_predicate_b1v1_expected;
 
-TEST (llvm_generator, generate_call_predicate_b1v1)
+TEST (llvmc_generator, generate_call_predicate_b1v1)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1661,7 +1661,7 @@ TEST (llvm_generator, generate_call_predicate_b1v1)
 
 extern char const * const generate_loop1_expected;
 
-TEST (llvm_generator, generate_loop1)
+TEST (llvmc_generator, generate_loop1)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1729,7 +1729,7 @@ TEST (llvm_generator, generate_loop1)
 
 extern char const * const generate_loop_count_expected;
 
-TEST (llvm_generator, generate_loop_count)
+TEST (llvmc_generator, generate_loop_count)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1821,7 +1821,7 @@ TEST (llvm_generator, generate_loop_count)
 
 extern char const * const generate_asm_expected;
 
-TEST (llvm_generator, generate_asm)
+TEST (llvmc_generator, generate_asm)
 {
     mu::llvmc::skeleton::module module;
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
@@ -1843,4 +1843,45 @@ TEST (llvm_generator, generate_asm)
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_asm_expected), info);
+}
+
+extern char const * const generate_getelementptr_expected;
+
+TEST (llvmc_generator, z000_getelementptr_empty)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+	mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type2, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::getelementptr);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+	mu::llvmc::skeleton::constant_integer constant1 (empty_region, module.global, 8, 0);
+	arguments1.push_back (&constant1);
+    mu::llvmc::skeleton::instruction instruction1 (empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type2, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_getelementptr", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+	std::cerr << info;
+    ASSERT_EQ (std::string (generate_getelementptr_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t * (*) (uint8_t *)> (function2));
+	uint8_t val (0);
+    auto result2 (function3 (&val));
+    ASSERT_EQ (&val, result2);
 }

@@ -829,6 +829,29 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             last = new_last;
                             break;
                         }
+                        case mu::llvmc::instruction_type::getelementptr:
+                        {
+                            assert (instruction->predicate_position >= 3);
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
+                            auto one (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2]) != nullptr);
+                            auto two (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [2])));							
+                            predicate = and_predicates (one.predicate, two.predicate);
+							std::vector <llvm::Value *> indicies;
+							indicies.push_back (two.value);
+							for (auto i (instruction->arguments.begin () + 3), j (instruction->arguments.begin () + instruction->predicate_position); i != j; ++i)
+							{
+								assert (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i) != nullptr);
+								auto trailing (retrieve_value (static_cast <mu::llvmc::skeleton::constant_integer *> (*i)));
+								indicies.push_back (trailing.value);
+							}
+                            predicate = process_predicates (predicate, instruction->arguments, instruction->predicate_position);
+                            auto instruction_l (llvm::GetElementPtrInst::CreateInBounds (one.value, llvm::ArrayRef <llvm::Value *> (indicies)));
+                            instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
+                            last->getInstList ().push_back (instruction_l);
+							value = instruction_l;
+                            break;
+                        }
 						case mu::llvmc::instruction_type::icmp:
 						{
 							assert (instruction->predicate_position == 4);
