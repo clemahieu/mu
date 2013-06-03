@@ -15,7 +15,9 @@ mu::core::error_type mu::core::error_string::type ()
 void mu::core::error_string::output (std::ostream & out)
 {
     std::string string (message.begin (), message.end ());
-    out << string;
+    mu::string const & region_mu (region_m.string ());
+    std::string region (region_mu.begin (), region_mu.end ());
+    out << string << "(" << region << ")";
 }
 
 mu::core::region mu::core::error_string::region ()

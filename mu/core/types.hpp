@@ -22,4 +22,5 @@ namespace mu
     using multimap = std::multimap <T, U, std::less <T>, gc_allocator <std::pair <T, U>>>;
     template <typename T>
     using set = std::set <T, std::less <T>, gc_allocator <T>>;
+    std::string std_from_mu_string (mu::string const & string_a);
 }

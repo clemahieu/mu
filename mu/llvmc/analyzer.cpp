@@ -853,7 +853,7 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 				{
 					if ((*argument_value->type ()) != *function_type->function->parameters [i]->type ())
 					{
-						result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type);
+						result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, expression_a->region);
 					}
 				}
 				else

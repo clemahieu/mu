@@ -51,22 +51,24 @@ function fmix64
 function murmurhash3_x86_32 
 [ptr int8 key int32 len int32 seed ptr int8 out]
 [
-	let nblocks [div len cint32 #4]
-	loop
-	[[sub cint32 #0 nblocks] seed]
-	[i h1]
-	[
-		let k1 [getblock32 key i]
-		let k2 [mul k1 cint32 #3432918353]
-		let k3 [rotl32 k2 cint32 #15]
-		let h2 [xor h1 k3]
-		let h3 [rotl32 h2 cint32 #13]
-		let h4 [add [mul h3 5] cint32 #3864292196]
-		let exit continue [if [icmp eq i cint32 #0]]
-	]
-	[[[sub i cint32 #1] h4; continue][h4; exit]]
+	let nblocks [udiv len cint32 #4]
+	let kn 
+		loop
+		[[sub cint32 #0 nblocks] seed]
+		[i h1]
+		[
+			let k1 [getblock32 key i]
+			let k2 [mul k1 cint32 #3432918353]
+			let k3 [rotl32 k2 cint32 #15]
+			let h2 [xor h1 k3]
+			let h3 [rotl32 h2 cint32 #13]
+			let h4 [add [mul h3 cint32 #5] cint32 #3864292196]
+			let exit continue [if [icmp eq i cint32 #0]]
+			let in [sub i cint32 #1]
+		]
+	[[in h4; continue][h4; exit]]
 ]
-[]
+[[int32 kn]]
 
 function entry
 []

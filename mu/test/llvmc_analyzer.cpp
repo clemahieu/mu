@@ -975,6 +975,46 @@ TEST (llvmc_analyzer, call_1_argument)
     ASSERT_EQ (function4->entry, expression2->branch);
 }
 
+TEST (llvmc_analyzer, error_call_wrong_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::result result1 (&value1);
+    result1.value = &parameter1;
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    mu::llvmc::ast::function function2;
+    function2.name = U"1";
+    mu::llvmc::skeleton::integer_type type2 (8);
+    mu::llvmc::ast::value value2 (&type2);
+    mu::llvmc::ast::parameter parameter2 (U"p0", &value2);
+    function2.parameters.push_back (&parameter2);
+    mu::llvmc::ast::definite_expression expression1;
+    expression1.arguments.push_back (&function1);
+    expression1.arguments.push_back (&parameter2);
+    expression1.set_predicate_position ();
+    expression1.region = mu::core::region (8, 8, 8, 9, 9, 9);
+    mu::llvmc::ast::result result2 (&value1);
+    result2.value = &expression1;
+    function2.results.push_back (&result2);
+    function2.predicate_offsets.push_back (function2.results.size ());
+    function2.branch_ends.push_back (function2.results.size ());
+    module1.functions.push_back (&function2);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+    ASSERT_EQ (mu::core::error_type::argument_type_does_not_match_parameter_type, result.error->type ());
+    ASSERT_EQ (expression1.region, result.error->region ());
+}
+
 TEST (llvmc_analyzer, set_expression_empty)
 {
     mu::llvmc::analyzer analyzer;

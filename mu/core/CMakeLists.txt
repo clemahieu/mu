@@ -12,6 +12,7 @@ add_library (mu_core SHARED
     region.hpp
     string_hash.cpp
     string_hash.hpp
+    types.cpp
 	types.hpp)
     
 target_link_libraries (mu_core
