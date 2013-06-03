@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <mu/core/region.hpp>
 
 namespace mu
 {
@@ -133,6 +134,7 @@ namespace mu
             virtual void output (std::ostream & out) = 0;
             std::string string ();
             virtual mu::core::error_type type () = 0;
+			virtual mu::core::region region () = 0;
         };
     }
 }

@@ -107,15 +107,14 @@ mu::io::token_result mu::io::lexer::lex ()
                         break;
                     default:
                     {
-                        auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character));
+                        auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
                         error->message.push_back (character2);
                         result.error = error;
-                    }
                         break;
-                        
+                    }                        
                 }
-            }
                 break;
+            }
             default:
                 result = identifier ();
                 break;
@@ -267,12 +266,12 @@ mu::io::token_result mu::io::lexer::identifier ()
                         result.error = region_comment ();
                         break;
                     default:
-                        {
-                            auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character));
-                            error->message.push_back (character2);
-                            result.error = error;
-                        }
-                        break;
+					{
+						auto error (new (GC) mu::core::error_string (U"Unknown control character: ", mu::core::error_type::unknown_control_character, mu::core::region (position, position)));
+						error->message.push_back (character2);
+						result.error = error;
+						break;
+					}
                 }
             }
             break;
@@ -311,7 +310,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
     }
     if (terminator.size () > 16)
     {
-        result.error = new (GC) mu::core::error_string (U"Termiator token is greater than 16 characters", mu::core::error_type::terminator_token_too_long);
+        result.error = new (GC) mu::core::error_string (U"Termiator token is greater than 16 characters", mu::core::error_type::terminator_token_too_long, mu::core::region (identifier->region.first, position));
     }
     
     while (result.token == nullptr && result.error == nullptr)
@@ -345,7 +344,7 @@ mu::io::token_result mu::io::lexer::complex_identifier ()
             }
             else
             {
-                result.error = new (GC) mu::core::error_string (U"End of stream inside complex identifier", mu::core::error_type::end_of_stream_inside_complex_identifier);
+                result.error = new (GC) mu::core::error_string (U"End of stream inside complex identifier", mu::core::error_type::end_of_stream_inside_complex_identifier, mu::core::region (position, position));
             }
         }
     }
@@ -420,7 +419,7 @@ mu::io::character_result mu::io::lexer::hex_code (int size_a)
                     consume (1);
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Non-hex character", mu::core::error_type::non_hex_character);
+                    result.error = new (GC) mu::core::error_string (U"Non-hex character", mu::core::error_type::non_hex_character, mu::core::region (position, position));
                     break;
             }
         }
@@ -457,7 +456,7 @@ mu::core::error * mu::io::lexer::region_comment ()
                 }
                 break;
             case U'\U0000ffff':
-                result = new (GC) mu::core::error_string (U"End of stream inside region comment", mu::core::error_type::end_of_stream_inside_region_comment);
+                result = new (GC) mu::core::error_string (U"End of stream inside region comment", mu::core::error_type::end_of_stream_inside_region_comment, mu::core::region (position, position));
                 done = true;
                 break;
             default:

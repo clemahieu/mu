@@ -64,7 +64,7 @@ function murmurhash3_x86_32
 		let h4 [add [mul h3 5] cint32 #3864292196]
 		let exit continue [if [icmp eq i cint32 #0]]
 	]
-	[[[sub i cint32 #1] h4; continue][; exit]]
+	[[[sub i cint32 #1] h4; continue][h4; exit]]
 ]
 []
 
