@@ -34,3 +34,12 @@ TEST (llvmc_skeleton, most_specific_branch4)
     auto branch4 (branch2.most_specific (&branch3));
     ASSERT_EQ (nullptr, branch4);
 }
+
+TEST (llvmc_analyzer, ptr_equality)
+{
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::pointer_type type2 (&type1);
+    mu::llvmc::skeleton::integer_type type3 (8);
+    mu::llvmc::skeleton::pointer_type type4 (&type3);
+    ASSERT_EQ (type2, type4);
+}

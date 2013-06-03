@@ -335,7 +335,7 @@ bool mu::llvmc::skeleton::pointer_type::operator == (mu::llvmc::skeleton::type c
     auto result (other_l != nullptr);
     if (result)
     {
-        result = *pointed_type == (*other_l);
+        result = *pointed_type == (*other_l->pointed_type);
     }
     return result;
 }

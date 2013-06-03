@@ -49,7 +49,7 @@ function fmix64
 [[int64 k5]]
 
 function murmurhash3_x86_32 
-[ptr int8 key int32 len int32 seed ptr int8 out]
+[ptr int32 key int32 len int32 seed ptr int8 out]
 [
 	let nblocks [udiv len cint32 #4]
 	let kn 
