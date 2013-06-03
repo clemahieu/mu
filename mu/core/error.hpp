@@ -115,7 +115,13 @@ namespace mu
 			cmpxchg_requires_three_arguments,
 			cmpxchg_argument_one_pointer,
 			cmpxchg_one_point_two,
-			cmpxchg_one_point_three
+			cmpxchg_one_point_three,
+			getelementptr_requires_two,
+			getelementptr_requires_values,
+			getelementptr_requires_pointer_type,
+			getelementptr_first_argument_integer_type,
+			getelementptr_trailing_constant,
+			getelementptr_trailing_32bit
         };
         class error
         {

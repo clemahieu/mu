@@ -12,6 +12,12 @@ function rotl64
 ]
 [[int64 result]]
 
+function getblock32 
+[ptr int32 p int32 i]
+[
+]
+[[]]
+
 function entry
 []
 []

@@ -1287,6 +1287,69 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 }
                 break;
             }
+			case mu::llvmc::instruction_type::getelementptr:
+			{
+				if (predicate_offset >= 3)
+				{
+					auto ptr (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+					if (ptr != nullptr)
+					{
+						auto ptr_index (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+						if (ptr_index != nullptr)
+						{							
+							auto ptr_type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (ptr->type ()));
+							if (ptr_type != nullptr)
+							{
+								auto ptr_index_type (dynamic_cast <mu::llvmc::skeleton::integer_type  *> (ptr_index->type ()));
+								if (ptr_index_type != nullptr)
+								{
+									for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_offset); i != j && result_m.error == nullptr; ++i)
+									{
+										auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
+										if (index != nullptr)
+										{
+											assert (dynamic_cast <mu::llvmc::skeleton::integer_type *> (index->type ()));
+											if (static_cast <mu::llvmc::skeleton::integer_type *> (index->type ())->bits != 32)
+											{
+												result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing index types to be 32bit integers", mu::core::error_type::getelementptr_trailing_32bit);
+											}
+										}
+										else
+										{
+											result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing indicies to be constant integers", mu::core::error_type::getelementptr_trailing_constant);
+										}
+									}
+									if (result_m.error == nullptr)
+									{
+										already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+									}
+								}
+								else
+								{
+									result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires pointer index to be an integer", mu::core::error_type::getelementptr_first_argument_integer_type);
+								}
+							}
+							else
+							{
+								result_m.error = new (GC) mu::core::error_string (U"Getelementptr first argument must be a pointer", mu::core::error_type::getelementptr_requires_pointer_type);
+							}
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);							
+						}
+					}
+					else
+					{
+						result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires at least two arguments", mu::core::error_type::getelementptr_requires_two);
+				}
+				break;
+			}
             case mu::llvmc::instruction_type::icmp:
             {
                 if (predicate_offset == 4)

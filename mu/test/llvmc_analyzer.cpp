@@ -1498,6 +1498,50 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractvalue)
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [2]);
 }
 
+TEST (llvmc_analyzer, instruction_getelementptr)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"8");
+	mu::llvmc::ast::pointer_type type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::getelementptr);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
+	mu::llvmc::ast::number number1 (U"0");
+	mu::llvmc::ast::constant_int constant1 (U"8", &number1);
+    expression1.arguments.push_back (&constant1);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::result result1 (&type1);
+    result1.value = &expression1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size () == 1);
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
+	ASSERT_NE (nullptr, result2);
+	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+	ASSERT_NE (nullptr, instruction1);
+	ASSERT_EQ (3, instruction1->arguments.size ());
+	ASSERT_EQ (&marker1, instruction1->arguments [0]);
+	ASSERT_EQ (function2->parameters [0], instruction1->arguments [1]);
+	auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (instruction1->arguments [2]));
+	ASSERT_NE (nullptr, index);
+	ASSERT_EQ (0, index->value_m);
+}
+
 TEST (llvmc_analyzer, instruction_load)
 {
     mu::llvmc::analyzer analyzer;
