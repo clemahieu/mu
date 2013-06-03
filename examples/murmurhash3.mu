@@ -31,7 +31,7 @@ function fmix32
 [
 	let h1 [xor h [lshr h cint32 #16]]
 	let h2 [mul h1 cint32 #2246822507]
-	let h3 [xor h2 [lshr h2 #13]]
+	let h3 [xor h2 [lshr h2 cint32 #13]]
 	let h4 [mul h3 cint32 #3266489909]
 	let h5 [xor h4 [lshr h4 cint32 #16]]
 ]
@@ -40,13 +40,27 @@ function fmix32
 function fmix64
 [int64 k]
 [
-	let k1 [xor k [lshr k cint32 #33]]
+	let k1 [xor k [lshr k cint64 #33]]
 	let k2 [mul k1 cint64 #18397679294719824000]
-	let k3 [xor k2 [lshr k2 #33]]
+	let k3 [xor k2 [lshr k2 cint64 #33]]
 	let k4 [mul k3 cint64 #14181476777654088000]
-	let k5 [xor k4 [lshr k4 #33]]
+	let k5 [xor k4 [lshr k4 cint64 #33]]
 ]
 [[int64 k5]]
+
+function murmurhash3_x86_32 
+[ptr int8 key int32 len int32 seed ptr int8 out]
+[
+	let nblocks [div len cint32 #4]
+	loop
+	[[sub cint32 #0 nblocks]]
+	[i]
+	[
+		let exit continue [if [icmp eq i cint32 #0]]
+	]
+	[[[sub i cint32 #1]; continue][;exit]]
+]
+[]
 
 function entry
 []

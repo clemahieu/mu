@@ -455,7 +455,7 @@ mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::
 	try
 	{
 		std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
-		unsigned int value (boost::lexical_cast <unsigned int> (data_l));
+		uint64_t value (boost::lexical_cast <uint64_t> (data_l));
 		result = new (GC) mu::llvmc::skeleton::number (value);
 	}
 	catch (boost::bad_lexical_cast)
