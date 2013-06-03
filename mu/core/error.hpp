@@ -123,7 +123,8 @@ namespace mu
 			getelementptr_trailing_constant,
 			getelementptr_trailing_32bit,
 			expecting_a_result,
-			expecting_an_expression
+			expecting_an_expression,
+			numbers_parsed_by_keyword
         };
         class error
         {

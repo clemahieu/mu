@@ -225,8 +225,16 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 														}
 														else
 														{
-															std::string name (typeid (*node_a).name ());
-															assert (false);
+															auto number (dynamic_cast <mu::llvmc::ast::number *> (node_a));
+															if (number != nullptr)
+															{
+																result_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+															}
+															else
+															{
+																std::string name (typeid (*node_a).name ());
+																assert (false);
+															}
 														}
 													}
 												}
