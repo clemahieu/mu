@@ -1875,7 +1875,6 @@ TEST (llvmc_generator, z000_getelementptr_empty)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
-	std::cerr << info;
     ASSERT_EQ (std::string (generate_getelementptr_expected), info);
     auto engine (prepare_module_jit (result.module));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));

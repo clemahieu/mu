@@ -1542,6 +1542,38 @@ TEST (llvmc_analyzer, instruction_getelementptr)
 	ASSERT_EQ (0, index->value_m);
 }
 
+TEST (llvm_analyzer, error_non_result)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+	mu::llvmc::ast::number number1 (U"0");
+    function1.predicate_offsets.push_back (function1.results.size ());
+	function1.results.push_back (&number1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (mu::core::error_type::expecting_an_expression, result.error->type ());
+}
+
+TEST (llvm_analyzer, error_non_expression)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+	mu::llvmc::ast::number number1 (U"0");
+	function1.results.push_back (&number1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (mu::core::error_type::expecting_a_result, result.error->type ());
+}
+
 TEST (llvmc_analyzer, instruction_load)
 {
     mu::llvmc::analyzer analyzer;

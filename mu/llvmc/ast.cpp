@@ -2,21 +2,21 @@
 
 #include <gc_cpp.h>
 
+#include <mu/core/error_string.hpp>
+
 mu::llvmc::ast::module::module ()
 {
 }
 
-mu::llvmc::ast::result * mu::llvmc::ast::function::as_result (mu::llvmc::ast::node * node_a)
+mu::llvmc::ast::result * mu::llvmc::ast::function::maybe_result (mu::llvmc::ast::node * node_a)
 {
-    assert (dynamic_cast <mu::llvmc::ast::result *> (node_a) != nullptr);
-    auto result (static_cast <mu::llvmc::ast::result *> (node_a));
+    auto result (dynamic_cast <mu::llvmc::ast::result *> (node_a));
     return result;
 }
 
-mu::llvmc::ast::expression * mu::llvmc::ast::function::as_expression (mu::llvmc::ast::node * node_a)
+mu::llvmc::ast::expression * mu::llvmc::ast::function::maybe_expression (mu::llvmc::ast::node * node_a)
 {
-    assert (dynamic_cast <mu::llvmc::ast::expression *> (node_a) != nullptr);
-    auto result (static_cast <mu::llvmc::ast::expression *> (node_a));
+    auto result (dynamic_cast <mu::llvmc::ast::expression *> (node_a));
     return result;
 }
 

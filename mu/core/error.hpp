@@ -121,7 +121,9 @@ namespace mu
 			getelementptr_requires_pointer_type,
 			getelementptr_first_argument_integer_type,
 			getelementptr_trailing_constant,
-			getelementptr_trailing_32bit
+			getelementptr_trailing_32bit,
+			expecting_a_result,
+			expecting_an_expression
         };
         class error
         {

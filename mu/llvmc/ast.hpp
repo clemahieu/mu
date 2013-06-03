@@ -182,8 +182,8 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
-                mu::llvmc::ast::result * as_result (mu::llvmc::ast::node * node_a);
-                mu::llvmc::ast::expression * as_expression (mu::llvmc::ast::node * node_a);
+                mu::llvmc::ast::result * maybe_result (mu::llvmc::ast::node * node_a);
+                mu::llvmc::ast::expression * maybe_expression (mu::llvmc::ast::node * node_a);
                 template <typename T, typename U, typename V, typename W, typename X>
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate)
                 {
@@ -205,11 +205,13 @@ namespace mu
                         }
                         if (!predicates)
                         {
-                            result_op (as_result (results [index]), index);
+							auto result (maybe_result (results [index]));
+							result_op (result, index);
                         }
                         else
                         {
-                            predicate_op (as_expression (results [index]), index);
+							auto expression (maybe_expression (results [index]));
+							predicate_op (expression, index);
                         }
                         if (index + 1 >= *current_end)
                         {

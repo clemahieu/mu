@@ -8,6 +8,8 @@
 
 #include <gc_cpp.h>
 
+#include <typeinfo>
+
 mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
 global (global_a),
 most_specific (global_a),
@@ -212,17 +214,18 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 													}
 													else
 													{
-                                                        auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
-                                                        if (asm_l != nullptr)
-                                                        {
+														auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
+														if (asm_l != nullptr)
+														{
 															auto type (process_type (asm_l->type));
 															if (type != nullptr)
 															{
 																already_generated [node_a] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
 															}
-                                                        }
+														}
 														else
 														{
+															std::string name (typeid (*node_a).name ());
 															assert (false);
 														}
 													}
@@ -611,44 +614,58 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
         [&]
         (mu::llvmc::ast::result * result_a, size_t index_a)
         {
-            auto type (process_type (result_a->written_type));
-            if (type != nullptr)
-            {
-                auto value (process_value (result_a->value));
-                if (value != nullptr)
-                {
-                    function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-					branches.add_branch (value->branch);
-                }
-            }
-            else
-            {
-                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
-            }
+			if (result_a != nullptr)
+			{
+				auto type (process_type (result_a->written_type));
+				if (type != nullptr)
+				{
+					auto value (process_value (result_a->value));
+					if (value != nullptr)
+					{
+						function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+						branches.add_branch (value->branch);
+					}
+				}
+				else
+				{
+					result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type);
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Expecting a result", mu::core::error_type::expecting_a_result);
+			}
         },
         [&]
         (mu::llvmc::ast::expression * result_a, size_t)
         {
-            auto multi (process_node (result_a));
-            if (result_m.error == nullptr)
-            {
-                if (multi)
-                {
-                    for (auto i : already_generated_multi [result_a])
-                    {
-                        assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
-                        function_s->results.push_back (i);
-						branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch);
-                    }
-                }
-                else
-                {
-                    assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
-                    auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
-                    function_s->results.push_back (value);
-					branches.add_branch (value->branch);
-                }
-            }
+			if (result_a != nullptr)
+			{
+				auto multi (process_node (result_a));
+				if (result_m.error == nullptr)
+				{
+					if (multi)
+					{
+						for (auto i : already_generated_multi [result_a])
+						{
+							assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
+							function_s->results.push_back (i);
+							branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch);
+						}
+					}
+					else
+					{
+						assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
+						auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
+						function_s->results.push_back (value);
+						branches.add_branch (value->branch);
+					}
+				}
+			}
+			else
+			{
+				result_m.error = new (GC) mu::core::error_string (U"Expecting an expression", mu::core::error_type::expecting_an_expression);
+			}
         },
         [&]
         (mu::llvmc::ast::node *, size_t)
@@ -1037,7 +1054,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 					for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
 					{
 						auto node (*k);
-								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 						if (value != nullptr)
 						{
 							calculate_most_specific (most_specific_branch, value->branch);
@@ -1048,7 +1065,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 				else
 				{
 					auto node (already_generated [node_a]);
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 					if (value != nullptr)
 					{
 						calculate_most_specific (most_specific_branch, value->branch);
@@ -1069,7 +1086,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 					for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
 					{
 						auto node (*k);
-								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 						if (value != nullptr)
 						{
 							calculate_most_specific (most_specific_branch, value->branch);
@@ -1080,7 +1097,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 				else
 				{
 					auto node (already_generated [node_a]);
-							auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
+					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 					if (value != nullptr)
 					{
 						calculate_most_specific (most_specific_branch, value->branch);
