@@ -1232,7 +1232,7 @@ void mu::llvmc::loop::parse_results ()
                             auto next (parser.stream.peek ());
                             if (next.ast != nullptr)
                             {
-                                result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier);
+                                result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier, next.ast->region);
                             }
                             else if (next.token != nullptr)
                             {

@@ -1031,6 +1031,16 @@ TEST (llvmc_parser, loop3)
     EXPECT_EQ (0, root1->results.size ());
 }
 
+TEST (llvmc_parser, error_loop_result_name)
+{
+    test_parser parser ("function test1 [] [loop [] [] [] [[[]]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+	ASSERT_EQ (mu::core::error_type::expecting_identifier, module1.error->type ());
+	ASSERT_EQ (mu::core::region (35, 1, 36, 36, 1, 37), module1.error->region ());
+}
+
 TEST (llvmc_parser, let1)
 {
     test_parser parser ("function test1 [int1 val] [let val1 [val]] [[int1 val1]]");
