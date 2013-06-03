@@ -53,12 +53,18 @@ function murmurhash3_x86_32
 [
 	let nblocks [div len cint32 #4]
 	loop
-	[[sub cint32 #0 nblocks]]
-	[i]
+	[[sub cint32 #0 nblocks] seed]
+	[i h1]
 	[
+		let k1 [getblock32 key i]
+		let k2 [mul k1 cint32 #3432918353]
+		let k3 [rotl32 k2 cint32 #15]
+		let h2 [xor h1 k3]
+		let h3 [rotl32 h2 cint32 #13]
+		let h4 [add [mul h3 5] cint32 #3864292196]
 		let exit continue [if [icmp eq i cint32 #0]]
 	]
-	[[[sub i cint32 #1]; continue][;exit]]
+	[[[sub i cint32 #1] h4; continue][; exit]]
 ]
 []
 
