@@ -343,6 +343,7 @@ TEST (llvmc_analyzer, error_wrong_result_type)
     mu::llvmc::ast::value value2 (&mu::llvmc::skeleton::integer_8_type);
     mu::llvmc::ast::result result1 (&value2);
     result1.value = &parameter1;
+    result1.region = mu::core::region (9, 9, 9, 10, 10, 10);
     function.results.push_back (&result1);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
@@ -351,6 +352,7 @@ TEST (llvmc_analyzer, error_wrong_result_type)
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
     ASSERT_EQ (mu::core::error_type::actual_formal_result_type_mismatch, result.error->type ());
+    ASSERT_EQ (result1.region, result.error->region ());
 }
 
 TEST (llvmc_analyzer, error_indistinct_result_branches1)

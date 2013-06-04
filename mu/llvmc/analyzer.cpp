@@ -637,7 +637,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch);
+                            result_m.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch, result_a->region);
                         }
 					}
 				}
