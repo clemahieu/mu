@@ -354,7 +354,7 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !12 = metadata !{i32 0, i32 0, metadata !13, null}
 !13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 9} ; [ DW_TAG_lexical_block ] [/generate_load]
-!14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+!14 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 !15 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
@@ -1018,11 +1018,11 @@ define i1 @0(i1) {
 
 ; <label>:17                                      ; preds = %15, %10
   %18 = phi i1 [ %16, %15 ], [ undef, %10 ]
-  call void @llvm.dbg.declare(metadata !{i1 %18}, metadata !15)
+  call void @llvm.dbg.declare(metadata !{i1 %18}, metadata !14)
   %19 = or i1 %12, %14
   %20 = select i1 %14, i1 %18, i1 %13
-  call void @llvm.dbg.declare(metadata !{i1 %20}, metadata !16)
-  ret i1 %20, !dbg !17
+  call void @llvm.dbg.declare(metadata !{i1 %20}, metadata !15)
+  ret i1 %20, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1042,11 +1042,10 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
 !11 = metadata !{i32 0, i32 0, metadata !12, null}
 !12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 29} ; [ DW_TAG_lexical_block ] [/generate_if_join_load]
-!13 = metadata !{i32 786688, metadata !5, metadata !"load1", metadata !6, i32 0, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load1] [line 0]
-!14 = metadata !{i32 786447, null, metadata !"ptr", null, i32 0, i64 8, i64 0, i64 0, i32 0, metadata !9} ; [ DW_TAG_pointer_type ] [ptr] [line 0, size 8, align 0, offset 0] [from int1]
-!15 = metadata !{i32 786688, metadata !5, metadata !"load2", metadata !6, i32 0, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load2] [line 0]
-!16 = metadata !{i32 786688, metadata !5, metadata !"join1", metadata !6, i32 0, metadata !14, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [join1] [line 0]
-!17 = metadata !{i32 0, i32 0, metadata !5, null}
+!13 = metadata !{i32 786688, metadata !5, metadata !"load1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load1] [line 0]
+!14 = metadata !{i32 786688, metadata !5, metadata !"load2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [load2] [line 0]
+!15 = metadata !{i32 786688, metadata !5, metadata !"join1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [join1] [line 0]
+!16 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_0_expected = R"%%%(

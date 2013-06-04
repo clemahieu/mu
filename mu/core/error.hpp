@@ -125,7 +125,8 @@ namespace mu
 			getelementptr_trailing_32bit,
 			expecting_a_result,
 			expecting_an_expression,
-			numbers_parsed_by_keyword
+			numbers_parsed_by_keyword,
+            actual_formal_result_type_mismatch
         };
         class error
         {

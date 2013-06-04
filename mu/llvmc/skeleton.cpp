@@ -429,7 +429,9 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
         {
             assert (predicate_position == 2);
             assert (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]) != nullptr);
-            result = static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ();
+            auto pointer_type (static_cast <mu::llvmc::skeleton::value *> (arguments [1])->type ());
+            assert (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (pointer_type) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::pointer_type *> (pointer_type)->pointed_type;
             break;
         }
         case mu::llvmc::instruction_type::lshr:

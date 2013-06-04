@@ -630,8 +630,15 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 					auto value (process_value (result_a->value));
 					if (value != nullptr)
 					{
-						function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-						branches.add_branch (value->branch);
+                        if (*type == *value->type ())
+                        {
+                            function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
+                            branches.add_branch (value->branch);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Actual result type does not match formal result type", mu::core::error_type::actual_formal_result_type_mismatch);
+                        }
 					}
 				}
 				else
