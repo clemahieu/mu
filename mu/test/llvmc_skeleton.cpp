@@ -43,3 +43,11 @@ TEST (llvmc_analyzer, ptr_equality)
     mu::llvmc::skeleton::pointer_type type4 (&type3);
     ASSERT_EQ (type2, type4);
 }
+
+TEST (llvmc_analyzer, error_integer_type_match_pointer)
+{
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::integer_type type3 (8);
+    mu::llvmc::skeleton::pointer_type type4 (&type3);
+    ASSERT_NE (type1, type4);
+}

@@ -1584,7 +1584,7 @@ TEST (llvmc_analyzer, instruction_getelementptr)
 	mu::llvmc::ast::constant_int constant1 (U"8", &number1);
     expression1.arguments.push_back (&constant1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::result result1 (&type1);
+    mu::llvmc::ast::result result1 (&type2);
     result1.value = &expression1;
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());

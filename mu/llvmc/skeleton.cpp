@@ -417,6 +417,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
 				assert (static_cast <mu::llvmc::skeleton::struct_type *> (value_type)->elements.size () > index->value_m);
 				value_type = static_cast <mu::llvmc::skeleton::struct_type *> (value_type)->elements [index->value_m];
 			}
+            value_type = new (GC) mu::llvmc::skeleton::pointer_type (value_type);
 			return value_type;
 			break;
 		}
