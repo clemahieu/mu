@@ -37,7 +37,7 @@ void mu::core::position::line ()
 mu::string mu::core::position::string ()
 {
     char buffer [32 * 3];
-    sprintf (buffer, "%lld,%lld,%lld", row, column, offset);
+    sprintf (buffer, "%llu,%llu,%llu", row, column, offset);
     std::string result_string (buffer);
     mu::string result (result_string.begin (), result_string.end ());
     return result;
