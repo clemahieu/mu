@@ -15,14 +15,14 @@ function rotl64
 function getblock32 
 [ptr int32 p int32 i]
 [
-	let result [getelementptr p i]
+	let result [load [getelementptr p i]]
 ]
 [[int32 result]]
 
 function getblock64
 [ptr int64 p int32 i]
 [
-	let result [getelementptr p i]
+	let result [load [getelementptr p i]]
 ]
 [[int64 result]]
 
