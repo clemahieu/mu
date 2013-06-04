@@ -456,7 +456,7 @@ mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::
 {
 	mu::llvmc::skeleton::number * result (nullptr);
 	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
-	std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size ()]);
+	std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
 	uint64_t value;
 	auto parser (sscanf (data_l.c_str (), "%" PRIu64 " %s", &value, remaining.get ()));
 	if (parser == 1)
