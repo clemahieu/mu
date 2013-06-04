@@ -448,6 +448,7 @@ void mu::llvmc::function::parse_results ()
 
 void mu::llvmc::function::parse_result_set ()
 {
+	auto first (parser.stream.tokens [0]->region);
     auto node (parser.stream.peek ());
     auto done (false);
     auto predicates (false);
@@ -469,7 +470,7 @@ void mu::llvmc::function::parse_result_set ()
                         {
                             parser.stream.consume ();
                             auto result (new (GC) mu::llvmc::ast::result (type));
-                            result->region = mu::core::region (next.token->region.first, type->region.last);
+                            result->region = mu::core::region (first.first, next.token->region.last);
                             function_m->results.push_back (result);
                             block.refer (static_cast <mu::io::identifier *> (next.token)->string,
                                          [result]
