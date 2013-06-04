@@ -111,7 +111,8 @@ value (value_a)
 mu::llvmc::skeleton::instruction::instruction (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position_a) :
 value (region_a, branch_a),
 arguments (arguments_a),
-predicate_position (predicate_position_a)
+predicate_position (predicate_position_a),
+type_m (get_type ())
 {
     assert (arguments_a.size () > 0);
     assert (dynamic_cast <mu::llvmc::skeleton::marker *> (arguments_a [0]) != nullptr);
@@ -363,6 +364,11 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::binary_integer_typ
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::type ()
+{
+    return type_m;
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
 {
     mu::llvmc::skeleton::type * result (nullptr);
     switch (marker ())
