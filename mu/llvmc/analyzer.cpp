@@ -10,6 +10,9 @@
 
 #include <typeinfo>
 
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+
 mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
 global (global_a),
 most_specific (global_a),
@@ -452,13 +455,15 @@ value (value_a)
 mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::llvmc::ast::number * number_a)
 {
 	mu::llvmc::skeleton::number * result (nullptr);
-	try
-	{
-		std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
-		uint64_t value (boost::lexical_cast <uint64_t> (data_l));
+	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
+	std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size ()]);
+	uint64_t value;
+	auto parser (sscanf (data_l.c_str (), "%" PRIu64 " %s", &value, remaining.get ()));
+	if (parser == 1)
+	{			
 		result = new (GC) mu::llvmc::skeleton::number (value);
 	}
-	catch (boost::bad_lexical_cast)
+	else
 	{
 		result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
 	}
