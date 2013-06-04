@@ -456,16 +456,51 @@ mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::
 {
 	mu::llvmc::skeleton::number * result (nullptr);
 	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
-	std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
-	uint64_t value;
-	auto parser (sscanf (data_l.c_str (), "%" PRIu64 " %s", &value, remaining.get ()));
-	if (parser == 1)
-	{			
-		result = new (GC) mu::llvmc::skeleton::number (value);
+	if (data_l.size () > 0)
+	{
+		auto prefix (data_l [0]);
+		std::unique_ptr <uint8_t> remaining (new uint8_t [data_l.size () + 1]);
+		uint64_t value;
+		int parsed;
+		switch (prefix)
+		{
+			case 'h':		
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIx64 " %s", &value, remaining.get ());
+				break;
+			case 'd':
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIu64 " %s", &value, remaining.get ());		
+				break;
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				parsed = sscanf (&data_l.c_str () [0], "%" PRIu64 " %s", &value, remaining.get ());		
+				break;
+			case 'o':
+				parsed = sscanf (&data_l.c_str () [1], "%" PRIo64 " %s", &value, remaining.get ());		
+				break;
+			default:
+				parsed = 0;
+				break;
+		}
+		if (parsed == 1)
+		{
+			result = new (GC) mu::llvmc::skeleton::number (value);
+		}
+		else
+		{
+			result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
+		}
 	}
 	else
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
+		result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);		
 	}
 	return result;
 }
