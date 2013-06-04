@@ -196,7 +196,7 @@ TEST (llvmc_parser, simple)
 
 TEST (llvmc_parser, instructions)
 {
-    test_parser parser ("function test [] [[add alloca and ashr atomicrmw bitcast call cmpxchg extractelement extractvalue fadd fcmp fdiv fence fmul fpext fptoi fptosi fptoui fptrunc frem fsub getelementptr icmp insertelement insertvalue load lshr mul or ptrfromint ptrtoint sdiv select sext shl shufflevector sitofp srem store sub trunc udiv uitofp urem xor zext]] []");
+    test_parser parser ("function test [] [[add alloca and ashr atomicrmw bitcast call cmpxchg extractelement extractvalue fadd fcmp fdiv fence fmul fpext fptoi fptosi fptoui fptrunc frem fsub getelementptr icmp insertelement insertvalue load lshr mul or ptrfromint ptrtoint sdiv select sext shl shufflevector sitofp srem store switch sub trunc udiv uitofp urem xor zext]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -210,8 +210,8 @@ TEST (llvmc_parser, instructions)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (18, 1, 19, 338, 1, 339), expression1->region);
-    ASSERT_EQ (47, expression1->arguments.size ());
+    ASSERT_EQ (mu::core::region (18, 1, 19, 345, 1, 346), expression1->region);
+    ASSERT_EQ (48, expression1->arguments.size ());
 	size_t arg (0);
     auto argument1 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [arg++]));
     ASSERT_NE (nullptr, argument1);
@@ -413,6 +413,11 @@ TEST (llvmc_parser, instructions)
     auto value40 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument40->node_m));
     ASSERT_NE (nullptr, value40);
     ASSERT_EQ (mu::llvmc::instruction_type::store, value40->type);
+    auto argument48 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [arg++]));
+    ASSERT_NE (nullptr, argument48);
+    auto value48 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument48->node_m));
+    ASSERT_NE (nullptr, value48);
+    ASSERT_EQ (mu::llvmc::instruction_type::switch_i, value48->type);
     auto argument41 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [arg++]));
     ASSERT_NE (nullptr, argument41);
     auto value41 (dynamic_cast <mu::llvmc::skeleton::marker *> (argument41->node_m));

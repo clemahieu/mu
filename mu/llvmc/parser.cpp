@@ -137,6 +137,8 @@ stream (stream_a)
     assert (!error);
     error = globals.insert (U"sub", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sub)));
     assert (!error);
+    error = globals.insert (U"switch", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::switch_i)));
+    assert (!error);
     error = globals.insert (U"trunc", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::trunc)));
     assert (!error);
     error = globals.insert (U"udiv", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::udiv)));
