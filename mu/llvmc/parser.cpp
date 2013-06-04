@@ -469,6 +469,7 @@ void mu::llvmc::function::parse_result_set ()
                         {
                             parser.stream.consume ();
                             auto result (new (GC) mu::llvmc::ast::result (type));
+                            result->region = mu::core::region (next.token->region.first, type->region.last);
                             function_m->results.push_back (result);
                             block.refer (static_cast <mu::io::identifier *> (next.token)->string,
                                          [result]

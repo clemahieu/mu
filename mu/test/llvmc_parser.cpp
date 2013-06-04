@@ -663,6 +663,7 @@ TEST (llvmc_parser, results1)
     ASSERT_EQ (1, function1->predicate_offsets.size ());
     ASSERT_EQ (1, function1->predicate_offsets [0]);
     auto result1 (function1->results [0]);
+    ASSERT_EQ (mu::core::region (31, 1, 32, 38, 1, 39), result1->region);
     auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
     ASSERT_NE (nullptr, value1);
     EXPECT_EQ (parameter1, value1->value);
