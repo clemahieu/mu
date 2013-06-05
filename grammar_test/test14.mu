@@ -1,1 +1,0 @@
-[[;;declaration]reference; declaration]
