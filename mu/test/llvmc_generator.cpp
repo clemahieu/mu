@@ -39,7 +39,7 @@ TEST (llvmc_generator, generate1)
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate1", U""));
+    auto result (generator.generate (context, &module, U"generate1", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -55,7 +55,7 @@ TEST (llvmc_generator, generate_empty)
     mu::llvmc::skeleton::function function1 (empty_region, module.global);
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_empty", U""));
+    auto result (generator.generate (context, &module, U"generate_empty", U"", 0));
     ASSERT_EQ (1, result.names.size ());
     auto function2 (result.names [U"0"]);
     ASSERT_NE (nullptr, function2);
@@ -80,7 +80,7 @@ TEST (llvmc_generator, generate_parameter)
     function1.parameters.push_back (&parameter1);
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_parameter", U""));
+    auto result (generator.generate (context, &module, U"generate_parameter", U"", 0));
     auto function2 (result.names [U"0"]);
     ASSERT_NE (nullptr, function2);
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
@@ -106,7 +106,7 @@ TEST (llvmc_generator, generate_pointer_type)
     function1.parameters.push_back (&parameter1);
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_pointer_type", U""));
+    auto result (generator.generate (context, &module, U"generate_pointer_type", U"", 0));
     llvm::Function * function2 (result.names [U"0"]);
     ASSERT_NE (nullptr, function2);
     ASSERT_TRUE (function2->getReturnType ()->isVoidTy ());
@@ -136,7 +136,7 @@ TEST (llvmc_generator, generate_parameter_return)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_parameter_return", U""));
+    auto result (generator.generate (context, &module, U"generate_parameter_return", U"", 0));
     ASSERT_NE (result.names.end (), result.names.find (U"0"));
     auto function2 (result.names [U"0"]);
     ASSERT_NE (nullptr, function2);
@@ -186,7 +186,7 @@ TEST (llvmc_generator, generate_add)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_add", U""));
+    auto result (generator.generate (context, &module, U"generate_add", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -226,7 +226,7 @@ TEST (llvmc_generator, generate_alloca)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_alloca", U""));
+    auto result (generator.generate (context, &module, U"generate_alloca", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -266,7 +266,7 @@ TEST (llvmc_generator, generate_and)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_and", U""));
+    auto result (generator.generate (context, &module, U"generate_and", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -310,7 +310,7 @@ TEST (llvmc_generator, generate_ashr)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_ashr", U""));
+    auto result (generator.generate (context, &module, U"generate_ashr", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -356,7 +356,7 @@ TEST (llvmc_generator, DISABLED_generate_cmpxchg)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_cmpxchg", U""));
+    auto result (generator.generate (context, &module, U"generate_cmpxchg", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -400,7 +400,7 @@ TEST (llvmc_generator, generate_icmp1)
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_icmp1", U""));
+    auto result (generator.generate (context, &module, U"generate_icmp1", U"", 0));
     std::string info;
     print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -443,7 +443,7 @@ TEST (llvmc_generator, generate_load)
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_load", U""));
+    auto result (generator.generate (context, &module, U"generate_load", U"", 0));
     std::string info;
     print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -486,7 +486,7 @@ TEST (llvmc_generator, generate_lshr_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_lshr", U""));
+    auto result (generator.generate (context, &module, U"generate_lshr", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -529,7 +529,7 @@ TEST (llvmc_generator, generate_mul_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_mul", U""));
+    auto result (generator.generate (context, &module, U"generate_mul", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -570,7 +570,7 @@ TEST (llvmc_generator, generate_or_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_or", U""));
+    auto result (generator.generate (context, &module, U"generate_or", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -613,7 +613,7 @@ TEST (llvmc_generator, generate_sdiv_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_sdiv", U""));
+    auto result (generator.generate (context, &module, U"generate_sdiv", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -653,7 +653,7 @@ TEST (llvmc_generator, generate_sext_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_sext", U""));
+    auto result (generator.generate (context, &module, U"generate_sext", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -694,7 +694,7 @@ TEST (llvmc_generator, generate_shl_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_shl", U""));
+    auto result (generator.generate (context, &module, U"generate_shl", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -733,7 +733,7 @@ TEST (llvmc_generator, generate_srem_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_srem", U""));
+    auto result (generator.generate (context, &module, U"generate_srem", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -776,7 +776,7 @@ TEST (llvmc_generator, generate_store)
     function1.branch_ends.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_store", U""));
+    auto result (generator.generate (context, &module, U"generate_store", U"", 0));
     std::string info;
     print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -817,7 +817,7 @@ TEST (llvmc_generator, generate_sub)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_sub", U""));
+    auto result (generator.generate (context, &module, U"generate_sub", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -858,7 +858,7 @@ TEST (llvmc_generator, generate_udiv_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_udiv", U""));
+    auto result (generator.generate (context, &module, U"generate_udiv", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -899,7 +899,7 @@ TEST (llvmc_generator, generate_urem_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_urem", U""));
+    auto result (generator.generate (context, &module, U"generate_urem", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -940,7 +940,7 @@ TEST (llvmc_generator, generate_xor_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_xor", U""));
+    auto result (generator.generate (context, &module, U"generate_xor", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -980,7 +980,7 @@ TEST (llvmc_generator, generate_zext_expected)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_zext", U""));
+    auto result (generator.generate (context, &module, U"generate_zext", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -1013,7 +1013,7 @@ TEST (llvmc_generator, generate_two_return)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_two_return", U""));
+    auto result (generator.generate (context, &module, U"generate_two_return", U"", 0));
     std::string info;
     print_module (result.module, info);
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -1069,7 +1069,7 @@ TEST (llvmc_generator, generate_if)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_if", U""));
+    auto result (generator.generate (context, &module, U"generate_if", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1118,7 +1118,7 @@ TEST (llvmc_generator, generate_if_value)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_if_value", U""));
+    auto result (generator.generate (context, &module, U"generate_if_value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1162,7 +1162,7 @@ TEST (llvmc_generator, generate_if_join)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_if_join", U""));
+    auto result (generator.generate (context, &module, U"generate_if_join", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1223,7 +1223,7 @@ TEST (llvmc_generator, generate_if_join_value)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_if_join_value", U""));
+    auto result (generator.generate (context, &module, U"generate_if_join_value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1310,7 +1310,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_if_join_2value", U""));
+    auto result (generator.generate (context, &module, U"generate_if_join_2value", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1372,7 +1372,7 @@ TEST (llvmc_generator, generate_if_join_load)
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_if_join_load", U""));
+    auto result (generator.generate (context, &module, U"generate_if_join_load", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1406,7 +1406,7 @@ TEST (llvmc_generator, generate_call_0)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_0", U""));
+    auto result (generator.generate (context, &module, U"generate_call_0", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1447,7 +1447,7 @@ TEST (llvmc_generator, generate_call_1)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_1", U""));
+    auto result (generator.generate (context, &module, U"generate_call_1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1509,7 +1509,7 @@ TEST (llvmc_generator, generate_call_2)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_2", U""));
+    auto result (generator.generate (context, &module, U"generate_call_2", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1578,7 +1578,7 @@ TEST (llvmc_generator, generate_call_3)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_3", U""));
+    auto result (generator.generate (context, &module, U"generate_call_3", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1612,7 +1612,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_predicate_b1v0", U""));
+    auto result (generator.generate (context, &module, U"generate_call_predicate_b1v0", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1650,7 +1650,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_predicate_b1v1", U""));
+    auto result (generator.generate (context, &module, U"generate_call_predicate_b1v1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1718,7 +1718,7 @@ TEST (llvmc_generator, generate_loop1)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_loop1", U""));
+    auto result (generator.generate (context, &module, U"generate_loop1", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
@@ -1802,7 +1802,7 @@ TEST (llvmc_generator, generate_loop_count)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_loop_count", U""));
+    auto result (generator.generate (context, &module, U"generate_loop_count", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -1836,7 +1836,7 @@ TEST (llvmc_generator, generate_asm)
 	module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_asm", U""));
+    auto result (generator.generate (context, &module, U"generate_asm", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
@@ -1870,7 +1870,7 @@ TEST (llvmc_generator, z000_generate_getelementptr)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_getelementptr", U""));
+    auto result (generator.generate (context, &module, U"generate_getelementptr", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
@@ -1909,7 +1909,7 @@ TEST (llvmc_generator, z000_generate_identity)
     function1.predicate_offsets.push_back (function1.results.size ());
     module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
-    auto result (generator.generate (context, &module, U"generate_identity", U""));
+    auto result (generator.generate (context, &module, U"generate_identity", U"", 0));
     std::string info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);

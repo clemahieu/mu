@@ -22,43 +22,48 @@
 
 #include <stdlib.h>
 
-mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a)
+#include <stdio.h>
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+
+mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a)
 {
+	char id [32];
+	sprintf (id, "%016lx", module_id_a);
     mu::llvmc::generator_result result;
-    result.module = new llvm::Module ("", context_a);
-    mu::llvmc::generate_module generator (module_a, result, name_a, path_a);
+    result.module = new llvm::Module (id, context_a);
+    mu::llvmc::generate_module generator (module_a, result, name_a, path_a, module_id_a);
     generator.generate ();
     return result;
 }
 
-mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a) :
+mu::llvmc::generate_module::generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a) :
 builder (*target_a.module),
 module (module_a),
-target (target_a)
+target (target_a),
+module_id (module_id_a)
 {
-    /*llvm::Type * dbg_declare_parameters [2] = {
-        llvm::Type::getMetadataTy (target.module->getContext ()),
-        llvm::Type::getMetadataTy (target.module->getContext ())
-    };
-    auto dbg_declare_type (llvm::FunctionType::get (llvm::Type::getVoidTy (target.module->getContext ()), llvm::ArrayRef <llvm::Type *> (dbg_declare_parameters), false));
-    dbg_declare = llvm::Function::Create (dbg_declare_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "llvm.dbg.declare");
-    target_a.module->getFunctionList().push_back (dbg_declare);*/
 	builder.createCompileUnit (llvm::dwarf::DW_LANG_C, std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()), "MU 0 (Colin LeMahieu)", false, "", 0);
     file = builder.createFile (std::string (name_a.begin (), name_a.end ()), std::string (path_a.begin (), path_a.end ()));
 }
 
 void mu::llvmc::generate_module::generate ()
 {
-    for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
+	uint64_t function_id (0);
+    for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i, ++function_id)
     {
         auto existing (functions.find (i->second));
         if (existing == functions.end ())
         {
             mu::llvmc::generate_function generator_l (*this, i->second);
-            generator_l.generate (i->first);
+            generator_l.generate (i->first, function_id);
             existing = functions.find (i->second);
             assert (existing != functions.end ());
         }
+		else
+		{
+			set_function_name (function_id, i->first, existing->second);
+		}
         assert (target.names.find (i->first) == target.names.end ());
         target.names [i->first] = existing->second;
     }
@@ -72,7 +77,21 @@ function_return_type (function_a->get_return_type ())
 {
 }
 
-void mu::llvmc::generate_function::generate (mu::string const & name_a)
+void mu::llvmc::generate_module::set_function_name (uint64_t function_id, mu::string const & name_a, llvm::Function * function_a)
+{
+	std::string name;
+	char buffer [32];
+	sprintf (buffer, "%016lx", module_id);
+	name.append (buffer);
+	name.push_back ('-');
+	sprintf (buffer, "%016lx", function_id);
+	name.append (buffer);
+	name.push_back ('-');
+	name += std::string (name_a.begin (), name_a.end ());
+	function_a->setName (name);
+}
+
+void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t function_id_a)
 {
     auto & context (module.target.module->getContext ());
 	std::vector <llvm::Value *> function_type_values;
@@ -136,7 +155,8 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a)
     }
 	function_type_values [0] = result_type_debug;
     auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
-    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));	
+    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
+	module.set_function_name (function_id_a, name_a, function_l);
 	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
 	auto function_type_d (module.builder.createSubroutineType (module.file, array));
 	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), "", module.file, function->region.first.row, function_type_d, false, true, function->region.first.row, 0, false, function_l);
@@ -353,7 +373,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         if (existing == module.functions.end ())
         {
             mu::llvmc::generate_function generator (module, call->source->target);
-            generator.generate (U"");
+            generator.generate (U"", 0);
         }
         assert (module.functions.find (call->source->target) != module.functions.end ());
         auto function (module.functions [call->source->target]);

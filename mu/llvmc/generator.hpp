@@ -50,18 +50,20 @@ namespace mu
         class generator
         {
         public:
-            mu::llvmc::generator_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a);
+            mu::llvmc::generator_result generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
         };
         class generate_module
         {
         public:
-            generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a);
+            generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate ();
+			void set_function_name (uint64_t function_id, mu::string const & name_a, llvm::Function * function_a);
 			llvm::DIBuilder builder;
             mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;
+			uint64_t module_id;
         };
         class generate_function;
         class value_data
@@ -74,7 +76,7 @@ namespace mu
         {
         public:
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
-            void generate (mu::string const & name_a);
+            void generate (mu::string const & name_a, uint64_t function_id_a);
             llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
             mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);

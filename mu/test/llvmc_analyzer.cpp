@@ -2451,7 +2451,7 @@ TEST (llvmc_analyzer, multibranch_call)
     module.functions.push_back (&function);	
 	
     mu::llvmc::ast::function function2;
-    function2.name = U"0";
+    function2.name = U"1";
     mu::llvmc::ast::parameter parameter2 (U"p0", &type4);
     function2.parameters.push_back (&parameter2);
     mu::llvmc::ast::definite_expression expression2;

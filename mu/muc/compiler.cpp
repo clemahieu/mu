@@ -35,7 +35,7 @@ void mu::muc::compiler::compile (mu::string const & name_a, mu::string const & p
         {
             mu::llvmc::generator generator;
             llvm::LLVMContext context;
-            auto module (generator.generate (context, analyze_result.module, name_a, path_a));
+            auto module (generator.generate (context, analyze_result.module, name_a, path_a, 0));
             auto entry (module.names.find (U"entry"));
             if (entry != module.names.end ())
             {
