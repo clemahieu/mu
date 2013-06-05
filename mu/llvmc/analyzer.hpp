@@ -69,6 +69,7 @@ namespace mu
             bool process_marker (mu::llvmc::ast::definite_expression * expression_a);
             bool process_join (mu::llvmc::ast::definite_expression * expression_a);
             void process_asm (mu::llvmc::ast::definite_expression * expression_a);
+            bool process_identity (mu::llvmc::ast::definite_expression * expression_a);
             void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
             void process_integer_type (mu::llvmc::ast::integer_type * type_a);
             void process_pointer_type (mu::llvmc::ast::pointer_type * type_a);

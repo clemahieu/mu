@@ -25,6 +25,8 @@ current_mapping (&globals),
 stream (stream_a)
 {
     bool error (false);
+    error = globals.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity));
+    assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
     error = keywords.insert (U"asm", &asm_hook);

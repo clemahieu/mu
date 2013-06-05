@@ -669,7 +669,35 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 			}
 			else
 			{
-				result = generate_single (value_a);
+                auto identity_value (dynamic_cast <mu::llvmc::skeleton::identity_element_value *> (value_a));
+                if (identity_value != nullptr)
+                {
+                    auto i (identity_value->source->arguments.begin () + 1);
+                    auto j (identity_value->source->arguments.begin () + identity_value->source->predicate_offset);
+                    auto k (identity_value->source->elements.begin ());
+                    auto l (identity_value->source->elements.end ());
+                    for (; i != j; ++i, ++k)
+                    {
+                        assert (k != l);
+                        assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+                        auto value (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i)));
+                        assert (already_generated.find (*k) == already_generated.end ());
+                        already_generated [*k] = value;
+                    }
+                    assert ((i == j) == (k == l));
+                    auto m (identity_value->source->arguments.end ());
+                    for (; i != m; ++i)
+                    {
+                        assert (dynamic_cast <mu::llvmc::skeleton::value *> (*i) != nullptr);
+                        retrieve_value (static_cast <mu::llvmc::skeleton::value *> (*i));
+                    }
+                    assert (already_generated.find (value_a) != already_generated.end ());
+                    result = already_generated [value_a];
+                }
+                else
+                {
+                    result = generate_single (value_a);
+                }
 			}
         }
     }

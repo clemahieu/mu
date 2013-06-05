@@ -849,7 +849,15 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
+                                    auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
+                                    if (identity != nullptr)
+                                    {
+                                        result = process_identity (expression_a);
+                                    }
+                                    else
+                                    {
+                                        result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
+                                    }
                                 }
 							}
 						}
@@ -871,6 +879,59 @@ bool mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
 	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (expression_a) != already_generated_multi.end ()));
 	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (expression_a) != already_generated.end ()));
 	return result;
+}
+
+bool mu::llvmc::analyzer_function::process_identity (mu::llvmc::ast::definite_expression * expression_a)
+{
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
+	size_t predicate_offset (~0);
+	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
+    bool result;
+    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset));
+    switch (predicate_offset)
+    {
+        case 0:
+            assert (false);
+            break;
+        case 1:
+        {
+            result = false;
+            auto element (new (GC) mu::llvmc::skeleton::identity_element_unit (most_specific_branch, source));
+            source->elements.push_back (element);
+            already_generated [expression_a] = element;
+            break;
+        }
+        case 2:
+        {
+            result = false;
+            auto element (new (GC) mu::llvmc::skeleton::identity_element_value (most_specific_branch, source, 1));
+            source->elements.push_back (element);
+            already_generated [expression_a] = element;
+            break;
+        }
+        default:
+        {
+            auto & values (already_generated_multi [expression_a]);
+            for (size_t i (1); i < predicate_offset; ++i)
+            {
+                auto element (new (GC) mu::llvmc::skeleton::identity_element_value (most_specific_branch, source, i));
+                source->elements.push_back (element);
+                values.push_back (element);
+            }
+            break;
+        }
+    }
+    if (predicate_offset == 2)
+    {
+    }
+    else
+    {
+        result = true;
+        auto & results (already_generated_multi [expression_a]);
+        results.insert (results.end (), arguments.begin () + 1, arguments.begin () + predicate_offset);
+    }
+    return result;
 }
 
 bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_expression * expression_a)

@@ -685,6 +685,42 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::named::type ()
     return result;
 }
 
+mu::llvmc::skeleton::identity_element::identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a) :
+value (mu::core::region (0, 0, 0, 0, 0, 0), branch_a),
+source (source_a)
+{
+}
+
+mu::llvmc::skeleton::identity_element_value::identity_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, size_t index_a) :
+identity_element (branch_a, source_a),
+index (index_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::identity_element_value::type ()
+{
+    assert (source->arguments.size () > index);
+    assert (dynamic_cast <mu::llvmc::skeleton::value *> (source->arguments [index]) != nullptr);
+    auto result (static_cast <mu::llvmc::skeleton::value *> (source->arguments [index])->type ());
+    return result;
+}
+
+mu::llvmc::skeleton::identity_element_unit::identity_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a) :
+identity_element (branch_a, source_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::identity_element_unit::type ()
+{
+    return &mu::llvmc::skeleton::the_unit_type;
+}
+
+mu::llvmc::skeleton::identity_call::identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a) :
+arguments (arguments_a),
+predicate_offset (predicate_offset_a)
+{
+}
+
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

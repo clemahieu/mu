@@ -32,6 +32,7 @@ namespace mu
             fsub,
             getelementptr,
             icmp,
+            identity,
             if_i,
             indirectbr,
             insertelement,

@@ -291,6 +291,32 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !15 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
+extern char const * const generate_identity_expected = R"%%%(
+define i8 @0(i8) {
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)
+  call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !11)
+  ret i8 %0, !dbg !12
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_identity", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_identity] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i8)* @0, null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_identity", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !9}
+!9 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!11 = metadata !{i32 786688, metadata !5, metadata !"element1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [element1] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
 extern char const * const generate_lshr_expected = R"%%%(
 define i8 @0(i8, i8) {
   call void @llvm.dbg.declare(metadata !{i8 %0}, metadata !10)

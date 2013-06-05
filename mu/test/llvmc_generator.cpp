@@ -1847,7 +1847,7 @@ TEST (llvmc_generator, generate_asm)
 
 extern char const * const generate_getelementptr_expected;
 
-TEST (llvmc_generator, z000_getelementptr_empty)
+TEST (llvmc_generator, z000_generate_getelementptr)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -1883,4 +1883,42 @@ TEST (llvmc_generator, z000_getelementptr_empty)
 	uint8_t val (0);
     auto result2 (function3 (&val));
     ASSERT_EQ (&val, result2);
+}
+
+extern char const * const generate_identity_expected;
+
+TEST (llvmc_generator, z000_generate_identity)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (8);
+    mu::llvmc::skeleton::parameter parameter1 (empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments;
+    mu::llvmc::skeleton::identity identity2;
+    arguments.push_back (&identity2);
+    arguments.push_back (&parameter1);
+    mu::llvmc::skeleton::identity_call identity1 (arguments, 2);
+    mu::llvmc::skeleton::identity_element_value element1 (function1.entry, &identity1, 1);
+    identity1.elements.push_back (&element1);
+    mu::llvmc::skeleton::named named1 (empty_region, &element1, U"element1");
+    mu::llvmc::skeleton::result result1 (&type1, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_identity", U""));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_identity_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint8_t (*) (uint8_t)> (function2));
+    auto result2 (function3 (42));
+    ASSERT_EQ (42, result2);
 }

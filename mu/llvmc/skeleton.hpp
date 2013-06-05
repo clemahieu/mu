@@ -417,6 +417,38 @@ namespace mu
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
 				size_t predicate_position;
 			};
+            class identity : public mu::llvmc::skeleton::node
+            {
+            public:
+            };
+            class identity_call;
+            class identity_element : public mu::llvmc::skeleton::value
+            {
+            public:
+                identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a);
+                mu::llvmc::skeleton::identity_call * source;
+            };
+            class identity_element_value : public mu::llvmc::skeleton::identity_element
+            {
+            public:
+                identity_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, size_t index_a);
+                mu::llvmc::skeleton::type * type () override;
+                size_t index;
+            };
+            class identity_element_unit : public mu::llvmc::skeleton::identity_element
+            {
+            public:
+                identity_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a);
+                mu::llvmc::skeleton::type * type () override;
+            };
+            class identity_call
+            {
+            public:
+                identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a);
+                mu::vector <mu::llvmc::skeleton::node *> arguments;
+                size_t predicate_offset;
+                mu::vector <mu::llvmc::skeleton::identity_element *> elements;
+            };
             extern mu::llvmc::skeleton::integer_type integer_1_type;
             extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;
