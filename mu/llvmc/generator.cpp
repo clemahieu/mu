@@ -52,20 +52,19 @@ void mu::llvmc::generate_module::generate ()
 	uint64_t function_id (0);
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i, ++function_id)
     {
-        auto existing (functions.find (i->second));
-        if (existing == functions.end ())
-        {
-            mu::llvmc::generate_function generator_l (*this, i->second);
-            generator_l.generate (i->first, function_id);
-            existing = functions.find (i->second);
-            assert (existing != functions.end ());
-        }
-		else
+		assert (functions.find (i->second) == functions.end ());
+		functions.insert (decltype (functions)::value_type (i->second, decltype (functions)::mapped_type (nullptr, function_id, i->first)));		
+	}
+    for (auto i (functions.begin ()), j (functions.end ()); i != j; ++i)
+    {
+		if (std::get <0> (i->second) == nullptr)
 		{
-			set_function_name (function_id, i->first, existing->second);
+			mu::llvmc::generate_function generator_l (*this, i->first);
+			generator_l.generate (std::get <2> (i->second), std::get <1> (i->second));
+			assert (std::get <0> (i->second) != nullptr);
+			assert (target.names.find (std::get <2> (i->second)) == target.names.end ());
+			target.names [std::get <2> (i->second)] = std::get <0> (i->second);
 		}
-        assert (target.names.find (i->first) == target.names.end ());
-        target.names [i->first] = existing->second;
     }
 	builder.finalize ();
 }
@@ -75,20 +74,6 @@ module (module_a),
 function (function_a),
 function_return_type (function_a->get_return_type ())
 {
-}
-
-void mu::llvmc::generate_module::set_function_name (uint64_t function_id, mu::string const & name_a, llvm::Function * function_a)
-{
-	std::string name;
-	char buffer [32];
-	sprintf (buffer, "%016lx", module_id);
-	name.append (buffer);
-	name.push_back ('-');
-	sprintf (buffer, "%016lx", function_id);
-	name.append (buffer);
-	name.push_back ('-');
-	name += std::string (name_a.begin (), name_a.end ());
-	function_a->setName (name);
 }
 
 void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t function_id_a)
@@ -155,16 +140,24 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t
     }
 	function_type_values [0] = result_type_debug;
     auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
-    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-	module.set_function_name (function_id_a, name_a, function_l);
+	std::string name;
+	char buffer [32];
+	sprintf (buffer, "%016lx", module.module_id);
+	name.append (buffer);
+	name.push_back ('-');
+	sprintf (buffer, "%016lx", function_id_a);
+	name.append (buffer);
+	name.push_back ('-');
+	name += std::string (name_a.begin (), name_a.end ());
+    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
 	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
 	auto function_type_d (module.builder.createSubroutineType (module.file, array));
-	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), "", module.file, function->region.first.row, function_type_d, false, true, function->region.first.row, 0, false, function_l);
+	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), name, module.file, function->region.first.row, function_type_d, false, true, function->region.first.row, 0, false, function_l);
     block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
     module.target.module->getFunctionList ().push_back (function_l);
-    assert (module.functions.find (function) == module.functions.end ());
-    module.functions [function] = function_l;
+    assert (module.functions.find (function) != module.functions.end ());
+    std::get <0> (module.functions [function]) = function_l;
     auto entry (llvm::BasicBlock::Create (context));
     last = entry;
     function_l->getBasicBlockList ().push_back (entry);
@@ -370,13 +363,15 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
         assert (call->source->arguments.size () > 0);
         assert (dynamic_cast <mu::llvmc::skeleton::value *> (call->source->arguments [0]) != nullptr);
         auto existing (module.functions.find (call->source->target));
-        if (existing == module.functions.end ())
+		assert (existing != module.functions.end ());
+        if (std::get <0> (existing->second) == nullptr)
         {
             mu::llvmc::generate_function generator (module, call->source->target);
-            generator.generate (U"", 0);
+            generator.generate (std::get <2> (existing->second), std::get <1> (existing->second));
         }
         assert (module.functions.find (call->source->target) != module.functions.end ());
-        auto function (module.functions [call->source->target]);
+        auto function (std::get <0> (module.functions [call->source->target]));
+		assert (function != nullptr);
         std::vector <llvm::Value *> arguments;
         size_t position (1);
         auto end (call->source->predicate_offset);

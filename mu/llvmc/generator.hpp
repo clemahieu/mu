@@ -1,5 +1,7 @@
 #pragma once
 
+#include <tuple>
+
 #include <mu/core/types.hpp>
 
 #include <llvm/LLVMContext.h>
@@ -57,9 +59,8 @@ namespace mu
         public:
             generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate ();
-			void set_function_name (uint64_t function_id, mu::string const & name_a, llvm::Function * function_a);
 			llvm::DIBuilder builder;
-            mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
+            mu::map <mu::llvmc::skeleton::function *, std::tuple <llvm::Function *, size_t, mu::string>> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;
