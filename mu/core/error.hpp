@@ -126,7 +126,13 @@ namespace mu
 			expecting_a_result,
 			expecting_an_expression,
 			numbers_parsed_by_keyword,
-            actual_formal_result_type_mismatch
+            actual_formal_result_type_mismatch,
+            switch_requires_input,
+            switch_requires_value,
+            switch_requires_integer,
+            switch_requires_case_constant,
+            switch_requires_matching_case_types,
+            switch_requires_unique_case
         };
         class error
         {

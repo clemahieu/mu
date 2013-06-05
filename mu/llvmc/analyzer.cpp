@@ -1621,6 +1621,68 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 }
                 break;
             }
+            case mu::llvmc::instruction_type::switch_i:
+            {
+                if (predicate_offset > 1)
+                {
+                    auto input (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (input != nullptr)
+                    {
+                        auto type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (input->type ()));
+                        if (type != nullptr)
+                        {
+                            std::set <uint64_t> used;
+                            for (auto i (arguments.begin () + 2), j (arguments.begin () + predicate_offset); i != j && result_m.error == nullptr; ++i)
+                            {
+                                auto constant (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
+                                if (constant != nullptr)
+                                {
+                                    if (*constant->type () != *type)
+                                    {
+                                        result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be same type as input", mu::core::error_type::switch_requires_matching_case_types);
+                                    }
+                                    auto existing (used.find (constant->value_m));
+                                    if (existing != used.end ())
+                                    {
+                                        result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be unique", mu::core::error_type::switch_requires_unique_case);
+                                    }
+                                    used.insert (constant->value_m);
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be constant integers", mu::core::error_type::switch_requires_case_constant);
+                                }
+                            }
+                            if (result_m.error == nullptr)
+                            {
+                                result = true;
+                                auto & values (already_generated_multi [expression_a]);
+                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));
+                                for (auto i (switch_i->arguments.begin () + 2), j (switch_i->arguments.begin () + predicate_offset); i != j; ++i)
+                                {
+                                    auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
+                                    assert (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i) != nullptr);
+                                    auto element (new (GC) mu::llvmc::skeleton::switch_element (expression_a->region, branch, switch_i, static_cast <mu::llvmc::skeleton::constant_integer *> (*i)));
+                                    values.push_back (element);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Switch requires input to be an integer", mu::core::error_type::switch_requires_integer);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Switch requires input to be a value", mu::core::error_type::switch_requires_value);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Switch requires an input argument", mu::core::error_type::switch_requires_input);
+                }
+                break;
+            }
             case mu::llvmc::instruction_type::sub:
             {
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
