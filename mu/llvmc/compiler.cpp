@@ -1,4 +1,4 @@
-#include <mu/muc/compiler.hpp>
+#include <mu/llvmc/compiler.hpp>
 
 #include <mu/llvmc/analyzer.hpp>
 #include <mu/llvmc/generator.hpp>
@@ -15,16 +15,15 @@
 #include <llvm/Instructions.h>
 #include <llvm/InlineAsm.h>
 
-mu::muc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
+mu::llvmc::compiler::compiler (mu::io::stream_istream & stream_a, llvm::formatted_raw_ostream & output_a) :
 lexer (stream_a),
 stream_token (lexer, 2),
-parser (stream_ast),
-stream_ast (stream_token, parser),
+parser (stream_token),
 output (output_a)
 {
 }
 
-void mu::muc::compiler::compile (mu::string const & name_a, mu::string const & path_a)
+void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const & path_a)
 {
     auto parse_result (parser.parse ());
     if (parse_result.error == nullptr)
@@ -92,7 +91,7 @@ void mu::muc::compiler::compile (mu::string const & name_a, mu::string const & p
     }
 }
 
-void mu::muc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * entry_a)
+void mu::llvmc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * entry_a)
 {
     auto & context (module_a->getContext ());
     auto exit_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));

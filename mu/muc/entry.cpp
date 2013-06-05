@@ -3,7 +3,7 @@
 #include <boost/filesystem/fstream.hpp>
 
 #include <mu/io/stream_istream.hpp>
-#include <mu/muc/compiler.hpp>
+#include <mu/llvmc/compiler.hpp>
 
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Support/raw_ostream.h>
@@ -50,7 +50,7 @@ int main (int argc, char const * const argv [])
                     std::string error;
                     llvm::raw_fd_ostream output ("test.o", error);
                     llvm::formatted_raw_ostream formatted (output);
-                    mu::muc::compiler compiler (stream, formatted);
+                    mu::llvmc::compiler compiler (stream, formatted);
                     compiler.compile (mu::string (name.begin (), name.end ()), mu::string (directory.begin (), directory.end ()));
                 }
                 else

@@ -9,8 +9,6 @@ link_directories (
     ${boost_lib_directories})
 
 add_executable (muc
-    compiler.cpp
-    compiler.hpp
 	entry.cpp)
     
 target_link_libraries (muc

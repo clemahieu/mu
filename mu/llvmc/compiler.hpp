@@ -13,7 +13,7 @@ namespace llvm
 }
 namespace mu
 {
-    namespace muc
+    namespace llvmc
     {
         class compiler
         {
@@ -24,7 +24,6 @@ namespace mu
             mu::io::lexer lexer;
             mu::io::stream_token stream_token;
             mu::llvmc::parser parser;
-            mu::llvmc::partial_ast stream_ast;
             llvm::formatted_raw_ostream & output;
         };
     }

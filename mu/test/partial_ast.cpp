@@ -17,8 +17,7 @@ public:
     stream (text, 16),
     lexer (stream),
     stream_token (lexer, 2),
-    parser (stream_ast),
-    stream_ast (stream_token, parser)
+    parser (stream_token)
     {
     };
     std::stringstream text;
@@ -26,13 +25,12 @@ public:
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
     mu::llvmc::parser parser;
-    mu::llvmc::partial_ast stream_ast;
 };
 
 TEST (partial_ast, empty)
 {
     test_parser parser ("");
-    auto token (parser.stream_ast.peek ());
+    auto token (parser.parser.peek ());
     ASSERT_NE (nullptr, token.token);
     auto end (dynamic_cast <mu::io::end *> (token.token));
     EXPECT_NE (nullptr, end);
@@ -41,16 +39,16 @@ TEST (partial_ast, empty)
 TEST (partial_ast, tokens)
 {
     test_parser parser ("]a;");
-    auto token1 (parser.stream_ast.peek ());
+    auto token1 (parser.parser.peek ());
     ASSERT_NE (nullptr, token1.token);
     auto right_square (dynamic_cast <mu::io::right_square *> (token1.token));
     EXPECT_NE (nullptr, right_square);
-    parser.stream_ast.consume ();
-    auto token2 (parser.stream_ast.peek ());
+    parser.parser.consume ();
+    auto token2 (parser.parser.peek ());
     auto identifier (dynamic_cast <mu::io::identifier *> (token2.token));
     EXPECT_NE (nullptr, identifier);
-    parser.stream_ast.consume ();
-    auto token3 (parser.stream_ast.peek ());
+    parser.parser.consume ();
+    auto token3 (parser.parser.peek ());
     auto terminator (dynamic_cast <mu::io::terminator *> (token3.token));
     EXPECT_NE (nullptr, terminator);
 }

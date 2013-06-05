@@ -19,7 +19,7 @@ keywords (keywords_a)
 {
 }
 
-mu::llvmc::parser::parser (mu::llvmc::partial_ast & stream_a):
+mu::llvmc::parser::parser (mu::io::stream_token & stream_a):
 globals (&keywords),
 current_mapping (&globals),
 stream (stream_a)
@@ -162,13 +162,13 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
 	module->region.first = mu::core::position (0, 1, 1);
     while ((result.node == nullptr) and (result.error == nullptr))
     {
-        auto item (parser_a.stream.peek ());
+        auto item (parser_a.peek ());
         if (item.ast != nullptr)
         {
             auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
             if (function != nullptr)
             {
-                parser_a.stream.consume ();
+                parser_a.consume ();
                 module->functions.push_back (function);
             }
             else
@@ -244,8 +244,8 @@ mu::llvmc::function::~function ()
 
 void mu::llvmc::function::parse ()
 {
-	function_m->region.first = parser.stream.tokens [0]->region.first;
-    parser.stream.consume ();
+	function_m->region.first = parser.stream [0]->region.first;
+    parser.consume ();
     parse_name ();
     if (result.error == nullptr)
     {
@@ -258,7 +258,7 @@ void mu::llvmc::function::parse ()
                 parse_results ();
                 if (result.error == nullptr)
                 {
-					function_m->region.last = parser.stream.tokens [0]->region.last;
+					function_m->region.last = parser.stream [0]->region.last;
                     result.node = function_m;
                 }
             }
@@ -268,15 +268,15 @@ void mu::llvmc::function::parse ()
 
 void mu::llvmc::function::parse_name ()
 {
-    if (parser.stream.peek ().token != nullptr)
+    if (parser.peek ().token != nullptr)
     {
-        auto id (parser.stream.peek ().token->id ());
+        auto id (parser.peek ().token->id ());
         switch (id)
         {
             case mu::io::token_id::identifier:
             {
-                auto name (static_cast <mu::io::identifier *> (parser.stream.peek ().token));
-                parser.stream.consume ();
+                auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
+                parser.consume ();
                 function_m->name = name->string;
                 auto error (parser.globals.insert (name->string, function_m));
                 if (error)
@@ -298,11 +298,11 @@ void mu::llvmc::function::parse_name ()
 
 void mu::llvmc::function::parse_parameters ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
+            parser.stream.consume (1);
             auto done (false);
             while (result.error == nullptr && !done)
             {
@@ -318,20 +318,20 @@ void mu::llvmc::function::parse_parameters ()
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
 {
-    auto node (parser.stream.peek ());
+    auto node (parser.peek ());
     if (node.ast != nullptr)
     {
         auto type (node.ast);
-        parser.stream.consume ();
-        if (parser.stream.peek ().token != nullptr)
+        parser.consume ();
+        if (parser.peek ().token != nullptr)
         {
-            auto next_token (parser.stream.peek ().token);
+            auto next_token (parser.peek ().token);
             auto next_id (next_token->id ());
             switch (next_id)
             {
                 case mu::io::token_id::identifier:
                 {
-                    parser.stream.consume ();
+                    parser.consume ();
                     auto identifier (static_cast <mu::io::identifier *> (next_token));
                     auto argument (new (GC) mu::llvmc::ast::parameter (identifier->string, type));
                     function_m->parameters.push_back (argument);
@@ -353,11 +353,11 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
     }
     else if (node.token != nullptr)
     {
-        auto id (parser.stream.peek ().token->id ());
+        auto id (parser.peek ().token->id ());
         switch (id)
         {
             case mu::io::token_id::right_square:
-                parser.stream.consume ();
+                parser.consume ();
                 done_a = true;
                 break;
             default:
@@ -373,26 +373,26 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
 
 void mu::llvmc::function::parse_body ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
+            parser.stream.consume (1);
             auto done (false);
             while (!done && result.error == nullptr)
             {
-                switch (parser.stream.tokens [0]->id ())
+                switch (parser.stream [0]->id ())
                 {
                     case mu::io::token_id::right_square:
-                        parser.stream.tokens.consume (1);
+                        parser.stream.consume (1);
                         done = true;
                         break;
                     default:
                     {
-                        auto next (parser.stream.peek ());
+                        auto next (parser.peek ());
                         if (next.ast != nullptr)
                         {
-                            parser.stream.consume ();
+                            parser.consume ();
                             function_m->roots.push_back (next.ast);
                         }
                         else if (next.token != nullptr)
@@ -417,22 +417,22 @@ void mu::llvmc::function::parse_body ()
 
 void mu::llvmc::function::parse_results ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
-            auto next (parser.stream.tokens [0]);
+            parser.stream.consume (1);
+            auto next (parser.stream [0]);
             auto done (false);
             while (result.error == nullptr && !done)
             {
                 switch (next->id ())
                 {
                     case mu::io::token_id::left_square:
-                        parser.stream.tokens.consume (1);
+                        parser.stream.consume (1);
                         parse_result_set ();
                         function_m->branch_ends.push_back (function_m->results.size ());
-                        next = parser.stream.tokens [0];
+                        next = parser.stream [0];
                         break;
                     case mu::io::token_id::right_square:
                         done = true;
@@ -452,8 +452,8 @@ void mu::llvmc::function::parse_results ()
 
 void mu::llvmc::function::parse_result_set ()
 {
-	auto first (parser.stream.tokens [0]->region);
-    auto node (parser.stream.peek ());
+	auto first (parser.stream [0]->region);
+    auto node (parser.peek ());
     auto done (false);
     auto predicates (false);
     while (result.error == nullptr && !done)
@@ -463,8 +463,8 @@ void mu::llvmc::function::parse_result_set ()
             if (!predicates)
             {
                 auto type (node.ast);
-                parser.stream.consume ();
-                auto next (parser.stream.peek ());
+                parser.consume ();
+                auto next (parser.peek ());
                 if (next.token != nullptr)
                 {
                     auto next_id (next.token->id ());
@@ -472,7 +472,7 @@ void mu::llvmc::function::parse_result_set ()
                     {
                         case mu::io::token_id::identifier:
                         {
-                            parser.stream.consume ();
+                            parser.consume ();
                             auto result (new (GC) mu::llvmc::ast::result (type));
                             result->region = mu::core::region (first.first, next.token->region.last);
                             function_m->results.push_back (result);
@@ -482,7 +482,7 @@ void mu::llvmc::function::parse_result_set ()
                                          {
                                              result->value = node_a;
                                          });
-                            node = parser.stream.peek ();
+                            node = parser.peek ();
                         }
                             break;
                         default:
@@ -502,8 +502,8 @@ void mu::llvmc::function::parse_result_set ()
             else
             {
                 function_m->results.push_back (node.ast);
-                parser.stream.consume ();
-                node = parser.stream.peek ();
+                parser.consume ();
+                node = parser.peek ();
             }
         }
         else if (node.token != nullptr)
@@ -512,7 +512,7 @@ void mu::llvmc::function::parse_result_set ()
             switch (node_id)
             {
                 case mu::io::token_id::right_square:
-                    parser.stream.consume ();
+                    parser.consume ();
                     done = true;
                     if (!predicates)
                     {
@@ -521,8 +521,8 @@ void mu::llvmc::function::parse_result_set ()
                     break;
                 case mu::io::token_id::terminator:
                 {
-                    parser.stream.consume ();
-                    node = parser.stream.peek ();
+                    parser.consume ();
+                    node = parser.peek ();
                     if (predicates == false)
                     {
                         predicates = true;
@@ -547,8 +547,8 @@ void mu::llvmc::function::parse_result_set ()
                                      {
                                          function_l->results [index] = node_a;
                                      });
-                        parser.stream.consume ();
-                        node = parser.stream.peek ();
+                        parser.consume ();
+                        node = parser.peek ();
                     }
                     else
                     {
@@ -779,21 +779,21 @@ parser (parser_a)
 void mu::llvmc::expression::parse ()
 {
     auto expression_l (new (GC) mu::llvmc::ast::definite_expression);
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            expression_l->region.first = parser.stream.tokens [0]->region.first;
-            parser.stream.tokens.consume (1);
+            expression_l->region.first = parser.stream [0]->region.first;
+            parser.stream.consume (1);
             auto done (false);
             auto predicates (false);
             while (!done && result.error == nullptr)
             {
-                auto next (parser.stream.peek ());
+                auto next (parser.peek ());
                 if (next.ast != nullptr)
                 {
                     expression_l->arguments.push_back (next.ast);
-                    parser.stream.consume ();
+                    parser.consume ();
                 }
                 else if (next.token != nullptr)
                 {
@@ -801,7 +801,7 @@ void mu::llvmc::expression::parse ()
                     {
                         case mu::io::token_id::identifier:
                         {
-                            parser.stream.consume ();
+                            parser.consume ();
                             auto & arguments (expression_l->arguments);
                             auto position (expression_l->arguments.size ());
                             expression_l->arguments.push_back (nullptr);
@@ -825,11 +825,11 @@ void mu::llvmc::expression::parse ()
                             {
                                 result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
                             }
-                            parser.stream.consume ();
+                            parser.consume ();
                             break;
                         }
                         case mu::io::token_id::right_square:
-                            expression_l->region.last = parser.stream.tokens [0]->region.first;
+                            expression_l->region.last = parser.stream [0]->region.first;
                             done = true;
                             break;
                         default:
@@ -862,8 +862,8 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
-    auto name (parser_a.stream.peek ());
+    parser_a.consume ();
+    auto name (parser_a.peek ());
     if (name.token != nullptr)
     {
         auto name_id (name.token->id ());
@@ -871,8 +871,8 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
         {
             case mu::io::token_id::identifier:
             {
-                parser_a.stream.consume ();
-                auto next (parser_a.stream.peek ());
+                parser_a.consume ();
+                auto next (parser_a.peek ());
                 if (next.ast != nullptr)
                 {
                     auto error (parser_a.current_mapping->insert(static_cast <mu::io::identifier *> (name.token)->string, next.ast));
@@ -920,9 +920,9 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
+    parser_a.consume ();
     auto done (false);
-    auto next (parser_a.stream.tokens [0]);
+    auto next (parser_a.stream [0]);
     mu::vector <mu::io::identifier *> identifiers;
     while (!done && result.error == nullptr)
     {
@@ -939,8 +939,8 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
                 else
                 {
                     identifiers.push_back (identifier);
-                    parser_a.stream.tokens.consume (1);
-                    next = parser_a.stream.tokens [0];
+                    parser_a.stream.consume (1);
+                    next = parser_a.stream [0];
                 }
                 break;
             }
@@ -953,7 +953,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
         }
     }
     auto set (new (GC) mu::llvmc::ast::set_expression);
-	auto expression (parser_a.stream.peek ());
+	auto expression (parser_a.peek ());
 	if (expression.ast != nullptr)
 	{
 		set->items.push_back (expression.ast);
@@ -1012,7 +1012,7 @@ parser (parser_a)
 
 void mu::llvmc::loop::parse ()
 {
-    parser.stream.consume ();
+    parser.consume ();
     parse_arguments ();
     if (result.error == nullptr)
     {
@@ -1034,19 +1034,19 @@ void mu::llvmc::loop::parse ()
 
 void mu::llvmc::loop::parse_arguments ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
-	    auto predicates (false);
+            parser.stream.consume (1);
+            auto predicates (false);
             auto done (false);
             while (!done)
             {
-                auto next (parser.stream.peek ());
+                auto next (parser.peek ());
                 if (next.ast != nullptr)
                 {
-                    parser.stream.consume ();
+                    parser.consume ();
                     loop_m->arguments.push_back (next.ast);
                 }
                 else if (next.token != nullptr)
@@ -1054,44 +1054,44 @@ void mu::llvmc::loop::parse_arguments ()
                     switch (next.token->id ())
                     {
                         case mu::io::token_id::right_square:
-			{
-                            parser.stream.consume ();
-			    if (!predicates)
-			    {
-				loop_m->set_argument_offset ();
-			    }
+                        {
+                            parser.consume ();
+                            if (!predicates)
+                            {
+                                loop_m->set_argument_offset ();
+                            }
                             done = true;
                             break;
-			}
+                        }
                         case mu::io::token_id::identifier:
                         {
-                            parser.stream.consume ();
+                            parser.consume ();
                             auto & arguments_l (loop_m->arguments);
                             auto position (arguments_l.size ());
                             arguments_l.push_back (nullptr);
                             parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string,
-                                                          [&arguments_l, position]
-                                                           (mu::llvmc::ast::node * node_a)
-                                                          {
-                                                              arguments_l [position] = node_a;
-                                                          });
+                                  [&arguments_l, position]
+                                   (mu::llvmc::ast::node * node_a)
+                                  {
+                                      arguments_l [position] = node_a;
+                                  });
                             break;
                         }
-			case mu::io::token_id::terminator:
-			{
-			    parser.stream.consume ();
-			    if (!predicates)
-			    {
-				predicates = true;
-				loop_m->set_argument_offset ();
-			    }
-			    else
-			    {
-				done = true;
-				result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-			    }
-			    break;
-			}
+                        case mu::io::token_id::terminator:
+                        {
+                            parser.consume ();
+                            if (!predicates)
+                            {
+                                predicates = true;
+                                loop_m->set_argument_offset ();
+                            }
+                            else
+                            {
+                                done = true;
+                                result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+                            }
+                            break;
+                        }
                         default:
                             done = true;
                             result.error = new (GC) mu::core::error_string (U"Expecting argument or right square", mu::core::error_type::expecting_argument_or_right_square);
@@ -1114,15 +1114,15 @@ void mu::llvmc::loop::parse_arguments ()
 
 void mu::llvmc::loop::parse_binds ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
+            parser.stream.consume (1);
             auto done (false);
             while (!done)
             {
-                auto next (parser.stream.peek ());
+                auto next (parser.peek ());
                 if (next.ast != nullptr)
                 {
                     done = true;
@@ -1139,7 +1139,7 @@ void mu::llvmc::loop::parse_binds ()
                             auto error (parser.current_mapping->insert(static_cast <mu::io::identifier *> (next.token)->string, parameter));
                             if (!error)
                             {
-                                parser.stream.consume ();
+                                parser.consume ();
                             }
                             else
                             {
@@ -1150,7 +1150,7 @@ void mu::llvmc::loop::parse_binds ()
                             break;
                         case mu::io::token_id::right_square:
                             done = true;
-                            parser.stream.consume ();
+                            parser.consume ();
                             break;
                         default:
                             done = true;
@@ -1174,19 +1174,19 @@ void mu::llvmc::loop::parse_binds ()
 
 void mu::llvmc::loop::parse_body ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
+            parser.stream.consume (1);
             auto done (false);
             while (!done)
             {
-                auto next (parser.stream.peek ());
+                auto next (parser.peek ());
                 if (next.ast != nullptr)
                 {
                     loop_m->roots.push_back (next.ast);
-                    parser.stream.consume ();
+                    parser.consume ();
                 }
                 else if (next.token != nullptr)
                 {
@@ -1194,7 +1194,7 @@ void mu::llvmc::loop::parse_body ()
                     {
                         case mu::io::token_id::right_square:
                             done = true;
-                            parser.stream.consume ();
+                            parser.consume ();
                             break;
                         default:
                             done = true;
@@ -1218,24 +1218,24 @@ void mu::llvmc::loop::parse_body ()
 
 void mu::llvmc::loop::parse_results ()
 {
-    switch (parser.stream.tokens [0]->id ())
+    switch (parser.stream [0]->id ())
     {
         case mu::io::token_id::left_square:
         {
-            parser.stream.tokens.consume (1);
+            parser.stream.consume (1);
             auto done (false);
             while (!done && result.error == nullptr)
             {
-                switch (parser.stream.tokens [0]->id ())
+                switch (parser.stream [0]->id ())
                 {
                     case mu::io::token_id::left_square:
                     {
-                        parser.stream.tokens.consume (1);
+                        parser.stream.consume (1);
                         auto set_done (false);
                         auto predicates (false);
                         while (!set_done && result.error == nullptr)
                         {
-                            auto next (parser.stream.peek ());
+                            auto next (parser.peek ());
                             if (next.ast != nullptr)
                             {
                                 result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier, next.ast->region);
@@ -1246,7 +1246,7 @@ void mu::llvmc::loop::parse_results ()
                                 {
                                     case mu::io::token_id::identifier:
                                     {
-                                        parser.stream.consume ();
+                                        parser.consume ();
                                         auto position (loop_m->results.size ());
                                         loop_m->results.push_back (nullptr);
                                         parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string,
@@ -1259,7 +1259,7 @@ void mu::llvmc::loop::parse_results ()
                                     }
                                     case mu::io::token_id::terminator:
                                     {
-                                        parser.stream.consume ();
+                                        parser.consume ();
                                         if (!predicates)
                                         {
                                             predicates = true;
@@ -1278,7 +1278,7 @@ void mu::llvmc::loop::parse_results ()
                                             loop_m->add_predicate_offset ();
                                         }
                                         loop_m->add_branch_end ();
-                                        parser.stream.consume ();
+                                        parser.consume ();
                                         set_done = true;
                                         break;
                                     }
@@ -1332,8 +1332,8 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::string const & data_a, mu
 {
     assert (data_a == U"");
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
-    auto item (parser_a.stream.peek ());
+    parser_a.consume ();
+    auto item (parser_a.peek ());
     if (item.ast != nullptr)
     {
         result.node = new (GC) mu::llvmc::ast::pointer_type (item.ast);
@@ -1370,8 +1370,8 @@ number_m (number_a)
 mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
-    auto item (parser_a.stream.peek ());
+    parser_a.consume ();
+    auto item (parser_a.peek ());
     if (item.ast != nullptr)
     {
         result.node = new (GC) mu::llvmc::ast::constant_int (data_a, item.ast);
@@ -1392,13 +1392,13 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.stream.consume ();
-    auto type_item (parser_a.stream.peek ());
+    parser_a.consume ();
+    auto type_item (parser_a.peek ());
     if (type_item.ast != nullptr)
     {
         auto type (type_item.ast);
-        parser_a.stream.consume ();
-        auto text_item (parser_a.stream.peek ());
+        parser_a.consume ();
+        auto text_item (parser_a.peek ());
         if (text_item.token != nullptr)
         {
             switch (text_item.token->id())
@@ -1406,8 +1406,8 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
                 case mu::io::token_id::identifier:
                 {
                     auto const & text (static_cast <mu::io::identifier *> (text_item.token)->string);
-                    parser_a.stream.consume ();
-                    auto constraints_item (parser_a.stream.peek ());
+                    parser_a.consume ();
+                    auto constraints_item (parser_a.peek ());
                     if (constraints_item.token != nullptr)
                     {
                         switch (constraints_item.token->id ())
@@ -1452,4 +1452,90 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
 bool mu::llvmc::asm_hook::covering ()
 {
     return false;
+}
+
+mu::llvmc::partial_ast_result::partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a, mu::core::error * error_a):
+token (token_a),
+ast (ast_a),
+error (error_a)
+{
+    assert (valid ());
+}
+
+mu::llvmc::partial_ast_result::partial_ast_result (mu::llvmc::partial_ast_result const & other_a):
+token (other_a.token),
+ast (other_a.ast),
+error (other_a.error)
+{
+    assert (valid ());
+}
+
+mu::llvmc::partial_ast_result & mu::llvmc::partial_ast_result::operator = (mu::llvmc::partial_ast_result const & other_a)
+{
+    token = other_a.token;
+    ast = other_a.ast;
+    error = other_a.error;
+    assert (valid ());
+    return *this;
+}
+
+bool mu::llvmc::partial_ast_result::valid ()
+{
+    auto result (not ((token != nullptr and ast != nullptr) or (token != nullptr and error != nullptr) or (ast != nullptr and error != nullptr)));
+    return result;
+}
+
+void mu::llvmc::parser::consume ()
+{
+    stream.consume (1);
+}
+
+mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
+{
+    mu::llvmc::partial_ast_result result ({nullptr, nullptr, nullptr});
+    auto token (stream [0]);
+    auto id (token->id ());
+    switch (id)
+    {
+        case mu::io::token_id::identifier:
+        {
+            auto identifier (static_cast <mu::io::identifier *> (token));
+            auto hook (keywords.get_hook (identifier->string));
+            if (hook.hook != nullptr)
+            {
+                auto ast (hook.hook->parse (hook.data, *this));
+                if (ast.node != nullptr)
+                {
+                    result = {nullptr, ast.node, nullptr};
+                }
+                else
+                {
+                    result = {nullptr, nullptr, ast.error};
+                }
+            }
+            else
+            {
+                result = {token, nullptr, nullptr};
+            }
+        }
+            break;
+        case mu::io::token_id::left_square:
+        {
+            mu::llvmc::expression expression_l (*this);
+            expression_l.parse ();
+            if (expression_l.result.node != nullptr)
+            {
+                result.ast = expression_l.result.node;
+            }
+            else
+            {
+                result.error = expression_l.result.error;
+            }
+        }
+            break;
+        default:
+            result = {token, nullptr, nullptr};
+            break;
+    }
+    return result;
 }

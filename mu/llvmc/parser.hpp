@@ -19,6 +19,7 @@ namespace mu
         template <typename T>
         class stream;
         class token;
+        class stream_token;
     }
     namespace llvmc
     {
@@ -198,12 +199,24 @@ namespace mu
             mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
-        class partial_ast;
+        class partial_ast_result
+        {
+        public:
+            partial_ast_result (mu::io::token * token_a, mu::llvmc::ast::node * ast_a, mu::core::error * error_a);
+            partial_ast_result (mu::llvmc::partial_ast_result const & other_a);
+            mu::llvmc::partial_ast_result & operator = (mu::llvmc::partial_ast_result const & other_a);
+            bool valid ();
+            mu::io::token * token;
+            mu::llvmc::ast::node * ast;
+            mu::core::error * error;
+        };
         class parser
         {
         public:
-            parser (mu::llvmc::partial_ast & stream_a);
+            parser (mu::io::stream_token & stream_a);
             node_result parse ();
+            void consume ();
+            mu::llvmc::partial_ast_result peek ();
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
@@ -216,7 +229,7 @@ namespace mu
             mu::llvmc::ptr_type ptr_type;
             mu::llvmc::number number;
             mu::llvmc::constant_int constant_int;
-            mu::llvmc::partial_ast & stream;
+            mu::io::stream_token & stream;
             mu::llvmc::keywords keywords;
         };
     }

@@ -12,6 +12,8 @@ add_library (mu_llvmc SHARED
 	ast.hpp
     analyzer.cpp
     analyzer.hpp
+    compiler.cpp
+    compiler.hpp
     generator.cpp
     generator.hpp
     instruction_type.hpp
@@ -19,8 +21,6 @@ add_library (mu_llvmc SHARED
     node_result.hpp
 	parser.cpp
 	parser.hpp
-    partial_ast.cpp
-    partial_ast.hpp
 	predicates.hpp
     skeleton.cpp
     skeleton.hpp)

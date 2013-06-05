@@ -23,8 +23,7 @@ public:
     stream (text, 16),
     lexer (stream),
     stream_token (lexer, 2),
-    parser (stream_ast),
-    stream_ast (stream_token, parser)
+    parser (stream_token)
     {        
     };
     std::stringstream text;
@@ -32,7 +31,6 @@ public:
     mu::io::lexer lexer;
     mu::io::stream_token stream_token;
     mu::llvmc::parser parser;
-    mu::llvmc::partial_ast stream_ast;
 };
 
 class test_non_covering : public mu::llvmc::hook

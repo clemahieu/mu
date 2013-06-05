@@ -29,7 +29,7 @@
 mu::llvmc::generator_result mu::llvmc::generator::generate (llvm::LLVMContext & context_a, mu::llvmc::skeleton::module * module_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a)
 {
 	char id [32];
-	sprintf (id, "%016lx", module_id_a);
+	sprintf (id, "%016" PRIx64, module_id_a);
     mu::llvmc::generator_result result;
     result.module = new llvm::Module (id, context_a);
     mu::llvmc::generate_module generator (module_a, result, name_a, path_a, module_id_a);
