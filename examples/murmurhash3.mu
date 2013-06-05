@@ -49,7 +49,7 @@ function fmix64
 [[int64 k5]]
 
 function murmurhash3_x86_32 
-[ptr int32 key int32 len int32 seed ptr int8 out]
+[ptr int32 key int32 len int32 seed ptr int32 out]
 [
 	let nblocks [udiv len cint32 #4]
 	let kn 
@@ -67,11 +67,21 @@ function murmurhash3_x86_32
 			let in [sub i cint32 #1]
 		]
 	[[in h4; continue][h4; exit]]
-	let t3 t2 t1 [switch [and len cint32 #3] cint32 #3 cint32 #3 cint32 #1]
+	let t3 t2 t1 [switch [and len cint32 #3] cint32 #3 cint32 #2 cint32 #1]
 	let k1 [xor cint32 #0 [shl [load [getelementptr key cint32 #2]] cint32 #16]; t3]
-
+	let k2 [join k1 [~ cint32 #0; t2]]
+	let k3 [xor k2 [shl [load [getelementptr key cint32 #1]] cint32 #8]]
+	let k4 [join k3 [~ cint32 #0; t1]]
+	let k5 [xor k4 [load key]]
+	let k6 [mul k5 cint32 #hcc9e2d51]
+	let k7 [rotl32 k6 cint32 #15]
+	let k8 [mul k7 cint32 #h1b873593]
+	let hn [xor kn k8]
+	let result1 [xor hn len]
+	let result2 [fmix32 result1]
+	let result3 [store result2 out]
 ]
-[[int32 kn]]
+[[; result3]]
 
 function entry
 []
