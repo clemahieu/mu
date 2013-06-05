@@ -67,6 +67,9 @@ function murmurhash3_x86_32
 			let in [sub i cint32 #1]
 		]
 	[[in h4; continue][h4; exit]]
+	let t3 t2 t1 [switch [and len cint32 #3] cint32 #3 cint32 #3 cint32 #1]
+	let k1 [xor cint32 #0 [shl [load [getelementptr key cint32 #2]] cint32 #16]; t3]
+
 ]
 [[int32 kn]]
 
