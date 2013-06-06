@@ -1395,7 +1395,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
     mu::llvmc::node_result result ({nullptr, nullptr});
     parser_a.consume ();
     auto asm_l (new (GC) mu::llvmc::ast::asm_c);
-    result.error = parser_a.ast_or_refer (
+    result.error = parser_a.parse_ast_or_refer (
        [&]
        (mu::llvmc::ast::node * node_a)
        {
