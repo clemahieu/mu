@@ -10,6 +10,7 @@ link_directories (
 add_library (mu_llvmc SHARED
 	ast.cpp
 	ast.hpp
+    ast_t.hpp
     analyzer.cpp
     analyzer.hpp
     compiler.cpp

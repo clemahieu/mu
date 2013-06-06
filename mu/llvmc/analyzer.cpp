@@ -3,6 +3,7 @@
 #include <mu/core/error_string.hpp>
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/llvmc/ast_t.hpp>
 
 #include <boost/lexical_cast.hpp>
 

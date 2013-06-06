@@ -4,6 +4,7 @@
 #include <mu/llvmc/ast.hpp>
 #include <mu/llvmc/skeleton.hpp>
 #include <mu/core/error.hpp>
+#include <mu/llvmc/ast_t.hpp>
 
 static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
