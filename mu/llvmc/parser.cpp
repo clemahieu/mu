@@ -168,16 +168,8 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::string const & data_a, mu::
         auto item (parser_a.peek ());
         if (item.ast != nullptr)
         {
-            auto function (dynamic_cast <mu::llvmc::ast::function *> (item.ast));
-            if (function != nullptr)
-            {
-                parser_a.consume ();
-                module->functions.push_back (function);
-            }
-            else
-            {
-                result.error = new (GC) mu::core::error_string (U"Expecting a function", mu::core::error_type::expecting_function);
-            }        
+            module->functions.push_back (item.ast);
+            parser_a.consume ();
         }
         else if (item.token != nullptr)
         {
