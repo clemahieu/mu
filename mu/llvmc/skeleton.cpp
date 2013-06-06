@@ -584,7 +584,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::unit_value::type ()
 }
 
 mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a) :
-value (mu::core::region (0, 0, 0, 0, 0, 0), branch_a)
+value (mu::empty_region, branch_a)
 {
 }
 
@@ -687,7 +687,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::named::type ()
 }
 
 mu::llvmc::skeleton::identity_element::identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a) :
-value (mu::core::region (0, 0, 0, 0, 0, 0), branch_a),
+value (mu::empty_region, branch_a),
 source (source_a)
 {
 }
