@@ -271,31 +271,21 @@ void mu::llvmc::function::parse ()
 
 void mu::llvmc::function::parse_name ()
 {
-    if (parser.peek ().token != nullptr)
-    {
-        auto id (parser.peek ().token->id ());
-        switch (id)
+    result.error = parser.parse_identifier (
+        [&]
+        (mu::io::identifier * identifier_a)
         {
-            case mu::io::token_id::identifier:
+            auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
+            function_m->name = name->string;
+            auto error (parser.globals.insert (name->string, function_m));
+            if (error)
             {
-                auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
-                parser.consume ();
-                function_m->name = name->string;
-                auto error (parser.globals.insert (name->string, function_m));
-                if (error)
-                {
-                    result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
-                }
-            }
-                break;
-            default:
-                result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
-                break;
-        }
-    }
-    else
+                result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
+            }                                
+        }, U"Expecting identifier", mu::core::error_type::expecting_identifier);
+    if (result.error == nullptr)
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting function name", mu::core::error_type::expecting_function_name);
+        parser.consume ();
     }
 }
 
