@@ -45,6 +45,7 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
 {
     mu::core::error * result;
     auto item (peek ());
+	consume ();
     if (item.token != nullptr)
     {
         auto id (item.token->id ());

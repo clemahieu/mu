@@ -267,20 +267,15 @@ void mu::llvmc::function::parse_name ()
         [&]
         (mu::io::identifier * identifier_a)
         {
-			mu::core::error * result (nullptr);
-            auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
-            function_m->name = name->string;
-            auto error (parser.globals.insert (name->string, function_m));
+			mu::core::error * result (nullptr);;
+            function_m->name = identifier_a->string;
+            auto error (parser.globals.insert (identifier_a->string, function_m));
             if (error)
             {
                 result = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
             }
 			return result;
         }, U"Expecting identifier", mu::core::error_type::expecting_identifier);
-    if (result.error == nullptr)
-    {
-        parser.consume ();
-    }
 }
 
 void mu::llvmc::function::parse_parameters ()
@@ -332,8 +327,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
                     result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, identifier_a->region);
                 }
 				return result;
-            }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);	
-		parser.consume ();
+            }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);
 	}
 }
 
@@ -358,7 +352,6 @@ void mu::llvmc::function::parse_body ()
                         auto next (parser.peek ());
                         if (next.ast != nullptr)
                         {
-                            parser.consume ();
                             function_m->roots.push_back (next.ast);
                         }
                         else if (next.token != nullptr)
@@ -1351,7 +1344,6 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
         U"Expecting asm text", mu::core::error_type::asm_hook_expecting_identifier);
         if (result.error == nullptr)
         {
-            parser_a.consume ();
             result.error = parser_a.parse_identifier (
                 [&]
                 (mu::io::identifier * identifier_a)
