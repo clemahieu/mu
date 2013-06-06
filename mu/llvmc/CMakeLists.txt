@@ -25,7 +25,8 @@ add_library (mu_llvmc SHARED
     parser_t.hpp
 	predicates.hpp
     skeleton.cpp
-    skeleton.hpp)
+    skeleton.hpp
+    skeleton_t.hpp)
     
 target_link_libraries (mu_llvmc
 	mu_core

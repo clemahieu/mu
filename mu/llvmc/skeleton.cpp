@@ -2,6 +2,7 @@
 
 #include <mu/llvmc/analyzer.hpp>
 #include <mu/core/error_string.hpp>
+#include <mu/llvmc/skeleton_t.hpp>
 
 #include <gc_cpp.h>
 

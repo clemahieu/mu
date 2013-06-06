@@ -3,6 +3,7 @@
 #include <mu/llvmc/ast.hpp>
 #include <mu/core/error_string.hpp>
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/llvmc/skeleton_t.hpp>
 
 #include <llvm/Module.h>
 #include <llvm/DerivedTypes.h>

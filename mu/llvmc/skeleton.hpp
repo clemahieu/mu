@@ -186,60 +186,13 @@ namespace mu
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
                 template <typename T>
-                void for_each_branch (T branch_op)
-                {
-                    size_t index (0);
-                    for (auto i (branch_ends.begin ()), j (branch_ends.end ()); i != j; ++i)
-                    {
-                        auto end (*i);
-                        branch_op (index, end);
-                        index = end;
-                    }
-                }
+                void for_each_branch (T branch_op);
                 mu::llvmc::skeleton::result * as_result (mu::llvmc::skeleton::node * node_a);
                 mu::llvmc::skeleton::value * as_value (mu::llvmc::skeleton::node * node_a);
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
                 template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
-                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate)
-                {
-                    assert (branch_ends.size () == predicate_offsets.size ());
-                    size_t index (0);
-                    size_t end (results.size ());
-                    auto current_end (branch_ends.begin ());
-                    auto current_predicate (predicate_offsets.begin ());
-                    auto predicates (false);
-                    for (; index != end && loop_predicate (); ++index)
-                    {
-                        assert (current_end != branch_ends.end ());
-                        assert (current_predicate != predicate_offsets.end ());
-                        assert (*current_predicate <= *current_end);
-                        if (index == *current_predicate)
-                        {
-                            transition_op (results [index], index);
-                            predicates = true;
-                        }
-                        if (!predicates)
-                        {
-                            result_op (as_result (results [index]), index);
-                        }
-                        else
-                        {
-                            predicate_op (as_value (results [index]), index);
-                        }
-                        if (index + 1 >= *current_end)
-                        {
-                            if (!predicates)
-                            {
-                                transition_op (results [index], index);
-                            }
-                            branch_op (results [index], index);
-                            predicates = false;
-                            ++current_end;
-                            ++current_predicate;
-                        }
-                    }
-                }
+                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
             };
             class switch_element;
             class switch_i
@@ -320,45 +273,7 @@ namespace mu
                 static void empty_node (mu::llvmc::skeleton::node *, size_t);
                 static bool empty_loop_predicate ();
                 template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
-                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate)
-                {
-                    assert (branch_ends.size () == predicate_offsets.size ());
-                    size_t index (0);
-                    size_t end (results.size ());
-                    auto current_end (branch_ends.begin ());
-                    auto current_predicate (predicate_offsets.begin ());
-                    auto predicates (false);
-                    for (; index != end && loop_predicate (); ++index)
-                    {
-                        assert (current_end != branch_ends.end ());
-                        assert (current_predicate != predicate_offsets.end ());
-                        assert (*current_predicate <= *current_end);
-                        if (index == *current_predicate)
-                        {
-                            transition_op (results [index], index);
-                            predicates = true;
-                        }
-                        if (!predicates)
-                        {
-                            result_op (results [index], index);
-                        }
-                        else
-                        {
-                            predicate_op (results [index], index);
-                        }
-                        if (index + 1 >= *current_end)
-                        {
-                            if (!predicates)
-                            {
-                                transition_op (results [index], index);
-                            }
-                            branch_op (results [index], index);
-                            predicates = false;
-                            ++current_end;
-                            ++current_predicate;
-                        }
-                    }
-                }
+                void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
 			};
 			class loop_element_value : public mu::llvmc::skeleton::loop_element
 			{
