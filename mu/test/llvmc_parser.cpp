@@ -1103,6 +1103,6 @@ TEST (llvmc_parser, fail_asm_type)
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
-    ASSERT_EQ (mu::core::error_type::asm_hook_expecting_type, module1.error->type ());
+    ASSERT_EQ (mu::core::error_type::expecting_ast_or_reference, module1.error->type ());
     ASSERT_EQ (mu::core::region (22, 1, 23, 22, 1, 23), module1.error->region ());
 }

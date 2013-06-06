@@ -216,8 +216,8 @@ namespace mu
             parser (mu::io::stream_token & stream_a);
             node_result parse ();
             void consume ();
-            template <typename T, typename U>
-            mu::core::error * ast_or_refer (T identifier_op, U other_token_op);
+            template <typename T>
+            mu::core::error * ast_or_refer (T identifier_op);
             mu::llvmc::partial_ast_result peek ();
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;

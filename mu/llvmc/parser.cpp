@@ -1394,11 +1394,16 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     parser_a.consume ();
-    auto type_item (parser_a.peek ());
-    if (type_item.ast != nullptr)
+    auto asm_l (new (GC) mu::llvmc::ast::asm_c);
+    result.error = parser_a.ast_or_refer (
+       [&]
+       (mu::llvmc::ast::node * node_a)
+       {
+           asm_l->type = node_a;
+       }
+    );
+    if (result.error == nullptr)
     {
-        auto type (type_item.ast);
-        parser_a.consume ();
         auto text_item (parser_a.peek ());
         if (text_item.token != nullptr)
         {
@@ -1406,7 +1411,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
             {
                 case mu::io::token_id::identifier:
                 {
-                    auto const & text (static_cast <mu::io::identifier *> (text_item.token)->string);
+                    asm_l->text = static_cast <mu::io::identifier *> (text_item.token)->string;
                     parser_a.consume ();
                     auto constraints_item (parser_a.peek ());
                     if (constraints_item.token != nullptr)
@@ -1415,8 +1420,8 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
                         {
                             case mu::io::token_id::identifier:
                             {
-                                auto const & constraints (static_cast <mu::io::identifier *> (constraints_item.token)->string);
-                                result.node = new (GC) mu::llvmc::ast::asm_c (type, text, constraints);
+                                asm_l->constraints = static_cast <mu::io::identifier *> (constraints_item.token)->string;
+                                result.node = asm_l;
                                 break;
                             }
                             default:
@@ -1442,10 +1447,6 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
         {
             result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm text", mu::core::error_type::asm_hook_expecting_identifier);
         }
-    }
-    else
-    {
-        result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::asm_hook_expecting_type, parser_a.stream [0]->region);
     }
     return result;
 }

@@ -5,8 +5,8 @@
 
 #include <gc_cpp.h>
 
-template <typename T, typename U>
-mu::core::error * mu::llvmc::parser::ast_or_refer (T identifier_op, U other_token_op)
+template <typename T>
+mu::core::error * mu::llvmc::parser::ast_or_refer (T identifier_op)
 {
     mu::core::error * result (nullptr);
     auto item (peek ());
@@ -28,7 +28,7 @@ mu::core::error * mu::llvmc::parser::ast_or_refer (T identifier_op, U other_toke
             }
             default:
             {
-                other_token_op (item.token, id);
+                result = new (GC) mu::core::error_string (U"Expecting ast or reference", mu::core::error_type::expecting_ast_or_reference, item.token->region);
                 break;
             }
         }
