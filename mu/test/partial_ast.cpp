@@ -43,11 +43,9 @@ TEST (partial_ast, tokens)
     ASSERT_NE (nullptr, token1.token);
     auto right_square (dynamic_cast <mu::io::right_square *> (token1.token));
     EXPECT_NE (nullptr, right_square);
-    parser.parser.consume ();
     auto token2 (parser.parser.peek ());
     auto identifier (dynamic_cast <mu::io::identifier *> (token2.token));
     EXPECT_NE (nullptr, identifier);
-    parser.parser.consume ();
     auto token3 (parser.parser.peek ());
     auto terminator (dynamic_cast <mu::io::terminator *> (token3.token));
     EXPECT_NE (nullptr, terminator);

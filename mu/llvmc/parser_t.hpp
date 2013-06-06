@@ -23,7 +23,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
         {
             case mu::io::token_id::identifier:
             {
-                current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, mu::core::region (), op);
+                current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, item.token->region, op);
                 break;
             }
             default:
@@ -45,7 +45,6 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
 {
     mu::core::error * result;
     auto item (peek ());
-	consume ();
     if (item.token != nullptr)
     {
         auto id (item.token->id ());
@@ -82,7 +81,6 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 	}
 	else if (item.token != nullptr)
 	{
-		consume ();
 		auto id (item.token->id ());
 		switch (id)
 		{

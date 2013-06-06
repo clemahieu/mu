@@ -149,10 +149,11 @@ namespace mu
         class expression
         {
         public:
-            expression (mu::llvmc::parser & parser_a);
+            expression (mu::core::region const & region_a, mu::llvmc::parser & parser_a);
             void parse ();
             mu::llvmc::node_result result;
             mu::llvmc::parser & parser;
+            mu::core::region region;
         };
         class int_type : public mu::llvmc::hook
         {
