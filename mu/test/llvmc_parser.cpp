@@ -150,7 +150,10 @@ TEST (llvmc_parser, unresolved_passing)
     mu::llvmc::global global (&mapping);
     {
         mu::llvmc::block block (&global);
-        block.refer (mu::string (U"test"), mu::empty_region, [&] (mu::llvmc::ast::node *) {called = true;});
+        block.refer (mu::string (U"test"), mu::empty_region, 
+				[&] 
+		(mu::llvmc::ast::node *, mu::core::region const & region_a) 
+				{called = true;});
         EXPECT_TRUE (global.unresolved.empty ());
     }
     EXPECT_FALSE (global.unresolved.empty ());
@@ -640,7 +643,7 @@ TEST (llvmc_parser, block)
     auto success (false);
     block.refer(mu::string (U"test"), mu::empty_region,
                 [&success]
-                (mu::llvmc::ast::node * node_a)
+                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                 {
                     success = true;
                 });

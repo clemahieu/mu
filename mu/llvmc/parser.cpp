@@ -308,7 +308,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
     auto argument (new (GC) mu::llvmc::ast::parameter);
 	result.error = parser.parse_ast_or_refer_or_right_square (
 		[&]
-		(mu::llvmc::ast::node * node_a)
+		(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 		{
 			argument->type = node_a;
 		},
@@ -432,7 +432,7 @@ void mu::llvmc::function::parse_result_set ()
                 parser.consume ();
                 result.error = parser.parse_ast_or_refer (
                     [&]
-                    (mu::llvmc::ast::node * node_a)
+                    (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                     {
                         auto result (new (GC) mu::llvmc::ast::result (type));
                         result->region = mu::core::region (first.first, parser.stream [0]->region.last);
@@ -489,7 +489,7 @@ void mu::llvmc::function::parse_result_set ()
                         auto function_l (function_m);
                         block.refer (static_cast <mu::io::identifier *> (node.token)->string, mu::core::region (),
                                      [function_l, index]
-                                     (mu::llvmc::ast::node * node_a)
+                                     (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                      {
                                          function_l->results [index] = node_a;
                                      });
@@ -611,7 +611,7 @@ bool mu::llvmc::global::get (mu::string const & name_a, mu::core::region const &
     auto result (existing == mappings.end ());
     if (!result)
     {
-        action_a (existing->second);
+        action_a (existing->second, region_a);
     }
     return result;
 }
@@ -671,7 +671,7 @@ bool mu::llvmc::block::get (mu::string const & name_a, mu::core::region const & 
     }
     else
     {
-        action_a (existing->second);
+        action_a (existing->second, region_a);
     }
     return result;
 }
@@ -690,7 +690,7 @@ void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const 
     }
     else
     {
-        action_a (existing->second);
+        action_a (existing->second, region_a);
     }
 }
 
@@ -753,7 +753,7 @@ void mu::llvmc::expression::parse ()
                             expression_l->arguments.push_back (nullptr);
                             parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                 [&arguments, position]
-                                (mu::llvmc::ast::node * node_a)
+                                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                 {
                                     arguments [position] = node_a;
                                 });
@@ -941,7 +941,7 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
             mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
             for (auto i (unresolved.find (identifier_a)), j (unresolved.end ()); i != j && i->first == identifier_a; ++i)
             {
-                std::get <1> (i->second) (node_a);
+                std::get <1> (i->second) (node_a, std::get <0> (i->second));
             }
             unresolved.erase (identifier_a);
         }
@@ -1017,7 +1017,7 @@ void mu::llvmc::loop::parse_arguments ()
                             arguments_l.push_back (nullptr);
                             parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                   [&arguments_l, position]
-                                   (mu::llvmc::ast::node * node_a)
+                                   (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                   {
                                       arguments_l [position] = node_a;
                                   });
@@ -1197,7 +1197,7 @@ void mu::llvmc::loop::parse_results ()
                                         loop_m->results.push_back (nullptr);
                                         parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                                                       [&]
-                                                                       (mu::llvmc::ast::node * node_a)
+                                                                       (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                                                       {
                                                                           loop_m->results [position] = node_a;
                                                                       });
@@ -1342,7 +1342,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
     auto asm_l (new (GC) mu::llvmc::ast::asm_c);
     result.error = parser_a.parse_ast_or_refer (
        [&]
-       (mu::llvmc::ast::node * node_a)
+       (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
        {
            asm_l->type = node_a;
        }

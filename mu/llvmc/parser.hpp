@@ -40,7 +40,7 @@ namespace mu
         class mapping
         {
         public:
-			typedef std::function <void (mu::llvmc::ast::node *)> action_type;
+			typedef std::function <void (mu::llvmc::ast::node *, mu::core::region const &)> action_type;
 			typedef std::tuple <mu::core::region, action_type> unresolved_type;
             // Reserves a name from a lower scope, error result if name already is reserved
             virtual bool reserve (mu::string const & name_a) = 0;
