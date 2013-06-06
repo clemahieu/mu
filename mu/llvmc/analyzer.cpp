@@ -12,7 +12,6 @@
 
 #include <typeinfo>
 
-#define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
 mu::llvmc::branch_analyzer::branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a) :
