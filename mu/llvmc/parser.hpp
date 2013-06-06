@@ -131,7 +131,7 @@ namespace mu
         class function
         {
         public:
-            function (mu::string const & data_a, mu::llvmc::parser & parser_a);
+            function (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a);
             ~function ();
             void parse ();
             void parse_name ();
@@ -144,6 +144,7 @@ namespace mu
             mu::llvmc::node_result result;
             mu::llvmc::ast::function * function_m;
             mu::llvmc::parser & parser;
+			mu::core::region first;
         };
         class expression
         {

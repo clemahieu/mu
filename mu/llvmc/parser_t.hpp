@@ -78,7 +78,6 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 	if (item.ast != nullptr)
 	{
 		op (item.ast, item.ast->region);
-		consume ();
 	}
 	else if (item.token != nullptr)
 	{

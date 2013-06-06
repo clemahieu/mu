@@ -215,7 +215,7 @@ bool mu::llvmc::module::covering ()
 
 mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
-    mu::llvmc::function parser_l (data_a, parser_a);
+    mu::llvmc::function parser_l (region_a, data_a, parser_a);
     auto previous_mapping (parser_a.current_mapping);
     parser_a.current_mapping = &parser_l.block;
     parser_l.parse ();
@@ -223,11 +223,12 @@ mu::llvmc::node_result mu::llvmc::function_hook::parse (mu::core::region const &
     return parser_l.result;
 }
 
-mu::llvmc::function::function (mu::string const & data_a, mu::llvmc::parser & parser_a):
+mu::llvmc::function::function (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a):
 block (parser_a.current_mapping),
 result ({nullptr, nullptr}),
 function_m (new (GC) mu::llvmc::ast::function),
-parser (parser_a)
+parser (parser_a),
+first (region_a)
 {
     assert (data_a.empty ());
 }
@@ -239,8 +240,7 @@ mu::llvmc::function::~function ()
 
 void mu::llvmc::function::parse ()
 {
-	function_m->region.first = parser.stream [0]->region.first;
-	parser.consume ();
+	function_m->region.first = first.first;
     parse_name ();
     if (result.error == nullptr)
     {
@@ -429,7 +429,6 @@ void mu::llvmc::function::parse_result_set ()
             if (!predicates)
             {
                 auto type (node.ast);
-                parser.consume ();
                 result.error = parser.parse_ast_or_refer (
                     [&]
                     (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -739,7 +738,6 @@ void mu::llvmc::expression::parse ()
                 if (next.ast != nullptr)
                 {
                     expression_l->arguments.push_back (next.ast);
-                    parser.consume ();
                 }
                 else if (next.token != nullptr)
                 {
@@ -808,7 +806,6 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::core::region const & regi
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.consume ();
     auto name (parser_a.peek ());
     if (name.token != nullptr)
     {
@@ -866,7 +863,6 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::core::region const & regi
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.consume ();
     auto done (false);
     auto next (parser_a.stream [0]);
     mu::vector <mu::io::identifier *> identifiers;
@@ -958,7 +954,6 @@ parser (parser_a)
 
 void mu::llvmc::loop::parse ()
 {
-    parser.consume ();
     parse_arguments ();
     if (result.error == nullptr)
     {
@@ -1278,7 +1273,6 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & regi
 {
     assert (data_a == U"");
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.consume ();
     auto item (parser_a.peek ());
     if (item.ast != nullptr)
     {
@@ -1316,7 +1310,6 @@ number_m (number_a)
 mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.consume ();
     auto item (parser_a.peek ());
     if (item.ast != nullptr)
     {
@@ -1338,7 +1331,6 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
-    parser_a.consume ();
     auto asm_l (new (GC) mu::llvmc::ast::asm_c);
     result.error = parser_a.parse_ast_or_refer (
        [&]
@@ -1349,7 +1341,6 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
     );
     if (result.error == nullptr)
     {
-        parser_a.consume ();
         result.error = parser_a.parse_identifier (
         [&]
            (mu::io::identifier * identifier_a)
@@ -1432,6 +1423,7 @@ mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
             auto hook (keywords.get_hook (identifier->string));
             if (hook.hook != nullptr)
             {
+				consume ();
                 auto ast (hook.hook->parse (token->region, hook.data, *this));
                 if (ast.node != nullptr)
                 {
