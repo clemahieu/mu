@@ -621,7 +621,7 @@ void mu::llvmc::global::refer (mu::string const & name_a, mu::core::region const
     auto error (get (name_a, region_a, action_a));
     if (error)
     {
-        unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
+        unresolved.insert (decltype (unresolved)::value_type (name_a, unresolved_type (region_a, action_a)));
     }
 }
 
@@ -685,7 +685,7 @@ void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const 
         result = parent->get (name_a, region_a, action_a);
         if (result)
         {
-            unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
+            unresolved.insert (decltype (unresolved)::value_type (name_a, unresolved_type (region_a, action_a)));
         }
     }
     else
@@ -694,12 +694,12 @@ void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const 
     }
 }
 
-void mu::llvmc::block::accept (mu::multimap <mu::string, action_type> unresolved_a)
+void mu::llvmc::block::accept (mu::multimap <mu::string, unresolved_type> unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
 
-void mu::llvmc::global::accept (mu::multimap <mu::string, action_type> unresolved_a)
+void mu::llvmc::global::accept (mu::multimap <mu::string, unresolved_type> unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
@@ -941,7 +941,7 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
             mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
             for (auto i (unresolved.find (identifier_a)), j (unresolved.end ()); i != j && i->first == identifier_a; ++i)
             {
-                i->second (node_a);
+                std::get <1> (i->second) (node_a);
             }
             unresolved.erase (identifier_a);
         }
