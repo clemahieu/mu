@@ -7,7 +7,7 @@
 
 #include <llvm/LLVMContext.h>
 
-#include <boost/function.hpp>
+#include <functional>
 
 namespace mu
 {
@@ -43,13 +43,13 @@ namespace mu
             // Reserves a name from a lower scope, error result if name already is reserved
             virtual bool reserve (mu::string const & name_a) = 0;
             // Performs `action_a' on the value mapped to `name_a' if a mapping exists, otherwise sets error result
-            virtual bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) = 0;
+            virtual bool get (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) = 0;
             // Performs `action_a' on the value mapped to `name_a' if the mapping exists, otherwise stores `action_a' and performs when value is inserted
-            virtual void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) = 0;
+            virtual void refer (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) = 0;
             // Maps `identifier_a' to `node_a' and calls stored actions for `identifier_a' if they exist.  Returns true if an error while inserting
             virtual bool insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a) = 0;
             // Accept unresolved references from child and handle them if they become resolved
-            virtual void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) = 0;
+            virtual void accept (mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved_a) = 0;
         };
         class keywords
         {
@@ -65,11 +65,11 @@ namespace mu
             global (mu::llvmc::keywords * keywords_a);
             bool insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a) override;
             bool reserve (mu::string const & name_a) override;
-            bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
-            void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
-            void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
+            bool get (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void refer (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void accept (mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
             mu::map <mu::string, mu::llvmc::ast::node *> mappings;
-            mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved;
+            mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved;
             mu::llvmc::keywords * keywords;
         };
         class block : public mapping
@@ -79,12 +79,12 @@ namespace mu
             ~block ();
             bool insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a) override;
             bool reserve (mu::string const & name_a) override;
-            bool get (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
-            void refer (mu::string const & name_a, boost::function <void (mu::llvmc::ast::node *)> action_a) override;
-            void accept (mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
+            bool get (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void refer (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a) override;
+            void accept (mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved_a) override;
             mu::llvmc::mapping * parent;
             mu::map <mu::string, mu::llvmc::ast::node *> mappings;
-            mu::multimap <mu::string, boost::function <void (mu::llvmc::ast::node *)>> unresolved;
+            mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved;
         };
         template <typename T>
         class scope_set
