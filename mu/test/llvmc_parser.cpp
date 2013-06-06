@@ -36,7 +36,7 @@ public:
 class test_non_covering : public mu::llvmc::hook
 {
 public:    
-    mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser) override
+    mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
     {
         return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
@@ -49,7 +49,7 @@ public:
 class test_covering : public mu::llvmc::hook
 {
 public:
-    mu::llvmc::node_result parse (mu::string const & data_a, mu::llvmc::parser & parser) override
+    mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser) override
     {
         return mu::llvmc::node_result {new (GC) mu::llvmc::ast::node, nullptr};
     }
