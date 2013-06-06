@@ -329,7 +329,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
 				argument->name = identifier_a->string;
                 if (block.insert (identifier_a->string, argument))
                 {
-                    result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
+                    result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, identifier_a->region);
                 }
 				return result;
             }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);	
