@@ -440,7 +440,6 @@ void mu::llvmc::function::parse_result_set ()
             else
             {
                 function_m->results.push_back (node.ast);
-                parser.consume ();
                 node = parser.peek ();
             }
         }
@@ -767,6 +766,7 @@ void mu::llvmc::expression::parse ()
                         }
                         case mu::io::token_id::right_square:
                             expression_l->region.last = parser.stream [0]->region.first;
+                            parser.consume ();
                             done = true;
                             break;
                         default:
@@ -1120,7 +1120,6 @@ void mu::llvmc::loop::parse_body ()
                 if (next.ast != nullptr)
                 {
                     loop_m->roots.push_back (next.ast);
-                    parser.consume ();
                 }
                 else if (next.token != nullptr)
                 {
@@ -1229,6 +1228,7 @@ void mu::llvmc::loop::parse_results ()
                     }
                         break;
                     case mu::io::token_id::right_square:
+                        parser.consume ();
                         done = true;
                         break;
                     default:
@@ -1236,8 +1236,8 @@ void mu::llvmc::loop::parse_results ()
                         break;
                 }
             }
-        }
             break;
+        }
         default:
             result.error = new (GC) mu::core::error_string (U"Expecting loop results", mu::core::error_type::expecting_loop_results);
             break;
