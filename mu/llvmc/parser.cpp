@@ -267,13 +267,15 @@ void mu::llvmc::function::parse_name ()
         [&]
         (mu::io::identifier * identifier_a)
         {
+			mu::core::error * result (nullptr);
             auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
             function_m->name = name->string;
             auto error (parser.globals.insert (name->string, function_m));
             if (error)
             {
-                result.error = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
-            }                                
+                result = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
+            }
+			return result;
         }, U"Expecting identifier", mu::core::error_type::expecting_identifier);
     if (result.error == nullptr)
     {
@@ -303,45 +305,36 @@ void mu::llvmc::function::parse_parameters ()
 
 void mu::llvmc::function::parse_parameter (bool & done_a)
 {
-    auto node (parser.peek ());
-    if (node.ast != nullptr)
-    {
-        auto type (node.ast);
-        parser.consume ();
+    auto argument (new (GC) mu::llvmc::ast::parameter);
+	result.error = parser.parse_ast_or_refer_or_right_square (
+		[&]
+		(mu::llvmc::ast::node * node_a)
+		{
+			argument->type = node_a;
+		},
+		[&]
+		(mu::io::right_square * right_square_a)
+		{
+			done_a = true;
+		},
+		U"Expecting type or right square", mu::core::error_type::expecting_type_or_right_square);
+	if (result.error == nullptr && !done_a)
+	{
+		function_m->parameters.push_back (argument);
         result.error = parser.parse_identifier (
             [&]
             (mu::io::identifier * identifier_a)
             {
-                auto argument (new (GC) mu::llvmc::ast::parameter (identifier_a->string, type));
-                function_m->parameters.push_back (argument);
+				mu::core::error * result (nullptr);
+				argument->name = identifier_a->string;
                 if (block.insert (identifier_a->string, argument))
                 {
-                    result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
+                    result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
                 }
-            }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);
-        if (result.error == nullptr)
-        {
-            parser.consume ();
-        }
-    }
-    else if (node.token != nullptr)
-    {
-        auto id (parser.peek ().token->id ());
-        switch (id)
-        {
-            case mu::io::token_id::right_square:
-                parser.consume ();
-                done_a = true;
-                break;
-            default:
-                result.error = new (GC) mu::core::error_string (U"Expecting type or right square", mu::core::error_type::expecting_type_or_right_square);
-                break;                
-        }
-    }
-    else
-    {
-        result.error = node.error;
-    }
+				return result;
+            }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);	
+		parser.consume ();
+	}
 }
 
 void mu::llvmc::function::parse_body ()
@@ -1362,6 +1355,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
            (mu::io::identifier * identifier_a)
             {
                 asm_l->text = identifier_a->string;
+				return nullptr;
             },
         U"Expecting asm text", mu::core::error_type::asm_hook_expecting_identifier);
         if (result.error == nullptr)
@@ -1372,6 +1366,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
                 (mu::io::identifier * identifier_a)
                 {
                     asm_l->constraints = identifier_a->string;
+					return nullptr;
                 },
         U"Expecting asm constraints", mu::core::error_type::asm_hook_expecting_constraints);
             if (result.error == nullptr)

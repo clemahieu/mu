@@ -43,7 +43,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
 template <typename T>
 mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
 {
-    mu::core::error * result (nullptr);
+    mu::core::error * result;
     auto item (peek ());
     if (item.token != nullptr)
     {
@@ -52,7 +52,7 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t
         {
             case mu::io::token_id::identifier:
                 assert (dynamic_cast <mu::io::identifier *> (item.token) != nullptr);
-                identifier_op (static_cast <mu::io::identifier *> (item.token));
+                result = identifier_op (static_cast <mu::io::identifier *> (item.token));
                 break;
             default:
                 result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
@@ -78,9 +78,11 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 	if (item.ast != nullptr)
 	{
 		op (item.ast);
+		consume ();
 	}
 	else if (item.token != nullptr)
 	{
+		consume ();
 		auto id (item.token->id ());
 		switch (id)
 		{

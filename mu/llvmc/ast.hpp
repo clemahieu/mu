@@ -59,6 +59,7 @@ namespace mu
             class parameter : public mu::llvmc::ast::expression
             {
             public:
+				parameter () = default;
                 parameter (mu::string const & name_a, mu::llvmc::ast::node * type_a);
                 mu::llvmc::ast::node * type;
 				mu::string name;
