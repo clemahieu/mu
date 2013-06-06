@@ -126,7 +126,7 @@ TEST (llvmc_parser, global_check_non_covering)
     EXPECT_EQ (false, error1);
     mu::llvmc::global global (&mapping);
     mu::llvmc::ast::unit unit1;
-    auto error2 (global.insert (mu::string (U"covered"), &unit1));
+    auto error2 (global.insert (mu::string (U"covered"), mu::empty_region, &unit1));
     EXPECT_EQ (true, error2);
 }
 
@@ -138,7 +138,7 @@ TEST (llvmc_parser, global_check_covering)
     EXPECT_EQ (false, error1);
     mu::llvmc::global global (&mapping);
     mu::llvmc::ast::unit unit1;
-    auto error2 (global.insert (mu::string (U"covered1"), &unit1));
+    auto error2 (global.insert (mu::string (U"covered1"), mu::empty_region, &unit1));
     EXPECT_EQ (true, error2);
 }
 
@@ -150,7 +150,7 @@ TEST (llvmc_parser, unresolved_passing)
     mu::llvmc::global global (&mapping);
     {
         mu::llvmc::block block (&global);
-        block.refer (mu::string (U"test"), [&] (mu::llvmc::ast::node *) {called = true;});
+        block.refer (mu::string (U"test"), mu::empty_region, [&] (mu::llvmc::ast::node *) {called = true;});
         EXPECT_TRUE (global.unresolved.empty ());
     }
     EXPECT_FALSE (global.unresolved.empty ());
@@ -635,10 +635,10 @@ TEST (llvmc_parser, block)
     mu::llvmc::global global (&keywords);
     mu::llvmc::block block (&global);
     mu::llvmc::ast::node node;
-    auto error (block.insert (mu::string (U"test"), &node));
+    auto error (block.insert (mu::string (U"test"), mu::empty_region, &node));
     EXPECT_TRUE (!error);
     auto success (false);
-    block.refer(mu::string (U"test"),
+    block.refer(mu::string (U"test"), mu::empty_region,
                 [&success]
                 (mu::llvmc::ast::node * node_a)
                 {

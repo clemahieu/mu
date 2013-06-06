@@ -15,6 +15,8 @@
 
 #include <sstream>
 
+static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
+
 mu::llvmc::global::global (mu::llvmc::keywords * keywords_a) :
 keywords (keywords_a)
 {
@@ -26,7 +28,7 @@ current_mapping (&globals),
 stream (stream_a)
 {
     bool error (false);
-    error = globals.insert  (U"~", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity));
+    error = globals.insert  (U"~", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::identity));
     assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
@@ -46,115 +48,115 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"set", &set_hook);
     assert (!error);
-    error = globals.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
+    error = globals.insert  (U"false", empty_region, new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
     assert (!error);
-    error = globals.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
+    error = globals.insert  (U"true", empty_region, new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
     assert (!error);
-    error = globals.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
+    error = globals.insert (U"unit_v", empty_region, new (GC) mu::llvmc::ast::unit);
     assert (!error);
-    error = globals.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join));
+    error = globals.insert (U"join", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join));
     assert (!error);
-    error = globals.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add)));
+    error = globals.insert (U"add", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add)));
     assert (!error);
-    error = globals.insert (U"alloca", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::alloca)));
+    error = globals.insert (U"alloca", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::alloca)));
     assert (!error);
-    error = globals.insert (U"and", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::and_i)));
+    error = globals.insert (U"and", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::and_i)));
     assert (!error);
-    error = globals.insert (U"ashr", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::ashr)));
+    error = globals.insert (U"ashr", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::ashr)));
     assert (!error);
-    error = globals.insert (U"atomicrmw", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::atomicrmw)));
+    error = globals.insert (U"atomicrmw", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::atomicrmw)));
     assert (!error);
-    error = globals.insert (U"bitcast", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::bitcast)));
+    error = globals.insert (U"bitcast", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::bitcast)));
     assert (!error);
-    error = globals.insert (U"call", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::call)));
+    error = globals.insert (U"call", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::call)));
     assert (!error);
-    error = globals.insert (U"cmpxchg", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::cmpxchg)));
+    error = globals.insert (U"cmpxchg", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::cmpxchg)));
     assert (!error);
-    error = globals.insert (U"eq", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_eq)));
+    error = globals.insert (U"eq", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_eq)));
     assert (!error);
-    error = globals.insert (U"extractelement", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractelement)));
+    error = globals.insert (U"extractelement", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractelement)));
     assert (!error);
-    error = globals.insert (U"extractvalue", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractvalue)));
+    error = globals.insert (U"extractvalue", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractvalue)));
     assert (!error);
-    error = globals.insert (U"fadd", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fadd)));
+    error = globals.insert (U"fadd", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fadd)));
     assert (!error);
-    error = globals.insert (U"fcmp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fcmp)));
+    error = globals.insert (U"fcmp", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fcmp)));
     assert (!error);
-    error = globals.insert (U"fdiv", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fdiv)));
+    error = globals.insert (U"fdiv", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fdiv)));
     assert (!error);
-    error = globals.insert (U"fence", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fence)));
+    error = globals.insert (U"fence", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fence)));
     assert (!error);
-    error = globals.insert (U"fmul", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fmul)));
+    error = globals.insert (U"fmul", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fmul)));
     assert (!error);
-    error = globals.insert (U"fpext", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fpext)));
+    error = globals.insert (U"fpext", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fpext)));
     assert (!error);
-    error = globals.insert (U"fptoi", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptoi)));
+    error = globals.insert (U"fptoi", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptoi)));
     assert (!error);
-    error = globals.insert (U"fptosi", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptosi)));
+    error = globals.insert (U"fptosi", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptosi)));
     assert (!error);
-    error = globals.insert (U"fptoui", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptoui)));
+    error = globals.insert (U"fptoui", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptoui)));
     assert (!error);
-    error = globals.insert (U"fptrunc", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptrunc)));
+    error = globals.insert (U"fptrunc", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fptrunc)));
     assert (!error);
-    error = globals.insert (U"frem", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::frem)));
+    error = globals.insert (U"frem", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::frem)));
     assert (!error);
-    error = globals.insert (U"fsub", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fsub)));
+    error = globals.insert (U"fsub", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::fsub)));
     assert (!error);
-    error = globals.insert (U"getelementptr", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::getelementptr)));
+    error = globals.insert (U"getelementptr", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::getelementptr)));
     assert (!error);
-    error = globals.insert (U"icmp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::icmp)));
+    error = globals.insert (U"icmp", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::icmp)));
     assert (!error);
-    error = globals.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
+    error = globals.insert (U"if", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
     assert (!error);
-    error = globals.insert (U"insertelement", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::insertelement)));
+    error = globals.insert (U"insertelement", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::insertelement)));
     assert (!error);
-    error = globals.insert (U"insertvalue", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::insertvalue)));
+    error = globals.insert (U"insertvalue", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::insertvalue)));
     assert (!error);
-    error = globals.insert (U"load", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::load)));
+    error = globals.insert (U"load", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::load)));
     assert (!error);
-    error = globals.insert (U"lshr", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::lshr)));
+    error = globals.insert (U"lshr", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::lshr)));
     assert (!error);
-    error = globals.insert (U"mul", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::mul)));
+    error = globals.insert (U"mul", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::mul)));
     assert (!error);
-    error = globals.insert (U"or", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::or_i)));
+    error = globals.insert (U"or", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::or_i)));
     assert (!error);
-    error = globals.insert (U"ptrfromint", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::inttoptr)));
+    error = globals.insert (U"ptrfromint", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::inttoptr)));
     assert (!error);
-    error = globals.insert (U"ptrtoint", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::ptrtoint)));
+    error = globals.insert (U"ptrtoint", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::ptrtoint)));
     assert (!error);
-    error = globals.insert (U"sdiv", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sdiv)));
+    error = globals.insert (U"sdiv", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sdiv)));
     assert (!error);
-    error = globals.insert (U"select", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::select)));
+    error = globals.insert (U"select", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::select)));
     assert (!error);
-    error = globals.insert (U"sext", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sext)));
+    error = globals.insert (U"sext", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sext)));
     assert (!error);
-    error = globals.insert (U"shl", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::shl)));
+    error = globals.insert (U"shl", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::shl)));
     assert (!error);
-    error = globals.insert (U"shufflevector", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::shufflevector)));
+    error = globals.insert (U"shufflevector", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::shufflevector)));
     assert (!error);
-    error = globals.insert (U"sitofp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sitofp)));
+    error = globals.insert (U"sitofp", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sitofp)));
     assert (!error);
-    error = globals.insert (U"srem", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::srem)));
+    error = globals.insert (U"srem", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::srem)));
     assert (!error);
-    error = globals.insert (U"store", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::store)));
+    error = globals.insert (U"store", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::store)));
     assert (!error);
-    error = globals.insert (U"sub", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sub)));
+    error = globals.insert (U"sub", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::sub)));
     assert (!error);
-    error = globals.insert (U"switch", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::switch_i)));
+    error = globals.insert (U"switch", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::switch_i)));
     assert (!error);
-    error = globals.insert (U"trunc", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::trunc)));
+    error = globals.insert (U"trunc", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::trunc)));
     assert (!error);
-    error = globals.insert (U"udiv", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::udiv)));
+    error = globals.insert (U"udiv", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::udiv)));
     assert (!error);
-    error = globals.insert (U"uitofp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::uitofp)));
+    error = globals.insert (U"uitofp", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::uitofp)));
     assert (!error);
-    error = globals.insert (U"urem", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::urem)));
+    error = globals.insert (U"urem", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::urem)));
     assert (!error);
-    error = globals.insert (U"void", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::void_t));
+    error = globals.insert (U"void", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::void_t));
     assert (!error);
-    error = globals.insert (U"xor", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::xor_i)));
+    error = globals.insert (U"xor", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::xor_i)));
     assert (!error);
-    error = globals.insert (U"zext", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::zext)));
+    error = globals.insert (U"zext", empty_region, new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::zext)));
     assert (!error);
 }
 
@@ -270,7 +272,7 @@ void mu::llvmc::function::parse_name ()
 			mu::core::error * result (nullptr);
             auto name (static_cast <mu::io::identifier *> (parser.peek ().token));
             function_m->name = name->string;
-            auto error (parser.globals.insert (name->string, function_m));
+            auto error (parser.globals.insert (name->string, mu::core::region (), function_m));
             if (error)
             {
                 result = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
@@ -327,7 +329,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
             {
 				mu::core::error * result (nullptr);
 				argument->name = identifier_a->string;
-                if (block.insert (identifier_a->string, argument))
+                if (block.insert (identifier_a->string, mu::core::region (), argument))
                 {
                     result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
                 }
@@ -487,7 +489,7 @@ void mu::llvmc::function::parse_result_set ()
                         auto index (function_m->results.size ());
                         function_m->results.push_back (nullptr);
                         auto function_l (function_m);
-                        block.refer (static_cast <mu::io::identifier *> (node.token)->string,
+                        block.refer (static_cast <mu::io::identifier *> (node.token)->string, mu::core::region (),
                                      [function_l, index]
                                      (mu::llvmc::ast::node * node_a)
                                      {
@@ -593,7 +595,7 @@ mu::llvmc::hook_result mu::llvmc::keywords::get_hook (mu::string const & identif
     return result;
 }
 
-bool mu::llvmc::global::reserve (mu::string const & name_a)
+bool mu::llvmc::global::reserve (mu::string const & name_a, mu::core::region const & region_a)
 {
     auto existing (mappings.find(name_a));
     auto result (existing != mappings.end ());
@@ -605,7 +607,7 @@ bool mu::llvmc::global::reserve (mu::string const & name_a)
     return result;
 }
 
-bool mu::llvmc::global::get (mu::string const & name_a, action_type action_a)
+bool mu::llvmc::global::get (mu::string const & name_a, mu::core::region const & region_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing == mappings.end ());
@@ -616,9 +618,9 @@ bool mu::llvmc::global::get (mu::string const & name_a, action_type action_a)
     return result;
 }
 
-void mu::llvmc::global::refer (mu::string const & name_a, action_type action_a)
+void mu::llvmc::global::refer (mu::string const & name_a, mu::core::region const & region_a, action_type action_a)
 {
-    auto error (get (name_a, action_a));
+    auto error (get (name_a, region_a, action_a));
     if (error)
     {
         unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
@@ -630,9 +632,9 @@ parent (parent_a)
 {
 }
 
-bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node * node_a)
+bool mu::llvmc::block::insert (mu::string const & name_a, mu::core::region const & region_a, mu::llvmc::ast::node * node_a)
 {
-    auto result (parent->reserve (name_a));
+    auto result (parent->reserve (name_a, region_a));
     if (!result)
     {
         auto existing (mappings.lower_bound (name_a));
@@ -649,9 +651,9 @@ bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node *
     return result;
 }
 
-bool mu::llvmc::block::reserve (mu::string const & name_a)
+bool mu::llvmc::block::reserve (mu::string const & name_a, mu::core::region const & region_a)
 {
-    auto result (parent->reserve (name_a));
+    auto result (parent->reserve (name_a, region_a));
     if (!result)
     {
         auto existing (mappings.find (name_a));
@@ -661,13 +663,13 @@ bool mu::llvmc::block::reserve (mu::string const & name_a)
     return result;
 }
 
-bool mu::llvmc::block::get (mu::string const & name_a, action_type action_a)
+bool mu::llvmc::block::get (mu::string const & name_a, mu::core::region const & region_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing != mappings.end ());
     if (result)
     {
-        result = parent->get (name_a, action_a);
+        result = parent->get (name_a, region_a, action_a);
     }
     else
     {
@@ -676,13 +678,13 @@ bool mu::llvmc::block::get (mu::string const & name_a, action_type action_a)
     return result;
 }
 
-void mu::llvmc::block::refer (mu::string const & name_a, action_type action_a)
+void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const & region_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing == mappings.end ());
     if (result)
     {
-        result = parent->get (name_a, action_a);
+        result = parent->get (name_a, region_a, action_a);
         if (result)
         {
             unresolved.insert (decltype (unresolved)::value_type (name_a, action_a));
@@ -751,7 +753,7 @@ void mu::llvmc::expression::parse ()
                             auto & arguments (expression_l->arguments);
                             auto position (expression_l->arguments.size ());
                             expression_l->arguments.push_back (nullptr);
-                            parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string,
+                            parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                 [&arguments, position]
                                 (mu::llvmc::ast::node * node_a)
                                 {
@@ -821,7 +823,7 @@ mu::llvmc::node_result mu::llvmc::set_hook::parse (mu::string const & data_a, mu
                 auto next (parser_a.peek ());
                 if (next.ast != nullptr)
                 {
-                    auto error (parser_a.current_mapping->insert(static_cast <mu::io::identifier *> (name.token)->string, next.ast));
+                    auto error (parser_a.current_mapping->insert(static_cast <mu::io::identifier *> (name.token)->string, mu::core::region (), next.ast));
                     if (error)
                     {
                         result.error = new (GC) mu::core::error_string (U"Unable to use name", mu::core::error_type::unable_to_use_identifier);
@@ -908,7 +910,7 @@ mu::llvmc::node_result mu::llvmc::let_hook::parse (mu::string const & data_a, mu
 		size_t total (identifiers.size ());
 		for (auto i (identifiers.begin ()), j (identifiers.end ()); i != j; ++i, ++index)
 		{
-			parser_a.current_mapping->insert ((*i)->string, new (GC) mu::llvmc::ast::element (set, index, total, (*i)->string, (*i)->region));
+			parser_a.current_mapping->insert ((*i)->string, mu::core::region (), new (GC) mu::llvmc::ast::element (set, index, total, (*i)->string, (*i)->region));
 		}
 	}
 	else
@@ -924,7 +926,7 @@ bool mu::llvmc::let_hook::covering ()
     return false;
 }
 
-bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast::node * node_a)
+bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::core::region const & region_a, mu::llvmc::ast::node * node_a)
 {
     auto hook (keywords->get_hook (identifier_a));
     auto result (hook.hook != nullptr);
@@ -1015,7 +1017,7 @@ void mu::llvmc::loop::parse_arguments ()
                             auto & arguments_l (loop_m->arguments);
                             auto position (arguments_l.size ());
                             arguments_l.push_back (nullptr);
-                            parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string,
+                            parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                   [&arguments_l, position]
                                    (mu::llvmc::ast::node * node_a)
                                   {
@@ -1082,7 +1084,7 @@ void mu::llvmc::loop::parse_binds ()
                         {
                             auto parameter (new (GC) mu::llvmc::ast::loop_parameter);
                             loop_m->parameters.push_back (parameter);
-                            auto error (parser.current_mapping->insert(static_cast <mu::io::identifier *> (next.token)->string, parameter));
+                            auto error (parser.current_mapping->insert(static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (), parameter));
                             if (!error)
                             {
                                 parser.consume ();
@@ -1195,7 +1197,7 @@ void mu::llvmc::loop::parse_results ()
                                         parser.consume ();
                                         auto position (loop_m->results.size ());
                                         loop_m->results.push_back (nullptr);
-                                        parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string,
+                                        parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
                                                                       [&]
                                                                        (mu::llvmc::ast::node * node_a)
                                                                       {

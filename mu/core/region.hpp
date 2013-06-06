@@ -29,6 +29,7 @@ namespace mu
             mu::string string ();
             mu::core::position first;
             mu::core::position last;
-        };        
+        };
     }
+	mu::core::region const empty_region (0, 0, 0, 0, 0, 0);
 }
