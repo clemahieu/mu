@@ -611,7 +611,7 @@ bool mu::llvmc::global::get (mu::string const & name_a, action_type action_a)
     auto result (existing == mappings.end ());
     if (!result)
     {
-        action_a (existing->second);
+        action_a (std::get <0> (existing->second));
     }
     return result;
 }
@@ -643,7 +643,7 @@ bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node *
             {
                 --existing;
             }
-            mappings.insert (existing, decltype (mappings)::value_type (name_a, node_a));
+            mappings.insert (existing, decltype (mappings)::value_type (name_a, mapping_type (node_a, mu::core::region ())));
         }
     }
     return result;
@@ -656,7 +656,7 @@ bool mu::llvmc::block::reserve (mu::string const & name_a)
     {
         auto existing (mappings.find (name_a));
         result = existing != mappings.end ();
-        mappings [name_a] = nullptr;
+        mappings [name_a] = mapping_type (nullptr, mu::core::region ());
     }
     return result;
 }
@@ -671,7 +671,7 @@ bool mu::llvmc::block::get (mu::string const & name_a, action_type action_a)
     }
     else
     {
-        action_a (existing->second);
+        action_a (std::get <0> (existing->second));
     }
     return result;
 }
@@ -690,7 +690,7 @@ void mu::llvmc::block::refer (mu::string const & name_a, action_type action_a)
     }
     else
     {
-        action_a (existing->second);
+        action_a (std::get <0> (existing->second));
     }
 }
 
@@ -938,7 +938,7 @@ bool mu::llvmc::global::insert (mu::string const & identifier_a, mu::llvmc::ast:
             {
                 --existing;
             }
-            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, node_a));
+            mappings.insert (existing, decltype (mappings)::value_type (identifier_a, mapping_type (node_a, mu::core::region ())));
             for (auto i (unresolved.find (identifier_a)), j (unresolved.end ()); i != j && i->first == identifier_a; ++i)
             {
                 i->second (node_a);

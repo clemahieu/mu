@@ -41,6 +41,7 @@ namespace mu
         {
         public:
 			typedef std::function <void (mu::llvmc::ast::node *)> action_type;
+			typedef std::tuple <mu::llvmc::ast::node *, mu::core::region> mapping_type;
             // Reserves a name from a lower scope, error result if name already is reserved
             virtual bool reserve (mu::string const & name_a) = 0;
             // Performs `action_a' on the value mapped to `name_a' if a mapping exists, otherwise sets error result
@@ -69,8 +70,8 @@ namespace mu
             bool get (mu::string const & name_a, action_type action_a) override;
             void refer (mu::string const & name_a, action_type action_a) override;
             void accept (mu::multimap <mu::string, action_type> unresolved_a) override;
-            mu::map <mu::string, mu::llvmc::ast::node *> mappings;
-            mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved;
+            mu::map <mu::string, mapping_type> mappings;
+            mu::multimap <mu::string, action_type> unresolved;
             mu::llvmc::keywords * keywords;
         };
         class block : public mapping
@@ -84,7 +85,7 @@ namespace mu
             void refer (mu::string const & name_a, action_type action_a) override;
             void accept (mu::multimap <mu::string, action_type> unresolved_a) override;
             mu::llvmc::mapping * parent;
-            mu::map <mu::string, mu::llvmc::ast::node *> mappings;
+            mu::map <mu::string, mapping_type> mappings;
             mu::multimap <mu::string, action_type> unresolved;
         };
         template <typename T>
