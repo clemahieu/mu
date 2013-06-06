@@ -5,14 +5,15 @@
 
 #include <gc_cpp.h>
 
-template <typename T>
-mu::core::error * mu::llvmc::parser::ast_or_refer (T op)
+template <typename T, typename U>
+mu::core::error * mu::llvmc::parser::ast_or_refer (T identifier_op, U other_token_op)
 {
     mu::core::error * result (nullptr);
     auto item (peek ());
     if (item.ast != nullptr)
     {
-        op (item.ast);
+        consume ();
+        identifier_op (item.ast);
     }
     else if (item.token != nullptr)
     {
@@ -21,12 +22,13 @@ mu::core::error * mu::llvmc::parser::ast_or_refer (T op)
         {
             case mu::io::token_id::identifier:
             {
-                current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, op);
+                consume ();
+                current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, identifier_op);
                 break;
             }
             default:
             {
-                result = new (GC) mu::core::error_string (U"Expecting ast or reference", mu::core::error_type::expecting_ast_or_reference);
+                other_token_op (item.token, id);
                 break;
             }
         }
