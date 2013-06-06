@@ -219,6 +219,8 @@ namespace mu
             void consume ();
             template <typename T>
             mu::core::error * parse_ast_or_refer (T op);
+			template <typename T, typename U>
+			mu::core::error * parse_ast_or_refer_or_right_square (T op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             template <typename T>
             mu::core::error * parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::llvmc::partial_ast_result peek ();
