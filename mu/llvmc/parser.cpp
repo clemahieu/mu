@@ -326,32 +326,20 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
     {
         auto type (node.ast);
         parser.consume ();
-        if (parser.peek ().token != nullptr)
-        {
-            auto next_token (parser.peek ().token);
-            auto next_id (next_token->id ());
-            switch (next_id)
+        result.error = parser.parse_identifier (
+            [&]
+            (mu::io::identifier * identifier_a)
             {
-                case mu::io::token_id::identifier:
+                auto argument (new (GC) mu::llvmc::ast::parameter (identifier_a->string, type));
+                function_m->parameters.push_back (argument);
+                if (block.insert (identifier_a->string, argument))
                 {
-                    parser.consume ();
-                    auto identifier (static_cast <mu::io::identifier *> (next_token));
-                    auto argument (new (GC) mu::llvmc::ast::parameter (identifier->string, type));
-                    function_m->parameters.push_back (argument);
-                    if (block.insert (identifier->string, argument))
-                    {
-                        result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
-                    }
+                    result.error = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier);
                 }
-                    break;
-                default:
-                    result.error = new (GC) mu::core::error_string (U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);
-                    break;
-            }
-        }
-        else
+            }, U"While parsing parameters, expecting an identifier", mu::core::error_type::parsing_parameters_expecting_identifier);
+        if (result.error == nullptr)
         {
-            result.error = new (GC) mu::core::error_string (U"Expecting a parameter name", mu::core::error_type::expecting_a_parameter_name);
+            parser.consume ();
         }
     }
     else if (node.token != nullptr)
