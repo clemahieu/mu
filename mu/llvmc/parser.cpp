@@ -467,39 +467,19 @@ void mu::llvmc::function::parse_result_set ()
             {
                 auto type (node.ast);
                 parser.consume ();
-                auto next (parser.peek ());
-                if (next.token != nullptr)
-                {
-                    auto next_id (next.token->id ());
-                    switch (next_id)
+                result.error = parser.parse_ast_or_refer (
+                    [&]
+                    (mu::llvmc::ast::node * node_a)
                     {
-                        case mu::io::token_id::identifier:
-                        {
-                            parser.consume ();
-                            auto result (new (GC) mu::llvmc::ast::result (type));
-                            result->region = mu::core::region (first.first, next.token->region.last);
-                            function_m->results.push_back (result);
-                            block.refer (static_cast <mu::io::identifier *> (next.token)->string,
-                                         [result]
-                                         (mu::llvmc::ast::node * node_a)
-                                         {
-                                             result->value = node_a;
-                                         });
-                            node = parser.peek ();
-                        }
-                            break;
-                        default:
-                            result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
-                            break;
-                    }
-                }
-                else if (next.ast != nullptr)
+                        auto result (new (GC) mu::llvmc::ast::result (type));
+                        result->region = mu::core::region (first.first, parser.stream [0]->region.last);
+                        function_m->results.push_back (result);
+                        result->value = node_a;
+                    });
+                if (result.error == nullptr)
                 {
-                    result.error = new (GC) mu::core::error_string (U"Expecting result reference", mu::core::error_type::expecting_result_reference);
-                }
-                else
-                {
-                    result.error = next.error;
+                    parser.consume ();
+                    node = parser.peek ();
                 }
             }
             else
