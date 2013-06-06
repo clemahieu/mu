@@ -1404,48 +1404,28 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
     );
     if (result.error == nullptr)
     {
-        auto text_item (parser_a.peek ());
-        if (text_item.token != nullptr)
-        {
-            switch (text_item.token->id())
+        parser_a.consume ();
+        result.error = parser_a.parse_identifier (
+        [&]
+           (mu::io::identifier * identifier_a)
             {
-                case mu::io::token_id::identifier:
-                {
-                    asm_l->text = static_cast <mu::io::identifier *> (text_item.token)->string;
-                    parser_a.consume ();
-                    auto constraints_item (parser_a.peek ());
-                    if (constraints_item.token != nullptr)
-                    {
-                        switch (constraints_item.token->id ())
-                        {
-                            case mu::io::token_id::identifier:
-                            {
-                                asm_l->constraints = static_cast <mu::io::identifier *> (constraints_item.token)->string;
-                                result.node = asm_l;
-                                break;
-                            }
-                            default:
-                            {
-                                result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm constraints", mu::core::error_type::asm_hook_expecting_constraints);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm constraints", mu::core::error_type::asm_hook_expecting_constraints);
-                    }
-                }
-                default:
-                {
-                    result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm text", mu::core::error_type::asm_hook_expecting_identifier, text_item.token->region);
-                    break;
-                }
-            }
-        }
-        else
+                asm_l->text = identifier_a->string;
+            },
+        U"Expecting asm text", mu::core::error_type::asm_hook_expecting_identifier);
+        if (result.error == nullptr)
         {
-            result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm text", mu::core::error_type::asm_hook_expecting_identifier);
+            parser_a.consume ();
+            result.error = parser_a.parse_identifier (
+                [&]
+                (mu::io::identifier * identifier_a)
+                {
+                    asm_l->constraints = identifier_a->string;
+                },
+        U"Expecting asm constraints", mu::core::error_type::asm_hook_expecting_constraints);
+            if (result.error == nullptr)
+            {
+                result.node = asm_l;
+            }
         }
     }
     return result;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <mu/core/types.hpp>
+#include <mu/core/error.hpp>
 #include <mu/llvmc/node_result.hpp>
 #include <mu/llvmc/ast.hpp>
 
@@ -219,7 +220,7 @@ namespace mu
             template <typename T>
             mu::core::error * parse_ast_or_refer (T op);
             template <typename T>
-            mu::core::error * parse_identifier (T identifier_op);
+            mu::core::error * parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::llvmc::partial_ast_result peek ();
             mu::llvmc::global globals;
             mu::llvmc::mapping * current_mapping;

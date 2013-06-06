@@ -2,7 +2,6 @@
 
 #include <mu/llvmc/analyzer.hpp>
 #include <mu/llvmc/generator.hpp>
-#include <mu/core/error.hpp>
 
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>

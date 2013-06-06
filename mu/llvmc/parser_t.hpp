@@ -1,3 +1,5 @@
+#pragma once
+
 #include <mu/llvmc/parser.hpp>
 
 #include <mu/io/tokens.hpp>
@@ -12,7 +14,6 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
     auto item (peek ());
     if (item.ast != nullptr)
     {
-        consume ();
         op (item.ast);
     }
     else if (item.token != nullptr)
@@ -22,7 +23,6 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
         {
             case mu::io::token_id::identifier:
             {
-                consume ();
                 current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, op);
                 break;
             }
@@ -41,7 +41,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer (T op)
 }
 
 template <typename T>
-mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op)
+mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
 {
     mu::core::error * result (nullptr);
     auto item (peek ());
@@ -51,16 +51,21 @@ mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op)
         switch (id)
         {
             case mu::io::token_id::identifier:
+                assert (dynamic_cast <mu::io::identifier *> (item.token) != nullptr);
                 identifier_op (static_cast <mu::io::identifier *> (item.token));
                 break;
             default:
-                result = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
+                result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
                 break;
         }
     }
+    else if (item.ast != nullptr)
+    {
+        result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.ast->region);
+    }
     else
     {
-        result = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
+        result = item.error;
     }
     return result;
 }
