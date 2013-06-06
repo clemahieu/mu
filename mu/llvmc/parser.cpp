@@ -605,7 +605,7 @@ bool mu::llvmc::global::reserve (mu::string const & name_a)
     return result;
 }
 
-bool mu::llvmc::global::get (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a)
+bool mu::llvmc::global::get (mu::string const & name_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing == mappings.end ());
@@ -616,7 +616,7 @@ bool mu::llvmc::global::get (mu::string const & name_a, std::function <void (mu:
     return result;
 }
 
-void mu::llvmc::global::refer (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a)
+void mu::llvmc::global::refer (mu::string const & name_a, action_type action_a)
 {
     auto error (get (name_a, action_a));
     if (error)
@@ -661,7 +661,7 @@ bool mu::llvmc::block::reserve (mu::string const & name_a)
     return result;
 }
 
-bool mu::llvmc::block::get (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a)
+bool mu::llvmc::block::get (mu::string const & name_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing != mappings.end ());
@@ -676,7 +676,7 @@ bool mu::llvmc::block::get (mu::string const & name_a, std::function <void (mu::
     return result;
 }
 
-void mu::llvmc::block::refer (mu::string const & name_a, std::function <void (mu::llvmc::ast::node *)> action_a)
+void mu::llvmc::block::refer (mu::string const & name_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
     auto result (existing == mappings.end ());
@@ -694,12 +694,12 @@ void mu::llvmc::block::refer (mu::string const & name_a, std::function <void (mu
     }
 }
 
-void mu::llvmc::block::accept (mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved_a)
+void mu::llvmc::block::accept (mu::multimap <mu::string, action_type> unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
 
-void mu::llvmc::global::accept (mu::multimap <mu::string, std::function <void (mu::llvmc::ast::node *)>> unresolved_a)
+void mu::llvmc::global::accept (mu::multimap <mu::string, action_type> unresolved_a)
 {
     unresolved.insert (unresolved_a.begin (), unresolved_a.end ());
 }
