@@ -1438,7 +1438,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
                 }
                 default:
                 {
-                    result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm text", mu::core::error_type::asm_hook_expecting_identifier);
+                    result.error = new (GC) mu::core::error_string (U"Expecting an identifier of asm text", mu::core::error_type::asm_hook_expecting_identifier, text_item.token->region);
                     break;
                 }
             }
