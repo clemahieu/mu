@@ -1444,7 +1444,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::string const & data_a, mu
     }
     else
     {
-        result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::asm_hook_expecting_type);
+        result.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::asm_hook_expecting_type, parser_a.stream [0]->region);
     }
     return result;
 }
