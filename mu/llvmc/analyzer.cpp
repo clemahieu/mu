@@ -227,6 +227,10 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 															{
 																already_generated [node_a] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
 															}
+                                                            else
+                                                            {
+                                                                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+                                                            }
 														}
 														else
 														{

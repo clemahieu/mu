@@ -1,12 +1,12 @@
 function exit
 [int32 code]
 [
-	[asm void {%%%}
+	let nothing [asm void {%%%}
 		mov %%1, $rax
 		mov %%0, $rdi
-		syscall %%%]
+		syscall %%% {}]
 ]
-[[]]
+[[;nothing]]
 
 function entry
 []
