@@ -1,7 +1,7 @@
 function exit
 [int32 code]
 [
-	[asm {%%%}
+	[asm void {%%%}
 		mov %%1, $rax
 		mov %%0, $rdi
 		syscall %%%]

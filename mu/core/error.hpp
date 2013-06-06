@@ -132,7 +132,8 @@ namespace mu
             switch_requires_integer,
             switch_requires_case_constant,
             switch_requires_matching_case_types,
-            switch_requires_unique_case
+            switch_requires_unique_case,
+            expecting_ast_or_reference
         };
         class error
         {

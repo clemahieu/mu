@@ -7,6 +7,7 @@
 #include <mu/llvmc/partial_ast.hpp>
 #include <mu/io/stream_token.hpp>
 #include <mu/llvmc/skeleton.hpp>
+#include <mu/llvmc/parser_t.hpp>
 
 #include <llvm/Type.h>
 
