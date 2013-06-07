@@ -2714,3 +2714,31 @@ TEST (llvmc_analyzer, asm1)
     ASSERT_EQ (U"text", asm3->text);
     ASSERT_EQ (U"constraint", asm3->constraint);
 }
+
+TEST (llvmc_analyzer, fail_asm_not_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+	function1.region = mu::core::region (1, 1, 1, 10, 10, 10);
+    mu::llvmc::ast::definite_expression expression1;
+	expression1.region = mu::core::region (2, 2, 2, 9, 9, 9);
+	mu::llvmc::ast::number number1 (U"0");
+	number1.region = mu::core::region (5, 5, 5, 6, 6, 6);
+    mu::llvmc::ast::constant_int constant1 (U"1", &number1);
+	constant1.region = mu::core::region (4, 4, 4, 7, 7, 7);
+    mu::llvmc::ast::asm_c asm1 (&constant1, U"text", U"constraint");
+	asm1.region = mu::core::region (3, 3, 3, 8, 8, 8);
+    expression1.arguments.push_back (&asm1);
+    expression1.set_predicate_position ();
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&expression1);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (result.error->type (), mu::core::error_type::expecting_a_type);
+	ASSERT_EQ (result.error->region (), constant1.region);
+}
