@@ -1101,6 +1101,7 @@ TEST (llvmc_parser, asm1)
     ASSERT_NE (nullptr, function1);
     ASSERT_EQ (1, function1->roots.size ());
     auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (function1->roots [0]));
+    ASSERT_EQ (mu::core::region (19, 1, 20, 43, 1, 44), asm_l->region);
     ASSERT_NE (nullptr, asm_l);
     ASSERT_EQ (mu::string (U"text"), asm_l->text);
     ASSERT_EQ (mu::string (U"constraints"), asm_l->constraints);

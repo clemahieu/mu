@@ -1271,6 +1271,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
     auto asm_l (new (GC) mu::llvmc::ast::asm_c);
+    asm_l->region.first = region_a.first;
     result.error = parser_a.parse_ast_or_refer (
        [&]
        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -1295,6 +1296,7 @@ mu::llvmc::node_result mu::llvmc::asm_hook::parse (mu::core::region const & regi
                 (mu::io::identifier * identifier_a)
                 {
                     asm_l->constraints = identifier_a->string;
+                    asm_l->region.last = identifier_a->region.last;
 					return nullptr;
                 },
         U"Expecting asm constraints", mu::core::error_type::asm_hook_expecting_constraints);
