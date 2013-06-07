@@ -472,8 +472,10 @@ TEST (llvmc_parser, number)
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (mu::core::region (18, 1, 19, 23, 1, 24), expression1->region);
     ASSERT_EQ (1, expression1->arguments.size ());
     auto argument1 (dynamic_cast <mu::llvmc::ast::number *> (expression1->arguments [0]));
+    ASSERT_EQ (mu::core::region (19, 1, 20, 22, 1, 23), argument1->region);
     ASSERT_NE (nullptr, argument1);
     ASSERT_EQ (U"100", argument1->number_m);
 }

@@ -1228,6 +1228,7 @@ mu::llvmc::node_result mu::llvmc::number::parse (mu::core::region const & region
 {
     mu::llvmc::node_result result ({nullptr, nullptr});
     result.node = new (GC) mu::llvmc::ast::number (data_a);
+    result.node->region = region_a;
     return result;
 }
 
