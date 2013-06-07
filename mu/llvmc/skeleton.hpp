@@ -364,10 +364,6 @@ namespace mu
                 size_t predicate_offset;
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
             };
-            class void_t : public mu::llvmc::skeleton::node
-            {
-            public:
-            };
             extern mu::llvmc::skeleton::integer_type integer_1_type;
             extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;

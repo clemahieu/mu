@@ -667,9 +667,9 @@ predicate_position (predicate_position_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::inline_asm::type ()
 {
-	assert (arguments.size () > 1);
-	assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]) != nullptr);
-	auto asm_l (static_cast <mu::llvmc::skeleton::asm_c *> (arguments [1]));
+	assert (arguments.size () > 0);
+	assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]) != nullptr);
+	auto asm_l (static_cast <mu::llvmc::skeleton::asm_c *> (arguments [0]));
 	return asm_l->type_m;
 }
 

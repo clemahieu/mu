@@ -2711,6 +2711,7 @@ TEST (llvmc_analyzer, asm1)
 	auto asm3 (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm2->arguments [0]));
 	ASSERT_NE (nullptr, asm3);
     ASSERT_EQ (&type1, asm3->type_m);
+	ASSERT_EQ (&type1, asm2->type ());
     ASSERT_EQ (U"text", asm3->text);
     ASSERT_EQ (U"constraint", asm3->constraint);
 }

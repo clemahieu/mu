@@ -150,7 +150,7 @@ stream (stream_a)
     assert (!error);
     error = globals.insert (U"urem", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::urem)));
     assert (!error);
-    error = globals.insert (U"void", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::void_t));
+    error = globals.insert (U"unit", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::unit_type));
     assert (!error);
     error = globals.insert (U"xor", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::xor_i)));
     assert (!error);
