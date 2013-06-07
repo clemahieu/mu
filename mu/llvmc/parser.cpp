@@ -305,6 +305,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
 		(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 		{
 			argument->type = node_a;
+            argument->region.first = region_a.first;
 		},
 		[&]
 		(mu::io::right_square * right_square_a)
@@ -321,6 +322,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
             {
 				mu::core::error * result (nullptr);
 				argument->name = identifier_a->string;
+                argument->region.last = identifier_a->region.last;
                 if (block.insert (identifier_a->string, argument))
                 {
                     result = new (GC) mu::core::error_string (U"Unable to use identifier", mu::core::error_type::unable_to_use_identifier, identifier_a->region);
@@ -1211,6 +1213,7 @@ mu::llvmc::node_result mu::llvmc::ptr_type::parse (mu::core::region const & regi
     if (item.ast != nullptr)
     {
         result.node = new (GC) mu::llvmc::ast::pointer_type (item.ast);
+        result.node->region = mu::core::region (region_a.first, item.ast->region.last);
     }
     else
     {

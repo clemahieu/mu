@@ -599,6 +599,7 @@ TEST (llvmc_parser, int_type42)
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
     ASSERT_NE (nullptr, parameter1);
+    ASSERT_EQ (mu::core::region (16, 1, 17, 24, 1, 25), parameter1->region);
     auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (parameter1->type));
     ASSERT_NE (nullptr, type1);
     EXPECT_EQ (U"42", type1->bits);
@@ -618,8 +619,10 @@ TEST (llvmc_parser, ptr_int_type42)
     ASSERT_EQ (1, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
+    ASSERT_EQ (mu::core::region (16, 1, 17, 28, 1, 29), parameter1->region);
     ASSERT_NE (nullptr, parameter1);
     auto type1 (dynamic_cast <mu::llvmc::ast::pointer_type *> (parameter1->type));
+    ASSERT_EQ (mu::core::region (16, 1, 17, 24, 1, 25), type1->region);
     ASSERT_NE (nullptr, type1);
     auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (type1->pointed_type));
     ASSERT_NE (nullptr, type2);
