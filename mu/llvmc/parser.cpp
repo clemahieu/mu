@@ -169,7 +169,6 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
         if (item.ast != nullptr)
         {
             module->functions.push_back (item.ast);
-            parser_a.consume ();
         }
         else if (item.token != nullptr)
         {
@@ -333,44 +332,37 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
 
 void mu::llvmc::function::parse_body ()
 {
-    switch (parser.stream [0]->id ())
+    result.error = parser.parse_left_square_required (U"Expecting left square", mu::core::error_type::expecting_left_square);
+    if (result.error == nullptr)
     {
-        case mu::io::token_id::left_square:
+        auto done (false);
+        while (!done && result.error == nullptr)
         {
-            parser.stream.consume (1);
-            auto done (false);
-            while (!done && result.error == nullptr)
+            switch (parser.stream [0]->id ())
             {
-                switch (parser.stream [0]->id ())
+                case mu::io::token_id::right_square:
+                    parser.stream.consume (1);
+                    done = true;
+                    break;
+                default:
                 {
-                    case mu::io::token_id::right_square:
-                        parser.stream.consume (1);
-                        done = true;
-                        break;
-                    default:
+                    auto next (parser.peek ());
+                    if (next.ast != nullptr)
                     {
-                        auto next (parser.peek ());
-                        if (next.ast != nullptr)
-                        {
-                            function_m->roots.push_back (next.ast);
-                        }
-                        else if (next.token != nullptr)
-                        {
-                            result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
-                        }
-                        else
-                        {
-                            result.error = next.error;
-                        }
-                        break;
+                        function_m->roots.push_back (next.ast);
                     }
+                    else if (next.token != nullptr)
+                    {
+                        result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
+                    }
+                    else
+                    {
+                        result.error = next.error;
+                    }
+                    break;
                 }
             }
-            break;
         }
-        default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
-            break;
     }
 }
 
@@ -392,6 +384,7 @@ void mu::llvmc::function::parse_results ()
                     next = parser.stream [0];
                     break;
                 case mu::io::token_id::right_square:
+                    parser.stream.consume (1);
                     function_m->region = mu::core::region (first.first, next->region.last);
                     done = true;
                     break;
@@ -1415,4 +1408,5 @@ mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const 
             result = new (GC) mu::core::error_string (error_message_a, error_type_a);
             break;
     }
+    return result;
 }
