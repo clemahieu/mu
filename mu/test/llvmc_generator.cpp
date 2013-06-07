@@ -1920,3 +1920,38 @@ TEST (llvmc_generator, z000_generate_identity)
     auto result2 (function3 (42));
     ASSERT_EQ (42, result2);
 }
+
+extern char const * const generate_asm2_expected;
+
+TEST (llvmc_generator, generate_asm2)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+	mu::llvmc::skeleton::integer_type type1 (32);
+	mu::llvmc::skeleton::asm_c asm1 (&type1, U"bswap $0", U"=r,r");
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 0xffeeddcc);
+	arguments.push_back (&asm1);
+	arguments.push_back (&constant1);
+	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 0);
+	mu::vector <mu::llvmc::skeleton::node *> arguments1;
+	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::add);
+	arguments1.push_back (&marker1);
+	arguments1.push_back (&asm2);
+	arguments1.push_back (&asm2);
+	mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, 3);	
+	function1.predicate_offsets.push_back (function1.results.size ());
+	function1.results.push_back (&instruction1);
+	function1.branch_ends.push_back (function1.results.size ());
+	module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module, U"generate_asm2", U"", 0));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+	std::cout << info;
+    ASSERT_EQ (std::string (generate_asm2_expected), info);
+}

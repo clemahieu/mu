@@ -1245,6 +1245,14 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 								call_block->getInstList ().push_back (call);
 								auto rejoin (llvm::BranchInst::Create (successor));
 								call_block->getInstList ().push_back (rejoin);
+								if (!info->type_m->is_unit_type ())
+								{
+									value = generate_rejoin (last, call_block, successor, call);
+								}
+								else
+								{
+									value = nullptr;
+								}
 								last = successor;
 							}
 							else

@@ -1534,3 +1534,34 @@ define void @"0000000000000000-0000000000000000-0"() {
 !8 = metadata !{null}
 !9 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
+
+extern char const * const generate_asm2_expected = R"%%%(; ModuleID = '0000000000000000'
+
+define void @"0000000000000000-0000000000000000-0"() {
+  %1 = and i1 true, true
+  br i1 %1, label %2, label %4
+
+; <label>:2                                       ; preds = %0
+  %3 = call i32 asm sideeffect "bswap $0", "=r,r"()
+  br label %4
+
+; <label>:4                                       ; preds = %2, %0
+  %5 = phi i32 [ %3, %2 ], [ undef, %0 ]
+  %6 = and i1 %1, %1
+  %7 = add i32 %5, %5, !dbg !9
+  ret void, !dbg !9
+}
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_asm2", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_asm2] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_asm2", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{null}
+!9 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
