@@ -1117,93 +1117,86 @@ void mu::llvmc::loop::parse_body ()
 
 void mu::llvmc::loop::parse_results ()
 {
-    switch (parser.stream [0]->id ())
+    result.error = parser.parse_left_square_required (U"Expecting loop results", mu::core::error_type::expecting_loop_results);
+    if (result.error == nullptr)
     {
-        case mu::io::token_id::left_square:
+        auto done (false);
+        while (!done && result.error == nullptr)
         {
-            parser.stream.consume (1);
-            auto done (false);
-            while (!done && result.error == nullptr)
+            switch (parser.stream [0]->id ())
             {
-                switch (parser.stream [0]->id ())
+                case mu::io::token_id::left_square:
                 {
-                    case mu::io::token_id::left_square:
+                    parser.stream.consume (1);
+                    auto set_done (false);
+                    auto predicates (false);
+                    while (!set_done && result.error == nullptr)
                     {
-                        parser.stream.consume (1);
-                        auto set_done (false);
-                        auto predicates (false);
-                        while (!set_done && result.error == nullptr)
+                        auto next (parser.peek ());
+                        if (next.ast != nullptr)
                         {
-                            auto next (parser.peek ());
-                            if (next.ast != nullptr)
+                            result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier, next.ast->region);
+                        }
+                        else if (next.token != nullptr)
+                        {
+                            switch (next.token->id ())
                             {
-                                result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier, next.ast->region);
-                            }
-                            else if (next.token != nullptr)
-                            {
-                                switch (next.token->id ())
+                                case mu::io::token_id::identifier:
                                 {
-                                    case mu::io::token_id::identifier:
-                                    {
-                                        auto position (loop_m->results.size ());
-                                        loop_m->results.push_back (nullptr);
-                                        parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
-                                                                      [&]
-                                                                       (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                                                                      {
-                                                                          loop_m->results [position] = node_a;
-                                                                      });
-                                        break;
-                                    }
-                                    case mu::io::token_id::terminator:
-                                    {
-                                        if (!predicates)
-                                        {
-                                            predicates = true;
-                                            loop_m->add_predicate_offset ();
-                                        }
-                                        else
-                                        {
-                                            result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-                                        }
-                                        break;
-                                    }
-                                    case mu::io::token_id::right_square:
-                                    {
-                                        if (!predicates)
-                                        {
-                                            loop_m->add_predicate_offset ();
-                                        }
-                                        loop_m->add_branch_end ();
-                                        set_done = true;
-                                        break;
-                                    }
-                                    default:
-                                        result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
-                                        break;
+                                    auto position (loop_m->results.size ());
+                                    loop_m->results.push_back (nullptr);
+                                    parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
+                                                                  [&]
+                                                                   (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                                                                  {
+                                                                      loop_m->results [position] = node_a;
+                                                                  });
+                                    break;
                                 }
-                            }
-                            else
-                            {
-                                result.error = next.error;
+                                case mu::io::token_id::terminator:
+                                {
+                                    if (!predicates)
+                                    {
+                                        predicates = true;
+                                        loop_m->add_predicate_offset ();
+                                    }
+                                    else
+                                    {
+                                        result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+                                    }
+                                    break;
+                                }
+                                case mu::io::token_id::right_square:
+                                {
+                                    if (!predicates)
+                                    {
+                                        loop_m->add_predicate_offset ();
+                                    }
+                                    loop_m->add_branch_end ();
+                                    set_done = true;
+                                    break;
+                                }
+                                default:
+                                    result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
+                                    break;
                             }
                         }
-                        break;
+                        else
+                        {
+                            result.error = next.error;
+                        }
                     }
-                    case mu::io::token_id::right_square:
-                        parser.consume ();
-                        done = true;
-                        break;
-                    default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting result set or right square", mu::core::error_type::expecting_result_set_or_right_square);
-                        break;
+                    break;
                 }
+                case mu::io::token_id::right_square:
+                    parser.consume ();
+                    done = true;
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"Expecting result set or right square", mu::core::error_type::expecting_result_set_or_right_square);
+                    break;
             }
-            break;
         }
-        default:
-            result.error = new (GC) mu::core::error_string (U"Expecting loop results", mu::core::error_type::expecting_loop_results);
-            break;
     }
 }
 
@@ -1414,4 +1407,20 @@ mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
             break;
     }
     return result;
+}
+
+mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const * error_message_a, mu::core::error_type error_type_a)
+{
+    mu::core::error * result (nullptr);
+    auto next (stream [0]);
+    auto id (next->id ());
+    switch (id)
+    {
+        case mu::io::token_id::left_square:
+            consume ();
+            break;
+        default:
+            result = new (GC) mu::core::error_string (error_message_a, error_type_a);
+            break;
+    }
 }
