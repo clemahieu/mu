@@ -253,7 +253,6 @@ void mu::llvmc::function::parse ()
                 parse_results ();
                 if (result.error == nullptr)
                 {
-					function_m->region.last = parser.stream [0]->region.last;
                     result.node = function_m;
                 }
             }
@@ -377,37 +376,30 @@ void mu::llvmc::function::parse_body ()
 
 void mu::llvmc::function::parse_results ()
 {
-    auto next (parser.stream [0]);
-    switch (next->id ())
+    result.error = parser.parse_left_square_required (U"Expecting left square", mu::core::error_type::expecting_left_square);
+    if (result.error == nullptr)
     {
-        case mu::io::token_id::left_square:
+        auto next (parser.stream [0]);
+        auto done (false);
+        while (result.error == nullptr && !done)
         {
-            parser.stream.consume (1);
-            auto next (parser.stream [0]);
-            auto done (false);
-            while (result.error == nullptr && !done)
+            switch (next->id ())
             {
-                switch (next->id ())
-                {
-                    case mu::io::token_id::left_square:
-                        parser.stream.consume (1);
-                        parse_result_set ();
-                        function_m->branch_ends.push_back (function_m->results.size ());
-                        next = parser.stream [0];
-                        break;
-                    case mu::io::token_id::right_square:
-                        done = true;
-                        break;
-                    default:
-                        result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square);
-                        break;
-                }
+                case mu::io::token_id::left_square:
+                    parser.stream.consume (1);
+                    parse_result_set ();
+                    function_m->branch_ends.push_back (function_m->results.size ());
+                    next = parser.stream [0];
+                    break;
+                case mu::io::token_id::right_square:
+                    function_m->region = mu::core::region (first.first, next->region.last);
+                    done = true;
+                    break;
+                default:
+                    result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square);
+                    break;
             }
-            break;
         }
-        default:
-            result.error = new (GC) mu::core::error_string (U"Expecting left square", mu::core::error_type::expecting_left_square);
-            break;
     }
 }
 
