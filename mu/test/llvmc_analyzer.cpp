@@ -2692,8 +2692,11 @@ TEST (llvmc_analyzer, asm1)
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::unit_type type1;
     mu::llvmc::ast::value value1 (&type1);
-    mu::llvmc::ast::asm_c asm1 (&value1, U"text", U"constraint");
+    mu::llvmc::ast::asm_c asm1 (&value1, U"bswap $0", U"=r,r");
     expression1.arguments.push_back (&asm1);
+	mu::llvmc::ast::number number1 (U"0");
+	mu::llvmc::ast::constant_int constant1 (U"32", &number1);
+	expression1.arguments.push_back (&constant1);
     expression1.set_predicate_position ();
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&expression1);
@@ -2707,13 +2710,15 @@ TEST (llvmc_analyzer, asm1)
     ASSERT_EQ (1, function2->results.size ());
     auto asm2 (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (function2->results [0]));
     ASSERT_NE (nullptr, asm2);
-	ASSERT_EQ (1, asm2->arguments.size ());
+	ASSERT_EQ (2, asm2->arguments.size ());
 	auto asm3 (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm2->arguments [0]));
 	ASSERT_NE (nullptr, asm3);
     ASSERT_EQ (&type1, asm3->type_m);
 	ASSERT_EQ (&type1, asm2->type ());
-    ASSERT_EQ (U"text", asm3->text);
-    ASSERT_EQ (U"constraint", asm3->constraint);
+    ASSERT_EQ (U"bswap $0", asm3->text);
+    ASSERT_EQ (U"=r,r", asm3->constraint);
+	auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (asm2->arguments [1]));
+	ASSERT_NE (nullptr, constant2);
 }
 
 TEST (llvmc_analyzer, fail_asm_not_type)
