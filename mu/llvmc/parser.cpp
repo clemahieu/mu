@@ -1249,6 +1249,7 @@ mu::llvmc::node_result mu::llvmc::constant_int::parse (mu::core::region const & 
     if (item.ast != nullptr)
     {
         result.node = new (GC) mu::llvmc::ast::constant_int (data_a, item.ast);
+        result.node->region = mu::core::region (region_a.first, item.ast->region.last);
     }
     else
     {

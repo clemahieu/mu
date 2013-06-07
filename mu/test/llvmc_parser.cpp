@@ -520,6 +520,7 @@ TEST (llvmc_parser, constant_int)
     ASSERT_NE (nullptr, expression1);
     ASSERT_EQ (1, expression1->arguments.size ());
     auto argument1 (dynamic_cast <mu::llvmc::ast::constant_int *> (expression1->arguments [0]));
+    ASSERT_EQ (mu::core::region (19, 1, 20, 28, 1, 29), argument1->region);
     ASSERT_NE (nullptr, argument1);
     ASSERT_EQ (U"32", argument1->bits);
     auto argument2 (dynamic_cast <mu::llvmc::ast::number *> (argument1->number));
