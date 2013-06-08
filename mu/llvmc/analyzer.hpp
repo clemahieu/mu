@@ -94,7 +94,7 @@ namespace mu
 		{
 		public:
 			branch_analyzer (mu::llvmc::skeleton::branch * global_a, mu::core::error * & result_a);
-			void add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a);
+            mu::llvmc::skeleton::branch * add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a);
 			void new_set ();
 			mu::llvmc::skeleton::branch * global;
 			mu::llvmc::skeleton::branch * most_specific;

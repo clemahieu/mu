@@ -21,7 +21,7 @@ result (result_a)
 {
 }
 
-void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a)
+mu::llvmc::skeleton::branch * mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a)
 {
 	auto most_specific_l (most_specific->most_specific (branch_a));
 	if (most_specific_l != nullptr)
@@ -32,6 +32,7 @@ void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branc
 	{
 		result = new (GC) mu::core::error_string (U"Branches are disjoint", mu::core::error_type::branch_analyzer_disjoint, region_a);
 	}
+    return most_specific_l;
 }
 
 void mu::llvmc::branch_analyzer::new_set ()

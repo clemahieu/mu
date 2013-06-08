@@ -23,10 +23,9 @@ function exit
 [int32 code]
 [
 	let osx linux_l [if [linux]]
-	let result [join [exit_linux code; linux_l]
-	let exit_o [exit_osx code; osx]
+	let result [join [exit_linux code; linux_l] [exit_osx code; osx]]
 ]
-[[; [join exit_l exit_o]]]
+[[; result]]
 
 function entry
 []
