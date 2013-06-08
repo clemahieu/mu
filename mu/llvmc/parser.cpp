@@ -408,14 +408,15 @@ void mu::llvmc::function::parse_result_set ()
         if (node.ast != nullptr)
         {
             auto type (node.ast);
+            auto result_l (new (GC) mu::llvmc::ast::result (type));
+            result_l->region.first = type->region.first;
+            function_m->results.push_back (result_l);
             result.error = parser.parse_ast_or_refer (
-                [&]
+                [&, result_l]
                 (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                 {
-                    auto result (new (GC) mu::llvmc::ast::result (type));
-                    result->region = mu::core::region (type->region.first, region_a.last);
-                    function_m->results.push_back (result);
-                    result->value = node_a;
+                    result_l->region.last = region_a.last;
+                    result_l->value = node_a;
                 });
         }
         else if (node.token != nullptr)
@@ -431,7 +432,7 @@ void mu::llvmc::function::parse_result_set ()
                     function_m->predicate_offsets.push_back (function_m->results.size ());
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square);
+                    result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square, node.token->region);
                     break;
             }
         }

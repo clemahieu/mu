@@ -634,8 +634,8 @@ TEST (llvmc_parser, fail_no_type)
     test_parser parser ("function test [int1 i] [] [[i]]");
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
-    EXPECT_EQ (mu::core::error_type::expecting_result_reference, module1.error->type ());
-    ASSERT_EQ (mu::core::region (30, 1, 31, 30, 1, 31), module1.error->region ());
+    EXPECT_EQ (mu::core::error_type::expecting_right_square, module1.error->type ());
+    ASSERT_EQ (mu::core::region (28, 1, 29, 28, 1, 29), module1.error->region ());
     EXPECT_EQ (nullptr, module1.node);
 }
 
@@ -837,6 +837,31 @@ TEST (llvmc_parser, results2_predicates)
     ASSERT_NE (nullptr, value2);
     ASSERT_EQ (value2->value, function1->results [3]);
     EXPECT_EQ (parameter1, value2->value);
+}
+
+TEST (llvmc_parser, results_resolved_predicates)
+{
+    test_parser parser ("function test1 [] [] [[int1 test2]] function test2 [] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (2, module2->functions.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (0, function1->parameters.size ());
+    ASSERT_EQ (1, function1->results.size ());
+    ASSERT_EQ (1, function1->branch_ends.size ());
+    ASSERT_EQ (1, function1->predicate_offsets.size ());
+    ASSERT_EQ (1, function1->branch_ends [0]);
+    ASSERT_EQ (1, function1->predicate_offsets [0]);
+    auto result1 (function1->results [0]);
+    auto value1 (dynamic_cast <mu::llvmc::ast::result *> (result1));
+    ASSERT_NE (nullptr, value1);
+    auto function2 (dynamic_cast <mu::llvmc::ast::function *> (module2->functions [1]));
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (function2, value1->value);
 }
 
 TEST (llvmc_parser, body1)
