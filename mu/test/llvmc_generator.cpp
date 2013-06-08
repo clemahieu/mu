@@ -1827,7 +1827,7 @@ TEST (llvmc_generator, generate_asm)
 	mu::llvmc::skeleton::asm_c asm1 (&type1, U"text", U"");
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	arguments.push_back (&asm1);
-	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 0);
+	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 1);
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.results.push_back (&asm2);
 	function1.branch_ends.push_back (function1.results.size ());
@@ -1933,7 +1933,7 @@ TEST (llvmc_generator, generate_asm2)
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 0xffeeddcc);
 	arguments.push_back (&asm1);
 	arguments.push_back (&constant1);
-	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 0);
+	mu::llvmc::skeleton::inline_asm asm2 (mu::empty_region, function1.entry, arguments, 2);
 	mu::vector <mu::llvmc::skeleton::node *> arguments1;
 	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::add);
 	arguments1.push_back (&marker1);

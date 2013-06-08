@@ -1542,7 +1542,7 @@ define void @"0000000000000000-0000000000000000-0"() {
   br i1 %1, label %2, label %4
 
 ; <label>:2                                       ; preds = %0
-  %3 = call i32 asm sideeffect "bswap $0", "=r,r"()
+  %3 = call i32 asm sideeffect "bswap $0", "=r,r"(i32 -1122868)
   br label %4
 
 ; <label>:4                                       ; preds = %2, %0
