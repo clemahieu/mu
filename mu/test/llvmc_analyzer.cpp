@@ -2748,3 +2748,29 @@ TEST (llvmc_analyzer, fail_asm_not_type)
 	ASSERT_EQ (result.error->type (), mu::core::error_type::expecting_a_type);
 	ASSERT_EQ (result.error->region (), constant1.region);
 }
+
+TEST (llvmc_analyzer, element_not_enough_fail)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+	function1.region = mu::core::region (1, 1, 1, 2, 2, 2);
+    mu::llvmc::ast::number number1 (U"1");
+    number1.region = mu::core::region (3, 3, 3, 4, 4, 4);
+    mu::llvmc::ast::constant_int constant1 (U"1", &number1);
+    constant1.region = mu::core::region (5, 5, 5, 6, 6, 6);
+    mu::llvmc::ast::element element1 (&constant1, 0, 2, U"element1", mu::core::region (11, 11, 11, 12, 12, 12));
+    element1.region = mu::core::region (7, 7, 7, 8, 8, 8);
+    mu::llvmc::ast::element element2 (&constant1, 1, 2, U"element2", mu::core::region (13, 13, 13, 14, 14, 14));
+    element2.region = mu::core::region (9, 9, 9, 10, 10, 10);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&element1);
+    function1.results.push_back (&element2);
+    function1.branch_ends.push_back (function1.results.size ());
+    module1.functions.push_back (&function1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+    ASSERT_EQ (element2.region, result.error->region ());
+}

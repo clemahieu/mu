@@ -586,7 +586,7 @@ void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * el
 			}
 			else
 			{
-				result_m.error = new (GC) mu::core::error_string (U"Value has only one element", mu::core::error_type::value_has_only_one_element);
+				result_m.error = new (GC) mu::core::error_string (U"Value has only one element", mu::core::error_type::value_has_only_one_element, element_a->region);
 			}
 		}
 	}
