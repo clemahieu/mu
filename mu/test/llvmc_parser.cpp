@@ -639,6 +639,16 @@ TEST (llvmc_parser, fail_no_type)
     EXPECT_EQ (nullptr, module1.node);
 }
 
+TEST (llvmc_parser, fail_no_close)
+{
+    test_parser parser ("function test [int1 i] [] [[int1 i]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    EXPECT_EQ (mu::core::error_type::expecting_identifier_or_right_square, module1.error->type ());
+    ASSERT_EQ (mu::core::region (35, 1, 36, 35, 1, 36), module1.error->region ());
+    EXPECT_EQ (nullptr, module1.node);
+}
+
 TEST (llvmc_parser, block)
 {
     mu::llvmc::keywords keywords;

@@ -1952,6 +1952,5 @@ TEST (llvmc_generator, generate_asm2)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
-	std::cout << info;
     ASSERT_EQ (std::string (generate_asm2_expected), info);
 }

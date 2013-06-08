@@ -391,7 +391,7 @@ void mu::llvmc::function::parse_results ()
                     done = true;
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square);
+                    result.error = new (GC) mu::core::error_string (U"Expecting identifier or right square", mu::core::error_type::expecting_identifier_or_right_square, next->region);
                     break;
             }
         }
