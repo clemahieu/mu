@@ -21,7 +21,7 @@ result (result_a)
 {
 }
 
-void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branch_a)
+void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branch_a, mu::core::region const & region_a)
 {
 	auto most_specific_l (most_specific->most_specific (branch_a));
 	if (most_specific_l != nullptr)
@@ -30,7 +30,7 @@ void mu::llvmc::branch_analyzer::add_branch (mu::llvmc::skeleton::branch * branc
 	}
 	else
 	{
-		result = new (GC) mu::core::error_string (U"Branches are disjoint", mu::core::error_type::branch_analyzer_disjoint);
+		result = new (GC) mu::core::error_string (U"Branches are disjoint", mu::core::error_type::branch_analyzer_disjoint, region_a);
 	}
 }
 
@@ -331,7 +331,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                                 auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
                                 if (value != nullptr)
                                 {
-									branches.add_branch (value->branch);
+									branches.add_branch (value->branch, expression_a->region);
                                     loop_s->results.push_back (value);
                                 }
                                 else
@@ -346,7 +346,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
                             if (value != nullptr)
                             {
-								branches.add_branch (value->branch);
+								branches.add_branch (value->branch, expression_a->region);
                                 loop_s->results.push_back (value);
                             }
                             else
@@ -373,7 +373,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                                 auto value (dynamic_cast<mu::llvmc::skeleton::value *> (i));
                                 if (value != nullptr)
                                 {
-									branches.add_branch (value->branch);
+									branches.add_branch (value->branch, expression_a->region);
                                     loop_s->results.push_back (value);
                                 }
                                 else
@@ -388,7 +388,7 @@ bool mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             auto value (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [expression_a]));
                             if (value != nullptr)
                             {
-								branches.add_branch (value->branch);
+								branches.add_branch (value->branch, expression_a->region);
                                 loop_s->results.push_back (value);
                             }
                             else
@@ -678,7 +678,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
                         if (*type == *value->type ())
                         {
                             function_s->results.push_back (new (GC) mu::llvmc::skeleton::result (type, value));
-                            branches.add_branch (value->branch);
+                            branches.add_branch (value->branch, result_a->region);
                         }
                         else
                         {
@@ -710,7 +710,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 						{
 							assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
 							function_s->results.push_back (i);
-							branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch);
+							branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch, result_a->region);
 						}
 					}
 					else
@@ -718,7 +718,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 						assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
 						auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
 						function_s->results.push_back (value);
-						branches.add_branch (value->branch);
+						branches.add_branch (value->branch, result_a->region);
 					}
 				}
 			}
