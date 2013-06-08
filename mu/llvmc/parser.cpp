@@ -402,28 +402,21 @@ void mu::llvmc::function::parse_result_set ()
 {
     auto done (false);
     auto predicates (false);
-    while (result.error == nullptr && !done)
+    while (result.error == nullptr && !done && !predicates)
     {
         auto node (parser.peek ());
         if (node.ast != nullptr)
         {
-            if (!predicates)
-            {
-                auto type (node.ast);
-                result.error = parser.parse_ast_or_refer (
-                    [&]
-                    (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                    {
-                        auto result (new (GC) mu::llvmc::ast::result (type));
-                        result->region = mu::core::region (type->region.first, region_a.last);
-                        function_m->results.push_back (result);
-                        result->value = node_a;
-                    });
-            }
-            else
-            {
-                function_m->results.push_back (node.ast);
-            }
+            auto type (node.ast);
+            result.error = parser.parse_ast_or_refer (
+                [&]
+                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                {
+                    auto result (new (GC) mu::llvmc::ast::result (type));
+                    result->region = mu::core::region (type->region.first, region_a.last);
+                    function_m->results.push_back (result);
+                    result->value = node_a;
+                });
         }
         else if (node.token != nullptr)
         {
@@ -432,44 +425,11 @@ void mu::llvmc::function::parse_result_set ()
             {
                 case mu::io::token_id::right_square:
                     done = true;
-                    if (!predicates)
-                    {
-                        function_m->predicate_offsets.push_back (function_m->results.size ());
-                    }
                     break;
                 case mu::io::token_id::terminator:
-                {
-                    if (predicates == false)
-                    {
-                        predicates = true;
-                        function_m->predicate_offsets.push_back (function_m->results.size ());
-                    }
-                    else
-                    {
-                        result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-                    }
+                    predicates = true;
+                    function_m->predicate_offsets.push_back (function_m->results.size ());
                     break;
-                }
-                case mu::io::token_id::identifier:
-                {
-                    if (predicates)
-                    {
-                        auto index (function_m->results.size ());
-                        function_m->results.push_back (nullptr);
-                        auto function_l (function_m);
-                        block.refer (static_cast <mu::io::identifier *> (node.token)->string, mu::core::region (),
-                                     [function_l, index]
-                                     (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                                     {
-                                         function_l->results [index] = node_a;
-                                     });
-                    }
-                    else
-                    {
-                        result.error = new (GC) mu::core::error_string (U"Expecting result reference", mu::core::error_type::expecting_result_reference);
-                    }
-                    break;
-                }
                 default:
                     result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square);
                     break;
@@ -479,6 +439,27 @@ void mu::llvmc::function::parse_result_set ()
         {
             result.error = node.error;
         }
+    }
+    while (result.error == nullptr && !done)
+    {
+        auto position (function_m->results.size ());
+        function_m->results.push_back (nullptr);
+        parser.parse_ast_or_refer_or_right_square (
+            [&, position]
+            (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+            {
+               function_m->results [position] = node_a;
+            },
+            [&]
+            (mu::io::right_square *)
+            {
+              function_m->results.pop_back ();
+              done = true;
+            } , U"Parsing predicates, expecting ast or reference", mu::core::error_type::expecting_ast_or_reference);
+    }
+    if (!predicates)
+    {
+        function_m->predicate_offsets.push_back (function_m->results.size ());
     }
 }
 

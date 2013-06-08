@@ -635,6 +635,7 @@ TEST (llvmc_parser, fail_no_type)
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     EXPECT_EQ (mu::core::error_type::expecting_result_reference, module1.error->type ());
+    ASSERT_EQ (mu::core::region (30, 1, 31, 30, 1, 31), module1.error->region ());
     EXPECT_EQ (nullptr, module1.node);
 }
 

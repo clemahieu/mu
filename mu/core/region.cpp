@@ -39,7 +39,7 @@ void mu::core::position::line ()
 mu::string mu::core::position::string ()
 {
     char buffer [32 * 3];
-    sprintf (buffer, "%" PRIx64 " %" PRIx64 " %" PRIx64, row, column, offset);
+    sprintf (buffer, "%" PRId64 " %" PRId64 " %" PRId64, row, column, offset);
     std::string result_string (buffer);
     mu::string result (result_string.begin (), result_string.end ());
     return result;
