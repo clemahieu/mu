@@ -1143,23 +1143,9 @@ bool mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 	return false;
 }
 
-void mu::llvmc::analyzer_function::calculate_most_specific (mu::llvmc::skeleton::branch * & first, mu::llvmc::skeleton::branch * test)
-{
-	assert (first != nullptr);
-	assert (test != nullptr);
-	auto first_l (first->most_specific (test));
-	if (first_l == nullptr)
-	{
-		result_m.error = new (GC) mu::core::error_string (U"Arguments are disjoint", mu::core::error_type::arguments_are_disjoint);
-	}
-	else
-	{
-		first = first_l;
-	}
-}
-
 void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
+    mu::llvmc::branch_analyzer branches (most_specific_branch, result_m.error);
 	size_t predicate_position_l (~0);
 	mu::llvmc::ast::for_each_argument (
 		arguments,
@@ -1179,7 +1165,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 						if (value != nullptr)
 						{
-							calculate_most_specific (most_specific_branch, value->branch);
+							most_specific_branch = branches.add_branch (value->branch, node_a->region);
 						}
 						arguments_a.push_back (node);
 					}
@@ -1190,7 +1176,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 					if (value != nullptr)
 					{
-						calculate_most_specific (most_specific_branch, value->branch);
+                        most_specific_branch = branches.add_branch (value->branch, node_a->region);
 					}
 					arguments_a.push_back (node);
 				}
@@ -1211,7 +1197,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 						auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 						if (value != nullptr)
 						{
-							calculate_most_specific (most_specific_branch, value->branch);
+							most_specific_branch = branches.add_branch (value->branch, node_a->region);
 						}
 						arguments_a.push_back (node);
 					}
@@ -1222,7 +1208,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
 					if (value != nullptr)
 					{
-						calculate_most_specific (most_specific_branch, value->branch);
+                        most_specific_branch = branches.add_branch (value->branch, node_a->region);
 					}
 					arguments_a.push_back (node);
 				}
