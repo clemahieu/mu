@@ -355,7 +355,7 @@ void mu::llvmc::function::parse_body ()
                     }
                     else if (next.token != nullptr)
                     {
-                        result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression);
+                        result.error = new (GC) mu::core::error_string (U"Expecting expression", mu::core::error_type::expecting_expression, next.token->region);
                     }
                     else
                     {

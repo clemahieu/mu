@@ -170,7 +170,7 @@ TEST (llvmc_parser, empty)
     EXPECT_EQ (0, module2->functions.size ());
 }
 
-TEST (llvmc_parser, fail_no_expression_end)
+TEST (llvmc_parser, expression_no_end_error)
 {
     test_parser parser ("[");
     auto module1 (parser.parser.parse ());
@@ -630,7 +630,7 @@ TEST (llvmc_parser, ptr_int_type42)
     EXPECT_EQ (U"42", type2->bits);
 }
 
-TEST (llvmc_parser, fail_no_type)
+TEST (llvmc_parser, result_no_type_error)
 {
     test_parser parser ("function test [int1 i] [] [[i]]");
     auto module1 (parser.parser.parse ());
@@ -640,7 +640,7 @@ TEST (llvmc_parser, fail_no_type)
     EXPECT_EQ (nullptr, module1.node);
 }
 
-TEST (llvmc_parser, fail_no_close)
+TEST (llvmc_parser, result_no_close_error)
 {
     test_parser parser ("function test [int1 i] [] [[int1 i]");
     auto module1 (parser.parser.parse ());
@@ -967,7 +967,16 @@ TEST (llvmc_parser, body4)
     EXPECT_EQ (parameter1, argument1);
 }
 
-TEST (llvmc_parser, fail_body5)
+TEST (llvmc_parser, body_not_expression_fail)
+{
+    test_parser parser ("function test1 [int1 val] [");
+    auto module1 (parser.parser.parse ());
+    EXPECT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::region (27, 1, 28, 27, 1, 28), module1.error->region ());
+}
+
+TEST (llvmc_parser, expression_already_parsing_predicates_error)
 {
     test_parser parser ("function test1 [int1 val] [[val;;val]] []");
     auto module1 (parser.parser.parse ());
@@ -1144,7 +1153,7 @@ TEST (llvmc_parser, asm1)
     ASSERT_EQ (mu::string (U"constraints"), asm_l->constraints);
 }
 
-TEST (llvmc_parser, fail_asm_type)
+TEST (llvmc_parser, asm_type_error)
 {
     test_parser parser ("function test1 [] [asm] []");
     auto module1 (parser.parser.parse ());
@@ -1154,7 +1163,7 @@ TEST (llvmc_parser, fail_asm_type)
     ASSERT_EQ (mu::core::region (22, 1, 23, 22, 1, 23), module1.error->region ());
 }
 
-TEST (llvmc_parser, fail_asm_text)
+TEST (llvmc_parser, asm_text_error)
 {
     test_parser parser ("function test1 [] [asm int1] []");
     auto module1 (parser.parser.parse ());
@@ -1164,7 +1173,7 @@ TEST (llvmc_parser, fail_asm_text)
     ASSERT_EQ (mu::core::region (27, 1, 28, 27, 1, 28), module1.error->region ());
 }
 
-TEST (llvmc_parser, fail_asm_constraint)
+TEST (llvmc_parser, asm_constraint_error)
 {
     test_parser parser ("function test1 [] [asm int1 text] []");
     auto module1 (parser.parser.parse ());
