@@ -176,6 +176,7 @@ TEST (llvmc_parser, fail_no_expression_end)
     auto module1 (parser.parser.parse ());
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::region (1, 1, 2, 1, 1, 2), module1.error->region ());
 }
 
 TEST (llvmc_parser, simple)

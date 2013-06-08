@@ -722,7 +722,7 @@ void mu::llvmc::expression::parse ()
                     done = true;
                     break;
                 default:
-                    result.error = new (GC) mu::core::error_string (U"Expecting argument or right_square", mu::core::error_type::expecting_argument_or_right_square);
+                    result.error = new (GC) mu::core::error_string (U"Expecting argument or right_square", mu::core::error_type::expecting_argument_or_right_square, next.token->region);
                     break;
             }
         }
