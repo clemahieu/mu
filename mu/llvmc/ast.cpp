@@ -111,3 +111,8 @@ text (text_a),
 constraints (constraints_a)
 {
 }
+
+mu::llvmc::ast::function_declaration::function_declaration (mu::llvmc::ast::node * node_a) :
+function (node_a)
+{
+}

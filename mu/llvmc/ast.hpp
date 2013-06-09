@@ -128,6 +128,12 @@ namespace mu
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate);
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
+            class function_declaration : public mu::llvmc::ast::node
+            {
+            public:
+                function_declaration (mu::llvmc::ast::node * node_a);
+                mu::llvmc::ast::node * function;
+            };
             class type : public mu::llvmc::ast::node
             {
             };
