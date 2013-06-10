@@ -1009,7 +1009,9 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 							[&]
 							(mu::llvmc::skeleton::node * node_a, size_t index_a)
 							{
-								returned_results.push_back (new (GC) mu::llvmc::skeleton::call_element_value (expression_a->region, branch, call, index_a));
+                                auto element (new (GC) mu::llvmc::skeleton::call_element_value (expression_a->region, branch, call, index_a));
+								returned_results.push_back (element);
+                                call->elements.push_back (element);
 								empty = false;
 							},
 							mu::llvmc::skeleton::function::empty_node,
@@ -1018,7 +1020,9 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 							{
 								if (empty)
 								{
-									returned_results.push_back (new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, branch, call));
+                                    auto element (new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, branch, call));
+									returned_results.push_back (element);
+                                    call->elements.push_back (element);
 								}
 							},
 							[&]
@@ -1032,7 +1036,9 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
                         {
                             case 0:
                             {
-                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, most_specific_branch, call);
+                                auto element (new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, most_specific_branch, call));
+                                already_generated [expression_a] = element;
+                                call->elements.push_back (element);
                                 break;
                             }
                             case 1:

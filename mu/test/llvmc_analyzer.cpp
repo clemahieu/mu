@@ -906,6 +906,10 @@ TEST (llvmc_analyzer, empty_call)
     ASSERT_EQ (1, function4->branch_ends [0]);
     ASSERT_EQ (1, function4->predicate_offsets.size ());
     ASSERT_EQ (0, function4->predicate_offsets [0]);
+    auto element1 (dynamic_cast <mu::llvmc::skeleton::call_element_unit *> (function4->results [0]));
+    ASSERT_NE (nullptr, element1);
+    ASSERT_EQ (1, element1->source->elements.size ());
+    ASSERT_EQ (element1, element1->source->elements [0]);
 }
 
 TEST (llvmc_analyzer, call_no_return)
@@ -944,6 +948,10 @@ TEST (llvmc_analyzer, call_no_return)
     ASSERT_EQ (1, function4->branch_ends [0]);
     ASSERT_EQ (1, function4->predicate_offsets.size ());
     ASSERT_EQ (0, function4->predicate_offsets [0]);
+    auto element1 (dynamic_cast <mu::llvmc::skeleton::call_element_unit *> (function4->results [0]));
+    ASSERT_NE (nullptr, element1);
+    ASSERT_EQ (1, element1->source->elements.size ());
+    ASSERT_EQ (element1, element1->source->elements [0]);
 }
 
 TEST (llvmc_analyzer, empty_call_predicate)
@@ -1061,6 +1069,8 @@ TEST (llvmc_analyzer, call_1_argument)
     ASSERT_NE (nullptr, result3);
     auto expression2 (dynamic_cast <mu::llvmc::skeleton::call_element_value *> (result3->value));
     ASSERT_NE (nullptr, expression2);
+    ASSERT_EQ (1, expression2->source->elements.size ());
+    ASSERT_EQ (expression2, expression2->source->elements [0]);
     ASSERT_EQ (function4->entry, expression2->branch);
 }
 
