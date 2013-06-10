@@ -749,21 +749,21 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 
 mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast::node * function_a)
 {
-	auto function_l (dynamic_cast<mu::llvmc::ast::function *> (function_a));
-	if (function_l != nullptr)
-	{
-		assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
-		auto function_s (new (GC) mu::llvmc::skeleton::function (function_a->region, module.module->global));
-		module.module->functions [function_l->name] = function_s;
-		module.functions [function_a] = function_s;
-		process_parameters (function_l, function_s);
-		process_results (function_l, function_s);
-		result_m.function = function_s;
-	}
-	else
-	{
-		result_m.error = new (GC) mu::core::error_string (U"Expecting a function", mu::core::error_type::expecting_a_function);
-	}
+    auto function_l (dynamic_cast<mu::llvmc::ast::function *> (function_a));
+    if (function_l != nullptr)
+    {
+        assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
+        auto function_s (new (GC) mu::llvmc::skeleton::function (function_a->region, module.module->global));
+        module.module->functions [function_l->name] = function_s;
+        module.functions [function_a] = function_s;
+        process_parameters (function_l, function_s);
+        process_results (function_l, function_s);
+        result_m.function = function_s;
+    }
+    else
+    {
+        result_m.error = new (GC) mu::core::error_string (U"Expecting a function", mu::core::error_type::expecting_a_function);
+    }
 	return result_m;
 }
 
@@ -778,10 +778,18 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 		{
 			auto existing (functions.find (*i));
 			if (existing == functions.end ())
-			{
-				analyzer_function analyzer (*this);
-				analyzer.analyze (*i);
-				result_m.error = analyzer.result_m.error;
+			{                
+                auto declaration (dynamic_cast <mu::llvmc::ast::function_declaration *> (*i));
+                if (declaration != nullptr)
+                {
+                    analyzer_function analyzer (*this);
+                    analyzer.analyze (declaration->function);
+                    result_m.error = analyzer.result_m.error;
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, (*i)->region);
+                }
 			}
 		}
         if (result_m.error == nullptr)
