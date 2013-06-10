@@ -754,11 +754,15 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
     {
         assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
         auto function_s (new (GC) mu::llvmc::skeleton::function (function_a->region, module.module->global));
+        result_m.function = function_s;
         module.module->functions [function_l->name] = function_s;
         module.functions [function_a] = function_s;
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
-        result_m.function = function_s;
+        if (result_m.error != nullptr)
+        {
+            result_m.function = nullptr;
+        }
     }
     else
     {
@@ -951,7 +955,7 @@ bool mu::llvmc::analyzer_function::process_identity (mu::llvmc::ast::definite_ex
 bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
-	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
+	mu::llvmc::skeleton::branch * most_specific_branch (result_m.function->entry);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto result (false);
