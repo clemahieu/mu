@@ -41,6 +41,7 @@ namespace mu
             class node;
             class switch_element;
             class constant_integer;
+            class function_call;
             enum class function_return_type;
         }
         class generator_result
@@ -83,6 +84,7 @@ namespace mu
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_branched (mu::llvmc::skeleton::value * value_a);
+            void generate_call (mu::llvmc::skeleton::function_call * call_a);
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
             llvm::Value * process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);

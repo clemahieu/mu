@@ -54,12 +54,12 @@ call_element (region_a, branch_a),
 source (source_a),
 index (index_a)
 {
+    assert (source->target->results.size () > index);
 }
 
-mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
+mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a) :
 call_element (region_a, branch_a),
-source (source_a),
-index (index_a)
+source (source_a)
 {
 }
 
