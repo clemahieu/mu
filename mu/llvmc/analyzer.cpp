@@ -1244,6 +1244,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 		[&]
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
+            assert (predicate_position_l == ~0);
 			predicate_position_l = arguments_a.size ();
 		},
 		[&]

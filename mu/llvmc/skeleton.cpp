@@ -44,22 +44,21 @@ arguments (arguments_a)
 {
 }
 
-mu::llvmc::skeleton::call_element::call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
-value (region_a, branch_a)
+mu::llvmc::skeleton::call_element::call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a) :
+value (region_a, branch_a),
+source (source_a)
 {
 }
 
 mu::llvmc::skeleton::call_element_value::call_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
-call_element (region_a, branch_a),
-source (source_a),
+call_element (region_a, branch_a, source_a),
 index (index_a)
 {
     assert (source->target->results.size () > index);
 }
 
 mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a) :
-call_element (region_a, branch_a),
-source (source_a)
+call_element (region_a, branch_a, source_a)
 {
 }
 

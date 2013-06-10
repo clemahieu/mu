@@ -225,14 +225,14 @@ namespace mu
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a);
+                mu::llvmc::skeleton::function_call * source;
             };
             class call_element_value : public mu::llvmc::skeleton::call_element
             {
             public:
                 call_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::function_call * source;
                 size_t index;
             };
             class call_element_unit : public mu::llvmc::skeleton::call_element
@@ -240,7 +240,6 @@ namespace mu
             public:
                 call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::function_call * source;
             };
 			class loop;
 			class loop_element : public mu::llvmc::skeleton::value
