@@ -1028,17 +1028,26 @@ bool mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 								empty = true;
 							}
 						);
-						assert (!returned_results.empty ());
-						if (returned_results.size () == 1)
-						{
-							already_generated [expression_a] = returned_results [0];
-						}
-						else
-						{
-							result = true;
-							auto & target (already_generated_multi [expression_a]);
-							target.insert (target.end (), returned_results.begin (), returned_results.end ());
-						}
+                        switch (returned_results.size ())
+                        {
+                            case 0:
+                            {
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, most_specific_branch, call, 0);
+                                break;
+                            }
+                            case 1:
+                            {
+                                already_generated [expression_a] = returned_results [0];
+                                break;
+                            }
+                            default:
+                            {
+                                result = true;
+                                auto & target (already_generated_multi [expression_a]);
+                                target.insert (target.end (), returned_results.begin (), returned_results.end ());
+                                break;
+                            }
+                        }
 					}
 				}
 				else

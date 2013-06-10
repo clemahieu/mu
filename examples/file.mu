@@ -30,6 +30,6 @@ function exit
 function entry
 []
 [
-	[exit cint32 #0]
+	let result [exit cint32 #0]
 ]
-[[]]
+[[; result]]
