@@ -2002,7 +2002,7 @@ TEST (llvmc_generator, generate_call_0_predicate)
     
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_call_0", U"", 0));
+    auto result (generator.generate (context, &module, U"generate_call_0_predicate", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
