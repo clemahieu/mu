@@ -1954,3 +1954,59 @@ TEST (llvmc_generator, generate_asm2)
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_asm2_expected), info);
 }
+
+extern char const * const generate_call_0_predicate_expected;
+
+TEST (llvmc_generator, generate_call_0_predicate)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::unit_type type1;
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    
+    mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function2.entry, &mu::llvmc::skeleton::integer_1_type, U"p0");
+    function2.parameters.push_back (&parameter1);
+    
+    mu::vector <mu::llvmc::skeleton::node *> arguments2;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
+    arguments2.push_back (&marker1);
+    arguments2.push_back (&parameter1);
+    mu::llvmc::skeleton::switch_i instruction1 (function2.entry, arguments2);
+    mu::llvmc::skeleton::branch branch1 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
+    mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch1, &instruction1, &integer1);
+    mu::llvmc::skeleton::named named1 (mu::empty_region, &element2, U"element1");
+    mu::llvmc::skeleton::branch branch2 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
+    mu::llvmc::skeleton::switch_element element3 (mu::empty_region, &branch2, &instruction1, &integer2);
+    mu::llvmc::skeleton::named named2 (mu::empty_region, &element3, U"element2");
+    
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    arguments1.push_back (&function1);
+    arguments1.push_back (&element3);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, 1);
+    mu::llvmc::skeleton::call_element_unit element1 (mu::empty_region, function2.entry, &call1);
+    call1.elements.push_back (&element1);
+    mu::llvmc::skeleton::result result2 (&type1, &element1);
+    function2.results.push_back (&result2);
+    function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
+    mu::llvmc::skeleton::result result3 (&type1, &element2);
+    function2.results.push_back (&result3);
+    function2.branch_ends.push_back (function2.results.size ());
+    function2.predicate_offsets.push_back (function2.results.size ());
+    module.functions [U"1"] = &function2;
+    
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module, U"generate_call_0", U"", 0));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_call_0_predicate_expected), info);
+}

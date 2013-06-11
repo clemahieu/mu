@@ -378,7 +378,7 @@ void mu::llvmc::generate_function::generate_call (mu::llvmc::skeleton::function_
         assert (argument.value != nullptr);
         arguments.push_back (argument.value);
     }
-    predicate = process_predicates (predicate, call_a->arguments, position + 1);
+    predicate = process_predicates (predicate, call_a->arguments, position);
     auto call_block (llvm::BasicBlock::Create (context));
     function_m->getBasicBlockList ().push_back (call_block);
     auto new_last (llvm::BasicBlock::Create (context));
