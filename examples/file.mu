@@ -11,8 +11,12 @@ function exit_linux
 function exit_osx
 [int32 code]
 [
+	let nothing [asm unit {%%%}
+		mov $$0x2000001, %rax
+		mov $$0, %rdi
+		syscall %%% {}]
 ]
-[]
+[[;nothing]]
 
 function linux
 []
@@ -22,7 +26,7 @@ function linux
 function exit
 [int32 code]
 [
-	let osx linux_l [if [linux]]
+	let linux_l osx [if [linux]]
 	let result [join [exit_linux code; linux_l] [exit_osx code; osx]]
 ]
 [[; result]]
