@@ -6,6 +6,29 @@
 
 #include <gc_cpp.h>
 
+mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+constant (region_a, branch_a),
+type_m (type_a)
+{
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_array::type ()
+{
+	return type_m;
+}
+
+mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::constant * initializer_a) :
+value (region_a, branch_a),
+type_m (type_a),
+initializer (initializer_a)
+{	
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::global_variable::type ()
+{
+	return type_m;
+}
+
 void mu::llvmc::skeleton::function::add_branch_end ()
 {
 	branch_ends.push_back (results.size ());

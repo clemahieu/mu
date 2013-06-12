@@ -95,6 +95,14 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
+			class constant_array : public mu::llvmc::skeleton::constant
+			{
+			public:
+				constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+				mu::vector <mu::llvmc::skeleton::constant *> data;
+			};
             class instruction : public mu::llvmc::skeleton::value
             {
             public:
@@ -304,11 +312,20 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
             };
+			class global_variable : public mu::llvmc::skeleton::value
+			{
+			public:
+				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::constant * initializer_a);
+                mu::llvmc::skeleton::type * type () override;
+				mu::llvmc::skeleton::type * type_m;
+				mu::llvmc::skeleton::constant * initializer;
+			};			
             class module
             {
             public:
                 module ();
                 mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
+				mu::vector <mu::llvmc::skeleton::global_variable *> globals;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };

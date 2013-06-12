@@ -1845,7 +1845,7 @@ TEST (llvmc_generator, generate_asm)
 
 extern char const * const generate_getelementptr_expected;
 
-TEST (llvmc_generator, z000_generate_getelementptr)
+TEST (llvmc_generator, generate_getelementptr)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -1885,7 +1885,7 @@ TEST (llvmc_generator, z000_generate_getelementptr)
 
 extern char const * const generate_identity_expected;
 
-TEST (llvmc_generator, z000_generate_identity)
+TEST (llvmc_generator, generate_identity)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
@@ -2009,4 +2009,25 @@ TEST (llvmc_generator, generate_call_0_predicate)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_call_0_predicate_expected), info);
+}
+
+extern char const * const generate_global_variable_integer_expected;
+
+TEST (llvmc_generator, DISABLED_generate_global_variable_integer)
+{
+    mu::llvmc::skeleton::module module;
+	mu::llvmc::skeleton::pointer_type pointer1 (&mu::llvmc::skeleton::integer_1_type);
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 1, 0);
+	mu::llvmc::skeleton::global_variable global1 (mu::empty_region, module.global, &pointer1, &constant1);
+	module.globals.push_back (&global1);
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module, U"generate_global_variable_integer", U"", 0));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    print_module (result.module, info);
+	std::cout << info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_global_variable_integer_expected), info);
 }

@@ -60,7 +60,9 @@ namespace mu
         public:
             generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate ();
+            llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
 			llvm::DIBuilder builder;
+			mu::map <mu::llvmc::skeleton::type *, llvm::DIType> type_information;
             mu::map <mu::llvmc::skeleton::function *, std::tuple <llvm::Function *, size_t, mu::string>> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
@@ -79,7 +81,6 @@ namespace mu
         public:
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate (mu::string const & name_a, uint64_t function_id_a);
-            llvm::Type * generate_type (mu::llvmc::skeleton::type * type_a);
             mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
             mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
@@ -94,7 +95,6 @@ namespace mu
             llvm::BasicBlock * last;
             llvm::Function * function_m;
             mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data> already_generated;
-			mu::map <mu::llvmc::skeleton::type *, llvm::DIType> type_information;
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
             llvm::DISubprogram function_d;

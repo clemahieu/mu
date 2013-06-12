@@ -267,6 +267,8 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
+extern char const * const generate_global_variable_integer_expected = R"%%%()%%%";
+
 extern char const * const generate_icmp1_expected = R"%%%(; ModuleID = '0000000000000000'
 
 define i1 @"0000000000000000-0000000000000000-0"(i1, i1) {
