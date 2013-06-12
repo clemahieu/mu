@@ -93,26 +93,12 @@ void mu::llvmc::compiler::compile (mu::string const & name_a, mu::string const &
 void mu::llvmc::compiler::inject_entry (llvm::Module * module_a, llvm::Function * entry_a)
 {
     auto & context (module_a->getContext ());
-    auto exit_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
-    auto exit (llvm::Function::Create (exit_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
-	auto exit_body (llvm::BasicBlock::Create (context));
-	exit->getBasicBlockList ().push_back (exit_body);
-	auto syscall_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
-	auto exit_asm (llvm::InlineAsm::get (syscall_type, " movq $$60, %rax\n movq $$0, %rdi\n syscall", "", true));
-	auto exit_call (llvm::CallInst::Create (exit_asm, llvm::ArrayRef <llvm::Value *> ()));
-	exit_body->getInstList ().push_back (exit_call);
-	auto unreachable (new llvm::UnreachableInst (context));
-	exit_body->getInstList ().push_back (unreachable);
-    module_a->getFunctionList ().push_back (exit);
-    exit->addFnAttr (llvm::Attributes::NoReturn);
     auto entry_type (llvm::FunctionType::get (llvm::Type::getVoidTy (context), llvm::ArrayRef <llvm::Type *> (), false));
     auto entry (llvm::Function::Create (entry_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, "\x01start"));
     auto block (llvm::BasicBlock::Create (context));
     entry->getBasicBlockList ().push_back (block);
     auto call_entry (llvm::CallInst::Create (entry_a));
     block->getInstList ().push_back (call_entry);
-    auto call_exit (llvm::CallInst::Create (exit));
-    block->getInstList ().push_back (call_exit);
     block->getInstList ().push_back (new llvm::UnreachableInst (context));
     module_a->getFunctionList().push_back (entry);
 }

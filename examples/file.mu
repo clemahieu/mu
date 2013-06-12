@@ -2,7 +2,7 @@ function exit_linux
 [int32 code]
 [
 	let nothing [asm unit {%%%}
-		mov $$1, %rax
+		mov $$60, %rax
 		mov $$0, %rdi
 		syscall %%% {}]
 ]
@@ -21,7 +21,7 @@ function exit_osx
 function linux
 []
 []
-[[int1 cint1 #0]]
+[[int1 cint1 #1]]
 
 function exit
 [int32 code]

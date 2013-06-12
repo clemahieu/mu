@@ -185,6 +185,10 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::node *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
+				size_t predicate_offset;
+				void add_branch_end ();
+				void add_predicate_offset ();
+				void set_predicate_offset ();
                 template <typename T>
                 void for_each_branch (T branch_op);
                 mu::llvmc::skeleton::result * as_result (mu::llvmc::skeleton::node * node_a);

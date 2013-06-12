@@ -6,6 +6,21 @@
 
 #include <gc_cpp.h>
 
+void mu::llvmc::skeleton::function::add_branch_end ()
+{
+	branch_ends.push_back (results.size ());
+}
+
+void mu::llvmc::skeleton::function::add_predicate_offset ()
+{
+	predicate_offsets.push_back (results.size ());
+}
+
+void mu::llvmc::skeleton::function::set_predicate_offset ()
+{
+	predicate_offset = results.size ();
+}
+
 void mu::llvmc::skeleton::function::empty_node (mu::llvmc::skeleton::node *, size_t)
 {
 }
