@@ -1393,13 +1393,13 @@ define void @"0000000000000000-0000000000000000-0"() {
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_call_0", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_call_0] [DW_LANG_C]
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_call_0_predicate", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_call_0_predicate] [DW_LANG_C]
 !1 = metadata !{metadata !2}
 !2 = metadata !{i32 0}
 !3 = metadata !{metadata !4}
 !4 = metadata !{metadata !5, metadata !10}
 !5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"1", metadata !"1", metadata !"0000000000000000-0000000000000001-1", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i1)* @"0000000000000000-0000000000000001-1", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [1]
-!6 = metadata !{i32 786473, metadata !"generate_call_0", metadata !"", null} ; [ DW_TAG_file_type ]
+!6 = metadata !{i32 786473, metadata !"generate_call_0_predicate", metadata !"", null} ; [ DW_TAG_file_type ]
 !7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
 !8 = metadata !{null, metadata !9}
 !9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
@@ -1408,7 +1408,7 @@ define void @"0000000000000000-0000000000000000-0"() {
 !12 = metadata !{null}
 !13 = metadata !{i32 786689, metadata !5, metadata !"p0", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [p0] [line 0]
 !14 = metadata !{i32 0, i32 0, metadata !15, null}
-!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 48} ; [ DW_TAG_lexical_block ] [/generate_call_0]
+!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 48} ; [ DW_TAG_lexical_block ] [/generate_call_0_predicate]
 !16 = metadata !{i32 0, i32 0, metadata !5, null}
 !17 = metadata !{i32 0, i32 0, metadata !10, null}
 )%%%";
