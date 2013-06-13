@@ -83,77 +83,20 @@ function_return_type (function_a->get_return_type ())
 
 void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t function_id_a)
 {
-    auto & context (module.target.module->getContext ());
-	std::vector <llvm::Value *> function_type_values;
-	function_type_values.push_back (nullptr); // Return type
-    std::vector <llvm::Type *> parameters;
-    for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
-    {
-        auto parameter (*i);
-		auto type_s (parameter->type ());
-        auto type_l (module.retrieve_type (type_s));
-		function_type_values.push_back (type_l.debug);
-        parameters.push_back (type_l.type);
-    }
-	std::vector <llvm::Value *> results_debug;
-    std::vector <llvm::Type *> results;
-	uint64_t offset (0);
-    function->for_each_results (
-        [&]
-        (mu::llvmc::skeleton::result * result_a, size_t)
-        {
-            auto type_s (result_a->type);
-            if (!type_s->is_unit_type())
-            {
-               auto type_l (module.retrieve_type (type_s));
-			   auto size (type_l.debug.getSizeInBits ());
-			   auto line (type_l.debug.getLineNumber ());
-			   auto member (module.builder.createMemberType (module.file, "", module.file, line, size, 0, offset, 0, type_l.debug));
-			   results_debug.push_back (member);
-               results.push_back (type_l.type);
-			   offset += size;
-            }
-        }
-    );
-    if (function->branch_ends.size () > 1)
-    {
-        results.push_back (llvm::Type::getInt8Ty (context));
-		results_debug.push_back (module.builder.createBasicType ("int8", 8, 0, llvm::dwarf::DW_ATE_unsigned_char));
-    }
-	llvm::Value * result_type_debug;
-    llvm::Type * result_type;
-    switch (results.size ())
-    {
-        case 0:
-            result_type = llvm::Type::getVoidTy (context);
-			result_type_debug = nullptr;
-            break;
-        case 1:
-            result_type = results [0];
-			result_type_debug = llvm::DIDerivedType (llvm::cast <llvm::MDNode> (results_debug [0])).getTypeDerivedFrom ();
-            break;
-        default:
-        {
-            result_type = llvm::StructType::create (context, llvm::ArrayRef <llvm::Type *> (results));
-			auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (results_debug)));
-			result_type_debug = module.builder.createStructType (module.file, "", module.file, function->region.first.row, offset, 0, 0, array);
-        }
-    }
-	function_type_values [0] = result_type_debug;
-    auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
-	std::string name;
-	char buffer [32];
-	sprintf (buffer, "%016" PRIx64, module.module_id);
-	name.append (buffer);
-	name.push_back ('-');
-	sprintf (buffer, "%016" PRIx64, function_id_a);
-	name.append (buffer);
-	name.push_back ('-');
-	name += std::string (name_a.begin (), name_a.end ());
+    auto & context (module.target.module->getContext ());    
+    auto type (module.retrieve_type (&function->type_m));
+    auto function_type (llvm::cast <llvm::FunctionType> (type.type));
+    std::string name;
+    char buffer [32];
+    sprintf (buffer, "%016" PRIx64, module.module_id);
+    name.append (buffer);
+    name.push_back ('-');
+    sprintf (buffer, "%016" PRIx64, function_id_a);
+    name.append (buffer);
+    name.push_back ('-');
+    name += std::string (name_a.begin (), name_a.end ());
     auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
-	auto array (module.builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
-	auto function_type_d (module.builder.createSubroutineType (module.file, array));
-	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), name, module.file, function->region.first.row, function_type_d, false, true, function->region.first.row, 0, false, function_l);
+	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), name, module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
     block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
     module.target.module->getFunctionList ().push_back (function_l);
@@ -1327,18 +1270,18 @@ mu::llvmc::type_info mu::llvmc::generate_module::retrieve_type (mu::llvmc::skele
 
 mu::llvmc::type_info mu::llvmc::generate_module::generate_type (mu::llvmc::skeleton::type * type_a)
 {
+    auto & context (target.module->getContext ());
     assert (type_information.find (type_a) == type_information.end ());
     mu::llvmc::type_info result;
     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type_a));
     if (integer_type != nullptr)
     {
-        result.type = llvm::Type::getIntNTy (target.module->getContext (), integer_type->bits);
+        result.type = llvm::Type::getIntNTy (context, integer_type->bits);
 		std::string name ("int");
 		char buffer [32];
 		sprintf (buffer, "%d", static_cast <int> (integer_type->bits));
 		name.append (buffer);
         result.debug = builder.createBasicType (name, integer_type->bits, 0, llvm::dwarf::DW_ATE_unsigned);
-		type_information [type_a] = result;
     }
     else
     {
@@ -1350,23 +1293,91 @@ mu::llvmc::type_info mu::llvmc::generate_module::generate_type (mu::llvmc::skele
             assert (element_type.debug != nullptr);
             result.debug = builder.createPointerType (element_type.debug, 8, 0, "ptr");
             result.type = llvm::PointerType::get (element_type.type, 0);
-			type_information [type_a] = result;
         }
         else
         {
             auto unit_type (dynamic_cast <mu::llvmc::skeleton::unit_type *> (type_a));
             if (unit_type != nullptr)
             {
-                result.type = llvm::Type::getVoidTy (target.module->getContext ());
+                result.type = llvm::Type::getVoidTy (context);
                 result.debug = builder.createBasicType ("unit", 0, 0, llvm::dwarf::DW_ATE_unsigned_char);
-                type_information [type_a] = result;
             }
             else
             {
-                assert (false && "Unknown type");
+                auto function_type (dynamic_cast <mu::llvmc::skeleton::function_type *> (type_a));
+                if (function_type != nullptr)
+                {
+                    auto function (function_type->function);
+                    std::vector <llvm::Value *> function_type_values;
+                    function_type_values.push_back (nullptr); // Return type
+                    std::vector <llvm::Type *> parameters;
+                    for (auto i (function->parameters.begin ()), j (function->parameters.end ()); i != j; ++i)
+                    {
+                        auto parameter (*i);
+                        auto type_s (parameter->type ());
+                        auto type_l (retrieve_type (type_s));
+                        function_type_values.push_back (type_l.debug);
+                        parameters.push_back (type_l.type);
+                    }
+                    std::vector <llvm::Value *> results_debug;
+                    std::vector <llvm::Type *> results;
+                    uint64_t offset (0);
+                    function->for_each_results (
+                        [&]
+                        (mu::llvmc::skeleton::result * result_a, size_t)
+                        {
+                            auto type_s (result_a->type);
+                            if (!type_s->is_unit_type())
+                            {
+                                auto type_l (retrieve_type (type_s));
+                                auto size (type_l.debug.getSizeInBits ());
+                                auto line (type_l.debug.getLineNumber ());
+                                auto member (builder.createMemberType (file, "", file, line, size, 0, offset, 0, type_l.debug));
+                                results_debug.push_back (member);
+                                results.push_back (type_l.type);
+                                offset += size;
+                            }
+                        }
+                    );
+                    if (function->branch_ends.size () > 1)
+                    {
+                        results.push_back (llvm::Type::getInt8Ty (context));
+                        results_debug.push_back (builder.createBasicType ("int8", 8, 0, llvm::dwarf::DW_ATE_unsigned_char));
+                    }
+                    llvm::Value * result_type_debug;
+                    llvm::Type * result_type;
+                    switch (results.size ())
+                    {
+                        case 0:
+                            result_type = llvm::Type::getVoidTy (context);
+                            result_type_debug = nullptr;
+                            break;
+                        case 1:
+                            result_type = results [0];
+                            result_type_debug = llvm::DIDerivedType (llvm::cast <llvm::MDNode> (results_debug [0])).getTypeDerivedFrom ();
+                            break;
+                        default:
+                        {
+                            result_type = llvm::StructType::create (context, llvm::ArrayRef <llvm::Type *> (results));
+                            auto array (builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (results_debug)));
+                            result_type_debug = builder.createStructType (file, "", file, function->region.first.row, offset, 0, 0, array);
+                        }
+                    }
+                    function_type_values [0] = result_type_debug;
+                    auto function_type (llvm::FunctionType::get (result_type, llvm::ArrayRef <llvm::Type *> (parameters), false));
+                    auto array (builder.getOrCreateArray (llvm::ArrayRef <llvm::Value *> (function_type_values)));
+                    auto function_type_d (builder.createSubroutineType (file, array));
+                    result.type = function_type;
+                    result.debug = function_type_d;
+                }
+                else
+                {
+                    assert (false && "Unknown type");
+                }
             }
         }
     }
-	assert (type_information.find (type_a) != type_information.end ());
+	assert (type_information.find (type_a) == type_information.end ());
+    type_information [type_a] = result;
     return result;
 }
