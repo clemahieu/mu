@@ -54,11 +54,24 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i, ++function_id)
     {
 		assert (functions.find (i->second) == functions.end ());
-		functions.insert (decltype (functions)::value_type (i->second, decltype (functions)::mapped_type (nullptr, function_id, i->first)));		
+        auto type (retrieve_type (&i->second->type_m));
+        auto function_type (llvm::cast <llvm::FunctionType> (type.type));
+        std::string name;
+        char buffer [32];
+        sprintf (buffer, "%016" PRIx64, module_id);
+        name.append (buffer);
+        name.push_back ('-');
+        sprintf (buffer, "%016" PRIx64, function_id);
+        name.append (buffer);
+        name.push_back ('-');
+        name += std::string (i->first.begin (), i->first.end ());
+        auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
+        target.module->getFunctionList ().push_back (function_l);
+		functions.insert (decltype (functions)::value_type (i->second, decltype (functions)::mapped_type (function_l, function_id, i->first)));
 	}
     for (auto i (functions.begin ()), j (functions.end ()); i != j; ++i)
     {
-		if (std::get <0> (i->second) == nullptr)
+		if (std::get <0> (i->second)->getBasicBlockList ().empty ())
 		{
 			mu::llvmc::generate_function generator_l (*this, i->first);
 			generator_l.generate (std::get <2> (i->second), std::get <1> (i->second));
@@ -83,25 +96,16 @@ function_return_type (function_a->get_return_type ())
 
 void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t function_id_a)
 {
-    auto & context (module.target.module->getContext ());    
+    auto & context (module.target.module->getContext ());
+    
+    
+    assert (module.functions.find (function) != module.functions.end ());
+    auto function_l (std::get <0> (module.functions.find (function)->second));
     auto type (module.retrieve_type (&function->type_m));
     auto function_type (llvm::cast <llvm::FunctionType> (type.type));
-    std::string name;
-    char buffer [32];
-    sprintf (buffer, "%016" PRIx64, module.module_id);
-    name.append (buffer);
-    name.push_back ('-');
-    sprintf (buffer, "%016" PRIx64, function_id_a);
-    name.append (buffer);
-    name.push_back ('-');
-    name += std::string (name_a.begin (), name_a.end ());
-    auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
-	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), name, module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
+	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), function_l->getName (), module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
     block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
-    module.target.module->getFunctionList ().push_back (function_l);
-    assert (module.functions.find (function) != module.functions.end ());
-    std::get <0> (module.functions [function]) = function_l;
     auto entry (llvm::BasicBlock::Create (context));
     last = entry;
     function_l->getBasicBlockList ().push_back (entry);
@@ -300,7 +304,7 @@ void mu::llvmc::generate_function::generate_call (mu::llvmc::skeleton::function_
     assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
     auto existing (module.functions.find (call_a->target));
     assert (existing != module.functions.end ());
-    if (std::get <0> (existing->second) == nullptr)
+    if (std::get <0> (existing->second)->getBasicBlockList ().empty ())
     {
         mu::llvmc::generate_function generator (module, call_a->target);
         generator.generate (std::get <2> (existing->second), std::get <1> (existing->second));
@@ -678,7 +682,6 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_value (mu::llvmc::s
 
 llvm::Value * mu::llvmc::generate_function::process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position)
 {
-    auto last_l (last);
     llvm::Value * predicate (predicate_a);
     for (size_t i (predicate_position), j (arguments_a.size ()); i < j; ++i)
     {

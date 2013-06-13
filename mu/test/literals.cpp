@@ -1109,18 +1109,18 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 
 extern char const * const generate_call_0_expected = R"%%%(; ModuleID = '0000000000000000'
 
+define void @"0000000000000000-0000000000000000-0"() {
+  ret void, !dbg !10
+}
+
 define void @"0000000000000000-0000000000000001-1"() {
   br i1 true, label %1, label %2
 
 ; <label>:1                                       ; preds = %0
-  call void @"0000000000000000-0000000000000000-0"(), !dbg !10
+  call void @"0000000000000000-0000000000000000-0"(), !dbg !11
   br label %2
 
 ; <label>:2                                       ; preds = %0, %1
-  ret void, !dbg !12
-}
-
-define void @"0000000000000000-0000000000000000-0"() {
   ret void, !dbg !13
 }
 
@@ -1136,34 +1136,34 @@ define void @"0000000000000000-0000000000000000-0"() {
 !7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
 !8 = metadata !{null}
 !9 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!10 = metadata !{i32 0, i32 0, metadata !11, null}
-!11 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 30} ; [ DW_TAG_lexical_block ] [/generate_call_0]
-!12 = metadata !{i32 0, i32 0, metadata !5, null}
-!13 = metadata !{i32 0, i32 0, metadata !9, null}
+!10 = metadata !{i32 0, i32 0, metadata !9, null}
+!11 = metadata !{i32 0, i32 0, metadata !12, null}
+!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 30} ; [ DW_TAG_lexical_block ] [/generate_call_0]
+!13 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_1_expected = R"%%%(; ModuleID = '0000000000000000'
 
-define i1 @"0000000000000000-0000000000000001-1"(i1) {
+define i1 @"0000000000000000-0000000000000000-0"(i1) {
   call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !11)
+  ret i1 %0, !dbg !12
+}
+
+define i1 @"0000000000000000-0000000000000001-1"(i1) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !13)
   %2 = and i1 true, true
   br i1 %2, label %3, label %5
 
 ; <label>:3                                       ; preds = %1
-  %4 = call i1 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !12
+  %4 = call i1 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !14
   br label %5
 
 ; <label>:5                                       ; preds = %1, %3
   %6 = phi i1 [ %4, %3 ], [ undef, %1 ]
-  ret i1 %6, !dbg !14
+  ret i1 %6, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
-
-define i1 @"0000000000000000-0000000000000000-0"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !15)
-  ret i1 %0, !dbg !16
-}
 
 !llvm.dbg.cu = !{!0}
 
@@ -1178,23 +1178,37 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
 !8 = metadata !{metadata !9, metadata !9}
 !9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i1 (i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
-!12 = metadata !{i32 0, i32 0, metadata !13, null}
-!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 32} ; [ DW_TAG_lexical_block ] [/generate_call_1]
-!14 = metadata !{i32 0, i32 0, metadata !5, null}
-!15 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
-!16 = metadata !{i32 0, i32 0, metadata !10, null}
+!11 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !10, null}
+!13 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!14 = metadata !{i32 0, i32 0, metadata !15, null}
+!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 32} ; [ DW_TAG_lexical_block ] [/generate_call_1]
+!16 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_2_expected = R"%%%(; ModuleID = '0000000000000000'
 
-define i8 @"0000000000000000-0000000000000001-1"(i1) {
+define i8 @"0000000000000000-0000000000000000-0"(i1) {
   call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !11)
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  %8 = select i1 %7, i8 0, i8 undef
+  %9 = and i1 true, %6
+  %10 = select i1 %9, i8 1, i8 %8
+  ret i8 %10, !dbg !12
+}
+
+define i8 @"0000000000000000-0000000000000001-1"(i1) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !13)
   %2 = and i1 true, true
   br i1 %2, label %3, label %5
 
 ; <label>:3                                       ; preds = %1
-  %4 = call i8 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !12
+  %4 = call i8 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !14
   br label %5
 
 ; <label>:5                                       ; preds = %1, %3
@@ -1207,24 +1221,10 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %12 = select i1 %11, i8 0, i8 undef
   %13 = and i1 true, %10
   %14 = select i1 %13, i8 1, i8 %12
-  ret i8 %14, !dbg !14
+  ret i8 %14, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
-
-define i8 @"0000000000000000-0000000000000000-0"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !15)
-  %2 = and i1 true, true
-  %3 = icmp eq i1 %0, false
-  %4 = and i1 %2, %3
-  %5 = icmp eq i1 %0, true
-  %6 = and i1 %2, %5
-  %7 = and i1 true, %4
-  %8 = select i1 %7, i8 0, i8 undef
-  %9 = and i1 true, %6
-  %10 = select i1 %9, i8 1, i8 %8
-  ret i8 %10, !dbg !16
-}
 
 !llvm.dbg.cu = !{!0}
 
@@ -1239,25 +1239,44 @@ define i8 @"0000000000000000-0000000000000000-0"(i1) {
 !8 = metadata !{null, metadata !9}
 !9 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
 !10 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!11 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
-!12 = metadata !{i32 0, i32 0, metadata !13, null}
-!13 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 34} ; [ DW_TAG_lexical_block ] [/generate_call_2]
-!14 = metadata !{i32 0, i32 0, metadata !5, null}
-!15 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
-!16 = metadata !{i32 0, i32 0, metadata !10, null}
+!11 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 0, i32 0, metadata !10, null}
+!13 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!14 = metadata !{i32 0, i32 0, metadata !15, null}
+!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 34} ; [ DW_TAG_lexical_block ] [/generate_call_2]
+!16 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_3_expected = R"%%%(; ModuleID = '0000000000000000'
 
 %0 = type { i32, i32, i8 }
 
-define i8 @"0000000000000000-0000000000000001-1"(i1) {
+define %0 @"0000000000000000-0000000000000000-0"(i1) {
   call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !19)
+  %2 = and i1 true, true
+  %3 = icmp eq i1 %0, false
+  %4 = and i1 %2, %3
+  %5 = icmp eq i1 %0, true
+  %6 = and i1 %2, %5
+  %7 = and i1 true, %4
+  %8 = and i1 %7, true
+  %9 = select i1 %8, i8 0, i8 undef
+  %10 = and i1 true, %6
+  %11 = and i1 %10, true
+  %12 = select i1 %11, i8 1, i8 %9
+  %13 = insertvalue %0 undef, i32 1, 0
+  %14 = insertvalue %0 %13, i32 2, 1
+  %15 = insertvalue %0 %14, i8 %12, 2
+  ret %0 %15, !dbg !20
+}
+
+define i8 @"0000000000000000-0000000000000001-1"(i1) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !21)
   %2 = and i1 true, true
   br i1 %2, label %3, label %5
 
 ; <label>:3                                       ; preds = %1
-  %4 = call %0 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !20
+  %4 = call %0 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !22
   br label %5
 
 ; <label>:5                                       ; preds = %1, %3
@@ -1275,29 +1294,10 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %17 = select i1 %16, i8 0, i8 undef
   %18 = and i1 true, %12
   %19 = select i1 %18, i8 1, i8 %17
-  ret i8 %19, !dbg !22
+  ret i8 %19, !dbg !24
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
-
-define %0 @"0000000000000000-0000000000000000-0"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !23)
-  %2 = and i1 true, true
-  %3 = icmp eq i1 %0, false
-  %4 = and i1 %2, %3
-  %5 = icmp eq i1 %0, true
-  %6 = and i1 %2, %5
-  %7 = and i1 true, %4
-  %8 = and i1 %7, true
-  %9 = select i1 %8, i8 0, i8 undef
-  %10 = and i1 true, %6
-  %11 = and i1 %10, true
-  %12 = select i1 %11, i8 1, i8 %9
-  %13 = insertvalue %0 undef, i32 1, 0
-  %14 = insertvalue %0 %13, i32 2, 1
-  %15 = insertvalue %0 %14, i8 %12, 2
-  ret %0 %15, !dbg !24
-}
 
 !llvm.dbg.cu = !{!0}
 
@@ -1320,28 +1320,28 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
 !16 = metadata !{i32 786468, null, metadata !"int32", null, i32 0, i64 32, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int32] [line 0, size 32, align 0, offset 0, enc DW_ATE_unsigned]
 !17 = metadata !{i32 786445, metadata !6, metadata !"", metadata !6, i32 0, i64 32, i64 0, i64 32, i32 0, metadata !16} ; [ DW_TAG_member ] [line 0, size 32, align 0, offset 32] [from int32]
 !18 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 8} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned_char]
-!19 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
-!20 = metadata !{i32 0, i32 0, metadata !21, null}
-!21 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 36} ; [ DW_TAG_lexical_block ] [/generate_call_3]
-!22 = metadata !{i32 0, i32 0, metadata !5, null}
-!23 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
-!24 = metadata !{i32 0, i32 0, metadata !10, null}
+!19 = metadata !{i32 786689, metadata !10, metadata !"parameter1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!20 = metadata !{i32 0, i32 0, metadata !10, null}
+!21 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!22 = metadata !{i32 0, i32 0, metadata !23, null}
+!23 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 36} ; [ DW_TAG_lexical_block ] [/generate_call_3]
+!24 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_predicate_b1v0_expected = R"%%%(; ModuleID = '0000000000000000'
+
+define void @"0000000000000000-0000000000000000-0"() {
+  ret void, !dbg !10
+}
 
 define void @"0000000000000000-0000000000000001-1"() {
   br i1 true, label %1, label %2
 
 ; <label>:1                                       ; preds = %0
-  call void @"0000000000000000-0000000000000000-0"(), !dbg !10
+  call void @"0000000000000000-0000000000000000-0"(), !dbg !11
   br label %2
 
 ; <label>:2                                       ; preds = %0, %1
-  ret void, !dbg !12
-}
-
-define void @"0000000000000000-0000000000000000-0"() {
   ret void, !dbg !13
 }
 
@@ -1357,16 +1357,20 @@ define void @"0000000000000000-0000000000000000-0"() {
 !7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
 !8 = metadata !{null}
 !9 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
-!10 = metadata !{i32 0, i32 0, metadata !11, null}
-!11 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 38} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v0]
-!12 = metadata !{i32 0, i32 0, metadata !5, null}
-!13 = metadata !{i32 0, i32 0, metadata !9, null}
+!10 = metadata !{i32 0, i32 0, metadata !9, null}
+!11 = metadata !{i32 0, i32 0, metadata !12, null}
+!12 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 38} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v0]
+!13 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_0_predicate_expected = R"%%%(; ModuleID = '0000000000000000'
 
+define void @"0000000000000000-0000000000000000-0"() {
+  ret void, !dbg !13
+}
+
 define i8 @"0000000000000000-0000000000000001-1"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !13)
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !14)
   %2 = and i1 true, true
   %3 = icmp eq i1 %0, false
   %4 = and i1 %2, %3
@@ -1376,7 +1380,7 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   br i1 %7, label %8, label %9
 
 ; <label>:8                                       ; preds = %1
-  call void @"0000000000000000-0000000000000000-0"(), !dbg !14
+  call void @"0000000000000000-0000000000000000-0"(), !dbg !15
   br label %9
 
 ; <label>:9                                       ; preds = %1, %8
@@ -1384,14 +1388,10 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %11 = select i1 %10, i8 0, i8 undef
   %12 = and i1 true, %4
   %13 = select i1 %12, i8 1, i8 %11
-  ret i8 %13, !dbg !16
+  ret i8 %13, !dbg !17
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
-
-define void @"0000000000000000-0000000000000000-0"() {
-  ret void, !dbg !17
-}
 
 !llvm.dbg.cu = !{!0}
 
@@ -1408,28 +1408,28 @@ define void @"0000000000000000-0000000000000000-0"() {
 !10 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !11, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
 !11 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !12, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
 !12 = metadata !{null}
-!13 = metadata !{i32 786689, metadata !5, metadata !"p0", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [p0] [line 0]
-!14 = metadata !{i32 0, i32 0, metadata !15, null}
-!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 48} ; [ DW_TAG_lexical_block ] [/generate_call_0_predicate]
-!16 = metadata !{i32 0, i32 0, metadata !5, null}
-!17 = metadata !{i32 0, i32 0, metadata !10, null}
+!13 = metadata !{i32 0, i32 0, metadata !10, null}
+!14 = metadata !{i32 786689, metadata !5, metadata !"p0", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [p0] [line 0]
+!15 = metadata !{i32 0, i32 0, metadata !16, null}
+!16 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 48} ; [ DW_TAG_lexical_block ] [/generate_call_0_predicate]
+!17 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_call_predicate_b1v1_expected = R"%%%(; ModuleID = '0000000000000000'
+
+define void @"0000000000000000-0000000000000000-0"() {
+  ret void, !dbg !13
+}
 
 define i1 @"0000000000000000-0000000000000001-1"() {
   br i1 true, label %1, label %2
 
 ; <label>:1                                       ; preds = %0
-  call void @"0000000000000000-0000000000000000-0"(), !dbg !13
+  call void @"0000000000000000-0000000000000000-0"(), !dbg !14
   br label %2
 
 ; <label>:2                                       ; preds = %0, %1
-  ret i1 false, !dbg !15
-}
-
-define void @"0000000000000000-0000000000000000-0"() {
-  ret void, !dbg !16
+  ret i1 false, !dbg !16
 }
 
 !llvm.dbg.cu = !{!0}
@@ -1447,10 +1447,10 @@ define void @"0000000000000000-0000000000000000-0"() {
 !10 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !11, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, void ()* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
 !11 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !12, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
 !12 = metadata !{null}
-!13 = metadata !{i32 0, i32 0, metadata !14, null}
-!14 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 40} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v1]
-!15 = metadata !{i32 0, i32 0, metadata !5, null}
-!16 = metadata !{i32 0, i32 0, metadata !10, null}
+!13 = metadata !{i32 0, i32 0, metadata !10, null}
+!14 = metadata !{i32 0, i32 0, metadata !15, null}
+!15 = metadata !{i32 786443, metadata !5, i32 0, i32 0, metadata !6, i32 40} ; [ DW_TAG_lexical_block ] [/generate_call_predicate_b1v1]
+!16 = metadata !{i32 0, i32 0, metadata !5, null}
 )%%%";
 
 extern char const * const generate_loop1_expected = R"%%%(; ModuleID = '0000000000000000'
