@@ -69,7 +69,7 @@ void mu::llvmc::generate_module::generate ()
     }
 	for (auto i: module->globals)
 	{
-		auto type (generate_type (i->type ()));
+		auto type (retrieve_type (i->type ()));
 	}
 	builder.finalize ();
 }
@@ -91,7 +91,7 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t
     {
         auto parameter (*i);
 		auto type_s (parameter->type ());
-        auto type_l (module.generate_type (type_s));
+        auto type_l (module.retrieve_type (type_s));
 		function_type_values.push_back (type_l.debug);
         parameters.push_back (type_l.type);
     }
@@ -105,7 +105,7 @@ void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t
             auto type_s (result_a->type);
             if (!type_s->is_unit_type())
             {
-               auto type_l (module.generate_type (type_s));
+               auto type_l (module.retrieve_type (type_s));
 			   auto size (type_l.debug.getSizeInBits ());
 			   auto line (type_l.debug.getLineNumber ());
 			   auto member (module.builder.createMemberType (module.file, "", module.file, line, size, 0, offset, 0, type_l.debug));
@@ -767,7 +767,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
     auto constant_aggregate_zero (dynamic_cast <mu::llvmc::skeleton::constant_aggregate_zero *> (value_a));
     if (constant_aggregate_zero != nullptr)
     {
-        auto type (module.generate_type (value_a->type ()));;
+        auto type (module.retrieve_type (value_a->type ()));;
         predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
         value = llvm::ConstantAggregateZero::get (type.type);
     }
@@ -776,7 +776,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
         auto constant_pointer_null (dynamic_cast <mu::llvmc::skeleton::constant_pointer_null *> (value_a));
         if (constant_pointer_null != nullptr)
         {
-            auto type (module.generate_type (value_a->type ()));
+            auto type (module.retrieve_type (value_a->type ()));
             predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
             value = llvm::ConstantPointerNull::get(llvm::cast <llvm::PointerType> (type.type));
         }
@@ -785,7 +785,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
             auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (value_a));
             if (constant_int != nullptr)
             {
-                auto type (module.generate_type (value_a->type ()));
+                auto type (module.retrieve_type (value_a->type ()));
                 predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
                 value = llvm::ConstantInt::get (type.type, constant_int->value_m);
             }
@@ -830,7 +830,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                         {
                             assert (instruction->predicate_position == 2);
                             assert (dynamic_cast <mu::llvmc::skeleton::type *> (instruction->arguments [1]) != nullptr);
-                            auto type (module.generate_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [1])));
+                            auto type (module.retrieve_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [1])));
                             predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
                             predicate = process_predicates (predicate, instruction->arguments, 3);
                             auto predicate_branch (llvm::BasicBlock::Create (context));
@@ -1023,7 +1023,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
                             assert (dynamic_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2]) != nullptr);
-                            auto type (module.generate_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2])));
+                            auto type (module.retrieve_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2])));
                             predicate = process_predicates (left.predicate, instruction->arguments, 3);
                             auto instruction_l (llvm::SExtInst::CreateSExtOrBitCast (left.value, type.type));
                             instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
@@ -1149,7 +1149,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
                             auto left (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
                             assert (dynamic_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2]) != nullptr);
-                            auto type (module.generate_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2])));
+                            auto type (module.retrieve_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2])));
                             predicate = process_predicates (left.predicate, instruction->arguments, 3);
                             auto instruction_l (llvm::SExtInst::CreateZExtOrBitCast (left.value, type.type));
                             instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
@@ -1238,7 +1238,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
 								llvm::Type * type;
 								if (!info->type_m->is_unit_type ())
 								{
-									type = module.generate_type (info->type_m).type;
+									type = module.retrieve_type (info->type_m).type;
 								}
 								else
 								{
@@ -1278,7 +1278,7 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                                     predicate = value_l.predicate;
                                     auto const & name (named->name);
                                     auto type (named->type ());
-                                    module.generate_type (type);
+                                    module.retrieve_type (type);
                                     auto existing (module.type_information.find (type));
                                     assert (existing != module.type_information.end ());
                                     if (value_l.value != nullptr)
@@ -1310,8 +1310,24 @@ llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a
     return and_instruction;
 }
 
+mu::llvmc::type_info mu::llvmc::generate_module::retrieve_type (mu::llvmc::skeleton::type * type_a)
+{
+    mu::llvmc::type_info result;
+    auto existing (type_information.find (type_a));
+    if (existing != type_information.end ())
+    {
+        result = existing->second;
+    }
+    else
+    {
+        result = generate_type (type_a);
+    }
+    return result;
+}
+
 mu::llvmc::type_info mu::llvmc::generate_module::generate_type (mu::llvmc::skeleton::type * type_a)
 {
+    assert (type_information.find (type_a) == type_information.end ());
     mu::llvmc::type_info result;
     auto integer_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type_a));
     if (integer_type != nullptr)
@@ -1329,7 +1345,7 @@ mu::llvmc::type_info mu::llvmc::generate_module::generate_type (mu::llvmc::skele
         auto pointer_type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type_a));
         if (pointer_type != nullptr)
         {
-            auto element_type (generate_type (pointer_type->pointed_type));
+            auto element_type (retrieve_type (pointer_type->pointed_type));
             assert (element_type.type != nullptr);
             assert (element_type.debug != nullptr);
             result.debug = builder.createPointerType (element_type.debug, 8, 0, "ptr");

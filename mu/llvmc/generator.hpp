@@ -67,6 +67,7 @@ namespace mu
             generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate ();
             mu::llvmc::type_info generate_type (mu::llvmc::skeleton::type * type_a);
+            mu::llvmc::type_info retrieve_type (mu::llvmc::skeleton::type * type_a);
 			llvm::DIBuilder builder;
 			mu::map <mu::llvmc::skeleton::type *, mu::llvmc::type_info> type_information;
             mu::map <mu::llvmc::skeleton::function *, std::tuple <llvm::Function *, size_t, mu::string>> functions;
