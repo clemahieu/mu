@@ -67,17 +67,15 @@ void mu::llvmc::generate_module::generate ()
         name += std::string (i->first.begin (), i->first.end ());
         auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
         target.module->getFunctionList ().push_back (function_l);
-		functions.insert (decltype (functions)::value_type (i->second, decltype (functions)::mapped_type (function_l, function_id, i->first)));
+		functions.insert (decltype (functions)::value_type (i->second, decltype (functions)::mapped_type (function_l)));
+        target.names [i->first] = function_l;
 	}
     for (auto i (functions.begin ()), j (functions.end ()); i != j; ++i)
     {
-		if (std::get <0> (i->second)->getBasicBlockList ().empty ())
+		if (i->second->getBasicBlockList ().empty ())
 		{
 			mu::llvmc::generate_function generator_l (*this, i->first);
-			generator_l.generate (std::get <2> (i->second), std::get <1> (i->second));
-			assert (std::get <0> (i->second) != nullptr);
-			assert (target.names.find (std::get <2> (i->second)) == target.names.end ());
-			target.names [std::get <2> (i->second)] = std::get <0> (i->second);
+			generator_l.generate ();
 		}
     }
 	for (auto i: module->globals)
@@ -94,16 +92,21 @@ function_return_type (function_a->get_return_type ())
 {
 }
 
-void mu::llvmc::generate_function::generate (mu::string const & name_a, uint64_t function_id_a)
+static std::string strip_unique (std::string const & name_a)
+{
+    assert (name_a.size () >= 34);
+    std::string result (name_a.begin () + 34, name_a.end ());
+    return result;
+}
+
+void mu::llvmc::generate_function::generate ()
 {
     auto & context (module.target.module->getContext ());
-    
-    
     assert (module.functions.find (function) != module.functions.end ());
-    auto function_l (std::get <0> (module.functions.find (function)->second));
+    auto function_l (module.functions.find (function)->second);
     auto type (module.retrieve_type (&function->type_m));
     auto function_type (llvm::cast <llvm::FunctionType> (type.type));
-	function_d = module.builder.createFunction (module.file, std::string (name_a.begin (), name_a.end ()), function_l->getName (), module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
+	function_d = module.builder.createFunction (module.file, strip_unique (function_l->getName ()), function_l->getName (), module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
     block_d = module.builder.createLexicalBlock (function_d, module.file, function->region.first.row, function->region.first.column);
     function_m = function_l;
     auto entry (llvm::BasicBlock::Create (context));
@@ -304,13 +307,13 @@ void mu::llvmc::generate_function::generate_call (mu::llvmc::skeleton::function_
     assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
     auto existing (module.functions.find (call_a->target));
     assert (existing != module.functions.end ());
-    if (std::get <0> (existing->second)->getBasicBlockList ().empty ())
+    if (existing->second->getBasicBlockList ().empty ())
     {
         mu::llvmc::generate_function generator (module, call_a->target);
-        generator.generate (std::get <2> (existing->second), std::get <1> (existing->second));
+        generator.generate ();
     }
     assert (module.functions.find (call_a->target) != module.functions.end ());
-    auto function (std::get <0> (module.functions [call_a->target]));
+    auto function (module.functions [call_a->target]);
     assert (function != nullptr);
     std::vector <llvm::Value *> arguments;
     size_t position (1);
