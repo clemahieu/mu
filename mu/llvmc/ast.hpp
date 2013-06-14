@@ -169,6 +169,12 @@ namespace mu
                 mu::string bits;
                 mu::llvmc::ast::node * number;
             };
+            class constant_array : public mu::llvmc::ast::expression
+            {
+            public:
+                mu::llvmc::ast::node * type;
+                mu::vector <mu::llvmc::ast::node *> initializer;
+            };
             class number : public mu::llvmc::ast::node
             {
             public:

@@ -3016,3 +3016,38 @@ TEST (llvmc_analyzer, array_type)
     ASSERT_NE (nullptr, type4);
     ASSERT_EQ (8, type4->bits);
 }
+
+TEST (llvmc_analyzer, constant_array)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::number number1 (U"4");
+    mu::llvmc::ast::array_type type2 (&type1, &number1);
+    mu::llvmc::ast::number number2 (U"ha5");
+    mu::llvmc::ast::constant_int constant1 (U"8", &number2);
+    mu::llvmc::ast::constant_array constant2;
+    constant2.initializer.assign (4, &constant1);
+    mu::llvmc::ast::result result1 (&type2);
+    result1.value = &constant2;
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    mu::llvmc::ast::function_declaration declaration1 (&function1);
+    module1.functions.push_back (&declaration1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (0, function2->parameters.size ());
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::array_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type3);
+    ASSERT_EQ (4, type3->size);
+    auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->element));
+    ASSERT_NE (nullptr, type4);
+    ASSERT_EQ (8, type4->bits);
+}
