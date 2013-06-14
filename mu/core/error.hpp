@@ -136,7 +136,8 @@ namespace mu
             expecting_ast_or_reference,
             expecting_function_declaration,
             initializer_must_be_constant,
-            initializer_type_doesnt_match
+            initializer_type_doesnt_match,
+            expecting_array_initializers
         };
         class error
         {

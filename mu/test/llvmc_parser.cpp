@@ -1267,3 +1267,34 @@ TEST (llvmc_parser, array_type)
     ASSERT_NE (nullptr, number1);
     ASSERT_EQ (U"4", number1->number_m);
 }
+
+TEST (llvmc_parser, constant_array)
+{
+    test_parser parser ("function test1 [] [[carray int8 [cint8 #h08 cint8 #h09 cint8 #h0a cint8 #h0b]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto declaration1 (dynamic_cast <mu::llvmc::ast::function_declaration *> (module2->functions [0]));
+    ASSERT_NE (nullptr, declaration1);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (declaration1->function));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
+    ASSERT_NE (nullptr, expression1);
+    ASSERT_EQ (1, expression1->arguments.size ());
+    auto constant1 (dynamic_cast <mu::llvmc::ast::constant_array *> (expression1->arguments [0]));
+    ASSERT_NE (nullptr, constant1);
+    auto integer_type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (constant1->type));
+    ASSERT_NE (nullptr, integer_type1);
+    ASSERT_EQ (U"8", integer_type1->bits);
+    ASSERT_EQ (4, constant1->initializer.size ());
+    auto constant2 (dynamic_cast <mu::llvmc::ast::constant_int *> (constant1->initializer [0]));
+    ASSERT_NE (nullptr, constant2);
+    ASSERT_EQ (integer_type1->bits, constant2->bits);
+    auto number2 (dynamic_cast <mu::llvmc::ast::number *> (constant2->number));
+    ASSERT_NE (nullptr, number2);
+    ASSERT_EQ (U"h08", number2->number_m);
+}

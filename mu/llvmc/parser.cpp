@@ -36,6 +36,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"cint", &constant_int);
     assert (!error);
+    error = keywords.insert (U"carray", &constant_array);
+    assert (!error);
     error = keywords.insert (U"function", &function);
     assert (!error);
     error = keywords.insert (U"int", &int_type);
@@ -1406,7 +1408,8 @@ mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & re
 {
     assert (data_a.empty ());
     auto node (new (GC) mu::llvmc::ast::array_type);
-    mu::llvmc::node_result result;
+    node->region.first = region_a.first;
+    mu::llvmc::node_result result ({nullptr, nullptr});
     result.error = parser_a.parse_ast_or_refer (
         [=]
         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
@@ -1421,6 +1424,7 @@ mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & re
             (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
             {
                 node->size = node_a;
+                node->region.last = region_a.last;
             }
         );
         if (result.error == nullptr)
@@ -1432,6 +1436,53 @@ mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & re
 }
 
 bool mu::llvmc::array_type::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::constant_array::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto node (new (GC) mu::llvmc::ast::constant_array);
+    node->region.first = region_a.first;
+    result.error = parser_a.parse_ast_or_refer (
+        [=]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            node->type = node_a;
+        }
+    );
+    if (result.error == nullptr)
+    {
+        result.error = parser_a.parse_left_square_required (U"Expecting array initializer list", mu::core::error_type::expecting_array_initializers);
+        if (result.error == nullptr)
+        {
+            auto done (false);
+            while (!done && result.error == nullptr)
+            {
+                result.error = parser_a.parse_ast_or_refer_or_right_square (
+                    [&, node]
+                    (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                    {
+                        node->initializer.push_back (node_a);
+                    },
+                    [&]
+                    (mu::io::right_square * token_a)
+                    {
+                        node->region.last = token_a->region.last;
+                        done = true;
+                    }, U"Expecting array initializer list", mu::core::error_type::expecting_array_initializers);
+            }
+            if (result.error == nullptr)
+            {
+                result.node = node;
+            }
+        }
+    }
+    return result;
+}
+
+bool mu::llvmc::constant_array::covering ()
 {
     return false;
 }
