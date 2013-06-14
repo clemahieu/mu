@@ -2033,7 +2033,6 @@ TEST (llvmc_generator, generate_array)
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
-	std::cout << info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_array_expected), info);
