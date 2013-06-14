@@ -1241,3 +1241,29 @@ TEST (llvmc_parser, asm_constraint_error)
     ASSERT_EQ (mu::core::error_type::asm_hook_expecting_constraints, module1.error->type ());
     ASSERT_EQ (mu::core::region (32, 1, 33, 32, 1, 33), module1.error->region ());
 }
+
+TEST (llvmc_parser, array_type)
+{
+    test_parser parser ("function test1 [array int8 #4 p0] [] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->functions.size ());
+    auto declaration1 (dynamic_cast <mu::llvmc::ast::function_declaration *> (module2->functions [0]));
+    ASSERT_NE (nullptr, declaration1);
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (declaration1->function));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter1 (dynamic_cast <mu::llvmc::ast::parameter *> (function1->parameters [0]));
+    ASSERT_NE (nullptr, parameter1);
+    auto array_type1 (dynamic_cast <mu::llvmc::ast::array_type *> (parameter1->type));
+    ASSERT_NE (nullptr, array_type1);
+    auto integer_type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (array_type1->element_type));
+    ASSERT_NE (nullptr, integer_type1);
+    ASSERT_EQ (U"8", integer_type1->bits);
+    auto number1 (dynamic_cast <mu::llvmc::ast::number *> (array_type1->size));
+    ASSERT_NE (nullptr, number1);
+    ASSERT_EQ (U"4", number1->number_m);
+}

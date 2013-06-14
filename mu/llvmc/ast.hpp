@@ -152,6 +152,7 @@ namespace mu
             class array_type : public mu::llvmc::ast::type
             {
             public:
+                array_type () = default;
                 array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a);
                 mu::llvmc::ast::node * element_type;
                 mu::llvmc::ast::node * size;

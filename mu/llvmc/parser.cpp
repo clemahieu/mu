@@ -30,6 +30,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"#", &number);
     assert (!error);
+    error = keywords.insert (U"array", &array_type);
+    assert (!error);
     error = keywords.insert (U"asm", &asm_hook);
     assert (!error);
     error = keywords.insert (U"cint", &constant_int);
@@ -1398,4 +1400,38 @@ mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const 
             break;
     }
     return result;
+}
+
+mu::llvmc::node_result mu::llvmc::array_type::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    auto node (new (GC) mu::llvmc::ast::array_type);
+    mu::llvmc::node_result result;
+    result.error = parser_a.parse_ast_or_refer (
+        [=]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            node->element_type = node_a;
+        }
+    );
+    if (result.error == nullptr)
+    {
+        result.error = parser_a.parse_ast_or_refer (
+            [=]
+            (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+            {
+                node->size = node_a;
+            }
+        );
+        if (result.error == nullptr)
+        {
+            result.node = node;
+        }
+    }
+    return result;
+}
+
+bool mu::llvmc::array_type::covering ()
+{
+    return false;
 }
