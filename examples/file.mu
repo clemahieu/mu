@@ -42,11 +42,8 @@ function write-osx
 [
 	let nothing [asm unit {%%%}
 		mov $$0x2000004, %rax
-		mov $0, %rdi
-		mov $1, %rsi
-		mov $2, %rdx
 		syscall
-		%%% {%%%} =r,r,r %%% file-descriptor data size]
+		%%% {%%%} {di},{si},{dx},~rax %%% file-descriptor data size]
 ]
 [[;nothing]]
 
@@ -61,9 +58,9 @@ function write
 function write-test
 []
 [
-	let text [alloca array int8 #11]
-	let stored [store carray int8 [cint8 #72 cint8 #101 cint8 #108 cint8 #108 cint8 #111 cint8 #32 cint8 #87 cint8 #111 cint8 #114 cint8 #108 cint8 #100] text]
-	let result [write cint64 #1 [bitcast text ptr int8] cint64 #11; stored]
+	let text [alloca array int8 #13]
+	let stored [store carray int8 [cint8 #72 cint8 #101 cint8 #108 cint8 #108 cint8 #111 cint8 #32 cint8 #87 cint8 #111 cint8 #114 cint8 #108 cint8 #100 cint8 #33 cint8 #32] text]
+	let result [write cint64 #1 [bitcast text ptr int8] cint64 #13; stored]
 ]
 [[;result]]
 
