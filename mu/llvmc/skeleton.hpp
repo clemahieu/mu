@@ -95,13 +95,21 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
+            class array_type : public mu::llvmc::skeleton::type
+            {
+            public:
+                array_type (mu::llvmc::skeleton::type * element_a, size_t size_a);
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
+                mu::llvmc::skeleton::type * element;
+                size_t size;
+            };
 			class constant_array : public mu::llvmc::skeleton::constant
 			{
 			public:
-				constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
+				constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a);
                 mu::llvmc::skeleton::type * type () override;
-                mu::llvmc::skeleton::type * type_m;
-				mu::vector <mu::llvmc::skeleton::constant *> data;
+                mu::llvmc::skeleton::array_type * type_m;
+				mu::vector <mu::llvmc::skeleton::constant *> initializer;
 			};
             class instruction : public mu::llvmc::skeleton::value
             {
@@ -325,7 +333,6 @@ namespace mu
             public:
                 module ();
                 mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
-				mu::vector <mu::llvmc::skeleton::global_variable *> globals;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };

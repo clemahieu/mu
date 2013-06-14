@@ -6,10 +6,12 @@
 
 #include <gc_cpp.h>
 
-mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+mu::llvmc::skeleton::constant_array::constant_array (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::array_type * type_a, mu::vector <mu::llvmc::skeleton::constant *> const & initializer_a) :
 constant (region_a, branch_a),
-type_m (type_a)
+type_m (type_a),
+initializer (initializer_a)
 {
+    assert (initializer_a.size () == type_a->size);
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_array::type ()
@@ -757,6 +759,23 @@ mu::llvmc::skeleton::identity_call::identity_call (mu::vector <mu::llvmc::skelet
 arguments (arguments_a),
 predicate_offset (predicate_offset_a)
 {
+}
+
+mu::llvmc::skeleton::array_type::array_type (mu::llvmc::skeleton::type * element_a, size_t size_a) :
+element (element_a),
+size (size_a)
+{
+}
+
+bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+{
+    auto result (false);
+    auto array_type_l (dynamic_cast <mu::llvmc::skeleton::array_type const *> (&other_a));
+    if (array_type_l != nullptr)
+    {
+        result = *element == *array_type_l->element && size == array_type_l->size;
+    }
+    return result;
 }
 
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);

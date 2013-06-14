@@ -70,7 +70,7 @@ namespace mu
             mu::llvmc::type_info retrieve_type (mu::llvmc::skeleton::type * type_a);
 			llvm::DIBuilder builder;
 			mu::map <mu::llvmc::skeleton::type *, mu::llvmc::type_info> type_information;
-            mu::map <mu::llvmc::skeleton::value *, llvm::Value *> globals;
+            mu::map <mu::llvmc::skeleton::function *, llvm::Function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;

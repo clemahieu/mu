@@ -2011,23 +2011,30 @@ TEST (llvmc_generator, generate_call_0_predicate)
     ASSERT_EQ (std::string (generate_call_0_predicate_expected), info);
 }
 
-extern char const * const generate_global_variable_integer_expected;
+extern char const * const generate_array_expected;
 
-TEST (llvmc_generator, DISABLED_generate_global_variable_integer)
+TEST (llvmc_generator, generate_array)
 {
     mu::llvmc::skeleton::module module;
-	mu::llvmc::skeleton::pointer_type pointer1 (&mu::llvmc::skeleton::integer_1_type);
-	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 1, 0);
-	mu::llvmc::skeleton::global_variable global1 (mu::empty_region, module.global, &pointer1, &constant1);
-	module.globals.push_back (&global1);
+	mu::llvmc::skeleton::array_type array1 (&mu::llvmc::skeleton::integer_8_type, 16);
+    mu::vector <mu::llvmc::skeleton::constant *> initializer1;
+    mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, module.global, 8, 0xcd);
+    initializer1.assign (16, &constant2);
+	mu::llvmc::skeleton::constant_array constant1 (mu::empty_region, module.global, &array1, initializer1);
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::result result1 (&array1, &constant1);
+    function1.results.push_back (&result1);
+    function1.add_predicate_offset ();
+    function1.add_branch_end ();
+    module.functions [U"0"] = &function1;
     mu::llvmc::generator generator;
     llvm::LLVMContext context;
-    auto result (generator.generate (context, &module, U"generate_global_variable_integer", U"", 0));
+    auto result (generator.generate (context, &module, U"generate_array", U"", 0));
     ASSERT_NE (nullptr, result.module);
     std::string info;
     print_module (result.module, info);
 	std::cout << info;
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
-    ASSERT_EQ (std::string (generate_global_variable_integer_expected), info);
+    ASSERT_EQ (std::string (generate_array_expected), info);
 }
