@@ -149,6 +149,13 @@ namespace mu
                 pointer_type (mu::llvmc::ast::node * pointed_type_a);
                 mu::llvmc::ast::node * pointed_type;
             };
+            class array_type : public mu::llvmc::ast::type
+            {
+            public:
+                array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a);
+                mu::llvmc::ast::node * element_type;
+                mu::llvmc::ast::node * size;
+            };
             class module : public mu::llvmc::ast::node
             {
             public:

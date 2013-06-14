@@ -2988,3 +2988,31 @@ TEST (llvmc_analyzer, global_argument_call_in_function_branch)
     ASSERT_NE (nullptr, expression2);
     ASSERT_EQ (function4->entry, expression2->branch);
 }
+
+TEST (llvmc_analyzer, array_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::number number1 (U"4");
+    mu::llvmc::ast::array_type type2 (&type1, &number1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::function_declaration declaration1 (&function1);
+    module1.functions.push_back (&declaration1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (1, function2->parameters.size ());
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::array_type *> (function2->parameters [0]->type ()));
+    ASSERT_NE (nullptr, type3);
+    ASSERT_EQ (4, type3->size);
+    auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->element));
+    ASSERT_NE (nullptr, type4);
+    ASSERT_EQ (8, type4->bits);
+}

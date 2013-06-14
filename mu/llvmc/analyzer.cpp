@@ -241,8 +241,16 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 															}
 															else
 															{
-																std::string name (typeid (*node_a).name ());
-																assert (false);
+                                                                auto array_type (dynamic_cast <mu::llvmc::ast::array_type *> (node_a));
+                                                                if (array_type != nullptr)
+                                                                {
+                                                                    process_array_type (array_type);
+                                                                }
+                                                                else
+                                                                {
+                                                                    std::string name (typeid (*node_a).name ());
+                                                                    assert (false);
+                                                                }
 															}
 														}
 													}
@@ -269,6 +277,27 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
 	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
 	return result;
+}
+
+void mu::llvmc::analyzer_function::process_array_type (mu::llvmc::ast::array_type * type_a)
+{
+    auto element (process_type (type_a->element_type));
+    if (element != nullptr)
+    {
+        auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
+        if (number != nullptr)
+        {
+            auto number_l (process_number (number));
+            if (number_l != nullptr)
+            {
+                already_generated [type_a] = new (GC) mu::llvmc::skeleton::array_type (element, number_l->value);
+            }
+        }
+        else
+        {
+            result_m.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+        }
+    }
 }
 
 void mu::llvmc::analyzer_function::process_asm (mu::llvmc::ast::definite_expression * asm_a)
