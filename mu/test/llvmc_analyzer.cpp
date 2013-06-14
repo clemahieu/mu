@@ -1451,23 +1451,26 @@ TEST (llvmc_analyzer, DISABLED_instruction_atomicrmw)
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [2]);
 }
 
-TEST (llvmc_analyzer, DISABLED_instruction_bitcast)
+TEST (llvmc_analyzer, instruction_bitcast)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
     function1.name = U"0";
-    mu::llvmc::ast::integer_type type1 (U"1");;
-    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
+    mu::llvmc::ast::integer_type type1 (U"32");
+    mu::llvmc::ast::pointer_type type2 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
     function1.parameters.push_back (&parameter1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::bitcast);
     mu::llvmc::ast::value value1 (&marker1);
     expression1.arguments.push_back (&value1);
     expression1.arguments.push_back (&parameter1);
-    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::integer_type type3 (U"8");
+    mu::llvmc::ast::pointer_type type4 (&type3);
+    expression1.arguments.push_back (&type4);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::result result1 (&type1);
+    mu::llvmc::ast::result result1 (&type4);
     result1.value = &expression1;
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -1488,7 +1491,12 @@ TEST (llvmc_analyzer, DISABLED_instruction_bitcast)
 	ASSERT_EQ (3, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [1]);
-	ASSERT_EQ (function2->parameters [0], instruction1->arguments [2]);
+    auto type5 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (instruction1->arguments [2]));
+    ASSERT_NE (nullptr, type5);
+    auto type6 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type5->pointed_type));
+    ASSERT_NE (nullptr, type6);
+    ASSERT_EQ (8, type6->bits);
+    ASSERT_EQ (*type5, *result2->type);
 }
 
 TEST (llvmc_analyzer, DISABLED_instruction_call)

@@ -21,7 +21,7 @@ function exit_osx
 function linux
 []
 []
-[[int1 cint1 #1]]
+[[int1 cint1 #0]]
 
 function exit
 [int32 code]
@@ -31,9 +31,46 @@ function exit
 ]
 [[; result]]
 
+function write-linux
+[int64 file-descriptor ptr int8 data int64 size]
+[
+]
+[[]]
+
+function write-osx
+[int64 file-descriptor ptr int8 data int64 size]
+[
+	let nothing [asm unit {%%%}
+		mov $$0x2000004, %rax
+		mov $0, %rdi
+		mov $1, %rsi
+		mov $2, %rdx
+		syscall
+		%%% {%%%} =r,r,r %%% file-descriptor data size]
+]
+[[;nothing]]
+
+function write
+[int64 file-descriptor ptr int8 data int64 size]
+[
+	let linux_l osx [if [linux]]
+	let result [join [write-linux file-descriptor data size; linux_l] [write-osx file-descriptor data size; osx]]
+]
+[[;result]]
+
+function write-test
+[]
+[
+	let text [alloca array int8 #11]
+	let stored [store carray int8 [cint8 #72 cint8 #101 cint8 #108 cint8 #108 cint8 #111 cint8 #32 cint8 #87 cint8 #111 cint8 #114 cint8 #108 cint8 #100] text]
+	let result [write cint64 #1 [bitcast ptr int8 text] cint64 #11; stored]
+]
+[[;result]]
+
 function entry
 []
 [
-	let result [exit cint32 #0]
+	let write_l [write-test]
+	let result [exit cint32 #0; write_l]
 ]
 [[; result]]

@@ -1477,6 +1477,46 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 }
                 break;
             }
+            case mu::llvmc::instruction_type::bitcast:
+            {
+                if (predicate_offset >= 3)
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (value != nullptr)
+                    {
+                        auto type (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]));
+                        if (type != nullptr)
+                        {
+                            auto value_pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (value->type ()));
+                            if (value_pointer != nullptr)
+                            {
+                                auto type_pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
+                                if (type_pointer != nullptr)
+                                {
+                                    already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+                                }
+                                else
+                                {
+                                    result_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                                }
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                            }
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+                    }
+                }
+                break;
+            }
             case mu::llvmc::instruction_type::cmpxchg:
             {
                 if (predicate_offset == 4)
@@ -1758,16 +1798,16 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
             {
                 if (predicate_offset == 3)
                 {
-                    auto left (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
-                    if (left != nullptr)
+                    auto source (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (source != nullptr)
                     {
-                        auto right (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
-                        if (right != nullptr)
+                        auto destination (dynamic_cast<mu::llvmc::skeleton::value *> (arguments [2]));
+                        if (destination != nullptr)
                         {
-                            auto right_type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (right->type ()));
-                            if (right_type != nullptr)
+                            auto destination_type (dynamic_cast<mu::llvmc::skeleton::pointer_type *> (destination->type ()));
+                            if (destination_type != nullptr)
                             {
-                                if (*right_type->pointed_type == *left->type ())
+                                if (*destination_type->pointed_type == *source->type ())
                                 {
                                     already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
                                 }

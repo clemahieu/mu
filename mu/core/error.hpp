@@ -137,7 +137,8 @@ namespace mu
             expecting_function_declaration,
             initializer_must_be_constant,
             initializer_type_doesnt_match,
-            expecting_array_initializers
+            expecting_array_initializers,
+            argument_must_be_pointer_type
         };
         class error
         {

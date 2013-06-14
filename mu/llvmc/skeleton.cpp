@@ -436,6 +436,13 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
             result = binary_integer_type ();
             break;
         }
+        case mu::llvmc::instruction_type::bitcast:
+        {
+            assert (predicate_position == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::type *> (arguments [2]);
+            break;
+        }
         case mu::llvmc::instruction_type::cmpxchg:
         {
             assert (predicate_position == 4);
