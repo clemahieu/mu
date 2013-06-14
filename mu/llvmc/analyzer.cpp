@@ -248,8 +248,16 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                                                 }
                                                                 else
                                                                 {
-                                                                    std::string name (typeid (*node_a).name ());
-                                                                    assert (false);
+                                                                    auto constant_array (dynamic_cast <mu::llvmc::ast::constant_array *> (node_a));
+                                                                    if (constant_array != nullptr)
+                                                                    {
+                                                                        process_constant_array (constant_array);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        std::string name (typeid (*node_a).name ());
+                                                                        assert (false);
+                                                                    }
                                                                 }
 															}
 														}
@@ -277,6 +285,64 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 	assert (result_m.error != nullptr || !result || (result && already_generated_multi.find (node_a) != already_generated_multi.end ()));
 	assert (result_m.error != nullptr || !!result || (!result && already_generated.find (node_a) != already_generated.end ()));
 	return result;
+}
+
+void mu::llvmc::analyzer_function::process_constant_array (mu::llvmc::ast::constant_array * array_a)
+{
+    auto type (process_type (array_a->type));
+    if (type != nullptr)
+    {
+        mu::vector <mu::llvmc::skeleton::constant *> initializer;
+        for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && result_m.error == nullptr; ++i)
+        {
+            auto multi (process_node (*i));
+            if (!multi)
+            {
+                auto value (already_generated [*i]);
+                auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
+                if (constant != nullptr)
+                {
+                    if (*type == *constant->type ())
+                    {
+                        initializer.push_back (constant);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
+                }
+            }
+            else
+            {
+                auto & values (already_generated_multi [*i]);
+                for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
+                {
+                    auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (*k));
+                    if (constant != nullptr)
+                    {
+                        if (*type == *constant->type ())
+                        {
+                            initializer.push_back (constant);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
+                    }
+                }
+            }
+        }
+        auto array_type (new (GC) mu::llvmc::skeleton::array_type (type, initializer.size ()));
+        already_generated [array_a] = new (GC) mu::llvmc::skeleton::constant_array (array_a->region, module.module->global, array_type, initializer);
+    }
 }
 
 void mu::llvmc::analyzer_function::process_array_type (mu::llvmc::ast::array_type * type_a)
