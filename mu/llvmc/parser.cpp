@@ -32,6 +32,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"array", &array_type);
     assert (!error);
+    error = keywords.insert (U"ascii", &ascii_hook);
+    assert (!error);
     error = keywords.insert (U"asm", &asm_hook);
     assert (!error);
     error = keywords.insert (U"cint", &constant_int);
@@ -1510,6 +1512,40 @@ mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & r
 }
 
 bool mu::llvmc::string_hook::covering ()
+{
+	return false;
+}
+
+mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+	mu::llvmc::node_result result ({nullptr, nullptr});
+	result.error = parser_a.parse_identifier (
+		[&]
+		(mu::io::identifier * identifier_a)
+		{
+			mu::core::error * result_l (nullptr);
+			auto int_type (new (GC) mu::llvmc::skeleton::integer_type (8));
+			mu::vector <mu::llvmc::skeleton::constant *> initializer;
+			for (auto i (identifier_a->string.begin ()), j (identifier_a->string.end ()); i != j && result_l == nullptr; ++i)
+			{
+				uint32_t value (*i);
+				if (value < 0x100)
+				{
+					initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, nullptr, 8, value));
+				}
+				else
+				{
+					result_l = new (GC) mu::core::error_string (U"Character doesn't fit in to an ASCII character", mu::core::error_type::character_does_not_fit_in_to_an_ascii_character, identifier_a->region);
+				}
+			}
+			auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), nullptr, new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
+			result.node = new (GC) mu::llvmc::ast::value (value);
+			return result_l;
+		}, U"String hook is expecting an identifier", mu::core::error_type::expecting_identifier);
+	return result;
+}
+
+bool mu::llvmc::ascii_hook::covering ()
 {
 	return false;
 }

@@ -138,7 +138,8 @@ namespace mu
             initializer_must_be_constant,
             initializer_type_doesnt_match,
             expecting_array_initializers,
-            argument_must_be_pointer_type
+            argument_must_be_pointer_type,
+			character_does_not_fit_in_to_an_ascii_character
         };
         class error
         {
