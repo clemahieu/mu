@@ -50,6 +50,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"set", &set_hook);
     assert (!error);
+    error = keywords.insert (U"string", &string_hook);
+    assert (!error);
     error = globals.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
     assert (!error);
     error = globals.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
@@ -1485,4 +1487,29 @@ mu::llvmc::node_result mu::llvmc::constant_array::parse (mu::core::region const 
 bool mu::llvmc::constant_array::covering ()
 {
     return false;
+}
+
+mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+	mu::llvmc::node_result result ({nullptr, nullptr});
+	result.error = parser_a.parse_identifier (
+							   [&]
+											  (mu::io::identifier * identifier_a)
+	{
+		auto int_type (new (GC) mu::llvmc::skeleton::integer_type (32));
+		mu::vector <mu::llvmc::skeleton::constant *> initializer;
+		for (auto i: identifier_a->string)
+		{
+			initializer.push_back (new (GC) mu::llvmc::skeleton::constant_integer (identifier_a->region, nullptr, 32, i));
+		}
+		auto value (new (GC) mu::llvmc::skeleton::constant_array (mu::core::region (region_a.first, identifier_a->region.last), nullptr, new (GC) mu::llvmc::skeleton::array_type (int_type, initializer.size ()), initializer));
+		result.node = new (GC) mu::llvmc::ast::value (value);
+		return nullptr;
+	}, U"String hook is expecting an identifier", mu::core::error_type::expecting_identifier);
+	return result;
+}
+
+bool mu::llvmc::string_hook::covering ()
+{
+	return false;
 }
