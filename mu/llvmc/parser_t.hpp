@@ -44,29 +44,19 @@ template <typename T>
 mu::core::error * mu::llvmc::parser::parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
 {
     mu::core::error * result;
-    auto item (peek ());
-    if (item.token != nullptr)
-    {
-        auto id (item.token->id ());
-        switch (id)
-        {
-            case mu::io::token_id::identifier:
-                assert (dynamic_cast <mu::io::identifier *> (item.token) != nullptr);
-                result = identifier_op (static_cast <mu::io::identifier *> (item.token));
-                break;
-            default:
-                result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.token->region);
-                break;
-        }
-    }
-    else if (item.ast != nullptr)
-    {
-        result = new (GC) mu::core::error_string (error_message_a, error_type_a, item.ast->region);
-    }
-    else
-    {
-        result = item.error;
-    }
+	auto item (stream [0]);
+	auto id (item->id ());
+	switch (id)
+	{
+		case mu::io::token_id::identifier:
+			stream.consume (1);
+			assert (dynamic_cast <mu::io::identifier *> (item) != nullptr);
+			result = identifier_op (static_cast <mu::io::identifier *> (item));
+			break;
+		default:
+			result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
+			break;
+	}
     return result;
 }
 
