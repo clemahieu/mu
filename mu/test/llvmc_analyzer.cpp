@@ -3115,7 +3115,7 @@ TEST (llvmc_analyzer, DISABLED_typeof_single)
     ASSERT_EQ (0xa5, constant_int->value_m);
 }
 
-TEST (llvmc_analyzer, DISABLED_value_branch)
+TEST (llvmc_analyzer, value_branch)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;

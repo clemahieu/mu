@@ -130,9 +130,15 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 				}
 				else
 				{
-					auto value_node (dynamic_cast<mu::llvmc::ast::value *> (node_a));
+					auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
 					if (value_node != nullptr)
 					{
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (value_node->node_m));
+                        if (value != nullptr)
+                        {
+                            assert (value->branch == nullptr);
+                            value->branch = module.module->global;
+                        }
 						already_generated [node_a] = value_node->node_m;
 					}
 					else
