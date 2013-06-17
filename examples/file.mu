@@ -165,14 +165,14 @@ function close
 function mmap-osx
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos]
+	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
 function mmap-linux
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos]
+	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
