@@ -957,6 +957,21 @@ mu::llvmc::value_data mu::llvmc::generate_function::generate_single (mu::llvmc::
                             value = instruction_l;
                             break;
                         }
+                        case mu::llvmc::instruction_type::ptrtoint:
+                        {
+                            assert (instruction->predicate_position == 3);
+                            assert (dynamic_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1]) != nullptr);
+                            auto value_l (retrieve_value (static_cast <mu::llvmc::skeleton::value *> (instruction->arguments [1])));
+                            assert (dynamic_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2]) != nullptr);
+                            auto type (module.retrieve_type (static_cast <mu::llvmc::skeleton::type *> (instruction->arguments [2])));
+                            predicate = value_l.predicate;
+                            predicate = process_predicates (predicate, instruction->arguments, 3);
+                            auto instruction_l (llvm::PtrToIntInst::CreatePointerCast (value_l.value, type.type));
+                            instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_d));
+                            last->getInstList ().push_back (instruction_l);
+                            value = instruction_l;
+                            break;
+                        }
                         case mu::llvmc::instruction_type::sdiv:
                         {
                             assert (instruction->predicate_position == 3);
