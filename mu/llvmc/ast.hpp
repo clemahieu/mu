@@ -182,6 +182,12 @@ namespace mu
                 number (mu::string const & number_a);
                 mu::string number_m;
             };
+			class typeof_c : public mu::llvmc::ast::node
+			{
+			public:
+				typeof_c (mu::llvmc::ast::node * value_a);
+				mu::llvmc::ast::node * value;
+			};
             class asm_c : public mu::llvmc::ast::node
             {
             public:

@@ -1549,3 +1549,21 @@ bool mu::llvmc::ascii_hook::covering ()
 {
 	return false;
 }
+
+mu::llvmc::node_result mu::llvmc::typeof_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+	mu::llvmc::node_result result ({nullptr, nullptr});
+	result.error = parser_a.parse_ast_or_refer (
+		[&]
+		(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+		{
+			result.node = new (GC) mu::llvmc::ast::typeof_c (node_a);
+		}
+	);
+	return result;
+}
+
+bool mu::llvmc::typeof_hook::covering ()
+{
+	return false;
+}
