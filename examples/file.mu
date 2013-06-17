@@ -4,7 +4,7 @@ function syscall-0
 	let nothing [asm unit {%%%}
 		syscall %%% {%%%} {ax} %%% id]
 ]
-[]
+[[;nothing]]
 
 function syscall-1
 [int64 id int64 arg1]
@@ -13,7 +13,7 @@ function syscall-1
 		syscall
 		%%% {%%%} {ax},{di} %%% id arg1]
 ]
-[]
+[[;nothing]]
 
 function syscall-3
 [int64 id int64 arg1 int64 arg2 int64 arg3]
@@ -22,7 +22,7 @@ function syscall-3
 		syscall
 		%%% {%%%} {ax},{di},{si},{dx} %%% id arg1 arg2 arg3]
 ]
-[]
+[[;nothing]]
 
 function exit_linux
 [int64 code]
@@ -63,7 +63,7 @@ function write-linux
 function write-osx
 [int64 file-descriptor ptr int8 data int64 size]
 [
-	let nothing [syscall-3 cint64 #h2000004 file-descriptor data size]
+	let nothing [syscall-3 cint64 #h2000004 file-descriptor [ptrtoint data int64] size]
 ]
 [[;nothing]]
 
@@ -88,6 +88,6 @@ function entry
 []
 [
 	let write_l [write-test]
-	let result [exit cint32 #0; write_l]
+	let result [exit cint64 #0; write_l]
 ]
 [[; result]]
