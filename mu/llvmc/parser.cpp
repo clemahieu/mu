@@ -1497,9 +1497,9 @@ mu::llvmc::node_result mu::llvmc::string_hook::parse (mu::core::region const & r
 {
 	mu::llvmc::node_result result ({nullptr, nullptr});
 	result.error = parser_a.parse_identifier (
-							   [&]
-											  (mu::io::identifier * identifier_a)
-	{
+    [&]
+    (mu::io::identifier * identifier_a)
+    {
 		auto int_type (new (GC) mu::llvmc::skeleton::integer_type (32));
 		mu::vector <mu::llvmc::skeleton::constant *> initializer;
 		for (auto i: identifier_a->string)

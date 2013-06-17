@@ -705,7 +705,7 @@ mu::llvmc::skeleton::value * mu::llvmc::analyzer_function::process_value (mu::ll
 	process_single_node (node_a);
 	if (result_m.error == nullptr)
 	{
-		result = dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [node_a]);
+		result = dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [node_a]);
 		if (result == nullptr)
 		{
 			result_m.error = new (GC) mu::core::error_string (U"Node is not value", mu::core::error_type::node_is_not_a_value);
@@ -793,35 +793,41 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
 			}
         },
         [&]
-        (mu::llvmc::ast::expression * result_a, size_t)
+        (mu::llvmc::ast::node * node_a, size_t)
         {
-			if (result_a != nullptr)
-			{
-				auto multi (process_node (result_a));
-				if (result_m.error == nullptr)
-				{
-					if (multi)
-					{
-						for (auto i : already_generated_multi [result_a])
-						{
-							assert (dynamic_cast<mu::llvmc::skeleton::value *> (i) != nullptr);
-							function_s->results.push_back (i);
-							branches.add_branch (static_cast<mu::llvmc::skeleton::value *> (i)->branch, result_a->region);
-						}
-					}
-					else
-					{
-						assert (dynamic_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]) != nullptr);
-						auto value (static_cast<mu::llvmc::skeleton::value *> (already_generated [result_a]));
-						function_s->results.push_back (value);
-						branches.add_branch (value->branch, result_a->region);
-					}
-				}
-			}
-			else
-			{
-				result_m.error = new (GC) mu::core::error_string (U"Expecting an expression", mu::core::error_type::expecting_an_expression);
-			}
+            auto multi (process_node (node_a));
+            if (result_m.error == nullptr)
+            {
+                if (multi)
+                {
+                    for (auto i : already_generated_multi [node_a])
+                    {
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (i));
+                        if (value != nullptr)
+                        {
+                            function_s->results.push_back (i);
+                            branches.add_branch (static_cast <mu::llvmc::skeleton::value *> (i)->branch, node_a->region);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value);
+                        }
+                    }
+                }
+                else
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (already_generated [node_a]));
+                    if (value != nullptr)
+                    {
+                        function_s->results.push_back (value);
+                        branches.add_branch (value->branch, node_a->region);
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Predicate is not a value", mu::core::error_type::expecting_a_value);
+                    }
+                }
+            }
         },
         [&]
         (mu::llvmc::ast::node *, size_t)

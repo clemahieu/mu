@@ -1714,16 +1714,16 @@ TEST (llvm_analyzer, error_non_result)
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
     mu::llvmc::ast::function function1;
-	mu::llvmc::ast::number number1 (U"0");
+	mu::llvmc::ast::integer_type type1 (U"1");
     function1.predicate_offsets.push_back (function1.results.size ());
-	function1.results.push_back (&number1);
+	function1.results.push_back (&type1);
     function1.branch_ends.push_back (function1.results.size ());
     mu::llvmc::ast::function_declaration declaration1 (&function1);
     module1.functions.push_back (&declaration1);
     auto result (analyzer.analyze (&module1));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
-	ASSERT_EQ (mu::core::error_type::expecting_an_expression, result.error->type ());
+	ASSERT_EQ (mu::core::error_type::expecting_a_value, result.error->type ());
 }
 
 TEST (llvm_analyzer, error_non_expression)
@@ -3113,4 +3113,37 @@ TEST (llvmc_analyzer, DISABLED_typeof_single)
     ASSERT_NE (nullptr, constant_int);
     ASSERT_EQ (*element_type, *constant_int->type ());
     ASSERT_EQ (0xa5, constant_int->value_m);
+}
+
+TEST (llvmc_analyzer, DISABLED_value_branch)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    function1.predicate_offsets.push_back (function1.results.size ());
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, nullptr, 32, 42);
+    mu::llvmc::ast::value value1 (&constant1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.results.push_back (&value1);
+    mu::llvmc::ast::function_declaration declaration1 (&function1);
+    module1.functions.push_back (&declaration1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_EQ (0, function2->parameters.size ());
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (0, function2->predicate_offsets [0]);
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (1, function2->branch_ends [0]);
+    ASSERT_EQ (1, function2->results.size ());
+    auto predicate1 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (function2->results [0]));
+    ASSERT_NE (nullptr, predicate1);
+    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate1->type ()));
+    ASSERT_NE (nullptr, type1);
+    ASSERT_EQ (predicate1->branch, result.module->global);
+    ASSERT_EQ (32, type1->bits);
+    ASSERT_EQ (42, predicate1->value_m);
 }

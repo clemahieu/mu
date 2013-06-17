@@ -95,8 +95,7 @@ void mu::llvmc::ast::function::for_each_results (T result_op, U predicate_op, V 
         }
         else
         {
-            auto expression (maybe_expression (results [index]));
-            predicate_op (expression, index);
+            predicate_op (results [index], index);
         }
         if (index + 1 >= *current_end)
         {
