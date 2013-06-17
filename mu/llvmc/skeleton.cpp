@@ -479,6 +479,13 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
             result = & mu::llvmc::skeleton::integer_1_type;
             break;
         }
+        case mu::llvmc::instruction_type::inttoptr:
+        {
+            assert (predicate_position == 3);
+            assert (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]) != nullptr);
+            result = static_cast <mu::llvmc::skeleton::type *> (arguments [2]);
+            break;
+        }
         case mu::llvmc::instruction_type::load:
         {
             assert (predicate_position == 2);

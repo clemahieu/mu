@@ -2118,3 +2118,42 @@ TEST (llvmc_generator, generate_ptrtoint)
     auto result2 (function3 (&val));
     ASSERT_EQ ((uint64_t)&val, result2);
 }
+
+extern char const * const generate_ptrfromint_expected;
+
+TEST (llvmc_generator, generate_ptrfromint)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (64);
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::inttoptr);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    mu::llvmc::skeleton::integer_type type2 (32);
+    mu::llvmc::skeleton::pointer_type type3 (&type2);
+    arguments1.push_back (&type3);
+    mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
+    mu::llvmc::skeleton::result result1 (&type3, &named1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.functions [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_ptrfromint", U"", 0));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_ptrfromint_expected), info);
+    auto engine (prepare_module_jit (result.module));
+    ASSERT_NE (result.names.end (), result.names.find (U"0"));
+    auto function2 (engine->getPointerToFunction (result.names.find (U"0")->second));
+    auto function3 (reinterpret_cast <uint32_t * (*) (uint64_t)> (function2));
+    auto result2 (function3 (~0));
+    ASSERT_EQ (~0, (uint64_t)result2);
+}
