@@ -13,8 +13,7 @@ function exit_osx
 [
 	let nothing [asm unit {%%%}
 		mov $$0x2000001, %rax
-		mov $$0, %rdi
-		syscall %%% {}]
+		syscall %%% {%%%} {di} %%% code]
 ]
 [[;nothing]]
 
@@ -58,9 +57,9 @@ function write
 function write-test
 []
 [
-	let text [alloca array int8 #13]
+	let text [alloca array int8 #12]
 	let stored [store ascii {%}Hello world!% text]
-	let result [write cint64 #1 [bitcast text ptr int8] cint64 #13; stored]
+	let result [write cint64 #1 [bitcast text ptr int8] cint64 #12; stored]
 ]
 [[;result]]
 
