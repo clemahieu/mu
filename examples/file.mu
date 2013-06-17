@@ -9,28 +9,21 @@ function syscall-0
 function syscall-1
 [int64 id int64 arg1]
 [
-	let nothing [asm unit {%%%}
-		syscall
-		%%% {%%%} {ax},{di} %%% id arg1]
+	let nothing [asm int64 syscall {%%%}={ax},{ax},{di}%%% id arg1]
 ]
-[[;nothing]]
+[[int64 nothing]]
 
 function syscall-3
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
-	let nothing [asm unit {%%%}
-		syscall
-		%%% {%%%} {ax},{di},{si},{dx} %%% id arg1 arg2 arg3]
+	let nothing [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx} %%% id arg1 arg2 arg3]
 ]
-[[;nothing]]
+[[int64 nothing]]
 
 function exit_linux
 [int64 code]
 [
-	let nothing [asm unit {%%%}
-		mov $$60, %rax
-		mov $$0, %rdi
-		syscall %%% {}]
+	let nothing [syscall-1 cint64 #d60 code]
 ]
 [[;nothing]]
 
@@ -50,7 +43,10 @@ function exit
 [int64 code]
 [
 	let linux_l osx [if [linux]]
-	let result [join [exit_linux code; linux_l] [exit_osx code; osx]]
+	let result [join 
+		[exit_linux code; linux_l]
+		[exit_osx code; osx]
+	]
 ]
 [[; result]]
 
@@ -71,18 +67,48 @@ function write
 [int64 file-descriptor ptr int8 data int64 size]
 [
 	let linux_l osx [if [linux]]
-	let result [join [write-linux file-descriptor data size; linux_l] [write-osx file-descriptor data size; osx]]
+	let result [join 
+		[write-linux file-descriptor data size; linux_l]
+		[write-osx file-descriptor data size; osx]
+	]
 ]
 [[;result]]
 
 function write-test
 []
 [
-	let text [alloca array int8 #12]
-	let stored [store ascii {%}Hello world!% text]
-	let result [write cint64 #1 [bitcast text ptr int8] cint64 #12; stored]
+	let text [alloca array int8 #13]
+	let stored [store ascii 
+{%}Hello world!
+% text]
+	let result [write cint64 #1 [bitcast text ptr int8] cint64 #13; stored]
 ]
 [[;result]]
+
+function open-osx
+[ptr int8 path int64 flags int64 mode]
+[
+	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
+]
+[[int64 fd]]
+
+function open-linux
+[ptr int8 path int64 flags int64 mode]
+[
+	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
+]
+[[int64 fd]]
+
+function open
+[ptr int8 path int64 flags int64 mode]
+[
+	let linux_l osx [if [linux]]
+	let fd [join
+		[open-osx path flags mode; osx]
+		[open-linux path flags mode; linux_l]
+	]
+]
+[[int64 fd]]
 
 function entry
 []
