@@ -109,6 +109,31 @@ function open
 ]
 [[int64 fd]]
 
+function close-osx
+[int64 fd]
+[
+	let result [syscall-1 cint64 #h2000006 fd]
+]
+[[int64 result]]
+
+function close-linux
+[int64 fd]
+[
+	let result [syscall-1 cint64 #h2000006 fd]
+]
+[[int64 result]]
+
+function close
+[int64 fd]
+[
+	let linux_l osx [if [linux]]
+	let result [join
+		[close-osx fd; osx]
+		[close-linux fd; linux_l]
+	]
+]
+[[int64 result]]
+
 function entry
 []
 [
@@ -116,6 +141,7 @@ function entry
 	let stored [store ascii /Users/clemahieu/test.txt:a00 text]
 	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #0; stored]
 	let write_l [write-test fd]
-	let result [exit cint64 #0; write_l]
+	let close_l [close fd; write_l]
+	let result [exit cint64 #0; close_l]
 ]
 [[; result]]
