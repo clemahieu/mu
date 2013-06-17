@@ -8,16 +8,30 @@ function syscall-0
 function syscall-1
 [int64 id int64 arg1]
 [
-	let nothing [asm int64 syscall {%%%}={ax},{ax},{di}%%% id arg1]
+	let result [asm int64 syscall {%%%}={ax},{ax},{di}%%% id arg1]
 ]
-[[int64 nothing]]
+[[int64 result]]
 
 function syscall-3
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
-	let nothing [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
+	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
 ]
-[[int64 nothing]]
+[[int64 result]]
+
+function syscall-5
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
+[
+	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8}%%% id arg1 arg2 arg3 arg4 arg5]
+]
+[[int64 result]]
+
+function syscall-6
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
+[
+	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}%%% id arg1 arg2 arg3 arg4 arg5 arg6]
+]
+[[int64 result]]
 
 function exit_linux
 [int64 code]
@@ -133,6 +147,31 @@ function close
 	]
 ]
 [[int64 result]]
+
+function mmap-osx
+[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[
+	let result [syscall-1 cint64 #h20000c5 cint64 #0]
+]
+[[ptr int8 result]]
+
+function mmap-linux
+[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[
+	let result [syscall-1 cint64 #h20000c5 cint64 #0]
+]
+[[ptr int8 result]]
+
+function mmap
+[ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
+[
+	let linux_l osx [if [linux]]
+	let result [join
+		[mmap-osx addr len prot flags fd pos; osx]
+		[mmap-linux addr len prot flags fd pos; linux_l]
+	]
+]
+[[ptr int8 result]]
 
 function entry
 []
