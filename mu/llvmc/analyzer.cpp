@@ -1904,6 +1904,12 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
                 break;
             }
+            case mu::llvmc::instruction_type::typeof_i:
+            {
+                assert (false);
+                process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
+                break;
+            }
             case mu::llvmc::instruction_type::udiv:
             {
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);

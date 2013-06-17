@@ -59,6 +59,7 @@ namespace mu
             sub,
             switch_i,
             trunc,
+            typeof_i,
             udiv,
             uitofp,
             unreachable,

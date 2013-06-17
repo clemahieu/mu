@@ -122,8 +122,3 @@ element_type (element_type_a),
 size (size_a)
 {
 }
-
-mu::llvmc::ast::typeof_c::typeof_c (mu::llvmc::ast::node * value_a) :
-value (value_a)
-{
-}

@@ -239,12 +239,6 @@ namespace mu
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
 		};
-		class typeof_hook : public mu::llvmc::hook
-		{
-		public:
-            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
-            bool covering () override;
-		};
         class parser
         {
         public:

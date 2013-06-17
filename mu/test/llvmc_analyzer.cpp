@@ -3070,3 +3070,47 @@ TEST (llvmc_analyzer, constant_array)
     ASSERT_EQ (*element_type, *constant_int->type ());
     ASSERT_EQ (0xa5, constant_int->value_m);
 }
+
+TEST (llvmc_analyzer, DISABLED_typeof_single)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    function1.name = U"0";
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::number number2 (U"ha5");
+    mu::llvmc::ast::constant_int constant1 (U"8", &number2);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::typeof_i);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.set_predicate_position ();
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.results.push_back (&expression1);
+    function1.branch_ends.push_back (function1.results.size ());
+    mu::llvmc::ast::function_declaration declaration1 (&function1);
+    module1.functions.push_back (&declaration1);
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->functions.size ());
+    auto function2 (result.module->functions [U"0"]);
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (0, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
+    ASSERT_NE (nullptr, result2);
+    auto array_type (dynamic_cast <mu::llvmc::skeleton::array_type *> (result2->type));
+    ASSERT_NE (nullptr, array_type);
+    ASSERT_EQ (4, array_type->size);
+    auto element_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (array_type->element));
+    ASSERT_NE (nullptr, element_type);
+    ASSERT_EQ (8, element_type->bits);
+    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (result2->value));
+    ASSERT_NE (nullptr, constant_array);
+    ASSERT_EQ (4, constant_array->initializer.size ());
+    auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (constant_array->initializer [0]));
+    ASSERT_NE (nullptr, constant_int);
+    ASSERT_EQ (*element_type, *constant_int->type ());
+    ASSERT_EQ (0xa5, constant_int->value_m);
+}
