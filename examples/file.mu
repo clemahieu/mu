@@ -195,6 +195,7 @@ function entry
 	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #0; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
-	let result [exit cint64 #0; close_l]
+	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 cint64 #3 cint64 #h1002 cint64 #0 cint64 #0]
+	let result [exit cint64 #0; mem close_l]
 ]
 [[; result]]

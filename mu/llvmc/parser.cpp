@@ -17,7 +17,7 @@
 
 mu::llvmc::global::global (mu::llvmc::keywords * keywords_a) :
 keywords (keywords_a)
-{
+{    
 }
 
 mu::llvmc::parser::parser (mu::io::stream_token & stream_a):
