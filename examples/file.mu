@@ -1,5 +1,31 @@
+function syscall-0
+[int64 id]
+[
+	let nothing [asm unit {%%%}
+		syscall %%% {%%%} {ax} %%% id]
+]
+[]
+
+function syscall-1
+[int64 id int64 arg1]
+[
+	let nothing [asm unit {%%%}
+		syscall
+		%%% {%%%} {ax},{di} %%% id arg1]
+]
+[]
+
+function syscall-3
+[int64 id int64 arg1 int64 arg2 int64 arg3]
+[
+	let nothing [asm unit {%%%}
+		syscall
+		%%% {%%%} {ax},{di},{si},{dx} %%% id arg1 arg2 arg3]
+]
+[]
+
 function exit_linux
-[int32 code]
+[int64 code]
 [
 	let nothing [asm unit {%%%}
 		mov $$60, %rax
@@ -9,11 +35,9 @@ function exit_linux
 [[;nothing]]
 
 function exit_osx
-[int32 code]
+[int64 code]
 [
-	let nothing [asm unit {%%%}
-		mov $$0x2000001, %rax
-		syscall %%% {%%%} {di} %%% code]
+	let nothing [syscall-1 cint64 #h2000001 code]
 ]
 [[;nothing]]
 
@@ -23,7 +47,7 @@ function linux
 [[int1 cint1 #0]]
 
 function exit
-[int32 code]
+[int64 code]
 [
 	let linux_l osx [if [linux]]
 	let result [join [exit_linux code; linux_l] [exit_osx code; osx]]
@@ -39,10 +63,7 @@ function write-linux
 function write-osx
 [int64 file-descriptor ptr int8 data int64 size]
 [
-	let nothing [asm unit {%%%}
-		mov $$0x2000004, %rax
-		syscall
-		%%% {%%%} {di},{si},{dx},~rax %%% file-descriptor data size]
+	let nothing [syscall-3 cint64 #h2000004 file-descriptor data size]
 ]
 [[;nothing]]
 
