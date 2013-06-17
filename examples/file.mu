@@ -1,9 +1,9 @@
 function syscall-0
 [int64 id]
 [
-	let nothing [asm unit syscall {%%%}{ax}%%% id]
+	let result [asm int64 syscall {%%%}={ax},{ax}%%% id]
 ]
-[[;nothing]]
+[[int64 result]]
 
 function syscall-1
 [int64 id int64 arg1]
@@ -12,10 +12,24 @@ function syscall-1
 ]
 [[int64 result]]
 
+function syscall-2
+[int64 id int64 arg1 int64 arg2]
+[
+	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si}%%% id arg1 arg2]
+]
+[[int64 result]]
+
 function syscall-3
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
+]
+[[int64 result]]
+
+function syscall-4
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
+[
+	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx}%%% id arg1 arg2 arg3 arg4]
 ]
 [[int64 result]]
 
@@ -151,14 +165,14 @@ function close
 function mmap-osx
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [syscall-1 cint64 #h20000c5 cint64 #0]
+	let result [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos]
 ]
 [[ptr int8 result]]
 
 function mmap-linux
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [syscall-1 cint64 #h20000c5 cint64 #0]
+	let result [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos]
 ]
 [[ptr int8 result]]
 
