@@ -75,13 +75,13 @@ function write
 [[;result]]
 
 function write-test
-[]
+[int64 fd]
 [
 	let text [alloca array int8 #13]
 	let stored [store ascii 
 {%}Hello world!
 % text]
-	let result [write cint64 #1 [bitcast text ptr int8] cint64 #13; stored]
+	let result [write fd [bitcast text ptr int8] cint64 #13; stored]
 ]
 [[;result]]
 
@@ -113,7 +113,10 @@ function open
 function entry
 []
 [
-	let write_l [write-test]
+	let text [alloca array int8 #26]
+	let stored [store ascii /Users/clemahieu/test.txt:a00 text]
+	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #0; stored]
+	let write_l [write-test fd]
 	let result [exit cint64 #0; write_l]
 ]
 [[; result]]
