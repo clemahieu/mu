@@ -141,7 +141,9 @@ namespace mu
             argument_must_be_pointer_type,
 			character_does_not_fit_in_to_an_ascii_character,
             expecting_a_value,
-            ptr_to_int_expects_two
+            ptr_to_int_expects_two,
+            expecting_pointer_type,
+            expecting_integer_type
         };
         class error
         {

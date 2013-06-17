@@ -1748,6 +1748,42 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 }
                 break;
             }
+            case mu::llvmc::instruction_type::inttoptr:
+            {
+                if (predicate_offset == 3)
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (value != nullptr)
+                    {
+                        auto integer (dynamic_cast <mu::llvmc::skeleton::integer_type *> (value->type ()));
+                        if (integer != nullptr)
+                        {
+                            auto type (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (arguments [2]));
+                            if (type != nullptr)
+                            {
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires second argument to be a pointer type", mu::core::error_type::expecting_integer_type);
+                            }
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Ptrfromint source must be an integer", mu::core::error_type::expecting_integer_type);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
+                }
+                break;
+            }
             case mu::llvmc::instruction_type::load:
             {
                 if (predicate_offset == 2)
@@ -1798,14 +1834,22 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                     auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
                     if (value != nullptr)
                     {
-                        auto type (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]));
-                        if (type != nullptr)
+                        auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (value->type ()));
+                        if (pointer != nullptr)
                         {
-                            already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+                            auto type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (arguments [2]));
+                            if (type != nullptr)
+                            {
+                                already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+                            }
+                            else
+                            {
+                                result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be an integer type", mu::core::error_type::expecting_integer_type);
+                            }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be a type", mu::core::error_type::expecting_a_type);
+                            result_m.error = new (GC) mu::core::error_string (U"Ptrtoint source must be a pointer", mu::core::error_type::expecting_pointer_type);
                         }
                     }
                     else
