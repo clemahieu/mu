@@ -1,8 +1,7 @@
 function syscall-0
 [int64 id]
 [
-	let nothing [asm unit {%%%}
-		syscall %%% {%%%} {ax} %%% id]
+	let nothing [asm unit syscall {%%%}{ax}%%% id]
 ]
 [[;nothing]]
 
@@ -16,7 +15,7 @@ function syscall-1
 function syscall-3
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
-	let nothing [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx} %%% id arg1 arg2 arg3]
+	let nothing [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
 ]
 [[int64 nothing]]
 
