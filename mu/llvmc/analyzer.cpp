@@ -1791,6 +1791,34 @@ bool mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
                 break;
             }
+            case mu::llvmc::instruction_type::ptrtoint:
+            {
+                if (predicate_offset == 3)
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (value != nullptr)
+                    {
+                        auto type (dynamic_cast <mu::llvmc::skeleton::type *> (arguments [2]));
+                        if (type != nullptr)
+                        {
+                            already_generated [expression_a] = new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset);
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be a type", mu::core::error_type::expecting_a_type);
+                        }
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
+                    }
+                }
+                else
+                {
+                    result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
+                }
+                break;
+            }
             case mu::llvmc::instruction_type::sdiv:
             {
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);

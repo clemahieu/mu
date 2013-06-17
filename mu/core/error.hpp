@@ -140,7 +140,8 @@ namespace mu
             expecting_array_initializers,
             argument_must_be_pointer_type,
 			character_does_not_fit_in_to_an_ascii_character,
-            expecting_a_value
+            expecting_a_value,
+            ptr_to_int_expects_two
         };
         class error
         {
