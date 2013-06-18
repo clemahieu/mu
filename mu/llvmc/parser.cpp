@@ -625,7 +625,7 @@ bool mu::llvmc::block::reserve (mu::string const & name_a)
 bool mu::llvmc::block::get (mu::string const & name_a, mu::core::region const & region_a, action_type action_a)
 {
     auto existing (mappings.find (name_a));
-    auto result (existing != mappings.end ());
+    auto result (existing == mappings.end ());
     if (result)
     {
         result = parent->get (name_a, region_a, action_a);

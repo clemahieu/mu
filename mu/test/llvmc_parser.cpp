@@ -159,6 +159,41 @@ TEST (llvmc_parser, unresolved_passing)
     EXPECT_FALSE (global.unresolved.empty ());
 }
 
+TEST (llvmc_parser, block)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    mu::llvmc::block block (&global);
+    mu::llvmc::ast::node node;
+    auto error (block.insert (mu::string (U"test"), &node));
+    EXPECT_TRUE (!error);
+    auto success (false);
+    block.refer (mu::string (U"test"), mu::empty_region,
+                 [&success]
+                 (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                 {
+                     success = true;
+                 });
+    EXPECT_TRUE (success);
+}
+
+TEST (llvmc_parser, block_get)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    mu::llvmc::block block (&global);
+    mu::llvmc::ast::node node;
+    auto success (false);
+    auto val (block.get (mu::string (U"test"), mu::empty_region,
+                         [&success]
+                         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                         {
+                             success = true;
+                         }));
+    EXPECT_TRUE (val);
+    EXPECT_FALSE (success);
+}
+
 TEST (llvmc_parser, empty)
 {
     test_parser parser ("");
@@ -210,14 +245,19 @@ TEST (llvmc_parser, instructions)
     auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
     ASSERT_NE (nullptr, module2);
     ASSERT_EQ (1, module2->globals.size ());
-    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (module2->globals [U"test"]));
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
     EXPECT_EQ (0, function1->results.size ());
     EXPECT_EQ (1, function1->roots.size ());
     auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (function1->roots [0]));
     ASSERT_NE (nullptr, expression1);
-    ASSERT_EQ (mu::core::region (18, 1, 19, 345, 1, 346), expression1->region);
+    ASSERT_EQ (mu::core::region (22, 1, 23, 349, 1, 350), expression1->region);
     ASSERT_EQ (48, expression1->arguments.size ());
 	size_t arg (0);
     auto argument1 (dynamic_cast <mu::llvmc::ast::value *> (expression1->arguments [arg++]));
@@ -653,24 +693,6 @@ TEST (llvmc_parser, result_no_close_error)
     EXPECT_EQ (mu::core::error_type::expecting_identifier_or_right_square, module1.error->type ());
     ASSERT_EQ (mu::core::region (35, 1, 36, 35, 1, 36), module1.error->region ());
     EXPECT_EQ (nullptr, module1.node);
-}
-
-TEST (llvmc_parser, block)
-{
-    mu::llvmc::keywords keywords;
-    mu::llvmc::global global (&keywords);
-    mu::llvmc::block block (&global);
-    mu::llvmc::ast::node node;
-    auto error (block.insert (mu::string (U"test"), &node));
-    EXPECT_TRUE (!error);
-    auto success (false);
-    block.refer(mu::string (U"test"), mu::empty_region,
-                [&success]
-                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                {
-                    success = true;
-                });
-    EXPECT_TRUE (success);
 }
 
 TEST (llvmc_parser, results1)
