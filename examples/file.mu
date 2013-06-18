@@ -1,72 +1,83 @@
-function syscall-0
+let syscall-0
+function
 [int64 id]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax}%%% id]
 ]
 [[int64 result]]
 
-function syscall-1
+let syscall-1
+function
 [int64 id int64 arg1]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di}%%% id arg1]
 ]
 [[int64 result]]
 
-function syscall-2
+let syscall-2
+function
 [int64 id int64 arg1 int64 arg2]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si}%%% id arg1 arg2]
 ]
 [[int64 result]]
 
-function syscall-3
+let syscall-3
+function
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
 ]
 [[int64 result]]
 
-function syscall-4
+let syscall-4
+function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx}%%% id arg1 arg2 arg3 arg4]
 ]
 [[int64 result]]
 
-function syscall-5
+let syscall-5
+function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8}%%% id arg1 arg2 arg3 arg4 arg5]
 ]
 [[int64 result]]
 
-function syscall-6
+let syscall-6
+function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
 [
 	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}%%% id arg1 arg2 arg3 arg4 arg5 arg6]
 ]
 [[int64 result]]
 
-function exit_linux
+let exit_linux
+function
 [int64 code]
 [
 	let nothing [syscall-1 cint64 #d60 code]
 ]
 [[;nothing]]
 
-function exit_osx
+let exit_osx
+function
 [int64 code]
 [
 	let nothing [syscall-1 cint64 #h2000001 code]
 ]
 [[;nothing]]
 
-function linux
+let linux
+function
 []
 []
 [[int1 cint1 #0]]
 
-function exit
+let exit
+function
 [int64 code]
 [
 	let linux_l osx [if [linux]]
@@ -77,20 +88,23 @@ function exit
 ]
 [[; result]]
 
-function write-linux
+let write-linux
+function
 [int64 file-descriptor ptr int8 data int64 size]
 [
 ]
 [[]]
 
-function write-osx
+let write-osx
+function
 [int64 file-descriptor ptr int8 data int64 size]
 [
 	let nothing [syscall-3 cint64 #h2000004 file-descriptor [ptrtoint data int64] size]
 ]
 [[;nothing]]
 
-function write
+let write
+function
 [int64 file-descriptor ptr int8 data int64 size]
 [
 	let linux_l osx [if [linux]]
@@ -101,7 +115,8 @@ function write
 ]
 [[;result]]
 
-function write-test
+let write-test
+function
 [int64 fd]
 [
 	let text [alloca array int8 #13]
@@ -112,21 +127,24 @@ function write-test
 ]
 [[;result]]
 
-function open-osx
+let open-osx
+function
 [ptr int8 path int64 flags int64 mode]
 [
 	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
 ]
 [[int64 fd]]
 
-function open-linux
+let open-linux
+function
 [ptr int8 path int64 flags int64 mode]
 [
 	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
 ]
 [[int64 fd]]
 
-function open
+let open
+function
 [ptr int8 path int64 flags int64 mode]
 [
 	let linux_l osx [if [linux]]
@@ -137,21 +155,24 @@ function open
 ]
 [[int64 fd]]
 
-function close-osx
+let close-osx
+function
 [int64 fd]
 [
 	let result [syscall-1 cint64 #h2000006 fd]
 ]
 [[int64 result]]
 
-function close-linux
+let close-linux
+function
 [int64 fd]
 [
 	let result [syscall-1 cint64 #h2000006 fd]
 ]
 [[int64 result]]
 
-function close
+let close
+function
 [int64 fd]
 [
 	let linux_l osx [if [linux]]
@@ -162,21 +183,24 @@ function close
 ]
 [[int64 result]]
 
-function mmap-osx
+let mmap-osx
+function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
 	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
-function mmap-linux
+let mmap-linux
+function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
 	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
-function mmap
+let mmap
+function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
 	let linux_l osx [if [linux]]
@@ -187,7 +211,8 @@ function mmap
 ]
 [[ptr int8 result]]
 
-function entry
+let entry
+function
 []
 [
 	let text [alloca array int8 #26]
