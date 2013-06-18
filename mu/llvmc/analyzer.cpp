@@ -110,6 +110,23 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 	}
 }
 
+void mu::llvmc::analyzer_module::process_global (mu::llvmc::ast::node * node_a)
+{
+    auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
+    if (function_node != nullptr)
+    {
+        analyzer_function analyzer (*this);
+        analyzer.analyze (function_node);
+        functions [node_a] = analyzer.result_m.function;
+        result_m.error = analyzer.result_m.error;
+    }
+    else
+    {
+        std::string name (typeid (*node_a).name ());
+        assert (false);
+    }
+}
+
 bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
@@ -150,129 +167,119 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 						}
 						else
 						{
-							auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
-							if (function_node != nullptr)
-							{
-								analyzer_function analyzer (*this);
-								analyzer.analyze (function_node);
-								already_generated [node_a] = analyzer.result_m.function;
-								result_m.error = analyzer.result_m.error;
-							}
-							else
-							{
-								auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
-								if (unit_node != nullptr)
-								{
-									already_generated [node_a] = new (GC) mu::llvmc::skeleton::unit_value (module.module->global);
-								}
-								else
-								{
-									auto set (dynamic_cast<mu::llvmc::ast::set_expression *> (node_a));
-									if (set != nullptr)
-									{
-										mu::vector <mu::llvmc::skeleton::node *> values;
-										for (auto i : set->items)
-										{
-											auto multi (process_node (i));
-											if (multi)
-											{
-												auto & values_l (already_generated_multi [i]);
-												values.insert (values.end (), values_l.begin (), values_l.end ());
-											}
-											else
-											{
-												values.push_back (already_generated [i]);
-											}
-										}
-										switch (values.size ())
-										{
-											case 1:
-												already_generated [node_a] = values [0];
-												break;
-											default:
-												result = true;
-												already_generated_multi [node_a] = values;
-												break;
-										}
-									}
-									else
-									{
-										auto integer_type (dynamic_cast<mu::llvmc::ast::integer_type *> (node_a));
-										if (integer_type != nullptr)
-										{
-											process_integer_type (integer_type);
-										}
-										else
-										{
-											auto pointer_type (dynamic_cast<mu::llvmc::ast::pointer_type *> (node_a));
-											if (pointer_type != nullptr)
-											{
-												process_pointer_type (pointer_type);
-											}
-											else
-											{
-												auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (node_a));
-												if (constant_int != nullptr)
-												{
-													process_constant_int (constant_int);
-												}
-												else
-												{
-													auto loop (dynamic_cast<mu::llvmc::ast::loop *> (node_a));
-													if (loop != nullptr)
-													{
-														result = process_loop (loop);
-													}
-													else
-													{
-														auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
-														if (asm_l != nullptr)
-														{
-															auto type (process_type (asm_l->type));
-															if (type != nullptr)
-															{
-																already_generated [node_a] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
-															}
+                            auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
+                            if (unit_node != nullptr)
+                            {
+                                already_generated [node_a] = new (GC) mu::llvmc::skeleton::unit_value (module.module->global);
+                            }
+                            else
+                            {
+                                auto set (dynamic_cast<mu::llvmc::ast::set_expression *> (node_a));
+                                if (set != nullptr)
+                                {
+                                    mu::vector <mu::llvmc::skeleton::node *> values;
+                                    for (auto i : set->items)
+                                    {
+                                        auto multi (process_node (i));
+                                        if (multi)
+                                        {
+                                            auto & values_l (already_generated_multi [i]);
+                                            values.insert (values.end (), values_l.begin (), values_l.end ());
+                                        }
+                                        else
+                                        {
+                                            values.push_back (already_generated [i]);
+                                        }
+                                    }
+                                    switch (values.size ())
+                                    {
+                                        case 1:
+                                            already_generated [node_a] = values [0];
+                                            break;
+                                        default:
+                                            result = true;
+                                            already_generated_multi [node_a] = values;
+                                            break;
+                                    }
+                                }
+                                else
+                                {
+                                    auto integer_type (dynamic_cast<mu::llvmc::ast::integer_type *> (node_a));
+                                    if (integer_type != nullptr)
+                                    {
+                                        process_integer_type (integer_type);
+                                    }
+                                    else
+                                    {
+                                        auto pointer_type (dynamic_cast<mu::llvmc::ast::pointer_type *> (node_a));
+                                        if (pointer_type != nullptr)
+                                        {
+                                            process_pointer_type (pointer_type);
+                                        }
+                                        else
+                                        {
+                                            auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (node_a));
+                                            if (constant_int != nullptr)
+                                            {
+                                                process_constant_int (constant_int);
+                                            }
+                                            else
+                                            {
+                                                auto loop (dynamic_cast<mu::llvmc::ast::loop *> (node_a));
+                                                if (loop != nullptr)
+                                                {
+                                                    result = process_loop (loop);
+                                                }
+                                                else
+                                                {
+                                                    auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
+                                                    if (asm_l != nullptr)
+                                                    {
+                                                        auto type (process_type (asm_l->type));
+                                                        if (type != nullptr)
+                                                        {
+                                                            already_generated [node_a] = new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints);
+                                                        }
+                                                        else
+                                                        {
+                                                            result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        auto number (dynamic_cast <mu::llvmc::ast::number *> (node_a));
+                                                        if (number != nullptr)
+                                                        {
+                                                            result_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+                                                        }
+                                                        else
+                                                        {
+                                                            auto array_type (dynamic_cast <mu::llvmc::ast::array_type *> (node_a));
+                                                            if (array_type != nullptr)
+                                                            {
+                                                                process_array_type (array_type);
+                                                            }
                                                             else
                                                             {
-                                                                result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
-                                                            }
-														}
-														else
-														{
-															auto number (dynamic_cast <mu::llvmc::ast::number *> (node_a));
-															if (number != nullptr)
-															{
-																result_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
-															}
-															else
-															{
-                                                                auto array_type (dynamic_cast <mu::llvmc::ast::array_type *> (node_a));
-                                                                if (array_type != nullptr)
+                                                                auto constant_array (dynamic_cast <mu::llvmc::ast::constant_array *> (node_a));
+                                                                if (constant_array != nullptr)
                                                                 {
-                                                                    process_array_type (array_type);
+                                                                    process_constant_array (constant_array);
                                                                 }
                                                                 else
                                                                 {
-                                                                    auto constant_array (dynamic_cast <mu::llvmc::ast::constant_array *> (node_a));
-                                                                    if (constant_array != nullptr)
-                                                                    {
-                                                                        process_constant_array (constant_array);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        std::string name (typeid (*node_a).name ());
-                                                                        assert (false);
-                                                                    }
+                                                                    module.process_global (node_a);
+                                                                    assert (module.functions.find (node_a) != module.functions.end ());
+                                                                    already_generated [node_a] = module.functions [node_a];
                                                                 }
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
 							}
 						}
 					}
