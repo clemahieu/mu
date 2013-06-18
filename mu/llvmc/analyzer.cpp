@@ -885,12 +885,12 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 	{
         auto module_s (new (GC) mu::llvmc::skeleton::module);
         module = module_s;
-		for (auto i (module_l->functions.begin ()), j (module_l->functions.end ()); i != j && result_m.error == nullptr; ++i)
+		for (auto i (module_l->globals.begin ()), j (module_l->globals.end ()); i != j && result_m.error == nullptr; ++i)
 		{
-			auto existing (functions.find (*i));
+			auto existing (functions.find (i->second));
 			if (existing == functions.end ())
 			{                
-                auto function (dynamic_cast <mu::llvmc::ast::function *> (*i));
+                auto function (dynamic_cast <mu::llvmc::ast::function *> (i->second));
                 if (function != nullptr)
                 {
                     analyzer_function analyzer (*this);
@@ -899,7 +899,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, (*i)->region);
+                    result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, i->second->region);
                 }
 			}
 		}

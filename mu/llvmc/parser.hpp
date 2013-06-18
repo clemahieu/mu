@@ -253,7 +253,8 @@ namespace mu
             mu::core::error * parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::core::error * parse_left_square_required (char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::llvmc::partial_ast_result peek ();
-            mu::llvmc::global globals;
+            mu::llvmc::global builtins;
+            mu::llvmc::block globals;
             mu::llvmc::mapping * current_mapping;
             mu::llvmc::module module;
             mu::llvmc::function_hook function;

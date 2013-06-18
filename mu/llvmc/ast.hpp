@@ -155,7 +155,7 @@ namespace mu
             {
             public:
                 module ();
-                mu::vector <mu::llvmc::ast::node *> functions;
+                mu::map <mu::string, mu::llvmc::ast::node *> globals;
             };
             class constant_int : public mu::llvmc::ast::expression
             {
