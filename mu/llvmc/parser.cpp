@@ -262,7 +262,7 @@ void mu::llvmc::function::parse ()
                 parse_results ();
                 if (result.error == nullptr)
                 {
-                    result.node = new (GC) mu::llvmc::ast::function_declaration (function_m);
+                    result.node = function_m;
                 }
             }
         }

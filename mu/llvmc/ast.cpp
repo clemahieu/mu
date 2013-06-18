@@ -112,11 +112,6 @@ constraints (constraints_a)
 {
 }
 
-mu::llvmc::ast::function_declaration::function_declaration (mu::llvmc::ast::node * node_a) :
-function (node_a)
-{
-}
-
 mu::llvmc::ast::array_type::array_type (mu::llvmc::ast::node * element_type_a, mu::llvmc::ast::node * size_a) :
 element_type (element_type_a),
 size (size_a)

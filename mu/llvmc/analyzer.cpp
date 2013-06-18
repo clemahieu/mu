@@ -890,11 +890,11 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 			auto existing (functions.find (*i));
 			if (existing == functions.end ())
 			{                
-                auto declaration (dynamic_cast <mu::llvmc::ast::function_declaration *> (*i));
-                if (declaration != nullptr)
+                auto function (dynamic_cast <mu::llvmc::ast::function *> (*i));
+                if (function != nullptr)
                 {
                     analyzer_function analyzer (*this);
-                    analyzer.analyze (declaration->function);
+                    analyzer.analyze (function);
                     result_m.error = analyzer.result_m.error;
                 }
                 else
