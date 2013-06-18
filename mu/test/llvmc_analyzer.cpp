@@ -216,8 +216,20 @@ TEST (llvmc_analyzer, empty_function)
     auto function1 (result.module->functions [U"0"]);
     ASSERT_NE (nullptr, function1);
     EXPECT_EQ (0, function1->parameters.size ());
-    EXPECT_EQ (0, function1->results.size ());	
+    EXPECT_EQ (0, function1->results.size ());
 	ASSERT_EQ (function.region, function1->region);
+}
+
+TEST (llvmc_analyzer, not_global_error)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::asm_c asm_l;
+    asm_l.region = mu::core::region (2, 2, 2, 3, 3, 3);
+    module.globals [U"0"] = &asm_l;
+    auto result (analyzer.analyze (&module));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
 }
 
 TEST (llvmc_analyzer, single_parameter)

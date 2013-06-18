@@ -901,9 +901,12 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
                     result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, i->second->region);
                 }
 			}
-            assert (module->functions.find (i->first) == module->functions.end ());
-            assert (functions.find (i->second) != functions.end ());
-            module->functions [i->first] = functions [i->second];
+            if (result_m.error == nullptr)
+            {
+                assert (module->functions.find (i->first) == module->functions.end ());
+                assert (functions.find (i->second) != functions.end ());
+                module->functions [i->first] = functions [i->second];
+            }
 		}
         if (result_m.error == nullptr)
         {
