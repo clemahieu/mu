@@ -134,7 +134,6 @@ namespace mu
             function (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a);
             ~function ();
             void parse ();
-            void parse_name ();
             void parse_parameters ();
             void parse_parameter (bool & done_a);
             void parse_body ();

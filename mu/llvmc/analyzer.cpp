@@ -862,7 +862,6 @@ mu::llvmc::function_result mu::llvmc::analyzer_function::analyze (mu::llvmc::ast
         assert (function_l->branch_ends.size () == function_l->predicate_offsets.size ());
         auto function_s (new (GC) mu::llvmc::skeleton::function (function_a->region, module.module->global));
         result_m.function = function_s;
-        module.module->functions [function_l->name] = function_s;
         module.functions [function_a] = function_s;
         process_parameters (function_l, function_s);
         process_results (function_l, function_s);
@@ -889,7 +888,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 		{
 			auto existing (functions.find (i->second));
 			if (existing == functions.end ())
-			{                
+			{
                 auto function (dynamic_cast <mu::llvmc::ast::function *> (i->second));
                 if (function != nullptr)
                 {
@@ -902,6 +901,9 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
                     result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, i->second->region);
                 }
 			}
+            assert (module->functions.find (i->first) == module->functions.end ());
+            assert (functions.find (i->second) != functions.end ());
+            module->functions [i->first] = functions [i->second];
 		}
         if (result_m.error == nullptr)
         {

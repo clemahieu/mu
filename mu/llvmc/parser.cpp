@@ -276,23 +276,6 @@ void mu::llvmc::function::parse ()
     }
 }
 
-void mu::llvmc::function::parse_name ()
-{
-    result.error = parser.parse_identifier (
-        [&]
-        (mu::io::identifier * identifier_a)
-        {
-			mu::core::error * result (nullptr);;
-            function_m->name = identifier_a->string;
-            auto error (parser.globals.insert (identifier_a->string, function_m));
-            if (error)
-            {
-                result = new (GC) mu::core::error_string (U"Function name already used", mu::core::error_type::function_name_already_used);
-            }
-			return result;
-        }, U"Expecting identifier", mu::core::error_type::expecting_identifier);
-}
-
 void mu::llvmc::function::parse_parameters ()
 {
     auto next (parser.stream [0]);

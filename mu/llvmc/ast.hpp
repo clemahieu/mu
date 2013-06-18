@@ -117,7 +117,6 @@ namespace mu
             {
             public:
                 mu::llvmc::availability::function * entry;
-                mu::string name;
                 mu::vector <mu::llvmc::ast::parameter *> parameters;
                 mu::vector <mu::llvmc::ast::node *> results;
                 std::vector <size_t> branch_ends;
