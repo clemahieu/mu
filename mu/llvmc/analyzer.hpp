@@ -50,7 +50,7 @@ namespace mu
         public:
             analyzer_module ();
             module_result analyze (mu::llvmc::ast::node * module_a);
-            void process_global (mu::llvmc::ast::node * node_a);
+            bool process_global (mu::llvmc::ast::node * node_a);
             mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::function *> functions;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::module_result result_m;

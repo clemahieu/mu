@@ -110,8 +110,9 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 	}
 }
 
-void mu::llvmc::analyzer_module::process_global (mu::llvmc::ast::node * node_a)
+bool mu::llvmc::analyzer_module::process_global (mu::llvmc::ast::node * node_a)
 {
+    auto result (false);
     auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
     if (function_node != nullptr)
     {
@@ -122,9 +123,9 @@ void mu::llvmc::analyzer_module::process_global (mu::llvmc::ast::node * node_a)
     }
     else
     {
-        std::string name (typeid (*node_a).name ());
-        assert (false);
+        result = true;
     }
+    return result;
 }
 
 bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
@@ -268,7 +269,12 @@ bool mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
                                                                 }
                                                                 else
                                                                 {
-                                                                    module.process_global (node_a);
+                                                                    auto error (module.process_global (node_a));
+                                                                    if (error)
+                                                                    {
+                                                                        std::string name (typeid (*node_a).name ());
+                                                                        assert (false);
+                                                                    }
                                                                     assert (module.functions.find (node_a) != module.functions.end ());
                                                                     already_generated [node_a] = module.functions [node_a];
                                                                 }
@@ -896,16 +902,10 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 			auto existing (functions.find (i->second));
 			if (existing == functions.end ())
 			{
-                auto function (dynamic_cast <mu::llvmc::ast::function *> (i->second));
-                if (function != nullptr)
+                auto error (process_global (i->second));
+                if (error)
                 {
-                    analyzer_function analyzer (*this);
-                    analyzer.analyze (function);
-                    result_m.error = analyzer.result_m.error;
-                }
-                else
-                {
-                    result_m.error = new (GC) mu::core::error_string (U"Expecting a function_declaration", mu::core::error_type::expecting_function_declaration, i->second->region);
+                    result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
                 }
 			}
             if (result_m.error == nullptr)
