@@ -212,6 +212,29 @@ TEST (llvmc_parser, block_resolve)
     EXPECT_TRUE (success);
 }
 
+TEST (llvmc_parser, block_reuse_id)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    mu::llvmc::block block (&global);
+    auto fail1 (block.reserve (U"test"));
+    ASSERT_FALSE (fail1);
+    auto fail2 (block.reserve (U"test"));
+    ASSERT_FALSE (fail2);
+    {
+        mu::llvmc::block block2 (&block);
+        mu::llvmc::ast::node node;
+        auto fail (block2.insert (U"test", &node));
+        EXPECT_FALSE (fail);
+    }
+    {
+        mu::llvmc::block block2 (&block);
+        mu::llvmc::ast::node node;
+        auto fail (block2.insert (U"test", &node));
+        EXPECT_FALSE (fail);
+    }
+}
+
 TEST (llvmc_parser, empty)
 {
     test_parser parser ("");

@@ -545,7 +545,7 @@ mu::llvmc::hook_result mu::llvmc::keywords::get_hook (mu::string const & identif
 
 bool mu::llvmc::global::reserve (mu::string const & name_a)
 {
-    auto existing (mappings.find(name_a));
+    auto existing (mappings.find (name_a));
     auto result (existing != mappings.end ());
     if (result)
     {
@@ -610,7 +610,7 @@ bool mu::llvmc::block::reserve (mu::string const & name_a)
     if (!result)
     {
         auto existing (mappings.find (name_a));
-        result = existing != mappings.end ();
+        result = existing != mappings.end () && existing->second != nullptr;
         mappings [name_a] = nullptr;
     }
     return result;
