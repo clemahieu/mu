@@ -216,7 +216,13 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
         }
         else
         {
-            module->globals.swap (parser_a.globals.mappings);
+            for (auto i: parser_a.globals.mappings)
+            {
+                if (i.second != nullptr)
+                {
+                    module->globals [i.first] = i.second;
+                }
+            }
         }
     }
     return result;
@@ -605,6 +611,11 @@ bool mu::llvmc::block::insert (mu::string const & name_a, mu::llvmc::ast::node *
                 --existing;
             }
             mappings.insert (existing, decltype (mappings)::value_type (name_a, node_a));
+            for (auto i (unresolved.find (name_a)), j (unresolved.end ()); i != j && i->first == name_a; ++i)
+            {
+                std::get <1> (i->second) (node_a, std::get <0> (i->second));
+            }
+            unresolved.erase (name_a);
         }
     }
     return result;
