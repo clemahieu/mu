@@ -51,7 +51,7 @@ namespace mu
             analyzer_module ();
             module_result analyze (mu::llvmc::ast::node * module_a);
             bool process_global (mu::llvmc::ast::node * node_a);
-            mu::map <mu::llvmc::ast::node *, mu::llvmc::skeleton::function *> functions;
+            mu::map <mu::llvmc::ast::node *, mu::vector <mu::llvmc::skeleton::node *>> already_generated;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::module_result result_m;
         };
@@ -87,7 +87,6 @@ namespace mu
             mu::llvmc::skeleton::type * process_type (mu::llvmc::ast::node * node_a);
             void process_definite_expression (mu::llvmc::ast::definite_expression * node_a);
             void process_single_node (mu::llvmc::ast::node * node_a);
-            mu::map <mu::llvmc::ast::node *, mu::vector <mu::llvmc::skeleton::node *>> already_generated;
             mu::set <mu::llvmc::ast::expression *> current_expression_generation;
             function_result analyze (mu::llvmc::ast::node * function_a);
             mu::llvmc::function_result result_m;
