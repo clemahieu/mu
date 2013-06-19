@@ -88,7 +88,8 @@ result_m ({nullptr, nullptr})
 
 mu::llvmc::analyzer_function::analyzer_function (mu::llvmc::analyzer_module & module_a) :
 result_m ({nullptr, nullptr}),
-module (module_a)
+module (module_a),
+nodes (module_a, result_m.error)
 {
 }
 
@@ -96,7 +97,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 {
 	for (auto k (function_a->parameters.begin ()), l (function_a->parameters.end ()); k != l && result_m.error == nullptr; ++k)
 	{
-		auto type_l (process_type ((*k)->type));
+		auto type_l (nodes.process_type ((*k)->type));
 		if (type_l != nullptr)
 		{
 			auto parameter_s (new (GC) mu::llvmc::skeleton::parameter ((*k)->region, function_s->entry, type_l, (*k)->name));
@@ -110,24 +111,7 @@ void mu::llvmc::analyzer_function::process_parameters (mu::llvmc::ast::function 
 	}
 }
 
-bool mu::llvmc::analyzer_module::process_global (mu::llvmc::ast::node * node_a)
-{
-    auto result (false);
-    auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
-    if (function_node != nullptr)
-    {
-        analyzer_function analyzer (*this);
-        analyzer.analyze (function_node);
-        result_m.error = analyzer.result_m.error;
-    }
-    else
-    {
-        result = true;
-    }
-    return result;
-}
-
-void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
+void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
 	auto existing (module.already_generated.find (node_a));
@@ -218,7 +202,7 @@ void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 												}
 												else
 												{
-													result_m.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+													error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
 												}
 											}
 											else
@@ -226,7 +210,7 @@ void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 												auto number (dynamic_cast <mu::llvmc::ast::number *> (node_a));
 												if (number != nullptr)
 												{
-													result_m.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+													error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
 												}
 												else
 												{
@@ -244,8 +228,14 @@ void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 														}
 														else
 														{
-															auto error (module.process_global (node_a));
-															if (error)
+                                                            auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
+                                                            if (function_node != nullptr)
+                                                            {
+                                                                analyzer_function analyzer (module);
+                                                                analyzer.analyze (function_node);
+                                                                error = analyzer.result_m.error;
+                                                            }
+                                                            else
 															{
 																std::string name (typeid (*node_a).name ());
 																assert (false);
@@ -264,20 +254,20 @@ void mu::llvmc::analyzer_function::process_node (mu::llvmc::ast::node * node_a)
 			}
 		}
 	}
-	assert (result_m.error != nullptr || (module.already_generated.find (node_a) != module.already_generated.end ()));
+	assert (error != nullptr || (module.already_generated.find (node_a) != module.already_generated.end ()));
 }
 
-void mu::llvmc::analyzer_function::process_constant_array (mu::llvmc::ast::constant_array * array_a)
+void mu::llvmc::analyzer_node::process_constant_array (mu::llvmc::ast::constant_array * array_a)
 {
     auto type (process_type (array_a->type));
     if (type != nullptr)
     {
         mu::vector <mu::llvmc::skeleton::constant *> initializer;
-        for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && result_m.error == nullptr; ++i)
+        for (auto i (array_a->initializer.begin ()), j (array_a->initializer.end ()); i != j && error == nullptr; ++i)
         {
             process_node (*i);
             auto & values (module.already_generated [*i]);
-            for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
+            for (auto k (values.begin ()), l (values.end ()); k != l && error == nullptr; ++k)
             {
                 auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (*k));
                 if (constant != nullptr)
@@ -288,12 +278,12 @@ void mu::llvmc::analyzer_function::process_constant_array (mu::llvmc::ast::const
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
+                        error = new (GC) mu::core::error_string (U"Initializer type doesn't match array element type", mu::core::error_type::initializer_type_doesnt_match, (*i)->region);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
+                    error = new (GC) mu::core::error_string (U"Initializer must be a constant", mu::core::error_type::initializer_must_be_constant, (*i)->region);
                 }
             }
         }
@@ -302,7 +292,7 @@ void mu::llvmc::analyzer_function::process_constant_array (mu::llvmc::ast::const
     }
 }
 
-void mu::llvmc::analyzer_function::process_array_type (mu::llvmc::ast::array_type * type_a)
+void mu::llvmc::analyzer_node::process_array_type (mu::llvmc::ast::array_type * type_a)
 {
     auto element (process_type (type_a->element_type));
     if (element != nullptr)
@@ -318,12 +308,12 @@ void mu::llvmc::analyzer_function::process_array_type (mu::llvmc::ast::array_typ
         }
         else
         {
-            result_m.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+            error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
         }
     }
 }
 
-void mu::llvmc::analyzer_function::process_asm (mu::llvmc::ast::definite_expression * asm_a)
+void mu::llvmc::analyzer_node::process_asm (mu::llvmc::ast::definite_expression * asm_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
@@ -334,14 +324,14 @@ void mu::llvmc::analyzer_function::process_asm (mu::llvmc::ast::definite_express
     module.already_generated [asm_a].push_back (instruction);
 }
 
-void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
+void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 {
 	auto loop_s (new (GC) mu::llvmc::skeleton::loop);
 	mu::llvmc::skeleton::branch * loop_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
     loop_s->argument_predicate_offset = predicate_offset;
-	if (result_m.error == nullptr)
+	if (error == nullptr)
 	{
 		if (loop_s->arguments.size () == loop_a->parameters.size ())
 		{
@@ -361,19 +351,19 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
+					error = new (GC) mu::core::error_string (U"Loop argument must be a value", mu::core::error_type::loop_argument_must_be_value);
 				}
 			}
 			auto branch (new (GC) mu::llvmc::skeleton::branch (loop_branch));
 			auto empty (true);
             auto feedback_branch (true);
-			mu::llvmc::branch_analyzer branches (module.module->global, result_m.error);
+			mu::llvmc::branch_analyzer branches (module.module->global, error);
 			loop_a->for_each_results (
 				[&]
 				(mu::llvmc::ast::expression * expression_a, size_t index_a)
 				{
 					process_node (expression_a);
-                    if (result_m.error == nullptr)
+                    if (error == nullptr)
                     {
                         assert (module.already_generated.find (expression_a) != module.already_generated.end ());
                         for (auto i : module.already_generated [expression_a])
@@ -386,7 +376,7 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
                             }
                         }
                     }
@@ -398,7 +388,7 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				(mu::llvmc::ast::expression * expression_a, size_t)
 				{
 					process_node (expression_a);
-                    if (result_m.error == nullptr)
+                    if (error == nullptr)
                     {
                         assert (module.already_generated.find (expression_a) != module.already_generated.end ());
                         for (auto i : module.already_generated [expression_a])
@@ -411,7 +401,7 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
+                                error = new (GC) mu::core::error_string (U"Loop result must be a value", mu::core::error_type::loop_result_must_be_value);
                             }
                         }
                     }
@@ -438,10 +428,10 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 				[&]
 				()
 				{
-					return result_m.error == nullptr;
+					return error == nullptr;
 				}
             );
-			assert (result_m.error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
+			assert (error != nullptr || loop_s->predicate_offsets.size () == loop_s->branch_ends.size ());
 			switch (loop_s->elements.size ())
 			{
 				case 0:
@@ -463,7 +453,7 @@ void mu::llvmc::analyzer_function::process_loop (mu::llvmc::ast::loop * loop_a)
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
+			error = new (GC) mu::core::error_string (U"Number of arguments does not match number of parameters", mu::core::error_type::mismatch_number_of_arguments_number_of_parameters);
 		}
 	}
 }
@@ -473,7 +463,7 @@ value (value_a)
 {
 }
 
-mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::llvmc::ast::number * number_a)
+mu::llvmc::skeleton::number * mu::llvmc::analyzer_node::process_number (mu::llvmc::ast::number * number_a)
 {
 	mu::llvmc::skeleton::number * result (nullptr);
 	std::string data_l (number_a->number_m.begin (), number_a->number_m.end ());
@@ -516,17 +506,17 @@ mu::llvmc::skeleton::number * mu::llvmc::analyzer_function::process_number (mu::
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
+			error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);
 		}
 	}
 	else
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);		
+		error = new (GC) mu::core::error_string (U"Unable to convert string to number", mu::core::error_type::error_converting_string_to_number);		
 	}
 	return result;
 }
 
-void mu::llvmc::analyzer_function::process_constant_int (mu::llvmc::ast::constant_int * constant_a)
+void mu::llvmc::analyzer_node::process_constant_int (mu::llvmc::ast::constant_int * constant_a)
 {
 	try
 	{
@@ -545,24 +535,24 @@ void mu::llvmc::analyzer_function::process_constant_int (mu::llvmc::ast::constan
 			}
 			else
 			{
-				result_m.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number);
+				error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number);
 			}
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
+			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
 		}
 	}
 	catch (boost::bad_lexical_cast)
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
+		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
 	}
 }
 
-void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * element_a)
+void mu::llvmc::analyzer_node::process_element (mu::llvmc::ast::element * element_a)
 {
 	process_node (element_a->node);
-	if (result_m.error == nullptr)
+	if (error == nullptr)
 	{
         auto existing (module.already_generated.find (element_a->node));
         if (existing->second.size () > element_a->index)
@@ -580,45 +570,45 @@ void mu::llvmc::analyzer_function::process_element (mu::llvmc::ast::element * el
         }
         else
         {
-            result_m.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
+            error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
         }
 	}
 }
 
-void mu::llvmc::analyzer_function::process_single_node (mu::llvmc::ast::node * node_a)
+void mu::llvmc::analyzer_node::process_single_node (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
 	process_node (node_a);
     auto size (module.already_generated [node_a].size ());
-	if (result_m.error == nullptr && size != 1)
+	if (error == nullptr && size != 1)
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value);
+		error = new (GC) mu::core::error_string (U"Expecting 1 value", mu::core::error_type::expecting_one_value);
 	}
 }
 
-mu::llvmc::skeleton::value * mu::llvmc::analyzer_function::process_value (mu::llvmc::ast::node * node_a)
+mu::llvmc::skeleton::value * mu::llvmc::analyzer_node::process_value (mu::llvmc::ast::node * node_a)
 {
 	assert (node_a != nullptr);
 	mu::llvmc::skeleton::value * result (nullptr);
 	process_single_node (node_a);
-	if (result_m.error == nullptr)
+	if (error == nullptr)
 	{
         auto & nodes (module.already_generated [node_a]);
         assert (nodes.size () == 1);
 		result = dynamic_cast <mu::llvmc::skeleton::value *> (nodes [0]);
 		if (result == nullptr)
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Node is not value", mu::core::error_type::node_is_not_a_value);
+			error = new (GC) mu::core::error_string (U"Node is not value", mu::core::error_type::node_is_not_a_value);
 		}
 	}
 	return result;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvmc::ast::node * node_a)
+mu::llvmc::skeleton::type * mu::llvmc::analyzer_node::process_type (mu::llvmc::ast::node * node_a)
 {
 	mu::llvmc::skeleton::type * result (nullptr);
 	process_single_node (node_a);
-	if (result_m.error == nullptr)
+	if (error == nullptr)
 	{
 		auto & nodes (module.already_generated [node_a]);
         assert (nodes.size () == 1);
@@ -627,7 +617,7 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_function::process_type (mu::llvm
 	return result;
 }
 
-void mu::llvmc::analyzer_function::process_pointer_type (mu::llvmc::ast::pointer_type * type_a)
+void mu::llvmc::analyzer_node::process_pointer_type (mu::llvmc::ast::pointer_type * type_a)
 {
 	auto pointed_type (process_type (type_a->pointed_type));
 	if (pointed_type != nullptr)
@@ -636,7 +626,7 @@ void mu::llvmc::analyzer_function::process_pointer_type (mu::llvmc::ast::pointer
 	}
 }
 
-void mu::llvmc::analyzer_function::process_integer_type (mu::llvmc::ast::integer_type * type_a)
+void mu::llvmc::analyzer_node::process_integer_type (mu::llvmc::ast::integer_type * type_a)
 {
 	try
 	{
@@ -648,12 +638,12 @@ void mu::llvmc::analyzer_function::process_integer_type (mu::llvmc::ast::integer
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
+			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide);
 		}
 	}
 	catch (boost::bad_lexical_cast)
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
+		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer);
 	}
 }
 
@@ -666,10 +656,10 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
         {
 			if (result_a != nullptr)
 			{
-				auto type (process_type (result_a->written_type));
+				auto type (nodes.process_type (result_a->written_type));
 				if (type != nullptr)
 				{
-					auto value (process_value (result_a->value));
+					auto value (nodes.process_value (result_a->value));
 					if (value != nullptr)
 					{
                         if (*type == *value->type ())
@@ -696,7 +686,7 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::ast::function * f
         [&]
         (mu::llvmc::ast::node * node_a, size_t)
         {
-            process_node (node_a);
+            nodes.process_node (node_a);
             if (result_m.error == nullptr)
             {
                 for (auto i : module.already_generated [node_a])
@@ -768,11 +758,8 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 			auto existing (already_generated.find (i->second));
 			if (existing == already_generated.end ())
 			{
-                auto error (process_global (i->second));
-                if (error)
-                {
-                    result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
-                }
+                mu::llvmc::analyzer_node nodes (*this, result_m.error);
+                nodes.process_node (i->second);
 			}
             if (result_m.error == nullptr)
             {
@@ -805,16 +792,16 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 	return result_m;
 }
 
-void mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
 {
-	auto existing (current_expression_generation.find (expression_a));
-	if (existing == current_expression_generation.end ())
+	auto existing (module.current_expression_generation.find (expression_a));
+	if (existing == module.current_expression_generation.end ())
 	{
-		current_expression_generation.insert (expression_a);
+		module.current_expression_generation.insert (expression_a);
 		if (!expression_a->arguments.empty ())
 		{
 			process_node (expression_a->arguments [0]);
-			if (result_m.error == nullptr)
+			if (error == nullptr)
 			{
 				mu::llvmc::skeleton::node * target;
                 auto & generated = module.already_generated [expression_a->arguments [0]];
@@ -824,9 +811,9 @@ void mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target);
+                    error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target);
                 }
-				if (result_m.error == nullptr)
+				if (error == nullptr)
 				{
 					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (target));
 					if (value != nullptr)
@@ -863,7 +850,7 @@ void mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
                                     }
                                     else
                                     {
-                                        result_m.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
+                                        error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
                                     }
                                 }
 							}
@@ -874,19 +861,19 @@ void mu::llvmc::analyzer_function::process_definite_expression (mu::llvmc::ast::
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target);
+			error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target);
 		}
 	}
 	else
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions);
+		error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions);
 	}
-	current_expression_generation.erase (expression_a);
-	assert (current_expression_generation.find (expression_a) == current_expression_generation.end ());
-	assert (result_m.error != nullptr || (module.already_generated.find (expression_a) != module.already_generated.end ()));
+	module.current_expression_generation.erase (expression_a);
+	assert (module.current_expression_generation.find (expression_a) == module.current_expression_generation.end ());
+	assert (error != nullptr || (module.already_generated.find (expression_a) != module.already_generated.end ()));
 }
 
-void mu::llvmc::analyzer_function::process_identity (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
@@ -937,10 +924,10 @@ void mu::llvmc::analyzer_function::process_identity (mu::llvmc::ast::definite_ex
     }
 }
 
-void mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
-	mu::llvmc::skeleton::branch * most_specific_branch (result_m.function->entry);
+	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
 	auto result (false);
@@ -957,22 +944,22 @@ void mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 			auto l (arguments.begin () + predicate_offset);
 			size_t i (0);
 			size_t j (function_type->function->parameters.size ());
-			for (; i != j && k != l && result_m.error == nullptr; ++i, ++k)
+			for (; i != j && k != l && error == nullptr; ++i, ++k)
 			{
 				auto argument_value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
 				if (argument_value != nullptr)
 				{
 					if ((*argument_value->type ()) != *function_type->function->parameters [i]->type ())
 					{
-						result_m.error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, expression_a->region);
+						error = new (GC) mu::core::error_string (U"Argument type does not match parameter type", mu::core::error_type::argument_type_does_not_match_parameter_type, expression_a->region);
 					}
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value);
+					error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value);
 				}
 			}
-			if (result_m.error == nullptr)
+			if (error == nullptr)
 			{
 				if ((i == j) == (k == l))
 				{
@@ -1043,29 +1030,29 @@ void mu::llvmc::analyzer_function::process_value_call (mu::llvmc::ast::definite_
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments);
+					error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments);
 				}
 			}
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function);
+			error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function);
 		}
 	}
 	else
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call);
+		error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call);
 	}
-	current_expression_generation.erase (expression_a);
+	module.current_expression_generation.erase (expression_a);
 }
 
-void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::value *> arguments;
-	for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && result_m.error == nullptr; ++i)
+	for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && error == nullptr; ++i)
 	{
 		process_node (*i);
-		if (result_m.error == nullptr)
+		if (error == nullptr)
 		{
             auto & values (module.already_generated [*i]);
             for (auto k (values.begin ()), l (values.end ()); k != l; ++k)
@@ -1077,20 +1064,20 @@ void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
+                    error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
                 }
             }
 		}
 	}
 	mu::set <mu::llvmc::skeleton::branch *> marked_branches;
 	mu::set <mu::llvmc::skeleton::branch *> joined_branches;
-	for (auto i (arguments.begin ()), j (arguments.end ()); i != j && result_m.error == nullptr; ++i)
+	for (auto i (arguments.begin ()), j (arguments.end ()); i != j && error == nullptr; ++i)
 	{
 		auto value (*i);
 		auto existing_marked (marked_branches.find (value->branch));
 		if (existing_marked == marked_branches.end ())
 		{
-			for (auto k (value->branch); k != nullptr && result_m.error == nullptr; k = k->parent)
+			for (auto k (value->branch); k != nullptr && error == nullptr; k = k->parent)
 			{
 				auto existing_joined (joined_branches.find (k));
 				if (existing_joined == joined_branches.end ())
@@ -1099,17 +1086,17 @@ void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Branches are not distinct", mu::core::error_type::branches_are_not_disjoint);
+					error = new (GC) mu::core::error_string (U"Branches are not distinct", mu::core::error_type::branches_are_not_disjoint);
 				}
 			}
 			joined_branches.insert (value->branch);
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Branches are not disjoint", mu::core::error_type::branches_are_not_disjoint);
+			error = new (GC) mu::core::error_string (U"Branches are not disjoint", mu::core::error_type::branches_are_not_disjoint);
 		}
 	}
-	if (result_m.error == nullptr)
+	if (error == nullptr)
 	{
 		if (arguments.size () > 1)
 		{
@@ -1121,10 +1108,10 @@ void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 				auto other_type ((*i)->type ());
 				if (*type != *other_type)
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
+					error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
 				}
 			}
-			if (result_m.error == nullptr)
+			if (error == nullptr)
 			{
 				auto parent (least_specific_branch->parent);
 				assert (parent != module.module->global);
@@ -1133,14 +1120,14 @@ void mu::llvmc::analyzer_function::process_join (mu::llvmc::ast::definite_expres
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values);
+			error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values);
 		}
 	}
 }
 
-void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
+void mu::llvmc::analyzer_node::process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a)
 {
-    mu::llvmc::branch_analyzer branches (most_specific_branch, result_m.error);
+    mu::llvmc::branch_analyzer branches (most_specific_branch, error);
 	size_t predicate_position_l (~0);
 	mu::llvmc::ast::for_each_argument (
 		arguments,
@@ -1149,10 +1136,10 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
 			process_node (node_a);
-			if (result_m.error == nullptr)
+			if (error == nullptr)
 			{
                 auto & nodes (module.already_generated [node_a]);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && error == nullptr; ++k)
                 {
                     auto node (*k);
                     auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
@@ -1168,10 +1155,10 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 		(mu::llvmc::ast::node * node_a, size_t index)
 		{
 			process_node (node_a);
-			if (result_m.error == nullptr)
+			if (error == nullptr)
 			{
                 auto & nodes (module.already_generated [node_a]);
-                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && result_m.error == nullptr; ++k)
+                for (auto k (nodes.begin ()), l (nodes.end ()); k != l && error == nullptr; ++k)
                 {
                     auto node (*k);
                     auto value (dynamic_cast<mu::llvmc::skeleton::value *> (node));
@@ -1192,7 +1179,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 		[&]
 		()
 		{
-			return result_m.error == nullptr;
+			return error == nullptr;
 		}
 	);
 	if (predicate_position_l == ~0)
@@ -1202,7 +1189,7 @@ void mu::llvmc::analyzer_function::process_call_values (mu::vector <mu::llvmc::a
 	predicate_position_a = predicate_position_l;
 }
 
-void mu::llvmc::analyzer_function::process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
+void mu::llvmc::analyzer_node::process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch)
 {
 	if (predicate_offset == 3)
 	{
@@ -1224,43 +1211,43 @@ void mu::llvmc::analyzer_function::process_binary_integer_instruction (mu::llvmc
 						}
 						else
 						{
-							result_m.error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width);
+							error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width);
 						}
 					}
 					else
 					{
-						result_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+						error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
 					}
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+					error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
 				}
 			}
 			else
 			{
-				result_m.error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+				error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
 			}
 		}
 		else
 		{
-			result_m.error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+			error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
 		}
 	}
 	else
 	{
-		result_m.error = new (GC) mu::core::error_string (U"Instruction instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments);
+		error = new (GC) mu::core::error_string (U"Instruction instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments);
 	}
 }
 
-void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expression * expression_a)
 {
 	mu::vector <mu::llvmc::skeleton::node *> arguments;
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     auto result (false);
-    if (result_m.error == nullptr)
+    if (error == nullptr)
     {
         auto marker (static_cast<mu::llvmc::skeleton::marker *> (arguments [0]));
         switch (marker->type)
@@ -1281,12 +1268,12 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects its argument to be a type", mu::core::error_type::alloca_argument_type);
+                        error = new (GC) mu::core::error_string (U"Alloca instruction expects its argument to be a type", mu::core::error_type::alloca_argument_type);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Alloca instruction expects one argument", mu::core::error_type::alloca_expects_one_argument);
+                    error = new (GC) mu::core::error_string (U"Alloca instruction expects one argument", mu::core::error_type::alloca_expects_one_argument);
                 }
                 break;
             }
@@ -1308,12 +1295,12 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                     if (asm_l != nullptr)
                     {
                         size_t end (predicate_offset);
-                        for (size_t i (2); i < end && result_m.error == nullptr; ++i)
+                        for (size_t i (2); i < end && error == nullptr; ++i)
                         {
                             auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [i]));
                             if (value == nullptr)
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Inline asm requires value arguments", mu::core::error_type::inline_asm_requires_values);
+                                error = new (GC) mu::core::error_string (U"Inline asm requires value arguments", mu::core::error_type::inline_asm_requires_values);
                             }
                         }
                     }
@@ -1344,22 +1331,22 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                                    error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
                                 }
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                                error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type);
+                            error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+                        error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values);
                     }
                 }
                 break;
@@ -1388,37 +1375,37 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                                         }
                                         else
                                         {
-                                            result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument three", mu::core::error_type::cmpxchg_one_point_three);
+                                            error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument three", mu::core::error_type::cmpxchg_one_point_three);
                                         }
                                     }
                                     else									
                                     {
-                                        result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument two", mu::core::error_type::cmpxchg_one_point_two);
+                                        error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to point to type of argument two", mu::core::error_type::cmpxchg_one_point_two);
                                     }
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to be a pointer", mu::core::error_type::cmpxchg_argument_one_pointer);
+                                    error = new (GC) mu::core::error_string (U"Cmpxchg requires argument one to be a pointer", mu::core::error_type::cmpxchg_argument_one_pointer);
                                 }
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+                                error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+                            error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
+                        error = new (GC) mu::core::error_string (U"Cmpxchg requires arguments to be values", mu::core::error_type::instruction_arguments_must_be_values);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Cmpxchg requires three arguments", mu::core::error_type::cmpxchg_requires_three_arguments);
+                    error = new (GC) mu::core::error_string (U"Cmpxchg requires three arguments", mu::core::error_type::cmpxchg_requires_three_arguments);
                 }
                 break;
             }
@@ -1438,7 +1425,7 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 								auto ptr_index_type (dynamic_cast <mu::llvmc::skeleton::integer_type  *> (ptr_index->type ()));
 								if (ptr_index_type != nullptr)
 								{
-									for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_offset); i != j && result_m.error == nullptr; ++i)
+									for (auto i (arguments.begin () + 3), j (arguments.begin () + predicate_offset); i != j && error == nullptr; ++i)
 									{
 										auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
 										if (index != nullptr)
@@ -1446,42 +1433,42 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
 											assert (dynamic_cast <mu::llvmc::skeleton::integer_type *> (index->type ()));
 											if (static_cast <mu::llvmc::skeleton::integer_type *> (index->type ())->bits != 32)
 											{
-												result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing index types to be 32bit integers", mu::core::error_type::getelementptr_trailing_32bit);
+												error = new (GC) mu::core::error_string (U"Getelementptr requires trailing index types to be 32bit integers", mu::core::error_type::getelementptr_trailing_32bit);
 											}
 										}
 										else
 										{
-											result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires trailing indicies to be constant integers", mu::core::error_type::getelementptr_trailing_constant);
+											error = new (GC) mu::core::error_string (U"Getelementptr requires trailing indicies to be constant integers", mu::core::error_type::getelementptr_trailing_constant);
 										}
 									}
-									if (result_m.error == nullptr)
+									if (error == nullptr)
 									{
 										module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
 									}
 								}
 								else
 								{
-									result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires pointer index to be an integer", mu::core::error_type::getelementptr_first_argument_integer_type);
+									error = new (GC) mu::core::error_string (U"Getelementptr requires pointer index to be an integer", mu::core::error_type::getelementptr_first_argument_integer_type);
 								}
 							}
 							else
 							{
-								result_m.error = new (GC) mu::core::error_string (U"Getelementptr first argument must be a pointer", mu::core::error_type::getelementptr_requires_pointer_type);
+								error = new (GC) mu::core::error_string (U"Getelementptr first argument must be a pointer", mu::core::error_type::getelementptr_requires_pointer_type);
 							}
 						}
 						else
 						{
-							result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);							
+							error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);							
 						}
 					}
 					else
 					{
-						result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);
+						error = new (GC) mu::core::error_string (U"Getelementptr requires its arguments to be values", mu::core::error_type::getelementptr_requires_values);
 					}
 				}
 				else
 				{
-					result_m.error = new (GC) mu::core::error_string (U"Getelementptr requires at least two arguments", mu::core::error_type::getelementptr_requires_two);
+					error = new (GC) mu::core::error_string (U"Getelementptr requires at least two arguments", mu::core::error_type::getelementptr_requires_two);
 				}
 				break;
 			}
@@ -1507,32 +1494,32 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                                     }
                                     else
                                     {
-                                        result_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be the same type", mu::core::error_type::icmp_arguments_same_type);
+                                        error = new (GC) mu::core::error_string (U"ICMP arguments must be the same type", mu::core::error_type::icmp_arguments_same_type);
                                     }
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"ICMP arguments must be integers", mu::core::error_type::icmp_arguments_integers);
+                                    error = new (GC) mu::core::error_string (U"ICMP arguments must be integers", mu::core::error_type::icmp_arguments_integers);
                                 }
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"ICMP right argument must be a value", mu::core::error_type::icmp_right_argument_value);
+                                error = new (GC) mu::core::error_string (U"ICMP right argument must be a value", mu::core::error_type::icmp_right_argument_value);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"ICMP left argument must be a value", mu::core::error_type::icmp_left_argument_value);
+                            error = new (GC) mu::core::error_string (U"ICMP left argument must be a value", mu::core::error_type::icmp_left_argument_value);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"ICMP first argument must be predicate", mu::core::error_type::icmp_first_argument_predicate);
+                        error = new (GC) mu::core::error_string (U"ICMP first argument must be predicate", mu::core::error_type::icmp_first_argument_predicate);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"ICMP instruction expects a predicate and two arguments", mu::core::error_type::icmp_expects_predicate_two_arguments);
+                    error = new (GC) mu::core::error_string (U"ICMP instruction expects a predicate and two arguments", mu::core::error_type::icmp_expects_predicate_two_arguments);
                 }
                 break;
             }
@@ -1564,22 +1551,22 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer);
+                                error = new (GC) mu::core::error_string (U"If instruction expects 1 bit integer", mu::core::error_type::if_instruction_expects_one_bit_integer);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value);
+                            error = new (GC) mu::core::error_string (U"If instruction expects an integer type value", mu::core::error_type::if_instruction_expects_integer_type_value);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument);
+                        error = new (GC) mu::core::error_string (U"If instruction expects a value argument", mu::core::error_type::if_instruction_expects_a_value_argument);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument);
+                    error = new (GC) mu::core::error_string (U"If instruction expects one argument", mu::core::error_type::if_instruction_expects_one_argument);
                 }
                 break;
             }
@@ -1600,22 +1587,22 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires second argument to be a pointer type", mu::core::error_type::expecting_integer_type);
+                                error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires second argument to be a pointer type", mu::core::error_type::expecting_integer_type);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Ptrfromint source must be an integer", mu::core::error_type::expecting_integer_type);
+                            error = new (GC) mu::core::error_string (U"Ptrfromint source must be an integer", mu::core::error_type::expecting_integer_type);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
+                        error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
+                    error = new (GC) mu::core::error_string (U"Ptrfromint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
                 }
                 break;
             }
@@ -1633,17 +1620,17 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type);
+                            error = new (GC) mu::core::error_string (U"Load argument must be a pointer type", mu::core::error_type::load_argument_pointer_type);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values);
+                        error = new (GC) mu::core::error_string (U"Load argument must be a value", mu::core::error_type::load_argument_must_be_values);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument);
+                    error = new (GC) mu::core::error_string (U"Load instruction expects two arguments", mu::core::error_type::load_expects_one_argument);
                 }
                 break;
             }
@@ -1679,22 +1666,22 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be an integer type", mu::core::error_type::expecting_integer_type);
+                                error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires second argument to be an integer type", mu::core::error_type::expecting_integer_type);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Ptrtoint source must be a pointer", mu::core::error_type::expecting_pointer_type);
+                            error = new (GC) mu::core::error_string (U"Ptrtoint source must be a pointer", mu::core::error_type::expecting_pointer_type);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
+                        error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires first argument to be value", mu::core::error_type::expecting_a_value);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
+                    error = new (GC) mu::core::error_string (U"Ptrtoint instruction requires two arguments", mu::core::error_type::ptr_to_int_expects_two);
                 }
                 break;
             }
@@ -1732,27 +1719,27 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left);
+                                    error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left);
                                 }
                             }
                             else
                             {
-                                result_m.error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type);
+                                error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type);
                             }
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                            error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                        error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments);
+                    error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments);
                 }
                 break;
             }
@@ -1767,28 +1754,28 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                         if (type != nullptr)
                         {
                             std::set <uint64_t> used;
-                            for (auto i (arguments.begin () + 2), j (arguments.begin () + predicate_offset); i != j && result_m.error == nullptr; ++i)
+                            for (auto i (arguments.begin () + 2), j (arguments.begin () + predicate_offset); i != j && error == nullptr; ++i)
                             {
                                 auto constant (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (*i));
                                 if (constant != nullptr)
                                 {
                                     if (*constant->type () != *type)
                                     {
-                                        result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be same type as input", mu::core::error_type::switch_requires_matching_case_types);
+                                        error = new (GC) mu::core::error_string (U"Switch requires case arguments to be same type as input", mu::core::error_type::switch_requires_matching_case_types);
                                     }
                                     auto existing (used.find (constant->value_m));
                                     if (existing != used.end ())
                                     {
-                                        result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be unique", mu::core::error_type::switch_requires_unique_case);
+                                        error = new (GC) mu::core::error_string (U"Switch requires case arguments to be unique", mu::core::error_type::switch_requires_unique_case);
                                     }
                                     used.insert (constant->value_m);
                                 }
                                 else
                                 {
-                                    result_m.error = new (GC) mu::core::error_string (U"Switch requires case arguments to be constant integers", mu::core::error_type::switch_requires_case_constant);
+                                    error = new (GC) mu::core::error_string (U"Switch requires case arguments to be constant integers", mu::core::error_type::switch_requires_case_constant);
                                 }
                             }
-                            if (result_m.error == nullptr)
+                            if (error == nullptr)
                             {
                                 result = true;
                                 auto & values (module.already_generated [expression_a]);
@@ -1804,17 +1791,17 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                         }
                         else
                         {
-                            result_m.error = new (GC) mu::core::error_string (U"Switch requires input to be an integer", mu::core::error_type::switch_requires_integer);
+                            error = new (GC) mu::core::error_string (U"Switch requires input to be an integer", mu::core::error_type::switch_requires_integer);
                         }
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Switch requires input to be a value", mu::core::error_type::switch_requires_value);
+                        error = new (GC) mu::core::error_string (U"Switch requires input to be a value", mu::core::error_type::switch_requires_value);
                     }
                 }
                 else
                 {
-                    result_m.error = new (GC) mu::core::error_string (U"Switch requires an input argument", mu::core::error_type::switch_requires_input);
+                    error = new (GC) mu::core::error_string (U"Switch requires an input argument", mu::core::error_type::switch_requires_input);
                 }
                 break;
             }
@@ -1849,5 +1836,11 @@ void mu::llvmc::analyzer_function::process_marker (mu::llvmc::ast::definite_expr
                 break;
         }
     }
-	assert (result_m.error != nullptr || (module.already_generated.find (expression_a) != module.already_generated.end ()));
+	assert (error != nullptr || (module.already_generated.find (expression_a) != module.already_generated.end ()));
+}
+
+mu::llvmc::analyzer_node::analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a) :
+module (module_a),
+error (error_a)
+{
 }

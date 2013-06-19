@@ -220,7 +220,7 @@ TEST (llvmc_analyzer, empty_function)
 	ASSERT_EQ (function.region, function1->region);
 }
 
-TEST (llvmc_analyzer, not_global_error)
+TEST (llvmc_analyzer, DISABLED_not_global_error)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
