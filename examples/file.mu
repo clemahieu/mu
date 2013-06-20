@@ -26,24 +26,45 @@ let syscall-3 function
 ]
 [[int64 result]]
 
-let syscall-4 function
+let syscall-4-osx function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
 [
 	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx}% id arg1 arg2 arg3 arg4]
 ]
 [[int64 result]]
 
-let syscall-5 function
+let syscall-5-osx function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
 [
 	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8}% id arg1 arg2 arg3 arg4 arg5]
 ]
 [[int64 result]]
 
-let syscall-6 function
+let syscall-6-osx function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
 [
 	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
+]
+[[int64 result]]
+
+let syscall-4-linux function
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
+[
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10}% id arg1 arg2 arg3 arg4]
+]
+[[int64 result]]
+
+let syscall-5-linux function
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
+[
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8}% id arg1 arg2 arg3 arg4 arg5]
+]
+[[int64 result]]
+
+let syscall-6-linux function
+[int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
+[
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{r10},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
 ]
 [[int64 result]]
 
@@ -55,10 +76,21 @@ let mmap-osx-system-code cint64 #h20000c5
 
 let write-linux-system-code cint64 #h1
 let open-linux-system-code cint64 #h2
+let mmap-linux-system-code cint64 #h9
 let exit-linux-system-code cint64 #h3c
 
 let O_RDWR-linux cint64 #o2
 let O_CREAT-linux cint64 #o100
+
+let PROT_READ-linux cint64 #h1
+let PROT_WRITE-linux cint64 #h2
+let PROT_EXEC-linux cint64 #h4
+let PROT_NONE-linux cint64 #h0
+
+let MAP_SHARED-linux cint64 #h1
+let MAP_PRIVATE-linux cint64 #h2
+let MAP_ANONYMOUS-linux cint64 #h20
+let no-fd-linux cint64 #hffffffffffffffff
 
 let exit_linux function
 [int64 code]
@@ -179,14 +211,14 @@ let close function
 let mmap-osx function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [ptrfromint [syscall-6 mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6-osx mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
 let mmap-linux function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [ptrfromint [syscall-6 mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6-linux mmap-linux-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
@@ -206,11 +238,11 @@ let entry function
 [
 	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]:)
 	let stored [store ascii /home/colin/mu_build/test.txt:a00 let text [alloca array int8 #30]]
-	:(let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #h180; stored]:)
-	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #h180; stored]
+	:(let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #o600; stored]:)
+	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
-	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 cint64 #3 cint64 #h1002 cint64 #0 cint64 #0]
+	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 [or PROT_READ-linux PROT_WRITE-linux] [or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] no-fd-linux cint64 #0]
 	let result [exit cint64 #0; mem close_l]
 ]
 [[; result]]

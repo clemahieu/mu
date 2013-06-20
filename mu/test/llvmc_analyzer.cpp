@@ -6,10 +6,15 @@
 #include <mu/core/error.hpp>
 #include <mu/llvmc/ast_t.hpp>
 
+#include <sys/mman.h>
+#include <errno.h>
+
 static mu::core::region empty_region (0, 0, 0, 0, 0, 0);
 
 TEST (llvmc_ast, iteration)
 {
+	PROT_READ
+			EACCES
     mu::llvmc::ast::function function1;
     size_t result_calls (0);
     size_t predicate_calls (0);
