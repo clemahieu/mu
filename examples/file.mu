@@ -54,6 +54,7 @@ let close-osx-system-code cint64 #h2000006
 let mmap-osx-system-code cint64 #h20000c5
 
 let write-linux-system-code cint64 #h1
+let open-linux-system-code cint64 #h2
 let exit-linux-system-code cint64 #h3c
 
 let exit_linux function
@@ -132,7 +133,7 @@ let open-osx function
 let open-linux function
 [ptr int8 path int64 flags int64 mode]
 [
-	let fd [syscall-3 open-osx-system-code [ptrtoint path int64] flags mode]
+	let fd [syscall-3 open-linux-system-code [ptrtoint path int64] flags mode]
 ]
 [[int64 fd]]
 
@@ -200,10 +201,10 @@ let mmap function
 let entry function
 []
 [
-	let text [alloca array int8 #26]
-	:(let stored [store ascii /Users/clemahieu/test.txt:a00 text]:)
-	let stored [store ascii /home/colin/mu_build:a00 text]
-	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #0; stored]
+	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]:)
+	let stored [store ascii /home/colin/mu_build/test.txt:a00 let text [alloca array int8 #30]]
+	:(let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #h180; stored]:)
+	let fd [open [bitcast text ptr int8] cint64 #h42 cint64 #h180; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
 	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 cint64 #3 cint64 #h1002 cint64 #0 cint64 #0]
