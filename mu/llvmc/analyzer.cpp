@@ -782,7 +782,15 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 					}
 					else
 					{
-						result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+                        auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
+                        if (constant != nullptr)
+                        {
+                            // Constants not tied to module
+                        }
+                        else
+                        {
+                            result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+                        }
 					}
 				}
             }

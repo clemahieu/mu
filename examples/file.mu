@@ -47,6 +47,12 @@ let syscall-6 function
 ]
 [[int64 result]]
 
+let exit-osx-system-code cint64 #h2000001
+let write-osx-system-code cint64 #h2000004
+let open-osx-system-code cint64 #h2000005
+let close-osx-system-code cint64 #h2000006
+let mmap-osx-system-code cint64 #h20000c5
+
 let exit_linux function
 [int64 code]
 [
@@ -57,7 +63,7 @@ let exit_linux function
 let exit_osx function
 [int64 code]
 [
-	let nothing [syscall-1 cint64 #h2000001 code]
+	let nothing [syscall-1 exit-osx-system-code code]
 ]
 [[;nothing]]
 
@@ -86,7 +92,7 @@ let write-linux function
 let write-osx function
 [int64 file-descriptor ptr int8 data int64 size]
 [
-	let nothing [syscall-3 cint64 #h2000004 file-descriptor [ptrtoint data int64] size]
+	let nothing [syscall-3 write-osx-system-code file-descriptor [ptrtoint data int64] size]
 ]
 [[;nothing]]
 
@@ -115,14 +121,14 @@ let write-test function
 let open-osx function
 [ptr int8 path int64 flags int64 mode]
 [
-	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
+	let fd [syscall-3 open-osx-system-code [ptrtoint path int64] flags mode]
 ]
 [[int64 fd]]
 
 let open-linux function
 [ptr int8 path int64 flags int64 mode]
 [
-	let fd [syscall-3 cint64 #h2000005 [ptrtoint path int64] flags mode]
+	let fd [syscall-3 open-osx-system-code [ptrtoint path int64] flags mode]
 ]
 [[int64 fd]]
 
@@ -140,14 +146,14 @@ let open function
 let close-osx function
 [int64 fd]
 [
-	let result [syscall-1 cint64 #h2000006 fd]
+	let result [syscall-1 close-osx-system-code fd]
 ]
 [[int64 result]]
 
 let close-linux function
 [int64 fd]
 [
-	let result [syscall-1 cint64 #h2000006 fd]
+	let result [syscall-1 close-osx-system-code fd]
 ]
 [[int64 result]]
 
@@ -165,14 +171,14 @@ let close function
 let mmap-osx function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6 mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 
 let mmap-linux function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let result [ptrfromint [syscall-6 cint64 #h20000c5 [ptrtoint addr int64] len prot flags fd pos] ptr int8]
+	let result [ptrfromint [syscall-6 mmap-osx-system-code [ptrtoint addr int64] len prot flags fd pos] ptr int8]
 ]
 [[ptr int8 result]]
 

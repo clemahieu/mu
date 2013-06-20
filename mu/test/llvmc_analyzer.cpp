@@ -3144,3 +3144,16 @@ TEST (llvmc_analyzer, value_branch)
     ASSERT_EQ (32, type1->bits);
     ASSERT_EQ (42, predicate1->value_m);
 }
+
+TEST (llvmc_analyzer, global_constant_int)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::number number1 (U"42");
+    mu::llvmc::ast::constant_int constant1 (U"32", &number1);
+    module.globals [U"0"] = &constant1;
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (0, result.module->functions.size ());
+}
