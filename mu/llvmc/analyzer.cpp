@@ -768,7 +768,14 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 				auto & values (already_generated [i->second]);
 				for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
 				{
-					auto function (dynamic_cast <mu::llvmc::skeleton::function *> (*k));
+                    auto value (*k);
+                    auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value));
+                    while (named != nullptr)
+                    {
+                        value = named->value_m;
+                        named = dynamic_cast <mu::llvmc::skeleton::named *> (value);
+                    }
+					auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value));
 					if (function != nullptr)
 					{
 						module->functions [i->first] = function;
