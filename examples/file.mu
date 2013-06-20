@@ -1,49 +1,49 @@
 let syscall-0 function
 [int64 id]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax}%%% id]
+	let result [asm int64 syscall {%}={ax},{ax}% id]
 ]
 [[int64 result]]
 
 let syscall-1 function
 [int64 id int64 arg1]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di}%%% id arg1]
+	let result [asm int64 syscall {%}={ax},{ax},{di}% id arg1]
 ]
 [[int64 result]]
 
 let syscall-2 function
 [int64 id int64 arg1 int64 arg2]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si}%%% id arg1 arg2]
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si}% id arg1 arg2]
 ]
 [[int64 result]]
 
 let syscall-3 function
 [int64 id int64 arg1 int64 arg2 int64 arg3]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx}%%% id arg1 arg2 arg3]
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx}% id arg1 arg2 arg3]
 ]
 [[int64 result]]
 
 let syscall-4 function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx}%%% id arg1 arg2 arg3 arg4]
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx}% id arg1 arg2 arg3 arg4]
 ]
 [[int64 result]]
 
 let syscall-5 function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8}%%% id arg1 arg2 arg3 arg4 arg5]
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8}% id arg1 arg2 arg3 arg4 arg5]
 ]
 [[int64 result]]
 
 let syscall-6 function
 [int64 id int64 arg1 int64 arg2 int64 arg3 int64 arg4 int64 arg5 int64 arg6]
 [
-	let result [asm int64 syscall {%%%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}%%% id arg1 arg2 arg3 arg4 arg5 arg6]
+	let result [asm int64 syscall {%}={ax},{ax},{di},{si},{dx},{cx},{r8},{r9}% id arg1 arg2 arg3 arg4 arg5 arg6]
 ]
 [[int64 result]]
 
@@ -53,10 +53,12 @@ let open-osx-system-code cint64 #h2000005
 let close-osx-system-code cint64 #h2000006
 let mmap-osx-system-code cint64 #h20000c5
 
+let exit-linux-system-code cint64 #d60
+
 let exit_linux function
 [int64 code]
 [
-	let nothing [syscall-1 cint64 #d60 code]
+	let nothing [syscall-1 exit-linux-system-code code]
 ]
 [[;nothing]]
 
