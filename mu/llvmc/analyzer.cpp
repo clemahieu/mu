@@ -1734,27 +1734,27 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left);
+                                    error = new (GC) mu::core::error_string (U"Type pointed to by store right argument does not match type of left argument", mu::core::error_type::store_right_pointed_type_doesnt_match_left, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type);
+                                error = new (GC) mu::core::error_string (U"Store right argument must be a pointer type", mu::core::error_type::store_right_argument_pointer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                            error = new (GC) mu::core::error_string (U"Store right argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values);
+                        error = new (GC) mu::core::error_string (U"Store left argument must be a value", mu::core::error_type::store_arguments_must_be_values, expression_a->region);
                     }
                 }
                 else
                 {
-                    error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments);
+                    error = new (GC) mu::core::error_string (U"Store instruction expects two arguments", mu::core::error_type::store_expects_two_arguments, expression_a->region);
                 }
                 break;
             }

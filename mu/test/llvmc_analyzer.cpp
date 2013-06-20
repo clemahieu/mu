@@ -3157,3 +3157,34 @@ TEST (llvmc_analyzer, global_constant_int)
     ASSERT_NE (nullptr, result.module);
     ASSERT_EQ (0, result.module->functions.size ());
 }
+
+TEST (llvmc_analyzer, store_type_error)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"1");
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::parameter parameter2 (U"p1", &type1);
+    function1.parameters.push_back (&parameter2);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::store);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
+    expression1.arguments.push_back (&parameter2);
+	expression1.region = mu::core::region (2, 2, 2, 3, 3, 3);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::value value2 (&mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::ast::result result1 (&value2);
+    result1.value = &expression1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.globals [U"0"] = &function1;
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (expression1.region, result.error->region ());
+}
