@@ -57,6 +57,9 @@ let write-linux-system-code cint64 #h1
 let open-linux-system-code cint64 #h2
 let exit-linux-system-code cint64 #h3c
 
+let O_RDWR-linux cint64 #o2
+let O_CREAT-linux cint64 #o100
+
 let exit_linux function
 [int64 code]
 [
@@ -204,7 +207,7 @@ let entry function
 	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]:)
 	let stored [store ascii /home/colin/mu_build/test.txt:a00 let text [alloca array int8 #30]]
 	:(let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #h180; stored]:)
-	let fd [open [bitcast text ptr int8] cint64 #h42 cint64 #h180; stored]
+	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #h180; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
 	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 cint64 #3 cint64 #h1002 cint64 #0 cint64 #0]
