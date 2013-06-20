@@ -64,7 +64,7 @@ namespace mu
         class analyzer_node
         {
         public:
-            analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a);
+            analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
             void process_node (mu::llvmc::ast::node * node_a);
             void process_element (mu::llvmc::ast::element * element_a);
             void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
@@ -87,17 +87,17 @@ namespace mu
             void process_single_node (mu::llvmc::ast::node * node_a);
             mu::llvmc::analyzer_module & module;
             mu::core::error * & error;
+            mu::llvmc::skeleton::branch * entry;
         };
         class analyzer_function
         {
         public:
             analyzer_function (mu::llvmc::analyzer_module & module_a);
             function_result analyze (mu::llvmc::ast::node * function_a);
-            void process_parameters (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
-            void process_results (mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
+            void process_parameters (mu::llvmc::analyzer_node & nodes, mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
+            void process_results (mu::llvmc::analyzer_node & nodes, mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s);
             mu::llvmc::function_result result_m;
             mu::llvmc::analyzer_module & module;
-            mu::llvmc::analyzer_node nodes;
         };
 		class branch_analyzer
 		{
