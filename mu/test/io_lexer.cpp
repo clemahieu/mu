@@ -550,3 +550,22 @@ TEST (io_lexer, hash_sentence)
     auto text (hash.text());
     ASSERT_EQ (U"09c3a5f1fb1a2f77a1db4872ccb04989", text);
 }
+
+TEST (io_lexer, region_comment_containing_control_character)
+{
+    std::stringstream text (":(:a00:);");
+    mu::io::stream_istream stream (text, 16);
+    mu::io::lexer lexer (stream);
+    auto token1 (lexer.lex ());
+    EXPECT_EQ (nullptr, token1.error);
+    EXPECT_NE (nullptr, token1.token);
+    auto token2 (dynamic_cast <mu::io::terminator *> (token1.token));
+    ASSERT_NE (nullptr, token2);
+    EXPECT_EQ (mu::core::region (8, 1, 9, 8, 1, 9), token2->region);
+    auto token3 (lexer.lex ());
+    EXPECT_EQ (nullptr, token3.error);
+    EXPECT_NE (nullptr, token3.token);
+    auto token4 (dynamic_cast <mu::io::end *> (token3.token));
+    ASSERT_NE (nullptr, token4);
+    EXPECT_EQ (mu::core::region (9, 1, 10, 9, 1, 10), token4->region);
+}

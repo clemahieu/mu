@@ -451,7 +451,7 @@ mu::core::error * mu::io::lexer::region_comment ()
                         result = region_comment ();
                         break;
                     default:
-                        // Nothing in comment
+                        consume (2);
                         break;
                 }
                 break;

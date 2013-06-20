@@ -53,7 +53,8 @@ let open-osx-system-code cint64 #h2000005
 let close-osx-system-code cint64 #h2000006
 let mmap-osx-system-code cint64 #h20000c5
 
-let exit-linux-system-code cint64 #d60
+let write-linux-system-code cint64 #h1
+let exit-linux-system-code cint64 #h3c
 
 let exit_linux function
 [int64 code]
@@ -72,7 +73,7 @@ let exit_osx function
 let linux function
 []
 []
-[[int1 cint1 #0]]
+[[int1 cint1 #1]]
 
 let exit function
 [int64 code]
@@ -88,8 +89,9 @@ let exit function
 let write-linux function
 [int64 file-descriptor ptr int8 data int64 size]
 [
+	let nothing [syscall-3 write-linux-system-code file-descriptor [ptrtoint data int64] size]
 ]
-[[]]
+[[;nothing]]
 
 let write-osx function
 [int64 file-descriptor ptr int8 data int64 size]
@@ -199,7 +201,8 @@ let entry function
 []
 [
 	let text [alloca array int8 #26]
-	let stored [store ascii /Users/clemahieu/test.txt:a00 text]
+	:(let stored [store ascii /Users/clemahieu/test.txt:a00 text]:)
+	let stored [store ascii /home/colin/mu_build:a00 text]
 	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #0; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
