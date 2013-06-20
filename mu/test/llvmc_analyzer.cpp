@@ -2926,6 +2926,9 @@ TEST (llvmc_analyzer, element_not_enough_fail)
     ASSERT_EQ (element2.region, result.error->region ());
 }
 
+/*  Function calls involving only global arguments will evaluate to having a global branch
+    if branches are created off of this call e.g. an if instruction, the branches will have
+    a global parent and will be incorrectly disjoint to any function-local arguments*/
 TEST (llvmc_analyzer, global_argument_call_in_function_branch)
 {
     mu::llvmc::analyzer analyzer;
