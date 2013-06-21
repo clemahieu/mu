@@ -107,7 +107,7 @@ mu::llvmc::skeleton::node::~node ()
 }
 
 mu::llvmc::skeleton::function::function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a) :
-value (region_a, global_a),
+constant (region_a, global_a),
 type_m (this),
 pointer_type_m (&type_m),
 entry (new (GC) mu::llvmc::skeleton::branch (global_a))

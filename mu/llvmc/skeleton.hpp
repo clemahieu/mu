@@ -187,7 +187,7 @@ namespace mu
                 bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 mu::llvmc::skeleton::type * pointed_type;
             };
-            class function : public mu::llvmc::skeleton::value
+            class function : public mu::llvmc::skeleton::constant
             {
             public:
                 function (mu::core::region const & region_a, mu::llvmc::skeleton::branch * global_a);

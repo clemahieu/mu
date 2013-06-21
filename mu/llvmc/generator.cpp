@@ -74,7 +74,7 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
     {
         assert (functions.find (i->second) != functions.end ());
-        auto function (functions [i->second]);
+        auto function (llvm::cast <llvm::Function> (functions [i->second]));
 		if (function->getBasicBlockList ().empty ())
 		{
 			mu::llvmc::generate_function generator_l (*this, i->second);
@@ -102,7 +102,7 @@ void mu::llvmc::generate_function::generate ()
 {
     auto & context (module.target.module->getContext ());
     assert (module.functions.find (function) != module.functions.end ());
-    auto function_l (module.functions.find (function)->second);
+    auto function_l (llvm::cast <llvm::Function> (module.functions.find (function)->second));
     auto type (module.retrieve_type (&function->type_m));
     auto function_type (llvm::cast <llvm::FunctionType> (type.type));
 	function_d = module.builder.createFunction (module.file, strip_unique (function_l->getName ()), function_l->getName (), module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
