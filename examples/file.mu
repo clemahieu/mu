@@ -106,17 +106,19 @@ let exit_osx function
 ]
 [[;nothing]]
 
-let linux function
+let platform function
 []
-[]
-[[int1 cint1 #1]]
+[
+	let linux osx [if cint1 #1]
+]
+[[unit linux][unit osx]]
 
 let exit function
 [int64 code]
 [
-	let linux_l osx [if [linux]]
+	let linux osx [platform]
 	let result [join 
-		[exit_linux code; linux_l]
+		[exit_linux code; linux]
 		[exit_osx code; osx]
 	]
 ]
@@ -139,9 +141,9 @@ let write-osx function
 let write function
 [int64 file-descriptor ptr int8 data int64 size]
 [
-	let linux_l osx [if [linux]]
+	let linux osx [platform]
 	let result [join 
-		[write-linux file-descriptor data size; linux_l]
+		[write-linux file-descriptor data size; linux]
 		[write-osx file-descriptor data size; osx]
 	]
 ]
@@ -175,10 +177,10 @@ let open-linux function
 let open function
 [ptr int8 path int64 flags int64 mode]
 [
-	let linux_l osx [if [linux]]
+	let linux osx [platform]
 	let fd [join
 		[open-osx path flags mode; osx]
-		[open-linux path flags mode; linux_l]
+		[open-linux path flags mode; linux]
 	]
 ]
 [[int64 fd]]
@@ -200,10 +202,10 @@ let close-linux function
 let close function
 [int64 fd]
 [
-	let linux_l osx [if [linux]]
+	let linux osx [platform]
 	let result [join
 		[close-osx fd; osx]
-		[close-linux fd; linux_l]
+		[close-linux fd; linux]
 	]
 ]
 [[int64 result]]
@@ -225,10 +227,10 @@ let mmap-linux function
 let mmap function
 [ptr int8 addr int64 len int64 prot int64 flags int64 fd int64 pos]
 [
-	let linux_l osx [if [linux]]
+	let linux osx [platform]
 	let result [join
 		[mmap-osx addr len prot flags fd pos; osx]
-		[mmap-linux addr len prot flags fd pos; linux_l]
+		[mmap-linux addr len prot flags fd pos; linux]
 	]
 ]
 [[ptr int8 result]]

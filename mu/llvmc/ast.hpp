@@ -7,7 +7,7 @@
 
 namespace mu
 {
-    namespace io
+    namespace iou
     {
         template <typename T>
         class stream;

@@ -77,7 +77,8 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 			case mu::io::token_id::identifier:
 			{
 				assert (dynamic_cast <mu::io::identifier *> (item.token) != nullptr);
-                current_mapping->refer (static_cast <mu::io::identifier *> (item.token)->string, mu::core::region (), op);
+				auto identifier (static_cast <mu::io::identifier *> (item.token));
+                current_mapping->refer (identifier->string, identifier->region, op);
 				break;
 			}
 			case mu::io::token_id::right_square:

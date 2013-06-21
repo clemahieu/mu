@@ -405,9 +405,9 @@ void mu::llvmc::function::parse_result_set ()
     while (result.error == nullptr && !done && !predicates)
     {
         auto node (parser.peek ());
-        if (node.ast != nullptr)
-        {
-            auto type (node.ast);
+		auto action ([&]
+		(mu::llvmc::ast::node * type)
+		{
             auto result_l (new (GC) mu::llvmc::ast::result (type));
             result_l->region.first = type->region.first;
             function_m->results.push_back (result_l);
@@ -417,7 +417,11 @@ void mu::llvmc::function::parse_result_set ()
                 {
                     result_l->region.last = region_a.last;
                     result_l->value = node_a;
-                });
+                });			
+		});
+        if (node.ast != nullptr)
+        {
+			action (node.ast);
         }
         else if (node.token != nullptr)
         {
@@ -431,6 +435,17 @@ void mu::llvmc::function::parse_result_set ()
                     predicates = true;
                     function_m->predicate_offsets.push_back (function_m->results.size ());
                     break;
+				case mu::io::token_id::identifier:
+				{
+					auto identifier (static_cast <mu::io::identifier *> (node.token));
+					parser.current_mapping->refer (identifier->string, identifier->region, 
+							[&]
+							(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+							{
+								action (node_a);
+							});
+					break;
+				}
                 default:
                     result.error = new (GC) mu::core::error_string (U"Expecting right_square", mu::core::error_type::expecting_right_square, node.token->region);
                     break;
