@@ -332,7 +332,7 @@ namespace mu
             {
             public:
                 module ();
-                mu::map <mu::string, mu::llvmc::skeleton::function *> functions;
+                mu::map <mu::string, mu::llvmc::skeleton::constant *> functions;
                 mu::llvmc::skeleton::branch * global;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };

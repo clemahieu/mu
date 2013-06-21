@@ -6,6 +6,7 @@
 #include <set>
 
 #include <boost/circular_buffer.hpp>
+#include <boost/cast.hpp>
 
 #include <gc_allocator.h>
 
@@ -22,5 +23,11 @@ namespace mu
     using multimap = std::multimap <T, U, std::less <T>, gc_allocator <std::pair <T, U>>>;
     template <typename T>
     using set = std::set <T, std::less <T>, gc_allocator <T>>;
+	template <typename T, typename U>
+	T * cast (U * x)
+	{
+		auto result (boost::polymorphic_downcast <T *> (x));
+		return result;
+	}
     std::string std_from_mu_string (mu::string const & string_a);
 }

@@ -54,7 +54,8 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i, ++function_id)
     {
 		assert (functions.find (i->second) == functions.end ());
-        auto type (retrieve_type (&i->second->type_m));
+		auto function (mu::cast <mu::llvmc::skeleton::function> (i->second));
+        auto type (retrieve_type (&function->type_m));
         auto function_type (llvm::cast <llvm::FunctionType> (type.type));
         std::string name;
         char buffer [32];
@@ -74,10 +75,11 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
     {
         assert (functions.find (i->second) != functions.end ());
+		auto function_l (mu::cast <mu::llvmc::skeleton::function> (i->second));
         auto function (llvm::cast <llvm::Function> (functions [i->second]));
 		if (function->getBasicBlockList ().empty ())
 		{
-			mu::llvmc::generate_function generator_l (*this, i->second);
+			mu::llvmc::generate_function generator_l (*this, function_l);
 			generator_l.generate ();
 		}
     }
