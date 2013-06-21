@@ -763,7 +763,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 			}
             if (result_m.error == nullptr)
             {
-                assert (module->functions.find (i->first) == module->functions.end ());
+                assert (module->globals.find (i->first) == module->globals.end ());
                 assert (already_generated.find (i->second) != already_generated.end ());
 				auto & values (already_generated [i->second]);
 				for (auto k (values.begin ()), l (values.end ()); k != l && result_m.error == nullptr; ++k)
@@ -778,7 +778,7 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 					auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value));
 					if (function != nullptr)
 					{
-						module->functions [i->first] = function;
+						module->globals [i->first] = function;
 					}
 					else
 					{

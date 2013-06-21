@@ -51,9 +51,9 @@ module_id (module_id_a)
 void mu::llvmc::generate_module::generate ()
 {
 	uint64_t function_id (0);
-    for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i, ++function_id)
+    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++function_id)
     {
-		assert (functions.find (i->second) == functions.end ());
+		assert (globals.find (i->second) == globals.end ());
 		auto function (mu::cast <mu::llvmc::skeleton::function> (i->second));
         auto type (retrieve_type (&function->type_m));
         auto function_type (llvm::cast <llvm::FunctionType> (type.type));
@@ -68,15 +68,15 @@ void mu::llvmc::generate_module::generate ()
         name += std::string (i->first.begin (), i->first.end ());
         auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
         target.module->getFunctionList ().push_back (function_l);
-        assert (functions.find (i->second) == functions.end ());
-		functions [i->second] = function_l;
+        assert (globals.find (i->second) == globals.end ());
+		globals [i->second] = function_l;
         target.names [i->first] = function_l;
 	}
-    for (auto i (module->functions.begin ()), j (module->functions.end ()); i != j; ++i)
+    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
-        assert (functions.find (i->second) != functions.end ());
+        assert (globals.find (i->second) != globals.end ());
 		auto function_l (mu::cast <mu::llvmc::skeleton::function> (i->second));
-        auto function (llvm::cast <llvm::Function> (functions [i->second]));
+        auto function (llvm::cast <llvm::Function> (globals [i->second]));
 		if (function->getBasicBlockList ().empty ())
 		{
 			mu::llvmc::generate_function generator_l (*this, function_l);
@@ -103,8 +103,8 @@ static std::string strip_unique (std::string const & name_a)
 void mu::llvmc::generate_function::generate ()
 {
     auto & context (module.target.module->getContext ());
-    assert (module.functions.find (function) != module.functions.end ());
-    auto function_l (llvm::cast <llvm::Function> (module.functions.find (function)->second));
+    assert (module.globals.find (function) != module.globals.end ());
+    auto function_l (llvm::cast <llvm::Function> (module.globals.find (function)->second));
     auto type (module.retrieve_type (&function->type_m));
     auto function_type (llvm::cast <llvm::FunctionType> (type.type));
 	function_d = module.builder.createFunction (module.file, strip_unique (function_l->getName ()), function_l->getName (), module.file, function->region.first.row, type.debug, false, true, function->region.first.row, 0, false, function_l);
@@ -306,8 +306,8 @@ void mu::llvmc::generate_function::generate_call (mu::llvmc::skeleton::function_
     llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
     assert (call_a->arguments.size () > 0);
     assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
-    assert (module.functions.find (call_a->target) != module.functions.end ());
-    auto function (module.functions [call_a->target]);
+    assert (module.globals.find (call_a->target) != module.globals.end ());
+    auto function (module.globals [call_a->target]);
     std::vector <llvm::Value *> arguments;
     size_t position (1);
     auto end (call_a->predicate_offset);
