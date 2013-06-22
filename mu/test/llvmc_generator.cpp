@@ -2157,3 +2157,19 @@ TEST (llvmc_generator, generate_ptrfromint)
     auto result2 (function3 (~0));
     ASSERT_EQ (~0, (uint64_t)result2);
 }
+
+extern char const * const generate_global_variable_expected;
+
+TEST (llvmc_generator, DISABLED_generate_global_variable)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 42);
+	module.globals [U"0"] = &constant1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_global_variable", U"", 0));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+}
