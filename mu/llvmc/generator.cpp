@@ -54,34 +54,35 @@ void mu::llvmc::generate_module::generate ()
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++function_id)
     {
 		assert (globals.find (i->second) == globals.end ());
-		auto function (mu::cast <mu::llvmc::skeleton::function> (i->second));
-        auto type (retrieve_type (&function->type_m));
-        auto function_type (llvm::cast <llvm::FunctionType> (type.type));
-        std::string name;
-        char buffer [32];
-        sprintf (buffer, "%016" PRIx64, module_id);
-        name.append (buffer);
-        name.push_back ('-');
-        sprintf (buffer, "%016" PRIx64, function_id);
-        name.append (buffer);
-        name.push_back ('-');
-        name += std::string (i->first.begin (), i->first.end ());
-        auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
-        target.module->getFunctionList ().push_back (function_l);
-        assert (globals.find (i->second) == globals.end ());
-		globals [i->second] = function_l;
-        target.names [i->first] = function_l;
+		auto function (dynamic_cast <mu::llvmc::skeleton::function *> (i->second));
+        if (function != nullptr)
+        {
+            auto type (retrieve_type (&function->type_m));
+            auto function_type (llvm::cast <llvm::FunctionType> (type.type));
+            std::string name;
+            char buffer [32];
+            sprintf (buffer, "%016" PRIx64, module_id);
+            name.append (buffer);
+            name.push_back ('-');
+            sprintf (buffer, "%016" PRIx64, function_id);
+            name.append (buffer);
+            name.push_back ('-');
+            name += std::string (i->first.begin (), i->first.end ());
+            auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
+            target.module->getFunctionList ().push_back (function_l);
+            assert (globals.find (i->second) == globals.end ());
+            globals [i->second] = function_l;
+            target.names [i->first] = function_l;
+        }
 	}
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
         assert (globals.find (i->second) != globals.end ());
 		auto function_l (mu::cast <mu::llvmc::skeleton::function> (i->second));
         auto function (llvm::cast <llvm::Function> (globals [i->second]));
-		if (function->getBasicBlockList ().empty ())
-		{
-			mu::llvmc::generate_function generator_l (*this, function_l);
-			generator_l.generate ();
-		}
+        assert (function->getBasicBlockList().empty ());
+        mu::llvmc::generate_function generator_l (*this, function_l);
+        generator_l.generate ();
     }
 	builder.finalize ();
 }
