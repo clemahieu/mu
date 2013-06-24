@@ -71,28 +71,20 @@ namespace mu
             mu::llvmc::type_info retrieve_type (mu::llvmc::skeleton::type * type_a);
 			llvm::DIBuilder builder;
 			mu::map <mu::llvmc::skeleton::type *, mu::llvmc::type_info> type_information;
-            mu::map <mu::llvmc::skeleton::constant *, llvm::Constant *> globals;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;
 			uint64_t module_id;
-        };
-        class generate_function;
-        class value_data
-        {
-        public:
-            llvm::Value * predicate;
-            llvm::Value * value;
         };
         class generate_function
         {
         public:
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
-            mu::llvmc::value_data retrieve_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_value (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_single (mu::llvmc::skeleton::value * value_a);
-            mu::llvmc::value_data generate_branched (mu::llvmc::skeleton::value * value_a);
+            void retrieve_value (mu::llvmc::skeleton::value * value_a);
+            void generate_value (mu::llvmc::skeleton::value * value_a);
+            void generate_single (mu::llvmc::skeleton::value * value_a);
+            void generate_branched (mu::llvmc::skeleton::value * value_a);
             void generate_call (mu::llvmc::skeleton::function_call * call_a);
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
@@ -102,7 +94,6 @@ namespace mu
             mu::llvmc::generate_module & module;
             llvm::BasicBlock * last;
             llvm::Function * function_m;
-            mu::map <mu::llvmc::skeleton::value *, mu::llvmc::value_data> already_generated;
             mu::llvmc::skeleton::function * function;
             mu::llvmc::skeleton::function_return_type function_return_type;
             llvm::DISubprogram function_d;

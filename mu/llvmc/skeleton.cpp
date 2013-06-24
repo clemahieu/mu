@@ -126,7 +126,9 @@ parent (parent_a)
 
 mu::llvmc::skeleton::value::value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
 branch (branch_a),
-region (region_a)
+region (region_a),
+predicate (nullptr),
+generated (nullptr)
 {
 }
 

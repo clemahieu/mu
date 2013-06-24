@@ -8,6 +8,7 @@
 namespace llvm
 {
     class Constant;
+    class Value;
 }
 namespace mu
 {
@@ -51,6 +52,8 @@ namespace mu
                 virtual mu::llvmc::skeleton::type * type () = 0;
                 mu::llvmc::skeleton::branch * branch;
 				mu::core::region region;
+                llvm::Value * predicate;
+                llvm::Value * generated;
             };
             class named : public mu::llvmc::skeleton::value
             {
