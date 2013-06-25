@@ -2165,7 +2165,8 @@ TEST (llvmc_generator, DISABLED_generate_global_variable)
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
 	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 42);
-	module.globals [U"0"] = &constant1;
+    mu::llvmc::skeleton::global_variable global1 (mu::empty_region, module.global, constant1.type (), &constant1);
+	module.globals [U"0"] = &global1;
     mu::llvmc::generator generator;
     auto result (generator.generate (context, &module, U"generate_global_variable", U"", 0));
     std::string info;

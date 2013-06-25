@@ -323,7 +323,7 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
             };
-			class global_variable : public mu::llvmc::skeleton::value
+			class global_variable : public mu::llvmc::skeleton::constant
 			{
 			public:
 				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::constant * initializer_a);
