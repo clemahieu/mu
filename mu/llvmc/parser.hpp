@@ -244,6 +244,12 @@ namespace mu
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
+        class constant_pointer_null : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class parser
         {
         public:
@@ -276,6 +282,7 @@ namespace mu
             mu::llvmc::number number;
             mu::llvmc::constant_int constant_int;
             mu::llvmc::global_variable global_variable;
+            mu::llvmc::constant_pointer_null constant_pointer_null;
             mu::io::stream_token & stream;
             mu::llvmc::keywords keywords;
         };

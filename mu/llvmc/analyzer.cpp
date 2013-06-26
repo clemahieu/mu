@@ -269,9 +269,17 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                         auto type (process_type (constant_pointer_null->type));
                                                                         if (type != nullptr)
                                                                         {
-                                                                            auto & values (module.already_generated [constant_pointer_null]);
-                                                                            auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, module.module->global, type));
-                                                                            values.push_back (skeleton);
+                                                                            auto pointer (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (type));
+                                                                            if (pointer != nullptr)
+                                                                            {
+                                                                                auto & values (module.already_generated [constant_pointer_null]);
+                                                                                auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, module.module->global, type));
+                                                                                values.push_back (skeleton);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                error = new (GC) mu::core::error_string (U"Type is not a pointer", mu::core::error_type::expecting_a_pointer_type, constant_pointer_null->type->region);
+                                                                            }
                                                                         }
                                                                     }
                                                                     else

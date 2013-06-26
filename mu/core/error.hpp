@@ -145,7 +145,8 @@ namespace mu
             expecting_pointer_type,
             expecting_integer_type,
             global_one_initializer,
-            global_constant_initializer
+            global_constant_initializer,
+            expecting_a_pointer_type
         };
         class error
         {

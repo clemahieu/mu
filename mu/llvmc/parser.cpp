@@ -51,6 +51,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
     assert (!error);
+    error = keywords.insert (U"null", &constant_pointer_null);
+    assert (!error);
     error = keywords.insert (U"ptr", &ptr_type);
     assert (!error);
     error = keywords.insert (U"set", &set_hook);
@@ -1571,13 +1573,13 @@ mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const
     auto global (new (GC) mu::llvmc::ast::global_variable);
     global->region.first = region_a.first;
     result.error = parser_a.parse_ast_or_refer (
-        [=]
-        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-        {
-            global->initializer = node_a;
-            global->region.last = region_a.last;
-        }
-    );
+                                                [=]
+                                                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                                                {
+                                                    global->initializer = node_a;
+                                                    global->region.last = region_a.last;
+                                                }
+                                                );
     if (result.error == nullptr)
     {
         result.node = global;
@@ -1586,6 +1588,32 @@ mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const
 }
 
 bool mu::llvmc::global_variable::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::constant_pointer_null::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto constant (new (GC) mu::llvmc::ast::constant_pointer_null);
+    constant->region.first = region_a.first;
+    result.error = parser_a.parse_ast_or_refer (
+                                                [=]
+                                                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                                                {
+                                                    constant->type = node_a;
+                                                    constant->region.last = region_a.last;
+                                                }
+                                                );
+    if (result.error == nullptr)
+    {
+        result.node = constant;
+    }
+    return result;
+}
+
+bool mu::llvmc::constant_pointer_null::covering ()
 {
     return false;
 }

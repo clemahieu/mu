@@ -1641,3 +1641,24 @@ TEST (llvmc_parser, global_variable)
     ASSERT_NE (nullptr, number1);
     ASSERT_EQ (U"42", number1->number_m);
 }
+
+TEST (llvmc_parser, constant_pointer_null)
+{
+    test_parser parser ("let test1 null int8");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto constant1 (dynamic_cast <mu::llvmc::ast::constant_pointer_null *> (set1->items [0]));
+    ASSERT_NE (nullptr, constant1);
+    auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (constant1->type));
+    ASSERT_NE (nullptr, type1);
+    ASSERT_EQ (U"8", type1->bits);
+}
