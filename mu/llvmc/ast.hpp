@@ -184,6 +184,14 @@ namespace mu
                 mu::string text;
                 mu::string constraints;
             };
+            class global_variable : public mu::llvmc::ast::expression
+            {
+            public:
+                global_variable () = default;
+                global_variable (mu::llvmc::ast::node * initializer_a, mu::llvmc::ast::node * type_a);
+                mu::llvmc::ast::node * initializer;
+                mu::llvmc::ast::node * type;
+            };
         }
     }
 }
