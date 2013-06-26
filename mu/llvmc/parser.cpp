@@ -41,6 +41,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"carray", &constant_array);
     assert (!error);
+    error = keywords.insert (U"global", &global_variable);
+    assert (!error);
     error = keywords.insert (U"function", &function);
     assert (!error);
     error = keywords.insert (U"int", &int_type);
@@ -1560,4 +1562,30 @@ mu::llvmc::node_result mu::llvmc::ascii_hook::parse (mu::core::region const & re
 bool mu::llvmc::ascii_hook::covering ()
 {
 	return false;
+}
+
+mu::llvmc::node_result mu::llvmc::global_variable::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto global (new (GC) mu::llvmc::ast::global_variable);
+    global->region.first = region_a.first;
+    result.error = parser_a.parse_ast_or_refer (
+        [=]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            global->initializer = node_a;
+            global->region.last = region_a.last;
+        }
+    );
+    if (result.error == nullptr)
+    {
+        result.node = global;
+    }
+    return result;
+}
+
+bool mu::llvmc::global_variable::covering ()
+{
+    return false;
 }

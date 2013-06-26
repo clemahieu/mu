@@ -1617,3 +1617,27 @@ TEST (llvmc_parser, unit_result)
 	auto unit (dynamic_cast <mu::llvmc::skeleton::unit_type *> (value1->node_m));
 	ASSERT_NE (nullptr, unit);
 }
+
+TEST (llvmc_parser, global_variable)
+{
+    test_parser parser ("let test1 global cint64 #42");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto global1 (dynamic_cast <mu::llvmc::ast::global_variable *> (set1->items [0]));
+    ASSERT_NE (nullptr, global1);
+    auto initializer1 (dynamic_cast <mu::llvmc::ast::constant_int *> (global1->initializer));
+    ASSERT_NE (nullptr, initializer1);
+    ASSERT_EQ (U"64", initializer1->bits);
+    auto number1 (dynamic_cast <mu::llvmc::ast::number *> (initializer1->number));
+    ASSERT_NE (nullptr, number1);
+    ASSERT_EQ (U"42", number1->number_m);
+}
