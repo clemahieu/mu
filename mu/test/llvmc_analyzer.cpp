@@ -3210,9 +3210,11 @@ TEST (llvmc_analyzer, global_variable)
     ASSERT_NE (nullptr, type1);
     ASSERT_EQ (32, type1->bits);
     ASSERT_EQ (42, constant2->value_m);
-    auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (global2->type ()));
+    auto type2 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (global2->type ()));
     ASSERT_NE (nullptr, type2);
-    ASSERT_EQ (type2, type1);
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type2->pointed_type));
+    ASSERT_NE (nullptr, type3);
+    ASSERT_EQ (type3, type1);
 }
 
 TEST (llvmc_analyzer, null_pointer)

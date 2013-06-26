@@ -19,9 +19,9 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::constant_array::type ()
 	return type_m;
 }
 
-mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::constant * initializer_a) :
+mu::llvmc::skeleton::global_variable::global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a) :
 constant (region_a, branch_a),
-type_m (type_a),
+type_m (new (GC) mu::llvmc::skeleton::pointer_type (initializer_a->type ())),
 initializer (initializer_a)
 {	
 }

@@ -248,7 +248,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                         {
                                                                             auto & targets (module.already_generated [node_a]);
                                                                             assert (targets.empty ());
-                                                                            auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module.module->global, constant->type (), constant));
+                                                                            auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module.module->global, constant));
                                                                             targets.push_back (skeleton);
                                                                         }
                                                                         else

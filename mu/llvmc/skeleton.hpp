@@ -326,7 +326,7 @@ namespace mu
 			class global_variable : public mu::llvmc::skeleton::constant
 			{
 			public:
-				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::constant * initializer_a);
+				global_variable (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::constant * initializer_a);
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;
 				mu::llvmc::skeleton::constant * initializer;

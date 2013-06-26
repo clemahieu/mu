@@ -1335,7 +1335,7 @@ void mu::llvmc::generate_module::generate_global (mu::llvmc::skeleton::value * v
                 if (global_variable != nullptr)
                 {
                     retrieve_value_a (global_variable->initializer);
-                    auto type (retrieve_type (global_variable->type ()));
+                    auto type (retrieve_type (global_variable->initializer->type ()));
                     auto global (new llvm::GlobalVariable (type.type, false, llvm::GlobalValue::LinkageTypes::ExternalLinkage, llvm::cast <llvm::Constant> (global_variable->initializer->generated)));
                     global_variable->generated = global;
                     global_variable->predicate = global_variable->initializer->predicate;

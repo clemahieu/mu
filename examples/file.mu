@@ -235,7 +235,8 @@ let mmap function
 ]
 [[ptr int8 result]]
 
-let global1 global cint64 #42
+let lalloc_base global null ptr int8
+let lalloc_available global cint64 #h0
 
 let entry function
 []
@@ -246,7 +247,7 @@ let entry function
 	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
-	let mem [mmap [ptrfromint cint64 #0 ptr int8] cint64 #h100000 [or PROT_READ-linux PROT_WRITE-linux] [or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] no-fd-linux cint64 #0]
-	let result [exit cint64 #0; mem close_l]
+	let mem [mmap [ptrfromint cint64 #0 ptr int8] let alloc_amount cint64 #h100000 [or PROT_READ-linux PROT_WRITE-linux] [or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] no-fd-linux cint64 #0]
+	let result [exit cint64 #0; mem close_l [store mem lalloc_base] [store alloc_amount lalloc_available]]
 ]
 [[; result]]
