@@ -74,15 +74,26 @@ void mu::llvmc::generate_module::generate ()
             i->second->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
             target.names [i->first] = function_l;
         }
+        else
+        {
+            generate_value (i->second);
+        }
 	}
     for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
         assert (i->second->predicate != nullptr);
-		auto function_l (mu::cast <mu::llvmc::skeleton::function> (i->second));
-        auto function (llvm::cast <llvm::Function> (i->second->generated));
-        assert (function->getBasicBlockList().empty ());
-        mu::llvmc::generate_function generator_l (*this, function_l);
-        generator_l.generate ();
+		auto function_l (dynamic_cast <mu::llvmc::skeleton::function*> (i->second));
+        if (function_l != nullptr)
+        {
+            auto function (llvm::cast <llvm::Function> (i->second->generated));
+            assert (function->getBasicBlockList().empty ());
+            mu::llvmc::generate_function generator_l (*this, function_l);
+            generator_l.generate ();
+        }
+        else
+        {
+            // Only generate function bodies second pass
+        }
     }
 	builder.finalize ();
 }
@@ -1312,10 +1323,28 @@ void mu::llvmc::generate_module::generate_global (mu::llvmc::skeleton::value * v
             }
             else
             {
-                assert (false);
+                auto global_variable (dynamic_cast <mu::llvmc::skeleton::global_variable *> (value_a));
+                if (global_variable != nullptr)
+                {
+                    retrieve_value_a (global_variable->initializer);
+                    auto type (retrieve_type (global_variable->type ()));
+                    auto global (new llvm::GlobalVariable (type.type, false, llvm::GlobalValue::LinkageTypes::ExternalLinkage, llvm::cast <llvm::Constant> (global_variable->initializer->generated)));
+                    global_variable->generated = global;
+                    global_variable->predicate = global_variable->initializer->predicate;
+                    target.module->getGlobalList ().push_back (global);
+                }
+                else
+                {
+                    assert (false);
+                }
             }
         }
     }
+}
+
+void mu::llvmc::generate_module::generate_value (mu::llvmc::skeleton::value * value_a)
+{
+    generate_global (value_a, [=] (mu::llvmc::skeleton::value * value_a) {generate_value (value_a);});
 }
 
 llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a, llvm::Value * right_a)

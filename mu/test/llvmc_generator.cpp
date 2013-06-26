@@ -2160,7 +2160,7 @@ TEST (llvmc_generator, generate_ptrfromint)
 
 extern char const * const generate_global_variable_expected;
 
-TEST (llvmc_generator, DISABLED_generate_global_variable)
+TEST (llvmc_generator, generate_global_variable)
 {
     llvm::LLVMContext context;
     mu::llvmc::skeleton::module module;
