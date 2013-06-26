@@ -298,6 +298,17 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
+extern char const * const generate_global_variable_expected = R"%%%(; ModuleID = '0000000000000000'
+
+@"0000000000000000-0000000000000000-0" = global i32 42
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_global_variable", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !1, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_global_variable] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+)%%%";
+
 extern char const * const generate_icmp1_expected = R"%%%(; ModuleID = '0000000000000000'
 
 define i1 @"0000000000000000-0000000000000000-0"(i1, i1) {

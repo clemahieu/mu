@@ -2173,4 +2173,5 @@ TEST (llvmc_generator, generate_global_variable)
     auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
     ASSERT_TRUE (!broken);
     print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_global_variable_expected), info);
 }

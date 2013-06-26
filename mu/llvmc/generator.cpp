@@ -50,8 +50,7 @@ module_id (module_id_a)
 
 void mu::llvmc::generate_module::generate ()
 {
-	uint64_t function_id (0);
-    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++function_id)
+    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
     {
 		assert (i->second->generated == nullptr);
 		auto function (dynamic_cast <mu::llvmc::skeleton::function *> (i->second));
@@ -59,16 +58,7 @@ void mu::llvmc::generate_module::generate ()
         {
             auto type (retrieve_type (&function->type_m));
             auto function_type (llvm::cast <llvm::FunctionType> (type.type));
-            std::string name;
-            char buffer [32];
-            sprintf (buffer, "%016" PRIx64, module_id);
-            name.append (buffer);
-            name.push_back ('-');
-            sprintf (buffer, "%016" PRIx64, function_id);
-            name.append (buffer);
-            name.push_back ('-');
-            name += std::string (i->first.begin (), i->first.end ());
-            auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage, name));
+            auto function_l (llvm::Function::Create (function_type, llvm::GlobalValue::LinkageTypes::ExternalLinkage));
             target.module->getFunctionList ().push_back (function_l);
             i->second->generated = function_l;
             i->second->predicate = llvm::ConstantInt::getTrue (function_type->getContext ());
@@ -79,9 +69,27 @@ void mu::llvmc::generate_module::generate ()
             generate_value (i->second);
         }
 	}
-    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i)
+	uint64_t global_id (0);
+    for (auto i (module->globals.begin ()), j (module->globals.end ()); i != j; ++i, ++global_id)
     {
         assert (i->second->predicate != nullptr);
+        if (i->second->generated != nullptr)
+        {
+            std::string name;
+            char buffer [32];
+            sprintf (buffer, "%016" PRIx64, module_id);
+            name.append (buffer);
+            name.push_back ('-');
+            sprintf (buffer, "%016" PRIx64, global_id);
+            name.append (buffer);
+            name.push_back ('-');
+            name += std::string (i->first.begin (), i->first.end ());
+            i->second->generated->setName (name);
+        }
+        else
+        {
+            // unit
+        }
 		auto function_l (dynamic_cast <mu::llvmc::skeleton::function*> (i->second));
         if (function_l != nullptr)
         {
