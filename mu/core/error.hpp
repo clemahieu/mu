@@ -143,7 +143,8 @@ namespace mu
             expecting_a_value,
             ptr_to_int_expects_two,
             expecting_pointer_type,
-            expecting_integer_type
+            expecting_integer_type,
+            global_one_initializer
         };
         class error
         {

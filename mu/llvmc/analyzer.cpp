@@ -227,7 +227,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
 														}
 														else
 														{
-                                                            auto function_node (dynamic_cast<mu::llvmc::ast::function *> (node_a));
+                                                            auto function_node (dynamic_cast <mu::llvmc::ast::function *> (node_a));
                                                             if (function_node != nullptr)
                                                             {
                                                                 analyzer_function analyzer (module);
@@ -236,8 +236,25 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                             }
                                                             else
 															{
-																std::string name (typeid (*node_a).name ());
-																assert (false);
+                                                                auto global_variable (dynamic_cast <mu::llvmc::ast::global_variable *> (node_a));
+                                                                if (global_variable != nullptr)
+                                                                {
+                                                                    process_node (global_variable->initializer);
+                                                                    auto & values (module.already_generated [node_a]);
+                                                                    if (values.size () == 1)
+                                                                    {
+                                                                        assert (false);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer);
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    std::string name (typeid (*node_a).name ());
+                                                                    assert (false);
+                                                                }
 															}
 														}
 													}

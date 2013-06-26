@@ -188,9 +188,8 @@ namespace mu
             {
             public:
                 global_variable () = default;
-                global_variable (mu::llvmc::ast::node * initializer_a, mu::llvmc::ast::node * type_a);
+                global_variable (mu::llvmc::ast::node * initializer_a);
                 mu::llvmc::ast::node * initializer;
-                mu::llvmc::ast::node * type;
             };
         }
     }

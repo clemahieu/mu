@@ -117,3 +117,8 @@ element_type (element_type_a),
 size (size_a)
 {
 }
+
+mu::llvmc::ast::global_variable::global_variable (mu::llvmc::ast::node * initializer_a) :
+initializer (initializer_a)
+{
+}

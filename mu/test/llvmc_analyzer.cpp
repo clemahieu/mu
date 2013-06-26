@@ -3188,3 +3188,20 @@ TEST (llvmc_analyzer, store_type_error)
     ASSERT_EQ (nullptr, result.module);
 	ASSERT_EQ (expression1.region, result.error->region ());
 }
+
+TEST (llvmc_analyzer, global_variable)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::number number1 (U"42");
+    mu::llvmc::ast::constant_int constant1 (U"32", &number1);
+    mu::llvmc::ast::global_variable global1 (&constant1);
+    module1.globals [U"0"] = &global1;
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    ASSERT_NE (result.module->globals.end (), result.module->globals.find (U"0"));
+    auto global2 (dynamic_cast <mu::llvmc::skeleton::global_variable *> (result.module->globals [U"0"]));
+    ASSERT_NE (nullptr, global2);
+}
