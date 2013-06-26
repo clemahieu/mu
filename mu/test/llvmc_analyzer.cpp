@@ -3204,4 +3204,13 @@ TEST (llvmc_analyzer, global_variable)
     ASSERT_NE (result.module->globals.end (), result.module->globals.find (U"0"));
     auto global2 (dynamic_cast <mu::llvmc::skeleton::global_variable *> (result.module->globals [U"0"]));
     ASSERT_NE (nullptr, global2);
+    auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (global2->initializer));
+    ASSERT_NE (nullptr, constant2);
+    auto type1 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (constant2->type ()));
+    ASSERT_NE (nullptr, type1);
+    ASSERT_EQ (32, type1->bits);
+    ASSERT_EQ (42, constant2->value_m);
+    auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (global2->type ()));
+    ASSERT_NE (nullptr, type2);
+    ASSERT_EQ (type2, type1);
 }

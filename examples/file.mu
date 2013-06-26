@@ -235,6 +235,8 @@ let mmap function
 ]
 [[ptr int8 result]]
 
+let global1 global cint64 #42
+
 let entry function
 []
 [
