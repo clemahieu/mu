@@ -1279,23 +1279,9 @@ void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value *
                                 }
                                 else
                                 {
-                                    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value_a));
-                                    if (constant_array != nullptr)
-                                    {
-                                        std::vector <llvm::Constant *> elements;
-                                        for (auto i: constant_array->initializer)
-                                        {
-                                            retrieve_value (i);
-                                            elements.push_back (llvm::cast <llvm::Constant> (i->generated));
-                                        }
-                                        auto type (module.retrieve_type (constant_array->type ()));
-                                        value = llvm::ConstantArray::get (llvm::cast <llvm::ArrayType> (type.type), llvm::ArrayRef <llvm::Constant *> (elements));
-                                        predicate = llvm::ConstantInt::getTrue (context);
-                                    }
-                                    else
-                                    {
-                                        assert (false);
-                                    }
+                                    module.generate_global (value_a, [=] (mu::llvmc::skeleton::value * value_a) {retrieve_value (value_a);});
+                                    value = value_a->generated;
+                                    predicate = value_a->predicate;
                                 }
 							}
                         }
@@ -1307,6 +1293,29 @@ void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value *
     assert (predicate != nullptr);
     value_a->predicate = predicate;
     value_a->generated = value;
+}
+
+template <typename T>
+void mu::llvmc::generate_module::generate_global (mu::llvmc::skeleton::value * value_a, T retrieve_value_a)
+{
+    auto & context (target.module->getContext ());
+    auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value_a));
+    if (constant_array != nullptr)
+    {
+        std::vector <llvm::Constant *> elements;
+        for (auto i: constant_array->initializer)
+        {
+            retrieve_value_a (i);
+            elements.push_back (llvm::cast <llvm::Constant> (i->generated));
+        }
+        auto type (retrieve_type (constant_array->type ()));
+        value_a->generated = llvm::ConstantArray::get (llvm::cast <llvm::ArrayType> (type.type), llvm::ArrayRef <llvm::Constant *> (elements));
+        value_a->predicate = llvm::ConstantInt::getTrue (context);
+    }
+    else
+    {
+        assert (false);
+    }
 }
 
 llvm::Value * mu::llvmc::generate_function::and_predicates (llvm::Value * left_a, llvm::Value * right_a)

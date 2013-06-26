@@ -69,6 +69,8 @@ namespace mu
             void generate ();
             mu::llvmc::type_info generate_type (mu::llvmc::skeleton::type * type_a);
             mu::llvmc::type_info retrieve_type (mu::llvmc::skeleton::type * type_a);
+            template <typename T>
+            void generate_global (mu::llvmc::skeleton::value * value_a, T retrieve_value_a);
 			llvm::DIBuilder builder;
 			mu::map <mu::llvmc::skeleton::type *, mu::llvmc::type_info> type_information;
             mu::llvmc::skeleton::module * module;
