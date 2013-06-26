@@ -172,6 +172,11 @@ namespace mu
                 mu::llvmc::ast::node * type;
                 mu::vector <mu::llvmc::ast::node *> initializer;
             };
+            class constant_pointer_null : public mu::llvmc::ast::constant
+            {
+            public:
+                mu::llvmc::ast::node * type;
+            };
             class number : public mu::llvmc::ast::node
             {
             public:

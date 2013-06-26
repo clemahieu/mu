@@ -3214,3 +3214,42 @@ TEST (llvmc_analyzer, global_variable)
     ASSERT_NE (nullptr, type2);
     ASSERT_EQ (type2, type1);
 }
+
+TEST (llvmc_analyzer, null_pointer)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"8");
+    mu::llvmc::ast::pointer_type type2 (&type1);
+    mu::llvmc::ast::result result1 (&type2);
+    mu::llvmc::ast::constant_pointer_null constant1;
+    constant1.type = &type2;
+    result1.value = &constant1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.globals [U"0"] = &function1;
+    auto result (analyzer.analyze (&module1));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
+    ASSERT_NE (nullptr, function2);
+    ASSERT_EQ (0, function2->parameters.size ());
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (1, function2->predicate_offsets [0]);
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (1, function2->branch_ends [0]);
+    ASSERT_EQ (1, function2->results.size ());
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
+    ASSERT_NE (nullptr, result2);
+    auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_pointer_null *> (result2->value));
+    ASSERT_NE (nullptr, constant2);
+    auto type3 (dynamic_cast <mu::llvmc::skeleton::pointer_type *> (constant2->type ()));
+    ASSERT_NE (nullptr, type3);
+    auto type4 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type3->pointed_type));
+    ASSERT_NE (nullptr, type4);
+    ASSERT_EQ (constant2->branch, result.module->global);
+    ASSERT_EQ (8, type4->bits);
+}

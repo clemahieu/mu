@@ -263,8 +263,22 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                 }
                                                                 else
                                                                 {
-                                                                    std::string name (typeid (*node_a).name ());
-                                                                    assert (false);
+                                                                    auto constant_pointer_null (dynamic_cast <mu::llvmc::ast::constant_pointer_null *> (node_a));
+                                                                    if (constant_pointer_null != nullptr)
+                                                                    {
+                                                                        auto type (process_type (constant_pointer_null->type));
+                                                                        if (type != nullptr)
+                                                                        {
+                                                                            auto & values (module.already_generated [constant_pointer_null]);
+                                                                            auto skeleton (new (GC) mu::llvmc::skeleton::constant_pointer_null (constant_pointer_null->region, module.module->global, type));
+                                                                            values.push_back (skeleton);
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        std::string name (typeid (*node_a).name ());
+                                                                        assert (false);
+                                                                    }
                                                                 }
 															}
 														}
