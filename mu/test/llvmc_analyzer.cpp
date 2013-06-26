@@ -3155,7 +3155,7 @@ TEST (llvmc_analyzer, global_constant_int)
     auto result (analyzer.analyze (&module));
     ASSERT_EQ (nullptr, result.error);
     ASSERT_NE (nullptr, result.module);
-    ASSERT_EQ (0, result.module->globals.size ());
+    ASSERT_EQ (1, result.module->globals.size ());
 }
 
 TEST (llvmc_analyzer, store_type_error)

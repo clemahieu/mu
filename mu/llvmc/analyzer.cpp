@@ -240,14 +240,26 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                 if (global_variable != nullptr)
                                                                 {
                                                                     process_node (global_variable->initializer);
-                                                                    auto & values (module.already_generated [node_a]);
+                                                                    auto & values (module.already_generated [global_variable->initializer]);
                                                                     if (values.size () == 1)
                                                                     {
-                                                                        assert (false);
+                                                                        auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
+                                                                        if (constant != nullptr)
+                                                                        {
+                                                                            auto & targets (module.already_generated [node_a]);
+                                                                            assert (targets.empty ());
+                                                                            auto pointer (new (GC) mu::llvmc::skeleton::pointer_type (constant->type ()));
+                                                                            auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module.module->global, pointer, constant));
+                                                                            targets.push_back (skeleton);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+                                                                        }
                                                                     }
                                                                     else
                                                                     {
-                                                                        error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer);
+                                                                        error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
                                                                     }
                                                                 }
                                                                 else
@@ -792,23 +804,15 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
                         value = named->value_m;
                         named = dynamic_cast <mu::llvmc::skeleton::named *> (value);
                     }
-					auto function (dynamic_cast <mu::llvmc::skeleton::function *> (value));
-					if (function != nullptr)
-					{
-						module->globals [i->first] = function;
-					}
-					else
-					{
-                        auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
-                        if (constant != nullptr)
-                        {
-                            // Constants not tied to module
-                        }
-                        else
-                        {
-                            result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
-                        }
-					}
+                    auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (value));
+                    if (constant != nullptr)
+                    {
+						module->globals [i->first] = constant;
+                    }
+                    else
+                    {
+                        result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+                    }
 				}
             }
 		}

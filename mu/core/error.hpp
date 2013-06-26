@@ -144,7 +144,8 @@ namespace mu
             ptr_to_int_expects_two,
             expecting_pointer_type,
             expecting_integer_type,
-            global_one_initializer
+            global_one_initializer,
+            global_constant_initializer
         };
         class error
         {

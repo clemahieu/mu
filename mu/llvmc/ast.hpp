@@ -113,7 +113,10 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> true_roots;
                 mu::vector <mu::llvmc::ast::node *> false_roots;
             };
-            class function : public mu::llvmc::ast::expression
+            class constant : public mu::llvmc::ast::expression
+            {
+            };
+            class function : public mu::llvmc::ast::constant
             {
             public:
                 mu::llvmc::availability::function * entry;
@@ -156,14 +159,14 @@ namespace mu
                 module ();
                 mu::map <mu::string, mu::llvmc::ast::node *> globals;
             };
-            class constant_int : public mu::llvmc::ast::expression
+            class constant_int : public mu::llvmc::ast::constant
             {
             public:
                 constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a);
                 mu::string bits;
                 mu::llvmc::ast::node * number;
             };
-            class constant_array : public mu::llvmc::ast::expression
+            class constant_array : public mu::llvmc::ast::constant
             {
             public:
                 mu::llvmc::ast::node * type;
