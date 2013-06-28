@@ -85,10 +85,6 @@ namespace mu
             generate_function (mu::llvmc::generate_module & module_a, mu::llvmc::skeleton::function * function_a);
             void generate ();
             void retrieve_value (mu::llvmc::skeleton::value * value_a);
-            void generate_value (mu::llvmc::skeleton::value * value_a);
-            void generate_single (mu::llvmc::skeleton::value * value_a);
-            void generate_branched (mu::llvmc::skeleton::value * value_a);
-            void generate_call (mu::llvmc::skeleton::function_call * call_a);
             llvm::Value * generate_rejoin (llvm::BasicBlock * entry, llvm::BasicBlock * predicate, llvm::BasicBlock * successor, llvm::Value * value_a);
             void write_selector (llvm::LLVMContext & context, llvm::Value * & selector, uint8_t selector_number);
             llvm::Value * process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position);

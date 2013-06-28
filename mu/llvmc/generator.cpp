@@ -306,15 +306,6 @@ std::vector <llvm::Value *> mu::llvmc::generate_function::generate_result_set ()
     return result;
 }
 
-void mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * value_a)
-{
-    assert (value_a != nullptr);
-    if (value_a->predicate == nullptr)
-    {
-        generate_value (value_a);
-    }
-}
-
 namespace mu
 {
     namespace llvmc
@@ -327,9 +318,9 @@ namespace mu
             {
             }
             mu::llvmc::generate_function & function_m;
-            void node (mu::llvmc::skeleton::node * node_a) override
+            void value (mu::llvmc::skeleton::value * value_a) override
             {
-                // Do nothing;
+                function_m.module.generate_global (value_a, [=] (mu::llvmc::skeleton::value * value_a) {function_m.retrieve_value (value_a);});
             }
             void call_element (mu::llvmc::skeleton::call_element * node_a) override
             {
@@ -1234,19 +1225,15 @@ namespace mu
     }
 }
 
-void mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * value_a)
+void mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * value_a)
 {
     assert (value_a != nullptr);
-	assert (dynamic_cast <mu::llvmc::skeleton::parameter *> (value_a) == nullptr);
-	assert (dynamic_cast <mu::llvmc::skeleton::loop_parameter *> (value_a) == nullptr);
-    assert (value_a->generated == nullptr);
-    assert (value_a->predicate == nullptr);
-    mu::llvmc::generate_value generator (*this);
-    value_a->visit (&generator);
     if (value_a->predicate == nullptr)
     {
-        generate_single (value_a);
+        mu::llvmc::generate_value generator (*this);
+        value_a->visit (&generator);
     }
+    assert (value_a->predicate != nullptr);
 }
 
 llvm::Value * mu::llvmc::generate_function::process_predicates (llvm::Value * predicate_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_position)
@@ -1270,63 +1257,6 @@ llvm::Value * mu::llvmc::generate_function::generate_rejoin (llvm::BasicBlock * 
     phi->addIncoming (llvm::UndefValue::get (type), entry);
     successor->getInstList ().push_back (phi);
     return phi;
-}
-
-void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value * value_a)
-{
-    assert (value_a != nullptr);
-    assert (value_a->predicate == nullptr);
-    auto & context (module.target.module->getContext ());
-    llvm::Value * predicate;
-    llvm::Value * value;
-    auto constant_aggregate_zero (dynamic_cast <mu::llvmc::skeleton::constant_aggregate_zero *> (value_a));
-    if (constant_aggregate_zero != nullptr)
-    {
-    }
-    else
-    {
-        auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (value_a));
-        if (instruction != nullptr)
-        {
-        }
-        else
-        {
-            auto join (dynamic_cast <mu::llvmc::skeleton::join_value *> (value_a));
-            if (join != nullptr)
-            {                
-            }
-            else
-            {
-                auto unit (dynamic_cast <mu::llvmc::skeleton::unit_value *> (value_a));
-                if (unit != nullptr)
-                {
-                }
-                else
-                {
-                    auto asm_l (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (value_a));
-                    if (asm_l != nullptr)
-                    {
-                    }
-                    else
-                    {
-                        auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value_a));
-                        if (named != nullptr)
-                        {
-                        }
-                        else
-                        {
-                            module.generate_global (value_a, [=] (mu::llvmc::skeleton::value * value_a) {retrieve_value (value_a);});
-                            value = value_a->generated;
-                            predicate = value_a->predicate;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    assert (predicate != nullptr);
-    value_a->predicate = predicate;
-    value_a->generated = value;
 }
 
 template <typename T>
