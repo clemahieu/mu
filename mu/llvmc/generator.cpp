@@ -1272,10 +1272,6 @@ namespace mu
             retrieve_value (retrieve_value_a)
             {
             }
-            void node (mu::llvmc::skeleton::node * node_a) override
-            {
-                // Do nothing
-            }
             void constant_array (mu::llvmc::skeleton::constant_array * constant_array) override
             {
                 std::vector <llvm::Constant *> elements;
