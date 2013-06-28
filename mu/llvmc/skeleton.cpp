@@ -801,6 +801,401 @@ bool mu::llvmc::skeleton::array_type::operator == (mu::llvmc::skeleton::type con
     return result;
 }
 
+void mu::llvmc::skeleton::node::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->node (this);
+}
+
+void mu::llvmc::skeleton::array_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->array_type (this);
+}
+
+void mu::llvmc::skeleton::inline_asm::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->inline_asm (this);
+}
+
+void mu::llvmc::skeleton::join_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->join_value (this);
+}
+
+void mu::llvmc::skeleton::unit_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->unit_value (this);
+}
+
+void mu::llvmc::skeleton::instruction::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->instruction (this);
+}
+
+void mu::llvmc::skeleton::struct_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->struct_type (this);
+}
+
+void mu::llvmc::skeleton::call_element::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->call_element (this);
+}
+
+void mu::llvmc::skeleton::integer_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->integer_type (this);
+}
+
+void mu::llvmc::skeleton::loop_element::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->loop_element (this);
+}
+
+void mu::llvmc::skeleton::pointer_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->pointer_type (this);
+}
+
+void mu::llvmc::skeleton::function_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->function_type (this);
+}
+
+void mu::llvmc::skeleton::constant_array::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->constant_array (this);
+}
+
+void mu::llvmc::skeleton::loop_parameter::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->loop_parameter (this);
+}
+
+void mu::llvmc::skeleton::switch_element::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->switch_element (this);
+}
+
+void mu::llvmc::skeleton::global_variable::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->global_variable (this);
+}
+
+void mu::llvmc::skeleton::constant_integer::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->constant_integer (this);
+}
+
+void mu::llvmc::skeleton::constant_pointer_null::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->constant_pointer_null (this);
+}
+
+void mu::llvmc::skeleton::identity_element_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->identity_element_value (this);
+}
+
+void mu::llvmc::skeleton::constant_aggregate_zero::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->constant_aggregate_zero (this);
+}
+
+void mu::llvmc::skeleton::join::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->join (this);
+}
+
+void mu::llvmc::skeleton::type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->type (this);
+}
+
+void mu::llvmc::skeleton::asm_c::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->asm_c (this);
+}
+
+void mu::llvmc::skeleton::named::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->named (this);
+}
+
+void mu::llvmc::skeleton::value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->value (this);
+}
+
+void mu::llvmc::skeleton::marker::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->marker (this);
+}
+
+void mu::llvmc::skeleton::result::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->result (this);
+}
+
+void mu::llvmc::skeleton::constant::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->constant (this);
+}
+
+void mu::llvmc::skeleton::function::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->function (this);
+}
+
+void mu::llvmc::skeleton::identity::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->identity (this);
+}
+
+void mu::llvmc::skeleton::parameter::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->parameter (this);
+}
+
+void mu::llvmc::skeleton::predicate::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->predicate (this);
+}
+
+void mu::llvmc::skeleton::unit_type::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->unit_type (this);
+}
+
+void mu::llvmc::skeleton::identity_element::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->identity_element (this);
+}
+
+void mu::llvmc::skeleton::call_element_unit::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->call_element_unit (this);
+}
+
+void mu::llvmc::skeleton::loop_element_unit::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->loop_element_unit (this);
+}
+
+void mu::llvmc::skeleton::call_element_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->call_element_value (this);
+}
+
+void mu::llvmc::skeleton::loop_element_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->loop_element_value (this);
+}
+
+void mu::llvmc::skeleton::identity_element_unit::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->identity_element_unit (this);
+}
+
+void mu::llvmc::skeleton::visitor::unexpected (mu::llvmc::skeleton::node * node_a)
+{
+    assert (false && "Unexpected node");
+}
+
+void mu::llvmc::skeleton::visitor::node (mu::llvmc::skeleton::node * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::array_type (mu::llvmc::skeleton::array_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::inline_asm (mu::llvmc::skeleton::inline_asm * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::join_value (mu::llvmc::skeleton::join_value * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::unit_value (mu::llvmc::skeleton::unit_value * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::instruction (mu::llvmc::skeleton::instruction * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::struct_type (mu::llvmc::skeleton::struct_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::call_element (mu::llvmc::skeleton::call_element * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::integer_type (mu::llvmc::skeleton::integer_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::loop_element (mu::llvmc::skeleton::loop_element * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::pointer_type (mu::llvmc::skeleton::pointer_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::function_type (mu::llvmc::skeleton::function_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::constant_array (mu::llvmc::skeleton::constant_array * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::loop_parameter (mu::llvmc::skeleton::loop_parameter * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::switch_element (mu::llvmc::skeleton::switch_element * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::global_variable (mu::llvmc::skeleton::global_variable * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::constant_integer (mu::llvmc::skeleton::constant_integer * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::constant_pointer_null (mu::llvmc::skeleton::constant_pointer_null * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::identity_element_value (mu::llvmc::skeleton::identity_element_value * node_a)
+{
+    identity_element (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::join (mu::llvmc::skeleton::join * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::type (mu::llvmc::skeleton::type * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::asm_c (mu::llvmc::skeleton::asm_c * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::named (mu::llvmc::skeleton::named * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::value (mu::llvmc::skeleton::value * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::marker (mu::llvmc::skeleton::marker * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::result (mu::llvmc::skeleton::result * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::constant (mu::llvmc::skeleton::constant * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::function (mu::llvmc::skeleton::function * node_a)
+{
+    constant (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::identity (mu::llvmc::skeleton::identity * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::parameter (mu::llvmc::skeleton::parameter * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::predicate (mu::llvmc::skeleton::predicate * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::unit_type (mu::llvmc::skeleton::unit_type * node_a)
+{
+    type (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::identity_element (mu::llvmc::skeleton::identity_element * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::call_element_unit (mu::llvmc::skeleton::call_element_unit * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::loop_element_value (mu::llvmc::skeleton::loop_element_value * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::loop_element_unit (mu::llvmc::skeleton::loop_element_unit * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::call_element_value (mu::llvmc::skeleton::call_element_value * node_a)
+{
+    value (node_a);
+}
+
+void mu::llvmc::skeleton::visitor::identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a)
+{
+    value (node_a);
+}
+
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;
