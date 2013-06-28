@@ -1173,27 +1173,27 @@ void mu::llvmc::skeleton::visitor::identity_element (mu::llvmc::skeleton::identi
 
 void mu::llvmc::skeleton::visitor::call_element_unit (mu::llvmc::skeleton::call_element_unit * node_a)
 {
-    value (node_a);
+    call_element (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::loop_element_value (mu::llvmc::skeleton::loop_element_value * node_a)
 {
-    value (node_a);
+    loop_element (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::loop_element_unit (mu::llvmc::skeleton::loop_element_unit * node_a)
 {
-    value (node_a);
+    loop_element (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::call_element_value (mu::llvmc::skeleton::call_element_value * node_a)
 {
-    value (node_a);
+    call_element (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a)
 {
-    value (node_a);
+    identity_element (node_a);
 }
 
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);

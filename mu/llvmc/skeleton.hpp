@@ -477,6 +477,16 @@ namespace mu
                 virtual void call_element_value (mu::llvmc::skeleton::call_element_value * node_a);
                 virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
             };
+            template <typename T, typename U>
+            class type_visitor : public mu::llvmc::skeleton::visitor
+            {
+            public:
+                type_visitor (T type_op_a, U node_op_a);
+                void type (mu::llvmc::skeleton::type * node_a) override;
+                void node (mu::llvmc::skeleton::node * node_a) override;
+                T type_op;
+                U node_op;
+            };
             extern mu::llvmc::skeleton::integer_type integer_1_type;
             extern mu::llvmc::skeleton::integer_type integer_8_type;
             extern mu::llvmc::skeleton::unit_type the_unit_type;

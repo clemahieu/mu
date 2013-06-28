@@ -315,199 +315,219 @@ void mu::llvmc::generate_function::retrieve_value (mu::llvmc::skeleton::value * 
     }
 }
 
-void mu::llvmc::generate_function::generate_call (mu::llvmc::skeleton::function_call * call_a)
+namespace mu
 {
-    auto & context (module.target.module->getContext ());
-    llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
-    assert (call_a->arguments.size () > 0);
-    assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
-    assert (call_a->target->predicate != nullptr);
-    auto function (call_a->target->generated);
-    std::vector <llvm::Value *> arguments;
-    size_t position (1);
-    auto end (call_a->predicate_offset);
-    for (auto i (call_a->arguments.begin () + 1); position < end; ++i, ++position)
+    namespace llvmc
     {
-        auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
-        retrieve_value (value);
-        auto instruction (llvm::BinaryOperator::CreateAnd (predicate, value->predicate));
-        last->getInstList ().push_back (instruction);
-        predicate = instruction;
-        assert (value->predicate != nullptr);
-        arguments.push_back (value->generated);
-    }
-    predicate = process_predicates (predicate, call_a->arguments, position);
-    auto call_block (llvm::BasicBlock::Create (context));
-    function_m->getBasicBlockList ().push_back (call_block);
-    auto new_last (llvm::BasicBlock::Create (context));
-    function_m->getBasicBlockList ().push_back (new_last);
-    auto return_type (call_a->target->get_return_type ());
-    switch (return_type)
-    {
-        case mu::llvmc::skeleton::function_return_type::b0:
+        class generate_value : public mu::llvmc::skeleton::visitor
         {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () == 1);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            call_a->elements [0]->generated = nullptr;
-            call_a->elements [0]->predicate = predicate;
-            break;
-        }
-        case mu::llvmc::skeleton::function_return_type::b1v0:
-        {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () == 1);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            call_a->elements [0]->generated = nullptr;
-            call_a->elements [0]->predicate = predicate;
-            break;
-        }
-        case mu::llvmc::skeleton::function_return_type::b1v1:
-        {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () == 1);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
-            new_last->getInstList ().push_back (real_call);
-            real_call->addIncoming (call_l, call_block);
-            real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
-            call_a->elements [0]->generated = real_call;
-            call_a->elements [0]->predicate = predicate;
-            break;
-        }
-        case mu::llvmc::skeleton::function_return_type::b1vm:
-        {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () > 0);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            unsigned position (0);
-            auto k (call_a->elements.begin ());
-            auto l (call_a->elements.end ());
-            call_a->target->for_each_results (
-                [&]
-                (mu::llvmc::skeleton::result * result_a, size_t)
+        public:
+            generate_value (mu::llvmc::generate_function & function_a) :
+            function_m (function_a)
+            {
+            }
+            mu::llvmc::generate_function & function_m;
+            void node (mu::llvmc::skeleton::node * node_a) override
+            {
+                // Do nothing;
+            }
+            void call_element (mu::llvmc::skeleton::call_element * node_a) override
+            {
+                auto call_a (node_a->source);
+                auto & context (function_m.module.target.module->getContext ());
+                llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
+                assert (call_a->arguments.size () > 0);
+                assert (dynamic_cast <mu::llvmc::skeleton::value *> (call_a->arguments [0]) != nullptr);
+                assert (call_a->target->predicate != nullptr);
+                auto function (call_a->target->generated);
+                std::vector <llvm::Value *> arguments;
+                size_t position (1);
+                auto end (call_a->predicate_offset);
+                for (auto i (call_a->arguments.begin () + 1); position < end; ++i, ++position)
                 {
-                    auto element (llvm::ExtractValueInst::Create (call_l, position));
-                    call_block->getInstList ().push_back (element);
-                    auto real_element (llvm::PHINode::Create (element->getType (), 2));
-                    new_last->getInstList ().push_back (real_element);
-                    real_element->addIncoming (element, call_block);
-                    real_element->addIncoming (llvm::UndefValue::get (element->getType ()), last);
-                    auto value (*k);
-                    value->generated = real_element;
-                    value->predicate = predicate;
-                    ++k;
-                    ++position;
+                    auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
+                    function_m.retrieve_value (value);
+                    auto instruction (llvm::BinaryOperator::CreateAnd (predicate, value->predicate));
+                    function_m.last->getInstList ().push_back (instruction);
+                    predicate = instruction;
+                    assert (value->predicate != nullptr);
+                    arguments.push_back (value->generated);
                 }
-            );
-            assert (k == l);
-            break;
-        }
-        case mu::llvmc::skeleton::function_return_type::bmv0:
-        {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () > 0);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
-            new_last->getInstList ().push_back (real_call);
-            real_call->addIncoming (call_l, call_block);
-            real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
-            unsigned position (0);
-            auto selector_type (llvm::Type::getInt8Ty (context));
-            auto k (call_a->elements.begin ());
-            auto l (call_a->elements.end ());
-            call_a->target->for_each_results (
-                [&]
-                (mu::llvmc::skeleton::result *, size_t)
+                predicate = function_m.process_predicates (predicate, call_a->arguments, position);
+                auto call_block (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (call_block);
+                auto new_last (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (new_last);
+                auto return_type (call_a->target->get_return_type ());
+                switch (return_type)
                 {
-                    auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, real_call, llvm::ConstantInt::get (selector_type, position)));
-                    new_last->getInstList ().push_back (compare);
-                    auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
-                    new_last->getInstList ().push_back (instruction);
-                    auto value (*k);
-                    value->generated = nullptr;
-                    value->predicate = instruction;
-                    ++k;
-                    ++position;
-                }
-            );
-            assert (k == l);
-            break;
-        }
-        case mu::llvmc::skeleton::function_return_type::bmvm:
-        {
-            auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
-            assert (call_a->elements.size () > 0);
-            call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, block_d));
-            call_block->getInstList ().push_back (call_l);
-            auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
-            new_last->getInstList ().push_back (real_call);
-            real_call->addIncoming (call_l, call_block);
-            real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), last);
-            auto function_result (llvm::cast <llvm::StructType> (call_l->getType ()));
-            assert (function_result->getNumElements () > 1);
-            auto selector (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (function_result->getNumElements () - 1)));
-            new_last->getInstList ().push_back (selector);
-            auto selector_type (llvm::Type::getInt8Ty (context));
-            auto current_element (call_a->elements.begin ());
-            auto end_element (call_a->elements.end ());
-            size_t current_selector (0);
-            unsigned result_index (0);
-            auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector)));
-            new_last->getInstList ().push_back (compare);
-            auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
-            new_last->getInstList ().push_back (instruction);
-            call_a->target->for_each_results (
-                [&]
-                (mu::llvmc::skeleton::result * result_a, size_t)
-                {
-                    assert (current_element != end_element);
-                    if (!result_a->type->is_unit_type ())
+                    case mu::llvmc::skeleton::function_return_type::b0:
                     {
-                        auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
-                        new_last->getInstList().push_back (extraction);
-                        auto value (*current_element);
-                        value->generated = extraction;
-                        value->predicate = instruction;
-                        ++result_index;
-                        ++current_element;
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () == 1);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        call_a->elements [0]->generated = nullptr;
+                        call_a->elements [0]->predicate = predicate;
+                        break;
                     }
-                    else
+                    case mu::llvmc::skeleton::function_return_type::b1v0:
                     {
-                        auto value (*current_element);
-                        value->generated = nullptr;
-                        value->predicate = instruction;
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () == 1);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        call_a->elements [0]->generated = nullptr;
+                        call_a->elements [0]->predicate = predicate;
+                        break;
                     }
-                },
-                mu::llvmc::skeleton::function::empty_node,
-                mu::llvmc::skeleton::function::empty_node,
-                [&]
-                (mu::llvmc::skeleton::node * result_a, size_t)
-                {
-                    ++current_selector;
-                    compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
-                    new_last->getInstList ().push_back (compare);
-                    instruction = llvm::BinaryOperator::CreateAnd (predicate, compare);
-                    new_last->getInstList ().push_back (instruction);
+                    case mu::llvmc::skeleton::function_return_type::b1v1:
+                    {
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () == 1);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
+                        new_last->getInstList ().push_back (real_call);
+                        real_call->addIncoming (call_l, call_block);
+                        real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), function_m.last);
+                        call_a->elements [0]->generated = real_call;
+                        call_a->elements [0]->predicate = predicate;
+                        break;
+                    }
+                    case mu::llvmc::skeleton::function_return_type::b1vm:
+                    {
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () > 0);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        unsigned position (0);
+                        auto k (call_a->elements.begin ());
+                        auto l (call_a->elements.end ());
+                        call_a->target->for_each_results (
+                                                          [&]
+                                                          (mu::llvmc::skeleton::result * result_a, size_t)
+                                                          {
+                                                              auto element (llvm::ExtractValueInst::Create (call_l, position));
+                                                              call_block->getInstList ().push_back (element);
+                                                              auto real_element (llvm::PHINode::Create (element->getType (), 2));
+                                                              new_last->getInstList ().push_back (real_element);
+                                                              real_element->addIncoming (element, call_block);
+                                                              real_element->addIncoming (llvm::UndefValue::get (element->getType ()), function_m.last);
+                                                              auto value (*k);
+                                                              value->generated = real_element;
+                                                              value->predicate = predicate;
+                                                              ++k;
+                                                              ++position;
+                                                          }
+                                                          );
+                        assert (k == l);
+                        break;
+                    }
+                    case mu::llvmc::skeleton::function_return_type::bmv0:
+                    {
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () > 0);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
+                        new_last->getInstList ().push_back (real_call);
+                        real_call->addIncoming (call_l, call_block);
+                        real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), function_m.last);
+                        unsigned position (0);
+                        auto selector_type (llvm::Type::getInt8Ty (context));
+                        auto k (call_a->elements.begin ());
+                        auto l (call_a->elements.end ());
+                        call_a->target->for_each_results (
+                                                          [&]
+                                                          (mu::llvmc::skeleton::result *, size_t)
+                                                          {
+                                                              auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, real_call, llvm::ConstantInt::get (selector_type, position)));
+                                                              new_last->getInstList ().push_back (compare);
+                                                              auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
+                                                              new_last->getInstList ().push_back (instruction);
+                                                              auto value (*k);
+                                                              value->generated = nullptr;
+                                                              value->predicate = instruction;
+                                                              ++k;
+                                                              ++position;
+                                                          }
+                                                          );
+                        assert (k == l);
+                        break;
+                    }
+                    case mu::llvmc::skeleton::function_return_type::bmvm:
+                    {
+                        auto call_l (llvm::CallInst::Create (function, llvm::ArrayRef <llvm::Value *> (arguments)));
+                        assert (call_a->elements.size () > 0);
+                        call_l->setDebugLoc (llvm::DebugLoc::get (call_a->elements [0]->region.first.row, call_a->elements [0]->region.first.column, function_m.block_d));
+                        call_block->getInstList ().push_back (call_l);
+                        auto real_call (llvm::PHINode::Create (call_l->getType(), 2));
+                        new_last->getInstList ().push_back (real_call);
+                        real_call->addIncoming (call_l, call_block);
+                        real_call->addIncoming (llvm::UndefValue::get (call_l->getType ()), function_m.last);
+                        auto function_result (llvm::cast <llvm::StructType> (call_l->getType ()));
+                        assert (function_result->getNumElements () > 1);
+                        auto selector (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (function_result->getNumElements () - 1)));
+                        new_last->getInstList ().push_back (selector);
+                        auto selector_type (llvm::Type::getInt8Ty (context));
+                        auto current_element (call_a->elements.begin ());
+                        auto end_element (call_a->elements.end ());
+                        size_t current_selector (0);
+                        unsigned result_index (0);
+                        auto compare (new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector)));
+                        new_last->getInstList ().push_back (compare);
+                        auto instruction (llvm::BinaryOperator::CreateAnd (predicate, compare));
+                        new_last->getInstList ().push_back (instruction);
+                        call_a->target->for_each_results (
+                                                          [&]
+                                                          (mu::llvmc::skeleton::result * result_a, size_t)
+                                                          {
+                                                              assert (current_element != end_element);
+                                                              if (!result_a->type->is_unit_type ())
+                                                              {
+                                                                  auto extraction (llvm::ExtractValueInst::Create (real_call, llvm::ArrayRef <unsigned> (result_index)));
+                                                                  new_last->getInstList().push_back (extraction);
+                                                                  auto value (*current_element);
+                                                                  value->generated = extraction;
+                                                                  value->predicate = instruction;
+                                                                  ++result_index;
+                                                                  ++current_element;
+                                                              }
+                                                              else
+                                                              {
+                                                                  auto value (*current_element);
+                                                                  value->generated = nullptr;
+                                                                  value->predicate = instruction;
+                                                              }
+                                                          },
+                                                          mu::llvmc::skeleton::function::empty_node,
+                                                          mu::llvmc::skeleton::function::empty_node,
+                                                          [&]
+                                                          (mu::llvmc::skeleton::node * result_a, size_t)
+                                                          {
+                                                              ++current_selector;
+                                                              compare = new llvm::ICmpInst (llvm::CmpInst::Predicate::ICMP_EQ, selector, llvm::ConstantInt::get (selector_type, current_selector));
+                                                              new_last->getInstList ().push_back (compare);
+                                                              instruction = llvm::BinaryOperator::CreateAnd (predicate, compare);
+                                                              new_last->getInstList ().push_back (instruction);
+                                                          }
+                                                          );
+                        assert (current_element == end_element);
+                        break;
+                    }
+                    default:
+                        assert (false);
+                        break;
                 }
-            );
-            assert (current_element == end_element);
-            break;
-        }
-        default:
-            assert (false);
-            break;
+                auto join_branch (llvm::BranchInst::Create (new_last));
+                call_block->getInstList ().push_back (join_branch);
+                auto call_branch (llvm::BranchInst::Create (call_block, new_last, predicate));
+                function_m.last->getInstList ().push_back (call_branch);
+                function_m.last = new_last;
+            }
+        };        
     }
-    auto join_branch (llvm::BranchInst::Create (new_last));
-    call_block->getInstList ().push_back (join_branch);
-    auto call_branch (llvm::BranchInst::Create (call_block, new_last, predicate));
-    last->getInstList ().push_back (call_branch);
-    last = new_last;
 }
 
 void mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * value_a)
@@ -516,12 +536,10 @@ void mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * 
 	assert (dynamic_cast <mu::llvmc::skeleton::parameter *> (value_a) == nullptr);
 	assert (dynamic_cast <mu::llvmc::skeleton::loop_parameter *> (value_a) == nullptr);
     assert (value_a->generated == nullptr);
-    auto call (dynamic_cast <mu::llvmc::skeleton::call_element *> (value_a));
-    if (call != nullptr)
-    {
-        generate_call (call->source);
-    }
-    else
+    assert (value_a->predicate == nullptr);
+    mu::llvmc::generate_value generator (*this);
+    value_a->visit (&generator);
+    if (value_a->predicate == nullptr)
     {
         auto element (dynamic_cast <mu::llvmc::skeleton::switch_element *> (value_a));
         if (element != nullptr)
