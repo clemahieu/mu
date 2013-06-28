@@ -724,6 +724,75 @@ namespace mu
                 join->predicate = predicate;
                 join->generated = value;
             }
+            void unit_value (mu::llvmc::skeleton::unit_value * node_a) override
+            {
+                node_a->generated = nullptr;
+                node_a->predicate = llvm::ConstantInt::getTrue (function_m.module.target.module->getContext ());
+            }
+            void inline_asm (mu::llvmc::skeleton::inline_asm * asm_l) override
+            {
+                assert (asm_l->arguments.size () > 0);
+                assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]) != nullptr);
+                auto info (static_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]));
+                auto end (asm_l->predicate_position);
+                auto & context (function_m.module.target.module->getContext ());
+                llvm::Value * predicate (llvm::ConstantInt::getTrue (context));
+                std::vector <llvm::Type *> types;
+                std::vector <llvm::Value *> arguments;
+                size_t i (1);
+                for (; i < end; ++i)
+                {
+                    auto value (mu::cast <mu::llvmc::skeleton::value> (asm_l->arguments [i]));
+                    function_m.retrieve_value (value);
+                    predicate = function_m.and_predicates (predicate, value->predicate);
+                    if (value->generated != nullptr)
+                    {
+                        arguments.push_back (value->generated);
+                        types.push_back (value->generated->getType ());
+                    }
+                }
+                for (size_t j (asm_l->arguments.size ()); i < j; ++i)
+                {
+                    auto value (mu::cast <mu::llvmc::skeleton::value> (asm_l->arguments [i]));
+                    function_m.retrieve_value (value);
+                    predicate = function_m.and_predicates (predicate, value->predicate);
+                }
+                llvm::Type * type;
+                if (!info->type_m->is_unit_type ())
+                {
+                    type = function_m.module.retrieve_type (info->type_m).type;
+                }
+                else
+                {
+                    type = llvm::Type::getVoidTy (context);
+                }
+                auto function_type (llvm::FunctionType::get (type, llvm::ArrayRef <llvm::Type *> (types), false));
+                std::string text (info->text.begin (), info->text.end ());
+                std::string constraints (info->constraint.begin (), info->constraint.end ());
+                auto inline_asm (llvm::InlineAsm::get (function_type, llvm::StringRef (text), llvm::StringRef (constraints), true));
+                auto call (llvm::CallInst::Create (inline_asm, arguments));
+                auto call_block (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (call_block);
+                auto successor (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (successor);
+                auto predicate_branch (llvm::BranchInst::Create (call_block, successor, predicate));
+                function_m.last->getInstList ().push_back (predicate_branch);
+                call_block->getInstList ().push_back (call);
+                auto rejoin (llvm::BranchInst::Create (successor));
+                call_block->getInstList ().push_back (rejoin);
+                llvm::Value * value;
+                if (!info->type_m->is_unit_type ())
+                {
+                    value = function_m.generate_rejoin (function_m.last, call_block, successor, call);
+                }
+                else
+                {
+                    value = nullptr;
+                }
+                asm_l->generated = value;
+                asm_l->predicate = predicate;
+                function_m.last = successor;
+            }
         };
     }
 }
@@ -1207,71 +1276,12 @@ void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value *
                 auto unit (dynamic_cast <mu::llvmc::skeleton::unit_value *> (value_a));
                 if (unit != nullptr)
                 {
-                    value = nullptr;
-                    predicate = llvm::ConstantInt::getTrue (context);
                 }
                 else
                 {
                     auto asm_l (dynamic_cast <mu::llvmc::skeleton::inline_asm *> (value_a));
                     if (asm_l != nullptr)
                     {
-                        assert (asm_l->arguments.size () > 0);
-                        assert (dynamic_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]) != nullptr);
-                        auto info (static_cast <mu::llvmc::skeleton::asm_c *> (asm_l->arguments [0]));
-                        auto end (asm_l->predicate_position);
-                        predicate = llvm::ConstantInt::getTrue (context);
-                        std::vector <llvm::Type *> types;
-                        std::vector <llvm::Value *> arguments;
-                        size_t i (1);
-                        for (; i < end; ++i)
-                        {
-                            auto value (mu::cast <mu::llvmc::skeleton::value> (asm_l->arguments [i]));
-                            retrieve_value (value);
-                            predicate = and_predicates (predicate, value->predicate);
-                            if (value->generated != nullptr)
-                            {
-                                arguments.push_back (value->generated);
-                                types.push_back (value->generated->getType ());
-                            }
-                        }
-                        for (size_t j (asm_l->arguments.size ()); i < j; ++i)
-                        {
-                            auto value (mu::cast <mu::llvmc::skeleton::value> (asm_l->arguments [i]));
-                            retrieve_value (value);
-                            predicate = and_predicates (predicate, value->predicate);
-                        }
-                        llvm::Type * type;
-                        if (!info->type_m->is_unit_type ())
-                        {
-                            type = module.retrieve_type (info->type_m).type;
-                        }
-                        else
-                        {
-                            type = llvm::Type::getVoidTy (context);
-                        }
-                        auto function_type (llvm::FunctionType::get (type, llvm::ArrayRef <llvm::Type *> (types), false));
-                        std::string text (info->text.begin (), info->text.end ());
-                        std::string constraints (info->constraint.begin (), info->constraint.end ());
-                        auto inline_asm (llvm::InlineAsm::get (function_type, llvm::StringRef (text), llvm::StringRef (constraints), true));
-                        auto call (llvm::CallInst::Create (inline_asm, arguments));
-                        auto call_block (llvm::BasicBlock::Create (context));
-                        function_m->getBasicBlockList ().push_back (call_block);
-                        auto successor (llvm::BasicBlock::Create (context));
-                        function_m->getBasicBlockList ().push_back (successor);
-                        auto predicate_branch (llvm::BranchInst::Create (call_block, successor, predicate));
-                        last->getInstList ().push_back (predicate_branch);
-                        call_block->getInstList ().push_back (call);
-                        auto rejoin (llvm::BranchInst::Create (successor));
-                        call_block->getInstList ().push_back (rejoin);
-                        if (!info->type_m->is_unit_type ())
-                        {
-                            value = generate_rejoin (last, call_block, successor, call);
-                        }
-                        else
-                        {
-                            value = nullptr;
-                        }
-                        last = successor;
                     }
                     else
                     {
