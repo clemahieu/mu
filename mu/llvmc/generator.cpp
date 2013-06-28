@@ -1267,7 +1267,8 @@ namespace mu
         class generate_global : public mu::llvmc::skeleton::visitor
         {
         public:
-            generate_global (T retrieve_value_a) :
+            generate_global (mu::llvmc::generate_module & module_a, T retrieve_value_a) :
+            module (module_a),
             retrieve_value (retrieve_value_a)
             {
             }
@@ -1275,6 +1276,40 @@ namespace mu
             {
                 // Do nothing
             }
+            void constant_array (mu::llvmc::skeleton::constant_array * constant_array) override
+            {
+                std::vector <llvm::Constant *> elements;
+                for (auto i: constant_array->initializer)
+                {
+                    retrieve_value (i);
+                    elements.push_back (llvm::cast <llvm::Constant> (i->generated));
+                }
+                auto type (module.retrieve_type (constant_array->type ()));
+                constant_array->generated = llvm::ConstantArray::get (llvm::cast <llvm::ArrayType> (type.type), llvm::ArrayRef <llvm::Constant *> (elements));
+                constant_array->predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
+            }
+            void constant_pointer_null (mu::llvmc::skeleton::constant_pointer_null * value_a) override
+            {
+                auto type (module.retrieve_type (value_a->type ()));
+                value_a->predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
+                value_a->generated = llvm::ConstantPointerNull::get(llvm::cast <llvm::PointerType> (type.type));
+            }
+            void constant_integer (mu::llvmc::skeleton::constant_integer * constant_int) override
+            {
+                auto type (module.retrieve_type (constant_int->type ()));
+                constant_int->predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
+                constant_int->generated = llvm::ConstantInt::get (type.type, constant_int->value_m);
+            }
+            void global_variable (mu::llvmc::skeleton::global_variable * global_variable) override
+            {
+                retrieve_value (global_variable->initializer);
+                auto type (module.retrieve_type (global_variable->initializer->type ()));
+                auto global (new llvm::GlobalVariable (type.type, false, llvm::GlobalValue::LinkageTypes::ExternalLinkage, llvm::cast <llvm::Constant> (global_variable->initializer->generated)));
+                global_variable->generated = global;
+                global_variable->predicate = global_variable->initializer->predicate;
+                module.target.module->getGlobalList ().push_back (global);
+            }
+            mu::llvmc::generate_module & module;
             T retrieve_value;
         };
     }
@@ -1283,62 +1318,10 @@ namespace mu
 template <typename T>
 void mu::llvmc::generate_module::generate_global (mu::llvmc::skeleton::value * value_a, T retrieve_value_a)
 {
-    mu::llvmc::generate_global <T> generator (retrieve_value_a);
+    assert (value_a->predicate == nullptr);
+    mu::llvmc::generate_global <T> generator (*this, retrieve_value_a);
     value_a->visit (&generator);
-    if (value_a->predicate == nullptr)
-    {
-        auto & context (target.module->getContext ());
-        auto constant_array (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value_a));
-        if (constant_array != nullptr)
-        {
-            std::vector <llvm::Constant *> elements;
-            for (auto i: constant_array->initializer)
-            {
-                retrieve_value_a (i);
-                elements.push_back (llvm::cast <llvm::Constant> (i->generated));
-            }
-            auto type (retrieve_type (constant_array->type ()));
-            value_a->generated = llvm::ConstantArray::get (llvm::cast <llvm::ArrayType> (type.type), llvm::ArrayRef <llvm::Constant *> (elements));
-            value_a->predicate = llvm::ConstantInt::getTrue (context);
-        }
-        else
-        {
-            auto constant_pointer_null (dynamic_cast <mu::llvmc::skeleton::constant_pointer_null *> (value_a));
-            if (constant_pointer_null != nullptr)
-            {
-                auto type (retrieve_type (value_a->type ()));
-                value_a->predicate = llvm::ConstantInt::getTrue (context);
-                value_a->generated = llvm::ConstantPointerNull::get(llvm::cast <llvm::PointerType> (type.type));
-            }
-            else
-            {
-                auto constant_int (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (value_a));
-                if (constant_int != nullptr)
-                {
-                    auto type (retrieve_type (value_a->type ()));
-                    value_a->predicate = llvm::ConstantInt::getTrue (context);
-                    value_a->generated = llvm::ConstantInt::get (type.type, constant_int->value_m);
-                }
-                else
-                {
-                    auto global_variable (dynamic_cast <mu::llvmc::skeleton::global_variable *> (value_a));
-                    if (global_variable != nullptr)
-                    {
-                        retrieve_value_a (global_variable->initializer);
-                        auto type (retrieve_type (global_variable->initializer->type ()));
-                        auto global (new llvm::GlobalVariable (type.type, false, llvm::GlobalValue::LinkageTypes::ExternalLinkage, llvm::cast <llvm::Constant> (global_variable->initializer->generated)));
-                        global_variable->generated = global;
-                        global_variable->predicate = global_variable->initializer->predicate;
-                        target.module->getGlobalList ().push_back (global);
-                    }
-                    else
-                    {
-                        assert (false);
-                    }
-                }
-            }
-        }
-    }
+    assert (value_a->predicate != nullptr);
 }
 
 void mu::llvmc::generate_module::generate_value (mu::llvmc::skeleton::value * value_a)
