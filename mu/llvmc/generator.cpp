@@ -661,6 +661,29 @@ namespace mu
                 function_m.last->getInstList ().push_back (feedback);
                 function_m.last = successor;
             }
+            void identity_element_value (mu::llvmc::skeleton::identity_element_value * identity_value) override
+            {
+                auto i (identity_value->source->arguments.begin () + 1);
+                auto j (identity_value->source->arguments.begin () + identity_value->source->predicate_offset);
+                auto k (identity_value->source->elements.begin ());
+                auto l (identity_value->source->elements.end ());
+                for (; i != j; ++i, ++k)
+                {
+                    assert (k != l);
+                    auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
+                    function_m.retrieve_value (value);
+                    auto target (*k);
+                    target->predicate = value->predicate;
+                    target->generated = value->generated;
+                }
+                assert ((i == j) == (k == l));
+                auto m (identity_value->source->arguments.end ());
+                for (; i != m; ++i)
+                {
+                    auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
+                    function_m.retrieve_value (value);
+                }
+            }
         };
     }
 }
@@ -676,41 +699,7 @@ void mu::llvmc::generate_function::generate_value (mu::llvmc::skeleton::value * 
     value_a->visit (&generator);
     if (value_a->predicate == nullptr)
     {
-        auto loop_element (dynamic_cast <mu::llvmc::skeleton::loop_element *> (value_a));
-        if (loop_element != nullptr)
-        {
-        }
-        else
-        {
-            auto identity_value (dynamic_cast <mu::llvmc::skeleton::identity_element_value *> (value_a));
-            if (identity_value != nullptr)
-            {
-                auto i (identity_value->source->arguments.begin () + 1);
-                auto j (identity_value->source->arguments.begin () + identity_value->source->predicate_offset);
-                auto k (identity_value->source->elements.begin ());
-                auto l (identity_value->source->elements.end ());
-                for (; i != j; ++i, ++k)
-                {
-                    assert (k != l);
-                    auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
-                    retrieve_value (value);
-                    auto target (*k);
-                    target->predicate = value->predicate;
-                    target->generated = value->generated;
-                }
-                assert ((i == j) == (k == l));
-                auto m (identity_value->source->arguments.end ());
-                for (; i != m; ++i)
-                {
-                    auto value (mu::cast <mu::llvmc::skeleton::value> (*i));
-                    retrieve_value (value);
-                }
-            }
-            else
-            {
-                generate_single (value_a);
-            }
-        }
+        generate_single (value_a);
     }
 }
 
