@@ -684,6 +684,12 @@ namespace mu
                     function_m.retrieve_value (value);
                 }
             }
+            void constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a) override
+            {
+                auto type (function_m.module.retrieve_type (node_a->type ()));
+                node_a->predicate = llvm::ConstantInt::getTrue (function_m.module.target.module->getContext ());
+                node_a->generated = llvm::ConstantAggregateZero::get (type.type);
+            }
         };
     }
 }
@@ -736,9 +742,6 @@ void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value *
     auto constant_aggregate_zero (dynamic_cast <mu::llvmc::skeleton::constant_aggregate_zero *> (value_a));
     if (constant_aggregate_zero != nullptr)
     {
-        auto type (module.retrieve_type (value_a->type ()));;
-        predicate = llvm::ConstantInt::getTrue (context);
-        value = llvm::ConstantAggregateZero::get (type.type);
     }
     else
     {
