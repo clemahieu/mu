@@ -139,10 +139,6 @@ namespace mu
                 size_t predicate_position;
                 mu::llvmc::skeleton::type * type_m;
             };
-            class join : public mu::llvmc::skeleton::node
-            {
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-            };
 			class predicate : public mu::llvmc::skeleton::node
 			{
 			public:
@@ -150,6 +146,22 @@ namespace mu
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
 				mu::llvmc::predicates type;
 			};
+            class icmp : public mu::llvmc::skeleton::value
+            {
+            public:
+                icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+                mu::llvmc::skeleton::predicate * predicate_m;
+                mu::llvmc::skeleton::value * left;
+                mu::llvmc::skeleton::value * right;
+                mu::vector <mu::llvmc::skeleton::node *> predicates;
+            };
+            class join : public mu::llvmc::skeleton::node
+            {
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+            };
             class marker : public mu::llvmc::skeleton::node
             {
             public:
@@ -476,6 +488,7 @@ namespace mu
                 virtual void loop_element_unit (mu::llvmc::skeleton::loop_element_unit * node_a);
                 virtual void call_element_value (mu::llvmc::skeleton::call_element_value * node_a);
                 virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
+                virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
             };
             template <typename T, typename U>
             class type_visitor : public mu::llvmc::skeleton::visitor

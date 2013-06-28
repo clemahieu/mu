@@ -937,31 +937,7 @@ namespace mu
                     }
                     case mu::llvmc::instruction_type::icmp:
                     {
-                        assert (instruction->predicate_position == 4);
-                        auto predicate_l (mu::cast <mu::llvmc::skeleton::predicate> (instruction->arguments [1]));
-                        auto left (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [2]));
-                        function_m.retrieve_value (left);
-                        auto right (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [3]));
-                        function_m.retrieve_value (right);
-                        predicate = function_m.and_predicates (left->predicate, right->predicate);
-                        predicate = function_m.process_predicates (predicate, instruction->arguments, 4);
-                        llvm::CmpInst::Predicate predicate_t;
-                        switch (predicate_l->type)
-                        {
-                            case mu::llvmc::predicates::icmp_eq:
-                            {
-                                predicate_t = llvm::CmpInst::Predicate::ICMP_EQ;
-                                break;
-                            }
-                            default:
-                                assert (false);
-                                break;
-                        }
-                        auto instruction_l (new llvm::ICmpInst (predicate_t, left->generated, right->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.block_d));
-                        function_m.last->getInstList ().push_back (instruction_l);
-                        value = instruction_l;
-                        break;
+                        assert (false);
                     }
                     case mu::llvmc::instruction_type::inttoptr:
                     {
@@ -1220,6 +1196,30 @@ namespace mu
                 }
                 instruction->generated = value;
                 instruction->predicate = predicate;
+            }
+            void icmp (mu::llvmc::skeleton::icmp * icmp) override
+            {
+                function_m.retrieve_value (icmp->left);
+                function_m.retrieve_value (icmp->right);
+                auto predicate (function_m.and_predicates (icmp->left->predicate, icmp->right->predicate));
+                predicate = function_m.process_predicates (predicate, icmp->predicates, 0);
+                llvm::CmpInst::Predicate predicate_t;
+                switch (icmp->predicate_m->type)
+                {
+                    case mu::llvmc::predicates::icmp_eq:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_EQ;
+                        break;
+                    }
+                    default:
+                        assert (false);
+                        break;
+                }
+                auto instruction_l (new llvm::ICmpInst (predicate_t, icmp->left->generated, icmp->right->generated));
+                instruction_l->setDebugLoc (llvm::DebugLoc::get (icmp->region.first.row, icmp->region.first.column, function_m.block_d));
+                function_m.last->getInstList ().push_back (instruction_l);
+                icmp->generated = instruction_l;
+                icmp->predicate = predicate;
             }
         };
     }

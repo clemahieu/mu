@@ -383,14 +383,8 @@ TEST (llvmc_generator, generate_icmp1)
     function1.parameters.push_back (&parameter1);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type1, U"parameter2");
     function1.parameters.push_back (&parameter2);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker icmp1 (mu::llvmc::instruction_type::icmp);
-    arguments1.push_back (&icmp1);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
-	arguments1.push_back (&predicate1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, function1.entry, &mu::llvmc::skeleton::integer_1_type, &predicate1, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
     function1.results.push_back (&result1);
@@ -1674,15 +1668,9 @@ TEST (llvmc_generator, generate_loop1)
 	ASSERT_EQ (loop1.arguments.size (), loop1.argument_predicate_offset);
 	mu::llvmc::skeleton::loop_parameter loop_parameter1 (mu::empty_region, loop1.loop_entry_branch, &type1);
 	loop1.parameters.push_back (&loop_parameter1);
-	mu::vector <mu::llvmc::skeleton::node *> arguments1;
-	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
-	arguments1.push_back (&marker1);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
-	arguments1.push_back (&predicate1);
-	arguments1.push_back (&loop_parameter1);
 	mu::llvmc::skeleton::constant_integer constant_integer1 (mu::empty_region, module.global, 1, 0);
-	arguments1.push_back (&constant_integer1);
-	mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, loop1.loop_entry_branch, arguments1, arguments1.size ());
+	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &mu::llvmc::skeleton::integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
 	mu::vector <mu::llvmc::skeleton::node *> arguments2;
 	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::if_i);
 	arguments2.push_back (&marker2);
@@ -1745,14 +1733,8 @@ TEST (llvmc_generator, generate_loop_count)
 	mu::llvmc::skeleton::loop_parameter loop_parameter2 (mu::empty_region, loop1.loop_entry_branch, &type1); // Total
 	loop1.parameters.push_back (&loop_parameter1);
 	loop1.parameters.push_back (&loop_parameter2);	
-	mu::vector <mu::llvmc::skeleton::node *> arguments1;
-	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::icmp);
-	arguments1.push_back (&marker1);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
-	arguments1.push_back (&predicate1);
-	arguments1.push_back (&loop_parameter1);
-	arguments1.push_back (&constant_integer1);
-	mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, loop1.loop_entry_branch, arguments1, arguments1.size ());
+	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &mu::llvmc::skeleton::integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
 	mu::llvmc::skeleton::integer_type type2 (1);
 	mu::vector <mu::llvmc::skeleton::node *> arguments2;
 	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::switch_i);

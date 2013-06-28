@@ -2568,9 +2568,8 @@ TEST (llvmc_analyzer, instruction_icmp_eq)
     ASSERT_EQ (1, function2->results.size ());
     auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
     ASSERT_NE (nullptr, result2);
-    auto instruction (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
+    auto instruction (dynamic_cast <mu::llvmc::skeleton::icmp *> (result2->value));
     ASSERT_NE (nullptr, instruction);
-    ASSERT_EQ (4, instruction->arguments.size ());
     auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (instruction->type ()));
     ASSERT_NE (nullptr, type2);
     ASSERT_EQ (1, type2->bits);

@@ -1196,6 +1196,30 @@ void mu::llvmc::skeleton::visitor::identity_element_unit (mu::llvmc::skeleton::i
     identity_element (node_a);
 }
 
+mu::llvmc::skeleton::icmp::icmp (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::predicate * predicate_a, mu::llvmc::skeleton::value * left_a, mu::llvmc::skeleton::value * right_a) :
+value (region_a, branch_a),
+type_m (type_a),
+predicate_m (predicate_a),
+left (left_a),
+right (right_a)
+{
+}
+
+void mu::llvmc::skeleton::icmp::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->icmp (this);
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::icmp::type ()
+{
+    return type_m;
+}
+
+void mu::llvmc::skeleton::visitor::icmp (mu::llvmc::skeleton::icmp * node_a)
+{
+    value (node_a);
+}
+
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
 mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
 mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

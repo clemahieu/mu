@@ -1547,7 +1547,9 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 {
                                     if (*left->type () == *right->type ())
                                     {
-                                        module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                                        auto icmp (new (GC) mu::llvmc::skeleton::icmp (expression_a->region, most_specific_branch, &mu::llvmc::skeleton::integer_1_type, predicate, left, right));
+                                        icmp->predicates.assign (arguments.begin () + 4, arguments.end ());
+                                        module.already_generated [expression_a].push_back (icmp);
                                     }
                                     else
                                     {
