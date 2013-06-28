@@ -793,6 +793,22 @@ namespace mu
                 asm_l->predicate = predicate;
                 function_m.last = successor;
             }
+            void named (mu::llvmc::skeleton::named * named) override
+            {
+                auto value_l (named->value_m);
+                function_m.retrieve_value (value_l);
+                named->generated = value_l->generated;
+                named->predicate = value_l->predicate;
+                auto const & name (named->name);
+                auto type (named->type ());
+                function_m.module.retrieve_type (type);
+                auto existing (function_m.module.type_information.find (type));
+                assert (existing != function_m.module.type_information.end ());
+                if (value_l->generated != nullptr)
+                {
+                    function_m.module.builder.insertDeclare (value_l->generated, function_m.module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, existing->second.debug), function_m.last);
+                }
+            }
         };
     }
 }
@@ -1288,19 +1304,6 @@ void mu::llvmc::generate_function::generate_single (mu::llvmc::skeleton::value *
                         auto named (dynamic_cast <mu::llvmc::skeleton::named *> (value_a));
                         if (named != nullptr)
                         {
-                            auto value_l (named->value_m);
-                            retrieve_value (value_l);
-                            value = value_l->generated;
-                            predicate = value_l->predicate;
-                            auto const & name (named->name);
-                            auto type (named->type ());
-                            module.retrieve_type (type);
-                            auto existing (module.type_information.find (type));
-                            assert (existing != module.type_information.end ());
-                            if (value_l->generated != nullptr)
-                            {
-                                module.builder.insertDeclare (value_l->generated, module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_d, std::string (name.begin (), name.end ()), module.file, named->region.first.row, existing->second.debug), last);
-                            }
                         }
                         else
                         {
