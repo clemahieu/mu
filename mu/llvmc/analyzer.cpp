@@ -146,7 +146,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
 					auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
 					if (unit_node != nullptr)
 					{
-						module.already_generated [node_a].push_back (new (GC) mu::llvmc::skeleton::unit_value (module.module->global));
+						module.already_generated [node_a].push_back (&module.module->the_unit_value);
 					}
 					else
 					{
@@ -1599,7 +1599,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, module.module->global, 1, 1));
                                 arguments.push_back (false_const);
                                 arguments.push_back (true_const);
-                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));
+                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &mu::llvmc::skeleton::the_unit_type));
                                 auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
                                 auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
                                 auto true_element (new (GC) mu::llvmc::skeleton::switch_element (expression_a->region, true_branch, switch_i, true_const));
@@ -1840,7 +1840,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                             {
                                 result = true;
                                 auto & values (module.already_generated [expression_a]);
-                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments));
+                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &mu::llvmc::skeleton::the_unit_type));
                                 for (auto i (switch_i->arguments.begin () + 2), j (switch_i->arguments.begin () + predicate_offset); i != j; ++i)
                                 {
                                     auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));

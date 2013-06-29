@@ -1037,7 +1037,7 @@ TEST (llvmc_generator, generate_if)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1079,7 +1079,7 @@ TEST (llvmc_generator, generate_if_value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1127,7 +1127,7 @@ TEST (llvmc_generator, generate_if_join)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1171,7 +1171,7 @@ TEST (llvmc_generator, generate_if_join_value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1232,7 +1232,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1320,7 +1320,7 @@ TEST (llvmc_generator, generate_if_join_load)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1456,7 +1456,7 @@ TEST (llvmc_generator, generate_call_2)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1519,7 +1519,7 @@ TEST (llvmc_generator, generate_call_3)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1670,7 +1670,7 @@ TEST (llvmc_generator, generate_loop1)
 	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::if_i);
 	arguments2.push_back (&marker2);
 	arguments2.push_back (&instruction1);
-	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2);
+	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &mu::llvmc::skeleton::the_unit_type);
 	mu::llvmc::skeleton::constant_integer constant_integer2 (mu::empty_region, module.global, 1, 0);
 	mu::llvmc::skeleton::switch_element element1 (mu::empty_region, loop1.loop_entry_branch, &switch1, &constant_integer2);
 	switch1.elements.push_back (&element1);
@@ -1739,7 +1739,7 @@ TEST (llvmc_generator, generate_loop_count)
 	arguments2.push_back (&constant_integer2);
 	mu::llvmc::skeleton::constant_integer constant_integer3 (mu::empty_region, module.global, 1, 1);
 	arguments2.push_back (&constant_integer3);
-	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2);
+	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &mu::llvmc::skeleton::the_unit_type);
 	mu::llvmc::skeleton::branch branch1 (loop1.loop_entry_branch);
 	mu::llvmc::skeleton::branch branch2 (loop1.loop_entry_branch);
 	mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &switch1, &constant_integer2);
@@ -1951,7 +1951,7 @@ TEST (llvmc_generator, generate_call_0_predicate)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function2.entry, arguments2);
+    mu::llvmc::skeleton::switch_i instruction1 (function2.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch1, &instruction1, &integer1);

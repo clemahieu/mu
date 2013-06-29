@@ -267,10 +267,11 @@ namespace mu
             class switch_i
             {
             public:
-                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a);
+                switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::skeleton::unit_type * type_a);
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::switch_element *> elements;
+                mu::llvmc::skeleton::unit_type * type_m;
             };
             class switch_element : public mu::llvmc::skeleton::value
             {
@@ -367,9 +368,10 @@ namespace mu
             class unit_value : public mu::llvmc::skeleton::value
             {
             public:
-                unit_value (mu::llvmc::skeleton::branch * branch_a);
+                unit_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
             };
             class join_value : public mu::llvmc::skeleton::value
             {

@@ -78,9 +78,10 @@ mu::llvmc::skeleton::value * mu::llvmc::skeleton::function::as_value (mu::llvmc:
     return result;
 }
 
-mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a) :
+mu::llvmc::skeleton::switch_i::switch_i (mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, mu::llvmc::skeleton::unit_type * type_a) :
 branch (branch_a),
-arguments (arguments_a)
+arguments (arguments_a),
+type_m (type_a)
 {
 }
 
@@ -637,22 +638,23 @@ bool mu::llvmc::skeleton::unit_type::is_unit_type () const
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::switch_element::type ()
 {
-    return & mu::llvmc::skeleton::the_unit_type;
+    return source->type_m;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::unit_value::type ()
 {
-    return & mu::llvmc::skeleton::the_unit_type;
+    return type_m;
 }
 
-mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a) :
-value (mu::empty_region, branch_a)
+mu::llvmc::skeleton::unit_value::unit_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+value (mu::empty_region, branch_a),
+type_m (type_a)
 {
 }
 
 mu::llvmc::skeleton::module::module () :
 global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
-the_unit_value (global)
+the_unit_value (global, &mu::llvmc::skeleton::the_unit_type)
 {
 }
 
