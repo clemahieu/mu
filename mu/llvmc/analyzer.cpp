@@ -1774,7 +1774,9 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                             {
                                 if (*destination_type->pointed_type == *source->type ())
                                 {
-                                    module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                                    auto store (new (GC) mu::llvmc::skeleton::store (expression_a->region, most_specific_branch, &mu::llvmc::skeleton::the_unit_type, source, destination));
+                                    store->predicates.assign (arguments.begin () + 3, arguments.end ());
+                                    module.already_generated [expression_a].push_back (store);
                                 }
                                 else
                                 {

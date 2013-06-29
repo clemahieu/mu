@@ -1094,25 +1094,7 @@ namespace mu
                     }
                     case mu::llvmc::instruction_type::store:
                     {
-                        assert (instruction->predicate_position == 3);
-                        auto store_value (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [1]));
-                        function_m.retrieve_value (store_value);
-                        auto store_pointer (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [2]));
-                        function_m.retrieve_value (store_pointer);
-                        predicate = function_m.and_predicates (store_pointer->predicate, store_value->predicate);
-                        predicate = function_m.process_predicates (predicate, instruction->arguments, 3);
-                        auto predicate_branch (llvm::BasicBlock::Create (context));
-                        function_m.function_m->getBasicBlockList ().push_back (predicate_branch);
-                        auto new_last (llvm::BasicBlock::Create (context));
-                        function_m.function_m->getBasicBlockList ().push_back (new_last);
-                        function_m.last->getInstList ().push_back (llvm::BranchInst::Create(predicate_branch, new_last, predicate));
-                        auto instruction_l (new llvm::StoreInst (store_value->generated, store_pointer->generated));
-                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.block_d));
-                        predicate_branch->getInstList ().push_back (instruction_l);
-                        predicate_branch->getInstList ().push_back (llvm::BranchInst::Create (new_last));
-                        value = nullptr;
-                        function_m.last = new_last;
-                        break;
+                        assert (false);
                     }
                     case mu::llvmc::instruction_type::sub:
                     {
@@ -1220,6 +1202,26 @@ namespace mu
                 function_m.last->getInstList ().push_back (instruction_l);
                 icmp->generated = instruction_l;
                 icmp->predicate = predicate;
+            }
+            void store (mu::llvmc::skeleton::store * store) override
+            {
+                function_m.retrieve_value (store->source);
+                function_m.retrieve_value (store->destination);
+                auto predicate (function_m.and_predicates (store->destination->predicate, store->source->predicate));
+                predicate = function_m.process_predicates (predicate, store->predicates, 0);
+                auto & context (function_m.module.target.module->getContext ());
+                auto predicate_branch (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (predicate_branch);
+                auto new_last (llvm::BasicBlock::Create (context));
+                function_m.function_m->getBasicBlockList ().push_back (new_last);
+                function_m.last->getInstList ().push_back (llvm::BranchInst::Create(predicate_branch, new_last, predicate));
+                auto instruction_l (new llvm::StoreInst (store->source->generated, store->destination->generated));
+                instruction_l->setDebugLoc (llvm::DebugLoc::get (store->region.first.row, store->region.first.column, function_m.block_d));
+                predicate_branch->getInstList ().push_back (instruction_l);
+                predicate_branch->getInstList ().push_back (llvm::BranchInst::Create (new_last));
+                store->generated = nullptr;
+                store->predicate = predicate;
+                function_m.last = new_last;
             }
         };
     }

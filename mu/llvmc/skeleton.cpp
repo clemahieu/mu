@@ -478,7 +478,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
 		}
         case mu::llvmc::instruction_type::icmp:
         {
-            result = & mu::llvmc::skeleton::integer_1_type;
+            assert (false);
             break;
         }
         case mu::llvmc::instruction_type::inttoptr:
@@ -544,7 +544,7 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
         }
         case mu::llvmc::instruction_type::store:
         {
-            result = &mu::llvmc::skeleton::the_unit_type;
+            assert (false);
             break;
         }
         case mu::llvmc::instruction_type::sub:
@@ -1216,6 +1216,29 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::icmp::type ()
 }
 
 void mu::llvmc::skeleton::visitor::icmp (mu::llvmc::skeleton::icmp * node_a)
+{
+    value (node_a);
+}
+
+mu::llvmc::skeleton::store::store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a) :
+value (region_a, branch_a),
+type_m (type_a),
+source (source_a),
+destination (destination_a)
+{
+}
+
+void mu::llvmc::skeleton::store::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+    visitor_a->store (this);
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::store::type ()
+{
+    return type_m;
+}
+
+void mu::llvmc::skeleton::visitor::store (mu::llvmc::skeleton::store * node_a)
 {
     value (node_a);
 }

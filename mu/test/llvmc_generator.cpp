@@ -756,12 +756,7 @@ TEST (llvmc_generator, generate_store)
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type2, U"parameter2");
     function1.parameters.push_back (&parameter2);
-    mu::vector <mu::llvmc::skeleton::node *> arguments1;
-    mu::llvmc::skeleton::marker add1 (mu::llvmc::instruction_type::store);
-    arguments1.push_back (&add1);
-    arguments1.push_back (&parameter1);
-    arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::store instruction1 (mu::empty_region, function1.entry, &mu::llvmc::skeleton::the_unit_type, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&named1);

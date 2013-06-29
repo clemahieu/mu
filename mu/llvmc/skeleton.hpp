@@ -158,6 +158,17 @@ namespace mu
                 mu::llvmc::skeleton::value * right;
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
             };
+            class store : public mu::llvmc::skeleton::value
+            {
+            public:
+                store (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a, mu::llvmc::skeleton::value * source_a, mu::llvmc::skeleton::value * destination_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
+                mu::llvmc::skeleton::value * source;
+                mu::llvmc::skeleton::value * destination;
+                mu::vector <mu::llvmc::skeleton::node *> predicates;
+            };
             class join : public mu::llvmc::skeleton::node
             {
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
@@ -489,6 +500,7 @@ namespace mu
                 virtual void call_element_value (mu::llvmc::skeleton::call_element_value * node_a);
                 virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
+                virtual void store (mu::llvmc::skeleton::store * node_a);
             };
             template <typename T, typename U>
             class type_visitor : public mu::llvmc::skeleton::visitor
