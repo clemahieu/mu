@@ -235,8 +235,44 @@ let mmap function
 ]
 [[ptr int8 result]]
 
-let lalloc_base global null ptr int8
-let lalloc_available global cint64 #h0
+let lalloc-base global null ptr int8
+let lalloc-available global cint64 #h0
+
+let lalloc-slab-size function
+[]
+[]
+[[int64 cint64 #h100000]]
+
+let lalloc-slab function
+[]
+[
+	let mem [mmap 
+		[ptrfromint cint64 #0 ptr int8] 
+		let alloc_amount [lalloc-slab-size] 
+		[or PROT_READ-linux PROT_WRITE-linux] 
+		[or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] 
+		no-fd-linux 
+		cint64 #0]
+]
+[[ptr int8 mem]]
+
+let lalloc-adjust function
+[ptr int8 original int64 amount]
+[
+	let result [ptrfromint ptr int8 [add [ptrtoint int64 original] amount]] 
+]
+[[ptr int8 result]]
+
+let lalloc function
+[int64 amount]
+[
+	let enough not-enough [if [icmp iuge let existing [load lalloc-available] amount]]
+	let slab [[lalloc-slab]; not-enough]
+	[store slab lalloc-base]
+	[store [sub [lalloc-slab-size] amount] lalloc-available; slab]
+	let result [lalloc-adjust [join slab existing] amount]
+]
+[[ptr int8 result]]
 
 let entry function
 []
@@ -247,7 +283,6 @@ let entry function
 	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
-	let mem [mmap [ptrfromint cint64 #0 ptr int8] let alloc_amount cint64 #h100000 [or PROT_READ-linux PROT_WRITE-linux] [or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] no-fd-linux cint64 #0]
-	let result [exit cint64 #0; mem close_l [store mem lalloc_base] [store alloc_amount lalloc_available]]
+	let result [exit cint64 #0; mem close_l]
 ]
 [[; result]]

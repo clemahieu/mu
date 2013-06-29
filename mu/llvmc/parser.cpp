@@ -83,8 +83,6 @@ stream (stream_a)
     assert (!error);
     error = builtins.insert (U"cmpxchg", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::cmpxchg)));
     assert (!error);
-    error = builtins.insert (U"eq", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_eq)));
-    assert (!error);
     error = builtins.insert (U"extractelement", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractelement)));
     assert (!error);
     error = builtins.insert (U"extractvalue", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::extractvalue)));
@@ -116,6 +114,26 @@ stream (stream_a)
     error = builtins.insert (U"getelementptr", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::getelementptr)));
     assert (!error);
     error = builtins.insert (U"icmp", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::icmp)));
+    assert (!error);
+    error = builtins.insert (U"ieq", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_eq)));
+    assert (!error);
+    error = builtins.insert (U"ine", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_ne)));
+    assert (!error);
+    error = builtins.insert (U"iugt", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_ugt)));
+    assert (!error);
+    error = builtins.insert (U"iuge", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_uge)));
+    assert (!error);
+    error = builtins.insert (U"iult", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_ult)));
+    assert (!error);
+    error = builtins.insert (U"iule", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_ule)));
+    assert (!error);
+    error = builtins.insert (U"isgt", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_sgt)));
+    assert (!error);
+    error = builtins.insert (U"isge", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_sge)));
+    assert (!error);
+    error = builtins.insert (U"islt", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_slt)));
+    assert (!error);
+    error = builtins.insert (U"isle", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::predicate (mu::llvmc::predicates::icmp_sle)));
     assert (!error);
     error = builtins.insert (U"if", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::if_i)));
     assert (!error);
@@ -645,7 +663,14 @@ bool mu::llvmc::block::get (mu::string const & name_a, mu::core::region const & 
     }
     else
     {
-        action_a (existing->second, region_a);
+        if (existing->second != nullptr)
+        {
+            action_a (existing->second, region_a);
+        }
+        else
+        {
+            unresolved.insert (decltype (unresolved)::value_type (name_a, unresolved_type (region_a, action_a)));
+        }
     }
     return result;
 }
@@ -664,7 +689,14 @@ void mu::llvmc::block::refer (mu::string const & name_a, mu::core::region const 
     }
     else
     {
-        action_a (existing->second, region_a);
+        if (existing->second != nullptr)
+        {
+            action_a (existing->second, region_a);
+        }
+        else
+        {
+            unresolved.insert (decltype (unresolved)::value_type (name_a, unresolved_type (region_a, action_a)));
+        }
     }
 }
 

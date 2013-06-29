@@ -1197,6 +1197,51 @@ namespace mu
                         predicate_t = llvm::CmpInst::Predicate::ICMP_EQ;
                         break;
                     }
+                    case mu::llvmc::predicates::icmp_ne:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_NE;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_ugt:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_UGT;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_uge:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_UGE;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_ult:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_ULT;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_ule:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_ULE;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_sgt:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_SGT;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_sge:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_SGE;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_slt:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_SLT;
+                        break;
+                    }
+                    case mu::llvmc::predicates::icmp_sle:
+                    {
+                        predicate_t = llvm::CmpInst::Predicate::ICMP_SLE;
+                        break;
+                    }
                     default:
                         assert (false);
                         break;

@@ -235,6 +235,45 @@ TEST (llvmc_parser, block_reuse_id)
     }
 }
 
+TEST (llvmc_parser, block_refer_reserved)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    mu::llvmc::block block (&global);
+    auto fail1 (block.reserve (U"test"));
+    ASSERT_FALSE (fail1);
+    {
+        mu::llvmc::block block2 (&block);
+        mu::llvmc::ast::node node;
+        auto test (false);
+        block2.refer (U"test", mu::empty_region,
+            [&]
+            (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+            {
+                test = true;
+            }
+        );
+        EXPECT_FALSE (test);
+    }
+}
+
+TEST (llvmc_parser, global_refer_reserved)
+{
+    mu::llvmc::keywords keywords;
+    mu::llvmc::global global (&keywords);
+    auto fail1 (global.reserve (U"test"));
+    ASSERT_FALSE (fail1);
+    auto test (false);
+    global.refer (U"test", mu::empty_region,
+        [&]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            test = true;
+        }
+    );
+    EXPECT_FALSE (test);
+}
+
 TEST (llvmc_parser, empty)
 {
     test_parser parser ("");
