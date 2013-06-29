@@ -51,12 +51,6 @@ namespace mu
             mu::map <mu::string, llvm::Function *> names;
             llvm::Module * module;
         };
-        class type_info
-        {
-        public:
-            llvm::Type * type;
-            llvm::DIType debug;
-        };
         class generator
         {
         public:
@@ -67,13 +61,12 @@ namespace mu
         public:
             generate_module (mu::llvmc::skeleton::module * module_a, mu::llvmc::generator_result & target_a, mu::string const & name_a, mu::string const & path_a, uint64_t module_id_a);
             void generate ();
-            mu::llvmc::type_info generate_type (mu::llvmc::skeleton::type * type_a);
-            mu::llvmc::type_info retrieve_type (mu::llvmc::skeleton::type * type_a);
+            void generate_type (mu::llvmc::skeleton::type * type_a);
+            void retrieve_type (mu::llvmc::skeleton::type * type_a);
             template <typename T>
             void generate_global (mu::llvmc::skeleton::value * value_a, T retrieve_value_a);
             void generate_value (mu::llvmc::skeleton::value * value_a);
 			llvm::DIBuilder builder;
-			mu::map <mu::llvmc::skeleton::type *, mu::llvmc::type_info> type_information;
             mu::llvmc::skeleton::module * module;
             mu::llvmc::generator_result & target;
 			llvm::DIFile file;

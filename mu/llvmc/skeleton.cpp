@@ -1249,3 +1249,9 @@ void mu::llvmc::skeleton::visitor::store (mu::llvmc::skeleton::store * node_a)
 {
     value (node_a);
 }
+
+mu::llvmc::skeleton::type::type () :
+generated (nullptr),
+debug (nullptr)
+{
+}

@@ -5,6 +5,8 @@
 #include <mu/llvmc/predicates.hpp>
 #include <mu/io/tokens.hpp>
 
+#include <llvm/DebugInfo.h>
+
 namespace llvm
 {
     class Constant;
@@ -35,6 +37,9 @@ namespace mu
             class type : public mu::llvmc::skeleton::node
             {
             public:
+                type ();
+                llvm::Type * generated;
+                llvm::DIType debug;
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 virtual bool operator == (mu::llvmc::skeleton::type const & other_a) const = 0;
                 bool operator != (mu::llvmc::skeleton::type const & other_a) const;
