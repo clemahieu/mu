@@ -937,7 +937,7 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     bool result;
-    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset));
+    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &mu::llvmc::skeleton::the_unit_type));
     switch (predicate_offset)
     {
         case 0:

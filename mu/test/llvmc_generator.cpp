@@ -1874,7 +1874,7 @@ TEST (llvmc_generator, generate_identity)
     mu::llvmc::skeleton::identity identity2;
     arguments.push_back (&identity2);
     arguments.push_back (&parameter1);
-    mu::llvmc::skeleton::identity_call identity1 (arguments, 2);
+    mu::llvmc::skeleton::identity_call identity1 (arguments, 2, &mu::llvmc::skeleton::the_unit_type);
     mu::llvmc::skeleton::identity_element_value element1 (function1.entry, &identity1, 1);
     identity1.elements.push_back (&element1);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &element1, U"element1");

@@ -777,12 +777,13 @@ identity_element (branch_a, source_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::identity_element_unit::type ()
 {
-    return &mu::llvmc::skeleton::the_unit_type;
+    return source->type_m;
 }
 
-mu::llvmc::skeleton::identity_call::identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a) :
+mu::llvmc::skeleton::identity_call::identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a) :
 arguments (arguments_a),
-predicate_offset (predicate_offset_a)
+predicate_offset (predicate_offset_a),
+type_m (type_a)
 {
 }
 

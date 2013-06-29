@@ -453,10 +453,11 @@ namespace mu
             class identity_call
             {
             public:
-                identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a);
+                identity_call (mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a);
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 size_t predicate_offset;
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
+                mu::llvmc::skeleton::type * type_m;
             };
             class visitor
             {
