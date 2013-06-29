@@ -109,7 +109,7 @@ let exit_osx function
 let platform function
 []
 [
-	let linux osx [if cint1 #1]
+	let linux osx [if cint1 #0]
 ]
 [[unit linux][unit osx]]
 
@@ -238,17 +238,14 @@ let mmap function
 let lalloc-base global null ptr int8
 let lalloc-available global cint64 #h0
 
-let lalloc-slab-size function
-[]
-[]
-[[int64 cint64 #h100000]]
+let lalloc-slab-size cint64 #h100000
 
 let lalloc-slab function
 []
 [
 	let mem [mmap 
 		[ptrfromint cint64 #0 ptr int8] 
-		let alloc_amount [lalloc-slab-size] 
+		lalloc-slab-size
 		[or PROT_READ-linux PROT_WRITE-linux] 
 		[or MAP_PRIVATE-linux MAP_ANONYMOUS-linux] 
 		no-fd-linux 
@@ -256,23 +253,25 @@ let lalloc-slab function
 ]
 [[ptr int8 mem]]
 
-let lalloc-adjust function
-[ptr int8 original int64 amount]
-[
-	let result [ptrfromint ptr int8 [add [ptrtoint int64 original] amount]] 
-]
-[[ptr int8 result]]
-
 let lalloc function
 [int64 amount]
 [
-	let enough not-enough [if [icmp iuge let existing [load lalloc-available] amount]]
-	let slab [[lalloc-slab]; not-enough]
-	[store slab lalloc-base]
-	[store [sub [lalloc-slab-size] amount] lalloc-available; slab]
-	let result [lalloc-adjust [join slab existing] amount]
+	let available [load lalloc-available]
+	let enough not-enough [if [icmp iuge available amount]]
+	
+	let new-result [lalloc-slab; not-enough]
+	let new-available [~ lalloc-slab-size; not-enough]
+	
+	let current-result [load lalloc-base; enough]
+	let current-available [~ available; enough]
+	
+	let result [join new-result current-result]
+	let base [getelementptr result amount]
+	let result-available [sub [join new-available current-available] amount]
+	let store1 [store base lalloc-base]
+	let store2 [store result-available lalloc-available]
 ]
-[[ptr int8 result]]
+[[ptr int8 result; store1 store2]]
 
 let entry function
 []
@@ -283,6 +282,8 @@ let entry function
 	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]
-	let result [exit cint64 #0; mem close_l]
+	let alloc1 [lalloc cint64 #100]
+	let alloc2 [lalloc cint64 #1000]
+	let result [exit cint64 #0; close_l alloc1 alloc2]
 ]
 [[; result]]

@@ -91,7 +91,7 @@ void mu::llvmc::generate_module::generate ()
         {
             // unit
         }
-		auto function_l (dynamic_cast <mu::llvmc::skeleton::function*> (i->second));
+		auto function_l (dynamic_cast <mu::llvmc::skeleton::function *> (i->second));
         if (function_l != nullptr)
         {
             auto function (llvm::cast <llvm::Function> (i->second->generated));
@@ -101,6 +101,11 @@ void mu::llvmc::generate_module::generate ()
         }
         else
         {
+            auto global_variable (dynamic_cast <mu::llvmc::skeleton::global_variable *> (i->second));
+            if (global_variable != nullptr)
+            {
+                builder.createGlobalVariable (std::string (i->first.begin (), i->first.end ()), file, global_variable->region.first.row, global_variable->type ()->debug, false, global_variable->generated);
+            }
             // Only generate function bodies second pass
         }
     }
@@ -800,7 +805,7 @@ namespace mu
                 assert (type->generated != nullptr);
                 if (value_l->generated != nullptr)
                 {
-                    function_m.module.builder.insertDeclare (value_l->generated, function_m.module.builder.createLocalVariable(llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug), function_m.last);
+                    function_m.module.builder.insertDeclare (value_l->generated, function_m.module.builder.createLocalVariable (llvm::dwarf::DW_TAG_auto_variable, function_m.function_d, std::string (name.begin (), name.end ()), function_m.module.file, named->region.first.row, type->debug), function_m.last);
                 }
             }
             void instruction (mu::llvmc::skeleton::instruction * instruction) override

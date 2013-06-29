@@ -1022,7 +1022,7 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value);
+					error = new (GC) mu::core::error_string (U"Argument to function is not a value", mu::core::error_type::argument_to_function_is_not_a_value, expression_a->region);
 				}
 			}
 			if (error == nullptr)
@@ -1096,18 +1096,18 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments);
+					error = new (GC) mu::core::error_string (U"Incorrect number of arguments", mu::core::error_type::incorrect_number_of_arguments, expression_a->region);
 				}
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function);
+			error = new (GC) mu::core::error_string (U"Pointer does not point to a function", mu::core::error_type::pointer_does_not_point_to_a_function, expression_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call);
+		error = new (GC) mu::core::error_string (U"Only function pointers can be the target of a call", mu::core::error_type::only_function_pointers_can_be_target_of_call, expression_a->region);
 	}
 	module.current_expression_generation.erase (expression_a);
 }
@@ -1152,14 +1152,14 @@ void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Branches are not distinct", mu::core::error_type::branches_are_not_disjoint);
+					error = new (GC) mu::core::error_string (U"Branches are not distinct", mu::core::error_type::branches_are_not_disjoint, expression_a->region);
 				}
 			}
 			joined_branches.insert (value->branch);
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Branches are not disjoint", mu::core::error_type::branches_are_not_disjoint);
+			error = new (GC) mu::core::error_string (U"Branches are not disjoint", mu::core::error_type::branches_are_not_disjoint, expression_a->region);
 		}
 	}
 	if (error == nullptr)
@@ -1174,7 +1174,7 @@ void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression
 				auto other_type ((*i)->type ());
 				if (*type != *other_type)
 				{
-					error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different);
+					error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different, expression_a->region);
 				}
 			}
 			if (error == nullptr)
@@ -1186,7 +1186,7 @@ void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values);
+			error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values, expression_a->region);
 		}
 	}
 }
@@ -1277,32 +1277,32 @@ void mu::llvmc::analyzer_node::process_binary_integer_instruction (mu::llvmc::as
 						}
 						else
 						{
-							error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width);
+							error = new (GC) mu::core::error_string (U"Instruction left and right arguments must be same width", mu::core::error_type::instruction_arguments_must_have_same_bit_width, expression_a->region);
 						}
 					}
 					else
 					{
-						error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+						error = new (GC) mu::core::error_string (U"Instruction right argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
 					}
 				}
 				else
 				{
-					error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers);
+					error = new (GC) mu::core::error_string (U"Instruction left argument must be an integer type", mu::core::error_type::instruction_arguments_must_be_integers, expression_a->region);
 				}
 			}
 			else
 			{
-				error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+				error = new (GC) mu::core::error_string (U"Instruction right argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
 			}
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+			error = new (GC) mu::core::error_string (U"Instruction left argument must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
 		}
 	}
 	else
 	{
-		error = new (GC) mu::core::error_string (U"Instruction instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments);
+		error = new (GC) mu::core::error_string (U"Instruction expects two arguments", mu::core::error_type::instruction_expects_two_arguments, expression_a->region);
 	}
 }
 

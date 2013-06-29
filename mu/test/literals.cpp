@@ -304,9 +304,13 @@ extern char const * const generate_global_variable_expected = R"%%%(; ModuleID =
 
 !llvm.dbg.cu = !{!0}
 
-!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_global_variable", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !1, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_global_variable] [DW_LANG_C]
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_global_variable", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !1, metadata !3} ; [ DW_TAG_compile_unit ] [/generate_global_variable] [DW_LANG_C]
 !1 = metadata !{metadata !2}
 !2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786484, i32 0, null, metadata !"0", metadata !"0", metadata !"0", metadata !6, i32 0, null, i32 0, i32 1, i32* @"0000000000000000-0000000000000000-0"} ; [ DW_TAG_variable ] [0] [line 0] [def]
+!6 = metadata !{i32 786473, metadata !"generate_global_variable", metadata !"", null} ; [ DW_TAG_file_type ]
 )%%%";
 
 extern char const * const generate_icmp1_expected = R"%%%(; ModuleID = '0000000000000000'
