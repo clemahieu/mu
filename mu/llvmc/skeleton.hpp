@@ -286,12 +286,13 @@ namespace mu
             class function_call
             {
             public:
-                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a);
+                function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a);
                 mu::llvmc::skeleton::function * target;
                 mu::llvmc::skeleton::branch * branch;
                 mu::vector <mu::llvmc::skeleton::node *> arguments;
                 mu::vector <mu::llvmc::skeleton::call_element *> elements;
                 size_t predicate_offset;
+                mu::llvmc::skeleton::type * type_m;
             };
             class call_element : public mu::llvmc::skeleton::value
             {
@@ -334,7 +335,7 @@ namespace mu
 			class loop
 			{
 			public:
-				loop ();
+				loop (mu::llvmc::skeleton::type * type_a);
 				mu::llvmc::skeleton::branch * loop_entry_branch;
 				mu::vector <mu::llvmc::skeleton::node *> arguments;
 				size_t argument_predicate_offset;
@@ -348,6 +349,7 @@ namespace mu
                 static bool empty_loop_predicate ();
                 template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
                 void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
+                mu::llvmc::skeleton::type * type_m;
 			};
 			class loop_element_value : public mu::llvmc::skeleton::loop_element
 			{
@@ -396,6 +398,9 @@ namespace mu
                 module ();
                 mu::map <mu::string, mu::llvmc::skeleton::constant *> globals;
                 mu::llvmc::skeleton::branch * global;
+                mu::llvmc::skeleton::integer_type integer_1_type;
+                mu::llvmc::skeleton::integer_type integer_8_type;
+                mu::llvmc::skeleton::unit_type the_unit_type;
                 mu::llvmc::skeleton::unit_value the_unit_value;
             };
             class number
@@ -515,9 +520,6 @@ namespace mu
                 T type_op;
                 U node_op;
             };
-            extern mu::llvmc::skeleton::integer_type integer_1_type;
-            extern mu::llvmc::skeleton::integer_type integer_8_type;
-            extern mu::llvmc::skeleton::unit_type the_unit_type;
         }
     }
 }

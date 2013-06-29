@@ -284,8 +284,17 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                     }
                                                                     else
                                                                     {
-                                                                        std::string name (typeid (*node_a).name ());
-                                                                        assert (false);
+                                                                        auto unit_type (dynamic_cast <mu::llvmc::ast::unit_type *> (node_a));
+                                                                        if (unit_type != nullptr)
+                                                                        {
+                                                                            auto & values (module.already_generated [unit_type]);
+                                                                            values.push_back (&module.module->the_unit_type);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            std::string name (typeid (*node_a).name ());
+                                                                            assert (false);
+                                                                        }
                                                                     }
                                                                 }
 															}
@@ -375,7 +384,7 @@ void mu::llvmc::analyzer_node::process_asm (mu::llvmc::ast::definite_expression 
 
 void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 {
-	auto loop_s (new (GC) mu::llvmc::skeleton::loop);
+	auto loop_s (new (GC) mu::llvmc::skeleton::loop (&module.module->the_unit_type));
 	mu::llvmc::skeleton::branch * loop_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (loop_a->arguments, loop_a->argument_predicate_offset, loop_s->arguments, loop_branch, predicate_offset);
@@ -937,7 +946,7 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
     bool result;
-    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &mu::llvmc::skeleton::the_unit_type));
+    auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &module.module->the_unit_type));
     switch (predicate_offset)
     {
         case 0:
@@ -1022,7 +1031,7 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 				{
 					if (!arguments.empty ())
 					{
-						auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, predicate_offset));
+						auto call (new (GC) mu::llvmc::skeleton::function_call (function_type->function, most_specific_branch, arguments, predicate_offset, &module.module->the_unit_type));
 						mu::vector <mu::llvmc::skeleton::node *> returned_results;
                         mu::llvmc::skeleton::branch * branch;
                         if (function_type->function->branch_ends.size () < 2)
@@ -1547,7 +1556,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 {
                                     if (*left->type () == *right->type ())
                                     {
-                                        auto icmp (new (GC) mu::llvmc::skeleton::icmp (expression_a->region, most_specific_branch, &mu::llvmc::skeleton::integer_1_type, predicate, left, right));
+                                        auto icmp (new (GC) mu::llvmc::skeleton::icmp (expression_a->region, most_specific_branch, &module.module->integer_1_type, predicate, left, right));
                                         icmp->predicates.assign (arguments.begin () + 4, arguments.end ());
                                         module.already_generated [expression_a].push_back (icmp);
                                     }
@@ -1599,7 +1608,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 auto true_const (new (GC) mu::llvmc::skeleton::constant_integer (expression_a->region, module.module->global, 1, 1));
                                 arguments.push_back (false_const);
                                 arguments.push_back (true_const);
-                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &mu::llvmc::skeleton::the_unit_type));
+                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &module.module->the_unit_type));
                                 auto true_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
                                 auto false_branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));
                                 auto true_element (new (GC) mu::llvmc::skeleton::switch_element (expression_a->region, true_branch, switch_i, true_const));
@@ -1774,7 +1783,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                             {
                                 if (*destination_type->pointed_type == *source->type ())
                                 {
-                                    auto store (new (GC) mu::llvmc::skeleton::store (expression_a->region, most_specific_branch, &mu::llvmc::skeleton::the_unit_type, source, destination));
+                                    auto store (new (GC) mu::llvmc::skeleton::store (expression_a->region, most_specific_branch, &module.module->the_unit_type, source, destination));
                                     store->predicates.assign (arguments.begin () + 3, arguments.end ());
                                     module.already_generated [expression_a].push_back (store);
                                 }
@@ -1840,7 +1849,7 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                             {
                                 result = true;
                                 auto & values (module.already_generated [expression_a]);
-                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &mu::llvmc::skeleton::the_unit_type));
+                                auto switch_i (new (GC) mu::llvmc::skeleton::switch_i (most_specific_branch, arguments, &module.module->the_unit_type));
                                 for (auto i (switch_i->arguments.begin () + 2), j (switch_i->arguments.begin () + predicate_offset); i != j; ++i)
                                 {
                                     auto branch (new (GC) mu::llvmc::skeleton::branch (most_specific_branch));

@@ -202,7 +202,7 @@ size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_unit::type ()
 {
-    return & mu::llvmc::skeleton::the_unit_type;
+    return source->type_m;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_value::type ()
@@ -324,11 +324,12 @@ mu::llvmc::skeleton::function_return_type mu::llvmc::skeleton::function::get_ret
     return result;
 }
 
-mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a):
+mu::llvmc::skeleton::function_call::function_call (mu::llvmc::skeleton::function * target_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::node *> const & arguments_a, size_t predicate_offset_a, mu::llvmc::skeleton::type * type_a):
 target (target_a),
 branch (branch_a),
 arguments (arguments_a),
-predicate_offset (predicate_offset_a)
+predicate_offset (predicate_offset_a),
+type_m (type_a)
 {
 }
 
@@ -654,12 +655,15 @@ type_m (type_a)
 
 mu::llvmc::skeleton::module::module () :
 global (new (GC) mu::llvmc::skeleton::branch (nullptr)),
-the_unit_value (global, &mu::llvmc::skeleton::the_unit_type)
+integer_1_type (1),
+integer_8_type (8),
+the_unit_value (global, &the_unit_type)
 {
 }
 
-mu::llvmc::skeleton::loop::loop () :
-argument_predicate_offset (~0)
+mu::llvmc::skeleton::loop::loop (mu::llvmc::skeleton::type * type_a) :
+argument_predicate_offset (~0),
+type_m (type_a)
 {
 }
 
@@ -696,7 +700,7 @@ index (index_a)
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::loop_element_unit::type ()
 {
-    return &the_unit_type;
+    return source->type_m;
 }
 
 mu::llvmc::skeleton::loop_parameter::loop_parameter (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
@@ -1245,7 +1249,3 @@ void mu::llvmc::skeleton::visitor::store (mu::llvmc::skeleton::store * node_a)
 {
     value (node_a);
 }
-
-mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_1_type (1);
-mu::llvmc::skeleton::integer_type mu::llvmc::skeleton::integer_8_type (8);
-mu::llvmc::skeleton::unit_type mu::llvmc::skeleton::the_unit_type;

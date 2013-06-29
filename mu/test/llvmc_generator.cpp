@@ -384,7 +384,7 @@ TEST (llvmc_generator, generate_icmp1)
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type1, U"parameter2");
     function1.parameters.push_back (&parameter2);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
-    mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, function1.entry, &mu::llvmc::skeleton::integer_1_type, &predicate1, &parameter1, &parameter2);
+    mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, function1.entry, &module.integer_1_type, &predicate1, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     mu::llvmc::skeleton::result result1 (&type1, &named1);
     function1.results.push_back (&result1);
@@ -756,7 +756,7 @@ TEST (llvmc_generator, generate_store)
     mu::llvmc::skeleton::pointer_type type2 (&type1);
     mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type2, U"parameter2");
     function1.parameters.push_back (&parameter2);
-    mu::llvmc::skeleton::store instruction1 (mu::empty_region, function1.entry, &mu::llvmc::skeleton::the_unit_type, &parameter1, &parameter2);
+    mu::llvmc::skeleton::store instruction1 (mu::empty_region, function1.entry, &module.the_unit_type, &parameter1, &parameter2);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.results.push_back (&named1);
@@ -1037,7 +1037,7 @@ TEST (llvmc_generator, generate_if)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1046,11 +1046,11 @@ TEST (llvmc_generator, generate_if)
     mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
     mu::llvmc::skeleton::named named2 (mu::empty_region, &element2, U"element2");
-    mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &named1);
+    mu::llvmc::skeleton::result result1 (&module.the_unit_type, &named1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &named2);
+    mu::llvmc::skeleton::result result2 (&module.the_unit_type, &named2);
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
@@ -1079,7 +1079,7 @@ TEST (llvmc_generator, generate_if_value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1088,7 +1088,7 @@ TEST (llvmc_generator, generate_if_value)
     mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
     mu::llvmc::skeleton::named named2 (mu::empty_region, &element2, U"element2");
-    mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &named1);
+    mu::llvmc::skeleton::result result1 (&module.the_unit_type, &named1);
     function1.results.push_back (&result1);
     mu::llvmc::skeleton::integer_type type2 (32);
     mu::llvmc::skeleton::constant_integer integer3 (mu::empty_region, module.global, 32, 4);
@@ -1096,7 +1096,7 @@ TEST (llvmc_generator, generate_if_value)
     function1.results.push_back (&result3);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &named2);
+    mu::llvmc::skeleton::result result2 (&module.the_unit_type, &named2);
     function1.results.push_back (&result2);
     mu::llvmc::skeleton::constant_integer integer4 (mu::empty_region, module.global, 32, 5);
     mu::llvmc::skeleton::result result4 (&type2, &integer4);
@@ -1127,7 +1127,7 @@ TEST (llvmc_generator, generate_if_join)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1171,7 +1171,7 @@ TEST (llvmc_generator, generate_if_join_value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1232,7 +1232,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1320,7 +1320,7 @@ TEST (llvmc_generator, generate_if_join_load)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments1.push_back (&marker1);
     arguments1.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1382,7 +1382,7 @@ TEST (llvmc_generator, generate_call_0)
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_unit element1 (mu::empty_region, function2.entry, &call1);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
@@ -1423,7 +1423,7 @@ TEST (llvmc_generator, generate_call_1)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_value element1 (mu::empty_region, function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
@@ -1456,18 +1456,18 @@ TEST (llvmc_generator, generate_call_2)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
     mu::llvmc::skeleton::branch branch2 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
-    mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &element1);
+    mu::llvmc::skeleton::result result1 (&module.the_unit_type, &element1);
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
+    mu::llvmc::skeleton::result result2 (&module.the_unit_type, &element2);
     function1.results.push_back (&result2);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
@@ -1479,7 +1479,7 @@ TEST (llvmc_generator, generate_call_2)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_value element3 (mu::empty_region, function2.entry, &call1, 0);
     call1.elements.push_back (&element3);
     mu::llvmc::skeleton::call_element_value element4 (mu::empty_region, function2.entry, &call1, 0);
@@ -1519,21 +1519,21 @@ TEST (llvmc_generator, generate_call_3)
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments2, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
     mu::llvmc::skeleton::branch branch2 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
-    mu::llvmc::skeleton::result result1 (&mu::llvmc::skeleton::the_unit_type, &element1);
+    mu::llvmc::skeleton::result result1 (&module.the_unit_type, &element1);
     function1.results.push_back (&result1);
     mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 1);
     mu::llvmc::skeleton::result result5 (&type2, &constant1);
     function1.results.push_back (&result5);
     function1.branch_ends.push_back (function1.results.size ());
     function1.predicate_offsets.push_back (function1.results.size ());
-    mu::llvmc::skeleton::result result2 (&mu::llvmc::skeleton::the_unit_type, &element2);
+    mu::llvmc::skeleton::result result2 (&module.the_unit_type, &element2);
     function1.results.push_back (&result2);
     mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, module.global, 32, 2);
     mu::llvmc::skeleton::result result6 (&type2, &constant2);
@@ -1548,7 +1548,7 @@ TEST (llvmc_generator, generate_call_3)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     arguments1.push_back (&parameter2);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_value element3 (mu::empty_region, function2.entry, &call1, 0);
     call1.elements.push_back (&element3);
     mu::llvmc::skeleton::call_element_value element4 (mu::empty_region, function2.entry, &call1, 0);
@@ -1589,7 +1589,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v0)
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_value element1 (mu::empty_region, function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     function2.predicate_offsets.push_back (function2.results.size ());
@@ -1623,7 +1623,7 @@ TEST (llvmc_generator, generate_call_predicate_b1v1)
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size ());
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, arguments1.size (), &module.the_unit_type);
     mu::llvmc::skeleton::call_element_value element1 (mu::empty_region, function2.entry, &call1, 0);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::integer_type type2 (1);
@@ -1655,7 +1655,7 @@ TEST (llvmc_generator, generate_loop1)
     mu::llvmc::skeleton::integer_type type1 (1);
 	mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
 	function1.parameters.push_back (&parameter1);
-	mu::llvmc::skeleton::loop loop1;
+	mu::llvmc::skeleton::loop loop1 (&module.the_unit_type);
 	mu::llvmc::skeleton::branch loop_entry_branch (function1.entry);
 	loop1.loop_entry_branch = &loop_entry_branch;
 	loop1.arguments.push_back (&parameter1);
@@ -1665,12 +1665,12 @@ TEST (llvmc_generator, generate_loop1)
 	loop1.parameters.push_back (&loop_parameter1);
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
 	mu::llvmc::skeleton::constant_integer constant_integer1 (mu::empty_region, module.global, 1, 0);
-	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &mu::llvmc::skeleton::integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
+	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &module.integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
 	mu::vector <mu::llvmc::skeleton::node *> arguments2;
 	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::if_i);
 	arguments2.push_back (&marker2);
 	arguments2.push_back (&instruction1);
-	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &mu::llvmc::skeleton::the_unit_type);
+	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &module.the_unit_type);
 	mu::llvmc::skeleton::constant_integer constant_integer2 (mu::empty_region, module.global, 1, 0);
 	mu::llvmc::skeleton::switch_element element1 (mu::empty_region, loop1.loop_entry_branch, &switch1, &constant_integer2);
 	switch1.elements.push_back (&element1);
@@ -1717,7 +1717,7 @@ TEST (llvmc_generator, generate_loop_count)
     mu::llvmc::skeleton::integer_type type1 (32);
 	mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
 	function1.parameters.push_back (&parameter1);
-	mu::llvmc::skeleton::loop loop1;
+	mu::llvmc::skeleton::loop loop1 (&module.the_unit_type);
 	mu::llvmc::skeleton::branch loop_entry_branch (function1.entry);
 	loop1.loop_entry_branch = &loop_entry_branch;
 	loop1.arguments.push_back (&parameter1);
@@ -1729,7 +1729,7 @@ TEST (llvmc_generator, generate_loop_count)
 	loop1.parameters.push_back (&loop_parameter1);
 	loop1.parameters.push_back (&loop_parameter2);	
 	mu::llvmc::skeleton::predicate predicate1 (mu::llvmc::predicates::icmp_eq);
-	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &mu::llvmc::skeleton::integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
+	mu::llvmc::skeleton::icmp instruction1 (mu::empty_region, loop1.loop_entry_branch, &module.integer_1_type, &predicate1, &loop_parameter1, &constant_integer1);
 	mu::llvmc::skeleton::integer_type type2 (1);
 	mu::vector <mu::llvmc::skeleton::node *> arguments2;
 	mu::llvmc::skeleton::marker marker2 (mu::llvmc::instruction_type::switch_i);
@@ -1739,7 +1739,7 @@ TEST (llvmc_generator, generate_loop_count)
 	arguments2.push_back (&constant_integer2);
 	mu::llvmc::skeleton::constant_integer constant_integer3 (mu::empty_region, module.global, 1, 1);
 	arguments2.push_back (&constant_integer3);
-	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &mu::llvmc::skeleton::the_unit_type);
+	mu::llvmc::skeleton::switch_i switch1 (loop1.loop_entry_branch, arguments2, &module.the_unit_type);
 	mu::llvmc::skeleton::branch branch1 (loop1.loop_entry_branch);
 	mu::llvmc::skeleton::branch branch2 (loop1.loop_entry_branch);
 	mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &switch1, &constant_integer2);
@@ -1874,7 +1874,7 @@ TEST (llvmc_generator, generate_identity)
     mu::llvmc::skeleton::identity identity2;
     arguments.push_back (&identity2);
     arguments.push_back (&parameter1);
-    mu::llvmc::skeleton::identity_call identity1 (arguments, 2, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::identity_call identity1 (arguments, 2, &module.the_unit_type);
     mu::llvmc::skeleton::identity_element_value element1 (function1.entry, &identity1, 1);
     identity1.elements.push_back (&element1);
     mu::llvmc::skeleton::named named1 (mu::empty_region, &element1, U"element1");
@@ -1944,14 +1944,14 @@ TEST (llvmc_generator, generate_call_0_predicate)
     module.globals [U"0"] = &function1;
     
     mu::llvmc::skeleton::function function2 (mu::empty_region, module.global);
-    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function2.entry, &mu::llvmc::skeleton::integer_1_type, U"p0");
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function2.entry, &module.integer_1_type, U"p0");
     function2.parameters.push_back (&parameter1);
     
     mu::vector <mu::llvmc::skeleton::node *> arguments2;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
     arguments2.push_back (&marker1);
     arguments2.push_back (&parameter1);
-    mu::llvmc::skeleton::switch_i instruction1 (function2.entry, arguments2, &mu::llvmc::skeleton::the_unit_type);
+    mu::llvmc::skeleton::switch_i instruction1 (function2.entry, arguments2, &module.the_unit_type);
     mu::llvmc::skeleton::branch branch1 (function1.entry);
     mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
     mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch1, &instruction1, &integer1);
@@ -1964,7 +1964,7 @@ TEST (llvmc_generator, generate_call_0_predicate)
     mu::vector <mu::llvmc::skeleton::node *> arguments1;
     arguments1.push_back (&function1);
     arguments1.push_back (&element3);
-    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, 1);
+    mu::llvmc::skeleton::function_call call1 (&function1, function2.entry, arguments1, 1, &module.the_unit_type);
     mu::llvmc::skeleton::call_element_unit element1 (mu::empty_region, function2.entry, &call1);
     call1.elements.push_back (&element1);
     mu::llvmc::skeleton::result result2 (&type1, &element1);
@@ -1993,7 +1993,7 @@ extern char const * const generate_array_expected;
 TEST (llvmc_generator, generate_array)
 {
     mu::llvmc::skeleton::module module;
-	mu::llvmc::skeleton::array_type array1 (&mu::llvmc::skeleton::integer_8_type, 16);
+	mu::llvmc::skeleton::array_type array1 (&module.integer_8_type, 16);
     mu::vector <mu::llvmc::skeleton::constant *> initializer1;
     mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, module.global, 8, 0xcd);
     initializer1.assign (16, &constant2);
