@@ -945,7 +945,6 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
 	mu::llvmc::skeleton::branch * most_specific_branch (module.module->global);
 	size_t predicate_offset (~0);
 	process_call_values (expression_a->arguments, expression_a->predicate_position, arguments, most_specific_branch, predicate_offset);
-    bool result;
     auto source (new (GC) mu::llvmc::skeleton::identity_call (arguments, predicate_offset, &module.module->the_unit_type));
     switch (predicate_offset)
     {
@@ -954,16 +953,7 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
             break;
         case 1:
         {
-            result = false;
-            auto element (new (GC) mu::llvmc::skeleton::identity_element_unit (most_specific_branch, source));
-            source->elements.push_back (element);
-            module.already_generated [expression_a].push_back (element);
-            break;
-        }
-        case 2:
-        {
-            result = false;
-            auto element (new (GC) mu::llvmc::skeleton::identity_element_value (most_specific_branch, source, 1));
+            auto element (new (GC) mu::llvmc::skeleton::identity_element (most_specific_branch, source, &module.module->the_unit_type));
             source->elements.push_back (element);
             module.already_generated [expression_a].push_back (element);
             break;
@@ -973,7 +963,7 @@ void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expres
             auto & values (module.already_generated [expression_a]);
             for (size_t i (1); i < predicate_offset; ++i)
             {
-                auto element (new (GC) mu::llvmc::skeleton::identity_element_value (most_specific_branch, source, i));
+                auto element (new (GC) mu::llvmc::skeleton::identity_element (most_specific_branch, source, mu::cast <mu::llvmc::skeleton::value> (values [i])->type ()));
                 source->elements.push_back (element);
                 values.push_back (element);
             }

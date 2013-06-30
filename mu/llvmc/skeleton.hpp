@@ -414,24 +414,11 @@ namespace mu
             class identity_element : public mu::llvmc::skeleton::value
             {
             public:
-                identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a);
+                identity_element (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::identity_call * source;
-            };
-            class identity_element_value : public mu::llvmc::skeleton::identity_element
-            {
-            public:
-                identity_element_value (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a, size_t index_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
-                size_t index;
-            };
-            class identity_element_unit : public mu::llvmc::skeleton::identity_element
-            {
-            public:
-                identity_element_unit (mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::identity_call * source_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
             };
             class identity_call
             {
@@ -464,7 +451,6 @@ namespace mu
                 virtual void global_variable (mu::llvmc::skeleton::global_variable * node_a);
                 virtual void constant_integer (mu::llvmc::skeleton::constant_integer * node_a);
                 virtual void constant_pointer_null (mu::llvmc::skeleton::constant_pointer_null * node_a);
-                virtual void identity_element_value (mu::llvmc::skeleton::identity_element_value * node_a);
                 virtual void constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a);
                 virtual void join (mu::llvmc::skeleton::join * node_a);
                 virtual void type (mu::llvmc::skeleton::type * node_a);
@@ -480,7 +466,6 @@ namespace mu
                 virtual void predicate (mu::llvmc::skeleton::predicate * node_a);
                 virtual void unit_type (mu::llvmc::skeleton::unit_type * node_a);
                 virtual void identity_element (mu::llvmc::skeleton::identity_element * node_a);
-                virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
                 virtual void store (mu::llvmc::skeleton::store * node_a);
             };

@@ -659,7 +659,7 @@ namespace mu
                 function_m.last->getInstList ().push_back (feedback);
                 function_m.last = successor;
             }
-            void identity_element_value (mu::llvmc::skeleton::identity_element_value * identity_value) override
+            void identity_element (mu::llvmc::skeleton::identity_element * identity_value) override
             {
                 auto i (identity_value->source->arguments.begin () + 1);
                 auto j (identity_value->source->arguments.begin () + identity_value->source->predicate_offset);
