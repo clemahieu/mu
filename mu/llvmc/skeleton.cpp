@@ -158,9 +158,14 @@ mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
     return result;
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
-arguments (arguments_a)
+mu::llvmc::skeleton::join_value::join_value (mu::vector <mu::llvmc::skeleton::value *> const &arguments_a)
 {
+    for (auto i: arguments_a)
+    {
+        mu::llvmc::skeleton::join_branch branch;
+        branch.arguments.push_back (i);
+        branches.push_back (branch);
+    }
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::function::type ()

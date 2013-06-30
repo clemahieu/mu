@@ -1141,6 +1141,7 @@ TEST (llvmc_generator, generate_if_join)
     arguments1.push_back (&named2);
     mu::llvmc::skeleton::join_value join1 (arguments1);
     mu::llvmc::skeleton::join_element join2 (mu::empty_region, function1.entry, &join1, named1.type ());
+    join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named3 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::unit_type unit;
     mu::llvmc::skeleton::result result1 (&unit, &named3);
@@ -1204,6 +1205,7 @@ TEST (llvmc_generator, generate_if_join_value)
     arguments4.push_back (&named4);
     mu::llvmc::skeleton::join_value join1 (arguments4);
     mu::llvmc::skeleton::join_element join2 (mu::empty_region, function1.entry, &join1, named3.type ());
+    join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::result result1 (&type1, &named5);
     function1.results.push_back (&result1);
@@ -1282,6 +1284,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     arguments7.push_back (&named4);
     mu::llvmc::skeleton::join_value join1 (arguments7);
     mu::llvmc::skeleton::join_element join3 (mu::empty_region, function1.entry, &join1, named3.type ());
+    join1.elements.push_back (&join3);
     mu::llvmc::skeleton::named named7 (mu::empty_region, &join3, U"join1");
     mu::llvmc::skeleton::result result1 (&type1, &named7);
     function1.results.push_back (&result1);
@@ -1292,6 +1295,7 @@ TEST (llvmc_generator, generate_if_join_2value)
     arguments6.push_back (&named6);
     mu::llvmc::skeleton::join_value join2 (arguments6);
     mu::llvmc::skeleton::join_element join4 (mu::empty_region, function1.entry, &join2, named5.type ());
+    join2.elements.push_back (&join4);
     mu::llvmc::skeleton::named named8 (mu::empty_region, &join4, U"join2");
     mu::llvmc::skeleton::result result2 (&type1, &named8);
     function1.results.push_back (&result2);
@@ -1356,6 +1360,7 @@ TEST (llvmc_generator, generate_if_join_load)
     arguments4.push_back (&named4);
     mu::llvmc::skeleton::join_value join1 (arguments4);
     mu::llvmc::skeleton::join_element join2 (mu::empty_region, function1.entry, &join1, named3.type ());
+    join1.elements.push_back (&join2);
     mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
     mu::llvmc::skeleton::result result1 (&type1, &named5);
     function1.results.push_back (&result1);

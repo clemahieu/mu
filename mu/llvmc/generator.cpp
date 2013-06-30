@@ -691,10 +691,49 @@ namespace mu
             }
             void join_element (mu::llvmc::skeleton::join_element * join) override
             {
-                assert (join->source->arguments.size () > 1);
-                auto unit (join->source->arguments [0]->type ()->is_unit_type ());
+                auto & branches (join->source->branches);
+                assert (branches.size () > 1);
+                for (size_t i (0), j (branches [0].arguments.size ()); i < j; ++i)
+                {
+                    assert (join->source->elements.size () > i);
+                    assert (branches [0].arguments.size () > i);
+                    auto first (branches [0].arguments [i]);
+                    auto type (first->type ());                                        
+                    auto unit (type->is_unit_type ());                    
+                    llvm::Value * predicate (llvm::ConstantInt::getFalse (function_m.function_m->getContext ()));
+                    function_m.retrieve_value (first);
+                    assert (unit == (first->generated == nullptr));
+                    llvm::Value * value;
+                    if (!unit)
+                    {
+                        value = llvm::UndefValue::get (first->generated->getType ());
+                    }
+                    else
+                    {
+                        value = nullptr;
+                    }                    
+                    for (auto k: branches)
+                    {
+                        assert (k.arguments.size () > i);
+                        auto value_l (k.arguments [i]);
+                        function_m.retrieve_value (value_l);
+                        auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, value_l->predicate));
+                        function_m.last->getInstList ().push_back (predicate_instruction);
+                        if (!unit)
+                        {
+                            auto select_instruction (llvm::SelectInst::Create (value_l->predicate, value_l->generated, value));
+                            function_m.last->getInstList ().push_back (select_instruction);
+                            value = select_instruction;
+                        }
+                        predicate = predicate_instruction;
+                        join->source->elements [i]->predicate = predicate;
+                        join->source->elements [i]->generated = value;
+                    }
+                }
+                /*assert (join->arguments.size () > 1);
+                auto unit (join->arguments [0]->type ()->is_unit_type ());
                 llvm::Value * predicate (llvm::ConstantInt::getFalse (function_m.function_m->getContext ()));
-                auto first (mu::cast <mu::llvmc::skeleton::value> (join->source->arguments [0]));
+                auto first (mu::cast <mu::llvmc::skeleton::value> (join->arguments [0]));
                 function_m.retrieve_value (first);
                 assert (unit == (first->generated == nullptr));
                 llvm::Value * value;
@@ -706,7 +745,7 @@ namespace mu
                 {
                     value = nullptr;
                 }
-                for (auto i: join->source->arguments)
+                for (auto i: join->arguments)
                 {
                     auto value_l (mu::cast <mu::llvmc::skeleton::value> (i));
                     function_m.retrieve_value (value_l);
@@ -721,7 +760,7 @@ namespace mu
                     predicate = predicate_instruction;
                 }
                 join->predicate = predicate;
-                join->generated = value;
+                join->generated = value;*/
             }
             void unit_value (mu::llvmc::skeleton::unit_value * node_a) override
             {

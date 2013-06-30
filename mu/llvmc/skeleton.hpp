@@ -354,11 +354,17 @@ namespace mu
                 mu::llvmc::skeleton::type * type_m;
             };
             class join_element;
+            class join_branch
+            {
+            public:
+                mu::vector <mu::llvmc::skeleton::value *> arguments;
+                mu::vector <mu::llvmc::skeleton::value *> predicates;
+            };
             class join_value
             {
             public:
                 join_value (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
-                mu::vector <mu::llvmc::skeleton::value *> arguments;
+                mu::vector <mu::llvmc::skeleton::join_branch> branches;
                 mu::vector <mu::llvmc::skeleton::join_element *> elements;
             };
             class join_element : public mu::llvmc::skeleton::value
