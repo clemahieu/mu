@@ -689,12 +689,12 @@ namespace mu
                 node_a->predicate = llvm::ConstantInt::getTrue (function_m.module.target.module->getContext ());
                 node_a->generated = llvm::ConstantAggregateZero::get (type->generated);
             }
-            void join_value (mu::llvmc::skeleton::join_value * join) override
+            void join_element (mu::llvmc::skeleton::join_element * join) override
             {
-                assert (join->arguments.size () > 1);
-                auto unit (join->arguments [0]->type ()->is_unit_type ());
+                assert (join->source->arguments.size () > 1);
+                auto unit (join->source->arguments [0]->type ()->is_unit_type ());
                 llvm::Value * predicate (llvm::ConstantInt::getFalse (function_m.function_m->getContext ()));
-                auto first (mu::cast <mu::llvmc::skeleton::value> (join->arguments [0]));
+                auto first (mu::cast <mu::llvmc::skeleton::value> (join->source->arguments [0]));
                 function_m.retrieve_value (first);
                 assert (unit == (first->generated == nullptr));
                 llvm::Value * value;
@@ -706,7 +706,7 @@ namespace mu
                 {
                     value = nullptr;
                 }
-                for (auto i: join->arguments)
+                for (auto i: join->source->arguments)
                 {
                     auto value_l (mu::cast <mu::llvmc::skeleton::value> (i));
                     function_m.retrieve_value (value_l);

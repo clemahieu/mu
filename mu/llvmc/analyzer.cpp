@@ -1171,7 +1171,8 @@ void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression
 			{
 				auto parent (least_specific_branch->parent);
 				assert (parent != module.module->global);
-				module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::join_value (expression_a->region, parent, arguments));
+                auto join (new (GC) mu::llvmc::skeleton::join_value (arguments));
+				module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::join_element (expression_a->region, parent, join, type));
 			}
 		}
 		else

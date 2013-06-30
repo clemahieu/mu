@@ -158,8 +158,7 @@ mu::llvmc::instruction_type mu::llvmc::skeleton::instruction::marker ()
     return result;
 }
 
-mu::llvmc::skeleton::join_value::join_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
-value (region_a, branch_a),
+mu::llvmc::skeleton::join_value::join_value (mu::vector <mu::llvmc::skeleton::value *> const &arguments_a) :
 arguments (arguments_a)
 {
 }
@@ -572,10 +571,9 @@ mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::least_specific (mu::l
     return result;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::join_value::type ()
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::join_element::type ()
 {
-    auto result (arguments [0]->type ());
-    return result;
+    return type_m;
 }
 
 mu::llvmc::skeleton::branch * mu::llvmc::skeleton::branch::most_specific (mu::llvmc::skeleton::branch * other_a)
@@ -769,9 +767,9 @@ void mu::llvmc::skeleton::inline_asm::visit (mu::llvmc::skeleton::visitor * visi
     visitor_a->inline_asm (this);
 }
 
-void mu::llvmc::skeleton::join_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
+void mu::llvmc::skeleton::join_element::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
-    visitor_a->join_value (this);
+    visitor_a->join_element (this);
 }
 
 void mu::llvmc::skeleton::unit_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
@@ -939,7 +937,7 @@ void mu::llvmc::skeleton::visitor::inline_asm (mu::llvmc::skeleton::inline_asm *
     value (node_a);
 }
 
-void mu::llvmc::skeleton::visitor::join_value (mu::llvmc::skeleton::join_value * node_a)
+void mu::llvmc::skeleton::visitor::join_element (mu::llvmc::skeleton::join_element * node_a)
 {
     value (node_a);
 }
@@ -1139,5 +1137,12 @@ void mu::llvmc::skeleton::visitor::store (mu::llvmc::skeleton::store * node_a)
 mu::llvmc::skeleton::type::type () :
 generated (nullptr),
 debug (nullptr)
+{
+}
+
+mu::llvmc::skeleton::join_element::join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a) :
+value (region_a, branch_a),
+source (source_a),
+type_m (type_a)
 {
 }

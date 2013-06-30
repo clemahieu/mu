@@ -353,13 +353,22 @@ namespace mu
                 mu::llvmc::skeleton::type * type () override;
                 mu::llvmc::skeleton::type * type_m;
             };
-            class join_value : public mu::llvmc::skeleton::value
+            class join_element;
+            class join_value
             {
             public:
-                join_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+                join_value (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+                mu::vector <mu::llvmc::skeleton::value *> arguments;
+                mu::vector <mu::llvmc::skeleton::join_element *> elements;
+            };
+            class join_element : public mu::llvmc::skeleton::value
+            {
+            public:
+                join_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::join_value * source_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
-                mu::vector <mu::llvmc::skeleton::value *> arguments;
+                mu::llvmc::skeleton::join_value * source;
+                mu::llvmc::skeleton::type * type_m;
             };
 			class global_variable : public mu::llvmc::skeleton::constant
 			{
@@ -436,7 +445,7 @@ namespace mu
                 virtual void node (mu::llvmc::skeleton::node * node_a);
                 virtual void array_type (mu::llvmc::skeleton::array_type * node_a);
                 virtual void inline_asm (mu::llvmc::skeleton::inline_asm * node_a);
-                virtual void join_value (mu::llvmc::skeleton::join_value * node_a);
+                virtual void join_element (mu::llvmc::skeleton::join_element * node_a);
                 virtual void unit_value (mu::llvmc::skeleton::unit_value * node_a);
                 virtual void instruction (mu::llvmc::skeleton::instruction * node_a);
                 virtual void struct_type (mu::llvmc::skeleton::struct_type * node_a);
