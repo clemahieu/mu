@@ -256,20 +256,13 @@ let lalloc-slab function
 let lalloc function
 [int64 amount]
 [
-	let available [load lalloc-available]
-	let enough not-enough [if [icmp iuge available amount]]
-	
-	let new-result [lalloc-slab; not-enough]
-	let new-available [~ lalloc-slab-size; not-enough]
-	
-	let current-result [load lalloc-base; enough]
-	let current-available [~ available; enough]
-	
-	let result [join new-result current-result]
-	let base [getelementptr result amount]
-	let result-available [sub [join new-available current-available] amount]
-	let store1 [store base lalloc-base]
-	let store2 [store result-available lalloc-available]
+	let current-available [load lalloc-available]
+	let enough not-enough [if [icmp iuge existing-available amount]]	
+	let result available join [
+		[[lalloc-slab; not-enough] lalloc-slab-size]
+		[[load lalloc-base; enough] current-available]]
+	let store1 [store [getelementptr result amount] lalloc-base]
+	let store2 [store [sub available amount] lalloc-available]
 ]
 [[ptr int8 result; store1 store2]]
 
