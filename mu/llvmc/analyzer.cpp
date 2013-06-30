@@ -431,6 +431,8 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
                             {
                                 branches.add_branch (value->branch, expression_a->region);
                                 loop_s->results.push_back (value);
+                                auto element (new (GC) mu::llvmc::skeleton::loop_element (expression_a->region, branch, loop_s, value->type ()));
+                                loop_s->elements.push_back (element);
                             }
                             else
                             {
@@ -438,8 +440,6 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
                             }
                         }
                     }
-                    auto element (new (GC) mu::llvmc::skeleton::loop_element_value (expression_a->region, branch, loop_s, index_a));
-                    loop_s->elements.push_back (element);
 					empty = false;
 				},
 				[&]
@@ -470,7 +470,7 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 					loop_s->predicate_offsets.push_back (loop_s->results.size ());
 					if (empty)
 					{
-                        auto element (new (GC) mu::llvmc::skeleton::loop_element_unit (node_a->region, branch, loop_s, index_a));
+                        auto element (new (GC) mu::llvmc::skeleton::loop_element (node_a->region, branch, loop_s, &module.module->the_unit_type));
 						loop_s->elements.push_back (element);
 					}
 				},
@@ -494,7 +494,7 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 			{
 				case 0:
 				{
-					module.already_generated [loop_a].push_back (new (GC) mu::llvmc::skeleton::loop_element_unit (loop_a->region, branch, loop_s, 0));
+					module.already_generated [loop_a].push_back (new (GC) mu::llvmc::skeleton::loop_element (loop_a->region, branch, loop_s, &module.module->the_unit_type));
 					break;
 				}
 				case 1:

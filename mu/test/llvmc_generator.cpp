@@ -1690,7 +1690,7 @@ TEST (llvmc_generator, generate_loop1)
 	loop1.predicate_offsets.push_back (loop1.results.size ());
 	loop1.results.push_back (&element1);
 	loop1.branch_ends.push_back (loop1.results.size ());
-	mu::llvmc::skeleton::loop_element_unit element3 (mu::empty_region, function1.entry, &loop1, 1);
+	mu::llvmc::skeleton::loop_element element3 (mu::empty_region, function1.entry, &loop1, element1.type ());
 	loop1.elements.push_back (&element3);
 	function1.predicate_offsets.push_back (function1.results.size ());
 	function1.results.push_back (&element3);
@@ -1766,7 +1766,7 @@ TEST (llvmc_generator, generate_loop_count)
 	loop1.results.push_back (&element2);
 	loop1.branch_ends.push_back (loop1.results.size ());
 	mu::llvmc::skeleton::branch branch3 (function1.entry);
-	mu::llvmc::skeleton::loop_element_value element3 (mu::empty_region, &branch3, &loop1, 3);
+	mu::llvmc::skeleton::loop_element element3 (mu::empty_region, &branch3, &loop1, loop_parameter2.type ());
 	loop1.elements.push_back (&element3);
 	mu::llvmc::skeleton::result result1 (&type1, &element3);
 	function1.results.push_back (&result1);

@@ -2650,7 +2650,7 @@ TEST (llvmc_analyzer, loop_empty)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
-	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element_unit *> (function2->results [0]));
+	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0]));
 	ASSERT_NE (nullptr, element1);
     ASSERT_EQ (0, element1->source->argument_predicate_offset);
 }
@@ -2740,7 +2740,7 @@ TEST (llvmc_analyzer, loop_passthrough)
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
 	ASSERT_NE (nullptr, function2);
 	ASSERT_EQ (1, function2->results.size ());
-	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element_unit *> (function2->results [0]));
+	auto element1 (dynamic_cast <mu::llvmc::skeleton::loop_element *> (function2->results [0]));
 	ASSERT_NE (nullptr, element1);
     ASSERT_EQ (1, element1->source->argument_predicate_offset);
     ASSERT_EQ (1, element1->source->elements.size ());

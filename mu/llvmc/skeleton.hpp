@@ -325,9 +325,11 @@ namespace mu
 			class loop_element : public mu::llvmc::skeleton::value
 			{
 			public:
-				loop_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a);
+				loop_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::loop * source;
+                mu::llvmc::skeleton::type * type_m;
 			};
 			class loop_parameter : public mu::llvmc::skeleton::value
 			{
@@ -355,22 +357,6 @@ namespace mu
                 template <typename T = decltype (empty_node), typename U = decltype (empty_node), typename V = decltype (empty_node), typename W = decltype (empty_node), typename X = decltype (empty_loop_predicate)>
                 void for_each_results (T result_op = empty_node, U predicate_op = empty_node, V transition_op = empty_node, W branch_op = empty_node, X loop_predicate = empty_loop_predicate);
                 mu::llvmc::skeleton::type * type_m;
-			};
-			class loop_element_value : public mu::llvmc::skeleton::loop_element
-			{
-			public:
-				loop_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-				mu::llvmc::skeleton::type * type () override;
-				size_t index;
-			};
-			class loop_element_unit : public mu::llvmc::skeleton::loop_element
-			{
-			public:
-				loop_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::loop * source_a, size_t index_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-				mu::llvmc::skeleton::type * type () override;
-				size_t index;
 			};
             class unit_value : public mu::llvmc::skeleton::value
             {
@@ -508,8 +494,6 @@ namespace mu
                 virtual void unit_type (mu::llvmc::skeleton::unit_type * node_a);
                 virtual void identity_element (mu::llvmc::skeleton::identity_element * node_a);
                 virtual void call_element_unit (mu::llvmc::skeleton::call_element_unit * node_a);
-                virtual void loop_element_value (mu::llvmc::skeleton::loop_element_value * node_a);
-                virtual void loop_element_unit (mu::llvmc::skeleton::loop_element_unit * node_a);
                 virtual void call_element_value (mu::llvmc::skeleton::call_element_value * node_a);
                 virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
