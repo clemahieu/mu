@@ -302,24 +302,11 @@ namespace mu
             class call_element : public mu::llvmc::skeleton::value
             {
             public:
-                call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a);
+                call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::function_call * source;
-            };
-            class call_element_value : public mu::llvmc::skeleton::call_element
-            {
-            public:
-                call_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
-                size_t index;
-            };
-            class call_element_unit : public mu::llvmc::skeleton::call_element
-            {
-            public:
-                call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a);
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-                mu::llvmc::skeleton::type * type () override;
+                mu::llvmc::skeleton::type * type_m;
             };
 			class loop;
 			class loop_element : public mu::llvmc::skeleton::value
@@ -493,8 +480,6 @@ namespace mu
                 virtual void predicate (mu::llvmc::skeleton::predicate * node_a);
                 virtual void unit_type (mu::llvmc::skeleton::unit_type * node_a);
                 virtual void identity_element (mu::llvmc::skeleton::identity_element * node_a);
-                virtual void call_element_unit (mu::llvmc::skeleton::call_element_unit * node_a);
-                virtual void call_element_value (mu::llvmc::skeleton::call_element_value * node_a);
                 virtual void identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a);
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
                 virtual void store (mu::llvmc::skeleton::store * node_a);

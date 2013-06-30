@@ -1354,9 +1354,10 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 extern char const * const generate_call_3_expected = R"%%%(; ModuleID = '0000000000000000'
 
 %0 = type { i32, i32, i8 }
+%1 = type { i32, i8 }
 
 define %0 @"0000000000000000-0000000000000000-0"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !19)
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !21)
   %2 = and i1 true, true
   %3 = icmp eq i1 %0, false
   %4 = and i1 %2, %3
@@ -1371,16 +1372,16 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %13 = insertvalue %0 undef, i32 1, 0
   %14 = insertvalue %0 %13, i32 2, 1
   %15 = insertvalue %0 %14, i8 %12, 2
-  ret %0 %15, !dbg !20
+  ret %0 %15, !dbg !22
 }
 
-define i8 @"0000000000000000-0000000000000001-1"(i1) {
-  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !21)
+define %1 @"0000000000000000-0000000000000001-1"(i1) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !23)
   %2 = and i1 true, true
   br i1 %2, label %3, label %5
 
 ; <label>:3                                       ; preds = %1
-  %4 = call %0 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !22
+  %4 = call %0 @"0000000000000000-0000000000000000-0"(i1 %0), !dbg !24
   br label %5
 
 ; <label>:5                                       ; preds = %1, %3
@@ -1398,7 +1399,9 @@ define i8 @"0000000000000000-0000000000000001-1"(i1) {
   %17 = select i1 %16, i8 0, i8 undef
   %18 = and i1 true, %12
   %19 = select i1 %18, i8 1, i8 %17
-  ret i8 %19, !dbg !24
+  %20 = insertvalue %1 undef, i32 %13, 0
+  %21 = insertvalue %1 %20, i8 %19, 1
+  ret %1 %21, !dbg !26
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1421,15 +1424,17 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !13 = metadata !{i32 786445, metadata !6, metadata !"", metadata !6, i32 0, i64 32, i64 0, i64 32, i32 0, metadata !12} ; [ DW_TAG_member ] [line 0, size 32, align 0, offset 32] [from int32]
 !14 = metadata !{i32 786468, null, metadata !"int8", null, i32 0, i64 8, i64 0, i64 0, i32 0, i32 8} ; [ DW_TAG_base_type ] [int8] [line 0, size 8, align 0, offset 0, enc DW_ATE_unsigned_char]
 !15 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
-!16 = metadata !{i32 786478, i32 0, metadata !6, metadata !"1", metadata !"1", metadata !"0000000000000000-0000000000000001-1", metadata !6, i32 0, metadata !17, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i8 (i1)* @"0000000000000000-0000000000000001-1", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [1]
+!16 = metadata !{i32 786478, i32 0, metadata !6, metadata !"1", metadata !"1", metadata !"0000000000000000-0000000000000001-1", metadata !6, i32 0, metadata !17, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, %1 (i1)* @"0000000000000000-0000000000000001-1", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [1]
 !17 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !18, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
-!18 = metadata !{null, metadata !15}
-!19 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
-!20 = metadata !{i32 0, i32 0, metadata !5, null}
-!21 = metadata !{i32 786689, metadata !16, metadata !"parameter2", metadata !6, i32 0, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
-!22 = metadata !{i32 0, i32 0, metadata !23, null}
-!23 = metadata !{i32 786443, metadata !16, i32 0, i32 0, metadata !6, i32 37} ; [ DW_TAG_lexical_block ] [/generate_call_3]
-!24 = metadata !{i32 0, i32 0, metadata !16, null}
+!18 = metadata !{metadata !19, metadata !15}
+!19 = metadata !{i32 786451, metadata !6, metadata !"", metadata !6, i32 0, i64 32, i64 0, i32 0, i32 0, null, metadata !20, i32 0, i32 0, i32 0} ; [ DW_TAG_structure_type ] [line 0, size 32, align 0, offset 0] [from ]
+!20 = metadata !{metadata !11, metadata !14}
+!21 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!22 = metadata !{i32 0, i32 0, metadata !5, null}
+!23 = metadata !{i32 786689, metadata !16, metadata !"parameter2", metadata !6, i32 0, metadata !15, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!24 = metadata !{i32 0, i32 0, metadata !25, null}
+!25 = metadata !{i32 786443, metadata !16, i32 0, i32 0, metadata !6, i32 37} ; [ DW_TAG_lexical_block ] [/generate_call_3]
+!26 = metadata !{i32 0, i32 0, metadata !16, null}
 )%%%";
 
 extern char const * const generate_call_predicate_b1v0_expected = R"%%%(; ModuleID = '0000000000000000'

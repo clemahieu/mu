@@ -85,21 +85,10 @@ type_m (type_a)
 {
 }
 
-mu::llvmc::skeleton::call_element::call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a) :
+mu::llvmc::skeleton::call_element::call_element (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, mu::llvmc::skeleton::type * type_a) :
 value (region_a, branch_a),
-source (source_a)
-{
-}
-
-mu::llvmc::skeleton::call_element_value::call_element_value (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a, size_t index_a) :
-call_element (region_a, branch_a, source_a),
-index (index_a)
-{
-    assert (source->target->results.size () > index);
-}
-
-mu::llvmc::skeleton::call_element_unit::call_element_unit (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::function_call * source_a) :
-call_element (region_a, branch_a, source_a)
+source (source_a),
+type_m (type_a)
 {
 }
 
@@ -200,16 +189,9 @@ size_t mu::llvmc::skeleton::function::branch_size (size_t index) const
     return result;
 }
 
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_unit::type ()
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element::type ()
 {
-    return source->type_m;
-}
-
-mu::llvmc::skeleton::type * mu::llvmc::skeleton::call_element_value::type ()
-{
-    assert (source->target->results.size () > index);
-    auto result (source->target->as_result (source->target->results [index])->type);
-    return result;
+    return type_m;
 }
 
 mu::llvmc::skeleton::type * mu::llvmc::skeleton::parameter::type ()
@@ -960,16 +942,6 @@ void mu::llvmc::skeleton::identity_element::visit (mu::llvmc::skeleton::visitor 
     visitor_a->identity_element (this);
 }
 
-void mu::llvmc::skeleton::call_element_unit::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->call_element_unit (this);
-}
-
-void mu::llvmc::skeleton::call_element_value::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->call_element_value (this);
-}
-
 void mu::llvmc::skeleton::identity_element_unit::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
     visitor_a->identity_element_unit (this);
@@ -1148,16 +1120,6 @@ void mu::llvmc::skeleton::visitor::unit_type (mu::llvmc::skeleton::unit_type * n
 void mu::llvmc::skeleton::visitor::identity_element (mu::llvmc::skeleton::identity_element * node_a)
 {
     value (node_a);
-}
-
-void mu::llvmc::skeleton::visitor::call_element_unit (mu::llvmc::skeleton::call_element_unit * node_a)
-{
-    call_element (node_a);
-}
-
-void mu::llvmc::skeleton::visitor::call_element_value (mu::llvmc::skeleton::call_element_value * node_a)
-{
-    call_element (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::identity_element_unit (mu::llvmc::skeleton::identity_element_unit * node_a)

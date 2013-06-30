@@ -1045,9 +1045,9 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 						auto empty (true);
 						function_type->function->for_each_results (
 							[&]
-							(mu::llvmc::skeleton::node * node_a, size_t index_a)
+							(mu::llvmc::skeleton::result * node_a, size_t index_a)
 							{
-                                auto element (new (GC) mu::llvmc::skeleton::call_element_value (expression_a->region, branch, call, index_a));
+                                auto element (new (GC) mu::llvmc::skeleton::call_element (expression_a->region, branch, call, node_a->type));
 								returned_results.push_back (element);
                                 call->elements.push_back (element);
 								empty = false;
@@ -1058,7 +1058,7 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 							{
 								if (empty)
 								{
-                                    auto element (new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, branch, call));
+                                    auto element (new (GC) mu::llvmc::skeleton::call_element (expression_a->region, branch, call, &module.module->the_unit_type));
 									returned_results.push_back (element);
                                     call->elements.push_back (element);
 								}
@@ -1074,7 +1074,7 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
                         {
                             case 0:
                             {
-                                auto element (new (GC) mu::llvmc::skeleton::call_element_unit (expression_a->region, most_specific_branch, call));
+                                auto element (new (GC) mu::llvmc::skeleton::call_element (expression_a->region, most_specific_branch, call, &module.module->the_unit_type));
                                 module.already_generated [expression_a].push_back (element);
                                 call->elements.push_back (element);
                                 break;
