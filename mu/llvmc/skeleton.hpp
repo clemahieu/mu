@@ -364,6 +364,7 @@ namespace mu
             {
             public:
                 join_value (mu::vector <mu::llvmc::skeleton::value *> const & arguments_a);
+                mu::llvmc::skeleton::join_branch & add_branch ();
                 mu::vector <mu::llvmc::skeleton::join_branch> branches;
                 mu::vector <mu::llvmc::skeleton::join_element *> elements;
             };

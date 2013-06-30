@@ -162,9 +162,8 @@ mu::llvmc::skeleton::join_value::join_value (mu::vector <mu::llvmc::skeleton::va
 {
     for (auto i: arguments_a)
     {
-        mu::llvmc::skeleton::join_branch branch;
+        auto & branch (add_branch ());
         branch.arguments.push_back (i);
-        branches.push_back (branch);
     }
 }
 
@@ -1150,4 +1149,11 @@ value (region_a, branch_a),
 source (source_a),
 type_m (type_a)
 {
+}
+
+mu::llvmc::skeleton::join_branch & mu::llvmc::skeleton::join_value::add_branch ()
+{
+    branches.push_back (decltype (branches)::value_type ());
+    auto & result (branches [branches.size () - 1]);
+    return result;
 }
