@@ -268,6 +268,8 @@ namespace mu
 			mu::core::error * parse_ast_or_refer_or_right_square (T op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             template <typename T>
             mu::core::error * parse_identifier (T identifier_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
+            template <typename T, typename U>
+            mu::core::error * parse_left_or_right_square (T left_square_op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::core::error * parse_left_square_required (char32_t const * error_message_a, mu::core::error_type error_type_a);
             mu::llvmc::partial_ast_result peek ();
             mu::llvmc::global builtins;

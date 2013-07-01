@@ -1654,6 +1654,15 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
 {
     assert (data_a.empty ());
     mu::llvmc::node_result result ({nullptr, nullptr});
+    auto join (new (GC) mu::llvmc::ast::join);
+    result.error = parser_a.parse_left_square_required (U"Join must start with a left square", mu::core::error_type::expecting_left_square);
+    if (result.error == nullptr)
+    {
+    }
+    if (result.error == nullptr)
+    {
+        result.node = join;
+    }
     return result;
 }
 

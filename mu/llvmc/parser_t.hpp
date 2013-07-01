@@ -101,3 +101,23 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 	}
 	return result;
 }
+
+template <typename T, typename U>
+mu::core::error * mu::llvmc::parser::parse_left_or_right_square (T left_square_op, U right_square_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
+{
+    mu::core::error * result (nullptr);
+    auto item (stream [0]);
+    switch (item->id ())
+    {
+        case mu::io::token_id::left_square:
+            result = left_square_op ();
+            break;
+        case mu::io::token_id::right_square:
+            result = right_square_op ();
+            break;
+        default:
+            result = new (GC) mu::core::error_string (error_message_a, error_type_a);
+            break;
+    }
+    return result;
+}

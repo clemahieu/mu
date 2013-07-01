@@ -644,13 +644,11 @@ TEST (llvmc_analyzer, error_short_join)
     mu::llvmc::ast::value value1 (&type1);
     mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
     function.parameters.push_back (&parameter1);
-    mu::llvmc::ast::definite_expression expression1;
-    mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value2 (&join1);
-    expression1.arguments.push_back (&value2);
-    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&parameter1);
     mu::llvmc::ast::result result1 (&value1);
-    result1.value = &expression1;
+    result1.value = &join1;
     function.results.push_back (&result1);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
@@ -697,16 +695,14 @@ TEST (llvmc_analyzer, error_join_different_type)
     expression4.set_predicate_position ();
     expression4.arguments.push_back (&element1);
     
-    mu::llvmc::ast::definite_expression expression1;
-    mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value3 (&join1);
-    expression1.arguments.push_back (&value3);
-    expression1.arguments.push_back (&expression3);
-    expression1.arguments.push_back (&expression4);
-    expression1.set_predicate_position ();
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&expression3);
+    auto & branch2 (join1.add_branch ());
+    branch2.arguments.push_back (&expression4);
     
     mu::llvmc::ast::result result1 (&value1);
-    result1.value = &expression1;
+    result1.value = &join1;
     function.results.push_back (&result1);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
@@ -743,19 +739,17 @@ TEST (llvmc_analyzer, error_same_branch)
     mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
     mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
-    mu::llvmc::ast::definite_expression expression3;
-    mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value3 (&join1);
-    expression3.arguments.push_back (&value3);
-    expression3.arguments.push_back (&element1);
-    expression3.arguments.push_back (&element3);
-    expression3.set_predicate_position ();
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&element1);
+    auto & branch2 (join1.add_branch ());
+    branch2.arguments.push_back (&element3);
     
     mu::llvmc::skeleton::unit_type type2;
     mu::llvmc::ast::value value4 (&type2);
     
     mu::llvmc::ast::result result1 (&value4);
-    result1.value = &expression3;
+    result1.value = &join1;
     function.results.push_back (&result1);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
@@ -799,18 +793,17 @@ TEST (llvmc_analyzer, error_same_branch2)
     mu::llvmc::ast::element element3 (&expression2, 0, 2, U"element3", empty_region);
     mu::llvmc::ast::element element4 (&expression2, 1, 2, U"element4", empty_region);
     
-    mu::llvmc::ast::definite_expression expression3;
-    mu::llvmc::skeleton::join join1;
-    mu::llvmc::ast::value value3 (&join1);
-    expression3.arguments.push_back (&value3);
-    expression3.arguments.push_back (&element3); // Switched order from above
-    expression3.arguments.push_back (&element1);
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&element3);
+    auto & branch2 (join1.add_branch ());
+    branch2.arguments.push_back (&element1);
     
     mu::llvmc::skeleton::unit_type type2;
     mu::llvmc::ast::value value4 (&type2);
     
     mu::llvmc::ast::result result1 (&value4);
-    result1.value = &expression3;
+    result1.value = &join1;
     function.results.push_back (&result1);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
@@ -822,7 +815,7 @@ TEST (llvmc_analyzer, error_same_branch2)
     function.predicate_offsets.push_back (function.results.size ());
     
     mu::llvmc::ast::result result3 (&value4);
-    result3.value = &expression3;
+    result3.value = &join1;
     function.results.push_back (&result3);
     function.branch_ends.push_back (function.results.size ());
     function.predicate_offsets.push_back (function.results.size ());
