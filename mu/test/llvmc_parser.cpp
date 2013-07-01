@@ -792,6 +792,120 @@ TEST (llvmc_parser, join_empty)
     ASSERT_EQ (1, function1->roots.size ());
     auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
     ASSERT_NE (nullptr, join1);
+    ASSERT_EQ (0, join1->branches.size ());
+}
+
+TEST (llvmc_parser, join_single)
+{
+    test_parser parser ("let test1 function [] [join [[]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (0, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    ASSERT_EQ (1, function1->roots.size ());
+    auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
+    ASSERT_NE (nullptr, join1);
+    ASSERT_EQ (1, join1->branches.size ());
+    auto & branch1 (join1->branches [0]);
+    ASSERT_EQ (0, branch1.arguments.size ());
+    ASSERT_EQ (0, branch1.predicates.size ());
+}
+
+TEST (llvmc_parser, join_item)
+{
+    test_parser parser ("let test1 function [int32 i] [join [[i]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    ASSERT_EQ (1, function1->roots.size ());
+    auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
+    ASSERT_NE (nullptr, join1);
+    ASSERT_EQ (1, join1->branches.size ());
+    auto & branch1 (join1->branches [0]);
+    ASSERT_EQ (1, branch1.arguments.size ());
+    ASSERT_EQ (0, branch1.predicates.size ());
+    ASSERT_EQ (function1->parameters [0], branch1.arguments [0]);
+}
+
+TEST (llvmc_parser, join_predicate)
+{
+    test_parser parser ("let test1 function [int32 i] [join [[; i]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    ASSERT_EQ (1, function1->roots.size ());
+    auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
+    ASSERT_NE (nullptr, join1);
+    ASSERT_EQ (1, join1->branches.size ());
+    auto & branch1 (join1->branches [0]);
+    ASSERT_EQ (0, branch1.arguments.size ());
+    ASSERT_EQ (1, branch1.predicates.size ());
+    ASSERT_EQ (function1->parameters [0], branch1.predicates [0]);
+}
+
+TEST (llvmc_parser, join_2branches)
+{
+    test_parser parser ("let test1 function [int32 i] [join [[][]]] []");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    ASSERT_EQ (0, function1->results.size ());
+    ASSERT_EQ (1, function1->roots.size ());
+    auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
+    ASSERT_NE (nullptr, join1);
+    ASSERT_EQ (2, join1->branches.size ());
+    auto & branch1 (join1->branches [0]);
+    ASSERT_EQ (0, branch1.arguments.size ());
+    ASSERT_EQ (0, branch1.predicates.size ());
+    auto & branch2 (join1->branches [1]);
+    ASSERT_EQ (0, branch2.arguments.size ());
+    ASSERT_EQ (0, branch2.predicates.size ());
 }
 
 TEST (llvmc_parser, ptr_int_type42)
