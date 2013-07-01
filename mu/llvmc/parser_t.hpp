@@ -108,9 +108,11 @@ mu::core::error * mu::llvmc::parser::parse_left_or_right_square (T left_square_o
     switch (item->id ())
     {
         case mu::io::token_id::left_square:
+            stream.consume (1);
             result = left_square_op (item->region);
             break;
         case mu::io::token_id::right_square:
+            stream.consume (1);
             result = right_square_op (item->region);
             break;
         default:

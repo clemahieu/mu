@@ -790,6 +790,8 @@ TEST (llvmc_parser, join_empty)
     ASSERT_EQ (0, function1->parameters.size ());
     ASSERT_EQ (0, function1->results.size ());
     ASSERT_EQ (1, function1->roots.size ());
+    auto join1 (dynamic_cast <mu::llvmc::ast::join *> (function1->roots [0]));
+    ASSERT_NE (nullptr, join1);
 }
 
 TEST (llvmc_parser, ptr_int_type42)
