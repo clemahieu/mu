@@ -292,8 +292,16 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                         }
                                                                         else
                                                                         {
-                                                                            std::string name (typeid (*node_a).name ());
-                                                                            assert (false);
+                                                                            auto join (dynamic_cast <mu::llvmc::ast::join *> (node_a));
+                                                                            if (join != nullptr)
+                                                                            {
+                                                                                process_join (join);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                std::string name (typeid (*node_a).name ());
+                                                                                assert (false);
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -1094,87 +1102,112 @@ void mu::llvmc::analyzer_node::process_value_call (mu::llvmc::ast::definite_expr
 	module.current_expression_generation.erase (expression_a);
 }
 
-void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::definite_expression * expression_a)
+void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::join * node_a)
 {
-	mu::vector <mu::llvmc::skeleton::value *> arguments;
-	for (auto i (expression_a->arguments.begin () + 1), j (expression_a->arguments.end ()); i != j && error == nullptr; ++i)
-	{
-		process_node (*i);
-		if (error == nullptr)
-		{
-            auto & values (module.already_generated [*i]);
-            for (auto k (values.begin ()), l (values.end ()); k != l; ++k)
+    mu::llvmc::branch_analyzer analyzer (module.module->global, error);
+    auto join (new (GC) mu::llvmc::skeleton::join_value);
+    for (auto & i: node_a->branches)
+    {
+        auto & target (join->add_branch ());
+        for (auto j: i.arguments)
+        {
+            process_node (j);
+            if (error == nullptr)
             {
-                auto value (dynamic_cast<mu::llvmc::skeleton::value *> (*k));
-                if (value != nullptr)
+                auto & values (module.already_generated [j]);
+                for (auto k: values)
                 {
-                    arguments.push_back (value);
-                }
-                else
-                {
-                    error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
+                    if (value != nullptr)
+                    {
+                        target.arguments.push_back (value);
+                        analyzer.add_branch (value->branch, value->region);
+                    }
+                    else
+                    {
+                        error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
+                    }
                 }
             }
-		}
-	}
-	mu::set <mu::llvmc::skeleton::branch *> marked_branches;
-	mu::set <mu::llvmc::skeleton::branch *> joined_branches;
-	for (auto i (arguments.begin ()), j (arguments.end ()); i != j && error == nullptr; ++i)
-	{
-		auto value (*i);
-		auto existing_marked (marked_branches.find (value->branch));
-		if (existing_marked == marked_branches.end ())
-		{
-			for (auto k (value->branch); k != nullptr && error == nullptr; k = k->parent)
-			{
-				auto existing_joined (joined_branches.find (k));
-				if (existing_joined == joined_branches.end ())
-				{
-					marked_branches.insert (k);
-				}
-				else
-				{
-					error = new (GC) mu::core::error_string (U"Branches are not distinct", mu::core::error_type::branches_are_not_disjoint, expression_a->region);
-				}
-			}
-			joined_branches.insert (value->branch);
-		}
-		else
-		{
-			error = new (GC) mu::core::error_string (U"Branches are not disjoint", mu::core::error_type::branches_are_not_disjoint, expression_a->region);
-		}
-	}
+        }
+        for (auto j: i.predicates)
+        {
+            process_node (j);
+            if (error == nullptr)
+            {
+                auto & values (module.already_generated [j]);
+                for (auto k: values)
+                {
+                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (k));
+                    if (value != nullptr)
+                    {
+                        target.predicates.push_back (value);
+                        analyzer.add_branch (value->branch, value->region);
+                    }
+                    else
+                    {
+                        error = new (GC) mu::core::error_string (U"Join arguments must be values", mu::core::error_type::join_arguments_must_be_values);
+                    }
+                }
+            }
+        }
+        analyzer.new_set ();
+    }
 	if (error == nullptr)
 	{
-		if (arguments.size () > 1)
+		if (join->branches.size () > 1)
 		{
-			auto least_specific_branch (arguments [0]->branch);
-			auto type (arguments [0]->type ());
-			for (auto i (arguments.begin () + 1), j (arguments.end ()); i != j; ++i)
-			{
-				least_specific_branch = least_specific_branch->least_specific ((*i)->branch);
-				auto other_type ((*i)->type ());
-				if (*type != *other_type)
-				{
-					error = new (GC) mu::core::error_string (U"Joining types are different", mu::core::error_type::joining_types_are_different, expression_a->region);
-				}
-			}
-			if (error == nullptr)
-			{
-				auto parent (least_specific_branch->parent);
-				assert (parent != module.module->global);
-                auto join (new (GC) mu::llvmc::skeleton::join_value);
-                for (auto i: arguments)
+            auto size (join->branches [0].arguments.size ());
+            if (size > 0)
+            {
+                mu::vector <mu::llvmc::skeleton::type *> types;
+                for (auto i: join->branches [0].arguments)
                 {
-                    auto & branch (join->add_branch ());
-                    branch.arguments.push_back (i);
+                    types.push_back (i->type ());
                 }
-				module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::join_element (expression_a->region, parent, join, type));
-			}
+                for (auto & i: join->branches)
+                {
+                    if (i.arguments.size () == size)
+                    {
+                        size_t index (0);
+                        for (auto j: i.arguments)
+                        {
+                            if (*j->type() != *types [index])
+                            {
+                                error = new (GC) mu::core::error_string (U"Join argument types must match for each branch", mu::core::error_type::joining_types_are_different);
+                            }
+                            ++index;
+                        }
+                    }
+                    else
+                    {
+                        error = new (GC) mu::core::error_string (U"Join branches must have same cardinality", mu::core::error_type::join_branches_same_cardinality);
+                    }
+                }
+                if (error == nullptr)
+                {
+                    assert (!analyzer.leaves.empty ());
+                    auto least_specific_branch (*analyzer.leaves.begin ());
+                    for (auto i: analyzer.leaves)
+                    {
+                        least_specific_branch = least_specific_branch->least_specific (i);
+                    }
+                    assert (least_specific_branch != module.module->global);
+                    auto & elements (join->elements);
+                    for (auto i: types)
+                    {
+                        elements.push_back (new (GC) mu::llvmc::skeleton::join_element (node_a->region, least_specific_branch->parent, join, i));
+                    }
+                }
+            }
+            else
+            {
+                error = new (GC) mu::core::error_string (U"Joining branches must contain at least one value", mu::core::error_type::must_be_joining_at_least_two_values, node_a->region);
+            }
 		}
 		else
 		{
-			error = new (GC) mu::core::error_string (U"Must be joining at least two values", mu::core::error_type::must_be_joining_at_least_two_values, expression_a->region);
+			error = new (GC) mu::core::error_string (U"Must be joining at least two branches", mu::core::error_type::must_be_joining_at_least_two_branches, node_a->region);
 		}
 	}
 }

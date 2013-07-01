@@ -726,7 +726,7 @@ namespace mu
                     {
                         value = nullptr;
                     }                    
-                    for (auto k: branches)
+                    for (auto & k: branches)
                     {
                         assert (k.arguments.size () > i);
                         assert (k.predicate != nullptr);
@@ -745,37 +745,6 @@ namespace mu
                         join->source->elements [i]->generated = value;
                     }
                 }
-                /*assert (join->arguments.size () > 1);
-                auto unit (join->arguments [0]->type ()->is_unit_type ());
-                llvm::Value * predicate (llvm::ConstantInt::getFalse (function_m.function_m->getContext ()));
-                auto first (mu::cast <mu::llvmc::skeleton::value> (join->arguments [0]));
-                function_m.retrieve_value (first);
-                assert (unit == (first->generated == nullptr));
-                llvm::Value * value;
-                if (!unit)
-                {
-                    value = llvm::UndefValue::get (first->generated->getType ());
-                }
-                else
-                {
-                    value = nullptr;
-                }
-                for (auto i: join->arguments)
-                {
-                    auto value_l (mu::cast <mu::llvmc::skeleton::value> (i));
-                    function_m.retrieve_value (value_l);
-                    auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, value_l->predicate));
-                    function_m.last->getInstList ().push_back (predicate_instruction);
-                    if (!unit)
-                    {
-                        auto select_instruction (llvm::SelectInst::Create (value_l->predicate, value_l->generated, value));
-                        function_m.last->getInstList ().push_back (select_instruction);
-                        value = select_instruction;
-                    }
-                    predicate = predicate_instruction;
-                }
-                join->predicate = predicate;
-                join->generated = value;*/
             }
             void unit_value (mu::llvmc::skeleton::unit_value * node_a) override
             {

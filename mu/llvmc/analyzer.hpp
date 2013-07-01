@@ -38,6 +38,7 @@ namespace mu
             class asm_c;
             class array_type;
             class constant_array;
+            class join;
         }
         class module_result
         {
@@ -69,7 +70,7 @@ namespace mu
             void process_element (mu::llvmc::ast::element * element_a);
             void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
             void process_marker (mu::llvmc::ast::definite_expression * expression_a);
-            void process_join (mu::llvmc::ast::definite_expression * expression_a);
+            void process_join (mu::llvmc::ast::join * node_a);
             void process_asm (mu::llvmc::ast::definite_expression * expression_a);
             void process_array_type (mu::llvmc::ast::array_type * type_a);
             void process_constant_array (mu::llvmc::ast::constant_array * array_a);

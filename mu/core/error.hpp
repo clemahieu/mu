@@ -146,7 +146,9 @@ namespace mu
             expecting_integer_type,
             global_one_initializer,
             global_constant_initializer,
-            expecting_a_pointer_type
+            expecting_a_pointer_type,
+            must_be_joining_at_least_two_branches,
+            join_branches_same_cardinality
         };
         class error
         {
