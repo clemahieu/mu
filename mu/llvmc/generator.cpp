@@ -693,6 +693,21 @@ namespace mu
             {
                 auto & branches (join->source->branches);
                 assert (branches.size () > 1);
+                for (auto & i: branches)
+                {
+                    llvm::Value * predicate (llvm::ConstantInt::getTrue (function_m.function_m->getContext ()));
+                    for (auto j: i.arguments)
+                    {
+                        function_m.retrieve_value (j);
+                        predicate = function_m.and_predicates (predicate, j->predicate);
+                    }
+                    for (auto j: i.predicates)
+                    {
+                        function_m.retrieve_value (j);
+                        predicate = function_m.and_predicates (predicate, j->predicate);
+                    }
+                    i.predicate = predicate;
+                }
                 for (size_t i (0), j (branches [0].arguments.size ()); i < j; ++i)
                 {
                     assert (join->source->elements.size () > i);
@@ -701,7 +716,6 @@ namespace mu
                     auto type (first->type ());                                        
                     auto unit (type->is_unit_type ());                    
                     llvm::Value * predicate (llvm::ConstantInt::getFalse (function_m.function_m->getContext ()));
-                    function_m.retrieve_value (first);
                     assert (unit == (first->generated == nullptr));
                     llvm::Value * value;
                     if (!unit)
@@ -715,13 +729,14 @@ namespace mu
                     for (auto k: branches)
                     {
                         assert (k.arguments.size () > i);
+                        assert (k.predicate != nullptr);
                         auto value_l (k.arguments [i]);
-                        function_m.retrieve_value (value_l);
-                        auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, value_l->predicate));
+                        assert (value_l->predicate != nullptr);
+                        auto predicate_instruction (llvm::BinaryOperator::CreateOr (predicate, k.predicate));
                         function_m.last->getInstList ().push_back (predicate_instruction);
                         if (!unit)
                         {
-                            auto select_instruction (llvm::SelectInst::Create (value_l->predicate, value_l->generated, value));
+                            auto select_instruction (llvm::SelectInst::Create (k.predicate, value_l->generated, value));
                             function_m.last->getInstList ().push_back (select_instruction);
                             value = select_instruction;
                         }

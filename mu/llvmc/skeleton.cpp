@@ -1148,3 +1148,8 @@ mu::llvmc::skeleton::join_branch & mu::llvmc::skeleton::join_value::add_branch (
     auto & result (branches [branches.size () - 1]);
     return result;
 }
+
+mu::llvmc::skeleton::join_branch::join_branch () :
+predicate (nullptr)
+{
+}

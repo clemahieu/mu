@@ -1006,8 +1006,10 @@ define void @"0000000000000000-0000000000000000-0"(i1) {
   %4 = and i1 %2, %3
   %5 = icmp eq i1 %0, true
   %6 = and i1 %2, %5
-  %7 = or i1 false, %4
-  %8 = or i1 %7, %6
+  %7 = and i1 true, %4
+  %8 = and i1 true, %6
+  %9 = or i1 false, %7
+  %10 = or i1 %9, %8
   ret void, !dbg !11
 }
 
@@ -1042,16 +1044,18 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
   %8 = and i1 %2, %7
   %9 = add i1 %0, %0, !dbg !11
   call void @llvm.dbg.declare(metadata !{i1 %9}, metadata !12)
-  %10 = or i1 false, %8
-  %11 = select i1 %8, i1 %9, i1 undef
-  %12 = and i1 true, true
-  %13 = and i1 %12, %7
-  %14 = add i1 %0, %0, !dbg !11
-  call void @llvm.dbg.declare(metadata !{i1 %14}, metadata !13)
-  %15 = or i1 %10, %13
-  %16 = select i1 %13, i1 %14, i1 %11
-  call void @llvm.dbg.declare(metadata !{i1 %16}, metadata !14)
-  ret i1 %16, !dbg !11
+  %10 = and i1 true, %8
+  %11 = and i1 true, true
+  %12 = and i1 %11, %7
+  %13 = add i1 %0, %0, !dbg !11
+  call void @llvm.dbg.declare(metadata !{i1 %13}, metadata !13)
+  %14 = and i1 true, %12
+  %15 = or i1 false, %10
+  %16 = select i1 %10, i1 %9, i1 undef
+  %17 = or i1 %15, %14
+  %18 = select i1 %14, i1 %13, i1 %16
+  call void @llvm.dbg.declare(metadata !{i1 %18}, metadata !14)
+  ret i1 %18, !dbg !11
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1075,6 +1079,47 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !14 = metadata !{i32 786688, metadata !5, metadata !"join1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [join1] [line 0]
 )%%%";
 
+extern char const * const generate_if_join_value_predicate_expected = R"%%%(; ModuleID = '0000000000000000'
+
+define i32 @"0000000000000000-0000000000000000-0"(i1) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !11)
+  %2 = and i1 true, true
+  %3 = and i1 true, true
+  %4 = icmp eq i1 %0, false
+  %5 = and i1 %3, %4
+  %6 = icmp eq i1 %0, true
+  %7 = and i1 %3, %6
+  %8 = and i1 %2, %5
+  %9 = and i1 true, true
+  %10 = and i1 %9, %7
+  %11 = or i1 false, %8
+  %12 = select i1 %8, i32 42, i32 undef
+  %13 = or i1 %11, %10
+  %14 = select i1 %10, i32 13, i32 %12
+  call void @llvm.dbg.declare(metadata !{i32 %14}, metadata !12)
+  ret i32 %14, !dbg !13
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_if_join_value_predicate", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_if_join_value_predicate] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, i32 (i1)* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_if_join_value_predicate", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !10}
+!9 = metadata !{i32 786468, null, metadata !"int32", null, i32 0, i64 32, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int32] [line 0, size 32, align 0, offset 0, enc DW_ATE_unsigned]
+!10 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
+!11 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !10, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!12 = metadata !{i32 786688, metadata !5, metadata !"join1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [join1] [line 0]
+!13 = metadata !{i32 0, i32 0, metadata !5, null}
+)%%%";
+
 extern char const * const generate_if_join_2value_expected = R"%%%(; ModuleID = '0000000000000000'
 
 %0 = type { i1, i1, i8 }
@@ -1090,36 +1135,40 @@ define %0 @"0000000000000000-0000000000000000-0"(i1) {
   %8 = and i1 %2, %5
   %9 = add i1 %0, %0, !dbg !16
   call void @llvm.dbg.declare(metadata !{i1 %9}, metadata !17)
-  %10 = or i1 false, %8
-  %11 = select i1 %8, i1 %9, i1 undef
-  %12 = and i1 true, true
-  %13 = and i1 %12, %7
-  %14 = add i1 %0, %0, !dbg !16
-  call void @llvm.dbg.declare(metadata !{i1 %14}, metadata !18)
-  %15 = or i1 %10, %13
-  %16 = select i1 %13, i1 %14, i1 %11
-  call void @llvm.dbg.declare(metadata !{i1 %16}, metadata !19)
-  %17 = and i1 true, %15
-  %18 = select i1 %17, i8 0, i8 undef
-  %19 = and i1 true, true
-  %20 = and i1 %19, %5
-  %21 = add i1 %0, %0, !dbg !16
-  call void @llvm.dbg.declare(metadata !{i1 %21}, metadata !20)
-  %22 = or i1 false, %20
-  %23 = select i1 %20, i1 %21, i1 undef
-  %24 = and i1 true, true
-  %25 = and i1 %24, %7
-  %26 = add i1 %0, %0, !dbg !16
-  call void @llvm.dbg.declare(metadata !{i1 %26}, metadata !21)
-  %27 = or i1 %22, %25
-  %28 = select i1 %25, i1 %26, i1 %23
-  call void @llvm.dbg.declare(metadata !{i1 %28}, metadata !22)
-  %29 = and i1 true, %27
-  %30 = select i1 %29, i8 1, i8 %18
-  %31 = insertvalue %0 undef, i1 %16, 0
-  %32 = insertvalue %0 %31, i1 %28, 1
-  %33 = insertvalue %0 %32, i8 %30, 2
-  ret %0 %33, !dbg !16
+  %10 = and i1 true, %8
+  %11 = and i1 true, true
+  %12 = and i1 %11, %7
+  %13 = add i1 %0, %0, !dbg !16
+  call void @llvm.dbg.declare(metadata !{i1 %13}, metadata !18)
+  %14 = and i1 true, %12
+  %15 = or i1 false, %10
+  %16 = select i1 %10, i1 %9, i1 undef
+  %17 = or i1 %15, %14
+  %18 = select i1 %14, i1 %13, i1 %16
+  call void @llvm.dbg.declare(metadata !{i1 %18}, metadata !19)
+  %19 = and i1 true, %17
+  %20 = select i1 %19, i8 0, i8 undef
+  %21 = and i1 true, true
+  %22 = and i1 %21, %5
+  %23 = add i1 %0, %0, !dbg !16
+  call void @llvm.dbg.declare(metadata !{i1 %23}, metadata !20)
+  %24 = and i1 true, %22
+  %25 = and i1 true, true
+  %26 = and i1 %25, %7
+  %27 = add i1 %0, %0, !dbg !16
+  call void @llvm.dbg.declare(metadata !{i1 %27}, metadata !21)
+  %28 = and i1 true, %26
+  %29 = or i1 false, %24
+  %30 = select i1 %24, i1 %23, i1 undef
+  %31 = or i1 %29, %28
+  %32 = select i1 %28, i1 %27, i1 %30
+  call void @llvm.dbg.declare(metadata !{i1 %32}, metadata !22)
+  %33 = and i1 true, %31
+  %34 = select i1 %33, i8 1, i8 %20
+  %35 = insertvalue %0 undef, i1 %18, 0
+  %36 = insertvalue %0 %35, i1 %32, 1
+  %37 = insertvalue %0 %36, i8 %34, 2
+  ret %0 %37, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
@@ -1170,22 +1219,24 @@ define i1 @"0000000000000000-0000000000000000-0"(i1) {
 ; <label>:10                                      ; preds = %8, %1
   %11 = phi i1 [ %9, %8 ], [ undef, %1 ]
   call void @llvm.dbg.declare(metadata !{i1 %11}, metadata !13)
-  %12 = or i1 false, %7
-  %13 = select i1 %7, i1 %11, i1 undef
-  %14 = and i1 true, %6
-  br i1 %14, label %15, label %17
+  %12 = and i1 true, %7
+  %13 = and i1 true, %6
+  br i1 %13, label %14, label %16
 
-; <label>:15                                      ; preds = %10
-  %16 = load i1* null, !dbg !11
-  br label %17
+; <label>:14                                      ; preds = %10
+  %15 = load i1* null, !dbg !11
+  br label %16
 
-; <label>:17                                      ; preds = %15, %10
-  %18 = phi i1 [ %16, %15 ], [ undef, %10 ]
-  call void @llvm.dbg.declare(metadata !{i1 %18}, metadata !14)
-  %19 = or i1 %12, %14
-  %20 = select i1 %14, i1 %18, i1 %13
-  call void @llvm.dbg.declare(metadata !{i1 %20}, metadata !15)
-  ret i1 %20, !dbg !16
+; <label>:16                                      ; preds = %14, %10
+  %17 = phi i1 [ %15, %14 ], [ undef, %10 ]
+  call void @llvm.dbg.declare(metadata !{i1 %17}, metadata !14)
+  %18 = and i1 true, %13
+  %19 = or i1 false, %12
+  %20 = select i1 %12, i1 %11, i1 undef
+  %21 = or i1 %19, %18
+  %22 = select i1 %18, i1 %17, i1 %20
+  call void @llvm.dbg.declare(metadata !{i1 %22}, metadata !15)
+  ret i1 %22, !dbg !16
 }
 
 declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone

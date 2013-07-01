@@ -357,8 +357,10 @@ namespace mu
             class join_branch
             {
             public:
+                join_branch ();
                 mu::vector <mu::llvmc::skeleton::value *> arguments;
                 mu::vector <mu::llvmc::skeleton::value *> predicates;
+                llvm::Value * predicate;
             };
             class join_value
             {

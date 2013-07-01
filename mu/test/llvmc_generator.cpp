@@ -2167,3 +2167,53 @@ TEST (llvmc_generator, generate_global_variable)
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_global_variable_expected), info);
 }
+
+extern char const * const generate_if_join_value_predicate_expected;
+
+TEST (llvmc_generator, generate_if_join_value_predicate)
+{
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::vector <mu::llvmc::skeleton::node *> arguments1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::switch_i);
+    arguments1.push_back (&marker1);
+    arguments1.push_back (&parameter1);
+    mu::llvmc::skeleton::switch_i instruction1 (function1.entry, arguments1, &module.the_unit_type);
+    mu::llvmc::skeleton::branch branch1 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer1 (mu::empty_region, module.global, 1, 0);
+    mu::llvmc::skeleton::switch_element element1 (mu::empty_region, &branch1, &instruction1, &integer1);
+    mu::llvmc::skeleton::named named1 (mu::empty_region, &element1, U"element1");
+    mu::llvmc::skeleton::branch branch2 (function1.entry);
+    mu::llvmc::skeleton::constant_integer integer2 (mu::empty_region, module.global, 1, 1);
+    mu::llvmc::skeleton::switch_element element2 (mu::empty_region, &branch2, &instruction1, &integer2);
+    mu::llvmc::skeleton::named named2 (mu::empty_region, &element2, U"element2");
+    mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 42);
+    mu::llvmc::skeleton::constant_integer constant2 (mu::empty_region, module.global, 32, 13);
+    mu::llvmc::skeleton::join_value join1;
+    auto & branch3 (join1.add_branch ());
+    branch3.arguments.push_back (&constant1);
+    branch3.predicates.push_back (&named1);
+    auto & branch4 (join1.add_branch ());
+    branch4.arguments.push_back (&constant2);
+    branch4.predicates.push_back (&named2);
+    mu::llvmc::skeleton::join_element join2 (mu::empty_region, function1.entry, &join1, constant1.type ());
+    join1.elements.push_back (&join2);
+    mu::llvmc::skeleton::named named5 (mu::empty_region, &join2, U"join1");
+    mu::llvmc::skeleton::result result1 (join2.type (), &named5);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.globals [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    llvm::LLVMContext context;
+    auto result (generator.generate (context, &module, U"generate_if_join_value_predicate", U"", 0));
+    ASSERT_NE (nullptr, result.module);
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_if_join_value_predicate_expected), info);
+}
