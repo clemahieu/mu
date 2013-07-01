@@ -1658,6 +1658,20 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
     result.error = parser_a.parse_left_square_required (U"Join must start with a left square", mu::core::error_type::expecting_left_square);
     if (result.error == nullptr)
     {
+        parser_a.parse_left_or_right_square (
+        [&]
+        (mu::core::region const & region_a)
+        {
+            mu::core::error * error (nullptr);
+            auto & branch (join->add_branch ());
+            return error;
+        },
+        [&]
+        (mu::core::region const & region_a)
+        {
+            mu::core::error * error (nullptr);
+            return error;
+        }, U"Expecting branch or right square", mu::core::error_type::expecting_branch_or_right_square);
     }
     if (result.error == nullptr)
     {

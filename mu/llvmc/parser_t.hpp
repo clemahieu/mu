@@ -76,15 +76,13 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square (T op, U
 		{
 			case mu::io::token_id::identifier:
 			{
-				assert (dynamic_cast <mu::io::identifier *> (item.token) != nullptr);
-				auto identifier (static_cast <mu::io::identifier *> (item.token));
+				auto identifier (mu::cast <mu::io::identifier> (item.token));
                 current_mapping->refer (identifier->string, identifier->region, op);
 				break;
 			}
 			case mu::io::token_id::right_square:
 			{
-				assert (dynamic_cast <mu::io::right_square *> (item.token) != nullptr);
-				right_square_op (static_cast <mu::io::right_square *> (item.token));
+				right_square_op (mu::cast <mu::io::right_square> (item.token));
 				break;
 			}
 			default:
@@ -110,14 +108,51 @@ mu::core::error * mu::llvmc::parser::parse_left_or_right_square (T left_square_o
     switch (item->id ())
     {
         case mu::io::token_id::left_square:
-            result = left_square_op ();
+            result = left_square_op (item->region);
             break;
         case mu::io::token_id::right_square:
-            result = right_square_op ();
+            result = right_square_op (item->region);
             break;
         default:
             result = new (GC) mu::core::error_string (error_message_a, error_type_a);
             break;
     }
     return result;
+}
+
+template <typename T, typename U, typename V>
+mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square_or_terminator (T node_op, U right_square_op, V terminator_op, char32_t const * error_message_a, mu::core::error_type error_type_a)
+{
+    mu::core::error * error (nullptr);
+    auto item (peek ());
+    if (item.ast != nullptr)
+    {
+        node_op (item.ast, item.ast->region);
+    }
+    else if (item.token != nullptr)
+    {
+        switch (item.token->id ())
+        {
+            case mu::io::token_id::identifier:
+            {
+				auto identifier (mu::cast <mu::io::identifier> (item.token));
+                current_mapping->refer (identifier->string, identifier->region, node_op);
+				break;
+            }
+            case mu::io::token_id::right_square:
+                right_square_op (item.token->region);
+                break;
+            case mu::io::token_id::terminator:
+                terminator_op (item.token->region);
+                break;
+            default:
+                error = new (GC) mu::core::error_string (U"Expecting ast or reference or right square or terminator", mu::core::error_type::expecting_branch_or_right_square);
+                break;
+        }
+    }
+    else
+    {
+        error = item.error;
+    }
+    return error;
 }
