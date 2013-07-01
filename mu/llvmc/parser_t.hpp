@@ -146,7 +146,7 @@ mu::core::error * mu::llvmc::parser::parse_ast_or_refer_or_right_square_or_termi
                 terminator_op (item.token->region);
                 break;
             default:
-                error = new (GC) mu::core::error_string (U"Expecting ast or reference or right square or terminator", mu::core::error_type::expecting_branch_or_right_square);
+                error = new (GC) mu::core::error_string (error_message_a, error_type_a);
                 break;
         }
     }

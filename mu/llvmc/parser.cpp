@@ -1659,19 +1659,54 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
     if (result.error == nullptr)
     {
         parser_a.parse_left_or_right_square (
-        [&]
-        (mu::core::region const & region_a)
-        {
-            mu::core::error * error (nullptr);
-            auto & branch (join->add_branch ());
-            return error;
-        },
-        [&]
-        (mu::core::region const & region_a)
-        {
-            mu::core::error * error (nullptr);
-            return error;
-        }, U"Expecting branch or right square", mu::core::error_type::expecting_branch_or_right_square);
+            [&]
+            (mu::core::region const & region_a)
+            {
+                mu::core::error * error (nullptr);
+                auto & branch (join->add_branch ());
+                auto predicates (false);
+                auto done (false);
+                while (!done && error == nullptr)
+                {
+                    error = parser_a.parse_ast_or_refer_or_right_square_or_terminator (
+                        [&]
+                        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                        {
+                            if (predicates)
+                            {
+                                branch.predicates.push_back (node_a);
+                            }
+                            else
+                            {
+                                branch.arguments.push_back (node_a);
+                            }
+                        },
+                        [&]
+                        (mu::core::region const & region_a)
+                        {
+                            done = true;
+                        },
+                        [&]
+                        (mu::core::region const & region_a)
+                        {
+                            if (!predicates)
+                            {
+                                predicates = true;
+                            }
+                            else
+                            {
+                                error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+                            }
+                        }, U"Expecting ast or reference or right square or terminator", mu::core::error_type::expecting_branch_or_right_square);
+                }
+                return error;
+            },
+            [&]
+            (mu::core::region const & region_a)
+            {
+                mu::core::error * error (nullptr);
+                return error;
+            }, U"Expecting branch or right square", mu::core::error_type::expecting_branch_or_right_square);
     }
     if (result.error == nullptr)
     {
