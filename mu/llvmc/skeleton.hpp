@@ -174,10 +174,6 @@ namespace mu
                 mu::llvmc::skeleton::value * destination;
                 mu::vector <mu::llvmc::skeleton::node *> predicates;
             };
-            class join : public mu::llvmc::skeleton::node
-            {
-                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
-            };
             class marker : public mu::llvmc::skeleton::node
             {
             public:
@@ -469,7 +465,6 @@ namespace mu
                 virtual void constant_integer (mu::llvmc::skeleton::constant_integer * node_a);
                 virtual void constant_pointer_null (mu::llvmc::skeleton::constant_pointer_null * node_a);
                 virtual void constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a);
-                virtual void join (mu::llvmc::skeleton::join * node_a);
                 virtual void type (mu::llvmc::skeleton::type * node_a);
                 virtual void asm_c (mu::llvmc::skeleton::asm_c * node_a);
                 virtual void named (mu::llvmc::skeleton::named * node_a);

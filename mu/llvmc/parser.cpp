@@ -47,6 +47,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"int", &int_type);
     assert (!error);
+    error = keywords.insert (U"join", &join_hook);
+    assert (!error);
     error = keywords.insert (U"loop", &loop_hook);
     assert (!error);
     error = keywords.insert (U"let", &let_hook);
@@ -64,8 +66,6 @@ stream (stream_a)
     error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
     assert (!error);
     error = builtins.insert (U"unit_v", new (GC) mu::llvmc::ast::unit);
-    assert (!error);
-    error = builtins.insert (U"join", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::join));
     assert (!error);
     error = builtins.insert (U"add", new (GC) mu::llvmc::ast::value (new (GC) mu::llvmc::skeleton::marker (mu::llvmc::instruction_type::add)));
     assert (!error);
@@ -1646,6 +1646,18 @@ mu::llvmc::node_result mu::llvmc::constant_pointer_null::parse (mu::core::region
 }
 
 bool mu::llvmc::constant_pointer_null::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    return result;
+}
+
+bool mu::llvmc::join_hook::covering ()
 {
     return false;
 }

@@ -895,31 +895,23 @@ void mu::llvmc::analyzer_node::process_definite_expression (mu::llvmc::ast::defi
 						}
 						else
 						{
-							auto join (dynamic_cast<mu::llvmc::skeleton::join *> (target));
-							if (join != nullptr)
-							{
-								process_join (expression_a);
-							}
-							else
-							{
-                                auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
-                                if (asm_l != nullptr)
+                            auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
+                            if (asm_l != nullptr)
+                            {
+                                process_asm (expression_a);
+                            }
+                            else
+                            {
+                                auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
+                                if (identity != nullptr)
                                 {
-                                    process_asm (expression_a);
+                                    process_identity (expression_a);
                                 }
                                 else
                                 {
-                                    auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
-                                    if (identity != nullptr)
-                                    {
-                                        process_identity (expression_a);
-                                    }
-                                    else
-                                    {
-                                        error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
-                                    }
+                                    error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target);
                                 }
-							}
+                            }
 						}
 					}
 				}

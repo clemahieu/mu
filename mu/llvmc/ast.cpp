@@ -122,3 +122,10 @@ mu::llvmc::ast::global_variable::global_variable (mu::llvmc::ast::node * initial
 initializer (initializer_a)
 {
 }
+
+mu::llvmc::ast::join_branch & mu::llvmc::ast::join::add_branch ()
+{
+    branches.push_back (decltype (branches)::value_type ());
+    auto & result (branches [branches.size () - 1]);
+    return result;
+}

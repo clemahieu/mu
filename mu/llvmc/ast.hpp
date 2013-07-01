@@ -203,6 +203,18 @@ namespace mu
                 global_variable (mu::llvmc::ast::node * initializer_a);
                 mu::llvmc::ast::node * initializer;
             };
+            class join_branch
+            {
+            public:
+                mu::vector <mu::llvmc::ast::node *> arguments;
+                mu::vector <mu::llvmc::ast::node *> predicates;
+            };
+            class join : public mu::llvmc::ast::expression
+            {
+            public:
+                mu::vector <mu::llvmc::ast::join_branch> branches;
+                mu::llvmc::ast::join_branch & add_branch ();
+            };
         }
     }
 }

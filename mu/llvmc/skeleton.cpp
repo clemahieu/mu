@@ -842,11 +842,6 @@ void mu::llvmc::skeleton::constant_aggregate_zero::visit (mu::llvmc::skeleton::v
     visitor_a->constant_aggregate_zero (this);
 }
 
-void mu::llvmc::skeleton::join::visit (mu::llvmc::skeleton::visitor * visitor_a)
-{
-    visitor_a->join (this);
-}
-
 void mu::llvmc::skeleton::type::visit (mu::llvmc::skeleton::visitor * visitor_a)
 {
     visitor_a->type (this);
@@ -1010,11 +1005,6 @@ void mu::llvmc::skeleton::visitor::constant_pointer_null (mu::llvmc::skeleton::c
 void mu::llvmc::skeleton::visitor::constant_aggregate_zero (mu::llvmc::skeleton::constant_aggregate_zero * node_a)
 {
     constant (node_a);
-}
-
-void mu::llvmc::skeleton::visitor::join (mu::llvmc::skeleton::join * node_a)
-{
-    node (node_a);
 }
 
 void mu::llvmc::skeleton::visitor::type (mu::llvmc::skeleton::type * node_a)
