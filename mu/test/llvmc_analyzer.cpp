@@ -655,7 +655,7 @@ TEST (llvmc_analyzer, error_short_join)
     module.globals [U"0"] = &function;
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
-    ASSERT_EQ (mu::core::error_type::must_be_joining_at_least_two_values, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::must_be_joining_at_least_two_branches, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_join_different_type)
@@ -763,7 +763,7 @@ TEST (llvmc_analyzer, error_same_branch)
     module.globals [U"0"] = &function;
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
-    ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::branch_analyzer_intersection_exists, result.error->type ());
 }
 
 TEST (llvmc_analyzer, error_same_branch2)
@@ -823,7 +823,7 @@ TEST (llvmc_analyzer, error_same_branch2)
     module.globals [U"0"] = &function;
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
-    ASSERT_EQ (mu::core::error_type::branches_are_not_disjoint, result.error->type ());
+    ASSERT_EQ (mu::core::error_type::branch_analyzer_ancestor_exists, result.error->type ());
 }
 
 TEST (llvmc_analyzer, disjoint_results)
