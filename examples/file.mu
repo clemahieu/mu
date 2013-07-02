@@ -264,14 +264,14 @@ let lalloc function
 let entry function
 []
 [
-	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]:)
+	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]
 	let stored [store ascii /home/colin/mu_build/test.txt:a00 let text [alloca array int8 #30]]
-	:(let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #o600; stored]:)
+	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #o600; stored]
 	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
-	let close_l [close fd; write_l]
+	let close_l [close fd; write_l]:)
 	let alloc1 [lalloc cint64 #100]
 	let alloc2 [lalloc cint64 #1000]
-	let result [exit cint64 #0; close_l alloc1 alloc2]
+	let result [exit cint64 #0; alloc1 alloc2]
 ]
 [[; result]]
