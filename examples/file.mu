@@ -260,13 +260,16 @@ let lalloc function
 ]
 [[ptr int8 result; store1 store2]]
 
+let file-name-osx global ascii /Users/clemahieu/test.txt:a00
+let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
+
 let entry function
 []
 [
-	:(let stored [store ascii /Users/clemahieu/test.txt:a00 let text [alloca array int8 #26]]
-	let stored [store ascii /home/colin/mu_build/test.txt:a00 let text [alloca array int8 #30]]
-	let fd [open [bitcast text ptr int8] cint64 #h602 cint64 #o600; stored]
-	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
+	:(let stored [store ascii  let text [alloca array int8 #26]]
+	let stored [store ascii  let text [alloca array int8 #30]]
+	let fd [open [bitcast file-name-osx ptr int8] cint64 #h602 cint64 #o600]
+	let fd [open [bitcast file-name-linux ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
 	let hello [write-test cint64 #1]
