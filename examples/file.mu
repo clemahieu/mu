@@ -147,14 +147,13 @@ let write function
 ]
 [[;result]]
 
+let write-test-string global ascii {%}Hello world!
+%
+
 let write-test function
 [int64 fd]
 [
-	let text [alloca array int8 #13]
-	let stored [store ascii 
-{%}Hello world!
-% text]
-	let result [write fd [bitcast text ptr int8] cint64 #13; stored]
+	let result [write fd [bitcast write-test-string ptr int8] cint64 #13]
 ]
 [[;result]]
 
@@ -270,8 +269,9 @@ let entry function
 	let fd [open [bitcast text ptr int8] [or O_RDWR-linux O_CREAT-linux] cint64 #o600; stored]
 	let write_l [write-test fd]
 	let close_l [close fd; write_l]:)
+	let hello [write-test cint64 #1]
 	let alloc1 [lalloc cint64 #100]
 	let alloc2 [lalloc cint64 #1000]
-	let result [exit cint64 #0; alloc1 alloc2]
+	let result [exit cint64 #0; hello alloc1 alloc2]
 ]
 [[; result]]

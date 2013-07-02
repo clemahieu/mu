@@ -213,7 +213,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
                     result.node = module;
                     break;
                 default:                    
-                    result.error = new (GC) mu::core::error_string (U"Expecting function or end of stream", mu::core::error_type::expecting_function_or_end_of_stream);
+                    result.error = new (GC) mu::core::error_string (U"Expecting function or end of stream", mu::core::error_type::expecting_function_or_end_of_stream, item.token->region);
                     break;
             }
         }
@@ -233,7 +233,7 @@ mu::llvmc::node_result mu::llvmc::module::parse (mu::core::region const & region
 				error << " " << std::string (i.first.begin (), i.first.end ());
 			}
 			std::string err (error.str ());
-            result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols);
+            result.error = new (GC) mu::core::error_string (mu::string (err.begin (), err.end ()).c_str (), mu::core::error_type::unresolved_symbols, std::get <0> (parser_a.globals.unresolved.begin ()->second));
             result.node = nullptr;
         }
         else
@@ -751,7 +751,8 @@ void mu::llvmc::expression::parse ()
                     auto & arguments (expression_l->arguments);
                     auto position (expression_l->arguments.size ());
                     expression_l->arguments.push_back (nullptr);
-                    parser.current_mapping->refer(static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
+                    auto identifier (static_cast <mu::io::identifier *> (next.token));
+                    parser.current_mapping->refer (identifier->string, identifier->region,
                         [&arguments, position]
                         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                         {
@@ -1001,7 +1002,8 @@ void mu::llvmc::loop::parse_arguments ()
                             auto & arguments_l (loop_m->arguments);
                             auto position (arguments_l.size ());
                             arguments_l.push_back (nullptr);
-                            parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
+                            auto identifier (mu::cast <mu::io::identifier> (next.token));
+                            parser.current_mapping->refer (identifier->string, identifier->region,
                                   [&arguments_l, position]
                                    (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                   {
@@ -1170,7 +1172,8 @@ void mu::llvmc::loop::parse_results ()
                                 {
                                     auto position (loop_m->results.size ());
                                     loop_m->results.push_back (nullptr);
-                                    parser.current_mapping->refer (static_cast <mu::io::identifier *> (next.token)->string, mu::core::region (),
+                                    auto identifier (mu::cast <mu::io::identifier> (next.token));
+                                    parser.current_mapping->refer (identifier->string, identifier->region,
                                                                   [&]
                                                                    (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                                                                   {

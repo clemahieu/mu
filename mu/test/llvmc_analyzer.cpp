@@ -1525,6 +1525,36 @@ TEST (llvmc_analyzer, instruction_bitcast)
     ASSERT_EQ (*type5, *result2->type);
 }
 
+TEST (llvmc_analyzer, bitcast_error)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"32");
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::ast::definite_expression expression1;
+    expression1.region = mu::core::region (7, 7, 7, 8, 8, 8);
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::bitcast);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
+    mu::llvmc::ast::integer_type type3 (U"8");
+    mu::llvmc::ast::pointer_type type4 (&type3);
+    expression1.arguments.push_back (&type4);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::result result1 (&type4);
+    result1.value = &expression1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.globals [U"0"] = &function1;
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+    ASSERT_EQ (mu::core::region (7, 7, 7, 8, 8, 8), result.error->region ());
+}
+
 TEST (llvmc_analyzer, DISABLED_instruction_call)
 {
     mu::llvmc::analyzer analyzer;

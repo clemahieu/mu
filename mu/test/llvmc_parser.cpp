@@ -285,6 +285,15 @@ TEST (llvmc_parser, empty)
     EXPECT_EQ (0, module2->globals.size ());
 }
 
+TEST (llvmc_parser, top_identifier_error)
+{
+    test_parser parser ("thing");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::region (0, 1, 1, 4, 1, 5), module1.error->region ());
+}
+
 TEST (llvmc_parser, expression_no_end_error)
 {
     test_parser parser ("[");
@@ -714,6 +723,7 @@ TEST (llvmc_parser, unresolved)
     EXPECT_NE (nullptr, module1.error);
     ASSERT_EQ (nullptr, module1.node);
     ASSERT_EQ (mu::core::error_type::unresolved_symbols, module1.error->type ());
+    ASSERT_EQ (mu::core::region (24, 1, 25, 28, 1, 29), module1.error->region ());
 }
 
 TEST (llvmc_parser, two_functions)

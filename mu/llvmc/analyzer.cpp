@@ -1422,22 +1422,22 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                                 }
                                 else
                                 {
-                                    error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                                    error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
                                 }
                             }
                             else
                             {
-                                error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type);
+                                error = new (GC) mu::core::error_string (U"First argument to bitcast must be a pointer type", mu::core::error_type::argument_must_be_pointer_type, expression_a->region);
                             }
                         }
                         else
                         {
-                            error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type);
+                            error = new (GC) mu::core::error_string (U"Second argument to bitcast must be a type", mu::core::error_type::expecting_a_type, expression_a->region);
                         }
                     }
                     else
                     {
-                        error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values);
+                        error = new (GC) mu::core::error_string (U"First argument to bitcast must be a value", mu::core::error_type::instruction_arguments_must_be_values, expression_a->region);
                     }
                 }
                 break;
