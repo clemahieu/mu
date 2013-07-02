@@ -1450,7 +1450,7 @@ mu::core::error * mu::llvmc::parser::parse_left_square_required (char32_t const 
             consume ();
             break;
         default:
-            result = new (GC) mu::core::error_string (error_message_a, error_type_a);
+            result = new (GC) mu::core::error_string (error_message_a, error_type_a, next->region);
             break;
     }
     return result;
@@ -1661,7 +1661,7 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
         auto done (false);
         while (!done && result.error == nullptr)
         {
-            parser_a.parse_left_or_right_square (
+            result.error = parser_a.parse_left_or_right_square (
                 [&]
                 (mu::core::region const & region_a)
                 {

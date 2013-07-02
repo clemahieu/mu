@@ -116,7 +116,7 @@ mu::core::error * mu::llvmc::parser::parse_left_or_right_square (T left_square_o
             result = right_square_op (item->region);
             break;
         default:
-            result = new (GC) mu::core::error_string (error_message_a, error_type_a);
+            result = new (GC) mu::core::error_string (error_message_a, error_type_a, item->region);
             break;
     }
     return result;

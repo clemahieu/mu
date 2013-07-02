@@ -826,6 +826,59 @@ TEST (llvmc_analyzer, error_same_branch2)
     ASSERT_EQ (mu::core::error_type::branch_analyzer_ancestor_exists, result.error->type ());
 }
 
+TEST (llvmc_analyzer, join_simple)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+    mu::llvmc::ast::function function;
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::ast::value value1 (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &value1);
+    function.parameters.push_back (&parameter1);
+    
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::if_i);
+    mu::llvmc::ast::value value2 (&marker1);
+    expression1.arguments.push_back (&value2);
+    expression1.arguments.push_back (&parameter1);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::element element1 (&expression1, 0, 2, U"element1", empty_region);
+    mu::llvmc::ast::element element2 (&expression1, 1, 2, U"element2", empty_region);
+    
+    mu::llvmc::ast::join join1;
+    auto & branch1 (join1.add_branch ());
+    branch1.arguments.push_back (&element1);
+    auto & branch2 (join1.add_branch ());
+    branch2.arguments.push_back (&element2);
+    
+    mu::llvmc::ast::unit_type type2;
+    mu::llvmc::ast::result result3 (&type2);
+    result3.value = &join1;
+    function.results.push_back (&result3);
+    function.branch_ends.push_back (function.results.size ());
+    function.predicate_offsets.push_back (function.results.size ());
+    
+    module.globals [U"0"] = &function;
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
+    
+    ASSERT_EQ (1, result.module->globals.size ());
+    auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
+    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (1, function2->results.size ());
+    ASSERT_EQ (1, function2->branch_ends.size ());
+    ASSERT_EQ (1, function2->branch_ends [0]);
+    ASSERT_EQ (1, function2->predicate_offsets.size ());
+    ASSERT_EQ (1, function2->predicate_offsets [0]);
+    auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
+    ASSERT_NE (nullptr, result2);
+    auto element3 (dynamic_cast <mu::llvmc::skeleton::join_element *> (result2->value));
+    ASSERT_NE (nullptr, element3);
+    ASSERT_EQ (1, element3->source->elements.size ());
+    ASSERT_EQ (element3, element3->source->elements [0]);
+}
+
 TEST (llvmc_analyzer, disjoint_results)
 {
     mu::llvmc::analyzer analyzer;

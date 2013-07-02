@@ -908,6 +908,24 @@ TEST (llvmc_parser, join_2branches)
     ASSERT_EQ (0, branch2.predicates.size ());
 }
 
+TEST (llvmc_parser, join_no_left_square_error)
+{
+    test_parser parser ("let test1 function [int32 i] [join i] []");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::region (35, 1, 36, 35, 1, 36), module1.error->region ());
+}
+
+TEST (llvmc_parser, join_branch_error)
+{
+    test_parser parser ("let test1 function [int32 i] [join [i]] []");
+    auto module1 (parser.parser.parse ());
+    ASSERT_NE (nullptr, module1.error);
+    ASSERT_EQ (nullptr, module1.node);
+    ASSERT_EQ (mu::core::region (36, 1, 37, 36, 1, 37), module1.error->region ());
+}
+
 TEST (llvmc_parser, ptr_int_type42)
 {
     test_parser parser ("let test1 function [ptr int42 val] [] []");

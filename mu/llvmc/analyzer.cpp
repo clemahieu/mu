@@ -1194,9 +1194,12 @@ void mu::llvmc::analyzer_node::process_join (mu::llvmc::ast::join * node_a)
                     }
                     assert (least_specific_branch != module.module->global);
                     auto & elements (join->elements);
+                    auto & generated (module.already_generated [node_a]);
                     for (auto i: types)
                     {
-                        elements.push_back (new (GC) mu::llvmc::skeleton::join_element (node_a->region, least_specific_branch->parent, join, i));
+                        auto element (new (GC) mu::llvmc::skeleton::join_element (node_a->region, least_specific_branch->parent, join, i));
+                        generated.push_back (element);
+                        elements.push_back (element);
                     }
                 }
             }
