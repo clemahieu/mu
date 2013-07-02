@@ -49,11 +49,11 @@ void mu::llvmc::ast::loop::for_each_results (T result_op, U predicate_op, V tran
         }
         if (!predicates)
         {
-            result_op (as_expression (results [index]), index);
+            result_op (results [index], index);
         }
         else
         {
-            predicate_op (as_expression (results [index]), index);
+            predicate_op (results [index], index);
         }
         if (index + 1 >= *current_end)
         {
@@ -90,7 +90,7 @@ void mu::llvmc::ast::function::for_each_results (T result_op, U predicate_op, V 
         }
         if (!predicates)
         {
-            auto result (maybe_result (results [index]));
+            auto result (results [index]);
             result_op (result, index);
         }
         else

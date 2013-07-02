@@ -18,7 +18,7 @@ TEST (llvmc_ast, iteration)
     size_t loop_calls (0);
     function1.for_each_results (
                                 [&]
-                                (mu::llvmc::ast::result *, size_t)
+                                (mu::llvmc::ast::node *, size_t)
     {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
@@ -55,7 +55,7 @@ TEST (llvmc_ast, iteration_one_result)
     function1.predicate_offsets.push_back (function1.results.size ());
     function1.for_each_results (
                                 [&]
-                                (mu::llvmc::ast::result *, size_t)
+                                (mu::llvmc::ast::node *, size_t)
     {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
@@ -90,7 +90,7 @@ TEST (llvmc_ast, iteration_one_predicate)
     function1.branch_ends.push_back (function1.results.size ());
     function1.for_each_results (
                                 [&]
-                                (mu::llvmc::ast::result *, size_t)
+                                (mu::llvmc::ast::node *, size_t)
                                 {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
@@ -127,7 +127,7 @@ TEST (llvmc_ast, iteration_multi_predicate)
     function1.branch_ends.push_back (function1.results.size ());
     function1.for_each_results (
                                 [&]
-                                (mu::llvmc::ast::result *, size_t)
+                                (mu::llvmc::ast::node *, size_t)
                                 {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)
@@ -162,7 +162,7 @@ TEST (llvmc_ast, iterate_function)
     function1.branch_ends.push_back (function1.results.size ());
     function1.for_each_results (
                                 [&]
-                                (mu::llvmc::ast::result *, size_t)
+                                (mu::llvmc::ast::node *, size_t)
                                 {++result_calls;},
                                 [&]
                                 (mu::llvmc::ast::node *, size_t)

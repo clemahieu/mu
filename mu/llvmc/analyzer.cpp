@@ -426,7 +426,7 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 			mu::llvmc::branch_analyzer branches (module.module->global, error);
 			loop_a->for_each_results (
 				[&]
-				(mu::llvmc::ast::expression * expression_a, size_t index_a)
+				(mu::llvmc::ast::node * expression_a, size_t index_a)
 				{
 					process_node (expression_a);
                     if (error == nullptr)
@@ -451,7 +451,7 @@ void mu::llvmc::analyzer_node::process_loop (mu::llvmc::ast::loop * loop_a)
 					empty = false;
 				},
 				[&]
-				(mu::llvmc::ast::expression * expression_a, size_t)
+				(mu::llvmc::ast::node * expression_a, size_t)
 				{
 					process_node (expression_a);
                     if (error == nullptr)
@@ -718,8 +718,9 @@ void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & n
 	mu::llvmc::branch_analyzer branches (module.module->global, result_m.error);
 	function_a->for_each_results (
         [&]
-        (mu::llvmc::ast::result * result_a, size_t index_a)
+        (mu::llvmc::ast::node * node_a, size_t index_a)
         {
+            auto result_a (dynamic_cast <mu::llvmc::ast::result *> (node_a));
 			if (result_a != nullptr)
 			{
 				auto type (nodes.process_type (result_a->written_type));

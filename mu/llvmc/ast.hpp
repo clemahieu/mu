@@ -46,17 +46,14 @@ namespace mu
                 mu::llvmc::ast::node * written_type;
                 mu::llvmc::ast::node * value;
             };
-            class expression : public mu::llvmc::ast::node
-            {
-            };
-            class loop_parameter : public mu::llvmc::ast::expression
+            class loop_parameter : public mu::llvmc::ast::node
             {
             public:
             };
-            class unit : public mu::llvmc::ast::expression
+            class unit : public mu::llvmc::ast::node
             {                
             };
-            class parameter : public mu::llvmc::ast::expression
+            class parameter : public mu::llvmc::ast::node
             {
             public:
 				parameter () = default;
@@ -64,7 +61,7 @@ namespace mu
                 mu::llvmc::ast::node * type;
 				mu::string name;
             };
-            class element : public mu::llvmc::ast::expression
+            class element : public mu::llvmc::ast::node
             {
             public:
                 element (mu::llvmc::ast::node * node_a, size_t index_a, size_t total_a, mu::string const & name_a, mu::core::region const & region_a);
@@ -75,7 +72,7 @@ namespace mu
             };
 			template <typename S, typename T, typename U, typename V, typename W>
 			void for_each_argument (S arguments, size_t predicate_position, T argument_op, U predicate_op, V transition_op, W loop_op);
-            class loop : public mu::llvmc::ast::expression
+            class loop : public mu::llvmc::ast::node
             {
             public:
 				loop ();
@@ -87,13 +84,12 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> results;
 				void add_predicate_offset ();
 				void add_branch_end ();
-                mu::llvmc::ast::expression * as_expression (mu::llvmc::ast::node * node_a);
                 template <typename T, typename U, typename V, typename W, typename X>
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate);
 				std::vector <size_t> predicate_offsets;
 				std::vector <size_t> branch_ends;
             };
-            class definite_expression : public mu::llvmc::ast::expression
+            class definite_expression : public mu::llvmc::ast::node
             {
             public:
                 definite_expression ();
@@ -101,22 +97,19 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 size_t predicate_position;
             };
-            class set_expression : public mu::llvmc::ast::expression
+            class set_expression : public mu::llvmc::ast::node
             {
             public:
                 mu::vector <mu::llvmc::ast::node *> items;
             };
-            class if_expression : public mu::llvmc::ast::expression
+            class if_expression : public mu::llvmc::ast::node
             {
             public:
                 mu::llvmc::ast::node * predicate;
                 mu::vector <mu::llvmc::ast::node *> true_roots;
                 mu::vector <mu::llvmc::ast::node *> false_roots;
             };
-            class constant : public mu::llvmc::ast::expression
-            {
-            };
-            class function : public mu::llvmc::ast::constant
+            class function : public mu::llvmc::ast::node
             {
             public:
                 mu::llvmc::availability::function * entry;
@@ -124,28 +117,23 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> results;
                 std::vector <size_t> branch_ends;
                 std::vector <size_t> predicate_offsets;
-                mu::llvmc::ast::result * maybe_result (mu::llvmc::ast::node * node_a);
-                mu::llvmc::ast::expression * maybe_expression (mu::llvmc::ast::node * node_a);
                 template <typename T, typename U, typename V, typename W, typename X>
                 void for_each_results (T result_op, U predicate_op, V transition_op, W branch_op, X loop_predicate);
                 mu::vector <mu::llvmc::ast::node *> roots;
             };
-            class type : public mu::llvmc::ast::node
-            {
-            };
-            class integer_type : public mu::llvmc::ast::type
+            class integer_type : public mu::llvmc::ast::node
             {
             public:
                 integer_type (mu::string const & bits_a);
                 mu::string bits;
             };
-            class pointer_type : public mu::llvmc::ast::type
+            class pointer_type : public mu::llvmc::ast::node
             {
             public:
                 pointer_type (mu::llvmc::ast::node * pointed_type_a);
                 mu::llvmc::ast::node * pointed_type;
             };
-            class array_type : public mu::llvmc::ast::type
+            class array_type : public mu::llvmc::ast::node
             {
             public:
                 array_type () = default;
@@ -153,7 +141,7 @@ namespace mu
                 mu::llvmc::ast::node * element_type;
                 mu::llvmc::ast::node * size;
             };
-            class unit_type : public mu::llvmc::ast::type
+            class unit_type : public mu::llvmc::ast::node
             {
             public:                
             };
@@ -163,20 +151,20 @@ namespace mu
                 module ();
                 mu::map <mu::string, mu::llvmc::ast::node *> globals;
             };
-            class constant_int : public mu::llvmc::ast::constant
+            class constant_int : public mu::llvmc::ast::node
             {
             public:
                 constant_int (mu::string const & bits_a, mu::llvmc::ast::node * number_a);
                 mu::string bits;
                 mu::llvmc::ast::node * number;
             };
-            class constant_array : public mu::llvmc::ast::constant
+            class constant_array : public mu::llvmc::ast::node
             {
             public:
                 mu::llvmc::ast::node * type;
                 mu::vector <mu::llvmc::ast::node *> initializer;
             };
-            class constant_pointer_null : public mu::llvmc::ast::constant
+            class constant_pointer_null : public mu::llvmc::ast::node
             {
             public:
                 mu::llvmc::ast::node * type;
@@ -196,7 +184,7 @@ namespace mu
                 mu::string text;
                 mu::string constraints;
             };
-            class global_variable : public mu::llvmc::ast::expression
+            class global_variable : public mu::llvmc::ast::node
             {
             public:
                 global_variable () = default;
@@ -209,7 +197,7 @@ namespace mu
                 mu::vector <mu::llvmc::ast::node *> arguments;
                 mu::vector <mu::llvmc::ast::node *> predicates;
             };
-            class join : public mu::llvmc::ast::expression
+            class join : public mu::llvmc::ast::node
             {
             public:
                 mu::vector <mu::llvmc::ast::join_branch> branches;
