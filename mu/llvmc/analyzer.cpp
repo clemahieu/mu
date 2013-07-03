@@ -217,6 +217,14 @@ namespace mu
 					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
 				}
 			}
+			void pointer_type (mu::llvmc::ast::pointer_type * type_a) override
+			{
+				auto pointed_type (analyzer.process_type (type_a->pointed_type));
+				if (pointed_type != nullptr)
+				{
+					analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::pointer_type (pointed_type));
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -280,7 +288,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                     auto pointer_type (dynamic_cast<mu::llvmc::ast::pointer_type *> (node_a));
                                     if (pointer_type != nullptr)
                                     {
-                                        process_pointer_type (pointer_type);
                                     }
                                     else
                                     {
@@ -741,11 +748,6 @@ mu::llvmc::skeleton::type * mu::llvmc::analyzer_node::process_type (mu::llvmc::a
 
 void mu::llvmc::analyzer_node::process_pointer_type (mu::llvmc::ast::pointer_type * type_a)
 {
-	auto pointed_type (process_type (type_a->pointed_type));
-	if (pointed_type != nullptr)
-	{
-		module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::pointer_type (pointed_type));
-	}
 }
 
 void mu::llvmc::analyzer_node::process_integer_type (mu::llvmc::ast::integer_type * type_a)
