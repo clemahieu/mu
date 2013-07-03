@@ -305,6 +305,30 @@ namespace mu
 					values.insert (values.end (), values_l.begin (), values_l.end ());
 				}
 			}
+			void global_variable (mu::llvmc::ast::global_variable * global_variable) override
+			{
+				analyzer.process_node (global_variable->initializer);
+				auto & values (analyzer.module.already_generated [global_variable->initializer]);
+				if (values.size () == 1)
+				{
+					auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
+					if (constant != nullptr)
+					{
+						auto & targets (analyzer.module.already_generated [global_variable]);
+						assert (targets.empty ());
+						auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, analyzer.module.module->global, constant));
+						targets.push_back (skeleton);
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
+					}
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -413,27 +437,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                                     auto global_variable (dynamic_cast <mu::llvmc::ast::global_variable *> (node_a));
                                                                     if (global_variable != nullptr)
                                                                     {
-                                                                        process_node (global_variable->initializer);
-                                                                        auto & values (module.already_generated [global_variable->initializer]);
-                                                                        if (values.size () == 1)
-                                                                        {
-                                                                            auto constant (dynamic_cast <mu::llvmc::skeleton::constant *> (values [0]));
-                                                                            if (constant != nullptr)
-                                                                            {
-                                                                                auto & targets (module.already_generated [node_a]);
-                                                                                assert (targets.empty ());
-                                                                                auto skeleton (new (GC) mu::llvmc::skeleton::global_variable (global_variable->region, module.module->global, constant));
-                                                                                targets.push_back (skeleton);
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                error = new (GC) mu::core::error_string (U"Global variables must have constant initializers", mu::core::error_type::global_constant_initializer, global_variable->initializer->region);
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            error = new (GC) mu::core::error_string (U"Global variables expect one initializer", mu::core::error_type::global_one_initializer, global_variable->initializer->region);
-                                                                        }
                                                                     }
                                                                     else
                                                                     {
