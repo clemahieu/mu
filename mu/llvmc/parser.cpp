@@ -61,6 +61,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"string", &string_hook);
     assert (!error);
+    error = keywords.insert (U"undefined", &undefined_hook);
+    assert (!error);
     error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
     assert (!error);
     error = builtins.insert  (U"true", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"1")));
@@ -1724,6 +1726,30 @@ mu::llvmc::node_result mu::llvmc::join_hook::parse (mu::core::region const & reg
 }
 
 bool mu::llvmc::join_hook::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::undefined_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    assert (data_a.empty ());
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    auto undefined (new (GC) mu::llvmc::ast::undefined);
+    result.error = parser_a.parse_ast_or_refer (
+        [=]
+        (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+        {
+            undefined->type = node_a;
+        }
+    );
+    if (result.error == nullptr)
+    {
+        result.node = undefined;
+    }
+    return result;
+}
+
+bool mu::llvmc::undefined_hook::covering ()
 {
     return false;
 }

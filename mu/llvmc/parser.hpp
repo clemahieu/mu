@@ -256,6 +256,12 @@ namespace mu
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
         };
+        class undefined_hook : public mu::llvmc::hook
+        {
+        public:
+            mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
+            bool covering () override;
+        };
         class parser
         {
         public:
@@ -289,6 +295,7 @@ namespace mu
 			mu::llvmc::string_hook string_hook;
 			mu::llvmc::ascii_hook ascii_hook;
             mu::llvmc::join_hook join_hook;
+            mu::llvmc::undefined_hook undefined_hook;
             mu::llvmc::constant_array constant_array;
             mu::llvmc::number number;
             mu::llvmc::constant_int constant_int;

@@ -1866,3 +1866,32 @@ TEST (llvmc_parser, constant_pointer_null)
     ASSERT_NE (nullptr, type1);
     ASSERT_EQ (U"8", type1->bits);
 }
+
+TEST (llvmc_parser, undefined)
+{
+    test_parser parser ("let test1 function [] [] [[int8 undefined int8]]");
+    auto module1 (parser.parser.parse ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (0, function1->parameters.size ());
+    ASSERT_EQ (1, function1->results.size ());
+	auto result1 (dynamic_cast <mu::llvmc::ast::result *> (function1->results [0]));
+	ASSERT_NE (nullptr, result1);
+	auto type1 (dynamic_cast <mu::llvmc::ast::integer_type *> (result1->written_type));
+	ASSERT_NE (nullptr, type1);
+    auto undefined1 (dynamic_cast <mu::llvmc::ast::undefined *> (result1->value));
+    ASSERT_NE (nullptr, undefined1);
+    auto type2 (dynamic_cast <mu::llvmc::ast::integer_type *> (undefined1->type));
+    ASSERT_NE (nullptr, type2);
+    
+}
