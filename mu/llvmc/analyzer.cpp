@@ -241,6 +241,26 @@ namespace mu
 			{
 				analyzer.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
 			}
+			void array_type (mu::llvmc::ast::array_type * type_a) override
+			{
+				auto element (analyzer.process_type (type_a->element_type));
+				if (element != nullptr)
+				{
+					auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
+					if (number != nullptr)
+					{
+						auto number_l (analyzer.process_number (number));
+						if (number_l != nullptr)
+						{
+							analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
+						}
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
+					}
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -335,7 +355,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                         auto array_type (dynamic_cast <mu::llvmc::ast::array_type *> (node_a));
                                                         if (array_type != nullptr)
                                                         {
-                                                            process_array_type (array_type);
                                                         }
                                                         else
                                                         {
@@ -480,23 +499,6 @@ void mu::llvmc::analyzer_node::process_constant_array (mu::llvmc::ast::constant_
 
 void mu::llvmc::analyzer_node::process_array_type (mu::llvmc::ast::array_type * type_a)
 {
-    auto element (process_type (type_a->element_type));
-    if (element != nullptr)
-    {
-        auto number (dynamic_cast <mu::llvmc::ast::number *> (type_a->size));
-        if (number != nullptr)
-        {
-            auto number_l (process_number (number));
-            if (number_l != nullptr)
-            {
-                module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::array_type (element, number_l->value));
-            }
-        }
-        else
-        {
-            error = new (GC) mu::core::error_string (U"Expecting number", mu::core::error_type::expecting_a_number, type_a->size->region);
-        }
-    }
 }
 
 void mu::llvmc::analyzer_node::process_asm (mu::llvmc::ast::definite_expression * asm_a)
