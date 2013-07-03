@@ -149,7 +149,8 @@ namespace mu
             expecting_a_pointer_type,
             must_be_joining_at_least_two_branches,
             join_branches_same_cardinality,
-            expecting_branch_or_right_square
+            expecting_branch_or_right_square,
+            struct_must_contain_types
         };
         class error
         {

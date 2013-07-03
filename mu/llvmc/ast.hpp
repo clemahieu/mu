@@ -261,6 +261,7 @@ namespace mu
                 virtual void unit_type (mu::llvmc::ast::unit_type * node_a);
                 virtual void loop_parameter (mu::llvmc::ast::loop_parameter * node_a);
                 virtual void parameter (mu::llvmc::ast::parameter * node_a);
+                virtual void struct_type (mu::llvmc::ast::struct_type * node_a);
             };
         }
     }

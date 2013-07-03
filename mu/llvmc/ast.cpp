@@ -110,3 +110,128 @@ mu::llvmc::ast::join_branch & mu::llvmc::ast::join::add_branch ()
     auto & result (branches [branches.size () - 1]);
     return result;
 }
+
+void mu::llvmc::ast::visitor::unexpected (mu::llvmc::ast::node * node_a)
+{
+    assert (false);
+}
+
+void mu::llvmc::ast::visitor::node (mu::llvmc::ast::node * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_int (mu::llvmc::ast::constant_int * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::integer_type (mu::llvmc::ast::integer_type * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::pointer_type (mu::llvmc::ast::pointer_type * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_array (mu::llvmc::ast::constant_array * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::set_expression (mu::llvmc::ast::set_expression * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::global_variable (mu::llvmc::ast::global_variable * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::definite_expression (mu::llvmc::ast::definite_expression * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::join (mu::llvmc::ast::join * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::loop (mu::llvmc::ast::loop * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::unit (mu::llvmc::ast::unit * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::asm_c (mu::llvmc::ast::asm_c * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::value (mu::llvmc::ast::value * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::module (mu::llvmc::ast::module * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::number (mu::llvmc::ast::number * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::result (mu::llvmc::ast::result * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::element (mu::llvmc::ast::element * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::function (mu::llvmc::ast::function * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::unit_type (mu::llvmc::ast::unit_type * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::loop_parameter (mu::llvmc::ast::loop_parameter * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::parameter (mu::llvmc::ast::parameter * node_a)
+{
+    node (node_a);
+}
+
+void mu::llvmc::ast::visitor::struct_type (mu::llvmc::ast::struct_type * node_a)
+{
+    node (node_a);
+}

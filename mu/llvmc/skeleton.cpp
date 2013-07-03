@@ -1143,3 +1143,21 @@ mu::llvmc::skeleton::join_branch::join_branch () :
 predicate (nullptr)
 {
 }
+
+bool mu::llvmc::skeleton::struct_type::operator == (mu::llvmc::skeleton::type const & other_a) const
+{
+    auto result (false);
+    auto other_l (dynamic_cast <mu::llvmc::skeleton::struct_type const *> (&other_a));
+    if (other_l != nullptr)
+    {
+        result = elements.size () == other_l->elements.size ();
+        if (result)
+        {
+            for (auto i (elements.begin ()), j (elements.end ()), k (other_l->elements.begin ()); i != j && result; ++i, ++k)
+            {
+                result = *(*i) == *(*j);
+            }
+        }
+    }
+    return result;
+}

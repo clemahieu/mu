@@ -193,6 +193,7 @@ namespace mu
             {
             public:
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                bool operator == (mu::llvmc::skeleton::type const & other_a) const override;
                 mu::vector <mu::llvmc::skeleton::type *> elements;
             };
             class unit_type : public mu::llvmc::skeleton::type

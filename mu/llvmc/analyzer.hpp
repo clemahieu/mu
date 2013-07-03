@@ -66,19 +66,11 @@ namespace mu
         public:
             analyzer_node (mu::llvmc::analyzer_module & module_a, mu::core::error * & error_a, mu::llvmc::skeleton::branch * entry_a);
             void process_node (mu::llvmc::ast::node * node_a);
-            void process_element (mu::llvmc::ast::element * element_a);
             void process_value_call (mu::llvmc::ast::definite_expression * expression_a);
             void process_marker (mu::llvmc::ast::definite_expression * expression_a);
-            void process_join (mu::llvmc::ast::join * node_a);
             void process_asm (mu::llvmc::ast::definite_expression * expression_a);
-            void process_array_type (mu::llvmc::ast::array_type * type_a);
-            void process_constant_array (mu::llvmc::ast::constant_array * array_a);
             void process_identity (mu::llvmc::ast::definite_expression * expression_a);
             void process_call_values (mu::vector <mu::llvmc::ast::node *> const & arguments, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> & arguments_a, mu::llvmc::skeleton::branch * & most_specific_branch, size_t & predicate_position_a);
-            void process_integer_type (mu::llvmc::ast::integer_type * type_a);
-            void process_pointer_type (mu::llvmc::ast::pointer_type * type_a);
-            void process_constant_int (mu::llvmc::ast::constant_int * constant_a);
-			void process_loop (mu::llvmc::ast::loop * loop_a);
 			void process_binary_integer_instruction (mu::llvmc::ast::definite_expression * expression_a, size_t predicate_offset, mu::vector <mu::llvmc::skeleton::node *> const & arguments, mu::llvmc::skeleton::branch * most_specific_branch);
             mu::llvmc::skeleton::number * process_number (mu::llvmc::ast::number * number_a);
             mu::llvmc::skeleton::value * process_value (mu::llvmc::ast::node * node_a);
