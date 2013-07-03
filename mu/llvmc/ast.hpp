@@ -234,6 +234,12 @@ namespace mu
                 void visit (mu::llvmc::ast::visitor * visitor_a) override;
                 mu::vector <mu::llvmc::ast::node *> elements;
             };
+            class undefined_value : public mu::llvmc::ast::node
+            {
+            public:
+                void visit (mu::llvmc::ast::visitor * visitor_a) override;
+                mu::llvmc::ast::node * type;
+            };
             class visitor
             {
             public:
@@ -262,6 +268,7 @@ namespace mu
                 virtual void loop_parameter (mu::llvmc::ast::loop_parameter * node_a);
                 virtual void parameter (mu::llvmc::ast::parameter * node_a);
                 virtual void struct_type (mu::llvmc::ast::struct_type * node_a);
+                virtual void undefined_value (mu::llvmc::ast::undefined_value * node_a);
             };
         }
     }
