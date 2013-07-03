@@ -61,6 +61,8 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"string", &string_hook);
     assert (!error);
+    error = keywords.insert (U"struct", &struct_hook);
+    assert (!error);
     error = keywords.insert (U"undefined", &undefined_hook);
     assert (!error);
     error = builtins.insert  (U"false", new (GC) mu::llvmc::ast::constant_int (U"1", new (GC) mu::llvmc::ast::number (U"0")));
@@ -1750,6 +1752,41 @@ mu::llvmc::node_result mu::llvmc::undefined_hook::parse (mu::core::region const 
 }
 
 bool mu::llvmc::undefined_hook::covering ()
+{
+    return false;
+}
+
+mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a)
+{
+    mu::llvmc::node_result result ({nullptr, nullptr});
+    result.error = parser_a.parse_left_square_required (U"Struct definition must beging with a left square", mu::core::error_type::expecting_left_square);
+    auto struct_l (new (GC) mu::llvmc::ast::struct_type);
+    if (result.error == nullptr)
+    {
+        auto done (false);
+        while (!done && result.error == nullptr)
+        {
+            parser_a.parse_ast_or_refer_or_right_square (
+                [&]
+                (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
+                {
+                    struct_l->elements.push_back (node_a);
+                },
+                [&]
+                (mu::io::right_square * token_a)
+                {
+                    done = true;
+                }, U"Struct parser is expecting types or right square", mu::core::error_type::expecting_ast_or_reference);
+        }
+    }
+    if (result.error == nullptr)
+    {
+        result.node = struct_l;
+    }
+    return result;
+}
+
+bool mu::llvmc::struct_hook::covering ()
 {
     return false;
 }
