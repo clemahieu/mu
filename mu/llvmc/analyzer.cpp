@@ -171,7 +171,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
         node_a->visit (&process);
         auto existing (module.already_generated.find (node_a));
         if (existing == module.already_generated.end ())
-            {
+		{
             auto definite_expression (dynamic_cast<mu::llvmc::ast::definite_expression *> (node_a));
             if (definite_expression != nullptr)
             {
@@ -182,7 +182,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                 auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
                 if (value_node != nullptr)
                 {
-					assert (false);
                 }
                 else
                 {
@@ -216,7 +215,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                 auto integer_type (dynamic_cast<mu::llvmc::ast::integer_type *> (node_a));
                                 if (integer_type != nullptr)
                                 {
-                                    process_integer_type (integer_type);
                                 }
                                 else
                                 {
