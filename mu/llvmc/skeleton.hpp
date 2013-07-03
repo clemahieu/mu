@@ -481,16 +481,6 @@ namespace mu
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
                 virtual void store (mu::llvmc::skeleton::store * node_a);
             };
-            template <typename T, typename U>
-            class type_visitor : public mu::llvmc::skeleton::visitor
-            {
-            public:
-                type_visitor (T type_op_a, U node_op_a);
-                void type (mu::llvmc::skeleton::type * node_a) override;
-                void node (mu::llvmc::skeleton::node * node_a) override;
-                T type_op;
-                U node_op;
-            };
         }
     }
 }

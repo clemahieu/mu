@@ -95,22 +95,3 @@ void mu::llvmc::skeleton::loop::for_each_results (T result_op, U predicate_op, V
         }
     }
 }
-
-template <typename T, typename U>
-mu::llvmc::skeleton::type_visitor <T, U>::type_visitor (T type_op_a, U node_op_a) :
-type_op (type_op_a),
-node_op (node_op_a)
-{
-}
-
-template <typename T, typename U>
-void mu::llvmc::skeleton::type_visitor <T, U>::type (mu::llvmc::skeleton::type * node_a)
-{
-    type_op (node_a);
-}
-
-template <typename T, typename U>
-void mu::llvmc::skeleton::type_visitor <T, U>::node (mu::llvmc::skeleton::node * node_a)
-{
-    node_op (node_a);
-}

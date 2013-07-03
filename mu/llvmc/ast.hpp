@@ -203,6 +203,11 @@ namespace mu
                 mu::vector <mu::llvmc::ast::join_branch> branches;
                 mu::llvmc::ast::join_branch & add_branch ();
             };
+            class struct_type : public mu::llvmc::ast::node
+            {
+            public:
+                mu::vector <mu::llvmc::ast::node *> elements;
+            };
         }
     }
 }

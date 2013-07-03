@@ -1538,6 +1538,26 @@ namespace mu
                 llvm::Value * indicies [2] = {llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), 0), llvm::ConstantInt::get(llvm::Type::getInt64Ty (context), array_type->size)};
                 array_type->debug = module.builder.createArrayType (array_type->size, 0, type->debug, module.builder.getOrCreateArray(llvm::ArrayRef <llvm::Value *> (indicies)));
             }
+            void struct_type (mu::llvmc::skeleton::struct_type * struct_type) override
+            {
+                auto & context (module.target.module->getContext ());
+                std::vector <llvm::Type *> elements;
+                std::vector <llvm::Value *> debug_members;
+                size_t offset (0);
+                for (auto i: struct_type->elements)
+                {
+                    i->visit (this);
+                    elements.push_back (i->generated);
+                    auto size (i->debug.getSizeInBits ());
+                    auto member (module.builder.createMemberType (module.file, "", module.file, 0, size, 0, offset, 0, i->debug));
+                    offset += size;
+                    debug_members.push_back (member);
+                }
+                auto type (llvm::StructType::get (context, elements));
+                auto debug (module.builder.createStructType (module.file, "", module.file, 0, offset, 0, 0, module.builder.getOrCreateArray (debug_members)));
+                struct_type->generated = type;
+                struct_type->debug = debug;
+            }
             mu::llvmc::generate_module & module;
         };
     }
