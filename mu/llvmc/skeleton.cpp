@@ -1155,9 +1155,29 @@ bool mu::llvmc::skeleton::struct_type::operator == (mu::llvmc::skeleton::type co
         {
             for (auto i (elements.begin ()), j (elements.end ()), k (other_l->elements.begin ()); i != j && result; ++i, ++k)
             {
-                result = *(*i) == *(*j);
+                result = *(*i) == *(*k);
             }
         }
     }
     return result;
+}
+
+void mu::llvmc::skeleton::undefined::visit (mu::llvmc::skeleton::visitor * visitor_a)
+{
+	visitor_a->undefined (this);
+}
+
+mu::llvmc::skeleton::type * mu::llvmc::skeleton::undefined::type ()
+{
+	return type_m;
+}
+
+void mu::llvmc::skeleton::visitor::undefined (mu::llvmc::skeleton::undefined * node_a)
+{
+	value (node_a);
+}
+
+mu::llvmc::skeleton::undefined::undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
+value (region_a, branch_a)
+{
 }

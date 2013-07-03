@@ -687,10 +687,28 @@ namespace mu
                     }
                     else
                     {
-                        analyzer.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types);
+                        analyzer.error = new (GC) mu::core::error_string (U"Struct type definition must list other types", mu::core::error_type::struct_must_contain_types, i->region);
                     }
                 }
+				if (analyzer.error == nullptr)
+				{
+					analyzer.module.already_generated [node_a].push_back (struct_l);
+				}
             }
+			void undefined_value (mu::llvmc::ast::undefined_value * node_a) override
+			{
+				auto type (analyzer.process_type (node_a->type));
+				if (type != nullptr)
+				{
+					auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, analyzer.module.module->global));
+					undefined_l->type_m = type;
+					analyzer.module.already_generated [node_a].push_back (undefined_l);
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, node_a->region);
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }

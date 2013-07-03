@@ -443,6 +443,14 @@ namespace mu
                 mu::vector <mu::llvmc::skeleton::identity_element *> elements;
                 mu::llvmc::skeleton::type * type_m;
             };
+			class undefined : public mu::llvmc::skeleton::value
+			{
+			public:
+				undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+                void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
+                mu::llvmc::skeleton::type * type () override;
+				mu::llvmc::skeleton::type * type_m;
+			};
             class visitor
             {
             public:
@@ -481,6 +489,7 @@ namespace mu
                 virtual void identity_element (mu::llvmc::skeleton::identity_element * node_a);
                 virtual void icmp (mu::llvmc::skeleton::icmp * node_a);
                 virtual void store (mu::llvmc::skeleton::store * node_a);
+				virtual void undefined (mu::llvmc::skeleton::undefined * node_a);
             };
         }
     }
