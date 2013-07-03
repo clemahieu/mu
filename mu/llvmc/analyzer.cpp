@@ -185,6 +185,38 @@ namespace mu
 			{
 				analyzer.module.already_generated [node_a].push_back (&analyzer.module.module->the_unit_value);
 			}
+			void constant_int (mu::llvmc::ast::constant_int * constant_a) override
+			{
+				try
+				{
+					std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
+					unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+					if (bits <= 1024)
+					{
+						auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
+						if (number != nullptr)
+						{
+							auto number_l (analyzer.process_number (number));
+							if (number_l != nullptr)
+							{
+								analyzer.module.already_generated [constant_a].push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, analyzer.module.module->global, bits, number_l->value));
+							}
+						}
+						else
+						{
+							analyzer.error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
+						}
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
+					}
+				}
+				catch (boost::bad_lexical_cast)
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -255,7 +287,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                         auto constant_int (dynamic_cast <mu::llvmc::ast::constant_int *> (node_a));
                                         if (constant_int != nullptr)
                                         {
-                                            process_constant_int (constant_int);
                                         }
                                         else
                                         {
@@ -660,35 +691,6 @@ mu::llvmc::skeleton::number * mu::llvmc::analyzer_node::process_number (mu::llvm
 
 void mu::llvmc::analyzer_node::process_constant_int (mu::llvmc::ast::constant_int * constant_a)
 {
-	try
-	{
-		std::string data_l (constant_a->bits.begin (), constant_a->bits.end ());
-		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-		if (bits <= 1024)
-		{
-			auto number (dynamic_cast<mu::llvmc::ast::number *> (constant_a->number));
-			if (number != nullptr)
-			{
-				auto number_l (process_number (number));
-				if (number_l != nullptr)
-				{
-					module.already_generated [constant_a].push_back (new (GC) mu::llvmc::skeleton::constant_integer (constant_a->region, module.module->global, bits, number_l->value));
-				}
-			}
-			else
-			{
-				error = new (GC) mu::core::error_string (U"Expecting a number", mu::core::error_type::expecting_a_number, constant_a->number->region);
-			}
-		}
-		else
-		{
-			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, constant_a->region);
-		}
-	}
-	catch (boost::bad_lexical_cast)
-	{
-		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, constant_a->region);
-	}
 }
 
 void mu::llvmc::analyzer_node::process_element (mu::llvmc::ast::element * element_a)
