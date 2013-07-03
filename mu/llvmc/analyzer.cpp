@@ -603,6 +603,78 @@ namespace mu
 					}
 				}
 			}
+			void definite_expression (mu::llvmc::ast::definite_expression * expression_a) override
+			{
+				auto existing (analyzer.module.current_expression_generation.find (expression_a));
+				if (existing == analyzer.module.current_expression_generation.end ())
+				{
+					analyzer.module.current_expression_generation.insert (expression_a);
+					if (!expression_a->arguments.empty ())
+					{
+						analyzer.process_node (expression_a->arguments [0]);
+						if (analyzer.error == nullptr)
+						{
+							mu::llvmc::skeleton::node * target;
+							auto & generated = analyzer.module.already_generated [expression_a->arguments [0]];
+							if (!generated.empty ())
+							{
+								target = generated [0];
+							}
+							else
+							{
+								analyzer.error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
+							}
+							if (analyzer.error == nullptr)
+							{
+								auto value (dynamic_cast<mu::llvmc::skeleton::value *> (target));
+								if (value != nullptr)
+								{
+									analyzer.process_value_call (expression_a);
+								}
+								else
+								{
+									auto marker (dynamic_cast<mu::llvmc::skeleton::marker *> (target));
+									if (marker != nullptr)
+									{
+										analyzer.process_marker (expression_a);
+									}
+									else
+									{
+										auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
+										if (asm_l != nullptr)
+										{
+											analyzer.process_asm (expression_a);
+										}
+										else
+										{
+											auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
+											if (identity != nullptr)
+											{
+												analyzer.process_identity (expression_a);
+											}
+											else
+											{
+												analyzer.error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
+					}
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
+				}
+				analyzer.module.current_expression_generation.erase (expression_a);
+				assert (analyzer.module.current_expression_generation.find (expression_a) == analyzer.module.current_expression_generation.end ());
+				assert (analyzer.error != nullptr || (analyzer.module.already_generated.find (expression_a) != analyzer.module.already_generated.end ()));
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -622,7 +694,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
             auto definite_expression (dynamic_cast<mu::llvmc::ast::definite_expression *> (node_a));
             if (definite_expression != nullptr)
             {
-                process_definite_expression (definite_expression);
             }
             else
             {
@@ -1048,75 +1119,6 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
 
 void mu::llvmc::analyzer_node::process_definite_expression (mu::llvmc::ast::definite_expression * expression_a)
 {
-	auto existing (module.current_expression_generation.find (expression_a));
-	if (existing == module.current_expression_generation.end ())
-	{
-		module.current_expression_generation.insert (expression_a);
-		if (!expression_a->arguments.empty ())
-		{
-			process_node (expression_a->arguments [0]);
-			if (error == nullptr)
-			{
-				mu::llvmc::skeleton::node * target;
-                auto & generated = module.already_generated [expression_a->arguments [0]];
-                if (!generated.empty ())
-                {
-                    target = generated [0];
-                }
-                else
-                {
-                    error = new (GC) mu::core::error_string (U"Expecting target", mu::core::error_type::expecting_a_target, expression_a->arguments [0]->region);
-                }
-				if (error == nullptr)
-				{
-					auto value (dynamic_cast<mu::llvmc::skeleton::value *> (target));
-					if (value != nullptr)
-					{
-						process_value_call (expression_a);
-					}
-					else
-					{
-						auto marker (dynamic_cast<mu::llvmc::skeleton::marker *> (target));
-						if (marker != nullptr)
-						{
-							process_marker (expression_a);
-						}
-						else
-						{
-                            auto asm_l (dynamic_cast <mu::llvmc::skeleton::asm_c *> (target));
-                            if (asm_l != nullptr)
-                            {
-                                process_asm (expression_a);
-                            }
-                            else
-                            {
-                                auto identity (dynamic_cast <mu::llvmc::skeleton::identity *> (target));
-                                if (identity != nullptr)
-                                {
-                                    process_identity (expression_a);
-                                }
-                                else
-                                {
-                                    error = new (GC) mu::core::error_string (U"Expecting first argument to be call target", mu::core::error_type::expecting_first_argument_to_be_call_target, expression_a->arguments [0]->region);
-                                }
-                            }
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			error = new (GC) mu::core::error_string (U"Expecting a call target", mu::core::error_type::expecting_a_call_target, expression_a->region);
-		}
-	}
-	else
-	{
-		error = new (GC) mu::core::error_string (U"Cycle in expressions", mu::core::error_type::cycle_in_expressions, expression_a->region);
-	}
-	module.current_expression_generation.erase (expression_a);
-	assert (module.current_expression_generation.find (expression_a) == module.current_expression_generation.end ());
-	assert (error != nullptr || (module.already_generated.find (expression_a) != module.already_generated.end ()));
 }
 
 void mu::llvmc::analyzer_node::process_identity (mu::llvmc::ast::definite_expression * expression_a)
