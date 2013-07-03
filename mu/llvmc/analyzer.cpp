@@ -126,6 +126,16 @@ namespace mu
             {
                 // Do nothing
             }
+			void value (mu::llvmc::ast::value * value_node) override
+			{
+				auto value (dynamic_cast <mu::llvmc::skeleton::value *> (value_node->node_m));
+				if (value != nullptr)
+				{
+					assert (value->branch == nullptr);
+					value->branch = module.module->global;
+				}
+				module.already_generated [value_node].push_back (value_node->node_m);
+			}
             mu::llvmc::analyzer_module & module;
         };
     }
@@ -152,13 +162,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                 auto value_node (dynamic_cast <mu::llvmc::ast::value *> (node_a));
                 if (value_node != nullptr)
                 {
-                    auto value (dynamic_cast <mu::llvmc::skeleton::value *> (value_node->node_m));
-                    if (value != nullptr)
-                    {
-                        assert (value->branch == nullptr);
-                        value->branch = module.module->global;
-                    }
-                    module.already_generated [node_a].push_back (value_node->node_m);
+					assert (false);
                 }
                 else
                 {
