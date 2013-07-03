@@ -118,8 +118,8 @@ namespace mu
         class process_node : public mu::llvmc::ast::visitor
         {
         public:
-            process_node (mu::llvmc::analyzer_module & module_a) :
-            module (module_a)
+            process_node (mu::llvmc::analyzer_node & analyzer_a) :
+            analyzer (analyzer_a)
             {                
             }
             void node (mu::llvmc::ast::node * node_a) override
@@ -132,11 +132,31 @@ namespace mu
 				if (value != nullptr)
 				{
 					assert (value->branch == nullptr);
-					value->branch = module.module->global;
+					value->branch = analyzer.module.module->global;
 				}
-				module.already_generated [value_node].push_back (value_node->node_m);
+				analyzer.module.already_generated [value_node].push_back (value_node->node_m);
 			}
-            mu::llvmc::analyzer_module & module;
+			void integer_type (mu::llvmc::ast::integer_type * type_a) override
+			{
+				try
+				{
+					std::string data_l (type_a->bits.begin (), type_a->bits.end ());
+					unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
+					if (bits <= 1024)
+					{
+						analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::integer_type (bits));
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
+					}
+				}
+				catch (boost::bad_lexical_cast)
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
+				}
+			}
+            mu::llvmc::analyzer_node & analyzer;
         };
     }
 }
@@ -147,7 +167,7 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
 	auto existing (module.already_generated.find (node_a));
 	if (existing == module.already_generated.end ())
 	{
-        mu::llvmc::process_node process (module);
+        mu::llvmc::process_node process (*this);
         node_a->visit (&process);
         auto existing (module.already_generated.find (node_a));
         if (existing == module.already_generated.end ())
@@ -725,23 +745,6 @@ void mu::llvmc::analyzer_node::process_pointer_type (mu::llvmc::ast::pointer_typ
 
 void mu::llvmc::analyzer_node::process_integer_type (mu::llvmc::ast::integer_type * type_a)
 {
-	try
-	{
-		std::string data_l (type_a->bits.begin (), type_a->bits.end ());
-		unsigned int bits (boost::lexical_cast <unsigned int> (data_l));
-		if (bits <= 1024)
-		{
-			module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::integer_type (bits));
-		}
-		else
-		{
-			error = new (GC) mu::core::error_string (U"Bit width too wide", mu::core::error_type::bit_width_too_wide, type_a->region);
-		}
-	}
-	catch (boost::bad_lexical_cast)
-	{
-		error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
-	}
 }
 
 void mu::llvmc::analyzer_function::process_results (mu::llvmc::analyzer_node & nodes, mu::llvmc::ast::function * function_a, mu::llvmc::skeleton::function * function_s)
