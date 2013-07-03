@@ -295,6 +295,16 @@ namespace mu
 					analyzer.module.already_generated [array_a].push_back (new (GC) mu::llvmc::skeleton::constant_array (array_a->region, analyzer.module.module->global, array_type, initializer));
 				}
 			}
+			void set_expression (mu::llvmc::ast::set_expression * set) override
+			{				
+				auto & values (analyzer.module.already_generated [set]);
+				for (auto i : set->items)
+				{
+					analyzer.process_node (i);
+					auto & values_l (analyzer.module.already_generated [i]);
+					values.insert (values.end (), values_l.begin (), values_l.end ());
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -339,13 +349,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                             auto set (dynamic_cast<mu::llvmc::ast::set_expression *> (node_a));
                             if (set != nullptr)
                             {
-                                auto & values (module.already_generated [node_a]);
-                                for (auto i : set->items)
-                                {
-                                    process_node (i);
-                                    auto & values_l (module.already_generated [i]);
-                                    values.insert (values.end (), values_l.begin (), values_l.end ());
-                                }
                             }
                             else
                             {
