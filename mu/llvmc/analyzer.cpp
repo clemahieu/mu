@@ -225,6 +225,22 @@ namespace mu
 					analyzer.module.already_generated [type_a].push_back (new (GC) mu::llvmc::skeleton::pointer_type (pointed_type));
 				}
 			}
+			void asm_c (mu::llvmc::ast::asm_c * asm_l) override
+			{
+				auto type (analyzer.process_type (asm_l->type));
+				if (type != nullptr)
+				{
+					analyzer.module.already_generated [asm_l].push_back (new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints));
+				}
+				else
+				{
+					analyzer.error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
+				}
+			}
+			void number (mu::llvmc::ast::number * node_a) override
+			{
+				analyzer.error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -307,22 +323,12 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                                                 auto asm_l (dynamic_cast <mu::llvmc::ast::asm_c *> (node_a));
                                                 if (asm_l != nullptr)
                                                 {
-                                                    auto type (process_type (asm_l->type));
-                                                    if (type != nullptr)
-                                                    {
-                                                        module.already_generated [node_a].push_back (new (GC) mu::llvmc::skeleton::asm_c (type, asm_l->text, asm_l->constraints));
-                                                    }
-                                                    else
-                                                    {
-                                                        error = new (GC) mu::core::error_string (U"Expecting a type", mu::core::error_type::expecting_a_type, asm_l->type->region);
-                                                    }
                                                 }
                                                 else
                                                 {
                                                     auto number (dynamic_cast <mu::llvmc::ast::number *> (node_a));
                                                     if (number != nullptr)
                                                     {
-                                                        error = new (GC) mu::core::error_string (U"Numbers must be parsed by a keyword", mu::core::error_type::numbers_parsed_by_keyword);
                                                     }
                                                     else
                                                     {
