@@ -1941,3 +1941,238 @@ error (error_a),
 entry (entry_a)
 {
 }
+
+void mu::llvmc::ast::node::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->node (this);
+}
+
+void mu::llvmc::ast::array_type::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->array_type (this);
+}
+
+void mu::llvmc::ast::constant_int::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->constant_int (this);
+}
+
+void mu::llvmc::ast::integer_type::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->integer_type (this);
+}
+
+void mu::llvmc::ast::pointer_type::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->pointer_type (this);
+}
+
+void mu::llvmc::ast::constant_array::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->constant_array (this);
+}
+
+void mu::llvmc::ast::set_expression::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->set_expression (this);
+}
+
+void mu::llvmc::ast::global_variable::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->global_variable (this);
+}
+
+void mu::llvmc::ast::definite_expression::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->definite_expression (this);
+}
+
+void mu::llvmc::ast::constant_pointer_null::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->constant_pointer_null (this);
+}
+
+void mu::llvmc::ast::join::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->join (this);
+}
+
+void mu::llvmc::ast::loop::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->loop (this);
+}
+
+void mu::llvmc::ast::unit::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->unit (this);
+}
+
+void mu::llvmc::ast::asm_c::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->asm_c (this);
+}
+
+void mu::llvmc::ast::value::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->value (this);
+}
+
+void mu::llvmc::ast::module::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->module (this);
+}
+
+void mu::llvmc::ast::number::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->number (this);
+}
+
+void mu::llvmc::ast::result::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->result (this);
+}
+
+void mu::llvmc::ast::element::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->element (this);
+}
+
+void mu::llvmc::ast::function::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->function (this);
+}
+
+void mu::llvmc::ast::unit_type::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->unit_type (this);
+}
+
+void mu::llvmc::ast::loop_parameter::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->loop_parameter (this);
+}
+
+void mu::llvmc::ast::parameter::visit (mu::llvmc::ast::visitor * visitor_a)
+{
+    visitor_a->parameter (this);
+}
+
+void mu::llvmc::ast::visitor::unexpected (mu::llvmc::ast::node * node_a)
+{
+    assert (false);
+}
+
+void mu::llvmc::ast::visitor::node (mu::llvmc::ast::node * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::array_type (mu::llvmc::ast::array_type * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_int (mu::llvmc::ast::constant_int * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::integer_type (mu::llvmc::ast::integer_type * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::pointer_type (mu::llvmc::ast::pointer_type * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_array (mu::llvmc::ast::constant_array * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::set_expression (mu::llvmc::ast::set_expression * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::global_variable (mu::llvmc::ast::global_variable * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::definite_expression (mu::llvmc::ast::definite_expression * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::constant_pointer_null (mu::llvmc::ast::constant_pointer_null * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::join (mu::llvmc::ast::join * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::loop (mu::llvmc::ast::loop * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::unit (mu::llvmc::ast::unit * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::asm_c (mu::llvmc::ast::asm_c * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::value (mu::llvmc::ast::value * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::module (mu::llvmc::ast::module * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::number (mu::llvmc::ast::number * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::result (mu::llvmc::ast::result * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::element (mu::llvmc::ast::element * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::function (mu::llvmc::ast::function * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::unit_type (mu::llvmc::ast::unit_type * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::loop_parameter (mu::llvmc::ast::loop_parameter * node_a)
+{
+    unexpected (node_a);
+}
+
+void mu::llvmc::ast::visitor::parameter (mu::llvmc::ast::parameter * node_a)
+{
+    unexpected (node_a);
+}
