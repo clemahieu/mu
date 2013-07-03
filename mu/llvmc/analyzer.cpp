@@ -156,6 +156,31 @@ namespace mu
 					analyzer.error = new (GC) mu::core::error_string (U"Unable to convert number to unsigned integer", mu::core::error_type::unable_to_convert_number_to_unsigned_integer, type_a->region);
 				}
 			}
+			void element (mu::llvmc::ast::element * element_a) override
+			{
+				analyzer.process_node (element_a->node);
+				if (analyzer.error == nullptr)
+				{
+					auto existing (analyzer.module.already_generated.find (element_a->node));
+					if (existing->second.size () > element_a->index)
+					{
+						auto node (existing->second [element_a->index]);
+						auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
+						if (value != nullptr)
+						{
+							analyzer.module.already_generated [element_a].push_back (new (GC) mu::llvmc::skeleton::named (element_a->region, value, element_a->name));
+						}
+						else
+						{
+							analyzer.module.already_generated [element_a].push_back (node);
+						}
+					}
+					else
+					{
+						analyzer.error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
+					}
+				}
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -188,7 +213,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                     auto element_node (dynamic_cast<mu::llvmc::ast::element *> (node_a));
                     if (element_node != nullptr)
                     {
-                        process_element (element_node);
                     }
                     else
                     {
@@ -666,28 +690,6 @@ void mu::llvmc::analyzer_node::process_constant_int (mu::llvmc::ast::constant_in
 
 void mu::llvmc::analyzer_node::process_element (mu::llvmc::ast::element * element_a)
 {
-	process_node (element_a->node);
-	if (error == nullptr)
-	{
-        auto existing (module.already_generated.find (element_a->node));
-        if (existing->second.size () > element_a->index)
-        {
-            auto node (existing->second [element_a->index]);
-            auto value (dynamic_cast <mu::llvmc::skeleton::value *> (node));
-            if (value != nullptr)
-            {
-                module.already_generated [element_a].push_back (new (GC) mu::llvmc::skeleton::named (element_a->region, value, element_a->name));
-            }
-            else
-            {
-                module.already_generated [element_a].push_back (node);
-            }
-        }
-        else
-        {
-            error = new (GC) mu::core::error_string (U"No value at index", mu::core::error_type::no_value_at_index, element_a->region);
-        }
-	}
 }
 
 void mu::llvmc::analyzer_node::process_single_node (mu::llvmc::ast::node * node_a)
