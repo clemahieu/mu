@@ -3340,7 +3340,7 @@ TEST (llvmc_analyzer, struct_type)
     mu::llvmc::ast::struct_type type2;
 	type2.elements.push_back (&type1);
     mu::llvmc::ast::result result1 (&type2);
-    mu::llvmc::ast::undefined_value undefined1;
+    mu::llvmc::ast::undefined undefined1;
     undefined1.type = &type2;
     result1.value = &undefined1;
     function1.results.push_back (&result1);

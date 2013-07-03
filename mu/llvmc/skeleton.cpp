@@ -1177,7 +1177,8 @@ void mu::llvmc::skeleton::visitor::undefined (mu::llvmc::skeleton::undefined * n
 	value (node_a);
 }
 
-mu::llvmc::skeleton::undefined::undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a) :
-value (region_a, branch_a)
+mu::llvmc::skeleton::undefined::undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a) :
+value (region_a, branch_a),
+type_m (type_a)
 {
 }

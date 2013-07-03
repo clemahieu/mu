@@ -446,7 +446,7 @@ namespace mu
 			class undefined : public mu::llvmc::skeleton::value
 			{
 			public:
-				undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a);
+				undefined (mu::core::region const & region_a, mu::llvmc::skeleton::branch * branch_a, mu::llvmc::skeleton::type * type_a);
                 void visit (mu::llvmc::skeleton::visitor * visitor_a) override;
                 mu::llvmc::skeleton::type * type () override;
 				mu::llvmc::skeleton::type * type_m;

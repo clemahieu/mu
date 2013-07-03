@@ -695,13 +695,12 @@ namespace mu
 					analyzer.module.already_generated [node_a].push_back (struct_l);
 				}
             }
-			void undefined_value (mu::llvmc::ast::undefined_value * node_a) override
+			void undefined (mu::llvmc::ast::undefined * node_a) override
 			{
 				auto type (analyzer.process_type (node_a->type));
 				if (type != nullptr)
 				{
-					auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, analyzer.module.module->global));
-					undefined_l->type_m = type;
+					auto undefined_l (new (GC) mu::llvmc::skeleton::undefined (node_a->region, analyzer.module.module->global, type));
 					analyzer.module.already_generated [node_a].push_back (undefined_l);
 				}
 				else

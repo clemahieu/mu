@@ -2217,3 +2217,30 @@ TEST (llvmc_generator, generate_if_join_value_predicate)
     ASSERT_TRUE (!broken);
     ASSERT_EQ (std::string (generate_if_join_value_predicate_expected), info);
 }
+
+extern char const * const generate_struct_type_undefined_expected;
+
+TEST (llvmc_generator, generate_struct_type_undefined)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::struct_type type2;
+    type2.elements.push_back (&type1);
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type2, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::undefined undefined1 (mu::empty_region, module.global, &type2);;
+    mu::llvmc::skeleton::result result1 (&type2, &undefined1);
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module.globals [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_struct_type_undefined", U"", 0));
+    std::string info;
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    print_module (result.module, info);
+    ASSERT_EQ (std::string (generate_struct_type_undefined_expected), info);
+}

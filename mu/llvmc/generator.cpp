@@ -1388,6 +1388,14 @@ namespace mu
                 global_variable->predicate = global_variable->initializer->predicate;
                 module.target.module->getGlobalList ().push_back (global);
             }
+            void undefined (mu::llvmc::skeleton::undefined * node_a) override
+            {
+                auto type (node_a->type ());
+                module.retrieve_type (type);
+                auto generated (llvm::UndefValue::get (type->generated));
+                node_a->generated = generated;
+                node_a->predicate = llvm::ConstantInt::getTrue (module.target.module->getContext ());
+            }
             mu::llvmc::generate_module & module;
             T retrieve_value;
         };

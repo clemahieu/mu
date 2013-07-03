@@ -236,7 +236,7 @@ void mu::llvmc::ast::visitor::struct_type (mu::llvmc::ast::struct_type * node_a)
     node (node_a);
 }
 
-void mu::llvmc::ast::visitor::undefined_value (mu::llvmc::ast::undefined_value * node_a)
+void mu::llvmc::ast::visitor::undefined (mu::llvmc::ast::undefined * node_a)
 {
     node (node_a);
 }
@@ -361,7 +361,7 @@ void mu::llvmc::ast::struct_type::visit (mu::llvmc::ast::visitor * visitor_a)
     visitor_a->struct_type (this);
 }
 
-void mu::llvmc::ast::undefined_value::visit (mu::llvmc::ast::visitor * visitor_a)
+void mu::llvmc::ast::undefined::visit (mu::llvmc::ast::visitor * visitor_a)
 {
-    visitor_a->undefined_value (this);
+    visitor_a->undefined (this);
 }
