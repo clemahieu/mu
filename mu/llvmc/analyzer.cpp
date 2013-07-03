@@ -181,6 +181,10 @@ namespace mu
 					}
 				}
 			}
+			void unit (mu::llvmc::ast::unit * node_a) override
+			{
+				analyzer.module.already_generated [node_a].push_back (&analyzer.module.module->the_unit_value);
+			}
             mu::llvmc::analyzer_node & analyzer;
         };
     }
@@ -219,7 +223,6 @@ void mu::llvmc::analyzer_node::process_node (mu::llvmc::ast::node * node_a)
                         auto unit_node (dynamic_cast<mu::llvmc::ast::unit *> (node_a));
                         if (unit_node != nullptr)
                         {
-                            module.already_generated [node_a].push_back (&module.module->the_unit_value);
                         }
                         else
                         {
