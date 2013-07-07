@@ -1600,6 +1600,73 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                 }
                 break;
             }
+            case mu::llvmc::instruction_type::insertvalue:
+            {
+                if (predicate_offset >= 4)
+                {
+                    auto struct_l (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+                    if (struct_l != nullptr)
+                    {
+                        auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+                        if (value != nullptr)
+                        {
+                            size_t current_index (3);
+                            auto current_aggregate (struct_l->type ());
+                            while (current_index < predicate_offset && error == nullptr)
+                            {
+                                auto type (dynamic_cast <mu::llvmc::skeleton::struct_type *> (current_aggregate));
+                                if (type != nullptr)
+                                {
+                                    auto position (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (arguments [3]));
+                                    if (position != nullptr)
+                                    {
+                                        if (position->value_m < type->elements.size ())
+                                        {
+                                            current_aggregate = type->elements [position->value_m];
+                                        }
+                                        else
+                                        {
+                                            error = new (GC) mu::core::error_string (U"Aggregate has no element at this index", mu::core::error_type::index_out_of_bounds, expression_a->region);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        error = new (GC) mu::core::error_string (U"Value is not an aggregate at this index", mu::core::error_type::expecting_an_aggregate, expression_a->region);
+                                    }
+                                }
+                                else
+                                {
+                                    error = new (GC) mu::core::error_string (U"Insertvalue requires first value to be a struct type", mu::core::error_type::expecting_value_to_be_struct, expression_a->region);
+                                }
+                            }
+                            if (error == nullptr)
+                            {
+                                if (*current_aggregate == *value->type ())
+                                {
+                                    module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                                }
+                                else
+                                {
+                                    error = new (GC) mu::core::error_string (U"Insertvalue value does not match type of aggregate", mu::core::error_type::value_does_not_match_aggregate, expression_a->region);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            error = new (GC) mu::core::error_string (U"Insertvalue second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+                        }
+                    }
+                    else
+                    {
+                        error = new (GC) mu::core::error_string (U"Insertvalue instruction requires first argument to be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+                    }
+                }
+                else
+                {
+                    error = new (GC) mu::core::error_string (U"Insertvalue instruction requires three arguments", mu::core::error_type::insertvalue_expects_three_arguments, expression_a->region);
+                }
+                break;
+            }
             case mu::llvmc::instruction_type::inttoptr:
             {
                 if (predicate_offset == 3)

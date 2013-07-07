@@ -263,6 +263,16 @@ let lalloc function
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
+let string-type struct [int64 ptr int8]
+
+let new-string function
+[]
+[
+	let initial undefined string-type
+	let result [insertvalue [insertvalue initial cint64 #0 cint64 #0] null ptr int8 cint64 #1]
+]
+[[string-type result]]
+
 let entry function
 []
 [

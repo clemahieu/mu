@@ -59,7 +59,7 @@ stream (stream_a)
     assert (!error);
     error = keywords.insert (U"set", &set_hook);
     assert (!error);
-    error = keywords.insert (U"string", &string_hook);
+    error = keywords.insert (U"utf32", &string_hook);
     assert (!error);
     error = keywords.insert (U"struct", &struct_hook);
     assert (!error);

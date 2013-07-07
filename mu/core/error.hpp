@@ -150,7 +150,12 @@ namespace mu
             must_be_joining_at_least_two_branches,
             join_branches_same_cardinality,
             expecting_branch_or_right_square,
-            struct_must_contain_types
+            struct_must_contain_types,
+            insertvalue_expects_three_arguments,
+            expecting_value_to_be_struct,
+            expecting_an_aggregate,
+            index_out_of_bounds,
+            value_does_not_match_aggregate
         };
         class error
         {

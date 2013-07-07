@@ -1660,7 +1660,7 @@ TEST (llvmc_parser, constant_array)
 
 TEST (llvmc_parser, constant_string)
 {
-    test_parser parser ("let test1 function [] [[string thing]] []");
+    test_parser parser ("let test1 function [] [[utf32 thing]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1697,7 +1697,7 @@ TEST (llvmc_parser, constant_string)
 
 TEST (llvmc_parser, constant_string_keyword)
 {
-    test_parser parser ("let test1 function [] [[string string]] []");
+    test_parser parser ("let test1 function [] [[utf32 utf32]] []");
     auto module1 (parser.parser.parse ());
     EXPECT_EQ (nullptr, module1.error);
     ASSERT_NE (nullptr, module1.node);
@@ -1719,17 +1719,17 @@ TEST (llvmc_parser, constant_string_keyword)
 	ASSERT_NE (nullptr, value1);
 	auto array1 (dynamic_cast <mu::llvmc::skeleton::constant_array *> (value1->node_m));
 	ASSERT_NE (nullptr, array1);
-	ASSERT_EQ (6, array1->initializer.size ());
+	ASSERT_EQ (5, array1->initializer.size ());
 	auto type1 (dynamic_cast <mu::llvmc::skeleton::array_type *> (array1->type ()));
 	ASSERT_NE (nullptr, type1);
 	auto type2 (dynamic_cast <mu::llvmc::skeleton::integer_type *> (type1->element));
 	ASSERT_NE (nullptr, type2);
-	ASSERT_EQ (6, type1->size);
+	ASSERT_EQ (5, type1->size);
 	ASSERT_EQ (32, type2->bits);
 	ASSERT_EQ (*type2, *array1->initializer [0]->type ());
 	auto value2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (array1->initializer [0]));
 	ASSERT_NE (nullptr, value2);
-	ASSERT_EQ (uint64_t ('s'), value2->value_m);
+	ASSERT_EQ (uint64_t ('u'), value2->value_m);
 }
 
 TEST (llvmc_parser, constant_ascii)
