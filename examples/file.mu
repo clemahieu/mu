@@ -273,6 +273,20 @@ let new-string function
 ]
 [[string-type result]]
 
+let memcopy function
+[ptr int8 source ptr int8 destination int64 size]
+[
+	let complete loop
+	[cint64 #0]
+	[i]
+	[
+		let done not-done [if [icmp i size]]
+		let j [sub i cint64 #1]
+	]
+	[[j; not-done][; done]]
+]
+[[; complete]]
+
 let entry function
 []
 [
