@@ -269,9 +269,10 @@ let new-string function
 []
 [
 	let initial undefined string-type
-	let result [insertvalue [insertvalue initial cint64 #0 cint64 #0] null ptr int8 cint64 #1]
+	let result2 [insertvalue initial cint64 #0 cint64 #0]
+	let result1 [insertvalue initial null ptr int8 cint64 #1]
 ]
-[[string-type result]]
+[[string-type initial; result1 result2]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
@@ -281,7 +282,7 @@ let memcopy function
 	[source destination]
 	[source_l destination_l]
 	[
-		let done not-done [if [icmp [ptrtoint source_l int64] end]]
+		let done not-done [if [icmp ieq [ptrtoint source_l int64] end]]
 		let stored [store [load source_l] destination_l; not-done]
 	]
 	[[[getelementptr source_l cint64 #1] [getelementptr destination_l cint64 #1]; stored][; done]]
