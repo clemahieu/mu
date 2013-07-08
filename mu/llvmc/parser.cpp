@@ -1163,60 +1163,40 @@ void mu::llvmc::loop::parse_results ()
                     auto predicates (false);
                     while (!set_done && result.error == nullptr)
                     {
-                        auto next (parser.peek ());
-                        if (next.ast != nullptr)
-                        {
-                            result.error = new (GC) mu::core::error_string (U"Expecting result identifiers", mu::core::error_type::expecting_identifier, next.ast->region);
-                        }
-                        else if (next.token != nullptr)
-                        {
-                            switch (next.token->id ())
-                            {
-                                case mu::io::token_id::identifier:
-                                {
-                                    auto position (loop_m->results.size ());
-                                    loop_m->results.push_back (nullptr);
-                                    auto identifier (mu::cast <mu::io::identifier> (next.token));
-                                    parser.current_mapping->refer (identifier->string, identifier->region,
-                                                                  [&]
-                                                                   (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
-                                                                  {
-                                                                      loop_m->results [position] = node_a;
-                                                                  });
-                                    break;
-                                }
-                                case mu::io::token_id::terminator:
-                                {
-                                    if (!predicates)
-                                    {
-                                        predicates = true;
-                                        loop_m->add_predicate_offset ();
-                                    }
-                                    else
-                                    {
-                                        result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
-                                    }
-                                    break;
-                                }
-                                case mu::io::token_id::right_square:
-                                {
-                                    if (!predicates)
-                                    {
-                                        loop_m->add_predicate_offset ();
-                                    }
-                                    loop_m->add_branch_end ();
-                                    set_done = true;
-                                    break;
-                                }
-                                default:
-                                    result.error = new (GC) mu::core::error_string (U"Expecting identifier", mu::core::error_type::expecting_identifier);
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            result.error = next.error;
-                        }
+						auto position (loop_m->results.size ());
+						loop_m->results.push_back (nullptr);
+						result.error = parser.parse_ast_or_refer_or_right_square_or_terminator (
+							[=]
+							(mu::llvmc::ast::node * node_a, mu::core::region const & region_a) 
+							{
+								loop_m->results [position] = node_a;
+							}, 
+							[&] 
+							(mu::core::region const & region_a) 
+							{
+								loop_m->results.pop_back ();
+								if (!predicates)
+								{
+									loop_m->add_predicate_offset ();
+								}
+								loop_m->add_branch_end ();
+								set_done = true;
+							}, 
+							[&] 
+							(mu::core::region const & region_a) 
+							{
+								loop_m->results.pop_back ();
+								if (!predicates)
+								{
+									predicates = true;
+									loop_m->add_predicate_offset ();
+								}
+								else
+								{
+									result.error = new (GC) mu::core::error_string (U"Already parsing predicates", mu::core::error_type::already_parsing_predicates);
+								}
+							}, 
+						U"Expecting result", mu::core::error_type::expecting_an_expression);
                     }
                     break;
                 }

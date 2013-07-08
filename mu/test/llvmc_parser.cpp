@@ -1503,14 +1503,40 @@ TEST (llvmc_parser, loop3)
     EXPECT_EQ (0, root1->results.size ());
 }
 
-TEST (llvmc_parser, error_loop_result_name)
+TEST (llvmc_parser, loop_result_expression)
 {
-    test_parser parser ("let test1 function [] [loop [] [] [] [[[]]]] []");
+    test_parser parser ("let test1 function [int1 val] [loop [val] [val1] [] [[[val1]]]] []");
     auto module1 (parser.parser.parse ());
-    EXPECT_NE (nullptr, module1.error);
-    ASSERT_EQ (nullptr, module1.node);
-	ASSERT_EQ (mu::core::error_type::expecting_identifier, module1.error->type ());
-	ASSERT_EQ (mu::core::region (39, 1, 40, 40, 1, 41), module1.error->region ());
+    EXPECT_EQ (nullptr, module1.error);
+    ASSERT_NE (nullptr, module1.node);
+    auto module2 (dynamic_cast <mu::llvmc::ast::module *> (module1.node));
+    ASSERT_NE (nullptr, module2);
+    ASSERT_EQ (1, module2->globals.size ());
+    auto element1 (dynamic_cast <mu::llvmc::ast::element *> (module2->globals [U"test1"]));
+    ASSERT_NE (nullptr, element1);
+    auto set1 (dynamic_cast <mu::llvmc::ast::set_expression *> (element1->node));
+    ASSERT_NE (nullptr, set1);
+    ASSERT_EQ (1, set1->items.size ());
+    auto function1 (dynamic_cast <mu::llvmc::ast::function *> (set1->items [0]));
+    ASSERT_NE (nullptr, function1);
+    ASSERT_EQ (1, function1->parameters.size ());
+    auto parameter1 (function1->parameters [0]);
+    ASSERT_EQ (1, function1->roots.size ());
+    auto loop1 (dynamic_cast <mu::llvmc::ast::loop *> (function1->roots [0]));
+    ASSERT_NE (nullptr, loop1);
+    ASSERT_EQ (1, loop1->arguments.size ());
+    ASSERT_EQ (1, loop1->argument_predicate_offset);
+    EXPECT_EQ (parameter1, loop1->arguments [0]);
+    ASSERT_EQ (1, loop1->parameters.size ());
+    auto parameter2 (loop1->parameters [0]);
+    ASSERT_EQ (0, loop1->roots.size ());
+    ASSERT_EQ (1, loop1->results.size ());
+    ASSERT_EQ (1, loop1->predicate_offsets.size ());
+    ASSERT_EQ (1, loop1->branch_ends.size ());
+    ASSERT_EQ (1, loop1->predicate_offsets [0]);
+    ASSERT_EQ (1, loop1->branch_ends [0]);
+    auto expression1 (dynamic_cast <mu::llvmc::ast::definite_expression *> (loop1->results [0]));
+	ASSERT_NE (nullptr, expression1);
 }
 
 TEST (llvmc_parser, let1)
