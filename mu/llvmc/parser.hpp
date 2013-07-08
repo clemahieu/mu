@@ -30,6 +30,7 @@ namespace mu
         public:
             virtual mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) = 0;
             virtual bool covering () = 0;
+            virtual mu::string const & name () = 0;
         };
         class hook_result
         {
@@ -108,6 +109,7 @@ namespace mu
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
             mu::llvmc::availability::module * current_module;
         };
         class function_hook : public mu::llvmc::hook
@@ -115,18 +117,21 @@ namespace mu
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class set_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class let_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class function
         {
@@ -159,30 +164,35 @@ namespace mu
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class ptr_type : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class number : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class constant_int : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class loop_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class loop
         {
@@ -202,18 +212,21 @@ namespace mu
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class array_type : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class constant_array : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class partial_ast_result
         {
@@ -231,42 +244,55 @@ namespace mu
 		public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
 		};
 		class ascii_hook : public mu::llvmc::hook
 		{
 		public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
 		};
         class global_variable : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class constant_pointer_null : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class join_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class undefined_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
         };
         class struct_hook : public mu::llvmc::hook
         {
         public:
             mu::llvmc::node_result parse (mu::core::region const & region_a, mu::string const & data_a, mu::llvmc::parser & parser_a) override;
             bool covering () override;
+            mu::string const & name () override;
+        };
+        class parser_frame
+        {
+        public:
+            mu::core::position position;
+            mu::string const * name;
         };
         class parser
         {
@@ -310,6 +336,26 @@ namespace mu
             mu::llvmc::constant_pointer_null constant_pointer_null;
             mu::io::stream_token & stream;
             mu::llvmc::keywords keywords;
+            std::vector <mu::llvmc::parser_frame> parse_stack;
+        };
+        class parser_error : public mu::core::error
+        {
+        public:
+            parser_error (char32_t const * message_a, mu::core::error_type type_a, mu::core::region const & region_a, mu::llvmc::parser & parser_a);
+            void output (std::ostream & out) override;
+            mu::core::error_type type () override;
+            mu::core::region region () override;
+            mu::core::error_type type_m;
+            mu::string message;
+			mu::core::region region_m;
+            std::vector <mu::llvmc::parser_frame> parse_stack;
+        };
+        class parser_context
+        {
+        public:
+            parser_context (mu::llvmc::parser & parser_a, mu::string const * name_a);
+            ~parser_context ();
+            mu::llvmc::parser & parser;
         };
     }
 }

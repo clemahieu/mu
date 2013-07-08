@@ -1409,6 +1409,7 @@ mu::llvmc::partial_ast_result mu::llvmc::parser::peek ()
             auto hook (keywords.get_hook (identifier->string));
             if (hook.hook != nullptr)
             {
+                mu::llvmc::parser_context context (*this, &hook.hook->name ());
                 auto ast (hook.hook->parse (token->region, hook.data, *this));
                 if (ast.node != nullptr)
                 {
@@ -1789,4 +1790,181 @@ mu::llvmc::node_result mu::llvmc::struct_hook::parse (mu::core::region const & r
 bool mu::llvmc::struct_hook::covering ()
 {
     return false;
+}
+
+static mu::string array_type_name (U"array_type");
+
+mu::string const & mu::llvmc::array_type::name ()
+{
+    return array_type_name;
+}
+
+static mu::string ascii_hook_name (U"ascii_hook");
+
+mu::string const & mu::llvmc::ascii_hook::name ()
+{
+    return ascii_hook_name;
+}
+
+static mu::string string_hook_name (U"string_hook");
+
+mu::string const & mu::llvmc::string_hook::name ()
+{
+    return string_hook_name;
+}
+
+static mu::string struct_hook_name (U"struct_hook");
+
+mu::string const & mu::llvmc::struct_hook::name ()
+{
+    return struct_hook_name;
+}
+
+static mu::string constant_int_name (U"constant_int");
+
+mu::string const & mu::llvmc::constant_int::name ()
+{
+    return constant_int_name;
+}
+
+static mu::string function_hook_name (U"function_hook");
+
+mu::string const & mu::llvmc::function_hook::name ()
+{
+    return function_hook_name;
+}
+
+static mu::string constant_array_name (U"constant_array");
+
+mu::string const & mu::llvmc::constant_array::name ()
+{
+    return constant_array_name;
+}
+
+static mu::string undefined_hook_name (U"undefined_hook");
+
+mu::string const & mu::llvmc::undefined_hook::name ()
+{
+    return undefined_hook_name;
+}
+
+static mu::string global_variable_name (U"global_variable");
+
+mu::string const & mu::llvmc::global_variable::name ()
+{
+    return global_variable_name;
+}
+
+static mu::string constant_pointer_null_name (U"constant_pointer_null");
+
+mu::string const & mu::llvmc::constant_pointer_null::name ()
+{
+    return constant_pointer_null_name;
+}
+
+static mu::string module_name (U"module");
+
+mu::string const & mu::llvmc::module::name ()
+{
+    return module_name;
+}
+
+static mu::string number_name (U"number");
+
+mu::string const & mu::llvmc::number::name ()
+{
+    return number_name;
+}
+
+static mu::string asm_hook_name (U"asm_hook");
+
+mu::string const & mu::llvmc::asm_hook::name ()
+{
+    return asm_hook_name;
+}
+
+static mu::string int_type_name (U"int_type");
+
+mu::string const & mu::llvmc::int_type::name ()
+{
+    return int_type_name;
+}
+
+static mu::string let_hook_name (U"let_hook");
+
+mu::string const & mu::llvmc::let_hook::name ()
+{
+    return let_hook_name;
+}
+
+static mu::string ptr_type_name (U"ptr_type");
+
+mu::string const & mu::llvmc::ptr_type::name ()
+{
+    return ptr_type_name;
+}
+
+static mu::string set_hook_name (U"set_hook");
+
+mu::string const & mu::llvmc::set_hook::name ()
+{
+    return set_hook_name;
+}
+
+static mu::string join_hook_name (U"join_hook");
+
+mu::string const & mu::llvmc::join_hook::name ()
+{
+    return join_hook_name;
+}
+
+static mu::string loop_hook_name (U"loop_hook");
+
+mu::string const & mu::llvmc::loop_hook::name ()
+{
+    return loop_hook_name;
+}
+
+mu::llvmc::parser_context::parser_context (mu::llvmc::parser & parser_a, mu::string const * name_a) :
+parser (parser_a)
+{
+    parser_a.parse_stack.push_back (mu::llvmc::parser_frame ({parser_a.stream [0]->region.first, name_a}));
+}
+
+mu::llvmc::parser_context::~parser_context ()
+{
+    parser.parse_stack.pop_back ();
+}
+
+mu::llvmc::parser_error::parser_error (char32_t const * message_a, mu::core::error_type type_a, mu::core::region const & region_a, mu::llvmc::parser & parser_a) :
+type_m (type_a),
+message (message_a),
+region_m (region_a),
+parse_stack (parser_a.parse_stack)
+{
+}
+
+void mu::llvmc::parser_error::output (std::ostream & out)
+{
+    std::string string (message.begin (), message.end ());
+    mu::string const & region_mu (region_m.string ());
+    std::string region (region_mu.begin (), region_mu.end ());
+    out << string << "(" << region << ")" << std::endl;
+    for (auto & i: parse_stack)
+    {
+        std::string message (i.name->begin (), i.name->end ());
+        mu::string const & region_mu (region_m.string ());
+        std::string region (region_mu.begin (), region_mu.end ());
+        out << message << "(" << region << ")" << std::endl;
+    }
+}
+
+mu::core::error_type mu::llvmc::parser_error::type ()
+{
+    return type_m;
+}
+
+mu::core::region mu::llvmc::parser_error::region ()
+{
+    return region_m;
 }

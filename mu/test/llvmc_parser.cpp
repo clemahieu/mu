@@ -33,6 +33,8 @@ public:
     mu::llvmc::parser parser;
 };
 
+static mu::string test_non_covering_name (U"test_non_covering");
+
 class test_non_covering : public mu::llvmc::hook
 {
 public:    
@@ -44,8 +46,13 @@ public:
     {
         return false;
     }
+    mu::string const & name () override
+    {
+        return test_non_covering_name;
+    }
 };
 
+static mu::string test_covering_name (U"test_covering");
 class test_covering : public mu::llvmc::hook
 {
 public:
@@ -56,6 +63,10 @@ public:
     bool covering () override
     {
         return true;
+    }
+    mu::string const & name () override
+    {
+        return test_covering_name;
     }
 };
 

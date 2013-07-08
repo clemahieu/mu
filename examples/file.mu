@@ -276,14 +276,15 @@ let new-string function
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
 [
+	let end [ptrtoint [getelementptr source size] int64]
 	let complete loop
-	[cint64 #0]
-	[i]
+	[source destination]
+	[source_l destination_l]
 	[
-		let done not-done [if [icmp i size]]
-		let j [sub i cint64 #1]
+		let done not-done [if [icmp [ptrtoint source_l int64] end]]
+		let stored [store [load source_l] destination_l; not-done]
 	]
-	[[j; not-done][; done]]
+	[[[getelementptr source_l cint64 #1] [getelementptr destination_l cint64 #1]; stored][; done]]
 ]
 [[; complete]]
 
