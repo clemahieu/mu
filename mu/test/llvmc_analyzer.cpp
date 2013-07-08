@@ -1716,7 +1716,7 @@ TEST (llvmc_analyzer, DISABLED_instruction_extractvalue)
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [2]);
 }
 
-TEST (llvmc_analyzer, DISABLED_instruction_insertvalue)
+TEST (llvmc_analyzer, instruction_insertvalue)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module1;
@@ -1724,14 +1724,21 @@ TEST (llvmc_analyzer, DISABLED_instruction_insertvalue)
     mu::llvmc::ast::integer_type type1 (U"1");;
     mu::llvmc::ast::parameter parameter1 (U"p0", &type1);
     function1.parameters.push_back (&parameter1);
+	mu::llvmc::ast::struct_type type2;
+	type2.elements.push_back (&type1);
+    mu::llvmc::ast::parameter parameter2 (U"p1", &type2);
+    function1.parameters.push_back (&parameter2);
+	mu::llvmc::ast::number number1 (U"0");
+	mu::llvmc::ast::constant_int constant1 (U"32", &number1);
     mu::llvmc::ast::definite_expression expression1;
     mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::insertvalue);
     mu::llvmc::ast::value value1 (&marker1);
     expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter2);
     expression1.arguments.push_back (&parameter1);
-    expression1.arguments.push_back (&parameter1);
+	expression1.arguments.push_back (&constant1);
     expression1.set_predicate_position ();
-    mu::llvmc::ast::result result1 (&type1);
+    mu::llvmc::ast::result result1 (&type2);
     result1.value = &expression1;
     function1.results.push_back (&result1);
     function1.branch_ends.push_back (function1.results.size ());
@@ -1743,16 +1750,18 @@ TEST (llvmc_analyzer, DISABLED_instruction_insertvalue)
     ASSERT_EQ (1, result.module->globals.size ());
     auto function2 (dynamic_cast <mu::llvmc::skeleton::function *> (result.module->globals [U"0"]));
     ASSERT_NE (nullptr, function2);
-    ASSERT_EQ (1, function2->parameters.size ());
+    ASSERT_EQ (2, function2->parameters.size ());
     ASSERT_EQ (1, function2->results.size () == 1);
     auto result2 (dynamic_cast <mu::llvmc::skeleton::result *> (function2->results [0]));
 	ASSERT_NE (nullptr, result2);
 	auto instruction1 (dynamic_cast <mu::llvmc::skeleton::instruction *> (result2->value));
 	ASSERT_NE (nullptr, instruction1);
-	ASSERT_EQ (3, instruction1->arguments.size ());
+	ASSERT_EQ (4, instruction1->arguments.size ());
 	ASSERT_EQ (&marker1, instruction1->arguments [0]);
-	ASSERT_EQ (function2->parameters [0], instruction1->arguments [1]);
+	ASSERT_EQ (function2->parameters [1], instruction1->arguments [1]);
 	ASSERT_EQ (function2->parameters [0], instruction1->arguments [2]);
+	auto constant2 (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (instruction1->arguments [3]));
+	ASSERT_NE (nullptr, constant2);
 }
 
 TEST (llvmc_analyzer, instruction_getelementptr)

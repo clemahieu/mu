@@ -459,6 +459,14 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
             assert (false);
             break;
         }
+		case mu::llvmc::instruction_type::insertvalue:
+		{
+			assert (predicate_position >= 4);
+			auto struct_l (mu::cast <mu::llvmc::skeleton::value> (arguments [1]));
+			assert (dynamic_cast <mu::llvmc::skeleton::struct_type *> (struct_l->type ()));
+			result = struct_l->type ();
+			break;
+		}
         case mu::llvmc::instruction_type::inttoptr:
         {
             assert (predicate_position == 3);

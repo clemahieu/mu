@@ -1609,10 +1609,9 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                     {
                         auto value (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
                         if (value != nullptr)
-                        {
-                            size_t current_index (3);
+                        {                            
                             auto current_aggregate (struct_l->type ());
-                            while (current_index < predicate_offset && error == nullptr)
+                            for (size_t current_index (3); current_index < predicate_offset && error == nullptr; ++current_index)
                             {
                                 auto type (dynamic_cast <mu::llvmc::skeleton::struct_type *> (current_aggregate));
                                 if (type != nullptr)
