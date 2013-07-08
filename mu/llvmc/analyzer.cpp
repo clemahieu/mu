@@ -973,7 +973,15 @@ mu::llvmc::module_result mu::llvmc::analyzer_module::analyze (mu::llvmc::ast::no
                     }
                     else
                     {
-                        result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+						auto type (dynamic_cast <mu::llvmc::skeleton::type *> (value));
+						if (type != nullptr)
+						{
+							// Types are already generated in to the module
+						}
+						else
+						{
+							result_m.error = new (GC) mu::core::error_string (U"Expecting global", mu::core::error_type::expecting_a_function);
+						}
                     }
 				}
             }

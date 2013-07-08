@@ -252,6 +252,18 @@ TEST (llvmc_analyzer, not_global_error)
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);
+	ASSERT_EQ (parameter.region, result.error->region ());
+}
+
+TEST (llvmc_analyzer, module_type)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module;
+	mu::llvmc::ast::unit_type type1;
+    module.globals [U"0"] = &type1;
+    auto result (analyzer.analyze (&module));
+    ASSERT_EQ (nullptr, result.error);
+    ASSERT_NE (nullptr, result.module);
 }
 
 TEST (llvmc_analyzer, single_parameter)
