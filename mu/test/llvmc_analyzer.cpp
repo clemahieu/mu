@@ -241,13 +241,14 @@ TEST (llvmc_analyzer, named_function)
 	ASSERT_EQ (function.region, function1->region);
 }
 
-TEST (llvmc_analyzer, DISABLED_not_global_error)
+TEST (llvmc_analyzer, not_global_error)
 {
     mu::llvmc::analyzer analyzer;
     mu::llvmc::ast::module module;
-    mu::llvmc::ast::asm_c asm_l;
-    asm_l.region = mu::core::region (2, 2, 2, 3, 3, 3);
-    module.globals [U"0"] = &asm_l;
+	mu::llvmc::ast::unit_type type1;
+    mu::llvmc::ast::parameter parameter (U"p0", &type1);
+    parameter.region = mu::core::region (2, 2, 2, 3, 3, 3);
+    module.globals [U"0"] = &parameter;
     auto result (analyzer.analyze (&module));
     ASSERT_NE (nullptr, result.error);
     ASSERT_EQ (nullptr, result.module);

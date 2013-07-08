@@ -155,7 +155,8 @@ namespace mu
             expecting_value_to_be_struct,
             expecting_an_aggregate,
             index_out_of_bounds,
-            value_does_not_match_aggregate
+            value_does_not_match_aggregate,
+			unexpected_node_type
         };
         class error
         {

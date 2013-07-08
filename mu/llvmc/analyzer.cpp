@@ -124,7 +124,7 @@ namespace mu
             }
             void node (mu::llvmc::ast::node * node_a) override
             {
-                // Do nothing
+				analyzer.error = new (GC) mu::core::error_string (U"Unexpected node type", mu::core::error_type::unexpected_node_type, node_a->region);
             }
 			void value (mu::llvmc::ast::value * value_node) override
 			{
