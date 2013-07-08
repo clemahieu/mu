@@ -269,10 +269,9 @@ let new-string function
 []
 [
 	let initial undefined string-type
-	let result2 [insertvalue initial cint64 #0 cint64 #0]
-	let result1 [insertvalue initial null ptr int8 cint64 #1]
+	let result [insertvalue [insertvalue initial cint64 #0 cint64 #0] null ptr int8 cint64 #1]
 ]
-[[string-type initial; result1 result2]]
+[[string-type result;]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
