@@ -263,15 +263,56 @@ let lalloc function
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
-let string-type struct [int64 ptr int8]
+let string-type struct [int64 int64 ptr int8]
 
-let new-string function
+let string-size-set function
+[string-type str int64 val]
+[
+	let result [insertvalue str val cint64 #0]
+]
+[[string-type result]]
+
+let string-size-get function
+[string-type str]
+[
+	let result [extractvalue str cint64 #0]
+]
+[[int64 result]]
+
+let string-capacity-set function
+[string-type str int64 val]
+[
+	let result [insertvalue str val cint64 #1]
+]
+[[string-type result]]
+
+let string-data-set function
+[string-type str ptr int8 val]
+[
+	let result [insertvalue str val cint64 #2]
+]
+[[string-type result]]
+
+let string-data-get function
+[string-type str]
+[
+	let result [extractvalue str cint64 #2]
+]
+[[ptr int8 result]]
+
+let string-new function
 []
 [
 	let initial undefined string-type
-	let result [insertvalue [insertvalue initial cint64 #0 cint64 #0] null ptr int8 cint64 #1]
+	let result [string-size-set [string-capacity-set [string-data-set initial null ptr int8] cint64 #0] cint64 #0]
 ]
-[[string-type result;]]
+[[string-type result]]
+
+let string-resize function
+[string-type str int64 size]
+[
+]
+[[]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
