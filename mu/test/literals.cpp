@@ -404,6 +404,40 @@ declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
 !13 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
 )%%%";
 
+extern char const * const generate_insertvalue_expected = R"%%%(; ModuleID = '0000000000000000'
+
+define { i1 } @"0000000000000000-0000000000000000-0"(i1, { i1 }) {
+  call void @llvm.dbg.declare(metadata !{i1 %0}, metadata !13)
+  call void @llvm.dbg.declare(metadata !{{ i1 } %1}, metadata !14)
+  %3 = and i1 true, true
+  %4 = insertvalue { i1 } %1, i1 %0, 0, !dbg !15
+  call void @llvm.dbg.declare(metadata !{{ i1 } %4}, metadata !16)
+  ret { i1 } %4, !dbg !15
+}
+
+declare void @llvm.dbg.declare(metadata, metadata) nounwind readnone
+
+!llvm.dbg.cu = !{!0}
+
+!0 = metadata !{i32 786449, i32 0, i32 2, metadata !"generate_insertvalue", metadata !"", metadata !"MU 0 (Colin LeMahieu)", i1 true, i1 false, metadata !"", i32 0, metadata !1, metadata !1, metadata !3, metadata !1} ; [ DW_TAG_compile_unit ] [/generate_insertvalue] [DW_LANG_C]
+!1 = metadata !{metadata !2}
+!2 = metadata !{i32 0}
+!3 = metadata !{metadata !4}
+!4 = metadata !{metadata !5}
+!5 = metadata !{i32 786478, i32 0, metadata !6, metadata !"0", metadata !"0", metadata !"0000000000000000-0000000000000000-0", metadata !6, i32 0, metadata !7, i1 false, i1 true, i32 0, i32 0, null, i32 0, i1 false, { i1 } (i1, { i1 })* @"0000000000000000-0000000000000000-0", null, null, metadata !1, i32 0} ; [ DW_TAG_subprogram ] [line 0] [def] [0]
+!6 = metadata !{i32 786473, metadata !"generate_insertvalue", metadata !"", null} ; [ DW_TAG_file_type ]
+!7 = metadata !{i32 786453, i32 0, metadata !"", i32 0, i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !8, i32 0, i32 0} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!8 = metadata !{metadata !9, metadata !12, metadata !9}
+!9 = metadata !{i32 786451, metadata !6, metadata !"", metadata !6, i32 0, i64 1, i64 0, i32 0, i32 0, null, metadata !10, i32 0, i32 0, i32 0} ; [ DW_TAG_structure_type ] [line 0, size 1, align 0, offset 0] [from ]
+!10 = metadata !{metadata !11}
+!11 = metadata !{i32 786445, metadata !6, metadata !"", metadata !6, i32 0, i64 1, i64 0, i64 0, i32 0, metadata !12} ; [ DW_TAG_member ] [line 0, size 1, align 0, offset 0] [from int1]
+!12 = metadata !{i32 786468, null, metadata !"int1", null, i32 0, i64 1, i64 0, i64 0, i32 0, i32 7} ; [ DW_TAG_base_type ] [int1] [line 0, size 1, align 0, offset 0, enc DW_ATE_unsigned]
+!13 = metadata !{i32 786689, metadata !5, metadata !"parameter1", metadata !6, i32 0, metadata !12, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter1] [line 0]
+!14 = metadata !{i32 786689, metadata !5, metadata !"parameter2", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [parameter2] [line 0]
+!15 = metadata !{i32 0, i32 0, metadata !5, null}
+!16 = metadata !{i32 786688, metadata !5, metadata !"instruction1", metadata !6, i32 0, metadata !9, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [instruction1] [line 0]
+)%%%";
+
 extern char const * const generate_load_expected = R"%%%(; ModuleID = '0000000000000000'
 
 define i1 @"0000000000000000-0000000000000000-0"(i1*) {

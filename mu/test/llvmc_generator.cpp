@@ -2244,3 +2244,40 @@ TEST (llvmc_generator, generate_struct_type_undefined)
     print_module (result.module, info);
     ASSERT_EQ (std::string (generate_struct_type_undefined_expected), info);
 }
+
+extern char const * const generate_insertvalue_expected;
+
+TEST (llvmc_generator, generate_insertvalue)
+{
+    llvm::LLVMContext context;
+    mu::llvmc::skeleton::module module;
+    mu::llvmc::skeleton::function function1 (mu::empty_region, module.global);
+    mu::llvmc::skeleton::integer_type type1 (1);
+    mu::llvmc::skeleton::parameter parameter1 (mu::empty_region, function1.entry, &type1, U"parameter1");
+    function1.parameters.push_back (&parameter1);
+    mu::llvmc::skeleton::struct_type type2;
+	type2.elements.push_back (&type1);
+    mu::llvmc::skeleton::parameter parameter2 (mu::empty_region, function1.entry, &type2, U"parameter2");
+    function1.parameters.push_back (&parameter2);
+	mu::vector <mu::llvmc::skeleton::node *> arguments;
+	mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::insertvalue);
+	arguments.push_back (&marker1);
+	arguments.push_back (&parameter2);
+	arguments.push_back (&parameter1);
+	mu::llvmc::skeleton::constant_integer constant1 (mu::empty_region, module.global, 32, 0);
+	arguments.push_back (&constant1);
+    mu::llvmc::skeleton::instruction instruction1 (mu::empty_region, function1.entry, arguments, 4);
+    mu::llvmc::skeleton::named named1 (mu::empty_region, &instruction1, U"instruction1");
+	mu::llvmc::skeleton::result result1 (&type2, &named1);
+    function1.results.push_back (&result1);
+    function1.predicate_offsets.push_back (function1.results.size ());
+    function1.branch_ends.push_back (function1.results.size ());
+    module.globals [U"0"] = &function1;
+    mu::llvmc::generator generator;
+    auto result (generator.generate (context, &module, U"generate_insertvalue", U"", 0));
+    std::string info;
+    print_module (result.module, info);
+    auto broken (llvm::verifyModule (*result.module, llvm::VerifierFailureAction::ReturnStatusAction, &info));
+    ASSERT_TRUE (!broken);
+    ASSERT_EQ (std::string (generate_insertvalue_expected), info);
+}

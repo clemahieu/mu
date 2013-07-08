@@ -971,6 +971,28 @@ namespace mu
                     {
                         assert (false);
                     }
+					case mu::llvmc::instruction_type::insertvalue:
+					{
+						assert (instruction->predicate_position >= 4);
+						auto struct_l (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [1]));
+						function_m.retrieve_value (struct_l);
+						auto value_l (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [2]));
+						function_m.retrieve_value (value_l);
+						std::vector <unsigned> indicies;
+						for (auto i (instruction->arguments.begin () + 3), j (instruction->arguments.begin () + instruction->predicate_position); i != j; ++i)
+						{
+							auto constant (mu::cast <mu::llvmc::skeleton::constant_integer> (*i));
+							indicies.push_back (constant->value_m);
+						}
+						predicate = struct_l->predicate;
+						predicate = function_m.and_predicates (predicate, value_l->predicate);
+						predicate = function_m.process_predicates (predicate, instruction->arguments, instruction->predicate_position);
+						auto instruction_l (llvm::InsertValueInst::Create (struct_l->generated, value_l->generated, llvm::ArrayRef <unsigned> (indicies)));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        function_m.last->getInstList ().push_back (instruction_l);
+                        value = instruction_l;
+						break;
+					}
                     case mu::llvmc::instruction_type::inttoptr:
                     {
                         assert (instruction->predicate_position == 3);
