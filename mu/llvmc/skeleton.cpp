@@ -510,6 +510,12 @@ mu::llvmc::skeleton::type * mu::llvmc::skeleton::instruction::get_type ()
             result = binary_integer_type ();
             break;
         }
+		case mu::llvmc::instruction_type::select:
+		{
+			assert (predicate_position == 4);
+			result = mu::cast <mu::llvmc::skeleton::value> (arguments [2])->type ();
+			break;
+		}
         case mu::llvmc::instruction_type::sext:
         {
             assert (predicate_position == 3);

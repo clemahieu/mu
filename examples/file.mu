@@ -229,6 +229,20 @@ let mmap function
 ]
 [[ptr int8 result]]
 
+let umax function
+[int64 left int64 right]
+[
+	let result [select [icmp ugt left right] left right]
+]
+[[int64 result]]
+
+let umin function
+[int64 left int64 right]
+[
+	let result [select [icmp ult left right] left right]
+]
+[[int64 result]]
+
 let lalloc-base global null ptr int8
 let lalloc-available global cint64 #h0
 

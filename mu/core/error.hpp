@@ -156,7 +156,10 @@ namespace mu
             expecting_an_aggregate,
             index_out_of_bounds,
             value_does_not_match_aggregate,
-			unexpected_node_type
+			unexpected_node_type,
+			select_three_arguments,
+			expecting_one_bit_integer,
+			select_arguments_same_type
         };
         class error
         {

@@ -1794,6 +1794,64 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
                 break;
             }
+            case mu::llvmc::instruction_type::select:
+            {
+				if (predicate_offset == 4)
+				{
+					auto predicate (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [1]));
+					if (predicate != nullptr)
+					{
+						auto predicate_type (dynamic_cast <mu::llvmc::skeleton::integer_type *> (predicate->type ()));
+						if (predicate_type != nullptr)
+						{
+							if (predicate_type->bits == 1)
+							{
+								auto left (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [2]));
+								if (left != nullptr)
+								{
+									auto right (dynamic_cast <mu::llvmc::skeleton::value *> (arguments [3]));
+									if (right != nullptr)
+									{
+										if (*left->type () == *right->type ())
+										{
+											module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+										}
+										else
+										{
+											error = new (GC) mu::core::error_string (U"Select second and third arguments must be the same type", mu::core::error_type::select_arguments_same_type, expression_a->region);
+										}
+									}
+									else
+									{
+										error = new (GC) mu::core::error_string (U"Select third argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+									}
+								}
+								else
+								{
+									error = new (GC) mu::core::error_string (U"Select second argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+								}
+							}
+							else
+							{
+								error = new (GC) mu::core::error_string (U"Select first argument must be one bit", mu::core::error_type::expecting_one_bit_integer, expression_a->region);
+							}
+						}
+						else
+						{
+							error = new (GC) mu::core::error_string (U"Select first argument must be an integer", mu::core::error_type::expecting_integer_type, expression_a->region);
+						}
+					}
+					else
+					{
+						error = new (GC) mu::core::error_string (U"Select first argument must be a value", mu::core::error_type::expecting_a_value, expression_a->region);
+					}
+				}
+				else
+				{
+					error = new (GC) mu::core::error_string (U"Select instruction requires three arguments", mu::core::error_type::select_three_arguments, expression_a->region);
+				}
+                break;
+            }
             case mu::llvmc::instruction_type::shl:
             {
                 process_binary_integer_instruction (expression_a, predicate_offset, arguments, most_specific_branch);
