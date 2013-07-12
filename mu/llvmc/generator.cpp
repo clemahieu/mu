@@ -1102,6 +1102,23 @@ namespace mu
                         value = instruction_l;
                         break;
                     }
+                    case mu::llvmc::instruction_type::select:
+                    {
+                        assert (instruction->predicate_position == 4);
+                        auto condition (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [1]));
+                        function_m.retrieve_value (condition);
+                        auto left (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [2]));
+                        function_m.retrieve_value (left);
+                        auto right (mu::cast <mu::llvmc::skeleton::value> (instruction->arguments [3]));
+                        function_m.retrieve_value (right);
+                        predicate = function_m.and_predicates (left->predicate, right->predicate);
+                        predicate = function_m.process_predicates (predicate, instruction->arguments, 4);
+                        auto instruction_l (llvm::SelectInst::Create(condition->generated, left->generated, right->generated));
+                        instruction_l->setDebugLoc (llvm::DebugLoc::get (instruction->region.first.row, instruction->region.first.column, function_m.function_d));
+                        function_m.last->getInstList ().push_back (instruction_l);
+                        value = instruction_l;
+                        break;
+                    }
                     case mu::llvmc::instruction_type::sext:
                     {
                         assert (instruction->predicate_position == 3);
