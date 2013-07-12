@@ -161,8 +161,7 @@ let write-test function
 [int64 fd]
 [
 	let initial [string-new-set [bitcast write-test-string ptr int8] cint64 #13]
-	let result [write-string fd [string-resize initial cint64 #10]]
-	:(write fd [bitcast write-test-string ptr int8] cint64 #13]:)
+	let result [write-string fd [string-resize initial cint64 #13]]
 ]
 [[;result]]
 
