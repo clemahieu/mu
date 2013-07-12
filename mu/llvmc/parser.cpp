@@ -327,7 +327,7 @@ void mu::llvmc::function::parse_parameter (bool & done_a)
 {
     auto argument (new (GC) mu::llvmc::ast::parameter);
 	result.error = parser.parse_ast_or_refer_or_right_square (
-		[&]
+		[argument]
 		(mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
 		{
 			argument->type = node_a;
@@ -752,15 +752,14 @@ void mu::llvmc::expression::parse ()
             {
                 case mu::io::token_id::identifier:
                 {
-                    auto & arguments (expression_l->arguments);
                     auto position (expression_l->arguments.size ());
                     expression_l->arguments.push_back (nullptr);
                     auto identifier (static_cast <mu::io::identifier *> (next.token));
                     parser.current_mapping->refer (identifier->string, identifier->region,
-                        [&arguments, position]
+                        [expression_l, position]
                         (mu::llvmc::ast::node * node_a, mu::core::region const & region_a)
                         {
-                            arguments [position] = node_a;
+                            expression_l->arguments [position] = node_a;
                         });
                     break;
                 }

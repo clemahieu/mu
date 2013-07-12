@@ -150,6 +150,13 @@ let write function
 let write-test-string global ascii {%}Hello world!
 %
 
+let write-string function
+[int64 fd string-type str]
+[
+	let result [write fd [string-data-get str] [string-size-get str]]
+]
+[[;result]]
+
 let write-test function
 [int64 fd]
 [
@@ -296,14 +303,14 @@ let string-size-get function
 let string-data-set function
 [string-type str ptr int8 val]
 [
-	let result [insertvalue str val cint64 #2]
+	let result [insertvalue str val cint64 #1]
 ]
 [[string-type result]]
 
 let string-data-get function
 [string-type str]
 [
-	let result [extractvalue str cint64 #2]
+	let result [extractvalue str cint64 #1]
 ]
 [[ptr int8 result]]
 
@@ -315,11 +322,21 @@ let string-new function
 ]
 [[string-type result]]
 
+let string-new-set function
+[ptr int8 str-a int64 size-a]
+[
+	let initial undefined string-type
+	let result [string-size-set [string-data-set initial str-a] size-a]
+]
+[[string-type result]]
+
 let string-resize function
 [string-type str int64 size]
 [
+	let result [string-new-set let new-buffer [lalloc size] size]
+	let copied [memcopy [string-data-get str] new-buffer [umin size [string-size-get str]]]
 ]
-[[]]
+[[string-type result; copied]]
 
 let memcopy function
 [ptr int8 source ptr int8 destination int64 size]
