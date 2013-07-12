@@ -277,7 +277,7 @@ let lalloc function
 let file-name-osx global ascii /Users/clemahieu/test.txt:a00
 let linux-file-name global ascii /home/colin/mu_build/test.txt:a00
 
-let string-type struct [int64 int64 ptr int8]
+let string-type struct [int64 ptr int8]
 
 let string-size-set function
 [string-type str int64 val]
@@ -292,13 +292,6 @@ let string-size-get function
 	let result [extractvalue str cint64 #0]
 ]
 [[int64 result]]
-
-let string-capacity-set function
-[string-type str int64 val]
-[
-	let result [insertvalue str val cint64 #1]
-]
-[[string-type result]]
 
 let string-data-set function
 [string-type str ptr int8 val]
@@ -318,7 +311,7 @@ let string-new function
 []
 [
 	let initial undefined string-type
-	let result [string-size-set [string-capacity-set [string-data-set initial null ptr int8] cint64 #0] cint64 #0]
+	let result [string-size-set [string-data-set initial null ptr int8] cint64 #0]
 ]
 [[string-type result]]
 

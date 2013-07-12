@@ -1821,6 +1821,36 @@ TEST (llvmc_analyzer, instruction_extractvalue)
 	ASSERT_NE (nullptr, constant2);
 }
 
+TEST (llvmc_analyzer, extractvalue_range_error)
+{
+    mu::llvmc::analyzer analyzer;
+    mu::llvmc::ast::module module1;
+    mu::llvmc::ast::function function1;
+    mu::llvmc::ast::integer_type type1 (U"1");
+	mu::llvmc::ast::struct_type type2;
+	type2.elements.push_back (&type1);
+    mu::llvmc::ast::parameter parameter1 (U"p0", &type2);
+    function1.parameters.push_back (&parameter1);
+	mu::llvmc::ast::number number1 (U"1");
+	mu::llvmc::ast::constant_int constant1 (U"32", &number1);
+    mu::llvmc::ast::definite_expression expression1;
+    mu::llvmc::skeleton::marker marker1 (mu::llvmc::instruction_type::extractvalue);
+    mu::llvmc::ast::value value1 (&marker1);
+    expression1.arguments.push_back (&value1);
+    expression1.arguments.push_back (&parameter1);
+	expression1.arguments.push_back (&constant1);
+    expression1.set_predicate_position ();
+    mu::llvmc::ast::result result1 (&type1);
+    result1.value = &expression1;
+    function1.results.push_back (&result1);
+    function1.branch_ends.push_back (function1.results.size ());
+    function1.predicate_offsets.push_back (function1.results.size ());
+    module1.globals [U"0"] = &function1;
+    auto result (analyzer.analyze (&module1));
+    ASSERT_NE (nullptr, result.error);
+    ASSERT_EQ (nullptr, result.module);
+}
+
 TEST (llvmc_analyzer, instruction_getelementptr)
 {
     mu::llvmc::analyzer analyzer;

@@ -1458,7 +1458,14 @@ void mu::llvmc::analyzer_node::process_marker (mu::llvmc::ast::definite_expressi
                             auto index (dynamic_cast <mu::llvmc::skeleton::constant_integer *> (arguments [2]));
                             if (index != nullptr)
                             {
-                                module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                                if (index->value_m < struct_l->elements.size ())
+                                {
+                                    module.already_generated [expression_a].push_back (new (GC) mu::llvmc::skeleton::instruction (expression_a->region, most_specific_branch, arguments, predicate_offset));
+                                }
+                                else
+                                {
+                                    error = new (GC) mu::core::error_string (U"Extractvalue index is out of range", mu::core::error_type::index_out_of_bounds, expression_a->region);
+                                }
                             }
                             else
                             {
